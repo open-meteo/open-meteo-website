@@ -1,8 +1,6 @@
 <script>
 	import '../app.scss';
 	import { page } from '$app/stores';
-  let href = "a"
-
   import { onMount } from 'svelte';
 
   let MyComponent;
@@ -30,56 +28,56 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a href="/" class="nav-link" class:active={$page.url.pathname === href} aria-current="page">Home</a>
+            <a href="/" class="nav-link" class:active={$page.url.pathname === "/"} aria-current="page">Home</a>
           </li>
           <li class="nav-item">
-            <a href="/en/features" class="nav-link" class:active={$page.url.pathname === href}>Features</a>
+            <a href="/en/features" class="nav-link" class:active={$page.url.pathname === "/en/features"}>Features</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" class:active={$page.url.pathname === href} href="#"
+            <a class="nav-link dropdown-toggle" class:active={["/en/docs", "/en/docs/historical-weather-api", "/en/docs/ecmwf-api", "/en/docs/gfs-api", "/en/docs/meteofrance-api", "/en/docs/dwd-api", "/en/docs/jma-api", "/en/docs/metno-api", "/en/docs/gem-api" ].includes($page.url.pathname)} href="/en/docs"
               id="navbarDropdownWeatherApis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Weather APIs
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownWeatherApis">
-              <li><a class="dropdown-item" class:active={$page.url.pathname === href} href="/en/docs">Weather
+              <li><a class="dropdown-item" class:active={$page.url.pathname === "/en/docs"} href="/en/docs">Weather
                   Forecast API</a>
               </li>
-              <li><a class="dropdown-item" class:active={$page.url.pathname === href}
+              <li><a class="dropdown-item" class:active={$page.url.pathname === "/en/docs/historical-weather-api"}
                   href="/en/docs/historical-weather-api">Historical Weather API</a></li>
-              <li><a class="dropdown-item"  class:active={$page.url.pathname === href}
+              <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/ecmwf-api"}
                   href="/en/docs/ecmwf-api">ECMWF API</a></li>
-              <li><a class="dropdown-item"  class:active={$page.url.pathname === href}
+              <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/gfs-api"}
                   href="/en/docs/gfs-api">GFS &amp; HRRR Forecast API</a></li>
-              <li><a class="dropdown-item"  class:active={$page.url.pathname === href}
+              <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/meteofrance-api"}
                   href="/en/docs/meteofrance-api">MeteoFrance API</a></li>
-              <li><a class="dropdown-item" href="/en/docs/dwd-api"  class:active={$page.url.pathname === href}>DWD
+              <li><a class="dropdown-item" href="/en/docs/dwd-api" class:active={$page.url.pathname === "/en/docs/dwd-api"}>DWD
                   API</a></li>
-              <li><a class="dropdown-item"  class:active={$page.url.pathname === href}
+              <li><a class="dropdown-item" class:active={$page.url.pathname === "/en/docs/jma-api"}
                     href="/en/docs/jma-api">JMA API</a></li>
-              <li><a class="dropdown-item"  class:active={$page.url.pathname === href}
+              <li><a class="dropdown-item" class:active={$page.url.pathname === "/en/docs/metno-api"}
                     href="/en/docs/metno-api">MET Norway API</a></li>
-              <li><a class="dropdown-item"  class:active={$page.url.pathname === href}
+              <li><a class="dropdown-item" class:active={$page.url.pathname === "/en/docs/gem-api"}
                 href="/en/docs/gem-api">GEM API</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" class:active={$page.url.pathname === href}
-              href="#" id="navbarDropdownOtherApis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" class:active={["/en/docs/marine-weather-api", "/en/docs/air-quality-api", "/en/docs/geocoding-api", "/en/docs/elevation-api", "/en/docs/flood-api", "/en/docs/seasonal-forecast-api"].includes($page.url.pathname)}
+              href="/en/docs/marine-weather-api" id="navbarDropdownOtherApis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Other APIs
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownOtherApis">
-              <li><a class="dropdown-item"  class:active={$page.url.pathname === href}
+              <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/marine-weather-api"}
                   href="/en/docs/marine-weather-api">Marine Forecast API</a></li>
-              <li><a class="dropdown-item"  class:active={$page.url.pathname === href}
+              <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/air-quality-api"}
                   href="/en/docs/air-quality-api">Air Quality API</a></li>
-              <li><a class="dropdown-item"  class:active={$page.url.pathname === href}
+              <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/geocoding-api"}
                   href="/en/docs/geocoding-api">Geocoding API</a></li>
-              <li><a class="dropdown-item"  class:active={$page.url.pathname === href}
+              <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/elevation-api"}
                   href="/en/docs/elevation-api">Elevation API</a></li>
-              <li><a class="dropdown-item"  class:active={$page.url.pathname === href}
+              <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/flood-api"}
                     href="/en/docs/flood-api">Flood API&nbsp;&nbsp;<span
                     class="badge bg-secondary">New</span></a></li>
-              <li class="debug-hidden"><a class="dropdown-item"  class:active={$page.url.pathname === href}
+              <li class="debug-hidden"><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/seasonal-forecast-api"}
                   href="/en/docs/seasonal-forecast-api">Seasonal Forecast API</a></li>
             </ul>
           </li>
