@@ -58,7 +58,7 @@
             </div>
             <div class="tab-content" id="v-pills-tabContent">
                 {#each pressureVariables as variable, i}
-            <div class="tab-pane fade" class:active={i === 0} id="v-pills-{variable.name}"
+            <div class="tab-pane fade" class:active={i === 0} class:show={i === 0} id="v-pills-{variable.name}"
                 role="tabpanel" aria-labelledby="v-pills-{variable.name}-tab">
                 <div class="row">
                     {#each sliceIntoChunks(levels, levels.length/3+1) as chunk}
