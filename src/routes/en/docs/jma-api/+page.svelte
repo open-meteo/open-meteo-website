@@ -1,3 +1,18 @@
+<script lang="ts">
+    import PressureLevels from "../PressureLevels.svelte";
+    
+    let pressureVariables = [
+        {name: "temperature", label: "Temperature"},
+        {name: "dewoint", label: "Dewpooint"},
+        {name: "relativehumidity", label: "Relative Humidity"},
+        {name: "cloudcover", label: "Cloudcover"},
+        {name: "windspeed", label: "Wind Speed"},
+        {name: "winddirection", label: "Wind Direction"},
+        {name: "geopotential_height", label: "Geopotential Height"}
+    ]
+    let levels = [1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100]
+</script>
+
 <svelte:head>
     <title>JMA API | Open-Meteo.com</title> 
     <link rel="canonical" href="https://open-meteo.com/en/docs/jma-api" />
@@ -296,59 +311,7 @@
             </div>
           </div>
         </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="heading-pressure-levels">
-            <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapse-pressure-levels" aria-expanded="false" aria-controls="collapse-pressure-levels">
-              Pressure Levels&nbsp;<span class="badge rounded-pill bg-secondary checkboxcounter"
-                data-count-checkboxes-of="#collapse-pressure-levels">0/x</span>
-            </button>
-          </h2>
-          <div id="collapse-pressure-levels" class="accordion-collapse collapse"
-            aria-labelledby="heading-pressure-levels" data-bs-parent="#accordionVariables">
-            <div class="accordion-body">
-              <div class="d-flex align-items-start">
-                <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                  #for(variable in pressureVariables):
-                  <button class="nav-link text-start text-nowrap #if(isFirst): active#endif"
-                    id="v-pills-#(variable.name)-tab" data-bs-toggle="pill" data-bs-target="#v-pills-#(variable.name)"
-                    type="button" role="tab" aria-controls="v-pills-#(variable.name)"
-                    aria-selected="#(isFirst)">#(variable.label)</button>
-                  #endfor
-                </div>
-                <div class="tab-content" id="v-pills-tabContent">
-                  #for(variable in pressureVariables):
-                  <div class="tab-pane fade #if(isFirst): show active#endif" id="v-pills-#(variable.name)"
-                    role="tabpanel" aria-labelledby="v-pills-#(variable.name)-tab">
-                    <div class="row">
-                      #for(level in levels):
-                      #if(index % (count(levels)/3+1) == 0 || isFirst):
-                      <div class="col-lg-4">
-                        #endif
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="#(variable.name)_#(level.level)hPa"
-                            id="#(variable.name)_#(level.level)hPa" name="hourly">
-                          <label class="form-check-label" for="#(variable.name)_#(level.level)hPa">
-                            #(level.level) hPa <small class="text-muted">(#(level.altitude))</small>
-                          </label>
-                        </div>
-                        #if(index % (count(levels)/3+1) == count(levels)/3 || isLast):
-                      </div>
-                      #endif
-                      #endfor
-                    </div>
-                  </div>
-                  #endfor
-                  <div class="mt-3">
-                    <small class="text-muted">Note: Altitudes are approximate and in meters <strong> above sea
-                        level</strong> (not above ground). Use <mark>geopotential_height</mark> to get precise altitudes
-                      above sea level.</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <PressureLevels pressureVariables={pressureVariables} levels={levels}/>
       </div>
     </div>
 
