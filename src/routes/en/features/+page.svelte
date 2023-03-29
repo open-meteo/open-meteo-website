@@ -4,7 +4,7 @@
 </svelte:head>
 
 <div class="px-4 py-5 text-center text-white" style="
-            background-image: url('https://assets.open-meteo.com/images/features_background.webp');
+            background-image: url('/images/features_background.webp');
             background-size: cover;
             background-position: center;
             height: 500px;
