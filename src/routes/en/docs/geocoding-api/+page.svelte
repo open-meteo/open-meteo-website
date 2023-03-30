@@ -4,7 +4,7 @@
 
   onMount(async () => {
       const datepicker = await import("bootstrap-datepicker");
-      const geocoding = await import("../../../../lib/geocoding");
+      const geocoding = await import("$lib/geocoding");
       geocoding.init()
   });
 </script>
@@ -50,8 +50,7 @@
 </div>
 
 <div class="container px-4 py-0" id="featured-3">
-  <form id="geocoding_form" method="get" action2="http://127.0.0.1:8912/v1/search"
-    action="https://geocoding-api.open-meteo.com/v1/search">
+  <form id="geocoding_form" method="get" action="https://geocoding-api.open-meteo.com/v1/search">
     <div class="row py-3 px-0">
       <h2>Search for cities or postal code</h2>
       <div class="col-md-3">
