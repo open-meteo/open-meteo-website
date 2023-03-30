@@ -9,6 +9,8 @@
     ]
     export let levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
     
+    let selectedOptions: string[] = []
+
     function sliceIntoChunks<T>(arr: Array<T>, chunkSize: number): Array<Array<T>> {
         const res = [];
         for (let i = 0; i < arr.length; i += chunkSize) {
@@ -39,8 +41,7 @@
     <h2 class="accordion-header" id="heading-pressure-levels">
         <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
         data-bs-target="#collapse-pressure-levels" aria-expanded="false" aria-controls="collapse-pressure-levels">
-        Pressure Levels&nbsp;<span class="badge rounded-pill bg-secondary checkboxcounter"
-            data-count-checkboxes-of="#collapse-pressure-levels">0/x</span>
+        Pressure Levels{#if selectedOptions.length > 0}&nbsp;<span class="badge rounded-pill bg-secondary">{selectedOptions.length}/{pressureVariables.length * levels.length}</span>{/if}
         </button>
     </h2>
     <div id="collapse-pressure-levels" class="accordion-collapse collapse"
@@ -65,7 +66,7 @@
                     {#each chunk as level}
                     <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="{variable.name}_{level}hPa"
-                        id="{variable.name}_{level}hPa" name="hourly">
+                        id="{variable.name}_{level}hPa" name="hourly" bind:group={selectedOptions}>
                     <label class="form-check-label" for="{variable.name}_{level}hPa">
                         {level} hPa <small class="text-muted">({altitudeAboveSeaLevelMeters(level)})</small>
                     </label>
