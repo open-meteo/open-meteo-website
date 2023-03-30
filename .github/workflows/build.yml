@@ -31,4 +31,4 @@ jobs:
           username: open-meteo
           password: ${{ secrets.ftp_password }}
           local-dir: 'build/'
-          server-dir: ''
+          server-dir: 'aaa/../'
