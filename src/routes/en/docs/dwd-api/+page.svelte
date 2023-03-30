@@ -9,7 +9,7 @@ onMount(async () => {
     const weather = await import("$lib/weather");
     weather.init()
 });
-lconstet pressureVariables = [
+const pressureVariables = [
     {name: "temperature", label: "Temperature"},
     {name: "relativehumidity", label: "Relative Humidity"},
     {name: "cloudcover", label: "Cloudcover"},
