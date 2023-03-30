@@ -5,8 +5,9 @@ import { onMount } from 'svelte';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
 onMount(async () => {
-  const datepicker = await import("bootstrap-datepicker");
-  const weahter = await import("../../../../lib/weather");
+    const datepicker = await import("bootstrap-datepicker");
+    const weather = await import("../../../../lib/weather");
+    weather.init()
 });
 
 let pressureVariables = [
