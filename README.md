@@ -1,5 +1,12 @@
 # create-svelte
 
+TODO:
+- archive date selection
+- fix multiple loading of highcharts
+- migrate JS code
+- rename to handler/index.html
+- CI + deploy
+
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
 ## Creating a project
