@@ -12,7 +12,10 @@ const config = {
 			fallback: null,
 			precompress: false,
 			strict: true
-		})
+		}),
+		paths: {
+			relative: false
+		}
 	},
 
 	preprocess: [
