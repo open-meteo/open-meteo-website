@@ -1,20 +1,16 @@
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
+
+  onMount(async () => {
+      const datepicker = await import("bootstrap-datepicker");
+      const weahter = await import("../../../../lib/weather");
+  });
+</script>
+
 <svelte:head>
     <title>Air Quality API | Open-Meteo.com</title> 
     <link rel="canonical" href="https://open-meteo.com/en/docs/air-quality-api" />
-    <script src="/libs/jquery-3.6.1/jquery.min.js"
-    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet"
-    href="/libs/bootstrap-datepicker-1.9.0/bootstrap-datepicker3.min.css"
-    integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="/libs/highstock-10.3.1/highstock.js"
-    integrity="sha512-FpTlH4AK/Pw9x4jCRet+EKF+8l2iWK9vJ4gjAfDhWFCHq/rfitKEvPphq8mFx4DoMKCXe/jpRpKta423ymyNLA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="/scripts/weather.js"></script>
-    <script src="/libs/bootstrap-datepicker-1.9.0/bootstrap-datepicker.min.js"
-    integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </svelte:head>
 
 <style>
