@@ -40,8 +40,7 @@
         <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
         data-bs-target="#collapse-pressure-levels" aria-expanded="false" aria-controls="collapse-pressure-levels">
         Pressure Levels&nbsp;<span class="badge rounded-pill bg-secondary checkboxcounter"
-            data-count-checkboxes-of="#collapse-pressure-levels">0/x</span>&nbsp;<span
-            class="badge bg-primary">New</span>
+            data-count-checkboxes-of="#collapse-pressure-levels">0/x</span>
         </button>
     </h2>
     <div id="collapse-pressure-levels" class="accordion-collapse collapse"
