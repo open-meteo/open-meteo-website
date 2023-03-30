@@ -1,0 +1,26 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: ["main"]
+
+  workflow_dispatch:
+
+# Allow one concurrent deployment
+concurrency:
+  group: "build"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 19
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - run: npm run rename_index_files
