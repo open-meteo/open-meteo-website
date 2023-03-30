@@ -39,7 +39,7 @@
   <div class="container px-4 py-1">
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
       <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><a class="link-secondary" href="/en">Home</a></li>
+        <li class="breadcrumb-item"><a class="link-secondary" href="/">Home</a></li>
         <li class="breadcrumb-item"><a class="link-secondary" href="/en/docs">Weather APIs</a></li>
         <li class="breadcrumb-item active" aria-current="page">Climate API</li>
       </ol>
