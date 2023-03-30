@@ -4,7 +4,8 @@
 
   onMount(async () => {
       const datepicker = await import("bootstrap-datepicker");
-      const weahter = await import("../../../../lib/weather");
+      const weather = await import("../../../../lib/weather");
+      weather.init()
   });
 </script>
 
