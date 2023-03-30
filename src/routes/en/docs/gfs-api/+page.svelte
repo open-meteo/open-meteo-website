@@ -1,35 +1,29 @@
 <script lang="ts">
-    import PressureLevels from "../PressureLevels.svelte";
+import PressureLevels from "../PressureLevels.svelte";
     
-    let pressureVariables = [
-        {name: "temperature", label: "Temperature"},
-        {name: "dewoint", label: "Dewpooint"},
-        {name: "relativehumidity", label: "Relative Humidity"},
-        {name: "cloudcover", label: "Cloudcover"},
-        {name: "windspeed", label: "Wind Speed"},
-        {name: "winddirection", label: "Wind Direction"},
-        {name: "geopotential_height", label: "Geopotential Height"}
-    ]
-    let levels = [10, 15, 20, 30, 40, 50, 70, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 925, 950, 975, 1000].reverse()
+import { onMount } from 'svelte';
+import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
+
+onMount(async () => {
+    const datepicker = await import("bootstrap-datepicker");
+    const weahter = await import("../../../../lib/weather");
+});
+
+let pressureVariables = [
+    {name: "temperature", label: "Temperature"},
+    {name: "dewoint", label: "Dewpooint"},
+    {name: "relativehumidity", label: "Relative Humidity"},
+    {name: "cloudcover", label: "Cloudcover"},
+    {name: "windspeed", label: "Wind Speed"},
+    {name: "winddirection", label: "Wind Direction"},
+    {name: "geopotential_height", label: "Geopotential Height"}
+]
+let levels = [10, 15, 20, 30, 40, 50, 70, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 925, 950, 975, 1000].reverse()
 </script>
 
 <svelte:head>
     <title>GFS & HRRR API | Open-Meteo.com</title> 
     <link rel="canonical" href="https://open-meteo.com/en/docs/gfs-api" />
-    <script src="/libs/jquery-3.6.1/jquery.min.js"
-    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet"
-    href="/libs/bootstrap-datepicker-1.9.0/bootstrap-datepicker3.min.css"
-    integrity="sha512-rxThY3LYIfYsVCWPCW9dB0k+e3RZB39f23ylUYTEuZMDrN/vRqLdaCBo/FbvVT6uC2r0ObfPzotsfKF9Qc5W5g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="/libs/highstock-10.3.1/highstock.js"
-    integrity="sha512-FpTlH4AK/Pw9x4jCRet+EKF+8l2iWK9vJ4gjAfDhWFCHq/rfitKEvPphq8mFx4DoMKCXe/jpRpKta423ymyNLA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="/scripts/weather.js"></script>
-    <script src="/libs/bootstrap-datepicker-1.9.0/bootstrap-datepicker.min.js"
-    integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </svelte:head>
 
 
