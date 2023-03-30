@@ -1,12 +1,27 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
+    import { onMount } from 'svelte';
+    import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
-  onMount(async () => {
-      const datepicker = await import("bootstrap-datepicker");
-      const weather = await import("../../../../lib/weather");
-      weather.init()
-  });
+    var d = new Date();
+    d.setDate(d.getDate()-5);
+    let endDateDefault = d.toISOString().split('T')[0];
+    d.setDate(d.getDate()-14);
+    let startDateDefault = d.toISOString().split('T')[0];
+    let startDate = "1940-01-01"
+    let endDate = ""
+
+    onMount(async () => {
+        var d = new Date();
+        endDate = d.toISOString().split('T')[0];
+        d.setDate(d.getDate()-5);
+        endDateDefault = d.toISOString().split('T')[0];
+        d.setDate(d.getDate()-14);
+        startDateDefault = d.toISOString().split('T')[0];
+
+        const datepicker = await import("bootstrap-datepicker");
+        const weather = await import("$lib/weather");
+        weather.init()
+    });
 </script>
 
 <svelte:head>
@@ -92,8 +107,8 @@
       <div class="col-md-3">
         <div class="form-floating">
           <input type="text" class="form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd"
-            data-date-start-date="#(date_start)" data-date-end-date="#(date_end)" data-date-today-highlight="1"
-            value="#(date_start_default)" name="start_date" id="start_date"><span class="input-group-addon"><i
+            data-date-start-date="{startDate}" data-date-end-date="{endDate}" data-date-today-highlight="1"
+            value="{startDateDefault}" name="start_date" id="start_date"><span class="input-group-addon"><i
               class="glyphicon glyphicon-th"></i></span>
           <label for="start_date">Start date</label>
         </div>
@@ -101,8 +116,8 @@
       <div class="col-md-3">
         <div class="form-floating">
           <input type="text" class="form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd"
-            data-date-start-date="#(date_start)" data-date-end-date="#(date_end)" data-date-today-highlight="1"
-            value="#(date_end_default)" name="end_date" id="end_date"><span class="input-group-addon"><i
+            data-date-start-date="{startDate}" data-date-end-date="{endDate}" data-date-today-highlight="1"
+            value="{endDateDefault}" name="end_date" id="end_date"><span class="input-group-addon"><i
               class="glyphicon glyphicon-th"></i></span>
           <label for="end_date">End date</label>
         </div>

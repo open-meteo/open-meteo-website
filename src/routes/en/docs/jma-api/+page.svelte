@@ -1,16 +1,17 @@
 <script lang="ts">
 import PressureLevels from "../PressureLevels.svelte";
+import PressureLevelsHelpTable from "../PressureLevelsHelpTable.svelte"
     
 import { onMount } from 'svelte';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
 onMount(async () => {
     const datepicker = await import("bootstrap-datepicker");
-    const weather = await import("../../../../lib/weather");
+    const weather = await import("$lib/weather");
     weather.init()
 });
 
-let pressureVariables = [
+const pressureVariables = [
     {name: "temperature", label: "Temperature"},
     {name: "dewoint", label: "Dewpooint"},
     {name: "relativehumidity", label: "Relative Humidity"},
@@ -19,7 +20,7 @@ let pressureVariables = [
     {name: "winddirection", label: "Wind Direction"},
     {name: "geopotential_height", label: "Geopotential Height"}
 ]
-let levels = [1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100]
+const levels = [1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100]
 </script>
 
 <svelte:head>
@@ -860,18 +861,7 @@ let levels = [1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100]
     <p>Pressure level variables do not have fixed altitudes. Altitude varies with atmospheric pressure. 1000 hPa is
       roughly between 60 and 160 meters above sea level. Estimated altitudes are given below. Altitudes are in meters
       above sea level (not above ground). For precise altitudes, <mark>geopotential_height</mark> can be used.</p>
-    <div class="table-responsive">
-      <table class="table">
-        <tr>
-          <th>Level (hPa)</th>
-          #for(level in levels):<td>#(level.level)</td>#endfor
-        </tr>
-        <tr>
-          <th>Altitude</th>
-          #for(level in levels):<td>#(level.altitude)</td>#endfor
-        </tr>
-      </table>
-    </div>
+    <PressureLevelsHelpTable levels={levels}></PressureLevelsHelpTable>
 
     <p>All pressure level have valid times of the indicated hour (instant).</p>
     <div class="table-responsive">

@@ -6,11 +6,11 @@ import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
 onMount(async () => {
     const datepicker = await import("bootstrap-datepicker");
-    const weather = await import("../../../../lib/weather");
+    const weather = await import("$lib/weather");
     weather.init()
 });
 
-let pressureVariables = [
+const pressureVariables = [
     {name: "temperature", label: "Temperature"},
     {name: "relative_humidity", label: "Relative Humidity"}, // NOTE underscore here!
     {name: "specific_humidity", label: "Specific Humidity"},
@@ -21,7 +21,7 @@ let pressureVariables = [
     {name: "atmosphere_relative_vorticity", label: "Relative Vorticity"},
     {name: "divergence_of_wind", label: "Divergence of Wind"}
 ]
-let levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
+const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
 
 </script>
 
