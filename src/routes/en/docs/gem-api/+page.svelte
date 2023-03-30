@@ -1,16 +1,17 @@
 <script lang="ts">
 import PressureLevels from "../PressureLevels.svelte";
+import PressureLevelsHelpTable from "../PressureLevelsHelpTable.svelte"
 
 import { onMount } from 'svelte';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
 onMount(async () => {
     const datepicker = await import("bootstrap-datepicker");
-    const weather = await import("../../../../lib/weather");
+    const weather = await import("$lib/weather");
     weather.init()
 });
 
-let pressureVariables = [
+const pressureVariables = [
     {name: "temperature", label: "Temperature"},
     {name: "dewoint", label: "Dewpooint"},
     {name: "relativehumidity", label: "Relative Humidity"},
@@ -19,7 +20,7 @@ let pressureVariables = [
     {name: "winddirection", label: "Wind Direction"},
     {name: "geopotential_height", label: "Geopotential Height"}
 ]
-let levels = [1015, 1000, 985, 970, 950, 925, 900, 875, 850, 800, 750, 700, 650, 600, 550, 500, 450, 400, 350, 300, 275, 250, 225, 200, 175, 150, 100, 50, 30, 20, 10].reverse()
+const levels = [1015, 1000, 985, 970, 950, 925, 900, 875, 850, 800, 750, 700, 650, 600, 550, 500, 450, 400, 350, 300, 275, 250, 225, 200, 175, 150, 100, 50, 30, 20, 10].reverse()
 </script>
 
 <svelte:head>
@@ -1013,18 +1014,7 @@ let levels = [1015, 1000, 985, 970, 950, 925, 900, 875, 850, 800, 750, 700, 650,
       roughly between 60 and 160 meters above sea level. Estimated altitudes are given below. Altitudes are in meters
       above sea level (not above ground). For precise altitudes, <mark>geopotential_height</mark> can be used.</p>
       <p>GEM includes a 1050 hPa level, which technically is to a level below ground. Please note, that this is not the soil temperature! If geopotential height is below ground, data should not be used.</p>
-    <div class="table-responsive">
-      <table class="table">
-        <tr>
-          <th>Level (hPa)</th>
-          #for(level in levels):<td>#(level.level)</td>#endfor
-        </tr>
-        <tr>
-          <th>Altitude</th>
-          #for(level in levels):<td>#(level.altitude)</td>#endfor
-        </tr>
-      </table>
-    </div>
+    <PressureLevelsHelpTable levels={levels}></PressureLevelsHelpTable>
 
     <p>All pressure level have valid times of the indicated hour (instant).</p>
     <div class="table-responsive">
