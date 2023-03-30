@@ -1,9 +1,7 @@
 # create-svelte
 
 TODO:
-- archive date selection
-- fix multiple loading of highcharts
-- migrate JS code
+- remove jquery
 - rename to handler/index.html
 - CI + deploy
 
