@@ -1,13 +1,18 @@
+<script lang="ts">
+  import { onMount } from 'svelte';
+  import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
+
+  onMount(async () => {
+      const datepicker = await import("bootstrap-datepicker");
+      const geocoding = await import("../../../../lib/geocoding");
+      geocoding.init()
+  });
+</script>
+
 <svelte:head>
     <title>Geocoding API | Open-Meteo.com</title> 
     <link rel="canonical" href="https://open-meteo.com/en/docs/geocoding-api" />
-    <script src="/libs/jquery-3.6.1/jquery.min.js"
-    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script src="/scripts/geocoding.js"></script>
 </svelte:head>
-
 
 <div class="px-4 py-5 text-center text-white" style="
             background-image: url('/images/beach_sunset.webp');
