@@ -182,7 +182,7 @@ function previewData(data, downloadTime) {
 
 export function init() {
     // Show debug toggles
-    if (location.hostname === "127.0.0.1") {
+    if (location.hostname === "127.0.0.1" || location.hostname == "localhost") {
         $(".debug-hidden").show();
     }
     
