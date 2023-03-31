@@ -1,27 +1,18 @@
-# create-svelte
+# Open-meteo.com Website
+
+[![GitHub license](https://img.shields.io/github/license/open-meteo/open-meteo)](https://github.com/open-meteo/open-meteo/blob/main/LICENSE)
+
+This repository contains the [open-meteo.com](https://open-meteo.com/) website. The weather API code can be found in [this](https://github.com/open-meteo/open-meteo) repository.
+
+The website is build using SvelteKit, Bootstrap and Highcharts. It can be run locally using `npm`, is entirely static and hosted on a CDN afterwards.
 
 TODO:
-- remove jquery
-- rename to handler/index.html
-- CI + deploy
+- Remove jquery (Rebuild weather API form and replace date picker)
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once you've cloned the project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
 npm run dev
@@ -38,6 +29,13 @@ To create a production version of your app:
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+You can preview the production build with `npm run preview`. The production build is automatically build using GitHub actions and automatically deployed to a CDN.
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+## Contributing
+
+Contributions are always welcome! Please create an issue ticket to discuss larger changes.
+
+
+## License
+
+Open-Meteo is open-source under the GNU Affero General Public License Version 3 (AGPLv3) or any later version. You can [find the license here](LICENSE). Exceptions are third party source-code with individual licensing in each file.
