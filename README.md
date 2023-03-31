@@ -1,13 +1,13 @@
 # Open-meteo.com Website
 
-[![GitHub license](https://img.shields.io/github/license/open-meteo/open-meteo)](https://github.com/open-meteo/open-meteo/blob/main/LICENSE)
+[![Build](https://github.com/open-meteo/open-meteo-website/actions/workflows/build.yml/badge.svg)](https://github.com/open-meteo/open-meteo-website/actions/workflows/build.yml)[![GitHub license](https://img.shields.io/github/license/open-meteo/open-meteo-website)](https://github.com/open-meteo/open-meteo-website/blob/main/LICENSE)
 
 This repository contains the [open-meteo.com](https://open-meteo.com/) website. The weather API code can be found in [this](https://github.com/open-meteo/open-meteo) repository.
 
 The website is build using SvelteKit, Bootstrap and Highcharts. It can be run locally using `npm`, is entirely static and hosted on a CDN afterwards.
 
 TODO:
-- Remove jquery (Rebuild weather API form and replace date picker)
+- Remove jQuery (Rebuild weather API form and replace date picker)
 
 
 ## Developing
