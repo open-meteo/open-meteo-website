@@ -239,6 +239,13 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             Lightning Potential Index LPI <span class="text-muted"><sup>(2)</sup></span>
           </label>
         </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="updraft" id="updraft"
+            name="hourly">
+          <label class="form-check-label" for="updraft">
+            Updraft <span class="text-muted"><sup>(2)</sup></span>
+          </label>
+        </div>
         <!---<div class="form-check">
             <input class="form-check-input" type="checkbox" value="latent_heatflux" id="latent_heatflux" name="hourly">
             <label class="form-check-label" for="latent_heatflux">
@@ -1208,6 +1215,12 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             <td>Instant</td>
             <td>J/kg</td>
             <td>The Lightning Potential Index after <a href="https://adgeo.copernicus.org/articles/23/11/2010/adgeo-23-11-2010.pdf">Lynn and Yair (2010)</a>. It is calculated as a vertical integral of the squared updraft velocity weighted by a function that essentially contains the graupel concentration</td>
+          </tr>
+          <tr>
+            <th scope="row">updraft</th>
+            <td>Instant</td>
+            <td>m/s</td>
+            <td>The maximum vertical updraft velocity within ground and 10 km altitude.</td>
           </tr>
           <tr>
             <th scope="row">evapotranspiration</th>
