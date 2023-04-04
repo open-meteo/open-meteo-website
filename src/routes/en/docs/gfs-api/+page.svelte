@@ -18,6 +18,7 @@ const pressureVariables = [
     {name: "cloudcover", label: "Cloudcover"},
     {name: "windspeed", label: "Wind Speed"},
     {name: "winddirection", label: "Wind Direction"},
+    {name: "vertical_velocity", label: "Vertical Velocity"},
     {name: "geopotential_height", label: "Geopotential Height"}
 ]
 const levels = [10, 15, 20, 30, 40, 50, 70, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 925, 950, 975, 1000].reverse()
