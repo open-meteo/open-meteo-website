@@ -1,5 +1,6 @@
 import $ from "jquery";
 import Highcharts from 'highcharts/highstock';
+import Dropdown from "bootstrap/js/src/dropdown"
 
 
 function updateCheckboxCounter(counter, countOf) {
@@ -210,8 +211,14 @@ export function init() {
         $('#select_city').val(row.name);
         $('#select_city').blur();
         $('#api_form').submit();
-        $('#select_city').dropdown('hide');
+        const dropdown = new Dropdown(document.querySelector('#select_city'))
+        dropdown.hide()
     });
+
+    $("#select_city").on('focus', () => {
+        const dropdown = new Dropdown(document.querySelector('#select_city'))
+        dropdown.show()
+    })
     
     var render = (items) => {
         var resultsDiv = $('#select_city_results');
@@ -229,13 +236,14 @@ export function init() {
             a.data('item', row);
             resultsDiv.append($('<li></li>').append(a));
         }
-        $('#select_city').dropdown('show');
+        const dropdown = new Dropdown(document.querySelector('#select_city'))
+        dropdown.show()
     };
     
     var lastsearch = null;
     
     function onChangeSearch(e) {
-        console.log(e.target.value)
+        //console.log(e.target.value)
         var query = e.target.value;
         if (lastsearch == query) {
             return
@@ -248,15 +256,15 @@ export function init() {
             url: url,
             dataType: 'json',
             success: function (data) {
-                console.log('Submission was successful.');
-                console.log(data);
+                //console.log('Submission was successful.');
+                //console.log(data);
                 if (query == lastsearch) {
                     render(data.results||[]);
                 }
             },
             error: function (data) {
-                console.log('An error occurred.');
-                console.log(data);
+                //console.log('An error occurred.');
+                //console.log(data);
                 alert("API error: "+data.responseJSON.reason);
             },
         });
@@ -323,8 +331,8 @@ export function init() {
                 previewData(data, downloadTime);
             },
             error: function (data) {
-                console.warn('An error occurred.');
-                console.warn(data);
+                //console.warn('An error occurred.');
+                //console.warn(data);
                 alert("API error: "+data.responseJSON.reason);
             },
         });
