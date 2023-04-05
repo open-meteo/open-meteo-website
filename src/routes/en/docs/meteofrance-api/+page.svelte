@@ -1325,7 +1325,7 @@ const levels = [10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300,
           <tr>
             <th scope="row">latitude, longitude</th>
             <td>Floating point</td>
-            <td>WGS84 of the center of the weather grid-cell which was used to generate this forecast. This coordinate might be a couple of kilometers away from the requested coordinate.</td>
+            <td>WGS84 of the center of the weather grid-cell which was used to generate this forecast. This coordinate might be a few kilometers away from the requested coordinate.</td>
           </tr>
           <tr>
             <th scope="row">elevation</th>
