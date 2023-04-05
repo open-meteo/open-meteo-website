@@ -1,6 +1,6 @@
 import $ from "jquery";
 import Highcharts from 'highcharts/highstock';
-import Dropdown from "bootstrap/js/src/dropdown"
+//import Dropdown from "bootstrap/js/src/dropdown"
 
 
 function updateCheckboxCounter(counter, countOf) {
@@ -211,14 +211,14 @@ export function init() {
         $('#select_city').val(row.name);
         $('#select_city').blur();
         $('#api_form').submit();
-        const dropdown = new Dropdown(document.querySelector('#select_city'))
-        dropdown.hide()
+        //const dropdown = new bootstrap.Dropdown(document.querySelector('#select_city'))
+        //dropdown.hide()
     });
 
-    $("#select_city").on('focus', () => {
-        const dropdown = new Dropdown(document.querySelector('#select_city'))
+    /*$("#select_city").on('focus', () => {
+        const dropdown = new bootstrap.Dropdown(document.querySelector('#select_city'))
         dropdown.show()
-    })
+    })*/
     
     var render = (items) => {
         var resultsDiv = $('#select_city_results');
@@ -236,8 +236,8 @@ export function init() {
             a.data('item', row);
             resultsDiv.append($('<li></li>').append(a));
         }
-        const dropdown = new Dropdown(document.querySelector('#select_city'))
-        dropdown.show()
+        //const dropdown = new bootstrap.Dropdown(document.querySelector('#select_city'))
+        //dropdown.show()
     };
     
     var lastsearch = null;
