@@ -402,6 +402,13 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
                     UV Index Clear Sky
                   </label>
                 </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="is_day" id="is_day"
+                    name="hourly">
+                  <label class="form-check-label" for="is_day">
+                    Is Day or Night
+                  </label>
+                </div>
               </div>
               <div class="col-md-6">
                 <div class="form-check">
@@ -1423,6 +1430,12 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             <td>Instant</td>
             <td>m³/m³</td>
             <td>Average soil water content as volumetric mixing ratio at 0-1, 1-3, 3-9, 9-27 and 27-81 cm depths.</td>
+          </tr>
+          <tr>
+            <th scope="row">is_day</th>
+            <td>Instant</td>
+            <td>Dimensionless</td>
+            <td><mark>1</mark> if the current time step has daylight, <mark>0</mark> at night.</td>
           </tr>
         </tbody>
       </table>
