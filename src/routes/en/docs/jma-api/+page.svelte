@@ -13,7 +13,7 @@ onMount(async () => {
 
 const pressureVariables = [
     {name: "temperature", label: "Temperature"},
-    {name: "dewoint", label: "Dewpooint"},
+    {name: "dewpoint", label: "Dewpooint"},
     {name: "relativehumidity", label: "Relative Humidity"},
     {name: "cloudcover", label: "Cloudcover"},
     {name: "windspeed", label: "Wind Speed"},
