@@ -157,6 +157,8 @@
               API</a></li>
           <li class="mb-1"><a class="link-secondary text-decoration-none" href="/en/docs/elevation-api">Elevation
               API</a></li>
+          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/en/docs/flood-api">Flood
+                API</a></li>
         </ul>
       </div>
       <div class="col-6 col-md">
