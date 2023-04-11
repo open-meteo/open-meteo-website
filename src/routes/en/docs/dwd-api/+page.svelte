@@ -22,6 +22,10 @@ const pressureVariables = [
 ]
 const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
 
+import type { PageData } from './$types';
+
+export let data: PageData;
+
 </script>
 
 <svelte:head>
@@ -29,7 +33,7 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
     <link rel="canonical" href="https://open-meteo.com/en/docs/dwd-api" />
 </svelte:head>
 
-<div class="px-4 py-5 text-center text-white" style="
+<!--<div class="px-4 py-5 text-center text-white" style="
             background-image: url('/images/cloudy2.webp');
             background-size: cover;
             background-position: bottom;
@@ -59,7 +63,7 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
       </ol>
     </nav>
   </div>
-</div>
+</div>-->
 
 <div class="container px-4 py-0" id="featured-3">
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/dwd-icon">

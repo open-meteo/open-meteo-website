@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
 	import '../app.scss';
 	import { page } from '$app/stores';
   import { onMount } from 'svelte';
+
 
   onMount(async () => {
       const Dropdown = await import('bootstrap/js/dist/dropdown');
