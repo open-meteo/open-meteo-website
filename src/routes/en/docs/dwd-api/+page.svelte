@@ -995,7 +995,7 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             <td>No</td>
             <td></td>
             <td>A list of weather variables which should be returned. Values can be comma separated, or multiple
-              <mark>&minutely_15=</mark> parameter in the URL can be used.
+              <mark>&hourly=</mark> parameter in the URL can be used.
             </td>
           </tr>
           <tr>
@@ -1004,7 +1004,7 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             <td>No</td>
             <td></td>
             <td>A list of weather variables which should be returned. Values can be comma separated, or multiple
-              <mark>&hourly=</mark> parameter in the URL can be used.
+              <mark>&minutely_15=</mark> parameter in the URL can be used.
             </td>
           </tr>
           <tr>
