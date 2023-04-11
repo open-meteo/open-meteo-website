@@ -31,9 +31,9 @@
             <a href="/en/features" class="nav-link" class:active={$page.url.pathname === "/en/features"}>Features</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" class:active={["/en/docs", "/en/docs/historical-weather-api", "/en/docs/ecmwf-api", "/en/docs/gfs-api", "/en/docs/meteofrance-api", "/en/docs/dwd-api", "/en/docs/jma-api", "/en/docs/metno-api", "/en/docs/gem-api" ].includes($page.url.pathname)} href="/en/docs"
+            <a class="nav-link dropdown-toggle" class:active={$page.url.pathname.startsWith("/en/docs")} href="/en/docs"
               id="navbarDropdownWeatherApis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Weather APIs
+              API Docs
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownWeatherApis">
               <li><a class="dropdown-item" class:active={$page.url.pathname === "/en/docs"} href="/en/docs">Weather
@@ -41,7 +41,7 @@
               </li>
               <li><a class="dropdown-item" class:active={$page.url.pathname === "/en/docs/historical-weather-api"}
                   href="/en/docs/historical-weather-api">Historical Weather API</a></li>
-              <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/ecmwf-api"}
+              <!--<li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/ecmwf-api"}
                   href="/en/docs/ecmwf-api">ECMWF API</a></li>
               <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/gfs-api"}
                   href="/en/docs/gfs-api">GFS &amp; HRRR Forecast API</a></li>
@@ -62,7 +62,7 @@
               href="/en/docs/marine-weather-api" id="navbarDropdownOtherApis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Other APIs
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownOtherApis">
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownOtherApis">-->
               <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/marine-weather-api"}
                   href="/en/docs/marine-weather-api">Marine Forecast API</a></li>
               <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/air-quality-api"}
@@ -72,8 +72,8 @@
               <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/elevation-api"}
                   href="/en/docs/elevation-api">Elevation API</a></li>
               <li><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/flood-api"}
-                    href="/en/docs/flood-api">Flood API&nbsp;&nbsp;<span
-                    class="badge bg-secondary">New</span></a></li>
+                    href="/en/docs/flood-api">Flood API<!--&nbsp;&nbsp;<span
+                    class="badge bg-secondary">New</span>--></a></li>
               <li class="debug-hidden"><a class="dropdown-item"  class:active={$page.url.pathname === "/en/docs/seasonal-forecast-api"}
                   href="/en/docs/seasonal-forecast-api">Seasonal Forecast API</a></li>
             </ul>
@@ -149,8 +149,6 @@
           <li class="mb-1"><a class="link-secondary text-decoration-none" href="/en/docs/air-quality-api">Air Quality
               API</a></li>
           <li class="mb-1"><a class="link-secondary text-decoration-none" href="/en/docs/geocoding-api">Geocoding
-              API</a></li>
-          <li class="mb-1"><a class="link-secondary text-decoration-none" href="/en/docs/gfs-api">GFS & HRRR Forecast
               API</a></li>
           <li class="mb-1"><a class="link-secondary text-decoration-none" href="/en/docs/elevation-api">Elevation
               API</a></li>
