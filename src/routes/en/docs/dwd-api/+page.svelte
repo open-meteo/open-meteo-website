@@ -943,7 +943,7 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             <td>0.0625° (~7 km)</td>
             <td>Hourly<small class="text-muted">, 3-hourly after 78 hours</small></td>
             <td>5 days</td>
-            <td>Every 6 hours</td>
+            <td>Every 3 hours</td>
           </tr>
           <tr>
             <th scope="row">ICON D2</th>
