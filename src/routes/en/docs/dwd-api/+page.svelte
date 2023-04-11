@@ -999,6 +999,15 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             </td>
           </tr>
           <tr>
+            <th scope="row">minutely_15</th>
+            <td>String array</td>
+            <td>No</td>
+            <td></td>
+            <td>A list of weather variables which should be returned. Values can be comma separated, or multiple
+              <mark>&minutely_15=</mark> parameter in the URL can be used.
+            </td>
+          </tr>
+          <tr>
             <th scope="row">daily</th>
             <td>String array</td>
             <td>No</td>
@@ -1203,12 +1212,6 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             <td>kPa</td>
             <td>Vapor Pressure Deificit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water transpiration of plants
               increases. For low VPD (&lt;0.4), transpiration decreases</td>
-          </tr>
-          <tr>
-            <th scope="row">cape</th>
-            <td>Instant</td>
-            <td>J/kg</td>
-            <td>Convective available potential energy. See <a href="https://en.wikipedia.org/wiki/Convective_available_potential_energy" target="_blank">Wikipedia</a>.</td>
           </tr>
           <tr>
             <th scope="row">lightning_potential</th>
