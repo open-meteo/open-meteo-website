@@ -1,0 +1,113 @@
+<script>
+import { onMount } from 'svelte';
+import { page } from '$app/stores';
+
+onMount(async () => {
+    //const Button = await import('bootstrap/js/dist/button');
+});
+</script>
+
+<style>
+.btn-toggle {
+  padding: .25rem .5rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, .65);
+  background-color: transparent;
+}
+.btn-toggle:hover,
+.btn-toggle:focus {
+  color: rgba(0, 0, 0, .85);
+  background-color: #d2f4ea;
+}
+
+.btn-toggle::before {
+  width: 1.25em;
+  line-height: 0;
+  content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+  transition: transform .35s ease;
+  transform-origin: .5em 50%;
+}
+
+.btn-toggle[aria-expanded="true"] {
+  color: rgba(0, 0, 0, .85);
+}
+.btn-toggle[aria-expanded="true"]::before {
+  transform: rotate(90deg);
+}
+
+.btn-toggle-nav a {
+  padding: .1875rem .5rem;
+  margin-top: .125rem;
+  margin-left: 1.25rem;
+}
+.btn-toggle-nav a:hover,
+.btn-toggle-nav a:focus {
+  background-color: #d2f4ea;
+}
+
+
+.btn-hover:hover, .btn-hover.active {
+    background-color: #d2e7f4;
+}
+</style>
+
+<div class="px-4 py-5 text-center text-white" style="
+            background-image: url('/images/partly_cloudy.webp');
+            background-size: cover;
+            background-position: bottom;
+            height: 500px;
+          ">
+  <svg style="filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));" xmlns="http://www.w3.org/2000/svg" width="96"
+    height="96" fill="currentColor" class="bi bi-gear-wide-connected mb-4" viewBox="0 0 16 16">
+    <path
+      d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434l.071-.286zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5zm0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78h4.723zM5.048 3.967c-.03.021-.058.043-.087.065l.087-.065zm-.431.355A4.984 4.984 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8 4.617 4.322zm.344 7.646.087.065-.087-.065z" />
+  </svg>
+  <h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">Weather Forecast API</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-4" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">Select your location, weather variables and
+      start using the API.</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <a href="#api_form" class="btn button btn-primary btn-lg px-4 me-sm-3">URL Builder</a>
+      <a href="#api-documentation" class="btn btn-outline-light btn-lg px-4">Parameter documentation</a>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse p-4">
+        <ul class="list-unstyled">
+          <li>
+            <div class="" id="headingHome">
+            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapse" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+              Weather Forecast APIs
+            </button></div>
+            <div class="collapse show" id="home-collapse" style="" aria-labelledby="headingHome">
+              <ul class="list-unstyled ms-3 mb-4">
+                <li class="py-1"><a href="/en/docs" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs"}>Weather Forecast API</a></li>
+                <li class="py-1"><a href="/en/docs/dwd-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/dwd-api"}>DWD API</a></li>
+                <li class="py-1"><a href="/en/docs/gfs-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/gfs-api"}>GFS API</a></li>
+                <li class="py-1"><a href="/en/docs/meteofrance-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/meteofrance-api"}>MeteoFrance API</a></li>
+                <li class="py-1"><a href="/en/docs/ecmwf-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/ecmwf-api"}>ECMWF API</a></li>
+                <li class="py-1"><a href="/en/docs/jma-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/jma-api"}>JMA API</a></li>
+                <li class="py-1"><a href="/en/docs/metno-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/metno-api"}>MET Nordic API</a></li>
+                <li class="py-1"><a href="/en/docs/gem-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/gem-api"}>GEM API</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href="/en/docs/historical-weather-api" class:active={$page.url.pathname === "/en/docs/historical-weather-api"}>Historical Weather API</a></li>
+          <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href="/en/docs/marine-weather-api" class:active={$page.url.pathname === "/en/docs/marine-weather-api"}>Marine Forecast API</a></li>
+          <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href="/en/docs/air-quality-api" class:active={$page.url.pathname === "/en/docs/air-quality-api"}>Air Quality API</a></li>
+          <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href="/en/docs/geocoding-api" class:active={$page.url.pathname === "/en/docs/geociding-api"}>Geocoding API</a></li>
+          <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href="/en/docs/elevation-api" class:active={$page.url.pathname === "/en/docs/elevation-api"}>Elevation API</a></li>
+          <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href="/en/docs/flood-api" class:active={$page.url.pathname === "/en/docs/flood-api"}>Flood API</a></li>
+          </ul>
+      </nav>
+  
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <slot />
+      </main>
+    </div>
+  </div>
+  
+
