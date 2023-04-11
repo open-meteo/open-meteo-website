@@ -3,10 +3,13 @@
   import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
   onMount(async () => {
-      const datepicker = await import("bootstrap-datepicker");
-      const weather = await import("$lib/weather");
-      weather.init()
-  });
+    const datepicker = await import("bootstrap-datepicker");
+    const weather = await import("$lib/weather");
+    const Dropdown = await import('bootstrap/js/dist/dropdown');
+    const Collapse = await import('bootstrap/js/dist/collapse');
+    const Tab = await import('bootstrap/js/dist/tab');
+    weather.init(Dropdown.default)
+});
 </script>
 
 <svelte:head>

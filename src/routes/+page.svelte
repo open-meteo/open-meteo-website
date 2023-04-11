@@ -3,6 +3,14 @@
     <link rel="canonical" href="https://open-meteo.com/" />
 </svelte:head>
 
+<script lang="ts">
+  import { onMount } from 'svelte';
+  
+  onMount(async () => {
+      const Tab = await import('bootstrap/js/dist/tab');
+  });
+</script>
+
 <div class="px-4 py-5 mb-5 text-center text-white" style="
           background-image: url('/images/convective_clouds.webp');
           background-size: cover;
