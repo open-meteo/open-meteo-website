@@ -968,11 +968,6 @@ const levels = [1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100]
             <td>Sun rise and set times</td>
           </tr>
           <tr>
-            <th scope="row">windspeed_10m_max<br />windgusts_10m_max</th>
-            <td>km/h (mph, m/s, knots)</td>
-            <td>Maximum wind speed and gusts on a day</td>
-          </tr>
-          <tr>
             <th scope="row">winddirection_10m_dominant</th>
             <td>°</td>
             <td>Dominant wind direction</td>
