@@ -1205,12 +1205,6 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
               increases. For low VPD (&lt;0.4), transpiration decreases</td>
           </tr>
           <tr>
-            <th scope="row">cape</th>
-            <td>Instant</td>
-            <td>J/kg</td>
-            <td>Convective available potential energy. See <a href="https://en.wikipedia.org/wiki/Convective_available_potential_energy" target="_blank">Wikipedia</a>.</td>
-          </tr>
-          <tr>
             <th scope="row">lightning_potential</th>
             <td>Instant</td>
             <td>J/kg</td>
