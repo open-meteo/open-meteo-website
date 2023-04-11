@@ -3,11 +3,8 @@
 	import { page } from '$app/stores';
   import { onMount } from 'svelte';
 
-  let MyComponent;
-
   onMount(async () => {
-      const module = await import('bootstrap');
-      MyComponent = module.default;
+      const Dropdown = await import('bootstrap/js/dist/dropdown');
   });
 </script>
 

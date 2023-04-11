@@ -1,27 +1,30 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
+  import { onMount } from 'svelte';
+  import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
+  var d = new Date();
+  d.setDate(d.getDate()-5);
+  let endDateDefault = d.toISOString().split('T')[0];
+  d.setDate(d.getDate()-14);
+  let startDateDefault = d.toISOString().split('T')[0];
+  let startDate = "1940-01-01"
+  let endDate = ""
+
+  onMount(async () => {
     var d = new Date();
+    endDate = d.toISOString().split('T')[0];
     d.setDate(d.getDate()-5);
-    let endDateDefault = d.toISOString().split('T')[0];
+    endDateDefault = d.toISOString().split('T')[0];
     d.setDate(d.getDate()-14);
-    let startDateDefault = d.toISOString().split('T')[0];
-    let startDate = "1940-01-01"
-    let endDate = ""
+    startDateDefault = d.toISOString().split('T')[0];
 
-    onMount(async () => {
-        var d = new Date();
-        endDate = d.toISOString().split('T')[0];
-        d.setDate(d.getDate()-5);
-        endDateDefault = d.toISOString().split('T')[0];
-        d.setDate(d.getDate()-14);
-        startDateDefault = d.toISOString().split('T')[0];
-
-        const datepicker = await import("bootstrap-datepicker");
-        const weather = await import("$lib/weather");
-        weather.init()
-    });
+    const datepicker = await import("bootstrap-datepicker");
+    const weather = await import("$lib/weather");
+    const Dropdown = await import('bootstrap/js/dist/dropdown');
+    const Collapse = await import('bootstrap/js/dist/collapse');
+    const Tab = await import('bootstrap/js/dist/tab');
+    weather.init(Dropdown.default)
+  });
 </script>
 
 <svelte:head>

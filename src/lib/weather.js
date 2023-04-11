@@ -1,5 +1,9 @@
 import $ from "jquery";
 import Highcharts from 'highcharts/highstock';
+import HighchartsAccessibility from "highcharts/modules/accessibility";
+
+HighchartsAccessibility(Highcharts);
+
 //import Dropdown from "bootstrap/js/src/dropdown"
 
 
@@ -181,7 +185,8 @@ function previewData(data, downloadTime) {
     }
 }
 
-export function init() {
+// Pass Dropdown class from bootstrap to trigger location search dropdown on result load
+export function init(Dropdown) {
     // Show debug toggles
     if (location.hostname === "127.0.0.1" || location.hostname == "localhost") {
         $(".debug-hidden").show();
@@ -211,8 +216,8 @@ export function init() {
         $('#select_city').val(row.name);
         $('#select_city').blur();
         $('#api_form').submit();
-        //const dropdown = new bootstrap.Dropdown(document.querySelector('#select_city'))
-        //dropdown.hide()
+        const dropdown = new Dropdown(document.querySelector('#select_city'))
+        dropdown.hide()
     });
 
     /*$("#select_city").on('focus', () => {
@@ -236,8 +241,8 @@ export function init() {
             a.data('item', row);
             resultsDiv.append($('<li></li>').append(a));
         }
-        //const dropdown = new bootstrap.Dropdown(document.querySelector('#select_city'))
-        //dropdown.show()
+        const dropdown = new Dropdown(document.querySelector('#select_city'))
+        dropdown.show()
     };
     
     var lastsearch = null;
