@@ -17,10 +17,10 @@ onMount(async () => {
 .btn-toggle:hover,
 .btn-toggle:focus {
   color: rgba(0, 0, 0, .85);
-  background-color: #d2f4ea;
+  background-color: #d2e7f4;
 }
 
-.btn-toggle::before {
+.btn-toggle::after {
   width: 1.25em;
   line-height: 0;
   content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
@@ -31,7 +31,7 @@ onMount(async () => {
 .btn-toggle[aria-expanded="true"] {
   color: rgba(0, 0, 0, .85);
 }
-.btn-toggle[aria-expanded="true"]::before {
+.btn-toggle[aria-expanded="true"]::after {
   transform: rotate(90deg);
 }
 
@@ -42,7 +42,7 @@ onMount(async () => {
 }
 .btn-toggle-nav a:hover,
 .btn-toggle-nav a:focus {
-  background-color: #d2f4ea;
+  background-color: #d2e7f4;
 }
 
 
@@ -54,7 +54,7 @@ onMount(async () => {
 <div class="px-4 py-5 text-center text-white" style="
             background-image: url('{$page.data.hero}');
             background-size: cover;
-            background-position: bottom;
+            background-position: center;
             height: 300px;
           ">
   <svg style="filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));" xmlns="http://www.w3.org/2000/svg" width="96"
@@ -74,6 +74,11 @@ onMount(async () => {
 
 <div class="container-fluid">
     <div class="row">
+      <div class="m-4 d-md-none">
+        <button class="btn btn-outline-dark dropdown-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-expanded="false" aria-controls="sidebarMenu">
+          Available APIs
+        </button>
+      </div>
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse p-4">
         <ul class="list-unstyled">
           <li>
