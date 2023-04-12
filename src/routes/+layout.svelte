@@ -31,7 +31,10 @@
           <li class="nav-item">
             <a href="/en/features" class="nav-link" class:active={$page.url.pathname === "/en/features"}>Features</a>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item">
+            <a href="/en/docs" class="nav-link" class:active={$page.url.pathname.startsWith("/en/docs")}>API Docs</a>
+          </li>
+          <li class="nav-item dropdown d-none">
             <a class="nav-link dropdown-toggle" class:active={$page.url.pathname.startsWith("/en/docs")} href="/en/docs"
               id="navbarDropdownWeatherApis" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               API Docs
