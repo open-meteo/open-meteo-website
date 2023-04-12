@@ -17,10 +17,9 @@
     <link rel="canonical" href="https://open-meteo.com/en/docs/marine-weather-api" />
 </svelte:head>
 
-<!-- http://127.0.0.1:8080/v1/forecast -->
-<div class="container px-4 py-0" id="featured-3">
+
   <form id="api_form" method="get" action="https://marine-api.open-meteo.com/v1/marine">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -583,4 +582,3 @@
       target="_blank">German Weather Service DWD</a>.</p>
   <p>All users of Open-Meteo data must provide a clear attribution to DWD as well as a reference to Open-Meteo.</p>
 
-</div>

@@ -5,6 +5,7 @@
 
 	onMount(async () => {
 		const Dropdown = await import('bootstrap/js/dist/dropdown');
+    const Collapse = await import('bootstrap/js/dist/collapse');
 	});
 </script>
 

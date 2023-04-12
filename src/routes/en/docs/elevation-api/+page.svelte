@@ -42,15 +42,13 @@
 </script>
 
 
-<div class="container px-4 py-0" id="featured-3">
-
   <div class="alert alert-primary" role="alert">
     Get more information on how weather forecasts are improved with elevation models in our <a
       href="https://openmeteo.substack.com/p/87a094f1-325d-497a-8a9d-4d16b794fd15" target="_blank">blog article</a>.
   </div>
 
   <form id="elevation_form" method="get" target="container" action="https://api.open-meteo.com/v1/elevation">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -237,5 +235,4 @@ https://doi.org/10.5270/ESA-c5d3d65
   <p>All users of Open-Meteo data must provide a clear attribution to the Copernicus program as well as a reference to
     Open-Meteo.</p>
 
-</div>
 

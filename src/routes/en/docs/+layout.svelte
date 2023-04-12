@@ -4,24 +4,24 @@
 
 	const links = [
 		{
-			title: 'Weather Forecast API',
+			title: 'Weather Forecast',
 			url: '/en/docs',
 			children: [
-				{ title: 'DWD API', url: '/en/docs/dwd-api' },
-				{ title: 'GFS API', url: '/en/docs/gfs-api' },
-				{ title: 'MeteoFrance API', url: '/en/docs/meteofrance-api' },
-				{ title: 'ECMWF API', url: '/en/docs/ecmwf-api' },
-				{ title: 'JMA API', url: '/en/docs/jma-api' },
-				{ title: 'MET Nordic API', url: '/en/docs/metno-api' },
-				{ title: 'GEM API', url: '/en/docs/gem-api' }
+				{ title: 'DWD ICON', url: '/en/docs/dwd-api' },
+				{ title: 'NOAA GFS', url: '/en/docs/gfs-api' },
+				{ title: 'MeteoFrance', url: '/en/docs/meteofrance-api' },
+				{ title: 'ECMWF', url: '/en/docs/ecmwf-api' },
+				{ title: 'JMA', url: '/en/docs/jma-api' },
+				{ title: 'MET Norway', url: '/en/docs/metno-api' },
+				{ title: 'GEM', url: '/en/docs/gem-api' }
 			]
 		},
-		{ title: 'Historical Weather API', url: '/en/docs/historical-weather-api' },
-		{ title: 'Marine Forecast API', url: '/en/docs/marine-weather-api' },
-		{ title: 'Air Quality API', url: '/en/docs/air-quality-api' },
-		{ title: 'Geocoding API', url: '/en/docs/geocoding-api' },
-		{ title: 'Elevation API', url: '/en/docs/elevation-api' },
-		{ title: 'Flood API', url: '/en/docs/flood-api' }
+		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
+		{ title: 'Marine Forecast', url: '/en/docs/marine-weather-api' },
+		{ title: 'Air Quality', url: '/en/docs/air-quality-api' },
+		{ title: 'Geocoding', url: '/en/docs/geocoding-api' },
+		{ title: 'Elevation', url: '/en/docs/elevation-api' },
+		{ title: 'Flood', url: '/en/docs/flood-api' }
 	];
 	if (dev) {
 		links.push({ title: 'Climate API', url: '/en/docs/climate-api' });
@@ -39,7 +39,7 @@
 		width="96"
 		height="96"
 		fill="currentColor"
-		class="bi bi-gear-wide-connected mb-4"
+		class="bi bi-gear-wide-connected mb-5"
 		viewBox="0 0 16 16"
 	>
 		<path
@@ -48,53 +48,53 @@
 	</svg>
 	<h1 class="display-5 hero-shadow">{$page.data.title}</h1>
 	<div class="col-lg-6 mx-auto">
-		<p class="lead mb-4 hero-shadow">
-			{$page.data.subtitle}.
-		</p>
+		<p class="lead mb-4 hero-shadow">{$page.data.subtitle}</p>
 	</div>
 </div>
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="m-4 d-md-none">
-			<button
-				class="btn btn-outline-dark dropdown-toggle collapsed"
-				type="button"
-				data-bs-toggle="collapse"
-				data-bs-target="#sidebarMenu"
-				aria-expanded="false"
-				aria-controls="sidebarMenu"
-			>
-				Available APIs
-			</button>
+		<div class="col-md-3 col-lg-2 bg-light">
+			<div class="my-3 d-md-none">
+				<button
+					class="btn btn-outline-dark dropdown-toggle collapsed"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#sidebarMenu"
+					aria-expanded="false"
+					aria-controls="sidebarMenu"
+				>
+					Available APIs
+				</button>
+			</div>
+			<nav id="sidebarMenu" class="d-md-block collapse py-2 py-md-3 py-lg-4">
+				<ul class="list-unstyled">
+					{#each links as link}
+						<li class="py-2">
+							<a
+								class="btn-hover link-dark text-decoration-none rounded px-2 py-2"
+								href={link.url}
+								class:active={$page.url.pathname === link.url}>{link.title}</a
+							>
+							{#if link.children && ($page.url.pathname === link.url || link.children.some((l) => l.url === $page.url.pathname))}
+								<ul class="list-unstyled ms-3 mb-4 mt-1">
+									{#each link.children as l}
+										<li class="py-1">
+											<a
+												href={l.url}
+												class="btn-hover py-1 px-2 link-dark text-decoration-none rounded"
+												class:active={$page.url.pathname === l.url}>{l.title}</a
+											>
+										</li>
+									{/each}
+								</ul>
+							{/if}
+						</li>
+					{/each}
+				</ul>
+			</nav>
 		</div>
-		<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse p-4">
-			<ul class="list-unstyled">
-				{#each links as link}
-					<li class="py-2">
-						<a
-							class="btn-hover link-dark text-decoration-none rounded px-2 py-2"
-							href={link.url}
-							class:active={$page.url.pathname === link.url}>{link.title}</a
-						>
-						{#if link.children && ($page.url.pathname === link.url || link.children.some((l) => l.url === $page.url.pathname))}
-							<ul class="list-unstyled ms-3 mb-4 mt-1">
-								{#each link.children as l}
-									<li class="py-1">
-										<a
-											href={l.url}
-											class="btn-hover py-1 px-2 link-dark text-decoration-none rounded"
-											class:active={$page.url.pathname === l.url}>{l.title}</a
-										>
-									</li>
-								{/each}
-							</ul>
-						{/if}
-					</li>
-				{/each}
-			</ul>
-		</nav>
-		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+		<main class="col-md-9 col-lg-10 p-2 p-md-3 p-lg-4">
 			<slot />
 		</main>
 	</div>
@@ -111,9 +111,9 @@
 	.hero-banner {
 		background-size: cover;
 		background-position: center;
-		height: 300px;
+		height: 400px;
 	}
-  .hero-shadow {
-    text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);
-  }
+	.hero-shadow {
+		text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.7);
+	}
 </style>
