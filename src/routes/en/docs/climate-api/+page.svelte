@@ -17,27 +17,7 @@
     <link rel="canonical" href="https://open-meteo.com/en/docs/climate-api" />
 </svelte:head>
 
-<div class="px-4 py-5 text-center text-white" style="
-            background-image: url('/images/stoos.webp');
-            background-size: cover;
-            background-position: center;
-            height: 500px;
-          ">
-  <svg style="filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));" xmlns="http://www.w3.org/2000/svg" width="96"
-    height="96" fill="currentColor" class="bi bi-cloud-haze2 mb-4" viewBox="0 0 16 16">
-    <path
-      d="M8.5 3a4.002 4.002 0 0 0-3.8 2.745.5.5 0 1 1-.949-.313 5.002 5.002 0 0 1 9.654.595A3 3 0 0 1 13 12H4.5a.5.5 0 0 1 0-1H13a2 2 0 0 0 .001-4h-.026a.5.5 0 0 1-.5-.445A4 4 0 0 0 8.5 3zM0 7.5A.5.5 0 0 1 .5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm2 2a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-2 4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z" />
-  </svg>
-  <h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">Climate API</h1>
-  <div class="col-lg-6 mx-auto">
-    <p class="lead mb-4" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">Explore Climate Change on a Local Level with High-Resolution Climate Data</p>
-    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-      <a href="#api_form" class="btn button btn-primary btn-lg px-4 me-sm-3">URL Builder</a>
-      <a href="#api-documentation" class="btn btn-outline-light btn-lg px-4">Parameter documentation</a>
-    </div>
-  </div>
-</div>
-
+<!--
 <div class="mb-5" style="border-bottom: 1px solid #ddd">
   <div class="container px-4 py-1">
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
@@ -48,7 +28,7 @@
       </ol>
     </nav>
   </div>
-</div>
+</div>-->
 
 <div class="container px-4 py-0" id="featured-3">
 

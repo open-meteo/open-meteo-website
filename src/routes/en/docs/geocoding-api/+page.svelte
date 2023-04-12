@@ -63,40 +63,6 @@
     <link rel="canonical" href="https://open-meteo.com/en/docs/geocoding-api" />
 </svelte:head>
 
-<div class="px-4 py-5 text-center text-white" style="
-            background-image: url('/images/beach_sunset.webp');
-            background-size: cover;
-            background-position: center;
-            height: 500px;
-          ">
-  <svg style="filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));" xmlns="http://www.w3.org/2000/svg" width="96"
-    height="96" fill="currentColor" class="bi bi-pin-map mb-4" viewBox="0 0 16 16">
-    <path fill-rule="evenodd"
-      d="M3.1 11.2a.5.5 0 0 1 .4-.2H6a.5.5 0 0 1 0 1H3.75L1.5 15h13l-2.25-3H10a.5.5 0 0 1 0-1h2.5a.5.5 0 0 1 .4.2l3 4a.5.5 0 0 1-.4.8H.5a.5.5 0 0 1-.4-.8l3-4z" />
-    <path fill-rule="evenodd"
-      d="M8 1a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999z" />
-  </svg>
-  <h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7)">Geocoding API</h1>
-  <div class="col-lg-6 mx-auto">
-    <p class="lead mb-4" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7)">Search locations in any language globally
-    </p>
-    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-      <a href="#geocoding_form" class="btn button btn-primary btn-lg px-4 me-sm-3">URL Builder</a>
-      <a href="#api-documentation" class="btn btn-outline-light btn-lg px-4">Parameter documentation</a>
-    </div>
-  </div>
-</div>
-<div class="mb-5" style="border-bottom: 1px solid #ddd">
-  <div class="container px-4 py-1">
-    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><a class="link-secondary" href="/">Home</a></li>
-        <li class="breadcrumb-item"><a class="link-secondary" href="/en/docs/marine-weather-api">Other APIs</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Geocoding API</li>
-      </ol>
-    </nav>
-  </div>
-</div>
 
 <div class="container px-4 py-0" id="featured-3">
   <form id="geocoding_form" method="get" action="https://geocoding-api.open-meteo.com/v1/search" bind:this={form} on:submit|preventDefault={submit}>
