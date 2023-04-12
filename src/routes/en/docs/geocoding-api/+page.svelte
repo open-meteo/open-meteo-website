@@ -1,15 +1,28 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
-	let debounceTimeout: number | undefined;
-	let params = { name: 'Basel', count: '10', language: 'en', format: 'json' };
+	let params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
 	const action = 'https://geocoding-api.open-meteo.com/v1/search';
+	const paramsDefault = `${new URLSearchParams(params)}`;
 	$: apiUrl = `${action}?${new URLSearchParams(params)}`;
+	let debounceTimeout: number | undefined;
 
 	onDestroy(() => {
 		clearInterval(debounceTimeout);
 	});
 
+	onMount(() => {
+		// Restore parameters from URL hash like `#name=Bern&count=10&language=en&format=json`
+		if (window.location.hash.length > 0) {
+			for (const [key, value] of new URLSearchParams(window.location.hash.substring(1))) {
+				if (params.hasOwnProperty(key)) {
+					params[key as keyof typeof params] = value;
+				}
+			}
+		}
+	});
+
+	// Fetch is automatically called after `params` changes due to reactive assignment
 	$: results = (async () => {
 		if (debounceTimeout) {
 			clearTimeout(debounceTimeout);
@@ -18,15 +31,18 @@
 			debounceTimeout = setTimeout(resolve, 300);
 		});
 
-		let params2 = params;
-		params2.format = 'json';
-		const data = new URLSearchParams(params2);
-		const res = await fetch(`${action}?${data}`);
+    // Always set format=json to fetch data
+    const fetchUrl = `${action}?${new URLSearchParams({...params, ...{format: 'json'}})}`
+		const result = await fetch(fetchUrl);
 
-		if (!res.ok) {
-			throw new Error(await res.text());
+		if (!result.ok) {
+			throw new Error(await result.text());
 		}
-		return await res.json();
+		// Set URL state
+		if (window && paramsDefault != `${new URLSearchParams(params)}`) {
+			window.location.hash = `${new URLSearchParams(params)}`;
+		}
+		return await result.json();
 	})();
 </script>
 
