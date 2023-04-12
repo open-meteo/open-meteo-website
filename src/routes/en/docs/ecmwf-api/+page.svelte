@@ -33,22 +33,12 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
     <link rel="canonical" href="https://open-meteo.com/en/docs/ecmwf-api" />
 </svelte:head>
 
-<!--<div class="mb-5" style="border-bottom: 1px solid #ddd">
-  <div class="container px-4 py-1">
-    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><a class="link-secondary" href="/">Home</a></li>
-        <li class="breadcrumb-item"><a class="link-secondary" href="/en/docs">Weather APIs</a></li>
-        <li class="breadcrumb-item active" aria-current="page">ECMWF Weather Forecast API</li>
-      </ol>
-    </nav>
-  </div>
-</div>-->
+<div class="alert alert-primary" role="alert">
+  The API utilizes open-data ECMWF weather forecasts from the IFS weather model, which has a resolution of 9 km. However, the open-data access is restricted to a resolution of 40 km, although the model still boasts excellent accuracy for large scale weather patterns. For more detailed local forecasts, we recommend utilizing the <a href="/en/docs">generic weather forecast API</a>, which combines weather models up to 1 km resolution seamlessly.
+</div>
 
-<!-- http://127.0.0.1:8080/v1/forecast/query -->
-<div class="container px-4 py-0" id="featured-3">
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/ecmwf">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -751,5 +741,4 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
   www.ecmwf.int. ECMWF does not accept any liability whatsoever for any error or omission in the data, their
   availability, or for any loss or damage arising from their use.</p>
 
-</div>
 </div>

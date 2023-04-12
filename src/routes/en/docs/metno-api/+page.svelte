@@ -17,10 +17,12 @@
     <link rel="canonical" href="https://open-meteo.com/en/docs/metno-api" />
 </svelte:head>
 
+<div class="alert alert-primary" role="alert">
+  The API makes use of MET Nordic weather models exclusively for North Europe, offering exceptional short-term weather forecasts with hourly updates and 1 km resolution. However, for longer forecasts of up to 16 days, the <a href="/en/docs">generic Weather Forecast API</a> transparently combines MET Nordic with other weather models to take advantage of hourly updates.
+</div>
 
-<div class="container px-4 py-0" id="featured-3">
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/metno">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -755,4 +757,3 @@
       </code>
     </pre>
   </div>
-</div>

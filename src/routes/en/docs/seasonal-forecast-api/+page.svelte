@@ -18,13 +18,12 @@
 </svelte:head>
 
 
-<div class="container px-4 py-0" id="featured-3">
   <div class="alert alert-primary" role="alert">
     Work in progress!
   </div>
 
   <form id="api_form" method="get" action="https://seasonal-api.open-meteo.com/v1/seasonal">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -636,4 +635,3 @@
   www.ecmwf.int. ECMWF does not accept any liability whatsoever for any error or omission in the data, their
   availability, or for any loss or damage arising from their use.
 
-</div>

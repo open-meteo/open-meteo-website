@@ -32,14 +32,13 @@ const levels = [1015, 1000, 985, 970, 950, 925, 900, 875, 850, 800, 750, 700, 65
 </svelte:head>
 
 
-<div class="container px-4 py-0" id="featured-3">
+
   <div class="alert alert-primary" role="alert">
-    This API uses global and regional GEM models from the Canadian Meteorological Center CMC and is optimised for North America. For most use-cases the generic <a
-      href="/en/docs">Weather Forecast API</a> is recommended. Weather models are listed <a href="#data-sources">below</a>.
+    The API utilizes GEM models from the Canadian Meteorological Center, optimized for North America. However, updates every 6 hours may not reflect the latest weather developments. For accurate forecasts for any location worldwide, the <a href="/en/docs">generic Weather Forecast API</a> is recommended.
   </div>
 
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/gem">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -1241,4 +1240,3 @@ const levels = [1015, 1000, 985, 970, 950, 925, 900, 875, 850, 800, 750, 700, 65
       </code>
     </pre>
   </div>
-</div>

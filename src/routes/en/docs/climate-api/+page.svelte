@@ -17,32 +17,13 @@
     <link rel="canonical" href="https://open-meteo.com/en/docs/climate-api" />
 </svelte:head>
 
-<!--
-<div class="mb-5" style="border-bottom: 1px solid #ddd">
-  <div class="container px-4 py-1">
-    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><a class="link-secondary" href="/">Home</a></li>
-        <li class="breadcrumb-item"><a class="link-secondary" href="/en/docs">Weather APIs</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Climate API</li>
-      </ol>
-    </nav>
-  </div>
-</div>-->
-
-<div class="container px-4 py-0" id="featured-3">
-
-  <!--<div class="alert alert-primary" role="alert">
-    The Open-Meteo Historical Weather API is now using 5 and 11 km reanalysis models! Read the <a
-      href="https://openmeteo.substack.com/p/historical-weather-api-with-high" target="_blank">blog article</a>.
-  </div>-->
 
   <div class="alert alert-warning" role="alert">
     ⚠️ This API endpoint is work in progress! Since 2023-02-13 all data has been finalized! 🚧 👷
   </div>
 
   <form id="api_form" method="get" action="https://climate-api.open-meteo.com/v1/climate">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -877,5 +858,3 @@ All liabilities arising from the supply of the information (including any liabil
 
   <p>All users of Open-Meteo data must provide a clear attribution to the CMIP6 program as well as a reference to
     Open-Meteo.</p>
-
-</div>

@@ -33,14 +33,12 @@ const levels = [1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100]
 
 
 
-<div class="container px-4 py-0" id="featured-3">
   <div class="alert alert-primary" role="alert">
-    This API uses JMA global GSM and local MSM models and is optimised for Japan. For most use-cases the generic <a
-      href="/en/docs">Weather Forecast API</a> is recommended. Weather models are listed <a href="#data-sources">below</a>.
+    The API is optimized for Japan, utilizing JMA global GSM and local MSM models. However, for most use-cases, we recommend the <a href="/en/docs">generic Weather Forecast API</a>.
   </div>
 
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/jma">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -1069,4 +1067,3 @@ const levels = [1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100]
       </code>
     </pre>
   </div>
-</div>

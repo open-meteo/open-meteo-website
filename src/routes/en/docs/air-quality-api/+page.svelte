@@ -93,9 +93,9 @@
 </div>-->
 
 
-<div class="container px-4 py-0" id="featured-3">
+
   <form id="api_form" method="get" action="https://air-quality-api.open-meteo.com/v1/air-quality">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -937,4 +937,4 @@
       href="https://confluence.ecmwf.int/display/CKB/CAMS+Regional%3A+European+air+quality+analysis+and+forecast+data+documentation\#CAMSRegional:Europeanairqualityanalysisandforecastdatadocumentation-Howtoacknowledge,citeandrefertothedata"
       target="_blank">CAMS ENSEMBLE data provider</a> as well as a reference to Open-Meteo.</p>
 
-</div>
+

@@ -33,15 +33,12 @@ const levels = [10, 15, 20, 30, 40, 50, 70, 100, 150, 200, 250, 300, 350, 400, 4
 </svelte:head>
 
 
-<!-- http://127.0.0.1:8080/v1/forecast -->
-<div class="container px-4 py-0" id="featured-3">
   <div class="alert alert-primary" role="alert">
-    This API uses NOAA GFS combined with hourly HRRR updates and is optimised for the U.S. For Europe, the generic <a
-      href="/en/docs">Weather Forecast API</a> is recommended. Weather models are listed <a href="#data-sources">below</a>.
+    By combining the reliable NOAA GFS weather model with the rapid updating HRRR weather model, this API provides unrivaled forecasts for the US region. For a global forecast, the <a href="/en/docs">Weather Forecast API</a> selects the most suitable weather models automatically to ensure optimal accuracy.
   </div>
 
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/gfs">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -1403,4 +1400,3 @@ const levels = [10, 15, 20, 30, 40, 50, 70, 100, 150, 200, 250, 300, 350, 400, 4
       </code>
     </pre>
   </div>
-</div>

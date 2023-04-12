@@ -32,14 +32,12 @@ const levels = [10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300,
 </svelte:head>
 
 
-<div class="container px-4 py-0" id="featured-3">
   <div class="alert alert-primary" role="alert">
-    This API uses MeteoFrance AROME and ARPEGE weather models and is optimised for Central Europe. For most use-cases the generic <a
-      href="/en/docs">Weather Forecast API</a> is recommended. Weather models are listed <a href="#data-sources">below</a>.
+    The API leverages MeteoFrance's AROME and ARPEGE weather models, tailored for Central Europe and specifically France. However, updates are limited to every 6 hours, with a maximum forecast range of 4 days. For broader use cases, the <a href="/en/docs">Weather Forecast API</a> is recommended, utilizing multiple local weather models for forecasts up to 16 days.
   </div>
 
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/meteofrance">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -1363,4 +1361,3 @@ const levels = [10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300,
       </code>
     </pre>
   </div>
-</div>
