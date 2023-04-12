@@ -34,7 +34,7 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-  The API utilizes open-data ECMWF weather forecasts from the IFS weather model, which has a resolution of 9 km. However, the open-data access is restricted to a resolution of 40 km, although the model still boasts excellent accuracy for large scale weather patterns. For more detailed local forecasts, we recommend utilizing the <a href="/en/docs">generic weather forecast API</a>, which combines weather models up to 1 km resolution seamlessly.
+  The API utilizes open-data ECMWF weather forecasts from the IFS weather model, which has a resolution of 9 km. However, the open-data access is restricted to a resolution of 40 km and 3-hourly values, although the model still boasts excellent accuracy for large scale weather patterns. For more detailed local forecasts, we recommend utilizing the <a href="/en/docs">generic weather forecast API</a>, which combines weather models up to 1 km resolution seamlessly.
 </div>
 
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/ecmwf">
