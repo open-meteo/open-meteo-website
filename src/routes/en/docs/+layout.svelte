@@ -1,11 +1,6 @@
-<script type="ts">
-import { onMount } from 'svelte';
+<script lang="ts">
 import { page } from '$app/stores';
 import { dev } from '$app/environment';
-
-onMount(async () => {
-    //const Button = await import('bootstrap/js/dist/button');
-});
 
 const links = [
   {title: "Weather Forecast API", urls: [

@@ -23,10 +23,6 @@ const pressureVariables = [
 ]
 const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
 
-import type { PageData } from './$types';
-
-export let data: PageData;
-
 </script>
 
 <svelte:head>
