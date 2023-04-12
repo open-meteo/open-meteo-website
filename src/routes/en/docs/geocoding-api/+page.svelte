@@ -3,7 +3,7 @@
 
 	let params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
 	const action = 'https://geocoding-api.open-meteo.com/v1/search';
-	const paramsDefault = `${new URLSearchParams(params)}`;
+	const paramsDefault = {...params};
 	$: apiUrl = `${action}?${new URLSearchParams(params)}`;
 	let debounceTimeout: number | undefined;
 
@@ -38,12 +38,25 @@
 		if (!result.ok) {
 			throw new Error(await result.text());
 		}
-		// Set URL state
-		if (window && paramsDefault != `${new URLSearchParams(params)}`) {
-			window.location.hash = `${new URLSearchParams(params)}`;
-		}
+
+		// Set URL state if any attribute is different than default
+    let differentThanDefault = objectDifference(params, paramsDefault)
+    if (Object.keys(differentThanDefault).length != 0) {
+      window.location.hash = `${new URLSearchParams(differentThanDefault)}`;
+    }
+    
 		return await result.json();
 	})();
+  
+  function objectDifference(a: {[key: string]: string}, b: {[key: string]: string}) {
+    let diff: {[key: string]: string} = {}
+    for (const [key, value] of Object.entries(a)) {
+      if (value !== b[key as keyof typeof b]) {
+        diff[key as keyof typeof diff] = value
+      }
+    }
+    return diff
+  }
 </script>
 
 <svelte:head>
