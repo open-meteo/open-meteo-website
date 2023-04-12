@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 
-	let params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
+	const params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
 	const action = 'https://geocoding-api.open-meteo.com/v1/search';
 	const paramsDefault = {...params};
 	$: apiUrl = `${action}?${new URLSearchParams(params)}`;
@@ -40,7 +40,7 @@
 		}
 
 		// Set URL state if any attribute is different than default
-    let differentThanDefault = objectDifference(params, paramsDefault)
+    const differentThanDefault = objectDifference(params, paramsDefault)
     if (Object.keys(differentThanDefault).length != 0) {
       window.location.hash = `${new URLSearchParams(differentThanDefault)}`;
     }
@@ -48,11 +48,12 @@
 		return await result.json();
 	})();
   
-  function objectDifference(a: {[key: string]: string}, b: {[key: string]: string}) {
-    let diff: {[key: string]: string} = {}
-    for (const [key, value] of Object.entries(a)) {
-      if (value !== b[key as keyof typeof b]) {
-        diff[key as keyof typeof diff] = value
+  // Only considers keys of the first object
+  function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
+    const diff: Partial<T> = {};
+    for (const key in a) {
+      if (a[key] !== b[key]) {
+        diff[key] = a[key]
       }
     }
     return diff
