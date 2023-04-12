@@ -1,10 +1,34 @@
-<script>
+<script type="ts">
 import { onMount } from 'svelte';
 import { page } from '$app/stores';
+import { dev } from '$app/environment';
 
 onMount(async () => {
     //const Button = await import('bootstrap/js/dist/button');
 });
+
+const links = [
+  {title: "Weather Forecast API", urls: [
+    {title: "Weather Forecast API", url: "/en/docs"},
+    {title: "DWD API", url: "/en/docs/dwd-api"},
+    {title: "GFS API", url: "/en/docs/gfs-api"},
+    {title: "MeteoFrance API", url: "/en/docs/meteofrance-api"},
+    {title: "ECMWF API", url: "/en/docs/ecmwf-api"},
+    {title: "JMA API", url: "/en/docs/jma-api"},
+    {title: "MET Nordic API", url: "/en/docs/metno-api"},
+    {title: "GEM API", url: "/en/docs/gem-api"},
+  ]},
+  {title: "Historical Weather API", url: "/en/docs/historical-weather-api"},
+  {title: "Marine Forecast API", url: "/en/docs/marine-weather-api"},
+  {title: "Air Quality API", url: "/en/docs/air-quality-api"},
+  {title: "Geocoding API", url: "/en/docs/geocoding-api"},
+  {title: "Elevation API", url: "/en/docs/elevation-api"},
+  {title: "Flood API", url: "/en/docs/flood-api"}
+]
+if (dev) {
+  links.push({title: "Climate API", url: "/en/docs/climate-api"})
+  links.push({title: "Seasonal Forecast API", url: "/en/docs/seasonal-forecast-api"})
+}
 </script>
 
 <style>
@@ -35,7 +59,7 @@ onMount(async () => {
   transform: rotate(90deg);
 }
 
-.btn-toggle-nav a {
+/*.btn-toggle-nav a {
   padding: .1875rem .5rem;
   margin-top: .125rem;
   margin-left: 1.25rem;
@@ -43,8 +67,7 @@ onMount(async () => {
 .btn-toggle-nav a:hover,
 .btn-toggle-nav a:focus {
   background-color: #d2e7f4;
-}
-
+}*/
 
 .btn-hover:hover, .btn-hover.active {
     background-color: #d2e7f4;
@@ -65,10 +88,6 @@ onMount(async () => {
   <h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">{$page.data.title}</h1>
   <div class="col-lg-6 mx-auto">
     <p class="lead mb-4" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">{$page.data.subtitle}.</p>
-    <!--<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-      <a href="#api_form" class="btn button btn-primary btn-lg px-4 me-sm-3">URL Builder</a>
-      <a href="#api-documentation" class="btn btn-outline-light btn-lg px-4">Parameter documentation</a>
-    </div>-->
   </div>
 </div>
 
@@ -81,33 +100,27 @@ onMount(async () => {
       </div>
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse p-4">
         <ul class="list-unstyled">
-          <li>
-            <div class="" id="headingHome">
-            <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapse" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-              Weather Forecast APIs
-            </button></div>
-            <div class="collapse show" id="home-collapse" style="" aria-labelledby="headingHome">
-              <ul class="list-unstyled ms-3 mb-4">
-                <li class="py-1"><a href="/en/docs" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs"}>Weather Forecast API</a></li>
-                <li class="py-1"><a href="/en/docs/dwd-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/dwd-api"}>DWD API</a></li>
-                <li class="py-1"><a href="/en/docs/gfs-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/gfs-api"}>GFS API</a></li>
-                <li class="py-1"><a href="/en/docs/meteofrance-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/meteofrance-api"}>MeteoFrance API</a></li>
-                <li class="py-1"><a href="/en/docs/ecmwf-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/ecmwf-api"}>ECMWF API</a></li>
-                <li class="py-1"><a href="/en/docs/jma-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/jma-api"}>JMA API</a></li>
-                <li class="py-1"><a href="/en/docs/metno-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/metno-api"}>MET Nordic API</a></li>
-                <li class="py-1"><a href="/en/docs/gem-api" class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === "/en/docs/gem-api"}>GEM API</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href="/en/docs/historical-weather-api" class:active={$page.url.pathname === "/en/docs/historical-weather-api"}>Historical Weather API</a></li>
-          <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href="/en/docs/marine-weather-api" class:active={$page.url.pathname === "/en/docs/marine-weather-api"}>Marine Forecast API</a></li>
-          <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href="/en/docs/air-quality-api" class:active={$page.url.pathname === "/en/docs/air-quality-api"}>Air Quality API</a></li>
-          <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href="/en/docs/geocoding-api" class:active={$page.url.pathname === "/en/docs/geociding-api"}>Geocoding API</a></li>
-          <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href="/en/docs/elevation-api" class:active={$page.url.pathname === "/en/docs/elevation-api"}>Elevation API</a></li>
-          <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href="/en/docs/flood-api" class:active={$page.url.pathname === "/en/docs/flood-api"}>Flood API</a></li>
-          </ul>
+          {#each links as link}
+            {#if link.urls}
+            {@const id = link.title.replace(/\s+/g, '-').toLowerCase()}
+            <li>
+              <div class="">
+              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapse" id="{id}-button" data-bs-toggle="collapse" data-bs-target="#{id}-collapse" aria-expanded="true">
+                {link.title}
+              </button></div>
+              <div class="collapse show" id="{id}-collapse" style="" aria-labelledby="{id}-button">
+                <ul class="list-unstyled ms-3 mb-4">
+                  {#each link.urls as l}
+                  <li class="py-1"><a href={l.url} class="btn-hover py-1 px-2 link-dark text-decoration-none rounded" class:active={$page.url.pathname === l.url}>{l.title}</a></li>
+                  {/each}
+                </ul>
+              </div>
+            </li>
+            {:else}
+              <li class="py-2"><a class="btn-hover link-dark text-decoration-none rounded px-2 py-2" href={link.url} class:active={$page.url.pathname === link.url}>{link.title}</a></li>
+            {/if}
+          {/each}
       </nav>
-  
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <slot />
       </main>
