@@ -35,7 +35,7 @@ export let data: PageData;
 </svelte:head>
 
 
-<div class="mb-5" style="border-bottom: 1px solid #ddd">
+<!--<div class="mb-5" style="border-bottom: 1px solid #ddd">
   <div class="container px-4 py-1">
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
       <ol class="breadcrumb mb-0">
@@ -45,7 +45,7 @@ export let data: PageData;
       </ol>
     </nav>
   </div>
-</div>
+</div>-->
 
 <div class="container px-4 py-0" id="featured-3">
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/forecast">
