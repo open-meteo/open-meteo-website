@@ -17,10 +17,9 @@
     <link rel="canonical" href="https://open-meteo.com/en/docs/climate-api" />
 </svelte:head>
 
-
-  <!--<div class="alert alert-warning" role="alert">
-    ⚠️ This API endpoint is work in progress! Since 2023-02-13 all data has been finalized! 🚧 👷
-  </div>-->
+<div class="alert alert-primary" role="alert">
+  Read the <a href="https://openmeteo.substack.com/p/climate-change-api">blog article</a> with more information about climate models and how data is downscaled to 10 km resolution.
+</div>
 
   <form id="api_form" method="get" action="https://climate-api.open-meteo.com/v1/climate">
     <div class="row">
