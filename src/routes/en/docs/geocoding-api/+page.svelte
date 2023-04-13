@@ -3,7 +3,7 @@
 
 	const params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
 	const action = 'https://geocoding-api.open-meteo.com/v1/search';
-	const paramsDefault = {...params};
+	const paramsDefault = { ...params };
 	$: apiUrl = `${action}?${new URLSearchParams(params)}`;
 	let debounceTimeout: number | undefined;
 
@@ -31,8 +31,8 @@
 			debounceTimeout = setTimeout(resolve, 300);
 		});
 
-    // Always set format=json to fetch data
-    const fetchUrl = `${action}?${new URLSearchParams({...params, ...{format: 'json'}})}`
+		// Always set format=json to fetch data
+		const fetchUrl = `${action}?${new URLSearchParams({ ...params, ...{ format: 'json' } })}`;
 		const result = await fetch(fetchUrl);
 
 		if (!result.ok) {
@@ -40,24 +40,24 @@
 		}
 
 		// Set URL state if any attribute is different than default
-    const differentThanDefault = objectDifference(params, paramsDefault)
-    if (Object.keys(differentThanDefault).length != 0) {
-      window.location.hash = `${new URLSearchParams(differentThanDefault)}`;
-    }
-    
+		const differentThanDefault = objectDifference(params, paramsDefault);
+		if (Object.keys(differentThanDefault).length != 0) {
+			window.location.hash = `${new URLSearchParams(differentThanDefault)}`;
+		}
+
 		return await result.json();
 	})();
-  
-  // Only considers keys of the first object
-  function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
-    const diff: Partial<T> = {};
-    for (const key in a) {
-      if (a[key] !== b[key]) {
-        diff[key] = a[key]
-      }
-    }
-    return diff
-  }
+
+	// Only considers keys of the first object
+	function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
+		const diff: Partial<T> = {};
+		for (const key in a) {
+			if (a[key] !== b[key]) {
+				diff[key] = a[key];
+			}
+		}
+		return diff;
+	}
 </script>
 
 <svelte:head>
@@ -147,15 +147,13 @@
 	</div>
 </form>
 
-{#await results}
-	<div class="col-12">
+<div class="col-12 table-responsive" style="min-height: 300px;">
+	{#await results}
 		<button class="btn btn-primary" type="button" disabled>
 			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
 			Loading...
 		</button>
-	</div>
-{:then results}
-	<div class="col-12 table-responsive">
+	{:then results}
 		<table class="table">
 			<thead>
 				<tr>
@@ -205,14 +203,12 @@
 				{/if}
 			</tbody>
 		</table>
-	</div>
-{:catch error}
-	<div class="col-12">
+	{:catch error}
 		<div class="alert alert-danger" role="alert">
 			{error.message}
 		</div>
-	</div>
-{/await}
+	{/await}
+</div>
 
 <div class="col-12">
 	<label for="api_url" class="form-label"
