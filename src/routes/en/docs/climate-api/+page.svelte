@@ -18,9 +18,9 @@
 </svelte:head>
 
 
-  <div class="alert alert-warning" role="alert">
+  <!--<div class="alert alert-warning" role="alert">
     ⚠️ This API endpoint is work in progress! Since 2023-02-13 all data has been finalized! 🚧 👷
-  </div>
+  </div>-->
 
   <form id="api_form" method="get" action="https://climate-api.open-meteo.com/v1/climate">
     <div class="row">
@@ -400,20 +400,20 @@
   <h2 id="data-sources" class="mt-5">Data Sources</h2>
   <div class="row">
     <div class="col-6">
-      <p>This API utilizes regional downscaled high-resolution climate models, specifically those with up to 20
-        kilometer resolution from the HighResMip working group, which are part of the IPCC CMIP6 project.</p>
+      <p>This API utilizes regional downscaled climate models with up to 20
+        kilometer resolution from the <a href="https://hrcm.ceda.ac.uk/research/cmip6-highresmip/" title="CMIP6 HighResMIP">HighResMip working group</a>, which are part of the IPCC CMIP6 project.</p>
       <p>The API offers climate data at a regional, rather than continental, level by downsizing it to a 10 km
         resolution. This allows for direct comparison of various climate models to identify vulnerable regions to
         climate change impacts or assessing the impact of climate change on specific sectors, such as agriculture or
         public health. The reference point used is ERA5-Land, which is accessible through the <a href="/en/docs/historical-weather-api" title="Historical Weather Information via API">Historical Weather
           API</a>.</p>
       <p>With typical weather variables in daily resolution data from 1950 to 2050 data allows estimation of common
-        climate parameters like the number of days with temperatures exceeding 30°C or duration of droughts.
+        climate parameters like the number of days with temperatures exceeding 30°C or duration and frequency of droughts.
         Furthermore, daily data enables running of models to predict crop yield, pest infestation, and water balance.
       </p>
     </div>
     <div class="col-6">
-      <p>While the data from past and recent years is available, it should not be confused with actual measurements, as
+      <p>While the data from past and recent years is available, it should not be mistaken for actual measurements, as
         it serves the purpose of model validation rather than showing actual past weather.</p>
       <p>Projections beyond 2050 are highly dependent on different emission scenarios. 
         The high resolution climate models are as close to RCP8.5 as possible within CMIP6. While other models consider different emission scenarios, the variations in these scenarios are less noticeable
@@ -699,14 +699,12 @@
         </tbody>
       </table>
     </div>
-    <p>Additional optional URL parameters will be added. For API stability, no required parameters will be added in the
+    <p>Additional optional URL parameters may be added. For API stability, no required parameters will be added in the
       future!</p>
 
     <h3 class="mt-5">Daily Parameter Definition</h3>
-    <p>The climate data in this API is presented as daily aggregations. Some models provide daily aggregations directly,
-      while others calculate daily values from 3 or 6-hourly data. To ensure the correct preservation of daily maximum
-      temperatures, data has been reconstructed using cubic splines. The parameter <mark>&daily=</mark> accepts the
-      following values:</p>
+    <p>The climate data in this API is presented as daily aggregations. Multiple weather variables can be retrieved at once. The parameter <mark>&daily=</mark> accepts the
+      following values as coma separated list:</p>
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -725,7 +723,7 @@
           <tr>
             <th scope="row">cloudcover_mean</th>
             <td>%</td>
-            <td>Mean cloud cover on a given day. Cloud cover in climate models is generally represented through simplified parameterizations that estimate the cloud amount, height, and thickness based on atmospheric conditions such as temperature, humidity, and wind speed. These parameterizations have been shown to provide reasonable estimates of global cloud cover but they can have significant uncertainties and biases on regional and local scales. Systematic biases have corrected using ERA5.</td>
+            <td>Mean cloud cover on a given day. Cloud cover in climate models is generally represented through simplified parameterizations that estimate the cloud amount, height, and thickness based on atmospheric conditions such as temperature, humidity, and wind speed. These parameterizations have been shown to provide reasonable estimates of global cloud cover but they can have significant uncertainties and biases on regional and local scales. Systematic biases have been corrected using the weather reanalysis ERA5.</td>
           </tr>
           <tr>
             <th scope="row">relative_humidity_2m_max<br>relative_humidity_2m_min<br>relative_humidity_2m_mean</th>
@@ -740,17 +738,17 @@
           <tr>
             <th scope="row">precipitation_sum</th>
             <td>mm</td>
-            <td>Sum of daily precipitation (including rain, showers and snowfall). Climate models have been able to capture some of the large-scale patterns of precipitation and associated droughts and extreme precipitation events, particularly over longer time scales. However, there are still uncertainties associated with the representation of precipitation at smaller scales including thunderstorm. Please compare different climate models for drought duration or extreme precipitation events. The following papers <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021EF002196">analyze extreme precipitation</a> and <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021EF002150">droughts in CMIP6 models</a>.</td>
+            <td>Sum of daily precipitation (including rain, showers and snowfall). Climate models have been able to capture some of the large-scale patterns of precipitation and associated droughts and extreme precipitation events, particularly over longer time scales. However, there are still uncertainties associated with the representation of precipitation at smaller geographical scales including thunderstorm. Please compare different climate models for drought duration or extreme precipitation events. The following papers analyze <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021EF002196">extreme precipitation</a> and <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021EF002150">droughts in CMIP6 models</a>.</td>
           </tr>
           <tr>
             <th scope="row">rain_sum</th>
             <td>mm</td>
-            <td>Sum of daily liquid rain. The sum of snowfall converted to liquid water and rain, is equal to precipitation.</td>
+            <td>Sum of daily liquid rain, excluding snow.</td>
           </tr>
           <tr>
             <th scope="row">snowfall_sum</th>
             <td>cm</td>
-            <td>Sum of daily snowfall. Please note that snowfall data may have larger biases in complex terrain, as it is not adjusted for different terrain elevations. Use this data with caution.</td>
+            <td>Sum of daily snowfall. Please note that snowfall data may have larger biases in complex terrain, as it is not adjusted for different terrain elevations. Use this data with caution to estimate how mountainous regions will be effected by reduced snowfall.</td>
           </tr>
           <tr>
             <th scope="row">windspeed_10m_mean<br />windspeed_10m_max</th>
