@@ -33,50 +33,13 @@
 </svelte:head>
 
 
-<div class="px-4 py-5 text-center text-white" style="
-            background-image: url('/images/mountains2.1.webp');
-            background-size: cover;
-            background-position: center;
-            height: 500px;
-          ">
-  <svg style="filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));" xmlns="http://www.w3.org/2000/svg" width="96"
-    height="96" fill="currentColor" class="bi bi-cloud-haze2 mb-4" viewBox="0 0 16 16">
-    <path
-      d="M8.5 3a4.002 4.002 0 0 0-3.8 2.745.5.5 0 1 1-.949-.313 5.002 5.002 0 0 1 9.654.595A3 3 0 0 1 13 12H4.5a.5.5 0 0 1 0-1H13a2 2 0 0 0 .001-4h-.026a.5.5 0 0 1-.5-.445A4 4 0 0 0 8.5 3zM0 7.5A.5.5 0 0 1 .5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm2 2a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-2 4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z" />
-  </svg>
-  <h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">Historical Weather API</h1>
-  <div class="col-lg-6 mx-auto">
-    <p class="lead mb-4" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">Discover how weather has shaped our world
-      from 1940 until now</p>
-    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-      <a href="#api_form" class="btn button btn-primary btn-lg px-4 me-sm-3">URL Builder</a>
-      <a href="#api-documentation" class="btn btn-outline-light btn-lg px-4">Parameter documentation</a>
-    </div>
-  </div>
-</div>
-
-<div class="mb-5" style="border-bottom: 1px solid #ddd">
-  <div class="container px-4 py-1">
-    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><a class="link-secondary" href="/">Home</a></li>
-        <li class="breadcrumb-item"><a class="link-secondary" href="/en/docs">Weather APIs</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Historical Weather API</li>
-      </ol>
-    </nav>
-  </div>
-</div>
-
-<!-- http://127.0.0.1:8080/v1/era5 -->
-<div class="container px-4 py-0" id="featured-3">
-
   <div class="alert alert-primary" role="alert">
     The Open-Meteo Historical Weather API made available additional weather information dating back to 1940! Read the <a
       href="https://openmeteo.substack.com/p/historical-weather-data-from-1940?sd=pf" target="_blank">blog article</a>.
   </div>
 
   <form id="api_form" method="get" action="https://archive-api.open-meteo.com/v1/archive">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -1303,4 +1266,3 @@ Olsson E., Verrelle A., Wang Z.Q., (accessed on 2022-12-31), doi: '10.24381/cds.
   <p>All users of Open-Meteo data must provide a clear attribution to the Copernicus program as well as a reference to
     Open-Meteo.</p>
 
-</div>

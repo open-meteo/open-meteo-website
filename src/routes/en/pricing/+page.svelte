@@ -19,12 +19,12 @@
         <p class="lead mb-4" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">Commercial use licenses, support and dedicated API capacity
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <a href="#weathervariables" class="btn button btn-primary btn-lg px-4 me-sm-3">API Plans</a>
+            <a href="#plans" class="btn button btn-primary btn-lg px-4 me-sm-3">API Plans</a>
             <a href="#terms" class="btn btn-outline-light btn-lg px-4">Terms &#x26; License</a>
         </div>
     </div>
 </div>
-<div class="mb-5" style="border-bottom: 1px solid #ddd">
+<!--<div class="mb-5" style="border-bottom: 1px solid #ddd">
     <div class="container px-4 py-1">
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
@@ -33,14 +33,14 @@
             </ol>
         </nav>
     </div>
-</div>
-<div class="container px-4">
+</div>-->
+<div class="container px-4 py-3">
 <div class="alert alert-warning" role="alert">
     ⚠️ 🚧 👷The commercial API subscription is in development. Support, dedicated API endpoints and API keys are available, but the API usage dashboard or self-management of API keys, are not yet done! In case you need any assistance, don't hesitate and contact us at <a href="mailto:info@open-meteo.com">info@open-meteo.com</a>!  
   </div>
 </div>
 
-<div class="container px-4 py-3" id="featured-3">
+<div class="container px-4 py-3" id="plans">
     <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
     <stripe-pricing-table class="row" pricing-table-id="prctbl_1MJg0iLNZMSyEuRUvpoeTHOb"
         publishable-key="pk_live_51MJeWDLNZMSyEuRU9z4cAidPizoNKshAoYEoTCcD6f94ShOpnqwpShwYfgpPMfISmiXFLNWWM8u769epiIwaMeV900ZFxKd8rR">

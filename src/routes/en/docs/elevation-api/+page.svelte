@@ -41,77 +41,6 @@
 	});
 </script>
 
-<!--
-<script>
-    $(document).ready(function () {
-      $("#detect_gps").click(function (e) {
-        e.preventDefault();
-        if (!'geolocation' in navigator) {
-          alert("GPS not available");
-          return;
-        }
-        navigator.geolocation.getCurrentPosition((position) => {
-          $('#latitude').val(position.coords.latitude.toFixed(2));
-          $('#longitude').val(position.coords.longitude.toFixed(2));
-          $('#elevation_form').submit();
-        }, (error) => {
-          alert("An error occurred: " + error.message);
-        });
-      });
-  
-      $("#select_city").change(function (e) {
-        let selected = $(this).find(':selected');
-        $('#latitude').val(selected.data('latitude'));
-        $('#longitude').val(selected.data('longitude'));
-        $('#elevation_form').submit();
-      });
-  
-      $("#elevation_form").submit(function (e) {
-        let url = $('#elevation_form').prop('action') + "?" + $('#elevation_form').serialize();
-        $('#api_url').val(url);
-        $('#api_url_link').prop("href", url);
-      });
-      $("#elevation_form").submit();
-    });
-  </script>
-  -->
-  
-
-<div class="px-4 py-5 text-center text-white" style="
-            background-image: url('/images/mountains3.webp');
-            background-size: cover;
-            background-position: center;
-            height: 500px;
-          ">
-  <svg style="filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));" xmlns="http://www.w3.org/2000/svg" width="96"
-    height="96" fill="currentColor" class="bi bi-cloud-haze2 mb-4" viewBox="0 0 512 512">
-    <path
-      d="M503 394L280 44C275 36 265 32 256 32C247 32 237 36 232 44L9 394C-2 411 -3 433 7 451C17 469 36 480 56 480H456C476 480 495 469 505 451C515 433 514 411 503 394ZM256 66L347 208H256C251 208 246 210 243 214L208 261L173 214C171 212 168 210 165 209L256 66ZM477 436C473 443 465 448 456 448H56C47 448 39 443 35 436C31 428 31 418 36 411L145 240H152L195 298C198 302 203 304 208 304S218 302 221 298L264 240H367L476 411C481 418 481 428 477 436Z" />
-  </svg>
-  <h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">Elevation API</h1>
-  <div class="col-lg-6 mx-auto">
-    <p class="lead mb-4" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">90 meter resolution digital elevation model
-    </p>
-    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-      <a href="#elevation_form" class="btn button btn-primary btn-lg px-4 me-sm-3">URL Builder</a>
-      <a href="#api-documentation" class="btn btn-light btn-lg px-4">Parameter documentation</a>
-    </div>
-  </div>
-</div>
-<div class="mb-5" style="border-bottom: 1px solid #ddd">
-  <div class="container px-4 py-1">
-    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><a class="link-secondary" href="/">Home</a></li>
-        <li class="breadcrumb-item"><a class="link-secondary" href="/en/docs/marine-weather-api">Other APIs</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Elevation API</li>
-      </ol>
-    </nav>
-  </div>
-</div>
-
-<!-- http://127.0.0.1:8080/v1/era5 -->
-<div class="container px-4 py-0" id="featured-3">
 
   <div class="alert alert-primary" role="alert">
     Get more information on how weather forecasts are improved with elevation models in our <a
@@ -119,7 +48,7 @@
   </div>
 
   <form id="elevation_form" method="get" target="container" action="https://api.open-meteo.com/v1/elevation">
-    <div class="row py-3 px-0">
+    <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -306,5 +235,4 @@ https://doi.org/10.5270/ESA-c5d3d65
   <p>All users of Open-Meteo data must provide a clear attribution to the Copernicus program as well as a reference to
     Open-Meteo.</p>
 
-</div>
 
