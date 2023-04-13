@@ -20,12 +20,12 @@
       forecasts in your applications. Simple JSON APIs for hourly data, globally available at up to 1 km resolution.
     </p>
     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-      <a href="#weathervariables" class="btn button btn-primary btn-lg px-4 me-sm-3">Weather Variables</a>
+      <a href="/en/docs" class="btn button btn-primary btn-lg px-4 me-sm-3">API Documentation</a>
       <a href="#terms" class="btn btn-outline-light btn-lg px-4">Terms &#x26; License</a>
     </div>
   </div>
 </div>
-<div class="mb-5" style="border-bottom: 1px solid #ddd">
+<!--<div class="mb-5" style="border-bottom: 1px solid #ddd">
   <div class="container px-4 py-1">
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
       <ol class="breadcrumb mb-0">
@@ -34,7 +34,7 @@
       </ol>
     </nav>
   </div>
-</div>
+</div>-->
 
 <div class="container px-4 py-5" id="featured-3">
   <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
