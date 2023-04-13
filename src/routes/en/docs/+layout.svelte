@@ -17,6 +17,7 @@
 			]
 		},
 		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
+    { title: 'Climate Change', url: '/en/docs/climate-api' },
 		{ title: 'Marine Forecast', url: '/en/docs/marine-weather-api' },
 		{ title: 'Air Quality', url: '/en/docs/air-quality-api' },
 		{ title: 'Geocoding', url: '/en/docs/geocoding-api' },
@@ -24,7 +25,6 @@
 		{ title: 'Flood', url: '/en/docs/flood-api' }
 	];
 	if (dev) {
-		links.push({ title: 'Climate API', url: '/en/docs/climate-api' });
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
 	}
 </script>
