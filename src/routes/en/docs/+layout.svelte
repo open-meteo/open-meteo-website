@@ -26,6 +26,7 @@
 	];
 	if (dev) {
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
+    links.push({ title: 'Ensemble Forecast', url: '/en/docs/ensemble-api' });
 	}
 </script>
 
