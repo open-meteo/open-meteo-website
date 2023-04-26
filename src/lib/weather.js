@@ -1,8 +1,10 @@
 import $ from "jquery";
 import Highcharts from 'highcharts/highstock';
 import HighchartsAccessibility from "highcharts/modules/accessibility";
+//import HighchartsBoost from "highcharts/modules/boost";
 
 HighchartsAccessibility(Highcharts);
+//HighchartsBoost(Highcharts);
 
 //import Dropdown from "bootstrap/js/src/dropdown"
 
@@ -118,6 +120,12 @@ function previewData(data, downloadTime) {
 
     let json =  {
 
+        //boost: {
+            //useGPUTranslations: true,
+            // Chart-level boost when there are more than 5 series in the chart
+            //seriesThreshold: 1
+        //},
+
         title: {
             text: title
         },
@@ -173,7 +181,8 @@ function previewData(data, downloadTime) {
             }]
         },
         tooltip: {
-            shared: true,
+            shared: series.length <= 5,
+            animation: false
         }
     }
     //console.log(JSON.stringify(json, null, 2));
