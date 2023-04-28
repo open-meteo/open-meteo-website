@@ -12,16 +12,20 @@ onMount(async () => {
     const Tab = await import('bootstrap/js/dist/tab');
     weather.init(Dropdown.default)
 });
-
 const pressureVariables = [
     {name: "temperature", label: "Temperature"},
     {name: "relativehumidity", label: "Relative Humidity"},
+    {name: "dewpoint", label: "Dewpooint"},
+    //{name: "specific_humidity", label: "Specific Humidity"},
     {name: "cloudcover", label: "Cloudcover"},
     {name: "windspeed", label: "Wind Speed"},
     {name: "winddirection", label: "Wind Direction"},
-    {name: "geopotential_height", label: "Geopotential Height"}
+    {name: "geopotential_height", label: "Geopotential Height"},
+    {name: "vertical_velocity", label: "Vertical Velocity"},
+    //{name: "atmosphere_relative_vorticity", label: "Relative Vorticity"},
+    //{name: "divergence_of_wind", label: "Divergence of Wind"}
 ]
-const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
+const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
 
 </script>
 
@@ -114,19 +118,13 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="precipitation" id="precipitation" name="hourly">
           <label class="form-check-label" for="precipitation">
-            Precipitation (rain + showers + snow)
+            Precipitation (rain + snow)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="rain" id="rain" name="hourly">
           <label class="form-check-label" for="rain">
             Rain
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="showers" id="showers" name="hourly">
-          <label class="form-check-label" for="showers">
-            Showers
           </label>
         </div>
         <div class="form-check">
@@ -167,7 +165,7 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             Cloudcover Total
           </label>
         </div>
-        <div class="form-check">
+        <!--<div class="form-check">
           <input class="form-check-input" type="checkbox" value="cloudcover_low" id="cloudcover_low" name="hourly">
           <label class="form-check-label" for="cloudcover_low">
             Cloudcover Low
@@ -184,20 +182,20 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
           <label class="form-check-label" for="cloudcover_high">
             Cloudcover High
           </label>
-        </div>
+        </div>-->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="visibility" id="visibility" name="hourly">
           <label class="form-check-label" for="visibility">
             Visibility
           </label>
         </div>
-        <div class="form-check">
+        <!--<div class="form-check">
           <input class="form-check-input" type="checkbox" value="evapotranspiration" id="evapotranspiration"
             name="hourly">
           <label class="form-check-label" for="evapotranspiration">
             Evapotranspiration
           </label>
-        </div>
+        </div>-->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="et0_fao_evapotranspiration"
             id="et0_fao_evapotranspiration" name="hourly">
@@ -232,12 +230,12 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             Wind Speed (120 m)
           </label>
         </div>
-        <div class="form-check">
+        <!--<div class="form-check">
           <input class="form-check-input" type="checkbox" value="windspeed_180m" id="windspeed_180m" name="hourly">
           <label class="form-check-label" for="windspeed_180m">
             Wind Speed (180 m)
           </label>
-        </div>
+        </div>-->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="winddirection_10m" id="winddirection_10m"
             name="hourly">
@@ -259,13 +257,13 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             Wind Direction (120 m)
           </label>
         </div>
-        <div class="form-check">
+        <!--<div class="form-check">
           <input class="form-check-input" type="checkbox" value="winddirection_180m" id="winddirection_180m"
             name="hourly">
           <label class="form-check-label" for="winddirection_180m">
             Wind Direction (180 m)
           </label>
-        </div>
+        </div>-->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="windgusts_10m" id="windgusts_10m" name="hourly">
           <label class="form-check-label" for="windgusts_10m">
@@ -284,75 +282,74 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             Temperature (120 m)
           </label>
         </div>
-        <div class="form-check">
+        <!--<div class="form-check">
           <input class="form-check-input" type="checkbox" value="temperature_180m" id="temperature_180m" name="hourly">
           <label class="form-check-label" for="temperature_180m">
             Temperature (180 m)
           </label>
-        </div>
+        </div>-->
       </div>
       <div class="col-md-3">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="soil_temperature_0cm" id="soil_temperature_0cm"
-            name="hourly">
-          <label class="form-check-label" for="soil_temperature_0cm">
-            Soil Temperature (0 cm)
+          <input class="form-check-input" type="checkbox" value="surface_temperature" id="surface_temperature" name="hourly">
+          <label class="form-check-label" for="surface_temperature">
+            Surface Temperature
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="soil_temperature_6cm" id="soil_temperature_6cm"
-            name="hourly">
-          <label class="form-check-label" for="soil_temperature_6cm">
-            Soil Temperature (6 cm)
+          <input class="form-check-input" type="checkbox" value="soil_temperature_0_to_10cm"
+            id="soil_temperature_0_to_10cm" name="hourly">
+          <label class="form-check-label" for="soil_temperature_0_to_10cm">
+            Soil Temperature (0-10 cm)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="soil_temperature_18cm" id="soil_temperature_18cm"
-            name="hourly">
-          <label class="form-check-label" for="soil_temperature_18cm">
-            Soil Temperature (18 cm)
+          <input class="form-check-input" type="checkbox" value="soil_temperature_10_to_40cm"
+            id="soil_temperature_10_to_40cm" name="hourly">
+          <label class="form-check-label" for="soil_temperature_10_to_40cm">
+            Soil Temperature (10-40 cm)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="soil_temperature_54cm" id="soil_temperature_54cm"
-            name="hourly">
-          <label class="form-check-label" for="soil_temperature_54cm">
-            Soil Temperature (54 cm)
+          <input class="form-check-input" type="checkbox" value="soil_temperature_40_to_100cm"
+            id="soil_temperature_40_to_100cm" name="hourly">
+          <label class="form-check-label" for="soil_temperature_40_to_100cm">
+            Soil Temperature (40-100 cm)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="soil_moisture_0_1cm" id="soil_moisture_0_1cm"
-            name="hourly">
-          <label class="form-check-label" for="soil_moisture_0_1cm">
-            Soil Moisture (0-1 cm)
+          <input class="form-check-input" type="checkbox" value="soil_temperature_100_to_200cm"
+            id="soil_temperature_100_to_200cm" name="hourly">
+          <label class="form-check-label" for="soil_temperature_100_to_200cm">
+            Soil Temperature (100-200 cm)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="soil_moisture_1_3cm" id="soil_moisture_1_3cm"
+          <input class="form-check-input" type="checkbox" value="soil_moisture_0_to_10cm" id="soil_moisture_0_to_10cm"
             name="hourly">
-          <label class="form-check-label" for="soil_moisture_1_3cm">
-            Soil Moisture (1-3 cm)
+          <label class="form-check-label" for="soil_moisture_0_to_10cm">
+            Soil Moisture (0-10 cm)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="soil_moisture_3_9cm" id="soil_moisture_3_9cm"
+          <input class="form-check-input" type="checkbox" value="soil_moisture_10_to_40cm" id="soil_moisture_10_to_40cm"
             name="hourly">
-          <label class="form-check-label" for="soil_moisture_3_9cm">
-            Soil Moisture (3-9 cm)
+          <label class="form-check-label" for="soil_moisture_10_to_40cm">
+            Soil Moisture (10-40 cm)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="soil_moisture_9_27cm" id="soil_moisture_9_27cm"
-            name="hourly">
-          <label class="form-check-label" for="soil_moisture_9_27cm">
-            Soil Moisture (9-27 cm)
+          <input class="form-check-input" type="checkbox" value="soil_moisture_40_to_100cm"
+            id="soil_moisture_40_to_100cm" name="hourly">
+          <label class="form-check-label" for="soil_moisture_40_to_100cm">
+            Soil Moisture (40-100 cm)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="soil_moisture_27_81cm" id="soil_moisture_27_81cm"
-            name="hourly">
-          <label class="form-check-label" for="soil_moisture_27_81cm">
-            Soil Moisture (27-81 cm)
+          <input class="form-check-input" type="checkbox" value="soil_moisture_100_to_200cm"
+            id="soil_moisture_100_to_200cm" name="hourly">
+          <label class="form-check-label" for="soil_moisture_100_to_200cm">
+            Soil Moisture (100-400 cm)
           </label>
         </div>
       </div>
@@ -384,13 +381,6 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
                     name="hourly">
                   <label class="form-check-label" for="uv_index_clear_sky">
                     UV Index Clear Sky
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="is_day" id="is_day"
-                    name="hourly">
-                  <label class="form-check-label" for="is_day">
-                    Is Day or Night
                   </label>
                 </div>
               </div>
@@ -453,13 +443,13 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
                     Direct Normal Irradiance DNI
                   </label>
                 </div>
-                <div class="form-check">
+                <!--<div class="form-check">
                   <input class="form-check-input" type="checkbox" value="terrestrial_radiation"
                     id="terrestrial_radiation" name="hourly">
                   <label class="form-check-label" for="terrestrial_radiation">
                     Terrestrial Solar Radiation
                   </label>
-                </div>
+                </div>-->
               </div>
               <div class="col-md-6">
                 <div class="form-check">
@@ -490,13 +480,13 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
                     Direct Normal Irradiance DNI (Instant)
                   </label>
                 </div>
-                <div class="form-check">
+                <!--<div class="form-check">
                   <input class="form-check-input" type="checkbox" value="terrestrial_radiation_instant"
                     id="terrestrial_radiation_instant" name="hourly">
                   <label class="form-check-label" for="terrestrial_radiation_instant">
                     Terrestrial Solar Radiation (Instant)
                   </label>
-                </div>
+                </div>-->
               </div>
               <div class="col-md-12">
                 <small class="text-muted">Note: Solar radiation is averaged over the past hour. Use
@@ -506,104 +496,90 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
           </div>
         </div>
         <PressureLevels pressureVariables={pressureVariables} levels={levels}/>
-        
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="heading-models">
-            <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapse-models" aria-expanded="false" aria-controls="collapse-models">
-              Weather models&nbsp;<span class="badge rounded-pill bg-secondary checkboxcounter"
-                data-count-checkboxes-of="#collapse-models">0/x</span>&nbsp;<span
-                class="badge bg-primary">New</span>
-            </button>
-          </h2>
-          <div id="collapse-models" class="accordion-collapse collapse"
-            aria-labelledby="heading-models" data-bs-parent="#accordionVariables">
-            <div class="accordion-body row">
-              <div class="col-md-3">
-                <!--<div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="best_match" id="best_match"
-                    name="models">
-                  <label class="form-check-label" for="best_match">
-                    Best match
-                  </label>
-                </div>-->
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="ecmwf_ifs04"
-                    id="ecmwf_ifs04" name="models">
-                  <label class="form-check-label" for="ecmwf_ifs04">
-                    ECMWF IFS
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="gfs_seamless"
-                    id="gfs_seamless" name="models">
-                  <label class="form-check-label" for="gfs_seamless">
-                    GFS Ensemble Seamless
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="gfs025"
-                    id="gfs025" name="models">
-                  <label class="form-check-label" for="gfs025">
-                    GFS Ensemble 0.25
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="gfs05"
-                    id="gfs05" name="models">
-                  <label class="form-check-label" for="gfs05">
-                    GFS Ensemble 0.5
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="gem_global"
-                    id="gem_global" name="models">
-                  <label class="form-check-label" for="gem_global">
-                    GEM Global Ensemble
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="icon_seamless" id="icon_seamless"
-                    name="models">
-                  <label class="form-check-label" for="icon_seamless">
-                    DWD Icon Seamless
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="icon_global" id="icon_global"
-                    name="models">
-                  <label class="form-check-label" for="icon_global">
-                    DWD Icon Global
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="icon_eu" id="icon_eu"
-                    name="models">
-                  <label class="form-check-label" for="icon_eu">
-                    DWD Icon EU
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="icon_d2"
-                    id="icon_d2" name="models">
-                  <label class="form-check-label" for="icon_d2">
-                    DWD Icon D2
-                  </label>
-                </div>
-              </div>
-              <!--<div class="col-md-12">
-                <small class="text-muted">Note: The default <mark>Best Match</mark> provides the best forecast for any given location worldwide. <mark>Seamless</mark> combines all models from a given provider into a seamless prediction.</small>
-              </div>-->
-            </div>
-          </div>
+      </div>
+    </div>
+
+    <div class="row py-3 px-0">
+      <h2>Ensemble Models</h2>
+      <div class="col-md-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="icon_seamless" id="icon_seamless"
+            name="models" checked>
+          <label class="form-check-label" for="icon_seamless">
+            DWD Icon Seamless
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="icon_global" id="icon_global"
+            name="models">
+          <label class="form-check-label" for="icon_global">
+            DWD Icon Global
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="icon_eu" id="icon_eu"
+            name="models">
+          <label class="form-check-label" for="icon_eu">
+            DWD Icon EU
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="icon_d2"
+            id="icon_d2" name="models">
+          <label class="form-check-label" for="icon_d2">
+            DWD Icon D2
+          </label>
         </div>
       </div>
+      <div class="col-md-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="gfs_seamless"
+            id="gfs_seamless" name="models">
+          <label class="form-check-label" for="gfs_seamless">
+            GFS Ensemble Seamless
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="gfs025"
+            id="gfs025" name="models">
+          <label class="form-check-label" for="gfs025">
+            GFS Ensemble 0.25
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="gfs05"
+            id="gfs05" name="models">
+          <label class="form-check-label" for="gfs05">
+            GFS Ensemble 0.5
+          </label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <!--<div class="form-check">
+          <input class="form-check-input" type="checkbox" value="best_match" id="best_match"
+            name="models">
+          <label class="form-check-label" for="best_match">
+            Best match
+          </label>
+        </div>-->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="ecmwf_ifs04"
+            id="ecmwf_ifs04" name="models">
+          <label class="form-check-label" for="ecmwf_ifs04">
+            ECMWF IFS
+          </label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="gem_global"
+            id="gem_global" name="models">
+          <label class="form-check-label" for="gem_global">
+            GEM Global Ensemble
+          </label>
+        </div>
+      </div>
+      
     </div>
 
     <!--<div class="row py-3 px-0">
