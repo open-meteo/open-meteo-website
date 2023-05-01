@@ -23,7 +23,7 @@ jobs:
       - run: npm run build
       - run: npm run rename_index_files
       - name: Upload ftp
-        uses: genietim/ftp-action@releases/v4
+        uses: genietim/ftp-action@v4.0.1
         with:
           host: storage.bunnycdn.com
           user: open-meteo
