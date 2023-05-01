@@ -23,7 +23,7 @@ jobs:
       - run: npm run build
       - run: npm run rename_index_files
       - name: Upload ftp
-        uses: sebastianpopp/ftp-action@v2
+        uses: sebastianpopp/ftp-action@releases/v2
         with:
           host: storage.bunnycdn.com
           user: open-meteo
