@@ -27,6 +27,74 @@ const pressureVariables = [
 ]
 const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
 
+let available_variables = {
+  ecmwf_ifs04: [
+    "temperature_2m", "precipitation", "rain", "snowfall", "weathercode",
+    "surface_pressure", "pressure_msl", "cloudcover", "windspeed_10m", "winddirection_10m", 
+    "surface_temperature", "rain"
+  ],
+  icon_seamless: [
+    "temperature_2m", "relativehumidity_2m", "dewpoint_2m", "apparent_temperature", 
+    "precipitation", "snowfall", "snow_depth", "cloudcover", "et0_fao_evapotranspiration", "vapor_pressure_deficit",
+    "windspeed_10m", "windspeed_80m", "windspeed_120m", "windspeed_180m", "winddirection_10m", "winddirection_80m",
+    "winddirection_120m", "winddirection_180m", "windgusts_10m", "temperature_80m", "temperature_120m", "rain"
+  ],
+  icon_global: [
+    "temperature_2m", "relativehumidity_2m", "dewpoint_2m", "apparent_temperature", 
+    "precipitation", "snowfall", "snow_depth", "cloudcover", "et0_fao_evapotranspiration", "vapor_pressure_deficit",
+    "windspeed_10m", "winddirection_10m", "rain"
+  ],
+  icon_eu: [
+    "temperature_2m", "apparent_temperature", 
+    "precipitation", "snowfall", "snow_depth", "cloudcover", "et0_fao_evapotranspiration", "vapor_pressure_deficit",
+    "windspeed_10m", "winddirection_10m", "windgusts_10m", "windspeed_80m", "winddirection_80m", "temperature_80m", "rain"
+  ],
+  icon_d2: [
+    "temperature_2m", "relativehumidity_2m", "dewpoint_2m", "apparent_temperature", 
+    "precipitation", "snowfall", "snow_depth", "cloudcover", "et0_fao_evapotranspiration", "vapor_pressure_deficit",
+    "windspeed_10m", "windspeed_80m", "windspeed_120m", "windspeed_180m", "winddirection_10m", "winddirection_80m",
+    "winddirection_120m", "winddirection_180m", "windgusts_10m", "temperature_80m", "temperature_120m", "rain"
+  ],
+  gfs025: [
+    "temperature_2m", "visibility", "windgusts_10m", "surface_pressure", "soil_temperature_0_to_10cm", "soil_moisture_0_to_10cm",
+    "snow_depth", "relativehumidity_2m", "dewpoint_2m", "windspeed_10m", "winddirection_10m", "precipitation", "snowfall", "cape", "cloudcover",
+    "apparent_temperature", "weathercode", "pressure_msl", "et0_fao_evapotranspiration", "vapor_pressure_deficit", "cape", "rain"
+  ],
+  gfs05: [
+    "temperature_2m", "visibility", "windgusts_10m", "surface_pressure", "soil_temperature_0_to_10cm", "soil_moisture_0_to_10cm",
+    "snow_depth", "relativehumidity_2m", "dewpoint_2m", "windspeed_10m", "winddirection_10m", "precipitation", "snowfall", "cape", "cloudcover",
+    "apparent_temperature", "weathercode", "pressure_msl", "et0_fao_evapotranspiration", "vapor_pressure_deficit", "windspeed_80m", "winddirection_80m",
+    "windspeed_120m", "winddirection_120m", "soil_temperature_10_to_40cm", "soil_temperature_40_to_100cm", "soil_temperature_100_to_200cm", 
+    "soil_moisture_10_to_40cm", "soil_moisture_40_to_100cm", "soil_moisture_100_to_200cm", "uv_index", "uv_index_clear_sky", "cape", "freezinglevel_height", "rain",
+    "surface_temperature", "temperature_80m", "temperature_120m"
+  ],
+  gem_global: [
+    "temperature_2m", "surface_pressure",
+    "snow_depth", "relativehumidity_2m", "dewpoint_2m", "windspeed_10m", "winddirection_10m", "precipitation", "snowfall", "cape", "cloudcover",
+    "apparent_temperature", "weathercode", "pressure_msl", "et0_fao_evapotranspiration", "vapor_pressure_deficit",
+    "cape", "rain"
+  ]
+};
+
+let models: String[] = [];
+
+function isAvailable(variable: String, models: String[]): Boolean {
+  console.log("asdasfasf")
+  if (models.length == 0) {
+    return true
+  }
+  for (const model of models) {
+    if (!Object.prototype.hasOwnProperty.call(available_variables, model)) {
+      return true
+      //continue
+    }
+    if (available_variables[model].includes(variable)) {
+      return true
+    }
+  }
+  return false
+}
+
 </script>
 
 <svelte:head>
@@ -48,7 +116,7 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
 </div>-->
 
 <div class="alert alert-danger" role="alert">
-  Work in progress!
+  Work in progress! {models}
 </div>
 
   <form id="api_form" method="get" action="https://ensemble-api.open-meteo.com/v1/ensemble">
@@ -80,31 +148,112 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
       </div>
     </div>
     <div class="row py-3 px-0">
+      <h2>Ensemble Models</h2>
+      <div class="col-md-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="icon_seamless" id="icon_seamless"
+            name="models" bind:group={models} checked>
+          <label class="form-check-label" for="icon_seamless">
+            DWD Icon Seamless
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="icon_global" id="icon_global"
+            name="models" bind:group={models}>
+          <label class="form-check-label" for="icon_global">
+            DWD Icon Global
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="icon_eu" id="icon_eu"
+            name="models" bind:group={models}>
+          <label class="form-check-label" for="icon_eu">
+            DWD Icon EU
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="icon_d2"
+            id="icon_d2" name="models" bind:group={models}>
+          <label class="form-check-label" for="icon_d2">
+            DWD Icon D2
+          </label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="gfs_seamless"
+            id="gfs_seamless" name="models" bind:group={models}>
+          <label class="form-check-label" for="gfs_seamless">
+            GFS Ensemble Seamless
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="gfs025"
+            id="gfs025" name="models" bind:group={models}>
+          <label class="form-check-label" for="gfs025">
+            GFS Ensemble 0.25
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="gfs05"
+            id="gfs05" name="models" bind:group={models}>
+          <label class="form-check-label" for="gfs05">
+            GFS Ensemble 0.5
+          </label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <!--<div class="form-check">
+          <input class="form-check-input" type="checkbox" value="best_match" id="best_match"
+            name="models" bind:group={models}>
+          <label class="form-check-label" for="best_match">
+            Best match
+          </label>
+        </div>-->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="ecmwf_ifs04"
+            id="ecmwf_ifs04" name="models" bind:group={models}>
+          <label class="form-check-label" for="ecmwf_ifs04">
+            ECMWF IFS
+          </label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="gem_global"
+            id="gem_global" name="models" bind:group={models}>
+          <label class="form-check-label" for="gem_global">
+            GEM Global Ensemble
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row py-3 px-0">
       <h2>Hourly Weather Variables</h2>
       <div class="col-md-3">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="temperature_2m" id="temperature_2m" name="hourly"
-            checked>
+            checked disabled={!isAvailable("temperature_2m", models)}>
           <label class="form-check-label" for="temperature_2m">
             Temperature (2 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="relativehumidity_2m" id="relativehumidity_2m"
-            name="hourly">
+            name="hourly" disabled={!isAvailable("relativehumidity_2m", models)}>
           <label class="form-check-label" for="relativehumidity_2m">
             Relative Humidity (2 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="dewpoint_2m" id="dewpoint_2m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="dewpoint_2m" id="dewpoint_2m" name="hourly" disabled={!isAvailable("dewpoint_2m", models)}>
           <label class="form-check-label" for="dewpoint_2m">
             Dewpoint (2 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="apparent_temperature" id="apparent_temperature"
-            name="hourly">
+            name="hourly" disabled={!isAvailable("apparent_temperature", models)}>
           <label class="form-check-label" for="apparent_temperature">
             Apparent Temperature
           </label>
@@ -116,25 +265,25 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
           </label>
         </div>-->
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="precipitation" id="precipitation" name="hourly">
+          <input class="form-check-input" type="checkbox" value="precipitation" id="precipitation" name="hourly" disabled={!isAvailable("precipitation", models)}>
           <label class="form-check-label" for="precipitation">
             Precipitation (rain + snow)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="rain" id="rain" name="hourly">
+          <input class="form-check-input" type="checkbox" value="rain" id="rain" name="hourly" disabled={!isAvailable("rain", models)}>
           <label class="form-check-label" for="rain">
             Rain
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="snowfall" id="snowfall" name="hourly">
+          <input class="form-check-input" type="checkbox" value="snowfall" id="snowfall" name="hourly" disabled={!isAvailable("snowfall", models)}>
           <label class="form-check-label" for="snowfall">
             Snowfall
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="snow_depth" id="snow_depth" name="hourly">
+          <input class="form-check-input" type="checkbox" value="snow_depth" id="snow_depth" name="hourly" disabled={!isAvailable("snow_depth", models)}>
           <label class="form-check-label" for="snow_depth">
             Snow Depth
           </label>
@@ -142,25 +291,25 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
       </div>
       <div class="col-md-3">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="weathercode" id="weathercode" name="hourly">
+          <input class="form-check-input" type="checkbox" value="weathercode" id="weathercode" name="hourly" disabled={!isAvailable("weathercode", models)}>
           <label class="form-check-label" for="weathercode">
             Weathercode
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="pressure_msl" id="pressure_msl" name="hourly">
+          <input class="form-check-input" type="checkbox" value="pressure_msl" id="pressure_msl" name="hourly" disabled={!isAvailable("pressure_msl", models)}>
           <label class="form-check-label" for="pressure_msl">
             Sealevel Pressure
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="surface_pressure" id="surface_pressure" name="hourly">
+          <input class="form-check-input" type="checkbox" value="surface_pressure" id="surface_pressure" name="hourly" disabled={!isAvailable("surface_pressure", models)}>
           <label class="form-check-label" for="surface_pressure">
             Surface Pressure
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="cloudcover" id="cloudcover" name="hourly">
+          <input class="form-check-input" type="checkbox" value="cloudcover" id="cloudcover" name="hourly" disabled={!isAvailable("cloudcover", models)}>
           <label class="form-check-label" for="cloudcover">
             Cloudcover Total
           </label>
@@ -184,7 +333,7 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
           </label>
         </div>-->
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="visibility" id="visibility" name="hourly">
+          <input class="form-check-input" type="checkbox" value="visibility" id="visibility" name="hourly" disabled={!isAvailable("visibility", models)}>
           <label class="form-check-label" for="visibility">
             Visibility
           </label>
@@ -198,14 +347,14 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
         </div>-->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="et0_fao_evapotranspiration"
-            id="et0_fao_evapotranspiration" name="hourly">
+            id="et0_fao_evapotranspiration" name="hourly"  disabled={!isAvailable("et0_fao_evapotranspiration", models)}>
           <label class="form-check-label" for="et0_fao_evapotranspiration">
             Reference Evapotranspiration (ET₀)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="vapor_pressure_deficit" id="vapor_pressure_deficit"
-            name="hourly">
+            name="hourly"  disabled={!isAvailable("vapor_pressure_deficit", models)}>
           <label class="form-check-label" for="vapor_pressure_deficit">
             Vapor Pressure Deficit
           </label>
@@ -213,19 +362,19 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
       </div>
       <div class="col-md-3">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windspeed_10m" id="windspeed_10m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="windspeed_10m" id="windspeed_10m" name="hourly"  disabled={!isAvailable("windspeed_10m", models)}>
           <label class="form-check-label" for="windspeed_10m">
             Wind Speed (10 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windspeed_80m" id="windspeed_80m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="windspeed_80m" id="windspeed_80m" name="hourly"  disabled={!isAvailable("windspeed_80m", models)}>
           <label class="form-check-label" for="windspeed_80m">
             Wind Speed (80 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windspeed_120m" id="windspeed_120m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="windspeed_120m" id="windspeed_120m" name="hourly"  disabled={!isAvailable("windspeed_120m", models)}>
           <label class="form-check-label" for="windspeed_120m">
             Wind Speed (120 m)
           </label>
@@ -238,21 +387,21 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
         </div>-->
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="winddirection_10m" id="winddirection_10m"
-            name="hourly">
+            name="hourly" disabled={!isAvailable("winddirection_10m", models)}>
           <label class="form-check-label" for="winddirection_10m">
             Wind Direction (10 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="winddirection_80m" id="winddirection_80m"
-            name="hourly">
+            name="hourly" disabled={!isAvailable("winddirection_80m", models)}>
           <label class="form-check-label" for="winddirection_80m">
             Wind Direction (80 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="winddirection_120m" id="winddirection_120m"
-            name="hourly">
+            name="hourly" disabled={!isAvailable("winddirection_120m", models)}>
           <label class="form-check-label" for="winddirection_120m">
             Wind Direction (120 m)
           </label>
@@ -265,19 +414,19 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
           </label>
         </div>-->
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windgusts_10m" id="windgusts_10m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="windgusts_10m" id="windgusts_10m" name="hourly" disabled={!isAvailable("windgusts_10m", models)}>
           <label class="form-check-label" for="windgusts_10m">
             Wind Gusts (10 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="temperature_80m" id="temperature_80m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="temperature_80m" id="temperature_80m" name="hourly" disabled={!isAvailable("temperature_80m", models)}>
           <label class="form-check-label" for="temperature_80m">
             Temperature (80 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="temperature_120m" id="temperature_120m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="temperature_120m" id="temperature_120m" name="hourly" disabled={!isAvailable("temperature_120m", models)}>
           <label class="form-check-label" for="temperature_120m">
             Temperature (120 m)
           </label>
@@ -291,63 +440,63 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
       </div>
       <div class="col-md-3">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="surface_temperature" id="surface_temperature" name="hourly">
+          <input class="form-check-input" type="checkbox" value="surface_temperature" id="surface_temperature" name="hourly" disabled={!isAvailable("surface_temperature", models)}>
           <label class="form-check-label" for="surface_temperature">
             Surface Temperature
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_temperature_0_to_10cm"
-            id="soil_temperature_0_to_10cm" name="hourly">
+            id="soil_temperature_0_to_10cm" name="hourly" disabled={!isAvailable("soil_temperature_0_to_10cm", models)}>
           <label class="form-check-label" for="soil_temperature_0_to_10cm">
             Soil Temperature (0-10 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_temperature_10_to_40cm"
-            id="soil_temperature_10_to_40cm" name="hourly">
+            id="soil_temperature_10_to_40cm" name="hourly" disabled={!isAvailable("soil_temperature_10_to_40cm", models)}>
           <label class="form-check-label" for="soil_temperature_10_to_40cm">
             Soil Temperature (10-40 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_temperature_40_to_100cm"
-            id="soil_temperature_40_to_100cm" name="hourly">
+            id="soil_temperature_40_to_100cm" name="hourly" disabled={!isAvailable("soil_temperature_40_to_100cm", models)}>
           <label class="form-check-label" for="soil_temperature_40_to_100cm">
             Soil Temperature (40-100 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_temperature_100_to_200cm"
-            id="soil_temperature_100_to_200cm" name="hourly">
+            id="soil_temperature_100_to_200cm" name="hourly" disabled={!isAvailable("soil_temperature_100_to_200cm", models)}>
           <label class="form-check-label" for="soil_temperature_100_to_200cm">
             Soil Temperature (100-200 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_moisture_0_to_10cm" id="soil_moisture_0_to_10cm"
-            name="hourly">
+            name="hourly" disabled={!isAvailable("soil_moisture_0_to_10cm", models)}>
           <label class="form-check-label" for="soil_moisture_0_to_10cm">
             Soil Moisture (0-10 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_moisture_10_to_40cm" id="soil_moisture_10_to_40cm"
-            name="hourly">
+            name="hourly" disabled={!isAvailable("soil_moisture_10_to_40cm", models)}>
           <label class="form-check-label" for="soil_moisture_10_to_40cm">
             Soil Moisture (10-40 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_moisture_40_to_100cm"
-            id="soil_moisture_40_to_100cm" name="hourly">
+            id="soil_moisture_40_to_100cm" name="hourly" disabled={!isAvailable("soil_moisture_40_to_100cm", models)}>
           <label class="form-check-label" for="soil_moisture_40_to_100cm">
             Soil Moisture (40-100 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_moisture_100_to_200cm"
-            id="soil_moisture_100_to_200cm" name="hourly">
+            id="soil_moisture_100_to_200cm" name="hourly" disabled={!isAvailable("soil_moisture_100_to_200cm", models)}>
           <label class="form-check-label" for="soil_moisture_100_to_200cm">
             Soil Moisture (100-400 cm)
           </label>
@@ -371,14 +520,14 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
               <div class="col-md-6">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="uv_index" id="uv_index"
-                    name="hourly">
+                    name="hourly" disabled={!isAvailable("uv_index", models)}>
                   <label class="form-check-label" for="uv_index">
                     UV Index
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="uv_index_clear_sky" id="uv_index_clear_sky"
-                    name="hourly">
+                    name="hourly" disabled={!isAvailable("uv_index_clear_sky", models)}>
                   <label class="form-check-label" for="uv_index_clear_sky">
                     UV Index Clear Sky
                   </label>
@@ -387,14 +536,14 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
               <div class="col-md-6">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="cape" id="cape"
-                    name="hourly">
+                    name="hourly" disabled={!isAvailable("cape", models)}>
                   <label class="form-check-label" for="cape">
                     CAPE
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="freezinglevel_height" id="freezinglevel_height"
-                    name="hourly">
+                    name="hourly" disabled={!isAvailable("freezinglevel_height", models)}>
                   <label class="form-check-label" for="freezinglevel_height">
                     Freezinglevel Height
                   </label>
@@ -497,89 +646,6 @@ const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse()
         </div>
         <PressureLevels pressureVariables={pressureVariables} levels={levels}/>
       </div>
-    </div>
-
-    <div class="row py-3 px-0">
-      <h2>Ensemble Models</h2>
-      <div class="col-md-3">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="icon_seamless" id="icon_seamless"
-            name="models" checked>
-          <label class="form-check-label" for="icon_seamless">
-            DWD Icon Seamless
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="icon_global" id="icon_global"
-            name="models">
-          <label class="form-check-label" for="icon_global">
-            DWD Icon Global
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="icon_eu" id="icon_eu"
-            name="models">
-          <label class="form-check-label" for="icon_eu">
-            DWD Icon EU
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="icon_d2"
-            id="icon_d2" name="models">
-          <label class="form-check-label" for="icon_d2">
-            DWD Icon D2
-          </label>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="gfs_seamless"
-            id="gfs_seamless" name="models">
-          <label class="form-check-label" for="gfs_seamless">
-            GFS Ensemble Seamless
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="gfs025"
-            id="gfs025" name="models">
-          <label class="form-check-label" for="gfs025">
-            GFS Ensemble 0.25
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="gfs05"
-            id="gfs05" name="models">
-          <label class="form-check-label" for="gfs05">
-            GFS Ensemble 0.5
-          </label>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <!--<div class="form-check">
-          <input class="form-check-input" type="checkbox" value="best_match" id="best_match"
-            name="models">
-          <label class="form-check-label" for="best_match">
-            Best match
-          </label>
-        </div>-->
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="ecmwf_ifs04"
-            id="ecmwf_ifs04" name="models">
-          <label class="form-check-label" for="ecmwf_ifs04">
-            ECMWF IFS
-          </label>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="gem_global"
-            id="gem_global" name="models">
-          <label class="form-check-label" for="gem_global">
-            GEM Global Ensemble
-          </label>
-        </div>
-      </div>
-      
     </div>
 
     <!--<div class="row py-3 px-0">
