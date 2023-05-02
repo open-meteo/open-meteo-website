@@ -1,6 +1,4 @@
 <script lang="ts">
-	import PressureLevels from '../PressureLevels.svelte';
-	import PressureLevelsHelpTable from '../PressureLevelsHelpTable.svelte';
 	import { onMount } from 'svelte';
 	import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 
@@ -12,7 +10,7 @@
 		const Tab = await import('bootstrap/js/dist/tab');
 		weather.init(Dropdown.default);
 	});
-	const pressureVariables = [
+	/*const pressureVariables = [
 		{ name: 'temperature', label: 'Temperature' },
 		{ name: 'relativehumidity', label: 'Relative Humidity' },
 		{ name: 'dewpoint', label: 'Dewpoint' },
@@ -25,16 +23,18 @@
 		//{name: "atmosphere_relative_vorticity", label: "Relative Vorticity"},
 		//{name: "divergence_of_wind", label: "Divergence of Wind"}
 	];
-	const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse();
+	const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse();*/
 
 	const icon_global_variables = [
+    'weathercode',
 		'temperature_2m',
+    'surface_pressure',
+    'pressure_msl',
 		'relativehumidity_2m',
 		'dewpoint_2m',
 		'apparent_temperature',
 		'precipitation',
 		'snowfall',
-		'snow_depth',
 		'cloudcover',
 		'et0_fao_evapotranspiration',
 		'vapor_pressure_deficit',
@@ -44,31 +44,33 @@
 	];
 
 	const icon_eu_variables = [
+    'weathercode',
 		'temperature_2m',
-		'apparent_temperature',
+    'surface_pressure',
+    'pressure_msl',
 		'precipitation',
 		'snowfall',
-		'snow_depth',
 		'cloudcover',
-		'et0_fao_evapotranspiration',
-		'vapor_pressure_deficit',
 		'windspeed_10m',
 		'winddirection_10m',
 		'windgusts_10m',
 		'windspeed_80m',
 		'winddirection_80m',
 		'temperature_80m',
-		'rain'
+		'rain',
+    'cape'
 	];
 
 	const icon_d2_variables = [
+    'weathercode',
 		'temperature_2m',
+    'surface_pressure',
+    'pressure_msl',
 		'relativehumidity_2m',
 		'dewpoint_2m',
 		'apparent_temperature',
 		'precipitation',
 		'snowfall',
-		'snow_depth',
 		'cloudcover',
 		'et0_fao_evapotranspiration',
 		'vapor_pressure_deficit',
@@ -83,7 +85,8 @@
 		'windgusts_10m',
 		'temperature_80m',
 		'temperature_120m',
-		'rain'
+		'rain',
+    'cape'
 	];
 
 	const gfs025_variables = [
@@ -91,6 +94,7 @@
 		'visibility',
 		'windgusts_10m',
 		'surface_pressure',
+    'pressure_msl',
 		'soil_temperature_0_to_10cm',
 		'soil_moisture_0_to_10cm',
 		'snow_depth',
@@ -104,7 +108,6 @@
 		'cloudcover',
 		'apparent_temperature',
 		'weathercode',
-		'pressure_msl',
 		'et0_fao_evapotranspiration',
 		'vapor_pressure_deficit',
 		'cape',
@@ -135,11 +138,11 @@
 	];
 
 	let available_variables = {
-		icon_seamless: [...icon_global_variables, icon_eu_variables, icon_d2_variables],
+		icon_seamless: icon_d2_variables,
 		icon_global: icon_global_variables,
 		icon_eu: icon_eu_variables,
 		icon_d2: icon_d2_variables,
-		gfs_seamless: [...gfs05_variables, gfs025_variables],
+		gfs_seamless: gfs05_variables,
 		gfs025: gfs025_variables,
 		gfs05: gfs05_variables,
 		ecmwf_ifs04: [
@@ -1059,7 +1062,6 @@
 					</div>
 				</div>
 			</div>
-			<PressureLevels {pressureVariables} {levels} />
 		</div>
 	</div>
 
