@@ -15,7 +15,7 @@
 	const pressureVariables = [
 		{ name: 'temperature', label: 'Temperature' },
 		{ name: 'relativehumidity', label: 'Relative Humidity' },
-		{ name: 'dewpoint', label: 'Dewpooint' },
+		{ name: 'dewpoint', label: 'Dewpoint' },
 		//{name: "specific_humidity", label: "Specific Humidity"},
 		{ name: 'cloudcover', label: 'Cloudcover' },
 		{ name: 'windspeed', label: 'Wind Speed' },
