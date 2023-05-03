@@ -227,6 +227,21 @@
       </div>
       <div class="col-3">
         <div class="form-floating mb-3">
+          <select
+            class="form-select"
+            name="length_unit"
+            id="length_unit"
+            aria-label="Length Unit"
+            data-default="mm"
+          >
+            <option selected value="metric">Metric</option>
+            <option value="imperial">Imperial</option>
+          </select>
+          <label for="length_unit">Length Unit</label>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-floating mb-3">
           <select class="form-select" name="timezone" id="timezone" aria-label="Timezone" data-default="GMT">
             <option value="America/Anchorage">America/Anchorage</option>
             <option value="America/Los_Angeles">America/Los_Angeles</option>
