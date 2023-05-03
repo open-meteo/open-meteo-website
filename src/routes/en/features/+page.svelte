@@ -21,7 +21,7 @@
     </p>
     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
       <a href="/en/docs" class="btn button btn-primary btn-lg px-4 me-sm-3">API Documentation</a>
-      <a href="#terms" class="btn btn-outline-light btn-lg px-4">Terms &#x26; License</a>
+      <a href="/en/terms" class="btn btn-outline-light btn-lg px-4">Terms &#x26; License</a>
     </div>
   </div>
 </div>

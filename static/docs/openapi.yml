@@ -10,7 +10,7 @@ info:
   license:
     name: Attribution 4.0 International (CC BY 4.0)
     url: https://creativecommons.org/licenses/by/4.0/
-  termsOfService: https://open-meteo.com/en/features#terms
+  termsOfService: https://open-meteo.com/en/terms
 paths:
   /v1/forecast:
     servers:
