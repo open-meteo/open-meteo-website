@@ -5,7 +5,7 @@
 
 	onMount(async () => {
 		const Dropdown = await import('bootstrap/js/dist/dropdown');
-    const Collapse = await import('bootstrap/js/dist/collapse');
+		const Collapse = await import('bootstrap/js/dist/collapse');
 	});
 </script>
 
@@ -206,8 +206,17 @@
 			</ul>
 		</div>
 		<div class="col-6 col-md">
-			<p class="h5">About</p>
+			<p class="h5">Open-Meteo</p>
 			<ul class="list-unstyled text-small">
+				<li class="mb-1">
+					<a class="link-secondary text-decoration-none" href="/en/about">About us &amp; Contact</a>
+				</li>
+				<li class="mb-1">
+					<a class="link-secondary text-decoration-none" href="/en/license">License</a>
+				</li>
+				<li class="mb-1">
+					<a class="link-secondary text-decoration-none" href="/en/terms">Terms &amp; Privacy</a>
+				</li>
 				<li class="mb-1">
 					<a
 						class="link-secondary text-decoration-none"
@@ -236,14 +245,6 @@
 						class="link-secondary text-decoration-none"
 						href="https://fosstodon.org/@openmeteo"
 						target="_blank">Mastodon</a
-					>
-				</li>
-				<li class="mb-1">
-					<a class="link-secondary text-decoration-none" href="/en/features#contact">Contact us</a>
-				</li>
-				<li class="mb-1">
-					<a class="link-secondary text-decoration-none" href="/en/features#terms"
-						>Terms &amp; Privacy</a
 					>
 				</li>
 			</ul>

@@ -167,8 +167,7 @@
     <h2 id="api-documentation">API Documentation</h2>
     <p>The API endpoint <mark>/v1/elevation</mark> accepts one or multiple geographical coordinate and returns the
       terrain elevation for those points.</p>
-    <p>Data is based on the <a href="https://spacedata.copernicus.eu/web/cscda/dataset-details?articleId=394198"
-        target="_blank">Copernicus DEM 2021 release GLO-90</a> with 90 meters resolution. The GLO-90 dataset is
+    <p>Data is based on the <a href="https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model">Copernicus DEM 2021 release GLO-90</a> with 90 meters resolution. The GLO-90 dataset is
       available worldwide with a free license.</p>
     <p>All URL parameters are listed below:</p>
     <div class="table-responsive">
