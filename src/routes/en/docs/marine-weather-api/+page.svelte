@@ -405,6 +405,13 @@
             </td>
           </tr>
           <tr>
+            <th scope="row">length_unit</th>
+            <td>String</td>
+            <td>No</td>
+            <td><mark>metric</mark></td>
+            <td>Options <mark>metric</mark> and <mark>imperial</mark></td>
+          </tr>
+          <tr>
             <th scope="row">cell_selection</th>
             <td>String</td>
             <td>No</td>
