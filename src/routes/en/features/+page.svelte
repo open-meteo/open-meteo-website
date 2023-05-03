@@ -257,48 +257,6 @@
   </div>
 </div>
 
-<div class="container col-xxl-8 px-4 py-5">
-  <div class="row flex-lg-row align-items-top g-5 py-5">
-    <div class="col-lg-6">
-      <h1 id="terms" class="display-5 lh-1 mb-3">Terms &#x26; Privacy</h1>
-      <p class="lead">Open-Meteo APIs are free for non-commercial use. We do not restrict
-        access, but ask for fair use.</p>
-      <p>If your application exceeds 10'000 requests per day, please contact us. We reserve the right to block
-        applications and IP addresses that misuse our service.</p>
-      <p><strong>Free for non-commercial:</strong> You may not use the API services for commercial purposes. For further
-        questions, please contact us.</p>
-      <p>All data is provided as is without any warranty.</p>
-      <p>We do not collect any personal data. We do not share any personal information. We do not integrate any
-        third-party analytics, ads, beacons or plugins.</p>
-      <p class="lead">The site is operated by:
-      <p>
-      <p>Patrick Zippenfenig<br />
-        Hintere Schillgmatte 6<br />
-        6463 Bürglen (UR)<br />
-        Switzerland</p>
-      <p>Contact: <a href="mailto:info@open-meteo.com">info@open-meteo.com</a></p>
-    </div>
-    <div class="col-lg-6">
-      <h1 class="display-5 lh-1 mb-3">License</h1>
-      <p class="lead">API data are offered under <a href="https://creativecommons.org/licenses/by/4.0/"
-          target="_blank">Attribution 4.0 International (CC BY 4.0)</a></p>
-      <p>You are free to <strong>share:</strong> copy and redistribute the material in any medium or format and
-        <strong>adapt:</strong> remix, transform, and build upon the material.
-      </p>
-      <p><strong>Attribution:</strong> You must give appropriate credit, provide a link to the license, and indicate if
-        changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor
-        endorses you or your use.</p>
-      <p>You must include a link next to any location, Open-Meteo data are displayed like:</p>
-      <p><code>&lt;a href=&quot;https://open-meteo.com/&quot;&gt;Weather data by Open-Meteo.com&lt;/a&gt;</code></p>
-      <p class="lead">Open-Meteo is open-source</p>
-      <p>Source code is available on <a href="https://github.com/open-meteo/open-meteo" target="_blank">GitHub</a> under
-        the GNU Affero General Public License Version 3 AGPLv3 or any later version. You can <a
-          href="https://github.com/open-meteo/open-meteo/blob/main/LICENSE" target="_blank">find the license here</a>.
-      </p>
-    </div>
-  </div>
-</div>
-
 <div class="px-4 py-5 my-5 text-center">
   <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="currentColor" class="bi bi-mailbox"
     viewBox="0 0 16 16">

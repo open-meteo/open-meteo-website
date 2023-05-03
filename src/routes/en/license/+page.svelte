@@ -1,0 +1,162 @@
+<svelte:head>
+	<title>License | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/license" />
+</svelte:head>
+
+<div
+	class="px-4 py-5 text-center text-white"
+	style="
+            background-image: url('/images/features_background.webp');
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+          "
+>
+	<svg
+		style="filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));"
+		xmlns="http://www.w3.org/2000/svg"
+		width="96"
+		height="96"
+		fill="currentColor"
+		class="bi bi-cloud-rain mb-4"
+		viewBox="0 0 16 16"
+	>
+		<path
+			d="M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 0 1-.948-.316l1-3a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 1 1-.948-.316l1-3a.5.5 0 0 1 .632-.317zm.247-6.998a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973zM8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4.002 4.002 0 0 1 8.5 2z"
+		/>
+	</svg>
+	<h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">License</h1>
+	<div class="col-lg-6 mx-auto" />
+</div>
+
+<div class="container col-xxl-8 px-4 py-5">
+	<div class="row flex-lg-row align-items-top g-5 py-5">
+		<div class="col-lg-6">
+			<h2 class="display-5 lh-1 mb-3">Data Sources</h2>
+			<p>Open-Meteo utilizes open-data from various national weather service including:</p>
+			<ul>
+				<li>
+					Atmospheric, ensemble and wave forecasts from <a
+						href="https://www.dwd.de"
+						title="Deutscher Wetterdienst">Deutscher Wetterdienst DWD</a
+					>
+					(<a href="https://www.dwd.de/EN/service/copyright/copyright_node.html" title="DWD License"
+						>License</a
+					>)
+				</li>
+				<li>
+					Atmospheric and ensemble forecasts from European Centre for <a
+						href="https://www.ecmwf.int"
+						title="ECMWF">Medium-Range Weather Forecasts ECMWF</a
+					>
+					(<a href="https://www.ecmwf.int/en/forecasts/datasets/open-data" title="ECMWF License"
+						>CC-BY License</a
+					>)
+				</li>
+				<li>
+					Atmospheric and ensemble forecasts from <a href="https://www.weather.gov/ncep/"
+						>NOAA NCEP</a
+					>
+					(<a href="https://www.weather.gov/disclaimer" title="NOAA License">License</a>)
+				</li>
+				<li>
+					Atmospheric and ensemble forecasts from <a
+						href="https://weather.gc.ca/model_forecast/model_e.html"
+						title="Canadian Weather Centre Modelling">Canadian Meteorological Centre CMC</a
+					>
+					(<a href="https://eccc-msc.github.io/open-data/licence/readme_en/" title="CMC License"
+						>License</a
+					>)
+				</li>
+				<li>
+					Atmospheric forecasts from <a href="https://meteofrance.fr" title="MeteoFrance"
+						>MeteoFrance</a
+					>
+					(<a
+						href="https://donneespubliques.meteofrance.fr/?fond=dossier&id_dossier=1"
+						title="Meteofrance License">License</a
+					>)
+				</li>
+				<li>
+					Atmospheric forecasts from <a
+						href="https://www.jma.go.jp/"
+						title="Japan Meteorological Agency JMA">Japan Meteorological Agency JMA</a
+					>
+					(<a href="https://www.jma.go.jp/jma/en/copyright.html" title="JMA License">License</a>)
+				</li>
+				<li>
+					Atmospheric forecasts from <a
+						href="https://www.met.no"
+						title="Norwegian Meteorological Institute">Norwegian Meteorological Institute</a
+					>
+					(<a href="https://creativecommons.org/licenses/by/4.0/" title="MetNO License"
+						>CC-BY License</a
+					>)
+				</li>
+				<li>
+					Weather reanalysis, air quality forecasts and elevation data from <a
+						href="https://climate.copernicus.eu"
+						title="Copernicus Climate Change Service C3S">Copernicus Climate Change Service C3S</a
+					>
+					(<a
+						href="https://cds.climate.copernicus.eu/api/v2/terms/static/licence-to-use-copernicus-products.pdf"
+						title="Copernicus License">License</a
+					>)
+				</li>
+				<li>
+					Flood forecasts from <a
+						href="https://www.globalfloods.eu/"
+						title="Global Flood Awareness System GloFAS">Global Flood Awareness System GloFAS</a
+					>
+					(<a
+						href="https://cds.climate.copernicus.eu/api/v2/terms/static/cems-floods.pdf"
+						title="GloFAS License">License</a
+					>)
+				</li>
+				<li>
+					Location database from <a href="https://www.geonames.org/" title="GeoNames">GeoNames</a>
+					(<a href="https://creativecommons.org/licenses/by/4.0/" title="GeoNames License"
+						>CC-BY License</a
+					>)
+				</li>
+			</ul>
+		</div>
+		<div class="col-lg-6">
+			<h2 class="display-5 lh-1 mb-3">License</h2>
+			<p class="lead">
+				API data are offered under <a
+					href="https://creativecommons.org/licenses/by/4.0/"
+					target="_blank">Attribution 4.0 International (CC BY 4.0)</a
+				>
+			</p>
+			<p>
+				You are free to <strong>share:</strong> copy and redistribute the material in any medium or
+				format and
+				<strong>adapt:</strong> remix, transform, and build upon the material.
+			</p>
+			<p>
+				<strong>Attribution:</strong> You must give appropriate credit, provide a link to the license,
+				and indicate if changes were made. You may do so in any reasonable manner, but not in any way
+				that suggests the licensor endorses you or your use.
+			</p>
+			<p>You must include a link next to any location, Open-Meteo data are displayed like:</p>
+			<p>
+				<code
+					>&lt;a href=&quot;https://open-meteo.com/&quot;&gt;Weather data by
+					Open-Meteo.com&lt;/a&gt;</code
+				>
+			</p>
+			<p class="lead">Open-Meteo is open-source</p>
+			<p>
+				Source code is available on <a
+					href="https://github.com/open-meteo/open-meteo"
+					target="_blank">GitHub</a
+				>
+				under the GNU Affero General Public License Version 3 AGPLv3 or any later version. You can
+				<a href="https://github.com/open-meteo/open-meteo/blob/main/LICENSE" target="_blank"
+					>find the license here</a
+				>.
+			</p>
+		</div>
+	</div>
+</div>
