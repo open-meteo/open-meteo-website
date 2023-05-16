@@ -197,7 +197,7 @@ function previewData(data, downloadTime) {
 // Pass Dropdown class from bootstrap to trigger location search dropdown on result load
 export function init(Dropdown) {
     // Show debug toggles
-    if (location.hostname === "127.0.0.1" || location.hostname == "localhost") {
+    if (location.hostname === "127.0.0.1" || location.hostname == "localhost" || location.hostname == "staging.open-meteo.com") {
         $(".debug-hidden").show();
     }
     
