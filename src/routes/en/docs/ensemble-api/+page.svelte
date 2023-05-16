@@ -26,7 +26,8 @@
 		'vapor_pressure_deficit',
 		'windspeed_10m',
 		'winddirection_10m',
-		'rain'
+		'rain',
+		'shortwave_radiation'
 	];
 
 	const icon_eu_variables = [
@@ -44,7 +45,8 @@
 		'winddirection_80m',
 		'temperature_80m',
 		'rain',
-		'cape'
+		'cape',
+		'shortwave_radiation'
 	];
 
 	const icon_d2_variables = [
@@ -72,7 +74,8 @@
 		'temperature_80m',
 		'temperature_120m',
 		'rain',
-		'cape'
+		'cape',
+		'shortwave_radiation'
 	];
 
 	const gfs025_variables = [
@@ -97,7 +100,8 @@
 		'et0_fao_evapotranspiration',
 		'vapor_pressure_deficit',
 		'cape',
-		'rain'
+		'rain',
+		'shortwave_radiation'
 	];
 
 	const gfs05_variables = [
@@ -120,7 +124,8 @@
 		'rain',
 		'surface_temperature',
 		'temperature_80m',
-		'temperature_120m'
+		'temperature_120m',
+		'shortwave_radiation'
 	];
 
 	let available_variables = {
@@ -136,6 +141,10 @@
 			'precipitation',
 			'rain',
 			'snowfall',
+			'relativehumidity_2m',
+			'dewpoint_2m',
+			'apparent_temperature',
+			'vapor_pressure_deficit',
 			'weathercode',
 			'surface_pressure',
 			'pressure_msl',
@@ -163,7 +172,8 @@
 			'et0_fao_evapotranspiration',
 			'vapor_pressure_deficit',
 			'cape',
-			'rain'
+			'rain',
+			'shortwave_radiation'
 		]
 	};
 
@@ -864,6 +874,7 @@
 									value="shortwave_radiation"
 									id="shortwave_radiation"
 									name="hourly"
+									disabled={!isAvailable('shortwave_radiation', models)}
 								/>
 								<label class="form-check-label" for="shortwave_radiation">
 									Shortwave Solar Radiation
@@ -876,6 +887,7 @@
 									value="direct_radiation"
 									id="direct_radiation"
 									name="hourly"
+									disabled={!isAvailable('shortwave_radiation', models)}
 								/>
 								<label class="form-check-label" for="direct_radiation">
 									Direct Solar Radiation
@@ -888,6 +900,7 @@
 									value="diffuse_radiation"
 									id="diffuse_radiation"
 									name="hourly"
+									disabled={!isAvailable('shortwave_radiation', models)}
 								/>
 								<label class="form-check-label" for="diffuse_radiation">
 									Diffuse Solar Radiation
@@ -900,6 +913,7 @@
 									value="direct_normal_irradiance"
 									id="direct_normal_irradiance"
 									name="hourly"
+									disabled={!isAvailable('shortwave_radiation', models)}
 								/>
 								<label class="form-check-label" for="direct_normal_irradiance">
 									Direct Normal Irradiance DNI
@@ -914,6 +928,7 @@
 									value="shortwave_radiation_instant"
 									id="shortwave_radiation_instant"
 									name="hourly"
+									disabled={!isAvailable('shortwave_radiation', models)}
 								/>
 								<label class="form-check-label" for="shortwave_radiation_instant">
 									Shortwave Solar Radiation (Instant)
@@ -926,6 +941,7 @@
 									value="direct_radiation_instant"
 									id="direct_radiation_instant"
 									name="hourly"
+									disabled={!isAvailable('shortwave_radiation', models)}
 								/>
 								<label class="form-check-label" for="direct_radiation_instant">
 									Direct Solar Radiation (Instant)
@@ -938,6 +954,7 @@
 									value="diffuse_radiation_instant"
 									id="diffuse_radiation_instant"
 									name="hourly"
+									disabled={!isAvailable('shortwave_radiation', models)}
 								/>
 								<label class="form-check-label" for="diffuse_radiation_instant">
 									Diffuse Solar Radiation (Instant)
@@ -950,6 +967,7 @@
 									value="direct_normal_irradiance_instant"
 									id="direct_normal_irradiance_instant"
 									name="hourly"
+									disabled={!isAvailable('shortwave_radiation', models)}
 								/>
 								<label class="form-check-label" for="direct_normal_irradiance_instant">
 									Direct Normal Irradiance DNI (Instant)
