@@ -64,15 +64,12 @@
 		'vapor_pressure_deficit',
 		'windspeed_10m',
 		'windspeed_80m',
-		'windspeed_120m',
 		'windspeed_180m',
 		'winddirection_10m',
 		'winddirection_80m',
-		'winddirection_120m',
 		'winddirection_180m',
 		'windgusts_10m',
 		'temperature_80m',
-		'temperature_120m',
 		'rain',
 		'cape',
 		'shortwave_radiation'
@@ -152,7 +149,8 @@
 			'windspeed_10m',
 			'winddirection_10m',
 			'surface_temperature',
-			'rain'
+			'rain',
+			'soil_temperature_0_to_10cm',
 		],
 		gem_global: [
 			'temperature_2m',
