@@ -1459,6 +1459,13 @@
 				<td>Geographical WGS84 coordinate of the location</td>
 			</tr>
 			<tr>
+				<th scope="row">models</th>
+				<td>String array</td>
+				<td>Yes</td>
+				<td></td>
+				<td>Select one or more ensemble weather models as comma-separated list</td>
+			</tr>
+			<tr>
 				<th scope="row">elevation</th>
 				<td>Floating point</td>
 				<td>No</td>
@@ -1567,15 +1574,6 @@
 				<td
 					>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 					<mark>2022-06-30</mark>).
-				</td>
-			</tr>
-			<tr>
-				<th scope="row">models</th>
-				<td>String array</td>
-				<td>No</td>
-				<td><mark>icon_seamless</mark></td>
-				<td
-					>Manually select one or more weather models. Per default, <mark>icon_seamless</mark> is used.
 				</td>
 			</tr>
 			<tr>
