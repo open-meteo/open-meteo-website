@@ -177,12 +177,6 @@ const levels = [1015, 1000, 985, 970, 950, 925, 900, 875, 850, 800, 750, 700, 65
             Vapor Pressure Deficit
           </label>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="cape" id="cape" name="hourly">
-          <label class="form-check-label" for="cape">
-            CAPE
-          </label>
-        </div>
       </div>
       <div class="col-md-3">
         <div class="form-check">
@@ -282,6 +276,38 @@ const levels = [1015, 1000, 985, 970, 950, 925, 900, 875, 850, 800, 750, 700, 65
 
     <div class="row py-3 px-0">
       <div class="accordion" id="accordionVariables">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading-additional-variables">
+            <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse-additional-variables" aria-expanded="false" aria-controls="collapse-additional-variables">
+              Additional Variables&nbsp;<span class="badge rounded-pill bg-secondary checkboxcounter"
+                data-count-checkboxes-of="#collapse-additional-variables">0/x</span>
+            </button>
+          </h2>
+          <div id="collapse-additional-variables" class="accordion-collapse collapse"
+            aria-labelledby="heading-additional-variables" data-bs-parent="#accordionVariables">
+            <div class="accordion-body row">
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="is_day" id="is_day"
+                    name="hourly">
+                  <label class="form-check-label" for="is_day">
+                    Is Day or Night
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="cape" id="cape"
+                    name="hourly">
+                  <label class="form-check-label" for="cape">
+                    CAPE
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="accordion-item">
           <h2 class="accordion-header" id="heading-solar-variables">
             <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
