@@ -122,19 +122,6 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             Snow Depth
           </label>
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="snowfall_height" id="snowfall_height" name="hourly">
-          <label class="form-check-label" for="snowfall_height">
-            Snowfall Height <span class="text-muted"><sup>(1)</sup></span>
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="freezinglevel_height" id="freezinglevel_height"
-            name="hourly">
-          <label class="form-check-label" for="freezinglevel_height">
-            Freezinglevel Height
-          </label>
-        </div>
       </div>
       <div class="col-md-3">
         <div class="form-check">
@@ -198,27 +185,6 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             name="hourly">
           <label class="form-check-label" for="vapor_pressure_deficit">
             Vapor Pressure Deficit
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="cape" id="cape"
-            name="hourly">
-          <label class="form-check-label" for="cape">
-            CAPE
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="lightning_potential" id="lightning_potential"
-            name="hourly">
-          <label class="form-check-label" for="lightning_potential">
-            Lightning Potential Index LPI <span class="text-muted"><sup>(2)</sup></span>
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="updraft" id="updraft"
-            name="hourly">
-          <label class="form-check-label" for="updraft">
-            Updraft <span class="text-muted"><sup>(2)</sup></span>
           </label>
         </div>
         <!---<div class="form-check">
@@ -383,6 +349,66 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
     <div class="row py-3 px-0">
       <div class="accordion" id="accordionVariables">
         <div class="accordion-item">
+          <h2 class="accordion-header" id="heading-additional-variables">
+            <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse-additional-variables" aria-expanded="false" aria-controls="collapse-additional-variables">
+              Additional Variables&nbsp;<span class="badge rounded-pill bg-secondary checkboxcounter"
+                data-count-checkboxes-of="#collapse-additional-variables">0/x</span>
+            </button>
+          </h2>
+          <div id="collapse-additional-variables" class="accordion-collapse collapse"
+            aria-labelledby="heading-additional-variables" data-bs-parent="#accordionVariables">
+            <div class="accordion-body row">
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="is_day" id="is_day"
+                    name="hourly">
+                  <label class="form-check-label" for="is_day">
+                    Is Day or Night
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="lightning_potential" id="lightning_potential"
+                    name="hourly">
+                  <label class="form-check-label" for="lightning_potential">
+                    Lightning Potential Index LPI <span class="text-muted"><sup>(2)</sup></span>
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="updraft" id="updraft"
+                    name="hourly">
+                  <label class="form-check-label" for="updraft">
+                    Updraft <span class="text-muted"><sup>(2)</sup></span>
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="cape" id="cape"
+                    name="hourly">
+                  <label class="form-check-label" for="cape">
+                    CAPE
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="freezinglevel_height" id="freezinglevel_height"
+                    name="hourly">
+                  <label class="form-check-label" for="freezinglevel_height">
+                    Freezinglevel Height
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="snowfall_height" id="snowfall_height" name="hourly">
+                  <label class="form-check-label" for="snowfall_height">
+                    Snowfall Height <span class="text-muted"><sup>(1)</sup></span>
+                  </label>
+                </div>
+              </div>
+              <small class="text-muted mt-3">(1) Europe only, (2) Central Europe only</small>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
           <h2 class="accordion-header" id="heading-solar-variables">
             <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapse-solar-variables" aria-expanded="false" aria-controls="collapse-solar-variables">
@@ -477,8 +503,6 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
         
         <PressureLevels pressureVariables={pressureVariables} levels={levels}/>
       </div>
-
-      <small class="text-muted mt-3">(1) Europe only, (2) Central Europe only</small>
     </div>
 
     <div class="row py-3 px-0">
