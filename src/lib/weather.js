@@ -187,10 +187,10 @@ function previewData(data, downloadTime) {
     }
     //console.log(JSON.stringify(json, null, 2));
     if (document.getElementById('container')) {
-        Highcharts.chart('container', json);
+        return Highcharts.chart('container', json);
     }
     if (document.getElementById('containerStockcharts')) {
-        Highcharts.stockChart('containerStockcharts', json);
+        return Highcharts.stockChart('containerStockcharts', json);
     }
 }
 
@@ -200,7 +200,10 @@ export function init(Dropdown) {
     if (location.hostname === "127.0.0.1" || location.hostname == "localhost" || location.hostname == "staging.open-meteo.com") {
         $(".debug-hidden").show();
     }
-    
+
+    /// Reference to current highcharts object
+    let chart;
+
     $("#detect_gps").click(function(e){
         e.preventDefault();
         if(!'geolocation' in navigator) {
@@ -289,6 +292,43 @@ export function init(Dropdown) {
     
     var frm = $('#api_form');
     var frmInitialParameter = frm.serialize();
+
+    /// Update URL immediately after form change
+    frm.change(function(e){
+        var previous = "";
+        var first = true;
+        var params = "";
+    
+        frm.serializeArray().forEach((v) => {
+            let defaultValue = frm.find('[name="'+v.name+'"]').data("default");
+            if (v.value == defaultValue) {
+                return;
+            }
+            if (previous == v.name) {
+                params += "," + encodeURIComponent(v.value);
+            } else {
+                if (!first) {
+                    params += "&"
+                }
+                params += v.name + "=" + encodeURIComponent(v.value);
+            }
+            previous = v.name;
+            first = false;
+        });
+    
+        // Set action URL to localhost for debugging
+        var action = frm.prop('action');
+        if ($('#localhost').is(":checked")) {
+            const urlparts = new URL(action);
+            action = `http://127.0.0.1:8080${urlparts.pathname}`;
+        }
+        let url = action + "?" + params;
+        chart?.showLoading("Settings changed. Please click 'Preview chart'");
+    
+        $('#api_url').val(url);
+        $('#api_url_link').prop("href", url);
+    });
+
     frm.submit(function(e){
         e.preventDefault();
     
@@ -334,6 +374,7 @@ export function init(Dropdown) {
     
         $('#api_url').val(url);
         $('#api_url_link').prop("href", url);
+        chart?.showLoading("Loading");
         
         $.ajax({
             type: frm.prop('method'),
@@ -342,7 +383,7 @@ export function init(Dropdown) {
             success: function (data) {
                 var downloadTime = performance.now() - t0
                 //console.log(data);
-                previewData(data, downloadTime);
+                chart = previewData(data, downloadTime);
             },
             error: function (data) {
                 //console.warn('An error occurred.');
