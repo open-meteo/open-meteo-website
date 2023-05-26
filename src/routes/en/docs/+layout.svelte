@@ -17,6 +17,7 @@
 			]
 		},
 		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
+		{ title: 'Ensemble Models', url: '/en/docs/ensemble-api' },
     	{ title: 'Climate Change', url: '/en/docs/climate-api' },
 		{ title: 'Marine Forecast', url: '/en/docs/marine-weather-api' },
 		{ title: 'Air Quality', url: '/en/docs/air-quality-api' },
@@ -26,7 +27,6 @@
 	];
 	if (dev) {
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
-    	links.push({ title: 'Ensemble Models', url: '/en/docs/ensemble-api' });
 	}
 </script>
 

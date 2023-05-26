@@ -200,8 +200,8 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/ensemble-api" />
 </svelte:head>
 
-<div class="alert alert-danger" role="alert">This API is a work in progress and has not yet been declared stable. As such, there may be potential breaking changes in the future.</div>
-
+<!--<div class="alert alert-danger" role="alert">This API is a work in progress and has not yet been declared stable. As such, there may be potential breaking changes in the future.</div>
+-->
 <form id="api_form" method="get" action="https://ensemble-api.open-meteo.com/v1/ensemble">
 	<div class="row">
 		<h2>Select Coordinates or City</h2>
