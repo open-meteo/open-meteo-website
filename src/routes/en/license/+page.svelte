@@ -1,3 +1,11 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+
+	onMount(async () => {
+		const Tab = await import('bootstrap/js/dist/tab');
+	});
+</script>
+
 <svelte:head>
 	<title>License | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/license" />
@@ -157,6 +165,126 @@
 					>find the license here</a
 				>.
 			</p>
+		</div>
+
+		<div class="col-lg-12">
+			<h2 class="display-5 lh-1 mb-3">Citation</h2>
+			<p>
+				We encourage researchers in the field of meteorology and related disciplines to cite
+				Open-Meteo in their work. By acknowledging Open-Meteo as the source of weather data and
+				forecasts used in their research, researchers contribute to the growing body of knowledge
+				and advancements in the field. Citing Open-Meteo not only gives proper credit to the API but
+				also promotes transparency, reproducibility, and collaboration within the scientific
+				community. Together, let's foster a culture of recognition and support for open-source
+				initiatives like Open-Meteo, ensuring that future researchers can benefit from the valuable
+				resources it provides.
+			</p>
+			<div class="border rounded p-3">
+				<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button
+							class="nav-link active"
+							id="pills-apa-tab"
+							data-bs-toggle="pill"
+							data-bs-target="#pills-apa"
+							type="button"
+							role="tab"
+							aria-controls="pills-apa"
+							aria-selected="true">APA</button
+						>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button
+							class="nav-link"
+							id="pills-mla-tab"
+							data-bs-toggle="pill"
+							data-bs-target="#pills-mla"
+							type="button"
+							role="tab"
+							aria-controls="pills-mla"
+							aria-selected="true">MLA</button
+						>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button
+							class="nav-link"
+							id="pills-harvard-tab"
+							data-bs-toggle="pill"
+							data-bs-target="#pills-harvard"
+							type="button"
+							role="tab"
+							aria-controls="pills-harvard"
+							aria-selected="true">Harvard</button
+						>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button
+							class="nav-link"
+							id="pills-bibtex-tab"
+							data-bs-toggle="pill"
+							data-bs-target="#pills-bibtex"
+							type="button"
+							role="tab"
+							aria-controls="pills-bibtex"
+							aria-selected="false">BibTeX</button
+						>
+					</li>
+				</ul>
+				<div class="tab-content" id="pills-tabContent">
+					<div
+						class="tab-pane fade show active"
+						id="pills-apa"
+						role="tabpanel"
+						aria-labelledby="pills-apa-tab"
+						tabindex="0"
+					>
+						Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
+							title="zenodo publication"
+							href="https://doi.org/10.5281/ZENODO.7970649"
+							>https://doi.org/10.5281/ZENODO.7970649</a
+						>
+					</div>
+					<div
+						class="tab-pane fade show"
+						id="pills-mla"
+						role="tabpanel"
+						aria-labelledby="pills-mla-tab"
+						tabindex="0"
+					>
+						Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
+						doi:10.5281/ZENODO.7970649.
+					</div>
+					<div
+						class="tab-pane fade show"
+						id="pills-harvard"
+						role="tabpanel"
+						aria-labelledby="pills-harvard-tab"
+						tabindex="0"
+					>
+						Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi: 10.5281/ZENODO.7970649.
+					</div>
+					<div
+						class="tab-pane fade"
+						id="pills-bibtex"
+						role="tabpanel"
+						aria-labelledby="pills-bibtex-tab"
+						tabindex="0"
+					>
+						<pre>
+<code
+								>@software&#123;Zippenfenig_Open-Meteo,
+author = &#123;Zippenfenig, Patrick&#125;,
+doi = &#123;10.5281/zenodo.7970649&#125;,
+license = &#123;CC-BY-4.0&#125;,
+title = &#123;Open-Meteo.com Weather API&#125;,
+year = &#123;2023&#125;,
+copyright = &#123;Creative Commons Attribution 4.0 International&#125;,
+url = &#123;https://open-meteo.com/&#125;
+&#125;</code
+							></pre>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
