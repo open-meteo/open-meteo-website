@@ -238,11 +238,11 @@
 						aria-labelledby="pills-apa-tab"
 						tabindex="0"
 					>
-						Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
+						<p>Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
 							title="zenodo publication"
 							href="https://doi.org/10.5281/ZENODO.7970649"
 							>https://doi.org/10.5281/ZENODO.7970649</a
-						>
+						></p>
 					</div>
 					<div
 						class="tab-pane fade show"
@@ -251,8 +251,8 @@
 						aria-labelledby="pills-mla-tab"
 						tabindex="0"
 					>
-						Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
-						doi:10.5281/ZENODO.7970649.
+						<p>Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
+						doi:10.5281/ZENODO.7970649.</p>
 					</div>
 					<div
 						class="tab-pane fade show"
@@ -261,7 +261,7 @@
 						aria-labelledby="pills-harvard-tab"
 						tabindex="0"
 					>
-						Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi: 10.5281/ZENODO.7970649.
+						<p>Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi: 10.5281/ZENODO.7970649.</p>
 					</div>
 					<div
 						class="tab-pane fade"
@@ -273,13 +273,13 @@
 						<pre>
 <code
 								>@software&#123;Zippenfenig_Open-Meteo,
-author = &#123;Zippenfenig, Patrick&#125;,
-doi = &#123;10.5281/zenodo.7970649&#125;,
-license = &#123;CC-BY-4.0&#125;,
-title = &#123;Open-Meteo.com Weather API&#125;,
-year = &#123;2023&#125;,
-copyright = &#123;Creative Commons Attribution 4.0 International&#125;,
-url = &#123;https://open-meteo.com/&#125;
+  author = &#123;Zippenfenig, Patrick&#125;,
+  doi = &#123;10.5281/zenodo.7970649&#125;,
+  license = &#123;CC-BY-4.0&#125;,
+  title = &#123;Open-Meteo.com Weather API&#125;,
+  year = &#123;2023&#125;,
+  copyright = &#123;Creative Commons Attribution 4.0 International&#125;,
+  url = &#123;https://open-meteo.com/&#125;
 &#125;</code
 							></pre>
 					</div>
