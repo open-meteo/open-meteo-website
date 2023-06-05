@@ -228,24 +228,36 @@ const levels = [10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300,
             Wind Speed (10 m)
           </label>
         </div>
-        <!--<div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windspeed_80m" id="windspeed_80m" name="hourly">
-          <label class="form-check-label" for="windspeed_80m">
-            Wind Speed (80 m)
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="windspeed_20m" id="windspeed_20m" name="hourly">
+          <label class="form-check-label" for="windspeed_20m">
+            Wind Speed (20 m)
           </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="windspeed_120m" id="windspeed_120m" name="hourly">
-            <label class="form-check-label" for="windspeed_120m">
-              Wind Speed (120 m)
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="windspeed_180m" id="windspeed_180m" name="hourly">
-            <label class="form-check-label" for="windspeed_180m">
-              Wind Speed (180 m)
-            </label>
-          </div>-->
+          <input class="form-check-input" type="checkbox" value="windspeed_50m" id="windspeed_50m" name="hourly">
+          <label class="form-check-label" for="windspeed_50m">
+            Wind Speed (50 m)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="windspeed_100m" id="windspeed_100m" name="hourly">
+          <label class="form-check-label" for="windspeed_100m">
+            Wind Speed (100 m)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="windspeed_10m" id="windspeed_150m" name="hourly">
+          <label class="form-check-label" for="windspeed_150m">
+            Wind Speed (150 m)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="windspeed_200m" id="windspeed_200m" name="hourly">
+          <label class="form-check-label" for="windspeed_200m">
+            Wind Speed (200 m)
+          </label>
+        </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="winddirection_10m" id="winddirection_10m"
             name="hourly">
@@ -253,29 +265,77 @@ const levels = [10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300,
             Wind Direction (10 m)
           </label>
         </div>
-        <!--<div class="form-check">
-          <input class="form-check-input" type="checkbox" value="winddirection_80m" id="winddirection_80m"
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="winddirection_20m" id="winddirection_20m"
             name="hourly">
-          <label class="form-check-label" for="winddirection_80m">
-            Wind Direction (80 m)
+          <label class="form-check-label" for="winddirection_20m">
+            Wind Direction (20 m)
           </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="winddirection_120m" id="winddirection_120m" name="hourly">
-            <label class="form-check-label" for="winddirection_120m">
-              Wind Direction (120 m)
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="winddirection_180m" id="winddirection_180m" name="hourly">
-            <label class="form-check-label" for="winddirection_180m">
-              Wind Direction (180 m)
-            </label>
-          </div>-->
+          <input class="form-check-input" type="checkbox" value="winddirection_50m" id="winddirection_50m"
+            name="hourly">
+          <label class="form-check-label" for="winddirection_50m">
+            Wind Direction (50 m)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="winddirection_100m" id="winddirection_100m"
+            name="hourly">
+          <label class="form-check-label" for="winddirection_100m">
+            Wind Direction (100 m)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="winddirection_150m" id="winddirection_150m"
+            name="hourly">
+          <label class="form-check-label" for="winddirection_150m">
+            Wind Direction (150 m)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="winddirection_10m" id="winddirection_200m"
+            name="hourly">
+          <label class="form-check-label" for="winddirection_200m">
+            Wind Direction (200 m)
+          </label>
+        </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="windgusts_10m" id="windgusts_10m" name="hourly">
           <label class="form-check-label" for="windgusts_10m">
             Wind Gusts (10 m)
+          </label>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="temperature_20m" id="temperature_20m" name="hourly">
+          <label class="form-check-label" for="temperature_20m">
+            Temperature (20 m)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="temperature_50m" id="temperature_50m" name="hourly">
+          <label class="form-check-label" for="temperature_50m">
+            Temperature (50 m)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="temperature_20m" id="temperature_100m" name="hourly">
+          <label class="form-check-label" for="temperature_100m">
+            Temperature (100 m)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="temperature_150m" id="temperature_150m" name="hourly">
+          <label class="form-check-label" for="temperature_150m">
+            Temperature (150 m)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="temperature_200m" id="temperature_200m" name="hourly">
+          <label class="form-check-label" for="temperature_200m">
+            Temperature (200 m)
           </label>
         </div>
       </div>
@@ -924,10 +984,10 @@ const levels = [10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300,
         </thead>
         <tbody>
           <tr>
-            <th scope="row">temperature_2m</th>
+            <th scope="row">temperature_2m<br/>temperature_20m<br/>temperature_50m<br/>temperature_100m<br/>temperature_150m<br/>temperature_200m</th>
             <td>Instant</td>
             <td>°C (°F)</td>
-            <td>Air temperature at 2 meters above ground</td>
+            <td>Air temperature at 2 meters above ground (standard level) and upper air levels 20, 50, 100, 150 and 200 above ground. Upper air levels are not available in the AROME HD model.</td>
           </tr>
           <tr>
             <th scope="row">relativehumidity_2m</th>
@@ -980,16 +1040,16 @@ const levels = [10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300,
             <td>High level clouds from 8 km altitude</td>
           </tr>
           <tr>
-            <th scope="row">windspeed_10m</th>
+            <th scope="row">windspeed_10m<br/>windspeed_20m<br/>windspeed_50m<br/>windspeed_100m<br/>windspeed_150m<br/>windspeed_200m</th>
             <td>Instant</td>
             <td>km/h (mph, m/s, knots)</td>
-            <td>Wind speed at 10 meters above ground. Wind speed on 10 meters is the standard level.</td>
+            <td>Wind speed at 10 meters above ground or upper air levels 20, 50, 100, 150 and 200 meter above ground. Wind speed on 10 meters is the standard level. Upper levels above 100 meter are not available in the AROME HD model.</td>
           </tr>
           <tr>
-            <th scope="row">winddirection_10m</th>
+            <th scope="row">winddirection_10m<br/>winddirection_20m<br/>winddirection_50m<br/>winddirection_100m<br/>winddirection_150m<br/>winddirection_200m</th>
             <td>Instant</td>
             <td>°</td>
-            <td>Wind direction at 10 meters above ground</td>
+            <td>Wind direction at 10 meters above ground and upper air levels. Upper levels above 100 meter are not available in the AROME HD model.</td>
           </tr>
           <tr>
             <th scope="row">windgusts_10m</th>
