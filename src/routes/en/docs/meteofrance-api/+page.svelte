@@ -402,6 +402,78 @@ const levels = [10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300,
     <div class="row py-3 px-0">
       <div class="accordion" id="accordionVariables">
         <div class="accordion-item">
+          <h2 class="accordion-header" id="heading-models">
+            <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse-models" aria-expanded="false" aria-controls="collapse-models">
+              MeteoFrance models&nbsp;<span class="badge rounded-pill bg-secondary checkboxcounter"
+                data-count-checkboxes-of="#collapse-models">0/x</span>
+            </button>
+          </h2>
+          <div id="collapse-models" class="accordion-collapse collapse"
+            aria-labelledby="heading-models" data-bs-parent="#accordionVariables">
+            <div class="accordion-body row">
+              <div class="col-md-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="best_match" id="best_match"
+                    name="models">
+                  <label class="form-check-label" for="best_match">
+                    Best match
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="arpege_seamless"
+                    id="arpege_seamless" name="models">
+                  <label class="form-check-label" for="arpege_seamless">
+                    Arpege Seamless
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="arpege_world"
+                    id="arpege_world" name="models">
+                  <label class="form-check-label" for="arpege_world">
+                    Arpege World
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="arpege_europe"
+                    id="arpege_europe" name="models">
+                  <label class="form-check-label" for="arpege_europe">
+                    Arpege Europe
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="arome_seamless"
+                    id="arome_seamless" name="models">
+                  <label class="form-check-label" for="arome_seamless">
+                    Arome Seamless
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="arome_france"
+                    id="arome_france" name="models">
+                  <label class="form-check-label" for="arome_france">
+                    Arome France
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="arome_france_hd"
+                    id="arome_france_hd" name="models">
+                  <label class="form-check-label" for="arome_france_hd">
+                    Arome France HD
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <small class="text-muted">Note: The default <mark>Best Match</mark> combines Arome and Arpege domains</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
           <h2 class="accordion-header" id="heading-additional-variables">
             <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapse-additional-variables" aria-expanded="false" aria-controls="collapse-additional-variables">
@@ -951,6 +1023,14 @@ const levels = [10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300,
             <td></td>
             <td>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
               <mark>2022-06-30</mark>).
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">models</th>
+            <td>String array</td>
+            <td>No</td>
+            <td><mark>auto</mark></td>
+            <td>Manually select one or more weather models. Per default, the best suitable weather models will be combined.
             </td>
           </tr>
           <tr>
