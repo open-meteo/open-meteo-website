@@ -54,6 +54,13 @@
 				</li>
 				<li class="nav-item">
 					<a
+						href="/en/pricing"
+						class="nav-link"
+						class:active={$page.url.pathname === '/en/pricing'}>Pricing</a
+					>
+				</li>
+				<li class="nav-item">
+					<a
 						href="/en/docs"
 						class="nav-link"
 						class:active={$page.url.pathname.startsWith('/en/docs')}>API Docs</a

@@ -301,7 +301,7 @@ export function init(Dropdown) {
     
         frm.serializeArray().forEach((v) => {
             let defaultValue = frm.find('[name="'+v.name+'"]').data("default");
-            if (v.value == defaultValue) {
+            if (v.value == defaultValue || v.name == "use" || v.name == "self_hosted") {
                 return;
             }
             if (previous == v.name) {
@@ -322,7 +322,19 @@ export function init(Dropdown) {
             const urlparts = new URL(action);
             action = `http://127.0.0.1:8080${urlparts.pathname}`;
         }
+        if ($('#use').val() == "commercial") {
+            const urlparts = new URL(action);
+            action = `https://customer-${urlparts.hostname}${urlparts.pathname}`;
+        }
+        if ($('#use').val() == "self_hosted") {
+            const urlparts = new URL(action);
+            const server = $('#self_host_server').val()
+            action = `${server}${urlparts.pathname}`;
+        }
         let url = action + "?" + params;
+        while (chart?.series.length) {
+            chart?.series[0].remove();
+        }
         chart?.showLoading("Settings changed. Please click 'Preview chart'");
     
         $('#api_url').val(url);
@@ -339,7 +351,7 @@ export function init(Dropdown) {
     
         frm.serializeArray().forEach((v) => {
             let defaultValue = frm.find('[name="'+v.name+'"]').data("default");
-            if (v.value == defaultValue) {
+            if (v.value == defaultValue || v.name == "use" || v.name == "self_hosted") {
                 return;
             }
             if (previous == v.name) {
@@ -359,6 +371,15 @@ export function init(Dropdown) {
         if ($('#localhost').is(":checked")) {
             const urlparts = new URL(action);
             action = `http://127.0.0.1:8080${urlparts.pathname}`;
+        }
+        if ($('#use').val() == "commercial") {
+            const urlparts = new URL(action);
+            action = `https://customer-${urlparts.hostname}${urlparts.pathname}`;
+        }
+        if ($('#use').val() == "self_hosted") {
+            const urlparts = new URL(action);
+            const server = $('#self_host_server').val()
+            action = `${server}${urlparts.pathname}`;
         }
         let url = action + "?" + params;
     
@@ -388,7 +409,10 @@ export function init(Dropdown) {
             error: function (data) {
                 //console.warn('An error occurred.');
                 //console.warn(data);
-                alert("API error: "+data.responseJSON.reason);
+                while (chart?.series.length) {
+                    chart?.series[0].remove();
+                }
+                chart?.showLoading("API error: "+data.responseJSON.reason);
             },
         });
       });

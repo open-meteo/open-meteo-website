@@ -144,7 +144,7 @@
         <div class="col d-flex align-items-start">
             <div>
                 <h3 class="fw-bold mb-0">How does the subscription process work?</h3>
-                <p>After you subscribed, you can use the Open-Meteo API for commercial purposes. You will receive an email with an PDF invoice. After the payment was processed (typically within a couple of hours) you will receive you API key and instructions to use the dedicated customer API. You can cancel the the subscription at any time in the <a
+                <p>After you subscribed, you can use the Open-Meteo API for commercial purposes. You will receive an email with an PDF invoice. After the payment you will receive you API key to use the dedicated customer API. You can cancel the the subscription at any time in the <a
                     href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII">customer portal</a>.</p>
             </div>
         </div>
