@@ -115,7 +115,7 @@
 					<option value="es">Spanish</option>
 					<option value="it">Italian</option>
 					<option value="pt">Portuguese</option>
-					<option value="ru">Russion</option>
+					<option value="ru">Russian</option>
 					<option value="tr">Turkish</option>
 					<option value="hi">Hindi</option>
 				</select>
