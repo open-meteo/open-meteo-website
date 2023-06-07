@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
+	import LicenseSelector from '../LicenseSelector.svelte';
 
   var d = new Date();
   d.setDate(d.getDate()-5);
@@ -672,25 +673,26 @@
         </div>
       </div>
     </div>
+    
+    <LicenseSelector></LicenseSelector>
+    <div class="col-12 my-4">
+      <h2>Preview and API URL</h2>
+      <div id="containerStockcharts" style="height: 500px; width: 100%"></div>
+    </div>
+    <p><strong>Tip:</strong> You can <mark>click and drag</mark> to zoom in. Click <mark>All</mark> on the top, to reset
+      zoom.</p>
     <div class="col-12">
       <button type="submit" class="btn btn-primary">Preview Chart</button>
       <button type="submit" class="btn btn-outline-primary" name="format" value="xlsx">Download XLSX</button>
       <button type="submit" class="btn btn-outline-primary" name="format" value="csv">Download CSV</button>
     </div>
+  
+    <div class="col-12 my-4">
+      <label for="api_url" class="form-label">API URL</label> <small class="text-muted">(<a id="api_url_link" target="_blank" href="#">Open in new
+          tab</a> or copy this URL into your application)</small>
+      <input type="text" class="form-control" id="api_url" readonly>
+    </div>
   </form>
-
-  <div class="col-12 my-4">
-    <div id="containerStockcharts" style="height: 500px; width: 100%"></div>
-  </div>
-
-  <div class="col-12">
-    <p><strong>Tip:</strong> You can <mark>click and drag</mark> to zoom in. Click <mark>All</mark> on the top, to reset
-      zoom.</p>
-    <label for="api_url" class="form-label">API URL (<a id="api_url_link" target="_blank" href="#">Open in new
-        tab</a>)</label>
-    <input type="text" class="form-control" id="api_url" readonly>
-    <div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
-  </div>
 
 
   <h2 id="data-sources" class="mt-5">Data Sources</h2>

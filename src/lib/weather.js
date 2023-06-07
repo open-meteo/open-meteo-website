@@ -361,7 +361,9 @@ export function init(Dropdown) {
             } else {
                 if (!first) {
                     params += "&"
-                    params_no_key += "&"
+                    if (v.name != "apikey") {
+                        params_no_key += "&"
+                    }
                 }
                 params += v.name + "=" + encodeURIComponent(v.value);
                 if (v.name != "apikey") {
@@ -413,10 +415,11 @@ export function init(Dropdown) {
                 chart = previewData(data, downloadTime);
             },
             error: function (data) {
-                //console.warn('An error occurred.');
-                //console.warn(data);
-                while (chart?.series.length) {
-                    chart?.series[0].remove();
+                if (document.getElementById('container')) {
+                    chart = Highcharts.chart('container', {title: {text:""}});
+                }
+                if (document.getElementById('containerStockcharts')) {
+                    chart = Highcharts.chart('containerStockcharts', {title: {text:""}});
                 }
                 chart?.showLoading("API error: "+data.responseJSON.reason);
             },

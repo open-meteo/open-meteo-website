@@ -1,5 +1,6 @@
 <script lang="ts">
 import PressureLevels from "./PressureLevels.svelte";
+import LicenseSelector from "./LicenseSelector.svelte";
 import PressureLevelsHelpTable from "./PressureLevelsHelpTable.svelte"
 import { onMount } from 'svelte';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
@@ -22,8 +23,6 @@ const pressureVariables = [
     {name: "geopotential_height", label: "Geopotential Height"}
 ]
 const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
-
-import { api_key_preferences } from "$lib/stores"
 
 </script>
 
@@ -958,61 +957,24 @@ import { api_key_preferences } from "$lib/stores"
       </div>
     </div>
 
-    <div class="row py-3 px-0">
-      <h2>License</h2>
-      <div class="col-md-3">
-        <div class="form-floating mb-3">
-          <select class="form-select" name="use" id="use" aria-label="Use" data-default="non_commercial" bind:value={$api_key_preferences.use}>
-            <option value="non_commercial" selected>Non-Commercial</option>
-            <option value="commercial">Commercial</option>
-            <option value="self_hosted">Self-Hosted</option>
-          </select>
-          <label for="use">Use</label>
-        </div>
-      </div>
-      {#if $api_key_preferences.use == "non_commercial"}
-      <div class="col-md-9 alert alert-info" role="alert">Only for non-commercial use with less than 10.000 daily API calls. See <a href="/en/terms">Terms</a> for more details.
-      </div>
-      {/if}
-      {#if $api_key_preferences.use == "commercial"}
-      <div class="col-md-3">
-        <div class="form-floating">
-          <input type="text" class="form-control" name="apikey" id="apikey" bind:value={$api_key_preferences.apikey} required>
-          <label for="apikey">API Key</label>
-        </div>
-      </div>
-      <div class="col-6 alert alert-info" role="alert">See <a href="/en/pricing">Pricing</a> for more details.</div>
-      {/if}
-      {#if $api_key_preferences.use == "self_hosted"}
-      <div class="col-md-3">
-        <div class="form-floating">
-          <input type="text" class="form-control" name="self_host_server" id="self_host_server" bind:value={$api_key_preferences.self_host_server}>
-          <label for="self_host_server">Server URL</label>
-        </div>
-      </div>
-      <div class="col-6 alert alert-info" role="alert">See <a href="https://github.com/open-meteo/open-meteo">GitHub</a> for more instructions. Make sure your node supports HTTPS.</div>
-      {/if}
-    </div>
-
-    <div class="col-12">
-      <button type="submit" class="btn btn-primary">Preview Chart</button>
-      <button type="submit" class="btn btn-outline-primary" name="format" value="xlsx">Download XLSX</button>
-      <button type="submit" class="btn btn-outline-primary" name="format" value="csv">Download CSV</button>
-    </div>
-  </form>
-
-
-
+  <LicenseSelector></LicenseSelector>
   <div class="col-12 my-4">
+    <h2>Preview and API URL</h2>
     <div id="container" style="height: 400px; width: 100%"></div>
   </div>
-
   <div class="col-12">
-    <label for="api_url" class="form-label">API URL (<a id="api_url_link" target="_blank" href="#">Open in new
-        tab</a>)</label>
-    <input type="text" class="form-control" id="api_url" readonly>
-    <div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
+    <button type="submit" class="btn btn-primary">Preview Chart</button>
+    <button type="submit" class="btn btn-outline-primary" name="format" value="xlsx">Download XLSX</button>
+    <button type="submit" class="btn btn-outline-primary" name="format" value="csv">Download CSV</button>
   </div>
+
+  <div class="col-12 my-4">
+    <label for="api_url" class="form-label">API URL</label> <small class="text-muted">(<a id="api_url_link" target="_blank" href="#">Open in new
+        tab</a> or copy this URL into your application)</small>
+    <input type="text" class="form-control" id="api_url" readonly>
+  </div>
+</form>
+
 
   <div class="col-12 py-5">
     <h2 id="data-sources">Data Source</h2>
