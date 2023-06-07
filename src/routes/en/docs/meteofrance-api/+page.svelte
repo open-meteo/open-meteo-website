@@ -891,7 +891,7 @@ const levels = [10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300,
           <tr>
             <th scope="row"><a href="https://mf-models-on-aws.org/en/doc/models/arome-france/" target="_blank">Arome France</a></th>
             <td>France</td>
-            <td>2.5 km</td>
+            <td>0.025° (~2.5 km)</td>
             <td>Hourly</td>
             <td>42 hours</td>
             <td>Every 6 hours</td>
@@ -899,7 +899,7 @@ const levels = [10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300,
           <tr>
             <th scope="row"><a href="https://mf-models-on-aws.org/en/doc/models/arome-france-hd/" target="_blank">Arome France HD</a> <small class="text-muted">(*)</small></th>
             <td>France</td>
-            <td>1.5 km</td>
+            <td>0.01° (~1.5 km)</td>
             <td>Hourly</td>
             <td>42 hours</td>
             <td>Every 6 hours</td>
