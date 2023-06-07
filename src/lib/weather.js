@@ -348,19 +348,25 @@ export function init(Dropdown) {
         var previous = "";
         var first = true;
         var params = "";
+        var params_no_key = "";
     
         frm.serializeArray().forEach((v) => {
             let defaultValue = frm.find('[name="'+v.name+'"]').data("default");
-            if (v.value == defaultValue || v.name == "use" || v.name == "self_hosted") {
+            if (v.value == defaultValue || v.name == "use" || v.name == "self_host_server") {
                 return;
             }
             if (previous == v.name) {
                 params += "," + encodeURIComponent(v.value);
+                params_no_key += "," + encodeURIComponent(v.value);
             } else {
                 if (!first) {
                     params += "&"
+                    params_no_key += "&"
                 }
                 params += v.name + "=" + encodeURIComponent(v.value);
+                if (v.name != "apikey") {
+                    params_no_key += v.name + "=" + encodeURIComponent(v.value);
+                }
             }
             previous = v.name;
             first = false;
@@ -390,7 +396,7 @@ export function init(Dropdown) {
     
         if (frmInitialParameter != frm.serialize()) {
             // Only set location hash for non default configurations
-            window.location.hash = params;
+            window.location.hash = params_no_key;
         }
     
         $('#api_url').val(url);
