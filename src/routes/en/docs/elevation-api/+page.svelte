@@ -4,41 +4,57 @@
 </svelte:head>
 
 <script lang="ts">
-    import { onMount } from 'svelte';
+  import { onMount } from 'svelte';
+	import LicenseSelector from '../LicenseSelector.svelte';
+  import { api_key_preferences } from "$lib/stores"
 
-    let latitude = 52.52
-    let longitude = 13.41
-    const url = "https://api.open-meteo.com/v1/elevation"
-    let response = `{"elevation":[38.0]}`
+  let params = {
+    latitude: 52.52, 
+    longitude: 13.41
+  }
+  
+  let base = "https://api.open-meteo.com/v1/elevation?"
+  $: switch ($api_key_preferences.use) {
+    case "commercial":
+      base = `https://customer-api.open-meteo.com/v1/elevation?apikey=${$api_key_preferences.apikey}&`
+      break
+    case "self_hosted":
+      base = `${$api_key_preferences.self_host_server}/v1/elevation?`
+      break
+    default:
+      base = "https://api.open-meteo.com/v1/elevation?"
+  }
+ 
+  let response = `{"elevation":[38.0]}`
+  $: url = `${base}latitude=${params.latitude}&longitude=${params.longitude}`
 
-    async function submitForm() {
-        let endpoint = `${url}?latitude=${latitude}&longitude=${longitude}`;
-        response = await (await fetch(endpoint)).text();
-    }
+  async function submitForm() {
+      response = await (await fetch(url)).text();
+  }
 
-    function getPosition() {
-        if (!('geolocation' in navigator)) {
-          alert("GPS not available");
-          return;
-        }
-        navigator.geolocation.getCurrentPosition((position) => {
-            latitude = Number(position.coords.latitude.toFixed(2))
-            longitude = Number(position.coords.longitude.toFixed(2))
-            submitForm()
-        }, (error) => {
-          alert("An error occurred: " + error.message);
-        });
-    }
+  function getPosition() {
+      if (!('geolocation' in navigator)) {
+        alert("GPS not available");
+        return;
+      }
+      navigator.geolocation.getCurrentPosition((position) => {
+          params.latitude = Number(position.coords.latitude.toFixed(2))
+          params.longitude = Number(position.coords.longitude.toFixed(2))
+          submitForm()
+      }, (error) => {
+        alert("An error occurred: " + error.message);
+      });
+  }
 
-    function selectCity(e: Event) {
-        let selected = e.target!.options[e.target!.selectedIndex!];
-        latitude = selected.dataset.latitude
-        longitude = selected.dataset.longitude
-    }
+  function selectCity(e: Event) {
+      let selected = e.target!.options[e.target!.selectedIndex!];
+      params.latitude = selected.dataset.latitude
+      params.longitude = selected.dataset.longitude
+  }
 
-    onMount(async () => {
-		await submitForm()
-	});
+  onMount(async () => {
+  await submitForm()
+});
 </script>
 
 
@@ -52,13 +68,13 @@
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
-          <input type="number" step="0.0001" class="form-control" name="latitude" id="latitude" bind:value={latitude}>
+          <input type="number" step="0.0001" class="form-control" name="latitude" id="latitude" bind:value={params.latitude}>
           <label for="latitude">Latitude</label>
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-floating">
-          <input type="number" step="0.0001" class="form-control" name="longitude" id="longitude" bind:value={longitude}>
+          <input type="number" step="0.0001" class="form-control" name="longitude" id="longitude" bind:value={params.longitude}>
           <label for="longitude">Longitude</label>
         </div>
       </div>
@@ -66,7 +82,7 @@
         <div class="input-group form-floating mb-3">
           <select class="form-select" id="select_city" aria-label="Select city" on:change|preventDefault={selectCity}>
             <optgroup label="Europe">
-              <option selected data-asl="34" value={{longitude: 13.4115, latitude: 52.5235}}>Berlin</option>
+              <option data-latitude="52.5235" data-longitude="13.4115" selected data-asl="34" value={{longitude: 13.4115, latitude: 52.5235}}>Berlin</option>
               <option data-latitude="48.8567" data-longitude="2.3510" data-asl="34">Paris</option>
               <option data-latitude="51.5002" data-longitude="-0.1262" data-asl="14">London</option>
               <option data-latitude="40.4167" data-longitude="-3.7033" data-asl="588">Madrid</option>
@@ -147,19 +163,21 @@
       </div>
     </div>
 
+    <LicenseSelector></LicenseSelector>
+
     <div class="col-12 mb-3">
       <button type="submit" class="btn btn-primary" on:click|preventDefault={submitForm}>Preview</button>
     </div>
   </form>
 
   <div class="col-12 mb-3">
-    <div name="container" class="form-control" style="height: 50px; width: 100%;">{response}</div>
+    <div class="form-control" style="height: 50px; width: 100%;">{response}</div>
   </div>
 
   <div class="col-12">
-    <label for="api_url" class="form-label">API URL (<a id="api_url_link" target="_blank" href="https://api.open-meteo.com/v1/elevation?latitude={latitude}&longitude={longitude}">Open in new
+    <label for="api_url" class="form-label">API URL (<a id="api_url_link" target="_blank" href="{url}">Open in new
         tab</a>)</label>
-    <input type="text" class="form-control" id="api_url" readonly value="https://api.open-meteo.com/v1/elevation?latitude={latitude}&longitude={longitude}">
+    <input type="text" class="form-control" id="api_url" readonly value="{url}">
     <div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
   </div>
 
