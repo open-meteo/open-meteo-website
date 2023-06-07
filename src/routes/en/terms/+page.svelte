@@ -41,14 +41,21 @@
 	<div class="row">
 		<div class="col-lg-6">
 			<h3>Non-Commercial Use</h3>
+			<p>By using the Free API for non-commercial use you agree to following terms:</p>
+			<ul>
+				<li>You use less than 10'000 API calls per day.</li>
+				<li>You may only use the free API services for non-commercial purposes.</li>
+				<li>
+					You accept to the CC-BY 4.0 license, as specified in the <a
+						href="/en/license"
+						title="Open-Meteo further license details">license conditions</a
+					>.
+				</li>
+				<li>We reserve the right to block applications and IP addresses that misuse our service without
+					prior notice.</li>
+			</ul>
 			<p>
-				You can use the API for free for non-commercial use with up to 10'000 requests per day. We
-				reserve the right to block applications and IP addresses that misuse our service without
-				prior notice. You shall not engage in any activity that may disrupt or interfere with the
-				functioning of our service or its associated infrastructure.
-			</p>
-			<p>
-				You may only use the free API services for non-commercial purposes as
+				Non-commercial use is defined as as
 				<a href="https://wiki.creativecommons.org/wiki/NonCommercial_interpretation"
 					>elaborated by creative commons</a
 				>. To make it easier to understand, here are some examples that qualify as non-commercial
@@ -56,8 +63,8 @@
 			</p>
 			<ul>
 				<li>
-					Using our service for private or non-profit websites or apps that do not have subscriptions or
-					advertising.
+					Using our service for private or non-profit websites or apps that do not have
+					subscriptions or advertising.
 				</li>
 				<li>Utilizing our service for personal home automation purposes.</li>
 				<li>Using our service for public research conducted at public institutions.</li>
@@ -114,6 +121,12 @@
 				<li>
 					You are granted a limited, non-exclusive, and non-transferable license to use our service
 					for the duration of your subscription.
+				</li>
+				<li>
+					The data obtained through the API is provided under the terms of the CC-BY 4.0 license, as
+					specified in the <a href="/en/license" title="Open-Meteo further license details"
+						>license conditions</a
+					>.
 				</li>
 			</ul>
 			<p>Limitation of Liability:</p>
