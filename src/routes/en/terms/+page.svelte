@@ -40,14 +40,15 @@
 	</p>
 	<div class="row">
 		<div class="col-lg-6">
-			<h3>Terms for Non-Commercial Use:</h3>
+			<h3>Non-Commercial Use</h3>
 			<p>
 				You can use the API for free for non-commercial use with up to 10'000 requests per day. We
 				reserve the right to block applications and IP addresses that misuse our service without
-				prior notice.
+				prior notice. You shall not engage in any activity that may disrupt or interfere with the
+				functioning of our service or its associated infrastructure.
 			</p>
 			<p>
-				You may only use the API services for free for non-commercial purposes as
+				You may only use the free API services for non-commercial purposes as
 				<a href="https://wiki.creativecommons.org/wiki/NonCommercial_interpretation"
 					>elaborated by creative commons</a
 				>. To make it easier to understand, here are some examples that qualify as non-commercial
@@ -55,7 +56,7 @@
 			</p>
 			<ul>
 				<li>
-					Using our service for private websites or apps that do not have subscriptions or
+					Using our service for private or non-profit websites or apps that do not have subscriptions or
 					advertising.
 				</li>
 				<li>Utilizing our service for personal home automation purposes.</li>
@@ -78,20 +79,21 @@
 			</p>
 		</div>
 		<div class="col-lg-6">
-			<h3>Terms for Paid API Subscription:</h3>
-			<p>When using the paid API subscription, you agree to the following terms:</p>
+			<h3>API Subscription</h3>
+			<p>
+				When using the <a
+					href="/en/pricing"
+					title="Pricing information to use the weather API commercially">paid API subscription</a
+				>, you agree to the following terms:
+			</p>
 			<ul>
 				<li>
 					By subscribing to our service, you authorize us to charge the applicable subscription fees
-					through Stripe or any other payment gateway we may use.
+					through the payment gateway Stripe.
 				</li>
 				<li>
 					You agree to provide accurate and up-to-date payment information and promptly update it if
 					there are any changes.
-				</li>
-				<li>
-					You are granted a limited, non-exclusive, and non-transferable license to use our service
-					for the duration of your subscription.
 				</li>
 			</ul>
 			<p>Account and Security:</p>
@@ -102,6 +104,17 @@
 				</li>
 				<li>You agree not to share your account or login information with any third party.</li>
 				<li>You are solely responsible for any activities that occur under your account.</li>
+			</ul>
+			<p>Intellectual Property:</p>
+			<ul>
+				<li>
+					All intellectual property rights in our SaaS service, including but not limited to
+					software, content, and trademarks, belong to us.
+				</li>
+				<li>
+					You are granted a limited, non-exclusive, and non-transferable license to use our service
+					for the duration of your subscription.
+				</li>
 			</ul>
 			<p>Limitation of Liability:</p>
 			<ul>
@@ -190,7 +203,7 @@
 			</p>
 		</div>
 		<div class="col-lg-6">
-			<h3>Free non-commercial API Service</h3>
+			<h3>Free Non-Commercial API Service</h3>
 			<p>
 				We may collect non-personal information, such as IP addresses, for technical reasons such as
 				server maintenance or prevent misuse, but this information is not linked to user identities
@@ -203,7 +216,7 @@
 			</p>
 		</div>
 		<div class="col-lg-6">
-			<h3>Subscription to paid API services</h3>
+			<h3>Subscription to Paid API Services</h3>
 			<p>
 				When you sign up for our paid API service and make payments through Stripe, we may collect
 				the following information:
@@ -229,8 +242,8 @@
 				</li>
 			</ul>
 			<p>
-				When using the API service, we gather certain information, including IP addresses and
-				URLs, to monitor the usage of the API. This usage data is associated with your subscription.
+				When using the API service, we gather certain information, including IP addresses and URLs,
+				to monitor the usage of the API. This usage data is associated with your subscription.
 				However, after a period of 90 days, all individual log files will be removed, and only
 				aggregated usage data will be retained, such as the number of API calls per day.
 			</p>
@@ -260,7 +273,7 @@
 		>.
 	</p>
 
-	<h2 id="privacy" class="display-5 mt-5">Open-Meteo is Operated By</h2>
+	<h2 id="privacy" class="display-5 mt-5">Open-Meteo is operated by</h2>
 	<p>
 		OpenMeteo Zippenfenig<br />
 		c/o Patrick Zippenfenig<br />
@@ -268,6 +281,6 @@
 		6463 Bürglen (UR)<br />
 		Switzerland
 	</p>
-	<p>CH VAT CHE 327.264.349 MWST</p>
+	<p>VAT CHE 327.264.349 MWST</p>
 	<p>Contact: <a href="mailto:info@open-meteo.com">info@open-meteo.com</a></p>
 </div>
