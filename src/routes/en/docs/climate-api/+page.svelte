@@ -377,7 +377,7 @@
       </div>
     </div>
     
-    <LicenseSelector></LicenseSelector>
+    <LicenseSelector requires_professional_plan={true} />
     <div class="col-12 my-4">
       <h2>Preview and API URL</h2>
       <div id="containerStockcharts" style="height: 500px; width: 100%"></div>

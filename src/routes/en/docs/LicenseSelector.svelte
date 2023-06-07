@@ -1,6 +1,6 @@
 <script lang="ts">
     import { api_key_preferences } from "$lib/stores"
-    
+    export let requires_professional_plan = false;
 </script>
 
 <div class="row py-3 px-0">
@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="alert alert-info" role="alert">See <a href="/en/pricing">Pricing</a> for more details.</div>
+        <div class="alert alert-info" role="alert">See <a href="/en/pricing">Pricing</a> for more details.{#if requires_professional_plan} This API requires the <mark>Professional</mark> subscription.{/if}</div>
     </div>
     {/if}
     {#if $api_key_preferences.use == "self_hosted"}
