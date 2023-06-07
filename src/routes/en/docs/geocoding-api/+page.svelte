@@ -1,10 +1,23 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
+	import LicenseSelector from '../LicenseSelector.svelte';
+	import { api_key_preferences } from "$lib/stores"
 
 	const params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
-	const action = 'https://geocoding-api.open-meteo.com/v1/search';
+	let action = 'https://geocoding-api.open-meteo.com/v1/search?';
+	$: switch ($api_key_preferences.use) {
+		case "commercial":
+		action = `https://customer-geocoding-api.open-meteo.com/v1/search?apikey=${$api_key_preferences.apikey}&`
+		break
+		case "self_hosted":
+		action = `${$api_key_preferences.self_host_server}/v1/search?`
+		break
+		default:
+		action = "https://geocoding-api.open-meteo.com/v1/search?"
+	}
+
 	const paramsDefault = { ...params };
-	$: apiUrl = `${action}?${new URLSearchParams(params)}`;
+	$: apiUrl = `${action}${new URLSearchParams(params)}`;
 	let debounceTimeout: number | undefined;
 
 	onDestroy(() => {
@@ -32,7 +45,7 @@
 		});
 
 		// Always set format=json to fetch data
-		const fetchUrl = `${action}?${new URLSearchParams({ ...params, ...{ format: 'json' } })}`;
+		const fetchUrl = `${action}${new URLSearchParams({ ...params, ...{ format: 'json' } })}`;
 		const result = await fetch(fetchUrl);
 
 		if (!result.ok) {
@@ -145,7 +158,13 @@
 			</div>
 		</div>
 	</div>
+
+	<LicenseSelector></LicenseSelector>
 </form>
+
+<div class="col-12">
+	<h2>Preview and API URL</h2>
+</div>
 
 <div class="col-12 table-responsive" style="min-height: 300px;">
 	{#await results}
