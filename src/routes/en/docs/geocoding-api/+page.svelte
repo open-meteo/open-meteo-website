@@ -1,19 +1,19 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import { api_key_preferences } from "$lib/stores"
+	import { api_key_preferences } from '$lib/stores';
 
 	const params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
 	let action = 'https://geocoding-api.open-meteo.com/v1/search?';
 	$: switch ($api_key_preferences.use) {
-		case "commercial":
-		action = `https://customer-geocoding-api.open-meteo.com/v1/search?apikey=${$api_key_preferences.apikey}&`
-		break
-		case "self_hosted":
-		action = `${$api_key_preferences.self_host_server}/v1/search?`
-		break
+		case 'commercial':
+			action = `https://customer-geocoding-api.open-meteo.com/v1/search?apikey=${$api_key_preferences.apikey}&`;
+			break;
+		case 'self_hosted':
+			action = `${$api_key_preferences.self_host_server}/v1/search?`;
+			break;
 		default:
-		action = "https://geocoding-api.open-meteo.com/v1/search?"
+			action = 'https://geocoding-api.open-meteo.com/v1/search?';
 	}
 
 	const paramsDefault = { ...params };
@@ -159,7 +159,7 @@
 		</div>
 	</div>
 
-	<LicenseSelector></LicenseSelector>
+	<LicenseSelector />
 </form>
 
 <div class="col-12">
@@ -296,6 +296,19 @@
 					<td
 						>Return translated results, if available, otherwise return english or the native
 						location name. Lower-cased.</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">apikey</th>
+					<td>String</td>
+					<td>No</td>
+					<td />
+					<td
+						>Only required to commercial use to access reserved API resources for customers. The
+						server URL requires the prefix <mark>customer-</mark>. See
+						<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+							>pricing</a
+						> for more information.</td
 					>
 				</tr>
 				<!--<tr>

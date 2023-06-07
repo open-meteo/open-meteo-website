@@ -12,7 +12,7 @@
     latitude: 52.52, 
     longitude: 13.41
   }
-  
+
   let base = "https://api.open-meteo.com/v1/elevation?"
   $: switch ($api_key_preferences.use) {
     case "commercial":
@@ -212,6 +212,19 @@
               Example for <a href="https://api.open-meteo.com/v1/elevation?latitude=52.52,48.85&longitude=13.41,2.35"
                 target="_blank">multiple coordinates</a>.
             </td>
+          </tr>
+          <tr>
+            <th scope="row">apikey</th>
+            <td>String</td>
+            <td>No</td>
+            <td />
+            <td
+              >Only required to commercial use to access reserved API resources for customers. The
+              server URL requires the prefix <mark>customer-</mark>. See
+              <a href="/en/pricing" title="Pricing information to use the weather API commercially"
+                >pricing</a
+              > for more information.</td
+            >
           </tr>
         </tbody>
       </table>

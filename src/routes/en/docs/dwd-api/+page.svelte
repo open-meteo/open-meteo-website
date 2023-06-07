@@ -1087,6 +1087,20 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             <td>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a suitable grid-cell on land with <a href="https://openmeteo.substack.com/p/improving-weather-forecasts-with" title="Elevation based grid-cell selection explained">similar elevation to the requested coordinates using a 90-meter digital elevation model</a>. 
               <mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible grid-cell.
             </td>
+          </tr>
+          <tr>
+            <th scope="row">apikey</th>
+            <td>String</td>
+            <td>No</td>
+            <td />
+            <td
+              >Only required to commercial use to access reserved API resources for customers. The
+              server URL requires the prefix <mark>customer-</mark>. See
+              <a href="/en/pricing" title="Pricing information to use the weather API commercially"
+                >pricing</a
+              > for more information.</td
+            >
+          </tr>
         </tbody>
       </table>
     </div>
