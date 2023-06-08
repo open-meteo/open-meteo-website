@@ -32,7 +32,7 @@
 		</p>
 		<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
 			<a href="#plans" class="btn button btn-primary btn-lg px-4 me-sm-3">API Plans</a>
-			<a href="#faq" class="btn btn-outline-light btn-lg px-4">FAQ</a>
+			<a href="/en/docs" class="btn btn-outline-light btn-lg px-4">API Documentation</a>
 		</div>
 	</div>
 </div>
