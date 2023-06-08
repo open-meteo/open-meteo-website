@@ -22,11 +22,8 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run rename_index_files
+      - name: Install NetCDF
+        run: apt-get update && apt-get -qq -y install lftp
       - name: Upload ftp
-        uses: sebastianpopp/ftp-action@releases/v2
-        with:
-          host: storage.bunnycdn.com
-          user: open-meteo
-          password: ${{ secrets.ftp_password }}
-          localDir: "build"
+        run: lftp storage.bunnycdn.com -u open-meteo,${{ secrets.ftp_password }} -e "set ftp:ssl-force false; set ssl:verify-certificate false; mirror --reverse --continue --dereference -x ^\.git/$ build .; quit"
       - run: "curl --request POST --url https://api.bunny.net/pullzone/1309127/purgeCache --header 'AccessKey: ${{ secrets.bunny_api_key }}' --header 'content-type: application/json'"
