@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Install LFTP
+        run: apt-get update && apt-get -qq -y install lftp
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       - uses: actions/setup-node@v3
         with:
           node-version: 19
@@ -18,9 +21,6 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run rename_index_files
-      - name: Install NetCDF
-        run: apt-get update && apt-get -qq -y install lftp
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       - name: Upload ftp
         run: lftp storage.bunnycdn.com -u open-meteo-staging,${{ secrets.ftp_password_staging }} -e "set ftp:ssl-force false; set ssl:verify-certificate false; mirror --reverse --continue --dereference -x ^\.git/$ build .; quit"
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
