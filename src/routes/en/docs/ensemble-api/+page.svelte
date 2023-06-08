@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
+	import LicenseSelector from '../LicenseSelector.svelte';
 
 	onMount(async () => {
 		const datepicker = await import('bootstrap-datepicker');
@@ -150,7 +151,7 @@
 			'winddirection_10m',
 			'surface_temperature',
 			'rain',
-			'soil_temperature_0_to_10cm',
+			'soil_temperature_0_to_10cm'
 		],
 		gem_global: [
 			'temperature_2m',
@@ -201,8 +202,11 @@
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-	The initial version of ensemble weather models has been integrated. You can learn more about these models in the <a
-	href="https://openmeteo.substack.com/p/ensemble-weather-forecast-api" target="_blank">blog article</a>.
+	The initial version of ensemble weather models has been integrated. You can learn more about these
+	models in the <a
+		href="https://openmeteo.substack.com/p/ensemble-weather-forecast-api"
+		target="_blank">blog article</a
+	>.
 </div>
 
 <form id="api_form" method="get" action="https://ensemble-api.open-meteo.com/v1/ensemble">
@@ -1307,6 +1311,11 @@
 		</div>
 	</div>
 
+	<LicenseSelector requires_professional_plan={true}/>
+	<div class="col-12 my-4">
+		<h2>Preview and API URL</h2>
+		<div id="container" style="height: 400px; width: 100%" />
+	</div>
 	<div class="col-12">
 		<button type="submit" class="btn btn-primary">Preview Chart</button>
 		<button type="submit" class="btn btn-outline-primary" name="format" value="xlsx"
@@ -1316,19 +1325,16 @@
 			>Download CSV</button
 		>
 	</div>
+
+	<div class="col-12 my-4">
+		<label for="api_url" class="form-label">API URL</label>
+		<small class="text-muted"
+			>(<a id="api_url_link" target="_blank" href="#">Open in new tab</a> or copy this URL into your
+			application)</small
+		>
+		<input type="text" class="form-control" id="api_url" readonly />
+	</div>
 </form>
-
-<div class="col-12 my-4">
-	<div id="container" style="height: 400px; width: 100%" />
-</div>
-
-<div class="col-12">
-	<label for="api_url" class="form-label"
-		>API URL (<a id="api_url_link" target="_blank" href="#">Open in new tab</a>)</label
-	>
-	<input type="text" class="form-control" id="api_url" readonly />
-	<div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
-</div>
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
@@ -1465,7 +1471,7 @@
 				<th scope="row">models</th>
 				<td>String array</td>
 				<td>Yes</td>
-				<td></td>
+				<td />
 				<td>Select one or more ensemble weather models as comma-separated list</td>
 			</tr>
 			<tr>
@@ -1595,8 +1601,21 @@
 					<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
 					grid-cell.
 				</td>
-			</tr></tbody
-		>
+			</tr>
+			<tr>
+				<th scope="row">apikey</th>
+				<td>String</td>
+				<td>No</td>
+				<td />
+				<td
+					>Only required to commercial use to access reserved API resources for customers. The
+					server URL requires the prefix <mark>customer-</mark>. See
+					<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+						>pricing</a
+					> for more information.</td
+				>
+			</tr>
+		</tbody>
 	</table>
 </div>
 <p>
