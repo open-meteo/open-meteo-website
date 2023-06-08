@@ -25,5 +25,6 @@ jobs:
       - name: Install LFTP
         run: sudo apt update && sudo apt -qq -y install lftp
       - name: Upload ftp
-        run: lftp storage.bunnycdn.com -u open-meteo,${{ secrets.ftp_password }} -e "set ftp:ssl-force false; set ssl:verify-certificate false; mirror --reverse --continue --dereference -x ^\.git/$ build .; quit"
+#        run: lftp storage.bunnycdn.com -u open-meteo,${{ secrets.ftp_password }} -e "set ftp:ssl-force false; set ssl:verify-certificate false; mirror --reverse --continue --dereference -x ^\.git/$ build .; quit"
+        run: lftp storage.bunnycdn.com -u open-meteo,${{ secrets.ftp_password }} -e "set ftp:ssl-force false; set ssl:verify-certificate false; mput -c build; quit"
       - run: "curl --request POST --url https://api.bunny.net/pullzone/1309127/purgeCache --header 'AccessKey: ${{ secrets.bunny_api_key }}' --header 'content-type: application/json'"
