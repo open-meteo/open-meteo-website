@@ -22,7 +22,7 @@ jobs:
         run: sudo apt update && sudo apt -qq -y install lftp
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       - name: Upload ftp
-        run: lftp storage.bunnycdn.com -u open-meteo-staging,${{ secrets.ftp_password_staging }} -e "set ftp:ssl-force false; set ssl:verify-certificate false; mput -c build/*; quit"
+        run: lftp storage.bunnycdn.com -u open-meteo-staging,${{ secrets.ftp_password_staging }} -e "set ftp:ssl-force false; set ssl:verify-certificate false; mput -d -c build/*; quit"
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       - run: "curl --request POST --url https://api.bunny.net/pullzone/277769/purgeCache --header 'AccessKey: ${{ secrets.bunny_api_key }}' --header 'content-type: application/json'"
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
