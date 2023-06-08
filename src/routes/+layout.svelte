@@ -197,7 +197,7 @@
 					>
 				</li>
 				<li class="mb-1">
-					<a class="link-secondary text-decoration-none" href="/en/docs/climate-change-api"
+					<a class="link-secondary text-decoration-none" href="/en/docs/climate-api"
 						>Climate Change API</a
 					>
 				</li>

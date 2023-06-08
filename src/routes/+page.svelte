@@ -11,7 +11,7 @@
 	<link rel="canonical" href="https://open-meteo.com/" />
 	<meta
 		name="description"
-		content="Open-Source ☀️️️️️️️️️️️️️️️️️️️️️️️️️️️️️⛈️ Weather API with free access for non-commercial use. No 🔐 API Key required. Accurate weather forecasts for any location. Open-Meteo provides high-resolution open data ranging from 1 to 11 kilometers from national weather services. With a user-friendly JSON API, integrating weather data has never been easier. Experience the precision and convenience of Open-Meteo's Forecast API for reliable and comprehensive weather information worldwide."
+		content="Open-Source ☀️️️️️️️️️️️️️️️️️️️️️️️️️️️️️ Weather API with free access for non-commercial use. No API Key required ✅. Accurate weather forecasts for any location. Open-Meteo provides high-resolution open data ranging from 1 to 11 kilometers from national weather services. With a user-friendly JSON API, integrating weather data has never been easier. Experience the precision and convenience of Open-Meteo's Forecast API for reliable and comprehensive weather information worldwide."
 	/>
 </svelte:head>
 
