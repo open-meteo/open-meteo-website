@@ -14,7 +14,7 @@
 </script>
 
 <svelte:head>
-    <title>Air Quality API | Open-Meteo.com</title> 
+    <title>💨 Air Quality API | Open-Meteo.com</title> 
     <link rel="canonical" href="https://open-meteo.com/en/docs/air-quality-api" />
     <meta name="description" content="Get accurate forecasts for gases, particulate matter (PM), and pollen with the Air Quality API. Access this powerful API for free for non-commercial use. Stay informed about air quality conditions and make informed decisions based on reliable data. Enhance your applications and services with real-time air quality information.">
 </svelte:head>

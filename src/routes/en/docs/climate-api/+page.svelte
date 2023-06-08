@@ -14,7 +14,7 @@
 </script>
 
 <svelte:head>
-    <title>Climate API | Open-Meteo.com</title> 
+    <title>🌡️ Climate API | Open-Meteo.com</title> 
     <link rel="canonical" href="https://open-meteo.com/en/docs/climate-api" />
     <meta name="description" content="Downscaled IPCC climate predictions specifically tailored to a 10 km resolution, going beyond the limitations of continental-scale data. Explore high-resolution IPCC climate models, downscale predictions, and access daily climate projections up to 2050. Analyze climate change trends with control data dating back to 1950. Stay informed and make data-driven decisions for a sustainable future.">
 </svelte:head>

@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Pricing | Open-Meteo.com</title>
+	<title>💰 Pricing | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/pricing" />
 	<meta
 		name="description"

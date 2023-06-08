@@ -29,9 +29,9 @@
 </script>
 
 <svelte:head>
-    <title>Historical Weather API | Open-Meteo.com</title> 
+    <title>🏛️ Historical Weather API | Open-Meteo.com</title> 
     <link rel="canonical" href="https://open-meteo.com/en/docs/historical-weather-api" />
-    <meta name="description" content="Historical weather data from 1940 onwards with weather records dating back to 1940 and hourly resolution available for any location on earth. Retrieve decades worth of data in less than a second with our lightning-fast API. Dive deep into historical weather records, uncover trends, and gain valuable insights with ease.">
+    <meta name="description" content="Historical 🌤️ weather data from 1940 onwards with weather records dating back to 1940 and hourly resolution available for any location on earth. Retrieve decades worth of data in less than a second with our lightning-fast API. Dive deep into historical weather records, uncover trends, and gain valuable insights with ease.">
 </svelte:head>
 
 

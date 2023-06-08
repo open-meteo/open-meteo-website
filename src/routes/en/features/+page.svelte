@@ -1,9 +1,9 @@
 <svelte:head>
-	<title>Features | Open-Meteo.com</title>
+	<title>⚡️ Features | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/features" />
 	<meta
 		name="description"
-		content="Open-Meteo offers simple JSON APIs with global coverage and up to 1 km resolution. Get started today and access the most accurate weather forecasts worldwide. Our APIs combine cutting-edge local and global models from renowned national weather services. Stay up-to-date with hourly updates and utilize 80 years of historical weather data. Experience specialized forecasts for solar radiation, winds, and more. Easily resolve city names to coordinates, retrieve accurate elevation data, and manage timezones seamlessly."
+		content="Open-Meteo offers feature rich and simple JSON APIs with global coverage and up to 1 km resolution. Get started today and access the most accurate weather forecasts worldwide. Our APIs combine cutting-edge local and global models from renowned national weather services. Stay up-to-date with hourly updates and utilize 80 years of historical weather data. Experience specialized forecasts for solar radiation, winds, and more. Easily resolve city names to coordinates, retrieve accurate elevation data, and manage timezones seamlessly."
 	/>
 </svelte:head>
 

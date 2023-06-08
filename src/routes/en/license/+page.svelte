@@ -7,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<title>License | Open-Meteo.com</title>
+	<title>🧑‍⚖️ License | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/license" />
 	<meta
 		name="description"

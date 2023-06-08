@@ -27,7 +27,7 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
 </script>
 
 <svelte:head>
-    <title>Docs | Open-Meteo.com</title> 
+    <title>🌦️ Docs | Open-Meteo.com</title> 
     <link rel="canonical" href="https://open-meteo.com/en/docs" />
     <meta name="description" content="Weather Forecast APIs with weather models from multiple national weather providers, combining the best models for accurate forecasts worldwide. Explore the API documentation to learn more about the available weather models, their origin countries, resolutions, forecast lengths, and update frequencies. Get detailed JSON hourly weather forecasts for up to 7 or 16 days by specifying the geographical coordinates and desired weather variables in the API endpoint. Discover the comprehensive list of URL parameters for customizing your weather forecast requests.">
 </svelte:head>
