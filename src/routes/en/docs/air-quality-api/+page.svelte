@@ -16,6 +16,7 @@
 <svelte:head>
     <title>Air Quality API | Open-Meteo.com</title> 
     <link rel="canonical" href="https://open-meteo.com/en/docs/air-quality-api" />
+    <meta name="description" content="Get accurate forecasts for gases, particulate matter (PM), and pollen with the Air Quality API. Access this powerful API for free for non-commercial use. Stay informed about air quality conditions and make informed decisions based on reliable data. Enhance your applications and services with real-time air quality information.">
 </svelte:head>
 
 <style>
@@ -658,19 +659,6 @@
       <input type="text" class="form-control" id="api_url" readonly>
     </div>
   </form>
-
-
-
-  <div class="col-12 my-4">
-    <div id="container" style="height: 400px; width: 100%"></div>
-  </div>
-
-  <div class="col-12">
-    <label for="api_url" class="form-label">API URL (<a id="api_url_link" target="_blank" href="#">Open in new
-        tab</a>)</label>
-    <input type="text" class="form-control" id="api_url" readonly>
-    <div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
-  </div>
 
   <div class="col-12 py-5">
     <h2 id="api-documentation">API Documentation</h2>

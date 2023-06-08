@@ -9,6 +9,10 @@
 <svelte:head>
 	<title>Free Open-Source Weather API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/" />
+	<meta
+		name="description"
+		content="Open-Source and Free Weather API for non-commercial use. Start using it now and access accurate weather forecasts for any location. Partnering with national weather services, Open-Meteo provides high-resolution open data ranging from 1 to 11 kilometers. With a user-friendly JSON API, integrating weather data has never been easier. Experience the precision and convenience of Open-Meteo's Forecast API for reliable and comprehensive weather information worldwide. Stay informed and make informed decisions with our reliable weather forecasts."
+	/>
 </svelte:head>
 
 <div
@@ -374,7 +378,8 @@
 					href="https://creativecommons.org/licenses/by/4.0/"
 					title="CC BY 4.0 Licence Information">Attribution 4.0 International (CC BY 4.0)</a
 				>. This means you are free to share and adapt the data, even for commercial purposes. We
-				believe in fostering an open ecosystem that encourages transparency, collaboration and innovation.
+				believe in fostering an open ecosystem that encourages transparency, collaboration and
+				innovation.
 			</p>
 		</div>
 
@@ -433,9 +438,9 @@
 		<p class="lead mb-4">
 			We're constantly evolving and expanding. We're dedicated to providing you with the <a
 				href="/en/features"
-				title="All Features of the Weather API"
-			>latest features</a>, weather variables, and data sources. If you want to stay in the loop and be
-			the first to know about our exciting updates, we invite you to subscribe to our
+				title="All Features of the Weather API">latest features</a
+			>, weather variables, and data sources. If you want to stay in the loop and be the first to
+			know about our exciting updates, we invite you to subscribe to our
 			<a href="https://openmeteo.substack.com/" target="_blank">blog</a>
 			or follow us on <a href="https://twitter.com/open_meteo" target="_blank">Twitter</a>. By doing
 			so, you'll never miss out on the latest developments and enhancements in our services.

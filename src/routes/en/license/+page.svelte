@@ -9,6 +9,10 @@
 <svelte:head>
 	<title>License | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/license" />
+	<meta
+		name="description"
+		content="Open-Meteo utilizes open-data from various national weather services, providing accurate forecasts worldwide. The API data is offered under Attribution 4.0 International (CC BY 4.0) license. You are free to share and adapt the material, with appropriate credit. The source code is available on GitHub under the GNU Affero General Public License. Researchers are encouraged to cite Open-Meteo in their work, promoting transparency and collaboration in the scientific community. Join us in supporting open-source initiatives and fostering a culture of recognition."
+	/>
 </svelte:head>
 
 <div
@@ -238,11 +242,13 @@
 						aria-labelledby="pills-apa-tab"
 						tabindex="0"
 					>
-						<p>Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
-							title="zenodo publication"
-							href="https://doi.org/10.5281/ZENODO.7970649"
-							>https://doi.org/10.5281/ZENODO.7970649</a
-						></p>
+						<p>
+							Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
+								title="zenodo publication"
+								href="https://doi.org/10.5281/ZENODO.7970649"
+								>https://doi.org/10.5281/ZENODO.7970649</a
+							>
+						</p>
 					</div>
 					<div
 						class="tab-pane fade show"
@@ -251,8 +257,10 @@
 						aria-labelledby="pills-mla-tab"
 						tabindex="0"
 					>
-						<p>Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
-						doi:10.5281/ZENODO.7970649.</p>
+						<p>
+							Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
+							doi:10.5281/ZENODO.7970649.
+						</p>
 					</div>
 					<div
 						class="tab-pane fade show"
@@ -261,7 +269,10 @@
 						aria-labelledby="pills-harvard-tab"
 						tabindex="0"
 					>
-						<p>Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi: 10.5281/ZENODO.7970649.</p>
+						<p>
+							Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi:
+							10.5281/ZENODO.7970649.
+						</p>
 					</div>
 					<div
 						class="tab-pane fade"

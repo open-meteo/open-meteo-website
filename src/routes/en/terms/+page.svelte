@@ -1,6 +1,10 @@
 <svelte:head>
 	<title>Terms | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/terms" />
+	<meta
+		name="description"
+		content="Open-Meteo is an open-source weather API that offers free access for non-commercial use. No API key required. Our user-friendly API integrates high-resolution local and global weather models, providing accurate forecasts for any location worldwide. We believe in making weather information accessible to everyone and encourage contributions from our users. Contact us via email, social media, or GitHub for any inquiries or feedback. Join us in our mission to provide the most accurate and reliable weather data available."
+	/>
 </svelte:head>
 
 <div
@@ -51,8 +55,10 @@
 						title="Open-Meteo further license details">license conditions</a
 					>.
 				</li>
-				<li>We reserve the right to block applications and IP addresses that misuse our service without
-					prior notice.</li>
+				<li>
+					We reserve the right to block applications and IP addresses that misuse our service
+					without prior notice.
+				</li>
 			</ul>
 			<p>
 				Non-commercial use is defined as as

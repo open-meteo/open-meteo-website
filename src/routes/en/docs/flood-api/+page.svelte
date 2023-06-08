@@ -16,6 +16,7 @@
 <svelte:head>
     <title>Flood API | Open-Meteo.com</title> 
     <link rel="canonical" href="https://open-meteo.com/en/docs/flood-api" />
+    <meta name="description" content="Access ensemble flood forecasts estimating the volume of water discharged by rivers worldwide. Get invaluable information for predicting flood events and taking proactive measures for flood preparedness. Ensure safety and minimize the impact of floods with our reliable flood data.">
 </svelte:head>
 
 

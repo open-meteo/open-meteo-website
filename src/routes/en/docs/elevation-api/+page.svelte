@@ -1,6 +1,8 @@
 <svelte:head>
     <title>Elevation API | Open-Meteo.com</title> 
     <link rel="canonical" href="https://open-meteo.com/en/docs/elevation-api" />
+    <meta name="description" content="Get detailed elevation information for any set of coordinates using our digital elevation model. With impressive resolution up to 90 meters, gain valuable insights into terrain and elevation variations for different geographic points. Enhance your understanding and analysis of topography with our reliable elevation data.">
+
 </svelte:head>
 
 <script lang="ts">
