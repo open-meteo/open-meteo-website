@@ -54,6 +54,13 @@
 				</li>
 				<li class="nav-item">
 					<a
+						href="/en/pricing"
+						class="nav-link"
+						class:active={$page.url.pathname === '/en/pricing'}>Pricing</a
+					>
+				</li>
+				<li class="nav-item">
+					<a
 						href="/en/docs"
 						class="nav-link"
 						class:active={$page.url.pathname.startsWith('/en/docs')}>API Docs</a
@@ -121,28 +128,26 @@
 <footer class="container py-5 pt-4 my-md-5 pt-md-5">
 	<div class="row">
 		<div class="col-6 col-md">
-			<p class="h5">Features</p>
+			<p class="h5">Open-Meteo</p>
 			<ul class="list-unstyled text-small">
 				<li class="mb-1">
-					<a class="link-secondary text-decoration-none" href="/en/features">Local models</a>
+					<a class="link-secondary text-decoration-none" href="/en/features">Features</a>
 				</li>
 				<li class="mb-1">
-					<a class="link-secondary text-decoration-none" href="/en/features#weathervariables"
-						>Weather variables</a
+					<a class="link-secondary text-decoration-none" href="/en/pricing"
+						>Pricing</a
 					>
 				</li>
 				<li class="mb-1">
-					<a class="link-secondary text-decoration-none" href="/en/features#fast"
-						>Lightning fast APIs</a
-					>
+					<a class="link-secondary text-decoration-none" href="/en/about">About us &amp; Contact</a>
 				</li>
 				<li class="mb-1">
-					<a
-						class="link-secondary text-decoration-none"
-						href="https://status.open-meteo.com"
-						target="_blank">Service status and uptime</a
-					>
+					<a class="link-secondary text-decoration-none" href="/en/license">License</a>
 				</li>
+				<li class="mb-1">
+					<a class="link-secondary text-decoration-none" href="/en/terms">Terms &amp; Privacy</a>
+				</li>
+				
 			</ul>
 		</div>
 		<div class="col-6 col-md">
@@ -175,11 +180,27 @@
 				<li class="mb-1">
 					<a class="link-secondary text-decoration-none" href="/en/docs/gem-api">GEM API</a>
 				</li>
+				<li class="mb-1">
+					<a class="link-secondary text-decoration-none" href="/en/docs/jma-api">JMA API</a>
+				</li>
+				<li class="mb-1">
+					<a class="link-secondary text-decoration-none" href="/en/docs/metno-api">Met Norway API</a>
+				</li>
 			</ul>
 		</div>
 		<div class="col-6 col-md">
 			<p class="h5">Other APIs</p>
 			<ul class="list-unstyled text-small">
+				<li class="mb-1">
+					<a class="link-secondary text-decoration-none" href="/en/docs/ensemble-api"
+						>Ensemble API</a
+					>
+				</li>
+				<li class="mb-1">
+					<a class="link-secondary text-decoration-none" href="/en/docs/climate-api"
+						>Climate Change API</a
+					>
+				</li>
 				<li class="mb-1">
 					<a class="link-secondary text-decoration-none" href="/en/docs/marine-weather-api"
 						>Marine Weather API</a
@@ -206,17 +227,9 @@
 			</ul>
 		</div>
 		<div class="col-6 col-md">
-			<p class="h5">Open-Meteo</p>
+			<p class="h5">External</p>
 			<ul class="list-unstyled text-small">
-				<li class="mb-1">
-					<a class="link-secondary text-decoration-none" href="/en/about">About us &amp; Contact</a>
-				</li>
-				<li class="mb-1">
-					<a class="link-secondary text-decoration-none" href="/en/license">License</a>
-				</li>
-				<li class="mb-1">
-					<a class="link-secondary text-decoration-none" href="/en/terms">Terms &amp; Privacy</a>
-				</li>
+				
 				<li class="mb-1">
 					<a
 						class="link-secondary text-decoration-none"
@@ -245,6 +258,13 @@
 						class="link-secondary text-decoration-none"
 						href="https://fosstodon.org/@openmeteo"
 						target="_blank">Mastodon</a
+					>
+				</li>
+				<li class="mb-1">
+					<a
+						class="link-secondary text-decoration-none"
+						href="https://status.open-meteo.com"
+						target="_blank">Service status and uptime</a
 					>
 				</li>
 			</ul>

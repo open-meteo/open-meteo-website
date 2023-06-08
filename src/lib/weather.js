@@ -301,7 +301,7 @@ export function init(Dropdown) {
     
         frm.serializeArray().forEach((v) => {
             let defaultValue = frm.find('[name="'+v.name+'"]').data("default");
-            if (v.value == defaultValue) {
+            if (v.value == defaultValue || v.name == "use" || v.name == "self_hosted") {
                 return;
             }
             if (previous == v.name) {
@@ -322,7 +322,19 @@ export function init(Dropdown) {
             const urlparts = new URL(action);
             action = `http://127.0.0.1:8080${urlparts.pathname}`;
         }
+        if ($('#use').val() == "commercial") {
+            const urlparts = new URL(action);
+            action = `https://customer-${urlparts.hostname}${urlparts.pathname}`;
+        }
+        if ($('#use').val() == "self_hosted") {
+            const urlparts = new URL(action);
+            const server = $('#self_host_server').val()
+            action = `${server}${urlparts.pathname}`;
+        }
         let url = action + "?" + params;
+        while (chart?.series.length) {
+            chart?.series[0].remove();
+        }
         chart?.showLoading("Settings changed. Please click 'Preview chart'");
     
         $('#api_url').val(url);
@@ -336,19 +348,27 @@ export function init(Dropdown) {
         var previous = "";
         var first = true;
         var params = "";
+        var params_no_key = "";
     
         frm.serializeArray().forEach((v) => {
             let defaultValue = frm.find('[name="'+v.name+'"]').data("default");
-            if (v.value == defaultValue) {
+            if (v.value == defaultValue || v.name == "use" || v.name == "self_host_server") {
                 return;
             }
             if (previous == v.name) {
                 params += "," + encodeURIComponent(v.value);
+                params_no_key += "," + encodeURIComponent(v.value);
             } else {
                 if (!first) {
                     params += "&"
+                    if (v.name != "apikey") {
+                        params_no_key += "&"
+                    }
                 }
                 params += v.name + "=" + encodeURIComponent(v.value);
+                if (v.name != "apikey") {
+                    params_no_key += v.name + "=" + encodeURIComponent(v.value);
+                }
             }
             previous = v.name;
             first = false;
@@ -360,6 +380,15 @@ export function init(Dropdown) {
             const urlparts = new URL(action);
             action = `http://127.0.0.1:8080${urlparts.pathname}`;
         }
+        if ($('#use').val() == "commercial") {
+            const urlparts = new URL(action);
+            action = `https://customer-${urlparts.hostname}${urlparts.pathname}`;
+        }
+        if ($('#use').val() == "self_hosted") {
+            const urlparts = new URL(action);
+            const server = $('#self_host_server').val()
+            action = `${server}${urlparts.pathname}`;
+        }
         let url = action + "?" + params;
     
         if ("originalEvent" in e && e.originalEvent.submitter.name == "format") {
@@ -369,7 +398,7 @@ export function init(Dropdown) {
     
         if (frmInitialParameter != frm.serialize()) {
             // Only set location hash for non default configurations
-            window.location.hash = params;
+            window.location.hash = params_no_key;
         }
     
         $('#api_url').val(url);
@@ -386,9 +415,13 @@ export function init(Dropdown) {
                 chart = previewData(data, downloadTime);
             },
             error: function (data) {
-                //console.warn('An error occurred.');
-                //console.warn(data);
-                alert("API error: "+data.responseJSON.reason);
+                if (document.getElementById('container')) {
+                    chart = Highcharts.chart('container', {title: {text:""}});
+                }
+                if (document.getElementById('containerStockcharts')) {
+                    chart = Highcharts.chart('containerStockcharts', {title: {text:""}});
+                }
+                chart?.showLoading("API error: "+data.responseJSON.reason);
             },
         });
       });

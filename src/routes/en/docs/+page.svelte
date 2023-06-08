@@ -1,5 +1,6 @@
 <script lang="ts">
 import PressureLevels from "./PressureLevels.svelte";
+import LicenseSelector from "./LicenseSelector.svelte";
 import PressureLevelsHelpTable from "./PressureLevelsHelpTable.svelte"
 import { onMount } from 'svelte';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
@@ -26,8 +27,9 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
 </script>
 
 <svelte:head>
-    <title>Docs | Open-Meteo.com</title> 
+    <title>🌦️ Docs | Open-Meteo.com</title> 
     <link rel="canonical" href="https://open-meteo.com/en/docs" />
+    <meta name="description" content="Weather Forecast APIs with weather models from multiple national weather providers, combining the best models for accurate forecasts worldwide. Explore the API documentation to learn more about the available weather models, their origin countries, resolutions, forecast lengths, and update frequencies. Get detailed JSON hourly weather forecasts for up to 7 or 16 days by specifying the geographical coordinates and desired weather variables in the API endpoint. Discover the comprehensive list of URL parameters for customizing your weather forecast requests.">
 </svelte:head>
 
 
@@ -956,25 +958,24 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
       </div>
     </div>
 
-    <div class="col-12">
-      <button type="submit" class="btn btn-primary">Preview Chart</button>
-      <button type="submit" class="btn btn-outline-primary" name="format" value="xlsx">Download XLSX</button>
-      <button type="submit" class="btn btn-outline-primary" name="format" value="csv">Download CSV</button>
-    </div>
-  </form>
-
-
-
+  <LicenseSelector></LicenseSelector>
   <div class="col-12 my-4">
+    <h2>Preview and API URL</h2>
     <div id="container" style="height: 400px; width: 100%"></div>
   </div>
-
   <div class="col-12">
-    <label for="api_url" class="form-label">API URL (<a id="api_url_link" target="_blank" href="#">Open in new
-        tab</a>)</label>
-    <input type="text" class="form-control" id="api_url" readonly>
-    <div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
+    <button type="submit" class="btn btn-primary">Preview Chart</button>
+    <button type="submit" class="btn btn-outline-primary" name="format" value="xlsx">Download XLSX</button>
+    <button type="submit" class="btn btn-outline-primary" name="format" value="csv">Download CSV</button>
   </div>
+
+  <div class="col-12 my-4">
+    <label for="api_url" class="form-label">API URL</label> <small class="text-muted">(<a id="api_url_link" target="_blank" href="#">Open in new
+        tab</a> or copy this URL into your application)</small>
+    <input type="text" class="form-control" id="api_url" readonly>
+  </div>
+</form>
+
 
   <div class="col-12 py-5">
     <h2 id="data-sources">Data Source</h2>
@@ -1191,6 +1192,19 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
             <td>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a suitable grid-cell on land with <a href="https://openmeteo.substack.com/p/improving-weather-forecasts-with" title="Elevation based grid-cell selection explained">similar elevation to the requested coordinates using a 90-meter digital elevation model</a>. 
               <mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible grid-cell.
             </td>
+          </tr>
+          <tr>
+            <th scope="row">apikey</th>
+            <td>String</td>
+            <td>No</td>
+            <td />
+            <td
+              >Only required to commercial use to access reserved API resources for customers. The
+              server URL requires the prefix <mark>customer-</mark>. See
+              <a href="/en/pricing" title="Pricing information to use the weather API commercially"
+                >pricing</a
+              > for more information.</td
+            >
           </tr>
         </tbody>
       </table>

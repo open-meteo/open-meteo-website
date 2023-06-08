@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>About | Open-Meteo.com</title>
+	<title>👋 About | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/about" />
 </svelte:head>
 
