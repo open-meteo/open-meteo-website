@@ -67,16 +67,8 @@
 				most accurate forecast for any location worldwide.
 			</p>
 			<p>
-				National weather services include <a
-					href="https://www.dwd.de/"
-					title="German Weather Service">Deutscher Wetter Dienst (DWD)</a
-				>,
-				<a href="https://www.noaa.gov/" title="American Weather Service"
-					>National Oceanic and Atmospheric Administration (NOAA)</a
-				>, <a href="https://meteofrance.com/" title="French Weather Service">Meteofrance</a> and
-				<a href="https://weather.gc.ca" title="Canadian Weather Serice"
-					>Canadian Meteorological Center (CMC)</a
-				>.
+				National weather services include Deutscher Wetter Dienst (DWD), National Oceanic and
+				Atmospheric Administration (NOAA), Meteofrance and Canadian Meteorological Center (CMC).
 			</p>
 		</div>
 		<div class="feature col">
@@ -231,7 +223,7 @@
 <div class="container px-4 py-5" id="available-apis">
 	<h2 id="weathervariables" class="pb-2 text-center display-5">Available APIs</h2>
 	<p class="lead text-center">
-		At Open-Meteo, we offer a diverse range of APIs that go beyond traditional weather forecasting.
+		Open-Meteo offers a diverse range of APIs that go beyond traditional weather forecasting.
 		Explore a world of possibilities with our APIs for past weather data, ocean data, air quality,
 		ensemble forecasts, climate forecasts based on IPCC predictions, and even floods. Whatever your
 		weather-related needs may be, Open-Meteo has got you covered.
@@ -271,7 +263,7 @@
 		<div class="col d-flex align-items-start">
 			<div>
 				<h3 class="fw-bold mb-0">Historical Weather API</h3>
-				<p class="lead">Unlock the Weather Past!</p>
+				<p class="lead">Unlock the Past Weather!</p>
 				<p>
 					Step back in time and explore the weather history with our <a
 						href="/en/docs/historical-weather-api"
@@ -341,7 +333,7 @@
 		<div class="col d-flex align-items-start">
 			<div>
 				<h3 class="fw-bold mb-0">Marine, Air Quality, and Floods</h3>
-				<p class="lead">Comprehensive Environmental Insights!</p>
+				<p class="lead">Comprehensive Environmental Analysis!</p>
 				<p>
 					Dive into the world of marine weather with our <a
 						href="/en/docs/marine-weather-api"
@@ -369,7 +361,7 @@
 		<div class="col d-flex align-items-start">
 			<div>
 				<h3 class="fw-bold mb-0">Geocoding, and Elevation</h3>
-				<p class="lead">Unlock Location Insights!</p>
+				<p class="lead">Disclose Location Insights!</p>
 				<p>
 					Discover any city or town worldwide with our <a
 						href="/en/docs/geocoding-api"
@@ -413,14 +405,15 @@
 			</div>
 			<h2 id="fast">Lightning Fast APIs</h2>
 			<p>
-				Open-Meteo APIs are build to be as fast and scalable as possible. All weather data are
-				stored on speedy NVMe disks in optimized time-series formats. API requests perform typically
-				below 10 milliseconds.
+				Open-Meteo has designed its APIs to deliver lightning-fast performance and scalability.
+				Weather data is stored on high-speed NVMe disks in optimized time-series formats. API
+				requests typically have a response time of under 10 milliseconds.
 			</p>
 			<p>
-				For global availably and local points of presence, Open-Meteo API servers can be added to
-				any cloud provider or hosting center easily. Get in touch with us if performance is critical
-				to you.
+				To ensure reliability and low latency, Open-Meteo operates servers in Europe and North
+				America. Additionally, we offer the flexibility to add API servers to local points of
+				presence in any cloud provider or hosting center. If performance is crucial for your needs,
+				feel free to reach out to us.
 			</p>
 		</div>
 		<div class="feature col">
@@ -438,16 +431,16 @@
 					/>
 				</svg>
 			</div>
-			<h2>Easy to use</h2>
+			<h2>User-Friendly APIs</h2>
+
 			<p>
-				Our HTTP based JSON APIs are dead simple. You only need to be familiar with geographic
-				coordinates (like 52.52°N 13.405°E for Berlin), how to make HTTP request and the JSON data
-				format.
+				Our JSON-based APIs are incredibly easy to use. All you need is a basic understanding of
+				geographic coordinates (e.g., <mark>52.52°N 13.405°E</mark> for Berlin), how to make HTTP requests,
+				and work with JSON data.
 			</p>
 			<p>
-				Documentation with all parameters and an in-depth explanation is available in our <a
-					href="/en/docs">docs</a
-				>.
+				We provide <a href="/en/docs">comprehensive API documentation</a> with detailed explanations
+				and all the necessary parameters, making it simple for you to integrate our APIs into your projects.
 			</p>
 		</div>
 		<div class="feature col">
@@ -468,13 +461,17 @@
 					/>
 				</svg>
 			</div>
-			<h2>Stable APIs</h2>
+			<h2>Reliable APIs</h2>
 			<p>
-				Nothing is worse than API changes. We commit to keep APIs stable. All changes will follow <a
-					href="https://semver.org/">semantic versioning</a
-				> and breaking changes will be published as new major versions.
+				We understand the importance of API stability. Rest assured, we are committed to maintaining
+				the stability of our APIs. Any modifications will adhere to semantic versioning, and
+				breaking changes will be introduced as new major versions.
 			</p>
-			<p>All API changes will be logged on our GitHub repository.</p>
+			<p>
+				To keep you informed, all API changes will be documented and logged in our GitHub
+				repository. This ensures transparency and allows you to stay updated on any modifications
+				made to our APIs.
+			</p>
 		</div>
 	</div>
 </div>
@@ -498,15 +495,19 @@
 	<h1 id="contact" class="display-5 fw-bold">Next steps</h1>
 	<div class="col-lg-6 mx-auto">
 		<p class="lead mb-4">
-			Our <a href="/en/docs">documentation</a> provides a good start to help you integrate weather forecast
-			into you application. If you need help, have suggestions for improvements or report a bug, please
-			reach out to us on our GitHub repository. Or write us an email directly.
+			Our <a href="/en/docs">documentation</a> provides a good start to help you integrate weather
+			forecast into you application. For commercial applications, we recommend exploring our
+			<a href="/en/pricing" title="API Subscription Plans">API subscriptions</a>. Should you require
+			any assistance, have suggestions for improvements, or need to report a bug, we encourage you
+			to reach out to us through our
+			<a href="https://github.com/open-meteo/open-meteo" title="GitHub Repository" target="_blank"
+				>GitHub repository</a
+			>. Alternatively, you can also contact us directly via email. We're here to support you every
+			step of the way.
 		</p>
 		<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-			<a
-				class="btn btn-primary btn-lg px-4 gap-3"
-				href="https://github.com/open-meteo/open-meteo"
-				target="_blank">Support on GitHub</a
+			<a class="btn btn-primary btn-lg px-4 gap-3" href="/en/pricing" title="API Subscription Plans"
+				>API Pricing</a
 			>
 			<a href="mailto:info@open-meteo.com" class="btn btn-outline-secondary btn-lg px-4">Email us</a
 			>
