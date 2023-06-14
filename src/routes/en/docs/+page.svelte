@@ -928,14 +928,15 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
       </div>
       <div class="col-3">
         <div class="form-floating mb-3">
-          <select class="form-select" name="timezone" id="timezone" aria-label="Timezone" data-default="GMT">
+          <select class="form-select" name="timezone" id="timezone" aria-label="Timezone" data-default="UTC">
             <option value="America/Anchorage">America/Anchorage</option>
             <option value="America/Los_Angeles">America/Los_Angeles</option>
             <option value="America/Denver">America/Denver</option>
             <option value="America/Chicago">America/Chicago</option>
             <option value="America/New_York">America/New_York</option>
             <option value="America/Sao_Paulo">America/Sao_Paulo</option>
-            <option selected value="GMT">GMT+0</option>
+            <option selected value="UTC">Not set (GMT+0)</option>
+            <option value="GMT">GMT+0</option>
             <option value="auto">Automatically detect time zone</option>
             <option value="Europe/London">Europe/London</option>
             <option value="Europe/Berlin">Europe/Berlin</option>
