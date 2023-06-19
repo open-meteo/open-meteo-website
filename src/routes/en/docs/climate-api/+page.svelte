@@ -226,6 +226,20 @@
           </label>
         </div>
         <div class="form-check debug-hidden">
+          <input class="form-check-input" type="checkbox" value="soil_moisture_7_to_28cm_mean"
+            id="soil_moisture_7_to_28cm_mean" name="daily">
+          <label class="form-check-label" for="soil_moisture_7_to_28cm_mean">
+            Mean Soil Moisture (7-28 cm)
+          </label>
+        </div>
+        <div class="form-check debug-hidden">
+          <input class="form-check-input" type="checkbox" value="soil_moisture_28_to_100cm_mean"
+            id="soil_moisture_28_to_100cm_mean" name="daily">
+          <label class="form-check-label" for="soil_moisture_28_to_100cm_mean">
+            Mean Soil Moisture (28-100 cm)
+          </label>
+        </div>
+        <div class="form-check debug-hidden">
           <input class="form-check-input" type="checkbox" value="soil_moisture_index_0_to_100cm_mean"
             id="soil_moisture_index_0_to_100cm_mean" name="daily">
           <label class="form-check-label" for="soil_moisture_index_0_to_100cm_mean">
@@ -240,10 +254,45 @@
           </label>
         </div>
         <div class="form-check debug-hidden">
+          <input class="form-check-input" type="checkbox" value="soil_moisture_index_7_to_28cm_mean"
+            id="soil_moisture_index_7_to_28cm_mean" name="daily">
+          <label class="form-check-label" for="soil_moisture_index_7_to_28cm_mean">
+            Mean Soil Moisture Index (7-28 cm)
+          </label>
+        </div>
+        <div class="form-check debug-hidden">
+          <input class="form-check-input" type="checkbox" value="soil_moisture_index_28_to_100cm_mean"
+            id="soil_moisture_index_28_to_100cm_mean" name="daily">
+          <label class="form-check-label" for="soil_moisture_index_28_to_100cm_mean">
+            Mean Soil Moisture Index (28-100 cm)
+          </label>
+        </div>
+        <div class="form-check debug-hidden">
           <input class="form-check-input" type="checkbox" value="soil_temperature_0_to_100cm_mean"
             id="soil_temperature_0_to_100cm_mean" name="daily">
           <label class="form-check-label" for="soil_temperature_0_to_100cm_mean">
             Mean Soil Temperature (0-100 cm)
+          </label>
+        </div>
+        <div class="form-check debug-hidden">
+          <input class="form-check-input" type="checkbox" value="soil_temperature_7_to_28cm_mean"
+            id="soil_temperature_7_to_28cm_mean" name="daily">
+          <label class="form-check-label" for="soil_temperature_7_to_28cm_mean">
+            Mean Soil Temperature (7-28 cm)
+          </label>
+        </div>
+        <div class="form-check debug-hidden">
+          <input class="form-check-input" type="checkbox" value="soil_temperature_28_to_100cm_mean"
+            id="soil_temperature_28_to_100cm_mean" name="daily">
+          <label class="form-check-label" for="soil_temperature_28_to_100cm_mean">
+            Mean Soil Temperature (28-100 cm)
+          </label>
+        </div>
+        <div class="form-check debug-hidden">
+          <input class="form-check-input" type="checkbox" value="daylight_duration"
+            id="daylight_duration" name="daily">
+          <label class="form-check-label" for="daylight_duration">
+            Daylight Duration
           </label>
         </div>
       </div>
