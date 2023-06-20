@@ -5,3 +5,5 @@ export const api_key_preferences = persisted('api_key_preferences', {
     apikey: '', 
     self_host_server: 'https://my-server.tld' 
 });
+
+export const theme = persisted('theme', false);

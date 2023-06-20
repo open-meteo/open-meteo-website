@@ -44,10 +44,14 @@
 <div class="container px-4 py-3" id="plans">
 	<script async src="https://js.stripe.com/v3/pricing-table.js"></script>
 	<stripe-pricing-table
+		pricing-table-id="prctbl_1NL5gcLNZMSyEuRUSx6dv3vF"
+		publishable-key="pk_live_51MJeWDLNZMSyEuRU9z4cAidPizoNKshAoYEoTCcD6f94ShOpnqwpShwYfgpPMfISmiXFLNWWM8u769epiIwaMeV900ZFxKd8rR"
+	/>
+	<!--<stripe-pricing-table
 		class="row"
 		pricing-table-id="prctbl_1MJg0iLNZMSyEuRUvpoeTHOb"
 		publishable-key="pk_live_51MJeWDLNZMSyEuRU9z4cAidPizoNKshAoYEoTCcD6f94ShOpnqwpShwYfgpPMfISmiXFLNWWM8u769epiIwaMeV900ZFxKd8rR"
-	/>
+	/>-->
 </div>
 
 <div class="container px-4 py-2">

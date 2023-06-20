@@ -2,14 +2,22 @@
 	import '../app.scss';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { theme } from '$lib/stores';
+	import { MoonStarsFill, CircleHalf, SunFill, Github, Twitter } from "svelte-bootstrap-icons";
 
 	onMount(async () => {
 		const Dropdown = await import('bootstrap/js/dist/dropdown');
 		const Collapse = await import('bootstrap/js/dist/collapse');
 	});
+
+	let body;
+	const bindBody = (node) => (body = node);
+	$: body?.setAttribute('data-bs-theme', $theme ? "dark": "")
 </script>
 
-<nav class="navbar navbar-expand-md navbar-light bg-white">
+<svelte:body use:bindBody />
+
+<nav class="navbar navbar-expand-md navbar-light">
 	<div class="container-fluid">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -53,10 +61,8 @@
 					>
 				</li>
 				<li class="nav-item">
-					<a
-						href="/en/pricing"
-						class="nav-link"
-						class:active={$page.url.pathname === '/en/pricing'}>Pricing</a
+					<a href="/en/pricing" class="nav-link" class:active={$page.url.pathname === '/en/pricing'}
+						>Pricing</a
 					>
 				</li>
 				<li class="nav-item">
@@ -70,7 +76,56 @@
 					<a href="https://openmeteo.substack.com" class="nav-link" target="_blank">Blog</a>
 				</li>
 			</ul>
+			<!--<div class="form-check form-switch ms-auto mt-3 me-3">
+				<label class="form-check-label ms-3" for="lightSwitch">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="25"
+						height="25"
+						fill="currentColor"
+						class="bi bi-brightness-high"
+						viewBox="0 0 16 16"
+					>
+						<path
+							d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"
+						/>
+					</svg>
+				</label>
+				<input class="form-check-input" type="checkbox" id="lightSwitch" bind:checked={$theme} />
+			</div>
+			{$theme}-->
 			<ul class="navbar-nav ml-sm-auto">
+				<li class="nav-item dropdown">
+					<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (dark)">
+					  <MoonStarsFill class="bi my-1 theme-icon-active"/>
+					  <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+							<SunFill class="bi me-2 opacity-50 theme-icon" />
+						  <!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>-->
+						  Light
+						  <!--<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="dark" aria-pressed="false">
+							<MoonStarsFill class="bi me-2 opacity-50 theme-icon"/>
+						  Dark
+						 <!-- <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="true">
+							<CircleHalf class="bi me-2 opacity-50 theme-icon" />
+						  <!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>-->
+						  Auto
+						  <!--<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
+						</button>
+					  </li>
+					</ul>
+				</li>
 				<li class="nav-item">
 					<a
 						class="nav-link p-2"
@@ -78,21 +133,7 @@
 						target="_blank"
 						rel="noopener"
 						aria-label="GitHub"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="28"
-							height="28"
-							class="navbar-nav-svg"
-							viewBox="0 0 512 499.36"
-							role="img"
-						>
-							<path
-								fill="currentColor"
-								fill-rule="evenodd"
-								d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z"
-							/>
-						</svg>
+					><Github width={28} height={28} class="navbar-nav-svg"/>
 					</a>
 				</li>
 				<li class="nav-item">
@@ -102,20 +143,7 @@
 						target="_blank"
 						rel="noopener"
 						aria-label="Twitter"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="28"
-							height="28"
-							class="navbar-nav-svg"
-							viewBox="0 0 512 416.32"
-							role="img"
-						>
-							<path
-								fill="currentColor"
-								d="M160.83 416.32c193.2 0 298.92-160.22 298.92-298.92 0-4.51 0-9-.2-13.52A214 214 0 0 0 512 49.38a212.93 212.93 0 0 1-60.44 16.6 105.7 105.7 0 0 0 46.3-58.19 209 209 0 0 1-66.79 25.37 105.09 105.09 0 0 0-181.73 71.91 116.12 116.12 0 0 0 2.66 24c-87.28-4.3-164.73-46.3-216.56-109.82A105.48 105.48 0 0 0 68 159.6a106.27 106.27 0 0 1-47.53-13.11v1.43a105.28 105.28 0 0 0 84.21 103.06 105.67 105.67 0 0 1-47.33 1.84 105.06 105.06 0 0 0 98.14 72.94A210.72 210.72 0 0 1 25 370.84a202.17 202.17 0 0 1-25-1.43 298.85 298.85 0 0 0 160.83 46.92"
-							/>
-						</svg>
+					><Twitter width={28} height={28} class="navbar-nav-svg"/>
 					</a>
 				</li>
 			</ul>
@@ -134,9 +162,7 @@
 					<a class="link-secondary text-decoration-none" href="/en/features">Features</a>
 				</li>
 				<li class="mb-1">
-					<a class="link-secondary text-decoration-none" href="/en/pricing"
-						>Pricing</a
-					>
+					<a class="link-secondary text-decoration-none" href="/en/pricing">Pricing</a>
 				</li>
 				<li class="mb-1">
 					<a class="link-secondary text-decoration-none" href="/en/about">About us &amp; Contact</a>
@@ -147,7 +173,6 @@
 				<li class="mb-1">
 					<a class="link-secondary text-decoration-none" href="/en/terms">Terms &amp; Privacy</a>
 				</li>
-				
 			</ul>
 		</div>
 		<div class="col-6 col-md">
@@ -184,7 +209,8 @@
 					<a class="link-secondary text-decoration-none" href="/en/docs/jma-api">JMA API</a>
 				</li>
 				<li class="mb-1">
-					<a class="link-secondary text-decoration-none" href="/en/docs/metno-api">Met Norway API</a>
+					<a class="link-secondary text-decoration-none" href="/en/docs/metno-api">Met Norway API</a
+					>
 				</li>
 			</ul>
 		</div>
@@ -229,7 +255,6 @@
 		<div class="col-6 col-md">
 			<p class="h5">External</p>
 			<ul class="list-unstyled text-small">
-				
 				<li class="mb-1">
 					<a
 						class="link-secondary text-decoration-none"
