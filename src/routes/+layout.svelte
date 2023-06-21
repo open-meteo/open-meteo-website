@@ -4,6 +4,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { theme, themeIsDark} from '$lib/stores';
 	import { MoonStarsFill, CircleHalf, SunFill, Github, Twitter } from "svelte-bootstrap-icons";
+	import type { HtmlTag } from 'svelte/internal';
 
 	onMount(async () => {
 		const Dropdown = await import('bootstrap/js/dist/dropdown');
@@ -25,16 +26,16 @@
 		})
 		
 		// Update the store if OS preference changes
-		const updateThemeOnChange = e => { if ($theme == 'auto') $themeIsDark = e.matches }
-		prefersDarkMode.addListener(updateThemeOnChange)
+		const updateThemeOnChange: (this: MediaQueryList, ev: MediaQueryListEvent) => (any) = (e) => { if ($theme == 'auto') $themeIsDark = e.matches }
+		prefersDarkMode.addEventListener('change', updateThemeOnChange)
 		onDestroy(() => {
-			prefersDarkMode.removeListener(updateThemeOnChange)
+			prefersDarkMode.removeEventListener('change', updateThemeOnChange)
 			themeUnSubscriber()
 		})
 	});
 
-	let body;
-	const bindBody = (node) => (body = node);
+	let body: HTMLElement;
+	const bindBody = (node: any) => (body = node);
 	$: body?.setAttribute('data-bs-theme', $themeIsDark ? "dark": "")
 </script>
 

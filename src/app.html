@@ -21,7 +21,7 @@
 
 <script lang="js">
   let storedTheme = JSON.parse(localStorage.getItem('theme'))
-  if (storedTheme === 'dark' || (storedTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  if (storedTheme === 'dark' || ((storedTheme === 'auto' || storedTheme === null) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.body.setAttribute('data-bs-theme', 'dark')
   }
 </script>
