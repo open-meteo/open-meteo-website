@@ -19,7 +19,7 @@
   </div>
 </body>
 
-<script lang="js">
+<script>
   let storedTheme = JSON.parse(localStorage.getItem('theme'))
   if (storedTheme === 'dark' || ((storedTheme === 'auto' || storedTheme === null) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.body.setAttribute('data-bs-theme', 'dark')
