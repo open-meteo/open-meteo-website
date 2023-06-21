@@ -55,10 +55,10 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-3 col-lg-2 bg-light">
+		<div class="col-md-3 col-lg-2">
 			<div class="my-3 d-md-none">
 				<button
-					class="btn btn-outline-dark dropdown-toggle collapsed"
+					class="btn dropdown-toggle collapsed"
 					type="button"
 					data-bs-toggle="collapse"
 					data-bs-target="#sidebarMenu"
@@ -71,19 +71,19 @@
 			<nav id="sidebarMenu" class="d-md-block collapse py-2 py-md-3 py-lg-4">
 				<ul class="list-unstyled">
 					{#each links as link}
-						<li class="py-2">
+						<li>
 							<a
-								class="btn-hover link-dark text-decoration-none rounded px-2 py-2"
+								class="btn btn-hover"
 								href={link.url}
 								class:active={$page.url.pathname === link.url}>{link.title}</a
 							>
 							{#if link.children && ($page.url.pathname === link.url || link.children.some((l) => l.url === $page.url.pathname))}
 								<ul class="list-unstyled ms-3 mb-4 mt-1">
 									{#each link.children as l}
-										<li class="py-1">
+										<li>
 											<a
 												href={l.url}
-												class="btn-hover py-1 px-2 link-dark text-decoration-none rounded"
+												class="btn btn-hover py-1 px-2"
 												class:active={$page.url.pathname === l.url}>{l.title}</a
 											>
 										</li>
@@ -102,13 +102,13 @@
 </div>
 
 <style>
-	.btn-hover:hover {
+	/*.btn-hover:hover {
 		background-color: #aab1b7;
 	}
 
 	.btn-hover.active {
 		background-color: #d2e7f4;
-	}
+	}*/
 	.hero-banner {
 		background-size: cover;
 		background-position: center;
