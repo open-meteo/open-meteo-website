@@ -1,18 +1,41 @@
 <script lang="ts">
 	import '../app.scss';
 	import { page } from '$app/stores';
-	import { onMount } from 'svelte';
-	import { theme } from '$lib/stores';
+	import { onMount, onDestroy } from 'svelte';
+	import { theme, themeIsDark} from '$lib/stores';
 	import { MoonStarsFill, CircleHalf, SunFill, Github, Twitter } from "svelte-bootstrap-icons";
 
 	onMount(async () => {
 		const Dropdown = await import('bootstrap/js/dist/dropdown');
 		const Collapse = await import('bootstrap/js/dist/collapse');
+
+		const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)')
+		const themeUnSubscriber = theme.subscribe((theme) => {
+			switch (theme) {
+			case 'auto': 
+				$themeIsDark = prefersDarkMode.matches
+				break;
+			case 'dark':
+				$themeIsDark = true
+				break;
+			case 'light':
+				$themeIsDark = false
+				break;
+			}
+		})
+		
+		// Update the store if OS preference changes
+		const updateThemeOnChange = e => { if ($theme == 'auto') $themeIsDark = e.matches }
+		prefersDarkMode.addListener(updateThemeOnChange)
+		onDestroy(() => {
+			prefersDarkMode.removeListener(updateThemeOnChange)
+			themeUnSubscriber()
+		})
 	});
 
 	let body;
 	const bindBody = (node) => (body = node);
-	$: body?.setAttribute('data-bs-theme', $theme ? "dark": "")
+	$: body?.setAttribute('data-bs-theme', $themeIsDark ? "dark": "")
 </script>
 
 <svelte:body use:bindBody />
@@ -102,7 +125,7 @@
 					</button>
 					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
 					  <li>
-						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+						<button type="button" class="dropdown-item d-flex align-items-center" class:active={$theme == 'light'} aria-pressed={$theme == 'light'} on:click={() => $theme = "light"}>
 							<SunFill class="bi me-2 opacity-50 theme-icon" />
 						  <!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>-->
 						  Light
@@ -110,14 +133,14 @@
 						</button>
 					  </li>
 					  <li>
-						<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="dark" aria-pressed="false">
+						<button type="button" class="dropdown-item d-flex align-items-center" class:active={$theme == 'dark'} aria-pressed={$theme == 'dark'} on:click={() => $theme = "dark"}>
 							<MoonStarsFill class="bi me-2 opacity-50 theme-icon"/>
 						  Dark
 						 <!-- <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
 						</button>
 					  </li>
 					  <li>
-						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="true">
+						<button type="button" class="dropdown-item d-flex align-items-center" class:active={$theme == 'auto'} aria-pressed={$theme == 'auto'} on:click={() => $theme = "auto"}>
 							<CircleHalf class="bi me-2 opacity-50 theme-icon" />
 						  <!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>-->
 						  Auto

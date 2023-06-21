@@ -20,14 +20,9 @@
 </body>
 
 <script lang="js">
-  let storedTheme = localStorage.getItem('theme')
-  if (storedTheme !== null) {
-    if ((Boolean)(storedTheme)) {
-      document.body.setAttribute('data-bs-theme', 'dark')
-    } 
-  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches ) {
+  let storedTheme = JSON.parse(localStorage.getItem('theme'))
+  if (storedTheme === 'dark' || (storedTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.body.setAttribute('data-bs-theme', 'dark')
-    localStorage.setItem('theme', 'true')
   }
 </script>
 </html>

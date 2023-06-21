@@ -2,11 +2,24 @@ import $ from "jquery";
 import Highcharts from 'highcharts/highstock';
 import HighchartsAccessibility from "highcharts/modules/accessibility";
 //import HighchartsBoost from "highcharts/modules/boost";
+import { theme } from '$lib/stores';
 
 HighchartsAccessibility(Highcharts);
 //HighchartsBoost(Highcharts);
 
 //import Dropdown from "bootstrap/js/src/dropdown"
+
+import HighchartsDark from 'highcharts/themes/high-contrast-dark'
+import HighchartsLight from 'highcharts/themes/high-contrast-light'
+
+theme.subscribe(val => {
+    console.error(val);
+    if (val === true) {
+        HighchartsDark(Highcharts);
+    } else {
+        HighchartsLight(Highcharts);
+    }
+})
 
 
 function updateCheckboxCounter(counter, countOf) {
