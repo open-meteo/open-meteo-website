@@ -68,7 +68,7 @@
 					Available APIs
 				</button>
 			</div>
-			<nav id="sidebarMenu" class="d-md-block collapse py-2 py-md-3 py-lg-4">
+			<nav id="sidebarMenu" class="sticky-top d-md-block collapse py-2 py-md-3 py-lg-4">
 				<ul class="list-unstyled">
 					{#each links as link}
 						<li>
