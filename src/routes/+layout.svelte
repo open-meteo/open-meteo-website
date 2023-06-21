@@ -42,7 +42,7 @@
 <svelte:body use:bindBody />
 
 <nav class="navbar navbar-expand-md navbar-light">
-	<div class="container-fluid">
+	<div class="container">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			width="28"
@@ -72,6 +72,10 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav me-auto mb-2 mb-md-0">
+				<li class="d-md-none nav-item py-1 py-lg-1">
+					<div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
+					<hr class="d-lg-none my-2">
+				</li>
 				<li class="nav-item">
 					<a href="/" class="nav-link" class:active={$page.url.pathname === '/'} aria-current="page"
 						>Home</a
@@ -100,55 +104,29 @@
 					<a href="https://openmeteo.substack.com" class="nav-link" target="_blank">Blog</a>
 				</li>
 			</ul>
+			
 			<!--<div class="form-check form-switch ms-auto mt-3 me-3">
-				<label class="form-check-label ms-3" for="lightSwitch">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width="25"
-						height="25"
-						fill="currentColor"
-						class="bi bi-brightness-high"
-						viewBox="0 0 16 16"
-					>
-						<path
-							d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"
-						/>
-					</svg>
-				</label>
-				<input class="form-check-input" type="checkbox" id="lightSwitch" bind:checked={$theme} />
-			</div>
+					<label class="form-check-label ms-3" for="lightSwitch">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="25"
+							height="25"
+							fill="currentColor"
+							class="bi bi-brightness-high"
+							viewBox="0 0 16 16"
+						>
+							<path
+								d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"
+							/>
+						</svg>
+					</label>
+					<input class="form-check-input" type="checkbox" id="lightSwitch" bind:checked={$theme} />
+				</div>
 			{$theme}-->
 			<ul class="navbar-nav ml-sm-auto">
-				<li class="nav-item dropdown">
-					<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (dark)">
-					  <MoonStarsFill class="bi my-1 theme-icon-active"/>
-					  <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
-					</button>
-					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
-					  <li>
-						<button type="button" class="dropdown-item d-flex align-items-center" class:active={$theme == 'light'} aria-pressed={$theme == 'light'} on:click={() => $theme = "light"}>
-							<SunFill class="bi me-2 opacity-50 theme-icon" />
-						  <!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>-->
-						  Light
-						  <!--<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
-						</button>
-					  </li>
-					  <li>
-						<button type="button" class="dropdown-item d-flex align-items-center" class:active={$theme == 'dark'} aria-pressed={$theme == 'dark'} on:click={() => $theme = "dark"}>
-							<MoonStarsFill class="bi me-2 opacity-50 theme-icon"/>
-						  Dark
-						 <!-- <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
-						</button>
-					  </li>
-					  <li>
-						<button type="button" class="dropdown-item d-flex align-items-center" class:active={$theme == 'auto'} aria-pressed={$theme == 'auto'} on:click={() => $theme = "auto"}>
-							<CircleHalf class="bi me-2 opacity-50 theme-icon" />
-						  <!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>-->
-						  Auto
-						  <!--<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
-						</button>
-					  </li>
-					</ul>
+				<li class="d-md-none nav-item py-1 py-lg-1">
+					<div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
+					<hr class="d-lg-none my-2">
 				</li>
 				<li class="nav-item">
 					<a
@@ -158,6 +136,8 @@
 						rel="noopener"
 						aria-label="GitHub"
 					><Github width={28} height={28} class="navbar-nav-svg"/>
+						<span class="d-md-none ms-2" id="bd-theme-text">GitHub</span>
+
 					</a>
 				</li>
 				<li class="nav-item">
@@ -168,7 +148,55 @@
 						rel="noopener"
 						aria-label="Twitter"
 					><Twitter width={28} height={28} class="navbar-nav-svg"/>
+						<span class="d-md-none ms-2" id="bd-theme-text">Twitter</span>
 					</a>
+					
+				</li>
+				<li class="d-none d-md-block nav-item py-1">
+					<div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
+					<hr class="d-lg-none my-2">
+				</li>
+				<li class="nav-item dropdown">
+					<button class="btn btn-link nav-link p-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (dark)">
+					{#if $theme == "light"}
+						<SunFill width={28} height={28} class="navbar-nav-svg"/>
+					{/if}
+
+					{#if $theme == "dark"}
+						<MoonStarsFill style="margin: 1px 0;" width={26} height={26} class="navbar-nav-svg"/>
+					{/if}
+
+					{#if $theme == "auto"}
+						<CircleHalf style="margin: 1px 0;" width={26} height={26} class="navbar-nav-svg"/>
+					{/if}
+
+					<span class="d-md-none ms-2" id="bd-theme-text">Toggle theme</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+					<li>
+						<button type="button" class="dropdown-item d-flex align-items-center" class:active={$theme == 'light'} aria-pressed={$theme == 'light'} on:click={() => $theme = "light"}>
+							<SunFill class="bi me-2 opacity-50 theme-icon" />
+						<!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>-->
+						Light
+						<!--<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
+						</button>
+					</li>
+					<li>
+						<button type="button" class="dropdown-item d-flex align-items-center" class:active={$theme == 'dark'} aria-pressed={$theme == 'dark'} on:click={() => $theme = "dark"}>
+							<MoonStarsFill class="bi me-2 opacity-50 theme-icon"/>
+						Dark
+						<!-- <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
+						</button>
+					</li>
+					<li>
+						<button type="button" class="dropdown-item d-flex align-items-center" class:active={$theme == 'auto'} aria-pressed={$theme == 'auto'} on:click={() => $theme = "auto"}>
+							<CircleHalf class="bi me-2 opacity-50 theme-icon" />
+						<!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>-->
+						Auto
+						<!--<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
+						</button>
+					</li>
+					</ul>
 				</li>
 			</ul>
 		</div>
