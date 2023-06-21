@@ -4,17 +4,20 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { theme, themeIsDark} from '$lib/stores';
 	import { MoonStarsFill, CircleHalf, SunFill, Github, Twitter } from "svelte-bootstrap-icons";
-	import type { HtmlTag } from 'svelte/internal';
+	import type { Unsubscriber } from 'svelte/store';
 
+	let updateThemeOnChange: ((this: MediaQueryList, ev: MediaQueryListEvent) => (any)) | undefined
+	let prefersDarkMode: MediaQueryList | undefined
+	let themeUnSubscriber: Unsubscriber | undefined
 	onMount(async () => {
 		const Dropdown = await import('bootstrap/js/dist/dropdown');
 		const Collapse = await import('bootstrap/js/dist/collapse');
 
-		const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)')
-		const themeUnSubscriber = theme.subscribe((theme) => {
+		prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)')
+		themeUnSubscriber = theme.subscribe((theme) => {
 			switch (theme) {
 			case 'auto': 
-				$themeIsDark = prefersDarkMode.matches
+				$themeIsDark = prefersDarkMode?.matches || false
 				break;
 			case 'dark':
 				$themeIsDark = true
@@ -24,15 +27,19 @@
 				break;
 			}
 		})
-		
 		// Update the store if OS preference changes
-		const updateThemeOnChange: (this: MediaQueryList, ev: MediaQueryListEvent) => (any) = (e) => { if ($theme == 'auto') $themeIsDark = e.matches }
+		updateThemeOnChange = (e) => { if ($theme == 'auto') $themeIsDark = e.matches }
 		prefersDarkMode.addEventListener('change', updateThemeOnChange)
-		onDestroy(() => {
-			prefersDarkMode.removeEventListener('change', updateThemeOnChange)
-			themeUnSubscriber()
-		})
 	});
+
+	onDestroy(() => {
+		if (prefersDarkMode && updateThemeOnChange) {
+			prefersDarkMode.removeEventListener('change', updateThemeOnChange)
+		}
+		if (themeUnSubscriber) {
+			themeUnSubscriber()
+		}
+	})
 
 	let body: HTMLElement;
 	const bindBody = (node: any) => (body = node);
