@@ -34,11 +34,21 @@
 @import 'bootstrap/scss/utilities/api';
 
 
+.feature-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    h3 {
+        margin-bottom: 1rem;
+    }
+}
+
 .feature-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 4rem;
+    min-width: 4rem;
     height: 4rem;
     margin-bottom: 1rem;
     font-size: 2rem;
