@@ -2,6 +2,14 @@
 	//export let requires_professional_plan = false;
 	import { onDestroy, onMount } from 'svelte';
 
+	import { persisted } from 'svelte-local-storage-store';
+
+	import { Trash } from 'svelte-bootstrap-icons';
+	import { Star } from 'svelte-bootstrap-icons';
+
+	const last_visited = persisted('last_visited_locations', []);
+	const favorites = persisted('favorites', []);
+
 	let name = '';
 	let action = 'https://geocoding-api.open-meteo.com/v1/search?';
 	let debounceTimeout: number | undefined;
@@ -14,7 +22,31 @@
 		clearInterval(debounceTimeout);
 	});
 
+	function deleteRecent(location: any) {
+		$last_visited = $last_visited.filter((item) => item != location);
+	}
+
+	function deleteFavorite(location: any) {
+		$favorites = $favorites.filter((item) => item != location);
+	}
+
+	function saveFavourite(location: any) {
+		let temp = $favorites.filter((item) => item != location);
+		temp.unshift(location);
+		$favorites = temp;
+		deleteRecent(location);
+	}
+
 	function selectLocation(location: any) {
+		let temp = $last_visited.filter((item) => item != location);
+		temp.unshift(location);
+		if (temp.length > 10) {
+			temp.pop();
+		}
+		$last_visited = temp;
+
+		name = '';
+
 		alert(location);
 	}
 
@@ -50,14 +82,77 @@
 			id="location_search"
 			autocomplete="off"
 			spellcheck="false"
-			aria-label="Select city"
+			aria-label="Search Location"
 			data-bs-toggle="dropdown"
 			bind:value={name}
 		/>
 
 		<ul class="dropdown-menu" aria-labelledby="location_search">
 			{#if name.length < 2}
-				<li><span class="dropdown-item">Start typing to search for locations</span></li>
+				{#if $last_visited.length == 0 && $favorites.length == 0}
+					<li><h6 class="dropdown-header">Start typing to search for locations</h6></li>
+				{/if}
+				{#if $last_visited.length > 0}
+					<li><h6 class="dropdown-header">Recent Locations</h6></li>
+					{#each $last_visited as location}
+						<li>
+							<div class="btn-group d-flex" role="group">
+								<button class="dropdown-item" on:click={() => selectLocation(location)}>
+									<img
+										height="24"
+										src="/images/country-flags/{location.country_code.toLowerCase()}.svg"
+										title={location.country}
+										alt={location.country_code}
+									/>
+									{location.name}
+									<small class="text-muted"
+										>{location.admin1 || ''} ({location.latitude.toFixed(2)}°E {location.longitude.toFixed(
+											2
+										)}°N {location.elevation}m asl)</small
+									>
+								</button>
+								<button
+									class="btn dropdown-item w-auto"
+									on:click|stopPropagation={() => saveFavourite(location)}
+									title="Save"><Star /></button
+								>
+								<button
+									class="btn dropdown-item w-auto"
+									on:click|stopPropagation={() => deleteRecent(location)}
+									title="Delete"><Trash /></button
+								>
+							</div>
+						</li>
+					{/each}
+					{#if $favorites.length > 0}
+						<li><h6 class="dropdown-header">Favorites</h6></li>
+						{#each $favorites as location}
+							<li>
+								<div class="btn-group d-flex" role="group">
+									<button class="btn dropdown-item" on:click={() => selectLocation(location)}>
+										<img
+											height="24"
+											src="/images/country-flags/{location.country_code.toLowerCase()}.svg"
+											title={location.country}
+											alt={location.country_code}
+										/>
+										{location.name}
+										<small class="text-muted"
+											>{location.admin1 || ''} ({location.latitude.toFixed(2)}°E {location.longitude.toFixed(
+												2
+											)}°N {location.elevation}m asl)</small
+										>
+									</button>
+									<button
+										class="btn dropdown-item w-auto"
+										on:click|stopPropagation={() => deleteFavorite(location)}
+										title="Delete"><Trash /></button
+									>
+								</div>
+							</li>
+						{/each}
+					{/if}
+				{/if}
 			{:else}
 				{#await results}
 					<li>
@@ -87,7 +182,7 @@
 											2
 										)}°N {location.elevation}m asl)</small
 									>
-                                        </button>
+								</button>
 							</li>
 						{/each}
 					{/if}
@@ -100,7 +195,7 @@
 				{/await}
 			{/if}
 		</ul>
-		<label for="location_search">Select city</label>
+		<label for="location_search">Search Location</label>
 	</div>
 	<button class="btn btn-outline-secondary" type="button">Detect GPS Position</button>
 </div>
