@@ -1,14 +1,15 @@
 <script lang="ts">
-	//export let requires_professional_plan = false;
 	import { onDestroy, onMount } from 'svelte';
 
 	import { persisted } from 'svelte-local-storage-store';
-
+    import { writable } from 'svelte/store';
 	import { Trash } from 'svelte-bootstrap-icons';
 	import { Star } from 'svelte-bootstrap-icons';
+    import { Cursor } from 'svelte-bootstrap-icons';
 
 	const last_visited = persisted('last_visited_locations', []);
 	const favorites = persisted('favorites', []);
+    export const activeLocation = writable($last_visited.length > 0 ? $last_visited[0] : {"id":2950159,"name":"Berlin","latitude":52.52437,"longitude":13.41053,"elevation":74,"feature_code":"PPLC","country_code":"DE","admin1_id":2950157,"admin3_id":6547383,"admin4_id":6547539,"timezone":"Europe/Berlin","population":3426354,"postcodes":["10967","13347"],"country_id":2921044,"country":"Germany","admin1":"Land Berlin","admin3":"Berlin, Stadt","admin4":"Berlin"})
 
 	let name = '';
 	let action = 'https://geocoding-api.open-meteo.com/v1/search?';
@@ -38,16 +39,16 @@
 	}
 
 	function selectLocation(location: any) {
-		let temp = $last_visited.filter((item) => item != location);
-		temp.unshift(location);
-		if (temp.length > 10) {
-			temp.pop();
-		}
-		$last_visited = temp;
-
+        if (!$favorites.includes(location)) {
+            let temp = $last_visited.filter((item) => item != location);
+            temp.unshift(location);
+            if (temp.length > 10) {
+                temp.pop();
+            }
+            $last_visited = temp;
+        }
 		name = '';
-
-		alert(location);
+        $activeLocation = location
 	}
 
 	// Fetch is automatically called after `params` changes due to reactive assignment
@@ -73,6 +74,8 @@
 		return await result.json();
 	})();
 </script>
+
+{JSON.stringify($activeLocation)}
 
 <div class="input-group mb-3">
 	<div class="form-floating dropdown">
@@ -197,5 +200,5 @@
 		</ul>
 		<label for="location_search">Search Location</label>
 	</div>
-	<button class="btn btn-outline-secondary" type="button">Detect GPS Position</button>
+	<button class="btn btn-outline-secondary" type="button" title="GPS location"><Cursor/></button>
 </div>
