@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { enhance } from '$app/forms';
 
 	onMount(async () => {
 		const Tab = await import('bootstrap/js/dist/tab');
 	});
+
+
+
 </script>
 
 <svelte:head>
@@ -461,14 +465,6 @@
 			or follow us on <a href="https://twitter.com/open_meteo" target="_blank">Twitter</a>. By doing
 			so, you'll never miss out on the latest developments and enhancements in our services.
 		</p>
+		<div class="d-grid gap-2 d-sm-flex justify-content-sm-center"><a class="btn btn-primary btn-lg px-4 gap-3" href="https://openmeteo.substack.com/subscribe?utm_source=landingpage&simple=true&next=https%3A%2F%2Fopenmeteo.substack.com%2F" title="API Subscription Plans">Subscribe to the Newsletter</a> <a href="mailto:info@open-meteo.com" class="btn btn-outline-secondary btn-lg px-4">Available APIs</a></div>
 	</div>
-	<iframe
-		title="Subscribe to blog"
-		src="https://openmeteo.substack.com/embed"
-		width="100%"
-		height="320"
-		frameborder="0"
-		scrolling="no"
-		id="substack"
-	/>
 </div>
