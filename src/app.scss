@@ -60,10 +60,10 @@
     display: none;
 }
 
-$color-mode-type: data;
+/*$color-mode-type: data;
 
 @include color-mode(dark) {
   #substack {
     filter: invert(95%) hue-rotate(180deg);
   }
-}
+}*/
