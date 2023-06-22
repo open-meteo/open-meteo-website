@@ -5,6 +5,7 @@ import PressureLevelsHelpTable from "./PressureLevelsHelpTable.svelte"
 import { onMount } from 'svelte';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 import LocationSearch from "./LocationSearch.svelte";
+import { activeLocation } from "$lib/stores";
 
 onMount(async () => {
     const datepicker = await import("bootstrap-datepicker");
@@ -25,6 +26,7 @@ const pressureVariables = [
 ]
 const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
 
+//activeLocation.subscribe(value => console.log(value))
 </script>
 
 <svelte:head>
@@ -48,9 +50,6 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
 
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/forecast">
     <div class="row">
-      <div class="col-md-6">
-        <LocationSearch></LocationSearch>
-      </div>
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
@@ -65,16 +64,7 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
         </div>
       </div>
       <div class="col-md-6">
-        <div class="input-group mb-3">
-          <div class="form-floating dropdown">
-            <input type="text" class="form-control" id="select_city" autocomplete="off" spellcheck="false" aria-label="Select city" data-bs-toggle="dropdown"/>
-            <ul id="select_city_results" class="dropdown-menu" aria-labelledby="select_city">
-              <li><span class="dropdown-item">Start typing to search for locations</span></li>
-            </ul>
-            <label for="select_city">Select city</label>
-          </div>
-          <button class="btn btn-outline-secondary" type="button" id="detect_gps">Detect GPS Position</button>
-        </div>
+        <LocationSearch></LocationSearch>
       </div>
     </div>
     <div class="row py-3 px-0">

@@ -1,74 +1,42 @@
 <script lang="ts">
+	/**
+	 * TODO:
+	 * - GPS detection
+	 * - weather form integration
+	 * - prevent location selection for "map" click
+	*/
 	import { onDestroy, onMount } from 'svelte';
-	import { persisted } from 'svelte-local-storage-store';
-	import { writable } from 'svelte/store';
 	import { Trash } from 'svelte-bootstrap-icons';
 	import { Star } from 'svelte-bootstrap-icons';
 	import { Cursor } from 'svelte-bootstrap-icons';
 	import { Map } from 'svelte-bootstrap-icons';
-
-	interface Location {
-		id: number;
-		name: string;
-		latitude: number;
-		longitude: number;
-		elevation: number;
-		feature_code: string;
-		country_code: string;
-		admin1_id: number | undefined;
-		admin3_id: number | undefined;
-		admin4_id: number | undefined;
-		timezone: string;
-		population: number | undefined;
-		postcodes: string[] | undefined;
-		country_id: number;
-		country: string;
-		admin1: string | undefined;
-		admin3: string | undefined;
-		admin4: string | undefined;
-	}
+	import { Search } from 'svelte-bootstrap-icons';
+	import { activeLocation, favorites, last_visited, type Location } from '$lib/stores';
 
 	interface ResultSet {
 		results: Location[] | undefined;
 	}
 
-	const defaultLocation: Location = {
-		id: 2950159,
-		name: 'Berlin',
-		latitude: 52.52437,
-		longitude: 13.41053,
-		elevation: 74,
-		feature_code: 'PPLC',
-		country_code: 'DE',
-		admin1_id: 2950157,
-		admin3_id: 6547383,
-		admin4_id: 6547539,
-		timezone: 'Europe/Berlin',
-		population: 3426354,
-		postcodes: ['10967', '13347'],
-		country_id: 2921044,
-		country: 'Germany',
-		admin1: 'Land Berlin',
-		admin3: 'Berlin, Stadt',
-		admin4: 'Berlin'
-	};
-
-	const last_visited = persisted('last_visited_locations', [] as Location[]);
-	const favorites = persisted('favorites', [] as Location[]);
-
-	export const activeLocation = writable(
-		$last_visited.length > 0 ? $last_visited[0] : defaultLocation
-	);
-
-    let debounceTimeout: number | undefined;
+	let debounceTimeout: number | undefined;
 	let searchQuery = '';
 
+    let searchInputElement: HTMLElement | undefined
+    let searchModalElement: HTMLElement | undefined
+    let searchModal: any
 	onMount(async () => {
-		const Dropdown = await import('bootstrap/js/dist/dropdown');
+		const Modal = await import('bootstrap/js/dist/modal');
+        searchModal = new Modal.default(searchModalElement, {})
+        searchModalElement?.addEventListener('shown.bs.modal', searchModalShown)
+        //searchModal.show()
 	});
+
+    function searchModalShown(event: Event) {
+        searchInputElement?.focus()
+    }
 
 	onDestroy(() => {
 		clearInterval(debounceTimeout);
+        searchModalElement?.removeEventListener('shown.bs.modal', searchModalShown)
 	});
 
 	function deleteRecent(location: Location) {
@@ -81,13 +49,17 @@
 
 	// Save a new favorite location. Remove it from recent locations.
 	function saveFavorite(location: Location) {
-		$favorites.unshift(location);
+		$favorites = [location, ...$favorites];
 		deleteRecent(location);
 	}
 
 	// Save as recent location, unless it is a favorite
 	function saveRecent(location: Location) {
 		if ($favorites.find((item) => item.id == location.id)) {
+            // Reorder favorites
+            let temp = $favorites.filter((item) => item.id != location.id);
+            temp.unshift(location);
+            $favorites = temp
 			return;
 		}
 		let temp = $last_visited.filter((item) => item.id != location.id);
@@ -102,9 +74,10 @@
 		saveRecent(location);
 		searchQuery = '';
 		$activeLocation = location;
+        searchModal?.hide()
 	}
 
-    // Fetch is automatically called after `searchQuery` changes due to reactive assignment
+	// Fetch is automatically called after `searchQuery` changes due to reactive assignment
 	$: results = (async () => {
 		if (debounceTimeout) {
 			clearTimeout(debounceTimeout);
@@ -129,156 +102,200 @@
 	})();
 </script>
 
-{JSON.stringify($activeLocation)}
 
-<div class="input-group mb-3">
-	<div class="form-floating dropdown">
-		<input
-			type="text"
-			class="form-control"
-			id="location_search"
-			autocomplete="off"
-			spellcheck="false"
-			aria-label="Search Location"
-			data-bs-toggle="dropdown"
-			bind:value={searchQuery}
-		/>
+<div class="btn-group d-flex" role="group" aria-label="Basic mixed styles example">
+	<button
+		type="button"
+		class="btn btn-outline-secondary w-100"
+		data-bs-toggle="modal"
+		data-bs-target="#locationSearchModal"><Search /> Search Location ...</button
+	>
+	<button class="btn btn-outline-secondary" type="button" title="GPS location"><Cursor /></button>
+</div>
 
-		<ul class="dropdown-menu" aria-labelledby="location_search">
-			{#if searchQuery.length < 2}
-				{#if $last_visited.length == 0 && $favorites.length == 0}
-					<li><h6 class="dropdown-header">Start typing to search for locations</h6></li>
-				{/if}
-				{#if $last_visited.length > 0}
-					<li><h6 class="dropdown-header">Recent Locations</h6></li>
-					{#each $last_visited as location}
-						<li>
-							<div class="btn-group d-flex" role="group">
-								<button class="dropdown-item" on:click={() => selectLocation(location)}>
+<div
+	class="modal"
+	id="locationSearchModal"
+	tabindex="-1"
+	aria-labelledby="locationSearchModalLabel"
+	aria-hidden="true"
+    bind:this={searchModalElement}
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="locationSearchModalLabel">Search Locations</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+			</div>
+			<div class="modal-body">
+				<div class="input-group mb-3">
+					<div class="form-floating">
+						<input
+							type="text"
+							class="form-control"
+							id="location_search"
+							autocomplete="off"
+							spellcheck="false"
+							aria-label="Search Location"
+							bind:value={searchQuery}
+                            bind:this={searchInputElement}
+						/>
+						<label for="location_search">Search Location</label>
+					</div>
+					<!--<button class="btn btn-outline-secondary" type="button" title="GPS location"
+						><Cursor /></button
+					>-->
+				</div>
+
+				{#if searchQuery.length < 2}
+					{#if $last_visited.length == 0 && $favorites.length == 0}
+						<div class="list-group">
+							<li class="list-group-item"><span>Start typing to search for locations</span></li>
+						</div>
+					{/if}
+					{#if $favorites.length > 0}
+						<h6>Favorites</h6>
+						<div class="list-group mb-2">
+							{#each $favorites as location}
+								<button
+									class="list-group-item list-group-item-action position-relative"
+									type="button"
+									on:click={() => selectLocation(location)}
+								>
 									<img
 										height="24"
 										src="/images/country-flags/{location.country_code.toLowerCase()}.svg"
 										title={location.country}
 										alt={location.country_code}
 									/>
-									{location.name}
+									{location.name}<br />
 									<small class="text-muted"
 										>{location.admin1 || ''} ({location.latitude.toFixed(2)}°E {location.longitude.toFixed(
 											2
 										)}°N {location.elevation}m asl)</small
 									>
-								</button>
-								<button
-									class="btn dropdown-item w-auto"
-									on:click|stopPropagation={() => saveFavorite(location)}
-									title="Save"><Star /></button
-								>
-								<button
-									class="btn dropdown-item w-auto"
-									on:click|stopPropagation={() => deleteRecent(location)}
-									title="Delete"><Trash /></button
-								>
-								<a
-									class="btn dropdown-item w-auto"
-									href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
-									target="_blank"
-									title="Show on map"
-								>
-									<Map />
-								</a>
-							</div>
-						</li>
-					{/each}
-					{#if $favorites.length > 0}
-						<li><h6 class="dropdown-header">Favorites</h6></li>
-						{#each $favorites as location}
-							<li>
-								<div class="btn-group d-flex" role="group">
-									<button class="btn dropdown-item" on:click={() => selectLocation(location)}>
-										<img
-											height="24"
-											src="/images/country-flags/{location.country_code.toLowerCase()}.svg"
-											title={location.country}
-											alt={location.country_code}
-										/>
-										{location.name}
-										<small class="text-muted"
-											>{location.admin1 || ''} ({location.latitude.toFixed(2)}°E {location.longitude.toFixed(
-												2
-											)}°N {location.elevation}m asl)</small
+									<div class="position-absolute top-0 end-0 p-2">
+										<button
+											class="btn btn-light btn-sm"
+											on:click|stopPropagation={() => deleteFavorite(location)}
+											title="Delete"><Trash /></button
 										>
-									</button>
-									<button
-										class="btn dropdown-item w-auto"
-										on:click|stopPropagation={() => deleteFavorite(location)}
-										title="Delete"><Trash /></button
-									>
-									<a
-										class="btn dropdown-item w-auto"
-										href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
-										target="_blank"
-										title="Show on map"
-									>
-										<Map />
-									</a>
-								</div>
-							</li>
-						{/each}
+										<a
+											class="btn btn-light btn-sm"
+											href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
+											target="_blank"
+											title="Show on map"
+										>
+											<Map />
+										</a>
+									</div>
+								</button>
+							{/each}
+						</div>
 					{/if}
-				{/if}
-			{:else}
-				{#await results}
-					<li>
-						<span class="dropdown-item">
-							<div class="spinner-border spinner-border-sm" role="status">
+					{#if $last_visited.length > 0}
+						<h6>Recent Locations</h6>
+						<div class="list-group">
+							{#each $last_visited as location}
+								<button
+									class="list-group-item list-group-item-action position-relative"
+									type="button"
+									on:click={() => selectLocation(location)}
+								>
+									<img
+										height="24"
+										src="/images/country-flags/{location.country_code.toLowerCase()}.svg"
+										title={location.country}
+										alt={location.country_code}
+									/>
+									{location.name}<br />
+									<small class="text-muted"
+										>{location.admin1 || ''} ({location.latitude.toFixed(2)}°E {location.longitude.toFixed(
+											2
+										)}°N {location.elevation}m asl)</small
+									>
+									<div class="position-absolute top-0 end-0 p-2">
+										<button
+											class="btn btn-light btn-sm"
+											type="button"
+											on:click|stopPropagation={() => saveFavorite(location)}
+											title="Save"><Star /></button
+										>
+										<button
+											class="btn btn-light btn-sm"
+											type="button"
+											on:click|stopPropagation={() => deleteRecent(location)}
+											title="Delete"><Trash /></button
+										>
+										<a
+											class="btn btn-light btn-sm"
+											type="button"
+											href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
+											target="_blank"
+											title="Show on map"
+										>
+											<Map />
+										</a>
+									</div>
+								</button>
+							{/each}
+						</div>
+					{/if}
+				{:else}
+					{#await results}
+						<div class="d-flex justify-content-center">
+							<div class="spinner-border" role="status">
 								<span class="visually-hidden">Loading...</span>
 							</div>
-							Loading...</span
-						>
-					</li>
-				{:then results}
-					{#if !results.results || results.results.length == 0}
-						<li><span class="dropdown-item">No locations found</span></li>
-					{:else}
-						{#each results.results as location}
-							<li>
-								<div class="btn-group d-flex" role="group">
-									<button class="dropdown-item" on:click={() => selectLocation(location)}>
+						</div>
+					{:then results}
+						{#if !results.results || results.results.length == 0}
+							<div class="list-group">
+								<li class="list-group-item"><span>No locations found</span></li>
+							</div>
+						{:else}
+							<div class="list-group">
+								{#each results.results as location}
+									<button
+										class="list-group-item list-group-item-action position-relative"
+										type="button"
+										on:click={() => selectLocation(location)}
+									>
 										<img
 											height="24"
 											src="/images/country-flags/{location.country_code.toLowerCase()}.svg"
 											title={location.country}
 											alt={location.country_code}
 										/>
-										{location.name}
+										{location.name}<br />
 										<small class="text-muted"
 											>{location.admin1 || ''} ({location.latitude.toFixed(2)}°E {location.longitude.toFixed(
 												2
 											)}°N {location.elevation}m asl)</small
 										>
+										<div class="position-absolute top-0 end-0 p-2">
+											<a
+												class="btn btn-light btn-sm"
+												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
+												target="_blank"
+												title="Show on map"
+											>
+												<Map />
+											</a>
+										</div>
 									</button>
-									<a
-										class="btn dropdown-item w-auto"
-										href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
-										target="_blank"
-										title="Show on map"
-									>
-										<Map />
-									</a>
-								</div>
-							</li>
-						{/each}
-					{/if}
-				{:catch error}
-					<li>
-						<span class="dropdown-item"
-							><div class="alert alert-danger" role="alert">{error.message}</div></span
-						>
-					</li>
-				{/await}
-			{/if}
-		</ul>
-		<label for="location_search">Search Location</label>
+								{/each}
+							</div>
+						{/if}
+					{:catch error}
+						<div class="alert alert-danger" role="alert">{error.message}</div>
+					{/await}
+				{/if}
+			</div>
+			<!--<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>-->
+		</div>
 	</div>
-	<button class="btn btn-outline-secondary" type="button" title="GPS location"><Cursor /></button>
 </div>
