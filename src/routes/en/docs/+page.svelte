@@ -4,6 +4,7 @@ import LicenseSelector from "./LicenseSelector.svelte";
 import PressureLevelsHelpTable from "./PressureLevelsHelpTable.svelte"
 import { onMount } from 'svelte';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
+import LocationSearch from "./LocationSearch.svelte";
 
 onMount(async () => {
     const datepicker = await import("bootstrap-datepicker");
@@ -47,6 +48,9 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
 
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/forecast">
     <div class="row">
+      <div class="col-md-6">
+        <LocationSearch></LocationSearch>
+      </div>
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
