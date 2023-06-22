@@ -2,8 +2,16 @@
 	import { onDestroy, onMount } from 'svelte';
 	import LicenseSelector from '../LicenseSelector.svelte';
 	import { api_key_preferences } from '$lib/stores';
+	import { urlHashStore } from '$lib/url-hash-store';
 
-	const params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
+	const params = urlHashStore({ 
+		name: 'Berlin', 
+		count: '10', 
+		language: 'en', 
+		format: 'json' 
+	});
+
+	//const params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
 	let action = 'https://geocoding-api.open-meteo.com/v1/search?';
 	$: switch ($api_key_preferences.use) {
 		case 'commercial':
@@ -16,23 +24,12 @@
 			action = 'https://geocoding-api.open-meteo.com/v1/search?';
 	}
 
-	const paramsDefault = { ...params };
-	$: apiUrl = `${action}${new URLSearchParams(params)}`;
+	//const paramsDefault = { ...params };
+	$: apiUrl = `${action}${new URLSearchParams($params)}`;
 	let debounceTimeout: number | undefined;
 
 	onDestroy(() => {
 		clearInterval(debounceTimeout);
-	});
-
-	onMount(() => {
-		// Restore parameters from URL hash like `#name=Bern&count=10&language=en&format=json`
-		if (window.location.hash.length > 0) {
-			for (const [key, value] of new URLSearchParams(window.location.hash.substring(1))) {
-				if (params.hasOwnProperty(key)) {
-					params[key as keyof typeof params] = value;
-				}
-			}
-		}
 	});
 
 	// Fetch is automatically called after `params` changes due to reactive assignment
@@ -45,32 +42,15 @@
 		});
 
 		// Always set format=json to fetch data
-		const fetchUrl = `${action}${new URLSearchParams({ ...params, ...{ format: 'json' } })}`;
+		const fetchUrl = `${action}${new URLSearchParams({ ...$params, ...{ format: 'json' } })}`;
 		const result = await fetch(fetchUrl);
 
 		if (!result.ok) {
 			throw new Error(await result.text());
 		}
 
-		// Set URL state if any attribute is different than default
-		const differentThanDefault = objectDifference(params, paramsDefault);
-		if (Object.keys(differentThanDefault).length != 0) {
-			window.location.hash = `${new URLSearchParams(differentThanDefault)}`;
-		}
-
 		return await result.json();
 	})();
-
-	// Only considers keys of the first object
-	function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
-		const diff: Partial<T> = {};
-		for (const key in a) {
-			if (a[key] !== b[key]) {
-				diff[key] = a[key];
-			}
-		}
-		return diff;
-	}
 </script>
 
 <svelte:head>
@@ -94,7 +74,7 @@
 					name="name"
 					id="name"
 					aria-label="Location name"
-					bind:value={params.name}
+					bind:value={$params.name}
 				/>
 				<label for="name">Name</label>
 			</div>
@@ -107,7 +87,7 @@
 					id="language"
 					aria-label="Language"
 					data-default="en"
-					bind:value={params.language}
+					bind:value={$params.language}
 				>
 					<option selected value="en">English</option>
 					<option value="de">German</option>
@@ -130,7 +110,7 @@
 					id="count"
 					aria-label="Number of results"
 					data-default="10"
-					bind:value={params.count}
+					bind:value={$params.count}
 				>
 					<option value="1">1</option>
 					<option selected value="10">10</option>
@@ -149,7 +129,7 @@
 					id="format"
 					aria-label="Format"
 					data-default="json"
-					bind:value={params.format}
+					bind:value={$params.format}
 				>
 					<option value="json" selected>json</option>
 					<option value="protobuf">protobuf</option>
