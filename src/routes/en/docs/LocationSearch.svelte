@@ -8,31 +8,55 @@
 	import { Cursor } from 'svelte-bootstrap-icons';
 	import { Map } from 'svelte-bootstrap-icons';
 
-	const last_visited = persisted('last_visited_locations', []);
-	const favorites = persisted('favorites', []);
+	interface Location {
+		id: number;
+		name: string;
+		latitude: number;
+		longitude: number;
+		elevation: number;
+		feature_code: string;
+		country_code: string;
+		admin1_id: number | undefined;
+		admin3_id: number | undefined;
+		admin4_id: number | undefined;
+		timezone: string;
+		population: number | undefined;
+		postcodes: string[] | undefined;
+		country_id: number;
+		country: string;
+		admin1: string | undefined;
+		admin3: string | undefined;
+		admin4: string | undefined;
+	}
+
+    interface ResultSet {
+        results: Location[] | undefined;
+    }
+
+	const last_visited = persisted('last_visited_locations', [] as Location[]);
+	const favorites = persisted('favorites', [] as Location[]);
+	const defaultLocation: Location = {
+		id: 2950159,
+		name: 'Berlin',
+		latitude: 52.52437,
+		longitude: 13.41053,
+		elevation: 74,
+		feature_code: 'PPLC',
+		country_code: 'DE',
+		admin1_id: 2950157,
+		admin3_id: 6547383,
+		admin4_id: 6547539,
+		timezone: 'Europe/Berlin',
+		population: 3426354,
+		postcodes: ['10967', '13347'],
+		country_id: 2921044,
+		country: 'Germany',
+		admin1: 'Land Berlin',
+		admin3: 'Berlin, Stadt',
+		admin4: 'Berlin'
+	};
 	export const activeLocation = writable(
-		$last_visited.length > 0
-			? $last_visited[0]
-			: {
-					id: 2950159,
-					name: 'Berlin',
-					latitude: 52.52437,
-					longitude: 13.41053,
-					elevation: 74,
-					feature_code: 'PPLC',
-					country_code: 'DE',
-					admin1_id: 2950157,
-					admin3_id: 6547383,
-					admin4_id: 6547539,
-					timezone: 'Europe/Berlin',
-					population: 3426354,
-					postcodes: ['10967', '13347'],
-					country_id: 2921044,
-					country: 'Germany',
-					admin1: 'Land Berlin',
-					admin3: 'Berlin, Stadt',
-					admin4: 'Berlin'
-			  }
+		$last_visited.length > 0 ? $last_visited[0] : defaultLocation
 	);
 
 	let name = '';
@@ -47,22 +71,22 @@
 		clearInterval(debounceTimeout);
 	});
 
-	function deleteRecent(location: any) {
+	function deleteRecent(location: Location) {
 		$last_visited = $last_visited.filter((item) => item != location);
 	}
 
-	function deleteFavorite(location: any) {
+	function deleteFavorite(location: Location) {
 		$favorites = $favorites.filter((item) => item != location);
 	}
 
-	function saveFavourite(location: any) {
+	function saveFavourite(location: Location) {
 		let temp = $favorites.filter((item) => item != location);
 		temp.unshift(location);
 		$favorites = temp;
 		deleteRecent(location);
 	}
 
-	function selectLocation(location: any) {
+	function selectLocation(location: Location) {
 		if (!$favorites.includes(location)) {
 			let temp = $last_visited.filter((item) => item != location);
 			temp.unshift(location);
@@ -81,7 +105,7 @@
 			clearTimeout(debounceTimeout);
 		}
 		if (name.length < 2) {
-			return [];
+			return {results: []};
 		}
 		await new Promise((resolve) => {
 			debounceTimeout = setTimeout(resolve, 300);
@@ -95,7 +119,7 @@
 			throw new Error(await result.text());
 		}
 
-		return await result.json();
+		return await result.json() as ResultSet;
 	})();
 </script>
 
@@ -207,7 +231,7 @@
 						>
 					</li>
 				{:then results}
-					{#if (results.results || []).length == 0}
+					{#if !results.results || results.results.length == 0 }
 						<li><span class="dropdown-item">No locations found</span></li>
 					{:else}
 						{#each results.results as location}
@@ -227,14 +251,14 @@
 											)}°N {location.elevation}m asl)</small
 										>
 									</button>
-                                    <a
-                                    class="btn dropdown-item w-auto"
-                                    href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
-                                    target="_blank"
-                                    title="Show on map"
-                                >
-                                    <Map />
-                                </a>
+									<a
+										class="btn dropdown-item w-auto"
+										href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
+										target="_blank"
+										title="Show on map"
+									>
+										<Map />
+									</a>
 								</div>
 							</li>
 						{/each}
