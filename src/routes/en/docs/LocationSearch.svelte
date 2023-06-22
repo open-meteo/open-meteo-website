@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
-
 	import { persisted } from 'svelte-local-storage-store';
 	import { writable } from 'svelte/store';
 	import { Trash } from 'svelte-bootstrap-icons';
@@ -29,12 +28,10 @@
 		admin4: string | undefined;
 	}
 
-    interface ResultSet {
-        results: Location[] | undefined;
-    }
+	interface ResultSet {
+		results: Location[] | undefined;
+	}
 
-	const last_visited = persisted('last_visited_locations', [] as Location[]);
-	const favorites = persisted('favorites', [] as Location[]);
 	const defaultLocation: Location = {
 		id: 2950159,
 		name: 'Berlin',
@@ -55,13 +52,16 @@
 		admin3: 'Berlin, Stadt',
 		admin4: 'Berlin'
 	};
+
+	const last_visited = persisted('last_visited_locations', [] as Location[]);
+	const favorites = persisted('favorites', [] as Location[]);
+
 	export const activeLocation = writable(
 		$last_visited.length > 0 ? $last_visited[0] : defaultLocation
 	);
 
-	let name = '';
-	let action = 'https://geocoding-api.open-meteo.com/v1/search?';
-	let debounceTimeout: number | undefined;
+    let debounceTimeout: number | undefined;
+	let searchQuery = '';
 
 	onMount(async () => {
 		const Dropdown = await import('bootstrap/js/dist/dropdown');
@@ -72,54 +72,60 @@
 	});
 
 	function deleteRecent(location: Location) {
-		$last_visited = $last_visited.filter((item) => item != location);
+		$last_visited = $last_visited.filter((item) => item.id != location.id);
 	}
 
 	function deleteFavorite(location: Location) {
-		$favorites = $favorites.filter((item) => item != location);
+		$favorites = $favorites.filter((item) => item.id != location.id);
 	}
 
-	function saveFavourite(location: Location) {
-		let temp = $favorites.filter((item) => item != location);
-		temp.unshift(location);
-		$favorites = temp;
+	// Save a new favorite location. Remove it from recent locations.
+	function saveFavorite(location: Location) {
+		$favorites.unshift(location);
 		deleteRecent(location);
 	}
 
-	function selectLocation(location: Location) {
-		if (!$favorites.includes(location)) {
-			let temp = $last_visited.filter((item) => item != location);
-			temp.unshift(location);
-			if (temp.length > 10) {
-				temp.pop();
-			}
-			$last_visited = temp;
+	// Save as recent location, unless it is a favorite
+	function saveRecent(location: Location) {
+		if ($favorites.find((item) => item.id == location.id)) {
+			return;
 		}
-		name = '';
+		let temp = $last_visited.filter((item) => item.id != location.id);
+		temp.unshift(location);
+		if (temp.length > 10) {
+			temp.pop();
+		}
+		$last_visited = temp;
+	}
+
+	function selectLocation(location: Location) {
+		saveRecent(location);
+		searchQuery = '';
 		$activeLocation = location;
 	}
 
-	// Fetch is automatically called after `params` changes due to reactive assignment
+    // Fetch is automatically called after `searchQuery` changes due to reactive assignment
 	$: results = (async () => {
 		if (debounceTimeout) {
 			clearTimeout(debounceTimeout);
 		}
-		if (name.length < 2) {
-			return {results: []};
+		if (searchQuery.length < 2) {
+			return { results: [] };
 		}
 		await new Promise((resolve) => {
 			debounceTimeout = setTimeout(resolve, 300);
 		});
 
 		// Always set format=json to fetch data
-		const fetchUrl = `${action}${new URLSearchParams({ name: name, format: 'json' })}`;
+		const url = 'https://geocoding-api.open-meteo.com/v1/search';
+		const fetchUrl = `${url}?${new URLSearchParams({ name: searchQuery })}`;
 		const result = await fetch(fetchUrl);
 
 		if (!result.ok) {
 			throw new Error(await result.text());
 		}
 
-		return await result.json() as ResultSet;
+		return (await result.json()) as ResultSet;
 	})();
 </script>
 
@@ -135,11 +141,11 @@
 			spellcheck="false"
 			aria-label="Search Location"
 			data-bs-toggle="dropdown"
-			bind:value={name}
+			bind:value={searchQuery}
 		/>
 
 		<ul class="dropdown-menu" aria-labelledby="location_search">
-			{#if name.length < 2}
+			{#if searchQuery.length < 2}
 				{#if $last_visited.length == 0 && $favorites.length == 0}
 					<li><h6 class="dropdown-header">Start typing to search for locations</h6></li>
 				{/if}
@@ -164,7 +170,7 @@
 								</button>
 								<button
 									class="btn dropdown-item w-auto"
-									on:click|stopPropagation={() => saveFavourite(location)}
+									on:click|stopPropagation={() => saveFavorite(location)}
 									title="Save"><Star /></button
 								>
 								<button
@@ -231,7 +237,7 @@
 						>
 					</li>
 				{:then results}
-					{#if !results.results || results.results.length == 0 }
+					{#if !results.results || results.results.length == 0}
 						<li><span class="dropdown-item">No locations found</span></li>
 					{:else}
 						{#each results.results as location}
