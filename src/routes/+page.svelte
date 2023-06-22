@@ -461,7 +461,7 @@
 				title="All Features of the Weather API">latest features</a
 			>, weather variables, and data sources. If you want to stay in the loop and be the first to
 			know about our exciting updates, we invite you to subscribe to our
-			<a href="https://openmeteo.substack.com/" target="_blank">blog</a>
+			<a href="https://openmeteo.substack.com/archive?sort=new" target="_blank">blog</a>
 			or follow us on <a href="https://twitter.com/open_meteo" target="_blank">Twitter</a>. By doing
 			so, you'll never miss out on the latest developments and enhancements in our services.
 		</p>
