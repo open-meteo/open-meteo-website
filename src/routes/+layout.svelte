@@ -2,48 +2,50 @@
 	import '../app.scss';
 	import { page } from '$app/stores';
 	import { onMount, onDestroy } from 'svelte';
-	import { theme, themeIsDark} from '$lib/stores';
-	import { MoonStarsFill, CircleHalf, SunFill, Github, Twitter } from "svelte-bootstrap-icons";
+	import { theme, themeIsDark } from '$lib/stores';
+	import { MoonStarsFill, CircleHalf, SunFill, Github, Twitter } from 'svelte-bootstrap-icons';
 	import type { Unsubscriber } from 'svelte/store';
 
-	let updateThemeOnChange: ((this: MediaQueryList, ev: MediaQueryListEvent) => (any)) | undefined
-	let prefersDarkMode: MediaQueryList | undefined
-	let themeUnSubscriber: Unsubscriber | undefined
+	let updateThemeOnChange: ((this: MediaQueryList, ev: MediaQueryListEvent) => any) | undefined;
+	let prefersDarkMode: MediaQueryList | undefined;
+	let themeUnSubscriber: Unsubscriber | undefined;
 	onMount(async () => {
 		const Dropdown = await import('bootstrap/js/dist/dropdown');
 		const Collapse = await import('bootstrap/js/dist/collapse');
 
-		prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)')
+		prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
 		themeUnSubscriber = theme.subscribe((theme) => {
 			switch (theme) {
-			case 'auto': 
-				$themeIsDark = prefersDarkMode?.matches || false
-				break;
-			case 'dark':
-				$themeIsDark = true
-				break;
-			case 'light':
-				$themeIsDark = false
-				break;
+				case 'auto':
+					$themeIsDark = prefersDarkMode?.matches || false;
+					break;
+				case 'dark':
+					$themeIsDark = true;
+					break;
+				case 'light':
+					$themeIsDark = false;
+					break;
 			}
-		})
+		});
 		// Update the store if OS preference changes
-		updateThemeOnChange = (e) => { if ($theme == 'auto') $themeIsDark = e.matches }
-		prefersDarkMode.addEventListener('change', updateThemeOnChange)
+		updateThemeOnChange = (e) => {
+			if ($theme == 'auto') $themeIsDark = e.matches;
+		};
+		prefersDarkMode.addEventListener('change', updateThemeOnChange);
 	});
 
 	onDestroy(() => {
 		if (prefersDarkMode && updateThemeOnChange) {
-			prefersDarkMode.removeEventListener('change', updateThemeOnChange)
+			prefersDarkMode.removeEventListener('change', updateThemeOnChange);
 		}
 		if (themeUnSubscriber) {
-			themeUnSubscriber()
+			themeUnSubscriber();
 		}
-	})
+	});
 
 	let body: HTMLElement;
 	const bindBody = (node: any) => (body = node);
-	$: body?.setAttribute('data-bs-theme', $themeIsDark ? "dark": "")
+	$: body?.setAttribute('data-bs-theme', $themeIsDark ? 'dark' : '');
 </script>
 
 <svelte:body use:bindBody />
@@ -80,38 +82,49 @@
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav me-auto mb-2 mb-md-0">
 				<li class="d-md-none nav-item py-1 py-lg-1">
-					<div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
-					<hr class="d-lg-none my-2">
+					<div class="vr d-none d-lg-flex h-100 mx-lg-2" />
+					<hr class="d-lg-none my-2" />
 				</li>
 				<li class="nav-item">
-					<a href="/" class="nav-link" class:active={$page.url.pathname === '/'} aria-current="page"
-						>Home</a
+					<a
+						href="/"
+						class="nav-link"
+						class:active={$page.url.pathname === '/'}
+						aria-current="page"
+						title="Weather API">Home</a
 					>
 				</li>
 				<li class="nav-item">
 					<a
 						href="/en/features"
 						class="nav-link"
+						title="API Features"
 						class:active={$page.url.pathname === '/en/features'}>Features</a
 					>
 				</li>
 				<li class="nav-item">
-					<a href="/en/pricing" class="nav-link" class:active={$page.url.pathname === '/en/pricing'}
-						>Pricing</a
+					<a
+						href="/en/pricing"
+						class="nav-link"
+						class:active={$page.url.pathname === '/en/pricing'}
+						title="Pricing">Pricing</a
 					>
 				</li>
 				<li class="nav-item">
 					<a
 						href="/en/docs"
 						class="nav-link"
+						title="Documentation"
 						class:active={$page.url.pathname.startsWith('/en/docs')}>API Docs</a
 					>
 				</li>
 				<li class="nav-item">
-					<a href="https://openmeteo.substack.com" class="nav-link" target="_blank">Blog</a>
+					<a href="https://openmeteo.substack.com/archive?sort=new" class="nav-link" title="Blog"
+						>Blog</a
+					>
 				</li>
 			</ul>
-			
+
 			<!--<div class="form-check form-switch ms-auto mt-3 me-3">
 					<label class="form-check-label ms-3" for="lightSwitch">
 						<svg
@@ -132,8 +145,8 @@
 			{$theme}-->
 			<ul class="navbar-nav ml-sm-auto">
 				<li class="d-md-none nav-item py-1 py-lg-1">
-					<div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
-					<hr class="d-lg-none my-2">
+					<div class="vr d-none d-lg-flex h-100 mx-lg-2" />
+					<hr class="d-lg-none my-2" />
 				</li>
 				<li class="nav-item">
 					<a
@@ -142,9 +155,8 @@
 						target="_blank"
 						rel="noopener"
 						aria-label="GitHub"
-					><Github width={28} height={28} class="navbar-nav-svg"/>
+						><Github width={28} height={28} class="navbar-nav-svg" />
 						<span class="d-md-none ms-2" id="bd-theme-text">GitHub</span>
-
 					</a>
 				</li>
 				<li class="nav-item">
@@ -154,55 +166,80 @@
 						target="_blank"
 						rel="noopener"
 						aria-label="Twitter"
-					><Twitter width={28} height={28} class="navbar-nav-svg"/>
+						><Twitter width={28} height={28} class="navbar-nav-svg" />
 						<span class="d-md-none ms-2" id="bd-theme-text">Twitter</span>
 					</a>
-					
 				</li>
 				<li class="d-none d-md-block nav-item py-1">
-					<div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
-					<hr class="d-lg-none my-2">
+					<div class="vr d-none d-lg-flex h-100 mx-lg-2" />
+					<hr class="d-lg-none my-2" />
 				</li>
 				<li class="nav-item dropdown">
-					<button class="btn btn-link nav-link p-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (dark)">
-					{#if $theme == "light"}
-						<SunFill width={28} height={28} class="navbar-nav-svg"/>
-					{/if}
+					<button
+						class="btn btn-link nav-link p-2 dropdown-toggle d-flex align-items-center"
+						id="bd-theme"
+						type="button"
+						aria-expanded="false"
+						data-bs-toggle="dropdown"
+						data-bs-display="static"
+						aria-label="Toggle theme (dark)"
+					>
+						{#if $theme == 'light'}
+							<SunFill width={28} height={28} class="navbar-nav-svg" />
+						{/if}
 
-					{#if $theme == "dark"}
-						<MoonStarsFill style="margin: 1px 0;" width={26} height={26} class="navbar-nav-svg"/>
-					{/if}
+						{#if $theme == 'dark'}
+							<MoonStarsFill style="margin: 1px 0;" width={26} height={26} class="navbar-nav-svg" />
+						{/if}
 
-					{#if $theme == "auto"}
-						<CircleHalf style="margin: 1px 0;" width={26} height={26} class="navbar-nav-svg"/>
-					{/if}
+						{#if $theme == 'auto'}
+							<CircleHalf style="margin: 1px 0;" width={26} height={26} class="navbar-nav-svg" />
+						{/if}
 
-					<span class="d-md-none ms-2" id="bd-theme-text">Toggle theme</span>
+						<span class="d-md-none ms-2" id="bd-theme-text">Toggle theme</span>
 					</button>
 					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
-					<li>
-						<button type="button" class="dropdown-item d-flex align-items-center" class:active={$theme == 'light'} aria-pressed={$theme == 'light'} on:click={() => $theme = "light"}>
-							<SunFill class="bi me-2 opacity-50 theme-icon" />
-						<!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>-->
-						Light
-						<!--<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
-						</button>
-					</li>
-					<li>
-						<button type="button" class="dropdown-item d-flex align-items-center" class:active={$theme == 'dark'} aria-pressed={$theme == 'dark'} on:click={() => $theme = "dark"}>
-							<MoonStarsFill class="bi me-2 opacity-50 theme-icon"/>
-						Dark
-						<!-- <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
-						</button>
-					</li>
-					<li>
-						<button type="button" class="dropdown-item d-flex align-items-center" class:active={$theme == 'auto'} aria-pressed={$theme == 'auto'} on:click={() => $theme = "auto"}>
-							<CircleHalf class="bi me-2 opacity-50 theme-icon" />
-						<!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>-->
-						Auto
-						<!--<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
-						</button>
-					</li>
+						<li>
+							<button
+								type="button"
+								class="dropdown-item d-flex align-items-center"
+								class:active={$theme == 'light'}
+								aria-pressed={$theme == 'light'}
+								on:click={() => ($theme = 'light')}
+							>
+								<SunFill class="bi me-2 opacity-50 theme-icon" />
+								<!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>-->
+								Light
+								<!--<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
+							</button>
+						</li>
+						<li>
+							<button
+								type="button"
+								class="dropdown-item d-flex align-items-center"
+								class:active={$theme == 'dark'}
+								aria-pressed={$theme == 'dark'}
+								on:click={() => ($theme = 'dark')}
+							>
+								<MoonStarsFill class="bi me-2 opacity-50 theme-icon" />
+								Dark
+								<!-- <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
+							</button>
+						</li>
+						<li>
+							<button
+								type="button"
+								class="dropdown-item d-flex align-items-center"
+								class:active={$theme == 'auto'}
+								aria-pressed={$theme == 'auto'}
+								on:click={() => ($theme = 'auto')}
+							>
+								<CircleHalf class="bi me-2 opacity-50 theme-icon" />
+								<!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>-->
+								Auto
+								<!--<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
+							</button>
+						</li>
 					</ul>
 				</li>
 			</ul>
@@ -317,15 +354,11 @@
 				<li class="mb-1">
 					<a
 						class="link-secondary text-decoration-none"
-						href="https://github.com/open-meteo/open-meteo"
-						target="_blank">GitHub</a
+						href="https://github.com/open-meteo/open-meteo">GitHub</a
 					>
 				</li>
 				<li class="mb-1">
-					<a
-						class="link-secondary text-decoration-none"
-						href="https://openmeteo.substack.com/"
-						target="_blank">Blog</a
+					<a class="link-secondary text-decoration-none" href="https://openmeteo.substack.com/archive?sort=new">Blog</a
 					>
 				</li>
 				<li class="mb-1">
