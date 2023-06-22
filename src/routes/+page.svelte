@@ -465,6 +465,9 @@
 			or follow us on <a href="https://twitter.com/open_meteo" target="_blank">Twitter</a>. By doing
 			so, you'll never miss out on the latest developments and enhancements in our services.
 		</p>
-		<div class="d-grid gap-2 d-sm-flex justify-content-sm-center"><a class="btn btn-primary btn-lg px-4 gap-3" href="https://openmeteo.substack.com/subscribe?utm_source=landingpage&simple=true&next=https%3A%2F%2Fopenmeteo.substack.com%2F" title="API Subscription Plans">Subscribe to the Newsletter</a> <a href="mailto:info@open-meteo.com" class="btn btn-outline-secondary btn-lg px-4">Available APIs</a></div>
+		<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+			<a class="btn btn-primary btn-lg px-4 gap-3" href="https://openmeteo.substack.com/subscribe?utm_source=landingpage&simple=true&next=https%3A%2F%2Fopenmeteo.substack.com%2F" title="Newsletter Sign-Up">Subscribe to the Newsletter</a> 
+			<a href="/en/features" title="APIs & Features" class="btn btn-outline-secondary btn-lg px-4">Available APIs</a>
+		</div>
 	</div>
 </div>
