@@ -11,7 +11,7 @@ export const theme = persisted('theme', 'auto');
 export const themeIsDark = writable(true)
 
 
-export interface Location {
+export interface GeoLocation {
     id: number;
     name: string;
     latitude: number;
@@ -32,7 +32,7 @@ export interface Location {
     admin4: string | undefined;
 }
 
-const defaultLocation: Location = {
+const defaultLocation: GeoLocation = {
     id: 2950159,
     name: 'Berlin',
     latitude: 52.52437,
@@ -53,8 +53,8 @@ const defaultLocation: Location = {
     admin4: 'Berlin'
 };
 
-export const last_visited = persisted('last_visited_locations', [] as Location[]);
-export const favorites = persisted('favorites', [] as Location[]);
+export const last_visited = persisted('last_visited_locations', [] as GeoLocation[]);
+export const favorites = persisted('favorites', [] as GeoLocation[]);
 
-export const activeLocation = writable(defaultLocation);
+//export const activeLocation = writable(defaultLocation);
 // $favorites.length > 0 ? $favorites[0] : $last_visited.length > 0 ? $last_visited[0] : defaultLocation

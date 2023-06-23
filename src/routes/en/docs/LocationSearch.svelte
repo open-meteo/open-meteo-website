@@ -1,21 +1,21 @@
 <script lang="ts">
 	/**
 	 * TODO:
-	 * - weather form integration
 	 * - use arrow keys + enter to select results
 	 */
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy, onMount, createEventDispatcher } from 'svelte';
 	import { Trash } from 'svelte-bootstrap-icons';
 	import { Star } from 'svelte-bootstrap-icons';
 	import { Cursor } from 'svelte-bootstrap-icons';
 	import { Map } from 'svelte-bootstrap-icons';
 	import { Search } from 'svelte-bootstrap-icons';
-	import { activeLocation, favorites, last_visited, type Location } from '$lib/stores';
+	import { favorites, last_visited, type GeoLocation } from '$lib/stores';
 
 	interface ResultSet {
-		results: Location[] | undefined;
+		results: GeoLocation[] | undefined;
 	}
 
+	const dispatch = createEventDispatcher();
 	let debounceTimeout: number | undefined;
 	let searchQuery = '';
 
@@ -43,7 +43,7 @@
 		);
 		const latitude = position.coords.latitude;
 		const longitude = position.coords.longitude;
-		const location: Location = {
+		const location: GeoLocation = {
 			id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
 			name: `GPS ${latitude.toFixed(2)}°E ${longitude.toFixed(2)}°N`,
 			latitude: latitude,
@@ -71,22 +71,22 @@
 		searchModalElement?.removeEventListener('shown.bs.modal', searchModalShown);
 	});
 
-	function deleteRecent(location: Location) {
+	function deleteRecent(location: GeoLocation) {
 		$last_visited = $last_visited.filter((item) => item.id != location.id);
 	}
 
-	function deleteFavorite(location: Location) {
+	function deleteFavorite(location: GeoLocation) {
 		$favorites = $favorites.filter((item) => item.id != location.id);
 	}
 
 	// Save a new favorite location. Remove it from recent locations.
-	function saveFavorite(location: Location) {
+	function saveFavorite(location: GeoLocation) {
 		$favorites = [location, ...$favorites];
 		deleteRecent(location);
 	}
 
 	// Save as recent location, unless it is a favorite
-	function saveRecent(location: Location) {
+	function saveRecent(location: GeoLocation) {
 		if ($favorites.find((item) => item.id == location.id)) {
 			// Reorder favorites
 			let temp = $favorites.filter((item) => item.id != location.id);
@@ -102,11 +102,11 @@
 		$last_visited = temp;
 	}
 
-	function selectLocation(location: Location) {
+	function selectLocation(location: GeoLocation) {
 		saveRecent(location);
 		searchQuery = '';
-		$activeLocation = location;
 		searchModal?.hide();
+		dispatch('location', location);
 	}
 
 	// Fetch is automatically called after `searchQuery` changes due to reactive assignment
