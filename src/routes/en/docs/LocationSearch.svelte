@@ -185,6 +185,7 @@
 											href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 											target="_blank"
 											title="Show on map"
+											on:click|stopPropagation
 										>
 											<Map />
 										</a>
@@ -233,6 +234,7 @@
 											href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 											target="_blank"
 											title="Show on map"
+											on:click|stopPropagation
 										>
 											<Map />
 										</a>
@@ -279,6 +281,7 @@
 												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 												target="_blank"
 												title="Show on map"
+												on:click|stopPropagation
 											>
 												<Map />
 											</a>
