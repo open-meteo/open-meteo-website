@@ -26,7 +26,7 @@
 		const Modal = await import('bootstrap/js/dist/modal');
 		searchModal = new Modal.default(searchModalElement, {});
 		searchModalElement?.addEventListener('shown.bs.modal', searchModalShown);
-		searchModal.show()
+		searchModal.show();
 	});
 
 	function searchModalShown(event: Event) {
@@ -155,8 +155,16 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header no-border">
-				<label for="location_search" id="locationSearchModalLabel"><span class="lead">Search Locations</span></label>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" title="Close"/>
+				<label for="location_search" id="locationSearchModalLabel"
+					><span class="lead">Search Locations</span></label
+				>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="modal"
+					aria-label="Close"
+					title="Close"
+				/>
 			</div>
 			<div class="modal-body">
 				<div class="input-group">
@@ -171,6 +179,7 @@
 						bind:this={searchInputElement}
 					/>
 					<button
+						tabindex="-1"
 						class="btn btn-outline-secondary"
 						type="button"
 						title="Detect Location via GPS"
@@ -216,12 +225,14 @@
 												<button
 													class="btn btn-outline-secondary btn-sm"
 													on:click|stopPropagation={() => deleteFavorite(location)}
+													tabindex="-1"
 													title="Delete"><Trash /></button
 												>
 												<a
 													class="btn btn-outline-secondary btn-sm"
 													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 													target="_blank"
+													tabindex="-1"
 													title="Show on map"
 													on:click|stopPropagation
 												>
@@ -258,12 +269,14 @@
 													class="btn btn-outline-secondary btn-sm"
 													type="button"
 													on:click|stopPropagation={() => saveFavorite(location)}
+													tabindex="-1"
 													title="Save"><Star /></button
 												>
 												<button
 													class="btn btn-outline-secondary btn-sm"
 													type="button"
 													on:click|stopPropagation={() => deleteRecent(location)}
+													tabindex="-1"
 													title="Delete"><Trash /></button
 												>
 												<a
@@ -271,6 +284,7 @@
 													type="button"
 													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 													target="_blank"
+													tabindex="-1"
 													title="Show on map"
 													on:click|stopPropagation
 												>
@@ -311,6 +325,7 @@
 											class="btn btn-outline-secondary btn-sm"
 											href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 											target="_blank"
+											tabindex="-1"
 											title="Show on map"
 											on:click|stopPropagation
 										>
