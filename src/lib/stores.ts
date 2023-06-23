@@ -18,15 +18,15 @@ export interface GeoLocation {
     longitude: number;
     elevation: number;
     feature_code: string;
-    country_code: string;
+    country_code: string | undefined;
     admin1_id: number | undefined;
     admin3_id: number | undefined;
     admin4_id: number | undefined;
     timezone: string;
     population: number | undefined;
     postcodes: string[] | undefined;
-    country_id: number;
-    country: string;
+    country_id: number | undefined;
+    country: string | undefined;
     admin1: string | undefined;
     admin3: string | undefined;
     admin4: string | undefined;

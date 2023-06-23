@@ -50,15 +50,15 @@
 			longitude: longitude,
 			elevation: position.coords.altitude ?? NaN,
 			feature_code: '',
-			country_code: '',
+			country_code: undefined,
 			admin1_id: undefined,
 			admin3_id: undefined,
 			admin4_id: undefined,
 			timezone: '',
 			population: undefined,
 			postcodes: undefined,
-			country_id: 0,
-			country: '',
+			country_id: undefined,
+			country: undefined,
 			admin1: undefined,
 			admin3: undefined,
 			admin4: undefined
@@ -209,7 +209,7 @@
 										>
 											<img
 												height="24"
-												src="/images/country-flags/{location.country_code.toLowerCase()}.svg"
+												src="/images/country-flags/{(location.country_code || 'united_nations').toLowerCase()}.svg"
 												title={location.country}
 												alt={location.country_code}
 											/>
@@ -252,7 +252,7 @@
 										>
 											<img
 												height="24"
-												src="/images/country-flags/{location.country_code.toLowerCase()}.svg"
+												src="/images/country-flags/{(location.country_code || 'united_nations').toLowerCase()}.svg"
 												title={location.country}
 												alt={location.country_code}
 											/>
@@ -308,7 +308,7 @@
 								>
 									<img
 										height="24"
-										src="/images/country-flags/{location.country_code.toLowerCase()}.svg"
+										src="/images/country-flags/{(location.country_code || 'united_nations').toLowerCase()}.svg"
 										title={location.country}
 										alt={location.country_code}
 									/>
