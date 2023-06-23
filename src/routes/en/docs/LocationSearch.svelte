@@ -64,7 +64,7 @@
 	onMount(() => {
 		window.addEventListener('keydown', handleKeyDown);
 		function handleKeyDown(ev: KeyboardEvent) {
-			if (ev.key == 'Escape' && modalOpen) {
+			if (ev.key == 'Escape' && modalOpen && searchQuery == '') {
 				modalOpen = false;
 			}
 		}
