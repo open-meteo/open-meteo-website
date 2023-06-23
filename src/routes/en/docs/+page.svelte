@@ -6,14 +6,16 @@ import { onMount } from 'svelte';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 import LocationSearch from "./LocationSearch.svelte";
 import type { GeoLocation } from "$lib/stores";
+import ResultPreview from "./ResultPreview.svelte";
+import { urlHashStore } from "$lib/url-hash-store";
 
 onMount(async () => {
     const datepicker = await import("bootstrap-datepicker");
-    const weather = await import("$lib/weather");
+    //const weather = await import("$lib/weather");
     const Dropdown = await import('bootstrap/js/dist/dropdown');
     const Collapse = await import('bootstrap/js/dist/collapse');
     const Tab = await import('bootstrap/js/dist/tab');
-    weather.init(Dropdown.default)
+   //weather.init(Dropdown.default)
 });
 
 const pressureVariables = [
@@ -26,11 +28,31 @@ const pressureVariables = [
 ]
 const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
 
-let params = {latitude: 52.52, longitude: 13.41}
+const defaultParameter = {
+  hourly: ["temperature_2m"],
+  daily: [],
+  current_weather: false,
+  temperature_unit: "celsius",
+  windspeed_unit: "kmh",
+  precipitation_unit: "mm",
+  timeformat: "iso8601",
+  timezone: "UTC",
+  past_days: "0",
+  forecast_days: "7",
+  start_date: "",
+  end_date: "",
+  models: []
+}
+
+const params = urlHashStore({
+  latitude: 52.52, 
+  longitude: 13.41, 
+  ...defaultParameter
+})
 
 function locationCallback(event: CustomEvent<GeoLocation>) {
-    params.latitude = (Number)(event.detail.latitude.toFixed(4))
-    params.longitude = (Number)(event.detail.longitude.toFixed(4))
+    $params.latitude = (Number)(event.detail.latitude.toFixed(4))
+    $params.longitude = (Number)(event.detail.longitude.toFixed(4))
 }
 </script>
 
@@ -40,18 +62,20 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
     <meta name="description" content="Weather Forecast APIs with weather models from multiple national weather providers, combining the best models for accurate forecasts worldwide. Explore the API documentation to learn more about the available weather models, their origin countries, resolutions, forecast lengths, and update frequencies. Get detailed JSON hourly weather forecasts for up to 7 or 16 days by specifying the geographical coordinates and desired weather variables in the API endpoint. Discover the comprehensive list of URL parameters for customizing your weather forecast requests.">
 </svelte:head>
 
+<ResultPreview params={params} defaultParameter={defaultParameter}/>
+
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/forecast">
     <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
-          <input type="number" class="form-control" name="latitude" id="latitude" step="0.000001" min="-90" max="90" bind:value={params.latitude}>
+          <input type="number" class="form-control" name="latitude" id="latitude" step="0.000001" min="-90" max="90" bind:value={$params.latitude}>
           <label for="latitude">Latitude</label>
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-floating">
-          <input type="number" class="form-control" name="longitude" id="longitude" step="0.000001" min="-180" max="180" bind:value={params.longitude}>
+          <input type="number" class="form-control" name="longitude" id="longitude" step="0.000001" min="-180" max="180" bind:value={$params.longitude}>
           <label for="longitude">Longitude</label>
         </div>
       </div>
@@ -63,64 +87,63 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       <h2>Hourly Weather Variables</h2>
       <div class="col-md-3">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="temperature_2m" id="temperature_2m" name="hourly"
-            checked>
+          <input class="form-check-input" type="checkbox" value="temperature_2m" id="temperature_2m" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="temperature_2m">
             Temperature (2 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="relativehumidity_2m" id="relativehumidity_2m"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="relativehumidity_2m">
             Relative Humidity (2 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="dewpoint_2m" id="dewpoint_2m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="dewpoint_2m" id="dewpoint_2m" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="dewpoint_2m">
             Dewpoint (2 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="apparent_temperature" id="apparent_temperature"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="apparent_temperature">
             Apparent Temperature
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="precipitation_probability" id="precipitation_probability" name="hourly">
+          <input class="form-check-input" type="checkbox" value="precipitation_probability" id="precipitation_probability" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="precipitation_probability">
             Precipitation Probability
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="precipitation" id="precipitation" name="hourly">
+          <input class="form-check-input" type="checkbox" value="precipitation" id="precipitation" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="precipitation">
             Precipitation (rain + showers + snow)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="rain" id="rain" name="hourly">
+          <input class="form-check-input" type="checkbox" value="rain" id="rain" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="rain">
             Rain
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="showers" id="showers" name="hourly">
+          <input class="form-check-input" type="checkbox" value="showers" id="showers" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="showers">
             Showers
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="snowfall" id="snowfall" name="hourly">
+          <input class="form-check-input" type="checkbox" value="snowfall" id="snowfall" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="snowfall">
             Snowfall
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="snow_depth" id="snow_depth" name="hourly">
+          <input class="form-check-input" type="checkbox" value="snow_depth" id="snow_depth" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="snow_depth">
             Snow Depth
           </label>
@@ -128,70 +151,70 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       </div>
       <div class="col-md-3">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="weathercode" id="weathercode" name="hourly">
+          <input class="form-check-input" type="checkbox" value="weathercode" id="weathercode" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="weathercode">
             Weathercode
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="pressure_msl" id="pressure_msl" name="hourly">
+          <input class="form-check-input" type="checkbox" value="pressure_msl" id="pressure_msl" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="pressure_msl">
             Sealevel Pressure
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="surface_pressure" id="surface_pressure" name="hourly">
+          <input class="form-check-input" type="checkbox" value="surface_pressure" id="surface_pressure" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="surface_pressure">
             Surface Pressure
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="cloudcover" id="cloudcover" name="hourly">
+          <input class="form-check-input" type="checkbox" value="cloudcover" id="cloudcover" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="cloudcover">
             Cloudcover Total
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="cloudcover_low" id="cloudcover_low" name="hourly">
+          <input class="form-check-input" type="checkbox" value="cloudcover_low" id="cloudcover_low" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="cloudcover_low">
             Cloudcover Low
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="cloudcover_mid" id="cloudcover_mid" name="hourly">
+          <input class="form-check-input" type="checkbox" value="cloudcover_mid" id="cloudcover_mid" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="cloudcover_mid">
             Cloudcover Mid
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="cloudcover_high" id="cloudcover_high" name="hourly">
+          <input class="form-check-input" type="checkbox" value="cloudcover_high" id="cloudcover_high" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="cloudcover_high">
             Cloudcover High
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="visibility" id="visibility" name="hourly">
+          <input class="form-check-input" type="checkbox" value="visibility" id="visibility" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="visibility">
             Visibility
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="evapotranspiration" id="evapotranspiration"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="evapotranspiration">
             Evapotranspiration
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="et0_fao_evapotranspiration"
-            id="et0_fao_evapotranspiration" name="hourly">
+            id="et0_fao_evapotranspiration" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="et0_fao_evapotranspiration">
             Reference Evapotranspiration (ET₀)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="vapor_pressure_deficit" id="vapor_pressure_deficit"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="vapor_pressure_deficit">
             Vapor Pressure Deficit
           </label>
@@ -199,77 +222,77 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       </div>
       <div class="col-md-3">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windspeed_10m" id="windspeed_10m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="windspeed_10m" id="windspeed_10m" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="windspeed_10m">
             Wind Speed (10 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windspeed_80m" id="windspeed_80m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="windspeed_80m" id="windspeed_80m" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="windspeed_80m">
             Wind Speed (80 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windspeed_120m" id="windspeed_120m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="windspeed_120m" id="windspeed_120m" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="windspeed_120m">
             Wind Speed (120 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windspeed_180m" id="windspeed_180m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="windspeed_180m" id="windspeed_180m" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="windspeed_180m">
             Wind Speed (180 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="winddirection_10m" id="winddirection_10m"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="winddirection_10m">
             Wind Direction (10 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="winddirection_80m" id="winddirection_80m"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="winddirection_80m">
             Wind Direction (80 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="winddirection_120m" id="winddirection_120m"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="winddirection_120m">
             Wind Direction (120 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="winddirection_180m" id="winddirection_180m"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="winddirection_180m">
             Wind Direction (180 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windgusts_10m" id="windgusts_10m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="windgusts_10m" id="windgusts_10m" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="windgusts_10m">
             Wind Gusts (10 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="temperature_80m" id="temperature_80m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="temperature_80m" id="temperature_80m" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="temperature_80m">
             Temperature (80 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="temperature_120m" id="temperature_120m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="temperature_120m" id="temperature_120m" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="temperature_120m">
             Temperature (120 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="temperature_180m" id="temperature_180m" name="hourly">
+          <input class="form-check-input" type="checkbox" value="temperature_180m" id="temperature_180m" name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="temperature_180m">
             Temperature (180 m)
           </label>
@@ -278,63 +301,63 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       <div class="col-md-3">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_temperature_0cm" id="soil_temperature_0cm"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="soil_temperature_0cm">
             Soil Temperature (0 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_temperature_6cm" id="soil_temperature_6cm"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="soil_temperature_6cm">
             Soil Temperature (6 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_temperature_18cm" id="soil_temperature_18cm"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="soil_temperature_18cm">
             Soil Temperature (18 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_temperature_54cm" id="soil_temperature_54cm"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="soil_temperature_54cm">
             Soil Temperature (54 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_moisture_0_1cm" id="soil_moisture_0_1cm"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="soil_moisture_0_1cm">
             Soil Moisture (0-1 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_moisture_1_3cm" id="soil_moisture_1_3cm"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="soil_moisture_1_3cm">
             Soil Moisture (1-3 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_moisture_3_9cm" id="soil_moisture_3_9cm"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="soil_moisture_3_9cm">
             Soil Moisture (3-9 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_moisture_9_27cm" id="soil_moisture_9_27cm"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="soil_moisture_9_27cm">
             Soil Moisture (9-27 cm)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="soil_moisture_27_81cm" id="soil_moisture_27_81cm"
-            name="hourly">
+            name="hourly" bind:group={$params.hourly}>
           <label class="form-check-label" for="soil_moisture_27_81cm">
             Soil Moisture (27-81 cm)
           </label>
@@ -358,21 +381,21 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
               <div class="col-md-6">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="uv_index" id="uv_index"
-                    name="hourly">
+                    name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="uv_index">
                     UV Index
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="uv_index_clear_sky" id="uv_index_clear_sky"
-                    name="hourly">
+                    name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="uv_index_clear_sky">
                     UV Index Clear Sky
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="is_day" id="is_day"
-                    name="hourly">
+                    name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="is_day">
                     Is Day or Night
                   </label>
@@ -381,14 +404,14 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
               <div class="col-md-6">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="cape" id="cape"
-                    name="hourly">
+                    name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="cape">
                     CAPE
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="freezinglevel_height" id="freezinglevel_height"
-                    name="hourly">
+                    name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="freezinglevel_height">
                     Freezinglevel Height
                   </label>
@@ -411,35 +434,35 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
               <div class="col-md-6">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="shortwave_radiation" id="shortwave_radiation"
-                    name="hourly">
+                    name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="shortwave_radiation">
                     Shortwave Solar Radiation
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="direct_radiation" id="direct_radiation"
-                    name="hourly">
+                    name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="direct_radiation">
                     Direct Solar Radiation
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="diffuse_radiation" id="diffuse_radiation"
-                    name="hourly">
+                    name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="diffuse_radiation">
                     Diffuse Solar Radiation
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="direct_normal_irradiance"
-                    id="direct_normal_irradiance" name="hourly">
+                    id="direct_normal_irradiance" name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="direct_normal_irradiance">
                     Direct Normal Irradiance DNI
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="terrestrial_radiation"
-                    id="terrestrial_radiation" name="hourly">
+                    id="terrestrial_radiation" name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="terrestrial_radiation">
                     Terrestrial Solar Radiation
                   </label>
@@ -448,35 +471,35 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
               <div class="col-md-6">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="shortwave_radiation_instant"
-                    id="shortwave_radiation_instant" name="hourly">
+                    id="shortwave_radiation_instant" name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="shortwave_radiation_instant">
                     Shortwave Solar Radiation (Instant)
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="direct_radiation_instant"
-                    id="direct_radiation_instant" name="hourly">
+                    id="direct_radiation_instant" name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="direct_radiation_instant">
                     Direct Solar Radiation (Instant)
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="diffuse_radiation_instant"
-                    id="diffuse_radiation_instant" name="hourly">
+                    id="diffuse_radiation_instant" name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="diffuse_radiation_instant">
                     Diffuse Solar Radiation (Instant)
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="direct_normal_irradiance_instant"
-                    id="direct_normal_irradiance_instant" name="hourly">
+                    id="direct_normal_irradiance_instant" name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="direct_normal_irradiance_instant">
                     Direct Normal Irradiance DNI (Instant)
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="terrestrial_radiation_instant"
-                    id="terrestrial_radiation_instant" name="hourly">
+                    id="terrestrial_radiation_instant" name="hourly" bind:group={$params.hourly}>
                   <label class="form-check-label" for="terrestrial_radiation_instant">
                     Terrestrial Solar Radiation (Instant)
                   </label>
@@ -506,21 +529,21 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
               <div class="col-md-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="best_match" id="best_match"
-                    name="models">
+                    name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="best_match">
                     Best match
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="ecmwf_ifs04"
-                    id="ecmwf_ifs04" name="models">
+                    id="ecmwf_ifs04" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="ecmwf_ifs04">
                     ECMWF IFS
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="metno_nordic"
-                    id="metno_nordic" name="models">
+                    id="metno_nordic" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="metno_nordic">
                     MET Norway Nordic
                   </label>
@@ -529,21 +552,21 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
               <div class="col-md-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="gfs_seamless"
-                    id="gfs_seamless" name="models">
+                    id="gfs_seamless" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="gfs_seamless">
                     GFS Seamless
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="gfs_global"
-                    id="gfs_global" name="models">
+                    id="gfs_global" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="gfs_global">
                     GFS Global
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="gfs_hrrr"
-                    id="gfs_hrrr" name="models">
+                    id="gfs_hrrr" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="gfs_hrrr">
                     GFS HRRR
                   </label>
@@ -552,21 +575,21 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
               <div class="col-md-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="jma_seamless"
-                    id="jma_seamless" name="models">
+                    id="jma_seamless" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="jma_seamless">
                     JMA Seamless
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="jma_msm"
-                    id="jma_msm" name="models">
+                    id="jma_msm" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="jma_msm">
                     JMA MSM
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="jma_gsm"
-                    id="jma_gsm" name="models">
+                    id="jma_gsm" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="jma_gsm">
                     JMA GSM
                   </label>
@@ -576,28 +599,28 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
               <div class="col-md-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="icon_seamless" id="icon_seamless"
-                    name="models">
+                    name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="icon_seamless">
                     DWD Icon Seamless
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="icon_global" id="icon_global"
-                    name="models">
+                    name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="icon_global">
                     DWD Icon Global
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="icon_eu" id="icon_eu"
-                    name="models">
+                    name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="icon_eu">
                     DWD Icon EU
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="icon_d2"
-                    id="icon_d2" name="models">
+                    id="icon_d2" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="icon_d2">
                     DWD Icon D2
                   </label>
@@ -606,28 +629,28 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
               <div class="col-md-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="gem_seamless"
-                    id="gem_seamless" name="models">
+                    id="gem_seamless" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="gem_seamless">
                     GEM Seamless
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="gem_global"
-                    id="gem_global" name="models">
+                    id="gem_global" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="gem_global">
                     GEM Global
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="gem_regional"
-                    id="gem_regional" name="models">
+                    id="gem_regional" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="gem_regional">
                     GEM Regional
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="gem_hrdps_continental"
-                    id="gem_hrdps_continental" name="models">
+                    id="gem_hrdps_continental" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="gem_hrdps_continental">
                     GEM HRDPS Continental
                   </label>
@@ -636,35 +659,35 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
               <div class="col-md-4">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="meteofrance_seamless"
-                    id="meteofrance_seamless" name="models">
+                    id="meteofrance_seamless" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="meteofrance_seamless">
                     MeteoFrance Seamless
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="meteofrance_arpege_world"
-                    id="meteofrance_arpege_world" name="models">
+                    id="meteofrance_arpege_world" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="meteofrance_arpege_world">
                     MeteoFrance Arpege World
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="meteofrance_arpege_europe"
-                    id="meteofrance_arpege_europe" name="models">
+                    id="meteofrance_arpege_europe" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="meteofrance_arpege_europe">
                     MeteoFrance Arpege Europe
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="meteofrance_arome_france"
-                    id="meteofrance_arome_france" name="models">
+                    id="meteofrance_arome_france" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="meteofrance_arome_france">
                     MeteoFrance Arome France
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="meteofrance_arome_france_hd"
-                    id="meteofrance_arome_france_hd" name="models">
+                    id="meteofrance_arome_france_hd" name="models" bind:group={$params.models}>
                   <label class="form-check-label" for="meteofrance_arome_france_hd">
                     MeteoFrance Arome France HD
                   </label>
@@ -683,59 +706,59 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       <h2>Daily Weather Variables <small class="text-muted">(*)</small></h2>
       <div class="col-md-6">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="weathercode" id="weathercode_daily" name="daily">
+          <input class="form-check-input" type="checkbox" value="weathercode" id="weathercode_daily" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="weathercode_daily">
             Weathercode
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="temperature_2m_max" id="temperature_2m_max"
-            name="daily">
+            name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="temperature_2m_max">
             Maximum Temperature (2 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="temperature_2m_min" id="temperature_2m_min"
-            name="daily">
+            name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="temperature_2m_min">
             Minimum Temperature (2 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="apparent_temperature_max" id="apparent_temperature_max"
-            name="daily">
+            name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="apparent_temperature_max">
             Maximum Apparent Temperature (2 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="apparent_temperature_min" id="apparent_temperature_min"
-            name="daily">
+            name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="apparent_temperature_min">
             Minimum Apparent Temperature (2 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="sunrise" id="sunrise" name="daily">
+          <input class="form-check-input" type="checkbox" value="sunrise" id="sunrise" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="sunrise">
             Sunrise
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="sunset" id="sunset" name="daily">
+          <input class="form-check-input" type="checkbox" value="sunset" id="sunset" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="sunset">
             Sunset
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="uv_index_max" id="uv_index_max" name="daily">
+          <input class="form-check-input" type="checkbox" value="uv_index_max" id="uv_index_max" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="uv_index_max">
             UV Index
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="uv_index_clear_sky_max" id="uv_index_clear_sky_max" name="daily">
+          <input class="form-check-input" type="checkbox" value="uv_index_clear_sky_max" id="uv_index_clear_sky_max" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="uv_index_clear_sky_max">
             UV Index Clear Sky
           </label>
@@ -743,71 +766,71 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       </div>
       <div class="col-md-6">
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="precipitation_sum" id="precipitation_sum" name="daily">
+          <input class="form-check-input" type="checkbox" value="precipitation_sum" id="precipitation_sum" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="precipitation_sum">
             Precipitation Sum
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="rain_sum" id="rain_sum" name="daily">
+          <input class="form-check-input" type="checkbox" value="rain_sum" id="rain_sum" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="rain_sum">
             Rain Sum
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="showers_sum" id="showers_sum" name="daily">
+          <input class="form-check-input" type="checkbox" value="showers_sum" id="showers_sum" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="showers_sum">
             Showers Sum
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="snowfall_sum" id="snowfall_sum" name="daily">
+          <input class="form-check-input" type="checkbox" value="snowfall_sum" id="snowfall_sum" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="snowfall_sum">
             Snowfall Sum
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="precipitation_hours" id="precipitation_hours"
-            name="daily">
+            name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="precipitation_hours">
             Precipitation Hours
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="precipitation_probability_max" id="precipitation_probability_max" name="daily">
+          <input class="form-check-input" type="checkbox" value="precipitation_probability_max" id="precipitation_probability_max" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="precipitation_probability_max">
             Precipitation Probability Max
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windspeed_10m_max" id="windspeed_10m_max" name="daily">
+          <input class="form-check-input" type="checkbox" value="windspeed_10m_max" id="windspeed_10m_max" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="windspeed_10m_max">
             Maximum Wind Speed (10 m)
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windgusts_10m_max" id="windgusts_10m_max" name="daily">
+          <input class="form-check-input" type="checkbox" value="windgusts_10m_max" id="windgusts_10m_max" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="windgusts_10m_max">
             Maximum Wind Gusts (10 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="winddirection_10m_dominant"
-            id="winddirection_10m_dominant" name="daily">
+            id="winddirection_10m_dominant" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="winddirection_10m_dominant">
             Dominant Wind Direction (10 m)
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="shortwave_radiation_sum" id="shortwave_radiation_sum"
-            name="daily">
+            name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="shortwave_radiation_sum">
             Shortwave Radiation Sum
           </label>
         </div>
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="et0_fao_evapotranspiration"
-            id="et0_fao_evapotranspiration_daily" name="daily">
+            id="et0_fao_evapotranspiration_daily" name="daily" bind:group={$params.daily}>
           <label class="form-check-label" for="et0_fao_evapotranspiration_daily">
             Reference Evapotranspiration (ET₀)
           </label>
@@ -820,7 +843,7 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       <h2>Settings</h2>
       <div class="col-12 pb-3">
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="current_weather" name="current_weather" value="true">
+          <input class="form-check-input" type="checkbox" id="current_weather" name="current_weather" value="true" bind:checked={$params.current_weather}>
           <label class="form-check-label" for="current_weather">Current weather with temperature, windspeed and
             weather code</label>
         </div>
@@ -828,7 +851,7 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       <div class="col-3">
         <div class="form-floating mb-3">
           <select class="form-select" name="temperature_unit" id="temperature_unit" aria-label="Temperature Unit"
-            data-default="celsius">
+            bind:value={$params.temperature_unit}>
             <option selected value="celsius">Celsius °C</option>
             <option value="fahrenheit">Fahrenheit °F</option>
           </select>
@@ -838,7 +861,7 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       <div class="col-3">
         <div class="form-floating mb-3">
           <select class="form-select" name="windspeed_unit" id="windspeed_unit" aria-label="Windspeed Unit"
-            data-default="kmh">
+            bind:value={$params.windspeed_unit}>
             <option selected value="kmh">Km/h</option>
             <option value="ms">m/s</option>
             <option value="mph">Mph</option>
@@ -850,7 +873,7 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       <div class="col-3">
         <div class="form-floating mb-3">
           <select class="form-select" name="precipitation_unit" id="precipitation_unit" aria-label="Precipitation Unit"
-            data-default="mm">
+            bind:value={$params.precipitation_unit}>
             <option selected value="mm">Millimeter</option>
             <option value="inch">Inch</option>
           </select>
@@ -859,7 +882,7 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       </div>
       <div class="col-3">
         <div class="form-floating mb-3">
-          <select class="form-select" name="timeformat" id="timeformat" aria-label="Timeformat" data-default="iso8601">
+          <select class="form-select" name="timeformat" id="timeformat" aria-label="Timeformat" bind:value={$params.timeformat}>
             <option selected value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
             <option value="unixtime">Unix timestamp</option>
           </select>
@@ -868,8 +891,8 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       </div>
       <div class="col-3">
         <div class="form-floating mb-3">
-          <select class="form-select" name="past_days" id="past_days" aria-label="Past days" data-default="0">
-            <option selected value="0">0</option>
+          <select class="form-select" name="past_days" id="past_days" aria-label="Past days" bind:value={$params.past_days}>
+            <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -886,10 +909,10 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       <div class="col-3">
         <div class="form-floating mb-3">
           <select class="form-select" name="forecast_days" id="forecast_days" aria-label="Forecast days"
-            data-default="7">
+            bind:value={$params.forecast_days}>
             <option value="1">1 day</option>
             <option value="3">3 days</option>
-            <option selected value="7">7 days</option>
+            <option value="7">7 days</option>
             <option value="14">14 days</option>
             <option value="16">16 days</option>
           </select>
@@ -899,7 +922,7 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       <div class="col-3">
         <div class="form-floating">
           <input type="text" class="form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd"
-            data-date-start-date="2022-06-08" value="" data-default="" name="start_date" id="start_date"><span
+            data-date-start-date="2022-06-08" name="start_date" id="start_date" bind:value={$params.start_date}><span
             class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
           <label for="start_date">Start date</label>
         </div>
@@ -907,21 +930,21 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       <div class="col-3">
         <div class="form-floating">
           <input type="text" class="form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd"
-            data-date-start-date="2022-06-08" value="" data-default="" name="end_date" id="end_date"><span
+            data-date-start-date="2022-06-08" name="end_date" id="end_date" bind:value={$params.end_date}><span
             class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
           <label for="end_date">End date</label>
         </div>
       </div>
       <div class="col-3">
         <div class="form-floating mb-3">
-          <select class="form-select" name="timezone" id="timezone" aria-label="Timezone" data-default="UTC">
+          <select class="form-select" name="timezone" id="timezone" aria-label="Timezone" bind:value={$params.timezone}>
             <option value="America/Anchorage">America/Anchorage</option>
             <option value="America/Los_Angeles">America/Los_Angeles</option>
             <option value="America/Denver">America/Denver</option>
             <option value="America/Chicago">America/Chicago</option>
             <option value="America/New_York">America/New_York</option>
             <option value="America/Sao_Paulo">America/Sao_Paulo</option>
-            <option selected value="UTC">Not set (GMT+0)</option>
+            <option value="UTC">Not set (GMT+0)</option>
             <option value="GMT">GMT+0</option>
             <option value="auto">Automatically detect time zone</option>
             <option value="Europe/London">Europe/London</option>
