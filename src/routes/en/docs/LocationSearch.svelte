@@ -65,10 +65,13 @@
 		window.addEventListener('keydown', handleKeyDown);
 		function handleKeyDown(ev: KeyboardEvent) {
 			if (ev.key == 'Escape' && modalOpen && searchQuery == '') {
-				modalOpen = false;
+				closeModal()
 			}
 		}
 		return () => {
+			if (modalOpen) {
+				closeModal()
+			}
             window.removeEventListener("keydown", handleKeyDown);
         };
 	});
@@ -76,6 +79,30 @@
 	onDestroy(() => {
 		clearInterval(debounceTimeout);
 	});
+
+	let scrollY: number | undefined;
+	function openModal() {
+		modalOpen = true
+
+		// Disable scrolling
+		scrollY = window.scrollY;
+		document.body.style.position = 'fixed';
+		document.body.style.top = `-${scrollY}px`;
+		document.body.style.overflow = 'hidden';
+	}
+
+	function closeModal() {
+		modalOpen = false
+
+		// Restore scrolling
+		document.body.style.position = '';
+		document.body.style.top = '';
+		document.body.style.overflow = '';
+		if (scrollY) {
+			// @ts-ignore
+			window.scrollTo({top: scrollY, left: 0, behavior: "instant"});
+		}
+	}
 
 	function deleteRecent(location: GeoLocation) {
 		$last_visited = $last_visited.filter((item) => item.id != location.id);
@@ -112,7 +139,7 @@
 	function selectLocation(location: GeoLocation) {
 		saveRecent(location);
 		searchQuery = '';
-		modalOpen = false;
+		closeModal()
 		dispatch('location', location);
 	}
 
@@ -141,19 +168,19 @@
 	})();
 </script>
 
-<button type="button" class="btn btn-outline-secondary w-100" on:click={() => (modalOpen = true)}
+<button type="button" class="btn btn-outline-secondary w-100" on:click={openModal}
 	><Search /> Search Locations ...</button
 >
 
 {#if modalOpen}
 	<div
-		class="modal d-block"
+		class="modal d-block show"
 		id="locationSearchModal"
 		tabindex="-1"
 		role="dialog"
 		aria-labelledby="locationSearchModalLabel"
 		aria-hidden={false}
-		on:click|self={() => (modalOpen = false)}
+		on:click|self={closeModal}
 	>
 		<div
 			class="modal-dialog"
@@ -171,7 +198,7 @@
 						class="btn-close"
 						aria-label="Close"
 						title="Close"
-						on:click={() => (modalOpen = false)}
+						on:click={closeModal}
 					/>
 				</div>
 				<div class="modal-body">
