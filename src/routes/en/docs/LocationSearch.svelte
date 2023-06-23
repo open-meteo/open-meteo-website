@@ -83,6 +83,7 @@
 	function saveFavorite(location: GeoLocation) {
 		$favorites = [location, ...$favorites];
 		deleteRecent(location);
+		searchQuery = ""
 	}
 
 	// Save as recent location, unless it is a favorite
@@ -318,6 +319,13 @@
 										)}°N {location.elevation.toFixed(0)}m asl)</small
 									>
 									<div class="position-absolute top-0 end-0 p-2">
+										<button
+											class="btn btn-outline-secondary btn-sm border-0"
+											type="button"
+											on:click|stopPropagation={() => saveFavorite(location)}
+											tabindex="-1"
+											title="Save"><Star /></button
+										>
 										<a
 											class="btn btn-outline-secondary btn-sm border-0"
 											href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
