@@ -27,39 +27,6 @@
 		element.focus();
 	}
 
-	function startLocationDetection() {
-		results = locationDetection();
-	}
-
-	async function locationDetection(): Promise<ResultSet> {
-		let position: GeolocationPosition = await new Promise((resolve, reject) =>
-			navigator.geolocation.getCurrentPosition(resolve, reject, {})
-		);
-		const latitude = position.coords.latitude;
-		const longitude = position.coords.longitude;
-		const location: GeoLocation = {
-			id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
-			name: `GPS ${latitude.toFixed(2)}°E ${longitude.toFixed(2)}°N`,
-			latitude: latitude,
-			longitude: longitude,
-			elevation: position.coords.altitude ?? NaN,
-			feature_code: '',
-			country_code: undefined,
-			admin1_id: undefined,
-			admin3_id: undefined,
-			admin4_id: undefined,
-			timezone: '',
-			population: undefined,
-			postcodes: undefined,
-			country_id: undefined,
-			country: undefined,
-			admin1: undefined,
-			admin3: undefined,
-			admin4: undefined
-		};
-		return { results: [location] };
-	}
-
 	// Close modal on `escape` key press
 	onMount(() => {
 		window.addEventListener('keydown', handleKeyDown);
@@ -155,6 +122,34 @@
 			debounceTimeout = setTimeout(resolve, 300);
 		});
 
+		if (searchQuery.toLowerCase() == "gps") {
+			let position: GeolocationPosition = await new Promise((resolve, reject) =>
+				navigator.geolocation.getCurrentPosition(resolve, reject, {})
+			);
+			const latitude = position.coords.latitude;
+			const longitude = position.coords.longitude;
+			return { results: [{
+				id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
+				name: `GPS ${latitude.toFixed(2)}°E ${longitude.toFixed(2)}°N`,
+				latitude: latitude,
+				longitude: longitude,
+				elevation: position.coords.altitude ?? NaN,
+				feature_code: '',
+				country_code: undefined,
+				admin1_id: undefined,
+				admin3_id: undefined,
+				admin4_id: undefined,
+				timezone: '',
+				population: undefined,
+				postcodes: undefined,
+				country_id: undefined,
+				country: undefined,
+				admin1: undefined,
+				admin3: undefined,
+				admin4: undefined
+			}]};
+		}
+
 		// Always set format=json to fetch data
 		const url = 'https://geocoding-api.open-meteo.com/v1/search';
 		const fetchUrl = `${url}?${new URLSearchParams({ name: searchQuery })}`;
@@ -218,7 +213,7 @@
 							class="btn btn-outline-secondary"
 							type="button"
 							title="Detect Location via GPS"
-							on:click|stopPropagation={startLocationDetection}><Cursor /></button
+							on:click|stopPropagation={() => searchQuery = "GPS"}><Cursor /></button
 						>
 					</div>
 					{#await results}

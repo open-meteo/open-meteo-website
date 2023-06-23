@@ -3,7 +3,9 @@ import PressureLevels from "../PressureLevels.svelte";
 import PressureLevelsHelpTable from "../PressureLevelsHelpTable.svelte"
 import { onMount } from 'svelte';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
-	import LicenseSelector from "../LicenseSelector.svelte";
+import LicenseSelector from "../LicenseSelector.svelte";
+import LocationSearch from "../LocationSearch.svelte";
+import type { GeoLocation } from "$lib/stores";
 
 onMount(async () => {
     const datepicker = await import("bootstrap-datepicker");
@@ -23,6 +25,12 @@ const pressureVariables = [
 ]
 const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
 
+let params = {latitude: 52.52, longitude: 13.41}
+
+function locationCallback(event: CustomEvent<GeoLocation>) {
+    params.latitude = (Number)(event.detail.latitude.toFixed(4))
+    params.longitude = (Number)(event.detail.longitude.toFixed(4))
+}
 </script>
 
 <svelte:head>
@@ -40,27 +48,18 @@ const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 85
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
-          <input type="number" step="0.0001" class="form-control" name="latitude" id="latitude" value="52.52">
+          <input type="number" class="form-control" name="latitude" id="latitude" step="0.000001" min="-90" max="90" bind:value={params.latitude}>
           <label for="latitude">Latitude</label>
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-floating">
-          <input type="number" step="0.0001" class="form-control" name="longitude" id="longitude" value="13.41">
+          <input type="number" class="form-control" name="longitude" id="longitude" step="0.000001" min="-180" max="180" bind:value={params.longitude}>
           <label for="longitude">Longitude</label>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="input-group mb-3">
-          <div class="form-floating dropdown">
-            <input type="text" class="form-control" id="select_city" autocomplete="off" spellcheck="false" aria-label="Select city" data-bs-toggle="dropdown"/>
-            <ul id="select_city_results" class="dropdown-menu" aria-labelledby="select_city">
-              <li><span class="dropdown-item">Start typing to search for locations</span></li>
-            </ul>
-            <label for="select_city">Select city</label>
-          </div>
-          <button class="btn btn-outline-secondary" type="button" id="detect_gps">Detect GPS Position</button>
-        </div>
+        <LocationSearch on:location={locationCallback}></LocationSearch>
       </div>
     </div>
     <div class="row py-3 px-0">

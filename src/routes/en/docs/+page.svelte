@@ -32,8 +32,6 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
     params.latitude = (Number)(event.detail.latitude.toFixed(4))
     params.longitude = (Number)(event.detail.longitude.toFixed(4))
 }
-
-//activeLocation.subscribe(value => console.log(value))
 </script>
 
 <svelte:head>
@@ -42,31 +40,18 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
     <meta name="description" content="Weather Forecast APIs with weather models from multiple national weather providers, combining the best models for accurate forecasts worldwide. Explore the API documentation to learn more about the available weather models, their origin countries, resolutions, forecast lengths, and update frequencies. Get detailed JSON hourly weather forecasts for up to 7 or 16 days by specifying the geographical coordinates and desired weather variables in the API endpoint. Discover the comprehensive list of URL parameters for customizing your weather forecast requests.">
 </svelte:head>
 
-
-<!--<div class="mb-5" style="border-bottom: 1px solid #ddd">
-  <div class="container px-4 py-1">
-    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-      <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item"><a class="link-secondary" href="/">Home</a></li>
-        <li class="breadcrumb-item"><a class="link-secondary" href="/en/docs">Weather APIs</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Weather Forecast API</li>
-      </ol>
-    </nav>
-  </div>
-</div>-->
-
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/forecast">
     <div class="row">
       <h2>Select Coordinates or City</h2>
       <div class="col-md-3">
         <div class="form-floating">
-          <input type="number" class="form-control" name="latitude" id="latitude" step="0.000000001" min="-90" max="90" bind:value={params.latitude}>
+          <input type="number" class="form-control" name="latitude" id="latitude" step="0.000001" min="-90" max="90" bind:value={params.latitude}>
           <label for="latitude">Latitude</label>
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-floating">
-          <input type="number" class="form-control" name="longitude" id="longitude" step="0.000000001" min="-180" max="180" bind:value={params.longitude}>
+          <input type="number" class="form-control" name="longitude" id="longitude" step="0.000001" min="-180" max="180" bind:value={params.longitude}>
           <label for="longitude">Longitude</label>
         </div>
       </div>
