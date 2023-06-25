@@ -29,7 +29,7 @@ const pressureVariables = [
 const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
 
 const defaultParameter = {
-  hourly: ["temperature_2m"],
+  hourly: [],
   daily: [],
   current_weather: false,
   temperature_unit: "celsius",
@@ -47,7 +47,8 @@ const defaultParameter = {
 const params = urlHashStore({
   latitude: 52.52, 
   longitude: 13.41, 
-  ...defaultParameter
+  ...defaultParameter,
+  hourly: ["temperature_2m"]
 })
 
 function locationCallback(event: CustomEvent<GeoLocation>) {
@@ -61,8 +62,6 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
     <link rel="canonical" href="https://open-meteo.com/en/docs" />
     <meta name="description" content="Weather Forecast APIs with weather models from multiple national weather providers, combining the best models for accurate forecasts worldwide. Explore the API documentation to learn more about the available weather models, their origin countries, resolutions, forecast lengths, and update frequencies. Get detailed JSON hourly weather forecasts for up to 7 or 16 days by specifying the geographical coordinates and desired weather variables in the API endpoint. Discover the comprehensive list of URL parameters for customizing your weather forecast requests.">
 </svelte:head>
-
-<ResultPreview params={params} defaultParameter={defaultParameter}/>
 
   <form id="api_form" method="get" action="https://api.open-meteo.com/v1/forecast">
     <div class="row">
@@ -969,22 +968,9 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
     </div>
 
   <LicenseSelector></LicenseSelector>
-  <div class="col-12 my-4">
-    <h2>Preview and API URL</h2>
-    <div id="container" style="height: 400px; width: 100%"></div>
-  </div>
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">Preview Chart</button>
-    <button type="submit" class="btn btn-outline-primary" name="format" value="xlsx">Download XLSX</button>
-    <button type="submit" class="btn btn-outline-primary" name="format" value="csv">Download CSV</button>
-  </div>
-
-  <div class="col-12 my-4">
-    <label for="api_url" class="form-label">API URL</label> <small class="text-muted">(<a id="api_url_link" target="_blank" href="#">Open in new
-        tab</a> or copy this URL into your application)</small>
-    <input type="text" class="form-control" id="api_url" readonly>
-  </div>
 </form>
+
+<ResultPreview params={params} defaultParameter={defaultParameter}/>
 
 
   <div class="col-12 py-5">

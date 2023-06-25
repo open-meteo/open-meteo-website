@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Highcharts, { Chart, StockChart, type Options } from 'highcharts/highstock';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import HighchartsAccessibility from 'highcharts/modules/accessibility';
 	import { dev } from '$app/environment';
 	//import HighchartsBoost from "highcharts/modules/boost";
@@ -25,6 +25,10 @@
 			? new StockChart(node, options)
 			: new Chart(node, options);
 	});
+
+	onDestroy(() => {
+		chart.destroy()
+	})
 </script>
 
 <div bind:this={node} style={style} class={clazz} />

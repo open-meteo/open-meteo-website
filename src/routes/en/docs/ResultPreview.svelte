@@ -2,7 +2,7 @@
 	import { api_key_preferences } from '$lib/stores';
 	import type { Writable } from 'svelte/store';
 	import HighchartContainer from '$lib/HighchartContainer.svelte';
-	import { onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 
 	export let params: Writable<any>;
 	export let type: String | undefined;
@@ -18,85 +18,6 @@
 		}
 		return diff;
 	}
-
-	let options = {
-		title: {
-			text: 'U.S Solar Employment Growth',
-			align: 'left'
-		},
-
-		subtitle: {
-			text: 'By Job Category. Source: <a href="https://irecusa.org/programs/solar-jobs-census/" target="_blank">IREC</a>.',
-			align: 'left'
-		},
-
-		yAxis: {
-			title: {
-				text: 'Number of Employees'
-			}
-		},
-
-		xAxis: {
-			accessibility: {
-				rangeDescription: 'Range: 2010 to 2020'
-			}
-		},
-
-		legend: {
-			layout: 'vertical',
-			align: 'right',
-			verticalAlign: 'middle'
-		},
-
-		plotOptions: {
-			series: {
-				label: {
-					connectorAllowed: false
-				},
-				pointStart: 2010
-			}
-		},
-
-		series: [
-			{
-				name: 'Installation & Developers',
-				data: [43934, 48656, 65165, 81827, 112143, 142383, 171533, 165174, 155157, 161454, 154610]
-			},
-			{
-				name: 'Manufacturing',
-				data: [24916, 37941, 29742, 29851, 32490, 30282, 38121, 36885, 33726, 34243, 31050]
-			},
-			{
-				name: 'Sales & Distribution',
-				data: [11744, 30000, 16005, 19771, 20185, 24377, 32147, 30912, 29243, 29213, 25663]
-			},
-			{
-				name: 'Operations & Maintenance',
-				data: [null, null, null, null, null, null, null, null, 11164, 11218, 10077]
-			},
-			{
-				name: 'Other',
-				data: [21908, 5548, 8105, 11248, 8989, 11816, 18274, 17300, 13053, 11906, 10073]
-			}
-		]
-
-		/*responsive: {
-			rules: [
-				{
-					condition: {
-						maxWidth: 500
-					},
-					chartOptions: {
-						legend: {
-							layout: 'horizontal',
-							align: 'center',
-							verticalAlign: 'bottom'
-						}
-					}
-				}
-			]
-		}*/
-	};
 
 	let action = `https://api.open-meteo.com/v1/forecast?`;
 	let actionParams = {};
@@ -116,14 +37,18 @@
 	$: xlsxUrl = `${action}${new URLSearchParams({ ...nonDefaultParameter, format: 'xlsx' })}`;
 	$: csvUrl = `${action}${new URLSearchParams({ ...nonDefaultParameter, format: 'csv' })}`;
 
-	let debounceTimeout: number | undefined;
+	/*let debounceTimeout: number | undefined;
 
 	onDestroy(() => {
 		clearInterval(debounceTimeout);
-	});
+	});*/
+
+	onMount(() => {
+		results = preview()
+	})
 
 	function jsonToChart(data, downloadTime) {
-        console.log(data)
+		//console.log(data);
 		let yAxis = [];
 		const codes = {
 			0: 'fair',
@@ -318,22 +243,33 @@
 				animation: false
 			}
 		};
-        console.log(json)
-        return json
+		//console.log(json);
+		return json;
 	}
 
 	// Fetch is automatically called after `params` changes due to reactive assignment
-	$: results = (async () => {
-		if (debounceTimeout) {
+	$: results = (async (): Promise<any> => {
+		if (nonDefaultParameter) {
+			return null;
+		}
+		return null;
+	})();
+
+	async function preview() {
+		/*if (debounceTimeout) {
 			clearTimeout(debounceTimeout);
 		}
 		await new Promise((resolve) => {
 			debounceTimeout = setTimeout(resolve, 300);
-		});
+		});*/
 
 		// Always set format=json to fetch data
-		const fetchUrl = `${action}${new URLSearchParams({ ...nonDefaultParameter, format: 'json', timeformat: 'unixtime' })}`;
-        const t0 = performance.now()
+		const fetchUrl = `${action}${new URLSearchParams({
+			...nonDefaultParameter,
+			format: 'json',
+			timeformat: 'unixtime'
+		})}`;
+		const t0 = performance.now();
 		const result = await fetch(fetchUrl);
 
 		if (!result.ok) {
@@ -341,7 +277,7 @@
 		}
 
 		return jsonToChart(await result.json(), performance.now() - t0);
-	})();
+	}
 </script>
 
 <div class="col-12 my-4">
@@ -355,7 +291,20 @@
 				</div>
 			</div>
 		{:then results}
-			<HighchartContainer options={results} />
+			{#if results}
+				<HighchartContainer options={results} />
+			{:else}
+				<div class="h-100 d-flex justify-content-center align-items-center bg-light">
+					<div class="text-center">
+						<p><span class="lead">Parameters have changed</span></p>
+						<p>
+							<button type="submit" class="btn btn-primary" on:click={() => (results = preview())}
+								>Reload Chart</button
+							>
+						</p>
+					</div>
+				</div>
+			{/if}
 		{:catch error}
 			<div class="alert alert-danger" role="alert">
 				{error.message}
@@ -364,7 +313,6 @@
 	</div>
 </div>
 <div class="col-12">
-	<button type="submit" class="btn btn-primary">Preview Chart</button>
 	<a href={xlsxUrl} class="btn btn-outline-primary">Download XLSX</a>
 	<a href={csvUrl} class="btn btn-outline-primary">Download CSV</a>
 </div>
