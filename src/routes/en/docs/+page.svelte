@@ -1,5 +1,5 @@
 <script lang="ts">
-import PressureLevels from "./PressureLevels.svelte";
+//import PressureLevels from "./PressureLevels.svelte";
 import LicenseSelector from "./LicenseSelector.svelte";
 import PressureLevelsHelpTable from "./PressureLevelsHelpTable.svelte"
 import { onMount } from 'svelte';
@@ -9,12 +9,13 @@ import type { GeoLocation } from "$lib/stores";
 import ResultPreview from "./ResultPreview.svelte";
 import { urlHashStore } from "$lib/url-hash-store";
 import { altitudeAboveSeaLevelMeters, sliceIntoChunks } from "$lib/meteo";
+	import AccordionItem from "$lib/Elements/AccordionItem.svelte";
 
 onMount(async () => {
     const datepicker = await import("bootstrap-datepicker");
     //const weather = await import("$lib/weather");
     const Dropdown = await import('bootstrap/js/dist/dropdown');
-    const Collapse = await import('bootstrap/js/dist/collapse');
+    //const Collapse = await import('bootstrap/js/dist/collapse');
     const Tab = await import('bootstrap/js/dist/tab');
    //weather.init(Dropdown.default)
 });
@@ -386,388 +387,338 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
 
     <div class="row py-3 px-0">
       <div class="accordion" id="accordionVariables">
-      <div class="accordion-item">
-          <h2 class="accordion-header" id="heading-additional-variables">
-            <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapse-additional-variables" aria-expanded="false" aria-controls="collapse-additional-variables">
-              Additional Variables&nbsp;<span class="badge rounded-pill bg-secondary checkboxcounter"
-                data-count-checkboxes-of="#collapse-additional-variables">{additionalVariables.length}/x</span>
-            </button>
-          </h2>
-          <div id="collapse-additional-variables" class="accordion-collapse collapse"
-            aria-labelledby="heading-additional-variables" data-bs-parent="#accordionVariables">
-            <div class="accordion-body row">
-              <div class="col-md-6">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="uv_index" id="uv_index"
-                    name="hourly" bind:group={additionalVariables}>
-                  <label class="form-check-label" for="uv_index">
-                    UV Index
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="uv_index_clear_sky" id="uv_index_clear_sky"
-                    name="hourly" bind:group={additionalVariables}>
-                  <label class="form-check-label" for="uv_index_clear_sky">
-                    UV Index Clear Sky
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="is_day" id="is_day"
-                    name="hourly" bind:group={additionalVariables}>
-                  <label class="form-check-label" for="is_day">
-                    Is Day or Night
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="cape" id="cape"
-                    name="hourly" bind:group={additionalVariables}>
-                  <label class="form-check-label" for="cape">
-                    CAPE
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="freezinglevel_height" id="freezinglevel_height"
-                    name="hourly" bind:group={additionalVariables}>
-                  <label class="form-check-label" for="freezinglevel_height">
-                    Freezinglevel Height
-                  </label>
-                </div>
-              </div>
+        <AccordionItem id="additional-variables" title="Additional Variables">
+          <div class="col-md-6">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="uv_index" id="uv_index"
+                name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="uv_index">
+                UV Index
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="uv_index_clear_sky" id="uv_index_clear_sky"
+                name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="uv_index_clear_sky">
+                UV Index Clear Sky
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="is_day" id="is_day"
+                name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="is_day">
+                Is Day or Night
+              </label>
             </div>
           </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="heading-solar-variables">
-            <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapse-solar-variables" aria-expanded="false" aria-controls="collapse-solar-variables">
-              Solar Radiation Variables&nbsp;<span class="badge rounded-pill bg-secondary checkboxcounter"
-                data-count-checkboxes-of="#collapse-solar-variables">0/x</span>
-            </button>
-          </h2>
-          <div id="collapse-solar-variables" class="accordion-collapse collapse"
-            aria-labelledby="heading-solar-variables" data-bs-parent="#accordionVariables">
-            <div class="accordion-body row">
-              <div class="col-md-6">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="shortwave_radiation" id="shortwave_radiation"
-                    name="hourly" bind:group={$params.hourly}>
-                  <label class="form-check-label" for="shortwave_radiation">
-                    Shortwave Solar Radiation
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="direct_radiation" id="direct_radiation"
-                    name="hourly" bind:group={$params.hourly}>
-                  <label class="form-check-label" for="direct_radiation">
-                    Direct Solar Radiation
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="diffuse_radiation" id="diffuse_radiation"
-                    name="hourly" bind:group={$params.hourly}>
-                  <label class="form-check-label" for="diffuse_radiation">
-                    Diffuse Solar Radiation
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="direct_normal_irradiance"
-                    id="direct_normal_irradiance" name="hourly" bind:group={$params.hourly}>
-                  <label class="form-check-label" for="direct_normal_irradiance">
-                    Direct Normal Irradiance DNI
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="terrestrial_radiation"
-                    id="terrestrial_radiation" name="hourly" bind:group={$params.hourly}>
-                  <label class="form-check-label" for="terrestrial_radiation">
-                    Terrestrial Solar Radiation
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="shortwave_radiation_instant"
-                    id="shortwave_radiation_instant" name="hourly" bind:group={$params.hourly}>
-                  <label class="form-check-label" for="shortwave_radiation_instant">
-                    Shortwave Solar Radiation (Instant)
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="direct_radiation_instant"
-                    id="direct_radiation_instant" name="hourly" bind:group={$params.hourly}>
-                  <label class="form-check-label" for="direct_radiation_instant">
-                    Direct Solar Radiation (Instant)
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="diffuse_radiation_instant"
-                    id="diffuse_radiation_instant" name="hourly" bind:group={$params.hourly}>
-                  <label class="form-check-label" for="diffuse_radiation_instant">
-                    Diffuse Solar Radiation (Instant)
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="direct_normal_irradiance_instant"
-                    id="direct_normal_irradiance_instant" name="hourly" bind:group={$params.hourly}>
-                  <label class="form-check-label" for="direct_normal_irradiance_instant">
-                    Direct Normal Irradiance DNI (Instant)
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="terrestrial_radiation_instant"
-                    id="terrestrial_radiation_instant" name="hourly" bind:group={$params.hourly}>
-                  <label class="form-check-label" for="terrestrial_radiation_instant">
-                    Terrestrial Solar Radiation (Instant)
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-12">
-                <small class="text-muted">Note: Solar radiation is averaged over the past hour. Use
-                  <mark>instant</mark> for radiation at the indicated time.</small>
-              </div>
+          <div class="col-md-6">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="cape" id="cape"
+                name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="cape">
+                CAPE
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="freezinglevel_height" id="freezinglevel_height"
+                name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="freezinglevel_height">
+                Freezinglevel Height
+              </label>
             </div>
           </div>
-        </div>
-
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="heading-pressure-levels">
-              <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapse-pressure-levels" aria-expanded="false" aria-controls="collapse-pressure-levels">
-              Pressure Levels{#if pressureVariablesCountSelected > 0}&nbsp;<span class="badge rounded-pill bg-secondary">{pressureVariablesCountSelected} / {pressureVariablesAll.length}</span>{/if}
-              </button>
-          </h2>
-          <div id="collapse-pressure-levels" class="accordion-collapse collapse"
-              aria-labelledby="heading-pressure-levels" data-bs-parent="#accordionVariables">
-              <div class="accordion-body">
-              <div class="d-flex align-items-start">
-                  <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                      {#each pressureVariables as variable, i}
-                          <button class="nav-link text-start text-nowrap" class:active={i === 0}
-                              id="v-pills-{variable.name}-tab" data-bs-toggle="pill" data-bs-target="#v-pills-{variable.name}"
-                              type="button" role="tab" aria-controls="v-pills-{variable.name}"
-                              aria-selected={i === 0}>{variable.label}</button>
-                      {/each}
-                  </div>
-                  <div class="tab-content" id="v-pills-tabContent">
-                      {#each pressureVariables as variable, i}
-                  <div class="tab-pane fade" class:active={i === 0} class:show={i === 0} id="v-pills-{variable.name}"
-                      role="tabpanel" aria-labelledby="v-pills-{variable.name}-tab">
-                      <div class="row">
-                          {#each sliceIntoChunks(levels, levels.length/3+1) as chunk}
-                          <div class="col-lg-4">
-                          {#each chunk as level}
-                          <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="{variable.name}_{level}hPa"
-                              id="{variable.name}_{level}hPa" name="hourly" bind:group={$params.hourly}>
-                          <label class="form-check-label" for="{variable.name}_{level}hPa">
-                              {level} hPa <small class="text-muted">({altitudeAboveSeaLevelMeters(level)})</small>
-                          </label>
-                          </div>
-                          {/each}
-                          </div>
-                      {/each}
-                      </div>
-                  </div>
-                  {/each}
-                  <div class="mt-3">
-                      <small class="text-muted">Note: Altitudes are approximate and in meters <strong> above sea
-                          level</strong> (not above ground). Use <mark>geopotential_height</mark> to get precise
-                      altitudes above sea level.</small>
-                  </div>
-                  </div>
-              </div>
-              </div>
-          </div>
-      </div> 
-        
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="heading-models">
-            <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapse-models" aria-expanded="false" aria-controls="collapse-models">
-              Weather models&nbsp;<span class="badge rounded-pill bg-secondary checkboxcounter"
-                data-count-checkboxes-of="#collapse-models">0/x</span>&nbsp;<span
-                class="badge bg-primary">New</span>
-            </button>
-          </h2>
-          <div id="collapse-models" class="accordion-collapse collapse"
-            aria-labelledby="heading-models" data-bs-parent="#accordionVariables">
-            <div class="accordion-body row">
-              <div class="col-md-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="best_match" id="best_match"
-                    name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="best_match">
-                    Best match
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="ecmwf_ifs04"
-                    id="ecmwf_ifs04" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="ecmwf_ifs04">
-                    ECMWF IFS
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="metno_nordic"
-                    id="metno_nordic" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="metno_nordic">
-                    MET Norway Nordic
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="gfs_seamless"
-                    id="gfs_seamless" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="gfs_seamless">
-                    GFS Seamless
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="gfs_global"
-                    id="gfs_global" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="gfs_global">
-                    GFS Global
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="gfs_hrrr"
-                    id="gfs_hrrr" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="gfs_hrrr">
-                    GFS HRRR
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="jma_seamless"
-                    id="jma_seamless" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="jma_seamless">
-                    JMA Seamless
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="jma_msm"
-                    id="jma_msm" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="jma_msm">
-                    JMA MSM
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="jma_gsm"
-                    id="jma_gsm" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="jma_gsm">
-                    JMA GSM
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-12 mb-3"></div>
-              <div class="col-md-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="icon_seamless" id="icon_seamless"
-                    name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="icon_seamless">
-                    DWD Icon Seamless
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="icon_global" id="icon_global"
-                    name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="icon_global">
-                    DWD Icon Global
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="icon_eu" id="icon_eu"
-                    name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="icon_eu">
-                    DWD Icon EU
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="icon_d2"
-                    id="icon_d2" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="icon_d2">
-                    DWD Icon D2
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="gem_seamless"
-                    id="gem_seamless" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="gem_seamless">
-                    GEM Seamless
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="gem_global"
-                    id="gem_global" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="gem_global">
-                    GEM Global
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="gem_regional"
-                    id="gem_regional" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="gem_regional">
-                    GEM Regional
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="gem_hrdps_continental"
-                    id="gem_hrdps_continental" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="gem_hrdps_continental">
-                    GEM HRDPS Continental
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="meteofrance_seamless"
-                    id="meteofrance_seamless" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="meteofrance_seamless">
-                    MeteoFrance Seamless
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="meteofrance_arpege_world"
-                    id="meteofrance_arpege_world" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="meteofrance_arpege_world">
-                    MeteoFrance Arpege World
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="meteofrance_arpege_europe"
-                    id="meteofrance_arpege_europe" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="meteofrance_arpege_europe">
-                    MeteoFrance Arpege Europe
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="meteofrance_arome_france"
-                    id="meteofrance_arome_france" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="meteofrance_arome_france">
-                    MeteoFrance Arome France
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="meteofrance_arome_france_hd"
-                    id="meteofrance_arome_france_hd" name="models" bind:group={$params.models}>
-                  <label class="form-check-label" for="meteofrance_arome_france_hd">
-                    MeteoFrance Arome France HD
-                  </label>
-                </div>
-              </div>
-              <div class="col-md-12">
-                <small class="text-muted">Note: The default <mark>Best Match</mark> provides the best forecast for any given location worldwide. <mark>Seamless</mark> combines all models from a given provider into a seamless prediction.</small>
-              </div>
+        </AccordionItem>
+        <AccordionItem id="solar-variables" title="Solar Radiation Variables">
+          <div class="col-md-6">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="shortwave_radiation" id="shortwave_radiation"
+                name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="shortwave_radiation">
+                Shortwave Solar Radiation
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="direct_radiation" id="direct_radiation"
+                name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="direct_radiation">
+                Direct Solar Radiation
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="diffuse_radiation" id="diffuse_radiation"
+                name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="diffuse_radiation">
+                Diffuse Solar Radiation
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="direct_normal_irradiance"
+                id="direct_normal_irradiance" name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="direct_normal_irradiance">
+                Direct Normal Irradiance DNI
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="terrestrial_radiation"
+                id="terrestrial_radiation" name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="terrestrial_radiation">
+                Terrestrial Solar Radiation
+              </label>
             </div>
           </div>
-        </div>
+          <div class="col-md-6">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="shortwave_radiation_instant"
+                id="shortwave_radiation_instant" name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="shortwave_radiation_instant">
+                Shortwave Solar Radiation (Instant)
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="direct_radiation_instant"
+                id="direct_radiation_instant" name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="direct_radiation_instant">
+                Direct Solar Radiation (Instant)
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="diffuse_radiation_instant"
+                id="diffuse_radiation_instant" name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="diffuse_radiation_instant">
+                Diffuse Solar Radiation (Instant)
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="direct_normal_irradiance_instant"
+                id="direct_normal_irradiance_instant" name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="direct_normal_irradiance_instant">
+                Direct Normal Irradiance DNI (Instant)
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="terrestrial_radiation_instant"
+                id="terrestrial_radiation_instant" name="hourly" bind:group={$params.hourly}>
+              <label class="form-check-label" for="terrestrial_radiation_instant">
+                Terrestrial Solar Radiation (Instant)
+              </label>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <small class="text-muted">Note: Solar radiation is averaged over the past hour. Use
+              <mark>instant</mark> for radiation at the indicated time.</small>
+          </div>
+        </AccordionItem>
+        <AccordionItem id="pressure-levels" title="Pressure Level Variables">
+          <div class="d-flex align-items-start">
+            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                {#each pressureVariables as variable, i}
+                    <button class="nav-link text-start text-nowrap" class:active={i === 0}
+                        id="v-pills-{variable.name}-tab" data-bs-toggle="pill" data-bs-target="#v-pills-{variable.name}"
+                        type="button" role="tab" aria-controls="v-pills-{variable.name}"
+                        aria-selected={i === 0}>{variable.label}</button>
+                {/each}
+            </div>
+            <div class="tab-content" id="v-pills-tabContent">
+                {#each pressureVariables as variable, i}
+            <div class="tab-pane fade" class:active={i === 0} class:show={i === 0} id="v-pills-{variable.name}"
+                role="tabpanel" aria-labelledby="v-pills-{variable.name}-tab">
+                <div class="row">
+                    {#each sliceIntoChunks(levels, levels.length/3+1) as chunk}
+                    <div class="col-lg-4">
+                    {#each chunk as level}
+                    <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="{variable.name}_{level}hPa"
+                        id="{variable.name}_{level}hPa" name="hourly" bind:group={$params.hourly}>
+                    <label class="form-check-label" for="{variable.name}_{level}hPa">
+                        {level} hPa <small class="text-muted">({altitudeAboveSeaLevelMeters(level)})</small>
+                    </label>
+                    </div>
+                    {/each}
+                    </div>
+                {/each}
+                </div>
+            </div>
+            {/each}
+            <div class="mt-3">
+                <small class="text-muted">Note: Altitudes are approximate and in meters <strong> above sea
+                    level</strong> (not above ground). Use <mark>geopotential_height</mark> to get precise
+                altitudes above sea level.</small>
+            </div>
+            </div>
+          </div>
+        </AccordionItem>
+        <AccordionItem id="models" title="Weather models">
+          <div class="col-md-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="best_match" id="best_match"
+                name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="best_match">
+                Best match
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="ecmwf_ifs04"
+                id="ecmwf_ifs04" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="ecmwf_ifs04">
+                ECMWF IFS
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="metno_nordic"
+                id="metno_nordic" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="metno_nordic">
+                MET Norway Nordic
+              </label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="gfs_seamless"
+                id="gfs_seamless" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="gfs_seamless">
+                GFS Seamless
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="gfs_global"
+                id="gfs_global" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="gfs_global">
+                GFS Global
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="gfs_hrrr"
+                id="gfs_hrrr" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="gfs_hrrr">
+                GFS HRRR
+              </label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="jma_seamless"
+                id="jma_seamless" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="jma_seamless">
+                JMA Seamless
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="jma_msm"
+                id="jma_msm" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="jma_msm">
+                JMA MSM
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="jma_gsm"
+                id="jma_gsm" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="jma_gsm">
+                JMA GSM
+              </label>
+            </div>
+          </div>
+          <div class="col-md-12 mb-3"></div>
+          <div class="col-md-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="icon_seamless" id="icon_seamless"
+                name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="icon_seamless">
+                DWD Icon Seamless
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="icon_global" id="icon_global"
+                name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="icon_global">
+                DWD Icon Global
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="icon_eu" id="icon_eu"
+                name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="icon_eu">
+                DWD Icon EU
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="icon_d2"
+                id="icon_d2" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="icon_d2">
+                DWD Icon D2
+              </label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="gem_seamless"
+                id="gem_seamless" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="gem_seamless">
+                GEM Seamless
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="gem_global"
+                id="gem_global" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="gem_global">
+                GEM Global
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="gem_regional"
+                id="gem_regional" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="gem_regional">
+                GEM Regional
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="gem_hrdps_continental"
+                id="gem_hrdps_continental" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="gem_hrdps_continental">
+                GEM HRDPS Continental
+              </label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="meteofrance_seamless"
+                id="meteofrance_seamless" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="meteofrance_seamless">
+                MeteoFrance Seamless
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="meteofrance_arpege_world"
+                id="meteofrance_arpege_world" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="meteofrance_arpege_world">
+                MeteoFrance Arpege World
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="meteofrance_arpege_europe"
+                id="meteofrance_arpege_europe" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="meteofrance_arpege_europe">
+                MeteoFrance Arpege Europe
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="meteofrance_arome_france"
+                id="meteofrance_arome_france" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="meteofrance_arome_france">
+                MeteoFrance Arome France
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="meteofrance_arome_france_hd"
+                id="meteofrance_arome_france_hd" name="models" bind:group={$params.models}>
+              <label class="form-check-label" for="meteofrance_arome_france_hd">
+                MeteoFrance Arome France HD
+              </label>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <small class="text-muted">Note: The default <mark>Best Match</mark> provides the best forecast for any given location worldwide. <mark>Seamless</mark> combines all models from a given provider into a seamless prediction.</small>
+          </div>
+        </AccordionItem>
       </div>
     </div>
 
