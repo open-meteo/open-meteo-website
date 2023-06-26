@@ -237,13 +237,14 @@
 		return json;
 	}
 
-	// Fetch is automatically called after `params` changes due to reactive assignment
-	$: results = (async (): Promise<any> => {
-		if ($params || $api_key_preferences) {
-			return null;
-		}
-		return null;
-	})();
+	let results: Promise<any> = Promise.resolve(null)
+	
+	function reset() {
+		results = Promise.resolve(null)
+	}
+
+	params.subscribe(reset)
+	api_key_preferences.subscribe(reset)
 
 	async function preview() {
 		// Always set format=json to fetch data
