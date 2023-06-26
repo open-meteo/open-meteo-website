@@ -28,6 +28,8 @@ const pressureVariables = [
 ]
 const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
 
+let additionalVariables: string[] = []
+
 const defaultParameter = {
   hourly: [],
   daily: [],
@@ -371,7 +373,7 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
             <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapse-additional-variables" aria-expanded="false" aria-controls="collapse-additional-variables">
               Additional Variables&nbsp;<span class="badge rounded-pill bg-secondary checkboxcounter"
-                data-count-checkboxes-of="#collapse-additional-variables">0/x</span>
+                data-count-checkboxes-of="#collapse-additional-variables">{additionalVariables.length}/x</span>
             </button>
           </h2>
           <div id="collapse-additional-variables" class="accordion-collapse collapse"
@@ -380,21 +382,21 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
               <div class="col-md-6">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="uv_index" id="uv_index"
-                    name="hourly" bind:group={$params.hourly}>
+                    name="hourly" bind:group={additionalVariables}>
                   <label class="form-check-label" for="uv_index">
                     UV Index
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="uv_index_clear_sky" id="uv_index_clear_sky"
-                    name="hourly" bind:group={$params.hourly}>
+                    name="hourly" bind:group={additionalVariables}>
                   <label class="form-check-label" for="uv_index_clear_sky">
                     UV Index Clear Sky
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="is_day" id="is_day"
-                    name="hourly" bind:group={$params.hourly}>
+                    name="hourly" bind:group={additionalVariables}>
                   <label class="form-check-label" for="is_day">
                     Is Day or Night
                   </label>
@@ -403,14 +405,14 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
               <div class="col-md-6">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="cape" id="cape"
-                    name="hourly" bind:group={$params.hourly}>
+                    name="hourly" bind:group={additionalVariables}>
                   <label class="form-check-label" for="cape">
                     CAPE
                   </label>
                 </div>
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="freezinglevel_height" id="freezinglevel_height"
-                    name="hourly" bind:group={$params.hourly}>
+                    name="hourly" bind:group={additionalVariables}>
                   <label class="form-check-label" for="freezinglevel_height">
                     Freezinglevel Height
                   </label>
@@ -511,7 +513,8 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
             </div>
           </div>
         </div>
-        <PressureLevels pressureVariables={pressureVariables} levels={levels}/>
+        
+        <PressureLevels pressureVariables={pressureVariables} levels={levels} bindGroup={params}/>
         
         <div class="accordion-item">
           <h2 class="accordion-header" id="heading-models">

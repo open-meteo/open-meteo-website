@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { api_key_preferences } from '$lib/stores';
 	import type { Writable } from 'svelte/store';
-	import HighchartContainer from '$lib/HighchartContainer.svelte';
+	import HighchartContainer from '$lib/Elements/HighchartContainer.svelte';
 	import { onMount } from 'svelte';
 
 	export let params: Writable<any>;
