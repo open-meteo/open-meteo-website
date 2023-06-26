@@ -10,17 +10,17 @@ export function urlHashStore<T>(initialValue: T): Writable<T> {
     const browser = typeof (window) !== 'undefined' && typeof (document) !== 'undefined'
     const location = browser ? window.location : null
     const history = browser ? window.history : null
-    const defaultValues = {...initialValue}
+    const defaultValues = { ...initialValue }
 
     function updateStorage(value: T) {
         let diff: Partial<T> = {};
         let count = 0
-		for (const key in defaultValues) {
-			if (defaultValues[key] !== value[key]) {
-				diff[key] = value[key];
+        for (const key in defaultValues) {
+            if (defaultValues[key] !== value[key]) {
+                diff[key] = value[key];
                 count++
-			}
-		}
+            }
+        }
         if (count > 0) {
             // @ts-ignore
             history?.replaceState(null, "", `#${new URLSearchParams(diff)}`)
@@ -31,14 +31,14 @@ export function urlHashStore<T>(initialValue: T): Writable<T> {
         }
     }
     function deserialize(url: string): T {
-        let object = {...defaultValues}
+        let object = { ...defaultValues }
         let index = url.indexOf("#");
         if (index !== -1) {
             for (const [key, value] of new URLSearchParams(url.substring(index + 1))) {
                 // @ts-ignore
                 if (defaultValues.hasOwnProperty(key)) {
                     // @ts-ignore
-                    object[key as keyof typeof object] = value;
+                    object[key as keyof typeof object] = Array.isArray(defaultValues[key]) ? value.split(",") : value;
                 }
             }
         }

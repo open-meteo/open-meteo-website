@@ -8,6 +8,7 @@ import LocationSearch from "./LocationSearch.svelte";
 import type { GeoLocation } from "$lib/stores";
 import ResultPreview from "./ResultPreview.svelte";
 import { urlHashStore } from "$lib/url-hash-store";
+import { altitudeAboveSeaLevelMeters, sliceIntoChunks } from "$lib/meteo";
 
 onMount(async () => {
     const datepicker = await import("bootstrap-datepicker");
@@ -52,6 +53,23 @@ const params = urlHashStore({
   ...defaultParameter,
   hourly: ["temperature_2m"]
 })
+
+const pressureVariablesAll = pressureVariables.flatMap((variable) => {
+		return levels.map((level) => {
+			return `${variable.name}_${level}hPa`;
+		});
+	});
+
+$: pressureVariablesCountSelected = $params.hourly.reduce(
+  (a: number, c: string) => a + (pressureVariablesAll.includes(c) ? 1 : 0),
+  0
+);
+
+const init = $params.hourly.reduce(
+  (a: number, c: string) => a + (pressureVariablesAll.includes(c) ? 1 : 0),
+  0
+)
+console.log(init)
 
 function locationCallback(event: CustomEvent<GeoLocation>) {
     $params.latitude = (Number)(event.detail.latitude.toFixed(4))
@@ -513,8 +531,57 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
             </div>
           </div>
         </div>
-        
-        <PressureLevels pressureVariables={pressureVariables} levels={levels} bindGroup={params}/>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading-pressure-levels">
+              <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapse-pressure-levels" aria-expanded="false" aria-controls="collapse-pressure-levels">
+              Pressure Levels{#if pressureVariablesCountSelected > 0}&nbsp;<span class="badge rounded-pill bg-secondary">{pressureVariablesCountSelected} / {pressureVariablesAll.length}</span>{/if}
+              </button>
+          </h2>
+          <div id="collapse-pressure-levels" class="accordion-collapse collapse"
+              aria-labelledby="heading-pressure-levels" data-bs-parent="#accordionVariables">
+              <div class="accordion-body">
+              <div class="d-flex align-items-start">
+                  <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                      {#each pressureVariables as variable, i}
+                          <button class="nav-link text-start text-nowrap" class:active={i === 0}
+                              id="v-pills-{variable.name}-tab" data-bs-toggle="pill" data-bs-target="#v-pills-{variable.name}"
+                              type="button" role="tab" aria-controls="v-pills-{variable.name}"
+                              aria-selected={i === 0}>{variable.label}</button>
+                      {/each}
+                  </div>
+                  <div class="tab-content" id="v-pills-tabContent">
+                      {#each pressureVariables as variable, i}
+                  <div class="tab-pane fade" class:active={i === 0} class:show={i === 0} id="v-pills-{variable.name}"
+                      role="tabpanel" aria-labelledby="v-pills-{variable.name}-tab">
+                      <div class="row">
+                          {#each sliceIntoChunks(levels, levels.length/3+1) as chunk}
+                          <div class="col-lg-4">
+                          {#each chunk as level}
+                          <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="{variable.name}_{level}hPa"
+                              id="{variable.name}_{level}hPa" name="hourly" bind:group={$params.hourly}>
+                          <label class="form-check-label" for="{variable.name}_{level}hPa">
+                              {level} hPa <small class="text-muted">({altitudeAboveSeaLevelMeters(level)})</small>
+                          </label>
+                          </div>
+                          {/each}
+                          </div>
+                      {/each}
+                      </div>
+                  </div>
+                  {/each}
+                  <div class="mt-3">
+                      <small class="text-muted">Note: Altitudes are approximate and in meters <strong> above sea
+                          level</strong> (not above ground). Use <mark>geopotential_height</mark> to get precise
+                      altitudes above sea level.</small>
+                  </div>
+                  </div>
+              </div>
+              </div>
+          </div>
+      </div> 
         
         <div class="accordion-item">
           <h2 class="accordion-header" id="heading-models">

@@ -356,7 +356,7 @@
 										<small class="text-muted"
 											>{location.admin1 || ''} ({location.latitude.toFixed(2)}°E {location.longitude.toFixed(
 												2
-											)}°N {location.elevation.toFixed(0)}m asl)</small
+											)}°N{#if location.elevation} {location.elevation.toFixed(0)}m asl{/if})</small
 										>
 										<div class="position-absolute top-0 end-0 p-2">
 											<button
