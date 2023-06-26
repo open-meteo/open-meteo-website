@@ -23,7 +23,7 @@ export function urlHashStore<T>(initialValue: T): Writable<T> {
         }
         if (count > 0) {
             // @ts-ignore
-            history?.replaceState(null, "", `#${new URLSearchParams(diff)}`)
+            history?.replaceState(null, "", `#${new URLSearchParams(diff)}`.replaceAll("%2C", ","))
         }
         if (count == 0 && location?.hash && location?.hash.length > 0) {
             // Remove all hash parameters

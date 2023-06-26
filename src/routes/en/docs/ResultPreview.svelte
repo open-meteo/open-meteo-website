@@ -5,7 +5,8 @@
 	import { onMount } from 'svelte';
 
 	export let params: Writable<any>;
-	export let type: String | undefined;
+	export let type: String = "forecast";
+	export let action: String = "forecast"
 	export let defaultParameter: any;
 
 	// Only considers keys of the first object
@@ -19,33 +20,28 @@
 		return diff;
 	}
 
-	let action = `https://api.open-meteo.com/v1/forecast?`;
-	let actionParams = {};
-	$: switch ($api_key_preferences.use) {
-		case 'commercial':
-			action = `https://customer-api.open-meteo.com/v1/search?`;
-			actionParams = { apikey: $api_key_preferences.apikey };
-			break;
-		case 'self_hosted':
-			action = `${$api_key_preferences.self_host_server}/v1/forecast?`;
-			break;
-		default:
-			action = 'https://api.open-meteo.com/v1/forecast?';
+	function getUrl(api_key_preferences: any, params: any) {
+		let serverPrefix = type == "forecast" ? "api" : `${type}-api`
+		let server: string;
+		let actionParams = {};
+		switch (api_key_preferences.use) {
+			case 'commercial':
+				server = `https://customer-${serverPrefix}.open-meteo.com/v1/${action}?`;
+				actionParams = { apikey: api_key_preferences.apikey };
+				break;
+			case 'self_hosted':
+				server = `${api_key_preferences.self_host_server}/v1/${action}?`;
+				break;
+			default:
+				server = `https://${serverPrefix}.open-meteo.com/v1/${action}?`;
+		}
+		let nonDefaultParameter = objectDifference({ ...params, ...actionParams }, defaultParameter);
+		return `${server}${new URLSearchParams(nonDefaultParameter)}`.replaceAll("%2C", ",")
 	}
-	$: nonDefaultParameter = objectDifference({ ...$params, ...actionParams }, defaultParameter);
-	$: previewUrl = `${action}${new URLSearchParams(nonDefaultParameter)}`;
-	$: xlsxUrl = `${action}${new URLSearchParams({ ...nonDefaultParameter, format: 'xlsx' })}`;
-	$: csvUrl = `${action}${new URLSearchParams({ ...nonDefaultParameter, format: 'csv' })}`;
 
-	/*let debounceTimeout: number | undefined;
-
-	onDestroy(() => {
-		clearInterval(debounceTimeout);
-	});*/
-
-	onMount(() => {
-		results = preview()
-	})
+	$: previewUrl = getUrl($api_key_preferences, $params)
+	$: xlsxUrl = getUrl($api_key_preferences, {...$params, format: 'xlsx'})
+	$: csvUrl = getUrl($api_key_preferences, {...$params, format: 'csv'})
 
 	function jsonToChart(data, downloadTime) {
 		//console.log(data);
@@ -172,12 +168,6 @@
 		let utc_offset_sign = data.utc_offset_seconds < 0 ? '' : '+';
 
 		let json = {
-			//boost: {
-			//useGPUTranslations: true,
-			// Chart-level boost when there are more than 5 series in the chart
-			//seriesThreshold: 1
-			//},
-
 			title: {
 				text: title
 			},
@@ -249,26 +239,15 @@
 
 	// Fetch is automatically called after `params` changes due to reactive assignment
 	$: results = (async (): Promise<any> => {
-		if (nonDefaultParameter) {
+		if ($params || $api_key_preferences) {
 			return null;
 		}
 		return null;
 	})();
 
 	async function preview() {
-		/*if (debounceTimeout) {
-			clearTimeout(debounceTimeout);
-		}
-		await new Promise((resolve) => {
-			debounceTimeout = setTimeout(resolve, 300);
-		});*/
-
 		// Always set format=json to fetch data
-		const fetchUrl = `${action}${new URLSearchParams({
-			...nonDefaultParameter,
-			format: 'json',
-			timeformat: 'unixtime'
-		})}`;
+		const fetchUrl = getUrl($api_key_preferences, {...$params, format: 'json', timeformat: 'unixtime'});
 		const t0 = performance.now();
 		const result = await fetch(fetchUrl);
 
@@ -278,6 +257,14 @@
 
 		return jsonToChart(await result.json(), performance.now() - t0);
 	}
+
+	function reload() {
+		results = preview()
+	}
+
+	onMount(() => {
+		reload()
+	})
 </script>
 
 <div class="col-12 my-4">
@@ -298,7 +285,7 @@
 					<div class="text-center">
 						<p><span class="lead">Parameters have changed</span></p>
 						<p>
-							<button type="submit" class="btn btn-primary" on:click={() => (results = preview())}
+							<button type="submit" class="btn btn-primary" on:click={reload}
 								>Reload Chart</button
 							>
 						</p>
@@ -309,6 +296,11 @@
 			<div class="alert alert-danger" role="alert">
 				{error.message}
 			</div>
+			<p>
+				<button type="submit" class="btn btn-primary" on:click={reload}
+					>Reload Chart</button
+				>
+			</p>
 		{/await}
 	</div>
 </div>
