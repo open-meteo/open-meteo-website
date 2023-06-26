@@ -3,16 +3,17 @@
 import LicenseSelector from "./LicenseSelector.svelte";
 import PressureLevelsHelpTable from "./PressureLevelsHelpTable.svelte"
 import { onMount } from 'svelte';
-import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
+//import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 import LocationSearch from "./LocationSearch.svelte";
 import type { GeoLocation } from "$lib/stores";
 import ResultPreview from "./ResultPreview.svelte";
 import { urlHashStore } from "$lib/url-hash-store";
 import { altitudeAboveSeaLevelMeters, sliceIntoChunks } from "$lib/meteo";
 	import AccordionItem from "$lib/Elements/AccordionItem.svelte";
+  import SveltyPicker from 'svelty-picker'
 
 onMount(async () => {
-    const datepicker = await import("bootstrap-datepicker");
+    //const datepicker = await import("bootstrap-datepicker");
     //const weather = await import("$lib/weather");
     const Dropdown = await import('bootstrap/js/dist/dropdown');
     //const Collapse = await import('bootstrap/js/dist/collapse');
@@ -939,17 +940,13 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       </div>
       <div class="col-3">
         <div class="form-floating">
-          <input type="text" class="form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd"
-            data-date-start-date="2022-06-08" name="start_date" id="start_date" bind:value={$params.start_date}><span
-            class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+          <SveltyPicker inputClasses="form-control" format="yyyy-mm-dd" name="start_date" bind:value={$params.start_date}></SveltyPicker>
           <label for="start_date">Start date</label>
         </div>
       </div>
       <div class="col-3">
         <div class="form-floating">
-          <input type="text" class="form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd"
-            data-date-start-date="2022-06-08" name="end_date" id="end_date" bind:value={$params.end_date}><span
-            class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+          <SveltyPicker inputClasses="form-control" format="yyyy-mm-dd" name="end_date" bind:value={$params.end_date}></SveltyPicker>
           <label for="end_date">End date</label>
         </div>
       </div>
