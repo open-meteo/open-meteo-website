@@ -30,8 +30,6 @@ const pressureVariables = [
 ]
 const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
 
-let additionalVariables: string[] = []
-
 const defaultParameter = {
   hourly: [],
   daily: [],
@@ -55,7 +53,7 @@ const params = urlHashStore({
   hourly: ["temperature_2m"]
 })
 
-const pressureVariablesAll = pressureVariables.flatMap((variable) => {
+/*const pressureVariablesAll = pressureVariables.flatMap((variable) => {
 		return levels.map((level) => {
 			return `${variable.name}_${level}hPa`;
 		});
@@ -70,7 +68,7 @@ const init = $params.hourly.reduce(
   (a: number, c: string) => a + (pressureVariablesAll.includes(c) ? 1 : 0),
   0
 )
-console.log(init)
+console.log(init)*/
 
 function locationCallback(event: CustomEvent<GeoLocation>) {
     $params.latitude = (Number)(event.detail.latitude.toFixed(4))
