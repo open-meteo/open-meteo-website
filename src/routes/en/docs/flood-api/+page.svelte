@@ -75,7 +75,7 @@
 	/>
 </svelte:head>
 
-<form method="get" action="https://api.open-meteo.com/v1/gfs">
+<form method="get" action="https://flood-api.open-meteo.com/v1/flood">
 	<div class="row">
 		<h2>Select Coordinates or City</h2>
 		<div class="col-md-3">
@@ -282,7 +282,7 @@
 					aria-label="Timeformat"
 					bind:value={$params.timeformat}
 				>
-					<option selected value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
+					<option value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
 					<option value="unixtime">Unix timestamp</option>
 				</select>
 				<label for="timeformat">Timeformat</label>

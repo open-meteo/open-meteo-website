@@ -240,7 +240,7 @@
 					aria-label="Temperature Unit"
 					bind:value={$params.temperature_unit}
 				>
-					<option selected value="celsius">Celsius °C</option>
+					<option value="celsius">Celsius °C</option>
 					<option value="fahrenheit">Fahrenheit °F</option>
 				</select>
 				<label for="temperature_unit">Temperature Unit</label>
@@ -255,7 +255,7 @@
 					aria-label="Windspeed Unit"
 					bind:value={$params.windspeed_unit}
 				>
-					<option selected value="kmh">Km/h</option>
+					<option value="kmh">Km/h</option>
 					<option value="ms">m/s</option>
 					<option value="mph">Mph</option>
 					<option value="kn">Knots</option>
@@ -272,7 +272,7 @@
 					aria-label="Precipitation Unit"
 					bind:value={$params.precipitation_unit}
 				>
-					<option selected value="mm">Millimeter</option>
+					<option value="mm">Millimeter</option>
 					<option value="inch">Inch</option>
 				</select>
 				<label for="precipitation_unit">Precipitation Unit</label>
@@ -287,7 +287,7 @@
 					aria-label="Timeformat"
 					bind:value={$params.timeformat}
 				>
-					<option selected value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
+					<option value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
 					<option value="unixtime">Unix timestamp</option>
 				</select>
 				<label for="timeformat">Timeformat</label>

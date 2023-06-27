@@ -89,7 +89,7 @@
 
 <div class="alert alert-primary" role="alert">Work in progress!</div>
 
-<form method="get" action="https://api.open-meteo.com/v1/gfs">
+<form method="get" action="https://seasonal-api.open-meteo.com/v1/seasonal">
 	<div class="row">
 		<h2>Select Coordinates or City</h2>
 		<div class="col-md-3">

@@ -89,7 +89,7 @@
 					data-default="en"
 					bind:value={$params.language}
 				>
-					<option selected value="en">English</option>
+					<option value="en">English</option>
 					<option value="de">German</option>
 					<option value="fr">French</option>
 					<option value="es">Spanish</option>
@@ -113,7 +113,7 @@
 					bind:value={$params.count}
 				>
 					<option value="1">1</option>
-					<option selected value="10">10</option>
+					<option value="10">10</option>
 					<option value="20">20</option>
 					<option value="50">50</option>
 					<option value="100">100</option>
@@ -131,7 +131,7 @@
 					data-default="json"
 					bind:value={$params.format}
 				>
-					<option value="json" selected>json</option>
+					<option value="json">json</option>
 					<option value="protobuf">protobuf</option>
 				</select>
 				<label for="format">Format</label>

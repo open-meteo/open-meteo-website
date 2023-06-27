@@ -16,7 +16,7 @@
 		past_days: '0',
 		start_date: null,
 		end_date: null,
-		domain: 'auto'
+		domains: 'auto'
 	};
 
 	const params = urlHashStore({
@@ -97,7 +97,7 @@
 	/>
 </svelte:head>
 
-<form method="get" action="https://api.open-meteo.com/v1/gfs">
+<form method="get" action="https://air-quality-api.open-meteo.com/v1/air-quality">
 	<div class="row">
 		<h2>Select Coordinates or City</h2>
 		<div class="col-md-3">
@@ -440,7 +440,7 @@
 					aria-label="Domains"
 					bind:value={$params.domains}
 				>
-					<option selected value="auto">Global + European</option>
+					<option value="auto">Global + European</option>
 					<option value="cams_global">Global (40 km)</option>
 					<option value="cams_europe">European (11 km)</option>
 				</select>
@@ -493,7 +493,7 @@
 					aria-label="Timeformat"
 					bind:value={$params.timeformat}
 				>
-					<option selected value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
+					<option value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
 					<option value="unixtime">Unix timestamp</option>
 				</select>
 				<label for="timeformat">Timeformat</label>
