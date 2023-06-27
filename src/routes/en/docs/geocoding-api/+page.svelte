@@ -74,6 +74,8 @@
 					name="name"
 					id="name"
 					aria-label="Location name"
+					autocomplete="off"
+					spellcheck="false"
 					bind:value={$params.name}
 				/>
 				<label for="name">Name</label>

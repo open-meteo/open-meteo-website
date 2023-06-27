@@ -22,14 +22,15 @@
 		forecast_days: '7',
 		start_date: null,
 		end_date: null,
-		models: ['icon_seamless']
+		models: []
 	};
 
 	const params = urlHashStore({
 		latitude: 52.52,
 		longitude: 13.41,
 		...defaultParameter,
-		hourly: ['temperature_2m']
+		hourly: ['temperature_2m'],
+		models: ['icon_seamless']
 	});
 
 	$: timezoneInvalid = false; //$params.timezone == 'UTC' && $params.daily.length > 0;

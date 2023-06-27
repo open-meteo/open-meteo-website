@@ -26,7 +26,7 @@
 		latitude: 52.52,
 		longitude: 13.41,
 		...defaultParameter,
-		six_hourly: ['temperature_2m']
+    daily: ['temperature_2m_max']
 	});
 
 	$: endDateInvalid = $params.start_date != null && $params.end_date == null;
