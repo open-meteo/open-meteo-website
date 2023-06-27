@@ -1,9 +1,6 @@
 <script lang="ts">
-//import PressureLevels from "./PressureLevels.svelte";
 import LicenseSelector from "./LicenseSelector.svelte";
 import PressureLevelsHelpTable from "./PressureLevelsHelpTable.svelte"
-import { onMount } from 'svelte';
-//import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 import LocationSearch from "./LocationSearch.svelte";
 import type { GeoLocation } from "$lib/stores";
 import ResultPreview from "./ResultPreview.svelte";
@@ -12,15 +9,6 @@ import { altitudeAboveSeaLevelMeters, sliceIntoChunks } from "$lib/meteo";
 import AccordionItem from "$lib/Elements/AccordionItem.svelte";
 import SveltyPicker from 'svelty-picker'
 import { slide } from "svelte/transition";
-
-onMount(async () => {
-    //const datepicker = await import("bootstrap-datepicker");
-    //const weather = await import("$lib/weather");
-    //const Dropdown = await import('bootstrap/js/dist/dropdown');
-    //const Collapse = await import('bootstrap/js/dist/collapse');
-    const Tab = await import('bootstrap/js/dist/tab');
-   //weather.init(Dropdown.default)
-});
 
 const pressureVariables = [
     {name: "temperature", label: "Temperature"},
@@ -31,6 +19,8 @@ const pressureVariables = [
     {name: "geopotential_height", label: "Geopotential Height"}
 ]
 const levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
+
+let pressureVariablesTab = "temperature"
 
 const defaultParameter = {
   hourly: [],
@@ -518,15 +508,15 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
           <div class="d-flex align-items-start">
             <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 {#each pressureVariables as variable, i}
-                    <button class="nav-link text-start text-nowrap" class:active={i === 0}
-                        id="v-pills-{variable.name}-tab" data-bs-toggle="pill" data-bs-target="#v-pills-{variable.name}"
+                    <button class="nav-link text-start text-nowrap" class:active={pressureVariablesTab == variable.name}
+                        id="v-pills-{variable.name}-tab"
                         type="button" role="tab" aria-controls="v-pills-{variable.name}"
-                        aria-selected={i === 0}>{variable.label}</button>
+                        aria-selected={pressureVariablesTab == variable.name} on:click={() => pressureVariablesTab = variable.name}>{variable.label}</button>
                 {/each}
             </div>
             <div class="tab-content" id="v-pills-tabContent">
-                {#each pressureVariables as variable, i}
-            <div class="tab-pane fade" class:active={i === 0} class:show={i === 0} id="v-pills-{variable.name}"
+                {#each pressureVariables as variable}
+              <div class="tab-pane fade" class:active={pressureVariablesTab == variable.name} class:show={pressureVariablesTab == variable.name} id="v-pills-{variable.name}"
                 role="tabpanel" aria-labelledby="v-pills-{variable.name}-tab">
                 <div class="row">
                     {#each sliceIntoChunks(levels, levels.length/3+1) as chunk}
