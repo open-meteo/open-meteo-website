@@ -448,7 +448,7 @@
 					aria-label="Precipitation Unit"
 					bind:value={$params.precipitation_unit}
 				>
-					<option selected value="mm">Millimeter</option>
+					<option value="mm">Millimeter</option>
 					<option value="inch">Inch</option>
 				</select>
 				<label for="precipitation_unit">Precipitation Unit</label>
@@ -463,7 +463,7 @@
 					aria-label="Timeformat"
 					bind:value={$params.timeformat}
 				>
-					<option selected value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
+					<option value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
 					<option value="unixtime">Unix timestamp</option>
 				</select>
 				<label for="timeformat">Timeformat</label>
