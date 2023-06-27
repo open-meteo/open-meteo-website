@@ -185,7 +185,7 @@
 	> selects the most suitable weather models automatically to ensure optimal accuracy.
 </div>
 
-<form method="get" action="https://api.open-meteo.com/v1/forecast">
+<form method="get" action="https://api.open-meteo.com/v1/gfs">
 	<div class="row">
 		<h2>Select Coordinates or City</h2>
 		<div class="col-md-3">
