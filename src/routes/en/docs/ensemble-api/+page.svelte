@@ -1,18 +1,44 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import LocationSearch from "../LocationSearch.svelte";
-  	import type { GeoLocation } from "$lib/stores";
+	import LocationSearch from '../LocationSearch.svelte';
+	import type { GeoLocation } from '$lib/stores';
+	import ResultPreview from '../ResultPreview.svelte';
+	import { urlHashStore } from '$lib/url-hash-store';
+	import { countVariables } from '$lib/meteo';
+	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
+	import SveltyPicker from 'svelty-picker';
+	import { slide } from 'svelte/transition';
 
-	onMount(async () => {
-		const datepicker = await import('bootstrap-datepicker');
-		const weather = await import('$lib/weather');
-		const Dropdown = await import('bootstrap/js/dist/dropdown');
-		const Collapse = await import('bootstrap/js/dist/collapse');
-		const Tab = await import('bootstrap/js/dist/tab');
-		weather.init(Dropdown.default);
+	const defaultParameter = {
+		hourly: [],
+		//daily: [],
+		current_weather: false,
+		temperature_unit: 'celsius',
+		windspeed_unit: 'kmh',
+		precipitation_unit: 'mm',
+		timeformat: 'iso8601',
+		timezone: 'UTC',
+		past_days: '0',
+		forecast_days: '7',
+		start_date: null,
+		end_date: null,
+		models: ['icon_seamless']
+	};
+
+	const params = urlHashStore({
+		latitude: 52.52,
+		longitude: 13.41,
+		...defaultParameter,
+		hourly: ['temperature_2m']
 	});
+
+	$: timezoneInvalid = false; //$params.timezone == 'UTC' && $params.daily.length > 0;
+	$: endDateInvalid = $params.start_date != null && $params.end_date == null;
+	$: startDateInvalid = $params.start_date == null && $params.end_date != null;
+	$: pastDaysInvalid =
+		$params.past_days != defaultParameter.past_days && $params.start_date != null;
+	$: forecastDaysInvalid =
+		$params.forecast_days != defaultParameter.forecast_days && $params.start_date != null;
 
 	const icon_global_variables = [
 		'weathercode',
@@ -178,8 +204,6 @@
 		]
 	};
 
-	let models: String[] = ['icon_seamless'];
-
 	function isAvailable(variable: String, models: String[]): Boolean {
 		if (models.length == 0) {
 			return true;
@@ -197,11 +221,99 @@
 		return false;
 	}
 
-	let params = {latitude: 52.52, longitude: 13.41}
+	const hourly = [
+		[
+			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
+			{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'dewpoint_2m', label: 'Dewpoint (2 m)' },
+			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
+			{ name: 'precipitation', label: 'Precipitation (rain + snow)' },
+			{ name: 'rain', label: 'Rain' },
+			{ name: 'snowfall', label: 'Snowfall' },
+			{ name: 'snow_depth', label: 'Snow Depth' }
+		],
+		[
+			{ name: 'weathercode', label: 'Weathercode' },
+			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
+			{ name: 'surface_pressure', label: 'Surface Pressure' },
+			{ name: 'cloudcover', label: 'Cloudcover Total' },
+			{ name: 'visibility', label: 'Visibility' },
+			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+			{ name: 'vapor_pressure_deficit', label: 'Vapor Pressure Deficit' }
+		],
+		[
+			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'windspeed_80m', label: 'Wind Speed (80 m)' },
+			{ name: 'windspeed_120m', label: 'Wind Speed (120 m)' },
+			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'winddirection_80m', label: 'Wind Direction (80 m)' },
+			{ name: 'winddirection_120m', label: 'Wind Direction (120 m)' },
+			{ name: 'windgusts_10m', label: 'Wind Gusts (10 m)' },
+			{ name: 'temperature_80m', label: 'Temperature (80 m)' },
+			{ name: 'temperature_120m', label: 'Temperature (120 m)' }
+		],
+		[
+			{ name: 'surface_temperature', label: 'Surface Temperature' },
+			{ name: 'soil_temperature_0_to_10cm', label: 'Soil Temperature (0-10 cm)' },
+			{ name: 'soil_temperature_10_to_40cm', label: 'Soil Temperature (10-40 cm)' },
+			{ name: 'soil_temperature_40_to_100cm', label: 'Soil Temperature (40-100 cm)' },
+			{ name: 'soil_temperature_100_to_200cm', label: 'Soil Temperature (100-200 cm)' },
+			{ name: 'soil_moisture_0_to_10cm', label: 'Soil Moisture (0-10 cm)' },
+			{ name: 'soil_moisture_10_to_40cm', label: 'Soil Moisture (10-40 cm)' },
+			{ name: 'soil_moisture_40_to_100cm', label: 'Soil Moisture (40-100 cm)' },
+			{ name: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-400 cm)' }
+		]
+	];
 
- 	function locationCallback(event: CustomEvent<GeoLocation>) {
-		params.latitude = (Number)(event.detail.latitude.toFixed(4))
-		params.longitude = (Number)(event.detail.longitude.toFixed(4))
+	const additionalVariables = [
+		[
+			{ name: 'uv_index', label: 'UV Index' },
+			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' }
+			//{ name: 'is_day', label: 'Is Day or Night' }
+		],
+		[
+			{ name: 'cape', label: 'CAPE' },
+			//{ name: 'lifted_index', label: 'Lifted Index' },
+			{ name: 'freezinglevel_height', label: 'Freezinglevel Height' }
+		]
+	];
+
+	const solarVariables = [
+		[
+			{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation' },
+			{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
+			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation' },
+			{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' }
+			//{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
+		],
+		[
+			{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation (Instant)' },
+			{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
+			{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation (Instant)' },
+			{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' }
+			//{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
+		]
+	];
+
+	const models = [
+		[
+			{ name: 'icon_seamless', label: 'DWD Icon EPS Seamless' },
+			{ name: 'icon_global', label: 'DWD Icon EPS Global' },
+			{ name: 'icon_eu', label: 'DWD Icon EPS EU' },
+			{ name: 'icon_d2', label: 'DWD Icon EPS D2' }
+		],
+		[
+			{ name: 'gfs_seamless', label: 'GFS Ensemble Seamless' },
+			{ name: 'gfs025', label: 'GFS Ensemble 0.25' },
+			{ name: 'gfs05', label: 'GFS Ensemble 0.5' }
+		],
+		[{ name: 'ecmwf_ifs04', label: 'ECMWF IFS Ensemble' }],
+		[{ name: 'gem_global', label: 'GEM Global Ensemble' }]
+	];
+
+	function locationCallback(event: CustomEvent<GeoLocation>) {
+		$params.latitude = Number(event.detail.latitude.toFixed(4));
+		$params.longitude = Number(event.detail.longitude.toFixed(4));
 	}
 </script>
 
@@ -218,919 +330,187 @@
 	>.
 </div>
 
-<form id="api_form" method="get" action="https://ensemble-api.open-meteo.com/v1/ensemble">
+<form method="get" action="https://ensemble-api.open-meteo.com/v1/ensemble">
 	<div class="row">
-      <h2>Select Coordinates or City</h2>
-      <div class="col-md-3">
-        <div class="form-floating">
-          <input type="number" class="form-control" name="latitude" id="latitude" step="0.000001" min="-90" max="90" bind:value={params.latitude}>
-          <label for="latitude">Latitude</label>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-floating">
-          <input type="number" class="form-control" name="longitude" id="longitude" step="0.000001" min="-180" max="180" bind:value={params.longitude}>
-          <label for="longitude">Longitude</label>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <LocationSearch on:location={locationCallback}></LocationSearch>
-      </div>
-    </div>
+		<h2>Select Coordinates or City</h2>
+		<div class="col-md-3">
+			<div class="form-floating mb-3">
+				<input
+					type="number"
+					class="form-control"
+					name="latitude"
+					id="latitude"
+					step="0.000001"
+					min="-90"
+					max="90"
+					bind:value={$params.latitude}
+				/>
+				<label for="latitude">Latitude</label>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-floating mb-3">
+				<input
+					type="number"
+					class="form-control"
+					name="longitude"
+					id="longitude"
+					step="0.000001"
+					min="-180"
+					max="180"
+					bind:value={$params.longitude}
+				/>
+				<label for="longitude">Longitude</label>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<LocationSearch on:location={locationCallback} />
+		</div>
+	</div>
+
 	<div class="row py-3 px-0">
 		<h2>Ensemble Models</h2>
-		<div class="col-md-3">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="icon_seamless"
-					id="icon_seamless"
-					name="models"
-					bind:group={models}
-					checked
-				/>
-				<label class="form-check-label" for="icon_seamless">DWD Icon EPS Seamless </label>
+		{#each models as group}
+			<div class="col-md-3 mb-3">
+				{#each group as e}
+					<div class="form-check">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							value={e.name}
+							id="{e.name}_model"
+							name="models"
+							bind:group={$params.models}
+						/>
+						<label class="form-check-label" for="{e.name}_model">{e.label}</label>
+					</div>
+				{/each}
 			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="icon_global"
-					id="icon_global"
-					name="models"
-					bind:group={models}
-				/>
-				<label class="form-check-label" for="icon_global"> DWD Icon EPS Global </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="icon_eu"
-					id="icon_eu"
-					name="models"
-					bind:group={models}
-				/>
-				<label class="form-check-label" for="icon_eu"> DWD Icon EPS EU </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="icon_d2"
-					id="icon_d2"
-					name="models"
-					bind:group={models}
-				/>
-				<label class="form-check-label" for="icon_d2"> DWD Icon EPS D2 </label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="gfs_seamless"
-					id="gfs_seamless"
-					name="models"
-					bind:group={models}
-				/>
-				<label class="form-check-label" for="gfs_seamless"> GFS Ensemble Seamless </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="gfs025"
-					id="gfs025"
-					name="models"
-					bind:group={models}
-				/>
-				<label class="form-check-label" for="gfs025"> GFS Ensemble 0.25 </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="gfs05"
-					id="gfs05"
-					name="models"
-					bind:group={models}
-				/>
-				<label class="form-check-label" for="gfs05"> GFS Ensemble 0.5 </label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="ecmwf_ifs04"
-					id="ecmwf_ifs04"
-					name="models"
-					bind:group={models}
-				/>
-				<label class="form-check-label" for="ecmwf_ifs04"> ECMWF IFS Ensemble </label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="gem_global"
-					id="gem_global"
-					name="models"
-					bind:group={models}
-				/>
-				<label class="form-check-label" for="gem_global"> GEM Global Ensemble </label>
-			</div>
-		</div>
+		{/each}
 	</div>
 	<div class="row py-3 px-0">
 		<h2>Hourly Weather Variables</h2>
-		<div class="col-md-3">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="temperature_2m"
-					id="temperature_2m"
-					name="hourly"
-					checked
-					disabled={!isAvailable('temperature_2m', models)}
-				/>
-				<label class="form-check-label" for="temperature_2m"> Temperature (2 m) </label>
+		{#each hourly as group}
+			<div class="col-md-3">
+				{#each group as e}
+					<div class="form-check">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							value={e.name}
+							id="{e.name}_hourly"
+							name="hourly"
+							disabled={!isAvailable(e.name, $params.models)}
+							bind:group={$params.hourly}
+						/>
+						<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+					</div>
+				{/each}
 			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="relativehumidity_2m"
-					id="relativehumidity_2m"
-					name="hourly"
-					disabled={!isAvailable('relativehumidity_2m', models)}
-				/>
-				<label class="form-check-label" for="relativehumidity_2m"> Relative Humidity (2 m) </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="dewpoint_2m"
-					id="dewpoint_2m"
-					name="hourly"
-					disabled={!isAvailable('dewpoint_2m', models)}
-				/>
-				<label class="form-check-label" for="dewpoint_2m"> Dewpoint (2 m) </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="apparent_temperature"
-					id="apparent_temperature"
-					name="hourly"
-					disabled={!isAvailable('apparent_temperature', models)}
-				/>
-				<label class="form-check-label" for="apparent_temperature"> Apparent Temperature </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="precipitation"
-					id="precipitation"
-					name="hourly"
-					disabled={!isAvailable('precipitation', models)}
-				/>
-				<label class="form-check-label" for="precipitation"> Precipitation (rain + snow) </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="rain"
-					id="rain"
-					name="hourly"
-					disabled={!isAvailable('rain', models)}
-				/>
-				<label class="form-check-label" for="rain"> Rain </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="snowfall"
-					id="snowfall"
-					name="hourly"
-					disabled={!isAvailable('snowfall', models)}
-				/>
-				<label class="form-check-label" for="snowfall"> Snowfall </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="snow_depth"
-					id="snow_depth"
-					name="hourly"
-					disabled={!isAvailable('snow_depth', models)}
-				/>
-				<label class="form-check-label" for="snow_depth"> Snow Depth </label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="weathercode"
-					id="weathercode"
-					name="hourly"
-					disabled={!isAvailable('weathercode', models)}
-				/>
-				<label class="form-check-label" for="weathercode"> Weathercode </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="pressure_msl"
-					id="pressure_msl"
-					name="hourly"
-					disabled={!isAvailable('pressure_msl', models)}
-				/>
-				<label class="form-check-label" for="pressure_msl"> Sealevel Pressure </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="surface_pressure"
-					id="surface_pressure"
-					name="hourly"
-					disabled={!isAvailable('surface_pressure', models)}
-				/>
-				<label class="form-check-label" for="surface_pressure"> Surface Pressure </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="cloudcover"
-					id="cloudcover"
-					name="hourly"
-					disabled={!isAvailable('cloudcover', models)}
-				/>
-				<label class="form-check-label" for="cloudcover"> Cloudcover Total </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="visibility"
-					id="visibility"
-					name="hourly"
-					disabled={!isAvailable('visibility', models)}
-				/>
-				<label class="form-check-label" for="visibility"> Visibility </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="et0_fao_evapotranspiration"
-					id="et0_fao_evapotranspiration"
-					name="hourly"
-					disabled={!isAvailable('et0_fao_evapotranspiration', models)}
-				/>
-				<label class="form-check-label" for="et0_fao_evapotranspiration">
-					Reference Evapotranspiration (ET₀)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="vapor_pressure_deficit"
-					id="vapor_pressure_deficit"
-					name="hourly"
-					disabled={!isAvailable('vapor_pressure_deficit', models)}
-				/>
-				<label class="form-check-label" for="vapor_pressure_deficit">
-					Vapor Pressure Deficit
-				</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="windspeed_10m"
-					id="windspeed_10m"
-					name="hourly"
-					disabled={!isAvailable('windspeed_10m', models)}
-				/>
-				<label class="form-check-label" for="windspeed_10m"> Wind Speed (10 m) </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="windspeed_80m"
-					id="windspeed_80m"
-					name="hourly"
-					disabled={!isAvailable('windspeed_80m', models)}
-				/>
-				<label class="form-check-label" for="windspeed_80m"> Wind Speed (80 m) </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="windspeed_120m"
-					id="windspeed_120m"
-					name="hourly"
-					disabled={!isAvailable('windspeed_120m', models)}
-				/>
-				<label class="form-check-label" for="windspeed_120m"> Wind Speed (120 m) </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="winddirection_10m"
-					id="winddirection_10m"
-					name="hourly"
-					disabled={!isAvailable('winddirection_10m', models)}
-				/>
-				<label class="form-check-label" for="winddirection_10m"> Wind Direction (10 m) </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="winddirection_80m"
-					id="winddirection_80m"
-					name="hourly"
-					disabled={!isAvailable('winddirection_80m', models)}
-				/>
-				<label class="form-check-label" for="winddirection_80m"> Wind Direction (80 m) </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="winddirection_120m"
-					id="winddirection_120m"
-					name="hourly"
-					disabled={!isAvailable('winddirection_120m', models)}
-				/>
-				<label class="form-check-label" for="winddirection_120m"> Wind Direction (120 m) </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="windgusts_10m"
-					id="windgusts_10m"
-					name="hourly"
-					disabled={!isAvailable('windgusts_10m', models)}
-				/>
-				<label class="form-check-label" for="windgusts_10m"> Wind Gusts (10 m) </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="temperature_80m"
-					id="temperature_80m"
-					name="hourly"
-					disabled={!isAvailable('temperature_80m', models)}
-				/>
-				<label class="form-check-label" for="temperature_80m"> Temperature (80 m) </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="temperature_120m"
-					id="temperature_120m"
-					name="hourly"
-					disabled={!isAvailable('temperature_120m', models)}
-				/>
-				<label class="form-check-label" for="temperature_120m"> Temperature (120 m) </label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="surface_temperature"
-					id="surface_temperature"
-					name="hourly"
-					disabled={!isAvailable('surface_temperature', models)}
-				/>
-				<label class="form-check-label" for="surface_temperature"> Surface Temperature </label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_temperature_0_to_10cm"
-					id="soil_temperature_0_to_10cm"
-					name="hourly"
-					disabled={!isAvailable('soil_temperature_0_to_10cm', models)}
-				/>
-				<label class="form-check-label" for="soil_temperature_0_to_10cm">
-					Soil Temperature (0-10 cm)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_temperature_10_to_40cm"
-					id="soil_temperature_10_to_40cm"
-					name="hourly"
-					disabled={!isAvailable('soil_temperature_10_to_40cm', models)}
-				/>
-				<label class="form-check-label" for="soil_temperature_10_to_40cm">
-					Soil Temperature (10-40 cm)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_temperature_40_to_100cm"
-					id="soil_temperature_40_to_100cm"
-					name="hourly"
-					disabled={!isAvailable('soil_temperature_40_to_100cm', models)}
-				/>
-				<label class="form-check-label" for="soil_temperature_40_to_100cm">
-					Soil Temperature (40-100 cm)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_temperature_100_to_200cm"
-					id="soil_temperature_100_to_200cm"
-					name="hourly"
-					disabled={!isAvailable('soil_temperature_100_to_200cm', models)}
-				/>
-				<label class="form-check-label" for="soil_temperature_100_to_200cm">
-					Soil Temperature (100-200 cm)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_moisture_0_to_10cm"
-					id="soil_moisture_0_to_10cm"
-					name="hourly"
-					disabled={!isAvailable('soil_moisture_0_to_10cm', models)}
-				/>
-				<label class="form-check-label" for="soil_moisture_0_to_10cm">
-					Soil Moisture (0-10 cm)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_moisture_10_to_40cm"
-					id="soil_moisture_10_to_40cm"
-					name="hourly"
-					disabled={!isAvailable('soil_moisture_10_to_40cm', models)}
-				/>
-				<label class="form-check-label" for="soil_moisture_10_to_40cm">
-					Soil Moisture (10-40 cm)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_moisture_40_to_100cm"
-					id="soil_moisture_40_to_100cm"
-					name="hourly"
-					disabled={!isAvailable('soil_moisture_40_to_100cm', models)}
-				/>
-				<label class="form-check-label" for="soil_moisture_40_to_100cm">
-					Soil Moisture (40-100 cm)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_moisture_100_to_200cm"
-					id="soil_moisture_100_to_200cm"
-					name="hourly"
-					disabled={!isAvailable('soil_moisture_100_to_200cm', models)}
-				/>
-				<label class="form-check-label" for="soil_moisture_100_to_200cm">
-					Soil Moisture (100-400 cm)
-				</label>
-			</div>
-		</div>
+		{/each}
 	</div>
 
 	<div class="row py-3 px-0">
 		<div class="accordion" id="accordionVariables">
-			<div class="accordion-item">
-				<h2 class="accordion-header" id="heading-additional-variables">
-					<button
-						class="accordion-button collapsed py-2"
-						type="button"
-						data-bs-toggle="collapse"
-						data-bs-target="#collapse-additional-variables"
-						aria-expanded="false"
-						aria-controls="collapse-additional-variables"
-					>
-						Additional Variables&nbsp;<span
-							class="badge rounded-pill bg-secondary checkboxcounter"
-							data-count-checkboxes-of="#collapse-additional-variables">0/x</span
-						>
-					</button>
-				</h2>
-				<div
-					id="collapse-additional-variables"
-					class="accordion-collapse collapse"
-					aria-labelledby="heading-additional-variables"
-					data-bs-parent="#accordionVariables"
-				>
-					<div class="accordion-body row">
-						<div class="col-md-6">
+			<AccordionItem
+				id="additional-variables"
+				title="Additional Variables"
+				count={countVariables(additionalVariables, $params.hourly)}
+			>
+				{#each additionalVariables as group}
+					<div class="col-md-6">
+						{#each group as e}
 							<div class="form-check">
 								<input
 									class="form-check-input"
 									type="checkbox"
-									value="uv_index"
-									id="uv_index"
+									value={e.name}
+									id="{e.name}_hourly"
 									name="hourly"
-									disabled={!isAvailable('uv_index', models)}
+									disabled={!isAvailable(e.name, $params.models)}
+									bind:group={$params.hourly}
 								/>
-								<label class="form-check-label" for="uv_index"> UV Index </label>
+								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
 							</div>
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value="uv_index_clear_sky"
-									id="uv_index_clear_sky"
-									name="hourly"
-									disabled={!isAvailable('uv_index_clear_sky', models)}
-								/>
-								<label class="form-check-label" for="uv_index_clear_sky">
-									UV Index Clear Sky
-								</label>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value="cape"
-									id="cape"
-									name="hourly"
-									disabled={!isAvailable('cape', models)}
-								/>
-								<label class="form-check-label" for="cape"> CAPE </label>
-							</div>
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value="freezinglevel_height"
-									id="freezinglevel_height"
-									name="hourly"
-									disabled={!isAvailable('freezinglevel_height', models)}
-								/>
-								<label class="form-check-label" for="freezinglevel_height">
-									Freezinglevel Height
-								</label>
-							</div>
-						</div>
+						{/each}
 					</div>
-				</div>
-			</div>
-			<div class="accordion-item">
-				<h2 class="accordion-header" id="heading-solar-variables">
-					<button
-						class="accordion-button collapsed py-2"
-						type="button"
-						data-bs-toggle="collapse"
-						data-bs-target="#collapse-solar-variables"
-						aria-expanded="false"
-						aria-controls="collapse-solar-variables"
-					>
-						Solar Radiation Variables&nbsp;<span
-							class="badge rounded-pill bg-secondary checkboxcounter"
-							data-count-checkboxes-of="#collapse-solar-variables">0/x</span
-						>
-					</button>
-				</h2>
-				<div
-					id="collapse-solar-variables"
-					class="accordion-collapse collapse"
-					aria-labelledby="heading-solar-variables"
-					data-bs-parent="#accordionVariables"
-				>
-					<div class="accordion-body row">
-						<div class="col-md-6">
+				{/each}
+			</AccordionItem>
+			<AccordionItem
+				id="solar-variables"
+				title="Solar Radiation Variables"
+				count={countVariables(solarVariables, $params.hourly)}
+			>
+				{#each solarVariables as group}
+					<div class="col-md-6">
+						{#each group as e}
 							<div class="form-check">
 								<input
 									class="form-check-input"
 									type="checkbox"
-									value="shortwave_radiation"
-									id="shortwave_radiation"
+									value={e.name}
+									id="{e.name}_hourly"
 									name="hourly"
-									disabled={!isAvailable('shortwave_radiation', models)}
+									disabled={!isAvailable('shortwave_radiation', $params.models)}
+									bind:group={$params.hourly}
 								/>
-								<label class="form-check-label" for="shortwave_radiation">
-									Shortwave Solar Radiation
-								</label>
+								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
 							</div>
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value="direct_radiation"
-									id="direct_radiation"
-									name="hourly"
-									disabled={!isAvailable('shortwave_radiation', models)}
-								/>
-								<label class="form-check-label" for="direct_radiation">
-									Direct Solar Radiation
-								</label>
-							</div>
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value="diffuse_radiation"
-									id="diffuse_radiation"
-									name="hourly"
-									disabled={!isAvailable('shortwave_radiation', models)}
-								/>
-								<label class="form-check-label" for="diffuse_radiation">
-									Diffuse Solar Radiation
-								</label>
-							</div>
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value="direct_normal_irradiance"
-									id="direct_normal_irradiance"
-									name="hourly"
-									disabled={!isAvailable('shortwave_radiation', models)}
-								/>
-								<label class="form-check-label" for="direct_normal_irradiance">
-									Direct Normal Irradiance DNI
-								</label>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value="shortwave_radiation_instant"
-									id="shortwave_radiation_instant"
-									name="hourly"
-									disabled={!isAvailable('shortwave_radiation', models)}
-								/>
-								<label class="form-check-label" for="shortwave_radiation_instant">
-									Shortwave Solar Radiation (Instant)
-								</label>
-							</div>
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value="direct_radiation_instant"
-									id="direct_radiation_instant"
-									name="hourly"
-									disabled={!isAvailable('shortwave_radiation', models)}
-								/>
-								<label class="form-check-label" for="direct_radiation_instant">
-									Direct Solar Radiation (Instant)
-								</label>
-							</div>
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value="diffuse_radiation_instant"
-									id="diffuse_radiation_instant"
-									name="hourly"
-									disabled={!isAvailable('shortwave_radiation', models)}
-								/>
-								<label class="form-check-label" for="diffuse_radiation_instant">
-									Diffuse Solar Radiation (Instant)
-								</label>
-							</div>
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value="direct_normal_irradiance_instant"
-									id="direct_normal_irradiance_instant"
-									name="hourly"
-									disabled={!isAvailable('shortwave_radiation', models)}
-								/>
-								<label class="form-check-label" for="direct_normal_irradiance_instant">
-									Direct Normal Irradiance DNI (Instant)
-								</label>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<small class="text-muted"
-								>Note: Solar radiation is averaged over the past hour. Use
-								<mark>instant</mark> for radiation at the indicated time.</small
-							>
-						</div>
+						{/each}
 					</div>
+				{/each}
+				<div class="col-md-12">
+					<small class="text-muted"
+						>Note: Solar radiation is averaged over the past hour. Use
+						<mark>instant</mark> for radiation at the indicated time.</small
+					>
 				</div>
-			</div>
+			</AccordionItem>
 		</div>
 	</div>
 
-	<!--<div class="row py-3 px-0">
-      <h2>Daily Weather Variables <small class="text-muted">(*)</small></h2>
-      <div class="col-md-6">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="weathercode" id="weathercode_daily" name="daily">
-          <label class="form-check-label" for="weathercode_daily">
-            Weathercode
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="temperature_2m_max" id="temperature_2m_max"
-            name="daily">
-          <label class="form-check-label" for="temperature_2m_max">
-            Maximum Temperature (2 m)
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="temperature_2m_min" id="temperature_2m_min"
-            name="daily">
-          <label class="form-check-label" for="temperature_2m_min">
-            Minimum Temperature (2 m)
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="apparent_temperature_max" id="apparent_temperature_max"
-            name="daily">
-          <label class="form-check-label" for="apparent_temperature_max">
-            Maximum Apparent Temperature (2 m)
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="apparent_temperature_min" id="apparent_temperature_min"
-            name="daily">
-          <label class="form-check-label" for="apparent_temperature_min">
-            Minimum Apparent Temperature (2 m)
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="sunrise" id="sunrise" name="daily">
-          <label class="form-check-label" for="sunrise">
-            Sunrise
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="sunset" id="sunset" name="daily">
-          <label class="form-check-label" for="sunset">
-            Sunset
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="uv_index_max" id="uv_index_max" name="daily">
-          <label class="form-check-label" for="uv_index_max">
-            UV Index
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="uv_index_clear_sky_max" id="uv_index_clear_sky_max" name="daily">
-          <label class="form-check-label" for="uv_index_clear_sky_max">
-            UV Index Clear Sky
-          </label>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="precipitation_sum" id="precipitation_sum" name="daily">
-          <label class="form-check-label" for="precipitation_sum">
-            Precipitation Sum
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="rain_sum" id="rain_sum" name="daily">
-          <label class="form-check-label" for="rain_sum">
-            Rain Sum
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="showers_sum" id="showers_sum" name="daily">
-          <label class="form-check-label" for="showers_sum">
-            Showers Sum
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="snowfall_sum" id="snowfall_sum" name="daily">
-          <label class="form-check-label" for="snowfall_sum">
-            Snowfall Sum
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="precipitation_hours" id="precipitation_hours"
-            name="daily">
-          <label class="form-check-label" for="precipitation_hours">
-            Precipitation Hours
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="precipitation_probability_max" id="precipitation_probability_max" name="daily">
-          <label class="form-check-label" for="precipitation_probability_max">
-            Precipitation Probability Max
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windspeed_10m_max" id="windspeed_10m_max" name="daily">
-          <label class="form-check-label" for="windspeed_10m_max">
-            Maximum Wind Speed (10 m)
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="windgusts_10m_max" id="windgusts_10m_max" name="daily">
-          <label class="form-check-label" for="windgusts_10m_max">
-            Maximum Wind Gusts (10 m)
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="winddirection_10m_dominant"
-            id="winddirection_10m_dominant" name="daily">
-          <label class="form-check-label" for="winddirection_10m_dominant">
-            Dominant Wind Direction (10 m)
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="shortwave_radiation_sum" id="shortwave_radiation_sum"
-            name="daily">
-          <label class="form-check-label" for="shortwave_radiation_sum">
-            Shortwave Radiation Sum
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="et0_fao_evapotranspiration"
-            id="et0_fao_evapotranspiration_daily" name="daily">
-          <label class="form-check-label" for="et0_fao_evapotranspiration_daily">
-            Reference Evapotranspiration (ET₀)
-          </label>
-        </div>
-      </div>
-      <small class="text-muted">* Parameter <mark>timezone</mark> is mandatory</small>
-    </div>-->
-
 	<div class="row py-3 px-0">
 		<h2>Settings</h2>
-		<div class="col-3">
+		<div class="col-12 pb-3">
+			<div class="form-check form-switch">
+				<input
+					class="form-check-input"
+					type="checkbox"
+					id="current_weather"
+					name="current_weather"
+					value="true"
+					bind:checked={$params.current_weather}
+				/>
+				<label class="form-check-label" for="current_weather"
+					>Current weather with temperature, windspeed and weather code</label
+				>
+			</div>
+		</div>
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
 					name="temperature_unit"
 					id="temperature_unit"
 					aria-label="Temperature Unit"
-					data-default="celsius"
+					bind:value={$params.temperature_unit}
 				>
-					<option selected value="celsius">Celsius °C</option>
+					<option value="celsius">Celsius °C</option>
 					<option value="fahrenheit">Fahrenheit °F</option>
 				</select>
 				<label for="temperature_unit">Temperature Unit</label>
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
 					name="windspeed_unit"
 					id="windspeed_unit"
 					aria-label="Windspeed Unit"
-					data-default="kmh"
+					bind:value={$params.windspeed_unit}
 				>
-					<option selected value="kmh">Km/h</option>
+					<option value="kmh">Km/h</option>
 					<option value="ms">m/s</option>
 					<option value="mph">Mph</option>
 					<option value="kn">Knots</option>
@@ -1138,46 +518,47 @@
 				<label for="windspeed_unit">Wind Speed Unit</label>
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
 					name="precipitation_unit"
 					id="precipitation_unit"
 					aria-label="Precipitation Unit"
-					data-default="mm"
+					bind:value={$params.precipitation_unit}
 				>
-					<option selected value="mm">Millimeter</option>
+					<option value="mm">Millimeter</option>
 					<option value="inch">Inch</option>
 				</select>
 				<label for="precipitation_unit">Precipitation Unit</label>
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
 					name="timeformat"
 					id="timeformat"
 					aria-label="Timeformat"
-					data-default="iso8601"
+					bind:value={$params.timeformat}
 				>
-					<option selected value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
+					<option value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
 					<option value="unixtime">Unix timestamp</option>
 				</select>
 				<label for="timeformat">Timeformat</label>
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
+					class:is-invalid={pastDaysInvalid}
 					name="past_days"
 					id="past_days"
 					aria-label="Past days"
-					data-default="0"
+					bind:value={$params.past_days}
 				>
-					<option selected value="0">0</option>
+					<option value="0">0 (default)</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
@@ -1189,68 +570,76 @@
 					<option value="92">3 months</option>
 				</select>
 				<label for="past_days">Past days</label>
+				{#if pastDaysInvalid}
+					<div class="invalid-tooltip" transition:slide>
+						Past days conflicts with start and end date
+					</div>
+				{/if}
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
+					class:is-invalid={forecastDaysInvalid}
 					name="forecast_days"
 					id="forecast_days"
 					aria-label="Forecast days"
-					data-default="7"
+					bind:value={$params.forecast_days}
 				>
 					<option value="1">1 day</option>
 					<option value="3">3 days</option>
-					<option selected value="7">7 days</option>
+					<option value="7">7 days (default)</option>
 					<option value="14">14 days</option>
 					<option value="16">16 days</option>
 					<option value="30">30 days</option>
-					<option value="35">35 days</option>
+					<option value="36">35 days</option>
 				</select>
 				<label for="forecast_days">Forecast days</label>
+				{#if forecastDaysInvalid}
+					<div class="invalid-tooltip" transition:slide>
+						Forecast days conflicts with start and end date
+					</div>
+				{/if}
 			</div>
 		</div>
-		<div class="col-3">
-			<div class="form-floating">
-				<input
-					type="text"
-					class="form-control"
-					data-provide="datepicker"
-					data-date-format="yyyy-mm-dd"
-					data-date-start-date="2022-06-08"
-					value=""
-					data-default=""
+		<div class="col-md-3">
+			<div class="form-floating mb-3">
+				<SveltyPicker
+					inputClasses="form-control {startDateInvalid ? 'is-invalid' : ''}"
+					format="yyyy-mm-dd"
 					name="start_date"
-					id="start_date"
-				/><span class="input-group-addon"><i class="glyphicon glyphicon-th" /></span>
+					bind:value={$params.start_date}
+				/>
 				<label for="start_date">Start date</label>
+				{#if startDateInvalid}
+					<div class="invalid-tooltip" transition:slide>Start and end date must be set</div>
+				{/if}
 			</div>
 		</div>
-		<div class="col-3">
-			<div class="form-floating">
-				<input
-					type="text"
-					class="form-control"
-					data-provide="datepicker"
-					data-date-format="yyyy-mm-dd"
-					data-date-start-date="2022-06-08"
-					value=""
-					data-default=""
+		<div class="col-md-3">
+			<div class="form-floating mb-3">
+				<SveltyPicker
+					inputClasses="form-control {endDateInvalid ? 'is-invalid' : ''}"
+					format="yyyy-mm-dd"
 					name="end_date"
-					id="end_date"
-				/><span class="input-group-addon"><i class="glyphicon glyphicon-th" /></span>
+					bind:value={$params.end_date}
+				/>
 				<label for="end_date">End date</label>
+				{#if endDateInvalid}
+					<div class="invalid-tooltip" transition:slide>Start and end date must be set</div>
+				{/if}
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
+					class:is-invalid={timezoneInvalid}
 					name="timezone"
 					id="timezone"
 					aria-label="Timezone"
-					data-default="GMT"
+					bind:value={$params.timezone}
 				>
 					<option value="America/Anchorage">America/Anchorage</option>
 					<option value="America/Los_Angeles">America/Los_Angeles</option>
@@ -1258,7 +647,8 @@
 					<option value="America/Chicago">America/Chicago</option>
 					<option value="America/New_York">America/New_York</option>
 					<option value="America/Sao_Paulo">America/Sao_Paulo</option>
-					<option selected value="GMT">GMT+0</option>
+					<option value="UTC">Not set (GMT+0)</option>
+					<option value="GMT">GMT+0</option>
 					<option value="auto">Automatically detect time zone</option>
 					<option value="Europe/London">Europe/London</option>
 					<option value="Europe/Berlin">Europe/Berlin</option>
@@ -1271,6 +661,11 @@
 					<option value="Pacific/Auckland">Pacific/Auckland</option>
 				</select>
 				<label for="timezone">Timezone</label>
+				{#if timezoneInvalid}
+					<div class="invalid-tooltip" transition:slide>
+						Timezone is required for daily variables
+					</div>
+				{/if}
 			</div>
 		</div>
 		<div class="col-12 pb-3 debug-hidden">
@@ -1287,30 +682,10 @@
 		</div>
 	</div>
 
-	<LicenseSelector requires_professional_plan={true}/>
-	<div class="col-12 my-4">
-		<h2>Preview and API URL</h2>
-		<div id="container" style="height: 400px; width: 100%" />
-	</div>
-	<div class="col-12">
-		<button type="submit" class="btn btn-primary">Preview Chart</button>
-		<button type="submit" class="btn btn-outline-primary" name="format" value="xlsx"
-			>Download XLSX</button
-		>
-		<button type="submit" class="btn btn-outline-primary" name="format" value="csv"
-			>Download CSV</button
-		>
-	</div>
-
-	<div class="col-12 my-4">
-		<label for="api_url" class="form-label">API URL</label>
-		<small class="text-muted"
-			>(<a id="api_url_link" target="_blank" href="#">Open in new tab</a> or copy this URL into your
-			application)</small
-		>
-		<input type="text" class="form-control" id="api_url" readonly />
-	</div>
+	<LicenseSelector requires_professional_plan={true} />
 </form>
+
+<ResultPreview {params} {defaultParameter} type="ensemble" action="ensemble" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>

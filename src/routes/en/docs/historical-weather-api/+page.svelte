@@ -517,7 +517,7 @@
 		</div>
 	</div>
 
-	<LicenseSelector />
+	<LicenseSelector requires_professional_plan={true}/>
 </form>
 
 <ResultPreview {params} {defaultParameter} type="archive" action="archive" useStockChart={true}/>

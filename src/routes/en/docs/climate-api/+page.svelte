@@ -323,7 +323,7 @@
 		</div>
 	</div>
 
-	<LicenseSelector />
+	<LicenseSelector requires_professional_plan={true}/>
 </form>
 
 <ResultPreview {params} {defaultParameter} type="climate" action="climate" useStockChart={true} />
