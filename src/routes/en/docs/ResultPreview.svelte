@@ -47,9 +47,9 @@
 	$: xlsxUrl = getUrl($api_key_preferences, { ...$params, format: 'xlsx' });
 	$: csvUrl = getUrl($api_key_preferences, { ...$params, format: 'csv' });
 
-	function jsonToChart(data, downloadTime) {
+	function jsonToChart(data: any, downloadTime: number) {
 		//console.log(data);
-		let yAxis = [];
+		let yAxis: any = [];
 		const codes = {
 			0: 'fair',
 			1: 'mainly clear',
@@ -81,7 +81,7 @@
 			99: 'thunderstorm with heavy hail'
 		};
 
-		let series = [];
+		let series: any = [];
 		['hourly', 'six_hourly', 'three_hourly', 'daily', 'minutely_15'].forEach(function (
 			section,
 			index
@@ -126,16 +126,22 @@
 				};
 
 				if (k[0] == 'weathercode') {
+					// @ts-ignore
 					ser.tooltip.pointFormatter = function () {
+						// @ts-ignore
 						let condition = codes[this.y];
+						// @ts-ignore
 						return (
 							'<span style="color:' +
+							/* @ts-ignore */
 							this.series.color +
 							'">\u25CF</span> ' +
+							/* @ts-ignore */
 							this.series.name +
 							': <b>' +
 							condition +
 							'</b> (' +
+							/* @ts-ignore */
 							this.y +
 							' wmo)<br/>'
 						);
@@ -146,10 +152,11 @@
 			});
 		});
 
-		let plotBands = [];
+		let plotBands: any = [];
 		if ('daily' in data && 'sunrise' in data.daily && 'sunset' in data.daily) {
 			let rise = data.daily.sunrise;
 			let set = data.daily.sunset;
+			// @ts-ignore
 			let plotBands = rise.map(function (r, i) {
 				return {
 					color: 'rgb(255, 255, 194)',
