@@ -163,7 +163,7 @@
 	})();
 </script>
 
-<button type="button" class="btn btn-outline-secondary w-100" on:click={openModal}
+<button type="button" class="btn btn-outline-secondary w-100 p-3" on:click={openModal}
 	><Search /> Search Locations ...</button
 >
 

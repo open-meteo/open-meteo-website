@@ -74,7 +74,7 @@
 	<div class="row">
 		<h2>Select Coordinates or City</h2>
 		<div class="col-md-3">
-			<div class="form-floating">
+			<div class="form-floating mb-3">
 				<input
 					type="number"
 					class="form-control"
@@ -89,7 +89,7 @@
 			</div>
 		</div>
 		<div class="col-md-3">
-			<div class="form-floating">
+			<div class="form-floating mb-3">
 				<input
 					type="number"
 					class="form-control"
@@ -1401,7 +1401,7 @@
 				>
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
@@ -1416,7 +1416,7 @@
 				<label for="temperature_unit">Temperature Unit</label>
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
@@ -1433,7 +1433,7 @@
 				<label for="windspeed_unit">Wind Speed Unit</label>
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
@@ -1448,7 +1448,7 @@
 				<label for="precipitation_unit">Precipitation Unit</label>
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
@@ -1463,7 +1463,7 @@
 				<label for="timeformat">Timeformat</label>
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
@@ -1492,7 +1492,7 @@
 				{/if}
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
@@ -1516,8 +1516,8 @@
 				{/if}
 			</div>
 		</div>
-		<div class="col-3">
-			<div class="form-floating">
+		<div class="col-md-3">
+			<div class="form-floating mb-3">
 				<SveltyPicker
 					inputClasses="form-control {startDateInvalid ? 'is-invalid' : ''}"
 					format="yyyy-mm-dd"
@@ -1530,8 +1530,8 @@
 				{/if}
 			</div>
 		</div>
-		<div class="col-3">
-			<div class="form-floating">
+		<div class="col-md-3">
+			<div class="form-floating mb-3">
 				<SveltyPicker
 					inputClasses="form-control {endDateInvalid ? 'is-invalid' : ''}"
 					format="yyyy-mm-dd"
@@ -1544,7 +1544,7 @@
 				{/if}
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"

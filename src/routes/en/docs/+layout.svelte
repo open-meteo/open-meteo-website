@@ -58,7 +58,7 @@
 		<div class="col-md-3 col-lg-2">
 			<div class="my-3 d-md-none">
 				<button
-					class="btn dropdown-toggle collapsed"
+					class="btn btn-outline-secondary dropdown-toggle collapsed"
 					type="button"
 					data-bs-toggle="collapse"
 					data-bs-target="#sidebarMenu"
