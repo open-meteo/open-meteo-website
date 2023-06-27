@@ -1,16 +1,10 @@
 <script lang="ts">
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import PressureLevelsHelpTable from '../PressureLevelsHelpTable.svelte';
 	import LocationSearch from '../LocationSearch.svelte';
 	import type { GeoLocation } from '$lib/stores';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
-	import {
-		altitudeAboveSeaLevelMeters,
-		countPressureVariables,
-		countVariables,
-		sliceIntoChunks
-	} from '$lib/meteo';
+	import { countVariables } from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import SveltyPicker from 'svelty-picker';
 	import { slide } from 'svelte/transition';
@@ -313,8 +307,8 @@
 								href="https://en.wikipedia.org/wiki/Air_quality_index#United_States"
 								>United States Environmental Protection Agency (EPA)</a
 							>
-							are given below. Some thresholds are in parts per billion (ppb) instead of μg/m³.
-							Conversion explained
+							are given below. Some thresholds are in parts per billion (ppb) instead of μg/m³. Conversion
+							explained
 							<a
 								href="https://www.breeze-technologies.de/blog/air-pollution-how-to-convert-between-mgm3-µgm3-ppm-ppb/"
 								>here</a
