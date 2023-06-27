@@ -3,10 +3,9 @@
 
 	export let id: string;
 	export let title: string;
-	export let countTotal: number = 0;
-	export let countActive: number = 0;
+	export let count = {active: 0, total: 0};
 
-	export let open = countActive > 0;
+	export let open = count.active > 0;
 	export let renderBody = open;
 
 	function toggle() {
@@ -28,9 +27,9 @@
 			on:click={toggle}
 		>
 			{title}
-			{#if countActive > 0}
+			{#if count.active > 0}
 				<span class="badge rounded-pill bg-secondary ms-2"
-					>{countActive}{#if countTotal > 0}&nbsp;/&nbsp;{countTotal}{/if}</span
+					>{count.active}{#if count.total > 0}&nbsp;/&nbsp;{count.total}{/if}</span
 				>
 			{/if}
 		</button>

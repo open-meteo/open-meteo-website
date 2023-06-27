@@ -50,9 +50,6 @@
 		30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000
 	].reverse();
 
-	$: pressureVariablesCount = countPressureVariables(pressureVariables, levels, $params.hourly);
-	$: console.log(pressureVariablesCount)
-
 	let pressureVariablesTab = 'temperature';
 
 	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
@@ -154,7 +151,6 @@
 			{ name: 'freezinglevel_height', label: 'Freezinglevel Height' }
 		]
 	];
-	$: additionalVariablesCount = countVariables(additionalVariables, $params.hourly);
 
 	const solarVariables = [
 		[
@@ -172,7 +168,6 @@
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
-	$: solarVariablesCount = countVariables(solarVariables, $params.hourly);
 
 	const models = [
 		[
@@ -210,7 +205,6 @@
 			{ name: 'meteofrance_arome_france_hd', label: 'MeteoFrance Arome France HD' }
 		]
 	];
-	$: modelsCount = countVariables(models, $params.models);
 
 	function locationCallback(event: CustomEvent<GeoLocation>) {
 		$params.latitude = Number(event.detail.latitude.toFixed(4));
@@ -290,8 +284,7 @@
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables"
-				countActive={additionalVariablesCount.active}
-				countTotal={additionalVariablesCount.total}
+				count={countVariables(additionalVariables, $params.hourly)}
 			>
 				{#each additionalVariables as group}
 					<div class="col-md-6">
@@ -314,8 +307,7 @@
 			<AccordionItem
 				id="solar-variables"
 				title="Solar Radiation Variables"
-				countActive={solarVariablesCount.active}
-				countTotal={solarVariablesCount.total}
+				count={countVariables(solarVariables, $params.hourly)}
 			>
 				{#each solarVariables as group}
 					<div class="col-md-6">
@@ -344,8 +336,7 @@
 			<AccordionItem
 				id="pressure-levels"
 				title="Pressure Level Variables"
-				countActive={pressureVariablesCount.active}
-				countTotal={pressureVariablesCount.total}
+				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
 				<div class="d-flex align-items-start">
 					<div
@@ -414,8 +405,7 @@
 			<AccordionItem
 				id="models"
 				title="Weather models"
-				countActive={modelsCount.active}
-				countTotal={modelsCount.total}
+				count={countVariables(models, $params.models)}
 			>
 				{#each models as group}
 					<div class="col-md-4 mb-3">
