@@ -9,13 +9,14 @@ import type { GeoLocation } from "$lib/stores";
 import ResultPreview from "./ResultPreview.svelte";
 import { urlHashStore } from "$lib/url-hash-store";
 import { altitudeAboveSeaLevelMeters, sliceIntoChunks } from "$lib/meteo";
-	import AccordionItem from "$lib/Elements/AccordionItem.svelte";
-  import SveltyPicker from 'svelty-picker'
+import AccordionItem from "$lib/Elements/AccordionItem.svelte";
+import SveltyPicker from 'svelty-picker'
+import { slide } from "svelte/transition";
 
 onMount(async () => {
     //const datepicker = await import("bootstrap-datepicker");
     //const weather = await import("$lib/weather");
-    const Dropdown = await import('bootstrap/js/dist/dropdown');
+    //const Dropdown = await import('bootstrap/js/dist/dropdown');
     //const Collapse = await import('bootstrap/js/dist/collapse');
     const Tab = await import('bootstrap/js/dist/tab');
    //weather.init(Dropdown.default)
@@ -42,8 +43,8 @@ const defaultParameter = {
   timezone: "UTC",
   past_days: "0",
   forecast_days: "7",
-  start_date: "",
-  end_date: "",
+  start_date: null,
+  end_date: null,
   models: []
 }
 
@@ -53,6 +54,12 @@ const params = urlHashStore({
   ...defaultParameter,
   hourly: ["temperature_2m"]
 })
+
+$: timezoneInvalid = $params.timezone == "UTC" && $params.daily.length > 0
+$: endDateInvalid = $params.start_date != null && $params.end_date == null
+$: startDateInvalid = $params.start_date == null && $params.end_date != null
+$: pastDaysInvalid = $params.past_days != defaultParameter.past_days && $params.start_date != null
+$: forecastDaysInvalid = $params.forecast_days != defaultParameter.forecast_days && $params.start_date != null
 
 /*const pressureVariablesAll = pressureVariables.flatMap((variable) => {
 		return levels.map((level) => {
@@ -722,7 +729,7 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
     </div>
 
     <div class="row py-3 px-0">
-      <h2>Daily Weather Variables <small class="text-muted">(*)</small></h2>
+      <h2>Daily Weather Variables</h2>
       <div class="col-md-6">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" value="weathercode" id="weathercode_daily" name="daily" bind:group={$params.daily}>
@@ -855,7 +862,6 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
           </label>
         </div>
       </div>
-      <small class="text-muted">* Parameter <mark>timezone</mark> is mandatory</small>
     </div>
 
     <div class="row py-3 px-0">
@@ -910,8 +916,8 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
       </div>
       <div class="col-3">
         <div class="form-floating mb-3">
-          <select class="form-select" name="past_days" id="past_days" aria-label="Past days" bind:value={$params.past_days}>
-            <option value="0">0</option>
+          <select class="form-select" class:is-invalid={pastDaysInvalid} name="past_days" id="past_days" aria-label="Past days" bind:value={$params.past_days}>
+            <option value="0">0 (default)</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -923,36 +929,56 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
             <option value="92">3 months</option>
           </select>
           <label for="past_days">Past days</label>
+          {#if pastDaysInvalid}
+          <div class="invalid-tooltip" transition:slide>
+            Past days conflicts with start and end date
+          </div>
+          {/if}
         </div>
       </div>
       <div class="col-3">
         <div class="form-floating mb-3">
-          <select class="form-select" name="forecast_days" id="forecast_days" aria-label="Forecast days"
+          <select class="form-select" class:is-invalid={forecastDaysInvalid} name="forecast_days" id="forecast_days" aria-label="Forecast days"
             bind:value={$params.forecast_days}>
             <option value="1">1 day</option>
             <option value="3">3 days</option>
-            <option value="7">7 days</option>
+            <option value="7">7 days (default)</option>
             <option value="14">14 days</option>
             <option value="16">16 days</option>
           </select>
           <label for="forecast_days">Forecast days</label>
+          {#if forecastDaysInvalid}
+          <div class="invalid-tooltip" transition:slide>
+            Forecast days conflicts with start and end date
+          </div>
+          {/if}
         </div>
       </div>
       <div class="col-3">
         <div class="form-floating">
-          <SveltyPicker inputClasses="form-control" format="yyyy-mm-dd" name="start_date" bind:value={$params.start_date}></SveltyPicker>
+          <SveltyPicker inputClasses="form-control {startDateInvalid?'is-invalid':''}" format="yyyy-mm-dd" name="start_date" bind:value={$params.start_date}></SveltyPicker>
           <label for="start_date">Start date</label>
+          {#if startDateInvalid}
+          <div class="invalid-tooltip" transition:slide>
+            Start and end date must be set
+          </div>
+          {/if}
         </div>
       </div>
       <div class="col-3">
         <div class="form-floating">
-          <SveltyPicker inputClasses="form-control" format="yyyy-mm-dd" name="end_date" bind:value={$params.end_date}></SveltyPicker>
+          <SveltyPicker inputClasses="form-control {endDateInvalid?'is-invalid':''}" format="yyyy-mm-dd" name="end_date" bind:value={$params.end_date}></SveltyPicker>
           <label for="end_date">End date</label>
+          {#if endDateInvalid}
+          <div class="invalid-tooltip" transition:slide>
+            Start and end date must be set
+          </div>
+          {/if}
         </div>
       </div>
       <div class="col-3">
         <div class="form-floating mb-3">
-          <select class="form-select" name="timezone" id="timezone" aria-label="Timezone" bind:value={$params.timezone}>
+          <select class="form-select" class:is-invalid={timezoneInvalid} name="timezone" id="timezone" aria-label="Timezone" bind:value={$params.timezone}>
             <option value="America/Anchorage">America/Anchorage</option>
             <option value="America/Los_Angeles">America/Los_Angeles</option>
             <option value="America/Denver">America/Denver</option>
@@ -973,6 +999,11 @@ function locationCallback(event: CustomEvent<GeoLocation>) {
             <option value="Pacific/Auckland">Pacific/Auckland</option>
           </select>
           <label for="timezone">Timezone</label>
+          {#if timezoneInvalid}
+          <div class="invalid-tooltip" transition:slide>
+            Timezone is required for daily variables
+          </div>
+          {/if}
         </div>
       </div>
       <div class="col-12 pb-3 debug-hidden">
