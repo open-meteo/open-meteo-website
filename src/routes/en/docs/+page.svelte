@@ -5,24 +5,15 @@
 	import type { GeoLocation } from '$lib/stores';
 	import ResultPreview from './ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
-	import { altitudeAboveSeaLevelMeters, sliceIntoChunks } from '$lib/meteo';
+	import {
+		altitudeAboveSeaLevelMeters,
+		countPressureVariables,
+		countVariables,
+		sliceIntoChunks
+	} from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import SveltyPicker from 'svelty-picker';
 	import { slide } from 'svelte/transition';
-
-	const pressureVariables = [
-		{ name: 'temperature', label: 'Temperature' },
-		{ name: 'relativehumidity', label: 'Relative Humidity' },
-		{ name: 'cloudcover', label: 'Cloudcover' },
-		{ name: 'windspeed', label: 'Wind Speed' },
-		{ name: 'winddirection', label: 'Wind Direction' },
-		{ name: 'geopotential_height', label: 'Geopotential Height' }
-	];
-	const levels = [
-		30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000
-	].reverse();
-
-	let pressureVariablesTab = 'temperature';
 
 	const defaultParameter = {
 		hourly: [],
@@ -46,6 +37,23 @@
 		...defaultParameter,
 		hourly: ['temperature_2m']
 	});
+
+	const pressureVariables = [
+		{ name: 'temperature', label: 'Temperature' },
+		{ name: 'relativehumidity', label: 'Relative Humidity' },
+		{ name: 'cloudcover', label: 'Cloudcover' },
+		{ name: 'windspeed', label: 'Wind Speed' },
+		{ name: 'winddirection', label: 'Wind Direction' },
+		{ name: 'geopotential_height', label: 'Geopotential Height' }
+	];
+	const levels = [
+		30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000
+	].reverse();
+
+	$: pressureVariablesCount = countPressureVariables(pressureVariables, levels, $params.hourly);
+	$: console.log(pressureVariablesCount)
+
+	let pressureVariablesTab = 'temperature';
 
 	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
 	$: endDateInvalid = $params.start_date != null && $params.end_date == null;
@@ -146,6 +154,7 @@
 			{ name: 'freezinglevel_height', label: 'Freezinglevel Height' }
 		]
 	];
+	$: additionalVariablesCount = countVariables(additionalVariables, $params.hourly);
 
 	const solarVariables = [
 		[
@@ -163,6 +172,7 @@
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
+	$: solarVariablesCount = countVariables(solarVariables, $params.hourly);
 
 	const models = [
 		[
@@ -200,6 +210,7 @@
 			{ name: 'meteofrance_arome_france_hd', label: 'MeteoFrance Arome France HD' }
 		]
 	];
+	$: modelsCount = countVariables(models, $params.models);
 
 	function locationCallback(event: CustomEvent<GeoLocation>) {
 		$params.latitude = Number(event.detail.latitude.toFixed(4));
@@ -276,7 +287,12 @@
 
 	<div class="row py-3 px-0">
 		<div class="accordion" id="accordionVariables">
-			<AccordionItem id="additional-variables" title="Additional Variables">
+			<AccordionItem
+				id="additional-variables"
+				title="Additional Variables"
+				countActive={additionalVariablesCount.active}
+				countTotal={additionalVariablesCount.total}
+			>
 				{#each additionalVariables as group}
 					<div class="col-md-6">
 						{#each group as e}
@@ -295,7 +311,12 @@
 					</div>
 				{/each}
 			</AccordionItem>
-			<AccordionItem id="solar-variables" title="Solar Radiation Variables">
+			<AccordionItem
+				id="solar-variables"
+				title="Solar Radiation Variables"
+				countActive={solarVariablesCount.active}
+				countTotal={solarVariablesCount.total}
+			>
 				{#each solarVariables as group}
 					<div class="col-md-6">
 						{#each group as e}
@@ -320,7 +341,12 @@
 					>
 				</div>
 			</AccordionItem>
-			<AccordionItem id="pressure-levels" title="Pressure Level Variables">
+			<AccordionItem
+				id="pressure-levels"
+				title="Pressure Level Variables"
+				countActive={pressureVariablesCount.active}
+				countTotal={pressureVariablesCount.total}
+			>
 				<div class="d-flex align-items-start">
 					<div
 						class="nav flex-column nav-pills me-3"
@@ -385,7 +411,12 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem id="models" title="Weather models">
+			<AccordionItem
+				id="models"
+				title="Weather models"
+				countActive={modelsCount.active}
+				countTotal={modelsCount.total}
+			>
 				{#each models as group}
 					<div class="col-md-4 mb-3">
 						{#each group as e}

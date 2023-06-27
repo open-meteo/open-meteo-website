@@ -22,3 +22,28 @@ export  function sliceIntoChunks<T>(arr: Array<T>, chunkSize: number): Array<Arr
     }
     return res;
 }
+
+export function countVariables(variables: { name: string; label: string }[][], params: string[]) {
+    return {
+        total: variables.reduce((i, e) => i + e.length, 0),
+        active: variables.reduce(
+            (i, e) => i + e.reduce((i, e) => i + (params.includes(e.name) ? 1 : 0), 0),
+            0
+        )
+    };
+}
+
+export function countPressureVariables(variables: { name: string; label: string }[], levels: number[], params: string[]) {
+    return {
+        total: variables.length * levels.length,
+        active: variables.reduce(
+			(i, variable) =>
+				i +
+				levels.reduce(
+					(i, level) => i + (params.includes(`${variable.name}_${level}hPa`) ? 1 : 0),
+					0
+				),
+			0
+		)
+    };
+}
