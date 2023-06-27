@@ -55,6 +55,152 @@
 	$: forecastDaysInvalid =
 		$params.forecast_days != defaultParameter.forecast_days && $params.start_date != null;
 
+	const hourly = [
+		[
+			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
+			{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'dewpoint_2m', label: 'Dewpoint (2 m)' },
+			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
+			{ name: 'precipitation_probability', label: 'Precipitation Probability' },
+			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
+			{ name: 'rain', label: 'Rain' },
+			{ name: 'showers', label: 'Showers' },
+			{ name: 'snowfall', label: 'Snowfall' },
+			{ name: 'snow_depth', label: 'Snow Depth' }
+		],
+		[
+			{ name: 'weathercode', label: 'Weathercode' },
+			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
+			{ name: 'surface_pressure', label: 'Surface Pressure' },
+			{ name: 'cloudcover', label: 'Cloudcover Total' },
+			{ name: 'cloudcover_low', label: 'Cloudcover Low' },
+			{ name: 'cloudcover_mid', label: 'Cloudcover Mid' },
+			{ name: 'cloudcover_high', label: 'Cloudcover High' },
+			{ name: 'visibility', label: 'Visibility' },
+			{ name: 'evapotranspiration', label: 'Evapotranspiration' },
+			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+			{ name: 'vapor_pressure_deficit', label: 'Vapor Pressure Deficit' }
+		],
+		[
+			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'windspeed_80m', label: 'Wind Speed (80 m)' },
+			{ name: 'windspeed_120m', label: 'Wind Speed (120 m)' },
+			{ name: 'windspeed_180m', label: 'Wind Speed (180 m)' },
+			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'winddirection_80m', label: 'Wind Direction (80 m)' },
+			{ name: 'winddirection_120m', label: 'Wind Direction (120 m)' },
+			{ name: 'winddirection_180m', label: 'Wind Direction (180 m)' },
+			{ name: 'windgusts_10m', label: 'Wind Gusts (10 m)' },
+			{ name: 'temperature_80m', label: 'Temperature (80 m)' },
+			{ name: 'temperature_120m', label: 'Temperature (120 m)' },
+			{ name: 'temperature_180m', label: 'Temperature (180 m)' }
+		],
+		[
+			{ name: 'soil_temperature_0cm', label: 'Soil Temperature (0 cm)' },
+			{ name: 'soil_temperature_6cm', label: 'Soil Temperature (6 cm)' },
+			{ name: 'soil_temperature_18cm', label: 'Soil Temperature (18 cm)' },
+			{ name: 'soil_temperature_54cm', label: 'Soil Temperature (54 cm)' },
+			{ name: 'soil_moisture_0_1cm', label: 'Soil Moisture (0-1 cm)' },
+			{ name: 'soil_moisture_1_3cm', label: 'Soil Moisture (1-3 cm)' },
+			{ name: 'soil_moisture_3_9cm', label: 'Soil Moisture (3-9 cm)' },
+			{ name: 'soil_moisture_9_27cm', label: 'Soil Moisture (9-27 cm)' },
+			{ name: 'soil_moisture_27_81cm', label: 'Soil Moisture (27-81 cm)' }
+		]
+	];
+
+	const daily = [
+		[
+			{ name: 'weathercode', label: 'Weathercode' },
+			{ name: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
+			{ name: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
+			{ name: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
+			{ name: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
+			{ name: 'sunrise', label: 'Sunrise' },
+			{ name: 'sunset', label: 'Sunset' },
+			{ name: 'uv_index_max', label: 'UV Index' },
+			{ name: 'uv_index_clear_sky_max', label: 'UV Index Clear Sky' }
+		],
+		[
+			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
+			{ name: 'rain_sum', label: 'Rain Sum' },
+			{ name: 'showers_sum', label: 'Showers Sum' },
+			{ name: 'snowfall_sum', label: 'Snowfall Sum' },
+			{ name: 'precipitation_hours', label: 'Precipitation Hours' },
+			{ name: 'precipitation_probability_max', label: 'Precipitation Probability Max' },
+			{ name: 'windspeed_10m_max', label: 'Maximum Wind Speed (10 m)' },
+			{ name: 'windgusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
+			{ name: 'winddirection_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
+			{ name: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
+			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
+		]
+	];
+
+	const additionalVariables = [
+		[
+			{ name: 'uv_index', label: 'UV Index' },
+			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
+			{ name: 'is_day', label: 'Is Day or Night' }
+		],
+		[
+			{ name: 'cape', label: 'CAPE' },
+			{ name: 'freezinglevel_height', label: 'Freezinglevel Height' }
+		]
+	];
+
+	const solarVariables = [
+		[
+			{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation' },
+			{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
+			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation' },
+			{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
+			{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
+		],
+		[
+			{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation (Instant)' },
+			{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
+			{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation (Instant)' },
+			{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
+			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
+		]
+	];
+
+	const models = [
+		[
+			{ name: 'best_match', label: 'Best match' },
+			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS' },
+			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
+		],
+		[
+			{ name: 'gfs_seamless', label: 'GFS Seamless' },
+			{ name: 'gfs_global', label: 'GFS Global' },
+			{ name: 'gfs_hrrr', label: 'GFS HRRR' }
+		],
+		[
+			{ name: 'jma_seamless', label: 'JMA Seamless' },
+			{ name: 'jma_msm', label: 'JMA MSM' },
+			{ name: 'jma_gsm', label: 'JMA GSM' }
+		],
+		[
+			{ name: 'icon_seamless', label: 'DWD Icon Seamless' },
+			{ name: 'icon_global', label: 'DWD Icon Global' },
+			{ name: 'icon_eu', label: 'DWD Icon EU' },
+			{ name: 'icon_d2', label: 'DWD Icon D2' }
+		],
+		[
+			{ name: 'gem_seamless', label: 'GEM Seamless' },
+			{ name: 'gem_global', label: 'GEM Global' },
+			{ name: 'gem_regional', label: 'GEM Regional' },
+			{ name: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' }
+		],
+		[
+			{ name: 'meteofrance_seamless', label: 'MeteoFrance Seamless' },
+			{ name: 'meteofrance_arpege_world', label: 'MeteoFrance Arpege World' },
+			{ name: 'meteofrance_arpege_europe', label: 'MeteoFrance Arpege Europe' },
+			{ name: 'meteofrance_arome_france', label: 'MeteoFrance Arome France' },
+			{ name: 'meteofrance_arome_france_hd', label: 'MeteoFrance Arome France HD' }
+		]
+	];
+
 	function locationCallback(event: CustomEvent<GeoLocation>) {
 		$params.latitude = Number(event.detail.latitude.toFixed(4));
 		$params.longitude = Number(event.detail.longitude.toFixed(4));
@@ -70,7 +216,7 @@
 	/>
 </svelte:head>
 
-<form id="api_form" method="get" action="https://api.open-meteo.com/v1/forecast">
+<form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<div class="row">
 		<h2>Select Coordinates or City</h2>
 		<div class="col-md-3">
@@ -109,690 +255,64 @@
 	</div>
 	<div class="row py-3 px-0">
 		<h2>Hourly Weather Variables</h2>
-		<div class="col-md-3">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="temperature_2m"
-					id="temperature_2m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="temperature_2m">Temperature (2 m)</label>
+		{#each hourly as group}
+			<div class="col-md-3">
+				{#each group as e}
+					<div class="form-check">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							value={e.name}
+							id="{e.name}_hourly"
+							name="hourly"
+							bind:group={$params.hourly}
+						/>
+						<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+					</div>
+				{/each}
 			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="relativehumidity_2m"
-					id="relativehumidity_2m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="relativehumidity_2m">Relative Humidity (2 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="dewpoint_2m"
-					id="dewpoint_2m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="dewpoint_2m">Dewpoint (2 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="apparent_temperature"
-					id="apparent_temperature"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="apparent_temperature">Apparent Temperature</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="precipitation_probability"
-					id="precipitation_probability"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="precipitation_probability">
-					Precipitation Probability
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="precipitation"
-					id="precipitation"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="precipitation">
-					Precipitation (rain + showers + snow)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="rain"
-					id="rain"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="rain">Rain</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="showers"
-					id="showers"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="showers">Showers</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="snowfall"
-					id="snowfall"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="snowfall">Snowfall</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="snow_depth"
-					id="snow_depth"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="snow_depth">Snow Depth</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="weathercode"
-					id="weathercode"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="weathercode">Weathercode</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="pressure_msl"
-					id="pressure_msl"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="pressure_msl">Sealevel Pressure</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="surface_pressure"
-					id="surface_pressure"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="surface_pressure">Surface Pressure</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="cloudcover"
-					id="cloudcover"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="cloudcover">Cloudcover Total</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="cloudcover_low"
-					id="cloudcover_low"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="cloudcover_low">Cloudcover Low</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="cloudcover_mid"
-					id="cloudcover_mid"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="cloudcover_mid">Cloudcover Mid</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="cloudcover_high"
-					id="cloudcover_high"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="cloudcover_high">Cloudcover High</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="visibility"
-					id="visibility"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="visibility">Visibility</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="evapotranspiration"
-					id="evapotranspiration"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="evapotranspiration">Evapotranspiration</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="et0_fao_evapotranspiration"
-					id="et0_fao_evapotranspiration"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="et0_fao_evapotranspiration">
-					Reference Evapotranspiration (ET₀)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="vapor_pressure_deficit"
-					id="vapor_pressure_deficit"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="vapor_pressure_deficit">
-					Vapor Pressure Deficit
-				</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="windspeed_10m"
-					id="windspeed_10m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="windspeed_10m">Wind Speed (10 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="windspeed_80m"
-					id="windspeed_80m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="windspeed_80m">Wind Speed (80 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="windspeed_120m"
-					id="windspeed_120m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="windspeed_120m">Wind Speed (120 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="windspeed_180m"
-					id="windspeed_180m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="windspeed_180m"> Wind Speed (180 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="winddirection_10m"
-					id="winddirection_10m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="winddirection_10m">Wind Direction (10 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="winddirection_80m"
-					id="winddirection_80m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="winddirection_80m">Wind Direction (80 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="winddirection_120m"
-					id="winddirection_120m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="winddirection_120m">Wind Direction (120 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="winddirection_180m"
-					id="winddirection_180m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="winddirection_180m">Wind Direction (180 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="windgusts_10m"
-					id="windgusts_10m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="windgusts_10m">Wind Gusts (10 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="temperature_80m"
-					id="temperature_80m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="temperature_80m">Temperature (80 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="temperature_120m"
-					id="temperature_120m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="temperature_120m">Temperature (120 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="temperature_180m"
-					id="temperature_180m"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="temperature_180m">Temperature (180 m)</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_temperature_0cm"
-					id="soil_temperature_0cm"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="soil_temperature_0cm">Soil Temperature (0 cm)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_temperature_6cm"
-					id="soil_temperature_6cm"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="soil_temperature_6cm">Soil Temperature (6 cm)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_temperature_18cm"
-					id="soil_temperature_18cm"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="soil_temperature_18cm">
-					Soil Temperature (18 cm)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_temperature_54cm"
-					id="soil_temperature_54cm"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="soil_temperature_54cm">
-					Soil Temperature (54 cm)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_moisture_0_1cm"
-					id="soil_moisture_0_1cm"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="soil_moisture_0_1cm">Soil Moisture (0-1 cm)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_moisture_1_3cm"
-					id="soil_moisture_1_3cm"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="soil_moisture_1_3cm">Soil Moisture (1-3 cm)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_moisture_3_9cm"
-					id="soil_moisture_3_9cm"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="soil_moisture_3_9cm">Soil Moisture (3-9 cm)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_moisture_9_27cm"
-					id="soil_moisture_9_27cm"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="soil_moisture_9_27cm">Soil Moisture (9-27 cm)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="soil_moisture_27_81cm"
-					id="soil_moisture_27_81cm"
-					name="hourly"
-					bind:group={$params.hourly}
-				/>
-				<label class="form-check-label" for="soil_moisture_27_81cm">
-					Soil Moisture (27-81 cm)
-				</label>
-			</div>
-		</div>
+		{/each}
 	</div>
 
 	<div class="row py-3 px-0">
 		<div class="accordion" id="accordionVariables">
 			<AccordionItem id="additional-variables" title="Additional Variables">
-				<div class="col-md-6">
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="uv_index"
-							id="uv_index"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="uv_index">UV Index</label>
+				{#each additionalVariables as group}
+					<div class="col-md-6">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_hourly"
+									name="hourly"
+									bind:group={$params.hourly}
+								/>
+								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+							</div>
+						{/each}
 					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="uv_index_clear_sky"
-							id="uv_index_clear_sky"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="uv_index_clear_sky">UV Index Clear Sky</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="is_day"
-							id="is_day"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="is_day">Is Day or Night</label>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="cape"
-							id="cape"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="cape">CAPE</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="freezinglevel_height"
-							id="freezinglevel_height"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="freezinglevel_height">
-							Freezinglevel Height
-						</label>
-					</div>
-				</div>
+				{/each}
 			</AccordionItem>
 			<AccordionItem id="solar-variables" title="Solar Radiation Variables">
-				<div class="col-md-6">
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="shortwave_radiation"
-							id="shortwave_radiation"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="shortwave_radiation">
-							Shortwave Solar Radiation
-						</label>
+				{#each solarVariables as group}
+					<div class="col-md-6">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_hourly"
+									name="hourly"
+									bind:group={$params.hourly}
+								/>
+								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+							</div>
+						{/each}
 					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="direct_radiation"
-							id="direct_radiation"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="direct_radiation">Direct Solar Radiation</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="diffuse_radiation"
-							id="diffuse_radiation"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="diffuse_radiation">
-							Diffuse Solar Radiation
-						</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="direct_normal_irradiance"
-							id="direct_normal_irradiance"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="direct_normal_irradiance">
-							Direct Normal Irradiance DNI
-						</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="terrestrial_radiation"
-							id="terrestrial_radiation"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="terrestrial_radiation">
-							Terrestrial Solar Radiation
-						</label>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="shortwave_radiation_instant"
-							id="shortwave_radiation_instant"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="shortwave_radiation_instant">
-							Shortwave Solar Radiation (Instant)
-						</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="direct_radiation_instant"
-							id="direct_radiation_instant"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="direct_radiation_instant">
-							Direct Solar Radiation (Instant)
-						</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="diffuse_radiation_instant"
-							id="diffuse_radiation_instant"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="diffuse_radiation_instant">
-							Diffuse Solar Radiation (Instant)
-						</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="direct_normal_irradiance_instant"
-							id="direct_normal_irradiance_instant"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="direct_normal_irradiance_instant">
-							Direct Normal Irradiance DNI (Instant)
-						</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="terrestrial_radiation_instant"
-							id="terrestrial_radiation_instant"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label class="form-check-label" for="terrestrial_radiation_instant">
-							Terrestrial Solar Radiation (Instant)
-						</label>
-					</div>
-				</div>
+				{/each}
 				<div class="col-md-12">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
@@ -866,273 +386,23 @@
 				</div>
 			</AccordionItem>
 			<AccordionItem id="models" title="Weather models">
-				<div class="col-md-4">
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="best_match"
-							id="best_match"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="best_match">Best match</label>
+				{#each models as group}
+					<div class="col-md-4 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_model"
+									name="models"
+									bind:group={$params.models}
+								/>
+								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
+							</div>
+						{/each}
 					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="ecmwf_ifs04"
-							id="ecmwf_ifs04"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="ecmwf_ifs04">ECMWF IFS</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="metno_nordic"
-							id="metno_nordic"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="metno_nordic">MET Norway Nordic</label>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="gfs_seamless"
-							id="gfs_seamless"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="gfs_seamless">GFS Seamless</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="gfs_global"
-							id="gfs_global"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="gfs_global">GFS Global</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="gfs_hrrr"
-							id="gfs_hrrr"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="gfs_hrrr">GFS HRRR</label>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="jma_seamless"
-							id="jma_seamless"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="jma_seamless">JMA Seamless</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="jma_msm"
-							id="jma_msm"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="jma_msm">JMA MSM</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="jma_gsm"
-							id="jma_gsm"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="jma_gsm">JMA GSM</label>
-					</div>
-				</div>
-				<div class="col-md-12 mb-3" />
-				<div class="col-md-4">
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="icon_seamless"
-							id="icon_seamless"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="icon_seamless">DWD Icon Seamless</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="icon_global"
-							id="icon_global"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="icon_global">DWD Icon Global</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="icon_eu"
-							id="icon_eu"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="icon_eu">DWD Icon EU</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="icon_d2"
-							id="icon_d2"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="icon_d2">DWD Icon D2</label>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="gem_seamless"
-							id="gem_seamless"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="gem_seamless">GEM Seamless</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="gem_global"
-							id="gem_global"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="gem_global">GEM Global</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="gem_regional"
-							id="gem_regional"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="gem_regional">GEM Regional</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="gem_hrdps_continental"
-							id="gem_hrdps_continental"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="gem_hrdps_continental">
-							GEM HRDPS Continental
-						</label>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="meteofrance_seamless"
-							id="meteofrance_seamless"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="meteofrance_seamless">
-							MeteoFrance Seamless
-						</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="meteofrance_arpege_world"
-							id="meteofrance_arpege_world"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="meteofrance_arpege_world">
-							MeteoFrance Arpege World
-						</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="meteofrance_arpege_europe"
-							id="meteofrance_arpege_europe"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="meteofrance_arpege_europe">
-							MeteoFrance Arpege Europe
-						</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="meteofrance_arome_france"
-							id="meteofrance_arome_france"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="meteofrance_arome_france">
-							MeteoFrance Arome France
-						</label>
-					</div>
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value="meteofrance_arome_france_hd"
-							id="meteofrance_arome_france_hd"
-							name="models"
-							bind:group={$params.models}
-						/>
-						<label class="form-check-label" for="meteofrance_arome_france_hd">
-							MeteoFrance Arome France HD
-						</label>
-					</div>
-				</div>
+				{/each}
 				<div class="col-md-12">
 					<small class="text-muted"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
@@ -1146,242 +416,23 @@
 
 	<div class="row py-3 px-0">
 		<h2>Daily Weather Variables</h2>
-		<div class="col-md-6">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="weathercode"
-					id="weathercode_daily"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="weathercode_daily">Weathercode</label>
+		{#each daily as group}
+			<div class="col-md-6">
+				{#each group as e}
+					<div class="form-check">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							value={e.name}
+							id="{e.name}_daily"
+							name="daily"
+							bind:group={$params.daily}
+						/>
+						<label class="form-check-label" for="{e.name}_daily">{e.label}</label>
+					</div>
+				{/each}
 			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="temperature_2m_max"
-					id="temperature_2m_max"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="temperature_2m_max">Maximum Temperature (2 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="temperature_2m_min"
-					id="temperature_2m_min"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="temperature_2m_min">Minimum Temperature (2 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="apparent_temperature_max"
-					id="apparent_temperature_max"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="apparent_temperature_max">
-					Maximum Apparent Temperature (2 m)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="apparent_temperature_min"
-					id="apparent_temperature_min"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="apparent_temperature_min">
-					Minimum Apparent Temperature (2 m)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="sunrise"
-					id="sunrise"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="sunrise">Sunrise</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="sunset"
-					id="sunset"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="sunset">Sunset</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="uv_index_max"
-					id="uv_index_max"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="uv_index_max">UV Index</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="uv_index_clear_sky_max"
-					id="uv_index_clear_sky_max"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="uv_index_clear_sky_max">UV Index Clear Sky</label>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="precipitation_sum"
-					id="precipitation_sum"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="precipitation_sum">Precipitation Sum</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="rain_sum"
-					id="rain_sum"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="rain_sum">Rain Sum</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="showers_sum"
-					id="showers_sum"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="showers_sum">Showers Sum</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="snowfall_sum"
-					id="snowfall_sum"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="snowfall_sum">Snowfall Sum</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="precipitation_hours"
-					id="precipitation_hours"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="precipitation_hours">Precipitation Hours</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="precipitation_probability_max"
-					id="precipitation_probability_max"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="precipitation_probability_max">
-					Precipitation Probability Max
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="windspeed_10m_max"
-					id="windspeed_10m_max"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="windspeed_10m_max">Maximum Wind Speed (10 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="windgusts_10m_max"
-					id="windgusts_10m_max"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="windgusts_10m_max">Maximum Wind Gusts (10 m)</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="winddirection_10m_dominant"
-					id="winddirection_10m_dominant"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="winddirection_10m_dominant">
-					Dominant Wind Direction (10 m)
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="shortwave_radiation_sum"
-					id="shortwave_radiation_sum"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="shortwave_radiation_sum">
-					Shortwave Radiation Sum
-				</label>
-			</div>
-			<div class="form-check">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value="et0_fao_evapotranspiration"
-					id="et0_fao_evapotranspiration_daily"
-					name="daily"
-					bind:group={$params.daily}
-				/>
-				<label class="form-check-label" for="et0_fao_evapotranspiration_daily">
-					Reference Evapotranspiration (ET₀)
-				</label>
-			</div>
-		</div>
+		{/each}
 	</div>
 
 	<div class="row py-3 px-0">
