@@ -16,7 +16,7 @@ export function urlHashStore<T>(initialValue: T): Writable<T> {
         let diff: Partial<T> = {};
         let count = 0
         for (const key in defaultValues) {
-            if (defaultValues[key] !== value[key]) {
+            if (value[key] && value[key] != "" && defaultValues[key] !== value[key]) {
                 diff[key] = value[key];
                 count++
             }

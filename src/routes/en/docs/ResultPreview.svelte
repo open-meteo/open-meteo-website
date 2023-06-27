@@ -3,17 +3,20 @@
 	import type { Writable } from 'svelte/store';
 	import HighchartContainer from '$lib/Elements/HighchartContainer.svelte';
 	import { onMount } from 'svelte';
+	import { InfoCircle } from 'svelte-bootstrap-icons';
+	import { ExclamationTriangle } from 'svelte-bootstrap-icons';
+	import { ArrowClockwise } from 'svelte-bootstrap-icons';
 
 	export let params: Writable<any>;
-	export let type: String = "forecast";
-	export let action: String = "forecast"
+	export let type: String = 'forecast';
+	export let action: String = 'forecast';
 	export let defaultParameter: any;
 
-	// Only considers keys of the first object
+	// Only considers keys of the first object. Ignores nulls and empty strings
 	function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
 		const diff: Partial<T> = {};
 		for (const key in a) {
-			if (a[key] !== b[key]) {
+			if (a[key] && a[key] != '' && a[key] !== b[key]) {
 				diff[key] = a[key];
 			}
 		}
@@ -21,7 +24,7 @@
 	}
 
 	function getUrl(api_key_preferences: any, params: any) {
-		let serverPrefix = type == "forecast" ? "api" : `${type}-api`
+		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
 		let server: string;
 		let actionParams = {};
 		switch (api_key_preferences.use) {
@@ -36,12 +39,12 @@
 				server = `https://${serverPrefix}.open-meteo.com/v1/${action}?`;
 		}
 		let nonDefaultParameter = objectDifference({ ...params, ...actionParams }, defaultParameter);
-		return `${server}${new URLSearchParams(nonDefaultParameter)}`.replaceAll("%2C", ",")
+		return `${server}${new URLSearchParams(nonDefaultParameter)}`.replaceAll('%2C', ',');
 	}
 
-	$: previewUrl = getUrl($api_key_preferences, $params)
-	$: xlsxUrl = getUrl($api_key_preferences, {...$params, format: 'xlsx'})
-	$: csvUrl = getUrl($api_key_preferences, {...$params, format: 'csv'})
+	$: previewUrl = getUrl($api_key_preferences, $params);
+	$: xlsxUrl = getUrl($api_key_preferences, { ...$params, format: 'xlsx' });
+	$: csvUrl = getUrl($api_key_preferences, { ...$params, format: 'csv' });
 
 	function jsonToChart(data, downloadTime) {
 		//console.log(data);
@@ -237,18 +240,22 @@
 		return json;
 	}
 
-	let results: Promise<any> = Promise.resolve(null)
-	
+	let results: Promise<any> = Promise.resolve(null);
+
 	function reset() {
-		results = Promise.resolve(null)
+		results = Promise.resolve(null);
 	}
 
-	params.subscribe(reset)
-	api_key_preferences.subscribe(reset)
+	params.subscribe(reset);
+	api_key_preferences.subscribe(reset);
 
 	async function preview() {
 		// Always set format=json to fetch data
-		const fetchUrl = getUrl($api_key_preferences, {...$params, format: 'json', timeformat: 'unixtime'});
+		const fetchUrl = getUrl($api_key_preferences, {
+			...$params,
+			format: 'json',
+			timeformat: 'unixtime'
+		});
 		const t0 = performance.now();
 		const result = await fetch(fetchUrl);
 
@@ -260,12 +267,12 @@
 	}
 
 	function reload() {
-		results = preview()
+		results = preview();
 	}
 
 	onMount(() => {
-		reload()
-	})
+		reload();
+	});
 </script>
 
 <div class="col-12 my-4">
@@ -273,7 +280,9 @@
 
 	<div id="container" style="height: 400px; width: 100%">
 		{#await results}
-			<div class="h-100 d-flex justify-content-center align-items-center">
+			<div
+				class="h-100 d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+			>
 				<div class="spinner-border" role="status">
 					<span class="visually-hidden">Loading...</span>
 				</div>
@@ -282,26 +291,32 @@
 			{#if results}
 				<HighchartContainer options={results} />
 			{:else}
-				<div class="h-100 d-flex justify-content-center align-items-center bg-light">
-					<div class="text-center">
-						<p><span class="lead">Parameters have changed</span></p>
-						<p>
-							<button type="submit" class="btn btn-primary" on:click={reload}
-								>Reload Chart</button
-							>
-						</p>
+				<div
+					class="h-100 d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+				>
+					<div class="alert alert-primary d-flex align-items-center" role="alert">
+						<InfoCircle class="me-2" />
+						<div>
+							Parameters have changed.
+							<button type="submit" class="btn btn-primary ms-2" on:click={reload}
+								><ArrowClockwise class="me-2" />Reload Chart
+							</button>
+						</div>
 					</div>
 				</div>
 			{/if}
 		{:catch error}
-			<div class="alert alert-danger" role="alert">
-				{error.message}
+			<div
+				class="h-100 d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+			>
+				<div class="alert alert-danger d-flex align-items-center" role="alert">
+					<ExclamationTriangle class="me-2" />
+					<div>{error.message}</div>
+					<button type="submit" class="btn btn-danger ms-2" on:click={reload}
+						><ArrowClockwise class="me-2" />Reload Chart
+					</button>
+				</div>
 			</div>
-			<p>
-				<button type="submit" class="btn btn-primary" on:click={reload}
-					>Reload Chart</button
-				>
-			</p>
 		{/await}
 	</div>
 </div>
