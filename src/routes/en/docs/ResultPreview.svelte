@@ -11,6 +11,7 @@
 	export let type: String = 'forecast';
 	export let action: String = 'forecast';
 	export let defaultParameter: any;
+	export let useStockChart = false;
 
 	// Only considers keys of the first object. Ignores nulls and empty strings
 	function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
@@ -278,7 +279,7 @@
 <div class="col-12 my-4">
 	<h2>Preview and API URL</h2>
 
-	<div id="container" style="height: 400px; width: 100%">
+	<div id="container w-100" style={useStockChart ? 'height: 500px' : 'height: 400px'}>
 		{#await results}
 			<div
 				class="h-100 d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
@@ -289,7 +290,11 @@
 			</div>
 		{:then results}
 			{#if results}
-				<HighchartContainer options={results} />
+				<HighchartContainer
+					options={results}
+					{useStockChart}
+					style={useStockChart ? 'height: 500px' : 'height: 400px'}
+				/>
 			{:else}
 				<div
 					class="h-100 d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"

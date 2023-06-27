@@ -11,6 +11,7 @@
 	import SveltyPicker from 'svelty-picker';
 	import { slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
+	import { reset } from '__sveltekit/paths';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 5);
@@ -23,7 +24,6 @@
 	const defaultParameter = {
 		hourly: [],
 		daily: [],
-		current_weather: false,
 		temperature_unit: 'celsius',
 		windspeed_unit: 'kmh',
 		precipitation_unit: 'mm',
@@ -403,21 +403,6 @@
 
 	<div class="row py-3 px-0">
 		<h2>Settings</h2>
-		<div class="col-12 pb-3">
-			<div class="form-check form-switch">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					id="current_weather"
-					name="current_weather"
-					value="true"
-					bind:checked={$params.current_weather}
-				/>
-				<label class="form-check-label" for="current_weather"
-					>Current weather with temperature, windspeed and weather code</label
-				>
-			</div>
-		</div>
 		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
@@ -535,7 +520,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="archive" action="archive" />
+<ResultPreview {params} {defaultParameter} type="archive" action="archive" useStockChart={true}/>
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">
