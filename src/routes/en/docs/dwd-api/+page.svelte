@@ -134,8 +134,6 @@
 			{ name: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
 			{ name: 'sunrise', label: 'Sunrise' },
 			{ name: 'sunset', label: 'Sunset' },
-			{ name: 'uv_index_max', label: 'UV Index' },
-			{ name: 'uv_index_clear_sky_max', label: 'UV Index Clear Sky' }
 		],
 		[
 			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
