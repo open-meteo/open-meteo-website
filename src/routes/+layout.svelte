@@ -118,11 +118,11 @@
 						class:active={$page.url.pathname.startsWith('/en/docs')}>API Docs</a
 					>
 				</li>
-				<li class="nav-item">
+				<!--<li class="nav-item">
 					<a href="https://openmeteo.substack.com/archive?sort=new" class="nav-link" title="Blog"
 						>Blog</a
 					>
-				</li>
+				</li>-->
 			</ul>
 
 			<!--<div class="form-check form-switch ms-auto mt-3 me-3">
