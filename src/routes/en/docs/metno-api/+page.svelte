@@ -23,8 +23,8 @@
 	};
 
 	const params = urlHashStore({
-		latitude: 52.52,
-		longitude: 13.41,
+		latitude: 59.91,
+		longitude: 10.75,
 		...defaultParameter,
 		hourly: ['temperature_2m']
 	});
