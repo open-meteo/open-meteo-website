@@ -17,7 +17,8 @@
 		windspeed_unit: 'kmh',
 		precipitation_unit: 'mm',
 		timeformat: 'iso8601',
-		timezone: 'UTC'
+		timezone: 'UTC',
+    disable_bias_correction: false
 	};
 
 	const params = urlHashStore({
@@ -85,6 +86,7 @@
 			{ name: 'soil_temperature_0_to_100cm_mean', label: 'Mean Soil Temperature (0-100 cm)' },
 			{ name: 'soil_temperature_7_to_28cm_mean', label: 'Mean Soil Temperature (7-28 cm)' },
 			{ name: 'soil_temperature_28_to_100cm_mean', label: 'Mean Soil Temperature (28-100 cm)' },
+			{ name: 'growing_degree_days_base_0_limit_50', label: 'GDD 0-50°C' },
 			{ name: 'daylight_duration', label: 'Daylight Duration' }
 		]);
 	}
@@ -247,6 +249,20 @@
 
 	<div class="row py-3 px-0">
 		<h2>Settings</h2>
+		<div class="col-12 pb-3">
+			<div class="form-check form-switch">
+				<input
+					class="form-check-input"
+					type="checkbox"
+					id="disable_bias_correction"
+					name="disable_bias_correction"
+          bind:checked={$params.disable_bias_correction}
+				/>
+				<label class="form-check-label" for="disable_bias_correction"
+					>Raw data. Disable statistical downscaling with ERA5-Land (10 km)</label
+				>
+			</div>
+		</div>
 		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
@@ -323,7 +339,7 @@
 		</div>
 	</div>
 
-	<LicenseSelector requires_professional_plan={true}/>
+	<LicenseSelector requires_professional_plan={true} />
 </form>
 
 <ResultPreview {params} {defaultParameter} type="climate" action="climate" useStockChart={true} />
