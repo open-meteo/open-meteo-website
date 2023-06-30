@@ -16,7 +16,7 @@ jobs:
           node-version: 19
           cache: "npm"
       - run: npm ci
-      - run: npm run build
+      - run: npm run staging
       - run: npm run rename_index_files
       - name: Install LFTP
         run: sudo apt update && sudo apt -qq -y install lftp
