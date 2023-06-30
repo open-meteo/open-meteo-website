@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
+		"staging": "NODE_ENV=development vite build --mode development",
 		"build": "vite build",
 		"rename_index_files": "node scripts/rename_to_index_html.js",
 		"preview": "vite preview",
