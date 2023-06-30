@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
+		"staging": "NODE_ENV=development vite build --mode development",
 		"build": "vite build",
 		"rename_index_files": "node scripts/rename_to_index_html.js",
 		"preview": "vite preview",
@@ -33,9 +34,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"bootstrap-datepicker": "^1.9.0",
 		"highcharts": "^10.3.3",
-		"jquery": "^3.6.4",
-		"svelte-local-storage-store": "^0.4.0"
+		"svelte-local-storage-store": "^0.4.0",
+		"svelty-picker": "^3.5.2"
 	}
 }
