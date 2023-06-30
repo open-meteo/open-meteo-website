@@ -51,7 +51,7 @@
 <svelte:body use:bindBody />
 
 <nav class="navbar navbar-expand-md navbar-light">
-	<div class="container">
+	<div class="container-fluid">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			width="28"
