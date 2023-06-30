@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { slide } from 'svelte/transition';
-
 	export let id: string;
 	export let title: string;
 	export let count = {active: 0, total: 0};
@@ -40,7 +38,6 @@
 			class="accordion-collapse"
 			aria-labelledby="heading-{id}"
 			class:collapse={!open}
-			transition:slide
 		>
 			<div class="accordion-body row">
 				<slot />
