@@ -150,15 +150,15 @@
 			{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
 			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation' },
 			{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-			//{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
+			{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
 		],
-		/*[
+		[
 			{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation (Instant)' },
 			{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
 			{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation (Instant)' },
 			{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
-		]*/
+		]
 	];
 
 	let models = [
