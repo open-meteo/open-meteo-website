@@ -19,14 +19,14 @@
 		"@sveltejs/adapter-static": "^2.0.2",
 		"@sveltejs/kit": "^1.20.4",
 		"bootstrap": "^5.2.3",
-		"eslint": "^8.38.0",
+		"eslint": "^8.44.0",
 		"eslint-config-prettier": "^8.8.0",
-		"eslint-plugin-svelte3": "^4.0.0",
+		"eslint-plugin-svelte": "^2.32.2",
 		"prettier": "^2.8.7",
 		"prettier-plugin-svelte": "^2.10.1",
 		"sass": "^1.62.0",
-		"svelte": "^4.0.0",
-		"svelte-bootstrap-icons": "^2.3.1",
+		"svelte": "^4.0.3",
+		"svelte-bootstrap-icons": "^3.0.0",
 		"svelte-check": "^3.4.3",
 		"svelte-preprocess": "^5.0.3",
 		"typescript": "^5.0.0",
@@ -34,8 +34,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"highcharts": "^10.3.3",
-		"svelte-local-storage-store": "^0.4.0",
+		"highcharts": "^11.1.0",
+		"svelte-local-storage-store": "^0.5.0",
 		"svelty-picker": "^3.5.2"
 	}
 }
