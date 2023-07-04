@@ -180,8 +180,8 @@
 		<div
 			class="modal-dialog"
 			role="document"
-			in:fly={{ y: -50, duration: 300 }}
-			out:fly={{ y: -50, duration: 300, easing: quintOut }}
+			in:fly|global={{ y: -50, duration: 300 }}
+			out:fly|global={{ y: -50, duration: 300, easing: quintOut }}
 		>
 			<div class="modal-content">
 				<div class="modal-header no-border">
@@ -391,5 +391,5 @@
 		</div>
 	</div>
 
-	<div class="modal-backdrop show" transition:fade={{ duration: 300 }} />
+	<div class="modal-backdrop show" transition:fade|global={{ duration: 300 }} />
 {/if}

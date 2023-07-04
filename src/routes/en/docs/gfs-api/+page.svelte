@@ -492,7 +492,7 @@
 				</select>
 				<label for="past_days">Past days</label>
 				{#if pastDaysInvalid}
-					<div class="invalid-tooltip" transition:slide>
+					<div class="invalid-tooltip" transition:slide|global>
 						Past days conflicts with start and end date
 					</div>
 				{/if}
@@ -516,7 +516,7 @@
 				</select>
 				<label for="forecast_days">Forecast days</label>
 				{#if forecastDaysInvalid}
-					<div class="invalid-tooltip" transition:slide>
+					<div class="invalid-tooltip" transition:slide|global>
 						Forecast days conflicts with start and end date
 					</div>
 				{/if}
@@ -532,7 +532,7 @@
 				/>
 				<label for="start_date">Start date</label>
 				{#if startDateInvalid}
-					<div class="invalid-tooltip" transition:slide>Start and end date must be set</div>
+					<div class="invalid-tooltip" transition:slide|global>Start and end date must be set</div>
 				{/if}
 			</div>
 		</div>
@@ -546,7 +546,7 @@
 				/>
 				<label for="end_date">End date</label>
 				{#if endDateInvalid}
-					<div class="invalid-tooltip" transition:slide>Start and end date must be set</div>
+					<div class="invalid-tooltip" transition:slide|global>Start and end date must be set</div>
 				{/if}
 			</div>
 		</div>
@@ -581,7 +581,7 @@
 				</select>
 				<label for="timezone">Timezone</label>
 				{#if timezoneInvalid}
-					<div class="invalid-tooltip" transition:slide>
+					<div class="invalid-tooltip" transition:slide|global>
 						Timezone is required for daily variables
 					</div>
 				{/if}
