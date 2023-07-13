@@ -18,7 +18,6 @@
 	const defaultParameter = {
 		hourly: [],
 		daily: [],
-		temperature_unit: 'celsius',
 		length_unit: 'metric',
 		timeformat: 'iso8601',
 		timezone: 'UTC',
@@ -220,7 +219,7 @@
 					name="length_unit"
 					id="length_unit"
 					aria-label="Length Unit"
-					bind:value={$params.temperature_unit}
+					bind:value={$params.length_unit}
 				>
 					<option value="metric">Metric</option>
 					<option value="imperial">Imperial</option>
