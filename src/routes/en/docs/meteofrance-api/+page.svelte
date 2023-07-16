@@ -99,7 +99,7 @@
 			{ name: 'temperature_20m', label: 'Temperature (20 m)' },
 			{ name: 'temperature_50m', label: 'Temperature (50 m)' },
 			{ name: 'temperature_100m', label: 'Temperature (100 m)' },
-			{ name: 'temperature_100m', label: 'Temperature (150 m)' },
+			{ name: 'temperature_150m', label: 'Temperature (150 m)' },
 			{ name: 'temperature_200m', label: 'Temperature (200 m)' }
 		]
 	];
