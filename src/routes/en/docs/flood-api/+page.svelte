@@ -463,7 +463,7 @@
 				</tr>
 				<tr>
 					<th scope="row">forecast_days</th>
-					<td>Integer (0-16)</td>
+					<td>Integer (0-210)</td>
 					<td>No</td>
 					<td><mark>92</mark></td>
 					<td>Per default, only 92 days are returned. Up to 210 days of forecast are possible.</td>
