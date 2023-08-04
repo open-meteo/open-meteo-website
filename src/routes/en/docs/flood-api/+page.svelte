@@ -54,8 +54,8 @@
 			{ name: 'consolidated_v3', label: 'GloFAS v3 Consolidated' }
 		],
 		[
-			{ name: 'seamless_v4', label: 'GloFAS v4 Seamless', disabled: true },
-			{ name: 'forecast_v4', label: 'GloFAS v4 Forecast', disabled: true },
+			{ name: 'seamless_v4', label: 'GloFAS v4 Seamless' },
+			{ name: 'forecast_v4', label: 'GloFAS v4 Forecast' },
 			{ name: 'consolidated_v4', label: 'GloFAS v4 Consolidated' }
 		]
 	];
@@ -169,7 +169,6 @@
 									id="{e.name}_model"
 									name="models"
 									bind:group={$params.models}
-									disabled={e.disabled}
 								/>
 								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
 							</div>
@@ -180,8 +179,7 @@
 					<p>
 						<small class="text-muted"
 							>Note: <mark>Seamless</mark> combines forecast and consolidated historical data. Per default,
-							GloFAS version 3 with seamless data from 1984 until 7 months of forecast is used. For Version
-							4, no forecast is available yet.</small
+							GloFAS version 4 with data from 1984 up to 7 months of forecast is used.</small
 						>
 					</p>
 				</div>
