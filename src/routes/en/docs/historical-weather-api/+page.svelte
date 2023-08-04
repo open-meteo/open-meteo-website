@@ -62,7 +62,6 @@
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
 			{ name: 'precipitation', label: 'Precipitation (rain + snow)' },
 			{ name: 'rain', label: 'Rain' },
-			{ name: 'showers', label: 'Showers' },
 			{ name: 'snowfall', label: 'Snowfall' }
 		],
 		[
@@ -120,7 +119,6 @@
 		[
 			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
 			{ name: 'rain_sum', label: 'Rain Sum' },
-			{ name: 'showers_sum', label: 'Showers Sum' },
 			{ name: 'snowfall_sum', label: 'Snowfall Sum' },
 			{ name: 'precipitation_hours', label: 'Precipitation Hours' },
 			{ name: 'windspeed_10m_max', label: 'Maximum Wind Speed (10 m)' },
