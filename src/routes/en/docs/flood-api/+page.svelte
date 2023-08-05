@@ -49,14 +49,14 @@
 
 	const models = [
 		[
-			{ name: 'seamless_v3', label: 'GloFAS v3 Seamless' },
-			{ name: 'forecast_v3', label: 'GloFAS v3 Forecast' },
-			{ name: 'consolidated_v3', label: 'GloFAS v3 Consolidated' }
-		],
-		[
 			{ name: 'seamless_v4', label: 'GloFAS v4 Seamless' },
 			{ name: 'forecast_v4', label: 'GloFAS v4 Forecast' },
 			{ name: 'consolidated_v4', label: 'GloFAS v4 Consolidated' }
+		],
+		[
+			{ name: 'seamless_v3', label: 'GloFAS v3 Seamless' },
+			{ name: 'forecast_v3', label: 'GloFAS v3 Forecast' },
+			{ name: 'consolidated_v3', label: 'GloFAS v3 Consolidated' }
 		]
 	];
 
@@ -311,12 +311,11 @@
 		This API uses reanalysis and forecast data from the <a
 			href="https://www.globalfloods.eu"
 			target="_blank">Global Flood Awareness System (GloFAS)</a
-		>. Per default, GloFAS version 3 with seamless data from 1984 until 7 months of forecast is
-		used. Data from version 4 have been available since 16. November 2022, but only as historical
-		reanalysis data.
+		>. Per default, GloFAS version 4 with seamless data from 1984 until 7 months of forecast is
+		used.
 	</p>
 	<p>
-		Please note: Due to the 5-10 km resolution the closest river might not be selected correctly.
+		Please note: Due to the 5 km resolution the closest river might not be selected correctly.
 		Varying coordiantes by 0.1° can help to get a more representable discharge rate. The GloFAS
 		website provides additional maps to help understand how rivers are covered in this dataset.
 	</p>
@@ -333,6 +332,41 @@
 				</tr>
 			</thead>
 			<tbody>
+				<tr>
+					<th scope="row"
+						><a
+							href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-historical?tab=overview"
+							target="_blank">GloFAS v4 Reanalysis</a
+						></th
+					>
+					<td>Global</td>
+					<td>0.05° (~5 km)</td>
+					<td>Daily</td>
+					<td>1984 - July 2022</td>
+					<td>-</td>
+				</tr>
+				<tr>
+					<th scope="row"><a
+						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-forecast?tab=overview"
+						target="_blank">GloFAS v4 Forecast</a
+					></th>
+					<td>Global</td>
+					<td>0.05° (~5 km)</td>
+					<td>Daily</td>
+					<td>30 days forecast</td>
+					<td>Daily</td>
+				</tr>
+				<tr>
+					<th scope="row"><a
+						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-seasonal?tab=overview"
+						target="_blank">GloFAS v4 Seasonal Forecast</a
+					></th>
+					<td>Global</td>
+					<td>0.05° (~5 km)</td>
+					<td>Daily</td>
+					<td>7 months forecast</td>
+					<td>Monthly</td>
+				</tr>
 				<tr>
 					<th scope="row"
 						><a
@@ -372,38 +406,8 @@
 					<td>7 months forecast</td>
 					<td>Monthly</td>
 				</tr>
-				<tr>
-					<th scope="row"
-						><a
-							href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-historical?tab=overview"
-							target="_blank">GloFAS v4 Reanalysis</a
-						></th
-					>
-					<td>Global</td>
-					<td>0.05° (~5 km)</td>
-					<td>Daily</td>
-					<td>1984 - July 2022</td>
-					<td>-</td>
-				</tr>
-				<tr>
-					<th scope="row">GloFAS v4 Forecast *</th>
-					<td>Global</td>
-					<td>0.05° (~5 km)</td>
-					<td>Daily</td>
-					<td>30 days forecast</td>
-					<td>Daily</td>
-				</tr>
-				<tr>
-					<th scope="row">GloFAS v4 Seasonal Forecast *</th>
-					<td>Global</td>
-					<td>0.05° (~5 km)</td>
-					<td>Daily</td>
-					<td>7 months forecast</td>
-					<td>Monthly</td>
-				</tr>
 			</tbody>
 		</table>
-		<small class="text-muted">* Forecasts of version 4 are not yet available</small>
 	</div>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
