@@ -1226,24 +1226,24 @@
 				</tr>
 				<tr>
 					<th scope="row">precipitation</th>
-					<td>Preceding hour sum</td>
+					<td>Preceding 15 minutes sum</td>
 					<td>mm (inch)</td>
-					<td>Total precipitation (rain, showers, snow) sum of the preceding hour</td>
+					<td>Total precipitation (rain, showers, snow) sum of the preceding 15 minutes</td>
 				</tr>
 				<tr>
 					<th scope="row">snowfall</th>
-					<td>Preceding hour sum</td>
+					<td>Preceding 15 minutes sum</td>
 					<td>cm (inch)</td>
 					<td
-						>Snowfall amount of the preceding hour in centimeters. For the water equivalent in
+						>Snowfall amount of the preceding 15 minutes in centimeters. For the water equivalent in
 						millimeter, divide by 7. E.g. 7 cm snow = 10 mm precipitation water equivalent</td
 					>
 				</tr>
 				<tr>
 					<th scope="row">rain</th>
-					<td>Preceding hour sum</td>
+					<td>Preceding 15 minutes sum</td>
 					<td>mm (inch)</td>
-					<td>Rain from large scale weather systems of the preceding hour in millimeter</td>
+					<td>Rain from large scale weather systems of the preceding 15 minutes in millimeter</td>
 				</tr>
 				<tr>
 					<th scope="row">snowfall_height</th>
