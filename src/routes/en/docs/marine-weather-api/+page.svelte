@@ -367,7 +367,12 @@
 					<td>Floating point</td>
 					<td>Yes</td>
 					<td />
-					<td>Geographical WGS84 coordinate of the location</td>
+					<td
+						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
+						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
+						for multiple locations the JSON output changes to a list of structures. CSV and XLSX
+						formats add a column <mark>location_id</mark>.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">hourly</th>
@@ -415,7 +420,8 @@
 							>time zone database</a
 						>
 						is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
-						resolved to the local time zone.</td
+						resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
+						can be specified.</td
 					>
 				</tr>
 				<tr>

@@ -10,7 +10,6 @@
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import SveltyPicker from 'svelty-picker';
 	import { slide } from 'svelte/transition';
-	import { onMount } from 'svelte';
 	import { PlusLg, Trash } from 'svelte-bootstrap-icons';
 
 	const defaultParameter = {
@@ -646,7 +645,10 @@
 					<td>Floating point</td>
 					<td>Yes</td>
 					<td />
-					<td>Geographical WGS84 coordinate of the location</td>
+					<td>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
+						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
+						for multiple locations the JSON output changes to a list of structures. CSV and XLSX
+						formats add a column <mark>location_id</mark>.</td>
 				</tr>
 				<tr>
 					<th scope="row">start_date<br />end_date</th>
@@ -773,7 +775,7 @@
 	<h3 class="mt-5">Daily Parameter Definition</h3>
 	<p>
 		The climate data in this API is presented as daily aggregations. Multiple weather variables can
-		be retrieved at once. The parameter <mark>&daily=</mark> accepts the following values as coma separated
+		be retrieved at once. The parameter <mark>&daily=</mark> accepts the following values as comma separated
 		list:
 	</p>
 	<div class="table-responsive">
