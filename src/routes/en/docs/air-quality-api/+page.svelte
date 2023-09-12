@@ -8,6 +8,7 @@
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import SveltyPicker from 'svelty-picker';
 	import { slide } from 'svelte/transition';
+	import { PlusLg, Trash } from 'svelte-bootstrap-icons';
 
 	const defaultParameter = {
 		hourly: [],
@@ -20,8 +21,8 @@
 	};
 
 	const params = urlHashStore({
-		latitude: 52.52,
-		longitude: 13.41,
+		latitude: [52.52],
+		longitude: [13.41],
 		...defaultParameter,
 		hourly: ['pm10', 'pm2_5']
 	});
@@ -82,9 +83,19 @@
 		]
 	];
 
-	function locationCallback(event: CustomEvent<GeoLocation>) {
-		$params.latitude = Number(event.detail.latitude.toFixed(4));
-		$params.longitude = Number(event.detail.longitude.toFixed(4));
+	function locationCallback(event: CustomEvent<GeoLocation>, index: number) {
+		const latitude = Number(event.detail.latitude.toFixed(4));
+		const longitude = Number(event.detail.longitude.toFixed(4));
+		$params.latitude = $params.latitude.toSpliced(index, 1, latitude);
+		$params.longitude = $params.longitude.toSpliced(index, 1, longitude);
+	}
+	function addLocation() {
+		$params.latitude = [...$params.latitude, NaN];
+		$params.longitude = [...$params.longitude, NaN];
+	}
+	function removeLocation(index: number) {
+		$params.latitude = $params.latitude.toSpliced(index, 1);
+		$params.longitude = $params.longitude.toSpliced(index, 1);
 	}
 </script>
 
@@ -100,39 +111,60 @@
 <form method="get" action="https://air-quality-api.open-meteo.com/v1/air-quality">
 	<div class="row">
 		<h2>Select Coordinates or City</h2>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<input
-					type="number"
-					class="form-control"
-					name="latitude"
-					id="latitude"
-					step="0.000001"
-					min="-90"
-					max="90"
-					bind:value={$params.latitude}
-				/>
-				<label for="latitude">Latitude</label>
+		{#each $params.latitude as _, index}
+			<div class="col-md-3">
+				<div class="form-floating mb-3">
+					<input
+						type="number"
+						class="form-control"
+						name="latitude"
+						id="latitude"
+						step="0.000001"
+						min="-90"
+						max="90"
+						bind:value={$params.latitude[index]}
+					/>
+					<label for="latitude">Latitude</label>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<input
-					type="number"
-					class="form-control"
-					name="longitude"
-					id="longitude"
-					step="0.000001"
-					min="-180"
-					max="180"
-					bind:value={$params.longitude}
-				/>
-				<label for="longitude">Longitude</label>
+			<div class="col-md-3">
+				<div class="form-floating mb-3">
+					<input
+						type="number"
+						class="form-control"
+						name="longitude"
+						id="longitude"
+						step="0.000001"
+						min="-180"
+						max="180"
+						bind:value={$params.longitude[index]}
+					/>
+					<label for="longitude">Longitude</label>
+				</div>
 			</div>
-		</div>
-		<div class="col-md-6">
-			<LocationSearch on:location={locationCallback} />
-		</div>
+			<div class="col-md-5">
+				<LocationSearch on:location={(event) => locationCallback(event, index)} />
+			</div>
+			{#if index == 0}
+				<div class="col-md-1">
+					<button
+						type="button"
+						class="btn btn-outline-secondary w-100 p-3"
+						on:click={addLocation}
+						title="Add coordinates"><PlusLg /></button
+					>
+				</div>
+			{:else}
+				<div class="col-md-1">
+					<button
+						type="button"
+						class="btn btn-outline-secondary w-100 p-3"
+						on:click={() => removeLocation(index)}
+						title="Delete coordinates"><Trash /></button
+					>
+				</div>
+			{/if}
+		{/each}
 	</div>
 	<div class="row py-3 px-0">
 		<h2>Hourly Air Quality Variables</h2>
