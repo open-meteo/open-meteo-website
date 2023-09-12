@@ -270,8 +270,13 @@
 		if (!result.ok) {
 			throw new Error(await result.text());
 		}
+		const json = await result.json()
+		let tEnd = performance.now() - t0
+		if (Array.isArray(json)) {
+			return json.map((x) => jsonToChart(x, tEnd))
+		}
 
-		return jsonToChart(await result.json(), performance.now() - t0);
+		return [jsonToChart(json, tEnd)];
 	}
 
 	function reload() {
@@ -286,10 +291,11 @@
 <div class="col-12 my-4">
 	<h2>Preview and API URL</h2>
 
-	<div id="container w-100" style={useStockChart ? 'height: 500px' : 'height: 400px'}>
+	<div id="container w-100">
 		{#await results}
 			<div
-				class="h-100 d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+				class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+				style={useStockChart ? 'height: 500px' : 'height: 400px'}
 			>
 				<div class="spinner-border" role="status">
 					<span class="visually-hidden">Loading...</span>
@@ -297,14 +303,17 @@
 			</div>
 		{:then results}
 			{#if results}
-				<HighchartContainer
-					options={results}
-					{useStockChart}
-					style={useStockChart ? 'height: 500px' : 'height: 400px'}
-				/>
+				{#each results as chart}
+					<HighchartContainer
+						options={chart}
+						{useStockChart}
+						style={useStockChart ? 'height: 500px' : 'height: 400px'}
+					/>
+				{/each}
 			{:else}
 				<div
-					class="h-100 d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+					class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+					style={useStockChart ? 'height: 500px' : 'height: 400px'}
 				>
 					<div class="alert alert-primary d-flex align-items-center" role="alert">
 						<InfoCircle class="me-2" />
@@ -319,7 +328,8 @@
 			{/if}
 		{:catch error}
 			<div
-				class="h-100 d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+				class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+				style={useStockChart ? 'height: 500px' : 'height: 400px'}
 			>
 				<div class="alert alert-danger d-flex align-items-center" role="alert">
 					<ExclamationTriangle class="me-2" />
