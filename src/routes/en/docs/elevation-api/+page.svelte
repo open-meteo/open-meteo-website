@@ -183,7 +183,7 @@
 					<td>Yes</td>
 					<td />
 					<td>
-						Geographical WGS84 coordinates of the location. Multiple coordinates can be coma <mark
+						Geographical WGS84 coordinates of the location. Multiple coordinates can be comma <mark
 							>,</mark
 						>
 						separated. Up to 100 coordinates can be requested at once. Example for
