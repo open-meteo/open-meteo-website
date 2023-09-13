@@ -36,6 +36,6 @@
 	"dependencies": {
 		"highcharts": "^11.1.0",
 		"svelte-local-storage-store": "^0.5.0",
-		"svelty-picker": "^3.5.2"
+		"svelty-picker": "^4.1.4"
 	}
 }
