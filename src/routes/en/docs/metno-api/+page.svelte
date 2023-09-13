@@ -7,7 +7,7 @@
 	import { countVariables } from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import SveltyPicker from 'svelty-picker';
-	import { slide } from 'svelte/transition';
+	import { fade, slide } from 'svelte/transition';
 	import { PlusLg, Trash } from 'svelte-bootstrap-icons';
 
 	const defaultParameter = {
@@ -19,8 +19,10 @@
 		timeformat: 'iso8601',
 		timezone: 'UTC',
 		past_days: '0',
-		start_date: null,
-		end_date: null
+		forecast_days: '3',
+		start_date: '',
+		end_date: '',
+		time_mode: 'forecast_days',
 	};
 
 	const params = urlHashStore({
@@ -30,11 +32,18 @@
 		hourly: ['temperature_2m']
 	});
 
-	let timezoneInvalid = false;
-	$: endDateInvalid = $params.start_date != null && $params.end_date == null;
-	$: startDateInvalid = $params.start_date == null && $params.end_date != null;
-	$: pastDaysInvalid =
-		$params.past_days != defaultParameter.past_days && $params.start_date != null;
+	// Date picker is using an array. Keep date pcker and start and end_date in sync
+	let time_interval = [$params.start_date, $params.end_date];
+	$: ((time_interval) => {
+		$params.start_date = time_interval[0];
+		$params.end_date = time_interval[1];
+	})(time_interval);
+
+	params.subscribe((params) => {
+		if (params.start_date != time_interval[0] || params.end_date != time_interval[1]) {
+			time_interval = [params.start_date, params.end_date];
+		}
+	});
 
 	const hourly = [
 		[
@@ -168,6 +177,143 @@
 			{/if}
 		{/each}
 	</div>
+
+	<div class="row py-3 px-0">
+		<div>
+			<ul class="nav nav-underline" id="pills-tab" role="tablist">
+				<li class="nav-item" role="presentation">
+					<span class="nav-link disabled" aria-disabled="true">Time Selection:</span>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button
+						class="nav-link"
+						class:active={$params.time_mode == 'forecast_days'}
+						id="pills-forecast_days-tab"
+						type="button"
+						role="tab"
+						aria-controls="pills-forecast_days"
+						aria-selected="true"
+						on:click={() => ($params.time_mode = 'forecast_days')}>Forecast Length</button
+					>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button
+						class="nav-link"
+						class:active={$params.time_mode == 'time_interval'}
+						id="pills-time_interval-tab"
+						type="button"
+						role="tab"
+						aria-controls="pills-time_interval"
+						on:click={() => ($params.time_mode = 'time_interval')}
+						aria-selected="true">Time Interval</button
+					>
+				</li>
+			</ul>
+		</div>
+		<div class="tab-content py-3" id="pills-tabContent">
+			{#if $params.time_mode == 'forecast_days'}
+				<div
+					class="tab-pane active"
+					in:fade
+					id="pills-forecast_days"
+					role="tabpanel"
+					aria-labelledby="pills-forecast_days-tab"
+					tabindex="0"
+				>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-floating mb-3">
+								<select
+									class="form-select"
+									name="forecast_days"
+									id="forecast_days"
+									aria-label="Forecast days"
+									bind:value={$params.forecast_days}
+								>
+									<option value="1">1 day</option>
+									<option value="2">2 days</option>
+									<option value="3">3 days (default)</option>
+								</select>
+								<label for="forecast_days">Forecast days</label>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-floating mb-3">
+								<select
+									class="form-select"
+									name="past_days"
+									id="past_days"
+									aria-label="Past days"
+									bind:value={$params.past_days}
+								>
+									<option value="0">0 (default)</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="5">5</option>
+									<option value="7">1 week</option>
+									<option value="14">2 weeks</option>
+									<option value="31">1 month</option>
+									<option value="61">2 months</option>
+									<option value="92">3 months</option>
+								</select>
+								<label for="past_days">Past days</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			{/if}
+			{#if $params.time_mode == 'time_interval'}
+				<div
+					class="tab-pane active"
+					in:fade
+					id="pills-time_interval"
+					role="tabpanel"
+					aria-labelledby="pills-time_interval-tab"
+					tabindex="0"
+				>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-floating mb-3">
+								<input
+									type="text"
+									class="form-control"
+									name="start_date"
+									id="start_date"
+									bind:value={$params.start_date}
+								/>
+								<label for="time_istart_dateterval">Start Date</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input
+									type="text"
+									class="form-control"
+									name="end_date"
+									id="end_date"
+									bind:value={$params.end_date}
+								/>
+								<label for="end_date">End Date</label>
+							</div>
+						</div>
+						<div class="col-md-9 mb-3">
+							<SveltyPicker
+								inputClasses="form-select"
+								name="time_interval"
+								pickerOnly={true}
+								todayBtn={false}
+								clearBtn={false}
+								theme="dark"
+								isRange
+								mode="date"
+								bind:value={time_interval}
+							/>
+						</div>
+					</div>
+				</div>
+			{/if}
+		</div>
+	</div>
+
 	<div class="row py-3 px-0">
 		<h2>Hourly Weather Variables</h2>
 		{#each hourly as group}
@@ -323,113 +469,6 @@
 					<option value="unixtime">Unix timestamp</option>
 				</select>
 				<label for="timeformat">Timeformat</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					class:is-invalid={timezoneInvalid}
-					name="timezone"
-					id="timezone"
-					aria-label="Timezone"
-					bind:value={$params.timezone}
-				>
-					<option value="America/Anchorage">America/Anchorage</option>
-					<option value="America/Los_Angeles">America/Los_Angeles</option>
-					<option value="America/Denver">America/Denver</option>
-					<option value="America/Chicago">America/Chicago</option>
-					<option value="America/New_York">America/New_York</option>
-					<option value="America/Sao_Paulo">America/Sao_Paulo</option>
-					<option value="UTC">Not set (GMT+0)</option>
-					<option value="GMT">GMT+0</option>
-					<option value="auto">Automatically detect time zone</option>
-					<option value="Europe/London">Europe/London</option>
-					<option value="Europe/Berlin">Europe/Berlin</option>
-					<option value="Europe/Moscow">Europe/Moscow</option>
-					<option value="Africa/Cairo">Africa/Cairo</option>
-					<option value="Asia/Bangkok">Asia/Bangkok</option>
-					<option value="Asia/Singapore">Asia/Singapore</option>
-					<option value="Asia/Tokyo">Asia/Tokyo</option>
-					<option value="Australia/Sydney">Australia/Sydney</option>
-					<option value="Pacific/Auckland">Pacific/Auckland</option>
-				</select>
-				<label for="timezone">Timezone</label>
-				{#if timezoneInvalid}
-					<div class="invalid-tooltip" transition:slide|global>
-						Timezone is required for daily variables
-					</div>
-				{/if}
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					class:is-invalid={pastDaysInvalid}
-					name="past_days"
-					id="past_days"
-					aria-label="Past days"
-					bind:value={$params.past_days}
-				>
-					<option value="0">0 (default)</option>
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="5">5</option>
-					<option value="7">1 week</option>
-					<option value="14">2 weeks</option>
-					<option value="31">1 month</option>
-					<option value="61">2 months</option>
-					<option value="92">3 months</option>
-				</select>
-				<label for="past_days">Past days</label>
-				{#if pastDaysInvalid}
-					<div class="invalid-tooltip" transition:slide|global>
-						Past days conflicts with start and end date
-					</div>
-				{/if}
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<SveltyPicker
-					inputClasses="form-control {startDateInvalid ? 'is-invalid' : ''}"
-					format="yyyy-mm-dd"
-					name="start_date"
-					bind:value={$params.start_date}
-				/>
-				<label for="start_date">Start date</label>
-				{#if startDateInvalid}
-					<div class="invalid-tooltip" transition:slide|global>Start and end date must be set</div>
-				{/if}
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<SveltyPicker
-					inputClasses="form-control {endDateInvalid ? 'is-invalid' : ''}"
-					format="yyyy-mm-dd"
-					name="end_date"
-					bind:value={$params.end_date}
-				/>
-				<label for="end_date">End date</label>
-				{#if endDateInvalid}
-					<div class="invalid-tooltip" transition:slide|global>Start and end date must be set</div>
-				{/if}
-			</div>
-		</div>
-
-		<div class="col-12 pb-3 debug-hidden">
-			<div class="form-check form-switch">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					id="localhost"
-					name="localhost"
-					value="true"
-				/>
-				<label class="form-check-label" for="localhost">Use localhost server</label>
 			</div>
 		</div>
 	</div>

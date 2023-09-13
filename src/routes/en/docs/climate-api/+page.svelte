@@ -39,8 +39,18 @@
 		daily: ['temperature_2m_max']
 	});
 
-	$: endDateInvalid = $params.end_date == null;
-	$: startDateInvalid = $params.start_date == null;
+	// Date picker is using an array. Keep date pcker and start and end_date in sync
+	let time_interval = [$params.start_date, $params.end_date];
+	$: ((time_interval) => {
+		$params.start_date = time_interval[0];
+		$params.end_date = time_interval[1];
+	})(time_interval);
+
+	params.subscribe((params) => {
+		if (params.start_date != time_interval[0] || params.end_date != time_interval[1]) {
+			time_interval = [params.start_date, params.end_date];
+		}
+	});
 
 	let daily = [
 		[
@@ -195,35 +205,52 @@
 		<h2>Specify Time Interval</h2>
 		<div class="col-md-3">
 			<div class="form-floating mb-3">
-				<SveltyPicker
-					inputClasses="form-control {startDateInvalid ? 'is-invalid' : ''}"
-					format="yyyy-mm-dd"
+				<input
+					type="text"
+					class="form-control"
 					name="start_date"
-					startDate="1950-01-01"
-					endDate="2050-12-31"
+					id="start_date"
 					bind:value={$params.start_date}
 				/>
-				<label for="start_date">Start date</label>
-				{#if startDateInvalid}
-					<div class="invalid-tooltip" transition:slide|global>Start and end date must be set</div>
-				{/if}
+				<label for="start_date">Start Date</label>
 			</div>
-		</div>
-		<div class="col-md-3">
 			<div class="form-floating mb-3">
-				<SveltyPicker
-					inputClasses="form-control {endDateInvalid ? 'is-invalid' : ''}"
-					format="yyyy-mm-dd"
+				<input
+					type="text"
+					class="form-control"
 					name="end_date"
-					startDate="1950-01-01"
-					endDate="2050-12-31"
+					id="end_date"
 					bind:value={$params.end_date}
 				/>
-				<label for="end_date">End date</label>
-				{#if endDateInvalid}
-					<div class="invalid-tooltip" transition:slide|global>Start and end date must be set</div>
-				{/if}
+				<label for="end_date">End Date</label>
 			</div>
+			<p>
+				Quick: <button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (time_interval = ['1950-01-01', '2050-12-31'])}
+					>1950-2050</button
+				>
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (time_interval = ['2015-01-01', '2050-12-31'])}
+					>2015-2050</button
+				>
+			</p>
+		</div>
+		<div class="col-md-9 mb-3">
+			<SveltyPicker
+				inputClasses="form-select"
+				name="time_interval"
+				pickerOnly={true}
+				todayBtn={false}
+				clearBtn={false}
+				theme="dark"
+				isRange
+				mode="date"
+				startDate="1950-01-01"
+				endDate="2050-12-31"
+				bind:value={time_interval}
+			/>
 		</div>
 	</div>
 
@@ -354,18 +381,6 @@
 					<option value="unixtime">Unix timestamp</option>
 				</select>
 				<label for="timeformat">Timeformat</label>
-			</div>
-		</div>
-		<div class="col-12 pb-3 debug-hidden">
-			<div class="form-check form-switch">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					id="localhost"
-					name="localhost"
-					value="true"
-				/>
-				<label class="form-check-label" for="localhost">Use localhost server</label>
 			</div>
 		</div>
 	</div>
