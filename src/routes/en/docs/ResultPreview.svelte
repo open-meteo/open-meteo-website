@@ -40,6 +40,15 @@
 				server = `https://${serverPrefix}.open-meteo.com/v1/${action}?`;
 		}
 		let nonDefaultParameter = objectDifference({ ...params, ...actionParams }, defaultParameter);
+		if ('time_mode' in params && params.time_mode == 'forecast_days') {
+			delete nonDefaultParameter['start_date']
+			delete nonDefaultParameter['end_date']
+		}
+		if ('time_mode' in params && params.time_mode == 'time_interval') {
+			delete nonDefaultParameter['forecast_days']
+			delete nonDefaultParameter['past_days']
+		}
+		delete nonDefaultParameter['time_mode']
 		return `${server}${new URLSearchParams(nonDefaultParameter)}`.replaceAll('%2C', ',');
 	}
 
