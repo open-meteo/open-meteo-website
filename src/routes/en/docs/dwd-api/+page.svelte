@@ -12,9 +12,9 @@
 		sliceIntoChunks
 	} from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import SveltyPicker from 'svelty-picker';
 	import { fade, slide } from 'svelte/transition';
 	import { PlusLg, Trash } from 'svelte-bootstrap-icons';
+	import StartEndDate from '../StartEndDate.svelte';
 
 	const defaultParameter = {
 		hourly: [],
@@ -39,19 +39,6 @@
 		longitude: [13.41],
 		...defaultParameter,
 		hourly: ['temperature_2m']
-	});
-
-	// Date picker is using an array. Keep date pcker and start and end_date in sync
-	let time_interval = [$params.start_date, $params.end_date];
-	$: ((time_interval) => {
-		$params.start_date = time_interval[0];
-		$params.end_date = time_interval[1];
-	})(time_interval);
-
-	params.subscribe((params) => {
-		if (params.start_date != time_interval[0] || params.end_date != time_interval[1]) {
-			time_interval = [params.start_date, params.end_date];
-		}
 	});
 
 	const pressureVariables = [
@@ -377,40 +364,8 @@
 					tabindex="0"
 				>
 					<div class="row">
-						<div class="col-md-3">
-							<div class="form-floating mb-3">
-								<input
-									type="text"
-									class="form-control"
-									name="start_date"
-									id="start_date"
-									bind:value={$params.start_date}
-								/>
-								<label for="time_istart_dateterval">Start Date</label>
-							</div>
-							<div class="form-floating mb-3">
-								<input
-									type="text"
-									class="form-control"
-									name="end_date"
-									id="end_date"
-									bind:value={$params.end_date}
-								/>
-								<label for="end_date">End Date</label>
-							</div>
-						</div>
-						<div class="col-md-9 mb-3">
-							<SveltyPicker
-								inputClasses="form-select"
-								name="time_interval"
-								pickerOnly={true}
-								todayBtn={false}
-								clearBtn={false}
-								theme="dark"
-								isRange
-								mode="date"
-								bind:value={time_interval}
-							/>
+						<div class="col-md-6 mb-3">
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
 						</div>
 					</div>
 				</div>
