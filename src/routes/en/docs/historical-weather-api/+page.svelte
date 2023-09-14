@@ -8,10 +8,10 @@
 	import { urlHashStore } from '$lib/url-hash-store';
 	import { countVariables } from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import SveltyPicker from 'svelty-picker';
 	import { slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import { PlusLg, Trash } from 'svelte-bootstrap-icons';
+	import StartEndDate from '../StartEndDate.svelte';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 5);
@@ -40,20 +40,6 @@
 		...defaultParameter,
 		hourly: ['temperature_2m']
 	});
-
-	// Date picker is using an array. Keep date pcker and start and end_date in sync
-	let time_interval = [$params.start_date, $params.end_date];
-	$: ((time_interval) => {
-		$params.start_date = time_interval[0];
-		$params.end_date = time_interval[1];
-	})(time_interval);
-
-	params.subscribe((params) => {
-		if (params.start_date != time_interval[0] || params.end_date != time_interval[1]) {
-			time_interval = [params.start_date, params.end_date];
-		}
-	});
-
 
 	onMount(async () => {
 		var d = new Date();
@@ -277,59 +263,43 @@
 	</div>
 	<div class="row py-3 px-0">
 		<h2>Specify Time Interval</h2>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<input
-					type="text"
-					class="form-control"
-					name="start_date"
-					id="start_date"
-					bind:value={$params.start_date}
-				/>
-				<label for="start_date">Start Date</label>
-			</div>
-			<div class="form-floating mb-3">
-				<input
-					type="text"
-					class="form-control"
-					name="end_date"
-					id="end_date"
-					bind:value={$params.end_date}
-				/>
-				<label for="end_date">End Date</label>
-			</div>
+		<div class="col-md-6">
+			<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} {startDate} {endDate}/>
+		</div>
+		<div class="col-md-6">
 			<p>
-				Quick: <button
+				Quick:
+				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (time_interval = ['2020-01-01', '2020-12-31'])}
-					>2020</button
+					on:click|preventDefault={() => (
+						($params.start_date = '2000-01-01'), ($params.end_date = '2009-12-31')
+					)}>2000-2010</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (time_interval = ['2021-01-01', '2021-12-31'])}
-					>2021</button
+					on:click|preventDefault={() => (
+						($params.start_date = '2010-01-01'), ($params.end_date = '2019-12-31')
+					)}>2010-2022</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (time_interval = ['2022-01-01', '2022-12-31'])}
-					>2022</button
+					on:click|preventDefault={() => (
+						($params.start_date = '2020-01-01'), ($params.end_date = '2020-12-31')
+					)}>2020</button
+				>
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2021-01-01'), ($params.end_date = '2021-12-31')
+					)}>2021</button
+				>
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
+					)}>2022</button
 				>
 			</p>
-		</div>
-		<div class="col-md-9 mb-3">
-			<SveltyPicker
-				inputClasses="form-select"
-				name="time_interval"
-				pickerOnly={true}
-				todayBtn={false}
-				clearBtn={false}
-				theme="dark"
-				isRange
-				mode="date"
-				{startDate}
-				{endDate}
-				bind:value={time_interval}
-			/>
 		</div>
 	</div>
 
@@ -568,10 +538,10 @@
 		</div>
 	</div>
 
-	<LicenseSelector requires_professional_plan={true}/>
+	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="archive" action="archive" useStockChart={true}/>
+<ResultPreview {params} {defaultParameter} type="archive" action="archive" useStockChart={true} />
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">
