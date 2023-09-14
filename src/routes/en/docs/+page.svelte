@@ -370,17 +370,13 @@
 								<label for="past_days">Past days</label>
 							</div>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<p>
 								By default, we provide forecasts for 7 days, but you can access forecasts for up to
 								16 days. If you're interested in past weather data, you can use the <mark
 									>Past Days</mark
 								>
-								feature to access archived forecasts. The free API retains archived forecasts for up
-								to 3 months. For our commercial customers, we offer data available up to November 2022.
-								Additionally, our
-								<a href="/en/docs/historical-weather-api">Historical Weather API</a> provides access
-								to data dating back to 1940.
+								feature to access archived forecasts.
 							</p>
 						</div>
 					</div>
@@ -399,7 +395,7 @@
 						<div class="col-md-6 mb-3">
 							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<p>
 								The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a
 								range of dates more easily. Archived forecasts come from a series of weather model
