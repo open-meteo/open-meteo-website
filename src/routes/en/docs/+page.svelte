@@ -13,7 +13,7 @@
 	} from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { fade, slide } from 'svelte/transition';
-	import { PlusLg, Trash } from 'svelte-bootstrap-icons';
+	import { CalendarEvent, Clock, PlusLg, Trash } from 'svelte-bootstrap-icons';
 	import StartEndDate from './StartEndDate.svelte';
 
 	const defaultParameter = {
@@ -301,7 +301,7 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}>Forecast Length</button
+						on:click={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -313,7 +313,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true">Time Interval</button
+						aria-selected="true"><CalendarEvent /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -372,12 +372,15 @@
 						</div>
 						<div class="col-md-12">
 							<p>
-								Per default 7 days of weather are forecast, but up to 16 days of forecast are
-								available. Using <mark>Past days</mark> you can access archived weather forecasts.
-								The free API keeps 3 months of archived forecasts. For commercial customers, data up
-								to November 2022 are available. Additionally, the
-								<a href="/en/docs/historical-weather-api">Historical Weather API</a> offers data from
-								1940 onwards
+								By default, we provide forecasts for 7 days, but you can access forecasts for up to
+								16 days. If you're interested in past weather data, you can use the <mark
+									>Past Days</mark
+								>
+								feature to access archived forecasts. The free API retains archived forecasts for up
+								to 3 months. For our commercial customers, we offer data available up to November 2022.
+								Additionally, our
+								<a href="/en/docs/historical-weather-api">Historical Weather API</a> provides access
+								to data dating back to 1940.
 							</p>
 						</div>
 					</div>
@@ -394,17 +397,17 @@
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 						<div class="col-md-12">
 							<p>
-								Parameters <mark>start_date</mark> and <mark>end_date</mark> make it easier to
-								select a range of dates. Archived forecasts are assembled from a continues
-								time-series of weather model runs. The free API keeps 3 months of archived
-								forecasts. For commercial customers, data up to November 2022 are available.
-								Additionally, the
-								<a href="/en/docs/historical-weather-api">Historical Weather API</a> offers data from
-								1940 onwards.
+								The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a
+								range of dates more easily. Archived forecasts come from a series of weather model
+								runs over time. If you're using the free API, you can access archived forecasts for
+								up to 3 months. For our commercial customers, data is available up to November 2022.
+								You can also check out our
+								<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
+								data going all the way back to 1940.
 							</p>
 						</div>
 					</div>

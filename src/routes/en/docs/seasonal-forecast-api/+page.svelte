@@ -4,8 +4,8 @@
 	import type { GeoLocation } from '$lib/stores';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
-	import { fade, slide } from 'svelte/transition';
-	import { PlusLg, Trash } from 'svelte-bootstrap-icons';
+	import { fade } from 'svelte/transition';
+	import { CalendarEvent, Clock, PlusLg, Trash } from 'svelte-bootstrap-icons';
 	import StartEndDate from '../StartEndDate.svelte';
 	
 	const defaultParameter = {
@@ -168,7 +168,7 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}>Forecast Length</button
+						on:click={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -180,7 +180,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true">Time Interval</button
+						aria-selected="true"><CalendarEvent/> Time Interval</button
 					>
 				</li>
 			</ul>

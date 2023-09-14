@@ -263,10 +263,15 @@
 	</div>
 	<div class="row py-3 px-0">
 		<h2>Specify Time Interval</h2>
-		<div class="col-md-6">
-			<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} {startDate} {endDate}/>
+		<div class="col-md-6 mb-3">
+			<StartEndDate
+				bind:start_date={$params.start_date}
+				bind:end_date={$params.end_date}
+				{startDate}
+				{endDate}
+			/>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-6 mb-3">
 			<p>
 				Quick:
 				<button
@@ -299,6 +304,16 @@
 						($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
 					)}>2022</button
 				>
+			</p>
+		</div>
+		<div class="col-md-12">
+			<p>
+				You can access past weather data dating back to 1940. However, there is a 5-day delay
+				in the data. If you want information for the most recent days, you can use the <a
+					href="/en/docs"
+					title="Weather forecast API">forecast API</a
+				>
+				and adjust the <mark>Past Days</mark> setting.
 			</p>
 		</div>
 	</div>
