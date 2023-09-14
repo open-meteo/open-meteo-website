@@ -71,8 +71,8 @@
 $color-mode-type: data;
 
 @include color-mode(dark) {
-		--sdt-bg-main: $body-color-dark;
-		--sdt-shadow-color: #454545;
+		--sdt-bg-main: #3a3f44;
+		--sdt-shadow-color: #161616;
 		--sdt-color: #eee;
 		--sdt-header-color: #eee;
 		--sdt-primary: #e1ac4a;
@@ -90,4 +90,9 @@ $color-mode-type: data;
 		--sdt-clear-bg: #ddd;
 		--sdt-clear-hover-color: #fff;
 		--sdt-clear-hover-bg: #dc3545;*/
+}
+
+.std-component-wrap {
+  position: inherit !important;
+  display: inherit !important;
 }

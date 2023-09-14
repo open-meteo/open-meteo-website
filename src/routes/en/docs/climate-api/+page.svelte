@@ -8,9 +8,8 @@
 	import { urlHashStore } from '$lib/url-hash-store';
 	import { countVariables } from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import SveltyPicker from 'svelty-picker';
-	import { slide } from 'svelte/transition';
 	import { PlusLg, Trash } from 'svelte-bootstrap-icons';
+	import StartEndDate from '../StartEndDate.svelte';
 
 	const defaultParameter = {
 		temperature_unit: 'celsius',
@@ -18,7 +17,7 @@
 		precipitation_unit: 'mm',
 		timeformat: 'iso8601',
 		timezone: 'UTC',
-    disable_bias_correction: false
+		disable_bias_correction: false
 	};
 
 	const params = urlHashStore({
@@ -37,19 +36,6 @@
 		],
 		...defaultParameter,
 		daily: ['temperature_2m_max']
-	});
-
-	// Date picker is using an array. Keep date pcker and start and end_date in sync
-	let time_interval = [$params.start_date, $params.end_date];
-	$: ((time_interval) => {
-		$params.start_date = time_interval[0];
-		$params.end_date = time_interval[1];
-	})(time_interval);
-
-	params.subscribe((params) => {
-		if (params.start_date != time_interval[0] || params.end_date != time_interval[1]) {
-			time_interval = [params.start_date, params.end_date];
-		}
 	});
 
 	let daily = [
@@ -203,54 +189,30 @@
 	</div>
 	<div class="row py-3 px-0">
 		<h2>Specify Time Interval</h2>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<input
-					type="text"
-					class="form-control"
-					name="start_date"
-					id="start_date"
-					bind:value={$params.start_date}
-				/>
-				<label for="start_date">Start Date</label>
-			</div>
-			<div class="form-floating mb-3">
-				<input
-					type="text"
-					class="form-control"
-					name="end_date"
-					id="end_date"
-					bind:value={$params.end_date}
-				/>
-				<label for="end_date">End Date</label>
-			</div>
+		<div class="col-md-6 mb-3">
+			<StartEndDate
+				bind:start_date={$params.start_date}
+				bind:end_date={$params.end_date}
+				startDate="1950-01-01"
+				endDate="2050-12-31"
+			/>
+		</div>
+		<div class="col-md-6 mb-3">
 			<p>
-				Quick: <button
+				Quick:
+				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (time_interval = ['1950-01-01', '2050-12-31'])}
-					>1950-2050</button
+					on:click|preventDefault={() => (
+						($params.start_date = '1950-01-01'), ($params.end_date = '2050-12-31')
+					)}>1950-2050</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (time_interval = ['2015-01-01', '2050-12-31'])}
-					>2015-2050</button
+					on:click|preventDefault={() => (
+						($params.start_date = '2015-01-01'), ($params.end_date = '2050-12-31')
+					)}>2015-2050</button
 				>
 			</p>
-		</div>
-		<div class="col-md-9 mb-3">
-			<SveltyPicker
-				inputClasses="form-select"
-				name="time_interval"
-				pickerOnly={true}
-				todayBtn={false}
-				clearBtn={false}
-				theme="dark"
-				isRange
-				mode="date"
-				startDate="1950-01-01"
-				endDate="2050-12-31"
-				bind:value={time_interval}
-			/>
 		</div>
 	</div>
 
@@ -314,7 +276,7 @@
 					type="checkbox"
 					id="disable_bias_correction"
 					name="disable_bias_correction"
-          bind:checked={$params.disable_bias_correction}
+					bind:checked={$params.disable_bias_correction}
 				/>
 				<label class="form-check-label" for="disable_bias_correction"
 					>Raw data. Disable statistical downscaling with ERA5-Land (10 km)</label
@@ -660,10 +622,12 @@
 					<td>Floating point</td>
 					<td>Yes</td>
 					<td />
-					<td>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
+					<td
+						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
 						for multiple locations the JSON output changes to a list of structures. CSV and XLSX
-						formats add a column <mark>location_id</mark>.</td>
+						formats add a column <mark>location_id</mark>.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">start_date<br />end_date</th>
