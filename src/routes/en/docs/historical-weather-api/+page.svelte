@@ -59,7 +59,8 @@
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
 			{ name: 'precipitation', label: 'Precipitation (rain + snow)' },
 			{ name: 'rain', label: 'Rain' },
-			{ name: 'snowfall', label: 'Snowfall' }
+			{ name: 'snowfall', label: 'Snowfall' },
+			{ name: 'snow_depth', label: 'Snow depth' }
 		],
 		[
 			{ name: 'weathercode', label: 'Weathercode' },
@@ -197,7 +198,12 @@
 
 	<div class="row py-3 px-0">
 		<div class="col-md-6 mb-3">
-			<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} {startDate} {endDate}/>
+			<StartEndDate
+				bind:start_date={$params.start_date}
+				bind:end_date={$params.end_date}
+				{startDate}
+				{endDate}
+			/>
 		</div>
 		<div class="col-md-6">
 			<p>
@@ -896,6 +902,15 @@
 						below for details. Weather code is calculated from cloud cover analysis, precipitation
 						and snowfall. As barely no information about atmospheric stability is available,
 						estimation about thunderstorms is not possible.</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">snow_depth</th>
+					<td>Instant</td>
+					<td>meters</td>
+					<td
+						>Snow depth on the ground. Snow depth in ERA5-Land tends to be overestimated. As the
+						spatial resolution for snow depth is limited, please use it with care.</td
 					>
 				</tr>
 				<tr>
