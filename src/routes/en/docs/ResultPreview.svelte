@@ -24,48 +24,34 @@
 		return diff;
 	}
 
-	function getUrl(api_key_preferences: any, params: any) {
-		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
-		let server: string;
-		let actionParams = {};
-		switch (api_key_preferences.use) {
-			case 'commercial':
-				server = `https://customer-${serverPrefix}.open-meteo.com/v1/${action}?`;
-				actionParams = { apikey: api_key_preferences.apikey };
-				break;
-			case 'self_hosted':
-				server = `${api_key_preferences.self_host_server}/v1/${action}?`;
-				break;
-			default:
-				server = `https://${serverPrefix}.open-meteo.com/v1/${action}?`;
-		}
-		let nonDefaultParameter = objectDifference({ ...params, ...actionParams }, defaultParameter);
-		if ('time_mode' in nonDefaultParameter) {
-			if (nonDefaultParameter.time_mode == 'forecast_days') {
-				delete nonDefaultParameter['start_date']
-				delete nonDefaultParameter['end_date']
+	/// Parsed params that resolved CSV fields
+	$: parsedParams = ((params: any) => {
+		if ('time_mode' in params) {
+			if (params.time_mode == 'forecast_days') {
+				delete params['start_date']
+				delete params['end_date']
 			}
-			if (nonDefaultParameter.time_mode == 'time_interval') {
-				delete nonDefaultParameter['forecast_days']
-				delete nonDefaultParameter['past_days']
+			if (params.time_mode == 'time_interval') {
+				delete params['forecast_days']
+				delete params['past_days']
 			}
-			delete nonDefaultParameter['csv_time_intervals']
-			delete nonDefaultParameter['time_mode']
+			delete params['csv_time_intervals']
+			delete params['time_mode']
 		}
-		if ('location_mode' in nonDefaultParameter) {
-			if (nonDefaultParameter.location_mode == 'csv_coordinates' && nonDefaultParameter['csv_coordinates']) {
+		if ('location_mode' in params) {
+			if (params.location_mode == 'csv_coordinates' && params['csv_coordinates']) {
 				let lats: number[] = []
 				let lons: number[] = []
 				let elevation: number[] = []
 				let timezone: string[] = []
 				let start_date: string[] = []
 				let end_date: string[] = []
-				let csv: string = nonDefaultParameter['csv_coordinates']
+				let csv: string = params['csv_coordinates']
 				csv.split(/\r?\n/).forEach(row => {
 					if (row.length < 4) {
 						return
 					}
-					let parts = row.split(',')
+					let parts = row.split(/[;,\t]/)
 					if (parts.length < 2) {
 						return
 					}
@@ -82,30 +68,49 @@
 						end_date.push(parts[4])
 					}
 				});
-				nonDefaultParameter['latitude'] = lats
-				nonDefaultParameter['longitude'] = lons
+				params['latitude'] = lats
+				params['longitude'] = lons
 				if (elevation.length > 0) {
-					nonDefaultParameter['elevation'] = elevation
+					params['elevation'] = elevation
 				}
 				if (timezone.length > 0) {
-					nonDefaultParameter['timezone'] = timezone
+					params['timezone'] = timezone
 				}
 				if (start_date.length > 0) {
-					nonDefaultParameter['start_date'] = start_date
-					nonDefaultParameter['end_date'] = end_date
-					delete nonDefaultParameter['forecast_days']
-					delete nonDefaultParameter['past_days']
+					params['start_date'] = start_date
+					params['end_date'] = end_date
+					delete params['forecast_days']
+					delete params['past_days']
 				}
 			}
-			delete nonDefaultParameter['location_mode']
-			delete nonDefaultParameter['csv_coordinates']
+			delete params['location_mode']
+			delete params['csv_coordinates']
 		}
+		return params
+	})($params)
+
+	function getUrl(api_key_preferences: any, params: any) {
+		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
+		let server: string;
+		let actionParams = {};
+		switch (api_key_preferences.use) {
+			case 'commercial':
+				server = `https://customer-${serverPrefix}.open-meteo.com/v1/${action}?`;
+				actionParams = { apikey: api_key_preferences.apikey };
+				break;
+			case 'self_hosted':
+				server = `${api_key_preferences.self_host_server}/v1/${action}?`;
+				break;
+			default:
+				server = `https://${serverPrefix}.open-meteo.com/v1/${action}?`;
+		}
+		let nonDefaultParameter = objectDifference({ ...params, ...actionParams }, defaultParameter);
 		return `${server}${new URLSearchParams(nonDefaultParameter)}`.replaceAll('%2C', ',');
 	}
 
-	$: previewUrl = getUrl($api_key_preferences, $params);
-	$: xlsxUrl = getUrl($api_key_preferences, { ...$params, format: 'xlsx' });
-	$: csvUrl = getUrl($api_key_preferences, { ...$params, format: 'csv' });
+	$: previewUrl = getUrl($api_key_preferences, parsedParams);
+	$: xlsxUrl = getUrl($api_key_preferences, { ...parsedParams, format: 'xlsx' });
+	$: csvUrl = getUrl($api_key_preferences, { ...parsedParams, format: 'csv' });
 
 	function jsonToChart(data: any, downloadTime: number) {
 		//console.log(data);
@@ -318,9 +323,13 @@
 	api_key_preferences.subscribe(reset);
 
 	async function preview() {
+		if (parsedParams.latitude.length > 5) {
+			throw new Error("Can not preview more than 5 locations");
+		}
+
 		// Always set format=json to fetch data
 		const fetchUrl = getUrl($api_key_preferences, {
-			...$params,
+			...parsedParams,
 			format: 'json',
 			timeformat: 'unixtime'
 		});
@@ -363,7 +372,7 @@
 			</div>
 		{:then results}
 			{#if results}
-				{#each results as chart}
+				{#each results.slice(0, 10) as chart}
 					<HighchartContainer
 						options={chart}
 						{useStockChart}
