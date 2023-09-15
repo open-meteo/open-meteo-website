@@ -1,17 +1,18 @@
 <script lang="ts">
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import LocationSearch from '../LocationSearch.svelte';
-	import type { GeoLocation } from '$lib/stores';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
 	import { countVariables } from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { fade } from 'svelte/transition';
-	import { CalendarEvent, Clock, PlusLg, Trash } from 'svelte-bootstrap-icons';
+	import { CalendarEvent, Clock } from 'svelte-bootstrap-icons';
 	import StartEndDate from '../StartEndDate.svelte';
+	import LocationSelection from '../LocationSelection.svelte';
 
 	const defaultParameter = {
 		hourly: [],
+		location_mode: 'location_search',
+		csv_coordinates: '',
 		current_weather: false,
 		temperature_unit: 'celsius',
 		windspeed_unit: 'kmh',
@@ -77,21 +78,6 @@
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
-
-	function locationCallback(event: CustomEvent<GeoLocation>, index: number) {
-		const latitude = Number(event.detail.latitude.toFixed(4));
-		const longitude = Number(event.detail.longitude.toFixed(4));
-		$params.latitude = $params.latitude.toSpliced(index, 1, latitude);
-		$params.longitude = $params.longitude.toSpliced(index, 1, longitude);
-	}
-	function addLocation() {
-		$params.latitude = [...$params.latitude, NaN];
-		$params.longitude = [...$params.longitude, NaN];
-	}
-	function removeLocation(index: number) {
-		$params.latitude = $params.latitude.toSpliced(index, 1);
-		$params.longitude = $params.longitude.toSpliced(index, 1);
-	}
 </script>
 
 <svelte:head>
@@ -107,63 +93,13 @@
 </div>
 
 <form method="get" action="https://api.open-meteo.com/v1/metno">
-	<div class="row">
-		<h2>Select Coordinates or City</h2>
-		{#each $params.latitude as _, index}
-			<div class="col-md-3">
-				<div class="form-floating mb-3">
-					<input
-						type="number"
-						class="form-control"
-						name="latitude"
-						id="latitude"
-						step="0.000001"
-						min="-90"
-						max="90"
-						bind:value={$params.latitude[index]}
-					/>
-					<label for="latitude">Latitude</label>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="form-floating mb-3">
-					<input
-						type="number"
-						class="form-control"
-						name="longitude"
-						id="longitude"
-						step="0.000001"
-						min="-180"
-						max="180"
-						bind:value={$params.longitude[index]}
-					/>
-					<label for="longitude">Longitude</label>
-				</div>
-			</div>
-			<div class="col-md-5">
-				<LocationSearch on:location={(event) => locationCallback(event, index)} />
-			</div>
-			{#if index == 0}
-				<div class="col-md-1">
-					<button
-						type="button"
-						class="btn btn-outline-secondary w-100 p-3"
-						on:click={addLocation}
-						title="Add coordinates"><PlusLg /></button
-					>
-				</div>
-			{:else}
-				<div class="col-md-1">
-					<button
-						type="button"
-						class="btn btn-outline-secondary w-100 p-3"
-						on:click={() => removeLocation(index)}
-						title="Delete coordinates"><Trash /></button
-					>
-				</div>
-			{/if}
-		{/each}
-	</div>
+	<LocationSelection
+		bind:latitude={$params.latitude}
+		bind:longitude={$params.longitude}
+		bind:location_mode={$params.location_mode}
+		bind:csv_coordinates={$params.csv_coordinates}
+		bind:timezone={$params.timezone}
+	/>
 
 	<div class="row py-3 px-0">
 		<div>

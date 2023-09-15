@@ -1,8 +1,6 @@
 <script lang="ts">
 	import LicenseSelector from './LicenseSelector.svelte';
 	import PressureLevelsHelpTable from './PressureLevelsHelpTable.svelte';
-	import LocationSearch from './LocationSearch.svelte';
-	import type { GeoLocation } from '$lib/stores';
 	import ResultPreview from './ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
 	import {
@@ -12,13 +10,16 @@
 		sliceIntoChunks
 	} from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import { fade, slide } from 'svelte/transition';
-	import { CalendarEvent, Clock, PlusLg, Trash } from 'svelte-bootstrap-icons';
+	import { fade } from 'svelte/transition';
+	import { CalendarEvent, Clock} from 'svelte-bootstrap-icons';
 	import StartEndDate from './StartEndDate.svelte';
+	import LocationSelection from './LocationSelection.svelte';
 
 	const defaultParameter = {
 		hourly: [],
 		daily: [],
+		location_mode: 'location_search',
+		csv_coordinates: '',
 		current_weather: false,
 		temperature_unit: 'celsius',
 		windspeed_unit: 'kmh',
@@ -201,21 +202,6 @@
 			{ name: 'meteofrance_arome_france_hd', label: 'MeteoFrance Arome France HD' }
 		]
 	];
-
-	function locationCallback(event: CustomEvent<GeoLocation>, index: number) {
-		const latitude = Number(event.detail.latitude.toFixed(4));
-		const longitude = Number(event.detail.longitude.toFixed(4));
-		$params.latitude = $params.latitude.toSpliced(index, 1, latitude);
-		$params.longitude = $params.longitude.toSpliced(index, 1, longitude);
-	}
-	function addLocation() {
-		$params.latitude = [...$params.latitude, NaN];
-		$params.longitude = [...$params.longitude, NaN];
-	}
-	function removeLocation(index: number) {
-		$params.latitude = $params.latitude.toSpliced(index, 1);
-		$params.longitude = $params.longitude.toSpliced(index, 1);
-	}
 </script>
 
 <svelte:head>
@@ -228,63 +214,14 @@
 </svelte:head>
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
-	<div class="row">
-		<h2>Select Coordinates or City</h2>
-		{#each $params.latitude as _, index}
-			<div class="col-md-3">
-				<div class="form-floating mb-3">
-					<input
-						type="number"
-						class="form-control"
-						name="latitude"
-						id="latitude"
-						step="0.000001"
-						min="-90"
-						max="90"
-						bind:value={$params.latitude[index]}
-					/>
-					<label for="latitude">Latitude</label>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="form-floating mb-3">
-					<input
-						type="number"
-						class="form-control"
-						name="longitude"
-						id="longitude"
-						step="0.000001"
-						min="-180"
-						max="180"
-						bind:value={$params.longitude[index]}
-					/>
-					<label for="longitude">Longitude</label>
-				</div>
-			</div>
-			<div class="col-md-5">
-				<LocationSearch on:location={(event) => locationCallback(event, index)} />
-			</div>
-			{#if index == 0}
-				<div class="col-md-1">
-					<button
-						type="button"
-						class="btn btn-outline-secondary w-100 p-3"
-						on:click={addLocation}
-						title="Add coordinates"><PlusLg /></button
-					>
-				</div>
-			{:else}
-				<div class="col-md-1">
-					<button
-						type="button"
-						class="btn btn-outline-secondary w-100 p-3"
-						on:click={() => removeLocation(index)}
-						title="Delete coordinates"><Trash /></button
-					>
-				</div>
-			{/if}
-		{/each}
-	</div>
+	<LocationSelection
+		bind:latitude={$params.latitude}
+		bind:longitude={$params.longitude}
+		bind:location_mode={$params.location_mode}
+		bind:csv_coordinates={$params.csv_coordinates}
+		bind:timezone={$params.timezone}
+		bind:timezoneInvalid={timezoneInvalid}
+	/>
 
 	<div class="row py-3 px-0">
 		<div>
@@ -687,43 +624,6 @@
 					<option value="unixtime">Unix timestamp</option>
 				</select>
 				<label for="timeformat">Timeformat</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					class:is-invalid={timezoneInvalid}
-					name="timezone"
-					id="timezone"
-					aria-label="Timezone"
-					bind:value={$params.timezone}
-				>
-					<option value="America/Anchorage">America/Anchorage</option>
-					<option value="America/Los_Angeles">America/Los_Angeles</option>
-					<option value="America/Denver">America/Denver</option>
-					<option value="America/Chicago">America/Chicago</option>
-					<option value="America/New_York">America/New_York</option>
-					<option value="America/Sao_Paulo">America/Sao_Paulo</option>
-					<option value="UTC">Not set (GMT+0)</option>
-					<option value="GMT">GMT+0</option>
-					<option value="auto">Automatically detect time zone</option>
-					<option value="Europe/London">Europe/London</option>
-					<option value="Europe/Berlin">Europe/Berlin</option>
-					<option value="Europe/Moscow">Europe/Moscow</option>
-					<option value="Africa/Cairo">Africa/Cairo</option>
-					<option value="Asia/Bangkok">Asia/Bangkok</option>
-					<option value="Asia/Singapore">Asia/Singapore</option>
-					<option value="Asia/Tokyo">Asia/Tokyo</option>
-					<option value="Australia/Sydney">Australia/Sydney</option>
-					<option value="Pacific/Auckland">Pacific/Auckland</option>
-				</select>
-				<label for="timezone">Timezone</label>
-				{#if timezoneInvalid}
-					<div class="invalid-tooltip" transition:slide|global>
-						Timezone is required for daily variables
-					</div>
-				{/if}
 			</div>
 		</div>
 	</div>
