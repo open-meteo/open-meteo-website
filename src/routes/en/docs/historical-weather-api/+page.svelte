@@ -1,17 +1,14 @@
 <script lang="ts">
 	import { dev } from '$app/environment';
-
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import LocationSearch from '../LocationSearch.svelte';
-	import type { GeoLocation } from '$lib/stores';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
 	import { countVariables } from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	import { PlusLg, Trash } from 'svelte-bootstrap-icons';
 	import StartEndDate from '../StartEndDate.svelte';
+	import LocationSelection from '../LocationSelection.svelte';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 5);
@@ -24,6 +21,8 @@
 	const defaultParameter = {
 		hourly: [],
 		daily: [],
+		location_mode: 'location_search',
+		csv_coordinates: '',
 		temperature_unit: 'celsius',
 		windspeed_unit: 'kmh',
 		precipitation_unit: 'mm',
@@ -169,21 +168,6 @@
 	if (dev) {
 		models.push([{ name: 'ecmwf_ifs', label: 'ECMWF IFS', caption: '9 km, Global' }]);
 	}
-
-	function locationCallback(event: CustomEvent<GeoLocation>, index: number) {
-		const latitude = Number(event.detail.latitude.toFixed(4));
-		const longitude = Number(event.detail.longitude.toFixed(4));
-		$params.latitude = $params.latitude.toSpliced(index, 1, latitude);
-		$params.longitude = $params.longitude.toSpliced(index, 1, longitude);
-	}
-	function addLocation() {
-		$params.latitude = [...$params.latitude, NaN];
-		$params.longitude = [...$params.longitude, NaN];
-	}
-	function removeLocation(index: number) {
-		$params.latitude = $params.latitude.toSpliced(index, 1);
-		$params.longitude = $params.longitude.toSpliced(index, 1);
-	}
 </script>
 
 <svelte:head>
@@ -205,64 +189,14 @@
 
 <form method="get" action="https://archive-api.open-meteo.com/v1/archive">
 	<div class="row">
-		<h2>Select Coordinates or City</h2>
-		{#each $params.latitude as _, index}
-			<div class="col-md-3">
-				<div class="form-floating mb-3">
-					<input
-						type="number"
-						class="form-control"
-						name="latitude"
-						id="latitude"
-						step="0.000001"
-						min="-90"
-						max="90"
-						bind:value={$params.latitude[index]}
-					/>
-					<label for="latitude">Latitude</label>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="form-floating mb-3">
-					<input
-						type="number"
-						class="form-control"
-						name="longitude"
-						id="longitude"
-						step="0.000001"
-						min="-180"
-						max="180"
-						bind:value={$params.longitude[index]}
-					/>
-					<label for="longitude">Longitude</label>
-				</div>
-			</div>
-			<div class="col-md-5">
-				<LocationSearch on:location={(event) => locationCallback(event, index)} />
-			</div>
-			{#if index == 0}
-				<div class="col-md-1">
-					<button
-						type="button"
-						class="btn btn-outline-secondary w-100 p-3"
-						on:click={addLocation}
-						title="Add coordinates"><PlusLg /></button
-					>
-				</div>
-			{:else}
-				<div class="col-md-1">
-					<button
-						type="button"
-						class="btn btn-outline-secondary w-100 p-3"
-						on:click={() => removeLocation(index)}
-						title="Delete coordinates"><Trash /></button
-					>
-				</div>
-			{/if}
-		{/each}
+		<LocationSelection
+			bind:latitude={$params.latitude}
+			bind:longitude={$params.longitude}
+			bind:location_mode={$params.location_mode}
+			bind:csv_coordinates={$params.csv_coordinates}
+		/>
 	</div>
 	<div class="row py-3 px-0">
-		<h2>Specify Time Interval</h2>
 		<div class="col-md-6">
 			<StartEndDate
 				bind:start_date={$params.start_date}
@@ -270,41 +204,6 @@
 				{startDate}
 				{endDate}
 			/>
-			<div class="mt-2">
-				<p>
-					Quick:
-					<button
-						class="btn btn-outline-primary btn-sm"
-						on:click|preventDefault={() => (
-							($params.start_date = '2000-01-01'), ($params.end_date = '2009-12-31')
-						)}>2000-2010</button
-					>
-					<button
-						class="btn btn-outline-primary btn-sm"
-						on:click|preventDefault={() => (
-							($params.start_date = '2010-01-01'), ($params.end_date = '2019-12-31')
-						)}>2010-2022</button
-					>
-					<button
-						class="btn btn-outline-primary btn-sm"
-						on:click|preventDefault={() => (
-							($params.start_date = '2020-01-01'), ($params.end_date = '2020-12-31')
-						)}>2020</button
-					>
-					<button
-						class="btn btn-outline-primary btn-sm"
-						on:click|preventDefault={() => (
-							($params.start_date = '2021-01-01'), ($params.end_date = '2021-12-31')
-						)}>2021</button
-					>
-					<button
-						class="btn btn-outline-primary btn-sm"
-						on:click|preventDefault={() => (
-							($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
-						)}>2022</button
-					>
-				</p>
-			</div>
 		</div>
 		<div class="col-md-6">
 			<p>
@@ -314,6 +213,39 @@
 					title="Weather forecast API">forecast API</a
 				>
 				and adjust the <mark>Past Days</mark> setting.
+			</p>
+			<p>
+				Quick:
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2000-01-01'), ($params.end_date = '2009-12-31')
+					)}>2000-2010</button
+				>
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2010-01-01'), ($params.end_date = '2019-12-31')
+					)}>2010-2022</button
+				>
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2020-01-01'), ($params.end_date = '2020-12-31')
+					)}>2020</button
+				>
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2021-01-01'), ($params.end_date = '2021-12-31')
+					)}>2021</button
+				>
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
+					)}>2022</button
+				>
 			</p>
 		</div>
 	</div>
@@ -511,44 +443,6 @@
 					<option value="unixtime">Unix timestamp</option>
 				</select>
 				<label for="timeformat">Timeformat</label>
-			</div>
-		</div>
-
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					class:is-invalid={timezoneInvalid}
-					name="timezone"
-					id="timezone"
-					aria-label="Timezone"
-					bind:value={$params.timezone}
-				>
-					<option value="America/Anchorage">America/Anchorage</option>
-					<option value="America/Los_Angeles">America/Los_Angeles</option>
-					<option value="America/Denver">America/Denver</option>
-					<option value="America/Chicago">America/Chicago</option>
-					<option value="America/New_York">America/New_York</option>
-					<option value="America/Sao_Paulo">America/Sao_Paulo</option>
-					<option value="UTC">Not set (GMT+0)</option>
-					<option value="GMT">GMT+0</option>
-					<option value="auto">Automatically detect time zone</option>
-					<option value="Europe/London">Europe/London</option>
-					<option value="Europe/Berlin">Europe/Berlin</option>
-					<option value="Europe/Moscow">Europe/Moscow</option>
-					<option value="Africa/Cairo">Africa/Cairo</option>
-					<option value="Asia/Bangkok">Asia/Bangkok</option>
-					<option value="Asia/Singapore">Asia/Singapore</option>
-					<option value="Asia/Tokyo">Asia/Tokyo</option>
-					<option value="Australia/Sydney">Australia/Sydney</option>
-					<option value="Pacific/Auckland">Pacific/Auckland</option>
-				</select>
-				<label for="timezone">Timezone</label>
-				{#if timezoneInvalid}
-					<div class="invalid-tooltip" transition:slide|global>
-						Timezone is required for daily variables
-					</div>
-				{/if}
 			</div>
 		</div>
 	</div>

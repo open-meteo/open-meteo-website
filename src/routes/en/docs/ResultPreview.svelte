@@ -40,15 +40,53 @@
 				server = `https://${serverPrefix}.open-meteo.com/v1/${action}?`;
 		}
 		let nonDefaultParameter = objectDifference({ ...params, ...actionParams }, defaultParameter);
-		if ('time_mode' in params && params.time_mode == 'forecast_days') {
-			delete nonDefaultParameter['start_date']
-			delete nonDefaultParameter['end_date']
+		if ('time_mode' in nonDefaultParameter) {
+			if (nonDefaultParameter.time_mode == 'forecast_days') {
+				delete nonDefaultParameter['start_date']
+				delete nonDefaultParameter['end_date']
+			}
+			if (nonDefaultParameter.time_mode == 'time_interval') {
+				delete nonDefaultParameter['forecast_days']
+				delete nonDefaultParameter['past_days']
+			}
+			delete nonDefaultParameter['time_mode']
 		}
-		if ('time_mode' in params && params.time_mode == 'time_interval') {
-			delete nonDefaultParameter['forecast_days']
-			delete nonDefaultParameter['past_days']
+		if ('location_mode' in nonDefaultParameter) {
+			if (nonDefaultParameter.location_mode == 'csv_coordinates' && nonDefaultParameter['csv_coordinates']) {
+				let lats: number[] = []
+				let lons: number[] = []
+				let elevation: number[] = []
+				let timezone: string[] = []
+				let csv: string = nonDefaultParameter['csv_coordinates']
+				csv.split(/\r?\n/).forEach(row => {
+					if (row.length < 4) {
+						return
+					}
+					let parts = row.split(',')
+					if (parts.length < 2) {
+						return
+					}
+					lats.push(parseFloat(parts[0]))
+					lons.push(parseFloat(parts[1]))
+					if (parts.length > 2 && parts[2].length > 0) {
+						elevation.push(parseFloat(parts[2]))
+					}
+					if (parts.length > 3 && parts[3].length > 0) {
+						timezone.push(parts[3])
+					}
+				});
+				nonDefaultParameter['latitude'] = lats
+				nonDefaultParameter['longitude'] = lons
+				if (elevation.length > 0) {
+					nonDefaultParameter['elevation'] = elevation
+				}
+				if (timezone.length > 0) {
+					nonDefaultParameter['timezone'] = timezone
+				}
+			}
+			delete nonDefaultParameter['location_mode']
+			delete nonDefaultParameter['csv_coordinates']
 		}
-		delete nonDefaultParameter['time_mode']
 		return `${server}${new URLSearchParams(nonDefaultParameter)}`.replaceAll('%2C', ',');
 	}
 
