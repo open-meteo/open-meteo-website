@@ -203,7 +203,7 @@
 						latitude, longitude, elevation, timezone. Elevation and timezone are optional. Examples:
 					</p>
 					<pre>52.52,13.41
-51.5085,-0.1257,,Europe/London
+51.5085,-0.1257,,auto
 52.52,13.41,50,Europe/Berlin</pre>
 				</div>
 			</div>
