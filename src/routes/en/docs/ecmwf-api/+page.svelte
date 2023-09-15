@@ -1,34 +1,37 @@
 <script lang="ts">
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import PressureLevelsHelpTable from '../PressureLevelsHelpTable.svelte';
-	import LocationSearch from '../LocationSearch.svelte';
 	import type { GeoLocation } from '$lib/stores';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
-		countVariables,
 		sliceIntoChunks
 	} from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import SveltyPicker from 'svelty-picker';
-	import { slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
+	import { CalendarEvent, Clock } from 'svelte-bootstrap-icons';
+	import StartEndDate from '../StartEndDate.svelte';
+	import LocationSelection from '../LocationSelection.svelte';
 
 	const defaultParameter = {
 		hourly: [],
+		location_mode: 'location_search',
+		csv_coordinates: '',
 		temperature_unit: 'celsius',
 		windspeed_unit: 'kmh',
 		precipitation_unit: 'mm',
 		timeformat: 'iso8601',
 		past_days: '0',
-		start_date: null,
-		end_date: null
+		forecast_days: '10',
+		start_date: '',
+		end_date: '',
+		time_mode: 'forecast_days',
 	};
 
 	const params = urlHashStore({
-		latitude: 52.52,
-		longitude: 13.41,
+		latitude: [52.52],
+		longitude: [13.41],
 		...defaultParameter,
 		hourly: ['temperature_2m']
 	});
@@ -47,11 +50,6 @@
 	const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse();
 
 	let pressureVariablesTab = 'temperature';
-
-	$: endDateInvalid = $params.start_date != null && $params.end_date == null;
-	$: startDateInvalid = $params.start_date == null && $params.end_date != null;
-	$: pastDaysInvalid =
-		$params.past_days != defaultParameter.past_days && $params.start_date != null;
 
 	const hourly = [
 		[
@@ -88,11 +86,6 @@
 			}
 		]
 	];
-
-	function locationCallback(event: CustomEvent<GeoLocation>) {
-		$params.latitude = Number(event.detail.latitude.toFixed(4));
-		$params.longitude = Number(event.detail.longitude.toFixed(4));
-	}
 </script>
 
 <svelte:head>
@@ -110,42 +103,119 @@
 </div>
 
 <form method="get" action="https://api.open-meteo.com/v1/ecmwf">
-	<div class="row">
-		<h2>Select Coordinates or City</h2>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<input
-					type="number"
-					class="form-control"
-					name="latitude"
-					id="latitude"
-					step="0.000001"
-					min="-90"
-					max="90"
-					bind:value={$params.latitude}
-				/>
-				<label for="latitude">Latitude</label>
-			</div>
+	<LocationSelection
+		bind:latitude={$params.latitude}
+		bind:longitude={$params.longitude}
+		bind:location_mode={$params.location_mode}
+		bind:csv_coordinates={$params.csv_coordinates}
+	/>
+
+	<div class="row py-3 px-0">
+		<div>
+			<ul class="nav nav-underline" id="pills-tab" role="tablist">
+				<li class="nav-item" role="presentation" style="width: 70px;">
+					<span class="nav-link disabled" aria-disabled="true">Time:</span>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button
+						class="nav-link"
+						class:active={$params.time_mode == 'forecast_days'}
+						id="pills-forecast_days-tab"
+						type="button"
+						role="tab"
+						aria-controls="pills-forecast_days"
+						aria-selected="true"
+						on:click={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+					>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button
+						class="nav-link"
+						class:active={$params.time_mode == 'time_interval'}
+						id="pills-time_interval-tab"
+						type="button"
+						role="tab"
+						aria-controls="pills-time_interval"
+						on:click={() => ($params.time_mode = 'time_interval')}
+						aria-selected="true"><CalendarEvent/> Time Interval</button
+					>
+				</li>
+			</ul>
 		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<input
-					type="number"
-					class="form-control"
-					name="longitude"
-					id="longitude"
-					step="0.000001"
-					min="-180"
-					max="180"
-					bind:value={$params.longitude}
-				/>
-				<label for="longitude">Longitude</label>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<LocationSearch on:location={locationCallback} />
+		<div class="tab-content py-3" id="pills-tabContent">
+			{#if $params.time_mode == 'forecast_days'}
+				<div
+					class="tab-pane active"
+					in:fade
+					id="pills-forecast_days"
+					role="tabpanel"
+					aria-labelledby="pills-forecast_days-tab"
+					tabindex="0"
+				>
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-floating mb-3">
+								<select
+									class="form-select"
+									name="forecast_days"
+									id="forecast_days"
+									aria-label="Forecast days"
+									bind:value={$params.forecast_days}
+								>
+									<option value="1">1 day</option>
+									<option value="3">3 days</option>
+									<option value="5">5 days</option>
+									<option value="7">7 days</option>
+									<option value="10">10 days (default)</option>
+								</select>
+								<label for="forecast_days">Forecast days</label>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-floating mb-3">
+								<select
+									class="form-select"
+									name="past_days"
+									id="past_days"
+									aria-label="Past days"
+									bind:value={$params.past_days}
+								>
+									<option value="0">0 (default)</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="5">5</option>
+									<option value="7">1 week</option>
+									<option value="14">2 weeks</option>
+									<option value="31">1 month</option>
+									<option value="61">2 months</option>
+									<option value="92">3 months</option>
+								</select>
+								<label for="past_days">Past days</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			{/if}
+			{#if $params.time_mode == 'time_interval'}
+				<div
+					class="tab-pane active"
+					in:fade
+					id="pills-time_interval"
+					role="tabpanel"
+					aria-labelledby="pills-time_interval-tab"
+					tabindex="0"
+				>
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+						</div>
+					</div>
+				</div>
+			{/if}
 		</div>
 	</div>
+
 	<div class="row py-3 px-0">
 		<h2>3-Hourly Weather Variables</h2>
 		{#each hourly as group}
@@ -305,75 +375,6 @@
 				<label for="timeformat">Timeformat</label>
 			</div>
 		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					class:is-invalid={pastDaysInvalid}
-					name="past_days"
-					id="past_days"
-					aria-label="Past days"
-					bind:value={$params.past_days}
-				>
-					<option value="0">0 (default)</option>
-					<option value="1">1</option>
-					<option value="2">2</option>
-					<option value="3">3</option>
-					<option value="5">5</option>
-					<option value="7">1 week</option>
-					<option value="14">2 weeks</option>
-					<option value="31">1 month</option>
-					<option value="61">2 months</option>
-					<option value="92">3 months</option>
-				</select>
-				<label for="past_days">Past days</label>
-				{#if pastDaysInvalid}
-					<div class="invalid-tooltip" transition:slide|global>
-						Past days conflicts with start and end date
-					</div>
-				{/if}
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<SveltyPicker
-					inputClasses="form-control {startDateInvalid ? 'is-invalid' : ''}"
-					format="yyyy-mm-dd"
-					name="start_date"
-					bind:value={$params.start_date}
-				/>
-				<label for="start_date">Start date</label>
-				{#if startDateInvalid}
-					<div class="invalid-tooltip" transition:slide|global>Start and end date must be set</div>
-				{/if}
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<SveltyPicker
-					inputClasses="form-control {endDateInvalid ? 'is-invalid' : ''}"
-					format="yyyy-mm-dd"
-					name="end_date"
-					bind:value={$params.end_date}
-				/>
-				<label for="end_date">End date</label>
-				{#if endDateInvalid}
-					<div class="invalid-tooltip" transition:slide|global>Start and end date must be set</div>
-				{/if}
-			</div>
-		</div>
-		<div class="col-12 pb-3 debug-hidden">
-			<div class="form-check form-switch">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					id="localhost"
-					name="localhost"
-					value="true"
-				/>
-				<label class="form-check-label" for="localhost">Use localhost server</label>
-			</div>
-		</div>
 	</div>
 
 	<LicenseSelector />
@@ -445,7 +446,12 @@
 					<td>Floating point</td>
 					<td>Yes</td>
 					<td />
-					<td>Geographical WGS84 coordinate of the location</td>
+					<td
+						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
+						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
+						for multiple locations the JSON output changes to a list of structures. CSV and XLSX
+						formats add a column <mark>location_id</mark>.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">elevation</th>
@@ -459,7 +465,7 @@
 							>90 meter digital elevation model is used</a
 						>. You can manually set the elevation to correctly match mountain peaks. If
 						<mark>&elevation=nan</mark> is specified, downscaling will be disabled and the API uses the
-						average grid-cell height.</td
+						average grid-cell height. For multiple locations, elevation can also be comma separated.</td
 					>
 				</tr>
 				<tr>

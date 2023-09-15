@@ -24,6 +24,72 @@
 		return diff;
 	}
 
+	/// Parsed params that resolved CSV fields
+	$: parsedParams = ((p: any) => {
+		const params = {...p}
+		if ('time_mode' in params) {
+			if (params.time_mode == 'forecast_days') {
+				delete params['start_date']
+				delete params['end_date']
+			}
+			if (params.time_mode == 'time_interval') {
+				delete params['forecast_days']
+				delete params['past_days']
+			}
+			delete params['csv_time_intervals']
+			delete params['time_mode']
+		}
+		if ('location_mode' in params) {
+			if (params.location_mode == 'csv_coordinates' && params['csv_coordinates']) {
+				let lats: number[] = []
+				let lons: number[] = []
+				let elevation: number[] = []
+				let timezone: string[] = []
+				let start_date: string[] = []
+				let end_date: string[] = []
+				let csv: string = params['csv_coordinates']
+				csv.split(/\r?\n/).forEach(row => {
+					if (row.length < 4) {
+						return
+					}
+					let parts = row.split(/[;,\t]/)
+					if (parts.length < 2) {
+						return
+					}
+					lats.push(parseFloat(parts[0]))
+					lons.push(parseFloat(parts[1]))
+					if (parts.length > 2 && parts[2].length > 0) {
+						elevation.push(parseFloat(parts[2]))
+					}
+					if (parts.length > 3 && parts[3].length > 0) {
+						timezone.push(parts[3])
+					}
+					if (parts.length > 5 && parts[4].length > 0 && parts[5].length > 0) {
+						start_date.push(parts[4])
+						end_date.push(parts[4])
+					}
+				});
+				params['latitude'] = lats
+				params['longitude'] = lons
+				if (elevation.length > 0) {
+					params['elevation'] = elevation
+				}
+				if (timezone.length > 0) {
+					params['timezone'] = timezone
+				}
+				if (start_date.length > 0) {
+					params['start_date'] = start_date
+					params['end_date'] = end_date
+					delete params['forecast_days']
+					delete params['past_days']
+				}
+			}
+			delete params['location_mode']
+			delete params['csv_coordinates']
+		}
+		return params
+	})($params)
+
 	function getUrl(api_key_preferences: any, params: any) {
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
 		let server: string;
@@ -43,9 +109,9 @@
 		return `${server}${new URLSearchParams(nonDefaultParameter)}`.replaceAll('%2C', ',');
 	}
 
-	$: previewUrl = getUrl($api_key_preferences, $params);
-	$: xlsxUrl = getUrl($api_key_preferences, { ...$params, format: 'xlsx' });
-	$: csvUrl = getUrl($api_key_preferences, { ...$params, format: 'csv' });
+	$: previewUrl = getUrl($api_key_preferences, parsedParams);
+	$: xlsxUrl = getUrl($api_key_preferences, { ...parsedParams, format: 'xlsx' });
+	$: csvUrl = getUrl($api_key_preferences, { ...parsedParams, format: 'csv' });
 
 	function jsonToChart(data: any, downloadTime: number) {
 		//console.log(data);
@@ -258,9 +324,13 @@
 	api_key_preferences.subscribe(reset);
 
 	async function preview() {
+		if ('latitude' in parsedParams && parsedParams.latitude.length > 5) {
+			throw new Error("Can not preview more than 5 locations");
+		}
+
 		// Always set format=json to fetch data
 		const fetchUrl = getUrl($api_key_preferences, {
-			...$params,
+			...parsedParams,
 			format: 'json',
 			timeformat: 'unixtime'
 		});
@@ -270,8 +340,13 @@
 		if (!result.ok) {
 			throw new Error(await result.text());
 		}
+		const json = await result.json()
+		let tEnd = performance.now() - t0
+		if (Array.isArray(json)) {
+			return json.map((x) => jsonToChart(x, tEnd))
+		}
 
-		return jsonToChart(await result.json(), performance.now() - t0);
+		return [jsonToChart(json, tEnd)];
 	}
 
 	function reload() {
@@ -286,10 +361,11 @@
 <div class="col-12 my-4">
 	<h2>Preview and API URL</h2>
 
-	<div id="container w-100" style={useStockChart ? 'height: 500px' : 'height: 400px'}>
+	<div id="container w-100">
 		{#await results}
 			<div
-				class="h-100 d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+				class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+				style={useStockChart ? 'height: 500px' : 'height: 400px'}
 			>
 				<div class="spinner-border" role="status">
 					<span class="visually-hidden">Loading...</span>
@@ -297,14 +373,17 @@
 			</div>
 		{:then results}
 			{#if results}
-				<HighchartContainer
-					options={results}
-					{useStockChart}
-					style={useStockChart ? 'height: 500px' : 'height: 400px'}
-				/>
+				{#each results.slice(0, 10) as chart}
+					<HighchartContainer
+						options={chart}
+						{useStockChart}
+						style={useStockChart ? 'height: 500px' : 'height: 400px'}
+					/>
+				{/each}
 			{:else}
 				<div
-					class="h-100 d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+					class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+					style={useStockChart ? 'height: 500px' : 'height: 400px'}
 				>
 					<div class="alert alert-primary d-flex align-items-center" role="alert">
 						<InfoCircle class="me-2" />
@@ -319,7 +398,8 @@
 			{/if}
 		{:catch error}
 			<div
-				class="h-100 d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+				class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+				style={useStockChart ? 'height: 500px' : 'height: 400px'}
 			>
 				<div class="alert alert-danger d-flex align-items-center" role="alert">
 					<ExclamationTriangle class="me-2" />

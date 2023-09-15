@@ -1,17 +1,13 @@
 <script lang="ts">
 	import { dev } from '$app/environment';
-
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import LocationSearch from '../LocationSearch.svelte';
-	import type { GeoLocation } from '$lib/stores';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
 	import { countVariables } from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import SveltyPicker from 'svelty-picker';
-	import { slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
-	import { reset } from '__sveltekit/paths';
+	import StartEndDate from '../StartEndDate.svelte';
+	import LocationSelection from '../LocationSelection.svelte';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 5);
@@ -24,6 +20,9 @@
 	const defaultParameter = {
 		hourly: [],
 		daily: [],
+		location_mode: 'location_search',
+		time_mode: 'time_interval',
+		csv_coordinates: '',
 		temperature_unit: 'celsius',
 		windspeed_unit: 'kmh',
 		precipitation_unit: 'mm',
@@ -33,8 +32,8 @@
 	};
 
 	const params = urlHashStore({
-		latitude: 52.52,
-		longitude: 13.41,
+		latitude: [52.52],
+		longitude: [13.41],
 		start_date: startDateDefault,
 		end_date: endDateDefault,
 		...defaultParameter,
@@ -51,8 +50,6 @@
 	});
 
 	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
-	$: endDateInvalid = $params.end_date == null;
-	$: startDateInvalid = $params.start_date == null;
 
 	let hourly = [
 		[
@@ -171,11 +168,6 @@
 	if (dev) {
 		models.push([{ name: 'ecmwf_ifs', label: 'ECMWF IFS', caption: '9 km, Global' }]);
 	}
-
-	function locationCallback(event: CustomEvent<GeoLocation>) {
-		$params.latitude = Number(event.detail.latitude.toFixed(4));
-		$params.longitude = Number(event.detail.longitude.toFixed(4));
-	}
 </script>
 
 <svelte:head>
@@ -196,75 +188,59 @@
 </div>
 
 <form method="get" action="https://archive-api.open-meteo.com/v1/archive">
-	<div class="row">
-		<h2>Select Coordinates or City</h2>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<input
-					type="number"
-					class="form-control"
-					name="latitude"
-					id="latitude"
-					step="0.000001"
-					min="-90"
-					max="90"
-					bind:value={$params.latitude}
-				/>
-				<label for="latitude">Latitude</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<input
-					type="number"
-					class="form-control"
-					name="longitude"
-					id="longitude"
-					step="0.000001"
-					min="-180"
-					max="180"
-					bind:value={$params.longitude}
-				/>
-				<label for="longitude">Longitude</label>
-			</div>
+	<LocationSelection
+		bind:latitude={$params.latitude}
+		bind:longitude={$params.longitude}
+		bind:location_mode={$params.location_mode}
+		bind:csv_coordinates={$params.csv_coordinates}
+	/>
+
+	<div class="row py-3 px-0">
+		<div class="col-md-6 mb-3">
+			<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} {startDate} {endDate}/>
 		</div>
 		<div class="col-md-6">
-			<LocationSearch on:location={locationCallback} />
-		</div>
-	</div>
-	<div class="row py-3 px-0">
-		<h2>Specify Time Interval</h2>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<SveltyPicker
-					inputClasses="form-control {startDateInvalid ? 'is-invalid' : ''}"
-					format="yyyy-mm-dd"
-					name="start_date"
-					{startDate}
-					{endDate}
-					bind:value={$params.start_date}
-				/>
-				<label for="start_date">Start date</label>
-				{#if startDateInvalid}
-					<div class="invalid-tooltip" transition:slide|global>Start and end date must be set</div>
-				{/if}
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<SveltyPicker
-					inputClasses="form-control {endDateInvalid ? 'is-invalid' : ''}"
-					format="yyyy-mm-dd"
-					name="end_date"
-					{startDate}
-					{endDate}
-					bind:value={$params.end_date}
-				/>
-				<label for="end_date">End date</label>
-				{#if endDateInvalid}
-					<div class="invalid-tooltip" transition:slide|global>Start and end date must be set</div>
-				{/if}
-			</div>
+			<p>
+				You can access past weather data dating back to 1940. However, there is a 5-day delay in the
+				data. If you want information for the most recent days, you can use the <a
+					href="/en/docs"
+					title="Weather forecast API">forecast API</a
+				>
+				and adjust the <mark>Past Days</mark> setting.
+			</p>
+			<p>
+				Quick:
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2000-01-01'), ($params.end_date = '2009-12-31')
+					)}>2000-2010</button
+				>
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2010-01-01'), ($params.end_date = '2019-12-31')
+					)}>2010-2022</button
+				>
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2020-01-01'), ($params.end_date = '2020-12-31')
+					)}>2020</button
+				>
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2021-01-01'), ($params.end_date = '2021-12-31')
+					)}>2021</button
+				>
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
+					)}>2022</button
+				>
+			</p>
 		</div>
 	</div>
 
@@ -463,62 +439,12 @@
 				<label for="timeformat">Timeformat</label>
 			</div>
 		</div>
-
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					class:is-invalid={timezoneInvalid}
-					name="timezone"
-					id="timezone"
-					aria-label="Timezone"
-					bind:value={$params.timezone}
-				>
-					<option value="America/Anchorage">America/Anchorage</option>
-					<option value="America/Los_Angeles">America/Los_Angeles</option>
-					<option value="America/Denver">America/Denver</option>
-					<option value="America/Chicago">America/Chicago</option>
-					<option value="America/New_York">America/New_York</option>
-					<option value="America/Sao_Paulo">America/Sao_Paulo</option>
-					<option value="UTC">Not set (GMT+0)</option>
-					<option value="GMT">GMT+0</option>
-					<option value="auto">Automatically detect time zone</option>
-					<option value="Europe/London">Europe/London</option>
-					<option value="Europe/Berlin">Europe/Berlin</option>
-					<option value="Europe/Moscow">Europe/Moscow</option>
-					<option value="Africa/Cairo">Africa/Cairo</option>
-					<option value="Asia/Bangkok">Asia/Bangkok</option>
-					<option value="Asia/Singapore">Asia/Singapore</option>
-					<option value="Asia/Tokyo">Asia/Tokyo</option>
-					<option value="Australia/Sydney">Australia/Sydney</option>
-					<option value="Pacific/Auckland">Pacific/Auckland</option>
-				</select>
-				<label for="timezone">Timezone</label>
-				{#if timezoneInvalid}
-					<div class="invalid-tooltip" transition:slide|global>
-						Timezone is required for daily variables
-					</div>
-				{/if}
-			</div>
-		</div>
-		<div class="col-12 pb-3 debug-hidden">
-			<div class="form-check form-switch">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					id="localhost"
-					name="localhost"
-					value="true"
-				/>
-				<label class="form-check-label" for="localhost">Use localhost server</label>
-			</div>
-		</div>
 	</div>
 
-	<LicenseSelector requires_professional_plan={true}/>
+	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="archive" action="archive" useStockChart={true}/>
+<ResultPreview {params} {defaultParameter} type="archive" action="archive" useStockChart={true} />
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">
@@ -644,7 +570,12 @@
 					<td>Floating point</td>
 					<td>Yes</td>
 					<td />
-					<td>Geographical WGS84 coordinate of the location</td>
+					<td
+						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
+						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
+						for multiple locations the JSON output changes to a list of structures. CSV and XLSX
+						formats add a column <mark>location_id</mark>.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">elevation</th>
@@ -658,7 +589,7 @@
 							>90 meter digital elevation model is used</a
 						>. You can manually set the elevation to correctly match mountain peaks. If
 						<mark>&elevation=nan</mark> is specified, downscaling will be disabled and the API uses the
-						average grid-cell height.</td
+						average grid-cell height. For multiple locations, elevation can also be comma separated.</td
 					>
 				</tr>
 				<tr>
@@ -742,7 +673,8 @@
 							>time zone database</a
 						>
 						is supported If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
-						resolved to the local time zone..</td
+						resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
+						can be specified.</td
 					>
 				</tr>
 				<tr>
