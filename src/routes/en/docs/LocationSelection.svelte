@@ -30,7 +30,7 @@
 <h2>Location and Time</h2>
 <div>
 	<ul class="nav nav-underline" id="pills-tab" role="tablist">
-		<li class="nav-item col-1" role="presentation">
+		<li class="nav-item" role="presentation" style="width: 70px;">
 			<span class="nav-link disabled" aria-disabled="true">Location:</span>
 		</li>
 		<li class="nav-item" role="presentation">
