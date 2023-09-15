@@ -49,6 +49,27 @@
 				delete nonDefaultParameter['forecast_days']
 				delete nonDefaultParameter['past_days']
 			}
+			if (nonDefaultParameter.time_mode == 'csv_time_intervals' && nonDefaultParameter['csv_time_intervals']) {
+				let start_date: string[] = []
+				let end_date: string[] = []
+				let csv: string = nonDefaultParameter['csv_time_intervals']
+				csv.split(/\r?\n/).forEach(row => {
+					if (row.length < 4) {
+						return
+					}
+					let parts = row.split(',')
+					if (parts.length < 2) {
+						return
+					}
+					start_date.push(parts[0])
+					end_date.push(parts[1])
+				});
+				nonDefaultParameter['start_date'] = start_date
+				nonDefaultParameter['end_date'] = end_date
+				delete nonDefaultParameter['forecast_days']
+				delete nonDefaultParameter['past_days']
+			}
+			delete nonDefaultParameter['csv_time_intervals']
 			delete nonDefaultParameter['time_mode']
 		}
 		if ('location_mode' in nonDefaultParameter) {
