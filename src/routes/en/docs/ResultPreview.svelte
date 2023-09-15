@@ -78,6 +78,8 @@
 				let lons: number[] = []
 				let elevation: number[] = []
 				let timezone: string[] = []
+				let start_date: string[] = []
+				let end_date: string[] = []
 				let csv: string = nonDefaultParameter['csv_coordinates']
 				csv.split(/\r?\n/).forEach(row => {
 					if (row.length < 4) {
@@ -95,6 +97,10 @@
 					if (parts.length > 3 && parts[3].length > 0) {
 						timezone.push(parts[3])
 					}
+					if (parts.length > 5 && parts[4].length > 0 && parts[5].length > 0) {
+						start_date.push(parts[4])
+						end_date.push(parts[4])
+					}
 				});
 				nonDefaultParameter['latitude'] = lats
 				nonDefaultParameter['longitude'] = lons
@@ -103,6 +109,12 @@
 				}
 				if (timezone.length > 0) {
 					nonDefaultParameter['timezone'] = timezone
+				}
+				if (start_date.length > 0) {
+					nonDefaultParameter['start_date'] = start_date
+					nonDefaultParameter['end_date'] = end_date
+					delete nonDefaultParameter['forecast_days']
+					delete nonDefaultParameter['past_days']
 				}
 			}
 			delete nonDefaultParameter['location_mode']

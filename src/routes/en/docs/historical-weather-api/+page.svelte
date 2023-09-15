@@ -317,19 +317,19 @@
 2021-01-01,2021-01-31
 2022-01-01,2022-01-31</pre>
 						</div>
+						{#if $params.time_mode == 'csv_time_intervals' && $params.location_mode == 'csv_coordinates'}
+						<div class="col-md-12 mb-3">
+						<div class="alert alert-danger" role="alert">
+							Warning: Use the location list above to pair locations and time intervals.
+						</div>
+					</div>
+					{/if}
 					</div>
 				</div>
 			{/if}
 		</div>
 	</div>
 
-	{#if $params.time_mode == 'csv_time_intervals' && $params.location_mode == 'csv_coordinates'}
-		<div class="alert alert-warning" role="alert">
-			When you have a list of coordinates and a list of time intervals, they are paired one-by-one.
-			For example, if you have 10 locations and 10 time intervals, you'll get 10 combinations of
-			coordinates and time intervals.
-		</div>
-	{/if}
 
 	<div class="row py-3 px-0">
 		<h2>Hourly Weather Variables</h2>
