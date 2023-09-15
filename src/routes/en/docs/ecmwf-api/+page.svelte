@@ -113,8 +113,8 @@
 	<div class="row py-3 px-0">
 		<div>
 			<ul class="nav nav-underline" id="pills-tab" role="tablist">
-				<li class="nav-item" role="presentation">
-					<span class="nav-link disabled" aria-disabled="true">Time Selection:</span>
+				<li class="nav-item col-1" role="presentation">
+					<span class="nav-link disabled" aria-disabled="true">Time:</span>
 				</li>
 				<li class="nav-item" role="presentation">
 					<button

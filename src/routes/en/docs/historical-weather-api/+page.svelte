@@ -5,10 +5,11 @@
 	import { urlHashStore } from '$lib/url-hash-store';
 	import { countVariables } from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import { slide } from 'svelte/transition';
+	import { fade, slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
+	import { CalendarEvent, Clock, List } from 'svelte-bootstrap-icons';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 5);
@@ -22,7 +23,9 @@
 		hourly: [],
 		daily: [],
 		location_mode: 'location_search',
+		time_mode: 'time_interval',
 		csv_coordinates: '',
+		csv_time_intervals: '',
 		temperature_unit: 'celsius',
 		windspeed_unit: 'kmh',
 		precipitation_unit: 'mm',
@@ -188,67 +191,145 @@
 </div>
 
 <form method="get" action="https://archive-api.open-meteo.com/v1/archive">
-	<div class="row">
-		<LocationSelection
-			bind:latitude={$params.latitude}
-			bind:longitude={$params.longitude}
-			bind:location_mode={$params.location_mode}
-			bind:csv_coordinates={$params.csv_coordinates}
-		/>
-	</div>
+	<LocationSelection
+		bind:latitude={$params.latitude}
+		bind:longitude={$params.longitude}
+		bind:location_mode={$params.location_mode}
+		bind:csv_coordinates={$params.csv_coordinates}
+	/>
+
 	<div class="row py-3 px-0">
-		<div class="col-md-6">
-			<StartEndDate
-				bind:start_date={$params.start_date}
-				bind:end_date={$params.end_date}
-				{startDate}
-				{endDate}
-			/>
+		<div>
+			<ul class="nav nav-underline" id="pills-tab" role="tablist">
+				<li class="nav-item col-1" role="presentation">
+					<span class="nav-link disabled" aria-disabled="true">Time:</span>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button
+						class="nav-link"
+						class:active={$params.time_mode == 'time_interval'}
+						id="pills-time_interval-tab"
+						type="button"
+						role="tab"
+						aria-controls="pills-time_interval"
+						on:click={() => ($params.time_mode = 'time_interval')}
+						aria-selected="true"><CalendarEvent /> Time Interval</button
+					>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button
+						class="nav-link"
+						class:active={$params.time_mode == 'csv_time_intervals'}
+						id="pills-csv_time_intervals-tab"
+						type="button"
+						role="tab"
+						aria-controls="pills-csv_time_intervals"
+						on:click={() => ($params.time_mode = 'csv_time_intervals')}
+						aria-selected="true"><List /> List</button
+					>
+				</li>
+			</ul>
 		</div>
-		<div class="col-md-6">
-			<p>
-				You can access past weather data dating back to 1940. However, there is a 5-day delay in the
-				data. If you want information for the most recent days, you can use the <a
-					href="/en/docs"
-					title="Weather forecast API">forecast API</a
+		<div class="tab-content py-3" id="pills-tabContent">
+			{#if $params.time_mode == 'time_interval'}
+				<div
+					class="tab-pane active"
+					in:fade
+					id="pills-time_interval"
+					role="tabpanel"
+					aria-labelledby="pills-time_interval-tab"
+					tabindex="0"
 				>
-				and adjust the <mark>Past Days</mark> setting.
-			</p>
-			<p>
-				Quick:
-				<button
-					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2000-01-01'), ($params.end_date = '2009-12-31')
-					)}>2000-2010</button
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
+						</div>
+						<div class="col-md-6">
+							<p>
+								You can access past weather data dating back to 1940. However, there is a 5-day
+								delay in the data. If you want information for the most recent days, you can use the <a
+									href="/en/docs"
+									title="Weather forecast API">forecast API</a
+								>
+								and adjust the <mark>Past Days</mark> setting.
+							</p>
+							<p>
+								Quick:
+								<button
+									class="btn btn-outline-primary btn-sm"
+									on:click|preventDefault={() => (
+										($params.start_date = '2000-01-01'), ($params.end_date = '2009-12-31')
+									)}>2000-2010</button
+								>
+								<button
+									class="btn btn-outline-primary btn-sm"
+									on:click|preventDefault={() => (
+										($params.start_date = '2010-01-01'), ($params.end_date = '2019-12-31')
+									)}>2010-2022</button
+								>
+								<button
+									class="btn btn-outline-primary btn-sm"
+									on:click|preventDefault={() => (
+										($params.start_date = '2020-01-01'), ($params.end_date = '2020-12-31')
+									)}>2020</button
+								>
+								<button
+									class="btn btn-outline-primary btn-sm"
+									on:click|preventDefault={() => (
+										($params.start_date = '2021-01-01'), ($params.end_date = '2021-12-31')
+									)}>2021</button
+								>
+								<button
+									class="btn btn-outline-primary btn-sm"
+									on:click|preventDefault={() => (
+										($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
+									)}>2022</button
+								>
+							</p>
+						</div>
+					</div>
+				</div>
+			{/if}
+			{#if $params.time_mode == 'csv_time_intervals'}
+				<div
+					class="tab-pane active"
+					in:fade
+					id="pills-csv_time_intervals"
+					role="tabpanel"
+					aria-labelledby="pills-csv_time_intervals-tab"
+					tabindex="0"
 				>
-				<button
-					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2010-01-01'), ($params.end_date = '2019-12-31')
-					)}>2010-2022</button
-				>
-				<button
-					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2020-01-01'), ($params.end_date = '2020-12-31')
-					)}>2020</button
-				>
-				<button
-					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2021-01-01'), ($params.end_date = '2021-12-31')
-					)}>2021</button
-				>
-				<button
-					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
-					)}>2022</button
-				>
-			</p>
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<textarea
+								class="form-control"
+								id="csv_time_intervals"
+								bind:value={$params.csv_time_intervals}
+								rows="5"
+							/>
+						</div>
+						<div class="col-md-6 mb-3">
+							<p>
+								Multiple time-intervals can be retrieved. Format: start_date, end_date. Elevation
+								and timezone are optional. Examples to get data from January 2020, 2021 and 2022:
+							</p>
+							<pre>2020-01-01,2020-01-31
+2021-01-01,2021-01-31
+2022-01-01,2022-01-31</pre>
+						</div>
+					</div>
+				</div>
+			{/if}
 		</div>
 	</div>
+
+	{#if $params.time_mode == 'csv_time_intervals' && $params.location_mode == 'csv_coordinates'}
+		<div class="alert alert-warning" role="alert">
+			When you have a list of coordinates and a list of time intervals, they are paired one-by-one.
+			For example, if you have 10 locations and 10 time intervals, you'll get 10 combinations of
+			coordinates and time intervals.
+		</div>
+	{/if}
 
 	<div class="row py-3 px-0">
 		<h2>Hourly Weather Variables</h2>
