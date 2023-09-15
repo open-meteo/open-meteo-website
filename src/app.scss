@@ -67,3 +67,32 @@
     filter: invert(95%) hue-rotate(180deg);
   }
 }*/
+
+$color-mode-type: data;
+
+@include color-mode(dark) {
+		--sdt-bg-main: #3a3f44;
+		--sdt-shadow-color: #161616;
+		--sdt-color: #eee;
+		--sdt-header-color: #eee;
+		--sdt-primary: #e1ac4a;
+		--sdt-disabled-date: #bb5757;
+		--sdt-disabled-date-bg: var(--sdt-bg-main);
+		--sdt-btn-bg-hover: #777;
+		--sdt-btn-header-bg-hover: #777;
+		--sdt-color-selected: #fff;
+		--sdt-today-indicator: #ccc;
+		--sdt-clock-bg: #999;
+		/* custom buttons */
+		/*--sdt-today-bg: #e4a124;
+		--sdt-today-color: #fff;
+		--sdt-clear-color: #666;
+		--sdt-clear-bg: #ddd;
+		--sdt-clear-hover-color: #fff;
+		--sdt-clear-hover-bg: #dc3545;*/
+}
+
+.std-component-wrap {
+  position: inherit !important;
+  display: inherit !important;
+}
