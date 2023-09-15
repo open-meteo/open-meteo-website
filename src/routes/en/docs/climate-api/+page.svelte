@@ -1,29 +1,27 @@
 <script lang="ts">
 	import { dev } from '$app/environment';
-
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import LocationSearch from '../LocationSearch.svelte';
-	import type { GeoLocation } from '$lib/stores';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
 	import { countVariables } from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import SveltyPicker from 'svelty-picker';
-	import { slide } from 'svelte/transition';
-	import { onMount } from 'svelte';
+	import StartEndDate from '../StartEndDate.svelte';
+	import LocationSelection from '../LocationSelection.svelte';
 
 	const defaultParameter = {
+		location_mode: 'location_search',
+		csv_coordinates: '',
 		temperature_unit: 'celsius',
 		windspeed_unit: 'kmh',
 		precipitation_unit: 'mm',
 		timeformat: 'iso8601',
 		timezone: 'UTC',
-    disable_bias_correction: false
+		disable_bias_correction: false
 	};
 
 	const params = urlHashStore({
-		latitude: 52.52,
-		longitude: 13.41,
+		latitude: [52.52],
+		longitude: [13.41],
 		start_date: '1950-01-01',
 		end_date: '2050-12-31',
 		models: [
@@ -38,9 +36,6 @@
 		...defaultParameter,
 		daily: ['temperature_2m_max']
 	});
-
-	$: endDateInvalid = $params.end_date == null;
-	$: startDateInvalid = $params.start_date == null;
 
 	let daily = [
 		[
@@ -102,11 +97,6 @@
 			{ name: 'NICAM16_8S', label: 'NICAM16_8S', caption: '31 km' }
 		]
 	];
-
-	function locationCallback(event: CustomEvent<GeoLocation>) {
-		$params.latitude = Number(event.detail.latitude.toFixed(4));
-		$params.longitude = Number(event.detail.longitude.toFixed(4));
-	}
 </script>
 
 <svelte:head>
@@ -124,75 +114,38 @@
 </div>
 
 <form method="get" action="https://climate-api.open-meteo.com/v1/climate">
-	<div class="row">
-		<h2>Select Coordinates or City</h2>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<input
-					type="number"
-					class="form-control"
-					name="latitude"
-					id="latitude"
-					step="0.000001"
-					min="-90"
-					max="90"
-					bind:value={$params.latitude}
-				/>
-				<label for="latitude">Latitude</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<input
-					type="number"
-					class="form-control"
-					name="longitude"
-					id="longitude"
-					step="0.000001"
-					min="-180"
-					max="180"
-					bind:value={$params.longitude}
-				/>
-				<label for="longitude">Longitude</label>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<LocationSearch on:location={locationCallback} />
-		</div>
-	</div>
+	<LocationSelection
+		bind:latitude={$params.latitude}
+		bind:longitude={$params.longitude}
+		bind:location_mode={$params.location_mode}
+		bind:csv_coordinates={$params.csv_coordinates}
+		bind:timezone={$params.timezone}
+	/>
 	<div class="row py-3 px-0">
-		<h2>Specify Time Interval</h2>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<SveltyPicker
-					inputClasses="form-control {startDateInvalid ? 'is-invalid' : ''}"
-					format="yyyy-mm-dd"
-					name="start_date"
-					startDate="1950-01-01"
-					endDate="2050-12-31"
-					bind:value={$params.start_date}
-				/>
-				<label for="start_date">Start date</label>
-				{#if startDateInvalid}
-					<div class="invalid-tooltip" transition:slide|global>Start and end date must be set</div>
-				{/if}
-			</div>
+		<div class="col-md-6 mb-3">
+			<StartEndDate
+				bind:start_date={$params.start_date}
+				bind:end_date={$params.end_date}
+				startDate="1950-01-01"
+				endDate="2050-12-31"
+			/>
 		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<SveltyPicker
-					inputClasses="form-control {endDateInvalid ? 'is-invalid' : ''}"
-					format="yyyy-mm-dd"
-					name="end_date"
-					startDate="1950-01-01"
-					endDate="2050-12-31"
-					bind:value={$params.end_date}
-				/>
-				<label for="end_date">End date</label>
-				{#if endDateInvalid}
-					<div class="invalid-tooltip" transition:slide|global>Start and end date must be set</div>
-				{/if}
-			</div>
+		<div class="col-md-6 mb-3">
+			<p>
+				Quick:
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '1950-01-01'), ($params.end_date = '2050-12-31')
+					)}>1950-2050</button
+				>
+				<button
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2015-01-01'), ($params.end_date = '2050-12-31')
+					)}>2015-2050</button
+				>
+			</p>
 		</div>
 	</div>
 
@@ -256,7 +209,7 @@
 					type="checkbox"
 					id="disable_bias_correction"
 					name="disable_bias_correction"
-          bind:checked={$params.disable_bias_correction}
+					bind:checked={$params.disable_bias_correction}
 				/>
 				<label class="form-check-label" for="disable_bias_correction"
 					>Raw data. Disable statistical downscaling with ERA5-Land (10 km)</label
@@ -323,18 +276,6 @@
 					<option value="unixtime">Unix timestamp</option>
 				</select>
 				<label for="timeformat">Timeformat</label>
-			</div>
-		</div>
-		<div class="col-12 pb-3 debug-hidden">
-			<div class="form-check form-switch">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					id="localhost"
-					name="localhost"
-					value="true"
-				/>
-				<label class="form-check-label" for="localhost">Use localhost server</label>
 			</div>
 		</div>
 	</div>
@@ -614,7 +555,12 @@
 					<td>Floating point</td>
 					<td>Yes</td>
 					<td />
-					<td>Geographical WGS84 coordinate of the location</td>
+					<td
+						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
+						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
+						for multiple locations the JSON output changes to a list of structures. CSV and XLSX
+						formats add a column <mark>location_id</mark>.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">start_date<br />end_date</th>
@@ -741,7 +687,7 @@
 	<h3 class="mt-5">Daily Parameter Definition</h3>
 	<p>
 		The climate data in this API is presented as daily aggregations. Multiple weather variables can
-		be retrieved at once. The parameter <mark>&daily=</mark> accepts the following values as coma separated
+		be retrieved at once. The parameter <mark>&daily=</mark> accepts the following values as comma separated
 		list:
 	</p>
 	<div class="table-responsive">
