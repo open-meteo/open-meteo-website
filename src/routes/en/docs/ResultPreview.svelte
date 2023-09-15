@@ -324,7 +324,6 @@
 	api_key_preferences.subscribe(reset);
 
 	async function preview() {
-		console.log(parsedParams)
 		if ('latitude' in parsedParams && parsedParams.latitude.length > 5) {
 			throw new Error("Can not preview more than 5 locations");
 		}
