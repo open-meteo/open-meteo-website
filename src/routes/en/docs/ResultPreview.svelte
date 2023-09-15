@@ -25,7 +25,8 @@
 	}
 
 	/// Parsed params that resolved CSV fields
-	$: parsedParams = ((params: any) => {
+	$: parsedParams = ((p: any) => {
+		const params = {...p}
 		if ('time_mode' in params) {
 			if (params.time_mode == 'forecast_days') {
 				delete params['start_date']
@@ -323,7 +324,8 @@
 	api_key_preferences.subscribe(reset);
 
 	async function preview() {
-		if (parsedParams.latitude.length > 5) {
+		console.log(parsedParams)
+		if ('latitude' in parsedParams && parsedParams.latitude.length > 5) {
 			throw new Error("Can not preview more than 5 locations");
 		}
 
