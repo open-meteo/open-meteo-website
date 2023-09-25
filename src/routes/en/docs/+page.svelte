@@ -16,6 +16,7 @@
 	import LocationSelection from './LocationSelection.svelte';
 
 	const defaultParameter = {
+		minutely_15: [],
 		hourly: [],
 		daily: [],
 		location_mode: 'location_search',
@@ -107,6 +108,35 @@
 			{ name: 'soil_moisture_3_9cm', label: 'Soil Moisture (3-9 cm)' },
 			{ name: 'soil_moisture_9_27cm', label: 'Soil Moisture (9-27 cm)' },
 			{ name: 'soil_moisture_27_81cm', label: 'Soil Moisture (27-81 cm)' }
+		]
+	];
+
+	const minutely_15 = [
+		[
+			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
+			{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'dewpoint_2m', label: 'Dewpoint (2 m)' },
+			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
+		],
+		[
+			{ name: 'weathercode', label: 'Weathercode' },
+			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
+			{ name: 'rain', label: 'Rain' },
+			{ name: 'snowfall', label: 'Snowfall' },
+			{ name: 'snowfall_height', label: 'Snowfall Height' },
+			{ name: 'freezinglevel_height', label: 'Freezinglevel Height' }
+		],
+		[
+			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'windspeed_80m', label: 'Wind Speed (80 m)' },
+			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'winddirection_80m', label: 'Wind Direction (80 m)' },
+			{ name: 'windgusts_10m', label: 'Wind Gusts (10 m)' },
+		],
+		[
+			{ name: 'visibility', label: 'Visibility' },
+			{ name: 'cape', label: 'CAPE' },
+			{ name: 'lightning_potential', label: 'Lightning Potential Index LPI' }
 		]
 	];
 
@@ -520,6 +550,56 @@
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
 						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
 						a seamless prediction.</small
+					>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="minutely_15"
+				title="15-Minutely Weather Variables"
+				count={countVariables(solarVariables, $params.hourly)}
+			>
+				{#each minutely_15 as group}
+					<div class="col-md-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_minutely_15"
+									name="minutely_15"
+									bind:group={$params.minutely_15}
+								/>
+								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				<p>
+				<small class="text-muted"
+					>Note: Only available in Central Europe and North America. Other regions use interpolated hourly data.</small
+				></p>
+				{#each solarVariables as group}
+					<div class="col-md-6">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_minutely_15"
+									name="minutely_15"
+									bind:group={$params.minutely_15}
+								/>
+								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				<div class="col-md-12">
+					<small class="text-muted"
+						>Note: Solar radiation is averaged over the 15 minutes. Use
+						<mark>instant</mark> for radiation at the indicated time.</small
 					>
 				</div>
 			</AccordionItem>
