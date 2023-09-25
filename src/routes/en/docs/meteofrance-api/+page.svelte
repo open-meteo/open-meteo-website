@@ -427,18 +427,6 @@
 									{/each}
 								</div>
 							</div>
-							<div class="col-md-12">
-								<small class="text-muted"
-									>Note: Solar radiation is averaged over the past hour. Use <mark>instant</mark>
-									for radiation at the indicated time.</small
-								>
-							</div>
-							<div class="col-md-12">
-								<small class="text-muted"
-									>Note: Solar radiation is averaged over the past hour. Use <mark>instant</mark>
-									for radiation at the indicated time.</small
-								>
-							</div>
 						{/each}
 						<div class="mt-3">
 							<small class="text-muted"
