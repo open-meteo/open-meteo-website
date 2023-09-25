@@ -86,7 +86,7 @@
 			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
 			{ name: 'windspeed_40m', label: 'Wind Speed (40 m)' },
 			{ name: 'windspeed_80m', label: 'Wind Speed (80 m)' },
-			{ name: 'windspeed_120m', label: 'Wind Speed (1200 m)' },
+			{ name: 'windspeed_120m', label: 'Wind Speed (120 m)' },
 			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
 			{ name: 'winddirection_40m', label: 'Wind Direction (40 m)' },
 			{ name: 'winddirection_80m', label: 'Wind Direction (80 m)' },
