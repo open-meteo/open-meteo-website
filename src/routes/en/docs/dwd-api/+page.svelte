@@ -103,11 +103,11 @@
 			{ name: 'soil_temperature_6cm', label: 'Soil Temperature (6 cm)' },
 			{ name: 'soil_temperature_18cm', label: 'Soil Temperature (18 cm)' },
 			{ name: 'soil_temperature_54cm', label: 'Soil Temperature (54 cm)' },
-			{ name: 'soil_moisture_0_1cm', label: 'Soil Moisture (0-1 cm)' },
-			{ name: 'soil_moisture_1_3cm', label: 'Soil Moisture (1-3 cm)' },
-			{ name: 'soil_moisture_3_9cm', label: 'Soil Moisture (3-9 cm)' },
-			{ name: 'soil_moisture_9_27cm', label: 'Soil Moisture (9-27 cm)' },
-			{ name: 'soil_moisture_27_81cm', label: 'Soil Moisture (27-81 cm)' }
+			{ name: 'soil_moisture_0_to_1cm', label: 'Soil Moisture (0-1 cm)' },
+			{ name: 'soil_moisture_1_to_3cm', label: 'Soil Moisture (1-3 cm)' },
+			{ name: 'soil_moisture_3_to_9cm', label: 'Soil Moisture (3-9 cm)' },
+			{ name: 'soil_moisture_9_to_27cm', label: 'Soil Moisture (9-27 cm)' },
+			{ name: 'soil_moisture_27_to_81cm', label: 'Soil Moisture (27-81 cm)' }
 		]
 	];
 
@@ -1120,8 +1120,8 @@
 				</tr>
 				<tr>
 					<th scope="row">
-						soil_moisture_0_1cm<br />soil_moisture_1_3cm<br />soil_moisture_3_9cm<br
-						/>soil_moisture_9_27cm<br />soil_moisture_27_81cm
+						soil_moisture_0_to_1cm<br />soil_moisture_1_to_3cm<br />soil_moisture_3_to_9cm<br
+						/>soil_moisture_9_to_27cm<br />soil_moisture_27_to_81cm
 					</th>
 					<td>Instant</td>
 					<td>m³/m³</td>
