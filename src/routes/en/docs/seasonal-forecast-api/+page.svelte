@@ -486,7 +486,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">skin_temperature</th>
+					<th scope="row">surface_temperature</th>
 					<td>Instant</td>
 					<td>°C (°F)</td>
 					<td
