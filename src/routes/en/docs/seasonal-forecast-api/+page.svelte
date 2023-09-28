@@ -477,7 +477,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<th scope="row">pressure_msl<br />surface_air_pressure</th>
+					<th scope="row">pressure_msl<br />surface_pressure</th>
 					<td>Instant</td>
 					<td>hPa</td>
 					<td
