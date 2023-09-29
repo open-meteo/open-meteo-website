@@ -38,14 +38,14 @@
 
 	const pressureVariables = [
 		{ name: 'temperature', label: 'Temperature' },
-		{ name: 'relative_humidity', label: 'Relative Humidity' }, // NOTE underscore here!
-		{ name: 'specific_humidity', label: 'Specific Humidity' },
+		{ name: 'relativehumidity', label: 'Relative Humidity' }, 
+		//{ name: 'specific_humidity', label: 'Specific Humidity' },
 		{ name: 'cloudcover', label: 'Cloudcover' },
 		{ name: 'windspeed', label: 'Wind Speed' },
 		{ name: 'winddirection', label: 'Wind Direction' },
 		{ name: 'geopotential_height', label: 'Geopotential Height' },
-		{ name: 'atmosphere_relative_vorticity', label: 'Relative Vorticity' },
-		{ name: 'divergence_of_wind', label: 'Divergence of Wind' }
+		//{ name: 'atmosphere_relative_vorticity', label: 'Relative Vorticity' },
+		//{ name: 'divergence_of_wind', label: 'Divergence of Wind' }
 	];
 	const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse();
 
@@ -78,7 +78,7 @@
 		],
 		[
 			{ name: 'surface_temperature', label: 'Surface temperature' },
-			{ name: 'soil_temperature_0_to_7_cm', label: 'Soil Temperature (0-7 cm)' },
+			{ name: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
 			{ name: 'runoff', label: 'Surface Water Runoff' },
 			{
 				name: 'total_column_integrated_water_vapour',
@@ -722,7 +722,7 @@
 					<td>Wind direction at 10 meters above ground and different pressure levels.</td>
 				</tr>
 				<tr>
-					<th scope="row">relative_humidity_1000hPa, ...</th>
+					<th scope="row">relativehumidity_1000hPa, ...</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td
@@ -742,7 +742,7 @@
 						></td
 					>
 				</tr>
-				<tr>
+				<!--<tr>
 					<th scope="row">specific_humidity_1000hPa, ...</th>
 					<td>Instant</td>
 					<td>g/kg</td>
@@ -759,7 +759,7 @@
 					<td>Instant</td>
 					<td>s⁻¹</td>
 					<td>Differgence of wind at different atmospheric pressure levels</td>
-				</tr>
+				</tr>-->
 			</tbody>
 		</table>
 	</div>
