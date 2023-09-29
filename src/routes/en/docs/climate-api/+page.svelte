@@ -67,7 +67,7 @@
 
 	if (dev) {
 		daily.push([
-			{ name: 'vapor_pressure_deficit_mean', label: 'Vapor Pressure Deficit' },
+			{ name: 'vapor_pressure_deficit_max', label: 'Vapor Pressure Deficit' },
 			{ name: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
 			{ name: 'soil_moisture_7_to_28cm_mean', label: 'Mean Soil Moisture (7-28 cm)' },
 			{ name: 'soil_moisture_28_to_100cm_mean', label: 'Mean Soil Moisture (28-100 cm)' },
