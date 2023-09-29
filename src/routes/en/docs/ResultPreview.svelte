@@ -256,7 +256,12 @@
 			},
 
 			chart: {
-				zoomType: 'x'
+				zoomType: 'x',
+				zooming: {
+					mouseWheel: {
+						enabled: false
+					}
+				},
 			},
 
 			yAxis: yAxis,

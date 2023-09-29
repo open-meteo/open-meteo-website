@@ -64,7 +64,6 @@
 			{ name: 'european_aqi_no2', label: 'European AQI NO<sub>2</sub>' },
 			{ name: 'european_aqi_o3', label: 'European AQI O<sub>3</sub>' },
 			{ name: 'european_aqi_so2', label: 'European AQI SO<sub>2</sub>' },
-			{ name: '', label: '' }
 		]
 	];
 
