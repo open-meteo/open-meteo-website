@@ -17,11 +17,11 @@
 
 
 	const defaultParameter = {
+		current: [],
 		hourly: [],
 		daily: [],
 		location_mode: 'location_search',
 		csv_coordinates: '',
-		current_weather: false,
 		temperature_unit: 'celsius',
 		windspeed_unit: 'kmh',
 		precipitation_unit: 'mm',
@@ -99,6 +99,31 @@
 			{ name: 'temperature_120m', label: 'Temperature (120 m)' },
 			{ name: 'soil_temperature_0_to_10cm', label: 'Soil Temperature (0-10 cm)' },
 			{ name: 'soil_moisture_0_to_10cm', label: 'Soil Moisture (0-10 cm)' }
+		]
+	];
+
+	const current = [
+		[
+			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
+			{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
+			{ name: 'is_day', label: 'Is Day or Night' }
+		],[
+			{ name: 'precipitation', label: 'Precipitation' },
+			{ name: 'rain', label: 'Rain' },
+			{ name: 'showers', label: 'Showers' },
+			{ name: 'snowfall', label: 'Snowfall' },
+		],
+		[
+			{ name: 'weathercode', label: 'Weathercode' },
+			{ name: 'cloudcover', label: 'Cloudcover Total' },
+			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
+			{ name: 'surface_pressure', label: 'Surface Pressure' },
+		],
+		[
+			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'windgusts_10m', label: 'Wind Gusts (10 m)' },
 		]
 	];
 
@@ -445,22 +470,33 @@
 	</div>
 
 	<div class="row py-3 px-0">
-		<h2>Settings</h2>
-		<div class="col-12 pb-3">
-			<div class="form-check form-switch">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					id="current_weather"
-					name="current_weather"
-					value="true"
-					bind:checked={$params.current_weather}
-				/>
-				<label class="form-check-label" for="current_weather"
-					>Current weather with temperature, windspeed and weather code</label
-				>
+		<h2>Current Weather</h2>
+		{#each current as group}
+			<div class="col-md-3 mb-2">
+				{#each group as e}
+					<div class="form-check">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							value={e.name}
+							id="{e.name}_current"
+							name="current"
+							bind:group={$params.current}
+						/>
+						<label class="form-check-label" for="{e.name}_current">{e.label}</label>
+					</div>
+				{/each}
 			</div>
+		{/each}
+		<div class="col-md-12">
+			<small class="text-muted"
+				>Note: Current conditions are based on 15-minutely weather model data. Every weather variable available in hourly data, is available as current condition as well.</small
+			>
 		</div>
+	</div>
+
+	<div class="row py-3 px-0">
+		<h2>Settings</h2>
 		<div class="col-md-3">
 			<div class="form-floating mb-3">
 				<select
@@ -660,11 +696,11 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">current_weather</th>
-					<td>Bool</td>
+					<th scope="row">current</th>
+					<td>String array</td>
 					<td>No</td>
-					<td><mark>false</mark></td>
-					<td>Include current weather conditions in the JSON output.</td>
+					<td />
+					<td>A list of weather variables to get current conditions.</td>
 				</tr>
 				<tr>
 					<th scope="row">temperature_unit</th>
@@ -1180,13 +1216,6 @@
   },
   "hourly_units": {
     "temperature_2m": "°C"
-  },
-  "current_weather": {
-    "time": "2022-07-01T09:00",
-    "temperature": 13.3,
-    "weathercode": 3,
-    "windspeed": 10.3,
-    "winddirection": 262
   }
 `}
       </code>
@@ -1267,15 +1296,6 @@
 					<th scope="row">daily_units</th>
 					<td>Object</td>
 					<td>For each selected daily weather variable, the unit will be listed here.</td>
-				</tr>
-				<tr>
-					<th scope="row">current_weather</th>
-					<td>Object</td>
-					<td
-						>Current weather conditions with the attributes: <mark>time</mark>,
-						<mark>temperature</mark>,
-						<mark>windspeed</mark>, <mark>winddirection</mark> and <mark>weathercode</mark>
-					</td>
 				</tr>
 			</tbody>
 		</table>

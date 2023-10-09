@@ -10,6 +10,7 @@
 	import LocationSelection from '../LocationSelection.svelte';
 
 	const defaultParameter = {
+		current: [],
 		hourly: [],
 		location_mode: 'location_search',
 		csv_coordinates: '',
@@ -32,6 +33,34 @@
 
 	const hourly = [
 		[
+			{ name: 'pm10', label: 'Particulate Matter PM<sub>10</sub>' },
+			{ name: 'pm2_5', label: 'Particulate Matter PM<sub>2.5</sub>' },
+			{ name: 'carbon_monoxide', label: 'Carbon Monoxide CO' },
+			{ name: 'nitrogen_dioxide', label: 'Nitrogen Dioxide NO<sub>2</sub>' },
+			{ name: 'sulphur_dioxide', label: 'Sulphur Dioxide SO<sub>2</sub>' },
+			{ name: 'ozone', label: 'Ozone O<sub>3</sub>' }
+		],
+		[
+			{ name: 'aerosol_optical_depth', label: 'Aerosol Optical Depth' },
+			{ name: 'dust', label: 'Dust' },
+			{ name: 'uv_index', label: 'UV Index' },
+			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
+			{ name: 'ammonia', label: 'Ammonia NH<sub>3</sub> <small class="text-muted">(*)</small>' }
+		],
+		[
+			{ name: 'alder_pollen', label: 'Alder Pollen <small class="text-muted">(*)</small>' },
+			{ name: 'birch_pollen', label: 'Birch Pollen <small class="text-muted">(*)</small>' },
+			{ name: 'grass_pollen', label: 'Grass Pollen <small class="text-muted">(*)</small>' },
+			{ name: 'mugwort_pollen', label: 'Mugwort Pollen <small class="text-muted">(*)</small>' },
+			{ name: 'olive_pollen', label: 'Olive Pollen <small class="text-muted">(*)</small>' },
+			{ name: 'ragweed_pollen', label: 'Ragweed Pollen <small class="text-muted">(*)</small>' }
+		]
+	];
+
+	const current = [
+		[
+			{ name: 'european_aqi', label: 'European AQI' },
+			{ name: 'us_aqi', label: 'United States AQI' },
 			{ name: 'pm10', label: 'Particulate Matter PM<sub>10</sub>' },
 			{ name: 'pm2_5', label: 'Particulate Matter PM<sub>2.5</sub>' },
 			{ name: 'carbon_monoxide', label: 'Carbon Monoxide CO' },
@@ -499,6 +528,27 @@
 	</div>
 
 	<div class="row py-3 px-0">
+		<h2>Current Conditions</h2>
+		{#each current as group}
+			<div class="col-md-3 mb-2">
+				{#each group as e}
+					<div class="form-check">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							value={e.name}
+							id="{e.name}_current"
+							name="current"
+							bind:group={$params.current}
+						/>
+						<label class="form-check-label" for="{e.name}_current">{@html e.label}</label>
+					</div>
+				{/each}
+			</div>
+		{/each}
+	</div>
+
+	<div class="row py-3 px-0">
 		<h2>Settings</h2>
 		<div class="col-3 mb-3">
 			<div class="form-floating mb-3">
@@ -591,6 +641,13 @@
 						multiple
 						<mark>&hourly=</mark> parameter in the URL can be used.
 					</td>
+				</tr>
+				<tr>
+					<th scope="row">current</th>
+					<td>String array</td>
+					<td>No</td>
+					<td />
+					<td>A list of variables to get current conditions.</td>
 				</tr>
 				<tr>
 					<th scope="row">domains</th>
