@@ -18,6 +18,7 @@
 	const defaultParameter = {
 		hourly: [],
 		daily: [],
+		minutely_15: [],
 		location_mode: 'location_search',
 		csv_coordinates: '',
 		current_weather: false,
@@ -59,7 +60,7 @@
 	let pressureVariablesTab = 'temperature';
 
 	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
-	
+
 	const hourly = [
 		[
 			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
@@ -104,6 +105,28 @@
 			{ name: 'soil_moisture_10_to_40cm', label: 'Soil Moisture (10-40 cm)' },
 			{ name: 'soil_moisture_40_to_100cm', label: 'Soil Moisture (40-100 cm)' },
 			{ name: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-200 cm)' }
+		]
+	];
+
+	const minutely_15 = [
+		[
+			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
+			{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'dewpoint_2m', label: 'Dewpoint (2 m)' },
+			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
+			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
+			{ name: 'rain', label: 'Rain' },
+			{ name: 'snowfall', label: 'Snowfall' }
+		],
+		[
+			{ name: 'weathercode', label: 'Weathercode' },
+			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'windspeed_80m', label: 'Wind Speed (80 m)' },
+			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'winddirection_80m', label: 'Wind Direction (80 m)' },
+			{ name: 'windgusts_10m', label: 'Wind Gusts (10 m)' },
+			{ name: 'visibility', label: 'Visibility' },
+			{ name: 'cape', label: 'CAPE' }
 		]
 	];
 
@@ -184,7 +207,7 @@
 		bind:location_mode={$params.location_mode}
 		bind:csv_coordinates={$params.csv_coordinates}
 		bind:timezone={$params.timezone}
-		bind:timezoneInvalid={timezoneInvalid}
+		bind:timezoneInvalid
 	/>
 
 	<div class="row py-3 px-0">
@@ -202,7 +225,7 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						on:click={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -214,7 +237,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent/> Time Interval</button
+						aria-selected="true"><CalendarEvent /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -285,7 +308,7 @@
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 					</div>
 				</div>
@@ -435,6 +458,53 @@
 							>
 						</div>
 					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="minutely_15"
+				title="15-Minutely Weather Variables"
+				count={countVariables(solarVariables, $params.hourly)}
+			>
+				{#each minutely_15 as group}
+					<div class="col-md-6 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_minutely_15"
+									name="minutely_15"
+									bind:group={$params.minutely_15}
+								/>
+								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				{#each solarVariables as group}
+					<div class="col-md-6">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_minutely_15"
+									name="minutely_15"
+									bind:group={$params.minutely_15}
+								/>
+								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				<div class="col-md-12">
+					<small class="text-muted"
+						>Note: Only available in North America. Other regions use
+						interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
+						<mark>instant</mark> for radiation at the indicated time.</small
+					>
 				</div>
 			</AccordionItem>
 		</div>
@@ -1085,6 +1155,153 @@
 					<td
 						>Average soil water content as volumetric mixing ratio at 0-10, 10-40, 40-100 and
 						100-200 cm depths.</td
+					>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<h3 class="mt-5">15-Minutely Parameter Definition</h3>
+	<p>
+		The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
+		on the HRRR model which is only available in North America. If 15-minutely data is requested
+		for locations outside North America, data is interpolated from 1-hourly to 15-minutely.
+	</p>
+	<p>
+		15-minutely data can be requested for other weather variables that are available for hourly
+		data, but will use interpolation.
+	</p>
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Variable</th>
+					<th scope="col">Valid time</th>
+					<th scope="col">Unit</th>
+					<th scope="col">Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row">temperature_2m</th>
+					<td>Instant</td>
+					<td>°C (°F)</td>
+					<td>Air temperature at 2 meters above ground</td>
+				</tr>
+				<tr>
+					<th scope="row">relativehumidity_2m</th>
+					<td>Instant</td>
+					<td>%</td>
+					<td>Relative humidity at 2 meters above ground</td>
+				</tr>
+				<tr>
+					<th scope="row">dewpoint_2m</th>
+					<td>Instant</td>
+					<td>°C (°F)</td>
+					<td>Dew point temperature at 2 meters above ground</td>
+				</tr>
+				<tr>
+					<th scope="row">apparent_temperature</th>
+					<td>Instant</td>
+					<td>°C (°F)</td>
+					<td
+						>Apparent temperature is the perceived feels-like temperature combining wind chill
+						factor, relative humidity and solar radiation</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">windspeed_10m<br />windspeed_80m</th>
+					<td>Instant</td>
+					<td>km/h (mph, m/s, knots)</td>
+					<td
+						>Wind speed at 10 or 80 meters above ground. Wind speed on 10 meters is the standard
+						level.
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">winddirection_10m<br />winddirection_80m</th>
+					<td>Instant</td>
+					<td>°</td>
+					<td>Wind direction at 10 or 80 meters above ground</td>
+				</tr>
+				<tr>
+					<th scope="row">windgusts_10m</th>
+					<td>Preceding 15 minutes max</td>
+					<td>km/h (mph, m/s, knots)</td>
+					<td>Gusts at 10 meters above ground as a maximum of the preceding 15 minutes</td>
+				</tr>
+				<tr>
+					<th scope="row">shortwave_radiation</th>
+					<td>Preceding 15 minutes mean</td>
+					<td>W/m²</td>
+					<td
+						>Shortwave solar radiation as average of the preceding 15 minutes. This is equal to the
+						total global horizontal irradiation
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">direct_radiation<br />direct_normal_irradiance</th>
+					<td>Preceding 15 minutes mean</td>
+					<td>W/m²</td>
+					<td
+						>Direct solar radiation as average of the preceding 15 minutes on the horizontal plane
+						and the normal plane (perpendicular to the sun)</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">diffuse_radiation</th>
+					<td>Preceding 15 minutes mean</td>
+					<td>W/m²</td>
+					<td>Diffuse solar radiation as average of the preceding 15 minutes</td>
+				</tr>
+				<tr>
+					<th scope="row">precipitation</th>
+					<td>Preceding 15 minutes sum</td>
+					<td>mm (inch)</td>
+					<td>Total precipitation (rain, showers, snow) sum of the preceding 15 minutes</td>
+				</tr>
+				<tr>
+					<th scope="row">snowfall</th>
+					<td>Preceding 15 minutes sum</td>
+					<td>cm (inch)</td>
+					<td
+						>Snowfall amount of the preceding 15 minutes in centimeters. For the water equivalent in
+						millimeter, divide by 7. E.g. 7 cm snow = 10 mm precipitation water equivalent</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">rain</th>
+					<td>Preceding 15 minutes sum</td>
+					<td>mm (inch)</td>
+					<td>Rain from large scale weather systems of the preceding 15 minutes in millimeter</td>
+				</tr>
+				<tr>
+					<th scope="row">cape</th>
+					<td>Instant</td>
+					<td>J/kg</td>
+					<td
+						>Convective available potential energy. See <a
+							href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
+							target="_blank">Wikipedia</a
+						>.</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">visibility</th>
+					<td>Instant</td>
+					<td>meters</td>
+					<td
+						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols. Maximum
+						visibility is approximately 24 km.</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">weathercode</th>
+					<td>Instant</td>
+					<td>WMO code</td>
+					<td
+						>Weather condition as a numeric code. Follow WMO weather interpretation codes. See table
+						below for details.</td
 					>
 				</tr>
 			</tbody>

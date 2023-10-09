@@ -117,9 +117,6 @@
 			{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'dewpoint_2m', label: 'Dewpoint (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-		],
-		[
-			{ name: 'weathercode', label: 'Weathercode' },
 			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
 			{ name: 'rain', label: 'Rain' },
 			{ name: 'snowfall', label: 'Snowfall' },
@@ -127,13 +124,12 @@
 			{ name: 'freezinglevel_height', label: 'Freezinglevel Height' }
 		],
 		[
+			{ name: 'weathercode', label: 'Weathercode' },
 			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
 			{ name: 'windspeed_80m', label: 'Wind Speed (80 m)' },
 			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
 			{ name: 'winddirection_80m', label: 'Wind Direction (80 m)' },
 			{ name: 'windgusts_10m', label: 'Wind Gusts (10 m)' },
-		],
-		[
 			{ name: 'visibility', label: 'Visibility' },
 			{ name: 'cape', label: 'CAPE' },
 			{ name: 'lightning_potential', label: 'Lightning Potential Index LPI' }
@@ -559,7 +555,7 @@
 				count={countVariables(solarVariables, $params.hourly)}
 			>
 				{#each minutely_15 as group}
-					<div class="col-md-3">
+					<div class="col-md-6 mb-3">
 						{#each group as e}
 							<div class="form-check">
 								<input
@@ -575,10 +571,6 @@
 						{/each}
 					</div>
 				{/each}
-				<p>
-				<small class="text-muted"
-					>Note: Only available in Central Europe and North America. Other regions use interpolated hourly data.</small
-				></p>
 				{#each solarVariables as group}
 					<div class="col-md-6">
 						{#each group as e}
@@ -598,7 +590,7 @@
 				{/each}
 				<div class="col-md-12">
 					<small class="text-muted"
-						>Note: Solar radiation is averaged over the 15 minutes. Use
+						>Note: Only available in Central Europe and North America. Other regions use interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
 						<mark>instant</mark> for radiation at the indicated time.</small
 					>
 				</div>
@@ -1270,6 +1262,177 @@
 					<td>Dimensionless</td>
 					<td><mark>1</mark> if the current time step has daylight, <mark>0</mark> at night.</td>
 				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<h3 class="mt-5">15-Minutely Parameter Definition</h3>
+	<p>
+		The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
+		on NOAA HRRR model for North America and DWD ICON-D2 model for Central Europe. If 15-minutely data is requested
+		for other regions data is interpolated from 1-hourly to 15-minutely.
+	</p>
+	<p>
+		15-minutely data can be requested for other weather variables that are available for hourly
+		data, but will use interpolation.
+	</p>
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Variable</th>
+					<th scope="col">Valid time</th>
+					<th scope="col">Unit</th>
+					<th scope="col">HRRR</th>
+					<th scope="col">ICON-D2</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row">temperature_2m</th>
+					<td>Instant</td>
+					<td>°C (°F)</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th scope="row">relativehumidity_2m</th>
+					<td>Instant</td>
+					<td>%</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th scope="row">dewpoint_2m</th>
+					<td>Instant</td>
+					<td>°C (°F)</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th scope="row">apparent_temperature</th>
+					<td>Instant</td>
+					<td>°C (°F)</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th scope="row">shortwave_radiation</th>
+					<td>Preceding 15 minutes mean</td>
+					<td>W/m²</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row">direct_radiation<br />direct_normal_irradiance</th>
+					<td>Preceding 15 minutes mean</td>
+					<td>W/m²</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row">diffuse_radiation</th>
+					<td>Preceding 15 minutes mean</td>
+					<td>W/m²</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row">lightning_potential</th>
+					<td>Instant</td>
+					<td>J/kg</td>
+					<td></td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row">precipitation</th>
+					<td>Preceding 15 minutes sum</td>
+					<td>mm (inch)</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row">snowfall</th>
+					<td>Preceding 15 minutes sum</td>
+					<td>cm (inch)</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row">rain</th>
+					<td>Preceding 15 minutes sum</td>
+					<td>mm (inch)</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row">showers</th>
+					<td>Preceding 15 minutes sum</td>
+					<td>mm (inch)</td>
+					<td></td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row">snowfall_height</th>
+					<td>Instant</td>
+					<td>meters</td>
+					<td></td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row">freezinglevel_height</th>
+					<td>Instant</td>
+					<td>meters</td>
+					<td></td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row">cape</th>
+					<td>Instant</td>
+					<td>J/kg</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						>windspeed_10m<br />windspeed_80m</th
+					>
+					<td>Instant</td>
+					<td>km/h (mph, m/s, knots)</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th scope="row"
+						>winddirection_10m<br />winddirection_80m<br /></th
+					>
+					<td>Instant</td>
+					<td>°</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th scope="row">windgusts_10m</th>
+					<td>Preceding 15 min max</td>
+					<td>km/h (mph, m/s, knots)</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th scope="row">visibility</th>
+					<td>Instant</td>
+					<td>meters</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th scope="row">weathercode</th>
+					<td>Instant</td>
+					<td>WMO code</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				
 			</tbody>
 		</table>
 	</div>
