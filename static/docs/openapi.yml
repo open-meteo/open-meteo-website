@@ -66,6 +66,25 @@ paths:
             - soil_moisture_3_to_9cm
             - soil_moisture_9_to_27cm
             - soil_moisture_27_to_81cm
+      - name: current
+        in: query
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - temperature_2m
+            - relativehumidity_2m
+            - dewpoint_2m
+            - apparent_temperature
+            - pressure_msl
+            - cloudcover
+            - windspeed_10m
+            - winddirection_10m
+            - windgusts_10m
+            - precipitation
+            - weathercode
       - name: daily
         in: query
         schema:
@@ -100,10 +119,6 @@ paths:
         schema:
           type: number
           format: float
-      - name: current_weather
-        in: query
-        schema:
-          type: boolean
       - name: temperature_unit
         in: query
         schema:
