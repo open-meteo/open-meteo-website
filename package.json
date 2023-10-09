@@ -37,5 +37,49 @@
 		"highcharts": "^11.1.0",
 		"svelte-local-storage-store": "^0.6.4",
 		"svelty-picker": "^5.0.0"
-	}
+	},
+	"release": {
+		"branches": [
+		  "main"
+		],
+		"plugins": [
+		  [
+			"@semantic-release/commit-analyzer",
+			{
+			  "preset": "conventionalcommits",
+			  "releaseRules": [
+				{
+				  "type": "build",
+				  "scope": "deps",
+				  "release": "patch"
+				}
+			  ]
+			}
+		  ],
+		  [
+			"@semantic-release/release-notes-generator",
+			{
+			  "preset": "conventionalcommits",
+			  "presetConfig": {
+				"types": [
+				  {
+					"type": "feat",
+					"section": "Features"
+				  },
+				  {
+					"type": "fix",
+					"section": "Bug Fixes"
+				  },
+				  {
+					"type": "build",
+					"section": "Dependencies and Other Build Updates",
+					"hidden": false
+				  }
+				]
+			  }
+			}
+		  ],
+		  "@semantic-release/github"
+		]
+	  }
 }
