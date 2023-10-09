@@ -22,6 +22,7 @@
 		"@sveltejs/adapter-static": "^2.0.2",
 		"@sveltejs/kit": "^1.20.4",
 		"bootstrap": "^5.2.3",
+		"conventional-changelog-conventionalcommits": "^7.0.2",
 		"eslint": "^8.44.0",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-plugin-svelte": "^2.32.2",
