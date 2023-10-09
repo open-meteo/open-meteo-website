@@ -11,7 +11,7 @@
 	} from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { fade, slide } from 'svelte/transition';
-	import { CalendarEvent, Clock} from 'svelte-bootstrap-icons';
+	import { CalendarEvent, Clock } from 'svelte-bootstrap-icons';
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 
@@ -133,7 +133,7 @@
 			{ name: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
 			{ name: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
 			{ name: 'sunrise', label: 'Sunrise' },
-			{ name: 'sunset', label: 'Sunset' },
+			{ name: 'sunset', label: 'Sunset' }
 		],
 		[
 			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
@@ -201,7 +201,7 @@
 		bind:location_mode={$params.location_mode}
 		bind:csv_coordinates={$params.csv_coordinates}
 		bind:timezone={$params.timezone}
-		bind:timezoneInvalid={timezoneInvalid}
+		bind:timezoneInvalid
 	/>
 
 	<div class="row py-3 px-0">
@@ -219,7 +219,7 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						on:click={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -231,7 +231,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent/> Time Interval</button
+						aria-selected="true"><CalendarEvent /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -302,7 +302,7 @@
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 					</div>
 				</div>
@@ -455,32 +455,57 @@
 					</div>
 				</div>
 			</AccordionItem>
-		</div>
-	</div>
-
-	<div class="row py-3 px-0">
-		<h2>15-Minutely Weather Variables <small class="text-muted">(*)</small></h2>
-		{#each minutely_15 as group}
-			<div class="col-md-6">
-				{#each group as e}
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value={e.name}
-							id="{e.name}_minutely_15"
-							name="minutely_15"
-							bind:group={$params.minutely_15}
-						/>
-						<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
+			<AccordionItem
+				id="minutely_15"
+				title="15-Minutely Weather Variables"
+				count={countVariables(solarVariables, $params.hourly)}
+			>
+				{#each minutely_15 as group}
+					<div class="col-md-6 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_minutely_15"
+									name="minutely_15"
+									bind:group={$params.minutely_15}
+								/>
+								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
+							</div>
+						{/each}
 					</div>
 				{/each}
-			</div>
-		{/each}
-		<small class="text-muted"
-			>* Only available in Central Europe (otherwise just interpolated data) and limited to 3 days
-			of forecast</small
-		>
+
+				{#each solarVariables as group}
+					<div class="col-md-6">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_minutely_15"
+									name="minutely_15"
+									bind:group={$params.minutely_15}
+								/>
+								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				<div class="col-md-12">
+					<p>
+						<small class="text-muted"
+							>Note: Only available in Central Europe. Other regions use interpolated hourly data.
+							Solar radiation is averaged over the 15 minutes. Use
+							<mark>instant</mark> for radiation at the indicated time.</small
+						>
+					</p>
+				</div>
+			</AccordionItem>
+		</div>
 	</div>
 
 	<div class="row py-3 px-0">
@@ -1151,6 +1176,10 @@
 		on the ICON-D2 model which is only available in Central Europe. If 15-minutely data is requested
 		for locations outside Central Europe, data is interpolated from 1-hourly to 15-minutely.
 	</p>
+	<p>
+		15-minutely data can be requested for other weather variables that are available for hourly
+		data, but will use interpolation.
+	</p>
 	<div class="table-responsive">
 		<table class="table">
 			<thead>
@@ -1164,7 +1193,7 @@
 			<tbody>
 				<tr>
 					<th scope="row">shortwave_radiation</th>
-					<td>Preceding hour mean</td>
+					<td>Preceding 15 minutes mean</td>
 					<td>W/m²</td>
 					<td
 						>Shortwave solar radiation as average of the preceding 15 minutes. This is equal to the
@@ -1173,7 +1202,7 @@
 				</tr>
 				<tr>
 					<th scope="row">direct_radiation<br />direct_normal_irradiance</th>
-					<td>Preceding hour mean</td>
+					<td>Preceding 15 minutes mean</td>
 					<td>W/m²</td>
 					<td
 						>Direct solar radiation as average of the preceding 15 minutes on the horizontal plane
@@ -1182,7 +1211,7 @@
 				</tr>
 				<tr>
 					<th scope="row">diffuse_radiation</th>
-					<td>Preceding hour mean</td>
+					<td>Preceding 15 minutes mean</td>
 					<td>W/m²</td>
 					<td>Diffuse solar radiation as average of the preceding 15 minutes</td>
 				</tr>
@@ -1218,6 +1247,13 @@
 					<td>Preceding 15 minutes sum</td>
 					<td>mm (inch)</td>
 					<td>Rain from large scale weather systems of the preceding 15 minutes in millimeter</td>
+				</tr>
+				<tr>
+					<th scope="row">showers</th>
+					<td>Preceding 15 minutes sum</td>
+					<td>mm (inch)</td>
+					<td>Showers from convective precipitation in millimeters from the preceding 15 minutes</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">snowfall_height</th>
