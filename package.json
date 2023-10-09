@@ -35,7 +35,7 @@
 	"type": "module",
 	"dependencies": {
 		"highcharts": "^11.1.0",
-		"svelte-local-storage-store": "^0.5.0",
+		"svelte-local-storage-store": "^0.6.4",
 		"svelty-picker": "^4.1.4"
 	}
 }
