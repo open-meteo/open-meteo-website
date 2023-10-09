@@ -8,6 +8,7 @@
 	import LocationSelection from '../LocationSelection.svelte';
 
 	const defaultParameter = {
+		current: [],
 		hourly: [],
 		daily: [],
 		location_mode: 'location_search',
@@ -240,6 +241,27 @@
 	</div>
 
 	<div class="row py-3 px-0">
+		<h2>Current Conditions</h2>
+		{#each hourly as group}
+			<div class="col-md-3 mb-2">
+				{#each group as e}
+					<div class="form-check">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							value={e.name}
+							id="{e.name}_current"
+							name="current"
+							bind:group={$params.current}
+						/>
+						<label class="form-check-label" for="{e.name}_current">{e.label}</label>
+					</div>
+				{/each}
+			</div>
+		{/each}
+	</div>
+
+	<div class="row py-3 px-0">
 		<h2>Settings</h2>
 		<div class="col-md-3">
 			<div class="form-floating mb-3">
@@ -330,6 +352,13 @@
 						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
 						daily weather variables are specified, parameter <mark>timezone</mark> is required.</td
 					>
+				</tr>
+				<tr>
+					<th scope="row">current</th>
+					<td>String array</td>
+					<td>No</td>
+					<td />
+					<td>A list of variables to get current conditions.</td>
 				</tr>
 				<tr>
 					<th scope="row">timeformat</th>
