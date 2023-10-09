@@ -25,6 +25,7 @@
 		"prettier": "^3.0.3",
 		"prettier-plugin-svelte": "^3.0.3",
 		"sass": "^1.62.0",
+		"semantic-release": "^22.0.5",
 		"svelte": "^4.0.3",
 		"svelte-bootstrap-icons": "^3.0.0",
 		"svelte-check": "^3.4.3",
@@ -40,46 +41,46 @@
 	},
 	"release": {
 		"branches": [
-		  "main"
+			"main"
 		],
 		"plugins": [
-		  [
-			"@semantic-release/commit-analyzer",
-			{
-			  "preset": "conventionalcommits",
-			  "releaseRules": [
+			[
+				"@semantic-release/commit-analyzer",
 				{
-				  "type": "build",
-				  "scope": "deps",
-				  "release": "patch"
+					"preset": "conventionalcommits",
+					"releaseRules": [
+						{
+							"type": "build",
+							"scope": "deps",
+							"release": "patch"
+						}
+					]
 				}
-			  ]
-			}
-		  ],
-		  [
-			"@semantic-release/release-notes-generator",
-			{
-			  "preset": "conventionalcommits",
-			  "presetConfig": {
-				"types": [
-				  {
-					"type": "feat",
-					"section": "Features"
-				  },
-				  {
-					"type": "fix",
-					"section": "Bug Fixes"
-				  },
-				  {
-					"type": "build",
-					"section": "Dependencies and Other Build Updates",
-					"hidden": false
-				  }
-				]
-			  }
-			}
-		  ],
-		  "@semantic-release/github"
+			],
+			[
+				"@semantic-release/release-notes-generator",
+				{
+					"preset": "conventionalcommits",
+					"presetConfig": {
+						"types": [
+							{
+								"type": "feat",
+								"section": "Features"
+							},
+							{
+								"type": "fix",
+								"section": "Bug Fixes"
+							},
+							{
+								"type": "build",
+								"section": "Dependencies and Other Build Updates",
+								"hidden": false
+							}
+						]
+					}
+				}
+			],
+			"@semantic-release/github"
 		]
-	  }
+	}
 }
