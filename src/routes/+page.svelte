@@ -135,18 +135,18 @@
 						<p>
 							$ curl "<a
 								class="text-white text-decoration-none"
-								href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current_weather=true&hourly=temperature_2m,relativehumidity_2m,windspeed_10m"
+								href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,windspeed_10m&hourly=temperature_2m,relativehumidity_2m,windspeed_10m"
 								>https://api.open-meteo.com/v1/forecast<wbr />?latitude=52.52&amp;longitude=13.41<wbr
-								/>&amp;current_weather=true<wbr
+								/>&amp;current=temperature_2m,windspeed_10m<wbr
 								/>&amp;hourly=temperature_2m,relativehumidity_2m,windspeed_10m</a
 							>"
 						</p>
 						<pre>
 {`
-"current_weather": {
+"current": {
 	"time": "2022-01-01T15:00"
-	"temperature": 2.4, "weathercode": 3,
-	"windspeed": 11.9, "winddirection": 95.0,
+	"temperature_2m": 2.4, "weathercode": 3,
+	"windspeed_10m": 11.9, "winddirection": 95.0,
 },
 "hourly": {
 	"time": ["2022-07-01T00:00","2022-07-01T01:00", ...]

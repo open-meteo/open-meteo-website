@@ -14,7 +14,6 @@
 		//daily: [],
 		location_mode: 'location_search',
 		csv_coordinates: '',
-		current_weather: false,
 		temperature_unit: 'celsius',
 		windspeed_unit: 'kmh',
 		precipitation_unit: 'mm',
