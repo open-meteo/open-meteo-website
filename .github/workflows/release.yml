@@ -27,7 +27,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: 19
+          node-version: 20
           cache: "npm"
       - run: npm ci
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
