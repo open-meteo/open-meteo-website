@@ -194,6 +194,8 @@
 		bind:longitude={$params.longitude}
 		bind:location_mode={$params.location_mode}
 		bind:csv_coordinates={$params.csv_coordinates}
+		bind:timezone={$params.timezone}
+		bind:timezoneInvalid={timezoneInvalid}
 	/>
 
 	<div class="row py-3 px-0">
