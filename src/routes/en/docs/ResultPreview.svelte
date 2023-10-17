@@ -25,6 +25,11 @@
 		return diff;
 	}
 
+	/// `temperature_2m` to `Temperature2m`
+	const titleCase = (s: string) =>
+  		s.replace (/^[-_]*(.)/, (_, c) => c.toUpperCase())
+   		.replace (/[-_]+(.)/g, (_, c) =>  c.toUpperCase())
+
 	/// Parsed params that resolved CSV fields
 	$: parsedParams = ((p: any) => {
 		const params = { ...p };
@@ -87,6 +92,12 @@
 			}
 			delete params['location_mode'];
 			delete params['csv_coordinates'];
+		}
+		// Cast 1-element arrays to a scalar value
+		for (const key in params) {
+			if (Array.isArray(params[key]) && params[key].length == 1) {
+				params[key] = params[key][0];
+			}
 		}
 		return objectDifference(params, defaultParameter);
 	})($params);
@@ -484,6 +495,11 @@
 				tabindex="0"
 			>
 				<div class="row">
+					<p>
+						The following Python code automatically applies all the selected parameters above and
+						generates a dummy Python code to access data. More information and examples are available
+						in the <a href="https://pypi.org/project/openmeteo-requests/">Python client</a> documentation.
+					</p>
 					<pre><code>
 # pip install openmeteo-requests
 # pip install requests-cache retry-requests
@@ -491,8 +507,9 @@
 import openmeteo_requests
 import requests_cache
 from retry_requests import retry
+import pandas as pd
 
-# Setup the Open-Meteo API client with a cache and retry mechanism
+# Setup the Open-Meteo API client with cache and retry mechanisms
 cache_session = requests_cache.CachedSession('.cache', expire_after=-1)
 retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
 om = openmeteo_requests.Client(session=retry_session)
@@ -504,8 +521,23 @@ result = results[0]
 
 print(f"Coordinates &lbrace;result.Latitude()&rbrace;°E &lbrace;result.Longitude()&rbrace;°N &lbrace;result.Elevation()&rbrace; m asl")
 print(f"Timezone &lbrace;result.Timezone()&rbrace; &lbrace;result.TimezoneAbbreviation()&rbrace; Offset=&lbrace;result.UtcOffsetSeconds()&rbrace;s")
+print(f"Current temperature is &lbrace;result.Current().Temperature2m().Value()&rbrace; °C")
 
-print(f"Current temperature is &lbrace;result.Current().Temperature2m().Value() °C&rbrace;")
+hourly = result.Hourly()
+time = hourly.Time()
+
+date = pd.date_range(
+    start=pd.to_datetime(time.Start(), unit="s"),
+    end=pd.to_datetime(time.End(), unit="s"),
+    freq=pd.Timedelta(seconds=time.Interval()),
+    inclusive="left"
+)
+hourly_df = pd.DataFrame(
+    data = &lbrace;
+        "date": date,
+{#each $params.hourly as hourly}{'        '}"{hourly}": hourly.{titleCase(hourly)}().ValuesAsNumpy(),{'\n'}{/each}{'    '}&rbrace;
+)
+print(hourly_df)
 </code></pre>
 				</div>
 			</div>
