@@ -31,7 +31,7 @@
    		.replace (/[-_]+(.)/g, (_, c) =>  c.toUpperCase())
 
 	/// Parsed params that resolved CSV fields
-	$: parsedParams = ((p: any) => {
+	$: parsedParams = ((p: any, api_key_preferences: any) => {
 		const params = { ...p };
 		if ('time_mode' in params) {
 			if (params.time_mode == 'forecast_days') {
@@ -99,30 +99,33 @@
 				params[key] = params[key][0];
 			}
 		}
-		return objectDifference(params, defaultParameter);
-	})($params);
 
-	function getUrl(api_key_preferences: any, params: any) {
-		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
-		let server: string;
-		let actionParams = {};
-		switch (api_key_preferences.use) {
-			case 'python':
-				server = `https://customer-${serverPrefix}.open-meteo.com/v1/${action}?`;
-				actionParams = { apikey: api_key_preferences.apikey };
-				break;
-			case 'self_hosted':
-				server = `${api_key_preferences.self_host_server}/v1/${action}?`;
-				break;
-			default:
-				server = `https://${serverPrefix}.open-meteo.com/v1/${action}?`;
+		if (api_key_preferences.use == 'commercial') {
+			params['apikey'] = api_key_preferences.apikey
 		}
-		return `${server}${new URLSearchParams({ ...params, ...actionParams })}`.replaceAll('%2C', ',');
+
+		return objectDifference(params, defaultParameter);
+	})($params, $api_key_preferences);
+
+	$: server = ((api_key_preferences: any) => {
+		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
+		switch (api_key_preferences.use) {
+			case 'commercial':
+				return `https://customer-${serverPrefix}.open-meteo.com/v1/${action}`;
+			case 'self_hosted':
+				return `${api_key_preferences.self_host_server}/v1/${action}`;
+			default:
+				return `https://${serverPrefix}.open-meteo.com/v1/${action}`;
+		}
+	})($api_key_preferences)
+
+	function getUrl(server: string, params: any) {
+		return `${server}?${new URLSearchParams({ ...params, ...params })}`.replaceAll('%2C', ',');
 	}
 
-	$: previewUrl = getUrl($api_key_preferences, parsedParams);
-	$: xlsxUrl = getUrl($api_key_preferences, { ...parsedParams, format: 'xlsx' });
-	$: csvUrl = getUrl($api_key_preferences, { ...parsedParams, format: 'csv' });
+	$: previewUrl = getUrl(server, parsedParams);
+	$: xlsxUrl = getUrl(server, { ...parsedParams, format: 'xlsx' });
+	$: csvUrl = getUrl(server, { ...parsedParams, format: 'csv' });
 
 	function jsonToChart(data: any, downloadTime: number) {
 		//console.log(data);
@@ -344,7 +347,7 @@
 		}
 
 		// Always set format=json to fetch data
-		const fetchUrl = getUrl($api_key_preferences, {
+		const fetchUrl = getUrl(server, {
 			...parsedParams,
 			format: 'json',
 			timeformat: 'unixtime'
@@ -509,14 +512,14 @@ import requests_cache
 from retry_requests import retry
 import pandas as pd
 
-# Setup the Open-Meteo API client with cache and retry mechanisms
+# Setup the Open-Meteo API client with cache and retry mechanism
 cache_session = requests_cache.CachedSession('.cache', expire_after=-1)
 retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
 om = openmeteo_requests.Client(session=retry_session)
 
 params = {JSON.stringify(parsedParams, null, 2)}
 
-results = om.weather_api("https://api.open-meteo.com/v1/forecast", params=params)
+results = om.weather_api("{server}", params=params)
 result = results[0]
 
 print(f"Coordinates &lbrace;result.Latitude()&rbrace;°E &lbrace;result.Longitude()&rbrace;°N &lbrace;result.Elevation()&rbrace; m asl")
