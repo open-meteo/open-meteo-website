@@ -6,6 +6,7 @@
 	import { InfoCircle } from 'svelte-bootstrap-icons';
 	import { ExclamationTriangle } from 'svelte-bootstrap-icons';
 	import { ArrowClockwise } from 'svelte-bootstrap-icons';
+	import { fade } from 'svelte/transition';
 
 	export let params: Writable<any>;
 	export let type: String = 'forecast';
@@ -26,76 +27,76 @@
 
 	/// Parsed params that resolved CSV fields
 	$: parsedParams = ((p: any) => {
-		const params = {...p}
+		const params = { ...p };
 		if ('time_mode' in params) {
 			if (params.time_mode == 'forecast_days') {
-				delete params['start_date']
-				delete params['end_date']
+				delete params['start_date'];
+				delete params['end_date'];
 			}
 			if (params.time_mode == 'time_interval') {
-				delete params['forecast_days']
-				delete params['past_days']
+				delete params['forecast_days'];
+				delete params['past_days'];
 			}
-			delete params['csv_time_intervals']
-			delete params['time_mode']
+			delete params['csv_time_intervals'];
+			delete params['time_mode'];
 		}
 		if ('location_mode' in params) {
 			if (params.location_mode == 'csv_coordinates' && params['csv_coordinates']) {
-				let lats: number[] = []
-				let lons: number[] = []
-				let elevation: number[] = []
-				let timezone: string[] = []
-				let start_date: string[] = []
-				let end_date: string[] = []
-				let csv: string = params['csv_coordinates']
-				csv.split(/\r?\n/).forEach(row => {
+				let lats: number[] = [];
+				let lons: number[] = [];
+				let elevation: number[] = [];
+				let timezone: string[] = [];
+				let start_date: string[] = [];
+				let end_date: string[] = [];
+				let csv: string = params['csv_coordinates'];
+				csv.split(/\r?\n/).forEach((row) => {
 					if (row.length < 4) {
-						return
+						return;
 					}
-					let parts = row.split(/[;,\t]/)
+					let parts = row.split(/[;,\t]/);
 					if (parts.length < 2) {
-						return
+						return;
 					}
-					lats.push(parseFloat(parts[0]))
-					lons.push(parseFloat(parts[1]))
+					lats.push(parseFloat(parts[0]));
+					lons.push(parseFloat(parts[1]));
 					if (parts.length > 2 && parts[2].length > 0) {
-						elevation.push(parseFloat(parts[2]))
+						elevation.push(parseFloat(parts[2]));
 					}
 					if (parts.length > 3 && parts[3].length > 0) {
-						timezone.push(parts[3])
+						timezone.push(parts[3]);
 					}
 					if (parts.length > 5 && parts[4].length > 0 && parts[5].length > 0) {
-						start_date.push(parts[4])
-						end_date.push(parts[4])
+						start_date.push(parts[4]);
+						end_date.push(parts[4]);
 					}
 				});
-				params['latitude'] = lats
-				params['longitude'] = lons
+				params['latitude'] = lats;
+				params['longitude'] = lons;
 				if (elevation.length > 0) {
-					params['elevation'] = elevation
+					params['elevation'] = elevation;
 				}
 				if (timezone.length > 0) {
-					params['timezone'] = timezone
+					params['timezone'] = timezone;
 				}
 				if (start_date.length > 0) {
-					params['start_date'] = start_date
-					params['end_date'] = end_date
-					delete params['forecast_days']
-					delete params['past_days']
+					params['start_date'] = start_date;
+					params['end_date'] = end_date;
+					delete params['forecast_days'];
+					delete params['past_days'];
 				}
 			}
-			delete params['location_mode']
-			delete params['csv_coordinates']
+			delete params['location_mode'];
+			delete params['csv_coordinates'];
 		}
-		return params
-	})($params)
+		return objectDifference(params, defaultParameter);
+	})($params);
 
 	function getUrl(api_key_preferences: any, params: any) {
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
 		let server: string;
 		let actionParams = {};
 		switch (api_key_preferences.use) {
-			case 'commercial':
+			case 'python':
 				server = `https://customer-${serverPrefix}.open-meteo.com/v1/${action}?`;
 				actionParams = { apikey: api_key_preferences.apikey };
 				break;
@@ -105,8 +106,7 @@
 			default:
 				server = `https://${serverPrefix}.open-meteo.com/v1/${action}?`;
 		}
-		let nonDefaultParameter = objectDifference({ ...params, ...actionParams }, defaultParameter);
-		return `${server}${new URLSearchParams(nonDefaultParameter)}`.replaceAll('%2C', ',');
+		return `${server}${new URLSearchParams({ ...params, ...actionParams })}`.replaceAll('%2C', ',');
 	}
 
 	$: previewUrl = getUrl($api_key_preferences, parsedParams);
@@ -148,75 +148,74 @@
 		};
 
 		let series: any = [];
-		['hourly', 'six_hourly', 'three_hourly', 'daily', 'minutely_15'].forEach(function (
-			section,
-			index
-		) {
-			if (!(section in data)) {
-				return;
-			}
-			Object.entries(data[section] || []).forEach(function (k) {
-				if (k[0] == 'time' || k[0] == 'sunrise' || k[0] == 'sunset') {
+		['hourly', 'six_hourly', 'three_hourly', 'daily', 'minutely_15'].forEach(
+			function (section, index) {
+				if (!(section in data)) {
 					return;
 				}
-				let hourly_starttime = (data[section].time[0] + data.utc_offset_seconds) * 1000;
-				let pointInterval = (data[section].time[1] - data[section].time[0]) * 1000;
-				let unit = data[`${section}_units`][k[0]];
-				let axisId = null;
-				for (let i = 0; i < yAxis.length; i++) {
-					if (yAxis[i].title.text == unit) {
-						axisId = i;
+				Object.entries(data[section] || []).forEach(function (k) {
+					if (k[0] == 'time' || k[0] == 'sunrise' || k[0] == 'sunset') {
+						return;
 					}
-				}
-				if (axisId == null) {
-					yAxis.push({ title: { text: unit } });
-					axisId = yAxis.length - 1;
-				}
-				let ser = {
-					name: k[0],
-					data: k[1],
-					yAxis: axisId,
-					pointStart: hourly_starttime,
-					pointInterval: pointInterval,
-					type:
-						unit == 'mm' || unit == 'cm' || unit == 'inch' || unit == 'MJ/m²' ? 'column' : 'line',
-					tooltip: {
-						valueSuffix: ' ' + unit
-					},
-					dataGrouping: { groupPixelWidth: 12 }
-					/*dataGrouping: {
+					let hourly_starttime = (data[section].time[0] + data.utc_offset_seconds) * 1000;
+					let pointInterval = (data[section].time[1] - data[section].time[0]) * 1000;
+					let unit = data[`${section}_units`][k[0]];
+					let axisId = null;
+					for (let i = 0; i < yAxis.length; i++) {
+						if (yAxis[i].title.text == unit) {
+							axisId = i;
+						}
+					}
+					if (axisId == null) {
+						yAxis.push({ title: { text: unit } });
+						axisId = yAxis.length - 1;
+					}
+					let ser = {
+						name: k[0],
+						data: k[1],
+						yAxis: axisId,
+						pointStart: hourly_starttime,
+						pointInterval: pointInterval,
+						type:
+							unit == 'mm' || unit == 'cm' || unit == 'inch' || unit == 'MJ/m²' ? 'column' : 'line',
+						tooltip: {
+							valueSuffix: ' ' + unit
+						},
+						dataGrouping: { groupPixelWidth: 12 }
+						/*dataGrouping: {
                     enabled: true,
                     forced: true,
                     units: [['year',[1]]]
                 }*/
-				};
-
-				if (k[0] == 'weathercode') {
-					// @ts-ignore
-					ser.tooltip.pointFormatter = function () {
-						// @ts-ignore
-						let condition = codes[this.y];
-						// @ts-ignore
-						return (
-							'<span style="color:' +
-							/* @ts-ignore */
-							this.series.color +
-							'">\u25CF</span> ' +
-							/* @ts-ignore */
-							this.series.name +
-							': <b>' +
-							condition +
-							'</b> (' +
-							/* @ts-ignore */
-							this.y +
-							' wmo)<br/>'
-						);
 					};
-				}
 
-				series.push(ser);
-			});
-		});
+					if (k[0] == 'weathercode') {
+						// @ts-ignore
+						ser.tooltip.pointFormatter = function () {
+							// @ts-ignore
+							let condition = codes[this.y];
+							// @ts-ignore
+							return (
+								'<span style="color:' +
+								/* @ts-ignore */
+								this.series.color +
+								'">\u25CF</span> ' +
+								/* @ts-ignore */
+								this.series.name +
+								': <b>' +
+								condition +
+								'</b> (' +
+								/* @ts-ignore */
+								this.y +
+								' wmo)<br/>'
+							);
+						};
+					}
+
+					series.push(ser);
+				});
+			}
+		);
 
 		let plotBands: any = [];
 		if ('daily' in data && 'sunrise' in data.daily && 'sunset' in data.daily) {
@@ -261,7 +260,7 @@
 					mouseWheel: {
 						enabled: false
 					}
-				},
+				}
 			},
 
 			yAxis: yAxis,
@@ -330,7 +329,7 @@
 
 	async function preview() {
 		if ('latitude' in parsedParams && parsedParams.latitude.length > 5) {
-			throw new Error("Can not preview more than 5 locations");
+			throw new Error('Can not preview more than 5 locations');
 		}
 
 		// Always set format=json to fetch data
@@ -345,10 +344,10 @@
 		if (!result.ok) {
 			throw new Error(await result.text());
 		}
-		const json = await result.json()
-		let tEnd = performance.now() - t0
+		const json = await result.json();
+		let tEnd = performance.now() - t0;
 		if (Array.isArray(json)) {
-			return json.map((x) => jsonToChart(x, tEnd))
+			return json.map((x) => jsonToChart(x, tEnd));
 		}
 
 		return [jsonToChart(json, tEnd)];
@@ -361,72 +360,155 @@
 	onMount(() => {
 		reload();
 	});
+
+	let mode = 'chart';
 </script>
 
-<div class="col-12 my-4">
-	<h2>Preview and API URL</h2>
+<h2>Preview and API URL</h2>
 
-	<div id="container w-100">
-		{#await results}
-			<div
-				class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
-				style={useStockChart ? 'height: 500px' : 'height: 400px'}
-			>
-				<div class="spinner-border" role="status">
-					<span class="visually-hidden">Loading...</span>
-				</div>
-			</div>
-		{:then results}
-			{#if results}
-				{#each results.slice(0, 10) as chart}
-					<HighchartContainer
-						options={chart}
-						{useStockChart}
-						style={useStockChart ? 'height: 500px' : 'height: 400px'}
-					/>
-				{/each}
-			{:else}
-				<div
-					class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
-					style={useStockChart ? 'height: 500px' : 'height: 400px'}
+<div class="row py-3 px-0">
+	<div>
+		<ul class="nav nav-underline" role="tablist">
+			<li class="nav-item" role="presentation">
+				<span class="nav-link disabled" aria-disabled="true">Preview:</span>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button
+					class="nav-link"
+					class:active={mode == 'chart'}
+					id="pills-chart-tab"
+					type="button"
+					role="tab"
+					aria-controls="pills-chart"
+					aria-selected="true"
+					on:click={() => (mode = 'chart')}>Chart And URL</button
 				>
-					<div class="alert alert-primary d-flex align-items-center" role="alert">
-						<InfoCircle class="me-2" />
-						<div>
-							Parameters have changed.
-							<button type="submit" class="btn btn-primary ms-2" on:click={reload}
-								><ArrowClockwise class="me-2" />Reload Chart
-							</button>
-						</div>
-					</div>
-				</div>
-			{/if}
-		{:catch error}
+			</li>
+			<li class="nav-item" role="presentation">
+				<button
+					class="nav-link"
+					class:active={mode == 'python'}
+					id="pills-python-tab"
+					type="button"
+					role="tab"
+					aria-controls="pills-python"
+					on:click={() => (mode = 'python')}
+					aria-selected="true">Python</button
+				>
+			</li>
+		</ul>
+	</div>
+
+	<div class="tab-content py-3">
+		{#if mode == 'chart'}
 			<div
-				class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
-				style={useStockChart ? 'height: 500px' : 'height: 400px'}
+				class="tab-pane active"
+				in:fade
+				id="pills-chart"
+				role="tabpanel"
+				aria-labelledby="pills-chart-tab"
+				tabindex="0"
 			>
-				<div class="alert alert-danger d-flex align-items-center" role="alert">
-					<ExclamationTriangle class="me-2" />
-					<div>{error.message}</div>
-					<button type="submit" class="btn btn-danger ms-2" on:click={reload}
-						><ArrowClockwise class="me-2" />Reload Chart
-					</button>
+				<div id="container w-100">
+					{#await results}
+						<div
+							class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+							style={useStockChart ? 'height: 500px' : 'height: 400px'}
+						>
+							<div class="spinner-border" role="status">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+						</div>
+					{:then results}
+						{#if results}
+							{#each results.slice(0, 10) as chart}
+								<HighchartContainer
+									options={chart}
+									{useStockChart}
+									style={useStockChart ? 'height: 500px' : 'height: 400px'}
+								/>
+							{/each}
+						{:else}
+							<div
+								class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+								style={useStockChart ? 'height: 500px' : 'height: 400px'}
+							>
+								<div class="alert alert-primary d-flex align-items-center" role="alert">
+									<InfoCircle class="me-2" />
+									<div>
+										Parameters have changed.
+										<button type="submit" class="btn btn-primary ms-2" on:click={reload}
+											><ArrowClockwise class="me-2" />Reload Chart
+										</button>
+									</div>
+								</div>
+							</div>
+						{/if}
+					{:catch error}
+						<div
+							class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+							style={useStockChart ? 'height: 500px' : 'height: 400px'}
+						>
+							<div class="alert alert-danger d-flex align-items-center" role="alert">
+								<ExclamationTriangle class="me-2" />
+								<div>{error.message}</div>
+								<button type="submit" class="btn btn-danger ms-2" on:click={reload}
+									><ArrowClockwise class="me-2" />Reload Chart
+								</button>
+							</div>
+						</div>
+					{/await}
+				</div>
+				<div class="col-12">
+					<a href={xlsxUrl} class="btn btn-outline-primary">Download XLSX</a>
+					<a href={csvUrl} class="btn btn-outline-primary">Download CSV</a>
+				</div>
+
+				<div class="col-12 my-4">
+					<label for="api_url" class="form-label">API URL</label>
+					<small class="text-muted"
+						>(<a id="api_url_link" target="_blank" href={previewUrl}>Open in new tab</a> or copy this
+						URL into your application)</small
+					>
+					<input type="text" class="form-control" id="api_url" readonly bind:value={previewUrl} />
 				</div>
 			</div>
-		{/await}
-	</div>
-</div>
-<div class="col-12">
-	<a href={xlsxUrl} class="btn btn-outline-primary">Download XLSX</a>
-	<a href={csvUrl} class="btn btn-outline-primary">Download CSV</a>
-</div>
+		{/if}
+		{#if mode == 'python'}
+			<div
+				class="tab-pane active"
+				in:fade
+				id="pills-python"
+				role="tabpanel"
+				aria-labelledby="pills-python-tab"
+				tabindex="0"
+			>
+				<div class="row">
+					<pre><code>
+# pip install openmeteo-requests
+# pip install requests-cache retry-requests
 
-<div class="col-12 my-4">
-	<label for="api_url" class="form-label">API URL</label>
-	<small class="text-muted"
-		>(<a id="api_url_link" target="_blank" href={previewUrl}>Open in new tab</a> or copy this URL into
-		your application)</small
-	>
-	<input type="text" class="form-control" id="api_url" readonly bind:value={previewUrl} />
+import openmeteo_requests
+import requests_cache
+from retry_requests import retry
+
+# Setup the Open-Meteo API client with a cache and retry mechanism
+cache_session = requests_cache.CachedSession('.cache', expire_after=-1)
+retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
+om = openmeteo_requests.Client(session=retry_session)
+
+params = {JSON.stringify(parsedParams, null, 2)}
+
+results = om.weather_api("https://api.open-meteo.com/v1/forecast", params=params)
+result = results[0]
+
+print(f"Coordinates &lbrace;result.Latitude()&rbrace;°E &lbrace;result.Longitude()&rbrace;°N &lbrace;result.Elevation()&rbrace; m asl")
+print(f"Timezone &lbrace;result.Timezone()&rbrace; &lbrace;result.TimezoneAbbreviation()&rbrace; Offset=&lbrace;result.UtcOffsetSeconds()&rbrace;s")
+
+print(f"Current temperature is &lbrace;result.Current().Temperature2m().Value() °C&rbrace;")
+</code></pre>
+				</div>
+			</div>
+		{/if}
+	</div>
 </div>
