@@ -499,8 +499,8 @@
 			>
 				<div class="row">
 					<p>
-						The following Python code automatically applies all the selected parameters above and
-						generates a dummy Python code to access data. More information and examples are available
+						The following Python code automatically applies all selected parameters and
+						generates dummy Python code. More information and examples are available
 						in the <a href="https://pypi.org/project/openmeteo-requests/">Python client</a> documentation.
 					</p>
 					<pre><code>
@@ -526,6 +526,8 @@ print(f"Coordinates &lbrace;result.Latitude()&rbrace;°E &lbrace;result.Longitud
 print(f"Timezone &lbrace;result.Timezone()&rbrace; &lbrace;result.TimezoneAbbreviation()&rbrace; Offset=&lbrace;result.UtcOffsetSeconds()&rbrace;s")
 print(f"Current temperature is &lbrace;result.Current().Temperature2m().Value()&rbrace; °C")
 
+{#if $params.hourly.length > 0}
+# Process hourly data
 hourly = result.Hourly()
 time = hourly.Time()
 
@@ -541,6 +543,27 @@ hourly_df = pd.DataFrame(
 {#each $params.hourly as hourly}{'        '}"{hourly}": hourly.{titleCase(hourly)}().ValuesAsNumpy(),{'\n'}{/each}{'    '}&rbrace;
 )
 print(hourly_df)
+
+{/if}
+{#if $params.daily.length > 0}
+# Process daily data
+daily = result.Daily()
+time = daily.Time()
+
+date = pd.date_range(
+    start=pd.to_datetime(time.Start(), unit="s"),
+    end=pd.to_datetime(time.End(), unit="s"),
+    freq=pd.Timedelta(seconds=time.Interval()),
+    inclusive="left"
+)
+daily_df = pd.DataFrame(
+    data = &lbrace;
+        "date": date,
+{#each $params.daily as daily}{'        '}"{daily}": hourly.{titleCase(daily)}().ValuesAsNumpy(),{'\n'}{/each}{'    '}&rbrace;
+)
+print(daily_df)
+
+{/if}
 </code></pre>
 				</div>
 			</div>
