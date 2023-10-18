@@ -3,7 +3,7 @@
 	import type { Writable } from 'svelte/store';
 	import HighchartContainer from '$lib/Elements/HighchartContainer.svelte';
 	import { onMount } from 'svelte';
-	import { InfoCircle } from 'svelte-bootstrap-icons';
+	import { InfoCircle, SkipEnd } from 'svelte-bootstrap-icons';
 	import { ExclamationTriangle } from 'svelte-bootstrap-icons';
 	import { ArrowClockwise } from 'svelte-bootstrap-icons';
 	import { fade } from 'svelte/transition';
@@ -522,7 +522,7 @@
 					<p>
 						More information and examples are available in the <a href="https://pypi.org/project/openmeteo-requests/">Python API client</a> documentation.
 					</p>
-					<pre class="dark rounded-3 py-2" tabindex="0"><code ><span class="token comment"># pip install openmeteo-requests</span>
+					<pre class="dark rounded-3 py-2"><code ><span class="token comment"># pip install openmeteo-requests</span>
 <span class="token comment"># pip install requests-cache retry-requests</span>
 
 <span class="token keyword">import</span> openmeteo_requests
@@ -558,35 +558,52 @@ current <span class="token operator">=</span> result<span class="token punctuati
 <span class="token comment"># Process hourly data</span>
 hourly <span class="token operator">=</span> result<span class="token punctuation">.</span>Hourly<span class="token punctuation">(</span><span class="token punctuation">)</span>
 time <span class="token operator">=</span> hourly<span class="token punctuation">.</span>Time<span class="token punctuation">(</span><span class="token punctuation">)</span>
-date <span class="token operator">=</span> pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>
+data <span class="token operator">=</span> <span class="token punctuation">&lbrace;</span><span class="token string">"date"</span><span class="token punctuation">:</span> pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>
 	start<span class="token operator">=</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>Start<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit<span class="token operator">=</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
 	end<span class="token operator">=</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>End<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit<span class="token operator">=</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
 	freq<span class="token operator">=</span>pd<span class="token punctuation">.</span>Timedelta<span class="token punctuation">(</span>seconds<span class="token operator">=</span>time<span class="token punctuation">.</span>Interval<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
 	inclusive<span class="token operator">=</span><span class="token string">"left"</span>
-<span class="token punctuation">)</span>
-hourly_df <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>
-	data <span class="token operator">=</span> <span class="token punctuation">&lbrace;</span>
-		<span class="token string">"date"</span><span class="token punctuation">:</span> date<span class="token punctuation"></span>{#each $params.hourly as hourly}{',\n\t\t'}<span class="token string">"{hourly}"</span><span class="token punctuation">:</span> hourly<span class="token punctuation">.</span>{titleCase(hourly)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation"></span>{/each}
-	<span class="token punctuation">&rbrace;</span>
-<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span>
+{#if sdk_type == 'ensemble_api'}
+<span class="token comment"># Process all members</span>
+{#each $params.hourly as hourly}
+{hourly} <span class="token operator">=</span> hourly<span class="token punctuation">.</span>{titleCase(hourly)}<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> temperature_2m<span class="token punctuation">.</span>ValuesLength<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">f"{hourly}_member</span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>i<span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> {hourly}<span class="token punctuation">.</span>Values<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation"></span>{'\n'}
+{/each}
+{:else}
+{#each $params.hourly as hourly}
+data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">"{hourly}"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> hourly<span class="token punctuation">.</span>{titleCase(hourly)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span>{'\n'}
+{/each}
+{/if}
+hourly_df <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>data <span class="token operator">=</span> data<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>hourly_df<span class="token punctuation">)</span>{`\n`}
 {/if}
 {#if 'daily' in $params && $params.daily.length > 0}
+
 <span class="token comment"># Process daily data</span>
 daily <span class="token operator">=</span> result<span class="token punctuation">.</span>Daily<span class="token punctuation">(</span><span class="token punctuation">)</span>
 time <span class="token operator">=</span> daily<span class="token punctuation">.</span>Time<span class="token punctuation">(</span><span class="token punctuation">)</span>
-date <span class="token operator">=</span> pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>
+data <span class="token operator">=</span> <span class="token punctuation">&lbrace;</span><span class="token string">"date"</span><span class="token punctuation">:</span> pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>
 	start<span class="token operator">=</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>Start<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit<span class="token operator">=</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
 	end<span class="token operator">=</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>End<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit<span class="token operator">=</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
 	freq<span class="token operator">=</span>pd<span class="token punctuation">.</span>Timedelta<span class="token punctuation">(</span>seconds<span class="token operator">=</span>time<span class="token punctuation">.</span>Interval<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
 	inclusive<span class="token operator">=</span><span class="token string">"left"</span>
-<span class="token punctuation">)</span>
-daily_df <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>
-	data <span class="token operator">=</span> <span class="token punctuation">&lbrace;</span>
-		<span class="token string">"date"</span><span class="token punctuation">:</span> date<span class="token punctuation"></span>{#each $params.daily as daily}{',\n\t\t'}<span class="token string">"{daily}"</span><span class="token punctuation">:</span> daily<span class="token punctuation">.</span>{titleCase(daily)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation"></span>{/each}
-	<span class="token punctuation">&rbrace;</span>
-<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>daily_df<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span>
+{#if sdk_type == 'ensemble_api'}
+<span class="token comment"># Process all members</span>
+{#each $params.daily as daily}
+{daily} <span class="token operator">=</span> daily<span class="token punctuation">.</span>{titleCase(daily)}<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> temperature_2m<span class="token punctuation">.</span>ValuesLength<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">f"{daily}_member</span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>i<span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> {daily}<span class="token punctuation">.</span>Values<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation"></span>{'\n'}
+{/each}
+{:else}
+{#each $params.daily as daily}
+data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">"{daily}"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> daily<span class="token punctuation">.</span>{titleCase(daily)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span>{'\n'}
+{/each}
+{/if}
+daily_df <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>data <span class="token operator">=</span> data<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>daily_df<span class="token punctuation">)</span>{`\n`}
 {/if}
 </code></pre>
 				</div>
