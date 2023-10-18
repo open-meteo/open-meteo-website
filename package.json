@@ -28,14 +28,14 @@
 		"eslint-plugin-svelte": "^2.32.2",
 		"prettier": "^3.0.3",
 		"prettier-plugin-svelte": "^3.0.3",
-		"sass": "^1.69.3",
+		"sass": "^1.69.4",
 		"semantic-release": "^22.0.5",
 		"svelte": "^4.0.3",
 		"svelte-bootstrap-icons": "^3.0.0",
 		"svelte-check": "^3.4.3",
 		"svelte-preprocess": "^5.0.3",
 		"typescript": "^5.0.0",
-		"vite": "^4.2.1"
+		"vite": "^4.5.0"
 	},
 	"type": "module",
 	"dependencies": {
