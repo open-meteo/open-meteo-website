@@ -375,6 +375,22 @@
 		reload();
 	});
 
+	/// Convert a given variable to syntax highlighted prism JS HTML
+	function formatPrism(v: any) {
+		if (Array.isArray(v)) {
+			const e = v.map(formatPrism).join(`<span class="token punctuation">,</span> `)
+			return `<span class="token punctuation">[</span>${e}<span class="token punctuation">]</span>`
+		}
+		if (typeof v == "object") {
+			const e = Object.entries(v).map(([k,v]) => `\n\t<span class="token string">"${k}"</span><span class="token punctuation">:</span> ${formatPrism(v)}`).join(`<span class="token punctuation">,</span>`)
+			return `<span class="token punctuation">&lbrace;</span>${e}\n<span class="token punctuation">&rbrace;</span>`
+		}
+		if (!isNaN(v)) {
+			return `<span class="token number">${v}</span>`
+		}
+		return `<span class="token string">"${v}"</span>`
+	}
+
 	let mode = 'chart';
 </script>
 
@@ -503,66 +519,60 @@
 						generates dummy Python code. More information and examples are available
 						in the <a href="https://pypi.org/project/openmeteo-requests/">Python client</a> documentation.
 					</p>
-					<pre><code>
-# pip install openmeteo-requests
-# pip install requests-cache retry-requests
+					<pre class="language-python" tabindex="0"><code class="language-python"><span class="token comment"># pip install openmeteo-requests</span>
+<span class="token comment"># pip install requests-cache retry-requests</span>
 
-import openmeteo_requests
-import requests_cache
-from retry_requests import retry
-import pandas as pd
+<span class="token keyword">import</span> openmeteo_requests
+<span class="token keyword">import</span> requests_cache
+<span class="token keyword">from</span> retry_requests <span class="token keyword">import</span> retry
+<span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
 
-# Setup the Open-Meteo API client with cache and retry mechanism
-cache_session = requests_cache.CachedSession('.cache', expire_after=-1)
-retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
-om = openmeteo_requests.Client(session=retry_session)
+<span class="token comment"># Setup the Open-Meteo API client with cache and retry mechanism</span>
+cache_session <span class="token operator">=</span> requests_cache<span class="token punctuation">.</span>CachedSession<span class="token punctuation">(</span><span class="token string">'.cache'</span><span class="token punctuation">,</span> expire_after<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+retry_session <span class="token operator">=</span> retry<span class="token punctuation">(</span>cache_session<span class="token punctuation">,</span> retries<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> backoff_factor<span class="token operator">=</span><span class="token number">0.2</span><span class="token punctuation">)</span>
+om <span class="token operator">=</span> openmeteo_requests<span class="token punctuation">.</span>Client<span class="token punctuation">(</span>session<span class="token operator">=</span>retry_session<span class="token punctuation">)</span>
+params <span class="token operator">=</span> {@html formatPrism(parsedParams)}
+results <span class="token operator">=</span> om<span class="token punctuation">.</span>weather_api<span class="token punctuation">(</span><span class="token string">"{server}"</span><span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">)</span>
+result <span class="token operator">=</span> results<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
 
-params = {JSON.stringify(parsedParams, null, 2)}
-
-results = om.weather_api("{server}", params=params)
-result = results[0]
-
-print(f"Coordinates &lbrace;result.Latitude()&rbrace;°E &lbrace;result.Longitude()&rbrace;°N &lbrace;result.Elevation()&rbrace; m asl")
-print(f"Timezone &lbrace;result.Timezone()&rbrace; &lbrace;result.TimezoneAbbreviation()&rbrace; Offset=&lbrace;result.UtcOffsetSeconds()&rbrace;s")
-print(f"Current temperature is &lbrace;result.Current().Temperature2m().Value()&rbrace; °C")
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Coordinates </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Latitude<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">°E </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Longitude<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">°N </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Elevation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> m asl"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Timezone </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Timezone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>TimezoneAbbreviation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> Offset=</span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>UtcOffsetSeconds<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">s"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Current temperature is </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Current<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Temperature2m<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Value<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> °C"</span></span><span class="token punctuation">)</span>
 
 {#if $params.hourly.length > 0}
-# Process hourly data
-hourly = result.Hourly()
-time = hourly.Time()
-
-date = pd.date_range(
-    start=pd.to_datetime(time.Start(), unit="s"),
-    end=pd.to_datetime(time.End(), unit="s"),
-    freq=pd.Timedelta(seconds=time.Interval()),
-    inclusive="left"
-)
-hourly_df = pd.DataFrame(
-    data = &lbrace;
-        "date": date,
-{#each $params.hourly as hourly}{'        '}"{hourly}": hourly.{titleCase(hourly)}().ValuesAsNumpy(),{'\n'}{/each}{'    '}&rbrace;
-)
-print(hourly_df)
-
+<span class="token comment"># Process hourly data</span>
+hourly <span class="token operator">=</span> result<span class="token punctuation">.</span>Hourly<span class="token punctuation">(</span><span class="token punctuation">)</span>
+time <span class="token operator">=</span> hourly<span class="token punctuation">.</span>Time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+date <span class="token operator">=</span> pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>
+	start<span class="token operator">=</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>Start<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit<span class="token operator">=</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	end<span class="token operator">=</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>End<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit<span class="token operator">=</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	freq<span class="token operator">=</span>pd<span class="token punctuation">.</span>Timedelta<span class="token punctuation">(</span>seconds<span class="token operator">=</span>time<span class="token punctuation">.</span>Interval<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	inclusive<span class="token operator">=</span><span class="token string">"left"</span>
+<span class="token punctuation">)</span>
+hourly_df <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>
+	data <span class="token operator">=</span> <span class="token punctuation">&lbrace;</span>
+		<span class="token string">"date"</span><span class="token punctuation">:</span> date<span class="token punctuation"></span>{#each $params.hourly as hourly}{',\n        '}<span class="token string">"{hourly}"</span><span class="token punctuation">:</span> hourly<span class="token punctuation">.</span>{titleCase(hourly)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation"></span>{/each}
+	<span class="token punctuation">&rbrace;</span>
+<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>hourly_df<span class="token punctuation">)</span>
 {/if}
+
 {#if $params.daily.length > 0}
-# Process daily data
-daily = result.Daily()
-time = daily.Time()
-
-date = pd.date_range(
-    start=pd.to_datetime(time.Start(), unit="s"),
-    end=pd.to_datetime(time.End(), unit="s"),
-    freq=pd.Timedelta(seconds=time.Interval()),
-    inclusive="left"
-)
-daily_df = pd.DataFrame(
-    data = &lbrace;
-        "date": date,
-{#each $params.daily as daily}{'        '}"{daily}": hourly.{titleCase(daily)}().ValuesAsNumpy(),{'\n'}{/each}{'    '}&rbrace;
-)
-print(daily_df)
-
+<span class="token comment"># Process daily data</span>
+daily <span class="token operator">=</span> result<span class="token punctuation">.</span>Daily<span class="token punctuation">(</span><span class="token punctuation">)</span>
+time <span class="token operator">=</span> daily<span class="token punctuation">.</span>Time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+date <span class="token operator">=</span> pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>
+	start<span class="token operator">=</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>Start<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit<span class="token operator">=</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	end<span class="token operator">=</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>End<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit<span class="token operator">=</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	freq<span class="token operator">=</span>pd<span class="token punctuation">.</span>Timedelta<span class="token punctuation">(</span>seconds<span class="token operator">=</span>time<span class="token punctuation">.</span>Interval<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	inclusive<span class="token operator">=</span><span class="token string">"left"</span>
+<span class="token punctuation">)</span>
+daily_df <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>
+	data <span class="token operator">=</span> <span class="token punctuation">&lbrace;</span>
+		<span class="token string">"date"</span><span class="token punctuation">:</span> date<span class="token punctuation"></span>{#each $params.daily as daily}{',\n        '}<span class="token string">"{daily}"</span><span class="token punctuation">:</span> daily<span class="token punctuation">.</span>{titleCase(daily)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation"></span>{/each}
+	<span class="token punctuation">&rbrace;</span>
+<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>daily_df<span class="token punctuation">)</span>
 {/if}
 </code></pre>
 				</div>
