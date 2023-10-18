@@ -12,6 +12,7 @@
 	export let type: String = 'forecast';
 	export let action: String = 'forecast';
 	export let sdk_type: String = 'weather_api';
+	export let sdk_cache: Integer = 3600;
 	export let defaultParameter: any;
 	export let useStockChart = false;
 
@@ -530,7 +531,7 @@
 <span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
 
 <span class="token comment"># Setup the Open-Meteo API client with cache and retry mechanism</span>
-cache_session <span class="token operator">=</span> requests_cache<span class="token punctuation">.</span>CachedSession<span class="token punctuation">(</span><span class="token string">'.cache'</span><span class="token punctuation">,</span> expire_after<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+cache_session <span class="token operator">=</span> requests_cache<span class="token punctuation">.</span>CachedSession<span class="token punctuation">(</span><span class="token string">'.cache'</span><span class="token punctuation">,</span> expire_after<span class="token operator">=</span><span class="token number">{sdk_cache}</span><span class="token punctuation">)</span>
 retry_session <span class="token operator">=</span> retry<span class="token punctuation">(</span>cache_session<span class="token punctuation">,</span> retries<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> backoff_factor<span class="token operator">=</span><span class="token number">0.2</span><span class="token punctuation">)</span>
 openmeteo <span class="token operator">=</span> openmeteo_requests<span class="token punctuation">.</span>Client<span class="token punctuation">(</span>session<span class="token operator">=</span>retry_session<span class="token punctuation">)</span>
 

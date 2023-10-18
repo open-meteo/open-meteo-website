@@ -452,7 +452,7 @@
 	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="archive" action="archive" useStockChart={true} />
+<ResultPreview {params} {defaultParameter} type="archive" action="archive" sdk_cache={-1} useStockChart={true} />
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">
