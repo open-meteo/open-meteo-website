@@ -610,7 +610,7 @@
 	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="ensemble" action="ensemble" />
+<ResultPreview {params} {defaultParameter} type="ensemble" action="ensemble" sdk_type="ensemble_api"/>
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>

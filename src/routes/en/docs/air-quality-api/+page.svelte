@@ -586,7 +586,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="air-quality" action="air-quality" />
+<ResultPreview {params} {defaultParameter} type="air-quality" action="air-quality" sdk_type="air_quality_api"/>
 
 <div class="col-12 py-5">
 	<h2 id="api-documentation">API Documentation</h2>

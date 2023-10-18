@@ -305,7 +305,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="seasonal" action="seasonal" />
+<ResultPreview {params} {defaultParameter} type="seasonal" action="seasonal" sdk_type="ensemble_api" />
 
 <div class="col-12 py-5">
 	<h2 id="api-documentation">API Documentation</h2>

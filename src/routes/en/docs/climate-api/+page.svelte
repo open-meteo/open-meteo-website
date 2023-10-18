@@ -283,7 +283,7 @@
 	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="climate" action="climate" useStockChart={true} />
+<ResultPreview {params} {defaultParameter} type="climate" action="climate" sdk_type="climate_api" useStockChart={true} />
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">

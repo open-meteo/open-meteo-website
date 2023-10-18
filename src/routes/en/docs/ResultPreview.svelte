@@ -11,6 +11,7 @@
 	export let params: Writable<any>;
 	export let type: String = 'forecast';
 	export let action: String = 'forecast';
+	export let sdk_type: String = 'weather_api';
 	export let defaultParameter: any;
 	export let useStockChart = false;
 
@@ -532,8 +533,10 @@
 cache_session <span class="token operator">=</span> requests_cache<span class="token punctuation">.</span>CachedSession<span class="token punctuation">(</span><span class="token string">'.cache'</span><span class="token punctuation">,</span> expire_after<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
 retry_session <span class="token operator">=</span> retry<span class="token punctuation">(</span>cache_session<span class="token punctuation">,</span> retries<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> backoff_factor<span class="token operator">=</span><span class="token number">0.2</span><span class="token punctuation">)</span>
 openmeteo <span class="token operator">=</span> openmeteo_requests<span class="token punctuation">.</span>Client<span class="token punctuation">(</span>session<span class="token operator">=</span>retry_session<span class="token punctuation">)</span>
+
+url <span class="token operator">=</span> <span class="token string">"{server}"</span>
 params <span class="token operator">=</span> {@html formatPrism(parsedParams)}
-results <span class="token operator">=</span> openmeteo<span class="token punctuation">.</span>weather_api<span class="token punctuation">(</span><span class="token string">"{server}"</span><span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">)</span>
+results <span class="token operator">=</span> openmeteo<span class="token punctuation">.</span>{sdk_type}<span class="token punctuation">(</span>url<span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">)</span>
 
 <span class="token comment"># Process first location. Add a for-loop for multiple locations</span>
 result <span class="token operator">=</span> results<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
@@ -541,7 +544,7 @@ result <span class="token operator">=</span> results<span class="token punctuati
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Elevation </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Elevation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> m asl"</span></span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Timezone </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Timezone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>TimezoneAbbreviation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Timezone difference to GMT+0 </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>UtcOffsetSeconds<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">s"</span></span><span class="token punctuation">)</span>
-{#if $params.current.length > 0}
+{#if 'current' in $params && $params.current.length > 0}
 
 <span class="token comment"># Current values</span>
 current <span class="token operator">=</span> result<span class="token punctuation">.</span>Current<span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -549,7 +552,7 @@ current <span class="token operator">=</span> result<span class="token punctuati
 {#each $params.current as current}
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Current {current} </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>current<span class="token punctuation">.</span>{titleCase(current)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Value<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>{`\n`}
 {/each}{/if}
-{#if $params.hourly.length > 0}
+{#if 'hourly' in $params && $params.hourly.length > 0}
 
 <span class="token comment"># Process hourly data</span>
 hourly <span class="token operator">=</span> result<span class="token punctuation">.</span>Hourly<span class="token punctuation">(</span><span class="token punctuation">)</span>
@@ -567,7 +570,7 @@ hourly_df <span class="token operator">=</span> pd<span class="token punctuation
 <span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>hourly_df<span class="token punctuation">)</span>{`\n`}
 {/if}
-{#if $params.daily.length > 0}
+{#if 'daily' in $params && $params.daily.length > 0}
 <span class="token comment"># Process daily data</span>
 daily <span class="token operator">=</span> result<span class="token punctuation">.</span>Daily<span class="token punctuation">(</span><span class="token punctuation">)</span>
 time <span class="token operator">=</span> daily<span class="token punctuation">.</span>Time<span class="token punctuation">(</span><span class="token punctuation">)</span>
