@@ -517,7 +517,7 @@
 			>
 				<div class="row">
 					<p>
-						This preview Python applies all parameters automatically. The example is deliberately verbose, includes a cache and conversion to Pandas DataFrames.
+						The preview code applies all parameters automatically. It is deliberately verbose, includes a cache and conversion to Pandas DataFrames.
 					</p>
 					<p>
 						More information and examples are available in the <a href="https://pypi.org/project/openmeteo-requests/">Python API client</a> documentation.
