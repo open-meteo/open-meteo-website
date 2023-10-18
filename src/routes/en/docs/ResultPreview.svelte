@@ -394,7 +394,7 @@
 	let mode = 'chart';
 </script>
 
-<h2>Preview and API URL</h2>
+<h2 id="api-response">API Response</h2>
 
 <div class="row py-3 px-0">
 	<div>
@@ -515,9 +515,10 @@
 			>
 				<div class="row">
 					<p>
-						The following Python code automatically applies all selected parameters and
-						generates dummy Python code. More information and examples are available
-						in the <a href="https://pypi.org/project/openmeteo-requests/">Python client</a> documentation.
+						This preview Python applies all parameters automatically. The example is deliberately verbose, includes a cache and conversion to Pandas DataFrames.
+					</p>
+					<p>
+						More information and examples are available in the <a href="https://pypi.org/project/openmeteo-requests/">Python API client</a> documentation.
 					</p>
 					<pre class="dark rounded-3 py-2" tabindex="0"><code ><span class="token comment"># pip install openmeteo-requests</span>
 <span class="token comment"># pip install requests-cache retry-requests</span>
@@ -530,15 +531,16 @@
 <span class="token comment"># Setup the Open-Meteo API client with cache and retry mechanism</span>
 cache_session <span class="token operator">=</span> requests_cache<span class="token punctuation">.</span>CachedSession<span class="token punctuation">(</span><span class="token string">'.cache'</span><span class="token punctuation">,</span> expire_after<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
 retry_session <span class="token operator">=</span> retry<span class="token punctuation">(</span>cache_session<span class="token punctuation">,</span> retries<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> backoff_factor<span class="token operator">=</span><span class="token number">0.2</span><span class="token punctuation">)</span>
-om <span class="token operator">=</span> openmeteo_requests<span class="token punctuation">.</span>Client<span class="token punctuation">(</span>session<span class="token operator">=</span>retry_session<span class="token punctuation">)</span>
+openmeteo <span class="token operator">=</span> openmeteo_requests<span class="token punctuation">.</span>Client<span class="token punctuation">(</span>session<span class="token operator">=</span>retry_session<span class="token punctuation">)</span>
 params <span class="token operator">=</span> {@html formatPrism(parsedParams)}
-results <span class="token operator">=</span> om<span class="token punctuation">.</span>weather_api<span class="token punctuation">(</span><span class="token string">"{server}"</span><span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">)</span>
+results <span class="token operator">=</span> openmeteo<span class="token punctuation">.</span>weather_api<span class="token punctuation">(</span><span class="token string">"{server}"</span><span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">)</span>
 
 <span class="token comment"># Process first location. Add a for-loop for multiple locations</span>
 result <span class="token operator">=</span> results<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Coordinates </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Latitude<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">°E </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Longitude<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">°N "</span></span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Elevation </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Elevation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> m asl"</span></span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Timezone </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Timezone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>TimezoneAbbreviation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> Offset=</span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>UtcOffsetSeconds<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">s"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Timezone </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Timezone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>TimezoneAbbreviation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Timezone difference to GMT+0 </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>UtcOffsetSeconds<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">s"</span></span><span class="token punctuation">)</span>
 {#if $params.current.length > 0}
 
 <span class="token comment"># Current values</span>
