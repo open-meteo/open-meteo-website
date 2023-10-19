@@ -12,7 +12,7 @@
 	export let type: String = 'forecast';
 	export let action: String = 'forecast';
 	export let sdk_type: String = 'weather_api';
-	export let sdk_cache: Integer = 3600;
+	export let sdk_cache: Number = 3600;
 	export let defaultParameter: any;
 	export let useStockChart = false;
 
@@ -378,7 +378,7 @@
 	});
 
 	/// Convert a given variable to syntax highlighted prism JS HTML
-	function formatPrism(v: any) {
+	function formatPrism(v: any): String {
 		if (Array.isArray(v)) {
 			const e = v.map(formatPrism).join(`<span class="token punctuation">,</span> `)
 			return `<span class="token punctuation">[</span>${e}<span class="token punctuation">]</span>`
