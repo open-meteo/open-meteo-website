@@ -517,94 +517,70 @@
 			>
 				<div class="row">
 					<p>
-						The preview code applies all parameters automatically. It is deliberately verbose, includes a cache and conversion to Pandas DataFrames.
+						The preview code applies all parameters from above automatically, includes a cache and conversion to Pandas DataFrames.
 					</p>
 					<p>
 						More information and examples are available in the <a href="https://pypi.org/project/openmeteo-requests/">Python API client</a> documentation.
 					</p>
 					<pre class="dark rounded-3 py-2"><code ><span class="token comment"># pip install openmeteo-requests</span>
-<span class="token comment"># pip install requests-cache retry-requests</span>
+<span class="token comment"># pip install requests-cache retry-requests numpy pandas</span>
 
 <span class="token keyword">import</span> openmeteo_requests
 <span class="token keyword">import</span> requests_cache
-<span class="token keyword">from</span> retry_requests <span class="token keyword">import</span> retry
 <span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+<span class="token keyword">from</span> retry_requests <span class="token keyword">import</span> retry
 
-<span class="token comment"># Setup the Open-Meteo API client with cache and retry mechanism</span>
-cache_session <span class="token operator">=</span> requests_cache<span class="token punctuation">.</span>CachedSession<span class="token punctuation">(</span><span class="token string">'.cache'</span><span class="token punctuation">,</span> expire_after<span class="token operator">=</span><span class="token number">{sdk_cache}</span><span class="token punctuation">)</span>
-retry_session <span class="token operator">=</span> retry<span class="token punctuation">(</span>cache_session<span class="token punctuation">,</span> retries<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> backoff_factor<span class="token operator">=</span><span class="token number">0.2</span><span class="token punctuation">)</span>
-openmeteo <span class="token operator">=</span> openmeteo_requests<span class="token punctuation">.</span>Client<span class="token punctuation">(</span>session<span class="token operator">=</span>retry_session<span class="token punctuation">)</span>
+<span class="token comment"># Setup the Open-Meteo API client with cache and retry on error</span>
+cache_session <span class="token operator">=</span> requests_cache<span class="token punctuation">.</span>CachedSession<span class="token punctuation">(</span><span class="token string">'.cache'</span><span class="token punctuation">,</span> expire_after <span class="token operator">=</span> <span class="token number">{sdk_cache}</span><span class="token punctuation">)</span>
+retry_session <span class="token operator">=</span> retry<span class="token punctuation">(</span>cache_session<span class="token punctuation">,</span> retries <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">,</span> backoff_factor <span class="token operator">=</span> <span class="token number">0.2</span><span class="token punctuation">)</span>
+openmeteo <span class="token operator">=</span> openmeteo_requests<span class="token punctuation">.</span>Client<span class="token punctuation">(</span>session <span class="token operator">=</span> retry_session<span class="token punctuation">)</span>
 
+<span class="token comment"># Make sure all required weather variables are listed here</span>
 url <span class="token operator">=</span> <span class="token string">"{server}"</span>
 params <span class="token operator">=</span> {@html formatPrism(parsedParams)}
 results <span class="token operator">=</span> openmeteo<span class="token punctuation">.</span>{sdk_type}<span class="token punctuation">(</span>url<span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">)</span>
 
 <span class="token comment"># Process first location. Add a for-loop for multiple locations</span>
 result <span class="token operator">=</span> results<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Coordinates </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Latitude<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">°E </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Longitude<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">°N "</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Coordinates </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Latitude<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">°E </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Longitude<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">°N"</span></span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Elevation </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Elevation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> m asl"</span></span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Timezone </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>Timezone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>TimezoneAbbreviation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Timezone difference to GMT+0 </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>UtcOffsetSeconds<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">s"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Timezone difference to GMT+0 </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>result<span class="token punctuation">.</span>UtcOffsetSeconds<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> s"</span></span><span class="token punctuation">)</span>
 {#if 'current' in $params && $params.current.length > 0}
-
-<span class="token comment"># Current values</span>
+{`\n`}<span class="token comment"># Current values</span>
 current <span class="token operator">=</span> result<span class="token punctuation">.</span>Current<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Current time </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>current<span class="token punctuation">.</span>Time<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
 {#each $params.current as current}
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Current {current} </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>current<span class="token punctuation">.</span>{titleCase(current)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Value<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>{`\n`}
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Current {current} </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>current<span class="token punctuation">.</span>{titleCase(current)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Value<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
 {/each}{/if}
-{#if 'hourly' in $params && $params.hourly.length > 0}
-
-<span class="token comment"># Process hourly data</span>
-hourly <span class="token operator">=</span> result<span class="token punctuation">.</span>Hourly<span class="token punctuation">(</span><span class="token punctuation">)</span>
-time <span class="token operator">=</span> hourly<span class="token punctuation">.</span>Time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+{#each ['minutely_15', 'hourly', 'daily', 'six_hourly'] as section}
+{#if section in $params && $params[section].length > 0}
+<span class="token comment"># Process {section} data</span>
+{section} <span class="token operator">=</span> result<span class="token punctuation">.</span>{titleCase(section)}<span class="token punctuation">(</span><span class="token punctuation">)</span>
+time <span class="token operator">=</span> {section}<span class="token punctuation">.</span>Time<span class="token punctuation">(</span><span class="token punctuation">)</span>
 data <span class="token operator">=</span> <span class="token punctuation">&lbrace;</span><span class="token string">"date"</span><span class="token punctuation">:</span> pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>
-	start<span class="token operator">=</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>Start<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit<span class="token operator">=</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-	end<span class="token operator">=</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>End<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit<span class="token operator">=</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-	freq<span class="token operator">=</span>pd<span class="token punctuation">.</span>Timedelta<span class="token punctuation">(</span>seconds<span class="token operator">=</span>time<span class="token punctuation">.</span>Interval<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-	inclusive<span class="token operator">=</span><span class="token string">"left"</span>
+	start <span class="token operator">=</span> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>Start<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit <span class="token operator">=</span> <span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	end <span class="token operator">=</span> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>End<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit <span class="token operator">=</span> <span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	freq <span class="token operator">=</span> pd<span class="token punctuation">.</span>Timedelta<span class="token punctuation">(</span>seconds <span class="token operator">=</span> time<span class="token punctuation">.</span>Interval<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+	inclusive <span class="token operator">=</span> <span class="token string">"left"</span>
 <span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span>
 {#if sdk_type == 'ensemble_api'}
 <span class="token comment"># Process all members</span>
-{#each $params.hourly as hourly}
-{hourly} <span class="token operator">=</span> hourly<span class="token punctuation">.</span>{titleCase(hourly)}<span class="token punctuation">(</span><span class="token punctuation">)</span>
+{#each $params['hourly'] as hourly}
+{hourly} <span class="token operator">=</span> {section}<span class="token punctuation">.</span>{titleCase(hourly)}<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> temperature_2m<span class="token punctuation">.</span>ValuesLength<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">f"{hourly}_member</span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>i<span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> {hourly}<span class="token punctuation">.</span>Values<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation"></span>{'\n'}
 {/each}
 {:else}
-{#each $params.hourly as hourly}
-data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">"{hourly}"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> hourly<span class="token punctuation">.</span>{titleCase(hourly)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span>{'\n'}
+{#each $params[section] as hourly}
+data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">"{hourly}"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> {section}<span class="token punctuation">.</span>{titleCase(hourly)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span>{'\n'}
 {/each}
 {/if}
-hourly_df <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>data <span class="token operator">=</span> data<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>hourly_df<span class="token punctuation">)</span>{`\n`}
+{section}_dataframe <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>data <span class="token operator">=</span> data<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>{section}_dataframe<span class="token punctuation">)</span>
+{`\n`}
 {/if}
-{#if 'daily' in $params && $params.daily.length > 0}
-
-<span class="token comment"># Process daily data</span>
-daily <span class="token operator">=</span> result<span class="token punctuation">.</span>Daily<span class="token punctuation">(</span><span class="token punctuation">)</span>
-time <span class="token operator">=</span> daily<span class="token punctuation">.</span>Time<span class="token punctuation">(</span><span class="token punctuation">)</span>
-data <span class="token operator">=</span> <span class="token punctuation">&lbrace;</span><span class="token string">"date"</span><span class="token punctuation">:</span> pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>
-	start<span class="token operator">=</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>Start<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit<span class="token operator">=</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-	end<span class="token operator">=</span>pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>End<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit<span class="token operator">=</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-	freq<span class="token operator">=</span>pd<span class="token punctuation">.</span>Timedelta<span class="token punctuation">(</span>seconds<span class="token operator">=</span>time<span class="token punctuation">.</span>Interval<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-	inclusive<span class="token operator">=</span><span class="token string">"left"</span>
-<span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span>
-{#if sdk_type == 'ensemble_api'}
-<span class="token comment"># Process all members</span>
-{#each $params.daily as daily}
-{daily} <span class="token operator">=</span> daily<span class="token punctuation">.</span>{titleCase(daily)}<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> temperature_2m<span class="token punctuation">.</span>ValuesLength<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">f"{daily}_member</span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>i<span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> {daily}<span class="token punctuation">.</span>Values<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation"></span>{'\n'}
 {/each}
-{:else}
-{#each $params.daily as daily}
-data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">"{daily}"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> daily<span class="token punctuation">.</span>{titleCase(daily)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span>{'\n'}
-{/each}
-{/if}
-daily_df <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>data <span class="token operator">=</span> data<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>daily_df<span class="token punctuation">)</span>{`\n`}
-{/if}
 </code></pre>
 				</div>
 			</div>
