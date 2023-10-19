@@ -41,7 +41,7 @@
 	"dependencies": {
 		"highcharts": "^11.1.0",
 		"svelte-local-storage-store": "^0.6.4",
-		"svelty-picker": "^5.0.0"
+		"svelty-picker": "^5.1.0"
 	},
 	"release": {
 		"branches": [
