@@ -13,7 +13,7 @@
 		location_mode: 'location_search',
 		csv_coordinates: '',
 		temperature_unit: 'celsius',
-		windspeed_unit: 'kmh',
+		wind_speed_unit: 'kmh',
 		precipitation_unit: 'mm',
 		timeformat: 'iso8601',
 		timezone: 'UTC',
@@ -39,15 +39,15 @@
 			{ name: 'temperature_2m_max', label: 'Temperature (2 m) 6h max' },
 			{ name: 'temperature_2m_min', label: 'Temperature (2 m) 6h min' },
 			{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation' },
-			{ name: 'cloudcover', label: 'Total Cloud Cover' },
+			{ name: 'cloud_cover', label: 'Total Cloud Cover' },
 			{ name: 'precipitation', label: 'Total Precipitation' },
 			{ name: 'showers', label: 'Showers' }
 		],
 		[
-			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' }
+			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' }
 		],
-		[{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' }],
+		[{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' }],
 		[
 			{ name: 'soil_temperature_0_to_10cm', label: 'Soil Temperature (0-10 cm)' },
 			{ name: 'soil_moisture_0_to_10cm', label: 'Soil Moisture (0-10 cm)' },
@@ -67,8 +67,8 @@
 			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
 			{ name: 'rain_sum', label: 'Rain Sum' },
 			{ name: 'precipitation_hours', label: 'Precipitation Hours' },
-			{ name: 'windspeed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-			{ name: 'winddirection_10m_dominant', label: 'Dominant Wind Direction (10 m)' }
+			{ name: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
+			{ name: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' }
 		]
 	];
 </script>
@@ -257,17 +257,17 @@
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
-					name="windspeed_unit"
-					id="windspeed_unit"
+					name="wind_speed_unit"
+					id="wind_speed_unit"
 					aria-label="Windspeed Unit"
-					bind:value={$params.windspeed_unit}
+					bind:value={$params.wind_speed_unit}
 				>
 					<option value="kmh">Km/h</option>
 					<option value="ms">m/s</option>
 					<option value="mph">Mph</option>
 					<option value="kn">Knots</option>
 				</select>
-				<label for="windspeed_unit">Wind Speed Unit</label>
+				<label for="wind_speed_unit">Wind Speed Unit</label>
 			</div>
 		</div>
 		<div class="col-md-3">
@@ -374,7 +374,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">windspeed_unit</th>
+					<th scope="row">wind_speed_unit</th>
 					<td>String</td>
 					<td>No</td>
 					<td><mark>kmh</mark></td>
@@ -522,13 +522,13 @@
 					<td>Geopotential height on different atmospheric pressure levels</td>
 				</tr>
 				<tr>
-					<th scope="row">windspeed_10m</th>
+					<th scope="row">wind_speed_10m</th>
 					<td>Instant</td>
 					<td>gpm</td>
 					<td>Geopotential height on different atmospheric pressure levels</td>
 				</tr>
 				<tr>
-					<th scope="row">windspeed_10m<br />windspeed_1000hPa, ...</th>
+					<th scope="row">wind_speed_10m<br />wind_speed_1000hPa, ...</th>
 					<td>Instant</td>
 					<td>km/h (mph, m/s, knots)</td>
 					<td
@@ -537,13 +537,13 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">winddirection_10m<br />winddirection_1000hPa, ...</th>
+					<th scope="row">wind_direction_10m<br />wind_direction_1000hPa, ...</th>
 					<td>Instant</td>
 					<td>°</td>
 					<td>Wind direction at 10 meters above ground and different pressure levels.</td>
 				</tr>
 				<tr>
-					<th scope="row">relativehumidity_2m<br />relative_humidity_1000hPa, ...</th>
+					<th scope="row">relative_humidity_2m<br />relative_humidity_1000hPa, ...</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td>Relative humidity at 2 meters above ground and atmospheric pressure levels</td>

@@ -205,7 +205,7 @@
                 }*/
 					};
 
-					if (k[0] == 'weathercode') {
+					if (k[0] == 'weather_code') {
 						// @ts-ignore
 						ser.tooltip.pointFormatter = function () {
 							// @ts-ignore

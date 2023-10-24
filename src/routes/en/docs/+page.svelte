@@ -23,7 +23,7 @@
 		location_mode: 'location_search',
 		csv_coordinates: '',
 		temperature_unit: 'celsius',
-		windspeed_unit: 'kmh',
+		wind_speed_unit: 'kmh',
 		precipitation_unit: 'mm',
 		timeformat: 'iso8601',
 		timezone: 'UTC',
@@ -44,8 +44,8 @@
 
 	const pressureVariables = [
 		{ name: 'temperature', label: 'Temperature' },
-		{ name: 'relativehumidity', label: 'Relative Humidity' },
-		{ name: 'cloudcover', label: 'Cloudcover' },
+		{ name: 'relative_humidity', label: 'Relative Humidity' },
+		{ name: 'cloud_cover', label: 'Cloud cover' },
 		{ name: 'windspeed', label: 'Wind Speed' },
 		{ name: 'winddirection', label: 'Wind Direction' },
 		{ name: 'geopotential_height', label: 'Geopotential Height' }
@@ -61,8 +61,8 @@
 	const hourly = [
 		[
 			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'dewpoint_2m', label: 'Dewpoint (2 m)' },
+			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
 			{ name: 'precipitation_probability', label: 'Precipitation Probability' },
 			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
@@ -72,28 +72,28 @@
 			{ name: 'snow_depth', label: 'Snow Depth' }
 		],
 		[
-			{ name: 'weathercode', label: 'Weathercode' },
+			{ name: 'weather_code', label: 'Weather code' },
 			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
 			{ name: 'surface_pressure', label: 'Surface Pressure' },
-			{ name: 'cloudcover', label: 'Cloudcover Total' },
-			{ name: 'cloudcover_low', label: 'Cloudcover Low' },
-			{ name: 'cloudcover_mid', label: 'Cloudcover Mid' },
-			{ name: 'cloudcover_high', label: 'Cloudcover High' },
+			{ name: 'cloud_cover', label: 'Cloud cover Total' },
+			{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
+			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
+			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
 			{ name: 'visibility', label: 'Visibility' },
 			{ name: 'evapotranspiration', label: 'Evapotranspiration' },
 			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-			{ name: 'vapor_pressure_deficit', label: 'Vapor Pressure Deficit' }
+			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 		],
 		[
-			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'windspeed_80m', label: 'Wind Speed (80 m)' },
-			{ name: 'windspeed_120m', label: 'Wind Speed (120 m)' },
-			{ name: 'windspeed_180m', label: 'Wind Speed (180 m)' },
-			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'winddirection_80m', label: 'Wind Direction (80 m)' },
-			{ name: 'winddirection_120m', label: 'Wind Direction (120 m)' },
-			{ name: 'winddirection_180m', label: 'Wind Direction (180 m)' },
-			{ name: 'windgusts_10m', label: 'Wind Gusts (10 m)' },
+			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
+			{ name: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
+			{ name: 'wind_speed_180m', label: 'Wind Speed (180 m)' },
+			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
+			{ name: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
+			{ name: 'wind_direction_180m', label: 'Wind Direction (180 m)' },
+			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 			{ name: 'temperature_80m', label: 'Temperature (80 m)' },
 			{ name: 'temperature_120m', label: 'Temperature (120 m)' },
 			{ name: 'temperature_180m', label: 'Temperature (180 m)' }
@@ -114,7 +114,7 @@
 	const current = [
 		[
 			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
 			{ name: 'is_day', label: 'Is Day or Night' }
 		],[
@@ -124,37 +124,37 @@
 			{ name: 'snowfall', label: 'Snowfall' },
 		],
 		[
-			{ name: 'weathercode', label: 'Weathercode' },
-			{ name: 'cloudcover', label: 'Cloudcover Total' },
+			{ name: 'weather_code', label: 'Weather code' },
+			{ name: 'cloud_cover', label: 'Cloud cover Total' },
 			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
 			{ name: 'surface_pressure', label: 'Surface Pressure' },
 		],
 		[
-			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'windgusts_10m', label: 'Wind Gusts (10 m)' },
+			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 		]
 	];
 
 	const minutely_15 = [
 		[
 			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'dewpoint_2m', label: 'Dewpoint (2 m)' },
+			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
 			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
 			{ name: 'rain', label: 'Rain' },
 			{ name: 'snowfall', label: 'Snowfall' },
 			{ name: 'snowfall_height', label: 'Snowfall Height' },
-			{ name: 'freezinglevel_height', label: 'Freezinglevel Height' }
+			{ name: 'freezing_level_height', label: 'Freezing Level Height' }
 		],
 		[
-			{ name: 'weathercode', label: 'Weathercode' },
-			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'windspeed_80m', label: 'Wind Speed (80 m)' },
-			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'winddirection_80m', label: 'Wind Direction (80 m)' },
-			{ name: 'windgusts_10m', label: 'Wind Gusts (10 m)' },
+			{ name: 'weather_code', label: 'Weather code' },
+			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
+			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
+			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 			{ name: 'visibility', label: 'Visibility' },
 			{ name: 'cape', label: 'CAPE' },
 			{ name: 'lightning_potential', label: 'Lightning Potential Index LPI' }
@@ -163,7 +163,7 @@
 
 	const daily = [
 		[
-			{ name: 'weathercode', label: 'Weathercode' },
+			{ name: 'weather_code', label: 'Weather code' },
 			{ name: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
 			{ name: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
 			{ name: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
@@ -180,9 +180,9 @@
 			{ name: 'snowfall_sum', label: 'Snowfall Sum' },
 			{ name: 'precipitation_hours', label: 'Precipitation Hours' },
 			{ name: 'precipitation_probability_max', label: 'Precipitation Probability Max' },
-			{ name: 'windspeed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-			{ name: 'windgusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
-			{ name: 'winddirection_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
+			{ name: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
+			{ name: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
+			{ name: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
 			{ name: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
 			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
 		]
@@ -196,7 +196,7 @@
 		],
 		[
 			{ name: 'cape', label: 'CAPE' },
-			{ name: 'freezinglevel_height', label: 'Freezinglevel Height' }
+			{ name: 'freezing_level_height', label: 'Freezing Level Height' }
 		]
 	];
 
@@ -691,17 +691,17 @@
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
-					name="windspeed_unit"
-					id="windspeed_unit"
+					name="wind_speed_unit"
+					id="wind_speed_unit"
 					aria-label="Windspeed Unit"
-					bind:value={$params.windspeed_unit}
+					bind:value={$params.wind_speed_unit}
 				>
 					<option value="kmh">Km/h</option>
 					<option value="ms">m/s</option>
 					<option value="mph">Mph</option>
 					<option value="kn">Knots</option>
 				</select>
-				<label for="windspeed_unit">Wind Speed Unit</label>
+				<label for="wind_speed_unit">Wind Speed Unit</label>
 			</div>
 		</div>
 		<div class="col-md-3">
@@ -913,7 +913,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">windspeed_unit</th>
+					<th scope="row">wind_speed_unit</th>
 					<td>String</td>
 					<td>No</td>
 					<td><mark>kmh</mark></td>
@@ -1055,13 +1055,13 @@
 					<td>Air temperature at 2 meters above ground</td>
 				</tr>
 				<tr>
-					<th scope="row">relativehumidity_2m</th>
+					<th scope="row">relative_humidity_2m</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td>Relative humidity at 2 meters above ground</td>
 				</tr>
 				<tr>
-					<th scope="row">dewpoint_2m</th>
+					<th scope="row">dew_point_2m</th>
 					<td>Instant</td>
 					<td>°C (°F)</td>
 					<td>Dew point temperature at 2 meters above ground</td>
@@ -1086,32 +1086,32 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">cloudcover</th>
+					<th scope="row">cloud_cover</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td>Total cloud cover as an area fraction</td>
 				</tr>
 				<tr>
-					<th scope="row">cloudcover_low</th>
+					<th scope="row">cloud_cover_low</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td>Low level clouds and fog up to 3 km altitude</td>
 				</tr>
 				<tr>
-					<th scope="row">cloudcover_mid</th>
+					<th scope="row">cloud_cover_mid</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td>Mid level clouds from 3 to 8 km altitude</td>
 				</tr>
 				<tr>
-					<th scope="row">cloudcover_high</th>
+					<th scope="row">cloud_cover_high</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td>High level clouds from 8 km altitude</td>
 				</tr>
 				<tr>
 					<th scope="row"
-						>windspeed_10m<br />windspeed_80m<br />windspeed_120m<br />windspeed_180m</th
+						>wind_speed_10m<br />wind_speed_80m<br />wind_speed_120m<br />wind_speed_180m</th
 					>
 					<td>Instant</td>
 					<td>km/h (mph, m/s, knots)</td>
@@ -1122,15 +1122,15 @@
 				</tr>
 				<tr>
 					<th scope="row"
-						>winddirection_10m<br />winddirection_80m<br />winddirection_120m<br
-						/>winddirection_180m</th
+						>wind_direction_10m<br />wind_direction_80m<br />wind_direction_120m<br
+						/>wind_direction_180m</th
 					>
 					<td>Instant</td>
 					<td>°</td>
 					<td>Wind direction at 10, 80, 120 or 180 meters above ground</td>
 				</tr>
 				<tr>
-					<th scope="row">windgusts_10m</th>
+					<th scope="row">wind_gusts_10m</th>
 					<td>Preceding hour max</td>
 					<td>km/h (mph, m/s, knots)</td>
 					<td>Gusts at 10 meters above ground as a maximum of the preceding hour</td>
@@ -1160,11 +1160,11 @@
 					<td>Diffuse solar radiation as average of the preceding hour</td>
 				</tr>
 				<tr>
-					<th scope="row">vapor_pressure_deficit</th>
+					<th scope="row">vapour_pressure_deficit</th>
 					<td>Instant</td>
 					<td>kPa</td>
 					<td
-						>Vapor Pressure Deficit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
+						>Vapour Pressure Deficit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
 						transpiration of plants increases. For low VPD (&lt;0.4), transpiration decreases</td
 					>
 				</tr>
@@ -1239,7 +1239,7 @@
 					<td>Showers from convective precipitation in millimeters from the preceding hour</td>
 				</tr>
 				<tr>
-					<th scope="row">weathercode</th>
+					<th scope="row">weather_code</th>
 					<td>Instant</td>
 					<td>WMO code</td>
 					<td
@@ -1254,7 +1254,7 @@
 					<td>Snow depth on the ground</td>
 				</tr>
 				<tr>
-					<th scope="row">freezinglevel_height</th>
+					<th scope="row">freezing_level_height</th>
 					<td>Instant</td>
 					<td>meters</td>
 					<td>Altitude above sea level of the 0°C level</td>
@@ -1332,14 +1332,14 @@
 					<td></td>
 				</tr>
 				<tr>
-					<th scope="row">relativehumidity_2m</th>
+					<th scope="row">relative_humidity_2m</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td>x</td>
 					<td></td>
 				</tr>
 				<tr>
-					<th scope="row">dewpoint_2m</th>
+					<th scope="row">dew_point_2m</th>
 					<td>Instant</td>
 					<td>°C (°F)</td>
 					<td>x</td>
@@ -1416,7 +1416,7 @@
 					<td>x</td>
 				</tr>
 				<tr>
-					<th scope="row">freezinglevel_height</th>
+					<th scope="row">freezing_level_height</th>
 					<td>Instant</td>
 					<td>meters</td>
 					<td></td>
@@ -1431,7 +1431,7 @@
 				</tr>
 				<tr>
 					<th scope="row"
-						>windspeed_10m<br />windspeed_80m</th
+						>wind_speed_10m<br />wind_speed_80m</th
 					>
 					<td>Instant</td>
 					<td>km/h (mph, m/s, knots)</td>
@@ -1440,7 +1440,7 @@
 				</tr>
 				<tr>
 					<th scope="row"
-						>winddirection_10m<br />winddirection_80m<br /></th
+						>wind_direction_10m<br />wind_direction_80m<br /></th
 					>
 					<td>Instant</td>
 					<td>°</td>
@@ -1448,7 +1448,7 @@
 					<td></td>
 				</tr>
 				<tr>
-					<th scope="row">windgusts_10m</th>
+					<th scope="row">wind_gusts_10m</th>
 					<td>Preceding 15 min max</td>
 					<td>km/h (mph, m/s, knots)</td>
 					<td>x</td>
@@ -1462,7 +1462,7 @@
 					<td></td>
 				</tr>
 				<tr>
-					<th scope="row">weathercode</th>
+					<th scope="row">weather_code</th>
 					<td>Instant</td>
 					<td>WMO code</td>
 					<td>x</td>
@@ -1503,17 +1503,17 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">relativehumidity_1000hPa<br />relativehumidity_975hPa, ...</th>
+					<th scope="row">relative_humidity_1000hPa<br />relative_humidity_975hPa, ...</th>
 					<td>%</td>
 					<td>Relative humidity at the specified pressure level.</td>
 				</tr>
 				<tr>
-					<th scope="row">dewpoint_1000hPa<br />dewpoint_975hPa, ...</th>
+					<th scope="row">dew_point_1000hPa<br />dew_point_975hPa, ...</th>
 					<td>°C (°F)</td>
 					<td>Dew point temperature at the specified pressure level.</td>
 				</tr>
 				<tr>
-					<th scope="row">cloudcover_1000hPa<br />cloudcover_975hPa, ...</th>
+					<th scope="row">cloud_cover_1000hPa<br />cloud_cover_975hPa, ...</th>
 					<td>%</td>
 					<td
 						>Cloud cover at the specified pressure level. Cloud cover is approximated based on
@@ -1524,12 +1524,12 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">windspeed_1000hPa<br />windspeed_975hPa, ...</th>
+					<th scope="row">wind_speed_1000hPa<br />wind_speed_975hPa, ...</th>
 					<td>km/h (mph, m/s, knots)</td>
 					<td>Wind speed at the specified pressure level.</td>
 				</tr>
 				<tr>
-					<th scope="row">winddirection_1000hPa<br />winddirection_975hPa, ...</th>
+					<th scope="row">wind_direction_1000hPa<br />wind_direction_975hPa, ...</th>
 					<td>°</td>
 					<td>Wind direction at the specified pressure level.</td>
 				</tr>
@@ -1606,7 +1606,7 @@
 					<td>Probability of precipitation</td>
 				</tr>
 				<tr>
-					<th scope="row">weathercode</th>
+					<th scope="row">weather_code</th>
 					<td>WMO code</td>
 					<td>The most severe weather condition on a given day</td>
 				</tr>
@@ -1616,12 +1616,12 @@
 					<td>Sun rise and set times</td>
 				</tr>
 				<tr>
-					<th scope="row">windspeed_10m_max<br />windgusts_10m_max</th>
+					<th scope="row">wind_speed_10m_max<br />wind_gusts_10m_max</th>
 					<td>km/h (mph, m/s, knots)</td>
 					<td>Maximum wind speed and gusts on a day</td>
 				</tr>
 				<tr>
-					<th scope="row">winddirection_10m_dominant</th>
+					<th scope="row">wind_direction_10m_dominant</th>
 					<td>°</td>
 					<td>Dominant wind direction</td>
 				</tr>

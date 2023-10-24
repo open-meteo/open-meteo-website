@@ -15,7 +15,7 @@
 		location_mode: 'location_search',
 		csv_coordinates: '',
 		temperature_unit: 'celsius',
-		windspeed_unit: 'kmh',
+		wind_speed_unit: 'kmh',
 		precipitation_unit: 'mm',
 		timeformat: 'iso8601',
 		timezone: 'UTC',
@@ -36,8 +36,8 @@
 	const hourly = [
 		[
 			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'dewpoint_2m', label: 'Dewpoint (2 m)' },
+			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' }
 		],
 		[
@@ -46,24 +46,24 @@
 			{ name: 'snowfall', label: 'Snowfall' }
 		],
 		[
-			{ name: 'weathercode', label: 'Weathercode' },
+			{ name: 'weather_code', label: 'Weather code' },
 			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
 			{ name: 'surface_pressure', label: 'Surface Pressure' },
-			{ name: 'cloudcover', label: 'Cloudcover Total' },
+			{ name: 'cloud_cover', label: 'Cloud cover Total' },
 			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-			{ name: 'vapor_pressure_deficit', label: 'Vapor Pressure Deficit' }
+			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 		],
 		[
-			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'windgusts_10m', label: 'Wind Gusts (10 m)' }
+			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 		]
 	];
 
 	const current = [
 		[
 			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
 			{ name: 'is_day', label: 'Is Day or Night' }
 		],[
@@ -73,15 +73,15 @@
 			{ name: 'snowfall', label: 'Snowfall' },
 		],
 		[
-			{ name: 'weathercode', label: 'Weathercode' },
-			{ name: 'cloudcover', label: 'Cloudcover Total' },
+			{ name: 'weather_code', label: 'Weather code' },
+			{ name: 'cloud_cover', label: 'Cloud cover Total' },
 			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
 			{ name: 'surface_pressure', label: 'Surface Pressure' },
 		],
 		[
-			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'windgusts_10m', label: 'Wind Gusts (10 m)' },
+			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 		]
 	];
 
@@ -355,17 +355,17 @@
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
-					name="windspeed_unit"
-					id="windspeed_unit"
+					name="wind_speed_unit"
+					id="wind_speed_unit"
 					aria-label="Windspeed Unit"
-					bind:value={$params.windspeed_unit}
+					bind:value={$params.wind_speed_unit}
 				>
 					<option value="kmh">Km/h</option>
 					<option value="ms">m/s</option>
 					<option value="mph">Mph</option>
 					<option value="kn">Knots</option>
 				</select>
-				<label for="windspeed_unit">Wind Speed Unit</label>
+				<label for="wind_speed_unit">Wind Speed Unit</label>
 			</div>
 		</div>
 		<div class="col-md-3">
@@ -522,7 +522,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">windspeed_unit</th>
+					<th scope="row">wind_speed_unit</th>
 					<td>String</td>
 					<td>No</td>
 					<td><mark>kmh</mark></td>
@@ -662,13 +662,13 @@
 					<td>Air temperature at 2 meters above ground</td>
 				</tr>
 				<tr>
-					<th scope="row">relativehumidity_2m</th>
+					<th scope="row">relative_humidity_2m</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td>Relative humidity at 2 meters above ground</td>
 				</tr>
 				<tr>
-					<th scope="row">dewpoint_2m</th>
+					<th scope="row">dew_point_2m</th>
 					<td>Instant</td>
 					<td>°C (°F)</td>
 					<td>Dew point temperature at 2 meters above ground</td>
@@ -683,14 +683,14 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">cloudcover</th>
+					<th scope="row">cloud_cover</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td>Total cloud cover as an area fraction</td>
 				</tr>
 
 				<tr>
-					<th scope="row">windspeed_10m</th>
+					<th scope="row">wind_speed_10m</th>
 					<td>Instant</td>
 					<td>km/h (mph, m/s, knots)</td>
 					<td
@@ -698,13 +698,13 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">winddirection_10m</th>
+					<th scope="row">wind_direction_10m</th>
 					<td>Instant</td>
 					<td>°</td>
 					<td>Wind direction at 10 meters above ground.</td>
 				</tr>
 				<tr>
-					<th scope="row">windgusts_10m</th>
+					<th scope="row">wind_gusts_10m</th>
 					<td>Preceding hour max</td>
 					<td>km/h (mph, m/s, knots)</td>
 					<td>Gusts at 10 meters above ground as a maximum of the preceding hour</td>
@@ -740,7 +740,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">vapor_pressure_deficit</th>
+					<th scope="row">vapour_pressure_deficit</th>
 					<td>Instant</td>
 					<td>kPa</td>
 					<td
@@ -761,7 +761,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">weathercode</th>
+					<th scope="row">weather_code</th>
 					<td>Instant</td>
 					<td>WMO code</td>
 					<td

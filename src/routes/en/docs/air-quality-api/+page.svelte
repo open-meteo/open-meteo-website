@@ -90,9 +90,9 @@
 			{ name: 'european_aqi', label: 'European AQI' },
 			{ name: 'european_aqi_pm2_5', label: 'European AQI PM<sub>2.5</sub>' },
 			{ name: 'european_aqi_pm10', label: 'European AQI PM<sub>10</sub>' },
-			{ name: 'european_aqi_no2', label: 'European AQI NO<sub>2</sub>' },
-			{ name: 'european_aqi_o3', label: 'European AQI O<sub>3</sub>' },
-			{ name: 'european_aqi_so2', label: 'European AQI SO<sub>2</sub>' },
+			{ name: 'european_aqi_nitrogen_dioxide', label: 'European AQI NO<sub>2</sub>' },
+			{ name: 'european_aqi_ozone', label: 'European AQI O<sub>3</sub>' },
+			{ name: 'european_aqi_sulphur_dioxide', label: 'European AQI SO<sub>2</sub>' },
 		]
 	];
 
@@ -101,10 +101,10 @@
 			{ name: 'us_aqi', label: 'United States AQI' },
 			{ name: 'us_aqi_pm2_5', label: 'United States AQI PM<sub>2.5</sub>' },
 			{ name: 'us_aqi_pm10', label: 'United States AQI PM<sub>10</sub>' },
-			{ name: 'us_aqi_no2', label: 'United States AQI NO<sub>2</sub>' },
-			{ name: 'us_aqi_co', label: 'United States AQI CO' },
-			{ name: 'us_aqi_o3', label: 'United States AQI O<sub>3</sub>' },
-			{ name: 'us_aqi_so2', label: 'United States AQI SO<sub>2</sub>' }
+			{ name: 'us_aqi_nitrogen_dioxide', label: 'United States AQI NO<sub>2</sub>' },
+			{ name: 'us_aqi_carbon_monoxide', label: 'United States AQI CO' },
+			{ name: 'us_aqi_ozone', label: 'United States AQI O<sub>3</sub>' },
+			{ name: 'us_aqi_sulphur_dioxide', label: 'United States AQI SO<sub>2</sub>' }
 		]
 	];
 </script>
@@ -821,8 +821,8 @@
 				</tr>
 				<tr>
 					<th scope="row">
-						european_aqi<br />european_aqi_pm2_5<br />european_aqi_pm10<br />european_aqi_no2<br
-						/>european_aqi_o3<br />european_aqi_so2
+						european_aqi<br />european_aqi_pm2_5<br />european_aqi_pm10<br />european_aqi_nitrogen_dioxide<br
+						/>european_aqi_ozone<br />european_aqi_sulphur_dioxide
 					</th>
 					<td>Instant</td>
 					<td>European AQI</td>
@@ -835,8 +835,8 @@
 				</tr>
 				<tr>
 					<th scope="row">
-						us_aqi<br />us_aqi_pm2_5<br />us_aqi_pm10<br />us_aqi_no2<br />us_aqi_o3<br
-						/>us_aqi_so2<br />us_aqi_co
+						us_aqi<br />us_aqi_pm2_5<br />us_aqi_pm10<br />us_aqi_nitrogen_dioxide<br />us_aqi_ozone<br
+						/>us_aqi_sulphur_dioxide<br />us_aqi_carbon_monoxide
 					</th>
 					<td>Instant</td>
 					<td>U.S. AQI</td>

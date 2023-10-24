@@ -19,7 +19,7 @@
 		location_mode: 'location_search',
 		csv_coordinates: '',
 		temperature_unit: 'celsius',
-		windspeed_unit: 'kmh',
+		wind_speed_unit: 'kmh',
 		precipitation_unit: 'mm',
 		timeformat: 'iso8601',
 		past_days: '0',
@@ -38,9 +38,9 @@
 
 	const pressureVariables = [
 		{ name: 'temperature', label: 'Temperature' },
-		{ name: 'relativehumidity', label: 'Relative Humidity' }, 
+		{ name: 'relative_humidity', label: 'Relative Humidity' }, 
 		//{ name: 'specific_humidity', label: 'Specific Humidity' },
-		{ name: 'cloudcover', label: 'Cloudcover' },
+		{ name: 'cloud_cover', label: 'Cloud cover' },
 		{ name: 'windspeed', label: 'Wind Speed' },
 		{ name: 'winddirection', label: 'Wind Direction' },
 		{ name: 'geopotential_height', label: 'Geopotential Height' },
@@ -54,27 +54,27 @@
 	const hourly = [
 		[
 			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relativehumidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'dewpoint_2m', label: 'Dewpoint (2 m)' },
+			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
 			{ name: 'precipitation', label: 'Precipitation (rain + snow)' },
 			{ name: 'rain', label: 'Rain' },
 			{ name: 'snowfall', label: 'Snowfall' }
 		],
 		[
-			{ name: 'weathercode', label: 'Weathercode' },
+			{ name: 'weather_code', label: 'Weather code' },
 			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
 			{ name: 'surface_pressure', label: 'Surface Pressure' },
-			{ name: 'cloudcover', label: 'Cloudcover Total' },
-			{ name: 'cloudcover_low', label: 'Cloudcover Low' },
-			{ name: 'cloudcover_mid', label: 'Cloudcover Mid' },
-			{ name: 'cloudcover_high', label: 'Cloudcover High' },
-			{ name: 'vapor_pressure_deficit', label: 'Vapor Pressure Deficit' }
+			{ name: 'cloud_cover', label: 'Cloud cover Total' },
+			{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
+			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
+			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
+			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 		],
 		[
-			{ name: 'windspeed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'winddirection_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'windgusts_10m', label: 'Wind Gusts (10 m)' }
+			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 		],
 		[
 			{ name: 'surface_temperature', label: 'Surface temperature' },
@@ -332,17 +332,17 @@
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
-					name="windspeed_unit"
-					id="windspeed_unit"
+					name="wind_speed_unit"
+					id="wind_speed_unit"
 					aria-label="Windspeed Unit"
-					bind:value={$params.windspeed_unit}
+					bind:value={$params.wind_speed_unit}
 				>
 					<option value="kmh">Km/h</option>
 					<option value="ms">m/s</option>
 					<option value="mph">Mph</option>
 					<option value="kn">Knots</option>
 				</select>
-				<label for="windspeed_unit">Wind Speed Unit</label>
+				<label for="wind_speed_unit">Wind Speed Unit</label>
 			</div>
 		</div>
 		<div class="col-md-3">
@@ -489,7 +489,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">windspeed_unit</th>
+					<th scope="row">wind_speed_unit</th>
 					<td>String</td>
 					<td>No</td>
 					<td><mark>kmh</mark></td>
@@ -615,7 +615,7 @@
 					<td>Execess rain that is not absorbed by the soil</td>
 				</tr>
 				<tr>
-					<th scope="row">weathercode</th>
+					<th scope="row">weather_code</th>
 					<td>Instant</td>
 					<td>WMO code</td>
 					<td
@@ -626,7 +626,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">cloudcover</th>
+					<th scope="row">cloud_cover</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td
@@ -635,7 +635,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">cloudcover_low</th>
+					<th scope="row">cloud_cover_low</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td
@@ -644,7 +644,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">cloudcover_mid</th>
+					<th scope="row">cloud_cover_mid</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td
@@ -653,7 +653,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">cloudcover_high</th>
+					<th scope="row">cloud_cover_high</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td
@@ -707,7 +707,7 @@
 					<td>Geopotential height on different atmospheric pressure levels</td>
 				</tr>
 				<tr>
-					<th scope="row">windspeed_10m<br />windspeed_1000hPa, ...</th>
+					<th scope="row">wind_speed_10m<br />wind_speed_1000hPa, ...</th>
 					<td>Instant</td>
 					<td>km/h (mph, m/s, knots)</td>
 					<td
@@ -716,13 +716,13 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">winddirection_10m<br />winddirection_1000hPa, ...</th>
+					<th scope="row">wind_direction_10m<br />wind_direction_1000hPa, ...</th>
 					<td>Instant</td>
 					<td>°</td>
 					<td>Wind direction at 10 meters above ground and different pressure levels.</td>
 				</tr>
 				<tr>
-					<th scope="row">relativehumidity_1000hPa, ...</th>
+					<th scope="row">relative_humidity_1000hPa, ...</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td
@@ -731,7 +731,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">cloudcover_1000hPa, ...</th>
+					<th scope="row">cloud_cover_1000hPa, ...</th>
 					<td>Instant</td>
 					<td>%</td>
 					<td
