@@ -369,6 +369,38 @@
 		return [jsonToChart(json, tEnd)];
 	}
 
+	function formatPrismVariableSelector(variable: string) {
+		const regex = /(?<variable>[a-z_]+)_(((?<altitude>[0-9]+)m)|((?<pressure>[0-9]+)hPa)|((?<depth>[0-9]+)cm)|((?<depth_from>[0-9]+)_to_(?<depth_to>[0-9]+)cm))_?(?<aggregation>max|min|mean|p[0-9]{2}|dominant)?/;
+        const matches = regex.exec(variable)
+		if (matches == null || matches.groups == null) {
+			return `x<span class="token punctuation">.</span>Variable<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Variable<span class="token punctuation">.</span>${variable}`
+		}
+		const groups = matches.groups
+		console.log(groups)
+		let results = [`x<span class="token punctuation">.</span>Variable<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Variable<span class="token punctuation">.</span>${groups.variable}`]
+		if (groups.altitude) {
+			results.push(`x<span class="token punctuation">.</span>Altitude<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.altitude}</span>`)
+		}
+		if (groups.depth) {
+			results.push(`x<span class="token punctuation">.</span>Depth<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.depth}</span>`)
+		}
+		if (groups.depth_from) {
+			results.push(`x<span class="token punctuation">.</span>Depth<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.depth_from}</span>`)
+			results.push(`x<span class="token punctuation">.</span>DepthTo<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.depth_to}</span>`)
+		}
+		if (groups.aggregation) {
+			let aggregation = groups.aggregation
+			if (aggregation == 'max') {
+				aggregation = "maximum"
+			}
+			if (aggregation == 'min') {
+				aggregation = "minimum"
+			}
+			results.push(`x<span class="token punctuation">.</span>Aggregation<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Aggregation<span class="token punctuation">.</span><span class="token number">${aggregation}</span>`)
+		}
+		return results.join(` <span class="token keyword">and</span> `)
+	}
+
 	function reload() {
 		results = preview();
 	}
@@ -393,7 +425,7 @@
 		return `<span class="token string">"${v}"</span>`
 	}
 
-	let mode = 'chart';
+	let mode = 'python';
 </script>
 
 <h2 id="api-response">API Response</h2>
@@ -526,6 +558,8 @@
 <span class="token comment"># pip install requests-cache retry-requests numpy pandas</span>
 
 <span class="token keyword">import</span> openmeteo_requests
+<span class="token keyword">from</span> openmeteo_sdk.Variable <span class="token keyword">import</span> Variable
+<span class="token keyword">from</span> openmeteo_sdk.Aggregation <span class="token keyword">import</span> Aggregation
 <span class="token keyword">import</span> requests_cache
 <span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
 <span class="token keyword">from</span> retry_requests <span class="token keyword">import</span> retry
@@ -538,7 +572,7 @@ openmeteo <span class="token operator">=</span> openmeteo_requests<span class="t
 <span class="token comment"># Make sure all required weather variables are listed here</span>
 url <span class="token operator">=</span> <span class="token string">"{server}"</span>
 params <span class="token operator">=</span> {@html formatPrism(parsedParams)}
-results <span class="token operator">=</span> openmeteo<span class="token punctuation">.</span>{sdk_type}<span class="token punctuation">(</span>url<span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">)</span>
+results <span class="token operator">=</span> openmeteo<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">)</span>
 
 <span class="token comment"># Process first location. Add a for-loop for multiple locations or weather models</span>
 result <span class="token operator">=</span> results<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
@@ -557,16 +591,19 @@ current <span class="token operator">=</span> result<span class="token punctuati
 {#if section in $params && $params[section].length > 0}
 <span class="token comment"># Process {section} data</span>
 {section} <span class="token operator">=</span> result<span class="token punctuation">.</span>{titleCase(section)}<span class="token punctuation">(</span><span class="token punctuation">)</span>
-time <span class="token operator">=</span> {section}<span class="token punctuation">.</span>Time<span class="token punctuation">(</span><span class="token punctuation">)</span>
+{section}_series <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">map</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> i<span class="token punctuation">:</span> {section}<span class="token punctuation">.</span>Series<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> {section}<span class="token punctuation">.</span>SeriesLength<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+{#each $params[section] as variable}
+{variable} <span class="token operator">=</span> <span class="token builtin">next</span><span class="token punctuation">(</span><span class="token builtin">filter</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> {@html formatPrismVariableSelector(variable)}<span class="token punctuation">,</span> {section}_series<span class="token punctuation">)</span><span class="token punctuation">)</span>{'\n'}
+{/each}
 data <span class="token operator">=</span> <span class="token punctuation">&lbrace;</span><span class="token string">"date"</span><span class="token punctuation">:</span> pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>
-{'\t'}start <span class="token operator">=</span> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>Start<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit <span class="token operator">=</span> <span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-{'\t'}end <span class="token operator">=</span> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>time<span class="token punctuation">.</span>End<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit <span class="token operator">=</span> <span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-{'\t'}freq <span class="token operator">=</span> pd<span class="token punctuation">.</span>Timedelta<span class="token punctuation">(</span>seconds <span class="token operator">=</span> time<span class="token punctuation">.</span>Interval<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+{'\t'}start <span class="token operator">=</span> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>{section}<span class="token punctuation">.</span>Start<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit <span class="token operator">=</span> <span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+{'\t'}end <span class="token operator">=</span> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>{section}<span class="token punctuation">.</span>End<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit <span class="token operator">=</span> <span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+{'\t'}freq <span class="token operator">=</span> pd<span class="token punctuation">.</span>Timedelta<span class="token punctuation">(</span>seconds <span class="token operator">=</span> {section}<span class="token punctuation">.</span>Interval<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
 {'\t'}inclusive <span class="token operator">=</span> <span class="token string">"left"</span>
 <span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span>
 {#if sdk_type == 'ensemble_api'}
 <span class="token comment"># Process all members</span>
-{#each $params['hourly'] as hourly}
+{#each $params[section] as hourly}
 {hourly} <span class="token operator">=</span> {section}<span class="token punctuation">.</span>{titleCase(hourly)}<span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> temperature_2m<span class="token punctuation">.</span>ValuesLength<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
 {'\t'}member <span class="token operator">=</span> {hourly}<span class="token punctuation">.</span>Values<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">.</span>Member<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation"></span>
@@ -574,7 +611,7 @@ data <span class="token operator">=</span> <span class="token punctuation">&lbra
 {/each}
 {:else}
 {#each $params[section] as hourly}
-data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">"{hourly}"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> {section}<span class="token punctuation">.</span>{titleCase(hourly)}<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span>{'\n'}
+data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">"{hourly}"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> {hourly}<span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span>{'\n'}
 {/each}
 {/if}
 {section}_dataframe <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>data <span class="token operator">=</span> data<span class="token punctuation">)</span>
