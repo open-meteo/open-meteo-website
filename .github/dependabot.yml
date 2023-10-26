@@ -10,7 +10,6 @@ updates:
   - patrick.zippenfenig
   allow:
   - dependency-type: direct
-  - dependency-type: indirect
   commit-message:
     prefix: "fix: "
 - package-ecosystem: "github-actions"
