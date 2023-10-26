@@ -6,8 +6,6 @@ This repository contains the [open-meteo.com](https://open-meteo.com/) website. 
 
 The website is build using SvelteKit, Bootstrap and Highcharts. It can be run locally using `npm`, is entirely static and hosted on a CDN afterwards.
 
-TODO:
-- Automatic code generation for python library
 
 ## Developing
 

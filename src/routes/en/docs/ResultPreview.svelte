@@ -3,13 +3,16 @@
 	import type { Writable } from 'svelte/store';
 	import HighchartContainer from '$lib/Elements/HighchartContainer.svelte';
 	import { onMount } from 'svelte';
-	import { InfoCircle } from 'svelte-bootstrap-icons';
+	import { InfoCircle, SkipEnd } from 'svelte-bootstrap-icons';
 	import { ExclamationTriangle } from 'svelte-bootstrap-icons';
 	import { ArrowClockwise } from 'svelte-bootstrap-icons';
+	import { fade } from 'svelte/transition';
 
 	export let params: Writable<any>;
 	export let type: String = 'forecast';
 	export let action: String = 'forecast';
+	export let sdk_type: String = 'weather_api';
+	export let sdk_cache: Number = 3600;
 	export let defaultParameter: any;
 	export let useStockChart = false;
 
@@ -24,94 +27,107 @@
 		return diff;
 	}
 
+	/// `temperature_2m` to `Temperature2m`
+	const titleCase = (s: string) =>
+  		s.replace (/^[-_]*(.)/, (_, c) => c.toUpperCase())
+   		.replace (/[-_]+(.)/g, (_, c) =>  c.toUpperCase())
+
 	/// Parsed params that resolved CSV fields
-	$: parsedParams = ((p: any) => {
-		const params = {...p}
+	$: parsedParams = ((p: any, api_key_preferences: any) => {
+		const params = { ...p };
 		if ('time_mode' in params) {
 			if (params.time_mode == 'forecast_days') {
-				delete params['start_date']
-				delete params['end_date']
+				delete params['start_date'];
+				delete params['end_date'];
 			}
 			if (params.time_mode == 'time_interval') {
-				delete params['forecast_days']
-				delete params['past_days']
+				delete params['forecast_days'];
+				delete params['past_days'];
 			}
-			delete params['csv_time_intervals']
-			delete params['time_mode']
+			delete params['csv_time_intervals'];
+			delete params['time_mode'];
 		}
 		if ('location_mode' in params) {
 			if (params.location_mode == 'csv_coordinates' && params['csv_coordinates']) {
-				let lats: number[] = []
-				let lons: number[] = []
-				let elevation: number[] = []
-				let timezone: string[] = []
-				let start_date: string[] = []
-				let end_date: string[] = []
-				let csv: string = params['csv_coordinates']
-				csv.split(/\r?\n/).forEach(row => {
+				let lats: number[] = [];
+				let lons: number[] = [];
+				let elevation: number[] = [];
+				let timezone: string[] = [];
+				let start_date: string[] = [];
+				let end_date: string[] = [];
+				let csv: string = params['csv_coordinates'];
+				csv.split(/\r?\n/).forEach((row) => {
 					if (row.length < 4) {
-						return
+						return;
 					}
-					let parts = row.split(/[;,\t]/)
+					let parts = row.split(/[;,\t]/);
 					if (parts.length < 2) {
-						return
+						return;
 					}
-					lats.push(parseFloat(parts[0]))
-					lons.push(parseFloat(parts[1]))
+					lats.push(parseFloat(parts[0]));
+					lons.push(parseFloat(parts[1]));
 					if (parts.length > 2 && parts[2].length > 0) {
-						elevation.push(parseFloat(parts[2]))
+						elevation.push(parseFloat(parts[2]));
 					}
 					if (parts.length > 3 && parts[3].length > 0) {
-						timezone.push(parts[3])
+						timezone.push(parts[3]);
 					}
 					if (parts.length > 5 && parts[4].length > 0 && parts[5].length > 0) {
-						start_date.push(parts[4])
-						end_date.push(parts[4])
+						start_date.push(parts[4]);
+						end_date.push(parts[4]);
 					}
 				});
-				params['latitude'] = lats
-				params['longitude'] = lons
+				params['latitude'] = lats;
+				params['longitude'] = lons;
 				if (elevation.length > 0) {
-					params['elevation'] = elevation
+					params['elevation'] = elevation;
 				}
 				if (timezone.length > 0) {
-					params['timezone'] = timezone
+					params['timezone'] = timezone;
 				}
 				if (start_date.length > 0) {
-					params['start_date'] = start_date
-					params['end_date'] = end_date
-					delete params['forecast_days']
-					delete params['past_days']
+					params['start_date'] = start_date;
+					params['end_date'] = end_date;
+					delete params['forecast_days'];
+					delete params['past_days'];
 				}
 			}
-			delete params['location_mode']
-			delete params['csv_coordinates']
+			delete params['location_mode'];
+			delete params['csv_coordinates'];
 		}
-		return params
-	})($params)
+		// Cast 1-element arrays to a scalar value
+		for (const key in params) {
+			if (Array.isArray(params[key]) && params[key].length == 1) {
+				params[key] = params[key][0];
+			}
+		}
 
-	function getUrl(api_key_preferences: any, params: any) {
+		if (api_key_preferences.use == 'commercial') {
+			params['apikey'] = api_key_preferences.apikey
+		}
+
+		return objectDifference(params, defaultParameter);
+	})($params, $api_key_preferences);
+
+	$: server = ((api_key_preferences: any) => {
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
-		let server: string;
-		let actionParams = {};
 		switch (api_key_preferences.use) {
 			case 'commercial':
-				server = `https://customer-${serverPrefix}.open-meteo.com/v1/${action}?`;
-				actionParams = { apikey: api_key_preferences.apikey };
-				break;
+				return `https://customer-${serverPrefix}.open-meteo.com/v1/${action}`;
 			case 'self_hosted':
-				server = `${api_key_preferences.self_host_server}/v1/${action}?`;
-				break;
+				return `${api_key_preferences.self_host_server}/v1/${action}`;
 			default:
-				server = `https://${serverPrefix}.open-meteo.com/v1/${action}?`;
+				return `https://${serverPrefix}.open-meteo.com/v1/${action}`;
 		}
-		let nonDefaultParameter = objectDifference({ ...params, ...actionParams }, defaultParameter);
-		return `${server}${new URLSearchParams(nonDefaultParameter)}`.replaceAll('%2C', ',');
+	})($api_key_preferences)
+
+	function getUrl(server: string, params: any) {
+		return `${server}?${new URLSearchParams({ ...params, ...params })}`.replaceAll('%2C', ',');
 	}
 
-	$: previewUrl = getUrl($api_key_preferences, parsedParams);
-	$: xlsxUrl = getUrl($api_key_preferences, { ...parsedParams, format: 'xlsx' });
-	$: csvUrl = getUrl($api_key_preferences, { ...parsedParams, format: 'csv' });
+	$: previewUrl = getUrl(server, parsedParams);
+	$: xlsxUrl = getUrl(server, { ...parsedParams, format: 'xlsx' });
+	$: csvUrl = getUrl(server, { ...parsedParams, format: 'csv' });
 
 	function jsonToChart(data: any, downloadTime: number) {
 		//console.log(data);
@@ -148,75 +164,74 @@
 		};
 
 		let series: any = [];
-		['hourly', 'six_hourly', 'three_hourly', 'daily', 'minutely_15'].forEach(function (
-			section,
-			index
-		) {
-			if (!(section in data)) {
-				return;
-			}
-			Object.entries(data[section] || []).forEach(function (k) {
-				if (k[0] == 'time' || k[0] == 'sunrise' || k[0] == 'sunset') {
+		['hourly', 'six_hourly', 'three_hourly', 'daily', 'minutely_15'].forEach(
+			function (section, index) {
+				if (!(section in data)) {
 					return;
 				}
-				let hourly_starttime = (data[section].time[0] + data.utc_offset_seconds) * 1000;
-				let pointInterval = (data[section].time[1] - data[section].time[0]) * 1000;
-				let unit = data[`${section}_units`][k[0]];
-				let axisId = null;
-				for (let i = 0; i < yAxis.length; i++) {
-					if (yAxis[i].title.text == unit) {
-						axisId = i;
+				Object.entries(data[section] || []).forEach(function (k) {
+					if (k[0] == 'time' || k[0] == 'sunrise' || k[0] == 'sunset') {
+						return;
 					}
-				}
-				if (axisId == null) {
-					yAxis.push({ title: { text: unit } });
-					axisId = yAxis.length - 1;
-				}
-				let ser = {
-					name: k[0],
-					data: k[1],
-					yAxis: axisId,
-					pointStart: hourly_starttime,
-					pointInterval: pointInterval,
-					type:
-						unit == 'mm' || unit == 'cm' || unit == 'inch' || unit == 'MJ/m²' ? 'column' : 'line',
-					tooltip: {
-						valueSuffix: ' ' + unit
-					},
-					dataGrouping: { groupPixelWidth: 12 }
-					/*dataGrouping: {
+					let hourly_starttime = (data[section].time[0] + data.utc_offset_seconds) * 1000;
+					let pointInterval = (data[section].time[1] - data[section].time[0]) * 1000;
+					let unit = data[`${section}_units`][k[0]];
+					let axisId = null;
+					for (let i = 0; i < yAxis.length; i++) {
+						if (yAxis[i].title.text == unit) {
+							axisId = i;
+						}
+					}
+					if (axisId == null) {
+						yAxis.push({ title: { text: unit } });
+						axisId = yAxis.length - 1;
+					}
+					let ser = {
+						name: k[0],
+						data: k[1],
+						yAxis: axisId,
+						pointStart: hourly_starttime,
+						pointInterval: pointInterval,
+						type:
+							unit == 'mm' || unit == 'cm' || unit == 'inch' || unit == 'MJ/m²' ? 'column' : 'line',
+						tooltip: {
+							valueSuffix: ' ' + unit
+						},
+						dataGrouping: { groupPixelWidth: 12 }
+						/*dataGrouping: {
                     enabled: true,
                     forced: true,
                     units: [['year',[1]]]
                 }*/
-				};
-
-				if (k[0] == 'weathercode') {
-					// @ts-ignore
-					ser.tooltip.pointFormatter = function () {
-						// @ts-ignore
-						let condition = codes[this.y];
-						// @ts-ignore
-						return (
-							'<span style="color:' +
-							/* @ts-ignore */
-							this.series.color +
-							'">\u25CF</span> ' +
-							/* @ts-ignore */
-							this.series.name +
-							': <b>' +
-							condition +
-							'</b> (' +
-							/* @ts-ignore */
-							this.y +
-							' wmo)<br/>'
-						);
 					};
-				}
 
-				series.push(ser);
-			});
-		});
+					if (k[0] == 'weather_code') {
+						// @ts-ignore
+						ser.tooltip.pointFormatter = function () {
+							// @ts-ignore
+							let condition = codes[this.y];
+							// @ts-ignore
+							return (
+								'<span style="color:' +
+								/* @ts-ignore */
+								this.series.color +
+								'">\u25CF</span> ' +
+								/* @ts-ignore */
+								this.series.name +
+								': <b>' +
+								condition +
+								'</b> (' +
+								/* @ts-ignore */
+								this.y +
+								' wmo)<br/>'
+							);
+						};
+					}
+
+					series.push(ser);
+				});
+			}
+		);
 
 		let plotBands: any = [];
 		if ('daily' in data && 'sunrise' in data.daily && 'sunset' in data.daily) {
@@ -261,7 +276,7 @@
 					mouseWheel: {
 						enabled: false
 					}
-				},
+				}
 			},
 
 			yAxis: yAxis,
@@ -330,11 +345,11 @@
 
 	async function preview() {
 		if ('latitude' in parsedParams && parsedParams.latitude.length > 5) {
-			throw new Error("Can not preview more than 5 locations");
+			throw new Error('Can not preview more than 5 locations');
 		}
 
 		// Always set format=json to fetch data
-		const fetchUrl = getUrl($api_key_preferences, {
+		const fetchUrl = getUrl(server, {
 			...parsedParams,
 			format: 'json',
 			timeformat: 'unixtime'
@@ -345,13 +360,45 @@
 		if (!result.ok) {
 			throw new Error(await result.text());
 		}
-		const json = await result.json()
-		let tEnd = performance.now() - t0
+		const json = await result.json();
+		let tEnd = performance.now() - t0;
 		if (Array.isArray(json)) {
-			return json.map((x) => jsonToChart(x, tEnd))
+			return json.map((x) => jsonToChart(x, tEnd));
 		}
 
 		return [jsonToChart(json, tEnd)];
+	}
+
+	function formatPrismVariableSelector(variable: string) {
+		const regex = /(?<variable>[a-z_]+)_(((?<altitude>[0-9]+)m)|((?<pressure>[0-9]+)hPa)|((?<depth>[0-9]+)cm)|((?<depth_from>[0-9]+)_to_(?<depth_to>[0-9]+)cm))_?(?<aggregation>max|min|mean|p[0-9]{2}|dominant)?/;
+        const matches = regex.exec(variable)
+		if (matches == null || matches.groups == null) {
+			return `x<span class="token punctuation">.</span>Variable<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Variable<span class="token punctuation">.</span>${variable}`
+		}
+		const groups = matches.groups
+		console.log(groups)
+		let results = [`x<span class="token punctuation">.</span>Variable<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Variable<span class="token punctuation">.</span>${groups.variable}`]
+		if (groups.altitude) {
+			results.push(`x<span class="token punctuation">.</span>Altitude<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.altitude}</span>`)
+		}
+		if (groups.depth) {
+			results.push(`x<span class="token punctuation">.</span>Depth<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.depth}</span>`)
+		}
+		if (groups.depth_from) {
+			results.push(`x<span class="token punctuation">.</span>Depth<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.depth_from}</span>`)
+			results.push(`x<span class="token punctuation">.</span>DepthTo<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.depth_to}</span>`)
+		}
+		if (groups.aggregation) {
+			let aggregation = groups.aggregation
+			if (aggregation == 'max') {
+				aggregation = "maximum"
+			}
+			if (aggregation == 'min') {
+				aggregation = "minimum"
+			}
+			results.push(`x<span class="token punctuation">.</span>Aggregation<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Aggregation<span class="token punctuation">.</span><span class="token number">${aggregation}</span>`)
+		}
+		return results.join(` <span class="token keyword">and</span> `)
 	}
 
 	function reload() {
@@ -361,72 +408,224 @@
 	onMount(() => {
 		reload();
 	});
+
+	/// Convert a given variable to syntax highlighted prism JS HTML
+	function formatPrism(v: any): String {
+		if (Array.isArray(v)) {
+			const e = v.map(formatPrism).join(`<span class="token punctuation">,</span> `)
+			return `<span class="token punctuation">[</span>${e}<span class="token punctuation">]</span>`
+		}
+		if (typeof v == "object") {
+			const e = Object.entries(v).map(([k,v]) => `\n\t<span class="token string">"${k}"</span><span class="token punctuation">:</span> ${formatPrism(v)}`).join(`<span class="token punctuation">,</span>`)
+			return `<span class="token punctuation">&lbrace;</span>${e}\n<span class="token punctuation">&rbrace;</span>`
+		}
+		if (!isNaN(v)) {
+			return `<span class="token number">${v}</span>`
+		}
+		return `<span class="token string">"${v}"</span>`
+	}
+
+	let mode = 'chart';
 </script>
 
-<div class="col-12 my-4">
-	<h2>Preview and API URL</h2>
+<h2 id="api-response">API Response</h2>
 
-	<div id="container w-100">
-		{#await results}
-			<div
-				class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
-				style={useStockChart ? 'height: 500px' : 'height: 400px'}
-			>
-				<div class="spinner-border" role="status">
-					<span class="visually-hidden">Loading...</span>
-				</div>
-			</div>
-		{:then results}
-			{#if results}
-				{#each results.slice(0, 10) as chart}
-					<HighchartContainer
-						options={chart}
-						{useStockChart}
-						style={useStockChart ? 'height: 500px' : 'height: 400px'}
-					/>
-				{/each}
-			{:else}
-				<div
-					class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
-					style={useStockChart ? 'height: 500px' : 'height: 400px'}
+<div class="row py-3 px-0">
+	<div>
+		<ul class="nav nav-underline" role="tablist">
+			<li class="nav-item" role="presentation">
+				<span class="nav-link disabled" aria-disabled="true">Preview:</span>
+			</li>
+			<li class="nav-item" role="presentation">
+				<button
+					class="nav-link"
+					class:active={mode == 'chart'}
+					id="pills-chart-tab"
+					type="button"
+					role="tab"
+					aria-controls="pills-chart"
+					aria-selected="true"
+					on:click={() => (mode = 'chart')}>Chart And URL</button
 				>
-					<div class="alert alert-primary d-flex align-items-center" role="alert">
-						<InfoCircle class="me-2" />
-						<div>
-							Parameters have changed.
-							<button type="submit" class="btn btn-primary ms-2" on:click={reload}
-								><ArrowClockwise class="me-2" />Reload Chart
-							</button>
-						</div>
-					</div>
-				</div>
-			{/if}
-		{:catch error}
+			</li>
+			<li class="nav-item" role="presentation">
+				<button
+					class="nav-link"
+					class:active={mode == 'python'}
+					id="pills-python-tab"
+					type="button"
+					role="tab"
+					aria-controls="pills-python"
+					on:click={() => (mode = 'python')}
+					aria-selected="true">Python</button
+				>
+			</li>
+		</ul>
+	</div>
+
+	<div class="tab-content py-3">
+		{#if mode == 'chart'}
 			<div
-				class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
-				style={useStockChart ? 'height: 500px' : 'height: 400px'}
+				class="tab-pane active"
+				in:fade
+				id="pills-chart"
+				role="tabpanel"
+				aria-labelledby="pills-chart-tab"
+				tabindex="0"
 			>
-				<div class="alert alert-danger d-flex align-items-center" role="alert">
-					<ExclamationTriangle class="me-2" />
-					<div>{error.message}</div>
-					<button type="submit" class="btn btn-danger ms-2" on:click={reload}
-						><ArrowClockwise class="me-2" />Reload Chart
-					</button>
+				<div id="container w-100">
+					{#await results}
+						<div
+							class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+							style={useStockChart ? 'height: 500px' : 'height: 400px'}
+						>
+							<div class="spinner-border" role="status">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+						</div>
+					{:then results}
+						{#if results}
+							{#each results.slice(0, 10) as chart}
+								<HighchartContainer
+									options={chart}
+									{useStockChart}
+									style={useStockChart ? 'height: 500px' : 'height: 400px'}
+								/>
+							{/each}
+						{:else}
+							<div
+								class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+								style={useStockChart ? 'height: 500px' : 'height: 400px'}
+							>
+								<div class="alert alert-primary d-flex align-items-center" role="alert">
+									<InfoCircle class="me-2" />
+									<div>
+										Parameters have changed.
+										<button type="submit" class="btn btn-primary ms-2" on:click={reload}
+											><ArrowClockwise class="me-2" />Reload Chart
+										</button>
+									</div>
+								</div>
+							</div>
+						{/if}
+					{:catch error}
+						<div
+							class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+							style={useStockChart ? 'height: 500px' : 'height: 400px'}
+						>
+							<div class="alert alert-danger d-flex align-items-center" role="alert">
+								<ExclamationTriangle class="me-2" />
+								<div>{error.message}</div>
+								<button type="submit" class="btn btn-danger ms-2" on:click={reload}
+									><ArrowClockwise class="me-2" />Reload Chart
+								</button>
+							</div>
+						</div>
+					{/await}
+				</div>
+				<div class="col-12">
+					<a href={xlsxUrl} class="btn btn-outline-primary">Download XLSX</a>
+					<a href={csvUrl} class="btn btn-outline-primary">Download CSV</a>
+				</div>
+
+				<div class="col-12 my-4">
+					<label for="api_url" class="form-label">API URL</label>
+					<small class="text-muted"
+						>(<a id="api_url_link" target="_blank" href={previewUrl}>Open in new tab</a> or copy this
+						URL into your application)</small
+					>
+					<input type="text" class="form-control" id="api_url" readonly bind:value={previewUrl} />
 				</div>
 			</div>
-		{/await}
-	</div>
-</div>
-<div class="col-12">
-	<a href={xlsxUrl} class="btn btn-outline-primary">Download XLSX</a>
-	<a href={csvUrl} class="btn btn-outline-primary">Download CSV</a>
-</div>
+		{/if}
+		{#if mode == 'python'}
+			<div
+				class="tab-pane active"
+				in:fade
+				id="pills-python"
+				role="tabpanel"
+				aria-labelledby="pills-python-tab"
+				tabindex="0"
+			>
+				<div class="row">
+					<p>
+						The preview code applies all parameters from above automatically, includes a cache and conversion to Pandas DataFrames. Use of DataFrames is of course optional.
+					</p>
+					<p>
+						More information and examples are available in the <a href="https://pypi.org/project/openmeteo-requests/">Python API client</a> documentation.
+					</p>
+					<div class="alert alert-warning" role="alert">The Python API client is not yet declared stable. There could be breaking changes!</div>
+					<pre class="dark rounded-3 py-2"><code ><span class="token comment"># pip install openmeteo-requests</span>
+<span class="token comment"># pip install requests-cache retry-requests numpy pandas</span>
 
-<div class="col-12 my-4">
-	<label for="api_url" class="form-label">API URL</label>
-	<small class="text-muted"
-		>(<a id="api_url_link" target="_blank" href={previewUrl}>Open in new tab</a> or copy this URL into
-		your application)</small
-	>
-	<input type="text" class="form-control" id="api_url" readonly bind:value={previewUrl} />
+<span class="token keyword">import</span> openmeteo_requests
+<span class="token keyword">from</span> openmeteo_sdk.Variable <span class="token keyword">import</span> Variable
+<span class="token keyword">from</span> openmeteo_sdk.Aggregation <span class="token keyword">import</span> Aggregation
+<span class="token keyword">import</span> requests_cache
+<span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+<span class="token keyword">from</span> retry_requests <span class="token keyword">import</span> retry
+
+<span class="token comment"># Setup the Open-Meteo API client with cache and retry on error</span>
+cache_session <span class="token operator">=</span> requests_cache<span class="token punctuation">.</span>CachedSession<span class="token punctuation">(</span><span class="token string">'.cache'</span><span class="token punctuation">,</span> expire_after <span class="token operator">=</span> <span class="token number">{sdk_cache}</span><span class="token punctuation">)</span>
+retry_session <span class="token operator">=</span> retry<span class="token punctuation">(</span>cache_session<span class="token punctuation">,</span> retries <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">,</span> backoff_factor <span class="token operator">=</span> <span class="token number">0.2</span><span class="token punctuation">)</span>
+openmeteo <span class="token operator">=</span> openmeteo_requests<span class="token punctuation">.</span>Client<span class="token punctuation">(</span>session <span class="token operator">=</span> retry_session<span class="token punctuation">)</span>
+
+<span class="token comment"># Make sure all required weather variables are listed here</span>
+url <span class="token operator">=</span> <span class="token string">"{server}"</span>
+params <span class="token operator">=</span> {@html formatPrism(parsedParams)}
+responses <span class="token operator">=</span> openmeteo<span class="token punctuation">.</span>get<span class="token punctuation">(</span>url<span class="token punctuation">,</span> params<span class="token operator">=</span>params<span class="token punctuation">)</span>
+
+<span class="token comment"># Process first location. Add a for-loop for multiple locations or weather models</span>
+response <span class="token operator">=</span> responses<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Coordinates </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>response<span class="token punctuation">.</span>Latitude<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">°E </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>response<span class="token punctuation">.</span>Longitude<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">°N"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Elevation </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>response<span class="token punctuation">.</span>Elevation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> m asl"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Timezone </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>response<span class="token punctuation">.</span>Timezone<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>response<span class="token punctuation">.</span>TimezoneAbbreviation<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Timezone difference to GMT+0 </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>response<span class="token punctuation">.</span>UtcOffsetSeconds<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string"> s"</span></span><span class="token punctuation">)</span>
+{#if 'current' in $params && $params.current.length > 0}
+{`\n`}<span class="token comment"># Current values</span>
+current <span class="token operator">=</span> response<span class="token punctuation">.</span>Current<span class="token punctuation">(</span><span class="token punctuation">)</span>
+current_series <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">map</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> i<span class="token punctuation">:</span> current<span class="token punctuation">.</span>Series<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> current<span class="token punctuation">.</span>SeriesLength<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+{#each $params['current'] as variable}
+current_{variable} <span class="token operator">=</span> <span class="token builtin">next</span><span class="token punctuation">(</span><span class="token builtin">filter</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> {@html formatPrismVariableSelector(variable)}<span class="token punctuation">,</span> current_series<span class="token punctuation">)</span><span class="token punctuation">)</span>{'\n'}
+{/each}
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Current time </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>current<span class="token punctuation">.</span>Time<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+{#each $params.current as current}
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Current {current} </span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>current_{current}<span class="token punctuation">.</span>Value<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+{/each}{/if}
+{#each ['minutely_15', 'hourly', 'daily', 'six_hourly'] as section}
+{#if section in $params && $params[section].length > 0}
+<span class="token comment"># Process {section} data</span>
+{section} <span class="token operator">=</span> response<span class="token punctuation">.</span>{titleCase(section)}<span class="token punctuation">(</span><span class="token punctuation">)</span>
+{section}_series <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span><span class="token builtin">map</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> i<span class="token punctuation">:</span> {section}<span class="token punctuation">.</span>Series<span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> {section}<span class="token punctuation">.</span>SeriesLength<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+{#each $params[section] as variable}
+{section}_{variable} <span class="token operator">=</span> {#if sdk_type != 'ensemble_api'}<span class="token builtin">next</span><span class="token punctuation">(</span>{/if}<span class="token builtin">filter</span><span class="token punctuation">(</span><span class="token keyword">lambda</span> x<span class="token punctuation">:</span> {@html formatPrismVariableSelector(variable)}<span class="token punctuation">,</span> {section}_series<span class="token punctuation">)</span>{#if sdk_type != 'ensemble_api'}<span class="token punctuation">)</span><span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span>{/if}{'\n'}
+{/each}
+{section}_data <span class="token operator">=</span> <span class="token punctuation">&lbrace;</span><span class="token string">"date"</span><span class="token punctuation">:</span> pd<span class="token punctuation">.</span>date_range<span class="token punctuation">(</span>
+{'\t'}start <span class="token operator">=</span> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>{section}<span class="token punctuation">.</span>Time<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit <span class="token operator">=</span> <span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+{'\t'}end <span class="token operator">=</span> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation">(</span>{section}<span class="token punctuation">.</span>TimeEnd<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> unit <span class="token operator">=</span> <span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+{'\t'}freq <span class="token operator">=</span> pd<span class="token punctuation">.</span>Timedelta<span class="token punctuation">(</span>seconds <span class="token operator">=</span> {section}<span class="token punctuation">.</span>Interval<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+{'\t'}inclusive <span class="token operator">=</span> <span class="token string">"left"</span>
+<span class="token punctuation">)</span><span class="token punctuation">&rbrace;</span>
+{#if sdk_type == 'ensemble_api'}
+<span class="token comment"># Process all members</span>
+{#each $params[section] as variable}
+<span class="token keyword">for</span> variable <span class="token keyword">in</span> {section}_{variable}<span class="token punctuation">:</span>
+{'\t'}member <span class="token operator">=</span> variable<span class="token punctuation">.</span>EnsembleMember<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation"></span>
+{'\t'}{section}_data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">f"{variable}_member</span><span class="token interpolation"><span class="token punctuation">&lbrace;</span>member<span class="token punctuation">&rbrace;</span></span><span class="token string">"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> variable<span class="token punctuation">.</span>ValuesAsNumpy<span class="token punctuation">(</span><span class="token punctuation">)</span>{'\n'}
+{/each}
+{:else}
+{#each $params[section] as hourly}
+{section}_data<span class="token punctuation">[</span><span class="token string-interpolation"><span class="token string">"{hourly}"</span></span><span class="token punctuation">]</span> <span class="token operator">=</span> {section}_{hourly}{'\n'}
+{/each}
+{/if}
+{section}_dataframe <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>data <span class="token operator">=</span> {section}_data<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>{section}_dataframe<span class="token punctuation">)</span>
+{`\n`}
+{/if}
+{/each}
+</code></pre>
+				</div>
+			</div>
+		{/if}
+	</div>
 </div>

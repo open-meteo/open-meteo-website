@@ -3,8 +3,8 @@
 
     export let pressureVariables = [
         {name: "temperature", label: "Temperature"},
-        {name: "relativehumidity", label: "Relative Humidity"},
-        {name: "cloudcover", label: "Cloudcover"},
+        {name: "relative_humidity", label: "Relative Humidity"},
+        {name: "cloud_cover", label: "Cloud cover"},
         {name: "windspeed", label: "Wind Speed"},
         {name: "winddirection", label: "Wind Direction"},
         {name: "geopotential_height", label: "Geopotential Height"}

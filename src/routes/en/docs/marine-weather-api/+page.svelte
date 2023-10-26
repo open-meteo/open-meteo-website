@@ -298,7 +298,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="marine" action="marine" />
+<ResultPreview {params} {defaultParameter} type="marine" action="marine" sdk_type="marine_api"/>
 
 <div class="col-12 py-5">
 	<h2 id="api-documentation">API Documentation</h2>

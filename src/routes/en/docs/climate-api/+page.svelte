@@ -12,7 +12,7 @@
 		location_mode: 'location_search',
 		csv_coordinates: '',
 		temperature_unit: 'celsius',
-		windspeed_unit: 'kmh',
+		wind_speed_unit: 'kmh',
 		precipitation_unit: 'mm',
 		timeformat: 'iso8601',
 		timezone: 'UTC',
@@ -42,18 +42,18 @@
 			{ name: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
 			{ name: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
 			{ name: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-			{ name: 'windspeed_10m_mean', label: 'Mean Wind Speed (10 m)' },
-			{ name: 'windspeed_10m_max', label: 'Max Wind Speed (10 m)' },
-			{ name: 'cloudcover_mean', label: 'Mean Cloud Cover' },
+			{ name: 'wind_speed_10m_mean', label: 'Mean Wind Speed (10 m)' },
+			{ name: 'wind_speed_10m_max', label: 'Max Wind Speed (10 m)' },
+			{ name: 'cloud_cover_mean', label: 'Mean Cloud Cover' },
 			{ name: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' }
 		],
 		[
 			{ name: 'relative_humidity_2m_mean', label: 'Mean Relative Humidity (2 m)' },
 			{ name: 'relative_humidity_2m_max', label: 'Maximum Relative Humidity (2 m)' },
 			{ name: 'relative_humidity_2m_min', label: 'Minimum Relative Humidity (2 m)' },
-			{ name: 'dewpoint_2m_mean', label: 'Mean Dewpoint (2 m)' },
-			{ name: 'dewpoint_2m_min', label: 'Minimum Dewpoint (2 m)' },
-			{ name: 'dewpoint_2m_max', label: 'Maximum Dewpoint (2 m)' }
+			{ name: 'dew_point_2m_mean', label: 'Mean Dewpoint (2 m)' },
+			{ name: 'dew_point_2m_min', label: 'Minimum Dewpoint (2 m)' },
+			{ name: 'dew_point_2m_max', label: 'Maximum Dewpoint (2 m)' }
 		],
 		[
 			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
@@ -67,7 +67,7 @@
 
 	if (dev) {
 		daily.push([
-			{ name: 'vapor_pressure_deficit_max', label: 'Vapor Pressure Deficit' },
+			{ name: 'vapour_pressure_deficit_max', label: 'Vapour Pressure Deficit' },
 			{ name: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
 			{ name: 'soil_moisture_7_to_28cm_mean', label: 'Mean Soil Moisture (7-28 cm)' },
 			{ name: 'soil_moisture_28_to_100cm_mean', label: 'Mean Soil Moisture (28-100 cm)' },
@@ -235,17 +235,17 @@
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
-					name="windspeed_unit"
-					id="windspeed_unit"
+					name="wind_speed_unit"
+					id="wind_speed_unit"
 					aria-label="Windspeed Unit"
-					bind:value={$params.windspeed_unit}
+					bind:value={$params.wind_speed_unit}
 				>
 					<option value="kmh">Km/h</option>
 					<option value="ms">m/s</option>
 					<option value="mph">Mph</option>
 					<option value="kn">Knots</option>
 				</select>
-				<label for="windspeed_unit">Wind Speed Unit</label>
+				<label for="wind_speed_unit">Wind Speed Unit</label>
 			</div>
 		</div>
 		<div class="col-md-3">
@@ -283,7 +283,7 @@
 	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="climate" action="climate" useStockChart={true} />
+<ResultPreview {params} {defaultParameter} type="climate" action="climate" sdk_type="climate_api" useStockChart={true} />
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">
@@ -606,7 +606,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">windspeed_unit</th>
+					<th scope="row">wind_speed_unit</th>
 					<td>String</td>
 					<td>No</td>
 					<td><mark>kmh</mark></td>
@@ -716,7 +716,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">cloudcover_mean</th>
+					<th scope="row">cloud_cover_mean</th>
 					<td>%</td>
 					<td
 						>Mean cloud cover on a given day. Cloud cover in climate models is generally represented
@@ -786,7 +786,7 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">windspeed_10m_mean<br />windspeed_10m_max</th>
+					<th scope="row">wind_speed_10m_mean<br />wind_speed_10m_max</th>
 					<td>km/h (mph, m/s, knots)</td>
 					<td
 						>Mean and maximum wind speed 10 meter above ground on a day. Simulations of winds and
