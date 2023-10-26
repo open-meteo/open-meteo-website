@@ -425,7 +425,7 @@
 		return `<span class="token string">"${v}"</span>`
 	}
 
-	let mode = 'python';
+	let mode = 'chart';
 </script>
 
 <h2 id="api-response">API Response</h2>
@@ -554,6 +554,7 @@
 					<p>
 						More information and examples are available in the <a href="https://pypi.org/project/openmeteo-requests/">Python API client</a> documentation.
 					</p>
+					<div class="alert alert-warning" role="alert">The Python API client is not yet declared stable. There could be breaking changes!</div>
 					<pre class="dark rounded-3 py-2"><code ><span class="token comment"># pip install openmeteo-requests</span>
 <span class="token comment"># pip install requests-cache retry-requests numpy pandas</span>
 
