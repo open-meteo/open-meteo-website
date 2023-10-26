@@ -132,29 +132,28 @@
 						role="tabpanel"
 						aria-labelledby="tab-weather-api-tab"
 					>
-						<p>
-							$ curl "<a
-								class="text-white text-decoration-none"
-								href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,windspeed_10m&hourly=temperature_2m,relativehumidity_2m,windspeed_10m"
-								>https://api.open-meteo.com/v1/forecast<wbr />?latitude=52.52&amp;longitude=13.41<wbr
-								/>&amp;current=temperature_2m,windspeed_10m<wbr
-								/>&amp;hourly=temperature_2m,relativehumidity_2m,windspeed_10m</a
-							>"
-						</p>
-						<pre>
-{`
-"current": {
-	"time": "2022-01-01T15:00"
-	"temperature_2m": 2.4, "weathercode": 3,
-	"windspeed_10m": 11.9, "winddirection": 95.0,
-},
-"hourly": {
-	"time": ["2022-07-01T00:00","2022-07-01T01:00", ...]
-	"windspeed_10m": [3.16,3.02,3.3,3.14,3.2,2.95, ...],
-	"temperature_2m": [13.7,13.3,12.8,12.3,11.8, ...],
-	"relativehumidity_2m": [82,83,86,85,88,88,84,76, ...],
-}
-`}</pre>
+					<p>
+						$ curl <a
+							class="token string text-decoration-none"
+							href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
+							>"https://api.open-meteo.com/v1/forecast<wbr />?latitude=52.52&amp;longitude=13.41<wbr
+							/>&amp;current=temperature_2m,wind_speed_10m<wbr
+							/>&amp;hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"</a
+						>
+					</p>
+					<pre>{@html `<span class="token punctuation">&lbrace;</span>
+  <span class="token property">"current"</span><span class="token operator">:</span> <span class="token punctuation">&lbrace;</span>
+    <span class="token property">"time"</span><span class="token operator">:</span> <span class="token string">"2022-01-01T15:00"</span>
+    <span class="token property">"temperature_2m"</span><span class="token operator">:</span> <span class="token number">2.4</span><span class="token punctuation">,</span>
+    <span class="token property">"wind_speed_10m"</span><span class="token operator">:</span> <span class="token number">11.9</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&rbrace;</span><span class="token punctuation">,</span>
+  <span class="token property">"hourly"</span><span class="token operator">:</span> <span class="token punctuation">&lbrace;</span>
+    <span class="token property">"time"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"2022-07-01T00:00"</span><span class="token punctuation">,</span><span class="token string">"2022-07-01T01:00"</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span>
+    <span class="token property">"wind_speed_10m"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">3.16</span><span class="token punctuation">,</span><span class="token number">3.02</span><span class="token punctuation">,</span><span class="token number">3.3</span><span class="token punctuation">,</span><span class="token number">3.14</span><span class="token punctuation">,</span><span class="token number">3.2</span><span class="token punctuation">,</span><span class="token number">2.95</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"temperature_2m"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">13.7</span><span class="token punctuation">,</span><span class="token number">13.3</span><span class="token punctuation">,</span><span class="token number">12.8</span><span class="token punctuation">,</span><span class="token number">12.3</span><span class="token punctuation">,</span><span class="token number">11.8</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"relative_humidity_2m"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">82</span><span class="token punctuation">,</span><span class="token number">83</span><span class="token punctuation">,</span><span class="token number">86</span><span class="token punctuation">,</span><span class="token number">85</span><span class="token punctuation">,</span><span class="token number">88</span><span class="token punctuation">,</span><span class="token number">88</span><span class="token punctuation">,</span><span class="token number">84</span><span class="token punctuation">,</span><span class="token number">76</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&rbrace;</span>
+<span class="token punctuation">&rbrace;</span>`}</pre>
 					</div>
 					<div
 						class="tab-pane fade"
@@ -163,23 +162,22 @@
 						aria-labelledby="tab-last-10-days-tab"
 					>
 						<p>
-							$ curl "<a
-								class="text-white text-decoration-none"
-								href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&past_days=10&hourly=temperature_2m,relativehumidity_2m,windspeed_10m"
-								>https://api.open-meteo.com/v1/forecast<wbr />?latitude=52.52&amp;longitude=13.41<wbr
+							$ curl <a
+								class="token string text-decoration-none"
+								href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&past_days=10&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
+								>"https://api.open-meteo.com/v1/forecast<wbr />?latitude=52.52&amp;longitude=13.41<wbr
 								/><mark>&amp;past_days=10</mark><wbr
-								/>&amp;hourly=temperature_2m,relativehumidity_2m,windspeed_10m</a
-							>"
+								/>&amp;hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"</a
+							>
 						</p>
-						<pre>
-{`
-"hourly": {
-	"time": ["2022-06-19T00:00","2022-06-19T01:00", ...]
-	"windspeed_10m": [3.16,3.02,3.3,3.14,3.2,2.95, ...],
-	"temperature_2m": [13.7,13.3,12.8,12.3,11.8, ...],
-	"relativehumidity_2m": [82,83,86,85,88,88,84,76, ...],
-}
-`}</pre>
+						<pre>{@html `<span class="token punctuation">&lbrace;</span>
+  <span class="token property">"hourly"</span><span class="token operator">:</span> <span class="token punctuation">&lbrace;</span>
+    <span class="token property">"time"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"2022-06-19T00:00"</span><span class="token punctuation">,</span><span class="token string">"2022-06-19T01:00"</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span>
+    <span class="token property">"wind_speed_10m"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">3.16</span><span class="token punctuation">,</span><span class="token number">3.02</span><span class="token punctuation">,</span><span class="token number">3.3</span><span class="token punctuation">,</span><span class="token number">3.14</span><span class="token punctuation">,</span><span class="token number">3.2</span><span class="token punctuation">,</span><span class="token number">2.95</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"temperature_2m"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">13.7</span><span class="token punctuation">,</span><span class="token number">13.3</span><span class="token punctuation">,</span><span class="token number">12.8</span><span class="token punctuation">,</span><span class="token number">12.3</span><span class="token punctuation">,</span><span class="token number">11.8</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">"relative_humidity_2m"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">82</span><span class="token punctuation">,</span><span class="token number">83</span><span class="token punctuation">,</span><span class="token number">86</span><span class="token punctuation">,</span><span class="token number">85</span><span class="token punctuation">,</span><span class="token number">88</span><span class="token punctuation">,</span><span class="token number">88</span><span class="token punctuation">,</span><span class="token number">84</span><span class="token punctuation">,</span><span class="token number">76</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&rbrace;</span>
+<span class="token punctuation">&rbrace;</span>`}</pre>
 					</div>
 					<div
 						class="tab-pane fade"
@@ -188,22 +186,21 @@
 						aria-labelledby="tab-historical-weather-data-tab"
 					>
 						<p>
-							$ curl "<a
-								class="text-white text-decoration-none"
+							$ curl <a
+								class="token string text-decoration-none"
 								href="https://archive-api.open-meteo.com/v1/era5?latitude=52.52&longitude=13.41&start_date=2021-01-01&end_date=2021-12-31&hourly=temperature_2m"
-								>https://archive-api.open-meteo.com/v1/era5<wbr
+								>"https://archive-api.open-meteo.com/v1/era5<wbr
 								/>?latitude=52.52&amp;longitude=13.41<wbr /><mark
 									>&amp;start_date=2021-01-01<wbr />&amp;end_date=2021-12-31</mark
-								><wbr />&amp;hourly=temperature_2m</a
-							>"
+								><wbr />&amp;hourly=temperature_2m"</a
+							>
 						</p>
-						<pre>
-{`
-"hourly": {
-	"time": ["2022-01-01T00:00","2022-01-01T01:00", ...]
-	"temperature_2m": [1.7,1.3,1.8,1.3,1.8, ...],
-}
-`}</pre>
+						<pre>{@html `<span class="token punctuation">&lbrace;</span>
+  <span class="token property">"hourly"</span><span class="token operator">:</span> <span class="token punctuation">&lbrace;</span>
+    <span class="token property">"time"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"2022-01-01T00:00"</span><span class="token punctuation">,</span><span class="token string">"2022-01-01T01:00"</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span>
+    <span class="token property">"temperature_2m"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">1.7</span><span class="token punctuation">,</span><span class="token number">1.3</span><span class="token punctuation">,</span><span class="token number">1.8</span><span class="token punctuation">,</span><span class="token number">1.3</span><span class="token punctuation">,</span><span class="token number">1.8</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">&rbrace;</span>
+<span class="token punctuation">&rbrace;</span>`}</pre>
 					</div>
 				</div>
 			</div>

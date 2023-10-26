@@ -277,7 +277,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="flood" action="flood" />
+<ResultPreview {params} {defaultParameter} type="flood" action="flood" sdk_type="flood_api"/>
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
