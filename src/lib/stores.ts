@@ -32,7 +32,7 @@ export interface GeoLocation {
     admin4: string | undefined;
 }
 
-const defaultLocation: GeoLocation = {
+export const defaultLocation: GeoLocation = {
     id: 2950159,
     name: 'Berlin',
     latitude: 52.52437,
