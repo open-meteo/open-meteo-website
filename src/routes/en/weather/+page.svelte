@@ -5,6 +5,7 @@
 	import { convertUnit, getWeatherCode, range } from '$lib/meteo';
 
 	let location: GeoLocation = defaultLocation;
+	let weatherModel = "best_match";
 
 	$: weather = (async (location: GeoLocation) => {
 		const params = {
@@ -12,6 +13,7 @@
 			longitude: location.longitude,
 			elevation: location.elevation,
 			timezone: location.timezone,
+			models: weatherModel,
 			//hourly: ['temperature_2m', 'precipitation'],
 			minutely_15: 'precipitation,temperature_2m,windspeed_10m',
 			current: 'temperature_2m,weather_code,windspeed_10m,winddirection_10m',
@@ -112,6 +114,24 @@
 			<label class="btn" for="mph">mph</label>
 			<input type="radio" class="btn-check" name="windSpeedUnit" id="kn" value="kn" bind:group={$units.windSpeed}>
 			<label class="btn" for="kn">knots</label>
+		</div>
+		<div class="col-md-12 mb-3">
+			<input type="radio" class="btn-check" name="weatherModel" id="best_match" value="best_match" bind:group={weatherModel}>
+			<label class="btn" for="best_match">Best Match</label>
+			<input type="radio" class="btn-check" name="weatherModel" id="icon_seamless" value="icon_seamless" bind:group={weatherModel}>
+			<label class="btn" for="icon_seamless">DWD</label>
+			<input type="radio" class="btn-check" name="weatherModel" id="gfs_seamless" value="gfs_seamless" bind:group={weatherModel}>
+			<label class="btn" for="gfs_seamless">NOAA</label>
+			<input type="radio" class="btn-check" name="weatherModel" id="meteofrance_seamless" value="meteofrance_seamless" bind:group={weatherModel}>
+			<label class="btn" for="meteofrance_seamless">MeteoFrance</label>
+			<input type="radio" class="btn-check" name="weatherModel" id="ecmwf_ifs04" value="ecmwf_ifs04" bind:group={weatherModel}>
+			<label class="btn" for="ecmwf_ifs04">ECMWF</label>
+			<input type="radio" class="btn-check" name="weatherModel" id="jma_seamless" value="jma_seamless" bind:group={weatherModel}>
+			<label class="btn" for="jma_seamless">JMA</label>
+			<input type="radio" class="btn-check" name="weatherModel" id="gem_seamless" value="gem_seamless" bind:group={weatherModel}>
+			<label class="btn" for="gem_seamless">GEM</label>
+			<!--<input type="radio" class="btn-check" name="weatherModel" id="metno_nordic" value="metno_nordic" bind:group={weatherModel}>
+			<label class="btn" for="metno_nordic">MetNo</label>-->
 		</div>
 	</div>
 	{#await weather}
