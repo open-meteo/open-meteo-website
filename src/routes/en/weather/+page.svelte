@@ -1,42 +1,8 @@
 <script lang="ts">
 	import { fetchWeatherApi } from 'openmeteo';
 	import LocationSearch from '../docs/LocationSearch.svelte';
-	import { defaultLocation, type GeoLocation } from '$lib/stores';
-
-	// Sequence generator function (commonly referred to as "range", e.g. Clojure, PHP, etc.)
-	const range = (start: number, stop: number, step: number) =>
-		Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
-
-	const weatherCodes = {
-		0: 'fair',
-		1: 'mainly clear',
-		2: 'partly cloudy',
-		3: 'overcast',
-		45: 'fog',
-		48: 'depositing rime fog',
-		51: 'light drizzle',
-		53: 'moderate drizzle',
-		55: 'dense drizzle',
-		56: 'light freezing drizzle',
-		57: 'dense freezing drizzle',
-		61: 'slight rain',
-		63: 'moderate rain',
-		65: 'heavy rain',
-		66: 'light freezing rain',
-		67: 'heavy freezing rain',
-		71: 'slight snow fall',
-		73: 'moderate snow fall',
-		75: 'heavy snow fall',
-		77: 'snow grains',
-		80: 'slight rain showers',
-		81: 'moderate rain showers',
-		82: 'heavy rain showers',
-		85: 'slight snow showers',
-		86: 'heavy snow showers',
-		95: 'slight to moderate thunderstorm',
-		96: 'thunderstorm with slight hail',
-		99: 'thunderstorm with heavy hail'
-	};
+	import { defaultLocation, units, type GeoLocation } from '$lib/stores';
+	import { convertUnit, getWeatherCode, range } from '$lib/meteo';
 
 	let location: GeoLocation = defaultLocation;
 
@@ -47,6 +13,7 @@
 			elevation: location.elevation,
 			timezone: location.timezone,
 			//hourly: ['temperature_2m', 'precipitation'],
+			minutely_15: 'precipitation,temperature_2m,windspeed_10m',
 			current: 'temperature_2m,weather_code,windspeed_10m,winddirection_10m',
 			daily:
 				'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant'
@@ -56,11 +23,8 @@
 		const response = responses[0];
 		const current = response.current()!;
 		const utcOffsetSeconds = response.utcOffsetSeconds();
-
 		const daily = response.daily()!;
-		const dailyTime = range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
-			(t) => new Date((t + utcOffsetSeconds) * 1000)
-		);
+		const minutely = response.minutely15()!;
 
 		return {
 			current: {
@@ -70,8 +34,18 @@
 				windspeed_10m: current.variables(2)!.value(),
 				winddirection_10m: current.variables(3)!.value()
 			},
+			minutely: {
+				time: range(Number(minutely.time()), Number(minutely.timeEnd()), minutely.interval()).map(
+					(t) => new Date((t + utcOffsetSeconds) * 1000)
+				),
+				precipitation: minutely.variables(0)!,
+				temperature_2m: minutely.variables(1)!,
+				windspeed_10m: minutely.variables(2)!,
+			},
 			daily: {
-				time: dailyTime,
+				time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
+					(t) => new Date((t + utcOffsetSeconds) * 1000)
+				),
 				weather_code: daily.variables(0)!,
 				temperature_2m_max: daily.variables(1)!,
 				temperature_2m_min: daily.variables(2)!,
@@ -122,30 +96,62 @@
 
 <div class="container px-4 py-5">
 	<div class="row">
-		<div class="col-md-2 mb-3">
+		<div class="col-md-3 mb-3">
 			<LocationSearch on:location={(event) => (location = event.detail)} label="Search Location" />
+		</div>
+		<div class="col-md-3 mb-3">
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="temperatureUnit" id="celsius" value="celsius" bind:group={$units.temperature}>
+				<label class="form-check-label" for="celsius">°C</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="temperatureUnit" id="fahrenheit" value="fahrenheit" bind:group={$units.temperature}>
+				<label class="form-check-label" for="fahrenheit">°F</label>
+			</div>
+		</div>
+		<div class="col-md-3 mb-3">
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="windSpeedUnit" id="kph" value="kph" bind:group={$units.windSpeed}>
+				<label class="form-check-label" for="kph">km/h</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="windSpeedUnit" id="mph" value="mph" bind:group={$units.windSpeed}>
+				<label class="form-check-label" for="mph">mph</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<input class="form-check-input" type="radio" name="windSpeedUnit" id="kn" value="kn" bind:group={$units.windSpeed}>
+				<label class="form-check-label" for="kn">knots</label>
+			</div>
 		</div>
 	</div>
 	{#await weather}
 		<p>Loading weather data</p>
 	{:then weather}
-		<h2>Current weahter</h2>
+		<h2>Current weather</h2>
 		<p>Current time {weather.current.time.toISOString()}</p>
-		<p>Current temperature {weather.current.temperature_2m.toFixed(1)}°C</p>
-		<p>Current weather: {weatherCodes[weather.current.weather_code]}</p>
-		<p>Current wind: {weather.current.windspeed_10m.toFixed(1)} m/s {weather.current.winddirection_10m.toFixed()}°</p>
+		<p>Current temperature {convertUnit(weather.current.temperature_2m, $units.temperature)} {$units.temperature}</p>
+		<p>Current weather: {getWeatherCode(weather.current.weather_code)}</p>
+		<p>Current wind: {convertUnit(weather.current.windspeed_10m, $units.windSpeed)} {$units.windSpeed} {weather.current.winddirection_10m.toFixed()}°</p>
+
 		<h2>Daily weather</h2>
 		{#each weather.daily.time as time, index}
 			<p>
 				{time.toISOString()}
-				{weatherCodes[weather.daily.weather_code.values(index)]}
-				Tmax={weather.daily.temperature_2m_max.values(index)?.toFixed(1)}°C Tmin={weather.daily.temperature_2m_min
-					.values(index)
-					?.toFixed(1)}°C precip={weather.daily.precipitation_sum.values(index)?.toFixed(1)} mm wind={weather.daily.windspeed_10m_max
-					.values(index)
-					?.toFixed(1)} m/s gusts={weather.daily.windgusts_10m_max.values(index)?.toFixed(1)} m/s direction={weather.daily.winddirection_10m_dominant
+				{getWeatherCode(weather.daily.weather_code.values(index))}
+				Tmax={convertUnit(weather.daily.temperature_2m_max.values(index), $units.temperature)} {$units.temperature} Tmin={convertUnit(weather.daily.temperature_2m_min
+					.values(index), $units.temperature)} {$units.temperature} precip={weather.daily.precipitation_sum.values(index)?.toFixed(1)} mm wind={convertUnit(weather.daily.windspeed_10m_max
+					.values(index), $units.windSpeed)} {$units.windSpeed} gusts={convertUnit(weather.daily.windgusts_10m_max.values(index), $units.windSpeed)} {$units.windSpeed} direction={weather.daily.winddirection_10m_dominant
 					.values(index)
 					?.toFixed()}°
+			</p>
+		{/each}
+		
+		<h2>15 Minutely weather</h2>
+		{#each weather.minutely.time as time, index}
+			<p>
+				{time.toISOString()}
+				{convertUnit(weather.minutely.temperature_2m.values(index), $units.temperature)} {$units.temperature} precip={weather.minutely.precipitation.values(index)?.toFixed(1)} mm wind={convertUnit(weather.minutely.windspeed_10m
+					.values(index), $units.windSpeed)}
 			</p>
 		{/each}
 	{:catch error}
