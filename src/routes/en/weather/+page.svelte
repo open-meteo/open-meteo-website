@@ -100,28 +100,18 @@
 			<LocationSearch on:location={(event) => (location = event.detail)} label="Search Location" />
 		</div>
 		<div class="col-md-3 mb-3">
-			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="temperatureUnit" id="celsius" value="celsius" bind:group={$units.temperature}>
-				<label class="form-check-label" for="celsius">°C</label>
-			</div>
-			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="temperatureUnit" id="fahrenheit" value="fahrenheit" bind:group={$units.temperature}>
-				<label class="form-check-label" for="fahrenheit">°F</label>
-			</div>
+			<input type="radio" class="btn-check" name="temperatureUnit" id="celsius" value="celsius" bind:group={$units.temperature}>
+			<label class="btn" for="celsius">°C</label>
+			<input type="radio" class="btn-check" name="temperatureUnit" id="fahrenheit" value="fahrenheit" bind:group={$units.temperature}>
+			<label class="btn" for="fahrenheit">°F</label>
 		</div>
 		<div class="col-md-3 mb-3">
-			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="windSpeedUnit" id="kph" value="kph" bind:group={$units.windSpeed}>
-				<label class="form-check-label" for="kph">km/h</label>
-			</div>
-			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="windSpeedUnit" id="mph" value="mph" bind:group={$units.windSpeed}>
-				<label class="form-check-label" for="mph">mph</label>
-			</div>
-			<div class="form-check form-check-inline">
-				<input class="form-check-input" type="radio" name="windSpeedUnit" id="kn" value="kn" bind:group={$units.windSpeed}>
-				<label class="form-check-label" for="kn">knots</label>
-			</div>
+			<input type="radio" class="btn-check" name="windSpeedUnit" id="kph" value="kph" bind:group={$units.windSpeed}>
+			<label class="btn" for="kph">km/h</label>
+			<input type="radio" class="btn-check" name="windSpeedUnit" id="mph" value="mph" bind:group={$units.windSpeed}>
+			<label class="btn" for="mph">mph</label>
+			<input type="radio" class="btn-check" name="windSpeedUnit" id="kn" value="kn" bind:group={$units.windSpeed}>
+			<label class="btn" for="kn">knots</label>
 		</div>
 	</div>
 	{#await weather}
@@ -145,7 +135,7 @@
 					?.toFixed()}°
 			</p>
 		{/each}
-		
+
 		<h2>15 Minutely weather</h2>
 		{#each weather.minutely.time as time, index}
 			<p>

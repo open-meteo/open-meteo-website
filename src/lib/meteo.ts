@@ -58,13 +58,13 @@ export function convertUnit(value: number | null, unit: string): string {
         return "-"
     }
     if (unit == 'mph') {
-        return (value * 2.23694).toFixed(1)
+        return (value * 0.621371).toFixed(1)
     }
     if (unit == 'kn') {
-        return (value * 1.94384).toFixed(1)
+        return (value * 0.539957).toFixed(1)
     }
     if (unit == 'kph') {
-        return (value * 3.6).toFixed(1)
+        return value.toFixed(1)
     }
     if (unit == 'celsius') {
         return value.toFixed(1)
