@@ -580,7 +580,7 @@
 						>(<a id="api_url_link" target="_blank" href={previewUrl}>Open in new tab</a> or copy this
 						URL into your application)</small
 					>.
-					{#if callWeight > 1}<p>Note: API call is equivalent to <strong>{callWeight.toFixed(1)}</strong> calls because of factors like long time intervals, the number of locations, variables, or models involved.</p>{/if} 
+					{#if callWeight > 1}<p>Note: This API call is equivalent to <strong>{callWeight.toFixed(1)}</strong> calls because of factors like long time intervals, the number of locations, variables, or models involved.</p>{/if} 
 					<input type="text" class="form-control" id="api_url" readonly bind:value={previewUrl} />
 				</div>
 			</div>
