@@ -32,6 +32,9 @@
   		s.replace (/^[-_]*(.)/, (_, c) => c.toUpperCase())
    		.replace (/[-_]+(.)/g, (_, c) =>  c.toUpperCase())
 
+	const camelCase = (s: string) =>
+   		s.replace (/[-_]+(.)/g, (_, c) =>  c.toUpperCase())
+
 	/// Parsed params that resolved CSV fields
 	$: parsedParams = ((p: any, api_key_preferences: any) => {
 		const params = { ...p };
@@ -506,6 +509,18 @@
 					aria-selected="true">Python</button
 				>
 			</li>
+			<li class="nav-item" role="presentation">
+				<button
+					class="nav-link"
+					class:active={mode == 'typescript'}
+					id="pills-typescript-tab"
+					type="button"
+					role="tab"
+					aria-controls="pills-typescript"
+					on:click={() => (mode = 'typescript')}
+					aria-selected="true">Typescript</button
+				>
+			</li>
 		</ul>
 	</div>
 
@@ -602,10 +617,10 @@
 						More information and examples are available in the <a href="https://pypi.org/project/openmeteo-requests/">Python API client</a> documentation.
 					</p>
 					<div class="alert alert-warning" role="alert">The Python API client is not yet declared stable. There could be breaking changes!</div>
-					<pre class="dark rounded-3 py-2"><code ><span class="token comment"># pip install openmeteo-requests</span>
-<span class="token comment"># pip install requests-cache retry-requests numpy pandas</span>
-
-<span class="token keyword">import</span> openmeteo_requests
+					<h4>Install</h4>
+					<pre class="dark rounded-3 py-2"><code >pip install openmeteo-requests{'\n'}pip install requests-cache retry-requests numpy pandas</code></pre>
+					<h4>Usage</h4>
+					<pre class="dark rounded-3 py-2"><code ><span class="token keyword">import</span> openmeteo_requests
 {#if sdk_type == 'ensemble_api'}
 <span class="token keyword">from</span> openmeteo_sdk.Variable <span class="token keyword">import</span> Variable
 <span class="token keyword">from</span> openmeteo_sdk.Aggregation <span class="token keyword">import</span> Aggregation
@@ -679,6 +694,82 @@ current_{variable} <span class="token operator">=</span> current<span class="tok
 {section}_dataframe <span class="token operator">=</span> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation">(</span>data <span class="token operator">=</span> {section}_data<span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span>{section}_dataframe<span class="token punctuation">)</span>
 {`\n`}
+{/if}
+{/each}
+</code></pre>
+				</div>
+			</div>
+		{/if}
+		{#if mode == 'typescript'}
+			<div
+				class="tab-pane active"
+				in:fade
+				id="pills-typescript"
+				role="tabpanel"
+				aria-labelledby="pills-typescript-tab"
+				tabindex="0"
+			>
+				<div class="row">
+					<p>
+						The preview code applies all parameters above automatically and structures weather data into an easily usable object.
+						More information and examples are available on <a href="https://www.npmjs.com/package/openmeteo">NPM</a>.
+					</p>
+					<div class="alert alert-warning" role="alert">The Typescript API client is not yet declared stable. There could be breaking changes!</div>
+					<h4>Install</h4>
+					<pre class="dark rounded-3 py-2"><code >npm install openmeteo</code></pre>
+					<h4>Usage</h4>
+					<pre class="dark rounded-3 py-2">
+<code><span class="token keyword">import</span> <span class="token punctuation">&lbrace;</span> fetchWeatherApi <span class="token punctuation">&rbrace;</span> <span class="token keyword">from</span> <span class="token string">'openmeteo'</span><span class="token punctuation">;</span>
+	
+<span class="token keyword">const</span> params <span class="token operator">=</span> {@html formatPrism(parsedParams)}<span class="token punctuation">;</span>
+<span class="token keyword">const</span> url <span class="token operator">=</span> <span class="token string">"{server}"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> responses <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">fetchWeatherApi</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> params<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Helper function to form time ranges</span>
+<span class="token keyword">const</span> <span class="token function-variable function">range</span> <span class="token operator">=</span> <span class="token punctuation">(</span>start<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> stop<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">,</span> step<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+{'\t'}<span class="token builtin">Array</span><span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span><span class="token punctuation">&lbrace;</span> length<span class="token operator">:</span> <span class="token punctuation">(</span>stop <span class="token operator">-</span> start<span class="token punctuation">)</span> <span class="token operator">/</span> step <span class="token punctuation">&rbrace;</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>_<span class="token punctuation">,</span> i<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> start <span class="token operator">+</span> i <span class="token operator">*</span> step<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Process first location. Add a for-loop for multiple locations or weather models</span>
+<span class="token keyword">const</span> response <span class="token operator">=</span> responses<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Attributes for timezone and location</span>
+<span class="token keyword">const</span> utcOffsetSeconds <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">utcOffsetSeconds</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> timezone <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">timezone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> timezoneAbbreviation <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">timezoneAbbreviation</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> latitude <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">latitude</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> longitude <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">longitude</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+{#each ['minutely_15', 'hourly', 'daily', 'six_hourly', 'current'] as section}
+{#if section in $params && $params[section].length > 0}
+<span class="token keyword">const</span> {camelCase(section)} <span class="token operator">=</span> response<span class="token punctuation">.</span><span class="token function">{camelCase(section)}</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">!</span><span class="token punctuation">;</span>{'\n'}
+{/if}
+{/each}
+<span class="token comment">// Note: The order of weather variables in the URL query and the indices below need to match!</span>
+<span class="token keyword">const</span> weatherData <span class="token operator">=</span> <span class="token punctuation">&lbrace;</span>
+{#if 'current' in $params && $params.current.length > 0}
+{'\t'}current<span class="token operator">:</span> <span class="token punctuation">&lbrace;</span>
+{'\t'}{'\t'}time<span class="token operator">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">Number</span><span class="token punctuation">(</span>current<span class="token punctuation">.</span><span class="token function">time</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> utcOffsetSeconds<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">,</span>{#each $params.current as current, index}{'\n'}{'\t'}{'\t'}{camelCase(current)}<span class="token operator">:</span> current<span class="token punctuation">.</span><span class="token function">variables</span><span class="token punctuation">(</span><span class="token number">{index}</span><span class="token punctuation">)</span><span class="token operator">!</span><span class="token punctuation">.</span><span class="token function">value</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>{/each}
+	<span class="token punctuation">&rbrace;</span><span class="token punctuation">,</span>
+{/if}
+{#each ['minutely_15', 'hourly', 'daily', 'six_hourly'] as section}
+{#if section in $params && $params[section].length > 0}
+{'\t'}{camelCase(section)}<span class="token operator">:</span> <span class="token punctuation">&lbrace;</span>
+{'\t'}{'\t'}time<span class="token operator">:</span> <span class="token function">range</span><span class="token punctuation">(</span><span class="token function">Number</span><span class="token punctuation">(</span>{camelCase(section)}<span class="token punctuation">.</span><span class="token function">time</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">Number</span><span class="token punctuation">(</span>{camelCase(section)}<span class="token punctuation">.</span><span class="token function">timeEnd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> {camelCase(section)}<span class="token punctuation">.</span><span class="token function">interval</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>
+{'\t'}{'\t'}{'\t'}<span class="token punctuation">(</span>t<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">(</span>t <span class="token operator">+</span> utcOffsetSeconds<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+{'\t'}{'\t'}<span class="token punctuation">)</span><span class="token punctuation">,</span>{#each $params[section] as variable, index }{'\n'}{'\t'}{'\t'}{camelCase(variable)}<span class="token operator">:</span> {camelCase(section)}<span class="token punctuation">.</span><span class="token function">variables</span><span class="token punctuation">(</span><span class="token number">{index}</span><span class="token punctuation">)</span><span class="token operator">!</span><span class="token punctuation">.</span><span class="token function">valuesArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">!</span><span class="token punctuation">,</span>{/each}
+{'\t'}<span class="token punctuation">&rbrace;</span><span class="token punctuation">,</span>{'\n'}
+{/if}
+{/each}
+<span class="token punctuation">&rbrace;</span><span class="token punctuation">;</span>
+
+<span class="token comment">// `weatherData` now contains a simple structure with arrays for datetime and weather data</span>
+{#each ['minutely_15', 'hourly', 'daily', 'six_hourly'] as section}
+{#if section in $params && $params[section].length > 0}
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> weatherData<span class="token punctuation">.</span>{camelCase(section)}<span class="token punctuation">.</span>time<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&lbrace;</span>
+{'\t'}<span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>
+{'\t'}{'\t'}weatherData<span class="token punctuation">.</span>{camelCase(section)}<span class="token punctuation">.</span>time<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">toISOString</span><span class="token punctuation">(</span><span class="token punctuation">)</span>{#each $params[section] as variable }<span class="token punctuation">,</span>{'\n'}{'\t'}{'\t'}weatherData<span class="token punctuation">.</span>{camelCase(section)}<span class="token punctuation">.</span>{camelCase(variable)}<span class="token punctuation">[</span>i<span class="token punctuation">]</span>{/each}
+{'\t'}<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&rbrace;</span>{'\n'}
 {/if}
 {/each}
 </code></pre>
