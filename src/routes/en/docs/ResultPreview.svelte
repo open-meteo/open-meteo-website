@@ -521,6 +521,18 @@
 					aria-selected="true">Typescript</button
 				>
 			</li>
+			<li class="nav-item" role="presentation">
+				<button
+					class="nav-link"
+					class:active={mode == 'other'}
+					id="pills-other-tab"
+					type="button"
+					role="tab"
+					aria-controls="pills-other"
+					on:click={() => (mode = 'other')}
+					aria-selected="true">Other</button
+				>
+			</li>
 		</ul>
 	</div>
 
@@ -612,11 +624,8 @@
 				<div class="row">
 					<p>
 						The preview code applies all parameters from above automatically, includes a cache and conversion to Pandas DataFrames. Use of DataFrames is of course optional.
-					</p>
-					<p>
 						More information and examples are available in the <a href="https://pypi.org/project/openmeteo-requests/">Python API client</a> documentation.
 					</p>
-					<div class="alert alert-warning" role="alert">The Python API client is not yet declared stable. There could be breaking changes!</div>
 					<h4>Install</h4>
 					<pre class="dark rounded-3 py-2"><code >pip install openmeteo-requests{'\n'}pip install requests-cache retry-requests numpy pandas</code></pre>
 					<h4>Usage</h4>
@@ -714,7 +723,6 @@ current_{variable} <span class="token operator">=</span> current<span class="tok
 						The preview code applies all parameters above automatically and structures weather data into an easily usable object.
 						More information and examples are available on <a href="https://www.npmjs.com/package/openmeteo">NPM</a>.
 					</p>
-					<div class="alert alert-warning" role="alert">The Typescript API client is not yet declared stable. There could be breaking changes!</div>
 					<h4>Install</h4>
 					<pre class="dark rounded-3 py-2"><code >npm install openmeteo</code></pre>
 					<h4>Usage</h4>
@@ -773,6 +781,27 @@ current_{variable} <span class="token operator">=</span> current<span class="tok
 {/if}
 {/each}
 </code></pre>
+				</div>
+			</div>
+		{/if}
+		{#if mode == 'other'}
+			<div
+				class="tab-pane active"
+				in:fade
+				id="pills-other"
+				role="tabpanel"
+				aria-labelledby="pills-other-tab"
+				tabindex="0"
+			>
+				<div class="row">
+					<p>
+						Support for additional programming languages in our integrations may be available in the future. 
+						If your preferred programming language isn't currently supported, you can still use the JSON or CSV format, which should function in most programming languages.
+					</p>
+					<p>
+						If you're interested in contributing and want to assist in creating integrations, you can refer to the  <a href="https://github.com/open-meteo/sdk">Open-Meteo SDK</a> , 
+						which provides detailed instructions and the FlatBuffers schema files. You can also open a GitHub ticket to request integrations for a particular programming language.
+					</p>
 				</div>
 			</div>
 		{/if}
