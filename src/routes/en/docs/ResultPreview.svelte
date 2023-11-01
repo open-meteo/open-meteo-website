@@ -129,6 +129,52 @@
 	$: xlsxUrl = getUrl(server, { ...parsedParams, format: 'xlsx' });
 	$: csvUrl = getUrl(server, { ...parsedParams, format: 'csv' });
 
+	/// Adjusted call weight
+	$: callWeight = ((params) => {
+		function membersPerModel(model: string): number {
+			switch (model) {
+				case "icon_seamless": return 40
+				case "icon_global": return 40
+				case "icon_eu": return 40
+				case "icon_d2": return 20
+				case "gfs_seamless": return 31
+				case "gfs025": return 31
+				case "gfs025": return 31
+				case "ecmwf_ifs04": return 51
+				case "gem_global": return 21
+			}
+			return 1
+		}
+		let nDays = 1
+		if (params.time_mode == 'forecast_days') {
+			const forecast_days = params['forecast_days'] ?? 7
+			const past_days = params['past_days'] ?? 0
+			nDays = Number(forecast_days) + Number(past_days)
+		}
+		if (params.time_mode == 'time_interval') {
+			const start = new Date(params['start_date']).getTime()
+			const end = new Date(params['end_date']).getTime()
+			nDays = (end - start) / 1000 / 86400
+		}
+		/// Number or models (including number of ensemble members)
+		const nModels = sdk_type == 'ensemble_api' ? (params.models ?? []).reduce(
+			(previous: number, model: string) => { return previous + (membersPerModel(model) ?? 1) }
+			,0) : (params.models ?? []).length
+		
+		/// Number of weather variables for hourly, daily, current or minutely_15
+		const nVariables = params['hourly']?.length ?? 0 + params['daily']?.length ?? 0 + params['current']?.length ?? 0 + params['minutely_15']?.length ?? 0
+
+		/// Number of locations
+		const nLocations = params['lat']?.length ?? 1.0
+
+		/// Calculate adjusted weight
+		const nVariablesModels = nVariables * Math.max(nModels, 1.0)
+		const timeWeight = nDays / 14.0
+        const variablesWeight = nVariablesModels / 10.0
+		const variableTimeWeight = Math.max(variablesWeight, timeWeight * variablesWeight)
+		return Math.max(1.0, variableTimeWeight) * nLocations
+	})($params)
+
 	function jsonToChart(data: any, downloadTime: number) {
 		//console.log(data);
 		let yAxis: any = [];
@@ -425,7 +471,7 @@
 		return `<span class="token string">"${v}"</span>`
 	}
 
-	let mode = 'python';
+	let mode = 'chart';
 </script>
 
 <h2 id="api-response">API Response</h2>
@@ -533,7 +579,8 @@
 					<small class="text-muted"
 						>(<a id="api_url_link" target="_blank" href={previewUrl}>Open in new tab</a> or copy this
 						URL into your application)</small
-					>
+					>.
+					{#if callWeight > 1}<p>Note: This API call is equivalent to <strong>{callWeight.toFixed(1)}</strong> calls because of factors like long time intervals, the number of locations, variables, or models involved.</p>{/if} 
 					<input type="text" class="form-control" id="api_url" readonly bind:value={previewUrl} />
 				</div>
 			</div>

@@ -47,7 +47,7 @@
 			<h3>Non-Commercial Use</h3>
 			<p>By using the Free API for non-commercial use you agree to following terms:</p>
 			<ul>
-				<li>You use less than 10'000 API calls per day.</li>
+				<li>Less than 10'000 API calls per day, 5'000 per hour and 600 per minute.</li>
 				<li>You may only use the free API services for non-commercial purposes.</li>
 				<li>
 					You accept to the CC-BY 4.0 license, as specified in the <a
