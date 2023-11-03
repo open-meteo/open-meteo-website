@@ -9,7 +9,6 @@
 	export let timezone: string = 'UTC';
 	export let location_mode: string = 'location_search';
 	export let csv_coordinates: string = '';
-	export let timezoneInvalid: boolean = false;
 
 	function locationCallback(event: CustomEvent<GeoLocation>, index: number) {
 		const lat = Number(event.detail.latitude.toFixed(4));
@@ -117,7 +116,6 @@
 						<div class="form-floating mb-3">
 							<select
 								class="form-select"
-								class:is-invalid={timezoneInvalid}
 								name="timezone"
 								id="timezone"
 								aria-label="Timezone"
@@ -143,11 +141,6 @@
 								<option value="Pacific/Auckland">Pacific/Auckland</option>
 							</select>
 							<label for="timezone">Timezone</label>
-							{#if timezoneInvalid}
-								<div class="invalid-tooltip" transition:slide>
-									Timezone is required for daily variables
-								</div>
-							{/if}
 						</div>
 					</div>
 					<div class="col-md-2 mb-3">

@@ -34,8 +34,6 @@
 		hourly: ['temperature_2m'],
 		models: ['icon_seamless']
 	});
-
-	$: timezoneInvalid = false; //$params.timezone == 'UTC' && $params.daily.length > 0;
 	
 	const icon_global_variables = [
 		'weather_code',
@@ -329,7 +327,6 @@
 		bind:location_mode={$params.location_mode}
 		bind:csv_coordinates={$params.csv_coordinates}
 		bind:timezone={$params.timezone}
-		bind:timezoneInvalid={timezoneInvalid}
 	/>
 
 	<div class="row py-3 px-0">

@@ -232,7 +232,6 @@
 		bind:location_mode={$params.location_mode}
 		bind:csv_coordinates={$params.csv_coordinates}
 		bind:timezone={$params.timezone}
-		bind:timezoneInvalid
 	/>
 
 	<div class="row py-3 px-0">
@@ -554,6 +553,11 @@
 				{/each}
 			</div>
 		{/each}
+		{#if timezoneInvalid}
+		<div class="alert alert-warning" role="alert">
+			It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+		</div>
+		{/if}
 	</div>
 	
 	<div class="row py-3 px-0">
