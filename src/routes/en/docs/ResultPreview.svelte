@@ -166,7 +166,7 @@
 			nDays = Number(forecast_days) + Number(past_days)
 		}
 		/// Number or models (including number of ensemble members)
-		const nModels = sdk_type == 'ensemble_api' ? (params.models ?? []).reduce(
+		const nModels = sdk_type == 'ensemble_api' ? ('models' in params ? Array.isArray(params['models']) ? params['models'] : [params['models']] : []).reduce(
 			(previous: number, model: string) => { return previous + (membersPerModel(model) ?? 1) }
 			,0) : (params.models ?? []).length
 		
