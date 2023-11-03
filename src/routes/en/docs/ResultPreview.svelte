@@ -642,8 +642,8 @@
 			>
 				<div class="row">
 					<p>
-						The preview code applies all parameters from above automatically, includes a cache and conversion to Pandas DataFrames. Use of DataFrames is of course optional.
-						More information and examples are available in the <a href="https://pypi.org/project/openmeteo-requests/">Python API client</a> documentation.
+						The sample code automatically applies all the parameters selected above. It includes caching and the conversion to Pandas DataFrames. 
+						The use of DataFrames is entirely optional. You can find further details and examples in the <a href="https://pypi.org/project/openmeteo-requests/">Python API client</a> documentation.
 					</p>
 					<h4>Install</h4>
 					<pre class="dark rounded-3 py-2"><code >pip install openmeteo-requests{'\n'}pip install requests-cache retry-requests numpy pandas</code></pre>
