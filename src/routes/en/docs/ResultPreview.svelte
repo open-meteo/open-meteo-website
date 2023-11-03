@@ -735,6 +735,7 @@ current_{variable} <span class="token operator">=</span> current<span class="tok
 						The preview code applies all parameters above automatically and structures weather data into an easily usable object.
 						More information and examples are available on <a href="https://www.npmjs.com/package/openmeteo">NPM</a>.
 					</p>
+					<p>Caveats: The code generator does not handle sunrise and sunset correctly. It is supposed to be ".valuesInt64" instead of ".values". For the ensemble API, multiple members per variable are not correctly decoded. You will have to loop over `variables`.</p>
 					<h4>Install</h4>
 					<pre class="dark rounded-3 py-2"><code >npm install openmeteo</code></pre>
 					<h4>Usage</h4>
@@ -810,6 +811,7 @@ current_{variable} <span class="token operator">=</span> current<span class="tok
 						The preview code applies all parameters above automatically and structures weather data into an easily usable object.
 						More information and examples are available on <a href="https://github.com/open-meteo/sdk/tree/main/swift">GitHub</a>.
 					</p>
+					<p>Caveats: The code generator does not handle sunrise and sunset correctly. It is supposed to be [Int64] instead of [Float] and ".valuesInt64" instead of ".values". For the ensemble API, multiple members per variable are not correctly decoded. You will have to loop over `variables`.</p>
 					<h4>Install</h4>
 					<p>Add OpenMeteoSdk as a dependency to your Package.swift</p>
 					<pre class="dark rounded-3 py-2"><code >dependencies: [
