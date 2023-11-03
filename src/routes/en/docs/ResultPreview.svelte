@@ -156,15 +156,14 @@
 			return 1
 		}
 		let nDays = 1
-		if (params.time_mode == 'forecast_days') {
-			const forecast_days = params['forecast_days'] ?? 7
-			const past_days = params['past_days'] ?? 0
-			nDays = Number(forecast_days) + Number(past_days)
-		}
-		if (params.time_mode == 'time_interval') {
+		if ('start_date' in params) {
 			const start = new Date(params['start_date']).getTime()
 			const end = new Date(params['end_date']).getTime()
 			nDays = (end - start) / 1000 / 86400
+		} else {
+			const forecast_days = params['forecast_days'] ?? 7
+			const past_days = params['past_days'] ?? 0
+			nDays = Number(forecast_days) + Number(past_days)
 		}
 		/// Number or models (including number of ensemble members)
 		const nModels = sdk_type == 'ensemble_api' ? (params.models ?? []).reduce(
@@ -172,10 +171,14 @@
 			,0) : (params.models ?? []).length
 		
 		/// Number of weather variables for hourly, daily, current or minutely_15
-		const nVariables = params['hourly']?.length ?? 0 + params['daily']?.length ?? 0 + params['current']?.length ?? 0 + params['minutely_15']?.length ?? 0
+		const nHourly = 'hourly' in params ? Array.isArray(params['hourly']) ? params['hourly'].length : params['hourly'].length > 1 ? 1 : 0 : 0
+		const nDaily = 'daily' in params ? Array.isArray(params['daily']) ? params['daily'].length : params['daily'].length > 1 ? 1 : 0 : 0
+		const nCurrent = 'current' in params ? Array.isArray(params['current']) ? params['current'].length : params['current'].length > 1 ? 1 : 0 : 0
+		const nMinutely15 = 'minutely_15' in params ? Array.isArray(params['minutely_15']) ? params['minutely_15'].length : params['minutely_15'].length > 1 ? 1 : 0 : 0
+		const nVariables = nHourly + nDaily + nCurrent + nMinutely15
 
 		/// Number of locations
-		const nLocations = params['lat']?.length ?? 1.0
+		const nLocations = params['latitude']?.length ?? 1.0
 
 		/// Calculate adjusted weight
 		const nVariablesModels = nVariables * Math.max(nModels, 1.0)
@@ -183,7 +186,7 @@
         const variablesWeight = nVariablesModels / 10.0
 		const variableTimeWeight = Math.max(variablesWeight, timeWeight * variablesWeight)
 		return Math.max(1.0, variableTimeWeight) * nLocations
-	})($params)
+	})(parsedParams)
 
 	function jsonToChart(data: any, downloadTime: number) {
 		//console.log(data);
