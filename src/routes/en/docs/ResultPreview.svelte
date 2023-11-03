@@ -474,7 +474,7 @@
 		return `<span class="token string">"${v}"</span>`
 	}
 
-	let mode = 'swift';
+	let mode = 'chart';
 </script>
 
 <h2 id="api-response">API Response</h2>
