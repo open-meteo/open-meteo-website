@@ -180,9 +180,8 @@
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-	The Open-Meteo Historical Weather API made available additional weather information dating back to
-	1940! Read the <a
-		href="https://openmeteo.substack.com/p/historical-weather-data-from-1940?sd=pf"
+	Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides access to a staggering 90 terabytes of meteorological data ! Read the <a
+		href="https://open.substack.com/pub/openmeteo/p/processing-90-tb-historical-weather"
 		target="_blank">blog article</a
 	>.
 </div>
