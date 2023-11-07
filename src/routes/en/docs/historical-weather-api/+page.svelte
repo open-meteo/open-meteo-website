@@ -159,16 +159,15 @@
 
 	let models = [
 		[
-			{ name: 'best_match', label: 'Best match', caption: 'ERA5 & ERA5-Land combined' },
+			{ name: 'best_match', label: 'Best match', caption: 'ECMWF IFS & ERA5' },
+			{ name: 'ecmwf_ifs', label: 'ECMWF IFS', caption: '9 km, Global, 2017 onwards' }
+		],[
+			{ name: 'era5_seamless', label: 'ERA5-Seamless', caption: 'ERA5 & ERA5-Land combined' },
 			{ name: 'era5', label: 'ERA5', caption: '25 km, Global' },
 			{ name: 'era5_land', label: 'ERA5-Land', caption: '10 km, Global' },
 			{ name: 'cerra', label: 'CERRA', caption: '5 km, Europe, 1985 to June 2021' }
 		]
 	];
-
-	if (dev) {
-		models.push([{ name: 'ecmwf_ifs', label: 'ECMWF IFS', caption: '9 km, Global' }]);
-	}
 </script>
 
 <svelte:head>
@@ -332,7 +331,7 @@
 				count={countVariables(models, $params.models)}
 			>
 				{#each models as group}
-					<div class="col-md-4 mb-3">
+					<div class="col-md-6 mb-3">
 						{#each group as e}
 							<div class="form-check">
 								<input
@@ -494,7 +493,7 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th scope="col">Reanalysis Model</th>
+				<th scope="col">Data Set</th>
 				<th scope="col">Region</th>
 				<th scope="col">Spatial Resolution</th>
 				<th scope="col">Temporal Resolution</th>
@@ -503,6 +502,19 @@
 			</tr>
 		</thead>
 		<tbody>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://www.ecmwf.int/en/forecasts/documentation-and-support/changes-ecmwf-model"
+						>ECMWF IFS</a
+					>
+				</th>
+				<td>Global</td>
+				<td>9 km</td>
+				<td>Hourly</td>
+				<td>2017 to present</td>
+				<td>Daily with 2 days delay</td>
+			</tr>
 			<tr>
 				<th scope="row"
 					><a
