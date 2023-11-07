@@ -469,23 +469,27 @@
 			stations nearby, such as rural areas or the open ocean.
 		</p>
 		<p>
-			You can access data dating back to 1940 with a delay of 5 days. If you're looking for weather
-			information from previous days or weeks, our <a
-				href="/en/docs"
-				title="Weather Forecast API documentation">Forecast API</a
-			>
-			offers the <mark>&past_days=</mark> feature for your convenience.
+			The models for historical weather data use a spatial resolution of 9 km to resolve fine details 
+			close to coasts or complex mountain terrain. In general, a higher spatial resolution means that the data is
+			more detailed and represents the weather conditions more accurately at smaller scales.
 		</p>
 	</div>
 	<div class="col-6">
 		<p>
-			The spatial resolution of a weather reanalysis dataset refers to the size of the grid cells
-			used to represent the data. In the case of the reanalysis dataset described, the cells
-			covering land have a resolution of 11 km, while those covering the ocean have a resolution of
-			25 km. For the region of Europe, the resolution is increased to 5 km, although this higher
-			resolution is only available up until June 2021, with real-time updates expected to be
-			available sometime in 2023. In general, a higher spatial resolution means that the data is
-			more detailed and represents the weather conditions more accurately at smaller scales.
+			The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs at 0z and 12z, 
+			employing the most up-to-date version of IFS. This dataset offers the utmost resolution and precision 
+			in depicting historical weather conditions.
+		</p>
+		<p>However, when studying climate change over decades, it is advisable to exclusively utilize ERA5 or ERA5-Land. 
+			This choice ensures data consistency and prevents unintentional alterations that could arise from the adoption 
+			of different weather model upgrades.</p>
+		<p>
+			You can access data dating back to 1940 with a delay of 2 days. If you're looking for weather
+			information from the previous day, our <a
+				href="/en/docs"
+				title="Weather Forecast API documentation">Forecast API</a
+			>
+			offers the <mark>&past_days=</mark> feature for your convenience.
 		</p>
 	</div>
 </div>
