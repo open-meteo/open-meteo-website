@@ -10,7 +10,7 @@
 	import LocationSelection from '../LocationSelection.svelte';
 
 	var d = new Date();
-	d.setDate(d.getDate() - 5);
+	d.setDate(d.getDate() - 2);
 	let endDateDefault = d.toISOString().split('T')[0];
 	d.setDate(d.getDate() - 14);
 	let startDateDefault = d.toISOString().split('T')[0];
@@ -43,7 +43,7 @@
 	onMount(async () => {
 		var d = new Date();
 		endDate = d.toISOString().split('T')[0];
-		d.setDate(d.getDate() - 5);
+		d.setDate(d.getDate() - 2);
 		$params.end_date = d.toISOString().split('T')[0];
 		d.setDate(d.getDate() - 14);
 		$params.start_date = d.toISOString().split('T')[0];
