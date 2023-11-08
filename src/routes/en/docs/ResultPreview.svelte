@@ -3,7 +3,7 @@
 	import type { Writable } from 'svelte/store';
 	import HighchartContainer from '$lib/Elements/HighchartContainer.svelte';
 	import { onMount } from 'svelte';
-	import { InfoCircle, SkipEnd } from 'svelte-bootstrap-icons';
+	import { InfoCircle } from 'svelte-bootstrap-icons';
 	import { ExclamationTriangle } from 'svelte-bootstrap-icons';
 	import { ArrowClockwise } from 'svelte-bootstrap-icons';
 	import { fade } from 'svelte/transition';
