@@ -10,7 +10,7 @@
 	import LocationSelection from '../LocationSelection.svelte';
 
 	var d = new Date();
-	d.setDate(d.getDate() - 5);
+	d.setDate(d.getDate() - 2);
 	let endDateDefault = d.toISOString().split('T')[0];
 	d.setDate(d.getDate() - 14);
 	let startDateDefault = d.toISOString().split('T')[0];
@@ -43,7 +43,7 @@
 	onMount(async () => {
 		var d = new Date();
 		endDate = d.toISOString().split('T')[0];
-		d.setDate(d.getDate() - 5);
+		d.setDate(d.getDate() - 2);
 		$params.end_date = d.toISOString().split('T')[0];
 		d.setDate(d.getDate() - 14);
 		$params.start_date = d.toISOString().split('T')[0];
@@ -159,16 +159,15 @@
 
 	let models = [
 		[
-			{ name: 'best_match', label: 'Best match', caption: 'ERA5 & ERA5-Land combined' },
+			{ name: 'best_match', label: 'Best match', caption: 'ECMWF IFS & ERA5' },
+			{ name: 'ecmwf_ifs', label: 'ECMWF IFS', caption: '9 km, Global, 2017 onwards' }
+		],[
+			{ name: 'era5_seamless', label: 'ERA5-Seamless', caption: 'ERA5 & ERA5-Land combined' },
 			{ name: 'era5', label: 'ERA5', caption: '25 km, Global' },
 			{ name: 'era5_land', label: 'ERA5-Land', caption: '10 km, Global' },
 			{ name: 'cerra', label: 'CERRA', caption: '5 km, Europe, 1985 to June 2021' }
 		]
 	];
-
-	if (dev) {
-		models.push([{ name: 'ecmwf_ifs', label: 'ECMWF IFS', caption: '9 km, Global' }]);
-	}
 </script>
 
 <svelte:head>
@@ -181,9 +180,8 @@
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-	The Open-Meteo Historical Weather API made available additional weather information dating back to
-	1940! Read the <a
-		href="https://openmeteo.substack.com/p/historical-weather-data-from-1940?sd=pf"
+	Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides access to a staggering 90 terabytes of meteorological data! Read the <a
+		href="https://open.substack.com/pub/openmeteo/p/processing-90-tb-historical-weather"
 		target="_blank">blog article</a
 	>.
 </div>
@@ -332,7 +330,7 @@
 				count={countVariables(models, $params.models)}
 			>
 				{#each models as group}
-					<div class="col-md-4 mb-3">
+					<div class="col-md-6 mb-3">
 						{#each group as e}
 							<div class="form-check">
 								<input
@@ -470,23 +468,27 @@
 			stations nearby, such as rural areas or the open ocean.
 		</p>
 		<p>
-			You can access data dating back to 1940 with a delay of 5 days. If you're looking for weather
-			information from previous days or weeks, our <a
-				href="/en/docs"
-				title="Weather Forecast API documentation">Forecast API</a
-			>
-			offers the <mark>&past_days=</mark> feature for your convenience.
+			The models for historical weather data use a spatial resolution of 9 km to resolve fine details 
+			close to coasts or complex mountain terrain. In general, a higher spatial resolution means that the data is
+			more detailed and represents the weather conditions more accurately at smaller scales.
 		</p>
 	</div>
 	<div class="col-6">
 		<p>
-			The spatial resolution of a weather reanalysis dataset refers to the size of the grid cells
-			used to represent the data. In the case of the reanalysis dataset described, the cells
-			covering land have a resolution of 11 km, while those covering the ocean have a resolution of
-			25 km. For the region of Europe, the resolution is increased to 5 km, although this higher
-			resolution is only available up until June 2021, with real-time updates expected to be
-			available sometime in 2023. In general, a higher spatial resolution means that the data is
-			more detailed and represents the weather conditions more accurately at smaller scales.
+			The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs at 0z and 12z, 
+			employing the most up-to-date version of IFS. This dataset offers the utmost resolution and precision 
+			in depicting historical weather conditions.
+		</p>
+		<p>However, when studying climate change over decades, it is advisable to exclusively utilize ERA5 or ERA5-Land. 
+			This choice ensures data consistency and prevents unintentional alterations that could arise from the adoption 
+			of different weather model upgrades.</p>
+		<p>
+			You can access data dating back to 1940 with a delay of 2 days. If you're looking for weather
+			information from the previous day, our <a
+				href="/en/docs"
+				title="Weather Forecast API documentation">Forecast API</a
+			>
+			offers the <mark>&past_days=</mark> feature for your convenience.
 		</p>
 	</div>
 </div>
@@ -494,7 +496,7 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th scope="col">Reanalysis Model</th>
+				<th scope="col">Data Set</th>
 				<th scope="col">Region</th>
 				<th scope="col">Spatial Resolution</th>
 				<th scope="col">Temporal Resolution</th>
@@ -503,6 +505,19 @@
 			</tr>
 		</thead>
 		<tbody>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://www.ecmwf.int/en/forecasts/documentation-and-support/changes-ecmwf-model"
+						>ECMWF IFS</a
+					>
+				</th>
+				<td>Global</td>
+				<td>9 km</td>
+				<td>Hourly</td>
+				<td>2017 to present</td>
+				<td>Daily with 2 days delay</td>
+			</tr>
 			<tr>
 				<th scope="row"
 					><a
