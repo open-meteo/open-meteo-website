@@ -5,7 +5,8 @@
 	import LocationSearch from '../LocationSearch.svelte';
 	import type { GeoLocation } from '$lib/stores';
 	import { urlHashStore } from '$lib/url-hash-store';
-	import { PlusLg, Trash } from 'svelte-bootstrap-icons';
+	import PlusLg from 'svelte-bootstrap-icons/lib/PlusLg.svelte';
+	import Trash from 'svelte-bootstrap-icons/lib/Trash.svelte';
 
 	const params = urlHashStore({
 		latitude: [52.52],

@@ -4,11 +4,12 @@
 	 * - use arrow keys + enter key to select results
 	 */
 	import { onDestroy, createEventDispatcher, onMount } from 'svelte';
-	import { Trash } from 'svelte-bootstrap-icons';
-	import { Star } from 'svelte-bootstrap-icons';
-	import { Cursor } from 'svelte-bootstrap-icons';
-	import { Map } from 'svelte-bootstrap-icons';
-	import { Search } from 'svelte-bootstrap-icons';
+	import Trash from 'svelte-bootstrap-icons/lib/Trash.svelte';
+	import Star from 'svelte-bootstrap-icons/lib/Star.svelte';
+	import Cursor from 'svelte-bootstrap-icons/lib/Cursor.svelte';
+	import Map from 'svelte-bootstrap-icons/lib/Map.svelte';
+	import Search from 'svelte-bootstrap-icons/lib/Search.svelte';
+
 	import { favorites, last_visited, type GeoLocation } from '$lib/stores';
 	import { fade, fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
