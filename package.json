@@ -16,7 +16,7 @@
 	"devDependencies": {
 		"@popperjs/core": "^2.11.7",
 		"@semantic-release/commit-analyzer": "^11.1.0",
-		"@semantic-release/github": "^9.2.1",
+		"@semantic-release/github": "^9.2.3",
 		"@semantic-release/release-notes-generator": "^12.1.0",
 		"@sveltejs/adapter-auto": "^2.1.1",
 		"@sveltejs/adapter-static": "^2.0.2",
