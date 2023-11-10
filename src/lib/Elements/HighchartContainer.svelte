@@ -1,7 +1,8 @@
 <script lang="ts">
-	import Highcharts, { Chart, StockChart, type Options } from 'highcharts/highstock';
+	import Highcharts, { Chart, type Options } from 'highcharts/highcharts';
 	import { onDestroy, onMount } from 'svelte';
-	import HighchartsAccessibility from 'highcharts/modules/accessibility';
+	//import HighchartsAccessibility from 'highcharts/modules/accessibility';
+	//import HighchartsStock from 'highcharts/modules/stock';
 	import { dev } from '$app/environment';
 	//import HighchartsBoost from "highcharts/modules/boost";
 	import { themeIsDark } from '$lib/stores';
@@ -29,14 +30,23 @@
 			const HighchartsDebugger = await import('highcharts/modules/debugger');
 			HighchartsDebugger.default(Highcharts);
 		}
-		HighchartsAccessibility(Highcharts);
+		//HighchartsAccessibility(Highcharts);
 		options.chart = options.chart || {};
 		options.chart.styledMode = true;
+		options.accessibility = {
+			enabled: false
+		};
 		options.credits = {
 			text: 'Open-Meteo.com',
 			href: 'http://open-meteo.com'
 		};
-		chart = useStockChart ? new StockChart(node, options) : new Chart(node, options);
+		if (useStockChart) {
+			const HighchartsStock = await import('highcharts/modules/stock');
+			HighchartsStock.default(Highcharts);
+			chart = new Highcharts.StockChart(node, options);
+		} else {
+			chart = new Chart(node, options);
+		}
 	});
 
 	onDestroy(() => {
