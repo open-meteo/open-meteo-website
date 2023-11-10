@@ -3,7 +3,11 @@
 	import { page } from '$app/stores';
 	import { onMount, onDestroy } from 'svelte';
 	import { theme, themeIsDark } from '$lib/stores';
-	import { MoonStarsFill, CircleHalf, SunFill, Github, Twitter } from 'svelte-bootstrap-icons';
+	import MoonStarsFill from 'svelte-bootstrap-icons/lib/MoonStarsFill.svelte';
+	import CircleHalf from 'svelte-bootstrap-icons/lib/CircleHalf.svelte';
+	import SunFill from 'svelte-bootstrap-icons/lib/SunFill.svelte';
+	import Github from 'svelte-bootstrap-icons/lib/Github.svelte';
+	import Twitter from 'svelte-bootstrap-icons/lib/Twitter.svelte';
 	import type { Unsubscriber } from 'svelte/store';
 
 	let updateThemeOnChange: ((this: MediaQueryList, ev: MediaQueryListEvent) => any) | undefined;

@@ -3,9 +3,9 @@
 	import type { Writable } from 'svelte/store';
 	import HighchartContainer from '$lib/Elements/HighchartContainer.svelte';
 	import { onMount } from 'svelte';
-	import { InfoCircle } from 'svelte-bootstrap-icons';
-	import { ExclamationTriangle } from 'svelte-bootstrap-icons';
-	import { ArrowClockwise } from 'svelte-bootstrap-icons';
+	import InfoCircle from 'svelte-bootstrap-icons/lib/InfoCircle.svelte';
+	import ExclamationTriangle from 'svelte-bootstrap-icons/lib/ExclamationTriangle.svelte';
+	import ArrowClockwise from 'svelte-bootstrap-icons/lib/ArrowClockwise.svelte';
 	import { fade } from 'svelte/transition';
 
 	export let params: Writable<any>;

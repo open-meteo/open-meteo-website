@@ -10,7 +10,8 @@
 	} from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { fade } from 'svelte/transition';
-	import { CalendarEvent, Clock } from 'svelte-bootstrap-icons';
+	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
+	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 
