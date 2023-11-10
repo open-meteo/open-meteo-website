@@ -2,7 +2,10 @@
 	import { fade, slide } from 'svelte/transition';
 	import LocationSearch from './LocationSearch.svelte';
 	import type { GeoLocation } from '$lib/stores';
-	import { GeoAltFill, List, PlusLg, Trash } from 'svelte-bootstrap-icons';
+	import GeoAltFill from 'svelte-bootstrap-icons/lib/GeoAltFill.svelte';
+	import List from 'svelte-bootstrap-icons/lib/List.svelte';
+	import PlusLg from 'svelte-bootstrap-icons/lib/PlusLg.svelte';
+	import Trash from 'svelte-bootstrap-icons/lib/Trash.svelte';
 
 	export let latitude: number[];
 	export let longitude: number[];
