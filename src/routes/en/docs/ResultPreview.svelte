@@ -256,7 +256,29 @@
 						tooltip: {
 							valueSuffix: ' ' + unit
 						},
-						dataGrouping: { groupPixelWidth: 12 }
+						dataGrouping: { 
+							groupPixelWidth: 8, 
+							units: [[
+									'minute',
+									[1, 2, 5, 10, 15]
+								], [
+									'hour',
+									[1]
+								], [
+									'day',
+									[1]
+								], [
+									'week',
+									[1]
+								], [
+									'month',
+									[1, 3, 6]
+								], [
+									'year',
+									null
+								]
+							] 
+						}
 						/*dataGrouping: {
                     enabled: true,
                     forced: true,
