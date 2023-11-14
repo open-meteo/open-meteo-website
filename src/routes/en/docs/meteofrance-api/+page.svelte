@@ -139,6 +139,8 @@
 			{ name: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
 			{ name: 'sunrise', label: 'Sunrise' },
 			{ name: 'sunset', label: 'Sunset' },
+			{ name: 'daylight_duration', label: 'Daylight Duration' },
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
 			{ name: 'uv_index_max', label: 'UV Index' },
 			{ name: 'uv_index_clear_sky_max', label: 'UV Index Clear Sky' }
 		],
@@ -153,12 +155,12 @@
 			{ name: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
 			{ name: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
 			{ name: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
-			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
+			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 		]
 	];
 
 	const additionalVariables = [
-		[{ name: 'is_day', label: 'Is Day or Night' }],
+		[{ name: 'is_day', label: 'Is Day or Night' }, { name: 'sunshine_duration', label: 'Sunshine Duration' }],
 		[{ name: 'cape', label: 'CAPE' }]
 	];
 
@@ -1038,6 +1040,12 @@
 					>
 				</tr>
 				<tr>
+					<th scope="row">sunshine_duration</th>
+					<td>Preceding hour sum</td>
+					<td>Seconds</td>
+					<td>Number of seconds of sunshine of the preceding hour per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+				</tr>
+				<tr>
 					<th scope="row">vapour_pressure_deficit</th>
 					<td>Instant</td>
 					<td>kPa</td>
@@ -1302,6 +1310,16 @@
 					<th scope="row">sunrise<br />sunset</th>
 					<td>iso8601</td>
 					<td>Sun rise and set times</td>
+				</tr>
+				<tr>
+					<th scope="row">sunshine_duration</th>
+					<td>seconds</td>
+					<td>The number of seconds of sunshine per day is determined by calculating direct normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine duration will consistently be less than daylight duration due to dawn and dusk.</td>
+				</tr>
+				<tr>
+					<th scope="row">daylight_duration</th>
+					<td>seconds</td>
+					<td>Number of seconds of daylight per day</td>
 				</tr>
 				<tr>
 					<th scope="row">wind_speed_10m_max<br />wind_gusts_10m_max</th>
