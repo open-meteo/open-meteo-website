@@ -85,7 +85,10 @@
 		]
 	];
 
-	const additionalVariables = [[{ name: 'is_day', label: 'Is Day or Night' }]];
+	const additionalVariables = [[
+		{ name: 'is_day', label: 'Is Day or Night' }, 
+		{ name: 'sunshine_duration', label: 'Sunshine Duration' }
+	]];
 
 	const solarVariables = [
 		[
@@ -738,6 +741,12 @@
 							target="_blank">Razo, Müller Witwer</a
 						></td
 					>
+				</tr>
+				<tr>
+					<th scope="row">sunshine_duration</th>
+					<td>Preceding hour sum</td>
+					<td>Seconds</td>
+					<td>Number of seconds of sunshine of the preceding hour per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
 				</tr>
 				<tr>
 					<th scope="row">vapour_pressure_deficit</th>

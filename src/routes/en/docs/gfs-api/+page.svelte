@@ -141,7 +141,8 @@
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
 			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
 			{ name: 'rain', label: 'Rain' },
-			{ name: 'snowfall', label: 'Snowfall' }
+			{ name: 'snowfall', label: 'Snowfall' },
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
 		],
 		[
 			{ name: 'weather_code', label: 'Weather code' },
@@ -151,7 +152,8 @@
 			{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
 			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 			{ name: 'visibility', label: 'Visibility' },
-			{ name: 'cape', label: 'CAPE' }
+			{ name: 'cape', label: 'CAPE' },
+			{ name: 'is_day', label: 'Is Day or Night' }
 		]
 	];
 
@@ -164,6 +166,8 @@
 			{ name: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
 			{ name: 'sunrise', label: 'Sunrise' },
 			{ name: 'sunset', label: 'Sunset' },
+			{ name: 'daylight_duration', label: 'Daylight Duration' },
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
 			{ name: 'uv_index_max', label: 'UV Index' },
 			{ name: 'uv_index_clear_sky_max', label: 'UV Index Clear Sky' }
 		],
@@ -186,7 +190,8 @@
 		[
 			{ name: 'uv_index', label: 'UV Index' },
 			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
-			{ name: 'is_day', label: 'Is Day or Night' }
+			{ name: 'is_day', label: 'Is Day or Night' },
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
 		],
 		[
 			{ name: 'cape', label: 'CAPE' },
@@ -1048,6 +1053,12 @@
 					>
 				</tr>
 				<tr>
+					<th scope="row">sunshine_duration</th>
+					<td>Preceding hour sum</td>
+					<td>Seconds</td>
+					<td>Number of seconds of sunshine of the preceding hour per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+				</tr>
+				<tr>
 					<th scope="row">vapour_pressure_deficit</th>
 					<td>Instant</td>
 					<td>kPa</td>
@@ -1295,6 +1306,12 @@
 					<td>Diffuse solar radiation as average of the preceding 15 minutes</td>
 				</tr>
 				<tr>
+					<th scope="row">sunshine_duration</th>
+					<td>Preceding 15 minutes sum</td>
+					<td>Seconds</td>
+					<td>Number of seconds of sunshine of the preceding 15-minutes per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+				</tr>
+				<tr>
 					<th scope="row">precipitation</th>
 					<td>Preceding 15 minutes sum</td>
 					<td>mm (inch)</td>
@@ -1494,6 +1511,16 @@
 					<th scope="row">sunrise<br />sunset</th>
 					<td>iso8601</td>
 					<td>Sun rise and set times</td>
+				</tr>
+				<tr>
+					<th scope="row">sunshine_duration</th>
+					<td>seconds</td>
+					<td>The number of seconds of sunshine per day is determined by calculating direct normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine duration will consistently be less than daylight duration due to dawn and dusk.</td>
+				</tr>
+				<tr>
+					<th scope="row">daylight_duration</th>
+					<td>seconds</td>
+					<td>Number of seconds of daylight per day</td>
 				</tr>
 				<tr>
 					<th scope="row">wind_speed_10m_max<br />wind_gusts_10m_max</th>
