@@ -692,7 +692,7 @@
 				</tr>
 				<tr>
 					<th scope="row">past_days</th>
-					<td>Integer (0-2)</td>
+					<td>Integer (0-92)</td>
 					<td>No</td>
 					<td><mark>0</mark></td>
 					<td
