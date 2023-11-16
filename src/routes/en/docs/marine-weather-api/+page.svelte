@@ -7,6 +7,8 @@
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
+	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
+	import { countVariables } from '$lib/meteo';
 
 	const defaultParameter = {
 		current: [],
@@ -22,6 +24,7 @@
 		start_date: '',
 		end_date: '',
 		time_mode: 'forecast_days',
+		models: []
 	};
 
 	const params = urlHashStore({
@@ -70,6 +73,16 @@
 			{ name: 'swell_wave_direction_dominant', label: 'Swell Wave Direction Dominant' },
 			{ name: 'swell_wave_period_max', label: 'Swell Wave Period Max' },
 			{ name: 'swell_wave_peak_period_max', label: 'Swell Wave Peak Period Max' }
+		]
+	];
+
+	let models = [
+		[
+			{ name: 'best_match', label: 'Best match', caption: 'EWAM & GWAM' },
+		],[
+			{ name: 'ewam', label: 'DWD EWAM', caption: '0.05° only Europe' },
+			{ name: 'gwam', label: 'DWD GWAM', caption: '0.25°' },
+			{ name: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' },
 		]
 	];
 </script>
@@ -220,6 +233,36 @@
 	</div>
 
 	<div class="row py-3 px-0">
+		<div class="accordion" id="accordionVariables">
+			<AccordionItem
+				id="models"
+				title="Wave Models"
+				count={countVariables(models, $params.models)}
+			>
+				{#each models as group}
+					<div class="col-md-6 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_model"
+									name="models"
+									bind:group={$params.models}
+								/>
+								<label class="form-check-label" for="{e.name}_model"
+									>{e.label}&nbsp;<span class="text-muted">({e.caption})</span></label
+								>
+							</div>
+						{/each}
+					</div>
+				{/each}
+			</AccordionItem>
+		</div>
+	</div>
+
+	<div class="row py-3 px-0">
 		<h2>Daily Marine Variables</h2>
 		{#each daily as group}
 			<div class="col-md-4">
@@ -303,7 +346,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="marine" action="marine" sdk_type="marine_api"/>
+<ResultPreview {params} {defaultParameter} useStockChart type="marine" action="marine" sdk_type="marine_api"/>
 
 <div class="col-12 py-5">
 	<h2 id="api-documentation">API Documentation</h2>
