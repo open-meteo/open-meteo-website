@@ -8,6 +8,7 @@
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
+	import { countVariables } from '$lib/meteo';
 
 	const defaultParameter = {
 		current: [],
@@ -25,11 +26,12 @@
 		start_date: '',
 		end_date: '',
 		time_mode: 'forecast_days',
+		models: []
 	};
 
 	const params = urlHashStore({
-		latitude: [54.3213],
-		longitude: [10.1348],
+		latitude: [54.544587],
+		longitude: [10.227487],
 		...defaultParameter,
 		hourly: ['wave_height']
 	});
@@ -73,6 +75,16 @@
 			{ name: 'swell_wave_direction_dominant', label: 'Swell Wave Direction Dominant' },
 			{ name: 'swell_wave_period_max', label: 'Swell Wave Period Max' },
 			{ name: 'swell_wave_peak_period_max', label: 'Swell Wave Peak Period Max' }
+		]
+	];
+
+	let models = [
+		[
+			{ name: 'best_match', label: 'Best match', caption: 'EWAM & GWAM' },
+		],[
+			{ name: 'ewam', label: 'DWD EWAM', caption: '0.05° only Europe' },
+			{ name: 'gwam', label: 'DWD GWAM', caption: '0.25°' },
+			{ name: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' },
 		]
 	];
 </script>
@@ -225,49 +237,29 @@
 	<div class="row py-3 px-0">
 		<div class="accordion" id="accordionVariables">
 			<AccordionItem
-				id="additional-variables"
-				title="Additional Options"
+				id="models"
+				title="Wave Models"
+				count={countVariables(models, $params.models)}
 			>
-				<div class="col-md-12 mb-3">
-					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
-				</div>
-				<div class="col-md-3">
-					<div class="form-floating mb-3">
-						<select
-							class="form-select"
-							name="forecast_hours"
-							id="forecast_hours"
-							aria-label="Forecast Hours"
-							bind:value={$params.forecast_hours}
-						>
-							<option value="">- (default)</option>
-							<option value="1">1 hour</option>
-							<option value="6">6 hours</option>
-							<option value="12">12 hours</option>
-							<option value="24">24 hours</option>
-						</select>
-						<label for="forecast_hours">Forecast Hours</label>
+				{#each models as group}
+					<div class="col-md-6 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_model"
+									name="models"
+									bind:group={$params.models}
+								/>
+								<label class="form-check-label" for="{e.name}_model"
+									>{e.label}&nbsp;<span class="text-muted">({e.caption})</span></label
+								>
+							</div>
+						{/each}
 					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-floating mb-3">
-						<select
-							class="form-select"
-							name="past_hours"
-							id="past_hours"
-							aria-label="Past Hours"
-							bind:value={$params.past_hours}
-						>
-							<option value="">- (default)</option>
-							<option value="1">1 hour</option>
-							<option value="6">6 hours</option>
-							<option value="12">12 hours</option>
-							<option value="24">24 hours</option>
-						</select>
-						<label for="past_hours">Past Hours</label>
-					</div>
-				</div>
+				{/each}
 			</AccordionItem>
 		</div>
 	</div>
@@ -356,7 +348,73 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="marine" action="marine" sdk_type="marine_api"/>
+<ResultPreview {params} {defaultParameter} useStockChart type="marine" action="marine" sdk_type="marine_api"/>
+
+<h2 id="data-sources" class="mt-5">Data Sources</h2>
+<div class="row">
+	<div class="col-6">
+		<p>
+			The Marine API combines wave models from different sources.
+		</p>
+	</div>
+	<div class="col-6">
+	</div>
+</div>
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Data Set</th>
+				<th scope="col">Region</th>
+				<th scope="col">Spatial Resolution</th>
+				<th scope="col">Temporal Resolution</th>
+				<th scope="col">Data Availability</th>
+				<th scope="col">Update frequency</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
+						>DWD GWAM</a
+					>
+				</th>
+				<td>Europe</td>
+				<td>0.05° (~25 km)</td>
+				<td>Hourly</td>
+				<td>August 2022 with 8 day forecast</td>
+				<td>Twice daily</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
+						>DWD EWAM</a
+					>
+				</th>
+				<td>Global</td>
+				<td>0.25° (~25 km)</td>
+				<td>Hourly</td>
+				<td>August 2022 with 4 day forecast</td>
+				<td>Twice daily</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=overview"
+						>ERA5-Ocean</a
+					>
+				</th>
+				<td>Global</td>
+				<td>0.5° (~50 km)</td>
+				<td>Hourly</td>
+				<td>1940 to present</td>
+				<td>Daily with 5 days delay</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
 
 <div class="col-12 py-5">
 	<h2 id="api-documentation">API Documentation</h2>
