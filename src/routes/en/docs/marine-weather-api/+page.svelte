@@ -9,6 +9,8 @@
 	import LocationSelection from '../LocationSelection.svelte';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { countVariables } from '$lib/meteo';
+	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
+	import { countVariables } from '$lib/meteo';
 
 	const defaultParameter = {
 		current: [],
@@ -232,6 +234,36 @@
 				{/each}
 			</div>
 		{/each}
+	</div>
+
+	<div class="row py-3 px-0">
+		<div class="accordion" id="accordionVariables">
+			<AccordionItem
+				id="models"
+				title="Wave Models"
+				count={countVariables(models, $params.models)}
+			>
+				{#each models as group}
+					<div class="col-md-6 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_model"
+									name="models"
+									bind:group={$params.models}
+								/>
+								<label class="form-check-label" for="{e.name}_model"
+									>{e.label}&nbsp;<span class="text-muted">({e.caption})</span></label
+								>
+							</div>
+						{/each}
+					</div>
+				{/each}
+			</AccordionItem>
+		</div>
 	</div>
 
 	<div class="row py-3 px-0">
