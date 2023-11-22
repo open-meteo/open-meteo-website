@@ -264,7 +264,11 @@
 	const additionalVariables = [
 		[
 			{ name: 'uv_index', label: 'UV Index' },
-			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' }
+			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
+			{ name: 'temperature_500hPa', label: 'Temperature (500 hPa)' },
+			{ name: 'temperature_750hPa', label: 'Temperature (750 hPa)' },
+			{ name: 'geopotential_height_500hPa', label: 'Geopotential Height (500 hPa)' },
+			{ name: 'geopotential_height_750hPa', label: 'Geopotential Height (750 hPa)' },
 			//{ name: 'is_day', label: 'Is Day or Night' }
 		],
 		[
