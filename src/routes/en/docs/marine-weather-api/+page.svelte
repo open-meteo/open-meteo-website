@@ -28,8 +28,8 @@
 	};
 
 	const params = urlHashStore({
-		latitude: [54.3213],
-		longitude: [10.1348],
+		latitude: [54.544587],
+		longitude: [10.227487],
 		...defaultParameter,
 		hourly: ['wave_height']
 	});
