@@ -348,6 +348,72 @@
 
 <ResultPreview {params} {defaultParameter} useStockChart type="marine" action="marine" sdk_type="marine_api"/>
 
+<h2 id="data-sources" class="mt-5">Data Sources</h2>
+<div class="row">
+	<div class="col-6">
+		<p>
+			The Marine API combines wave models from different sources.
+		</p>
+	</div>
+	<div class="col-6">
+	</div>
+</div>
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">Data Set</th>
+				<th scope="col">Region</th>
+				<th scope="col">Spatial Resolution</th>
+				<th scope="col">Temporal Resolution</th>
+				<th scope="col">Data Availability</th>
+				<th scope="col">Update frequency</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
+						>DWD GWAM</a
+					>
+				</th>
+				<td>Europe</td>
+				<td>0.05° (~25 km)</td>
+				<td>Hourly</td>
+				<td>August 2022 with 8 day forecast</td>
+				<td>Twice daily</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
+						>DWD EWAM</a
+					>
+				</th>
+				<td>Global</td>
+				<td>0.25° (~25 km)</td>
+				<td>Hourly</td>
+				<td>August 2022 with 4 day forecast</td>
+				<td>Twice daily</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=overview"
+						>ERA5-Ocean</a
+					>
+				</th>
+				<td>Global</td>
+				<td>0.5° (~50 km)</td>
+				<td>Hourly</td>
+				<td>1940 to present</td>
+				<td>Daily with 5 days delay</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 <div class="col-12 py-5">
 	<h2 id="api-documentation">API Documentation</h2>
 	<p>
