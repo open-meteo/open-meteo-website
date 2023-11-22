@@ -8,15 +8,8 @@
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-<<<<<<< HEAD
-<<<<<<< HEAD
 	import { countVariables } from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-=======
->>>>>>> 57ea92b (add forecast_hours to api docs)
-=======
-	import { countVariables } from '$lib/meteo';
->>>>>>> 201da4a (feat: Add ERA5 Ocean waves to marine API (#99))
 
 	const defaultParameter = {
 		current: [],
@@ -245,10 +238,8 @@
 	<div class="row py-3 px-0">
 		<div class="accordion" id="accordionVariables">
 			<AccordionItem
-<<<<<<< HEAD
 				id="additional-variables"
 				title="Additional Options"
-<<<<<<< HEAD
 			>
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
@@ -289,7 +280,7 @@
 						</select>
 						<label for="past_hours">Past Hours</label>
 					</div>
-				{/each}
+				</div>
 			</AccordionItem>
 		</div>
 	</div>
@@ -300,13 +291,6 @@
 				id="models"
 				title="Wave Models"
 				count={countVariables(models, $params.models)}
-=======
->>>>>>> 57ea92b (add forecast_hours to api docs)
-=======
-				id="models"
-				title="Wave Models"
-				count={countVariables(models, $params.models)}
->>>>>>> 201da4a (feat: Add ERA5 Ocean waves to marine API (#99))
 			>
 				{#each models as group}
 					<div class="col-md-6 mb-3">
@@ -415,6 +399,7 @@
 	<LicenseSelector />
 </form>
 
+<<<<<<< HEAD
 <ResultPreview {params} {defaultParameter} useStockChart useStockChart type="marine" action="marine" sdk_type="marine_api"/>
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
@@ -482,6 +467,9 @@
 		</tbody>
 	</table>
 </div>
+=======
+<ResultPreview {params} {defaultParameter} useStockChart type="marine" action="marine" sdk_type="marine_api"/>
+>>>>>>> cc34f7b (feat: Add ERA5 Ocean waves to marine API (#99))
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">
