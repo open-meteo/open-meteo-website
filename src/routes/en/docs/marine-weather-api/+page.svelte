@@ -8,7 +8,6 @@
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import { countVariables } from '$lib/meteo';
 
 	const defaultParameter = {
 		current: [],
@@ -237,29 +236,49 @@
 	<div class="row py-3 px-0">
 		<div class="accordion" id="accordionVariables">
 			<AccordionItem
-				id="models"
-				title="Wave Models"
-				count={countVariables(models, $params.models)}
+				id="additional-variables"
+				title="Additional Options"
 			>
-				{#each models as group}
-					<div class="col-md-6 mb-3">
-						{#each group as e}
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_model"
-									name="models"
-									bind:group={$params.models}
-								/>
-								<label class="form-check-label" for="{e.name}_model"
-									>{e.label}&nbsp;<span class="text-muted">({e.caption})</span></label
-								>
-							</div>
-						{/each}
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="forecast_hours"
+							id="forecast_hours"
+							aria-label="Forecast Hours"
+							bind:value={$params.forecast_hours}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="forecast_hours">Forecast Hours</label>
 					</div>
-				{/each}
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="past_hours"
+							id="past_hours"
+							aria-label="Past Hours"
+							bind:value={$params.past_hours}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="past_hours">Past Hours</label>
+					</div>
+				</div>
 			</AccordionItem>
 		</div>
 	</div>
