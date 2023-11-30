@@ -21,7 +21,9 @@
 		timeformat: 'iso8601',
 		timezone: 'UTC',
 		past_days: '0',
+		past_hours: '',
 		forecast_days: '3',
+		forecast_hours: '',
 		start_date: '',
 		end_date: '',
 		time_mode: 'forecast_days',
@@ -259,7 +261,7 @@
 		<div class="accordion" id="accordionVariables">
 			<AccordionItem
 				id="additional-variables"
-				title="Additional Variables"
+				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
 				{#each additionalVariables as group}
@@ -279,6 +281,46 @@
 						{/each}
 					</div>
 				{/each}
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="forecast_hours"
+							id="forecast_hours"
+							aria-label="Forecast Hours"
+							bind:value={$params.forecast_hours}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="forecast_hours">Forecast Hours</label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="past_hours"
+							id="past_hours"
+							aria-label="Past Hours"
+							bind:value={$params.past_hours}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="past_hours">Past Hours</label>
+					</div>
+				</div>
 			</AccordionItem>
 			<AccordionItem
 				id="solar-variables"
@@ -579,6 +621,20 @@
 					>
 				</tr>
 				<tr>
+					<th scope="row">forecast_days</th>
+					<td>Integer (0-3)</td>
+					<td>No</td>
+					<td><mark>3</mark></td>
+					<td>Per default, 3 days are returned. Up to 3 days of forecast are possible.</td>
+				</tr>
+				<tr>
+					<th scope="row">forecast_hours<br />past_hours</th>
+					<td>Integer (&gt;0)</td>
+					<td>No</td>
+					<td></td>
+					<td>Similar to forecast_days, the number of timesteps of hourly data can controlled. Instead of using the current day as a reference, the current hour is used. </td>
+				</tr>
+				<tr>
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>No</td>
@@ -586,6 +642,16 @@
 					<td
 						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-06-30</mark>).
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">start_hour<br />end_hour</th>
+					<td>String (yyyy-mm-ddThh:mm)</td>
+					<td>No</td>
+					<td />
+					<td
+						>The time interval to get weather data for hourly data. Time must be specified as an ISO8601 date (e.g.
+						<mark>2022-06-30T12:00</mark>).
 					</td>
 				</tr>
 				<tr>
