@@ -29,7 +29,11 @@
 		timeformat: 'iso8601',
 		timezone: 'UTC',
 		past_days: '0',
+		past_hours: '',
+		past_minutely_15: '',
 		forecast_days: '7',
+		forecast_hours: '',
+		forecast_minutely_15: '',
 		start_date: '',
 		end_date: '',
 		time_mode: 'forecast_days',
@@ -365,7 +369,7 @@
 		<div class="accordion" id="accordionVariables">
 			<AccordionItem
 				id="additional-variables"
-				title="Additional Variables"
+				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
 				{#each additionalVariables as group}
@@ -386,6 +390,46 @@
 					</div>
 				{/each}
 				<small class="text-muted mt-3">(1) Europe only, (2) Central Europe only</small>
+				<div class="col-md-12 mb-3 mt-3">
+					<small class="text-muted"
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="forecast_hours"
+							id="forecast_hours"
+							aria-label="Forecast Hours"
+							bind:value={$params.forecast_hours}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="forecast_hours">Forecast Hours</label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="past_hours"
+							id="past_hours"
+							aria-label="Past Hours"
+							bind:value={$params.past_hours}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="past_hours">Past Hours</label>
+					</div>
+				</div>
 			</AccordionItem>
 			<AccordionItem
 				id="solar-variables"
@@ -525,7 +569,7 @@
 						{/each}
 					</div>
 				{/each}
-				<div class="col-md-12">
+				<div class="col-md-12 mb-3">
 					<p>
 						<small class="text-muted"
 							>Note: Only available in Central Europe. Other regions use interpolated hourly data.
@@ -533,6 +577,46 @@
 							<mark>instant</mark> for radiation at the indicated time.</small
 						>
 					</p>
+				</div>
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: You can further adjust the forecast time range for 15-minutely weather variables using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="forecast_minutely_15"
+							id="forecast_minutely_15"
+							aria-label="Forecast Minutely 15 Steps"
+							bind:value={$params.forecast_minutely_15}
+						>
+							<option value="">- (default)</option>
+							<option value="4">1 hour</option>
+							<option value="24">6 hours</option>
+							<option value="48">12 hours</option>
+							<option value="96">24 hours</option>
+						</select>
+						<label for="forecast_minutely_15">Forecast Minutely 15</label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="past_minutely_15"
+							id="past_minutely_15s"
+							aria-label="Past Minutely 15 Steps"
+							bind:value={$params.past_minutely_15}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="past_minutely_15">Past Minutely 15</label>
+					</div>
 				</div>
 			</AccordionItem>
 		</div>

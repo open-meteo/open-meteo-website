@@ -28,7 +28,9 @@
 		timeformat: 'iso8601',
 		timezone: 'UTC',
 		past_days: '0',
+		past_hours: '',
 		forecast_days: '4',
+		forecast_hours: '',
 		start_date: '',
 		end_date: '',
 		time_mode: 'forecast_days',
@@ -346,7 +348,7 @@
 		<div class="accordion" id="accordionVariables">
 			<AccordionItem
 				id="additional-variables"
-				title="Additional Variables"
+				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
 				{#each additionalVariables as group}
@@ -366,6 +368,46 @@
 						{/each}
 					</div>
 				{/each}
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="forecast_hours"
+							id="forecast_hours"
+							aria-label="Forecast Hours"
+							bind:value={$params.forecast_hours}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="forecast_hours">Forecast Hours</label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="past_hours"
+							id="past_hours"
+							aria-label="Past Hours"
+							bind:value={$params.past_hours}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="past_hours">Past Hours</label>
+					</div>
+				</div>
 			</AccordionItem>
 			<AccordionItem
 				id="solar-variables"
