@@ -747,6 +747,20 @@
 					>
 				</tr>
 				<tr>
+					<th scope="row">forecast_days</th>
+					<td>Integer (0-7)</td>
+					<td>No</td>
+					<td><mark>5</mark></td>
+					<td>Per default, 5 days are returned. Up to 7 days of forecast are possible.</td>
+				</tr>
+				<tr>
+					<th scope="row">forecast_hours<br />past_hours</th>
+					<td>Integer (&gt;0)</td>
+					<td>No</td>
+					<td></td>
+					<td>Similar to forecast_days, the number of timesteps of hourly data can controlled. Instead of using the current day as a reference, the current hour is used. </td>
+				</tr>
+				<tr>
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>No</td>
@@ -754,6 +768,16 @@
 					<td
 						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-06-30</mark>).
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">start_hour<br />end_hour</th>
+					<td>String (yyyy-mm-ddThh:mm)</td>
+					<td>No</td>
+					<td />
+					<td
+						>The time interval to get weather data for hourly data. Time must be specified as an ISO8601 date (e.g.
+						<mark>2022-06-30T12:00</mark>).
 					</td>
 				</tr>
 				<tr>
