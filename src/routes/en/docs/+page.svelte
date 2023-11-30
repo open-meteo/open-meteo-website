@@ -695,15 +695,15 @@
 						<select
 							class="form-select"
 							name="past_minutely_15"
-							id="past_minutely_15"
+							id="past_minutely_15s"
 							aria-label="Past Minutely 15 Steps"
 							bind:value={$params.past_minutely_15}
 						>
 							<option value="">- (default)</option>
-							<option value="4">1 hour</option>
-							<option value="24">6 hours</option>
-							<option value="48">12 hours</option>
-							<option value="96">24 hours</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
 						</select>
 						<label for="past_minutely_15">Past Minutely 15</label>
 					</div>
