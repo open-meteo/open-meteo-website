@@ -101,9 +101,9 @@
 		'cape',
 		'shortwave_radiation',
 		'temperature_500hPa',
-		'temperature_750hPa',
+		'temperature_850hPa',
 		'geopotential_height_500hPa',
-		'geopotential_height_750hPa',
+		'geopotential_height_850hPa',
 	];
 
 	const gfs025_variables = [
@@ -155,9 +155,9 @@
 		'temperature_120m',
 		'shortwave_radiation',
 		'temperature_500hPa',
-		'temperature_750hPa',
+		'temperature_850hPa',
 		'geopotential_height_500hPa',
-		'geopotential_height_750hPa',
+		'geopotential_height_850hPa',
 	];
 
 	let available_variables = {
@@ -187,9 +187,9 @@
 			'rain',
 			'soil_temperature_0_to_10cm',
 			'temperature_500hPa',
-			'temperature_750hPa',
+			'temperature_850hPa',
 			'geopotential_height_500hPa',
-			'geopotential_height_750hPa',
+			'geopotential_height_850hPa',
 		],
 		gem_global: [
 			'temperature_2m',
@@ -212,9 +212,9 @@
 			'rain',
 			'shortwave_radiation',
 			'temperature_500hPa',
-			'temperature_750hPa',
+			'temperature_850hPa',
 			'geopotential_height_500hPa',
-			'geopotential_height_750hPa',
+			'geopotential_height_850hPa',
 		]
 	};
 
@@ -284,9 +284,9 @@
 			{ name: 'uv_index', label: 'UV Index' },
 			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
 			{ name: 'temperature_500hPa', label: 'Temperature (500 hPa)' },
-			{ name: 'temperature_750hPa', label: 'Temperature (750 hPa)' },
+			{ name: 'temperature_850hPa', label: 'Temperature (750 hPa)' },
 			{ name: 'geopotential_height_500hPa', label: 'Geopotential Height (500 hPa)' },
-			{ name: 'geopotential_height_750hPa', label: 'Geopotential Height (750 hPa)' },
+			{ name: 'geopotential_height_850hPa', label: 'Geopotential Height (750 hPa)' },
 			//{ name: 'is_day', label: 'Is Day or Night' }
 		],
 		[
