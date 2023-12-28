@@ -684,7 +684,7 @@
 			<tbody>
 				<tr>
 					<th scope="row"
-						><a href="https://mf-models-on-aws.org/en/doc/models/arpege-world/" target="_blank"
+						><a href="https://www.umr-cnrm.fr/spip.php?article121&lang=en" target="_blank"
 							>Arpege World</a
 						></th
 					>
@@ -696,7 +696,7 @@
 				</tr>
 				<tr>
 					<th scope="row"
-						><a href="https://mf-models-on-aws.org/en/doc/models/arpege-europe/" target="_blank"
+						><a href="https://www.umr-cnrm.fr/spip.php?article121&lang=en" target="_blank"
 							>Arpege Europe</a
 						></th
 					>
@@ -708,7 +708,7 @@
 				</tr>
 				<tr>
 					<th scope="row"
-						><a href="https://mf-models-on-aws.org/en/doc/models/arome-france/" target="_blank"
+						><a href="https://www.umr-cnrm.fr/spip.php?article120" target="_blank"
 							>Arome France</a
 						></th
 					>
@@ -720,7 +720,7 @@
 				</tr>
 				<tr>
 					<th scope="row"
-						><a href="https://mf-models-on-aws.org/en/doc/models/arome-france-hd/" target="_blank"
+						><a href="https://www.umr-cnrm.fr/spip.php?article120/" target="_blank"
 							>Arome France HD</a
 						> <small class="text-muted">(*)</small></th
 					>
