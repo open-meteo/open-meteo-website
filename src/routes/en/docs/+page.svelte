@@ -881,9 +881,9 @@
 					<th scope="row"><a href="/en/docs/meteofrance-api">Arpege & Arome</a></th>
 					<td>MeteoFrance</td>
 					<td>France</td>
-					<td>1 - 40 km</td>
+					<td>1 - 25 km</td>
 					<td>4 days</td>
-					<td>Every 6 hours</td>
+					<td>Every 3 hours</td>
 				</tr>
 				<tr>
 					<th scope="row"><a href="/en/docs/ecmwf-api">IFS</a></th>

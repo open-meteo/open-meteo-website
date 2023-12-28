@@ -689,8 +689,8 @@
 						></th
 					>
 					<td>Global</td>
-					<td>0.5° (~55 km)</td>
-					<td>3-Hourly<small class="text-muted">, 6-hourly after 96 hours</small></td>
+					<td>0.25° (~25 km)</td>
+					<td>Hourly<small class="text-muted">, 3-hourly after 2 days</small></td>
 					<td>4 days</td>
 					<td>Every 6 hours</td>
 				</tr>
@@ -702,7 +702,7 @@
 					>
 					<td>Europe</td>
 					<td>0.1° (~11 km)</td>
-					<td>Hourly<small class="text-muted">, 3-hourly after 72 hours</small></td>
+					<td>Hourly<small class="text-muted"></small></td>
 					<td>4 days</td>
 					<td>Every 6 hours</td>
 				</tr>
@@ -715,8 +715,8 @@
 					<td>France</td>
 					<td>0.025° (~2.5 km)</td>
 					<td>Hourly</td>
-					<td>42 hours</td>
-					<td>Every 6 hours</td>
+					<td>2 days</td>
+					<td>Every 3 hours</td>
 				</tr>
 				<tr>
 					<th scope="row"
@@ -727,8 +727,8 @@
 					<td>France</td>
 					<td>0.01° (~1.5 km)</td>
 					<td>Hourly</td>
-					<td>42 hours</td>
-					<td>Every 6 hours</td>
+					<td>2 days</td>
+					<td>Every 3 hours</td>
 				</tr>
 			</tbody>
 		</table>
