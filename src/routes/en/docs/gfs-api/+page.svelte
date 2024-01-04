@@ -58,8 +58,10 @@
 		{ name: 'geopotential_height', label: 'Geopotential Height' }
 	];
 	const levels = [
-		10, 15, 20, 30, 40, 50, 70, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700,
-		750, 800, 850, 900, 925, 950, 975, 1000
+		10, 15, 20, 30, 40, 50, 70, 100, 125, 150, 175, 200, 225, 250, 
+		275, 300, 325, 350, 375, 400, 425, 450, 475, 500, 525, 550, 
+		575, 600, 625, 650, 675, 700, 725, 750, 775, 800, 825, 850, 
+		875, 900, 925, 950, 975, 1000
 	].reverse();
 
 	let pressureVariablesTab = 'temperature';
@@ -201,6 +203,7 @@
 		[
 			{ name: 'cape', label: 'CAPE' },
 			{ name: 'lifted_index', label: 'Lifted Index' },
+			{ name: 'convective_inhibition', label: 'Convective Inhibition' },
 			{ name: 'freezing_level_height', label: 'Freezing Level Height' }
 		]
 	];
