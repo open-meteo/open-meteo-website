@@ -872,7 +872,7 @@
 					<td>Every 3 hours</td>
 				</tr>
 				<tr>
-					<th scope="row"><a href="/en/docs/gfs-api">GFS</a></th>
+					<th scope="row"><a href="/en/docs/gfs-api">GFS & HRRR</a></th>
 					<td>NOAA</td>
 					<td>United States</td>
 					<td>3 - 25 km</td>
@@ -896,7 +896,7 @@
 					<td>Every 6 hours</td>
 				</tr>
 				<tr>
-					<th scope="row"><a href="/en/docs/jma-api">JMA</a></th>
+					<th scope="row"><a href="/en/docs/jma-api">MSM & GSM</a></th>
 					<td>JMA</td>
 					<td>Japan</td>
 					<td>5 - 55 km</td>
@@ -920,16 +920,16 @@
 					<td>Every 6 hours</td>
 				</tr>
 				<tr>
-					<th scope="row"><a href="/en/docs/cma-api">CMA</a></th>
-					<td>China Meteorological Administration</td>
+					<th scope="row"><a href="/en/docs/cma-api">GFS GRAPES</a></th>
+					<td>China Meteorological Administration (CMA)</td>
 					<td>China</td>
 					<td>15 km</td>
 					<td>10 days</td>
 					<td>Every 6 hours</td>
 				</tr>
 				<tr>
-					<th scope="row"><a href="/en/docs/bom-api">BOM</a></th>
-					<td>Australian Bureau of Meteorology</td>
+					<th scope="row"><a href="/en/docs/bom-api">ACCESS-G</a></th>
+					<td>Australian Bureau of Meteorology (BOM)</td>
 					<td>Australia</td>
 					<td>15 km</td>
 					<td>10 days</td>

@@ -1,16 +1,10 @@
 <script lang="ts">
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import PressureLevelsHelpTable from '../PressureLevelsHelpTable.svelte';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
-	import {
-		altitudeAboveSeaLevelMeters,
-		countPressureVariables,
-		countVariables,
-		sliceIntoChunks
-	} from '$lib/meteo';
+	import { countVariables } from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import { fade, slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
 	import StartEndDate from '../StartEndDate.svelte';
@@ -55,7 +49,6 @@
 			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'precipitation_probability', label: 'Precipitation Probability' },
 			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
 			{ name: 'rain', label: 'Rain' },
 			{ name: 'showers', label: 'Showers' },
@@ -83,15 +76,14 @@
 			{ name: 'wind_direction_40m', label: 'Wind Direction (40 m)' },
 			{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
 			{ name: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-			{ name: 'temperature_80m', label: 'Temperature (80 m)' }
+			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 		],
 		[
 			{ name: 'surface_temperature', label: 'Surface Temperature' },
 			{ name: 'soil_temperature_0_to_10cm', label: 'Soil Temperature (0-10 cm)' },
 			{ name: 'soil_temperature_10_to_35cm', label: 'Soil Temperature (10-35 cm)' },
 			{ name: 'soil_temperature_35_to_100cm', label: 'Soil Temperature (35-100 cm)' },
-			{ name: 'soil_temperature_100_to_400cm', label: 'Soil Temperature (100-300 cm)' },
+			{ name: 'soil_temperature_100_to_300cm', label: 'Soil Temperature (100-300 cm)' },
 			{ name: 'soil_moisture_0_to_10cm', label: 'Soil Moisture (0-10 cm)' },
 			{ name: 'soil_moisture_10_to_35cm', label: 'Soil Moisture (10-35 cm)' },
 			{ name: 'soil_moisture_35_to_100cm', label: 'Soil Moisture (35-100 cm)' },
@@ -119,7 +111,6 @@
 			{ name: 'showers_sum', label: 'Showers Sum' },
 			{ name: 'snowfall_sum', label: 'Snowfall Sum' },
 			{ name: 'precipitation_hours', label: 'Precipitation Hours' },
-			{ name: 'precipitation_probability_max', label: 'Precipitation Probability Max' },
 			{ name: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
 			{ name: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
 			{ name: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
@@ -133,8 +124,7 @@
 			{ name: 'is_day', label: 'Is Day or Night' },
 			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
 		],
-		[
-		]
+		[]
 	];
 
 	const solarVariables = [
@@ -156,15 +146,15 @@
 </script>
 
 <svelte:head>
-	<title>BOM API | Open-Meteo.com</title>
+	<title>BOM ACCESS-G Weather Model API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/bom-api" />
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-	By combining the reliable NOAA GFS weather model with the rapid updating HRRR weather model, this
-	API provides unrivaled forecasts for the US region. For a global forecast, the <a href="/en/docs"
+	This API provides weather forecasts based on the global ACCESS-G model from the Australian Bureau
+	of Meteorology (BOM). For more comprehensive applications, we recommend the <a href="/en/docs"
 		>Weather Forecast API</a
-	> selects the most suitable weather models automatically to ensure optimal accuracy.
+	>, which utilizes multiple local weather models for forecasts extending up to 16 days.
 </div>
 
 <form method="get" action="https://api.open-meteo.com/v1/bom">
@@ -231,8 +221,7 @@
 									<option value="1">1 day</option>
 									<option value="3">3 days</option>
 									<option value="7">7 days (default)</option>
-									<option value="14">14 days</option>
-									<option value="16">16 days</option>
+									<option value="10">10 days</option>
 								</select>
 								<label for="forecast_days">Forecast days</label>
 							</div>
@@ -329,7 +318,11 @@
 				{/each}
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
+							>&forecast_hours=</mark
+						>
+						and <mark>&past_hours=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -420,9 +413,9 @@
 			</div>
 		{/each}
 		{#if timezoneInvalid}
-		<div class="alert alert-warning" role="alert">
-			It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
-		</div>
+			<div class="alert alert-warning" role="alert">
+				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+			</div>
 		{/if}
 	</div>
 
@@ -500,10 +493,9 @@
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
-		This API uses global NOAA GFS weather forecast and combines them with high-resolution HRRR
-		forecasts. HRRR is a rapid-refresh model and updates every hour. High-resolution data are only
-		available for the United States. For other locations, only GFS is used. For GFS, values are
-		interpolated from 3-hourly to 1-hourly after 120 hours.
+		The API relies on weather forecasts generated by the ACCESS-G model from the Australian Bureau
+		of Meteorology (BOM). It presents data in 1-hour intervals, delivering forecasts for a duration
+		of up to 10 days. The model undergoes four daily runs at 0:00, 6:00, 12:00, and 18:00 UTC.
 	</p>
 	<div class="table-responsive">
 		<table class="table">
@@ -520,7 +512,9 @@
 			<tbody>
 				<tr>
 					<th scope="row"
-						><a href="http://www.bom.gov.au/nwp/doc/access/NWPData.shtml" target="_blank">ACCESS-G</a></th
+						><a href="http://www.bom.gov.au/nwp/doc/access/NWPData.shtml" target="_blank"
+							>ACCESS-G</a
+						></th
 					>
 					<td>Global</td>
 					<td>0.15° (~15 km)</td>
@@ -534,10 +528,10 @@
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>
-		The API endpoint <mark>/v1/gfs</mark> accepts a geographical coordinate, a list of weather
+		The API endpoint <mark>/v1/bom</mark> accepts a geographical coordinate, a list of weather
 		variables and responds with a JSON hourly weather forecast for 7 days. Time always starts at
 		0:00 today and contains 168 hours. If
-		<mark>&forecast_days=16</mark> is set, up to 16 days of forecast can be returned. All URL parameters
+		<mark>&forecast_days=16</mark> is set, up to 10 days of forecast can be returned. All URL parameters
 		are listed below:
 	</p>
 	<div class="table-responsive">
@@ -600,13 +594,6 @@
 						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
 						daily weather variables are specified, parameter <mark>timezone</mark> is required.</td
 					>
-				</tr>
-				<tr>
-					<th scope="row">current</th>
-					<td>String array</td>
-					<td>No</td>
-					<td />
-					<td>A list of weather variables to get current conditions.</td>
 				</tr>
 				<tr>
 					<th scope="row">temperature_unit</th>
@@ -676,11 +663,14 @@
 					<td>Per default, only 7 days are returned. Up to 16 days of forecast are possible.</td>
 				</tr>
 				<tr>
-					<th scope="row">forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th>
+					<th scope="row">forecast_hours<br />past_hours</th>
 					<td>Integer (&gt;0)</td>
 					<td>No</td>
 					<td></td>
-					<td>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can controlled. Instead of using the current day as a reference, the current hour or the current 15-minute time-step is used. </td>
+					<td
+						>Similar to forecast_days, the number of timesteps of hourly data can controlled.
+						Instead of using the current day as a reference, the current hour is used.
+					</td>
 				</tr>
 				<tr>
 					<th scope="row">start_date<br />end_date</th>
@@ -693,12 +683,13 @@
 					</td>
 				</tr>
 				<tr>
-					<th scope="row">start_hour<br />end_hour<br />start_minutely_15<br />end_minutely_15</th>
+					<th scope="row">start_hour<br />end_hour</th>
 					<td>String (yyyy-mm-ddThh:mm)</td>
 					<td>No</td>
 					<td />
 					<td
-						>The time interval to get weather data for hourly or 15 minutely data. Time must be specified as an ISO8601 date (e.g.
+						>The time interval to get weather data for hourly. Time must be specified as an ISO8601
+						date (e.g.
 						<mark>2022-06-30T12:00</mark>).
 					</td>
 				</tr>
@@ -820,19 +811,24 @@
 					<td>High level clouds from 8 km altitude</td>
 				</tr>
 				<tr>
-					<th scope="row">wind_speed_10m<br />wind_speed_80m</th>
+					<th scope="row"
+						>wind_speed_10m<br />wind_speed_40m<br />wind_speed_80m<br />wind_speed_120m</th
+					>
 					<td>Instant</td>
 					<td>km/h (mph, m/s, knots)</td>
 					<td
-						>Wind speed at 10 or 80 meters above ground. Wind speed on 10 meters is the standard
-						level.</td
+						>Wind speed at 10, 40, 80 or 120 meters above ground. Wind speed on 10 meters is the
+						standard level.</td
 					>
 				</tr>
 				<tr>
-					<th scope="row">wind_direction_10m<br />wind_direction_80m</th>
+					<th scope="row"
+						>wind_direction_10m<br />wind_direction_40m<br />wind_direction_80m<br
+						/>wind_direction_120m</th
+					>
 					<td>Instant</td>
 					<td>°</td>
-					<td>Wind direction at 10 or 80 meters above ground</td>
+					<td>Wind direction at 10, 40, 80 or 120 meters above ground</td>
 				</tr>
 				<tr>
 					<th scope="row">wind_gusts_10m</th>
@@ -855,30 +851,23 @@
 					<td>W/m²</td>
 					<td
 						>Direct solar radiation as average of the preceding hour on the horizontal plane and the
-						normal plane (perpendicular to the sun). HRRR offers direct radiation directly. In GFS
-						it is approximated based on <a
-							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
-							target="_blank">Razo, Müller Witwer</a
-						></td
+						normal plane (perpendicular to the sun).</td
 					>
 				</tr>
 				<tr>
 					<th scope="row">diffuse_radiation</th>
 					<td>Preceding hour mean</td>
 					<td>W/m²</td>
-					<td
-						>Diffuse solar radiation as average of the preceding hour. HRRR offers diffuse radiation
-						directly. In GFS it is approximated based on <a
-							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
-							target="_blank">Razo, Müller Witwer</a
-						></td
-					>
+					<td>Diffuse solar radiation as average of the preceding hour.</td>
 				</tr>
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>Preceding hour sum</td>
 					<td>Seconds</td>
-					<td>Number of seconds of sunshine of the preceding hour per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+					<td
+						>Number of seconds of sunshine of the preceding hour per hour calculated by direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">vapour_pressure_deficit</th>
@@ -887,16 +876,6 @@
 					<td
 						>Vapor Pressure Deificit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
 						transpiration of plants increases. For low VPD (&lt;0.4), transpiration decreases</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">evapotranspiration</th>
-					<td>Preceding hour sum</td>
-					<td>mm (inch)</td>
-					<td
-						>Evapotranspration from land surface and plants that weather models assumes for this
-						location. Available soil water is considered. 1 mm evapotranspiration per hour equals 1
-						liter of water per spare meter.</td
 					>
 				</tr>
 				<tr>
@@ -937,33 +916,17 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">precipitation_probability</th>
-					<td>Preceding hour probability</td>
-					<td>%</td>
-					<td
-						>Probability of precipitation with more than 0.1 mm of the preceding hour. Probability
-						is based on ensemble weather models with 0.25° (~27 km) resolution. 30 different
-						simulations are computed to better represent future weather conditions.</td
-					>
+					<th scope="row">rain</th>
+					<td>Preceding hour sum</td>
+					<td>mm (inch)</td>
+					<td>Rain from large scale weather systems of the preceding hour in millimeter</td>
 				</tr>
-				<!--<tr>
-              <th scope="row">rain</th>
-              <td>Preceding hour sum</td>
-              <td>mm (inch)</td>
-              <td>Rain from large scale weather systems of the preceding hour in millimeter</td>
-            </tr>
-            <tr>
-              <th scope="row">showers</th>
-              <td>Preceding hour sum</td>
-              <td>mm (inch)</td>
-              <td>Showers from convective precipitation in millimeters from the preceding hour</td>
-            </tr>
-            <tr>
-              <th scope="row">weather_code</th>
-              <td>Instant</td>
-              <td>WMO code</td>
-              <td>Weather condition as a numeric code. Follow WMO weather interpretation codes. See table below for details.</td>
-            </tr>-->
+				<tr>
+					<th scope="row">showers</th>
+					<td>Preceding hour sum</td>
+					<td>mm (inch)</td>
+					<td>Showers from convective precipitation in millimeters from the preceding hour</td>
+				</tr>
 				<tr>
 					<th scope="row">snow_depth</th>
 					<td>Instant</td>
@@ -971,12 +934,6 @@
 					<td>Snow depth on the ground</td>
 				</tr>
 				<tr>
-					<th scope="row">freezing_level_height</th>
-					<td>Instant</td>
-					<td>meters</td>
-					<td>Altitude above sea level of the 0°C level</td>
-				</tr>
-				<tr>
 					<th scope="row">visibility</th>
 					<td>Instant</td>
 					<td>meters</td>
@@ -986,201 +943,26 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">cape</th>
-					<td>Instant</td>
-					<td>J/kg</td>
-					<td
-						>Convective available potential energy. See <a
-							href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
-							target="_blank">Wikipedia</a
-						>.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">lifted_index</th>
-					<td>Instant</td>
-					<td>dimensionless</td>
-					<td
-						>Atmospheric stability. See <a
-							href="https://en.wikipedia.org/wiki/Lifted_index"
-							target="_blank">Wikipedia</a
-						>.</td
-					>
-				</tr>
-				<tr>
 					<th scope="row">
-						soil_temperature_0_to_10cm<br />soil_temperature_10_to_40cm<br
-						/>soil_temperature_40_to_100cm<br />soil_temperature_100_to_200cm
+						soil_temperature_0_to_10cm<br />soil_temperature_10_to_35cm<br
+						/>soil_temperature_35_to_100cm<br />soil_temperature_100_to_300cm
 					</th>
 					<td>Instant</td>
 					<td>°C (°F)</td>
 					<td
-						>Temperature in the soil as an average on 0-10, 10-40, 40-100 and 100-200 cm depths.</td
+						>Temperature in the soil as an average on 0-10, 10-35, 35-100 and 100-300 cm depths.</td
 					>
 				</tr>
 				<tr>
 					<th scope="row">
-						soil_moisture_0_to_10cm<br />soil_moisture_10_to_40cm<br />soil_moisture_40_to_100cm<br
-						/>soil_moisture_100_to_200cm
+						soil_moisture_0_to_10cm<br />soil_moisture_10_to_35cm<br />soil_moisture_35_to_100cm<br
+						/>soil_moisture_100_to_300cm
 					</th>
 					<td>Instant</td>
 					<td>m³/m³</td>
 					<td
-						>Average soil water content as volumetric mixing ratio at 0-10, 10-40, 40-100 and
-						100-200 cm depths.</td
-					>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-
-	<h3 class="mt-5">15-Minutely Parameter Definition</h3>
-	<p>
-		The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
-		on the HRRR model which is only available in North America. If 15-minutely data is requested
-		for locations outside North America, data is interpolated from 1-hourly to 15-minutely.
-	</p>
-	<p>
-		15-minutely data can be requested for other weather variables that are available for hourly
-		data, but will use interpolation.
-	</p>
-	<div class="table-responsive">
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Variable</th>
-					<th scope="col">Valid time</th>
-					<th scope="col">Unit</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">temperature_2m</th>
-					<td>Instant</td>
-					<td>°C (°F)</td>
-					<td>Air temperature at 2 meters above ground</td>
-				</tr>
-				<tr>
-					<th scope="row">relative_humidity_2m</th>
-					<td>Instant</td>
-					<td>%</td>
-					<td>Relative humidity at 2 meters above ground</td>
-				</tr>
-				<tr>
-					<th scope="row">dew_point_2m</th>
-					<td>Instant</td>
-					<td>°C (°F)</td>
-					<td>Dew point temperature at 2 meters above ground</td>
-				</tr>
-				<tr>
-					<th scope="row">apparent_temperature</th>
-					<td>Instant</td>
-					<td>°C (°F)</td>
-					<td
-						>Apparent temperature is the perceived feels-like temperature combining wind chill
-						factor, relative humidity and solar radiation</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">wind_speed_10m<br />wind_speed_80m</th>
-					<td>Instant</td>
-					<td>km/h (mph, m/s, knots)</td>
-					<td
-						>Wind speed at 10 or 80 meters above ground. Wind speed on 10 meters is the standard
-						level.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">wind_direction_10m<br />wind_direction_80m</th>
-					<td>Instant</td>
-					<td>°</td>
-					<td>Wind direction at 10 or 80 meters above ground</td>
-				</tr>
-				<tr>
-					<th scope="row">wind_gusts_10m</th>
-					<td>Preceding 15 minutes max</td>
-					<td>km/h (mph, m/s, knots)</td>
-					<td>Gusts at 10 meters above ground as a maximum of the preceding 15 minutes</td>
-				</tr>
-				<tr>
-					<th scope="row">shortwave_radiation</th>
-					<td>Preceding 15 minutes mean</td>
-					<td>W/m²</td>
-					<td
-						>Shortwave solar radiation as average of the preceding 15 minutes. This is equal to the
-						total global horizontal irradiation
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">direct_radiation<br />direct_normal_irradiance</th>
-					<td>Preceding 15 minutes mean</td>
-					<td>W/m²</td>
-					<td
-						>Direct solar radiation as average of the preceding 15 minutes on the horizontal plane
-						and the normal plane (perpendicular to the sun)</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">diffuse_radiation</th>
-					<td>Preceding 15 minutes mean</td>
-					<td>W/m²</td>
-					<td>Diffuse solar radiation as average of the preceding 15 minutes</td>
-				</tr>
-				<tr>
-					<th scope="row">sunshine_duration</th>
-					<td>Preceding 15 minutes sum</td>
-					<td>Seconds</td>
-					<td>Number of seconds of sunshine of the preceding 15-minutes per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
-				</tr>
-				<tr>
-					<th scope="row">precipitation</th>
-					<td>Preceding 15 minutes sum</td>
-					<td>mm (inch)</td>
-					<td>Total precipitation (rain, showers, snow) sum of the preceding 15 minutes</td>
-				</tr>
-				<tr>
-					<th scope="row">snowfall</th>
-					<td>Preceding 15 minutes sum</td>
-					<td>cm (inch)</td>
-					<td
-						>Snowfall amount of the preceding 15 minutes in centimeters. For the water equivalent in
-						millimeter, divide by 7. E.g. 7 cm snow = 10 mm precipitation water equivalent</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">rain</th>
-					<td>Preceding 15 minutes sum</td>
-					<td>mm (inch)</td>
-					<td>Rain from large scale weather systems of the preceding 15 minutes in millimeter</td>
-				</tr>
-				<tr>
-					<th scope="row">cape</th>
-					<td>Instant</td>
-					<td>J/kg</td>
-					<td
-						>Convective available potential energy. See <a
-							href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
-							target="_blank">Wikipedia</a
-						>.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">visibility</th>
-					<td>Instant</td>
-					<td>meters</td>
-					<td
-						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols. Maximum
-						visibility is approximately 24 km.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">weather_code</th>
-					<td>Instant</td>
-					<td>WMO code</td>
-					<td
-						>Weather condition as a numeric code. Follow WMO weather interpretation codes. See table
-						below for details.</td
+						>Average soil water content as volumetric mixing ratio at 0-10, 10-35, 35-100 and
+						100-300 cm depths.</td
 					>
 				</tr>
 			</tbody>
@@ -1238,14 +1020,6 @@
 					<td>hours</td>
 					<td>The number of hours with rain</td>
 				</tr>
-				<tr>
-					<th scope="row"
-						>precipitation_probability_max<br />precipitation_probability_min<br
-						/>precipitation_probability_mean</th
-					>
-					<td>%</td>
-					<td>Probability of precipitation</td>
-				</tr>
 				<!--<tr>
               <th scope="row">weather_code</th>
               <td>WMO code</td>
@@ -1259,7 +1033,11 @@
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>seconds</td>
-					<td>The number of seconds of sunshine per day is determined by calculating direct normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine duration will consistently be less than daylight duration due to dawn and dusk.</td>
+					<td
+						>The number of seconds of sunshine per day is determined by calculating direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine
+						duration will consistently be less than daylight duration due to dawn and dusk.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">daylight_duration</th>
@@ -1389,7 +1167,6 @@
 					<td>Object</td>
 					<td>For each selected daily weather variable, the unit will be listed here.</td>
 				</tr>
-				<tr>
 			</tbody>
 		</table>
 	</div>
