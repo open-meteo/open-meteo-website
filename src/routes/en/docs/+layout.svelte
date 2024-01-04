@@ -7,13 +7,15 @@
 			title: 'Weather Forecast',
 			url: '/en/docs',
 			children: [
-				{ title: 'DWD ICON', url: '/en/docs/dwd-api' },
-				{ title: 'NOAA GFS', url: '/en/docs/gfs-api' },
+				{ title: 'DWD Germany', url: '/en/docs/dwd-api' },
+				{ title: 'NOAA U.S.', url: '/en/docs/gfs-api' },
 				{ title: 'MeteoFrance', url: '/en/docs/meteofrance-api' },
 				{ title: 'ECMWF', url: '/en/docs/ecmwf-api' },
-				{ title: 'JMA', url: '/en/docs/jma-api' },
+				{ title: 'JMA Japan', url: '/en/docs/jma-api' },
 				{ title: 'MET Norway', url: '/en/docs/metno-api' },
-				{ title: 'GEM', url: '/en/docs/gem-api' }
+				{ title: 'GEM Canada', url: '/en/docs/gem-api' },
+				{ title: 'BOM Australia', url: '/en/docs/bom-api' },
+				{ title: 'CMA China', url: '/en/docs/cma-api' }
 			]
 		},
 		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import LicenseSelector from './LicenseSelector.svelte';
-	import PressureLevelsHelpTable from './PressureLevelsHelpTable.svelte';
-	import ResultPreview from './ResultPreview.svelte';
+	import LicenseSelector from '../LicenseSelector.svelte';
+	import PressureLevelsHelpTable from '../PressureLevelsHelpTable.svelte';
+	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
@@ -13,12 +13,10 @@
 	import { fade } from 'svelte/transition';
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
-	import StartEndDate from './StartEndDate.svelte';
-	import LocationSelection from './LocationSelection.svelte';
+	import StartEndDate from '../StartEndDate.svelte';
+	import LocationSelection from '../LocationSelection.svelte';
 
 	const defaultParameter = {
-		current: [],
-		minutely_15: [],
 		hourly: [],
 		daily: [],
 		location_mode: 'location_search',
@@ -49,14 +47,17 @@
 
 	const pressureVariables = [
 		{ name: 'temperature', label: 'Temperature' },
+		{ name: 'dew_point', label: 'Dewpoint' },
 		{ name: 'relative_humidity', label: 'Relative Humidity' },
 		{ name: 'cloud_cover', label: 'Cloud cover' },
 		{ name: 'windspeed', label: 'Wind Speed' },
 		{ name: 'winddirection', label: 'Wind Direction' },
+		{ name: 'vertical_velocity', label: 'Vertical Velocity' },
 		{ name: 'geopotential_height', label: 'Geopotential Height' }
 	];
 	const levels = [
-		30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000
+		10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600,
+		650, 700, 750, 800, 850, 900, 925, 950, 975, 1000
 	].reverse();
 
 	let pressureVariablesTab = 'temperature';
@@ -69,7 +70,6 @@
 			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'precipitation_probability', label: 'Precipitation Probability' },
 			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
 			{ name: 'rain', label: 'Rain' },
 			{ name: 'showers', label: 'Showers' },
@@ -85,86 +85,42 @@
 			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
 			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
 			{ name: 'visibility', label: 'Visibility' },
-			{ name: 'evapotranspiration', label: 'Evapotranspiration' },
 			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 		],
 		[
 			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
+			{ name: 'wind_speed_30m', label: 'Wind Speed (30 m)' },
+			{ name: 'wind_speed_50m', label: 'Wind Speed (50 m)' },
+			{ name: 'wind_speed_70m', label: 'Wind Speed (70 m)' },
+			{ name: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 			{ name: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
+			{ name: 'wind_speed_140m', label: 'Wind Speed (140 m)' },
+			{ name: 'wind_speed_160m', label: 'Wind Speed (160 m)' },
 			{ name: 'wind_speed_180m', label: 'Wind Speed (180 m)' },
+			{ name: 'wind_speed_200m', label: 'Wind Speed (200 m)' },
 			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
+			{ name: 'wind_direction_30m', label: 'Wind Direction (30 m)' },
+			{ name: 'wind_direction_50m', label: 'Wind Direction (50 m)' },
+			{ name: 'wind_direction_70m', label: 'Wind Direction (70 m)' },
+			{ name: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 			{ name: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
+			{ name: 'wind_direction_140m', label: 'Wind Direction (140 m)' },
+			{ name: 'wind_direction_160m', label: 'Wind Direction (160 m)' },
 			{ name: 'wind_direction_180m', label: 'Wind Direction (180 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-			{ name: 'temperature_80m', label: 'Temperature (80 m)' },
-			{ name: 'temperature_120m', label: 'Temperature (120 m)' },
-			{ name: 'temperature_180m', label: 'Temperature (180 m)' }
+			{ name: 'wind_direction_200m', label: 'Wind Direction (200 m)' },
+			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 		],
 		[
-			{ name: 'soil_temperature_0cm', label: 'Soil Temperature (0 cm)' },
-			{ name: 'soil_temperature_6cm', label: 'Soil Temperature (6 cm)' },
-			{ name: 'soil_temperature_18cm', label: 'Soil Temperature (18 cm)' },
-			{ name: 'soil_temperature_54cm', label: 'Soil Temperature (54 cm)' },
-			{ name: 'soil_moisture_0_to_1cm', label: 'Soil Moisture (0-1 cm)' },
-			{ name: 'soil_moisture_1_to_3cm', label: 'Soil Moisture (1-3 cm)' },
-			{ name: 'soil_moisture_3_to_9cm', label: 'Soil Moisture (3-9 cm)' },
-			{ name: 'soil_moisture_9_to_27cm', label: 'Soil Moisture (9-27 cm)' },
-			{ name: 'soil_moisture_27_to_81cm', label: 'Soil Moisture (27-81 cm)' }
-		]
-	];
-
-	const current = [
-		[
-			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'is_day', label: 'Is Day or Night' }
-		],[
-			{ name: 'precipitation', label: 'Precipitation' },
-			{ name: 'rain', label: 'Rain' },
-			{ name: 'showers', label: 'Showers' },
-			{ name: 'snowfall', label: 'Snowfall' },
-		],
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'cloud_cover', label: 'Cloud cover Total' },
-			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'surface_pressure', label: 'Surface Pressure' },
-		],
-		[
-			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-		]
-	];
-
-	const minutely_15 = [
-		[
-			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
-			{ name: 'rain', label: 'Rain' },
-			{ name: 'snowfall', label: 'Snowfall' },
-			{ name: 'snowfall_height', label: 'Snowfall Height' },
-			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
-		],
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
-			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-			{ name: 'visibility', label: 'Visibility' },
-			{ name: 'cape', label: 'CAPE' },
-			{ name: 'lightning_potential', label: 'Lightning Potential Index LPI' },
-			{ name: 'is_day', label: 'Is Day or Night' }
+			{ name: 'surface_temperature', label: 'Surface Temperature' },
+			{ name: 'soil_temperature_0_to_10cm', label: 'Soil Temperature (0-10 cm)' },
+			{ name: 'soil_temperature_10_to_40cm', label: 'Soil Temperature (10-40 cm)' },
+			{ name: 'soil_temperature_40_to_100cm', label: 'Soil Temperature (40-100 cm)' },
+			{ name: 'soil_temperature_100_to_200cm', label: 'Soil Temperature (100-200 cm)' },
+			{ name: 'soil_moisture_0_to_10cm', label: 'Soil Moisture (0-10 cm)' },
+			{ name: 'soil_moisture_10_to_40cm', label: 'Soil Moisture (10-40 cm)' },
+			{ name: 'soil_moisture_40_to_100cm', label: 'Soil Moisture (40-100 cm)' },
+			{ name: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-200 cm)' }
 		]
 	];
 
@@ -188,7 +144,6 @@
 			{ name: 'showers_sum', label: 'Showers Sum' },
 			{ name: 'snowfall_sum', label: 'Snowfall Sum' },
 			{ name: 'precipitation_hours', label: 'Precipitation Hours' },
-			{ name: 'precipitation_probability_max', label: 'Precipitation Probability Max' },
 			{ name: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
 			{ name: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
 			{ name: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
@@ -199,14 +154,13 @@
 
 	const additionalVariables = [
 		[
-			{ name: 'uv_index', label: 'UV Index' },
-			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
-			{ name: 'is_day', label: 'Is Day or Night' }
+			{ name: 'is_day', label: 'Is Day or Night' },
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
 		],
 		[
 			{ name: 'cape', label: 'CAPE' },
-			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
+			{ name: 'lifted_index', label: 'Lifted Index' },
+			{ name: 'convective_inhibition', label: 'Convective Inhibition' }
 		]
 	];
 
@@ -226,57 +180,21 @@
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
-
-	const models = [
-		[
-			{ name: 'best_match', label: 'Best match' },
-			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS' },
-			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
-			{ name: 'bom_access_global', label: 'BOM Access Global' },
-			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
-		],
-		[
-			{ name: 'gfs_seamless', label: 'GFS Seamless' },
-			{ name: 'gfs_global', label: 'GFS Global' },
-			{ name: 'gfs_hrrr', label: 'GFS HRRR' }
-		],
-		[
-			{ name: 'jma_seamless', label: 'JMA Seamless' },
-			{ name: 'jma_msm', label: 'JMA MSM' },
-			{ name: 'jma_gsm', label: 'JMA GSM' }
-		],
-		[
-			{ name: 'icon_seamless', label: 'DWD Icon Seamless' },
-			{ name: 'icon_global', label: 'DWD Icon Global' },
-			{ name: 'icon_eu', label: 'DWD Icon EU' },
-			{ name: 'icon_d2', label: 'DWD Icon D2' }
-		],
-		[
-			{ name: 'gem_seamless', label: 'GEM Seamless' },
-			{ name: 'gem_global', label: 'GEM Global' },
-			{ name: 'gem_regional', label: 'GEM Regional' },
-			{ name: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' }
-		],
-		[
-			{ name: 'meteofrance_seamless', label: 'MeteoFrance Seamless' },
-			{ name: 'meteofrance_arpege_world', label: 'MeteoFrance Arpege World' },
-			{ name: 'meteofrance_arpege_europe', label: 'MeteoFrance Arpege Europe' },
-			{ name: 'meteofrance_arome_france', label: 'MeteoFrance Arome France' },
-			{ name: 'meteofrance_arome_france_hd', label: 'MeteoFrance Arome France HD' }
-		]
-	];
 </script>
 
 <svelte:head>
-	<title>🌦️ Docs | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs" />
-	<meta
-		name="description"
-		content="Weather Forecast APIs with weather models from multiple national weather providers, combining the best models for accurate forecasts worldwide. Explore the API documentation to learn more about the available weather models, their origin countries, resolutions, forecast lengths, and update frequencies. Get detailed JSON hourly weather forecasts for up to 7 or 16 days by specifying the geographical coordinates and desired weather variables in the API endpoint. Discover the comprehensive list of URL parameters for customizing your weather forecast requests."
-	/>
+	<title>CMA GFS GRAPES Weather Model API | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/docs/cma-api" />
 </svelte:head>
 
-<form method="get" action="https://api.open-meteo.com/v1/forecast">
+<div class="alert alert-primary" role="alert">
+	This API provides weather forecasts based on the global GFS GRAPES model from the Chinese
+	Meteorological Administration. For more extensive use cases, we recommend the <a href="/en/docs"
+		>Weather Forecast API</a
+	>, which utilizes multiple local weather models for forecasts extending up to 16 days.
+</div>
+
+<form method="get" action="https://api.open-meteo.com/v1/cma">
 	<LocationSelection
 		bind:latitude={$params.latitude}
 		bind:longitude={$params.longitude}
@@ -340,8 +258,7 @@
 									<option value="1">1 day</option>
 									<option value="3">3 days</option>
 									<option value="7">7 days (default)</option>
-									<option value="14">14 days</option>
-									<option value="16">16 days</option>
+									<option value="10">10 days</option>
 								</select>
 								<label for="forecast_days">Forecast days</label>
 							</div>
@@ -369,15 +286,6 @@
 								<label for="past_days">Past days</label>
 							</div>
 						</div>
-						<div class="col-md-6">
-							<p>
-								By default, we provide forecasts for 7 days, but you can access forecasts for up to
-								16 days. If you're interested in past weather data, you can use the <mark
-									>Past Days</mark
-								>
-								feature to access archived forecasts.
-							</p>
-						</div>
 					</div>
 				</div>
 			{/if}
@@ -393,17 +301,6 @@
 					<div class="row">
 						<div class="col-md-6 mb-3">
 							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
-						</div>
-						<div class="col-md-6">
-							<p>
-								The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a
-								range of dates more easily. Archived forecasts come from a series of weather model
-								runs over time. If you're using the free API, you can access archived forecasts for
-								up to 3 months. For our commercial customers, data is available up to 6 months.
-								You can also check out our
-								<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
-								data going all the way back to 1940.
-							</p>
 						</div>
 					</div>
 				</div>
@@ -458,7 +355,11 @@
 				{/each}
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
+							>&forecast_hours=</mark
+						>
+						and <mark>&past_hours=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -595,122 +496,6 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem
-				id="models"
-				title="Weather models"
-				count={countVariables(models, $params.models)}
-			>
-				{#each models as group}
-					<div class="col-md-4 mb-3">
-						{#each group as e}
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_model"
-									name="models"
-									bind:group={$params.models}
-								/>
-								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
-							</div>
-						{/each}
-					</div>
-				{/each}
-				<div class="col-md-12">
-					<small class="text-muted"
-						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
-					>
-				</div>
-			</AccordionItem>
-			<AccordionItem
-				id="minutely_15"
-				title="15-Minutely Weather Variables"
-				count={countVariables(solarVariables, $params.hourly)}
-			>
-				{#each minutely_15 as group}
-					<div class="col-md-6 mb-3">
-						{#each group as e}
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_minutely_15"
-									name="minutely_15"
-									bind:group={$params.minutely_15}
-								/>
-								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
-							</div>
-						{/each}
-					</div>
-				{/each}
-				{#each solarVariables as group}
-					<div class="col-md-6">
-						{#each group as e}
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_minutely_15"
-									name="minutely_15"
-									bind:group={$params.minutely_15}
-								/>
-								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
-							</div>
-						{/each}
-					</div>
-				{/each}
-				<div class="col-md-12 mb-3">
-					<small class="text-muted"
-						>Note: Only available in Central Europe and North America. Other regions use interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
-						<mark>instant</mark> for radiation at the indicated time.</small
-					>
-				</div>
-				<div class="col-md-12 mb-3">
-					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for 15-minutely weather variables using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
-				</div>
-				<div class="col-md-3">
-					<div class="form-floating mb-3">
-						<select
-							class="form-select"
-							name="forecast_minutely_15"
-							id="forecast_minutely_15"
-							aria-label="Forecast Minutely 15 Steps"
-							bind:value={$params.forecast_minutely_15}
-						>
-							<option value="">- (default)</option>
-							<option value="4">1 hour</option>
-							<option value="24">6 hours</option>
-							<option value="48">12 hours</option>
-							<option value="96">24 hours</option>
-						</select>
-						<label for="forecast_minutely_15">Forecast Minutely 15</label>
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-floating mb-3">
-						<select
-							class="form-select"
-							name="past_minutely_15"
-							id="past_minutely_15s"
-							aria-label="Past Minutely 15 Steps"
-							bind:value={$params.past_minutely_15}
-						>
-							<option value="">- (default)</option>
-							<option value="1">1 hour</option>
-							<option value="6">6 hours</option>
-							<option value="12">12 hours</option>
-							<option value="24">24 hours</option>
-						</select>
-						<label for="past_minutely_15">Past Minutely 15</label>
-					</div>
-				</div>
-			</AccordionItem>
 		</div>
 	</div>
 
@@ -734,36 +519,10 @@
 			</div>
 		{/each}
 		{#if timezoneInvalid}
-		<div class="alert alert-warning" role="alert">
-			It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
-		</div>
-		{/if}
-	</div>
-
-	<div class="row py-3 px-0">
-		<h2>Current Weather</h2>
-		{#each current as group}
-			<div class="col-md-3 mb-2">
-				{#each group as e}
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value={e.name}
-							id="{e.name}_current"
-							name="current"
-							bind:group={$params.current}
-						/>
-						<label class="form-check-label" for="{e.name}_current">{e.label}</label>
-					</div>
-				{/each}
+			<div class="alert alert-warning" role="alert">
+				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
 			</div>
-		{/each}
-		<div class="col-md-12">
-			<small class="text-muted"
-				>Note: Current conditions are based on 15-minutely weather model data. Every weather variable available in hourly data, is available as current condition as well.</small
-			>
-		</div>
+		{/if}
 	</div>
 
 	<div class="row py-3 px-0">
@@ -777,7 +536,7 @@
 					aria-label="Temperature Unit"
 					bind:value={$params.temperature_unit}
 				>
-					<option value="celsius">Celsius °C</option>
+					<option selected value="celsius">Celsius °C</option>
 					<option value="fahrenheit">Fahrenheit °F</option>
 				</select>
 				<label for="temperature_unit">Temperature Unit</label>
@@ -792,7 +551,7 @@
 					aria-label="Windspeed Unit"
 					bind:value={$params.wind_speed_unit}
 				>
-					<option value="kmh">Km/h</option>
+					<option selected value="kmh">Km/h</option>
 					<option value="ms">m/s</option>
 					<option value="mph">Mph</option>
 					<option value="kn">Knots</option>
@@ -835,103 +594,39 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} />
+<ResultPreview {params} {defaultParameter} action="cma" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
-		Open-Meteo weather forecast APIs use weather models from multiple national weather providers.
-		For each location worldwide, the best models will be combined to provide the best possible
-		forecast.
-	</p>
-	<p>
-		Weather models cover different geographic areas at different resolutions and provide different
-		weather variables. Depending on the model, data have been interpolated to hourly values or not
-		all weather variables are available. With the drop down <mark>Weather models</mark> (just below the
-		hourly variables), you can select and compare individual weather models.
+		The API relies on the Global/Regional Assimilation and Prediction Enhanced System (GFS GRAPES),
+		independently developed by the China Meteorological Administration (CMA). It provides data in
+		3-hour intervals, offering forecasts for up to 10 days. The model runs four times daily at 0:00,
+		6:00, 12:00, and 18:00 UTC.
 	</p>
 	<div class="table-responsive">
 		<table class="table">
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>
-					<th scope="col">National Weather Provider</th>
-					<th scope="col">Origin Country</th>
-					<th scope="col">Resolution</th>
+					<th scope="col">Region</th>
+					<th scope="col">Spatial Resolution</th>
+					<th scope="col">Temporal Resolution</th>
 					<th scope="col">Forecast Length</th>
 					<th scope="col">Update frequency</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<th scope="row"><a href="/en/docs/dwd-api">ICON</a></th>
-					<td>Deutscher Wetterdienst (DWD)</td>
-					<td>Germany</td>
-					<td>2 - 11 km</td>
-					<td>7.5 days</td>
-					<td>Every 3 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/gfs-api">GFS & HRRR</a></th>
-					<td>NOAA</td>
-					<td>United States</td>
-					<td>3 - 25 km</td>
-					<td>16 days</td>
-					<td>Every hour</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/meteofrance-api">Arpege & Arome</a></th>
-					<td>MeteoFrance</td>
-					<td>France</td>
-					<td>1 - 25 km</td>
-					<td>4 days</td>
-					<td>Every 3 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/ecmwf-api">IFS</a></th>
-					<td>ECMWF</td>
-					<td>European Union</td>
-					<td>44 km</td>
-					<td>7 days</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/jma-api">MSM & GSM</a></th>
-					<td>JMA</td>
-					<td>Japan</td>
-					<td>5 - 55 km</td>
-					<td>11 days</td>
-					<td>Every 3 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/metno-api">MET Nordic</a></th>
-					<td>MET Norway</td>
-					<td>Norway</td>
-					<td>1 km</td>
-					<td>2.5 days</td>
-					<td>Every hour</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/gem-api">GEM</a></th>
-					<td>Canadian Weather Service</td>
-					<td>Canada</td>
-					<td>2.5 km</td>
-					<td>10 days</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/cma-api">GFS GRAPES</a></th>
-					<td>China Meteorological Administration (CMA)</td>
-					<td>China</td>
-					<td>15 km</td>
-					<td>10 days</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/bom-api">ACCESS-G</a></th>
-					<td>Australian Bureau of Meteorology (BOM)</td>
-					<td>Australia</td>
-					<td>15 km</td>
+					<th scope="row"
+						><a
+							href="https://www.cma.gov.cn/en/forecast/highlight/202311/t20231117_5892086.html"
+							target="_blank">GFS GRAPES</a
+						></th
+					>
+					<td>Global</td>
+					<td>0.125° (~15 km)</td>
+					<td>3-hourly</td>
 					<td>10 days</td>
 					<td>Every 6 hours</td>
 				</tr>
@@ -941,10 +636,10 @@
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>
-		The API endpoint <mark>/v1/forecast</mark> accepts a geographical coordinate, a list of weather
+		The API endpoint <mark>/v1/cma</mark> accepts a geographical coordinate, a list of weather
 		variables and responds with a JSON hourly weather forecast for 7 days. Time always starts at
 		0:00 today and contains 168 hours. If
-		<mark>&forecast_days=16</mark> is set, up to 16 days of forecast can be returned. All URL parameters
+		<mark>&forecast_days=16</mark> is set, up to 10 days of forecast can be returned. All URL parameters
 		are listed below:
 	</p>
 	<div class="table-responsive">
@@ -983,7 +678,7 @@
 							>90 meter digital elevation model is used</a
 						>. You can manually set the elevation to correctly match mountain peaks. If
 						<mark>&elevation=nan</mark> is specified, downscaling will be disabled and the API uses the
-						average grid-cell height. For multiple locations, elevation can also be comma separated.</td
+						average grid-cell height.</td
 					>
 				</tr>
 				<tr>
@@ -1007,13 +702,6 @@
 						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
 						daily weather variables are specified, parameter <mark>timezone</mark> is required.</td
 					>
-				</tr>
-				<tr>
-					<th scope="row">current</th>
-					<td>String array</td>
-					<td>No</td>
-					<td />
-					<td>A list of weather variables to get current conditions.</td>
 				</tr>
 				<tr>
 					<th scope="row">temperature_unit</th>
@@ -1070,12 +758,10 @@
 				</tr>
 				<tr>
 					<th scope="row">past_days</th>
-					<td>Integer (0-92)</td>
+					<td>Integer</td>
 					<td>No</td>
 					<td><mark>0</mark></td>
-					<td
-						>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
-					>
+					<td>If <mark>past_days</mark> is set, past weather data can be returned.</td>
 				</tr>
 				<tr>
 					<th scope="row">forecast_days</th>
@@ -1085,11 +771,14 @@
 					<td>Per default, only 7 days are returned. Up to 16 days of forecast are possible.</td>
 				</tr>
 				<tr>
-					<th scope="row">forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th>
+					<th scope="row">forecast_hours<br />past_hours</th>
 					<td>Integer (&gt;0)</td>
 					<td>No</td>
 					<td></td>
-					<td>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can controlled. Instead of using the current day as a reference, the current hour or the current 15-minute time-step is used. </td>
+					<td
+						>Similar to forecast_days, the number of timesteps of hourly data can controlled.
+						Instead of using the current day as a reference, the current hour is used.
+					</td>
 				</tr>
 				<tr>
 					<th scope="row">start_date<br />end_date</th>
@@ -1102,23 +791,14 @@
 					</td>
 				</tr>
 				<tr>
-					<th scope="row">start_hour<br />end_hour<br />start_minutely_15<br />end_minutely_15</th>
+					<th scope="row">start_hour<br />end_hour</th>
 					<td>String (yyyy-mm-ddThh:mm)</td>
 					<td>No</td>
 					<td />
 					<td
-						>The time interval to get weather data for hourly or 15 minutely data. Time must be specified as an ISO8601 date (e.g.
+						>The time interval to get weather data for hourly. Time must be specified as an ISO8601
+						date (e.g.
 						<mark>2022-06-30T12:00</mark>).
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">models</th>
-					<td>String array</td>
-					<td>No</td>
-					<td><mark>auto</mark></td>
-					<td
-						>Manually select one or more weather models. Per default, the best suitable weather
-						models will be combined.
 					</td>
 				</tr>
 				<tr>
@@ -1240,23 +920,29 @@
 				</tr>
 				<tr>
 					<th scope="row"
-						>wind_speed_10m<br />wind_speed_80m<br />wind_speed_120m<br />wind_speed_180m</th
+						>wind_speed_10m<br />wind_speed_30m<br />wind_speed_50m<br />wind_speed_70m<br
+						/>wind_speed_100m<br />wind_speed_120m<br />wind_speed_140m<br />wind_speed_160m<br
+						/>wind_speed_180m<br />wind_speed_200m</th
 					>
 					<td>Instant</td>
 					<td>km/h (mph, m/s, knots)</td>
 					<td
-						>Wind speed at 10, 80, 120 or 180 meters above ground. Wind speed on 10 meters is the
-						standard level.
-					</td>
+						>Wind speed at 10, 30, 50, 70, 100, 120, 140, 160, 180 or 200 meters above ground. Wind
+						speed on 10 meters is the standard level.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row"
-						>wind_direction_10m<br />wind_direction_80m<br />wind_direction_120m<br
-						/>wind_direction_180m</th
+						>wind_direction_10m<br />wind_direction_30m<br />wind_direction_50m<br
+						/>wind_direction_70m<br />wind_direction_100m<br />wind_direction_120m<br
+						/>wind_direction_140m<br />wind_direction_160m<br />wind_direction_180m<br
+						/>wind_direction_200m</th
 					>
 					<td>Instant</td>
 					<td>°</td>
-					<td>Wind direction at 10, 80, 120 or 180 meters above ground</td>
+					<td
+						>Wind direction at 10, 30, 50, 70, 100, 120, 140, 160, 180 or 200 meters above ground</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">wind_gusts_10m</th>
@@ -1279,43 +965,41 @@
 					<td>W/m²</td>
 					<td
 						>Direct solar radiation as average of the preceding hour on the horizontal plane and the
-						normal plane (perpendicular to the sun)</td
+						normal plane (perpendicular to the sun). GRAPES does bot offers direct radiation
+						directly. It is approximated based on <a
+							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
+							target="_blank">Razo, Müller Witwer</a
+						></td
 					>
 				</tr>
 				<tr>
 					<th scope="row">diffuse_radiation</th>
 					<td>Preceding hour mean</td>
 					<td>W/m²</td>
-					<td>Diffuse solar radiation as average of the preceding hour</td>
+					<td
+						>Diffuse solar radiation as average of the preceding hour. HRRR offers diffuse radiation
+						directly. GRAPES does bot offers diffuse radiation directly. It is approximated based on <a
+							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
+							target="_blank">Razo, Müller Witwer</a
+						></td
+					>
+				</tr>
+				<tr>
+					<th scope="row">sunshine_duration</th>
+					<td>Preceding hour sum</td>
+					<td>Seconds</td>
+					<td
+						>Number of seconds of sunshine of the preceding hour per hour calculated by direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">vapour_pressure_deficit</th>
 					<td>Instant</td>
 					<td>kPa</td>
 					<td
-						>Vapour Pressure Deficit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
+						>Vapor Pressure Deificit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
 						transpiration of plants increases. For low VPD (&lt;0.4), transpiration decreases</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">cape</th>
-					<td>Instant</td>
-					<td>J/kg</td>
-					<td
-						>Convective available potential energy. See <a
-							href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
-							target="_blank">Wikipedia</a
-						>.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">evapotranspiration</th>
-					<td>Preceding hour sum</td>
-					<td>mm (inch)</td>
-					<td
-						>Evapotranspration from land surface and plants that weather models assumes for this
-						location. Available soil water is considered. 1 mm evapotranspiration per hour equals 1
-						liter of water per spare meter.</td
 					>
 				</tr>
 				<tr>
@@ -1328,6 +1012,16 @@
 							target="_blank">FAO-56 Penman-Monteith equations</a
 						> ET₀ is calculated from temperature, wind speed, humidity and solar radiation. Unlimited
 						soil water is assumed. ET₀ is commonly used to estimate the required irrigation for plants.</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">weather_code</th>
+					<td>Instant</td>
+					<td>WMO code</td>
+					<td
+						>Weather condition as a numeric code. Follow WMO weather interpretation codes. See table
+						below for details. Weather code is calculated from cloud cover analysis, precipitation,
+						snowfall, cape, lifted index and gusts.</td
 					>
 				</tr>
 				<tr>
@@ -1346,16 +1040,6 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">precipitation_probability</th>
-					<td>Preceding hour probability</td>
-					<td>%</td>
-					<td
-						>Probability of precipitation with more than 0.1 mm of the preceding hour. Probability
-						is based on ensemble weather models with 0.25° (~27 km) resolution. 30 different
-						simulations are computed to better represent future weather conditions.</td
-					>
-				</tr>
-				<tr>
 					<th scope="row">rain</th>
 					<td>Preceding hour sum</td>
 					<td>mm (inch)</td>
@@ -1368,25 +1052,10 @@
 					<td>Showers from convective precipitation in millimeters from the preceding hour</td>
 				</tr>
 				<tr>
-					<th scope="row">weather_code</th>
-					<td>Instant</td>
-					<td>WMO code</td>
-					<td
-						>Weather condition as a numeric code. Follow WMO weather interpretation codes. See table
-						below for details.</td
-					>
-				</tr>
-				<tr>
 					<th scope="row">snow_depth</th>
 					<td>Instant</td>
 					<td>meters</td>
 					<td>Snow depth on the ground</td>
-				</tr>
-				<tr>
-					<th scope="row">freezing_level_height</th>
-					<td>Instant</td>
-					<td>meters</td>
-					<td>Altitude above sea level of the 0°C level</td>
 				</tr>
 				<tr>
 					<th scope="row">visibility</th>
@@ -1398,213 +1067,50 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">
-						soil_temperature_0cm<br />soil_temperature_6cm<br />soil_temperature_18cm<br
-						/>soil_temperature_54cm</th
-					>
+					<th scope="row">cape</th>
 					<td>Instant</td>
-					<td>°C (°F)</td>
+					<td>J/kg</td>
 					<td
-						>Temperature in the soil at 0, 6, 18 and 54 cm depths. 0 cm is the surface temperature
-						on land or water surface temperature on water.</td
+						>Convective available potential energy. See <a
+							href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
+							target="_blank">Wikipedia</a
+						>.</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">lifted_index</th>
+					<td>Instant</td>
+					<td>dimensionless</td>
+					<td
+						>Atmospheric stability. See <a
+							href="https://en.wikipedia.org/wiki/Lifted_index"
+							target="_blank">Wikipedia</a
+						>.</td
 					>
 				</tr>
 				<tr>
 					<th scope="row">
-						soil_moisture_0_to_1cm<br />soil_moisture_1_to_3cm<br />soil_moisture_3_to_9cm<br
-						/>soil_moisture_9_to_27cm<br />soil_moisture_27_to_81cm
+						soil_temperature_0_to_10cm<br />soil_temperature_10_to_40cm<br
+						/>soil_temperature_40_to_100cm<br />soil_temperature_100_to_200cm
+					</th>
+					<td>Instant</td>
+					<td>°C (°F)</td>
+					<td
+						>Temperature in the soil as an average on 0-10, 10-40, 40-100 and 100-200 cm depths.</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">
+						soil_moisture_0_to_10cm<br />soil_moisture_10_to_40cm<br />soil_moisture_40_to_100cm<br
+						/>soil_moisture_100_to_200cm
 					</th>
 					<td>Instant</td>
 					<td>m³/m³</td>
 					<td
-						>Average soil water content as volumetric mixing ratio at 0-1, 1-3, 3-9, 9-27 and 27-81
-						cm depths.</td
+						>Average soil water content as volumetric mixing ratio at 0-10, 10-40, 40-100 and
+						100-200 cm depths.</td
 					>
 				</tr>
-				<tr>
-					<th scope="row">is_day</th>
-					<td>Instant</td>
-					<td>Dimensionless</td>
-					<td><mark>1</mark> if the current time step has daylight, <mark>0</mark> at night.</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-
-	<h3 class="mt-5">15-Minutely Parameter Definition</h3>
-	<p>
-		The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
-		on NOAA HRRR model for North America and DWD ICON-D2 model for Central Europe. If 15-minutely data is requested
-		for other regions data is interpolated from 1-hourly to 15-minutely.
-	</p>
-	<p>
-		15-minutely data can be requested for other weather variables that are available for hourly
-		data, but will use interpolation.
-	</p>
-	<div class="table-responsive">
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Variable</th>
-					<th scope="col">Valid time</th>
-					<th scope="col">Unit</th>
-					<th scope="col">HRRR</th>
-					<th scope="col">ICON-D2</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">temperature_2m</th>
-					<td>Instant</td>
-					<td>°C (°F)</td>
-					<td>x</td>
-					<td></td>
-				</tr>
-				<tr>
-					<th scope="row">relative_humidity_2m</th>
-					<td>Instant</td>
-					<td>%</td>
-					<td>x</td>
-					<td></td>
-				</tr>
-				<tr>
-					<th scope="row">dew_point_2m</th>
-					<td>Instant</td>
-					<td>°C (°F)</td>
-					<td>x</td>
-					<td></td>
-				</tr>
-				<tr>
-					<th scope="row">apparent_temperature</th>
-					<td>Instant</td>
-					<td>°C (°F)</td>
-					<td>x</td>
-					<td></td>
-				</tr>
-				<tr>
-					<th scope="row">shortwave_radiation</th>
-					<td>Preceding 15 minutes mean</td>
-					<td>W/m²</td>
-					<td>x</td>
-					<td>x</td>
-				</tr>
-				<tr>
-					<th scope="row">direct_radiation<br />direct_normal_irradiance</th>
-					<td>Preceding 15 minutes mean</td>
-					<td>W/m²</td>
-					<td>x</td>
-					<td>x</td>
-				</tr>
-				<tr>
-					<th scope="row">diffuse_radiation</th>
-					<td>Preceding 15 minutes mean</td>
-					<td>W/m²</td>
-					<td>x</td>
-					<td>x</td>
-				</tr>
-				<tr>
-					<th scope="row">sunshine_duration</th>
-					<td>Preceding 15 minutes sum</td>
-					<td>seconds</td>
-					<td>x</td>
-					<td>x</td>
-				</tr>
-				<tr>
-					<th scope="row">lightning_potential</th>
-					<td>Instant</td>
-					<td>J/kg</td>
-					<td></td>
-					<td>x</td>
-				</tr>
-				<tr>
-					<th scope="row">precipitation</th>
-					<td>Preceding 15 minutes sum</td>
-					<td>mm (inch)</td>
-					<td>x</td>
-					<td>x</td>
-				</tr>
-				<tr>
-					<th scope="row">snowfall</th>
-					<td>Preceding 15 minutes sum</td>
-					<td>cm (inch)</td>
-					<td>x</td>
-					<td>x</td>
-				</tr>
-				<tr>
-					<th scope="row">rain</th>
-					<td>Preceding 15 minutes sum</td>
-					<td>mm (inch)</td>
-					<td>x</td>
-					<td>x</td>
-				</tr>
-				<tr>
-					<th scope="row">showers</th>
-					<td>Preceding 15 minutes sum</td>
-					<td>mm (inch)</td>
-					<td></td>
-					<td>x</td>
-				</tr>
-				<tr>
-					<th scope="row">snowfall_height</th>
-					<td>Instant</td>
-					<td>meters</td>
-					<td></td>
-					<td>x</td>
-				</tr>
-				<tr>
-					<th scope="row">freezing_level_height</th>
-					<td>Instant</td>
-					<td>meters</td>
-					<td></td>
-					<td>x</td>
-				</tr>
-				<tr>
-					<th scope="row">cape</th>
-					<td>Instant</td>
-					<td>J/kg</td>
-					<td>x</td>
-					<td>x</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						>wind_speed_10m<br />wind_speed_80m</th
-					>
-					<td>Instant</td>
-					<td>km/h (mph, m/s, knots)</td>
-					<td>x</td>
-					<td></td>
-				</tr>
-				<tr>
-					<th scope="row"
-						>wind_direction_10m<br />wind_direction_80m<br /></th
-					>
-					<td>Instant</td>
-					<td>°</td>
-					<td>x</td>
-					<td></td>
-				</tr>
-				<tr>
-					<th scope="row">wind_gusts_10m</th>
-					<td>Preceding 15 min max</td>
-					<td>km/h (mph, m/s, knots)</td>
-					<td>x</td>
-					<td></td>
-				</tr>
-				<tr>
-					<th scope="row">visibility</th>
-					<td>Instant</td>
-					<td>meters</td>
-					<td>x</td>
-					<td></td>
-				</tr>
-				<tr>
-					<th scope="row">weather_code</th>
-					<td>Instant</td>
-					<td>WMO code</td>
-					<td>x</td>
-					<td>x</td>
-				</tr>
-				
 			</tbody>
 		</table>
 	</div>
@@ -1631,6 +1137,11 @@
 			</thead>
 			<tbody>
 				<tr>
+					<th scope="row">weather_code</th>
+					<td>WMO code</td>
+					<td>The most severe weather condition on a given day</td>
+				</tr>
+				<tr>
 					<th scope="row">temperature_1000hPa<br />temperature_975hPa, ...</th>
 					<td>°C (°F)</td>
 					<td
@@ -1651,13 +1162,7 @@
 				<tr>
 					<th scope="row">cloud_cover_1000hPa<br />cloud_cover_975hPa, ...</th>
 					<td>%</td>
-					<td
-						>Cloud cover at the specified pressure level. Cloud cover is approximated based on
-						relative humidity using <a
-							href="https://www.ecmwf.int/sites/default/files/elibrary/2005/16958-parametrization-cloud-cover.pdf"
-							target="_blank">Sundqvist et al. (1989)</a
-						>. It may not match perfectly with low, mid and high cloud cover variables.</td
-					>
+					<td>Cloud cover at the specified pressure level.</td>
 				</tr>
 				<tr>
 					<th scope="row">wind_speed_1000hPa<br />wind_speed_975hPa, ...</th>
@@ -1713,16 +1218,16 @@
 					<td>mm</td>
 					<td>Sum of daily precipitation (including rain, showers and snowfall)</td>
 				</tr>
-				<tr>
-					<th scope="row">rain_sum</th>
-					<td>mm</td>
-					<td>Sum of daily rain</td>
-				</tr>
-				<tr>
-					<th scope="row">showers_sum</th>
-					<td>mm</td>
-					<td>Sum of daily showers</td>
-				</tr>
+				<!--<tr>
+              <th scope="row">rain_sum</th>
+              <td>mm</td>
+              <td>Sum of daily rain</td>
+            </tr>
+            <tr>
+              <th scope="row">showers_sum</th>
+              <td>mm</td>
+              <td>Sum of daily showers</td>
+            </tr>-->
 				<tr>
 					<th scope="row">snowfall_sum</th>
 					<td>cm</td>
@@ -1733,19 +1238,11 @@
 					<td>hours</td>
 					<td>The number of hours with rain</td>
 				</tr>
-				<tr>
-					<th scope="row"
-						>precipitation_probability_max<br />precipitation_probability_min<br
-						/>precipitation_probability_mean</th
-					>
-					<td>%</td>
-					<td>Probability of precipitation</td>
-				</tr>
-				<tr>
-					<th scope="row">weather_code</th>
-					<td>WMO code</td>
-					<td>The most severe weather condition on a given day</td>
-				</tr>
+				<!--<tr>
+              <th scope="row">weather_code</th>
+              <td>WMO code</td>
+              <td>The most severe weather condition on a given day</td>
+            </tr>-->
 				<tr>
 					<th scope="row">sunrise<br />sunset</th>
 					<td>iso8601</td>
@@ -1754,7 +1251,11 @@
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>seconds</td>
-					<td>The number of seconds of sunshine per day is determined by calculating direct normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine duration will consistently be less than daylight duration due to dawn and dusk.</td>
+					<td
+						>The number of seconds of sunshine per day is determined by calculating direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine
+						duration will consistently be less than daylight duration due to dawn and dusk.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">daylight_duration</th>
@@ -1780,18 +1281,6 @@
 					<th scope="row">et0_fao_evapotranspiration</th>
 					<td>mm</td>
 					<td>Daily sum of ET₀ Reference Evapotranspiration of a well watered grass field</td>
-				</tr>
-				<tr>
-					<th scope="row">uv_index_max<br />uv_index_clear_sky_max</th>
-					<td>Index</td>
-					<td
-						>Daily maximum in UV Index starting from 0. <mark>uv_index_clear_sky_max</mark> assumes
-						cloud free conditions. Please follow the
-						<a
-							href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index"
-							>official WMO guidelines</a
-						> for ultraviolet index.</td
-					>
 				</tr>
 			</tbody>
 		</table>
@@ -1819,7 +1308,6 @@
 `}
       </code>
     </pre>
-
 	<div class="table-responsive">
 		<table class="table">
 			<thead>
@@ -1913,77 +1401,4 @@
 `}
       </code>
     </pre>
-</div>
-
-<div class="col-12 py-5">
-	<h2 id="weathervariables">Weather variable documentation</h2>
-</div>
-
-<div class="col-6">
-	<h3>WMO Weather interpretation codes (WW)</h3>
-	<div class="table-responsive">
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Code</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">0</th>
-					<td>Clear sky</td>
-				</tr>
-				<tr>
-					<th scope="row">1, 2, 3</th>
-					<td>Mainly clear, partly cloudy, and overcast</td>
-				</tr>
-				<tr>
-					<th scope="row">45, 48</th>
-					<td>Fog and depositing rime fog</td>
-				</tr>
-				<tr>
-					<th scope="row">51, 53, 55</th>
-					<td>Drizzle: Light, moderate, and dense intensity</td>
-				</tr>
-				<tr>
-					<th scope="row">56, 57</th>
-					<td>Freezing Drizzle: Light and dense intensity</td>
-				</tr>
-				<tr>
-					<th scope="row">61, 63, 65</th>
-					<td>Rain: Slight, moderate and heavy intensity</td>
-				</tr>
-				<tr>
-					<th scope="row">66, 67</th>
-					<td>Freezing Rain: Light and heavy intensity</td>
-				</tr>
-				<tr>
-					<th scope="row">71, 73, 75</th>
-					<td>Snow fall: Slight, moderate, and heavy intensity</td>
-				</tr>
-				<tr>
-					<th scope="row">77</th>
-					<td>Snow grains</td>
-				</tr>
-				<tr>
-					<th scope="row">80, 81, 82</th>
-					<td>Rain showers: Slight, moderate, and violent</td>
-				</tr>
-				<tr>
-					<th scope="row">85, 86</th>
-					<td>Snow showers slight and heavy</td>
-				</tr>
-				<tr>
-					<th scope="row">95 *</th>
-					<td>Thunderstorm: Slight or moderate</td>
-				</tr>
-				<tr>
-					<th scope="row">96, 99 *</th>
-					<td>Thunderstorm with slight and heavy hail</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<p>(*) Thunderstorm forecast with hail is only available in Central Europe</p>
 </div>

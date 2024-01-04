@@ -106,6 +106,24 @@
 					>)
 				</li>
 				<li>
+					Atmospheric forecasts from <a
+						href="https://www.cma.gov.cn/en/"
+						title="Chinese Meteorological Administration">Chinese Meteorological Administration CMA</a
+					>
+					(<a href="https://creativecommons.org/licenses/by/4.0/" title="CMA License"
+						>CC-BY License</a
+					>)
+				</li>
+				<li>
+					Atmospheric forecasts from <a
+						href="http://www.bom.gov.au/"
+						title="Norwegian Meteorological Institute">Australian Bureau of Meteorology BOM</a
+					>
+					(<a href="https://creativecommons.org/licenses/by/4.0/" title="BOM License"
+						>CC-BY License</a
+					>)
+				</li>
+				<li>
 					Weather reanalysis, air quality forecasts and elevation data from <a
 						href="https://climate.copernicus.eu"
 						title="Copernicus Climate Change Service C3S">Copernicus Climate Change Service C3S</a
