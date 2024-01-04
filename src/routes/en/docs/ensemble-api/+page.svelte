@@ -215,6 +215,38 @@
 			'temperature_850hPa',
 			'geopotential_height_500hPa',
 			'geopotential_height_850hPa',
+		],
+		bom_access_global_ensemble: [
+			'temperature_2m',
+			'surface_pressure',
+			'snow_depth',
+			'relative_humidity_2m',
+			'dew_point_2m',
+			'wind_speed_10m',
+			'wind_gusts_10m',
+			'wind_direction_10m',
+			'precipitation',
+			'snowfall',
+			'cape',
+			'cloud_cover',
+			'apparent_temperature',
+			'weather_code',
+			'pressure_msl',
+			'et0_fao_evapotranspiration',
+			'vapour_pressure_deficit',
+			'visibility',
+			'sunshine_duration',
+			'rain',
+			'shortwave_radiation',
+			'surface_temperature',
+			'soil_temperature_0_to_10cm',
+			'soil_temperature_10_to_40cm',
+			'soil_temperature_40_to_100cm',
+			'soil_temperature_100_to_200cm',
+			'soil_moisture_0_to_10cm',
+			'soil_moisture_10_to_40cm',
+			'soil_moisture_40_to_100cm',
+			'soil_moisture_100_to_200cm',
 		]
 	};
 
@@ -326,8 +358,11 @@
 			{ name: 'gfs025', label: 'GFS Ensemble 0.25' },
 			{ name: 'gfs05', label: 'GFS Ensemble 0.5' }
 		],
-		[{ name: 'ecmwf_ifs04', label: 'ECMWF IFS Ensemble' }],
-		[{ name: 'gem_global', label: 'GEM Global Ensemble' }]
+		[
+			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS Ensemble' }, 
+			{ name: 'gem_global', label: 'GEM Global Ensemble' }, 
+			{ name: 'bom_access_global_ensemble', label: 'BOM Access Global' }
+		]
 	];
 </script>
 
@@ -764,10 +799,19 @@
 					<th scope="row">Canadian Weather Service</th>
 					<td>GEM</td>
 					<td>Global</td>
-					<td>2.5 km, 3-hourly</td>
+					<td>25 km, 3-hourly</td>
 					<td>21</td>
 					<td>16 days (32 days every thursday)</td>
 					<td>Every 12 hours</td>
+				</tr>
+				<tr>
+					<th scope="row">Australian Bureau of Meteorology (BOM)</th>
+					<td>Access-GE</td>
+					<td>Global</td>
+					<td>40 km, 3-hourly</td>
+					<td>18</td>
+					<td>10 days</td>
+					<td>Every 6 hours</td>
 				</tr>
 			</tbody>
 		</table>
