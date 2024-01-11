@@ -285,7 +285,7 @@
 </svelte:head>
 
 <div class="alert alert-warning" role="alert">
-	Work in progress. This API offers access to <strong>archived</strong> high resolution weather forecasts. Data is only updated once per day. This API is similar to the regular Weather Forecast API, but retains more then 90 days of past data.
+	Work in progress. This API offers access to <strong>archived</strong> high resolution weather forecasts. Data is only updated once per day. This API is similar to the regular Weather Forecast API, but retains more than 90 days of past data.
 </div>
 
 <form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
