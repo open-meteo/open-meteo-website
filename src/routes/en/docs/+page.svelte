@@ -885,7 +885,7 @@
 					<td>France</td>
 					<td>1 - 25 km</td>
 					<td>4 days</td>
-					<td>Every 3 hours</td>
+					<td>Every hour</td>
 				</tr>
 				<tr>
 					<th scope="row"><a href="/en/docs/ecmwf-api">IFS</a></th>
@@ -1434,7 +1434,7 @@
 	<h3 class="mt-5">15-Minutely Parameter Definition</h3>
 	<p>
 		The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
-		on NOAA HRRR model for North America and DWD ICON-D2 model for Central Europe. If 15-minutely data is requested
+		on NOAA HRRR model for North America and DWD ICON-D2 and MeteoFrance AROME model for Central Europe. If 15-minutely data is requested
 		for other regions data is interpolated from 1-hourly to 15-minutely.
 	</p>
 	<p>
@@ -1450,6 +1450,7 @@
 					<th scope="col">Unit</th>
 					<th scope="col">HRRR</th>
 					<th scope="col">ICON-D2</th>
+					<th scope="col">AROME</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -1459,6 +1460,7 @@
 					<td>°C (°F)</td>
 					<td>x</td>
 					<td></td>
+					<td>x</td>
 				</tr>
 				<tr>
 					<th scope="row">relative_humidity_2m</th>
@@ -1466,6 +1468,7 @@
 					<td>%</td>
 					<td>x</td>
 					<td></td>
+					<td>x</td>
 				</tr>
 				<tr>
 					<th scope="row">dew_point_2m</th>
@@ -1473,6 +1476,7 @@
 					<td>°C (°F)</td>
 					<td>x</td>
 					<td></td>
+					<td>x</td>
 				</tr>
 				<tr>
 					<th scope="row">apparent_temperature</th>
@@ -1480,6 +1484,7 @@
 					<td>°C (°F)</td>
 					<td>x</td>
 					<td></td>
+					<td>x</td>
 				</tr>
 				<tr>
 					<th scope="row">shortwave_radiation</th>
@@ -1487,6 +1492,7 @@
 					<td>W/m²</td>
 					<td>x</td>
 					<td>x</td>
+					<td></td>
 				</tr>
 				<tr>
 					<th scope="row">direct_radiation<br />direct_normal_irradiance</th>
@@ -1494,6 +1500,7 @@
 					<td>W/m²</td>
 					<td>x</td>
 					<td>x</td>
+					<td></td>
 				</tr>
 				<tr>
 					<th scope="row">diffuse_radiation</th>
@@ -1501,6 +1508,7 @@
 					<td>W/m²</td>
 					<td>x</td>
 					<td>x</td>
+					<td></td>
 				</tr>
 				<tr>
 					<th scope="row">sunshine_duration</th>
@@ -1508,6 +1516,7 @@
 					<td>seconds</td>
 					<td>x</td>
 					<td>x</td>
+					<td></td>
 				</tr>
 				<tr>
 					<th scope="row">lightning_potential</th>
@@ -1515,11 +1524,13 @@
 					<td>J/kg</td>
 					<td></td>
 					<td>x</td>
+					<td></td>
 				</tr>
 				<tr>
 					<th scope="row">precipitation</th>
 					<td>Preceding 15 minutes sum</td>
 					<td>mm (inch)</td>
+					<td>x</td>
 					<td>x</td>
 					<td>x</td>
 				</tr>
@@ -1529,11 +1540,13 @@
 					<td>cm (inch)</td>
 					<td>x</td>
 					<td>x</td>
+					<td>x</td>
 				</tr>
 				<tr>
 					<th scope="row">rain</th>
 					<td>Preceding 15 minutes sum</td>
 					<td>mm (inch)</td>
+					<td>x</td>
 					<td>x</td>
 					<td>x</td>
 				</tr>
@@ -1543,6 +1556,7 @@
 					<td>mm (inch)</td>
 					<td></td>
 					<td>x</td>
+					<td></td>
 				</tr>
 				<tr>
 					<th scope="row">snowfall_height</th>
@@ -1550,6 +1564,7 @@
 					<td>meters</td>
 					<td></td>
 					<td>x</td>
+					<td></td>
 				</tr>
 				<tr>
 					<th scope="row">freezing_level_height</th>
@@ -1557,11 +1572,13 @@
 					<td>meters</td>
 					<td></td>
 					<td>x</td>
+					<td></td>
 				</tr>
 				<tr>
 					<th scope="row">cape</th>
 					<td>Instant</td>
 					<td>J/kg</td>
+					<td>x</td>
 					<td>x</td>
 					<td>x</td>
 				</tr>
@@ -1573,6 +1590,7 @@
 					<td>km/h (mph, m/s, knots)</td>
 					<td>x</td>
 					<td></td>
+					<td>x</td>
 				</tr>
 				<tr>
 					<th scope="row"
@@ -1582,12 +1600,14 @@
 					<td>°</td>
 					<td>x</td>
 					<td></td>
+					<td>x</td>
 				</tr>
 				<tr>
 					<th scope="row">wind_gusts_10m</th>
 					<td>Preceding 15 min max</td>
 					<td>km/h (mph, m/s, knots)</td>
 					<td>x</td>
+					<td></td>
 					<td></td>
 				</tr>
 				<tr>
@@ -1596,6 +1616,7 @@
 					<td>meters</td>
 					<td>x</td>
 					<td></td>
+					<td>x</td>
 				</tr>
 				<tr>
 					<th scope="row">weather_code</th>
@@ -1603,6 +1624,7 @@
 					<td>WMO code</td>
 					<td>x</td>
 					<td>x</td>
+					<td></td>
 				</tr>
 				
 			</tbody>
