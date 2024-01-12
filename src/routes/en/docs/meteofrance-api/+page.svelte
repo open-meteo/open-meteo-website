@@ -20,6 +20,7 @@
 		current: [],
 		hourly: [],
 		daily: [],
+		minutely_15: [],
 		location_mode: 'location_search',
 		csv_coordinates: '',
 		temperature_unit: 'celsius',
@@ -29,13 +30,39 @@
 		timezone: 'UTC',
 		past_days: '0',
 		past_hours: '',
+		past_minutely_15: '',
 		forecast_days: '4',
 		forecast_hours: '',
+		forecast_minutely_15: '',
 		start_date: '',
 		end_date: '',
 		time_mode: 'forecast_days',
 		models: []
 	};
+
+	const minutely_15 = [
+		[
+			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
+			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
+			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
+			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
+			{ name: 'rain', label: 'Rain' },
+			{ name: 'snowfall', label: 'Snowfall' },
+		],
+		[
+			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'wind_speed_20m', label: 'Wind Speed (20 m)' },
+			{ name: 'wind_speed_50m', label: 'Wind Speed (50 m)' },
+			{ name: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
+			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'wind_direction_20m', label: 'Wind Direction (20 m)' },
+			{ name: 'wind_direction_50m', label: 'Wind Direction (50 m)' },
+			{ name: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
+			{ name: 'cape', label: 'CAPE' },
+			{ name: 'is_day', label: 'Is Day or Night' }
+		]
+	];
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -205,8 +232,7 @@
 
 <div class="alert alert-primary" role="alert">
 	The API leverages MeteoFrance's AROME and ARPEGE weather models, tailored for Central Europe and
-	specifically France. However, updates are limited to every 6 hours, with a maximum forecast range
-	of 4 days. For broader use cases, the <a href="/en/docs">Weather Forecast API</a> is recommended, utilizing
+	specifically France. With updates for AROME every hour, nowcast is provided for Central Europe. However, the maximum forecast range is 4 days. For broader use cases, the <a href="/en/docs">Weather Forecast API</a> is recommended, utilizing
 	multiple local weather models for forecasts up to 16 days.
 </div>
 
@@ -508,6 +534,76 @@
 				</div>
 			</AccordionItem>
 			<AccordionItem
+				id="minutely_15"
+				title="15-Minutely Weather Variables"
+				count={countVariables(solarVariables, $params.hourly)}
+			>
+				{#each minutely_15 as group}
+					<div class="col-md-6 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_minutely_15"
+									name="minutely_15"
+									bind:group={$params.minutely_15}
+								/>
+								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: Only available in Central Europe. Other regions use
+						interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
+						<mark>instant</mark> for radiation at the indicated time.</small
+					>
+				</div>
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: You can further adjust the forecast time range for 15-minutely weather variables using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="forecast_minutely_15"
+							id="forecast_minutely_15"
+							aria-label="Forecast Minutely 15 Steps"
+							bind:value={$params.forecast_minutely_15}
+						>
+							<option value="">- (default)</option>
+							<option value="4">1 hour</option>
+							<option value="24">6 hours</option>
+							<option value="48">12 hours</option>
+							<option value="96">24 hours</option>
+						</select>
+						<label for="forecast_minutely_15">Forecast Minutely 15</label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="past_minutely_15"
+							id="past_minutely_15s"
+							aria-label="Past Minutely 15 Steps"
+							bind:value={$params.past_minutely_15}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="past_minutely_15">Past Minutely 15</label>
+					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
 				id="models"
 				title="Weather models"
 				count={countVariables(models, $params.models)}
@@ -729,6 +825,30 @@
 					<td>Hourly</td>
 					<td>2 days</td>
 					<td>Every 3 hours</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://www.umr-cnrm.fr/spip.php?article120" target="_blank"
+							>Arome France 15 minutely</a
+						></th
+					>
+					<td>France</td>
+					<td>0.025° (~2.5 km)</td>
+					<td>Hourly</td>
+					<td>6 hours</td>
+					<td>Every hour</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://www.umr-cnrm.fr/spip.php?article120/" target="_blank"
+							>Arome France HD 15 minutely</a
+						> <small class="text-muted">(*)</small></th
+					>
+					<td>France</td>
+					<td>0.01° (~1.5 km)</td>
+					<td>Hourly</td>
+					<td>6 hours</td>
+					<td>Every hour</td>
 				</tr>
 			</tbody>
 		</table>
