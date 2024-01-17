@@ -36,6 +36,8 @@
 		forecast_minutely_15: '',
 		start_date: '',
 		end_date: '',
+		tilt: 0,
+		azimuth: 0,
 		time_mode: 'forecast_days',
 		models: []
 	};
@@ -195,17 +197,19 @@
 
 	const solarVariables = [
 		[
-			{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation' },
+			{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
 			{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
-			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation' },
+			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
 			{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
+			{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
 			{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
 		],
 		[
-			{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation (Instant)' },
+			{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
 			{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-			{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation (Instant)' },
+			{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
 			{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
+			{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
@@ -457,11 +461,53 @@
 						{/each}
 					</div>
 				{/each}
-				<div class="col-md-12">
+				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
 					>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating">
+						<input
+							type="number"
+							class="form-control"
+							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							name="tilt"
+							id="tilt"
+							step="1"
+							min="0"
+							max="90"
+							bind:value={$params.tilt}
+						/>
+						<label for="latitude">Panel Tilt (0° horizontal)</label>
+						{#if $params.tilt < 0 ||$params.tilt > 90 }
+							<div class="invalid-tooltip" transition:slide>
+								Tilt must be between 0° and 90°
+							</div>
+						{/if}
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating">
+						<input
+							type="number"
+							class="form-control"
+							class:is-invalid={$params.azimuth < -90 || $params.azimuth > 90}
+							name="azimuth"
+							id="azimuth"
+							step="1"
+							min="-90"
+							max="90"
+							bind:value={$params.azimuth}
+						/>
+						<label for="latitude">Panel Azimuth (0° S, -90° E, 90° W)</label>
+						{#if Number($params.azimuth) < 0 || Number($params.azimuth) > 90 }
+							<div class="invalid-tooltip" transition:slide>
+								Azimuth must be between -90° (east) and 90° (west)
+							</div>
+						{/if}
+					</div>
 				</div>
 			</AccordionItem>
 			<AccordionItem
@@ -1224,6 +1270,18 @@
 							target="_blank">Razo, Müller Witwer</a
 						></td
 					>
+				</tr>
+				<tr>
+					<th scope="row">global_tilted_irradiance</th>
+					<td>Preceding hour mean</td>
+					<td>W/m²</td>
+					<td>Total radiation received on a tilted pane as average of the preceding hour. 
+						The calculation is assuming a fixed albedo of 20% and in isotropic sky. 
+						Please specify tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. 
+						Azimuth should be close to 0° (0° south, -90° east, 90° west).
+						If azimuth is set to "nan", the calculation assumes a horizontal tracker. 
+						If tilt is set to "nan", it is assumed that the panel has a vertical tracker. 
+						If both are set to "nan", a bi-axial tracker is assumed.</td>
 				</tr>
 				<tr>
 					<th scope="row">sunshine_duration</th>
