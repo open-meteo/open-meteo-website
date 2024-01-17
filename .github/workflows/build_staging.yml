@@ -16,7 +16,7 @@ jobs:
       - run: npm run staging
       - run: npm run rename_index_files
       - name: Install LFTP
-        run: sudo apt update && sudo apt -qq -y install lftp
+        run: sudo apt update && sudo apt -qq -y install ncftp
       - name: Upload ftp
-        run: lftp storage.bunnycdn.com -u open-meteo-staging,${{ secrets.ftp_password_staging }} -e "set ftp:ssl-force false; set ssl:verify-certificate false; mirror --reverse --continue --dereference -x ^\.git/$ build .; quit"
+        run: ncftpput -R -v -u open-meteo-staging -p ${{ secrets.ftp_password_staging }} storage.bunnycdn.com ./build/ ./
       - run: "curl --request POST --url https://api.bunny.net/pullzone/277769/purgeCache --header 'AccessKey: ${{ secrets.bunny_api_key }}' --header 'content-type: application/json'"
