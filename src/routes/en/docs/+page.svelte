@@ -267,6 +267,12 @@
 			{ name: 'meteofrance_arpege_europe', label: 'MeteoFrance Arpege Europe' },
 			{ name: 'meteofrance_arome_france', label: 'MeteoFrance Arome France' },
 			{ name: 'meteofrance_arome_france_hd', label: 'MeteoFrance Arome France HD' }
+		],
+		[
+			{ name: 'arpae_cosmo_seamless', label: 'ARPAE Seamless' },
+			{ name: 'arpae_cosmo_2i', label: 'ARPAE COSMO 2I' },
+			{ name: 'arpae_cosmo_2i_ruc', label: 'ARPAE COSMO 2I RUC' },
+			{ name: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
 		]
 	];
 </script>
@@ -979,6 +985,14 @@
 					<td>Australia</td>
 					<td>15 km</td>
 					<td>10 days</td>
+					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<th scope="row">COSMO 2I & 5M</th>
+					<td>AM ARPAE ARPAP</td>
+					<td>Italy</td>
+					<td>2 km</td>
+					<td>3 days</td>
 					<td>Every 6 hours</td>
 				</tr>
 			</tbody>
