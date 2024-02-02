@@ -993,7 +993,7 @@
 					<td>Italy</td>
 					<td>2 km</td>
 					<td>3 days</td>
-					<td>Every 6 hours</td>
+					<td>Every 3 hours</td>
 				</tr>
 			</tbody>
 		</table>
