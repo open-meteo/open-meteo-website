@@ -96,7 +96,7 @@
 
 <div class="alert alert-primary" role="alert">
 	The API utilizes open-data ECMWF weather forecasts from the IFS weather model, which has a
-	resolution of 9 km. However, the open-data access is restricted to a resolution of 40 km and
+	resolution of 9 km. However, the open-data access is restricted to a resolution of 25 km and
 	3-hourly values, although the model still boasts excellent accuracy for large scale weather
 	patterns. For more detailed local forecasts, we recommend utilizing the <a href="/en/docs"
 		>generic weather forecast API</a
