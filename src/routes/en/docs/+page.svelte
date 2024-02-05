@@ -234,7 +234,8 @@
 	const models = [
 		[
 			{ name: 'best_match', label: 'Best match' },
-			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS' },
+			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4°' },
+			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
 			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
 			{ name: 'bom_access_global', label: 'BOM Access Global' },
 			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
@@ -943,7 +944,7 @@
 					<th scope="row"><a href="/en/docs/ecmwf-api">IFS</a></th>
 					<td>ECMWF</td>
 					<td>European Union</td>
-					<td>44 km</td>
+					<td>25 km</td>
 					<td>7 days</td>
 					<td>Every 6 hours</td>
 				</tr>
