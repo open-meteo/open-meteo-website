@@ -388,7 +388,7 @@
 	<p>
 		This API uses <a href="https://www.ecmwf.int/en/forecasts/datasets/open-data"
 			>open-data ECMWF Integrated Forecast System IFS</a
-		>. ECMWF IFS models run every 6 hours at 9 km resolution, but only 0.4° grid spacing (~44 km) is
+		>. ECMWF IFS models run every 6 hours at 9 km resolution, but only 0.25° grid spacing (~25 km) is
 		available as open data with a limited number of weather variables at 3-hourly intervals. As soon
 		as ECWMF includes additional data, they will be made available in this API.
 	</p>
@@ -416,6 +416,17 @@
 					>
 					<td>Global</td>
 					<td>0.4° (~44 km)</td>
+					<td>3-Hourly</td>
+					<td>10 days</td>
+					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://www.ecmwf.int/en/forecasts/datasets/open-data" target="_blank">IFS</a
+						></th
+					>
+					<td>Global</td>
+					<td>0.25° (~25 km)</td>
 					<td>3-Hourly</td>
 					<td>10 days</td>
 					<td>Every 6 hours</td>
