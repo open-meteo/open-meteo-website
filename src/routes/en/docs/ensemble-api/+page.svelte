@@ -162,6 +162,30 @@
 		'geopotential_height_850hPa',
 	];
 
+	const ecmwf__variables = [
+		'temperature_2m',
+		'precipitation',
+		'rain',
+		'snowfall',
+		'relative_humidity_2m',
+		'dew_point_2m',
+		'apparent_temperature',
+		'vapour_pressure_deficit',
+		'weather_code',
+		'surface_pressure',
+		'pressure_msl',
+		'cloud_cover',
+		'wind_speed_10m',
+		'wind_direction_10m',
+		'surface_temperature',
+		'rain',
+		'soil_temperature_0_to_10cm',
+		'temperature_500hPa',
+		'temperature_850hPa',
+		'geopotential_height_500hPa',
+		'geopotential_height_850hPa',
+	];
+
 	let available_variables = {
 		icon_seamless: icon_d2_variables,
 		icon_global: icon_global_variables,
@@ -170,29 +194,8 @@
 		gfs_seamless: gfs05_variables,
 		gfs025: gfs025_variables,
 		gfs05: gfs05_variables,
-		ecmwf_ifs04: [
-			'temperature_2m',
-			'precipitation',
-			'rain',
-			'snowfall',
-			'relative_humidity_2m',
-			'dew_point_2m',
-			'apparent_temperature',
-			'vapour_pressure_deficit',
-			'weather_code',
-			'surface_pressure',
-			'pressure_msl',
-			'cloud_cover',
-			'wind_speed_10m',
-			'wind_direction_10m',
-			'surface_temperature',
-			'rain',
-			'soil_temperature_0_to_10cm',
-			'temperature_500hPa',
-			'temperature_850hPa',
-			'geopotential_height_500hPa',
-			'geopotential_height_850hPa',
-		],
+		ecmwf_ifs04: ecmwf__variables,
+		ecmwf_ifs025: ecmwf__variables,
 		gem_global: [
 			'temperature_2m',
 			'surface_pressure',
@@ -363,7 +366,8 @@
 			{ name: 'gfs05', label: 'GFS Ensemble 0.5' }
 		],
 		[
-			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS Ensemble' }, 
+			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4° Ensemble' }, 
+			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' }, 
 			{ name: 'gem_global', label: 'GEM Global Ensemble' }, 
 			{ name: 'bom_access_global_ensemble', label: 'BOM Access Global' }
 		]
@@ -833,12 +837,20 @@
 					<td>Every 6 hours</td>
 				</tr>
 				<tr>
-					<th scope="row">ECMWF</th>
-					<td>IFS</td>
+					<th scope="row" rowspan="2">ECMWF</th>
+					<td>IFS 0.4°</td>
 					<td>Global</td>
 					<td>44 km, 3-hourly</td>
 					<td>51</td>
-					<td>10 days</td>
+					<td>15 days</td>
+					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<td>IFS 0.25°</td>
+					<td>Global</td>
+					<td>25 km, 3-hourly</td>
+					<td>51</td>
+					<td>15 days</td>
 					<td>Every 6 hours</td>
 				</tr>
 				<tr>
