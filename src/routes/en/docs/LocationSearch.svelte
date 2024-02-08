@@ -133,7 +133,7 @@
 			const longitude = position.coords.longitude;
 			return { results: [{
 				id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
-				name: `GPS ${latitude.toFixed(2)}°E ${longitude.toFixed(2)}°N`,
+				name: `GPS ${latitude.toFixed(2)}°N ${longitude.toFixed(2)}°E`,
 				latitude: latitude,
 				longitude: longitude,
 				elevation: position.coords.altitude ?? NaN,
@@ -254,9 +254,9 @@
 												/>
 												{location.name}<br />
 												<small class="text-muted"
-													>{location.admin1 || ''} ({location.latitude.toFixed(2)}°E {location.longitude.toFixed(
+													>{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
 														2
-													)}°N {location.elevation.toFixed(0)}m asl)</small
+													)}°E {location.elevation.toFixed(0)}m asl)</small
 												>
 												<div class="position-absolute top-0 end-0 p-2">
 													<button
@@ -299,9 +299,9 @@
 												/>
 												{location.name}<br />
 												<small class="text-muted"
-													>{location.admin1 || ''} ({location.latitude.toFixed(2)}°E {location.longitude.toFixed(
+													>{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
 														2
-													)}°N {location.elevation.toFixed(0)}m asl)</small
+													)}°E {location.elevation.toFixed(0)}m asl)</small
 												>
 												<div class="position-absolute top-0 end-0 p-2">
 													<button
