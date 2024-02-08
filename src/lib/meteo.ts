@@ -33,6 +33,16 @@ export function countVariables(variables: { name: string; label: string }[][], p
     };
 }
 
+export function countVariablesPreviousDay(variables: { name: string; label: string }[], params: string[], days: number) {
+    return {
+        total: variables.length * days,
+        active: variables.reduce(
+            (i, e) => i + [...Array(days).keys()].reduce((i, d) => i + (params.includes(`${e.name}_previous_day${d}`) ? 1 : 0), 0),
+            0
+        )
+    };
+}
+
 export function countPressureVariables(variables: { name: string; label: string }[], levels: number[], params: string[]) {
     return {
         total: variables.length * levels.length,
