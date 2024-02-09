@@ -7,7 +7,6 @@
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
 		countVariables,
-		countVariablesPreviousDay,
 		sliceIntoChunks
 	} from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
@@ -117,28 +116,6 @@
 			{ name: 'soil_moisture_9_to_27cm', label: 'Soil Moisture (9-27 cm)' },
 			{ name: 'soil_moisture_27_to_81cm', label: 'Soil Moisture (27-81 cm)' }
 		]
-	];
-
-	const previousDay = [
-			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
-			{ name: 'rain', label: 'Rain' },
-			{ name: 'showers', label: 'Showers' },
-			{ name: 'snowfall', label: 'Snowfall' },
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'surface_pressure', label: 'Surface Pressure' },
-			{ name: 'cloud_cover', label: 'Cloud cover Total' },
-			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-			{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
-			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-			{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-			{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' }
 	];
 
 	const current = [
@@ -669,45 +646,6 @@
 							>
 						</div>
 					</div>
-				</div>
-			</AccordionItem>
-			<AccordionItem
-				id="previous-day"
-				title="Forecast from Model Runs from Previous Days"
-				count={countVariablesPreviousDay(previousDay, $params.hourly, 8)}
-			>
-				<div class="table-responsive">
-					<table class="table table-sm ">
-						<tbody>
-							{#each previousDay as e}
-								<tr>
-									<td>{e.label}</td>
-									{#each {length: 8} as _, i}
-									<td><div class="form-check">
-										<input
-											class="form-check-input"
-											type="checkbox"
-											value="{e.name}_previous_day{i}"
-											id="{e.name}_hourly_previous_day{i}"
-											name="hourly"
-											bind:group={$params.hourly}
-										/>
-										<label class="form-check-label" for="{e.name}_hourly_previous_day{i}">Day {i}</label>
-									</div></td>
-									{/each}
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
-				<div class="col-md-12 mb-3">
-					<p><small class="text-muted"
-						>Forecasts from model runs of previous days show what was predicted a few days earlier. 
-						By comparing these previous forecasts with the latest data, one can compute the accuracy and volatility of a forecast. 
-						Additionally, this data can be utilized to refine forecasts for a specific future time using machine learning models.</small></p>
-					<p><small class="text-muted"
-						>Day 0 represents the most recent data. Day 1 depicts what was forecast 24 hours earlier, while Day 2 reflects forecasts from 48 hours prior, and so on. Beyond Day 6 and 7, wild data jumps are anticipated, indicating increased forecast volatility.</small></p>
-					<p><small class="text-muted">Data is refreshed with each weather model run, ranging from updates every hour to updates every six hours while maintaining a fixed offset of 24, 48, 72 hours. Local models, offering forecasts of only 2-5 days, naturally possess only 2-5 days of previous day data.</small></p>
 				</div>
 			</AccordionItem>
 			<AccordionItem
