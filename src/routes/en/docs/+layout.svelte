@@ -29,6 +29,8 @@
 	];
 	if (dev) {
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
+		links.push({ title: 'Historical Forecast API', url: '/en/docs/historical-forecast-api' });
+		links.push({ title: 'Previous Runs API', url: '/en/docs/previous-runs-api' });
 	}
 </script>
 

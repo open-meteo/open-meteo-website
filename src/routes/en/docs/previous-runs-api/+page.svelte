@@ -17,14 +17,6 @@
 	import LocationSelection from '../LocationSelection.svelte';
 	import { onMount } from 'svelte';
 
-	var d = new Date();
-	d.setDate(d.getDate() - 2);
-	let endDateDefault = d.toISOString().split('T')[0];
-	d.setDate(d.getDate() - 14);
-	let startDateDefault = d.toISOString().split('T')[0];
-	let startDate = '1940-01-01';
-	let endDate = '';
-
 	const defaultParameter = {
 		current: [],
 		minutely_15: [],
@@ -37,7 +29,15 @@
 		precipitation_unit: 'mm',
 		timeformat: 'iso8601',
 		timezone: 'UTC',
-		time_mode: 'time_interval',
+		time_mode: 'forecast_days',
+		past_days: '0',
+		past_hours: '',
+		past_minutely_15: '',
+		forecast_days: '7',
+		forecast_hours: '',
+		forecast_minutely_15: '',
+		start_date: '',
+		end_date: '',
 		tilt: 0,
 		azimuth: 0,
 		models: [],
@@ -46,19 +46,8 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		start_date: startDateDefault,
-		end_date: endDateDefault,
 		...defaultParameter,
-		hourly: ['temperature_2m']
-	});
-
-	onMount(async () => {
-		var d = new Date();
-		endDate = d.toISOString().split('T')[0];
-		d.setDate(d.getDate() - 1);
-		$params.end_date = d.toISOString().split('T')[0];
-		d.setDate(d.getDate() - 14);
-		$params.start_date = d.toISOString().split('T')[0];
+		hourly: ['temperature_2m_previous_day0','temperature_2m_previous_day1','temperature_2m_previous_day2','temperature_2m_previous_day3','temperature_2m_previous_day4','temperature_2m_previous_day5']
 	});
 
 	const pressureVariables = [
@@ -165,45 +154,128 @@
 	/>
 
 	<div class="row py-3 px-0">
-		<div class="col-md-6 mb-3">
-			<StartEndDate
-				bind:start_date={$params.start_date}
-				bind:end_date={$params.end_date}
-				{startDate}
-				{endDate}
-			/>
+		<div>
+			<ul class="nav nav-underline" id="pills-tab" role="tablist">
+				<li class="nav-item" role="presentation" style="width: 70px;">
+					<span class="nav-link disabled" aria-disabled="true">Time:</span>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button
+						class="nav-link"
+						class:active={$params.time_mode == 'forecast_days'}
+						id="pills-forecast_days-tab"
+						type="button"
+						role="tab"
+						aria-controls="pills-forecast_days"
+						aria-selected="true"
+						on:click={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
+					>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button
+						class="nav-link"
+						class:active={$params.time_mode == 'time_interval'}
+						id="pills-time_interval-tab"
+						type="button"
+						role="tab"
+						aria-controls="pills-time_interval"
+						on:click={() => ($params.time_mode = 'time_interval')}
+						aria-selected="true"><CalendarEvent /> Time Interval</button
+					>
+				</li>
+			</ul>
 		</div>
-		<div class="col-md-6">
-			<p>
-				Past weather forecasts from 2022 onwards are available.
-			</p>
-			<p>
-				Quick:
-				<!--<button
-					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2020-01-01'), ($params.end_date = '2020-12-31')
-					)}>2020</button
+		<div class="tab-content py-3" id="pills-tabContent">
+			{#if $params.time_mode == 'forecast_days'}
+				<div
+					class="tab-pane active"
+					in:fade
+					id="pills-forecast_days"
+					role="tabpanel"
+					aria-labelledby="pills-forecast_days-tab"
+					tabindex="0"
 				>
-				<button
-					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2021-01-01'), ($params.end_date = '2021-12-31')
-					)}>2021</button
-				>-->
-				<button
-					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
-					)}>2022</button
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-floating mb-3">
+								<select
+									class="form-select"
+									name="forecast_days"
+									id="forecast_days"
+									aria-label="Forecast days"
+									bind:value={$params.forecast_days}
+								>
+									<option value="1">1 day</option>
+									<option value="3">3 days</option>
+									<option value="7">7 days (default)</option>
+									<option value="14">14 days</option>
+									<option value="16">16 days</option>
+								</select>
+								<label for="forecast_days">Forecast days</label>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="form-floating mb-3">
+								<select
+									class="form-select"
+									name="past_days"
+									id="past_days"
+									aria-label="Past days"
+									bind:value={$params.past_days}
+								>
+									<option value="0">0 (default)</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="5">5</option>
+									<option value="7">1 week</option>
+									<option value="14">2 weeks</option>
+									<option value="31">1 month</option>
+									<option value="61">2 months</option>
+									<option value="92">3 months</option>
+								</select>
+								<label for="past_days">Past days</label>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<p>
+								By default, we provide forecasts for 7 days, but you can access forecasts for up to
+								16 days. If you're interested in past weather data, you can use the <mark
+									>Past Days</mark
+								>
+								feature to access archived forecasts.
+							</p>
+						</div>
+					</div>
+				</div>
+			{/if}
+			{#if $params.time_mode == 'time_interval'}
+				<div
+					class="tab-pane active"
+					in:fade
+					id="pills-time_interval"
+					role="tabpanel"
+					aria-labelledby="pills-time_interval-tab"
+					tabindex="0"
 				>
-				<button
-				class="btn btn-outline-primary btn-sm"
-				on:click|preventDefault={() => (
-					($params.start_date = '2023-01-01'), ($params.end_date = '2023-12-31')
-				)}>2023</button
-			>
-			</p>
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
+						</div>
+						<div class="col-md-6">
+							<p>
+								The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a
+								range of dates more easily. Archived forecasts come from a series of weather model
+								runs over time. If you're using the free API, you can access archived forecasts for
+								up to 3 months. For our commercial customers, data is available up to 6 months.
+								You can also check out our
+								<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
+								data going all the way back to 1940.
+							</p>
+						</div>
+					</div>
+				</div>
+			{/if}
 		</div>
 	</div>
 
