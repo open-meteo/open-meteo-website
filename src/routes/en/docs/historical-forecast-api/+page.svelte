@@ -246,7 +246,8 @@
 	const models = [
 		[
 			{ name: 'best_match', label: 'Best match' },
-			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS' },
+			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4°' },
+			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
 			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
 			{ name: 'bom_access_global', label: 'BOM Access Global' },
 			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
@@ -279,6 +280,12 @@
 			{ name: 'meteofrance_arpege_europe', label: 'MeteoFrance Arpege Europe' },
 			{ name: 'meteofrance_arome_france', label: 'MeteoFrance Arome France' },
 			{ name: 'meteofrance_arome_france_hd', label: 'MeteoFrance Arome France HD' }
+		],
+		[
+			{ name: 'arpae_cosmo_seamless', label: 'ARPAE Seamless' },
+			{ name: 'arpae_cosmo_2i', label: 'ARPAE COSMO 2I' },
+			{ name: 'arpae_cosmo_2i_ruc', label: 'ARPAE COSMO 2I RUC' },
+			{ name: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
 		]
 	];
 </script>
