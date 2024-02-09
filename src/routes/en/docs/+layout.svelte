@@ -88,7 +88,7 @@
 											<a
 												href={l.url}
 												class="btn btn-hover py-1 px-2"
-												class:active={$page.url.pathname === l.url + "/"}>{l.title}</a
+												class:active={$page.url.pathname === l.url + "/" || $page.url.pathname === l.url}>{l.title}</a
 											>
 										</li>
 									{/each}

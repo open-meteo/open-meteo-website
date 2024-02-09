@@ -136,8 +136,8 @@
 </script>
 
 <svelte:head>
-	<title>Historical Forecast API | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/historical-forecast-api" />
+	<title>Previous Runs API | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/docs/previous-runs-api" />
 </svelte:head>
 
 <div class="alert alert-warning" role="alert">
