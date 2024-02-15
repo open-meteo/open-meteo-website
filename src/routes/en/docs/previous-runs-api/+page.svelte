@@ -80,7 +80,13 @@
 		{ name: 'surface_pressure', label: 'Surface Pressure' },
 		{ name: 'cloud_cover', label: 'Cloud cover Total' },
 		{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+		{ name: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
+		{ name: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
+		{ name: 'wind_speed_180m', label: 'Wind Speed (180 m)' },
 		{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+		{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
+		{ name: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
+		{ name: 'wind_direction_180m', label: 'Wind Direction (180 m)' },
 		{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
 		{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
 		{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
@@ -306,11 +312,9 @@
 			</table>
 		</div>
 		<div class="col-md-12 mb-3">
-			<p>Forecasts from model runs of previous days show what was predicted a few days earlier. 
-				By comparing these previous forecasts with the latest data, one can compute the accuracy and volatility of a forecast. 
-				Additionally, this data can be utilized to refine forecasts for a specific future time using machine learning models.</p>
-			<p>Day 0 represents the most recent data. Day 1 depicts what was forecast 24 hours earlier, while Day 2 reflects forecasts from 48 hours prior, and so on. Beyond Day 6 and 7, wild data jumps are anticipated, indicating increased forecast volatility.</p>
-			<p>Data is refreshed with each weather model run, ranging from updates every hour to updates every six hours while maintaining a fixed offset of 24, 48, 72 hours. Local models, offering forecasts of only 2-5 days, naturally possess only 2-5 days of previous day data.</p>
+			<p>Weather models constantly churn out updates, each predicting the future at different lead times. Think of Day 0 as latest forecast close to measurements, Day 1 as a glimpse 24 hours back, and Day 2 as a 48-hour rewind. Each day further back forecasts longer into the future and, typically, increases volatility. Data jumps become wilder past Day 6 or 7, highlighting the inherent challenge of long-term forecasting.</p>
+			<p>This data serves multiple purposes, including answering questions such as "what did yesterday's forecast predict for today?" or by comparing past forecasts with real-time observations, we can assess a forecast's accuracy and volatility. When combined with machine learning techniques, models can be trained specifically to enhance forecasts for the next 2 or 3 days.</p>
+			<p>The frequency of model updates varies, ranging from hourly to every six hours. For local models with shorter prediction horizons (2-5 days), we naturally have access to a shorter "time machine" of past predictions (2-5 days).</p>
 		</div>
 	</div>
 
