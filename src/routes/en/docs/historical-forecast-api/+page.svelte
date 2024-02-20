@@ -26,7 +26,6 @@
 	let endDate = '';
 
 	const defaultParameter = {
-		current: [],
 		minutely_15: [],
 		hourly: [],
 		daily: [],
@@ -127,31 +126,6 @@
 			{ name: 'soil_moisture_3_to_9cm', label: 'Soil Moisture (3-9 cm)' },
 			{ name: 'soil_moisture_9_to_27cm', label: 'Soil Moisture (9-27 cm)' },
 			{ name: 'soil_moisture_27_to_81cm', label: 'Soil Moisture (27-81 cm)' }
-		]
-	];
-
-	const current = [
-		[
-			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'is_day', label: 'Is Day or Night' }
-		],[
-			{ name: 'precipitation', label: 'Precipitation' },
-			{ name: 'rain', label: 'Rain' },
-			{ name: 'showers', label: 'Showers' },
-			{ name: 'snowfall', label: 'Snowfall' },
-		],
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'cloud_cover', label: 'Cloud cover Total' },
-			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'surface_pressure', label: 'Surface Pressure' },
-		],
-		[
-			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 		]
 	];
 
@@ -643,32 +617,6 @@
 	</div>
 
 	<div class="row py-3 px-0">
-		<h2>Current Weather</h2>
-		{#each current as group}
-			<div class="col-md-3 mb-2">
-				{#each group as e}
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value={e.name}
-							id="{e.name}_current"
-							name="current"
-							bind:group={$params.current}
-						/>
-						<label class="form-check-label" for="{e.name}_current">{e.label}</label>
-					</div>
-				{/each}
-			</div>
-		{/each}
-		<div class="col-md-12">
-			<small class="text-muted"
-				>Note: Current conditions are based on 15-minutely weather model data. Every weather variable available in hourly data, is available as current condition as well.</small
-			>
-		</div>
-	</div>
-
-	<div class="row py-3 px-0">
 		<h2>Settings</h2>
 		<div class="col-md-3">
 			<div class="form-floating mb-3">
@@ -742,100 +690,219 @@
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
-		Open-Meteo weather forecast APIs use weather models from multiple national weather providers.
-		For each location worldwide, the best models will be combined to provide the best possible
-		forecast.
-	</p>
-	<p>
 		Weather models cover different geographic areas at different resolutions and provide different
 		weather variables. Depending on the model, data have been interpolated to hourly values or not
 		all weather variables are available. With the drop down <mark>Weather models</mark> (just below the
 		hourly variables), you can select and compare individual weather models.
 	</p>
+	<p>The default <mark>Best Match</mark> selects the best suitable high resolution weather models for any location worldwide.</p>
 	<div class="table-responsive">
 		<table class="table">
 			<thead>
 				<tr>
-					<th scope="col">Weather Model</th>
 					<th scope="col">National Weather Provider</th>
-					<th scope="col">Origin Country</th>
-					<th scope="col">Resolution</th>
-					<th scope="col">Forecast Length</th>
-					<th scope="col">Update frequency</th>
+					<th scope="col">Weather Model</th>
+					<th scope="col">Region</th>
+					<th scope="col">Spatial Resolution</th>
+					<th scope="col">Temporal Resolution</th>
+					<th scope="col">Update Frequency</th>
+					<th scope="col">Available Since</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<th scope="row"><a href="/en/docs/dwd-api">ICON</a></th>
-					<td>Deutscher Wetterdienst (DWD)</td>
-					<td>Germany</td>
-					<td>2 - 11 km</td>
-					<td>7.5 days</td>
-					<td>Every 3 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/gfs-api">GFS & HRRR</a></th>
-					<td>NOAA</td>
-					<td>United States</td>
-					<td>3 - 25 km</td>
-					<td>16 days</td>
-					<td>Every hour</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/meteofrance-api">Arpege & Arome</a></th>
-					<td>MeteoFrance</td>
-					<td>France</td>
-					<td>1 - 25 km</td>
-					<td>4 days</td>
-					<td>Every 3 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/ecmwf-api">IFS</a></th>
-					<td>ECMWF</td>
-					<td>European Union</td>
-					<td>44 km</td>
-					<td>7 days</td>
+					<th scope="row" rowspan="3">Deutscher Wetterdienst (DWD)</th>
+					<td>ICON</td>
+					<td>Global</td>
+					<td>0.1° (~11 km)</td>
+					<td>1-Hourly</td>
 					<td>Every 6 hours</td>
+					<td>2022-11-24</td>
 				</tr>
 				<tr>
-					<th scope="row"><a href="/en/docs/jma-api">MSM & GSM</a></th>
-					<td>JMA</td>
+					<td>ICON-EU</td>
+					<td>Europe</td>
+					<td>0.0625° (~7 km)</td>
+					<td>1-Hourly</td>
+					<td>Every 3 hours</td>
+					<td>2022-11-24</td>
+				</tr>
+				<tr>
+					<td>ICON-D2</td>
+					<td>Central Europe</td>
+					<td>0.02° (~2 km)</td>
+					<td>1-Hourly</td>
+					<td>Every 3 hours</td>
+					<td>2022-11-24</td>
+				</tr>
+				<tr>
+					<th scope="row" rowspan="3">NOAA NCEP</th>
+					<td>GFS</td>
+					<td>Global</td>
+					<td>0.11° (~13 km)</td>
+					<td>1-Hourly</td>
+					<td>Every 6 hours</td>
+					<td>2021-03-23</td>
+				</tr>
+				<tr>
+					<td>GFS Pressure Variables</td>
+					<td>Global</td>
+					<td>0.25° (~25 km)</td>
+					<td>1-Hourly</td>
+					<td>Every 6 hours</td>
+					<td>2021-03-23</td>
+				</tr>
+				<tr>
+					<td>HRRR</td>
+					<td>U.S. Conus</td>
+					<td>3 km</td>
+					<td>1-Hourly</td>
+					<td>Every hour</td>
+					<td>2021-03-23</td>
+				</tr>
+				<tr>
+					<th scope="row" rowspan="4">MeteoFrance</th>
+					<td>Arpege World</td>
+					<td>Global</td>
+					<td>0.25° (~25 km)</td>
+					<td>1-Hourly</td>
+					<td>Every 6 hours</td>
+					<td>2014-01-02</td>
+				</tr>
+				<tr>
+					<td>Arpege Europe</td>
+					<td>Europe</td>
+					<td>0.1° (~11 km)</td>
+					<td>1-Hourly</td>
+					<td>Every 6 hours</td>
+					<td>2022-11-13</td>
+				</tr>
+				<tr>
+					<td>Arome France</td>
+					<td>Global</td>
+					<td>0.025° (~2.5 km)</td>
+					<td>1-Hourly</td>
+					<td>Every 3 hours</td>
+					<td>2014-01-02</td>
+				</tr>
+				<tr>
+					<td>Arome France HD</td>
+					<td>Global</td>
+					<td>0.01° (~1.5 km)</td>
+					<td>1-Hourly</td>
+					<td>Every 3 hours</td>
+					<td>2022-11-13</td>
+				</tr>
+				<tr>
+					<th scope="row" rowspan="2">ECMWF</th>
+					<td>IFS 0.4°</td>
+					<td>Global</td>
+					<td>0.4° (~44 km)</td>
+					<td>3-Hourly</td>
+					<td>Every 6 hours</td>
+					<td>2022-11-07</td>
+				</tr>
+				<tr>
+					<td>IFS 0.25°</td>
+					<td>Global</td>
+					<td>0.25° (~25 km)</td>
+					<td>3-Hourly</td>
+					<td>Every 6 hours</td>
+					<td>2024-02-03</td>
+				</tr>
+				<tr>
+					<th scope="row" rowspan="2">JMA</th>
+					<td>GSM</td>
+					<td>Global</td>
+					<td>0.5° (~55 km)</td>
+					<td>6-Hourly</td>
+					<td>Every 6 hours</td>
+					<td>2016-01-01</td>
+				</tr>
+				<tr>
+					<td>MSM</td>
 					<td>Japan</td>
-					<td>5 - 55 km</td>
-					<td>11 days</td>
+					<td>0.05° (~5 km)</td>
+					<td>1-Hourly</td>
 					<td>Every 3 hours</td>
+					<td>2016-01-01</td>
 				</tr>
 				<tr>
-					<th scope="row"><a href="/en/docs/metno-api">MET Nordic</a></th>
-					<td>MET Norway</td>
-					<td>Norway</td>
+					<th scope="row">MET Norway</th>
+					<td>MET Nordic</td>
+					<td>Norway, Denmark, Sweden, Finland</td>
 					<td>1 km</td>
-					<td>2.5 days</td>
+					<td>1-Hourly</td>
 					<td>Every hour</td>
+					<td>2022-11-15</td>
 				</tr>
 				<tr>
-					<th scope="row"><a href="/en/docs/gem-api">GEM</a></th>
-					<td>Canadian Weather Service</td>
-					<td>Canada</td>
+					<th scope="row" rowspan="3">Canadian Weather Service</th>
+					<td>GEM Global</td>
+					<td>Global</td>
+					<td>0.15° (~15 km)</td>
+					<td>3-Hourly</td>
+					<td>Every 12 hours</td>
+					<td>2022-11-23</td>
+				</tr>
+				<tr>
+					<td>GEM Regional</td>
+					<td>North America, North Pole</td>
+					<td>10 km</td>
+					<td>1-Hourly</td>
+					<td>Every 6 hours</td>
+					<td>2022-11-23</td>
+				</tr>
+				<tr>
+					<td>HRDPS Continental</td>
+					<td>Canada, Nothern US</td>
 					<td>2.5 km</td>
-					<td>10 days</td>
+					<td>1-Hourly</td>
 					<td>Every 6 hours</td>
+					<td>2023-03-03</td>
 				</tr>
 				<tr>
-					<th scope="row"><a href="/en/docs/cma-api">GFS GRAPES</a></th>
-					<td>China Meteorological Administration (CMA)</td>
-					<td>China</td>
-					<td>15 km</td>
-					<td>10 days</td>
+					<th scope="row">China Meteorological Administration (CMA)</th>
+					<td>GFS GRAPES</td>
+					<td>Global</td>
+					<td>0.125° (~15 km)</td>
+					<td>3-hourly</td>
 					<td>Every 6 hours</td>
+					<td>2023-12-31</td>
 				</tr>
 				<tr>
-					<th scope="row"><a href="/en/docs/bom-api">ACCESS-G</a></th>
-					<td>Australian Bureau of Meteorology (BOM)</td>
-					<td>Australia</td>
-					<td>15 km</td>
-					<td>10 days</td>
+					<th scope="row">Australian Bureau of Meteorology (BOM)</th>
+					<td>ACCESS-G</td>
+					<td>Global</td>
+					<td>0.15° (~15 km)</td>
+					<td>1-Hourly</td>
 					<td>Every 6 hours</td>
+					<td>2024-01-18</td>
+				</tr>
+				<tr>
+					<th scope="row" rowspan="3">COSMO 2I & 5M  AM ARPAE ARPAP Italy</th>
+					<td>COSMO 5M</td>
+					<td>Europe</td>
+					<td>5 km</td>
+					<td>1-Hourly</td>
+					<td>Every 12 hours</td>
+					<td>2024-02-01</td>
+				</tr>
+				<tr>
+					<td>COSMO 2I</td>
+					<td>Italy</td>
+					<td>2.2 km</td>
+					<td>1-Hourly</td>
+					<td>Every 12 hours</td>
+					<td>2024-02-01</td>
+				</tr>
+				<tr>
+					<td>COSMO 2I RUC</td>
+					<td>Italy</td>
+					<td>2.2 km</td>
+					<td>1-Hourly</td>
+					<td>Every 3 hours</td>
+					<td>2024-02-01</td>
 				</tr>
 			</tbody>
 		</table>
