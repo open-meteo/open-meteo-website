@@ -177,6 +177,7 @@
 									<option value="5">5 days</option>
 									<option value="7">7 days</option>
 									<option value="10">10 days (default)</option>
+									<option value="15">15 days</option>
 								</select>
 								<label for="forecast_days">Forecast days</label>
 							</div>
@@ -478,7 +479,7 @@
 					<td>Global</td>
 					<td>0.25° (~25 km)</td>
 					<td>6-Hourly</td>
-					<td>10 days</td>
+					<td>15 days</td>
 					<td>Every 6 hours</td>
 				</tr>
 			</tbody>
