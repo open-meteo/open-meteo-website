@@ -1,11 +1,11 @@
 <script lang="ts">
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import type { GeoLocation } from '$lib/stores';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
+		countVariables,
 		sliceIntoChunks
 	} from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
@@ -28,6 +28,7 @@
 		start_date: '',
 		end_date: '',
 		time_mode: 'forecast_days',
+		models: []
 	};
 
 	const params = urlHashStore({
@@ -86,6 +87,14 @@
 				label: 'Total Column Integrated Water Vapour'
 			}
 		]
+	];
+
+	const models = [
+		[
+			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4°' },
+			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
+			{ name: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' },
+		],
 	];
 </script>
 
@@ -309,6 +318,36 @@
 					</div>
 				</div>
 			</AccordionItem>
+			<AccordionItem
+				id="models"
+				title="Weather models"
+				count={countVariables(models, $params.models)}
+			>
+				{#each models as group}
+					<div class="col-md-4 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_model"
+									name="models"
+									bind:group={$params.models}
+								/>
+								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				<div class="col-md-12">
+					<small class="text-muted"
+						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
+						a seamless prediction.</small
+					>
+				</div>
+			</AccordionItem>
 		</div>
 	</div>
 
@@ -428,6 +467,17 @@
 					<td>Global</td>
 					<td>0.25° (~25 km)</td>
 					<td>3-Hourly</td>
+					<td>10 days</td>
+					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://www.ecmwf.int/en/forecasts/datasets/open-data" target="_blank">AIFS</a
+						></th
+					>
+					<td>Global</td>
+					<td>0.25° (~25 km)</td>
+					<td>6-Hourly</td>
 					<td>10 days</td>
 					<td>Every 6 hours</td>
 				</tr>
