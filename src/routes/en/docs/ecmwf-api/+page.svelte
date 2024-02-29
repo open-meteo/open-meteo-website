@@ -343,9 +343,7 @@
 				{/each}
 				<div class="col-md-12">
 					<small class="text-muted"
-						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						>Note: IFS in 0.4° resolution will be discontinued in the future.</small
 					>
 				</div>
 			</AccordionItem>
