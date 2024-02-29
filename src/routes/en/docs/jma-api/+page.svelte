@@ -427,7 +427,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.azimuth < -90 || $params.azimuth > 90}
+							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
 							name="azimuth"
 							id="azimuth"
 							step="1"
@@ -436,7 +436,7 @@
 							bind:value={$params.azimuth}
 						/>
 						<label for="latitude">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < 0 || Number($params.azimuth) > 90 }
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
