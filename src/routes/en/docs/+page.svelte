@@ -942,7 +942,7 @@
 					<td>Every hour</td>
 				</tr>
 				<tr>
-					<th scope="row"><a href="/en/docs/ecmwf-api">IFS</a></th>
+					<th scope="row"><a href="/en/docs/ecmwf-api">IFS & AIFS</a></th>
 					<td>ECMWF</td>
 					<td>European Union</td>
 					<td>25 km</td>

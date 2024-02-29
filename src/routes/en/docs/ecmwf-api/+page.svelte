@@ -429,8 +429,8 @@
 		This API uses <a href="https://www.ecmwf.int/en/forecasts/datasets/open-data"
 			>open-data ECMWF Integrated Forecast System IFS</a
 		>. ECMWF IFS models run every 6 hours at 9 km resolution, but only 0.25° grid spacing (~25 km) is
-		available as open data with a limited number of weather variables at 3-hourly intervals. As soon
-		as ECWMF includes additional data, they will be made available in this API.
+		available as open data with a limited number of weather variables at 3-hourly intervals.</p>
+	<p>AIFS is an artificial intelligence weather model from ECMWF yielding better results as GraphCast and other models. Unfortunately, only 6-hourly time-steps are available. You can find more information about AIFS <a href="https://www.ecmwf.int/en/about/media-centre/aifs-blog">here</a>. As soon as ECWMF includes additional data, they will be made available in this API.
 	</p>
 	<p>
 		For hourly and high-resolution data (up to 1 km) try our <a href="/en/docs">forecast API</a> which
@@ -477,7 +477,7 @@
 						></th
 					>
 					<td>Global</td>
-					<td>0.25° (~25 km)</td>
+					<td>0.25° (~28 km)</td>
 					<td>6-Hourly</td>
 					<td>15 days</td>
 					<td>Every 6 hours</td>
