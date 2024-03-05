@@ -51,7 +51,7 @@
 		//{ name: 'atmosphere_relative_vorticity', label: 'Relative Vorticity' },
 		//{ name: 'divergence_of_wind', label: 'Divergence of Wind' }
 	];
-	const levels = [50, 200, 250, 300, 500, 700, 850, 925, 1000].reverse();
+	const levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100, 50];
 
 	let pressureVariablesTab = 'temperature';
 
