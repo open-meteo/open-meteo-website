@@ -9,7 +9,7 @@
 		sliceIntoChunks
 	} from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import { fade } from 'svelte/transition';
+	import { fade, slide } from 'svelte/transition';
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
 	import StartEndDate from '../StartEndDate.svelte';
@@ -28,7 +28,9 @@
 		start_date: '',
 		end_date: '',
 		time_mode: 'forecast_days',
-		models: []
+		models: [],
+		tilt: 0,
+		azimuth: 0,
 	};
 
 	const params = urlHashStore({
@@ -75,13 +77,18 @@
 		],
 		[
 			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 		],
 		[
 			{ name: 'surface_temperature', label: 'Surface temperature' },
 			{ name: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
+			{ name: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
+			{ name: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)' },
 			{ name: 'runoff', label: 'Surface Water Runoff' },
+			{ name: 'cape', label: 'CAPE' },
 			{
 				name: 'total_column_integrated_water_vapour',
 				label: 'Total Column Integrated Water Vapour'
@@ -95,6 +102,25 @@
 			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
 			{ name: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' },
 		],
+	];
+
+	const solarVariables = [
+		[
+			{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
+			{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
+			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
+			{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
+			{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
+			{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
+		],
+		[
+			{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
+			{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
+			{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
+			{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
+			{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
+			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
+		]
 	];
 </script>
 
@@ -228,7 +254,7 @@
 	</div>
 
 	<div class="row py-3 px-0">
-		<h2>3-Hourly Weather Variables</h2>
+		<h2>Hourly Weather Variables</h2>
 		{#each hourly as group}
 			<div class="col-md-3">
 				{#each group as e}
@@ -316,6 +342,77 @@
 								sea level.</small
 							>
 						</div>
+					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="solar-variables"
+				title="Solar Radiation Variables"
+				count={countVariables(solarVariables, $params.hourly)}
+			>
+				{#each solarVariables as group}
+					<div class="col-md-6">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_hourly"
+									name="hourly"
+									bind:group={$params.hourly}
+								/>
+								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: Solar radiation is averaged over the past hour. Use
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+					>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating">
+						<input
+							type="number"
+							class="form-control"
+							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							name="tilt"
+							id="tilt"
+							step="1"
+							min="0"
+							max="90"
+							bind:value={$params.tilt}
+						/>
+						<label for="latitude">Panel Tilt (0° horizontal)</label>
+						{#if $params.tilt < 0 ||$params.tilt > 90 }
+							<div class="invalid-tooltip" transition:slide>
+								Tilt must be between 0° and 90°
+							</div>
+						{/if}
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating">
+						<input
+							type="number"
+							class="form-control"
+							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
+							name="azimuth"
+							id="azimuth"
+							step="1"
+							min="-90"
+							max="90"
+							bind:value={$params.azimuth}
+						/>
+						<label for="latitude">Panel Azimuth (0° S, -90° E, 90° W)</label>
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
+							<div class="invalid-tooltip" transition:slide>
+								Azimuth must be between -90° (east) and 90° (west)
+							</div>
+						{/if}
 					</div>
 				</div>
 			</AccordionItem>
@@ -487,7 +584,7 @@
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/ecmwf</mark> accepts a geographical coordinate, a list of weather variables
-		and responds with a JSON 3-hourly weather forecast for 10 days. Time always starts at 0:00 today.
+		and responds with a JSON hourly weather forecast for 10 days. Time always starts at 0:00 today.
 		All URL parameters are listed below:
 	</p>
 	<div class="table-responsive">
