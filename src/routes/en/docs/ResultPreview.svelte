@@ -168,7 +168,7 @@
 		/// Number or models (including number of ensemble members)
 		const nModels = sdk_type == 'ensemble_api' ? ('models' in params ? Array.isArray(params['models']) ? params['models'] : [params['models']] : []).reduce(
 			(previous: number, model: string) => { return previous + (membersPerModel(model) ?? 1) }
-			,0) : (params.models ?? []).length
+			,0) : ('models' in params ? Array.isArray(params['models']) ? params['models'] : [params['models']] : []).length
 		
 		/// Number of weather variables for hourly, daily, current or minutely_15
 		const nHourly = 'hourly' in params ? Array.isArray(params['hourly']) ? params['hourly'].length : params['hourly'].length > 1 ? 1 : 0 : 0
