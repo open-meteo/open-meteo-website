@@ -123,7 +123,7 @@
 			<input type="radio" class="btn-check" name="weatherModel" id="gfs_seamless" value="gfs_seamless" bind:group={weatherModel}>
 			<label class="btn" for="gfs_seamless">NOAA</label>
 			<input type="radio" class="btn-check" name="weatherModel" id="meteofrance_seamless" value="meteofrance_seamless" bind:group={weatherModel}>
-			<label class="btn" for="meteofrance_seamless">MeteoFrance</label>
+			<label class="btn" for="meteofrance_seamless">Météo-France</label>
 			<input type="radio" class="btn-check" name="weatherModel" id="ecmwf_ifs04" value="ecmwf_ifs04" bind:group={weatherModel}>
 			<label class="btn" for="ecmwf_ifs04">ECMWF</label>
 			<input type="radio" class="btn-check" name="weatherModel" id="jma_seamless" value="jma_seamless" bind:group={weatherModel}>

@@ -217,25 +217,25 @@
 	const models = [
 		[{ name: 'best_match', label: 'Best match' }],
 		[
-			{ name: 'arpege_seamless', label: 'Arpege Seamless' },
-			{ name: 'arpege_world', label: 'Arpege World' },
-			{ name: 'arpege_europe', label: 'Arpege Europe' }
+			{ name: 'arpege_seamless', label: 'ARPEGE Seamless' },
+			{ name: 'arpege_world', label: 'ARPEGE World' },
+			{ name: 'arpege_europe', label: 'ARPEGE Europe' }
 		],
 		[
-			{ name: 'arome_seamless', label: 'Arome Seamless' },
-			{ name: 'arome_france', label: 'Arome France' },
-			{ name: 'arome_france_hd', label: 'Arome France HD' }
+			{ name: 'arome_seamless', label: 'AROME Seamless' },
+			{ name: 'arome_france', label: 'AROME France' },
+			{ name: 'arome_france_hd', label: 'AROME France HD' }
 		]
 	];
 </script>
 
 <svelte:head>
-	<title>MeteoFrance API | Open-Meteo.com</title>
+	<title>Météo-France API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/meteofrance-api" />
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-	The API leverages MeteoFrance's AROME and ARPEGE weather models, tailored for Central Europe and
+	The API leverages Météo-France's AROME and ARPEGE weather models, tailored for Central Europe and
 	specifically France. With updates for AROME every hour, nowcast is provided for Central Europe. However, the maximum forecast range is 4 days. For broader use cases, the <a href="/en/docs">Weather Forecast API</a> is recommended, utilizing
 	multiple local weather models for forecasts up to 16 days.
 </div>
@@ -673,7 +673,7 @@
 				{/each}
 				<div class="col-md-12">
 					<small class="text-muted"
-						>Note: The default <mark>Best Match</mark> combines Arome and Arpege domains</small
+						>Note: The default <mark>Best Match</mark> combines AROME and ARPEGE domains</small
 					>
 				</div>
 			</AccordionItem>
@@ -806,7 +806,7 @@
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
-		This API uses global MeteoFrance ARPEGE weather forecast and combines them with high-resolution
+		This API uses global Météo-France ARPEGE weather forecast and combines them with high-resolution
 		AROME forecasts. AROME is a 1.5 km high resolution model covering France and neighboring areas.
 		For other locations, only ARPEGE is used. For ARPEGE, values are interpolated from 3 or 6-hourly
 		to 1-hourly values after 72 or 96 hours respectively.
@@ -827,7 +827,7 @@
 				<tr>
 					<th scope="row"
 						><a href="https://www.umr-cnrm.fr/spip.php?article121&lang=en" target="_blank"
-							>Arpege World</a
+							>ARPEGE World</a
 						></th
 					>
 					<td>Global</td>
@@ -839,7 +839,7 @@
 				<tr>
 					<th scope="row"
 						><a href="https://www.umr-cnrm.fr/spip.php?article121&lang=en" target="_blank"
-							>Arpege Europe</a
+							>ARPEGE Europe</a
 						></th
 					>
 					<td>Europe</td>
@@ -851,7 +851,7 @@
 				<tr>
 					<th scope="row"
 						><a href="https://www.umr-cnrm.fr/spip.php?article120" target="_blank"
-							>Arome France</a
+							>AROME France</a
 						></th
 					>
 					<td>France</td>
@@ -863,7 +863,7 @@
 				<tr>
 					<th scope="row"
 						><a href="https://www.umr-cnrm.fr/spip.php?article120/" target="_blank"
-							>Arome France HD</a
+							>AROME France HD</a
 						> <small class="text-muted">(*)</small></th
 					>
 					<td>France</td>
@@ -875,7 +875,7 @@
 				<tr>
 					<th scope="row"
 						><a href="https://www.umr-cnrm.fr/spip.php?article120" target="_blank"
-							>Arome France 15 minutely</a
+							>AROME France 15 minutely</a
 						></th
 					>
 					<td>France</td>
@@ -887,7 +887,7 @@
 				<tr>
 					<th scope="row"
 						><a href="https://www.umr-cnrm.fr/spip.php?article120/" target="_blank"
-							>Arome France HD 15 minutely</a
+							>AROME France HD 15 minutely</a
 						> <small class="text-muted">(*)</small></th
 					>
 					<td>France</td>
@@ -900,7 +900,7 @@
 		</table>
 
 		<small class="text-muted"
-			>* Arome France HD only contains a small selection of weather variables.</small
+			>* AROME France HD only contains a small selection of weather variables.</small
 		>
 	</div>
 
@@ -1251,7 +1251,7 @@
 					<td>W/m²</td>
 					<td
 						>Direct solar radiation as average of the preceding hour on the horizontal plane and the
-						normal plane (perpendicular to the sun). MeteoFrance does not offers diffuse and direct
+						normal plane (perpendicular to the sun). Météo-France does not offers diffuse and direct
 						radiation directly. It is approximated based on <a
 							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
 							target="_blank">Razo, Müller Witwer</a
@@ -1264,7 +1264,7 @@
 					<td>W/m²</td>
 					<td
 						>Diffuse solar radiation as average of the preceding hour. HRRR offers diffuse radiation
-						directly. MeteoFrance does not offers diffuse and direct radiation directly. It is
+						directly. Météo-France does not offers diffuse and direct radiation directly. It is
 						approximated based on <a
 							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
 							target="_blank">Razo, Müller Witwer</a

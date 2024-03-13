@@ -223,7 +223,7 @@
 			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4°' },
 			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
 			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
-			{ name: 'bom_access_global', label: 'BOM Access Global' },
+			{ name: 'bom_access_global', label: 'BOM ACCESS Global' },
 			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
 		],
 		[
@@ -237,10 +237,10 @@
 			{ name: 'jma_gsm', label: 'JMA GSM' }
 		],
 		[
-			{ name: 'icon_seamless', label: 'DWD Icon Seamless' },
-			{ name: 'icon_global', label: 'DWD Icon Global' },
-			{ name: 'icon_eu', label: 'DWD Icon EU' },
-			{ name: 'icon_d2', label: 'DWD Icon D2' }
+			{ name: 'icon_seamless', label: 'DWD ICON Seamless' },
+			{ name: 'icon_global', label: 'DWD ICON Global' },
+			{ name: 'icon_eu', label: 'DWD ICON EU' },
+			{ name: 'icon_d2', label: 'DWD ICON D2' }
 		],
 		[
 			{ name: 'gem_seamless', label: 'GEM Seamless' },
@@ -249,11 +249,11 @@
 			{ name: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' }
 		],
 		[
-			{ name: 'meteofrance_seamless', label: 'MeteoFrance Seamless' },
-			{ name: 'meteofrance_arpege_world', label: 'MeteoFrance Arpege World' },
-			{ name: 'meteofrance_arpege_europe', label: 'MeteoFrance Arpege Europe' },
-			{ name: 'meteofrance_arome_france', label: 'MeteoFrance Arome France' },
-			{ name: 'meteofrance_arome_france_hd', label: 'MeteoFrance Arome France HD' }
+			{ name: 'meteofrance_seamless', label: 'Météo-France Seamless' },
+			{ name: 'meteofrance_arpege_world', label: 'Météo-France ARPEGE World' },
+			{ name: 'meteofrance_arpege_europe', label: 'Météo-France ARPEGE Europe' },
+			{ name: 'meteofrance_arome_france', label: 'Météo-France AROME France' },
+			{ name: 'meteofrance_arome_france_hd', label: 'Météo-France AROME France HD' }
 		],
 		[
 			{ name: 'arpae_cosmo_seamless', label: 'ARPAE Seamless' },
@@ -761,8 +761,8 @@
 					<td>2021-03-23</td>
 				</tr>
 				<tr>
-					<th scope="row" rowspan="4">MeteoFrance</th>
-					<td>Arpege World</td>
+					<th scope="row" rowspan="4">Météo-France</th>
+					<td>ARPEGE World</td>
 					<td>Global</td>
 					<td>0.25° (~25 km)</td>
 					<td>1-Hourly</td>
@@ -770,7 +770,7 @@
 					<td>2014-01-02</td>
 				</tr>
 				<tr>
-					<td>Arpege Europe</td>
+					<td>ARPEGE Europe</td>
 					<td>Europe</td>
 					<td>0.1° (~11 km)</td>
 					<td>1-Hourly</td>
@@ -778,7 +778,7 @@
 					<td>2022-11-13</td>
 				</tr>
 				<tr>
-					<td>Arome France</td>
+					<td>AROME France</td>
 					<td>Global</td>
 					<td>0.025° (~2.5 km)</td>
 					<td>1-Hourly</td>
@@ -786,7 +786,7 @@
 					<td>2014-01-02</td>
 				</tr>
 				<tr>
-					<td>Arome France HD</td>
+					<td>AROME France HD</td>
 					<td>Global</td>
 					<td>0.01° (~1.5 km)</td>
 					<td>1-Hourly</td>

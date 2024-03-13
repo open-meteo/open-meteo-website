@@ -296,7 +296,7 @@
 				</li>
 				<li class="mb-1">
 					<a class="link-secondary text-decoration-none" href="/en/docs/meteofrance-api"
-						>MeteoFrance API</a
+						>Météo-France API</a
 					>
 				</li>
 				<li class="mb-1">
