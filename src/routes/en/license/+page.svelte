@@ -81,8 +81,8 @@
 					>)
 				</li>
 				<li>
-					Atmospheric forecasts from <a href="https://meteofrance.fr" title="MeteoFrance"
-						>MeteoFrance</a
+					Atmospheric forecasts from <a href="https://meteofrance.fr" title="Météo-France"
+						>Météo-France</a
 					>
 					(<a
 						href="https://donneespubliques.meteofrance.fr/?fond=dossier&id_dossier=1"
