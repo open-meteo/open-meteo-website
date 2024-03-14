@@ -9,7 +9,7 @@
 			children: [
 				{ title: 'DWD Germany', url: '/en/docs/dwd-api' },
 				{ title: 'NOAA U.S.', url: '/en/docs/gfs-api' },
-				{ title: 'MeteoFrance', url: '/en/docs/meteofrance-api' },
+				{ title: 'Météo-France', url: '/en/docs/meteofrance-api' },
 				{ title: 'ECMWF', url: '/en/docs/ecmwf-api' },
 				{ title: 'JMA Japan', url: '/en/docs/jma-api' },
 				{ title: 'MET Norway', url: '/en/docs/metno-api' },

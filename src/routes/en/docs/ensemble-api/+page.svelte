@@ -355,10 +355,10 @@
 
 	const models = [
 		[
-			{ name: 'icon_seamless', label: 'DWD Icon EPS Seamless' },
-			{ name: 'icon_global', label: 'DWD Icon EPS Global' },
-			{ name: 'icon_eu', label: 'DWD Icon EPS EU' },
-			{ name: 'icon_d2', label: 'DWD Icon EPS D2' }
+			{ name: 'icon_seamless', label: 'DWD ICON EPS Seamless' },
+			{ name: 'icon_global', label: 'DWD ICON EPS Global' },
+			{ name: 'icon_eu', label: 'DWD ICON EPS EU' },
+			{ name: 'icon_d2', label: 'DWD ICON EPS D2' }
 		],
 		[
 			{ name: 'gfs_seamless', label: 'GFS Ensemble Seamless' },
@@ -369,7 +369,7 @@
 			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4° Ensemble' }, 
 			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' }, 
 			{ name: 'gem_global', label: 'GEM Global Ensemble' }, 
-			{ name: 'bom_access_global_ensemble', label: 'BOM Access Global' }
+			{ name: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
 		]
 	];
 </script>
@@ -864,7 +864,7 @@
 				</tr>
 				<tr>
 					<th scope="row">Australian Bureau of Meteorology (BOM)</th>
-					<td>Access-GE</td>
+					<td>ACCESS-GE</td>
 					<td>Global</td>
 					<td>40 km, 3-hourly</td>
 					<td>18</td>
