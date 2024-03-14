@@ -100,7 +100,7 @@
 			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4°' },
 			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
 			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
-			{ name: 'bom_access_global', label: 'BOM Access Global' },
+			{ name: 'bom_access_global', label: 'BOM ACCESS Global' },
 			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
 		],
 		[
@@ -114,10 +114,10 @@
 			{ name: 'jma_gsm', label: 'JMA GSM' }
 		],
 		[
-			{ name: 'icon_seamless', label: 'DWD Icon Seamless' },
-			{ name: 'icon_global', label: 'DWD Icon Global' },
-			{ name: 'icon_eu', label: 'DWD Icon EU' },
-			{ name: 'icon_d2', label: 'DWD Icon D2' }
+			{ name: 'icon_seamless', label: 'DWD ICON Seamless' },
+			{ name: 'icon_global', label: 'DWD ICON Global' },
+			{ name: 'icon_eu', label: 'DWD ICON EU' },
+			{ name: 'icon_d2', label: 'DWD ICON D2' }
 		],
 		[
 			{ name: 'gem_seamless', label: 'GEM Seamless' },
@@ -126,11 +126,11 @@
 			{ name: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' }
 		],
 		[
-			{ name: 'meteofrance_seamless', label: 'MeteoFrance Seamless' },
-			{ name: 'meteofrance_arpege_world', label: 'MeteoFrance Arpege World' },
-			{ name: 'meteofrance_arpege_europe', label: 'MeteoFrance Arpege Europe' },
-			{ name: 'meteofrance_arome_france', label: 'MeteoFrance Arome France' },
-			{ name: 'meteofrance_arome_france_hd', label: 'MeteoFrance Arome France HD' }
+			{ name: 'meteofrance_seamless', label: 'Météo-France Seamless' },
+			{ name: 'meteofrance_arpege_world', label: 'Météo-France ARPEGE World' },
+			{ name: 'meteofrance_arpege_europe', label: 'Météo-France ARPEGE Europe' },
+			{ name: 'meteofrance_arome_france', label: 'Météo-France AROME France' },
+			{ name: 'meteofrance_arome_france_hd', label: 'Météo-France AROME France HD' }
 		],
 		[
 			{ name: 'arpae_cosmo_seamless', label: 'ARPAE Seamless' },
@@ -467,8 +467,8 @@
 					<td>Every hour</td>
 				</tr>
 				<tr>
-					<th scope="row"><a href="/en/docs/meteofrance-api">Arpege & Arome</a></th>
-					<td>MeteoFrance</td>
+					<th scope="row"><a href="/en/docs/meteofrance-api">ARPEGE & AROME</a></th>
+					<td>Météo-France</td>
 					<td>France</td>
 					<td>1 - 25 km</td>
 					<td>4 days</td>
