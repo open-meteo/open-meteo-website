@@ -15,7 +15,8 @@
 				{ title: 'MET Norway', url: '/en/docs/metno-api' },
 				{ title: 'GEM Canada', url: '/en/docs/gem-api' },
 				{ title: 'BOM Australia', url: '/en/docs/bom-api' },
-				{ title: 'CMA China', url: '/en/docs/cma-api' }
+				{ title: 'CMA China', url: '/en/docs/cma-api' },
+				{ title: 'Previous Runs API', url: '/en/docs/previous-runs-api' }
 			]
 		},
 		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
@@ -30,7 +31,6 @@
 	if (dev) {
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
 		links.push({ title: 'Historical Forecast API', url: '/en/docs/historical-forecast-api' });
-		links.push({ title: 'Previous Runs API', url: '/en/docs/previous-runs-api' });
 	}
 </script>
 

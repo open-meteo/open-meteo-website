@@ -1,21 +1,14 @@
 <script lang="ts">
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import PressureLevelsHelpTable from '../PressureLevelsHelpTable.svelte';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
-	import {
-		altitudeAboveSeaLevelMeters,
-		countPressureVariables,
-		countVariables,
-		sliceIntoChunks
-	} from '$lib/meteo';
+	import { countVariables, } from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { fade, slide } from 'svelte/transition';
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
-	import { onMount } from 'svelte';
 
 	const defaultParameter = {
 		current: [],
@@ -47,24 +40,9 @@
 		latitude: [52.52],
 		longitude: [13.41],
 		...defaultParameter,
-		hourly: ['temperature_2m_previous_day0','temperature_2m_previous_day1','temperature_2m_previous_day2','temperature_2m_previous_day3','temperature_2m_previous_day4','temperature_2m_previous_day5']
+		past_days: "7",
+		hourly: ['temperature_2m','temperature_2m_previous_day1','temperature_2m_previous_day2','temperature_2m_previous_day3','temperature_2m_previous_day4','temperature_2m_previous_day5']
 	});
-
-	const pressureVariables = [
-		{ name: 'temperature', label: 'Temperature' },
-		{ name: 'relative_humidity', label: 'Relative Humidity' },
-		{ name: 'cloud_cover', label: 'Cloud cover' },
-		{ name: 'windspeed', label: 'Wind Speed' },
-		{ name: 'winddirection', label: 'Wind Direction' },
-		{ name: 'geopotential_height', label: 'Geopotential Height' }
-	];
-	const levels = [
-		30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000
-	].reverse();
-
-	let pressureVariablesTab = 'temperature';
-
-	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
 
 	const previousDay = [
 		{ name: 'temperature_2m', label: 'Temperature (2 m)' },
@@ -80,19 +58,32 @@
 		{ name: 'surface_pressure', label: 'Surface Pressure' },
 		{ name: 'cloud_cover', label: 'Cloud cover Total' },
 		{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-		{ name: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
-		{ name: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
-		{ name: 'wind_speed_180m', label: 'Wind Speed (180 m)' },
 		{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-		{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
-		{ name: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
-		{ name: 'wind_direction_180m', label: 'Wind Direction (180 m)' },
+	];
+
+	const solarVariables = [
 		{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
 		{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
 		{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
 		{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-		{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' }
-	];
+		{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
+
+		{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
+		{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
+		{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
+		{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
+		{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
+		{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
+	]
+
+	const windVariables = [
+		{ name: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
+		{ name: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
+		{ name: 'wind_speed_180m', label: 'Wind Speed (180 m)' },
+		{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
+		{ name: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
+		{ name: 'wind_direction_180m', label: 'Wind Direction (180 m)' },
+	]
 
 	const models = [
 		[
@@ -140,6 +131,13 @@
 			{ name: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
 		]
 	];
+
+	function formatVariableName(variable: string, previous_day: number) {
+		if (previous_day == 0) {
+			return variable
+		}
+		return `${variable}_previous_day${previous_day}`
+	}
 </script>
 
 <svelte:head>
@@ -147,9 +145,6 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/previous-runs-api" />
 </svelte:head>
 
-<div class="alert alert-warning" role="alert">
-	Work in progress. This API stores previous weather models showing what was predicted a few days prior.
-</div>
 
 <form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
 	<LocationSelection
@@ -299,7 +294,7 @@
 								<input
 									class="form-check-input"
 									type="checkbox"
-									value="{e.name}_previous_day{i}"
+									value={formatVariableName(e.name, i)}
 									id="{e.name}_hourly_previous_day{i}"
 									name="hourly"
 									bind:group={$params.hourly}
@@ -312,15 +307,116 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="col-md-12 mb-3">
-			<p>Weather models constantly churn out updates, each predicting the future at different lead times. Think of Day 0 as latest forecast close to measurements, Day 1 as a glimpse 24 hours back, and Day 2 as a 48-hour rewind. Each day further back forecasts longer into the future and, typically, increases volatility. Data jumps become wilder past Day 6 or 7, highlighting the inherent challenge of long-term forecasting.</p>
-			<p>This data serves multiple purposes, including answering questions such as "what did yesterday's forecast predict for today?" or by comparing past forecasts with real-time observations, we can assess a forecast's accuracy and volatility. When combined with machine learning techniques, models can be trained specifically to enhance forecasts for the next 2 or 3 days.</p>
-			<p>The frequency of model updates varies, ranging from hourly to every six hours. For local models with shorter prediction horizons (2-5 days), we naturally have access to a shorter "time machine" of past predictions (2-5 days).</p>
-		</div>
 	</div>
 
 	<div class="row py-3 px-0">
 		<div class="accordion" id="accordionVariables">
+			<AccordionItem
+				id="solar"
+				title="Solar Radiation Variables"
+			>
+				<div class="table-responsive">
+					<table class="table table-sm ">
+						<tbody>
+							{#each solarVariables as e}
+								<tr>
+									<td>{e.label}</td>
+									{#each {length: 8} as _, i}
+									<td><div class="form-check">
+										<input
+											class="form-check-input"
+											type="checkbox"
+											value={formatVariableName(e.name, i)}
+											id="{e.name}_hourly_previous_day{i}"
+											name="hourly"
+											bind:group={$params.hourly}
+										/>
+										<label class="form-check-label" for="{e.name}_hourly_previous_day{i}">Day {i}</label>
+									</div></td>
+									{/each}
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: Solar radiation is averaged over the past hour. Use
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+					>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating">
+						<input
+							type="number"
+							class="form-control"
+							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							name="tilt"
+							id="tilt"
+							step="1"
+							min="0"
+							max="90"
+							bind:value={$params.tilt}
+						/>
+						<label for="latitude">Panel Tilt (0° horizontal)</label>
+						{#if $params.tilt < 0 ||$params.tilt > 90 }
+							<div class="invalid-tooltip" transition:slide>
+								Tilt must be between 0° and 90°
+							</div>
+						{/if}
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating">
+						<input
+							type="number"
+							class="form-control"
+							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
+							name="azimuth"
+							id="azimuth"
+							step="1"
+							min="-90"
+							max="90"
+							bind:value={$params.azimuth}
+						/>
+						<label for="latitude">Panel Azimuth (0° S, -90° E, 90° W)</label>
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
+							<div class="invalid-tooltip" transition:slide>
+								Azimuth must be between -90° (east) and 90° (west)
+							</div>
+						{/if}
+					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="wind_upper"
+				title="Wind on 80, 120 and 180 metre"
+			>
+				<div class="table-responsive">
+					<table class="table table-sm ">
+						<tbody>
+							{#each windVariables as e}
+								<tr>
+									<td>{e.label}</td>
+									{#each {length: 8} as _, i}
+									<td><div class="form-check">
+										<input
+											class="form-check-input"
+											type="checkbox"
+											value={formatVariableName(e.name, i)}
+											id="{e.name}_hourly_previous_day{i}"
+											name="hourly"
+											bind:group={$params.hourly}
+										/>
+										<label class="form-check-label" for="{e.name}_hourly_previous_day{i}">Day {i}</label>
+									</div></td>
+									{/each}
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
+			</AccordionItem>
 			<AccordionItem
 				id="models"
 				title="Weather models"
@@ -426,106 +522,16 @@
 <ResultPreview {params} {defaultParameter} type="previous-runs" useStockChart={true}/>
 
 <div class="col-12 py-5">
-	<h2 id="data-sources">Data Source</h2>
-	<p>
-		Open-Meteo weather forecast APIs use weather models from multiple national weather providers.
-		For each location worldwide, the best models will be combined to provide the best possible
-		forecast.
-	</p>
-	<p>
-		Weather models cover different geographic areas at different resolutions and provide different
-		weather variables. Depending on the model, data have been interpolated to hourly values or not
-		all weather variables are available. With the drop down <mark>Weather models</mark> (just below the
-		hourly variables), you can select and compare individual weather models.
-	</p>
-	<div class="table-responsive">
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Weather Model</th>
-					<th scope="col">National Weather Provider</th>
-					<th scope="col">Origin Country</th>
-					<th scope="col">Resolution</th>
-					<th scope="col">Forecast Length</th>
-					<th scope="col">Update frequency</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row"><a href="/en/docs/dwd-api">ICON</a></th>
-					<td>Deutscher Wetterdienst (DWD)</td>
-					<td>Germany</td>
-					<td>2 - 11 km</td>
-					<td>7.5 days</td>
-					<td>Every 3 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/gfs-api">GFS & HRRR</a></th>
-					<td>NOAA</td>
-					<td>United States</td>
-					<td>3 - 25 km</td>
-					<td>16 days</td>
-					<td>Every hour</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/meteofrance-api">ARPEGE & AROME</a></th>
-					<td>Météo-France</td>
-					<td>France</td>
-					<td>1 - 25 km</td>
-					<td>4 days</td>
-					<td>Every 3 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/ecmwf-api">IFS</a></th>
-					<td>ECMWF</td>
-					<td>European Union</td>
-					<td>44 km</td>
-					<td>7 days</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/jma-api">MSM & GSM</a></th>
-					<td>JMA</td>
-					<td>Japan</td>
-					<td>5 - 55 km</td>
-					<td>11 days</td>
-					<td>Every 3 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/metno-api">MET Nordic</a></th>
-					<td>MET Norway</td>
-					<td>Norway</td>
-					<td>1 km</td>
-					<td>2.5 days</td>
-					<td>Every hour</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/gem-api">GEM</a></th>
-					<td>Canadian Weather Service</td>
-					<td>Canada</td>
-					<td>2.5 km</td>
-					<td>10 days</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/cma-api">GFS GRAPES</a></th>
-					<td>China Meteorological Administration (CMA)</td>
-					<td>China</td>
-					<td>15 km</td>
-					<td>10 days</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/bom-api">ACCESS-G</a></th>
-					<td>Australian Bureau of Meteorology (BOM)</td>
-					<td>Australia</td>
-					<td>15 km</td>
-					<td>10 days</td>
-					<td>Every 6 hours</td>
-				</tr>
-			</tbody>
-		</table>
+	<h2 id="documentation">API Documentation</h2>
+	<div class="col-md-12 mb-3">
+		<p>Weather models constantly churn out updates, each predicting the future at different lead times. Think of Day 0 as latest forecast close to measurements, Day 1 as a glimpse 24 hours back, and Day 2 as a 48-hour rewind. Each day further back forecasts longer into the future and, typically, increases volatility. Data jumps become wilder past Day 6 or 7, highlighting the inherent challenge of long-term forecasting.</p>
+		<p>This data serves multiple purposes, including answering questions such as "what did yesterday's forecast predict for today?" or by comparing past forecasts with real-time observations, we can assess a forecast's accuracy and volatility. When combined with machine learning techniques, models can be trained specifically to enhance forecasts for the next 2 or 3 days.</p>
+		<p>The frequency of model updates varies, ranging from hourly to every six hours. For local models with shorter prediction horizons (2-5 days), we naturally have access to a shorter "time machine" of past predictions (2-5 days).</p>
+		<p>
+			<strong>Weather Models Sources:</strong> The Previous Runs API uses the same models as available in the general weather forecast API. Please refer to the <a href="/en/docs">Forecast API documentation</a> for a list of all weather models and weather variables.
+		</p>
+		<p>
+			<strong>Data Availability:</strong> Data is generally available from January 2024 onwards. Exceptions are GFS temperature on 2 metre, which is available from March 2021 and JMA GSM + MSM models which are available from 2018. More data from previous runs can be reconstructed on request (depending on data availability from official sources).
+		</p>
 	</div>
 </div>
-
-<div class="alert alert-warning" role="alert">Documentation work in progress</div>
