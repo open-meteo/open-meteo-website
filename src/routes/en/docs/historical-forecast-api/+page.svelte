@@ -222,6 +222,7 @@
 			{ name: 'best_match', label: 'Best match' },
 			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4°' },
 			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
+			{ name: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' },
 			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
 			{ name: 'bom_access_global', label: 'BOM ACCESS Global' },
 			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
