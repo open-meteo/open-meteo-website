@@ -134,7 +134,7 @@ import StockChart from 'highcharts/es-modules/Core/Chart/StockChart.js';
 // G.Navigator = Navigator;
 // G.RangeSelector = RangeSelector;
 // G.Scrollbar = Scrollbar;
-G.StockChart = G.stockChart = StockChart.stockChart;
+G.StockChart = G.stockChart = StockChart;
 // Compositions
 // DataModifyComposition.compose(G.Series, G.Axis, G.Point);
 // FlagsSeries.compose(G.Renderer);
@@ -143,7 +143,7 @@ G.StockChart = G.stockChart = StockChart.stockChart;
 // OrdinalAxis.compose(G.Axis, G.Series, G.Chart);
 // RangeSelector.compose(G.Axis, G.Chart);
 // Scrollbar.compose(G.Axis);
-StockChart.compose(G.Axis, G.Series, G.SVGRenderer);
+G.StockChart.compose(G.Chart, G.Axis, G.Series, G.SVGRenderer);
 
 
 
