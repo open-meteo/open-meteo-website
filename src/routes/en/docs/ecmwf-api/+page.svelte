@@ -80,7 +80,6 @@
 			{ name: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
 			{ name: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 		],
 		[
 			{ name: 'surface_temperature', label: 'Surface temperature' },
