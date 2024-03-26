@@ -16,11 +16,11 @@
 				{ title: 'GEM Canada', url: '/en/docs/gem-api' },
 				{ title: 'BOM Australia', url: '/en/docs/bom-api' },
 				{ title: 'CMA China', url: '/en/docs/cma-api' },
-				{ title: 'Previous Runs API', url: '/en/docs/previous-runs-api' }
 			]
 		},
 		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
 		{ title: 'Ensemble Models', url: '/en/docs/ensemble-api' },
+		{ title: 'Previous Runs API', url: '/en/docs/previous-runs-api' },
     	{ title: 'Climate Change', url: '/en/docs/climate-api' },
 		{ title: 'Marine Forecast', url: '/en/docs/marine-weather-api' },
 		{ title: 'Air Quality', url: '/en/docs/air-quality-api' },
