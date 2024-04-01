@@ -218,6 +218,14 @@
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
+	const models = [
+		[
+			{ name: 'icon_seamless', label: 'DWD ICON Seamless' },
+			{ name: 'icon_global', label: 'DWD ICON Global' },
+			{ name: 'icon_eu', label: 'DWD ICON EU' },
+			{ name: 'icon_d2', label: 'DWD ICON D2' }
+		],
+	];
 </script>
 
 <svelte:head>
@@ -664,6 +672,29 @@
 						<label for="past_minutely_15">Past Minutely 15</label>
 					</div>
 				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="models"
+				title="Weather models"
+				count={countVariables(models, $params.models)}
+			>
+				{#each models as group}
+					<div class="col-md-4 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_model"
+									name="models"
+									bind:group={$params.models}
+								/>
+								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
 			</AccordionItem>
 		</div>
 	</div>
