@@ -244,7 +244,8 @@
 		[
 			{ name: 'gfs_seamless', label: 'GFS Seamless' },
 			{ name: 'gfs_global', label: 'GFS Global' },
-			{ name: 'gfs_hrrr', label: 'GFS HRRR' }
+			{ name: 'gfs_hrrr', label: 'GFS HRRR' },
+			{ name: 'gfs_graphcast025', label: 'GFS GraphCast' }
 		],
 		[
 			{ name: 'jma_seamless', label: 'JMA Seamless' },

@@ -228,6 +228,15 @@
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
+
+	const models = [
+		[
+			{ name: 'gfs_seamless', label: 'GFS Seamless' },
+			{ name: 'gfs_global', label: 'GFS Global' },
+			{ name: 'gfs_hrrr', label: 'GFS HRRR' },
+			{ name: 'gfs_graphcast025', label: 'GFS GraphCast' }
+		]
+	];
 </script>
 
 <svelte:head>
@@ -670,6 +679,29 @@
 					</div>
 				</div>
 			</AccordionItem>
+			<AccordionItem
+				id="models"
+				title="Weather models"
+				count={countVariables(models, $params.models)}
+			>
+				{#each models as group}
+					<div class="col-md-4 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_model"
+									name="models"
+									bind:group={$params.models}
+								/>
+								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+			</AccordionItem>
 		</div>
 	</div>
 
@@ -856,6 +888,18 @@
 					<td>Hourly</td>
 					<td>18 hours (48 hours for 0, 6, 12, 18z)</td>
 					<td>Every hour</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://registry.opendata.aws/noaa-nws-graphcastgfs-pds/" target="_blank"
+							>GFS GraphCast (experimental)</a
+						></th
+					>
+					<td>Global</td>
+					<td>0.25° (~25 km)</td>
+					<td>6-hourly</td>
+					<td>10 days</td>
+					<td>Every 6 hours</td>
 				</tr>
 			</tbody>
 		</table>
