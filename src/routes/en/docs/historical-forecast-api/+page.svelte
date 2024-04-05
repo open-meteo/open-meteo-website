@@ -230,7 +230,8 @@
 		[
 			{ name: 'gfs_seamless', label: 'GFS Seamless' },
 			{ name: 'gfs_global', label: 'GFS Global' },
-			{ name: 'gfs_hrrr', label: 'GFS HRRR' }
+			{ name: 'gfs_hrrr', label: 'GFS HRRR' },
+			{ name: 'gfs_graphcast025', label: 'GFS GraphCast' }
 		],
 		[
 			{ name: 'jma_seamless', label: 'JMA Seamless' },
@@ -760,6 +761,14 @@
 					<td>1-Hourly</td>
 					<td>Every hour</td>
 					<td>2021-03-23</td>
+				</tr>
+				<tr>
+					<td>GFS GraphCast</td>
+					<td>Global</td>
+					<td>0.25° (~25 km)</td>
+					<td>6-Hourly</td>
+					<td>Every 6 hours</td>
+					<td>2024-02-05</td>
 				</tr>
 				<tr>
 					<th scope="row" rowspan="4">Météo-France</th>
