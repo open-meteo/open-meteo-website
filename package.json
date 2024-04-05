@@ -20,7 +20,7 @@
 		"@semantic-release/release-notes-generator": "^13.0.0",
 		"@sveltejs/adapter-auto": "^2.1.1",
 		"@sveltejs/adapter-static": "^2.0.2",
-		"@sveltejs/kit": "^1.27.3",
+		"@sveltejs/kit": "^2.5.5",
 		"bootstrap": "^5.3.3",
 		"conventional-changelog-conventionalcommits": "^7.0.2",
 		"eslint": "^8.57.0",
