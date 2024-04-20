@@ -551,7 +551,7 @@
 							max="90"
 							bind:value={$params.tilt}
 						/>
-						<label for="latitude">Panel Tilt (0° horizontal)</label>
+						<label for="tilt">Panel Tilt (0° horizontal)</label>
 						{#if $params.tilt < 0 ||$params.tilt > 90 }
 							<div class="invalid-tooltip" transition:slide>
 								Tilt must be between 0° and 90°
@@ -572,7 +572,7 @@
 							max="90"
 							bind:value={$params.azimuth}
 						/>
-						<label for="latitude">Panel Azimuth (0° S, -90° E, 90° W)</label>
+						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
 						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
