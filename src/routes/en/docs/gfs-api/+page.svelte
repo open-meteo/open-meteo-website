@@ -665,7 +665,7 @@
 						<select
 							class="form-select"
 							name="past_minutely_15"
-							id="past_minutely_15s"
+							id="past_minutely_15"
 							aria-label="Past Minutely 15 Steps"
 							bind:value={$params.past_minutely_15}
 						>
