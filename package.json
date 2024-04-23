@@ -28,7 +28,7 @@
 		"eslint-plugin-svelte": "^2.37.0",
 		"prettier": "^3.2.5",
 		"prettier-plugin-svelte": "^3.2.3",
-		"sass": "^1.74.1",
+		"sass": "^1.75.0",
 		"semantic-release": "^23.0.8",
 		"svelte": "^4.2.15",
 		"svelte-bootstrap-icons": "^3.0.0",
