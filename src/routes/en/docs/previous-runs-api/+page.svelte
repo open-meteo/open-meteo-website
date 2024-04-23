@@ -146,6 +146,9 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/previous-runs-api" />
 </svelte:head>
 
+<div class="alert alert-primary" role="alert">
+	Read the announcement for the Previous Day API and how you can use to it calculate model accuracy in the <a href="https://openmeteo.substack.com/p/weather-forecasts-from-previous-model-runs">Open-Meteo blog post</a>.
+</div>
 
 <form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
 	<LocationSelection
