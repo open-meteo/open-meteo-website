@@ -21,7 +21,7 @@ updates:
         - "@semantic/*"
     svelte:
       patterns:
-        - "@svelte/*"
+        - "@sveltejs/*"
         - "svelte-*"
         - "svelte"
         - "vite"
