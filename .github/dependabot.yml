@@ -20,7 +20,7 @@ updates:
         patterns:
           - "semantic-release"
           - "@semantic/*"
-          - "@semantic-release/"
+          - "@semantic-release/*"
       svelte:
         patterns:
           - "@sveltejs/*"
@@ -32,7 +32,7 @@ updates:
           - "@typescript-eslint/*"
           - "eslint-*"
           - "eslint"
-          - "saas"
+          - "sass"
           - "typescript"
           - "prettier"
   - package-ecosystem: "github-actions"
