@@ -85,6 +85,7 @@
 			{ name: 'ewam', label: 'DWD EWAM', caption: '0.05° only Europe' },
 			{ name: 'gwam', label: 'DWD GWAM', caption: '0.25°' },
 			{ name: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' },
+			{ name: 'ecmwf_wam025', label: 'ECMWF WAM', caption: '0.25°, global' },
 		]
 	];
 </script>
@@ -164,6 +165,7 @@
 									<option value="5">5 days</option>
 									<option value="7">7 days (default)</option>
 									<option value="8">8 days</option>
+									<option value="10">10 days</option>
 								</select>
 								<label for="forecast_days">Forecast days</label>
 							</div>
@@ -421,12 +423,25 @@
 			<tr>
 				<th scope="row"
 					><a
+						href="https://www.ecmwf.int/en/elibrary/79883-wave-model"
+						>ECMWF WAM</a
+					>
+				</th>
+				<td>Global</td>
+				<td>0.25° (~25 km)</td>
+				<td>3-Hourly</td>
+				<td>March 2024 with 10 day forecast</td>
+				<td>Every 6 hours</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
 						href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
 						>DWD GWAM</a
 					>
 				</th>
 				<td>Europe</td>
-				<td>0.05° (~25 km)</td>
+				<td>0.05° (~5 km)</td>
 				<td>Hourly</td>
 				<td>August 2022 with 8 day forecast</td>
 				<td>Twice daily</td>
