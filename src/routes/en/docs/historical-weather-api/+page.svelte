@@ -47,9 +47,13 @@
 		var d = new Date();
 		endDate = d.toISOString().split('T')[0];
 		d.setDate(d.getDate() - 2);
-		$params.end_date = d.toISOString().split('T')[0];
+		if ($params.end_date == startDateDefault) {
+			$params.end_date = d.toISOString().split('T')[0];
+		}
 		d.setDate(d.getDate() - 14);
-		$params.start_date = d.toISOString().split('T')[0];
+		if ($params.start_date == startDateDefault) {
+			$params.start_date = d.toISOString().split('T')[0];
+		}
 	});
 
 	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
