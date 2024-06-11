@@ -319,7 +319,7 @@
 			let rise = data.daily.sunrise;
 			let set = data.daily.sunset;
 			// @ts-ignore
-			let plotBands = rise.map(function (r, i) {
+			plotBands = rise.map(function (r, i) {
 				return {
 					color: 'rgb(255, 255, 194)',
 					from: (r + data.utc_offset_seconds) * 1000,
