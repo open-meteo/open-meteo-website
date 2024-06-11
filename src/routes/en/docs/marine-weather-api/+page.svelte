@@ -17,6 +17,7 @@
 		location_mode: 'location_search',
 		csv_coordinates: '',
 		length_unit: 'metric',
+		wind_speed_unit: 'kmh',
 		timeformat: 'iso8601',
 		timezone: 'UTC',
 		past_days: '0',
@@ -55,6 +56,9 @@
 			{ name: 'swell_wave_direction', label: 'Swell Wave Direction' },
 			{ name: 'swell_wave_period', label: 'Swell Wave Period' },
 			{ name: 'swell_wave_peak_period', label: 'Swell Wave Peak Period' }
+		],[
+			{ name: 'ocean_current_velocity', label: 'Ocean Current Velocity' },
+			{ name: 'ocean_current_direction', label: 'Ocean Current Direction' }
 		]
 	];
 
@@ -80,12 +84,14 @@
 
 	let models = [
 		[
-			{ name: 'best_match', label: 'Best match', caption: 'EWAM & GWAM' },
+			{ name: 'best_match', label: 'Best match', caption: 'MeteoFrance Wave & Currents' },
 		],[
+			{ name: 'meteofrance_wave', label: 'MeteoFrance Wave', caption: '0.083°' },
+			{ name: 'meteofrance_currents', label: 'MeteoFrance Wave currents', caption: '0.083°' },
 			{ name: 'ewam', label: 'DWD EWAM', caption: '0.05° only Europe' },
 			{ name: 'gwam', label: 'DWD GWAM', caption: '0.25°' },
-			{ name: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' },
 			{ name: 'ecmwf_wam025', label: 'ECMWF WAM', caption: '0.25°, global' },
+			{ name: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' },
 		]
 	];
 </script>
@@ -218,7 +224,7 @@
 	<div class="row py-3 px-0">
 		<h2>Hourly Marine Variables</h2>
 		{#each hourly as group}
-			<div class="col-md-4">
+			<div class="col-md-3">
 				{#each group as e}
 					<div class="form-check">
 						<input
@@ -234,6 +240,12 @@
 				{/each}
 			</div>
 		{/each}
+		<div class="col-md-12 mb-3">
+			<p>
+				<small class="text-muted"
+					>Note: Ocean currents consider Eulerian, Waves and Tides at 0.08° (~8 km) resolution. This is not suitable for small scale currents and does not replace your nautical almanac.
+			</p>
+		</div>
 	</div>
 
 	<div class="row py-3 px-0">
@@ -379,6 +391,23 @@
 			<div class="form-floating mb-3">
 				<select
 					class="form-select"
+					name="wind_speed_unit"
+					id="wind_speed_unit"
+					aria-label="Velocity Unit"
+					bind:value={$params.wind_speed_unit}
+				>
+					<option value="kmh">Km/h</option>
+					<option value="ms">m/s</option>
+					<option value="mph">Mph</option>
+					<option value="kn">Knots</option>
+				</select>
+				<label for="wind_speed_unit">Velocity Unit</label>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-floating mb-3">
+				<select
+					class="form-select"
 					name="timeformat"
 					id="timeformat"
 					aria-label="Timeformat"
@@ -413,6 +442,7 @@
 			<tr>
 				<th scope="col">Data Set</th>
 				<th scope="col">Region</th>
+				<th scope="col"></th>
 				<th scope="col">Spatial Resolution</th>
 				<th scope="col">Temporal Resolution</th>
 				<th scope="col">Data Availability</th>
@@ -423,11 +453,40 @@
 			<tr>
 				<th scope="row"
 					><a
+						href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_WAV_001_027/description"
+						>MeteoFrance MFWAM</a
+					>
+				</th>
+				<td>Global</td>
+				<td><a href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=0&center=-23.399717243797422%2C42.59188729714914&zoom=10.52284658362573&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9XQVZfMDAxXzAyNy9jbWVtc19tb2RfZ2xvX3dhdl9hbmZjXzAuMDgzZGVnX1BUM0gtaV8yMDIzMTEvVkhNMCIsInpJbmRleCI6MCwiaXNFeHBsb3JpbmciOnRydWUsImxvZ1NjYWxlIjpmYWxzZX1d&basemap=dark" target="_blank" title="Visualize as map">Map</a></td>
+				<td>0.08° (~8 km)</td>
+				<td>3-Hourly</td>
+				<td>October 2021 with 10 day forecast</td>
+				<td>Every 12 hours</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_PHY_001_024/services"
+						>MeteoFrance SMOC Currents</a
+					>
+				</th>
+				<td>Global</td>
+				<td><a href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=-0.49402499198913574&center=-12.433872193277338%2C42.88370285999325&zoom=11.872305323411199&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9QSFlfMDAxXzAyNC9jbWVtc19tb2RfZ2xvX3BoeV9hbmZjX21lcmdlZC11dl9QVDFILWlfMjAyMjExL3VvIiwiekluZGV4IjowLCJpc0V4cGxvcmluZyI6dHJ1ZSwibG9nU2NhbGUiOmZhbHNlfV0%3D&basemap=dark" target="_blank" title="Visualize as map">Map</a></td>
+				<td>0.08° (~8 km)</td>
+				<td>Hourly</td>
+				<td>January 2022 with 10 day forecast</td>
+				<td>Every 24 hours</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
 						href="https://www.ecmwf.int/en/elibrary/79883-wave-model"
 						>ECMWF WAM</a
 					>
 				</th>
 				<td>Global</td>
+				<td></td>
 				<td>0.25° (~25 km)</td>
 				<td>3-Hourly</td>
 				<td>March 2024 with 10 day forecast</td>
@@ -441,6 +500,7 @@
 					>
 				</th>
 				<td>Europe</td>
+				<td></td>
 				<td>0.05° (~5 km)</td>
 				<td>Hourly</td>
 				<td>August 2022 with 8 day forecast</td>
@@ -454,6 +514,7 @@
 					>
 				</th>
 				<td>Global</td>
+				<td></td>
 				<td>0.25° (~25 km)</td>
 				<td>Hourly</td>
 				<td>August 2022 with 4 day forecast</td>
@@ -467,6 +528,7 @@
 					>
 				</th>
 				<td>Global</td>
+				<td></td>
 				<td>0.5° (~50 km)</td>
 				<td>Hourly</td>
 				<td>1940 to present</td>
@@ -479,7 +541,7 @@
 <div class="col-12 py-5">
 	<h2 id="api-documentation">API Documentation</h2>
 	<p>
-		The API endpoint <mark>/v1/marine</mark> accepts a geographical coordinate, a list of weather variables
+		The API endpoint <mark>/v1/marine</mark> accepts a geographical coordinate, a list of marine variables
 		and responds with a JSON hourly marine weather forecast for 7 days. Time always starts at 0:00 today.
 		All URL parameters are listed below:
 	</p>
@@ -693,6 +755,18 @@
 					<td>Instant</td>
 					<td>Seconds</td>
 					<td>Peak period between wind and swell waves.</td>
+				</tr>
+				<tr>
+					<th scope="row">ocean_current_velocity</th>
+					<td>Instant</td>
+					<td>km/h (mph, m/s, knots)</td>
+					<td>Velocity of ocean current considering Eulerian, Waves and Tides.</td>
+				</tr>
+				<tr>
+					<th scope="row">ocean_current_direction</th>
+					<td>Instant</td>
+					<td>°</td>
+					<td>Direction following the flow of the current. E.g. where the current is heading towards. 0° = Going north; 90° = Towards east.</td>
 				</tr>
 			</tbody>
 		</table>
