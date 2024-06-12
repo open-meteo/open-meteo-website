@@ -8,7 +8,7 @@
 			url: '/en/docs',
 			children: [
 				{ title: 'Historical Forecast', url: '/en/docs/historical-forecast-api' },
-				{ title: 'Previous Runs API', url: '/en/docs/previous-runs-api' },
+				{ title: 'Previous Model Runs', url: '/en/docs/previous-runs-api' },
 				{ title: 'DWD Germany', url: '/en/docs/dwd-api' },
 				{ title: 'NOAA U.S.', url: '/en/docs/gfs-api' },
 				{ title: 'Météo-France', url: '/en/docs/meteofrance-api' },
