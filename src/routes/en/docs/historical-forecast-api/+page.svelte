@@ -1,6 +1,5 @@
 <script lang="ts">
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import PressureLevelsHelpTable from '../PressureLevelsHelpTable.svelte';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
 	import {
@@ -10,9 +9,7 @@
 		sliceIntoChunks
 	} from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import { fade, slide } from 'svelte/transition';
-	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
-	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
+	import { slide } from 'svelte/transition';
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 	import { onMount } from 'svelte';
@@ -39,7 +36,7 @@
 		time_mode: 'time_interval',
 		tilt: 0,
 		azimuth: 0,
-		models: [],
+		models: []
 	};
 
 	const params = urlHashStore({
@@ -198,7 +195,7 @@
 		[
 			{ name: 'cape', label: 'CAPE' },
 			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
 		]
 	];
 
@@ -273,10 +270,16 @@
 <svelte:head>
 	<title>Historical Forecast API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/historical-forecast-api" />
+	<meta
+		name="description"
+		content="Access accurate and comprehensive historical weather data with Open-Meteo's API. Explore global weather trends, analyze climate change, and optimize forecasts using reanalysis models and high-resolution weather data. Visit our documentation for detailed variables and parameters."
+	/>
 </svelte:head>
 
-<div class="alert alert-warning" role="alert">
-	Work in progress. This API offers access to <strong>archived</strong> high resolution weather forecasts. Data is only updated once per day. This API is similar to the regular Weather Forecast API, but retains more than 90 days of past data.
+<div class="alert alert-info" role="alert">
+	This API provides access to archived high-resolution weather model data from the <a
+		href="/en/docs">Weather Forecast API</a
+	>. The data is continuously archived and updated daily.
 </div>
 
 <form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
@@ -298,9 +301,7 @@
 			/>
 		</div>
 		<div class="col-md-6">
-			<p>
-				Past weather forecasts from 2022 onwards are available.
-			</p>
+			<p>Past weather forecasts from 2022 onwards are available.</p>
 			<p>
 				Quick:
 				<!--<button
@@ -322,11 +323,11 @@
 					)}>2022</button
 				>
 				<button
-				class="btn btn-outline-primary btn-sm"
-				on:click|preventDefault={() => (
-					($params.start_date = '2023-01-01'), ($params.end_date = '2023-12-31')
-				)}>2023</button
-			>
+					class="btn btn-outline-primary btn-sm"
+					on:click|preventDefault={() => (
+						($params.start_date = '2023-01-01'), ($params.end_date = '2023-12-31')
+					)}>2023</button
+				>
 			</p>
 		</div>
 	</div>
@@ -402,7 +403,8 @@
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -410,7 +412,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -419,10 +421,8 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90 }
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -440,7 +440,7 @@
 							bind:value={$params.azimuth}
 						/>
 						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -588,7 +588,8 @@
 				{/each}
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: Only available in Central Europe and North America. Other regions use interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
+						>Note: Only available in Central Europe and North America. Other regions use
+						interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
 						<mark>instant</mark> for radiation at the indicated time.</small
 					>
 				</div>
@@ -616,9 +617,9 @@
 			</div>
 		{/each}
 		{#if timezoneInvalid}
-		<div class="alert alert-warning" role="alert">
-			It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
-		</div>
+			<div class="alert alert-warning" role="alert">
+				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+			</div>
 		{/if}
 	</div>
 
@@ -688,20 +689,37 @@
 		</div>
 	</div>
 
-	<LicenseSelector requires_professional_plan={true}/>
+	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="historical-forecast" useStockChart={true}/>
+<ResultPreview {params} {defaultParameter} type="historical-forecast" useStockChart={true} />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
-		Weather models cover different geographic areas at different resolutions and provide different
-		weather variables. Depending on the model, data have been interpolated to hourly values or not
-		all weather variables are available. With the drop down <mark>Weather models</mark> (just below the
-		hourly variables), you can select and compare individual weather models.
+		The weather data precisely aligns with the weather forecast API, created by continuously
+		integrating weather forecast model data. Each update from the weather models' initial hours is
+		compiled into a seamless time series. This extensive dataset is ideal for training machine
+		learning models and combining them with forecast data to generate optimized predictions.
 	</p>
-	<p>The default <mark>Best Match</mark> selects the best suitable high resolution weather models for any location worldwide.</p>
+	<p>
+		Weather models are initialized using data from weather stations, satellites, radar, airplanes,
+		soundings, and buoys. With high update frequencies of 1, 3, or 6 hours, the resulting time
+		series is nearly as accurate as direct measurements and offers global coverage. In regions like
+		North America and Central Europe, the difference from local weather stations is minimal.
+		However, for precise values such as precipitation, local measurements are preferable when
+		available.
+	</p>
+	<p>
+		The Historical Forecast API archives comprehensive data, including atmospheric pressure levels,
+		from all accessible weather forecast models. Depending on the model and public archive
+		availability, data is available starting from 2021 or 2022.
+	</p>
+	<p>
+		The default <mark>Best Match</mark> option selects the most suitable high-resolution weather models
+		for any global location, though users can also manually specify the weather model. Open-Meteo utilizes
+		the following weather forecast models:
+	</p>
 	<div class="table-responsive">
 		<table class="table">
 			<thead>
@@ -894,7 +912,7 @@
 					<td>2024-01-18</td>
 				</tr>
 				<tr>
-					<th scope="row" rowspan="3">COSMO 2I & 5M  AM ARPAE ARPAP Italy</th>
+					<th scope="row" rowspan="3">COSMO 2I & 5M AM ARPAE ARPAP Italy</th>
 					<td>COSMO 5M</td>
 					<td>Europe</td>
 					<td>5 km</td>
@@ -923,4 +941,59 @@
 	</div>
 </div>
 
-<div class="alert alert-warning" role="alert">Documentation work in progress</div>
+<div class="col-12 py-2">
+	<h2 id="data-sources">Which Historical Weather Data to Use?</h2>
+	<p>
+		Open-Meteo provides various datasets for historical weather data: the Historical Weather API and
+		the Historical Forecast API. For novice users expecting a single, definitive source of weather
+		data, this can be confusing. In reality, only a small fraction of the Earth's surface is covered
+		by weather stations with accurate and consistent measurements. To address this gap, numerical
+		weather models are used to approximate past global weather.
+	</p>
+	<ul>
+		<li>
+			<strong><a href="/en/docs/historical-weather-api">Historical Weather API:</a></strong> This dataset is based on reanalysis weather models, particularly
+			ERA5. It offers data from 1940 onwards with reasonable consistency throughout the time series,
+			making it ideal for analyzing weather trends and climate change. The focus here is on consistency
+			rather than pinpoint accuracy, with a spatial resolution ranging from 9 to 25 kilometers.
+		</li>
+		<li>
+			<strong><a href="/en/docs/historical-forecast-api">Historical Forecast API:</a></strong> This dataset is constructed by continuously assembling
+			weather forecasts, concatenating the first hours of each model update. Initialized with actual
+			measurements, it closely mirrors local measurements but provides global coverage. However, it only
+			includes data from the past 2-5 years and lacks long-term consistency due to evolving weather models
+			and better initialization data over time.
+		</li>
+		<li>
+			<strong><a href="/en/docs/previous-runs-api">Previous Runs API</a></strong>: Similar to the Historical Forecast API, this dataset
+			archives high-resolution weather models but includes data with a lead time offset of 1, 2, 3,
+			4, or more days. This makes it ideal for analyzing forecast performance several days into the
+			future. Due to the vast amount of data, only common weather variables are stored, with data
+			processing beginning in early 2024.
+		</li>
+	</ul>
+	<h4>Choosing the Right Dataset:</h4>
+	<ul>
+		<li>
+			For analyzing weather trends or climate change over decades, use the Historical Weather API
+			with reanalysis data from 1940 onwards.
+		</li>
+		<li>
+			For higher accuracy over the past few years, the Historical Forecast API with high-resolution
+			forecasts is more suitable.
+		</li>
+		<li>
+			To optimize weather forecasts using machine learning, it's essential to use data from the same
+			high-resolution weather models, available through both the Historical Forecast API and the
+			Previous Runs API.
+		</li>
+	</ul>
+</div>
+
+<div class="col-12 py-2">
+	<h2 id="data-sources">API Parameter</h2>
+	<p>
+		As the API is identical to the Forecast API, please refer to the Weather Forecast API
+		documentation for all available variables and parameters. The only notable difference is the API host "historical-forecast-api.open-meteo.com" as historical data is moved to a different set of servers with access to a large storage system.
+	</p>
+</div>
