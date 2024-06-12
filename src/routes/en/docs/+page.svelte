@@ -411,8 +411,8 @@
 							<p>
 								The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a
 								range of dates more easily. Archived forecasts come from a series of weather model
-								runs over time. If you're using the free API, you can access archived forecasts for
-								up to 3 months. For our commercial customers, data is available up to 6 months.
+								runs over time. You can access forecasts for
+								up to 3 months and continuously archived in the <a href="/en/docs/historical-forecast-api">Historical Forecast API</a>.
 								You can also check out our
 								<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
 								data going all the way back to 1940.
