@@ -7,6 +7,8 @@
 			title: 'Weather Forecast',
 			url: '/en/docs',
 			children: [
+				{ title: 'Historical Forecast', url: '/en/docs/historical-forecast-api' },
+				{ title: 'Previous Runs API', url: '/en/docs/previous-runs-api' },
 				{ title: 'DWD Germany', url: '/en/docs/dwd-api' },
 				{ title: 'NOAA U.S.', url: '/en/docs/gfs-api' },
 				{ title: 'Météo-France', url: '/en/docs/meteofrance-api' },
@@ -20,7 +22,6 @@
 		},
 		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
 		{ title: 'Ensemble Models', url: '/en/docs/ensemble-api' },
-		{ title: 'Previous Runs API', url: '/en/docs/previous-runs-api' },
     	{ title: 'Climate Change', url: '/en/docs/climate-api' },
 		{ title: 'Marine Forecast', url: '/en/docs/marine-weather-api' },
 		{ title: 'Air Quality', url: '/en/docs/air-quality-api' },
@@ -30,7 +31,6 @@
 	];
 	if (dev) {
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
-		links.push({ title: 'Historical Forecast API', url: '/en/docs/historical-forecast-api' });
 	}
 </script>
 
