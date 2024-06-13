@@ -799,7 +799,7 @@
 					<td>0.25° (~25 km)</td>
 					<td>1-Hourly</td>
 					<td>Every 6 hours</td>
-					<td>2014-01-02</td>
+					<td>2024-01-02</td>
 				</tr>
 				<tr>
 					<td>ARPEGE Europe</td>
@@ -815,7 +815,7 @@
 					<td>0.025° (~2.5 km)</td>
 					<td>1-Hourly</td>
 					<td>Every 3 hours</td>
-					<td>2014-01-02</td>
+					<td>2024-01-02</td>
 				</tr>
 				<tr>
 					<td>AROME France HD</td>
@@ -848,7 +848,7 @@
 					<td>0.25° (~25 km)</td>
 					<td>6-Hourly</td>
 					<td>Every 6 hours</td>
-					<td>2024-02-13</td>
+					<td>2024-03-13</td>
 				</tr>
 				<tr>
 					<th scope="row" rowspan="2">JMA</th>
