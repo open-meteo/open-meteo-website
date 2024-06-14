@@ -77,7 +77,7 @@
 					}
 					if (parts.length > 5 && parts[4].length > 0 && parts[5].length > 0) {
 						start_date.push(parts[4]);
-						end_date.push(parts[4]);
+						end_date.push(parts[5]);
 					}
 				});
 				params['latitude'] = lats;
