@@ -279,7 +279,7 @@
 <div class="alert alert-info" role="alert">
 	This API provides access to archived high-resolution weather model data from the <a
 		href="/en/docs">Weather Forecast API</a
-	>. The data is continuously archived and updated daily.
+	>. The data is continuously archived and updated daily. For more information read the <a href="https://openmeteo.substack.com/p/introducing-the-historical-forecast" title="Introducing the Historical Forecast API">announcement blog article</a>.
 </div>
 
 <form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
