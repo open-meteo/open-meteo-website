@@ -736,7 +736,7 @@
 					<th scope="row">wave_height<br />wind_wave_height<br />swell_wave_height</th>
 					<td>Instant</td>
 					<td>Meter</td>
-					<td>Wave height of significant mean, wind and swell waves</td>
+					<td>Wave height of significant mean, wind and swell waves. Wave directions are always reported as the direction the waves come from. 0° = From north towards south; 90° = From east</td>
 				</tr>
 				<tr>
 					<th scope="row">wave_direction<br />wind_wave_direction<br />swell_wave_direction</th>
