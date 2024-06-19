@@ -87,10 +87,13 @@
 			{ name: 'best_match', label: 'Best match', caption: 'MeteoFrance Wave & Currents' },
 		],[
 			{ name: 'meteofrance_wave', label: 'MeteoFrance Wave', caption: '0.083°' },
-			{ name: 'meteofrance_currents', label: 'MeteoFrance Wave currents', caption: '0.083°' },
+			{ name: 'meteofrance_currents', label: 'MeteoFrance Ocean Currents', caption: '0.083°' },
 			{ name: 'ewam', label: 'DWD EWAM', caption: '0.05° only Europe' },
 			{ name: 'gwam', label: 'DWD GWAM', caption: '0.25°' },
 			{ name: 'ecmwf_wam025', label: 'ECMWF WAM', caption: '0.25°, global' },
+			//{ name: 'ecmwf_wam025_ensemble', label: 'ECMWF WAM Ensemble', caption: '0.25°, global, 51 members' },
+			{ name: 'ncep_gfswave025', label: 'GFS Wave', caption: '0.25°, global' },
+			//{ name: 'ncep_gefswave025', label: 'GFS Wave Ensemble', caption: '0.25°, global, 31 members' },
 			{ name: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' },
 		]
 	];
@@ -172,6 +175,8 @@
 									<option value="7">7 days (default)</option>
 									<option value="8">8 days</option>
 									<option value="10">10 days</option>
+									<option value="14">14 days</option>
+									<option value="16">16 days</option>
 								</select>
 								<label for="forecast_days">Forecast days</label>
 							</div>
@@ -490,6 +495,20 @@
 				<td>0.25° (~25 km)</td>
 				<td>3-Hourly</td>
 				<td>March 2024 with 10 day forecast</td>
+				<td>Every 6 hours</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://polar.ncep.noaa.gov/waves/index.php"
+						>NCEP GFS Wave</a
+					>
+				</th>
+				<td>Global</td>
+				<td></td>
+				<td>0.25° (~25 km)</td>
+				<td>Hourly</td>
+				<td>June 2024 with 16 day forecast</td>
 				<td>Every 6 hours</td>
 			</tr>
 			<tr>
