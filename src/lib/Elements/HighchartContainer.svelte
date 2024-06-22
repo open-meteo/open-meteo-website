@@ -11,10 +11,9 @@
 	//import HighchartsDark from 'highcharts/themes/avocado';
 
 	export let useStockChart = false;
-	export let options: any;
+	export let options: Highcharts.Options;
 	export let style = 'height: 400px';
-	let clazz = 'w-100';
-	export { clazz as class };
+	export let className: string;
 
 	let node: HTMLElement;
 	let chart: any;
@@ -64,7 +63,7 @@
 <div
 	bind:this={node}
 	{style}
-	class={clazz}
+	class={className}
 	class:highcharts-dark={$themeIsDark}
 	class:highcharts-light={!$themeIsDark}
 />

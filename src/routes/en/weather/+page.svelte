@@ -1,8 +1,14 @@
 <script lang="ts">
 	import { fetchWeatherApi } from 'openmeteo';
+
+	//rm after
+	import { onDestroy, onMount } from 'svelte';
+
 	import LocationSearch from '../docs/LocationSearch.svelte';
 	import { defaultLocation, units, type GeoLocation } from '$lib/stores';
 	import { convertUnit, getWeatherCode, range } from '$lib/meteo';
+	import HighchartContainer from '$lib/Elements/HighchartContainer.svelte';
+
 
 	let location: GeoLocation = defaultLocation;
 	let weatherModel = "best_match";
@@ -14,11 +20,12 @@
 			elevation: location.elevation,
 			timezone: location.timezone,
 			models: weatherModel,
-			//hourly: ['temperature_2m', 'precipitation'],
-			minutely_15: 'precipitation,temperature_2m,windspeed_10m',
+			hourly: 'precipitation,precipitation_probability,windspeed_10m',
+			minutely_15: 'precipitation,precipitation_probability,windspeed_10m',
 			current: 'temperature_2m,weather_code,windspeed_10m,winddirection_10m',
-			daily:
-				'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant'
+			daily: 'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant',
+			forecast_days: 6,
+			past_days: 1
 		};
 		const url = 'https://api.open-meteo.com/v1/forecast';
 		const responses = await fetchWeatherApi(url, params);
@@ -26,6 +33,7 @@
 		const current = response.current()!;
 		const utcOffsetSeconds = response.utcOffsetSeconds();
 		const daily = response.daily()!;
+		const hourly = response.hourly()!;
 		const minutely = response.minutely15()!;
 
 		return {
@@ -35,6 +43,14 @@
 				weather_code: current.variables(1)!.value(),
 				windspeed_10m: current.variables(2)!.value(),
 				winddirection_10m: current.variables(3)!.value()
+			},
+			hourly: {
+				time: range(Number(hourly.time()), Number(hourly.timeEnd()), hourly.interval()).map(
+					(t) => new Date((t + utcOffsetSeconds) * 1000)
+				),
+				precipitation: hourly.variables(0)!,
+				temperature_2m: hourly.variables(1)!,
+				windspeed_10m: hourly.variables(2)!,
 			},
 			minutely: {
 				time: range(Number(minutely.time()), Number(minutely.timeEnd()), minutely.interval()).map(
@@ -57,10 +73,190 @@
 				windspeed_10m_max: daily.variables(6)!,
 				windgusts_10m_max: daily.variables(7)!,
 				winddirection_10m_dominant: daily.variables(8)!
+			},
+			chart: {
+				chart: {
+					zoomType: 'x',
+					className: 'opm-higcharts',
+					marginLeft: 35,
+					marginRight: 110,
+					scrollablePlotArea: {
+						minWidth: 1000,
+						scrollPositionX: 0
+					},
+					resetZoomButton: {
+					
+					}
+				},
+				yAxis: [{
+					// visible: false,
+					title: "",
+					min: 0,
+					max: 100,
+					opposite: true,
+					labels: {
+						format: '{value}%',
+					}
+				}, {
+					// visible: false,
+					title: "",
+					minRange: 1.8,
+					min: 0,
+					opposite: true,
+					labels: {
+						text: "",
+						format: '{value}mm',
+					}
+				}],
+				xAxis: {
+					type: 'datetime',
+					crosshair: true,
+					labels: {
+						overflow: 'justify'
+					},
+					// minutely
+					// min: Date.now() - 60 * 60 * 1000,
+					// max: Date.now() + 2 * 60 * 60 * 1000,
+					// hourly
+					min: Date.now() - 5 * 60 * 60 * 1000,
+					max: Date.now() + 24 * 60 * 60 * 1000,
+					plotLines: [{
+						// now
+						value: Date.now(),
+						zIndex: 5
+					}, {
+						// begin today
+						value: new Date().setUTCHours(0, 0, 0, 0),
+					}, {
+						// begin tomorrow
+						value: new Date(new Date().setUTCHours(0, 0, 0, 0)).setDate(new Date().getDate() + 1),
+					}]
+
+				},
+				plotOptions: {
+					series: {
+						pointStart: Number(hourly.time()) * 1000,
+						pointInterval: hourly.interval() * 1000,
+						pointWidth: 4,
+						states: {
+						hover: {
+								lineWidth: 5
+							}
+						},
+					}
+				},
+				credits: {
+					enabled: false
+				},
+				series: [{
+					// temperature
+					name: 'precip-prob',
+					data: hourly.variables(1)?.valuesArray(),
+					type: 'area',
+					color: '#ff22ff',
+				}, {
+					// precip
+					data: hourly.variables(0)?.valuesArray(),
+					type: 'column',
+					name: 'precip',
+					yAxis: 1,
+					tooltip: {
+						valueDecimals: 1
+					}
+				}],
+				legend: {
+					enabled: false
+				},
+				title: {
+					text: ''
+				},
+				tooltip: {
+					// className: 'precipitation-tooltip',
+					useHTML: true,
+					outside: true,
+					shadow: false,
+					backgroundColor: 'rgba(255, 255, 255, 0)',
+					shared: true,
+					positioner: function () {
+						return { x: 20, y: 300 };
+					},
+				}
 			}
 		};
 	})(location);
+
+	//rm after
+	onMount(() => {
+		let tooltip = document.querySelector('highcharts-tooltip-container')
+
+
+		setTimeout(()=>{
+			let credits = document.querySelector(".highcharts-credits")
+			credits?.remove();
+		}, 500)
+	});
 </script>
+
+<style>
+	:global(.highcharts-graph) {
+		stroke-width: 3px;
+	}
+
+	:global(.highcharts-color-0) {
+		fill: rgb(23, 88, 186);
+		stroke: rgb(23, 88, 186);
+	}
+
+	:global(.highcharts-plot-line) {
+		fill: none;
+		stroke: #cecece;
+		stroke-width: 2;
+	}
+
+	:global(.highcharts-plot-line:first-of-type) {
+		stroke: red;
+		stroke-width: 3px;
+		stroke-dasharray: 8px 4px;
+	}
+
+	:global(.highcharts-scrollable) {
+		position: relative;
+		margin: 2em 0;
+		margin-left: -1.5em;
+		margin-right: -1.5em;
+		width: calc( 100% + 3rem ) !important;
+
+		margin-bottom: 5em;
+	}
+
+	:global(.precipitation-tooltip) {	
+		position: relative;	
+		left: 0 !important;
+	}
+
+	:global(.weather-week) {	
+		display: flex;
+		align-items: flex-start;
+		flex-direction: row;
+	}
+	:global(.weather-week-item) {	
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		width: calc( 100% / 7 );
+		padding: 1em 0;
+	}
+	:global(.weather-week-item.today) {	
+		background-color: rgb(178, 212, 242);
+		border-radius: 5px;
+	}
+	:global(.weather-week-icon) {	
+		display: flex;
+		width: 100%;
+	}
+</style>
+
 
 <svelte:head>
 	<title>Weather | Open-Meteo.com</title>
@@ -135,36 +331,83 @@
 		</div>
 	</div>
 	{#await weather}
-		<p>Loading weather data</p>
 	{:then weather}
-		<h2>Current weather</h2>
-		<p>Current time {weather.current.time.toISOString()}</p>
-		<p>Current temperature {convertUnit(weather.current.temperature_2m, $units.temperature)} {$units.temperature}</p>
-		<p>Current weather: {getWeatherCode(weather.current.weather_code)}</p>
-		<p>Current wind: {convertUnit(weather.current.windspeed_10m, $units.windSpeed)} {$units.windSpeed} {weather.current.winddirection_10m.toFixed()}°</p>
+		<div class="weather-week">
+			{#each weather.daily.time as time, index}
+				{@const code=getWeatherCode(weather.daily.weather_code.values(index)).split(" ").join("-")}
+				{@const today=time.getDate() === new Date().getDate()}
+				<div class="weather-week-item"
+					class:today={today}>
+					<b>{time.getDate()} - {time.getMonth()  + 1}</b>
 
-		<h2>Daily weather</h2>
-		{#each weather.daily.time as time, index}
-			<p>
-				{time.toISOString()}
-				{getWeatherCode(weather.daily.weather_code.values(index))}
-				Tmax={convertUnit(weather.daily.temperature_2m_max.values(index), $units.temperature)} {$units.temperature} Tmin={convertUnit(weather.daily.temperature_2m_min
-					.values(index), $units.temperature)} {$units.temperature} precip={weather.daily.precipitation_sum.values(index)?.toFixed(1)} mm wind={convertUnit(weather.daily.windspeed_10m_max
-					.values(index), $units.windSpeed)} {$units.windSpeed} gusts={convertUnit(weather.daily.windgusts_10m_max.values(index), $units.windSpeed)} {$units.windSpeed} direction={weather.daily.winddirection_10m_dominant
-					.values(index)
-					?.toFixed()}°
-			</p>
-		{/each}
+					<!-- {time.getDay()} -->
+					<!-- {time.toISOString()} -->
 
-		<h2>15 Minutely weather</h2>
-		{#each weather.minutely.time as time, index}
-			<p>
-				{time.toISOString()}
-				{convertUnit(weather.minutely.temperature_2m.values(index), $units.temperature)} {$units.temperature} precip={weather.minutely.precipitation.values(index)?.toFixed(1)} mm wind={convertUnit(weather.minutely.windspeed_10m
-					.values(index), $units.windSpeed)}
-			</p>
-		{/each}
-	{:catch error}
-		<p style="color: red">{error.message}</p>
+					<div class="weather-week-icon">
+						{#if code.includes("snow")}
+							<img src="/images/weather-icons/production/fill/all/snow.svg">
+						{:else if code.includes("-rain")}
+							<img src="/images/weather-icons/production/fill/all/rain.svg">
+						{:else if code.includes("-drizzle")}
+							<img src="/images/weather-icons/production/fill/all/drizzle.svg">
+						{:else}
+							<img src="/images/weather-icons/production/fill/all/{code}.svg">
+						{/if}
+					</div>
+					<!-- {code} -->
+					{weather.daily.temperature_2m_max.values(index).toFixed(1)} °C                            
+					<br>
+					{weather.daily.temperature_2m_min.values(index).toFixed(1)} °C
+
+
+					<br>
+					<!-- {time} -->
+				</div>
+			{/each}
+		</div>
+		<HighchartContainer 
+			className={'highcharts-scrollable'}
+			options={weather.chart}				
+			style={'height: 300px;'}/>
+		<div class="tooltip-wrapper"/>
 	{/await}
+
+	<div class="row">
+		{#await weather}
+			<div class="col px-5 py-5 text-center">
+				<span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"/>
+			</div>		
+		{:then weather}
+			<h2>Current weather</h2>
+			<p>Current time {weather.current.time.toISOString()}</p>
+			<p>Current temperature {convertUnit(weather.current.temperature_2m, $units.temperature)} {$units.temperature}</p>
+			<p>Current weather: {getWeatherCode(weather.current.weather_code)}</p>
+			<p>Current wind: {convertUnit(weather.current.windspeed_10m, $units.windSpeed)} {$units.windSpeed} {weather.current.winddirection_10m.toFixed()}°</p>
+
+			<h2>Daily weather</h2>
+			{#each weather.daily.time as time, index}
+				<p>
+					{time.toISOString()}
+					{getWeatherCode(weather.daily.weather_code.values(index))}
+					Tmax={convertUnit(weather.daily.temperature_2m_max.values(index), $units.temperature)} {$units.temperature} Tmin={convertUnit(weather.daily.temperature_2m_min
+						.values(index), $units.temperature)} {$units.temperature} precip={weather.daily.precipitation_sum.values(index)?.toFixed(1)} mm wind={convertUnit(weather.daily.windspeed_10m_max
+						.values(index), $units.windSpeed)} {$units.windSpeed} gusts={convertUnit(weather.daily.windgusts_10m_max.values(index), $units.windSpeed)} {$units.windSpeed} direction={weather.daily.winddirection_10m_dominant
+						.values(index)
+						?.toFixed()}°
+				</p>
+			{/each}
+
+			<h2>15 Minutely weather</h2>
+			{#each weather.minutely.time as time, index}
+				<p>
+					{time.toISOString()}
+					{convertUnit(weather.minutely.temperature_2m.values(index), $units.temperature)} {$units.temperature} precip={weather.minutely.precipitation.values(index)?.toFixed(1)} mm wind={convertUnit(weather.minutely.windspeed_10m
+						.values(index), $units.windSpeed)}
+				</p>
+			{/each}
+		{:catch error}
+			<p style="color: red">{error.message}</p>
+		{/await}
+	</div>
+
 </div>
