@@ -245,7 +245,7 @@
 	</div>
 </div>
 
-<div class="container px-4 py-5 mt-5" id="faq">
+<div class="container px-4 py-md-5 mt-5" id="faq">
 	<h2 id="weathervariables" class="text-center pb-2 display-5">Frequently Asked Questions</h2>
 
 	<div class="row row-cols-1 row-cols-lg-2 g-4 py-5">

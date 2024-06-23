@@ -237,7 +237,7 @@
 	</div>
 </div>
 
-<div class="container px-4 py-5" id="available-apis">
+<div class="container px-4 py-md-5" id="available-apis">
 	<h2 id="weathervariables" class="pb-2 text-center display-5">Available APIs</h2>
 	<p class="lead text-center">
 		Open-Meteo offers a diverse range of APIs that go beyond traditional weather forecasting.
@@ -399,8 +399,8 @@
 	</div>
 </div>
 
-<div class="container px-4 py-5">
-	<div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+<div class="container px-4 py-md-5">
+	<div class="row g-4 row-cols-1 row-cols-lg-3">
 		<div class="feature col">
 			<div class="feature-title">
 				<div class="feature-icon bg-primary bg-gradient">
@@ -499,7 +499,7 @@
 	</div>
 </div>
 
-<div class="px-4 py-5 my-5 text-center">
+<div class="px-4 pt-md-5 pb-5 my-5 text-center">
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		width="72"

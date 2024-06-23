@@ -54,7 +54,7 @@
 	</div>
 </div>
 
-<div class="container col-xxl-8 px-4 py-5">
+<div class="container col-xxl-8 px-4 py-md-5">
 	<div class="row g-5">
 		<div class="col-lg-6">
 			<h2 class="display-5 lh-1 mb-3">Accurate Weather Forecasts for Any Location</h2>
@@ -206,7 +206,7 @@
 	</div>
 </div>
 
-<div class="container px-4 py-md-5" id="featured-3">
+<div class="container px-4 py-5" id="featured-3">
 	<div class="row g-4 row-cols-1 row-cols-lg-2 row-cols-xxl-3">
 		<div class="feature col">
 			<div class="feature-title">
@@ -431,7 +431,7 @@
 	</div>
 </div>
 
-<div class="container px-4 py-5 text-center">
+<div class="container px-4 pt-md-5 pb-5 text-center">
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		width="72"
