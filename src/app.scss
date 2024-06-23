@@ -116,3 +116,9 @@ $color-mode-type: data;
     max-width: 100%;
   }
 }
+
+@media (min-width: 768px) and (max-width:992px) {
+  .container-md, .container-sm, .container {
+    max-width: 868px;
+  }
+}
