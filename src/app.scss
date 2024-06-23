@@ -39,7 +39,9 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    
 
+    h2,
     h3 {
         margin-bottom: 1rem;
     }
@@ -55,6 +57,17 @@
     font-size: 2rem;
     color: #fff;
     border-radius: .75rem;
+}
+
+@media (max-width: 768px) {
+  .feature-icon {
+    min-width: 3rem;
+    height: 3rem;
+
+    svg {
+      transform: scale(0.8);
+    }
+  }
 }
 
 .debug-hidden {
@@ -96,4 +109,10 @@ $color-mode-type: data;
 .std-component-wrap {
   position: inherit !important;
   display: inherit !important;
+}
+
+@media (max-width: 768px) {
+  .container-sm, .container {
+    max-width: 100%;
+  }
 }
