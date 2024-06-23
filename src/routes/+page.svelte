@@ -206,7 +206,7 @@
 	</div>
 </div>
 
-<div class="container px-4 py-5" id="featured-3">
+<div class="container px-4 py-md-5" id="featured-3">
 	<div class="row g-4 row-cols-1 row-cols-lg-2 row-cols-xxl-3">
 		<div class="feature col">
 			<div class="feature-title">
