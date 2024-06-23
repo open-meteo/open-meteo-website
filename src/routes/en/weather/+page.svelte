@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { fetchWeatherApi } from 'openmeteo';
 
-	//rm after
 	import { onDestroy, onMount } from 'svelte';
 
 	import LocationSearch from '../docs/LocationSearch.svelte';
@@ -9,12 +8,13 @@
 	import { convertUnit, getWeatherCode, range } from '$lib/meteo';
 	import HighchartContainer from '$lib/Elements/HighchartContainer.svelte';
 
+	import colorScale from './color-scale';
 
 	let location: GeoLocation = defaultLocation;
-	let weatherModel = "best_match";
+	let weatherModel = 'icon_seamless';
 
 	$: weather = (async (location: GeoLocation) => {
-		const params = {
+		const paramsWeather = {
 			latitude: location.latitude,
 			longitude: location.longitude,
 			elevation: location.elevation,
@@ -23,18 +23,37 @@
 			hourly: 'precipitation,precipitation_probability,windspeed_10m',
 			minutely_15: 'precipitation,precipitation_probability,windspeed_10m',
 			current: 'temperature_2m,weather_code,windspeed_10m,winddirection_10m',
-			daily: 'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant',
+			daily:
+				'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant',
 			forecast_days: 6,
 			past_days: 1
 		};
 		const url = 'https://api.open-meteo.com/v1/forecast';
-		const responses = await fetchWeatherApi(url, params);
+		const responses = await fetchWeatherApi(url, paramsWeather);
 		const response = responses[0];
 		const current = response.current()!;
 		const utcOffsetSeconds = response.utcOffsetSeconds();
 		const daily = response.daily()!;
 		const hourly = response.hourly()!;
 		const minutely = response.minutely15()!;
+
+		const paramsPrevious = {
+			latitude: location.latitude,
+			longitude: location.longitude,
+			elevation: location.elevation,
+			timezone: location.timezone,
+			hourly:
+				'temperature_2m,temperature_2m_previous_day1,temperature_2m_previous_day2,temperature_2m_previous_day3,temperature_2m_previous_day4,temperature_2m_previous_day5',
+			models: 'ecmwf_ifs025,ecmwf_aifs025,icon_seamless,gem_seamless,meteofrance_seamless',
+			past_days: 7
+		};
+
+		const urlPrev = 'https://api.open-meteo.com/v1/forecast';
+		const responsesPrev = await fetchWeatherApi(url, paramsPrevious);
+		const responsePrev = responsesPrev[0];
+		const hourlyPrev = response.hourly()!;
+
+		console.log(hourlyPrev.variables(0));
 
 		return {
 			current: {
@@ -50,7 +69,7 @@
 				),
 				precipitation: hourly.variables(0)!,
 				temperature_2m: hourly.variables(1)!,
-				windspeed_10m: hourly.variables(2)!,
+				windspeed_10m: hourly.variables(2)!
 			},
 			minutely: {
 				time: range(Number(minutely.time()), Number(minutely.timeEnd()), minutely.interval()).map(
@@ -58,7 +77,7 @@
 				),
 				precipitation: minutely.variables(0)!,
 				temperature_2m: minutely.variables(1)!,
-				windspeed_10m: minutely.variables(2)!,
+				windspeed_10m: minutely.variables(2)!
 			},
 			daily: {
 				time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
@@ -74,7 +93,7 @@
 				windgusts_10m_max: daily.variables(7)!,
 				winddirection_10m_dominant: daily.variables(8)!
 			},
-			chart: {
+			chartWeather: {
 				chart: {
 					zoomType: 'x',
 					className: 'opm-higcharts',
@@ -84,30 +103,31 @@
 						minWidth: 1000,
 						scrollPositionX: 0
 					},
-					resetZoomButton: {
-					
-					}
+					resetZoomButton: {}
 				},
-				yAxis: [{
-					// visible: false,
-					title: "",
-					min: 0,
-					max: 100,
-					opposite: true,
-					labels: {
-						format: '{value}%',
+				yAxis: [
+					{
+						// visible: false,
+						title: '',
+						min: 0,
+						max: 100,
+						opposite: true,
+						labels: {
+							format: '{value}%'
+						}
+					},
+					{
+						// visible: false,
+						title: '',
+						minRange: 1.8,
+						min: 0,
+						opposite: true,
+						labels: {
+							text: '',
+							format: '{value}mm'
+						}
 					}
-				}, {
-					// visible: false,
-					title: "",
-					minRange: 1.8,
-					min: 0,
-					opposite: true,
-					labels: {
-						text: "",
-						format: '{value}mm',
-					}
-				}],
+				],
 				xAxis: {
 					type: 'datetime',
 					crosshair: true,
@@ -120,18 +140,21 @@
 					// hourly
 					min: Date.now() - 5 * 60 * 60 * 1000,
 					max: Date.now() + 24 * 60 * 60 * 1000,
-					plotLines: [{
-						// now
-						value: Date.now(),
-						zIndex: 5
-					}, {
-						// begin today
-						value: new Date().setUTCHours(0, 0, 0, 0),
-					}, {
-						// begin tomorrow
-						value: new Date(new Date().setUTCHours(0, 0, 0, 0)).setDate(new Date().getDate() + 1),
-					}]
-
+					plotLines: [
+						{
+							// now
+							value: Date.now(),
+							zIndex: 5
+						},
+						{
+							// begin today
+							value: new Date().setUTCHours(0, 0, 0, 0)
+						},
+						{
+							// begin tomorrow
+							value: new Date(new Date().setUTCHours(0, 0, 0, 0)).setDate(new Date().getDate() + 1)
+						}
+					]
 				},
 				plotOptions: {
 					series: {
@@ -139,31 +162,38 @@
 						pointInterval: hourly.interval() * 1000,
 						pointWidth: 4,
 						states: {
-						hover: {
+							hover: {
 								lineWidth: 5
 							}
-						},
+						}
 					}
 				},
 				credits: {
 					enabled: false
 				},
-				series: [{
-					// temperature
-					name: 'precip-prob',
-					data: hourly.variables(1)?.valuesArray(),
-					type: 'area',
-					color: '#ff22ff',
-				}, {
-					// precip
-					data: hourly.variables(0)?.valuesArray(),
-					type: 'column',
-					name: 'precip',
-					yAxis: 1,
-					tooltip: {
-						valueDecimals: 1
+				series: [
+					{
+						// precip-prop
+						name: 'Precipitation Probability',
+						data: hourly.variables(1)?.valuesArray(),
+						type: 'area',
+						color: '#ff22ff',
+						tooltip: {
+							valueSuffix: '%'
+						}
+					},
+					{
+						// precip
+						data: hourly.variables(0)?.valuesArray(),
+						type: 'column',
+						name: 'Precipitation',
+						yAxis: 1,
+						tooltip: {
+							valueDecimals: 1,
+							valueSuffix: 'mm'
+						}
 					}
-				}],
+				],
 				legend: {
 					enabled: false
 				},
@@ -171,33 +201,399 @@
 					text: ''
 				},
 				tooltip: {
-					// className: 'precipitation-tooltip',
-					useHTML: true,
+					// backgroundColor: 'rgba(255, 255, 255, 0)',
+					// className: 'tooltip-wrapper',
+					// useHTML: true,
 					outside: true,
 					shadow: false,
-					backgroundColor: 'rgba(255, 255, 255, 0)',
 					shared: true,
+					appendTo: 'body',
 					positioner: function () {
-						return { x: 20, y: 300 };
+						return { x: 30, y: 400 };
+					}
+				}
+			},
+			chartPrev: {
+				chart: {
+					type: 'bar',
+					className: 'opm-higcharts',
+					marginLeft: 35,
+					marginRight: 110,
+					scrollablePlotArea: {
+						minWidth: 1000,
+						scrollPositionX: 0
 					},
+					resetZoomButton: {}
+				},
+				yAxis: [
+					{
+						// visible: false,
+						title: '',
+						min: 0,
+						max: 100
+						// opposite: true
+					}
+				],
+				xAxis: [
+					{
+						visible: false
+					}
+				],
+
+				credits: {
+					enabled: false
+				},
+				plotOptions: {
+					bar: {
+						borderRadius: '50%'
+					}
+				},
+				series: [
+					{
+						name: 'Model accuracy',
+						data: [
+							['DWD', 93],
+							['Icon', 66],
+							['WTF', 22],
+							['DWD', 93],
+							['ECMWF', 85],
+							['Meteofrance', 22]
+						],
+						tooltip: {
+							valueSuffix: '%'
+						},
+						dataLabels: {
+							enabled: true,
+							inside: true,
+							format: '{point.x point.y:.1f}' // one decimal
+						}
+					}
+				],
+				legend: {
+					enabled: false
+				},
+				title: {
+					text: ''
+				},
+				tooltip: {
+					outside: true,
+					shared: true,
+					hideDelay: 100000,
+					appendTo: 'body'
 				}
 			}
 		};
 	})(location);
 
+	let highchartsObjectWeather;
+	let highchartsObjectPrev;
+
+	let selectedDay = new Date();
+
 	//rm after
 	onMount(() => {
-		let tooltip = document.querySelector('highcharts-tooltip-container')
+		let tooltip = document.querySelector('highcharts-tooltip-container');
 
-
-		setTimeout(()=>{
-			let credits = document.querySelector(".highcharts-credits")
+		setTimeout(() => {
+			let credits = document.querySelector('.highcharts-credits');
 			credits?.remove();
-		}, 500)
+		}, 500);
 	});
+
+	const switchDay = (date: Date, updateProp = 'xAxis') => {
+		console.log(date);
+		highchartsObjectWeather.updateChart({
+			min: date.getTime() - 5 * 60 * 60 * 1000,
+			max: date.getTime() + 24 * 60 * 60 * 1000
+		});
+		selectedDay = date;
+	};
+
+	const getIconClass = (code: string, time: Date) => {
+		let morning = new Date(time.getTime());
+		morning.setHours(6, 0, 0, 0);
+		let evening = new Date(time.getTime());
+		evening.setHours(19, 0, 0, 0);
+		let dayTime = false;
+		if (time > morning && time < evening) {
+			dayTime = true;
+		}
+
+		return `${dayTime ? 'day' : 'night'}-${'x'}`;
+	};
 </script>
 
-<style>
+<svelte:head>
+	<title>Weather | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/weather" />
+	<meta name="description" content="segseg" />
+</svelte:head>
+
+<!-- Unit and location selection -->
+<div class="container">
+	<div class="row">
+		<div class="col-md-4 mb-3">
+			<LocationSearch
+				class="p-1"
+				on:location={(event) => (location = event.detail)}
+				label="Search Location"
+			/>
+		</div>
+		<div class="col-md-2 mb-3">
+			<input
+				type="radio"
+				class="btn-check"
+				name="temperatureUnit"
+				id="celsius"
+				value="celsius"
+				bind:group={$units.temperature}
+			/>
+			<label class="btn" for="celsius">°C</label>
+			<input
+				type="radio"
+				class="btn-check"
+				name="temperatureUnit"
+				id="fahrenheit"
+				value="fahrenheit"
+				bind:group={$units.temperature}
+			/>
+			<label class="btn" for="fahrenheit">°F</label>
+		</div>
+		<div class="col-md-4 mb-3">
+			<input
+				type="radio"
+				class="btn-check"
+				name="windSpeedUnit"
+				id="kph"
+				value="kph"
+				bind:group={$units.windSpeed}
+			/>
+			<label class="btn" for="kph">km/h</label>
+			<input
+				type="radio"
+				class="btn-check"
+				name="windSpeedUnit"
+				id="mph"
+				value="mph"
+				bind:group={$units.windSpeed}
+			/>
+			<label class="btn" for="mph">mph</label>
+			<input
+				type="radio"
+				class="btn-check"
+				name="windSpeedUnit"
+				id="kn"
+				value="kn"
+				bind:group={$units.windSpeed}
+			/>
+			<label class="btn" for="kn">knots</label>
+		</div>
+		<div class="col-md-12 mb-3">
+			<input
+				type="radio"
+				class="btn-check"
+				name="weatherModel"
+				id="best_match"
+				value="best_match"
+				bind:group={weatherModel}
+			/>
+			<label class="btn" for="best_match">Best Match</label>
+			<input
+				type="radio"
+				class="btn-check"
+				name="weatherModel"
+				id="icon_seamless"
+				value="icon_seamless"
+				bind:group={weatherModel}
+			/>
+			<label class="btn" for="icon_seamless">DWD</label>
+			<input
+				type="radio"
+				class="btn-check"
+				name="weatherModel"
+				id="gfs_seamless"
+				value="gfs_seamless"
+				bind:group={weatherModel}
+			/>
+			<label class="btn" for="gfs_seamless">NOAA</label>
+			<input
+				type="radio"
+				class="btn-check"
+				name="weatherModel"
+				id="meteofrance_seamless"
+				value="meteofrance_seamless"
+				bind:group={weatherModel}
+			/>
+			<label class="btn" for="meteofrance_seamless">Météo-France</label>
+			<input
+				type="radio"
+				class="btn-check"
+				name="weatherModel"
+				id="ecmwf_ifs04"
+				value="ecmwf_ifs04"
+				bind:group={weatherModel}
+			/>
+			<label class="btn" for="ecmwf_ifs04">ECMWF</label>
+			<input
+				type="radio"
+				class="btn-check"
+				name="weatherModel"
+				id="jma_seamless"
+				value="jma_seamless"
+				bind:group={weatherModel}
+			/>
+			<label class="btn" for="jma_seamless">JMA</label>
+			<input
+				type="radio"
+				class="btn-check"
+				name="weatherModel"
+				id="gem_seamless"
+				value="gem_seamless"
+				bind:group={weatherModel}
+			/>
+			<label class="btn" for="gem_seamless">GEM</label>
+			<!--<input type="radio" class="btn-check" name="weatherModel" id="metno_nordic" value="metno_nordic" bind:group={weatherModel}>
+			<label class="btn" for="metno_nordic">MetNo</label>-->
+		</div>
+	</div>
+
+	<!-- Weather week tabs -->
+	{#await weather then weather}
+		<div class="weather-week">
+			{#each weather.daily.time as time, index}
+				{@const rawCode = weather.daily.weather_code.values(index)}
+
+				{@const code = getWeatherCode(weather.daily.weather_code.values(index))
+					.split(' ')
+					.join('-')}
+				{@const selected = time.getDate() === selectedDay.getDate()}
+				<div
+					class="weather-week-item"
+					on:click={() => {
+						switchDay(time);
+					}}
+					class:selected
+				>
+					<div class="weather-week-date">
+						<b>{time.getDate()} - {time.getMonth() + 1}</b>
+					</div>
+
+					{time.toLocaleDateString('en-GB', { weekday: 'long' })}
+					<!-- {time.toISOString()} -->
+
+					<div class="weather-week-icon">
+						<i class={`wi wi-wmo4680-${rawCode}`}></i>
+					</div>
+					<!-- {code} -->
+					<div
+						class="weather-temp-max"
+						style={`color: ${colorScale[weather.daily.temperature_2m_max.values(index).toFixed(0)]}`}
+					>
+						{weather.daily.temperature_2m_max.values(index).toFixed(1)} °C
+					</div>
+					<br />
+					<div
+						class="weather-temp-min"
+						style={`color: ${colorScale[weather.daily.temperature_2m_min.values(index).toFixed(0)]}`}
+					>
+						{weather.daily.temperature_2m_min.values(index).toFixed(1)} °C
+					</div>
+
+					<br />
+					<!-- {time} -->
+				</div>
+			{/each}
+		</div>
+
+		<!-- Weather graph -->
+		<HighchartContainer
+			bind:this={highchartsObjectWeather}
+			className={'highcharts-scrollable'}
+			options={weather.chartWeather}
+			style={'height: 300px;'}
+		/>
+		<div class="weather-quality">
+			<h2>Weather Model Comparison for {location.name}</h2>
+			<HighchartContainer
+				bind:this={highchartsObjectPrev}
+				className={'highcharts-scrollable'}
+				options={weather.chartPrev}
+				style={'height: 300px;'}
+			/>
+		</div>
+	{/await}
+
+	<div class="row">
+		{#await weather}
+			<div class="col px-5 py-5 text-center">
+				<span class="spinner-border spinner-border-lg" role="status" aria-hidden="true" />
+			</div>
+		{:then weather}
+			<h2>Current weather</h2>
+			<p>Current time {weather.current.time.toISOString()}</p>
+			<p>
+				Current temperature {convertUnit(weather.current.temperature_2m, $units.temperature)}
+				{$units.temperature}
+			</p>
+			<p>Current weather: {getWeatherCode(weather.current.weather_code)}</p>
+			<p>
+				Current wind: {convertUnit(weather.current.windspeed_10m, $units.windSpeed)}
+				{$units.windSpeed}
+				{weather.current.winddirection_10m.toFixed()}°
+			</p>
+
+			<h2>Daily weather</h2>
+			{#each weather.daily.time as time, index}
+				<p>
+					{time.toISOString()}
+					{getWeatherCode(weather.daily.weather_code.values(index))}
+					Tmax={convertUnit(weather.daily.temperature_2m_max.values(index), $units.temperature)}
+					{$units.temperature} Tmin={convertUnit(
+						weather.daily.temperature_2m_min.values(index),
+						$units.temperature
+					)}
+					{$units.temperature} precip={weather.daily.precipitation_sum.values(index)?.toFixed(1)} mm
+					wind={convertUnit(weather.daily.windspeed_10m_max.values(index), $units.windSpeed)}
+					{$units.windSpeed} gusts={convertUnit(
+						weather.daily.windgusts_10m_max.values(index),
+						$units.windSpeed
+					)}
+					{$units.windSpeed} direction={weather.daily.winddirection_10m_dominant
+						.values(index)
+						?.toFixed()}°
+				</p>
+			{/each}
+
+			<h2>15 Minutely weather</h2>
+			{#each weather.minutely.time as time, index}
+				<p>
+					{time.toISOString()}
+					{convertUnit(weather.minutely.temperature_2m.values(index), $units.temperature)}
+					{$units.temperature} precip={weather.minutely.precipitation.values(index)?.toFixed(1)} mm wind={convertUnit(
+						weather.minutely.windspeed_10m.values(index),
+						$units.windSpeed
+					)}
+				</p>
+			{/each}
+		{:catch error}
+			<p style="color: red">{error.message}</p>
+		{/await}
+	</div>
+</div>
+
+<style lang="scss">
+	@import './weather.scss';
+
+	/** Tooltip styles, for when outside is true */
+	:global(:root) {
+		--highcharts-tooltip-color: var(--bs-body-bg);
+	}
+
+	:global(.highcharts-tooltip text) {
+		color: var(--bs-body-color);
+		fill: var(--bs-body-color);
+	}
+
 	:global(.highcharts-graph) {
 		stroke-width: 3px;
 	}
@@ -219,195 +615,75 @@
 		stroke-dasharray: 8px 4px;
 	}
 
+	:global(.highcharts-credits) {
+		display: none;
+	}
+
 	:global(.highcharts-scrollable) {
 		position: relative;
 		margin: 2em 0;
 		margin-left: -1.5em;
 		margin-right: -1.5em;
-		width: calc( 100% + 3rem ) !important;
-
+		width: calc(100% + 3rem) !important;
 		margin-bottom: 5em;
 	}
 
-	:global(.precipitation-tooltip) {	
-		position: relative;	
-		left: 0 !important;
-	}
-
-	:global(.weather-week) {	
+	:global(.weather-week) {
 		display: flex;
 		align-items: flex-start;
+		gap: 0.4em;
 		flex-direction: row;
+		margin-top: 1.5em;
+		padding-bottom: 1.5em;
 	}
-	:global(.weather-week-item) {	
+	:global(.weather-week-item) {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		flex-direction: column;
-		width: calc( 100% / 7 );
+		width: calc(100% / 7);
 		padding: 1em 0;
+		transition: 200ms;
+		cursor: pointer;
 	}
-	:global(.weather-week-item.today) {	
-		background-color: rgb(178, 212, 242);
+	:global(.weather-week-item.selected) {
+		background-color: var(--bs-primary-border-subtle);
 		border-radius: 5px;
+		transform: scale(1.075);
 	}
-	:global(.weather-week-icon) {	
+
+	:global(.weather-week-icon) {
 		display: flex;
+		justify-content: center;
 		width: 100%;
+		min-height: 40px;
+	}
+
+	:global(.weather-week-icon i) {
+		width: 60px;
+		height: 60px;
+		margin-top: 18px;
+		margin-bottom: 8px;
+
+		text-align: center;
+	}
+
+	:global(.weather-week-icon i::before) {
+		font-size: 50px;
+		color: var(--bs-primary-text-emphasis);
+		font-weight: 100;
+	}
+
+	:global(.weather-temp-max) {
+		font-weight: 900;
+	}
+
+	:global(.weather-temp-min) {
+		font-weight: 900;
+	}
+
+	:global(.weather-week-date) {
+		font-size: 18px;
+		font-weight: 900;
 	}
 </style>
-
-
-<svelte:head>
-	<title>Weather | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/weather" />
-	<meta name="description" content="segseg" />
-</svelte:head>
-
-<div
-	class="px-4 py-5 text-center text-white"
-	style="
-            background-image: url('/images/features_background.webp');
-            background-size: cover;
-            background-position: center;
-            height: 300px;
-          "
->
-	<svg
-		style="filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));"
-		xmlns="http://www.w3.org/2000/svg"
-		width="96"
-		height="96"
-		fill="currentColor"
-		class="bi bi-cloud-rain mb-4"
-		viewBox="0 0 16 16"
-	>
-		<path
-			d="M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 0 1-.948-.316l1-3a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 1 1-.948-.316l1-3a.5.5 0 0 1 .632-.317zm.247-6.998a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973zM8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4.002 4.002 0 0 1 8.5 2z"
-		/>
-	</svg>
-	<h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">
-		Weather {location.name}
-	</h1>
-	<h5>{location.admin1}, {location.country}</h5>
-</div>
-
-<div class="container px-4 py-5">
-	<div class="row">
-		<div class="col-md-3 mb-3">
-			<LocationSearch on:location={(event) => (location = event.detail)} label="Search Location" />
-		</div>
-		<div class="col-md-3 mb-3">
-			<input type="radio" class="btn-check" name="temperatureUnit" id="celsius" value="celsius" bind:group={$units.temperature}>
-			<label class="btn" for="celsius">°C</label>
-			<input type="radio" class="btn-check" name="temperatureUnit" id="fahrenheit" value="fahrenheit" bind:group={$units.temperature}>
-			<label class="btn" for="fahrenheit">°F</label>
-		</div>
-		<div class="col-md-3 mb-3">
-			<input type="radio" class="btn-check" name="windSpeedUnit" id="kph" value="kph" bind:group={$units.windSpeed}>
-			<label class="btn" for="kph">km/h</label>
-			<input type="radio" class="btn-check" name="windSpeedUnit" id="mph" value="mph" bind:group={$units.windSpeed}>
-			<label class="btn" for="mph">mph</label>
-			<input type="radio" class="btn-check" name="windSpeedUnit" id="kn" value="kn" bind:group={$units.windSpeed}>
-			<label class="btn" for="kn">knots</label>
-		</div>
-		<div class="col-md-12 mb-3">
-			<input type="radio" class="btn-check" name="weatherModel" id="best_match" value="best_match" bind:group={weatherModel}>
-			<label class="btn" for="best_match">Best Match</label>
-			<input type="radio" class="btn-check" name="weatherModel" id="icon_seamless" value="icon_seamless" bind:group={weatherModel}>
-			<label class="btn" for="icon_seamless">DWD</label>
-			<input type="radio" class="btn-check" name="weatherModel" id="gfs_seamless" value="gfs_seamless" bind:group={weatherModel}>
-			<label class="btn" for="gfs_seamless">NOAA</label>
-			<input type="radio" class="btn-check" name="weatherModel" id="meteofrance_seamless" value="meteofrance_seamless" bind:group={weatherModel}>
-			<label class="btn" for="meteofrance_seamless">Météo-France</label>
-			<input type="radio" class="btn-check" name="weatherModel" id="ecmwf_ifs04" value="ecmwf_ifs04" bind:group={weatherModel}>
-			<label class="btn" for="ecmwf_ifs04">ECMWF</label>
-			<input type="radio" class="btn-check" name="weatherModel" id="jma_seamless" value="jma_seamless" bind:group={weatherModel}>
-			<label class="btn" for="jma_seamless">JMA</label>
-			<input type="radio" class="btn-check" name="weatherModel" id="gem_seamless" value="gem_seamless" bind:group={weatherModel}>
-			<label class="btn" for="gem_seamless">GEM</label>
-			<!--<input type="radio" class="btn-check" name="weatherModel" id="metno_nordic" value="metno_nordic" bind:group={weatherModel}>
-			<label class="btn" for="metno_nordic">MetNo</label>-->
-		</div>
-	</div>
-	{#await weather}
-	{:then weather}
-		<div class="weather-week">
-			{#each weather.daily.time as time, index}
-				{@const code=getWeatherCode(weather.daily.weather_code.values(index)).split(" ").join("-")}
-				{@const today=time.getDate() === new Date().getDate()}
-				<div class="weather-week-item"
-					class:today={today}>
-					<b>{time.getDate()} - {time.getMonth()  + 1}</b>
-
-					<!-- {time.getDay()} -->
-					<!-- {time.toISOString()} -->
-
-					<div class="weather-week-icon">
-						{#if code.includes("snow")}
-							<img src="/images/weather-icons/production/fill/all/snow.svg">
-						{:else if code.includes("-rain")}
-							<img src="/images/weather-icons/production/fill/all/rain.svg">
-						{:else if code.includes("-drizzle")}
-							<img src="/images/weather-icons/production/fill/all/drizzle.svg">
-						{:else}
-							<img src="/images/weather-icons/production/fill/all/{code}.svg">
-						{/if}
-					</div>
-					<!-- {code} -->
-					{weather.daily.temperature_2m_max.values(index).toFixed(1)} °C                            
-					<br>
-					{weather.daily.temperature_2m_min.values(index).toFixed(1)} °C
-
-
-					<br>
-					<!-- {time} -->
-				</div>
-			{/each}
-		</div>
-		<HighchartContainer 
-			className={'highcharts-scrollable'}
-			options={weather.chart}				
-			style={'height: 300px;'}/>
-		<div class="tooltip-wrapper"/>
-	{/await}
-
-	<div class="row">
-		{#await weather}
-			<div class="col px-5 py-5 text-center">
-				<span class="spinner-border spinner-border-lg" role="status" aria-hidden="true"/>
-			</div>		
-		{:then weather}
-			<h2>Current weather</h2>
-			<p>Current time {weather.current.time.toISOString()}</p>
-			<p>Current temperature {convertUnit(weather.current.temperature_2m, $units.temperature)} {$units.temperature}</p>
-			<p>Current weather: {getWeatherCode(weather.current.weather_code)}</p>
-			<p>Current wind: {convertUnit(weather.current.windspeed_10m, $units.windSpeed)} {$units.windSpeed} {weather.current.winddirection_10m.toFixed()}°</p>
-
-			<h2>Daily weather</h2>
-			{#each weather.daily.time as time, index}
-				<p>
-					{time.toISOString()}
-					{getWeatherCode(weather.daily.weather_code.values(index))}
-					Tmax={convertUnit(weather.daily.temperature_2m_max.values(index), $units.temperature)} {$units.temperature} Tmin={convertUnit(weather.daily.temperature_2m_min
-						.values(index), $units.temperature)} {$units.temperature} precip={weather.daily.precipitation_sum.values(index)?.toFixed(1)} mm wind={convertUnit(weather.daily.windspeed_10m_max
-						.values(index), $units.windSpeed)} {$units.windSpeed} gusts={convertUnit(weather.daily.windgusts_10m_max.values(index), $units.windSpeed)} {$units.windSpeed} direction={weather.daily.winddirection_10m_dominant
-						.values(index)
-						?.toFixed()}°
-				</p>
-			{/each}
-
-			<h2>15 Minutely weather</h2>
-			{#each weather.minutely.time as time, index}
-				<p>
-					{time.toISOString()}
-					{convertUnit(weather.minutely.temperature_2m.values(index), $units.temperature)} {$units.temperature} precip={weather.minutely.precipitation.values(index)?.toFixed(1)} mm wind={convertUnit(weather.minutely.windspeed_10m
-						.values(index), $units.windSpeed)}
-				</p>
-			{/each}
-		{:catch error}
-			<p style="color: red">{error.message}</p>
-		{/await}
-	</div>
-
-</div>

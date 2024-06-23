@@ -31,7 +31,7 @@ import 'highcharts/es-modules/Series/Area/AreaSeries.js';
 // import 'highcharts/es-modules/Series/AreaSpline/AreaSplineSeries.js';
 import ColumnSeries from 'highcharts/es-modules/Series/Column/ColumnSeries.js';
 import ColumnDataLabel from 'highcharts/es-modules/Series/Column/ColumnDataLabel.js';
-// import 'highcharts/es-modules/Series/Bar/BarSeries.js';
+import 'highcharts/es-modules/Series/Bar/BarSeries.js';
 // import 'highcharts/es-modules/Series/Scatter/ScatterSeries.js';
 // import PieSeries from 'highcharts/es-modules/Series/Pie/PieSeries.js';
 // import PieDataLabel from 'highcharts/es-modules/Series/Pie/PieDataLabel.js';
@@ -134,7 +134,7 @@ import StockChart from 'highcharts/es-modules/Core/Chart/StockChart.js';
 // G.Navigator = Navigator;
 // G.RangeSelector = RangeSelector;
 // G.Scrollbar = Scrollbar;
-G.StockChart = G.stockChart = StockChart.stockChart;
+G.StockChart = G.stockChart = StockChart;
 // Compositions
 // DataModifyComposition.compose(G.Series, G.Axis, G.Point);
 // FlagsSeries.compose(G.Renderer);
@@ -143,7 +143,7 @@ G.StockChart = G.stockChart = StockChart.stockChart;
 // OrdinalAxis.compose(G.Axis, G.Series, G.Chart);
 // RangeSelector.compose(G.Axis, G.Chart);
 // Scrollbar.compose(G.Axis);
-StockChart.compose(G.Axis, G.Series, G.SVGRenderer);
+G.StockChart.compose(G.Chart, G.Axis, G.Series, G.SVGRenderer);
 
 
 

@@ -35,6 +35,11 @@
 
 @import 'syntax-highlight.scss';
 
+// // tailwind
+// @import "tailwindcss/base";
+// @import "tailwindcss/components";
+// @import "tailwindcss/utilities";
+
 .feature-title {
     display: flex;
     flex-direction: row;
@@ -96,4 +101,10 @@ $color-mode-type: data;
 .std-component-wrap {
   position: inherit !important;
   display: inherit !important;
+}
+
+@media (max-width: 768px) {
+  .container-sm, .container {
+    max-width: 100%;
+  }
 }
