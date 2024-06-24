@@ -782,7 +782,7 @@
 					<td>3 km</td>
 					<td>1-Hourly</td>
 					<td>Every hour</td>
-					<td>2021-03-23</td>
+					<td>2018-01-01</td>
 				</tr>
 				<tr>
 					<td>GFS GraphCast</td>
