@@ -31,7 +31,7 @@ import 'highcharts/es-modules/Series/Area/AreaSeries.js';
 // import 'highcharts/es-modules/Series/AreaSpline/AreaSplineSeries.js';
 import ColumnSeries from 'highcharts/es-modules/Series/Column/ColumnSeries.js';
 import ColumnDataLabel from 'highcharts/es-modules/Series/Column/ColumnDataLabel.js';
-// import 'highcharts/es-modules/Series/Bar/BarSeries.js';
+import 'highcharts/es-modules/Series/Bar/BarSeries.js';
 // import 'highcharts/es-modules/Series/Scatter/ScatterSeries.js';
 // import PieSeries from 'highcharts/es-modules/Series/Pie/PieSeries.js';
 // import PieDataLabel from 'highcharts/es-modules/Series/Pie/PieDataLabel.js';

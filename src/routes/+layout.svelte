@@ -122,6 +122,14 @@
 						class:active={$page.url.pathname.startsWith('/en/docs')}>API Docs</a
 					>
 				</li>
+				<li class="nav-item">
+					<a
+						href="/en/weather"
+						class="nav-link"
+						title="Weather"
+						class:active={$page.url.pathname.startsWith('/en/weather')}>Weather</a
+					>
+				</li>
 				<!--<li class="nav-item">
 					<a href="https://openmeteo.substack.com/archive?sort=new" class="nav-link" title="Blog"
 						>Blog</a
@@ -362,7 +370,9 @@
 					>
 				</li>
 				<li class="mb-1">
-					<a class="link-secondary text-decoration-none" href="https://openmeteo.substack.com/archive?sort=new">Blog</a
+					<a
+						class="link-secondary text-decoration-none"
+						href="https://openmeteo.substack.com/archive?sort=new">Blog</a
 					>
 				</li>
 				<li class="mb-1">

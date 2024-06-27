@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	//import Highcharts from 'highcharts/highcharts';
 	import Highcharts from '$lib/HighchartsCustom';
 
@@ -11,10 +12,9 @@
 	//import HighchartsDark from 'highcharts/themes/avocado';
 
 	export let useStockChart = false;
-	export let options: any;
+	export let options: Highcharts.Options;
 	export let style = 'height: 400px';
-	let clazz = 'w-100';
-	export { clazz as class };
+	export let className: string;
 
 	let node: HTMLElement;
 	let chart: any;
@@ -27,12 +27,20 @@
 		}
 	});*/
 
+	export const updateChart = (update: any, updateProp: any) => {
+		console.log(update, chart);
+		chart.xAxis[0].update(update);
+	};
+
 	onMount(async () => {
 		if (dev) {
 			// const HighchartsDebugger = await import('highcharts/modules/debugger');
 			// HighchartsDebugger.default(Highcharts);
-			const Debugger = (await import('highcharts/es-modules/Extensions/Debugger/Debugger.js')).default;
-			const ErrorMessages = (await import('highcharts/es-modules/Extensions/Debugger/ErrorMessages.js')).default;
+			const Debugger = (await import('highcharts/es-modules/Extensions/Debugger/Debugger.js'))
+				.default;
+			const ErrorMessages = (
+				await import('highcharts/es-modules/Extensions/Debugger/ErrorMessages.js')
+			).default;
 			Highcharts.errorMessages = ErrorMessages;
 			Debugger.compose(Highcharts.Chart);
 		}
@@ -54,6 +62,7 @@
 		} else {
 			chart = new Highcharts.Chart(node, options);
 		}
+		console.log(chart);
 	});
 
 	onDestroy(() => {
@@ -63,8 +72,7 @@
 
 <div
 	bind:this={node}
-	{style}
-	class={clazz}
+	class={className}
 	class:highcharts-dark={$themeIsDark}
 	class:highcharts-light={!$themeIsDark}
 />
