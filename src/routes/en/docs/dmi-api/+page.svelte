@@ -64,6 +64,8 @@
 			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
 			{ name: 'cloud_cover_2m', label: 'Cloud cover / Fog (2m)' },
 			{ name: 'visibility', label: 'Visibility' },
+			{ name: 'cloud_base', label: 'Cloud Base' },
+			{ name: 'cloud_top', label: 'Cloud Top' },
 			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 		],
