@@ -113,6 +113,13 @@
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
+	
+	const models = [
+		[
+			{ name: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
+			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
+		],
+	];
 </script>
 
 <svelte:head>
@@ -495,7 +502,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} action="metno" />
+<ResultPreview {params} {defaultParameter} model_default="metno_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>

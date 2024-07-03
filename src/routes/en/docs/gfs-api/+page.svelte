@@ -826,7 +826,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} action="gfs" />
+<ResultPreview {params} {defaultParameter} model_default="gfs_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>

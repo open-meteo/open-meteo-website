@@ -801,7 +801,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} action="meteofrance" />
+<ResultPreview {params} {defaultParameter} model_default="meteofrance_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
