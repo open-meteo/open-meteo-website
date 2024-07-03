@@ -4,6 +4,6 @@ export const load = (({ params }) => {
   return {
     title: "DMI Forecast API",
     subtitle: "Weather forecasts from the Danish Meteorological Institute",
-    hero: "/images/lake_cirrus.webp"
+    hero: "/images/iceland_glacier_lake.webp"
   };
 }) satisfies PageLoad;
