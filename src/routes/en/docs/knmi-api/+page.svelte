@@ -55,12 +55,11 @@
 		{ name: 'wind_direction', label: 'Wind Direction' },
 		{ name: 'geopotential_height', label: 'Geopotential Height' }
 	];
-	const levels = [300,500,700,850,925].reverse();
+	const levels = [300, 500, 700, 850, 925].reverse();
 
 	let pressureVariablesTab = 'temperature';
 
 	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
-
 
 	const hourly = [
 		[
@@ -70,7 +69,7 @@
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
 			{ name: 'precipitation', label: 'Precipitation (rain + snow)' },
 			{ name: 'rain', label: 'Rain' },
-			{ name: 'snowfall', label: 'Snowfall' },
+			{ name: 'snowfall', label: 'Snowfall' }
 		],
 		[
 			{ name: 'weather_code', label: 'Weather code' },
@@ -80,6 +79,7 @@
 			{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
 			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
 			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
+			{ name: 'visibility', label: 'Visibility' },
 			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 		],
@@ -101,7 +101,7 @@
 			{ name: 'temperature_50m', label: 'Temperature (5 m)' },
 			{ name: 'temperature_100m', label: 'Temperature (100 m)' },
 			{ name: 'temperature_200m', label: 'Temperature (200 m)' },
-			{ name: 'temperature_300m', label: 'Temperature (300 m)' },
+			{ name: 'temperature_300m', label: 'Temperature (300 m)' }
 		]
 	];
 
@@ -134,12 +134,8 @@
 	];
 
 	const additionalVariables = [
-		[
-			{ name: 'is_day', label: 'Is Day or Night' }
-		],
-		[
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
-		]
+		[{ name: 'is_day', label: 'Is Day or Night' }],
+		[{ name: 'sunshine_duration', label: 'Sunshine Duration' }]
 	];
 
 	const solarVariables = [
@@ -174,12 +170,6 @@
 	<title>KNMI Weather Model API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/knmi-api" />
 </svelte:head>
-
-<div class="alert alert-primary" role="alert">
-	TODO text. For more extensive use cases, we recommend the <a href="/en/docs"
-		>Weather Forecast API</a
-	>, which utilizes multiple local weather models for forecasts extending up to 16 days.
-</div>
 
 <form method="get" action="https://api.open-meteo.com/v1/knmi">
 	<LocationSelection
@@ -410,7 +400,8 @@
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -418,7 +409,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -427,10 +418,8 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90 }
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -448,7 +437,7 @@
 							bind:value={$params.azimuth}
 						/>
 						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -653,14 +642,18 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} model_default="knmi_seamless"/>
+<ResultPreview {params} {defaultParameter} model_default="knmi_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
-		TODO text. It provides data in
-		3-hour intervals, offering forecasts for up to 10 days. The model runs four times daily at 0:00,
-		6:00, 12:00, and 18:00 UTC.
+		KNMI provides weather forecasts from the HARMONIE AROME model with ECMWF IFS initialization.
+		This is a collaboration of multiple European national weather services under the name "United
+		Weather Centres-West" (UWC-West). Two model configuration one for Europe (5.5 km resolution) and
+		an inset for the Netherlands (2 km resolution) are available. All data is updated hourly and
+		provides forecast for up to 2.5 days. After 2.5 days, Open-Meteo combines forecasts with the <a
+			href="/en/docs/ecmwf-api">ECMWF IFS 0.25° model</a
+		> to provide up to 10 days of forecast.
 	</p>
 	<div class="table-responsive">
 		<table class="table">
@@ -706,8 +699,40 @@
 	</div>
 
 	<figure class="figure">
-		<img src="/images/models/knmi_harmonie.webp" class="figure-img img-fluid rounded" alt="...">
-		<figcaption class="figure-caption">KNMI HARMONIE AROME model area Europe (blue/red) and Netherlands nest (green). Source: <a href="https://english.knmidata.nl/latest/newsletters/open-data-newsletter/2024/open-data-march-2024">KMNI Blog</a>.</figcaption>
-	  </figure>
-	
+		<img src="/images/models/knmi_harmonie.webp" class="figure-img img-fluid rounded" alt="..." />
+		<figcaption class="figure-caption">
+			KNMI HARMONIE AROME model area Europe (blue/red) and Netherlands nest (green). Source: <a
+				href="https://english.knmidata.nl/latest/newsletters/open-data-newsletter/2024/open-data-march-2024"
+				>KMNI Blog</a
+			>.
+		</figcaption>
+	</figure>
+
+	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
+	<p>
+		For a detailed list of all available weather variables please refer to the general <a
+			href="/en/docs">Weather Forecast API</a
+		>. Only notable remarks are listed below
+	</p>
+	<ul>
+		<li>
+			<strong>Solar Radiation:</strong> KNMI does not provide direct and diffuse solar radiation. provides
+			direct solar radiation. Open-Meteo uses a separation models to derive direct radiation from shortwave
+			solar radiation.
+		</li>
+		<li>
+			<strong>Wind Direction Correction:</strong> Wind direction has been calculated from U/V wind
+			component vectors. Special care has been taken to correct for the
+			<mark>Rotated Lat Long</mark> projection. Without this correction, wind directions have an error
+			of up to 15°.
+		</li>
+		<li>
+			<strong>Wind on 50, 100, 200, 300m:</strong> Wind forecasts for higher altitudes are only available
+			for the Netherlands area.
+		</li>
+		<li>
+			<strong>Pressure Level Data:</strong> Forecasts on pressure level are only available for the European
+			model.
+		</li>
+	</ul>
 </div>

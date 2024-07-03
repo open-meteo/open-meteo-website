@@ -89,7 +89,7 @@
 			{ name: 'temperature_50m', label: 'Temperature (50 m)' },
 			{ name: 'temperature_100m', label: 'Temperature (100 m)' },
 			{ name: 'temperature_150m', label: 'Temperature (150 m)' },
-			{ name: 'temperature_250m', label: 'Temperature (250 m)' },
+			{ name: 'temperature_250m', label: 'Temperature (250 m)' }
 		]
 	];
 
@@ -155,7 +155,7 @@
 	const models = [
 		[
 			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
-			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
+			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' }
 		]
 	];
 </script>
@@ -164,12 +164,6 @@
 	<title>DMI Weather Model API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/dmi-api" />
 </svelte:head>
-
-<div class="alert alert-primary" role="alert">
-	TODO text.  For more extensive use cases, we recommend the <a href="/en/docs"
-		>Weather Forecast API</a
-	>, which utilizes multiple local weather models for forecasts extending up to 16 days.
-</div>
 
 <form method="get" action="https://api.open-meteo.com/v1/dmi">
 	<LocationSelection
@@ -400,7 +394,8 @@
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -408,7 +403,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -417,10 +412,8 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90 }
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -438,7 +431,7 @@
 							bind:value={$params.azimuth}
 						/>
 						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -579,12 +572,13 @@
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
-		TODO text
-		IMAGE with domain boundary
-		The API relies on the Global/Regional Assimilation and Prediction Enhanced System (GFS GRAPES),
-		independently developed by the China Meteorological Administration (CMA). It provides data in
-		3-hour intervals, offering forecasts for up to 10 days. The model runs four times daily at 0:00,
-		6:00, 12:00, and 18:00 UTC.
+		DMI provides weather forecasts from the HARMONIE AROME model with ECMWF IFS initialization. This
+		is a collaboration of multiple European national weather services under the name "United Weather
+		Centres-West" (UWC-West). Forecasts for Europe use 2 km resolution and provide a large range of
+		weather variables. All data is updated every 3 hours and provides forecast for up to 2.5 days.
+		After 2.5 days, Open-Meteo combines forecasts with the <a href="/en/docs/ecmwf-api"
+			>ECMWF IFS 0.25° model</a
+		> to provide up to 10 days of forecast.
 	</p>
 	<div class="table-responsive">
 		<table class="table">
@@ -617,10 +611,46 @@
 	</div>
 
 	<figure class="figure">
-		<img src="/images/models/dmi_harmonie_dini-ig.webp" class="figure-img img-fluid rounded" alt="...">
-		<figcaption class="figure-caption">DMI HARMONIE AROME DINI model area (green). Source: <a href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG">DMI</a>.</figcaption>
-	  </figure>
+		<img
+			src="/images/models/dmi_harmonie_dini-ig.webp"
+			class="figure-img img-fluid rounded"
+			alt="..."
+		/>
+		<figcaption class="figure-caption">
+			DMI HARMONIE AROME DINI model area (green). Source: <a
+				href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG"
+				>DMI</a
+			>.
+		</figcaption>
+	</figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
-	<p>TODO: document direct radiation native, document wind direction correctly projection adjusted, </p>
+	<p>
+		For a detailed list of all available weather variables please refer to the general <a
+			href="/en/docs">Weather Forecast API</a
+		>. Only notable remarks are listed below
+	</p>
+	<ul>
+		<li>
+			<strong>Direct Solar Radiation:</strong> DMI provides direct solar radiation. Many other weather
+			models only provide global solar radiation and direct solar radiation must be calculated user separation
+			models.
+		</li>
+		<li>
+			<strong>Direct Normalized Irradiance (DNI):</strong> Although DNI is available, it has not been
+			integrated. Open-Meteo uses solar position algorithms which calculate DNI from direct radiation
+			with (almost) the same results.
+		</li>
+		<li>
+			<strong>Wind Direction Correction:</strong> Wind direction has been calculated from U/V wind
+			component vectors. Special care has been taken to correct for the
+			<mark>Lambert Conformal Conic</mark> projection. Without this correction, wind directions have
+			an error of up to 15°.
+		</li>
+		<li>
+			<strong>Cloud Cover (2m):</strong> DMI provides cloud cover at 2 metre abouve ground which can
+			be interpreted as fog. This is remarkable, because only very weather models are capable of modeling
+			low level cloud cover and fog with a good degree of accuracy.
+		</li>
+	</ul>
 </div>
