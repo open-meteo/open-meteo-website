@@ -606,7 +606,7 @@
 							target="_blank">DMI HARMONIE AROME DINI</a
 						></th
 					>
-					<td>Central & Northern Europe up to Iceland</td>
+					<td>Central & Northern Europe up to Iceland (green area below)</td>
 					<td>2 km</td>
 					<td>1-hourly</td>
 					<td>2.5 days</td>
@@ -615,6 +615,11 @@
 			</tbody>
 		</table>
 	</div>
+
+	<figure class="figure">
+		<img src="/images/models/dmi_harmonie_dini-ig.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">DMI HARMONIE AROME DINI model area (green). Source: <a href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG">DMI</a>.</figcaption>
+	  </figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>TODO: document direct radiation native, document wind direction correctly projection adjusted, </p>

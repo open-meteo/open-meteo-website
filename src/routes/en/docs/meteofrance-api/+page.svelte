@@ -900,9 +900,19 @@
 		</table>
 
 		<small class="text-muted"
-			>* AROME France HD only contains a small selection of weather variables.</small
+			>* AROME France HD has the same model area, but at higher resolution with a smaller selection of weather variables.</small
 		>
 	</div>
+
+	<figure class="figure">
+		<img src="/images/models/meteofrance_arome.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">MeteoFrance AROME & AROME HD Model Area. Source: Open-Meteo.</figcaption>
+	</figure>
+
+	<figure class="figure">
+		<img src="/images/models/meteofrance_arpege_europe.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">MeteoFrance ARPEGE Model Area. Source: Open-Meteo.</figcaption>
+	</figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>

@@ -541,6 +541,11 @@
 		</table>
 	</div>
 
+	<figure class="figure">
+		<img src="/images/models/metno_nordic.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">MET Nordic model area (black). Source: <a href="https://github.com/metno/NWPdocs/wiki/MEPS-dataset">Met Norway GitHub</a>.</figcaption>
+	  </figure>
+
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/metno</mark> accepts a geographical coordinate, a list of weather variables

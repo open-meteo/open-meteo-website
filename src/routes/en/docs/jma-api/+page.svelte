@@ -684,6 +684,11 @@
 		<small class="text-muted">JMA models like RSM are not available.</small>
 	</div>
 
+	<figure class="figure">
+		<img src="/images/models/jma_msm.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">JMA MSM model area. Source: Open-Meteo.</figcaption>
+	</figure>
+
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/jma</mark> accepts a geographical coordinate, a list of weather variables

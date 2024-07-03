@@ -724,6 +724,16 @@
 		</table>
 	</div>
 
+	<figure class="figure">
+		<img src="/images/models/gem_hrdps.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">HRDPS Model Area. Source: Open-Meteo.</figcaption>
+	</figure>
+
+	<figure class="figure">
+		<img src="/images/models/gem_rdps.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">RDPS Regional Model Area. Source: Open-Meteo.</figcaption>
+	</figure>
+
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/gem</mark> accepts a geographical coordinate, a list of weather variables
