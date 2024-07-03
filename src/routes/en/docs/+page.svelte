@@ -974,6 +974,22 @@
 					<td>Every hour</td>
 				</tr>
 				<tr>
+					<th scope="row"><a href="/en/docs/knmi-api">HARMONIE</a></th>
+					<td>KNMI</td>
+					<td>Netherlands</td>
+					<td>2 km</td>
+					<td>2.5 days</td>
+					<td>Every hour</td>
+				</tr>
+				<tr>
+					<th scope="row"><a href="/en/docs/dmi-api">HARMONIE</a></th>
+					<td>DMI</td>
+					<td>Denmark</td>
+					<td>2 km</td>
+					<td>2.5 days</td>
+					<td>Every 3 hours</td>
+				</tr>
+				<tr>
 					<th scope="row"><a href="/en/docs/gem-api">GEM</a></th>
 					<td>Canadian Weather Service</td>
 					<td>Canada</td>
