@@ -276,6 +276,10 @@
 			{ name: 'arpae_cosmo_2i', label: 'ARPAE COSMO 2I' },
 			{ name: 'arpae_cosmo_2i_ruc', label: 'ARPAE COSMO 2I RUC' },
 			{ name: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
+		],[
+			{ name: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie Arome Europe' },
+			{ name: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
+			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
 		]
 	];
 </script>
