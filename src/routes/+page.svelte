@@ -5,9 +5,6 @@
 	onMount(async () => {
 		const Tab = await import('bootstrap/js/dist/tab');
 	});
-
-
-
 </script>
 
 <svelte:head>
@@ -57,7 +54,7 @@
 	</div>
 </div>
 
-<div class="container col-xxl-8 px-4 py-5">
+<div class="container col-xxl-8 px-4 py-md-5">
 	<div class="row g-5">
 		<div class="col-lg-6">
 			<h2 class="display-5 lh-1 mb-3">Accurate Weather Forecasts for Any Location</h2>
@@ -132,16 +129,17 @@
 						role="tabpanel"
 						aria-labelledby="tab-weather-api-tab"
 					>
-					<p>
-						$ curl <a
-							class="token string text-decoration-none"
-							href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
-							>"https://api.open-meteo.com/v1/forecast<wbr />?latitude=52.52&amp;longitude=13.41<wbr
-							/>&amp;current=temperature_2m,wind_speed_10m<wbr
-							/>&amp;hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"</a
-						>
-					</p>
-					<pre>{@html `<span class="token punctuation">&lbrace;</span>
+						<p>
+							$ curl <a
+								class="token string text-decoration-none"
+								href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
+								>"https://api.open-meteo.com/v1/forecast<wbr
+								/>?latitude=52.52&amp;longitude=13.41<wbr
+								/>&amp;current=temperature_2m,wind_speed_10m<wbr
+								/>&amp;hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"</a
+							>
+						</p>
+						<pre>{@html `<span class="token punctuation">&lbrace;</span>
   <span class="token property">"current"</span><span class="token operator">:</span> <span class="token punctuation">&lbrace;</span>
     <span class="token property">"time"</span><span class="token operator">:</span> <span class="token string">"2022-01-01T15:00"</span>
     <span class="token property">"temperature_2m"</span><span class="token operator">:</span> <span class="token number">2.4</span><span class="token punctuation">,</span>
@@ -165,8 +163,8 @@
 							$ curl <a
 								class="token string text-decoration-none"
 								href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&past_days=10&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
-								>"https://api.open-meteo.com/v1/forecast<wbr />?latitude=52.52&amp;longitude=13.41<wbr
-								/><mark>&amp;past_days=10</mark><wbr
+								>"https://api.open-meteo.com/v1/forecast<wbr
+								/>?latitude=52.52&amp;longitude=13.41<wbr /><mark>&amp;past_days=10</mark><wbr
 								/>&amp;hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"</a
 							>
 						</p>
@@ -211,7 +209,7 @@
 <div class="container px-4 py-5" id="featured-3">
 	<div class="row g-4 row-cols-1 row-cols-lg-2 row-cols-xxl-3">
 		<div class="feature col">
-			<div class="feature-title"> 
+			<div class="feature-title">
 				<div class="feature-icon bg-primary bg-gradient">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -231,9 +229,9 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="px-3">High Resolution</h3>
+				<h3 class="ps-3">High Resolution</h3>
 			</div>
-			
+
 			<p>
 				Open-Meteo leverages a powerful combination of global (11 km) and mesoscale (1 km) weather
 				models from esteemed national weather services, providing comprehensive forecasts with
@@ -250,7 +248,7 @@
 		</div>
 
 		<div class="feature col">
-			<div class="feature-title"> 
+			<div class="feature-title">
 				<div class="feature-icon bg-primary bg-gradient">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -266,7 +264,7 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="px-3">Rapid Updates</h3>
+				<h3 class="ps-3">Rapid Updates</h3>
 			</div>
 			<p>
 				At Open-Meteo, we understand the importance of having the most up-to-date weather
@@ -282,8 +280,7 @@
 		</div>
 
 		<div class="feature col">
-			<div class="feature-title"> 
-
+			<div class="feature-title">
 				<div class="feature-icon bg-primary bg-gradient">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -298,7 +295,7 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="px-3">80 Years Historical Data</h3>
+				<h3 class="ps-3">80 Years Historical Data</h3>
 			</div>
 			<p>
 				Explore the past with our comprehensive <a
@@ -320,7 +317,7 @@
 		</div>
 
 		<div class="feature col">
-			<div class="feature-title"> 
+			<div class="feature-title">
 				<div class="feature-icon bg-primary bg-gradient">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -337,7 +334,7 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="px-3">Open-Source</h3>
+				<h3 class="ps-3">Open-Source</h3>
 			</div>
 			<p>
 				We believe in the power of open-source software. That's why the entire codebase of
@@ -365,7 +362,7 @@
 		</div>
 
 		<div class="feature col">
-			<div class="feature-title"> 
+			<div class="feature-title">
 				<div class="feature-icon bg-primary bg-gradient">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -379,7 +376,7 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="px-3">Free API</h3>
+				<h3 class="ps-3">Free API</h3>
 			</div>
 			<p>
 				Open-Meteo offers free access to its APIs for non-commercial use, making it convenient for
@@ -399,7 +396,7 @@
 		</div>
 
 		<div class="feature col">
-			<div class="feature-title"> 
+			<div class="feature-title">
 				<div class="feature-icon bg-primary bg-gradient">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -414,7 +411,7 @@
 						/>
 					</svg>
 				</div>
-				<h3 class="px-3">Easy to Use</h3>
+				<h3 class="ps-3">Easy to Use</h3>
 			</div>
 			<p>
 				We've designed our APIs to be incredibly user-friendly. They are based on the widely adopted
@@ -434,7 +431,7 @@
 	</div>
 </div>
 
-<div class="container px-4 py-5 text-center">
+<div class="container px-4 pt-md-5 pb-5 text-center">
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		width="72"
@@ -463,8 +460,14 @@
 			so, you'll never miss out on the latest developments and enhancements in our services.
 		</p>
 		<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-			<a class="btn btn-primary btn-lg px-4 gap-3" href="https://openmeteo.substack.com/subscribe?utm_source=landingpage&simple=true&next=https%3A%2F%2Fopenmeteo.substack.com%2F" title="Newsletter Sign-Up">Subscribe to the Newsletter</a> 
-			<a href="/en/features" title="APIs & Features" class="btn btn-outline-secondary btn-lg px-4">Available APIs</a>
+			<a
+				class="btn btn-primary btn-lg px-4 gap-3"
+				href="https://openmeteo.substack.com/subscribe?utm_source=landingpage&simple=true&next=https%3A%2F%2Fopenmeteo.substack.com%2F"
+				title="Newsletter Sign-Up">Subscribe to the Newsletter</a
+			>
+			<a href="/en/features" title="APIs & Features" class="btn btn-outline-secondary btn-lg px-4"
+				>Available APIs</a
+			>
 		</div>
 	</div>
 </div>
