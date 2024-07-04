@@ -124,6 +124,24 @@
 					>)
 				</li>
 				<li>
+					Atmospheric forecasts from <a
+						href="https://www.knmi.nl/"
+						title="Royal Netherlands Meteorological Institute">Royal Netherlands Meteorological Institute KNMI</a
+					>
+					(<a href="https://creativecommons.org/licenses/by/4.0/" title="KNMI License"
+						>CC-BY License</a
+					>)
+				</li>
+				<li>
+					Atmospheric forecasts from <a
+						href="https://www.dmi.dk/"
+						title="Danish Meteorological Institute">Danish Meteorological Institute DMI</a
+					>
+					(<a href="https://creativecommons.org/licenses/by/4.0/" title="DMI License"
+						>CC-BY License</a
+					>)
+				</li>
+				<li>
 					Weather reanalysis, air quality forecasts and elevation data from <a
 						href="https://climate.copernicus.eu"
 						title="Copernicus Climate Change Service C3S">Copernicus Climate Change Service C3S</a

@@ -11,6 +11,7 @@
 	export let params: Writable<any>;
 	export let type: String = 'forecast';
 	export let action: String = 'forecast';
+	export let model_default: String = '';
 	export let sdk_type: String = 'weather_api';
 	export let sdk_cache: Number = 3600;
 	export let defaultParameter: any;
@@ -103,6 +104,10 @@
 			if (Array.isArray(params[key]) && params[key].length == 1) {
 				params[key] = params[key][0];
 			}
+		}
+
+		if (model_default != '' && !('models' in params && params['models'] != '')) {
+			params['models'] = model_default
 		}
 
 		if (api_key_preferences.use == 'commercial') {
