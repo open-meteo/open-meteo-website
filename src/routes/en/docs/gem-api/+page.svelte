@@ -182,6 +182,15 @@
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
+
+	const models = [
+		[
+			{ name: 'gem_seamless', label: 'GEM Seamless' },
+			{ name: 'gem_global', label: 'GEM Global' },
+			{ name: 'gem_regional', label: 'GEM Regional' },
+			{ name: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' }
+		],
+	];
 </script>
 
 <svelte:head>
@@ -536,6 +545,29 @@
 					</div>
 				</div>
 			</AccordionItem>
+			<AccordionItem
+				id="models"
+				title="Weather models"
+				count={countVariables(models, $params.models)}
+			>
+				{#each models as group}
+					<div class="col-md-4 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_model"
+									name="models"
+									bind:group={$params.models}
+								/>
+								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+			</AccordionItem>
 		</div>
 	</div>
 
@@ -660,7 +692,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} action="gem" />
+<ResultPreview {params} {defaultParameter} model_default="gem_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
@@ -723,6 +755,16 @@
 			</tbody>
 		</table>
 	</div>
+
+	<figure class="figure">
+		<img src="/images/models/gem_hrdps.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">HRDPS Model Area. Source: Open-Meteo.</figcaption>
+	</figure>
+
+	<figure class="figure">
+		<img src="/images/models/gem_rdps.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">RDPS Regional Model Area. Source: Open-Meteo.</figcaption>
+	</figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>

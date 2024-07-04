@@ -820,7 +820,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} action="dwd-icon" />
+<ResultPreview {params} {defaultParameter} model_default="icon_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
@@ -873,6 +873,16 @@
 			</tbody>
 		</table>
 	</div>
+
+	<figure class="figure">
+		<img src="/images/models/dwd_icon-d2.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">ICON EU Area. Source: Open-Meteo.</figcaption>
+	</figure>
+
+	<figure class="figure">
+		<img src="/images/models/dwd_icon-eu.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">ICON D2 Regional Model Area. Source: Open-Meteo.</figcaption>
+	</figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>
