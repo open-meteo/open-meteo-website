@@ -92,10 +92,8 @@
 			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
 			{ name: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' },
 			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
-			{ name: 'bom_access_global', label: 'BOM ACCESS Global' },
-			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
-		],
-		[
+			{ name: 'bom_access_global', label: 'BOM ACCESS Global' }
+		],[
 			{ name: 'gfs_seamless', label: 'GFS Seamless' },
 			{ name: 'gfs_global', label: 'GFS Global' },
 			{ name: 'gfs_hrrr', label: 'GFS HRRR' },
@@ -130,6 +128,15 @@
 			{ name: 'arpae_cosmo_2i', label: 'ARPAE COSMO 2I' },
 			{ name: 'arpae_cosmo_2i_ruc', label: 'ARPAE COSMO 2I RUC' },
 			{ name: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
+		],[
+			{ name: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
+			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
+		],[
+			{ name: 'knmi_seamless', label: 'KNMI Seamless (with ECMWF)' },
+			{ name: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie Arome Europe' },
+			{ name: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
+			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
+			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
 		]
 	];
 

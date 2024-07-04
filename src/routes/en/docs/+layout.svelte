@@ -18,6 +18,8 @@
 				{ title: 'GEM Canada', url: '/en/docs/gem-api' },
 				{ title: 'BOM Australia', url: '/en/docs/bom-api' },
 				{ title: 'CMA China', url: '/en/docs/cma-api' },
+				{ title: 'KNMI Netherlands', url: '/en/docs/knmi-api' },
+				{ title: 'DMI Denmark', url: '/en/docs/dmi-api' },
 			]
 		},
 		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
