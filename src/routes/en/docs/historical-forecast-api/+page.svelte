@@ -225,10 +225,8 @@
 			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
 			{ name: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' },
 			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
-			{ name: 'bom_access_global', label: 'BOM ACCESS Global' },
-			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
-		],
-		[
+			{ name: 'bom_access_global', label: 'BOM ACCESS Global' }
+		],[
 			{ name: 'gfs_seamless', label: 'GFS Seamless' },
 			{ name: 'gfs_global', label: 'GFS Global' },
 			{ name: 'gfs_hrrr', label: 'GFS HRRR' },
@@ -263,6 +261,15 @@
 			{ name: 'arpae_cosmo_2i', label: 'ARPAE COSMO 2I' },
 			{ name: 'arpae_cosmo_2i_ruc', label: 'ARPAE COSMO 2I RUC' },
 			{ name: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
+		],[
+			{ name: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
+			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
+		],[
+			{ name: 'knmi_seamless', label: 'KNMI Seamless (with ECMWF)' },
+			{ name: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie Arome Europe' },
+			{ name: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
+			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
+			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
 		]
 	];
 </script>
@@ -782,7 +789,7 @@
 					<td>3 km</td>
 					<td>1-Hourly</td>
 					<td>Every hour</td>
-					<td>2021-03-23</td>
+					<td>2018-01-01</td>
 				</tr>
 				<tr>
 					<td>GFS GraphCast</td>
@@ -826,7 +833,7 @@
 					<td>2022-11-13</td>
 				</tr>
 				<tr>
-					<th scope="row" rowspan="2">ECMWF</th>
+					<th scope="row" rowspan="3">ECMWF</th>
 					<td>IFS 0.4°</td>
 					<td>Global</td>
 					<td>0.4° (~44 km)</td>
@@ -943,6 +950,32 @@
 					<td>1-Hourly</td>
 					<td>Every 3 hours</td>
 					<td>2024-02-01</td>
+				</tr>
+				<tr>
+					<th scope="row">DMI</th>
+					<td>HARMONIE AROME DINI</td>
+					<td>Central & Northern Europe</td>
+					<td>2 km</td>
+					<td>1-Hourly</td>
+					<td>Every 3 hours</td>
+					<td>2024-07-01</td>
+				</tr>
+				<tr>
+					<th scope="row" rowspan="2">KNMI</th>
+					<td>HARMONIE AROME Netherlands</td>
+					<td>Netherlands, Belgium</td>
+					<td>2 km</td>
+					<td>1-Hourly</td>
+					<td>Every hour</td>
+					<td>2024-07-01</td>
+				</tr>
+				<tr>
+					<td>HARMONIE AROME Europe</td>
+					<td>Central & Northern Europe up to Iceland</td>
+					<td>5.5 km</td>
+					<td>1-Hourly</td>
+					<td>Every hour</td>
+					<td>2024-07-01</td>
 				</tr>
 			</tbody>
 		</table>

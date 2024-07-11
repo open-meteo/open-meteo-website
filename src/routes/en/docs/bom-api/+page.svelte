@@ -30,7 +30,7 @@
 		forecast_minutely_15: '',
 		start_date: '',
 		end_date: '',
-		tilt: '0',
+		tilt: 0,
 		azimuth: 0,
 		time_mode: 'forecast_days',
 		models: []
@@ -534,7 +534,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} action="bom" />
+<ResultPreview {params} {defaultParameter} model_default="bom_access_global" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>

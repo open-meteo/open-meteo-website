@@ -36,6 +36,7 @@
 		tilt: 0,
 		azimuth: 0,
 		time_mode: 'forecast_days',
+		models: []
 	};
 
 	const params = urlHashStore({
@@ -159,6 +160,13 @@
 			{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
+	];
+	const models = [
+		[
+			{ name: 'jma_seamless', label: 'JMA Seamless' },
+			{ name: 'jma_msm', label: 'JMA MSM' },
+			{ name: 'jma_gsm', label: 'JMA GSM' }
+		],
 	];
 </script>
 
@@ -513,6 +521,29 @@
 					</div>
 				</div>
 			</AccordionItem>
+			<AccordionItem
+				id="models"
+				title="Weather models"
+				count={countVariables(models, $params.models)}
+			>
+				{#each models as group}
+					<div class="col-md-4 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_model"
+									name="models"
+									bind:group={$params.models}
+								/>
+								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+			</AccordionItem>
 		</div>
 	</div>
 
@@ -637,7 +668,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} action="jma" />
+<ResultPreview {params} {defaultParameter} model_default="jma_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
@@ -683,6 +714,11 @@
 
 		<small class="text-muted">JMA models like RSM are not available.</small>
 	</div>
+
+	<figure class="figure">
+		<img src="/images/models/jma_msm.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">JMA MSM model area. Source: Open-Meteo.</figcaption>
+	</figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>

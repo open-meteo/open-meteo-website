@@ -113,6 +113,13 @@
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
+	
+	const models = [
+		[
+			{ name: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
+			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
+		],
+	];
 </script>
 
 <svelte:head>
@@ -495,7 +502,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} action="metno" />
+<ResultPreview {params} {defaultParameter} model_default="metno_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
@@ -540,6 +547,11 @@
 			</tbody>
 		</table>
 	</div>
+
+	<figure class="figure">
+		<img src="/images/models/metno_nordic.webp" class="figure-img img-fluid rounded" alt="...">
+		<figcaption class="figure-caption">MET Nordic model area (black). Source: <a href="https://github.com/metno/NWPdocs/wiki/MEPS-dataset">Met Norway GitHub</a>.</figcaption>
+	  </figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>

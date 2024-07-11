@@ -640,7 +640,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} action="cma" />
+<ResultPreview {params} {defaultParameter} model_default="cma_grapes_global" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
