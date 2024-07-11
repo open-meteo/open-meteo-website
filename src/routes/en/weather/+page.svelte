@@ -53,8 +53,6 @@
 		const responsePrev = responsesPrev[0];
 		const hourlyPrev = response.hourly()!;
 
-		console.log(hourlyPrev.variables(0));
-
 		return {
 			current: {
 				time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
@@ -301,7 +299,6 @@
 	});
 
 	const switchDay = (date: Date, updateProp = 'xAxis') => {
-		console.log(date);
 		highchartsObjectWeather.updateChart({
 			min: date.getTime() - 5 * 60 * 60 * 1000,
 			max: date.getTime() + 24 * 60 * 60 * 1000
