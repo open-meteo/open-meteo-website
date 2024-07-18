@@ -1,14 +1,7 @@
 <script lang="ts">
-	//import Highcharts from 'highcharts/highcharts';
-	import Highcharts from '$lib/HighchartsCustom';
-
 	import { onDestroy, onMount } from 'svelte';
-	//import HighchartsAccessibility from 'highcharts/modules/accessibility';
-	//import HighchartsStock from 'highcharts/modules/stock';
 	import { dev } from '$app/environment';
-	//import HighchartsBoost from "highcharts/modules/boost";
 	import { themeIsDark } from '$lib/stores';
-	//import HighchartsDark from 'highcharts/themes/avocado';
 
 	export let useStockChart = false;
 	export let options: any;
@@ -19,15 +12,10 @@
 	let node: HTMLElement;
 	let chart: any;
 
-	/*themeIsDark.subscribe((val) => {
-		if (val === true) {
-			//HighchartsDark(Highcharts);
-		} else {
-			//HighchartsLight(Highcharts);
-		}
-	});*/
-
 	onMount(async () => {
+		/// Highcharts needs to be loaded in `onMount` to work with prerendered SSG
+		const Highcharts = (await import('$lib/HighchartsCustom')).default;
+
 		if (dev) {
 			// const HighchartsDebugger = await import('highcharts/modules/debugger');
 			// HighchartsDebugger.default(Highcharts);
