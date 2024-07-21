@@ -8,8 +8,9 @@ export const api_key_preferences = persisted('api_key_preferences', {
 });
 
 export const units = persisted('units', {
-	windSpeed: 'kph',
-	temperature: 'celsius'
+	windSpeed: 'kmh',
+	temperature: 'celsius',
+	precipitation: 'mm'
 });
 
 export const theme = persisted('theme', 'auto');

@@ -3,7 +3,7 @@
 	import { dev } from '$app/environment';
 	import { defaultLocation, type GeoLocation } from '$lib/stores';
 
-	let location: GeoLocation = defaultLocation;
+	$: location = defaultLocation;
 
 	const links = [
 		{
