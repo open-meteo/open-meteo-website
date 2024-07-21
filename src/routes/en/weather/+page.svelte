@@ -333,7 +333,10 @@
 					id: 6,
 					name: 'relative_humidity_2m	',
 					title: 'Rel. Hum.',
-					values: hourly.variables(7)?.valuesArray()
+					values: hourly
+						.variables(7)
+						?.valuesArray()
+						?.map((p) => p.toFixed(0))
 				},
 				{
 					id: 7,
@@ -350,7 +353,7 @@
 	})(location);
 
 	let winddir = true;
-	entries = 6;
+	entries = 7;
 
 	let scrollDiv;
 	let tableCells;
@@ -549,7 +552,7 @@
 				value="gfs_seamless"
 				bind:group={weatherModel}
 			/>
-			<label class="btn" for="gfs_seamless">NOAA</label>
+			<label class="btn" for="gfs_seamless">NOAA (GFS)</label>
 			<input
 				type="radio"
 				class="btn-check"
@@ -586,8 +589,42 @@
 				bind:group={weatherModel}
 			/>
 			<label class="btn" for="gem_seamless">GEM</label>
-			<!--<input type="radio" class="btn-check" name="weatherModel" id="metno_nordic" value="metno_nordic" bind:group={weatherModel}>
-			<label class="btn" for="metno_nordic">MetNo</label>-->
+			<input
+				type="radio"
+				class="btn-check"
+				name="weatherModel"
+				id="arpae_cosmo_seamless"
+				value="arpae_cosmo_seamless"
+				bind:group={weatherModel}
+			/>
+			<label class="btn" for="arpae_cosmo_seamless">COSMO</label>
+			<input
+				type="radio"
+				class="btn-check"
+				name="weatherModel"
+				id="metno_seamless"
+				value="metno_seamless"
+				bind:group={weatherModel}
+			/>
+			<label class="btn" for="metno_seamless">MET No</label>
+			<input
+				type="radio"
+				class="btn-check"
+				name="weatherModel"
+				id="knmi_seamless"
+				value="knmi_seamless"
+				bind:group={weatherModel}
+			/>
+			<label class="btn" for="knmi_seamless">KNMI</label>
+			<input
+				type="radio"
+				class="btn-check"
+				name="weatherModel"
+				id="dmi_seamless"
+				value="dmi_seamless"
+				bind:group={weatherModel}
+			/>
+			<label class="btn" for="dmi_seamless">DMI</label>
 		</div>
 	</div>
 
