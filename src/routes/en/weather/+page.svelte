@@ -108,8 +108,8 @@
 			<label class="btn" for="fahrenheit">°F</label>
 		</div>
 		<div class="col-md-3 mb-3">
-			<input type="radio" class="btn-check" name="windSpeedUnit" id="kph" value="kph" bind:group={$units.windSpeed}>
-			<label class="btn" for="kph">km/h</label>
+			<input type="radio" class="btn-check" name="windSpeedUnit" id="kmh" value="kmh" bind:group={$units.windSpeed}>
+			<label class="btn" for="kmh">km/h</label>
 			<input type="radio" class="btn-check" name="windSpeedUnit" id="mph" value="mph" bind:group={$units.windSpeed}>
 			<label class="btn" for="mph">mph</label>
 			<input type="radio" class="btn-check" name="windSpeedUnit" id="kn" value="kn" bind:group={$units.windSpeed}>
