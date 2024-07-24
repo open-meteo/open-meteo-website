@@ -201,8 +201,9 @@
 		[
 			{ name: 'best_match', label: 'Best match', caption: 'ECMWF IFS & ERA5' },
 			{ name: 'ecmwf_ifs', label: 'ECMWF IFS', caption: '9 km, Global, 2017 onwards' },
-			{ name: 'ecmwf_lwda_analysis', label: 'ECMWF IFS Analysis 4D-Var Long-Window', caption: '9 km, 6-Hourly Measurements' },
-			//{ name: 'ecmwf_lwda_ifs', label: 'ECMWF Long-Window 4D-VAR IFS', caption: '9 km, 1-Hourly' }
+			{ name: 'ecmwf_ifs_analysis_long_window', label: 'ECMWF IFS Analysis Long-Window', caption: '9 km, 6-Hourly Measurements' },
+			//{ name: 'ecmwf_ifs_analysis', label: 'ECMWF IFS Analysis', caption: '9 km, 6-Hourly Measurements' },
+			//{ name: 'ecmwf_ifs_long_window', label: 'ECMWF IFS Long-Window', caption: '9 km, 1-Hourly' }
 		],[
 			{ name: 'era5_seamless', label: 'ERA5-Seamless', caption: 'ERA5 & ERA5-Land combined' },
 			{ name: 'era5', label: 'ERA5', caption: '25 km, Global' },
@@ -705,7 +706,7 @@
 				<th scope="row"
 					><a
 						href="https://confluence.ecmwf.int/display/FUG/Section+2.5+Model+Data+Assimilation%2C+4D-Var"
-						>ECMWF IFS Assimilation 4D-Var Long-Window</a
+						>ECMWF IFS Assimilation Long-Window</a
 					>
 				</th>
 				<td>Global</td>
