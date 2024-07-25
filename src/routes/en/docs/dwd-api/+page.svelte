@@ -86,7 +86,7 @@
 			{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
 			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
 			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
-			//{ name: 'visibility', label: 'Visibility' },
+			{ name: 'visibility', label: 'Visibility' },
 			{ name: 'evapotranspiration', label: 'Evapotranspiration' },
 			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
@@ -1389,6 +1389,14 @@
 							href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
 							target="_blank">Wikipedia</a
 						>.</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">visibility</th>
+					<td>Instant</td>
+					<td>meters</td>
+					<td
+						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td
 					>
 				</tr>
 			</tbody>
