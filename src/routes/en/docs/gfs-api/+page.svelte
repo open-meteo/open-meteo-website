@@ -1371,8 +1371,7 @@
 					<td>Instant</td>
 					<td>meters</td>
 					<td
-						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols. Maximum
-						visibility is approximately 24 km.</td
+						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td
 					>
 				</tr>
 				<tr>
@@ -1572,8 +1571,7 @@
 					<td>Instant</td>
 					<td>meters</td>
 					<td
-						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols. Maximum
-						visibility is approximately 24 km.</td
+						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td
 					>
 				</tr>
 				<tr>

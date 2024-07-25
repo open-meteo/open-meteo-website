@@ -1386,7 +1386,7 @@
             <th scope="row">visibility</th>
             <td>Instant</td>
             <td>meters</td>
-            <td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols. Maximum visibility is approximately 24 km.</td>
+            <td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
           </tr>-->
 				<tr>
 					<th scope="row">cape</th>
