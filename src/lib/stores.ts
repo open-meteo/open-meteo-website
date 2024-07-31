@@ -54,8 +54,10 @@ export const defaultLocation: GeoLocation = {
 	population: 81691,
 	postcodes: ['6000', '6003', '6004'],
 	admin4_id: 6547539,
-	timezone: 'Europe/Zurich'
+	timezone: 'Europe/Berlin'
 };
+
+export const storedLocation = persisted('stored-location', defaultLocation as GeoLocation);
 
 export const last_visited = persisted('last_visited_locations', [] as GeoLocation[]);
 export const favorites = persisted('favorites', [] as GeoLocation[]);

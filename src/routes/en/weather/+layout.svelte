@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { dev } from '$app/environment';
-	import { defaultLocation, type GeoLocation } from '$lib/stores';
-
-	$: location = defaultLocation;
+	import { storedLocation, type GeoLocation } from '$lib/stores';
 
 	const links = [
 		{
@@ -44,9 +42,12 @@
 		/>
 	</svg>
 	<h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">
-		Weather {location.name}
+		Weather {$storedLocation.name}
 	</h1>
-	<h5>{location.admin1}, {location.country}</h5>
+	<h5>
+		{#if $storedLocation.admin1}{$storedLocation.admin1},{/if}
+		{$storedLocation.country}
+	</h5>
 </div>
 
 <div class="">

@@ -260,10 +260,10 @@
 													alt={location.country_code}
 												/>
 												{location.name}<br />
-												<small class="text-muted"
-													>{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
-														2
-													)}°E {location.elevation.toFixed(0)}m asl)</small
+												<small class="text-muted">
+													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
+													{location.longitude.toFixed(2)}°E {#if location.elevation}
+														{location.elevation.toFixed(0)}m asl{/if}</small
 												>
 												<div class="position-absolute top-0 end-0 p-2">
 													<button
@@ -308,7 +308,8 @@
 												<small class="text-muted"
 													>{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
 														2
-													)}°E {location.elevation.toFixed(0)}m asl)</small
+													)}°E {#if location.elevation}
+														{location.elevation.toFixed(0)}m asl{/if})</small
 												>
 												<div class="position-absolute top-0 end-0 p-2">
 													<button

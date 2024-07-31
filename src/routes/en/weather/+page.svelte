@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { fetchWeatherApi } from 'openmeteo';
 	import LocationSearch from '../docs/LocationSearch.svelte';
-	import { defaultLocation, units, themeIsDark, type GeoLocation } from '$lib/stores';
+	import {
+		defaultLocation,
+		storedLocation,
+		units,
+		themeIsDark,
+		type GeoLocation
+	} from '$lib/stores';
 	import { convertUnit, getWeatherCode, range } from '$lib/meteo';
 
 	import { onDestroy, onMount } from 'svelte';
@@ -48,7 +54,10 @@
 		return hex;
 	}
 
-	let location: GeoLocation = defaultLocation;
+	let location = $storedLocation;
+	storedLocation.subscribe((value) => {
+		location = value;
+	});
 	let weatherModel = 'icon_seamless';
 	let temperature = $units.temperature;
 	let windSpeed = $units.windSpeed;
@@ -69,7 +78,7 @@
 			latitude: location.latitude,
 			longitude: location.longitude,
 			elevation: location.elevation,
-			timezone: location.timezone,
+			// timezone: location.timezone, ???
 			models: weatherModel,
 			hourly:
 				'precipitation,precipitation_probability,temperature_2m,weather_code,windspeed_10m,winddirection_10m,cloud_cover,relative_humidity_2m,cape',
@@ -342,19 +351,19 @@
 				// },
 				{
 					id: 6,
-					name: 'relative_humidity_2m	',
+					name: 'relative_humidity_2m',
 					title: 'Rel. Hum.',
 					values: hourly
 						.variables(7)
 						?.valuesArray()
 						?.map((p) => p.toFixed(0))
+				},
+				{
+					id: 7,
+					name: 'cape',
+					title: 'Cape',
+					values: hourly.variables(8)?.valuesArray()
 				}
-				// {
-				// 	id: 7,
-				// 	name: 'cape',
-				// 	title: 'Cape',
-				// 	values: hourly.variables(8)?.valuesArray()
-				// }
 			],
 			entriesLength: hourly.variables(0)?.valuesArray()?.length,
 			hourlyTime: hourlyTime,
@@ -364,7 +373,7 @@
 	})(location);
 
 	let winddir = true;
-	entries = 6;
+	entries = 7;
 
 	let scrollDiv;
 	let tableCells;
@@ -454,7 +463,7 @@
 			<LocationSearch
 				class="p-0"
 				style="height: 40px"
-				on:location={(event) => (location = event.detail)}
+				on:location={(event) => storedLocation.set(event.detail)}
 				label="Search Location"
 			/>
 		</div>
@@ -650,7 +659,7 @@
 				{#each weather.daily.time as time, index}
 					{@const selected = time.getDate() === selectedDay.getDate()}
 					<div
-						style="transition: 300ms; min-width: 13%; {selected ? 'transform: scale(1.075)' : ''}"
+						style="transition: 300ms; min-width: 13%; {selected ? 'transform: scale(1.025)' : ''}"
 						class="weather-week-item pointer-cursor align-items-center d-flex flex-row flex-md-column justify-content-between justify-md-content-center rounded pt-md-4 pb-md-3 gap-md-1 px-3 {selected
 							? 'bg-info-subtle'
 							: ''}"
@@ -678,13 +687,13 @@
 						</div>
 						<div
 							class="d-flex p-1 justify-content-center weather-temp-max rounded"
-							style={`background-color: ${colorScale[weather.daily.temperature_2m_max.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_max.values(index) > 26 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+							style={`background-color: ${colorScale[weather.daily.temperature_2m_max.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_max.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 						>
 							{weather.daily.temperature_2m_max.values(index).toFixed(1)} °C
 						</div>
 						<div
 							class="d-flex p-1 justify-content-center weather-temp-min rounded"
-							style={`background: ${colorScale[weather.daily.temperature_2m_min.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_min.values(index) > 26 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+							style={`background: ${colorScale[weather.daily.temperature_2m_min.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_min.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 						>
 							{weather.daily.temperature_2m_min.values(index).toFixed(1)} °C
 						</div>
@@ -821,13 +830,18 @@
 											? 'background: ' + colorScale[weather.entries[0].values[index].toFixed()]
 											: ''};
 											{entry.name === 'temperature_2m'
-											? 'color: ' + (weather.entries[0].values[index] > 27 ? 'white' : 'black')
+											? 'color: ' + (weather.entries[0].values[index] > 30 ? 'white' : 'black')
 											: ''};
 											{entry.name === 'precipitation_probability'
 											? 'background: rgba(0, 0, 230,' + weather.entries[2].values[index] / 120 + ')'
 											: ''};
 											{entry.name === 'precipitation_probability'
 											? 'color: ' + (weather.entries[2].values[index] > 50 ? 'white' : 'black')
+											: ''};
+											{entry.name === 'relative_humidity_2m'
+											? 'background: rgba(0, 240, 240,' +
+												weather.entries[4].values[index] ** 3.8 / 10 ** 8.2 +
+												')'
 											: ''};"
 										>{entry.name === 'precipitation'
 											? entry.values[index].toFixed(1)
@@ -870,6 +884,13 @@
 </div>
 
 <style>
+	@media screen and (max-width: 768px) {
+		.weather-canvas-container {
+			margin-right: -2rem;
+			/* transform: scaleY(0.9); */
+		}
+	}
+
 	.now {
 		font-weight: bold;
 	}
