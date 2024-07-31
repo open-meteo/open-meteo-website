@@ -53,9 +53,10 @@
 	let temperature = $units.temperature;
 	let windSpeed = $units.windSpeed;
 	let precipitation = $units.precipitation;
+	let diffTemp: number;
+	let maxTemp: number;
 
-	let weatherCodesHourly;
-
+	let weatherCodesHourly: Array<any>;
 	let canvasElement: HTMLCanvasElement | null;
 
 	const today = new Date();
@@ -76,9 +77,9 @@
 				'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant',
 			forecast_days: 6,
 			past_days: 1,
-			temperature_unit: temperature,
-			wind_speed_unit: windSpeed,
-			precipitation_unit: precipitation
+			temperature_unit: temperature ? temperature : 'celsius',
+			wind_speed_unit: windSpeed ? windSpeed : 'kmh',
+			precipitation_unit: precipitation ? precipitation : 'mm'
 		};
 		const url = 'https://api.open-meteo.com/v1/forecast';
 		const responses = await fetchWeatherApi(url, params);
@@ -100,9 +101,19 @@
 		const ctx: CanvasRenderingContext2D = canvasElement?.getContext('2d');
 		ctx.clearRect(0, 0, maxX, maxY);
 
-		const minTemp = Math.min(...hourly.variables(2)?.valuesArray());
-		const maxTemp = Math.max(...hourly.variables(2)?.valuesArray());
-		const diffTemp = maxTemp - minTemp;
+		const minTemp = Math.min(
+			...hourly
+				.variables(2)
+				?.valuesArray()
+				.filter((t) => !isNaN(t))
+		);
+		maxTemp = Math.max(
+			...hourly
+				.variables(2)
+				?.valuesArray()
+				.filter((t) => !isNaN(t))
+		);
+		diffTemp = maxTemp - minTemp;
 
 		const hourlyTime = range(
 			Number(hourly.time()),
@@ -165,7 +176,7 @@
 
 		ctx.beginPath();
 		ctx.moveTo(0, 0.25 * maxY + ((maxTemp - hourlyTemps[0]) / diffTemp) * 0.55 * maxY);
-		for (const [index, value] of hourlyTemps.entries()) {
+		for (const [index, value] of hourlyTemps?.filter((t) => !isNaN(t)).entries()) {
 			let indexDiffTemp = maxTemp - value;
 			let indexDiffTempNext = maxTemp - hourlyTemps[index + 1];
 
@@ -337,13 +348,13 @@
 						.variables(7)
 						?.valuesArray()
 						?.map((p) => p.toFixed(0))
-				},
-				{
-					id: 7,
-					name: 'cape',
-					title: 'Cape',
-					values: hourly.variables(8)?.valuesArray()
 				}
+				// {
+				// 	id: 7,
+				// 	name: 'cape',
+				// 	title: 'Cape',
+				// 	values: hourly.variables(8)?.valuesArray()
+				// }
 			],
 			entriesLength: hourly.variables(0)?.valuesArray()?.length,
 			hourlyTime: hourlyTime,
@@ -353,7 +364,7 @@
 	})(location);
 
 	let winddir = true;
-	entries = 7;
+	entries = 6;
 
 	let scrollDiv;
 	let tableCells;
@@ -742,9 +753,12 @@
 								weather.hourlyTime[index].getHours() === today.getHours()
 									? 'now'
 									: ''}
-								style="position: absolute; bottom: {80 +
-									27 * entries -
-									(20 - weather.entries[0].values[index]) * 6.9}px; left:{111 +
+								style="position: absolute; bottom: {27.5 * entries -
+									10 +
+									0.8 * 200 -
+									0.55 *
+										200 *
+										((maxTemp - weather.entries[0].values[index]) / diffTemp)}px; left:{111 +
 									(5000 / weather.entriesLength) * index}px; min-width: {5000 /
 									weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
 								><svg style="fill: var(--bs-body-color)" width="20px" height="20px">
@@ -758,6 +772,34 @@
 							>
 						{/each}
 					</tr>
+
+					<!-- min / max -->
+					<tr>
+						<th
+							scope="row"
+							style="color: transparent; padding-left: 4px;  background: transparent; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
+							>Temp graph</th
+						>
+						{#each weather.indexes as index}
+							{@const temp = weather.entries[0].values[index]}
+
+							{#if !isNaN(temp)}
+								<td
+									class={weather.hourlyTime[index].getDate() === today.getDate() &&
+									weather.hourlyTime[index].getHours() === today.getHours()
+										? 'now'
+										: ''}
+									style="position: absolute; bottom: {27.5 * entries -
+										42 +
+										0.8 * 200 -
+										0.55 * 200 * ((maxTemp - temp) / diffTemp)}px; left:{111 +
+										(5000 / weather.entriesLength) * index}px; min-width: {5000 /
+										weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
+									>{temp}</td
+								>
+							{/if}
+						{/each}
+					</tr>
 					{#each weather.entries as entry}
 						<tr style="border-top:1px solid #d3d3d3;">
 							<th
@@ -767,23 +809,31 @@
 							>
 
 							{#each weather.indexes as index}
-								<td
-									class={weather.hourlyTime[index].getDate() === today.getDate() &&
-									weather.hourlyTime[index].getHours() === today.getHours()
-										? 'now'
-										: ''}
-									style="border-right:1px solid #d3d3d3; min-width: {5000 /
-										weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;
-										{entry.name === 'temperature_2m'
-										? 'background: ' + colorScale[weather.entries[0].values[index].toFixed()]
-										: ''};
-										{entry.name === 'temperature_2m'
-										? 'color: ' + (weather.entries[0].values[index] > 27 ? 'white' : 'black')
-										: ''}"
-									>{entry.name === 'precipitation'
-										? entry.values[index].toFixed(1)
-										: entry.values[index]}</td
-								>
+								{#if !isNaN(entry.values[index])}
+									<td
+										class={weather.hourlyTime[index].getDate() === today.getDate() &&
+										weather.hourlyTime[index].getHours() === today.getHours()
+											? 'now'
+											: ''}
+										style="border-right:1px solid #d3d3d3; min-width: {5000 /
+											weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;
+											{entry.name === 'temperature_2m'
+											? 'background: ' + colorScale[weather.entries[0].values[index].toFixed()]
+											: ''};
+											{entry.name === 'temperature_2m'
+											? 'color: ' + (weather.entries[0].values[index] > 27 ? 'white' : 'black')
+											: ''};
+											{entry.name === 'precipitation_probability'
+											? 'background: rgba(0, 0, 230,' + weather.entries[2].values[index] / 120 + ')'
+											: ''};
+											{entry.name === 'precipitation_probability'
+											? 'color: ' + (weather.entries[2].values[index] > 50 ? 'white' : 'black')
+											: ''};"
+										>{entry.name === 'precipitation'
+											? entry.values[index].toFixed(1)
+											: entry.values[index]}</td
+									>
+								{/if}
 							{/each}
 						</tr>
 					{/each}
@@ -796,19 +846,20 @@
 								>Wind Dir.</th
 							>
 							{#each weather.indexes as index}
-								<td
-									class={weather.hourlyTime[index].getDate() === today.getDate() &&
-									weather.hourlyTime[index].getHours() === today.getHours()
-										? 'now'
-										: ''}
-									style="border-right:1px solid #d3d3d3; transform: rotate({weather.windDirections[
-										index
-									]}deg);min-width: {5000 / weather.entriesLength}px; max-width: {5000 /
-										weather.entriesLength}px;"
-									><svg style="fill: var(--bs-body-color)" width="25px" height="25px">
-										<use xlink:href="/images/weather-icons/wi-direction-down.svg#Layer_1"></use>
-									</svg></td
-								>
+								{#if !isNaN(weather.windDirections[index])}
+									<td
+										class={weather.hourlyTime[index].getDate() === today.getDate() &&
+										weather.hourlyTime[index].getHours() === today.getHours()
+											? 'now'
+											: ''}
+										style="border-right:1px solid #d3d3d3; transform: rotate({weather
+											.windDirections[index]}deg);min-width: {5000 /
+											weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
+										><svg style="fill: var(--bs-body-color)" width="25px" height="25px">
+											<use xlink:href="/images/weather-icons/wi-direction-down.svg#Layer_1"></use>
+										</svg></td
+									>
+								{/if}
 							{/each}
 						</tr>
 					{/if}
