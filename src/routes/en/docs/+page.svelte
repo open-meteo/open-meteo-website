@@ -962,6 +962,14 @@
 					<td>Every 6 hours</td>
 				</tr>
 				<tr>
+					<th scope="row"><a href="/en/docs/ukmo-api">UKMO</a></th>
+					<td>UK Met Office</td>
+					<td>United Kingdom</td>
+					<td>2 - 10 km</td>
+					<td>7 days</td>
+					<td>Every hour</td>
+				</tr>
+				<tr>
 					<th scope="row"><a href="/en/docs/jma-api">MSM & GSM</a></th>
 					<td>JMA</td>
 					<td>Japan</td>

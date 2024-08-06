@@ -862,6 +862,23 @@
 					<td>2024-03-13</td>
 				</tr>
 				<tr>
+					<th scope="row" rowspan="2">UK Met Office</th>
+					<td>UKMO Global</td>
+					<td>Global</td>
+					<td>0.09° (~10 km)</td>
+					<td>Hourly</td>
+					<td>Every 6 hours</td>
+					<td>2022-03-0106</td>
+				</tr>
+				<tr>
+					<td>UKMO UKV</td>
+					<td>UK and Ireland</td>
+					<td>2 km</td>
+					<td>Hourly</td>
+					<td>Every hour</td>
+					<td>2022-03-01</td>
+				</tr>
+				<tr>
 					<th scope="row" rowspan="2">JMA</th>
 					<td>GSM</td>
 					<td>Global</td>
