@@ -1,6 +1,5 @@
 <script lang="ts">
 	import LicenseSelector from '../LicenseSelector.svelte';
-	import PressureLevelsHelpTable from '../PressureLevelsHelpTable.svelte';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
 	import {
@@ -93,22 +92,21 @@
 			{ name: 'showers', label: 'Showers' },
 			{ name: 'snowfall', label: 'Snowfall' },
 			{ name: 'hail', label: 'Hail' }
-			//{ name: 'snow_depth', label: 'Snow Depth' }
+			//{ name: 'snow_depth', label: 'Snow Depth' } // only water req
 		],
 		[
 			{ name: 'weather_code', label: 'Weather code' },
 			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
+			{ name: 'visibility', label: 'Visibility' },
 			{ name: 'surface_pressure', label: 'Surface Pressure' },
-			{ name: 'cloud_cover', label: 'Cloud cover Total' },
+			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
+		],
+		[	{ name: 'cloud_cover', label: 'Cloud cover Total' },
 			{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
 			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
 			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
 			{ name: 'cloud_cover_2m', label: 'Cloud cover / Fog (2m)' },
-			{ name: 'visibility', label: 'Visibility' },
-			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
-		],
-		[
 			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
 			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
@@ -203,9 +201,9 @@
 	];
 	const models = [
 		[
-			{ name: 'ukmo_seamless', label: 'UK MetOffice Seamless' },
-			{ name: 'ukmo_global_deterministic_10km', label: 'UK MetOffice Global 10km' },
-			{ name: 'ukmo_uk_deterministic_2km', label: 'UK MetOffice UK 2km' }
+			{ name: 'ukmo_seamless', label: 'UK Met Office Seamless' },
+			{ name: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
+			{ name: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 		]
 	];
 </script>
@@ -341,7 +339,7 @@
 	<div class="row py-3 px-0">
 		<h2>Hourly Weather Variables</h2>
 		{#each hourly as group}
-			<div class="col-md-3">
+			<div class="col-md-4">
 				{#each group as e}
 					<div class="form-check">
 						<input
@@ -383,7 +381,6 @@
 						{/each}
 					</div>
 				{/each}
-				<small class="text-muted mt-3">(1) Europe only, (2) Central Europe only</small>
 				<div class="col-md-12 mb-3 mt-3">
 					<small class="text-muted"
 						>Note: You can further adjust the forecast time range for hourly weather variables using <mark

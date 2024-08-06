@@ -13,7 +13,7 @@
 				{ title: 'NOAA U.S.', url: '/en/docs/gfs-api' },
 				{ title: 'Météo-France', url: '/en/docs/meteofrance-api' },
 				{ title: 'ECMWF', url: '/en/docs/ecmwf-api' },
-				{ title: 'UKMO UK', url: '/en/docs/ukmo-api' },
+				{ title: 'UK Met Office', url: '/en/docs/ukmo-api' },
 				{ title: 'JMA Japan', url: '/en/docs/jma-api' },
 				{ title: 'MET Norway', url: '/en/docs/metno-api' },
 				{ title: 'GEM Canada', url: '/en/docs/gem-api' },
