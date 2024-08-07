@@ -48,6 +48,21 @@ export function countPressureVariables(variables: { name: string; label: string 
     };
 }
 
+export function countHeightVariables(variables: { name: string; label: string }[], levels: number[], params: string[]) {
+    return {
+        total: variables.length * levels.length,
+        active: variables.reduce(
+            (i, variable) =>
+                i +
+                levels.reduce(
+                    (i, level) => i + (params.includes(`${variable.name}_${level}m`) ? 1 : 0),
+                    0
+                ),
+            0
+        )
+    };
+}
+
 	// Sequence generator function (commonly referred to as "range", e.g. Clojure, PHP, etc.)
 export const range = (start: number, stop: number, step: number) =>
 	Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);

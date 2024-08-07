@@ -5,8 +5,8 @@
         {name: "temperature", label: "Temperature"},
         {name: "relative_humidity", label: "Relative Humidity"},
         {name: "cloud_cover", label: "Cloud cover"},
-        {name: "windspeed", label: "Wind Speed"},
-        {name: "winddirection", label: "Wind Direction"},
+        {name: "wind_speed", label: "Wind Speed"},
+        {name: "wind_direction", label: "Wind Direction"},
         {name: "geopotential_height", label: "Geopotential Height"}
     ]
     export let levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()

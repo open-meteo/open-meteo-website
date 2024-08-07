@@ -52,8 +52,8 @@
 		{ name: 'dew_point', label: 'Dewpoint' },
 		{ name: 'relative_humidity', label: 'Relative Humidity' },
 		{ name: 'cloud_cover', label: 'Cloud cover' },
-		{ name: 'windspeed', label: 'Wind Speed' },
-		{ name: 'winddirection', label: 'Wind Direction' },
+		{ name: 'wind_speed', label: 'Wind Speed' },
+		{ name: 'wind_direction', label: 'Wind Direction' },
 		{ name: 'geopotential_height', label: 'Geopotential Height' }
 	];
 	const levels = [
