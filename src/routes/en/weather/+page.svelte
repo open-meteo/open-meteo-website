@@ -704,7 +704,18 @@
 			{/await}
 		</div>
 		<div>
-			<h3>{selectedDay.toLocaleDateString('en-GB', { weekday: 'long' })}</h3>
+			<h3>
+				{selectedDay.toLocaleDateString('en-GB', { weekday: 'long' })}
+				<small>
+					{selectedDay.getDate() === new Date(today.getTime() - 24 * 60 * 60 * 1000).getDate()
+						? ' (Yesterday)'
+						: ''}
+					{selectedDay.getDate() === today.getDate() ? ' (Today)' : ''}
+					{selectedDay.getDate() === new Date(today.getTime() + 24 * 60 * 60 * 1000).getDate()
+						? ' (Tomorrow)'
+						: ''}
+				</small>
+			</h3>
 		</div>
 		<div
 			bind:this={scrollDiv}
