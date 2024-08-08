@@ -793,6 +793,7 @@
 		>. For UKMO Global, values are interpolated from 3-hourly to 1-hourly after 54 hours and from
 		6-hourly data after 144 hours.
 	</p>
+	<p>Note: UKMO open-data has an additional delay of 4 hours. The forecast is therefore not as accurate as it could be.</p>
 	<div class="table-responsive">
 		<table class="table">
 			<thead>

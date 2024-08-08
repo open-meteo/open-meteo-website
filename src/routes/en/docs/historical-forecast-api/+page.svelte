@@ -868,7 +868,7 @@
 					<td>0.09° (~10 km)</td>
 					<td>Hourly</td>
 					<td>Every 6 hours</td>
-					<td>2022-03-0106</td>
+					<td>2022-03-01</td>
 				</tr>
 				<tr>
 					<td>UKMO UKV</td>
