@@ -14,9 +14,7 @@ export const units = persisted('units', {
 });
 
 export const model = persisted('model', 'best_match');
-
 export const theme = persisted('theme', 'auto');
-
 export const themeIsDark = writable(true);
 
 export interface GeoLocation {
@@ -41,29 +39,28 @@ export interface GeoLocation {
 }
 
 export const defaultLocation: GeoLocation = {
-	admin1: 'Lucerne',
-	admin1_id: 2659810,
-	admin3: 'Lucerne',
-	admin3_id: 7286409,
-	country: 'Switzerland',
-	country_code: 'CH',
-	country_id: 2658434,
-	elevation: 437,
-	feature_code: 'PPLA',
-	id: 2659811,
-	latitude: 47.05048,
-	longitude: 8.30635,
-	name: 'Lucerne',
-	population: 81691,
-	postcodes: ['6000', '6003', '6004'],
+	id: 2950159,
+	name: 'Berlin',
+	latitude: 52.52437,
+	longitude: 13.41053,
+	elevation: 74,
+	feature_code: 'PPLC',
+	country_code: 'DE',
+	admin1_id: 2950157,
+	admin3_id: 6547383,
 	admin4_id: 6547539,
-	timezone: 'Europe/Berlin'
+	timezone: 'Europe/Berlin',
+	population: 3426354,
+	postcodes: ['10967', '13347'],
+	country_id: 2921044,
+	country: 'Germany',
+	admin1: 'Land Berlin',
+	admin3: 'Berlin, Stadt',
+	admin4: 'Berlin'
 };
 
 export const storedLocation = persisted('stored-location', defaultLocation as GeoLocation);
-
 export const last_visited = persisted('last_visited_locations', [] as GeoLocation[]);
-
 export const favorites = persisted('favorites', [] as GeoLocation[]);
 
 //export const activeLocation = writable(defaultLocation);
