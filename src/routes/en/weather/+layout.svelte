@@ -9,14 +9,11 @@
 			url: '/en/weather',
 			children: [
 				{ title: 'Week Prediction', url: '/en/weather' },
-				{ title: 'Fourteen Day', url: '/en/weather/14' }
+				{ title: 'Model Comparison?', url: '/en/weather/comparison' },
+				{ title: 'Fourteen Day?', url: '/en/weather/14' }
 			]
-		},
-		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' }
+		}
 	];
-	if (dev) {
-		links.push({ title: 'Seasonal Forecast', url: '/en/docs/seasonal-forecast-api' });
-	}
 </script>
 
 <div
@@ -101,13 +98,6 @@
 </div>
 
 <style>
-	/*.btn-hover:hover {
-		background-color: #aab1b7;
-	}
-
-	.btn-hover.active {
-		background-color: #d2e7f4;
-	}*/
 	.hero-banner {
 		background-size: cover;
 		background-position: center;

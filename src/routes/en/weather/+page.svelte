@@ -5,6 +5,7 @@
 		defaultLocation,
 		storedLocation,
 		units,
+		model,
 		themeIsDark,
 		type GeoLocation
 	} from '$lib/stores';
@@ -13,59 +14,38 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { fade, scale } from 'svelte/transition';
 
-	import colorScale from './color-scale';
-	import weatherCodes from './weather-codes';
+	import colorScale from './utils/color-scale';
+	import weatherCodes from './utils/weather-codes';
 
-	function throttle(callback, limit) {
-		var waiting = false;
-		return function () {
-			if (!waiting) {
-				callback.apply(this, arguments);
-				waiting = true;
-				setTimeout(function () {
-					waiting = false;
-				}, limit);
-			}
-		};
-	}
+	import throttle from './utils/throttle';
 
-	function componentFromStr(numStr, percent) {
-		var num = Math.max(0, parseInt(numStr, 10));
-		return percent ? Math.floor((255 * Math.min(100, num)) / 100) : Math.min(255, num);
-	}
-
-	function rgbToHex(rgb) {
-		var rgbRegex = /^rgb\(\s*(-?\d+)(%?)\s*,\s*(-?\d+)(%?)\s*,\s*(-?\d+)(%?)\s*\)$/;
-		var result,
-			r,
-			g,
-			b,
-			hex = '';
-		if ((result = rgbRegex.exec(rgb))) {
-			r = componentFromStr(result[1], result[2]);
-			g = componentFromStr(result[3], result[4]);
-			b = componentFromStr(result[5], result[6]);
-
-			hex = (0x1000000 + (r << 16) + (g << 8) + b).toString(16).slice(1);
-		}
-		if (!rgb) {
-			return '355522';
-		}
-		return hex;
-	}
+	import daylight from './canvas/daylight';
+	import raster from './canvas/raster';
+	import tempGradient from './canvas/temp-gradient';
+	import cloudCover from './canvas/cloud-cover';
+	import precip from './canvas/precip';
 
 	let location = $storedLocation;
 	storedLocation.subscribe((value) => {
 		location = value;
 	});
-	let weatherModel = 'icon_seamless';
+	let weatherModel = $model;
+	model.subscribe((value) => {
+		weatherModel = value;
+	});
 	let temperature = $units.temperature;
 	let windSpeed = $units.windSpeed;
 	let precipitation = $units.precipitation;
+	units.subscribe((value) => {
+		temperature = value.temperature;
+		windSpeed = value.windSpeed;
+		precipitation = value.precipitation;
+	});
+
 	let diffTemp: number;
 	let maxTemp: number;
 
-	let weatherCodesHourly: Array<any>;
+	let weatherCodesHourly: Float32Array | null | undefined;
 	let canvasElement: HTMLCanvasElement | null;
 
 	const today = new Date();
@@ -98,188 +78,57 @@
 		const hourly = response.hourly()!;
 
 		weatherCodesHourly = hourly.variables(3)?.valuesArray();
-		let cloudCover = hourly.variables(6)?.valuesArray();
-
-		const hourlyPrecip = hourly.variables(0)?.valuesArray();
-		const hourlyTemps = hourly.variables(2)?.valuesArray();
-
-		const maxX = 10000;
-		const maxY = 500;
-		const deltaX = 10000 / hourly.variables(0)?.valuesArray()?.length;
-
-		const ctx: CanvasRenderingContext2D = canvasElement?.getContext('2d');
-		ctx.clearRect(0, 0, maxX, maxY);
-
-		const minTemp = Math.min(
-			...hourly
-				.variables(2)
-				?.valuesArray()
-				.filter((t) => !isNaN(t))
-		);
-		maxTemp = Math.max(
-			...hourly
-				.variables(2)
-				?.valuesArray()
-				.filter((t) => !isNaN(t))
-		);
-		diffTemp = maxTemp - minTemp;
 
 		const hourlyTime = range(
 			Number(hourly.time()),
 			Number(hourly.timeEnd()),
 			hourly.interval()
 		).map((t) => new Date((t + utcOffsetSeconds) * 1000));
-
+		const hourlyTemps = hourly.variables(2)?.valuesArray();
+		const hourlyCloudCover = hourly.variables(6)?.valuesArray();
+		const hourlyPrecip = hourly.variables(0)?.valuesArray();
 		const indexes = [];
-
-		const tempGradient = ctx.createLinearGradient(0, 0, 0, maxY);
-		tempGradient.addColorStop(0, '#' + rgbToHex(colorScale[maxTemp.toFixed(0)]) + '5c');
-		tempGradient.addColorStop(0.25, '#' + rgbToHex(colorScale[maxTemp.toFixed(0)]) + '5c');
-		tempGradient.addColorStop(0.85, '#' + rgbToHex(colorScale[minTemp.toFixed(0)]) + '06');
-		tempGradient.addColorStop(1, '#' + rgbToHex(colorScale[minTemp.toFixed(0)]) + '00');
-
-		for (const [index, value] of hourlyTime.entries()) {
-			if (value.getHours() > 6 && value.getHours() < 21) {
-				ctx.beginPath();
-				ctx.moveTo(index * deltaX, maxY);
-				ctx.lineTo(index * deltaX, 0);
-				ctx.lineTo((index + 1) * deltaX, 0);
-				ctx.lineTo((index + 1) * deltaX, maxY);
-				ctx.closePath();
-				ctx.fillStyle = '#f4ff0014';
-				ctx.fill();
-			}
-		}
-
-		for (const [index, value] of hourlyTemps.entries()) {
+		for (const [index, _] of hourlyTemps.entries()) {
 			indexes.push(index);
-			ctx.beginPath();
-			ctx.moveTo(index * deltaX, 0);
-			ctx.lineTo(index * deltaX, maxY);
-			if (hourlyTime[index].getHours() === 0) {
-				ctx.strokeStyle = '#000';
-				ctx.lineWidth = 3;
-			} else if (
-				hourlyTime[index].getDate() === today.getDate() &&
-				hourlyTime[index].getHours() === today.getHours()
-			) {
-				ctx.stroke();
-				ctx.closePath();
-				ctx.beginPath();
-				ctx.strokeStyle = 'red';
-				ctx.lineWidth = 5;
-				let minutes = today.getMinutes();
-				ctx.moveTo(index * deltaX + (deltaX / 60) * minutes, 0);
-				ctx.lineTo(index * deltaX + (deltaX / 60) * minutes, maxY);
-				ctx.stroke();
-				ctx.closePath();
-				ctx.strokeStyle = '#d3d3d3';
-				ctx.lineWidth = 1;
-			} else {
-				ctx.strokeStyle = '#d3d3d3';
-				ctx.lineWidth = 1;
-			}
-			ctx.stroke();
-			ctx.closePath();
 		}
 
-		ctx.beginPath();
-		ctx.moveTo(0, 0.25 * maxY + ((maxTemp - hourlyTemps[0]) / diffTemp) * 0.55 * maxY);
-		for (const [index, value] of hourlyTemps?.filter((t) => !isNaN(t)).entries()) {
-			let indexDiffTemp = maxTemp - value;
-			let indexDiffTempNext = maxTemp - hourlyTemps[index + 1];
+		const maxX = 10000;
+		const maxY = 500;
+		const deltaX = 10000 / hourly.variables(0)?.valuesArray()?.length;
 
-			ctx.strokeStyle = '#d3d3d3';
-			ctx.lineWidth = 4;
+		const ctx = canvasElement?.getContext('2d');
+		if (ctx) {
+			ctx.clearRect(0, 0, maxX, maxY);
 
-			let xc = (index * deltaX + 0.5 * deltaX + (index * deltaX + 1.5 * deltaX)) / 2;
-			let yc =
-				(0.25 * maxY +
-					(indexDiffTemp / diffTemp) * 0.55 * maxY +
-					(0.25 * maxY + (indexDiffTempNext / diffTemp) * 0.55 * maxY)) /
-				2;
-
-			ctx.quadraticCurveTo(
-				index * deltaX + 0.5 * deltaX,
-				0.25 * maxY + (indexDiffTemp / diffTemp) * 0.55 * maxY,
-				xc,
-				yc
+			const minTemp = Math.min(
+				...hourly
+					.variables(2)
+					?.valuesArray()
+					.filter((t) => !isNaN(t))
 			);
-		}
-		ctx.quadraticCurveTo(
-			maxX,
-			0.25 * maxY + ((maxTemp - hourlyTemps[hourlyTemps.length - 1]) / diffTemp) * 0.55 * maxY,
-			(maxX + maxX + deltaX) / 2,
-			0.25 * maxY + ((maxTemp - hourlyTemps[hourlyTemps.length - 1]) / diffTemp) * 0.55 * maxY
-		);
-		ctx.lineTo(maxX, maxY);
-		ctx.lineTo(0, maxY);
-		ctx.closePath();
-		ctx.fillStyle = tempGradient;
-		ctx.fill();
+			maxTemp = Math.max(
+				...hourly
+					.variables(2)
+					?.valuesArray()
+					.filter((t) => !isNaN(t))
+			);
+			diffTemp = maxTemp - minTemp;
 
-		ctx.beginPath();
-		ctx.moveTo(0, 35 + (cloudCover[0] ** 1.5 / 1000) * 30);
-		for (const [index, value] of cloudCover.entries()) {
-			ctx.strokeStyle = '#444';
-			ctx.lineWidth = 0.1;
-			let nextValue = cloudCover[index + 1];
+			const config: ConfigInterface = {
+				maxX: maxX,
+				maxY: maxY,
+				deltaX: deltaX,
+				minTemp: minTemp,
+				maxTemp: maxTemp,
+				diffTemp: diffTemp
+			};
 
-			let xc = (index * deltaX + 0.5 * deltaX + (index * deltaX + 1.5 * deltaX)) / 2;
-			let yc = (35 + (value ** 1.5 / 1000) * 30 + 35 + (nextValue ** 1.5 / 1000) * 30) / 2;
-
-			ctx.quadraticCurveTo(index * deltaX + 0.5 * deltaX, 35 + (value ** 1.5 / 1000) * 30, xc, yc);
-		}
-
-		ctx.quadraticCurveTo(
-			maxX,
-			35 + (cloudCover[cloudCover.length - 1] ** 1.5 / 1000) * 30,
-			maxX,
-			35 + (cloudCover[cloudCover.length - 1] ** 1.5 / 1000) * 30
-		);
-		ctx.quadraticCurveTo(
-			maxX,
-			35 - (cloudCover[cloudCover.length - 1] ** 1.5 / 1000) * 30,
-			maxX,
-			35 - (cloudCover[cloudCover.length - 1] ** 1.5 / 1000) * 30
-		);
-
-		for (const [ind, v] of cloudCover.entries()) {
-			let index = cloudCover.length - 1 - ind;
-			let value = cloudCover[index];
-			let nextValue = cloudCover[index - 1];
-
-			ctx.strokeStyle = '#444';
-			ctx.lineWidth = 0.1;
-
-			let xc = (index * deltaX + 0.5 * deltaX + (index * deltaX - 0.5 * deltaX)) / 2;
-			let yc = (35 - (value ** 2 / 10000) * 30 + (35 - (nextValue ** 2 / 10000) * 30)) / 2;
-
-			ctx.quadraticCurveTo(index * deltaX + 0.5 * deltaX, 35 - (value ** 2 / 10000) * 30, xc, yc);
-		}
-		ctx.quadraticCurveTo(
-			0.5 * deltaX,
-			35 - (cloudCover[0] ** 1.5 / 1000) * 30,
-			0,
-			35 - (cloudCover[0] ** 1.5 / 1000) * 30
-		);
-
-		ctx.closePath();
-		//to fill the space in the shape
-		ctx.fillStyle =
-			getComputedStyle(canvasElement).getPropertyValue('--bs-dark-border-subtle') + '66';
-		ctx.fill();
-
-		for (const [index, value] of hourlyPrecip.entries()) {
-			ctx.beginPath();
-			ctx.moveTo(index * deltaX + 0.5 * deltaX, maxY);
-			ctx.strokeStyle =
-				getComputedStyle(canvasElement).getPropertyValue('--bs-primary-text-emphasis') + 'cc';
-			ctx.lineWidth = 12;
-
-			ctx.lineTo(index * deltaX + 0.5 * deltaX, maxY - value ** 0.55 * 45);
-			ctx.stroke();
-			ctx.closePath();
+			// create canvas
+			daylight(ctx, config, hourlyTime);
+			raster(ctx, config, hourlyTime, today);
+			tempGradient(ctx, config, hourlyTemps);
+			cloudCover(ctx, config, hourlyCloudCover, canvasElement);
+			precip(ctx, config, hourlyPrecip, canvasElement);
 		}
 
 		return {
@@ -307,14 +156,8 @@
 						?.valuesArray()
 						?.map((t) => t.toFixed(0))
 				},
-				// {
-				// 	id: 1,
-				// 	name: 'cloud_cover',
-				// 	title: 'Cloud cover',
-				// 	values: hourly.variables(6)?.valuesArray()
-				// },
 				{
-					id: 2,
+					id: 1,
 					name: 'precipitation',
 					title: 'Precipitation',
 					values: hourly
@@ -323,7 +166,7 @@
 						?.map((p) => p.toFixed(1))
 				},
 				{
-					id: 3,
+					id: 2,
 					name: 'precipitation_probability',
 					title: 'Precip Prob.',
 					values: hourly
@@ -332,7 +175,7 @@
 						?.map((p) => p.toFixed(0))
 				},
 				{
-					id: 4,
+					id: 3,
 					name: 'windspeed_10m',
 					title: 'Wind',
 					values: hourly
@@ -350,19 +193,13 @@
 				// 		?.map((p) => p.toFixed(0))
 				// },
 				{
-					id: 6,
+					id: 4,
 					name: 'relative_humidity_2m',
 					title: 'Rel. Hum.',
 					values: hourly
 						.variables(7)
 						?.valuesArray()
 						?.map((p) => p.toFixed(0))
-				},
-				{
-					id: 7,
-					name: 'cape',
-					title: 'Cape',
-					values: hourly.variables(8)?.valuesArray()
 				}
 			],
 			entriesLength: hourly.variables(0)?.valuesArray()?.length,
@@ -373,9 +210,9 @@
 	})(location);
 
 	let winddir = true;
-	entries = 7;
+	entries = 6;
 
-	let scrollDiv;
+	let scrollDiv: HTMLElement;
 	let tableCells;
 	let manualScrolling = false;
 
@@ -449,6 +286,28 @@
 			}
 		};
 	});
+
+	const changeUnits = (unit: string, value: string) => {
+		if (unit === 'temperature') {
+			units.set({
+				temperature: value,
+				windSpeed: windSpeed,
+				precipitation: precipitation
+			});
+		} else if (unit === 'windSpeed') {
+			units.set({
+				temperature: temperature,
+				windSpeed: value,
+				precipitation: precipitation
+			});
+		} else if (unit === 'precipitation') {
+			units.set({
+				temperature: temperature,
+				windSpeed: windSpeed,
+				precipitation: value
+			});
+		}
+	};
 </script>
 
 <svelte:head>
@@ -474,6 +333,9 @@
 				name="temperatureUnit"
 				id="celsius"
 				value="celsius"
+				on:click={(event) => {
+					changeUnits('temperature', event.target?.value);
+				}}
 				bind:group={temperature}
 			/>
 			<label class="btn" for="celsius">°C</label>
@@ -483,6 +345,9 @@
 				name="temperatureUnit"
 				id="fahrenheit"
 				value="fahrenheit"
+				on:click={(event) => {
+					changeUnits('temperature', event.target?.value);
+				}}
 				bind:group={temperature}
 			/>
 			<label class="btn" for="fahrenheit">°F</label>
@@ -494,6 +359,9 @@
 				name="windSpeedUnit"
 				id="kmh"
 				value="kmh"
+				on:click={(event) => {
+					changeUnits('windSpeed', event.target?.value);
+				}}
 				bind:group={windSpeed}
 			/>
 			<label class="btn" for="kmh">km/h</label>
@@ -503,6 +371,9 @@
 				name="windSpeedUnit"
 				id="ms"
 				value="ms"
+				on:click={(event) => {
+					changeUnits('windSpeed', event.target?.value);
+				}}
 				bind:group={windSpeed}
 			/>
 			<label class="btn" for="ms">m/s</label>
@@ -512,6 +383,9 @@
 				name="windSpeedUnit"
 				id="mph"
 				value="mph"
+				on:click={(event) => {
+					changeUnits('windSpeed', event.target?.value);
+				}}
 				bind:group={windSpeed}
 			/>
 			<label class="btn" for="mph">mph</label>
@@ -521,6 +395,9 @@
 				name="windSpeedUnit"
 				id="kn"
 				value="kn"
+				on:click={(event) => {
+					changeUnits('windSpeed', event.target?.value);
+				}}
 				bind:group={windSpeed}
 			/>
 			<label class="btn" for="kn">knots</label>
@@ -532,6 +409,9 @@
 				name="precipitation"
 				id="mm"
 				value="mm"
+				on:click={(event) => {
+					changeUnits('precipitation', event.target?.value);
+				}}
 				bind:group={precipitation}
 			/>
 			<label class="btn" for="mm">mm</label>
@@ -541,6 +421,9 @@
 				name="precipitation"
 				id="inch"
 				value="inch"
+				on:click={(event) => {
+					changeUnits('precipitation', event.target?.value);
+				}}
 				bind:group={precipitation}
 			/>
 			<label class="btn" for="inch">Inches</label>
@@ -552,6 +435,9 @@
 				name="weatherModel"
 				id="best_match"
 				value="best_match"
+				on:click={(event) => {
+					model.set(event.target?.value);
+				}}
 				bind:group={weatherModel}
 			/>
 			<label class="btn" for="best_match">Best Match</label>
@@ -561,6 +447,9 @@
 				name="weatherModel"
 				id="icon_seamless"
 				value="icon_seamless"
+				on:click={(event) => {
+					model.set(event.target?.value);
+				}}
 				bind:group={weatherModel}
 			/>
 			<label class="btn" for="icon_seamless">DWD</label>
@@ -570,6 +459,9 @@
 				name="weatherModel"
 				id="gfs_seamless"
 				value="gfs_seamless"
+				on:click={(event) => {
+					model.set(event.target?.value);
+				}}
 				bind:group={weatherModel}
 			/>
 			<label class="btn" for="gfs_seamless">NOAA (GFS)</label>
@@ -579,6 +471,9 @@
 				name="weatherModel"
 				id="meteofrance_seamless"
 				value="meteofrance_seamless"
+				on:click={(event) => {
+					model.set(event.target?.value);
+				}}
 				bind:group={weatherModel}
 			/>
 			<label class="btn" for="meteofrance_seamless">Météo-France</label>
@@ -588,6 +483,9 @@
 				name="weatherModel"
 				id="ecmwf_ifs04"
 				value="ecmwf_ifs04"
+				on:click={(event) => {
+					model.set(event.target?.value);
+				}}
 				bind:group={weatherModel}
 			/>
 			<label class="btn" for="ecmwf_ifs04">ECMWF</label>
@@ -597,6 +495,9 @@
 				name="weatherModel"
 				id="jma_seamless"
 				value="jma_seamless"
+				on:click={(event) => {
+					model.set(event.target?.value);
+				}}
 				bind:group={weatherModel}
 			/>
 			<label class="btn" for="jma_seamless">JMA</label>
@@ -606,6 +507,9 @@
 				name="weatherModel"
 				id="gem_seamless"
 				value="gem_seamless"
+				on:click={(event) => {
+					model.set(event.target?.value);
+				}}
 				bind:group={weatherModel}
 			/>
 			<label class="btn" for="gem_seamless">GEM</label>
@@ -615,6 +519,9 @@
 				name="weatherModel"
 				id="arpae_cosmo_seamless"
 				value="arpae_cosmo_seamless"
+				on:click={(event) => {
+					model.set(event.target?.value);
+				}}
 				bind:group={weatherModel}
 			/>
 			<label class="btn" for="arpae_cosmo_seamless">COSMO</label>
@@ -624,6 +531,9 @@
 				name="weatherModel"
 				id="metno_seamless"
 				value="metno_seamless"
+				on:click={(event) => {
+					model.set(event.target?.value);
+				}}
 				bind:group={weatherModel}
 			/>
 			<label class="btn" for="metno_seamless">MET No</label>
@@ -633,6 +543,9 @@
 				name="weatherModel"
 				id="knmi_seamless"
 				value="knmi_seamless"
+				on:click={(event) => {
+					model.set(event.target?.value);
+				}}
 				bind:group={weatherModel}
 			/>
 			<label class="btn" for="knmi_seamless">KNMI</label>
@@ -642,6 +555,9 @@
 				name="weatherModel"
 				id="dmi_seamless"
 				value="dmi_seamless"
+				on:click={(event) => {
+					model.set(event.target?.value);
+				}}
 				bind:group={weatherModel}
 			/>
 			<label class="btn" for="dmi_seamless">DMI</label>
