@@ -137,6 +137,10 @@
 			{ name: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
 			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
 			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
+		],[
+			{ name: 'ukmo_seamless', label: 'UK Met Office Seamless' },
+			{ name: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
+			{ name: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 		]
 	];
 
