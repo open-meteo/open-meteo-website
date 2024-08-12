@@ -65,8 +65,8 @@
 		{ name: 'temperature', label: 'Temperature' },
 		{ name: 'relative_humidity', label: 'Relative Humidity' },
 		{ name: 'cloud_cover', label: 'Cloud cover' },
-		{ name: 'windspeed', label: 'Wind Speed' },
-		{ name: 'winddirection', label: 'Wind Direction' },
+		{ name: 'wind_speed', label: 'Wind Speed' },
+		{ name: 'wind_direction', label: 'Wind Direction' },
 		{ name: 'geopotential_height', label: 'Geopotential Height' }
 	];
 	const levels = [
@@ -270,6 +270,10 @@
 			{ name: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
 			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
 			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
+		],[
+			{ name: 'ukmo_seamless', label: 'UK Met Office Seamless' },
+			{ name: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
+			{ name: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 		]
 	];
 </script>
@@ -856,6 +860,23 @@
 					<td>6-Hourly</td>
 					<td>Every 6 hours</td>
 					<td>2024-03-13</td>
+				</tr>
+				<tr>
+					<th scope="row" rowspan="2">UK Met Office</th>
+					<td>UKMO Global</td>
+					<td>Global</td>
+					<td>0.09° (~10 km)</td>
+					<td>Hourly</td>
+					<td>Every 6 hours</td>
+					<td>2022-03-01</td>
+				</tr>
+				<tr>
+					<td>UKMO UKV</td>
+					<td>UK and Ireland</td>
+					<td>2 km</td>
+					<td>Hourly</td>
+					<td>Every hour</td>
+					<td>2022-03-01</td>
 				</tr>
 				<tr>
 					<th scope="row" rowspan="2">JMA</th>

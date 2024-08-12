@@ -53,8 +53,8 @@
 		{ name: 'temperature', label: 'Temperature' },
 		{ name: 'relative_humidity', label: 'Relative Humidity' },
 		{ name: 'cloud_cover', label: 'Cloud cover' },
-		{ name: 'windspeed', label: 'Wind Speed' },
-		{ name: 'winddirection', label: 'Wind Direction' },
+		{ name: 'wind_speed', label: 'Wind Speed' },
+		{ name: 'wind_direction', label: 'Wind Direction' },
 		{ name: 'geopotential_height', label: 'Geopotential Height' }
 	];
 	const levels = [
@@ -283,6 +283,10 @@
 			{ name: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
 			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
 			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
+		],[
+			{ name: 'ukmo_seamless', label: 'UK Met Office Seamless' },
+			{ name: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
+			{ name: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 		]
 	];
 </script>
@@ -956,6 +960,14 @@
 					<td>25 km</td>
 					<td>7 days</td>
 					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<th scope="row"><a href="/en/docs/ukmo-api">UKMO</a></th>
+					<td>UK Met Office</td>
+					<td>United Kingdom</td>
+					<td>2 - 10 km</td>
+					<td>7 days</td>
+					<td>Every hour</td>
 				</tr>
 				<tr>
 					<th scope="row"><a href="/en/docs/jma-api">MSM & GSM</a></th>
