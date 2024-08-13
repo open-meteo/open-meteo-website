@@ -29,6 +29,7 @@
 		precipitation_unit: 'mm',
 		timeformat: 'iso8601',
 		timezone: 'UTC',
+		temporal_resolution: '',
 		tilt: 0,
 		azimuth: 0,
 		models: []
@@ -285,7 +286,7 @@
 		<div class="accordion" id="accordionVariables">
 			<AccordionItem
 				id="additional-variables"
-				title="Additional Variables"
+				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
 				{#each additionalVariables as group}
@@ -305,6 +306,24 @@
 						{/each}
 					</div>
 				{/each}
+
+				<div class="col-md-6">
+					<div class="form-floating mb-6">
+						<select
+							class="form-select"
+							name="temporal_resolution"
+							id="temporal_resolution"
+							aria-label="Temporal Resolution For Hourly Data"
+							bind:value={$params.temporal_resolution}
+						>
+							<option value="">1 Hourly</option>
+							<option value="hourly_3">3 Hourly</option>
+							<option value="hourly_6">6 Hourly</option>
+							<option value="native">Native Model Resolution</option>
+						</select>
+						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
+					</div>
+				</div>
 			</AccordionItem>
 			<AccordionItem
 				id="solar-variables"
