@@ -108,7 +108,8 @@
 				<li>
 					Atmospheric forecasts from <a
 						href="https://www.cma.gov.cn/en/"
-						title="Chinese Meteorological Administration">Chinese Meteorological Administration CMA</a
+						title="Chinese Meteorological Administration"
+						>Chinese Meteorological Administration CMA</a
 					>
 					(<a href="https://creativecommons.org/licenses/by/4.0/" title="CMA License"
 						>CC-BY License</a
@@ -126,7 +127,8 @@
 				<li>
 					Atmospheric forecasts from <a
 						href="https://www.knmi.nl/"
-						title="Royal Netherlands Meteorological Institute">Royal Netherlands Meteorological Institute KNMI</a
+						title="Royal Netherlands Meteorological Institute"
+						>Royal Netherlands Meteorological Institute KNMI</a
 					>
 					(<a href="https://creativecommons.org/licenses/by/4.0/" title="KNMI License"
 						>CC-BY License</a
@@ -166,6 +168,12 @@
 					(<a href="https://creativecommons.org/licenses/by/4.0/" title="GeoNames License"
 						>CC-BY License</a
 					>)
+				</li>
+				<li>
+					Icons from <a href="https://github.com/erikflowers/weather-icons" title="WeatherIcons"
+						>Weather Icons</a
+					>
+					(<a href="https://openfontlicense.org/" title="Weather Icons License">SIL OFL 1.1</a>)
 				</li>
 			</ul>
 		</div>
