@@ -1,4 +1,10 @@
 /* Write your global styles here, in SCSS syntax. Variables and mixins from the src/variables.scss file are available here without importing */ /* Import only what you need from Bootstrap */
+
+// tailwind
+// @import "tailwindcss/base";
+// @import "tailwindcss/components";
+// @import "tailwindcss/utilities";
+
 @import 'bootstrap/scss/root';
 @import 'bootstrap/scss/reboot';
 @import 'bootstrap/scss/type';
@@ -34,6 +40,9 @@
 @import 'bootstrap/scss/utilities/api';
 
 @import 'syntax-highlight.scss';
+
+
+
 
 .feature-title {
     display: flex;

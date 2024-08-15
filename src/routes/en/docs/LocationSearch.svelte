@@ -14,7 +14,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 
-	export let label: string = "Search Locations ...";
+	export let label: string = 'Search Locations ...';
 
 	interface ResultSet {
 		results: GeoLocation[] | undefined;
@@ -35,15 +35,15 @@
 		window.addEventListener('keydown', handleKeyDown);
 		function handleKeyDown(ev: KeyboardEvent) {
 			if (ev.key == 'Escape' && modalOpen && searchQuery == '') {
-				closeModal()
+				closeModal();
 			}
 		}
 		return () => {
 			if (modalOpen) {
-				closeModal()
+				closeModal();
 			}
-            window.removeEventListener("keydown", handleKeyDown);
-        };
+			window.removeEventListener('keydown', handleKeyDown);
+		};
 	});
 
 	onDestroy(() => {
@@ -52,7 +52,7 @@
 
 	let scrollY: number | undefined;
 	function openModal() {
-		modalOpen = true
+		modalOpen = true;
 
 		// Disable scrolling
 		scrollY = window.scrollY;
@@ -62,7 +62,7 @@
 	}
 
 	function closeModal() {
-		modalOpen = false
+		modalOpen = false;
 
 		// Restore scrolling
 		document.body.style.position = '';
@@ -70,7 +70,7 @@
 		document.body.style.overflow = '';
 		if (scrollY) {
 			// @ts-ignore
-			window.scrollTo({top: scrollY, left: 0, behavior: "instant"});
+			window.scrollTo({ top: scrollY, left: 0, behavior: 'instant' });
 		}
 	}
 
@@ -109,7 +109,7 @@
 	function selectLocation(location: GeoLocation) {
 		saveRecent(location);
 		searchQuery = '';
-		closeModal()
+		closeModal();
 		dispatch('location', location);
 	}
 
@@ -125,32 +125,36 @@
 			debounceTimeout = setTimeout(resolve, 300);
 		});
 
-		if (searchQuery.toLowerCase() == "gps") {
+		if (searchQuery.toLowerCase() == 'gps') {
 			let position: GeolocationPosition = await new Promise((resolve, reject) =>
 				navigator.geolocation.getCurrentPosition(resolve, reject, {})
 			);
 			const latitude = position.coords.latitude;
 			const longitude = position.coords.longitude;
-			return { results: [{
-				id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
-				name: `GPS ${latitude.toFixed(2)}°N ${longitude.toFixed(2)}°E`,
-				latitude: latitude,
-				longitude: longitude,
-				elevation: position.coords.altitude ?? NaN,
-				feature_code: '',
-				country_code: undefined,
-				admin1_id: undefined,
-				admin3_id: undefined,
-				admin4_id: undefined,
-				timezone: '',
-				population: undefined,
-				postcodes: undefined,
-				country_id: undefined,
-				country: undefined,
-				admin1: undefined,
-				admin3: undefined,
-				admin4: undefined
-			}]};
+			return {
+				results: [
+					{
+						id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
+						name: `GPS ${latitude.toFixed(2)}°N ${longitude.toFixed(2)}°E`,
+						latitude: latitude,
+						longitude: longitude,
+						elevation: position.coords.altitude ?? NaN,
+						feature_code: '',
+						country_code: undefined,
+						admin1_id: undefined,
+						admin3_id: undefined,
+						admin4_id: undefined,
+						timezone: '',
+						population: undefined,
+						postcodes: undefined,
+						country_id: undefined,
+						country: undefined,
+						admin1: undefined,
+						admin3: undefined,
+						admin4: undefined
+					}
+				]
+			};
 		}
 
 		// Always set format=json to fetch data
@@ -166,8 +170,11 @@
 	})();
 </script>
 
-<button type="button" class="btn btn-outline-secondary w-100 p-3" on:click={openModal}
-	><Search /> {label}</button
+<button
+	type="button"
+	style="padding: 6px"
+	class="btn btn-outline-secondary w-100"
+	on:click={openModal}><Search /> {label}</button
 >
 
 {#if modalOpen}
@@ -216,7 +223,7 @@
 							class="btn btn-outline-secondary"
 							type="button"
 							title="Detect Location via GPS"
-							on:click|stopPropagation={() => searchQuery = "GPS"}><Cursor /></button
+							on:click|stopPropagation={() => (searchQuery = 'GPS')}><Cursor /></button
 						>
 					</div>
 					{#await results}
@@ -253,10 +260,10 @@
 													alt={location.country_code}
 												/>
 												{location.name}<br />
-												<small class="text-muted"
-													>{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
-														2
-													)}°E {location.elevation.toFixed(0)}m asl)</small
+												<small class="text-muted">
+													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
+													{location.longitude.toFixed(2)}°E {#if location.elevation}
+														{location.elevation.toFixed(0)}m asl{/if}</small
 												>
 												<div class="position-absolute top-0 end-0 p-2">
 													<button
@@ -301,7 +308,8 @@
 												<small class="text-muted"
 													>{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
 														2
-													)}°E {location.elevation.toFixed(0)}m asl)</small
+													)}°E {#if location.elevation}
+														{location.elevation.toFixed(0)}m asl{/if})</small
 												>
 												<div class="position-absolute top-0 end-0 p-2">
 													<button
@@ -359,7 +367,8 @@
 										<small class="text-muted"
 											>{location.admin1 || ''} ({location.latitude.toFixed(2)}°E {location.longitude.toFixed(
 												2
-											)}°N{#if location.elevation} {location.elevation.toFixed(0)}m asl{/if})</small
+											)}°N{#if location.elevation}
+												{location.elevation.toFixed(0)}m asl{/if})</small
 										>
 										<div class="position-absolute top-0 end-0 p-2">
 											<button
