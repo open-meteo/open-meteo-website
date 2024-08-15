@@ -2,7 +2,13 @@
 	import LicenseSelector from '../LicenseSelector.svelte';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
-	import { countVariables } from '$lib/meteo';
+	import {
+		altitudeAboveSeaLevelMeters,
+		countPressureVariables,
+		countHeightVariables,
+		countVariables,
+		sliceIntoChunks
+	} from '$lib/meteo';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { fade, slide } from 'svelte/transition';
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
@@ -11,10 +17,12 @@
 	import LocationSelection from '../LocationSelection.svelte';
 
 	const defaultParameter = {
+		current: [],
 		hourly: [],
 		daily: [],
 		location_mode: 'location_search',
 		csv_coordinates: '',
+		minutely_15: [],
 		temperature_unit: 'celsius',
 		wind_speed_unit: 'kmh',
 		precipitation_unit: 'mm',
@@ -36,11 +44,40 @@
 	};
 
 	const params = urlHashStore({
-		latitude: [52.52],
-		longitude: [13.41],
+		latitude: [51.5085],
+		longitude: [-0.1257],
 		...defaultParameter,
 		hourly: ['temperature_2m']
 	});
+
+	const pressureVariables = [
+		{ name: 'temperature', label: 'Temperature' },
+		{ name: 'relative_humidity', label: 'Relative Humidity' },
+		{ name: 'cloud_cover', label: 'Cloud cover' },
+		{ name: 'wind_speed', label: 'Wind Speed' },
+		{ name: 'wind_direction', label: 'Wind Direction' },
+		{ name: 'vertical_velocity', label: 'Vertical Velocity' },
+		{ name: 'geopotential_height', label: 'Geopotential Height' }
+	];
+	const levels = [
+		10, 20, 30, 40, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 450,
+		500, 550, 600, 650, 700, 750, 800, 850, 900, 925, 950, 975, 1000
+	].reverse();
+
+	const heightVariables = [
+		{ name: 'temperature', label: 'Temperature' },
+		{ name: 'relative_humidity', label: 'Relative Humidity' },
+		{ name: 'cloud_cover', label: 'Cloud cover' },
+		{ name: 'wind_speed', label: 'Wind Speed' },
+		{ name: 'wind_direction', label: 'Wind Direction' }
+	];
+	const heights = [
+		20, 30, 50, 75, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 1000, 1250, 1500, 1750, 2000,
+		2250, 2500, 2750, 3000, 3250, 3500, 3750, 4000, 4500, 5000, 5500, 6000
+	];
+
+	let pressureVariablesTab = 'temperature';
+	let heightVariablesTab = 'temperature';
 
 	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
 
@@ -50,49 +87,56 @@
 			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'precipitation', label: 'Precipitation (rain + snow)' },
+			//{ name: 'precipitation_probability', label: 'Precipitation Probability' },
+			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
 			{ name: 'rain', label: 'Rain' },
-			{ name: 'snowfall', label: 'Snowfall' }
-			//{ name: 'snow_depth', label: 'Snow Depth' } only snow_depth_water_equivalent
+			{ name: 'showers', label: 'Showers' },
+			{ name: 'snowfall', label: 'Snowfall' },
+			{ name: 'hail', label: 'Hail' }
+			//{ name: 'snow_depth', label: 'Snow Depth' } // only water req
 		],
 		[
 			{ name: 'weather_code', label: 'Weather code' },
 			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
+			{ name: 'visibility', label: 'Visibility' },
 			{ name: 'surface_pressure', label: 'Surface Pressure' },
-			{ name: 'cloud_cover', label: 'Cloud cover Total' },
+			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
+		],
+		[	{ name: 'cloud_cover', label: 'Cloud cover Total' },
 			{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
 			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
 			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
 			{ name: 'cloud_cover_2m', label: 'Cloud cover / Fog (2m)' },
-			{ name: 'visibility', label: 'Visibility' },
-			{ name: 'cloud_base', label: 'Cloud Base' },
-			{ name: 'cloud_top', label: 'Cloud Top' },
-			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
+			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
+		]
+	];
+
+	const current = [
+		[
+			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
+			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
+			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
+			{ name: 'is_day', label: 'Is Day or Night' }
+		],
+		[
+			{ name: 'precipitation', label: 'Precipitation' },
+			{ name: 'rain', label: 'Rain' },
+			{ name: 'showers', label: 'Showers' },
+			{ name: 'snowfall', label: 'Snowfall' }
+		],
+		[
+			{ name: 'weather_code', label: 'Weather code' },
+			{ name: 'cloud_cover', label: 'Cloud cover Total' },
+			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
+			{ name: 'surface_pressure', label: 'Surface Pressure' }
 		],
 		[
 			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_speed_50m', label: 'Wind Speed (50 m)' },
-			{ name: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
-			{ name: 'wind_speed_150m', label: 'Wind Speed (150 m)' },
-			{ name: 'wind_speed_250m', label: 'Wind Speed (250 m)' },
-			{ name: 'wind_speed_350m', label: 'Wind Speed (350 m)' },
-			{ name: 'wind_speed_450m', label: 'Wind Speed (450 m)' },
 			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_direction_50m', label: 'Wind Direction (50 m)' },
-			{ name: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
-			{ name: 'wind_direction_150m', label: 'Wind Direction (150 m)' },
-			{ name: 'wind_direction_250m', label: 'Wind Direction (250 m)' },
-			{ name: 'wind_direction_350m', label: 'Wind Direction (350 m)' },
-			{ name: 'wind_direction_450m', label: 'Wind Direction (450 m)' },
 			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
-		],
-		[
-			{ name: 'surface_temperature', label: 'Surface Temperature' },
-			{ name: 'temperature_50m', label: 'Temperature (50 m)' },
-			{ name: 'temperature_100m', label: 'Temperature (100 m)' },
-			{ name: 'temperature_150m', label: 'Temperature (150 m)' },
-			{ name: 'temperature_250m', label: 'Temperature (250 m)' }
 		]
 	];
 
@@ -106,9 +150,7 @@
 			{ name: 'sunrise', label: 'Sunrise' },
 			{ name: 'sunset', label: 'Sunset' },
 			{ name: 'daylight_duration', label: 'Daylight Duration' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
-			{ name: 'uv_index_max', label: 'UV Index' },
-			{ name: 'uv_index_clear_sky_max', label: 'UV Index Clear Sky' }
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
 		],
 		[
 			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
@@ -116,6 +158,7 @@
 			{ name: 'showers_sum', label: 'Showers Sum' },
 			{ name: 'snowfall_sum', label: 'Snowfall Sum' },
 			{ name: 'precipitation_hours', label: 'Precipitation Hours' },
+			{ name: 'precipitation_probability_max', label: 'Precipitation Probability Max' },
 			{ name: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
 			{ name: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
 			{ name: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
@@ -126,13 +169,16 @@
 
 	const additionalVariables = [
 		[
-			{ name: 'is_day', label: 'Is Day or Night' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
-			{ name: 'freezing_level_height', label: 'Freezing Level Height' }
+			{ name: 'is_day', label: 'Is Day or Night' }
+			//{ name: 'lightning_potential', label: 'Lightning Potential Index LPI (2)' },
+			//{ name: 'updraft', label: 'Updraft (2)' }
 		],
 		[
 			{ name: 'cape', label: 'CAPE' },
-			{ name: 'convective_inhibition', label: 'Convective Inhibition' }
+			{ name: 'convective_inhibition', label: 'Convective Inhibition' },
+			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
+			//{ name: 'snowfall_height', label: 'Snowfall Height (1)' },
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
 		]
 	];
 
@@ -154,21 +200,29 @@
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
-
 	const models = [
 		[
-			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
-			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' }
+			{ name: 'ukmo_seamless', label: 'UK Met Office Seamless' },
+			{ name: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
+			{ name: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 		]
 	];
 </script>
 
 <svelte:head>
-	<title>DMI Weather Model API | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/dmi-api" />
+	<title>UK Met Office API | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/docs/ukmo-api" />
 </svelte:head>
 
-<form method="get" action="https://api.open-meteo.com/v1/dmi">
+<!--<div class="alert alert-primary" role="alert">
+	This API offers access to the renowned ICON weather models from the German Weather service DWD,
+	delivering 15-minutely data for short-term forecasts in central Europe and 11 km resolution global
+	forecasts. The ICON model is a preferred choice in <a href="/en/docs"
+		>generic weather forecast API</a
+	> if no other high resolution weather models are available.
+</div>-->
+
+<form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<LocationSelection
 		bind:latitude={$params.latitude}
 		bind:longitude={$params.longitude}
@@ -231,8 +285,9 @@
 								>
 									<option value="1">1 day</option>
 									<option value="3">3 days</option>
+									<option value="5">5 days</option>
 									<option value="7">7 days (default)</option>
-									<option value="10">10 days</option>
+									<option value="8">8 days</option>
 								</select>
 								<label for="forecast_days">Forecast days</label>
 							</div>
@@ -285,7 +340,7 @@
 	<div class="row py-3 px-0">
 		<h2>Hourly Weather Variables</h2>
 		{#each hourly as group}
-			<div class="col-md-3">
+			<div class="col-md-4">
 				{#each group as e}
 					<div class="form-check">
 						<input
@@ -327,7 +382,7 @@
 						{/each}
 					</div>
 				{/each}
-				<div class="col-md-12 mb-3">
+				<div class="col-md-12 mb-3 mt-3">
 					<small class="text-muted"
 						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
 							>&forecast_hours=</mark
@@ -460,6 +515,142 @@
 				</div>
 			</AccordionItem>
 			<AccordionItem
+				id="height-levels"
+				title="Height Above Ground Level Variables"
+				count={countHeightVariables(heightVariables, heights, $params.hourly)}
+			>
+				<div class="d-flex align-items-start">
+					<div
+						class="nav flex-column nav-pills me-3"
+						id="v-pills-tab"
+						role="tablist"
+						aria-orientation="vertical"
+					>
+						{#each heightVariables as variable, i}
+							<button
+								class="nav-link text-start text-nowrap"
+								class:active={heightVariablesTab == variable.name}
+								id="v-pills-{variable.name}-height-tab"
+								type="button"
+								role="tab"
+								aria-controls="v-pills-height-{variable.name}"
+								aria-selected={heightVariablesTab == variable.name}
+								on:click={() => (heightVariablesTab = variable.name)}>{variable.label}</button
+							>
+						{/each}
+					</div>
+					<div class="tab-content" id="v-pills-height-tabContent">
+						{#each heightVariables as variable}
+							<div
+								class="tab-pane fade"
+								class:active={heightVariablesTab == variable.name}
+								class:show={heightVariablesTab == variable.name}
+								id="v-pills-height-{variable.name}"
+								role="tabpanel"
+								aria-labelledby="v-pills-height-{variable.name}-tab"
+							>
+								<div class="row">
+									{#each sliceIntoChunks(heights, levels.length / 3 + 1) as chunk}
+										<div class="col-lg-4">
+											{#each chunk as level}
+												<div class="form-check">
+													<input
+														class="form-check-input"
+														type="checkbox"
+														value="{variable.name}_{level}m"
+														id="{variable.name}_{level}m"
+														name="hourly"
+														bind:group={$params.hourly}
+													/>
+													<label class="form-check-label" for="{variable.name}_{level}m">
+														{level} m
+													</label>
+												</div>
+											{/each}
+										</div>
+									{/each}
+								</div>
+							</div>
+						{/each}
+						<div class="mt-3">
+							<small class="text-muted"
+								>Note: Heights are given as elevation above ground in metres. Forecasts are only
+								available for the UKV 2km model area for up to 2 days.</small
+							>
+						</div>
+					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="pressure-levels"
+				title="Pressure Level Variables"
+				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
+			>
+				<div class="d-flex align-items-start">
+					<div
+						class="nav flex-column nav-pills me-3"
+						id="v-pills-tab"
+						role="tablist"
+						aria-orientation="vertical"
+					>
+						{#each pressureVariables as variable, i}
+							<button
+								class="nav-link text-start text-nowrap"
+								class:active={pressureVariablesTab == variable.name}
+								id="v-pills-{variable.name}-tab"
+								type="button"
+								role="tab"
+								aria-controls="v-pills-{variable.name}"
+								aria-selected={pressureVariablesTab == variable.name}
+								on:click={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
+							>
+						{/each}
+					</div>
+					<div class="tab-content" id="v-pills-tabContent">
+						{#each pressureVariables as variable}
+							<div
+								class="tab-pane fade"
+								class:active={pressureVariablesTab == variable.name}
+								class:show={pressureVariablesTab == variable.name}
+								id="v-pills-{variable.name}"
+								role="tabpanel"
+								aria-labelledby="v-pills-{variable.name}-tab"
+							>
+								<div class="row">
+									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
+										<div class="col-lg-4">
+											{#each chunk as level}
+												<div class="form-check">
+													<input
+														class="form-check-input"
+														type="checkbox"
+														value="{variable.name}_{level}hPa"
+														id="{variable.name}_{level}hPa"
+														name="hourly"
+														bind:group={$params.hourly}
+													/>
+													<label class="form-check-label" for="{variable.name}_{level}hPa">
+														{level} hPa
+														<small class="text-muted">({altitudeAboveSeaLevelMeters(level)})</small>
+													</label>
+												</div>
+											{/each}
+										</div>
+									{/each}
+								</div>
+							</div>
+						{/each}
+						<div class="mt-3">
+							<small class="text-muted"
+								>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
+								(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above
+								sea level.</small
+							>
+						</div>
+					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
 				id="models"
 				title="Weather models"
 				count={countVariables(models, $params.models)}
@@ -481,13 +672,6 @@
 						{/each}
 					</div>
 				{/each}
-				<div class="col-md-12">
-					<small class="text-muted"
-						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
-					>
-				</div>
 			</AccordionItem>
 		</div>
 	</div>
@@ -519,6 +703,33 @@
 	</div>
 
 	<div class="row py-3 px-0">
+		<h2>Current Weather</h2>
+		{#each current as group}
+			<div class="col-md-3 mb-2">
+				{#each group as e}
+					<div class="form-check">
+						<input
+							class="form-check-input"
+							type="checkbox"
+							value={e.name}
+							id="{e.name}_current"
+							name="current"
+							bind:group={$params.current}
+						/>
+						<label class="form-check-label" for="{e.name}_current">{e.label}</label>
+					</div>
+				{/each}
+			</div>
+		{/each}
+		<div class="col-md-12">
+			<small class="text-muted"
+				>Note: Current conditions are based on 15-minutely weather model data. Every weather
+				variable available in hourly data, is available as current condition as well.</small
+			>
+		</div>
+	</div>
+
+	<div class="row py-3 px-0">
 		<h2>Settings</h2>
 		<div class="col-md-3">
 			<div class="form-floating mb-3">
@@ -529,7 +740,7 @@
 					aria-label="Temperature Unit"
 					bind:value={$params.temperature_unit}
 				>
-					<option selected value="celsius">Celsius °C</option>
+					<option value="celsius">Celsius °C</option>
 					<option value="fahrenheit">Fahrenheit °F</option>
 				</select>
 				<label for="temperature_unit">Temperature Unit</label>
@@ -544,7 +755,7 @@
 					aria-label="Windspeed Unit"
 					bind:value={$params.wind_speed_unit}
 				>
-					<option selected value="kmh">Km/h</option>
+					<option value="kmh">Km/h</option>
 					<option value="ms">m/s</option>
 					<option value="mph">Mph</option>
 					<option value="kn">Knots</option>
@@ -587,19 +798,20 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} model_default="dmi_seamless" />
+<ResultPreview {params} {defaultParameter} model_default="ukmo_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
-		DMI provides weather forecasts from the HARMONIE AROME model with ECMWF IFS initialization. This
-		is a collaboration of multiple European national weather services under the name "United Weather
-		Centres-West" (UWC-West). Forecasts for Europe use 2 km resolution and provide a large range of
-		weather variables. All data is updated every 3 hours and provides forecast for up to 2.5 days.
-		After 2.5 days, Open-Meteo combines forecasts with the <a href="/en/docs/ecmwf-api"
-			>ECMWF IFS 0.25° model</a
-		> to provide up to 10 days of forecast.
+		This API uses global UKMO Global 10 km weather forecasts and combines them with high-resolution
+		UKV 2 km model for the United Kingdom and Ireland. Information about UKMO weather models is
+		available <a
+			href="https://www.metoffice.gov.uk/services/data/external-data-channels"
+			target="_blank">here</a
+		>. For UKMO Global, values are interpolated from 3-hourly to 1-hourly after 54 hours and from
+		6-hourly data after 144 hours.
 	</p>
+	<p>Note: UKMO open-data has an additional delay of 4 hours. The forecast is therefore not as accurate as it could be.</p>
 	<div class="table-responsive">
 		<table class="table">
 			<thead>
@@ -614,33 +826,33 @@
 			</thead>
 			<tbody>
 				<tr>
-					<th scope="row"
-						><a
-							href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG"
-							target="_blank">DMI HARMONIE AROME DINI</a
-						></th
+					<th scope="row">UKMO Global</th>
+					<td>Global</td>
+					<td>0.09° (~10 km)</td>
+					<td
+						>Hourly<small class="text-muted"
+							>, 3-hourly after 54 hours, 6-hourly after 144 hours</small
+						></td
 					>
-					<td>Central & Northern Europe up to Iceland (green area below)</td>
+					<td>7 days</td>
+					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<th scope="row">UKMO UKV</th>
+					<td>UK and Ireland</td>
 					<td>2 km</td>
-					<td>1-hourly</td>
-					<td>2.5 days</td>
-					<td>Every 3 hours</td>
+					<td>Hourly</td>
+					<td>2 days</td>
+					<td>Every hour</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 
 	<figure class="figure">
-		<img
-			src="/images/models/dmi_harmonie_dini-ig.webp"
-			class="figure-img img-fluid rounded"
-			alt="..."
-		/>
+		<img src="/images/models/ukmo_2km_ukv.webp" class="figure-img img-fluid rounded" alt="..." />
 		<figcaption class="figure-caption">
-			DMI HARMONIE AROME DINI model area (green). Source: <a
-				href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG"
-				>DMI</a
-			>.
+			UKMO UKV 2km model covering UK and Ireland. Source: UK Met Office.
 		</figcaption>
 	</figure>
 
@@ -652,23 +864,20 @@
 	</p>
 	<ul>
 		<li>
-			<strong>Direct Solar Radiation:</strong> DMI provides direct solar radiation. Many other weather
+			<strong>Direct Solar Radiation:</strong> UKMO provides direct solar radiation. Many other weather
 			models only provide global solar radiation and direct solar radiation must be calculated user separation
 			models.
 		</li>
 		<li>
-			<strong>Direct Normalized Irradiance (DNI):</strong> Although DNI is available, it has not been
-			integrated. Open-Meteo uses solar position algorithms which calculate DNI from direct radiation
-			with (almost) the same results.
+			<strong>Shortwave solar radiation:</strong> The Global UKMO domain does not include solar shortwave
+			radiation. Therefore diffuse and tilted radiation are not available as well.
 		</li>
 		<li>
-			<strong>Wind Direction Correction:</strong> Wind direction has been calculated from U/V wind
-			component vectors. Special care has been taken to correct for the
-			<mark>Lambert Conformal Conic</mark> projection. Without this correction, wind directions have
-			an error of up to 15°.
+			<strong>Wind Forecasts at 100m and above:</strong> Wind forecasts at different levels above ground
+			are only available for the 2 km UKV model.
 		</li>
 		<li>
-			<strong>Cloud Cover (2m):</strong> DMI provides cloud cover at 2 metre abouve ground which can
+			<strong>Cloud Cover (2m):</strong> UKMO UKV 2 km provides cloud cover at 2 metre above ground which can
 			be interpreted as fog. This is remarkable, because only very weather models are capable of modeling
 			low level cloud cover and fog with a good degree of accuracy.
 		</li>

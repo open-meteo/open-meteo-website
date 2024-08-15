@@ -29,6 +29,7 @@
 		forecast_days: '7',
 		forecast_hours: '',
 		forecast_minutely_15: '',
+		temporal_resolution: '',
 		start_date: '',
 		end_date: '',
 		tilt: 0,
@@ -137,6 +138,10 @@
 			{ name: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
 			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
 			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
+		],[
+			{ name: 'ukmo_seamless', label: 'UK Met Office Seamless' },
+			{ name: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
+			{ name: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 		]
 	];
 
@@ -318,6 +323,28 @@
 
 	<div class="row py-3 px-0">
 		<div class="accordion" id="accordionVariables">
+			<AccordionItem
+				id="additional-variables"
+				title="Additional Options"
+			>
+				<div class="col-md-6">
+					<div class="form-floating mb-6">
+						<select
+							class="form-select"
+							name="temporal_resolution"
+							id="temporal_resolution"
+							aria-label="Temporal Resolution For Hourly Data"
+							bind:value={$params.temporal_resolution}
+						>
+							<option value="">1 Hourly</option>
+							<option value="hourly_3">3 Hourly</option>
+							<option value="hourly_6">6 Hourly</option>
+							<option value="native">Native Model Resolution</option>
+						</select>
+						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
+					</div>
+				</div>
+			</AccordionItem>
 			<AccordionItem
 				id="solar"
 				title="Solar Radiation Variables"

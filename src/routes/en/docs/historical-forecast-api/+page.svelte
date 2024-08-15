@@ -34,6 +34,7 @@
 		timeformat: 'iso8601',
 		timezone: 'UTC',
 		time_mode: 'time_interval',
+		temporal_resolution: '',
 		tilt: 0,
 		azimuth: 0,
 		models: []
@@ -65,8 +66,8 @@
 		{ name: 'temperature', label: 'Temperature' },
 		{ name: 'relative_humidity', label: 'Relative Humidity' },
 		{ name: 'cloud_cover', label: 'Cloud cover' },
-		{ name: 'windspeed', label: 'Wind Speed' },
-		{ name: 'winddirection', label: 'Wind Direction' },
+		{ name: 'wind_speed', label: 'Wind Speed' },
+		{ name: 'wind_direction', label: 'Wind Direction' },
 		{ name: 'geopotential_height', label: 'Geopotential Height' }
 	];
 	const levels = [
@@ -270,6 +271,10 @@
 			{ name: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
 			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
 			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
+		],[
+			{ name: 'ukmo_seamless', label: 'UK Met Office Seamless' },
+			{ name: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
+			{ name: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 		]
 	];
 </script>
@@ -384,6 +389,24 @@
 						{/each}
 					</div>
 				{/each}
+
+				<div class="col-md-6">
+					<div class="form-floating mb-6">
+						<select
+							class="form-select"
+							name="temporal_resolution"
+							id="temporal_resolution"
+							aria-label="Temporal Resolution For Hourly Data"
+							bind:value={$params.temporal_resolution}
+						>
+							<option value="">1 Hourly</option>
+							<option value="hourly_3">3 Hourly</option>
+							<option value="hourly_6">6 Hourly</option>
+							<option value="native">Native Model Resolution</option>
+						</select>
+						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
+					</div>
+				</div>
 			</AccordionItem>
 			<AccordionItem
 				id="solar-variables"
@@ -856,6 +879,23 @@
 					<td>6-Hourly</td>
 					<td>Every 6 hours</td>
 					<td>2024-03-13</td>
+				</tr>
+				<tr>
+					<th scope="row" rowspan="2">UK Met Office</th>
+					<td>UKMO Global</td>
+					<td>Global</td>
+					<td>0.09° (~10 km)</td>
+					<td>Hourly</td>
+					<td>Every 6 hours</td>
+					<td>2022-03-01</td>
+				</tr>
+				<tr>
+					<td>UKMO UKV</td>
+					<td>UK and Ireland</td>
+					<td>2 km</td>
+					<td>Hourly</td>
+					<td>Every hour</td>
+					<td>2022-03-01</td>
 				</tr>
 				<tr>
 					<th scope="row" rowspan="2">JMA</th>

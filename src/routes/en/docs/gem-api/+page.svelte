@@ -32,6 +32,7 @@
 		past_hours: '',
 		forecast_days: '7',
 		forecast_hours: '',
+		temporal_resolution: '',
 		start_date: '',
 		end_date: '',
 		tilt: 0,
@@ -52,8 +53,8 @@
 		{ name: 'dew_point', label: 'Dewpoint' },
 		{ name: 'relative_humidity', label: 'Relative Humidity' },
 		{ name: 'cloud_cover', label: 'Cloud cover' },
-		{ name: 'windspeed', label: 'Wind Speed' },
-		{ name: 'winddirection', label: 'Wind Direction' },
+		{ name: 'wind_speed', label: 'Wind Speed' },
+		{ name: 'wind_direction', label: 'Wind Direction' },
 		{ name: 'geopotential_height', label: 'Geopotential Height' }
 	];
 	const levels = [
@@ -402,6 +403,23 @@
 							<option value="24">24 hours</option>
 						</select>
 						<label for="past_hours">Past Hours</label>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-floating mb-6">
+						<select
+							class="form-select"
+							name="temporal_resolution"
+							id="temporal_resolution"
+							aria-label="Temporal Resolution For Hourly Data"
+							bind:value={$params.temporal_resolution}
+						>
+							<option value="">1 Hourly</option>
+							<option value="hourly_3">3 Hourly</option>
+							<option value="hourly_6">6 Hourly</option>
+							<option value="native">Native Model Resolution</option>
+						</select>
+						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
 					</div>
 				</div>
 			</AccordionItem>

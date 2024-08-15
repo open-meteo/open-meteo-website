@@ -31,6 +31,7 @@
 		past_days: '0',
 		past_hours: '',
 		past_minutely_15: '',
+		temporal_resolution: '',
 		forecast_days: '7',
 		forecast_hours: '',
 		forecast_minutely_15: '',
@@ -53,8 +54,8 @@
 		{ name: 'temperature', label: 'Temperature' },
 		{ name: 'relative_humidity', label: 'Relative Humidity' },
 		{ name: 'cloud_cover', label: 'Cloud cover' },
-		{ name: 'windspeed', label: 'Wind Speed' },
-		{ name: 'winddirection', label: 'Wind Direction' },
+		{ name: 'wind_speed', label: 'Wind Speed' },
+		{ name: 'wind_direction', label: 'Wind Direction' },
 		{ name: 'geopotential_height', label: 'Geopotential Height' }
 	];
 	const levels = [
@@ -283,6 +284,10 @@
 			{ name: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
 			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
 			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
+		],[
+			{ name: 'ukmo_seamless', label: 'UK Met Office Seamless' },
+			{ name: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
+			{ name: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 		]
 	];
 </script>
@@ -514,6 +519,23 @@
 							<option value="24">24 hours</option>
 						</select>
 						<label for="past_hours">Past Hours</label>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-floating mb-6">
+						<select
+							class="form-select"
+							name="temporal_resolution"
+							id="temporal_resolution"
+							aria-label="Temporal Resolution For Hourly Data"
+							bind:value={$params.temporal_resolution}
+						>
+							<option value="">1 Hourly</option>
+							<option value="hourly_3">3 Hourly</option>
+							<option value="hourly_6">6 Hourly</option>
+							<option value="native">Native Model Resolution</option>
+						</select>
+						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
 					</div>
 				</div>
 			</AccordionItem>
@@ -956,6 +978,14 @@
 					<td>25 km</td>
 					<td>7 days</td>
 					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<th scope="row"><a href="/en/docs/ukmo-api">UKMO</a></th>
+					<td>UK Met Office</td>
+					<td>United Kingdom</td>
+					<td>2 - 10 km</td>
+					<td>7 days</td>
+					<td>Every hour</td>
 				</tr>
 				<tr>
 					<th scope="row"><a href="/en/docs/jma-api">MSM & GSM</a></th>
@@ -1491,8 +1521,7 @@
 					<td>Instant</td>
 					<td>meters</td>
 					<td
-						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols. Maximum
-						visibility is approximately 24 km.</td
+						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td
 					>
 				</tr>
 				<tr>
