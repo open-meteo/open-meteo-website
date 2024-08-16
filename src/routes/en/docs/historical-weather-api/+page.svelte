@@ -208,7 +208,7 @@
 			{ name: 'era5_seamless', label: 'ERA5-Seamless', caption: 'ERA5 & ERA5-Land combined' },
 			{ name: 'era5', label: 'ERA5', caption: '25 km, Global' },
 			{ name: 'era5_land', label: 'ERA5-Land', caption: '10 km, Global' },
-			{ name: 'era5_ensemble', label: 'ERA5 Ensemble', caption: '0.5° ~55km, Global' },
+			{ name: 'era5_ensemble', label: 'ERA5-Ensemble', caption: '0.5° ~55km, Global' },
 			{ name: 'cerra', label: 'CERRA', caption: '5 km, Europe, 1985 to June 2021' }
 		]
 	];
@@ -430,7 +430,7 @@
 			</AccordionItem>
 			<AccordionItem
 				id="ensemble-spread-variables"
-				title="ERA5 Ensemble Spread Variables"
+				title="ERA5-Ensemble Spread Variables"
 				count={countVariables(ensembleSpreadVariables, $params.hourly)}
 			>
 				{#each ensembleSpreadVariables as group}
@@ -686,7 +686,7 @@
 				<td>Global</td>
 				<td>0.5° (~55 km)</td>
 				<td>3-Hourly</td>
-				<td>2000 to present</td>
+				<td>1940 to present</td>
 				<td>Daily with 5 days delay</td>
 			</tr>
 			<tr>
