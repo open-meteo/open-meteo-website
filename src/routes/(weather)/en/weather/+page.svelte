@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { fetchWeatherApi } from 'openmeteo';
-	import LocationSearch from '../docs/LocationSearch.svelte';
 	import {
 		defaultLocation,
 		storedLocation,
@@ -318,14 +317,14 @@
 
 <div class="pb-5">
 	<div class="row">
-		<div class="col-md-3 mb-3">
+		<!-- <div class="col-md-3 mb-3">
 			<LocationSearch
 				class="p-0"
 				style="height: 40px"
 				on:location={(event) => storedLocation.set(event.detail)}
 				label="Search Location"
 			/>
-		</div>
+		</div> -->
 		<div class="col-md-2 mb-3">
 			<input
 				type="radio"
