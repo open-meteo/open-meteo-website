@@ -169,14 +169,46 @@
 		]
 	];
 
+	const ensembleSpreadVariables = [
+		[
+			{ name: 'temperature_2m_spread', label: 'Temperature (2 m)' },
+			{ name: 'dew_point_2m_spread', label: 'Dewpoint (2 m)' },
+			{ name: 'precipitation_spread', label: 'Precipitation (rain + snow)' },
+			{ name: 'snowfall_spread', label: 'Snowfall' },
+			{ name: 'shortwave_radiation_spread', label: 'Shortwave Solar Radiation GHI' },
+			{ name: 'direct_radiation_spread', label: 'Direct Solar Radiation' },
+			{ name: 'pressure_msl_spread', label: 'Sealevel Pressure' },
+			{ name: 'cloud_cover_low_spread', label: 'Cloud cover Low' },
+			{ name: 'cloud_cover_mid_spread', label: 'Cloud cover Mid' },
+			{ name: 'cloud_cover_high_spread', label: 'Cloud cover High' },
+		],
+		[
+			{ name: 'wind_speed_10m_spread', label: 'Wind Speed (10 m)' },
+			{ name: 'wind_speed_100m_spread', label: 'Wind Speed (100 m)' },
+			{ name: 'wind_gusts_10m_spread', label: 'Wind Gusts (10 m)' },
+			{ name: 'soil_temperature_0_to_7cm_spread', label: 'Soil Temperature (0-7 cm)' },
+			{ name: 'soil_temperature_7_to_28cm_spread', label: 'Soil Temperature (7-28 cm)' },
+			{ name: 'soil_temperature_28_to_100cm_spread', label: 'Soil Temperature (28-100 cm)' },
+			{ name: 'soil_temperature_100_to_255cm_spread', label: 'Soil Temperature (100-255 cm)' },
+			{ name: 'soil_moisture_0_to_7cm_spread', label: 'Soil Moisture (0-7 cm)' },
+			{ name: 'soil_moisture_7_to_28cm_spread', label: 'Soil Moisture (7-28 cm)' },
+			{ name: 'soil_moisture_28_to_100cm_spread', label: 'Soil Moisture (28-100 cm)' },
+			{ name: 'soil_moisture_100_to_255cm_spread', label: 'Soil Moisture (100-255 cm)' }
+		]
+	]
+
 	let models = [
 		[
 			{ name: 'best_match', label: 'Best match', caption: 'ECMWF IFS & ERA5' },
-			{ name: 'ecmwf_ifs', label: 'ECMWF IFS', caption: '9 km, Global, 2017 onwards' }
+			{ name: 'ecmwf_ifs', label: 'ECMWF IFS', caption: '9 km, Global, 2017 onwards' },
+			{ name: 'ecmwf_ifs_analysis_long_window', label: 'ECMWF IFS Analysis Long-Window', caption: '9 km, 6-Hourly Measurements' },
+			//{ name: 'ecmwf_ifs_analysis', label: 'ECMWF IFS Analysis', caption: '9 km, 6-Hourly Measurements' },
+			//{ name: 'ecmwf_ifs_long_window', label: 'ECMWF IFS Long-Window', caption: '9 km, 1-Hourly' }
 		],[
 			{ name: 'era5_seamless', label: 'ERA5-Seamless', caption: 'ERA5 & ERA5-Land combined' },
 			{ name: 'era5', label: 'ERA5', caption: '25 km, Global' },
 			{ name: 'era5_land', label: 'ERA5-Land', caption: '10 km, Global' },
+			{ name: 'era5_ensemble', label: 'ERA5-Ensemble', caption: '0.5° ~55km, Global' },
 			{ name: 'cerra', label: 'CERRA', caption: '5 km, Europe, 1985 to June 2021' }
 		]
 	];
@@ -394,6 +426,34 @@
 							</div>
 						{/if}
 					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="ensemble-spread-variables"
+				title="ERA5-Ensemble Spread Variables"
+				count={countVariables(ensembleSpreadVariables, $params.hourly)}
+			>
+				{#each ensembleSpreadVariables as group}
+					<div class="col-md-6">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_hourly"
+									name="hourly"
+									bind:group={$params.hourly}
+								/>
+								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: Ensemble spread variables are available if the model <mark>ERA5-Ensemble</mark> is used. </small
+					>
 				</div>
 			</AccordionItem>
 			<AccordionItem
@@ -619,6 +679,19 @@
 			<tr>
 				<th scope="row"
 					><a
+						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=overview"
+						>ERA5-Ensemble</a
+					>
+				</th>
+				<td>Global</td>
+				<td>0.5° (~55 km)</td>
+				<td>3-Hourly</td>
+				<td>1940 to present</td>
+				<td>Daily with 5 days delay</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
 						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-cerra-single-levels?tab=overview"
 						>CERRA</a
 					>
@@ -628,6 +701,19 @@
 				<td>Hourly</td>
 				<td>1985 to June 2021</td>
 				<td>-</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://confluence.ecmwf.int/display/FUG/Section+2.5+Model+Data+Assimilation%2C+4D-Var"
+						>ECMWF IFS Assimilation Long-Window</a
+					>
+				</th>
+				<td>Global</td>
+				<td>9 km</td>
+				<td>6-Hourly</td>
+				<td>2024 to present</td>
+				<td>Daily with 2 days delay</td>
 			</tr>
 		</tbody>
 	</table>
