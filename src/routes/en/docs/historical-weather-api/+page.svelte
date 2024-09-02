@@ -148,7 +148,19 @@
 		]);
 	}
 
-	const additionalVariables = [[{ name: 'is_day', label: 'Is Day or Night' }, { name: 'sunshine_duration', label: 'Sunshine Duration' }]];
+	const additionalVariables = [
+		[
+			{ name: 'boundary_layer_height', label: 'Boundary Layer Height PBL' },
+			{
+				name: 'total_column_integrated_water_vapour',
+				label: 'Total Column Integrated Water Vapour'
+			}
+		],
+		[
+			{ name: 'is_day', label: 'Is Day or Night' }, 
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
+		]
+	];
 
 	const solarVariables = [
 		[
