@@ -191,12 +191,19 @@
 		[
 			{ name: 'uv_index', label: 'UV Index' },
 			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
-			{ name: 'is_day', label: 'Is Day or Night' }
+			{ name: 'is_day', label: 'Is Day or Night' },
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
+			{
+				name: 'total_column_integrated_water_vapour',
+				label: 'Total Column Integrated Water Vapour'
+			}
 		],
 		[
 			{ name: 'cape', label: 'CAPE' },
+			{ name: 'lifted_index', label: 'Lifted Index' },
+			{ name: 'convective_inhibition', label: 'Convective Inhibition' },
 			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
+			{ name: 'boundary_layer_height', label: 'Boundary Layer Height PBL' },
 		]
 	];
 
