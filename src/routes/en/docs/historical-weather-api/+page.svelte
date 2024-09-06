@@ -197,6 +197,8 @@
 		[
 			{ name: 'wind_speed_10m_spread', label: 'Wind Speed (10 m)' },
 			{ name: 'wind_speed_100m_spread', label: 'Wind Speed (100 m)' },
+			{ name: 'wind_direction_10m_spread', label: 'Wind Direction (10 m)' },
+			{ name: 'wind_direction_100m_spread', label: 'Wind Direction (100 m)' },
 			{ name: 'wind_gusts_10m_spread', label: 'Wind Gusts (10 m)' },
 			{ name: 'soil_temperature_0_to_7cm_spread', label: 'Soil Temperature (0-7 cm)' },
 			{ name: 'soil_temperature_7_to_28cm_spread', label: 'Soil Temperature (7-28 cm)' },
