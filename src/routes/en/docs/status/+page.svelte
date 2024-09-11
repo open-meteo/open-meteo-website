@@ -4,9 +4,35 @@
 		if (!result.ok) {
 			throw new Error(await result.text());
 		}
+		const zeroPad = (num: number, places: number) => String(num).padStart(places, '0')
+		const utcYYYYMMDD = (date: Date) => `${date.getUTCFullYear()}-${zeroPad(date.getUTCMonth()+1,2)}-${zeroPad(date.getUTCDate()+1,2)}`
+		
 		const json = await result.json();
-		return json;
+		const init = new Date(json.last_run_initialisation_time * 1000)
+		const now = Date.now() / 1000
+
+		const initFormated = `${utcYYYYMMDD(init)} ${zeroPad(init.getUTCHours(),2)}z`
+
+		const avail = new Date(json.last_run_availability_time * 1000)
+		const availHHMM = `${zeroPad(avail.getUTCHours(),2)}:${zeroPad(avail.getUTCMinutes(),2)}z`
+		const availYYYMMDD = `${utcYYYYMMDD(avail)}`
+		const availFormated = ((now-json.last_run_availability_time) < 18*3600) ? `${availHHMM}` : `${availYYYMMDD} ${availHHMM}`
+		const isReallyLate = (json.last_run_availability_time + 2 * json.update_interval_seconds + 10*60) < now
+		const isLate = !isReallyLate && (json.last_run_availability_time + json.update_interval_seconds + 10*60) < now
+		
+
+		return {
+			data_end_time: json.data_end_time,
+			last_run_availability_time: availFormated,
+			last_run_initialisation_time: initFormated,
+			last_run_modification_time: json.last_run_modification_time,
+			temporal_resolution_seconds: json.temporal_resolution_seconds,
+			update_interval_seconds: json.update_interval_seconds,
+			is_late: isLate,
+			is_really_late: isReallyLate
+		}
 	}
+	
 	let forecastModels = [
 		{
 			provider: 'ARPAE',
@@ -56,7 +82,6 @@
 			provider: 'ECMWF',
 			models: [
 				{ name: 'ecmwf_aifs025', meta: fetchMeta('ecmwf_aifs025') },
-				{ name: 'ecmwf_ifs', meta: fetchMeta('ecmwf_ifs') },
 				{ name: 'ecmwf_ifs025', meta: fetchMeta('ecmwf_ifs025') },
 				{ name: 'ecmwf_ifs025_ensemble', meta: fetchMeta('ecmwf_ifs025_ensemble') },
 				{ name: 'ecmwf_ifs04', meta: fetchMeta('ecmwf_ifs04') }
@@ -140,7 +165,7 @@
 					<th scope="col">Provider</th>
 					<th scope="col">Weather Model</th>
 					<th scope="col">Last Model Run</th>
-					<th scope="col">Last Update available</th>
+					<th scope="col">Update Available</th>
 					<th scope="col">Temporal Resolution</th>
 					<th scope="col">Update frequency</th>
 				</tr>
@@ -154,14 +179,14 @@
 							{/if}
 							<td>{model.name}</td>
 							{#await model.meta}
-								<td colspan="2">Loading</td>
+								<td colspan="4">Loading</td>
 							{:then meta}
-								<td>{new Date(meta.last_run_initialisation_time * 1000).toISOString()}</td>
-								<td>{new Date(meta.last_run_availability_time * 1000).toISOString()}</td>
+								<td>{meta.last_run_initialisation_time}</td>
+								<td class:table-warning={meta.is_late} class:table-danger={meta.is_really_late}>{meta.last_run_availability_time}</td>
 								<td>{meta.temporal_resolution_seconds / 3600} hourly</td>
 								<td>Every {meta.update_interval_seconds / 3600} h</td>
 							{:catch error}
-								<td colspan="2">{error.message}</td>
+								<td colspan="4">{error}</td>
 							{/await}
 						</tr>
 					{/each}
