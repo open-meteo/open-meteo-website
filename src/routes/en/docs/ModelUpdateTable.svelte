@@ -69,15 +69,15 @@
 			url: '/en/docs/bom-api',
 			models: [
 				{
-					name: 'ACCESS-G',
+					name: 'ACCESS-G 0.15°',
 					meta: fetchMeta('bom_access_global'),
-					spatial_resolution: '0.15° (~15 km)',
+					spatial_resolution: '15 km',
 					region: 'Global'
 				},
 				{
-					name: 'ACCESS-GE',
+					name: 'ACCESS-GE 0.4°',
 					meta: fetchMeta('bom_access_global_ensemble'),
-					spatial_resolution: '0.4° (~40 km)',
+					spatial_resolution: '40 km',
 					region: 'Global'
 				}
 			]
@@ -87,9 +87,9 @@
 			url: '/en/docs/cma-api',
 			models: [
 				{
-					name: 'GFS Grapes',
+					name: 'GFS Grapes 0.125°',
 					meta: fetchMeta('cma_grapes_global'),
-					spatial_resolution: '0.125° (~15 km)',
+					spatial_resolution: '15 km',
 					region: 'Global'
 				}
 			]
@@ -99,15 +99,15 @@
 			url: '/en/docs/gem-api',
 			models: [
 				{
-					name: 'GDPS',
+					name: 'GDPS 0.125°',
 					meta: fetchMeta('cmc_gem_gdps'),
-					spatial_resolution: '0.125° (~15 km)',
+					spatial_resolution: '15 km',
 					region: 'Global'
 				},
 				{
-					name: 'GDPS Ensemble',
+					name: 'GDPS 0.25° Ensemble',
 					meta: fetchMeta('cmc_gem_geps'),
-					spatial_resolution: '0.25° (~25 km)',
+					spatial_resolution: '25 km',
 					region: 'Global'
 				},
 				{
@@ -119,7 +119,7 @@
 				{
 					name: 'RDPS',
 					meta: fetchMeta('cmc_gem_rdps'),
-					spatial_resolution: '20 km',
+					spatial_resolution: '10 km',
 					region: 'North America, North Pole'
 				}
 			]
@@ -129,7 +129,7 @@
 			url: '/en/docs/dmi-api',
 			models: [
 				{
-					name: 'dmi_harmonie_arome_europe',
+					name: 'Harmonie AROME Europe',
 					meta: fetchMeta('dmi_harmonie_arome_europe'),
 					spatial_resolution: '2 km',
 					region: 'Central & Northern Europe'
@@ -143,25 +143,25 @@
 				{
 					name: 'ICON',
 					meta: fetchMeta('dwd_icon'),
-					spatial_resolution: '0.1° (~11 km)',
+					spatial_resolution: '11 km',
 					region: 'Global'
 				},
 				{
 					name: 'ICON-D2',
 					meta: fetchMeta('dwd_icon_d2'),
-					spatial_resolution: '0.02° (~2 km)',
+					spatial_resolution: '2 km',
 					region: 'Central Europe'
 				},
 				{
 					name: 'ICON-D2 15min',
 					meta: fetchMeta('dwd_icon_d2_15min'),
-					spatial_resolution: '0.02° (~2 km)',
+					spatial_resolution: '2 km',
 					region: 'Central Europe'
 				},
 				{
 					name: 'ICON-D2-EPS',
 					meta: fetchMeta('dwd_icon_d2_eps'),
-					spatial_resolution: '0.02° (~2 km)',
+					spatial_resolution: '2 km',
 					region: 'Central Europe'
 				},
 				{
@@ -173,13 +173,13 @@
 				{
 					name: 'ICON-EU',
 					meta: fetchMeta('dwd_icon_eu'),
-					spatial_resolution: '0.0625° (~7 km)',
+					spatial_resolution: '7 km',
 					region: 'Europe'
 				},
 				{
 					name: 'ICON-EU-EPS',
 					meta: fetchMeta('dwd_icon_eu_eps'),
-					spatial_resolution: '0.125° (~13 km)',
+					spatial_resolution: '13 km',
 					region: 'Europe'
 				}
 			]
@@ -191,25 +191,19 @@
 				{
 					name: 'AIFS 0.25°',
 					meta: fetchMeta('ecmwf_aifs025'),
-					spatial_resolution: '0.25° (~25 km)',
+					spatial_resolution: '25 km',
 					region: 'Global'
 				},
 				{
 					name: 'IFS 0.25°',
 					meta: fetchMeta('ecmwf_ifs025'),
-					spatial_resolution: '0.25° (~25 km)',
+					spatial_resolution: '25 km',
 					region: 'Global'
 				},
 				{
 					name: 'IFS 0.25° Ensemble',
 					meta: fetchMeta('ecmwf_ifs025_ensemble'),
-					spatial_resolution: '0.25° (~25 km)',
-					region: 'Global'
-				},
-				{
-					name: 'ecmwf_ifs04',
-					meta: fetchMeta('ecmwf_ifs04'),
-					spatial_resolution: '0.4° (~44 km)',
+					spatial_resolution: '25 km',
 					region: 'Global'
 				}
 			]
@@ -219,15 +213,15 @@
 			url: '/en/docs/jma-api',
 			models: [
 				{
-					name: 'GSM',
+					name: 'GSM 0.5°',
 					meta: fetchMeta('jma_gsm'),
-					spatial_resolution: '0.5° (~55 km)',
+					spatial_resolution: '55 km',
 					region: 'Global'
 				},
 				{
-					name: 'MSM',
+					name: 'MSM 0.05°',
 					meta: fetchMeta('jma_msm'),
-					spatial_resolution: '0.05° (~5 km)',
+					spatial_resolution: '5 km',
 					region: 'Japan'
 				}
 			]
@@ -257,37 +251,37 @@
 				{
 					name: 'AROME France 0.025°',
 					meta: fetchMeta('meteofrance_arome_france0025'),
-					spatial_resolution: '0.025° (~2.5 km)',
+					spatial_resolution: '2.5 km',
 					region: 'France'
 				},
 				{
 					name: 'AROME France 0.025° 15min',
 					meta: fetchMeta('meteofrance_arome_france0025_15min'),
-					spatial_resolution: '0.025° (~2.5 km)',
+					spatial_resolution: '2.5 km',
 					region: 'France'
 				},
 				{
 					name: 'AROME France 0.01 HD°',
 					meta: fetchMeta('meteofrance_arome_france_hd'),
-					spatial_resolution: '0.01° (~1 km)',
+					spatial_resolution: '1 km',
 					region: 'France'
 				},
 				{
 					name: 'AROME France 0.01 HD 15min',
 					meta: fetchMeta('meteofrance_arome_france_hd_15min'),
-					spatial_resolution: '0.01° (~1 km)',
+					spatial_resolution: '1 km',
 					region: 'France'
 				},
 				{
-					name: 'ARPEGE EUROPE',
+					name: 'ARPEGE EUROPE 0.1°',
 					meta: fetchMeta('meteofrance_arpege_europe'),
-					spatial_resolution: '0.1° (~11 km)',
+					spatial_resolution: '11 km',
 					region: 'Europe'
 				},
 				{
 					name: 'ARPEGE WORLD 0.25°',
 					meta: fetchMeta('meteofrance_arpege_world025'),
-					spatial_resolution: '0.25° (~25 km)',
+					spatial_resolution: '25 km',
 					region: 'Global'
 				}
 			]
@@ -297,7 +291,7 @@
 			url: '/en/docs/metno-api',
 			models: [
 				{
-					name: 'metno_nordic_pp',
+					name: 'MET Nordic PP',
 					meta: fetchMeta('metno_nordic_pp'),
 					spatial_resolution: '1 km',
 					region: 'Norway, Denmark, Sweden, Finland'
@@ -311,31 +305,31 @@
 				{
 					name: 'GFS 0.25 Ensemble',
 					meta: fetchMeta('ncep_gefs025'),
-					spatial_resolution: '0.25° (~25 km)',
+					spatial_resolution: '25 km',
 					region: 'Global'
 				},
 				{
 					name: 'GFS 0.25° Ensemble',
 					meta: fetchMeta('ncep_gefs05'),
-					spatial_resolution: '0.25° (~25 km)',
+					spatial_resolution: '25 km',
 					region: 'Global'
 				},
 				{
-					name: 'GFS 0.13°',
+					name: 'GFS 0.11°',
 					meta: fetchMeta('ncep_gfs013'),
-					spatial_resolution: '0.11° (~13 km)',
+					spatial_resolution: '13 km',
 					region: 'Global'
 				},
 				{
 					name: 'GFS 0.25°',
 					meta: fetchMeta('ncep_gfs025'),
-					spatial_resolution: '0.25° (~25 km)',
+					spatial_resolution: '25 km',
 					region: 'Global'
 				},
 				{
 					name: 'GFS GraphCast 0.25°',
 					meta: fetchMeta('ncep_gfs_graphcast025'),
-					spatial_resolution: '0.25° (~25 km)',
+					spatial_resolution: '25 km',
 					region: 'Global'
 				},
 				{
@@ -357,13 +351,13 @@
 			url: '/en/docs/ukmo-api',
 			models: [
 				{
-					name: 'UKMO Global Deterministic',
+					name: 'UKMO Global Deterministic 0.09°',
 					meta: fetchMeta('ukmo_global_deterministic_10km'),
-					spatial_resolution: '0.09° (~10 km)',
+					spatial_resolution: '10 km',
 					region: 'Global'
 				},
 				{
-					name: 'UKMO UKV/',
+					name: 'UKMO UKV',
 					meta: fetchMeta('ukmo_uk_deterministic_2km'),
 					spatial_resolution: '2 km',
 					region: 'UK and Ireland'
@@ -379,6 +373,8 @@
 			<tr>
 				<th scope="col">Provider</th>
 				<th scope="col">Weather Model</th>
+				<th scope="col">Region</th>
+				<th scope="col">Resolution</th>
 				<th scope="col">Last Model Run</th>
 				<th scope="col">Update Available</th>
 				<th scope="col">Temporal Resolution</th>
@@ -393,6 +389,8 @@
 							<td rowspan={provider.models.length}>{provider.provider}</td>
 						{/if}
 						<td>{model.name}</td>
+                        <td>{model.region}</td>
+                        <td>{model.spatial_resolution}</td>
 						{#await model.meta}
 							<td colspan="4">Loading</td>
 						{:then meta}
