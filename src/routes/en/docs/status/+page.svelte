@@ -1,6 +1,6 @@
 <script lang="ts">
-	async function fetchMeta(model: String) {
-		const url = `https://api.open-meteo.com/data/${model}/static/meta.json`;
+	async function fetchMeta(model: String, apiPrefix: String = '') {
+		const url = `https://${apiPrefix}api.open-meteo.com/data/${model}/static/meta.json`;
 		const result = await fetch(url);
 		if (!result.ok) {
 			throw new Error(await result.text());
@@ -67,10 +67,6 @@
 				{
 					name: 'ACCESS-G 0.15°',
 					meta: fetchMeta('bom_access_global')
-				},
-				{
-					name: 'ACCESS-GE 0.4°',
-					meta: fetchMeta('bom_access_global_ensemble')
 				}
 			]
 		},
@@ -91,10 +87,6 @@
 				{
 					name: 'GDPS 0.125°',
 					meta: fetchMeta('cmc_gem_gdps')
-				},
-				{
-					name: 'GDPS 0.25° Ensemble',
-					meta: fetchMeta('cmc_gem_geps')
 				},
 				{
 					name: 'HRDPS',
@@ -133,20 +125,8 @@
 					meta: fetchMeta('dwd_icon_d2_15min')
 				},
 				{
-					name: 'ICON-D2-EPS',
-					meta: fetchMeta('dwd_icon_d2_eps')
-				},
-				{
-					name: 'ICON-EPS',
-					meta: fetchMeta('dwd_icon_eps')
-				},
-				{
 					name: 'ICON-EU',
 					meta: fetchMeta('dwd_icon_eu')
-				},
-				{
-					name: 'ICON-EU-EPS',
-					meta: fetchMeta('dwd_icon_eu_eps')
 				}
 			]
 		},
@@ -161,10 +141,6 @@
 				{
 					name: 'IFS 0.25°',
 					meta: fetchMeta('ecmwf_ifs025')
-				},
-				{
-					name: 'IFS 0.25° Ensemble',
-					meta: fetchMeta('ecmwf_ifs025_ensemble')
 				}
 			]
 		},
@@ -241,14 +217,6 @@
 			url: '/en/docs/gfs-api',
 			models: [
 				{
-					name: 'GFS 0.25 Ensemble',
-					meta: fetchMeta('ncep_gefs025')
-				},
-				{
-					name: 'GFS 0.25° Ensemble',
-					meta: fetchMeta('ncep_gefs05')
-				},
-				{
 					name: 'GFS 0.11°',
 					meta: fetchMeta('ncep_gfs013')
 				},
@@ -285,6 +253,196 @@
 			]
 		}
 	];
+
+	export let historicalModels = [
+		{
+			provider: 'Copernicus',
+			url: '/en/docs/historical-weather-api',
+			models: [
+				{
+					name: 'ERA5 0.25°',
+					meta: fetchMeta('copernicus_era5', 'archive-')
+				},
+				{
+					name: 'ERA5-Land 0.1°',
+					meta: fetchMeta('copernicus_era5_land', 'archive-')
+				}
+				,
+				{
+					name: 'ERA5-Ensemble 0.25°',
+					meta: fetchMeta('copernicus_era5_ensemble', 'archive-')
+				}
+			]
+		},
+		{
+			provider: 'ECMWF',
+			url: '/en/docs/historical-weather-api',
+			models: [
+				{
+					name: 'IFS HRES 9km',
+					meta: fetchMeta('ecmwf_ifs', 'archive-')
+				},
+				{
+					name: 'IFS Analysis Long-Window 4D',
+					meta: fetchMeta('ecmwf_ifs_analysis_long_window', 'archive-')
+				}
+			]
+		},
+		
+	];
+
+	export let ensembleModels = [
+		{
+			provider: 'BOM',
+			url: '/en/docs/bom-api',
+			models: [
+				{
+					name: 'ACCESS-GE 0.4°',
+					meta: fetchMeta('bom_access_global_ensemble', 'ensemble-')
+				}
+			]
+		},
+		{
+			provider: 'Canadian Weather Service',
+			url: '/en/docs/gem-api',
+			models: [
+				{
+					name: 'GDPS 0.25° Ensemble',
+					meta: fetchMeta('cmc_gem_geps', 'ensemble-')
+				}
+			]
+		},
+		{
+			provider: 'DWD',
+			url: '/en/docs/dwd-api',
+			models: [
+				{
+					name: 'ICON-D2-EPS',
+					meta: fetchMeta('dwd_icon_d2_eps', 'ensemble-')
+				},
+				{
+					name: 'ICON-EPS',
+					meta: fetchMeta('dwd_icon_eps', 'ensemble-')
+				},
+				{
+					name: 'ICON-EU-EPS',
+					meta: fetchMeta('dwd_icon_eu_eps', 'ensemble-')
+				}
+			]
+		},
+		{
+			provider: 'ECMWF',
+			url: '/en/docs/ecmwf-api',
+			models: [
+				{
+					name: 'IFS 0.25° Ensemble',
+					meta: fetchMeta('ecmwf_ifs025_ensemble', 'ensemble-')
+				}
+			]
+		},
+		{
+			provider: 'NOAA NCEP',
+			url: '/en/docs/gfs-api',
+			models: [
+				{
+					name: 'GFS 0.25 Ensemble',
+					meta: fetchMeta('ncep_gefs025', 'ensemble-')
+				},
+				{
+					name: 'GFS 0.25° Ensemble',
+					meta: fetchMeta('ncep_gefs05', 'ensemble-')
+				}
+			]
+		}
+	];
+
+
+	export let airQualityModels = [
+		{
+			provider: 'CAMS',
+			url: '/en/docs/air-quality-api',
+			models: [
+				{
+					name: 'CAMS GLOBAL 0.4°',
+					meta: fetchMeta('cams_global', 'air-quality-')
+				},
+				{
+					name: 'CAMS Europe 0.1°',
+					meta: fetchMeta('cams_europe', 'air-quality-')
+				}
+			]
+		}
+	];
+
+	export let marineModels = [
+		{
+			provider: 'Météo-France',
+			url: '/en/docs/marine-weather-api',
+			models: [
+				{
+					name: 'MFWAM 0.08°',
+					meta: fetchMeta('meteofrance_wave', 'marine-')
+				},
+				{
+					name: 'SMOC Currents 0.08°',
+					meta: fetchMeta('meteofrance_currents', 'marine-')
+				}
+			]
+		},
+		{
+			provider: 'ECMWF',
+			url: '/en/docs/marine-weather-api',
+			models: [
+				{
+					name: 'WAM 0.25°',
+					meta: fetchMeta('ecmwf_wam025', 'marine-')
+				},
+			]
+		},
+		{
+			provider: 'NOAA NCEP',
+			url: '/en/docs/marine-weather-api',
+			models: [
+				{
+					name: 'GFS Wave 0.25°',
+					meta: fetchMeta('ncep_gfswave025', 'marine-')
+				},
+			]
+		},
+		{
+			provider: 'DWD',
+			url: '/en/docs/marine-weather-api',
+			models: [
+				{
+					name: 'GWAM',
+					meta: fetchMeta('dwd_gwam', 'marine-')
+				},
+				{
+					name: 'EWAM',
+					meta: fetchMeta('dwd_ewam', 'marine-')
+				}
+			]
+		},
+
+		{
+			provider: 'Copernicus',
+			url: '/en/docs/marine-weather-api',
+			models: [
+				{
+					name: 'ERA5-Ocean',
+					meta: fetchMeta('copernicus_era5_ocean', 'marine-')
+				}
+			]
+		}
+	];
+
+	let sections = [
+		{ name: 'Forecast API', providers: forecastModels },
+		{ name: 'Historical Weather API', providers: historicalModels },
+		{ name: 'Ensemble API', providers: ensembleModels },
+		{ name: 'Air Quality API', providers: airQualityModels },
+		{ name: 'Marine API', providers: marineModels },
+	];
 </script>
 
 <svelte:head>
@@ -292,45 +450,51 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/status" />
 </svelte:head>
 
-<div class="table-responsive">
-	<table class="table">
-		<thead>
-			<tr>
-				<th scope="col">Provider</th>
-				<th scope="col">Weather Model</th>
-				<th scope="col">Last Model Run</th>
-				<th scope="col">Update Available</th>
-				<th scope="col">Temporal Resolution</th>
-				<th scope="col">Update frequency</th>
-				<th scope="col">API</th>
-			</tr>
-		</thead>
-		<tbody>
-			{#each forecastModels as provider, pindex}
-				{#each provider.models as model, index}
+<div class="col-12">
+	{#each sections as section}
+		<h2>{section.name}</h2>
+
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
 					<tr>
-						{#if index == 0}
-							<td rowspan={provider.models.length}>{provider.provider}</td>
-						{/if}
-						<td>{model.name}</td>
-						{#await model.meta}
-							<td colspan="4">Loading</td>
-						{:then meta}
-							<td class:table-warning={meta.is_late} class:table-danger={meta.is_really_late}
-								>{meta.last_run_initialisation_time}</td
-							>
-							<td class:table-warning={meta.is_late} class:table-danger={meta.is_really_late}
-								>{meta.last_run_availability_time}</td
-							>
-							<td>{meta.temporal_resolution_seconds / 3600} hourly</td>
-							<td>Every {meta.update_interval_seconds / 3600} h</td>
-							<td><a href={meta.url} target="_blank">Link</a></td>
-						{:catch error}
-							<td colspan="4">{error}</td>
-						{/await}
+						<th scope="col">Provider</th>
+						<th scope="col">Weather Model</th>
+						<th scope="col">Last Model Run</th>
+						<th scope="col">Update Available</th>
+						<th scope="col">Temporal Resolution</th>
+						<th scope="col">Update frequency</th>
+						<th scope="col">API</th>
 					</tr>
-				{/each}
-			{/each}
-		</tbody>
-	</table>
+				</thead>
+				<tbody>
+					{#each section.providers as provider}
+						{#each provider.models as model, index}
+							<tr>
+								{#if index == 0}
+									<td rowspan={provider.models.length}>{provider.provider}</td>
+								{/if}
+								<td>{model.name}</td>
+								{#await model.meta}
+									<td colspan="5">Loading</td>
+								{:then meta}
+									<td class:table-warning={meta.is_late} class:table-danger={meta.is_really_late}
+										>{meta.last_run_initialisation_time}</td
+									>
+									<td class:table-warning={meta.is_late} class:table-danger={meta.is_really_late}
+										>{meta.last_run_availability_time}</td
+									>
+									<td>{meta.temporal_resolution_seconds / 3600} hourly</td>
+									<td>Every {meta.update_interval_seconds / 3600} h</td>
+									<td><a href={meta.url} target="_blank">Link</a></td>
+								{:catch error}
+									<td colspan="5" class="table-danger">{error}</td>
+								{/await}
+							</tr>
+						{/each}
+					{/each}
+				</tbody>
+			</table>
+		</div>
+	{/each}
 </div>
