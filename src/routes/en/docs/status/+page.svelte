@@ -436,12 +436,30 @@
 		}
 	];
 
+	export let floodModels = [
+		{
+			provider: 'GloFAS',
+			url: '/en/docs/flood-api',
+			models: [
+				{
+					name: 'GloFAS v4 Forecast',
+					meta: fetchMeta('glofas_seasonal_v4', 'flood-')
+				},
+				{
+					name: 'GloFAS v4 Seasonal Forecast',
+					meta: fetchMeta('glofas_forecast_v4', 'flood-')
+				}
+			]
+		}
+	];
+
 	let sections = [
 		{ name: 'Forecast API', providers: forecastModels },
 		{ name: 'Historical Weather API', providers: historicalModels },
 		{ name: 'Ensemble API', providers: ensembleModels },
 		{ name: 'Air Quality API', providers: airQualityModels },
 		{ name: 'Marine API', providers: marineModels },
+		{ name: 'Flood API', providers: floodModels },
 	];
 </script>
 
