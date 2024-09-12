@@ -273,13 +273,13 @@
 					region: 'France'
 				},
 				{
-					name: 'ARPEGE EUROPE 0.1°',
+					name: 'ARPEGE Europe 0.1°',
 					meta: fetchMeta('meteofrance_arpege_europe'),
 					spatial_resolution: '11 km',
 					region: 'Europe'
 				},
 				{
-					name: 'ARPEGE WORLD 0.25°',
+					name: 'ARPEGE World 0.25°',
 					meta: fetchMeta('meteofrance_arpege_world025'),
 					spatial_resolution: '25 km',
 					region: 'Global'
