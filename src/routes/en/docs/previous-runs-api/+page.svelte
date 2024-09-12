@@ -35,6 +35,7 @@
 		tilt: 0,
 		azimuth: 0,
 		models: [],
+		cell_selection: ''
 	};
 
 	const params = urlHashStore({
@@ -342,6 +343,22 @@
 							<option value="native">Native Model Resolution</option>
 						</select>
 						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-floating mb-6">
+						<select
+							class="form-select"
+							name="cell_selection"
+							id="cell_selection"
+							aria-label="Grid Cell Selection"
+							bind:value={$params.cell_selection}
+						>
+							<option value="">Terrain Optimized, Prefers Land</option>
+							<option value="sea">Prefer Sea</option>
+							<option value="nearest">Nearest</option>
+						</select>
+						<label for="cell_selection">Grid Cell Selection</label>
 					</div>
 				</div>
 			</AccordionItem>
