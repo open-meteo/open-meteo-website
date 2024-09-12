@@ -1,6 +1,7 @@
 <script lang="ts">
 	async function fetchMeta(model: String) {
-		const result = await fetch(`https://api.open-meteo.com/data/${model}/static/meta.json`);
+		const url = `https://api.open-meteo.com/data/${model}/static/meta.json`;
+		const result = await fetch(url);
 		if (!result.ok) {
 			throw new Error(await result.text());
 		}
@@ -28,6 +29,7 @@
 			json.last_run_availability_time + json.update_interval_seconds + 10 * 60 < now;
 
 		return {
+			url: url,
 			data_end_time: json.data_end_time,
 			last_run_availability_time: availFormated,
 			last_run_initialisation_time: initFormated,
@@ -65,7 +67,7 @@
 			]
 		},
 		{
-			provider: 'Australian Bureau of Meteorology (BOM)',
+			provider: 'BOM',
 			url: '/en/docs/bom-api',
 			models: [
 				{
@@ -83,7 +85,7 @@
 			]
 		},
 		{
-			provider: 'China Meteorological Administration (CMA)',
+			provider: 'CMA',
 			url: '/en/docs/cma-api',
 			models: [
 				{
@@ -137,7 +139,7 @@
 			]
 		},
 		{
-			provider: 'Deutscher Wetterdienst (DWD)',
+			provider: 'DWD',
 			url: '/en/docs/dwd-api',
 			models: [
 				{
@@ -373,12 +375,11 @@
 			<tr>
 				<th scope="col">Provider</th>
 				<th scope="col">Weather Model</th>
-				<th scope="col">Region</th>
-				<th scope="col">Resolution</th>
 				<th scope="col">Last Model Run</th>
 				<th scope="col">Update Available</th>
 				<th scope="col">Temporal Resolution</th>
 				<th scope="col">Update frequency</th>
+				<th scope="col">API</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -389,17 +390,16 @@
 							<td rowspan={provider.models.length}>{provider.provider}</td>
 						{/if}
 						<td>{model.name}</td>
-                        <td>{model.region}</td>
-                        <td>{model.spatial_resolution}</td>
 						{#await model.meta}
 							<td colspan="4">Loading</td>
 						{:then meta}
-							<td>{meta.last_run_initialisation_time}</td>
+							<td class:table-warning={meta.is_late} class:table-danger={meta.is_really_late}>{meta.last_run_initialisation_time}</td>
 							<td class:table-warning={meta.is_late} class:table-danger={meta.is_really_late}
 								>{meta.last_run_availability_time}</td
 							>
 							<td>{meta.temporal_resolution_seconds / 3600} hourly</td>
 							<td>Every {meta.update_interval_seconds / 3600} h</td>
+							<td><a href={meta.url} target="_blank">Link</a></td>
 						{:catch error}
 							<td colspan="4">{error}</td>
 						{/await}
