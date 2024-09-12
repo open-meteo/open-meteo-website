@@ -281,7 +281,6 @@
 		[
 			{ name: 'arpae_cosmo_seamless', label: 'ARPAE Seamless' },
 			{ name: 'arpae_cosmo_2i', label: 'ARPAE COSMO 2I' },
-			{ name: 'arpae_cosmo_2i_ruc', label: 'ARPAE COSMO 2I RUC' },
 			{ name: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
 		],[
 			{ name: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },

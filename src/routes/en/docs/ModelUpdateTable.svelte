@@ -53,12 +53,6 @@
 					region: 'Italy'
 				},
 				{
-					name: 'COSMO 2i RUC',
-					meta: fetchMeta('arpae_cosmo_2i_ruc'),
-					spatial_resolution: '2 km',
-					region: 'Italy'
-				},
-				{
 					name: 'COSMO 5m',
 					meta: fetchMeta('arpae_cosmo_5m'),
 					spatial_resolution: '5 km',

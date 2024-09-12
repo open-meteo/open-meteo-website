@@ -51,10 +51,6 @@
 					meta: fetchMeta('arpae_cosmo_2i')
 				},
 				{
-					name: 'COSMO 2i RUC',
-					meta: fetchMeta('arpae_cosmo_2i_ruc')
-				},
-				{
 					name: 'COSMO 5m',
 					meta: fetchMeta('arpae_cosmo_5m')
 				}
