@@ -816,6 +816,7 @@
 		appropriate ensemble model to use would depend on the forecast horizon and region of interest.
 	</p>
 	<div class="table-responsive">
+		<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
 		<table class="table">
 			<thead>
 				<tr>

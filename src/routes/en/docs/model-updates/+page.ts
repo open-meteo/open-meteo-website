@@ -2,8 +2,8 @@ import type { PageLoad } from './$types';
  
 export const load = (({ params }) => {
   return {
-    title: "API Status",
+    title: "Model Updates Overview",
     subtitle: "Last Model Updates",
-    hero: "/images/scotland.webp"
+    hero: "/images/mountain_road.webp"
   };
 }) satisfies PageLoad;

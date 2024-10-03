@@ -23,10 +23,10 @@
 				? `${availHHMM}`
 				: `${availYYYMMDD} ${availHHMM}`;
 		const isReallyLate =
-			json.last_run_availability_time + 2 * json.update_interval_seconds + 10 * 60 < now;
+			json.last_run_availability_time + 2 * json.update_interval_seconds + 20 * 60 < now;
 		const isLate =
 			!isReallyLate &&
-			json.last_run_availability_time + json.update_interval_seconds + 10 * 60 < now;
+			json.last_run_availability_time + json.update_interval_seconds + 20 * 60 < now;
 
 		return {
 			url: url,
@@ -41,7 +41,7 @@
 		};
 	}
 
-	export let forecastModels = [
+	let forecastModels = [
 		{
 			provider: 'AM ARPAE ARPAP',
 			url: '',
@@ -250,7 +250,7 @@
 		}
 	];
 
-	export let historicalModels = [
+	let historicalModels = [
 		{
 			provider: 'Copernicus',
 			url: '/en/docs/historical-weather-api',
@@ -262,8 +262,7 @@
 				{
 					name: 'ERA5-Land 0.1°',
 					meta: fetchMeta('copernicus_era5_land', 'archive-')
-				}
-				,
+				},
 				{
 					name: 'ERA5-Ensemble 0.25°',
 					meta: fetchMeta('copernicus_era5_ensemble', 'archive-')
@@ -283,11 +282,10 @@
 					meta: fetchMeta('ecmwf_ifs_analysis_long_window', 'archive-')
 				}
 			]
-		},
-		
+		}
 	];
 
-	export let ensembleModels = [
+	let ensembleModels = [
 		{
 			provider: 'BOM',
 			url: '/en/docs/bom-api',
@@ -352,8 +350,7 @@
 		}
 	];
 
-
-	export let airQualityModels = [
+	let airQualityModels = [
 		{
 			provider: 'CAMS',
 			url: '/en/docs/air-quality-api',
@@ -370,7 +367,7 @@
 		}
 	];
 
-	export let marineModels = [
+	let marineModels = [
 		{
 			provider: 'Météo-France',
 			url: '/en/docs/marine-weather-api',
@@ -392,7 +389,7 @@
 				{
 					name: 'WAM 0.25°',
 					meta: fetchMeta('ecmwf_wam025', 'marine-')
-				},
+				}
 			]
 		},
 		{
@@ -403,9 +400,13 @@
 					name: 'GFS Wave 0.25°',
 					meta: fetchMeta('ncep_gfswave025', 'marine-')
 				},
+				{
+					name: 'GFS Wave 0.16',
+					meta: fetchMeta('ncep_gfswave016', 'marine-')
+				}
 			]
 		},
-		{
+		/*{
 			provider: 'DWD',
 			url: '/en/docs/marine-weather-api',
 			models: [
@@ -418,7 +419,7 @@
 					meta: fetchMeta('dwd_ewam', 'marine-')
 				}
 			]
-		},
+		},*/
 
 		{
 			provider: 'Copernicus',
@@ -432,7 +433,7 @@
 		}
 	];
 
-	export let floodModels = [
+	/*let floodModels = [
 		{
 			provider: 'GloFAS',
 			url: '/en/docs/flood-api',
@@ -447,15 +448,15 @@
 				}
 			]
 		}
-	];
+	];*/
 
 	let sections = [
 		{ name: 'Forecast API', providers: forecastModels },
 		{ name: 'Historical Weather API', providers: historicalModels },
 		{ name: 'Ensemble API', providers: ensembleModels },
 		{ name: 'Air Quality API', providers: airQualityModels },
-		{ name: 'Marine API', providers: marineModels },
-		{ name: 'Flood API', providers: floodModels },
+		{ name: 'Marine API', providers: marineModels }
+		//{ name: 'Flood API', providers: floodModels },
 	];
 </script>
 
@@ -465,6 +466,41 @@
 </svelte:head>
 
 <div class="col-12">
+	<h2>Model Updates</h2>
+	<div class="row">
+		<div class="col-6">
+			<p>
+				This page offers a brief overview of all models integrated into Open-Meteo. These models are
+				typically updated every few hours. Open-Meteo aims to download and process the data as soon
+				as it becomes available, immediately after it is released by national weather services.
+			</p>
+		</div>
+		<div class="col-6">
+			<p>
+				Models with a delay exceeding 20 minutes are highlighted in yellow. If multiple weather
+				model updates are missed, the model is marked in red. Minor delays are fairly common due to
+				the need to transfer large amounts of data globally, which can be affected by varying
+				bandwidth.
+			</p>
+		</div>
+		<div class="col-6">
+			<p>
+				Open-Meteo operates with geographically distributed and redundant servers. Data across all
+				Open-Meteo servers is <a
+					title="Wikipedia: Eventual consistency"
+					href="https://en.wikipedia.org/wiki/Eventual_consistency">eventually consistent</a
+				>, meaning there may be instances where the API indicates a weather model has been updated,
+				but not all servers have been fully updated yet. If you need access to the most recent
+				forecast, it's recommended to wait an additional 10 minutes after the forecast update has
+				been applied.
+			</p>
+		</div>
+		<div class="col-6">
+			<p>
+				To report a model issue, please open a ticket on <a title="GitHub Open-Meteo Repository" href="https://github.com/open-meteo/open-meteo/issues">GitHub</a>. Commercial clients can contact us directly via email.
+			</p>
+		</div>
+	</div>
 	{#each sections as section}
 		<h2>{section.name}</h2>
 
@@ -511,4 +547,14 @@
 			</table>
 		</div>
 	{/each}
+	<h2>Metadata API Documentation</h2>
+	<p>You can retrieve the update times for each individual model via the API. However, these times do not directly correlate with the update times in the Forecast API, as Open-Meteo automatically selects the most appropriate weather model for each location (referred to as "Best Match"). The table above provides an API link for each model, returning a JSON object with the following fields:</p>
+	<ul>
+		<li><strong>last_run_initialisation_time:</strong> The model's initialization time or reference time represented as a Unix timestamp (e.g., 1724796000 for Tue Aug 27, 2024, 22:00:00 GMT+0000).</li>
+		<li><strong>last_run_modification_time:</strong> The time when the data download and conversion were completed, which does not indicate when the data became available on the API.</li>
+		<li><strong>last_run_availability_time:</strong> The time when the data is actually accessible on the API server. Important: Open-Meteo utilizes multiple redundant API servers, so there may be slight differences between them while the data is being copied. To ensure all API calls use the most recent data, please wait 10 minutes after the availability time.</li>
+		<li><strong>temporal_resolution_seconds:</strong> The temporal resolution of the model in seconds. By default, the API interpolates the data to a 1-hour resolution. However, the underlying model may only provide data in 3 or 6-hourly steps. A value of 3600 indicates that the data is 1-hourly.</li>
+		<li><strong>update_interval_seconds:</strong> The typical time interval between model updates, such as 3600 seconds for a model that updates every hour.</li>
+	</ul>
+	<p>Additional attributes, such as spatial resolution, area, grid systems, and more, will be added in the future.</p>
 </div>

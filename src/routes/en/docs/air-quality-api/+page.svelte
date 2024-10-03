@@ -307,6 +307,7 @@
 				<div class="col-md-12">
 					<div class="table-responsive">
 						<table class="table" id="airquality_table">
+							<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
 							<thead>
 								<tr>
 									<th scope="col">Pollutant <small class="text-muted">(μg/m³)</small></th>
