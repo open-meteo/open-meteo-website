@@ -94,7 +94,7 @@
 			{ name: 'ecmwf_wam025', label: 'ECMWF WAM', caption: '0.25°, global' },
 			//{ name: 'ecmwf_wam025_ensemble', label: 'ECMWF WAM Ensemble', caption: '0.25°, global, 51 members' },
 			{ name: 'ncep_gfswave025', label: 'GFS Wave 0.25°', caption: '0.25°, global' },
-			{ name: 'ncep_gfswave016', label: 'GFS Wave 0.16°', caption: '0.25°, mid-latitudes' },
+			{ name: 'ncep_gfswave016', label: 'GFS Wave 0.16°', caption: '0.16°, mid-latitudes' },
 			//{ name: 'ncep_gefswave025', label: 'GFS Wave Ensemble', caption: '0.25°, global, 31 members' },
 			{ name: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' },
 		]
