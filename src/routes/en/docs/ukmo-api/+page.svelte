@@ -831,6 +831,7 @@
 	<p>Note: UKMO open-data has an additional delay of 4 hours. The forecast is therefore not as accurate as it could be.</p>
 	<div class="table-responsive">
 		<table class="table">
+			<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>
