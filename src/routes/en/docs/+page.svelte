@@ -281,7 +281,6 @@
 		[
 			{ name: 'arpae_cosmo_seamless', label: 'ARPAE Seamless' },
 			{ name: 'arpae_cosmo_2i', label: 'ARPAE COSMO 2I' },
-			{ name: 'arpae_cosmo_2i_ruc', label: 'ARPAE COSMO 2I RUC' },
 			{ name: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
 		],[
 			{ name: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
@@ -960,6 +959,7 @@
 	</p>
 	<div class="table-responsive">
 		<table class="table">
+			<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>
