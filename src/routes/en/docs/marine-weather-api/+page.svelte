@@ -93,7 +93,8 @@
 			{ name: 'gwam', label: 'DWD GWAM', caption: '0.25°' },
 			{ name: 'ecmwf_wam025', label: 'ECMWF WAM', caption: '0.25°, global' },
 			//{ name: 'ecmwf_wam025_ensemble', label: 'ECMWF WAM Ensemble', caption: '0.25°, global, 51 members' },
-			{ name: 'ncep_gfswave025', label: 'GFS Wave', caption: '0.25°, global' },
+			{ name: 'ncep_gfswave025', label: 'GFS Wave 0.25°', caption: '0.25°, global' },
+			{ name: 'ncep_gfswave016', label: 'GFS Wave 0.16°', caption: '0.16°, mid-latitudes' },
 			//{ name: 'ncep_gefswave025', label: 'GFS Wave Ensemble', caption: '0.25°, global, 31 members' },
 			{ name: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' },
 		]
@@ -528,6 +529,20 @@
 				<td>0.25° (~25 km)</td>
 				<td>Hourly</td>
 				<td>June 2024 with 16 day forecast</td>
+				<td>Every 6 hours</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://polar.ncep.noaa.gov/waves/index.php"
+						>NCEP GFS Wave</a
+					>
+				</th>
+				<td>Latitude 52.5°N - 15°S</td>
+				<td></td>
+				<td>0.16° (~16 km)</td>
+				<td>Hourly</td>
+				<td>October 2024 with 16 day forecast</td>
 				<td>Every 6 hours</td>
 			</tr>
 			<tr>

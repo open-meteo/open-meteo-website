@@ -113,6 +113,23 @@
 			{ name: 'us_aqi_sulphur_dioxide', label: 'United States AQI SO<sub>2</sub>' }
 		]
 	];
+
+	const additionalVariables = [
+		[
+			{ name: 'formaldehyde', label: 'Formaldehyde CH₂O' },
+			{ name: 'glyoxal', label: 'Glyoxal C₂H₂O₂' },
+			{ name: 'non_methane_volatile_organic_compounds', label: 'Non Methane Volatile Organic Compounds <small class="text-muted">(*)</small>' },
+			{ name: 'pm10_wildfires', label: 'PM<sub>10</sub> caused by wildfires <small class="text-muted">(*)</small>' },
+			{ name: 'peroxyacyl_nitrates', label: 'Peroxyacyl Nitrates PAN' },
+			{ name: 'secondary_inorganic_aerosol', label: 'Secondary Inorganic Aerosol <small class="text-muted">(*)</small>' }
+		],
+		[	{ name: 'residential_elementary_carbon', label: 'Residential Rlementary Carbon <small class="text-muted">(*)</small>' },
+			{ name: 'total_elementary_carbon', label: 'Total Elementary Carbon <small class="text-muted">(*)</small>' },
+			{ name: 'pm2_5_total_organic_matter', label: 'PM<sub>2.5</sub> Total Organic Matter <small class="text-muted">(*)</small>' },
+			{ name: 'sea_salt_aerosol', label: 'Sea Salt Aerosol' },
+			{ name: 'nitrogen_monoxide', label: 'Nitrogen Monoxide NO' }
+		]
+	];
 </script>
 
 <svelte:head>
@@ -533,8 +550,31 @@
 			</AccordionItem>
 			<AccordionItem
 				id="additional-variables"
-				title="Additional Options"
+				title="Additional Variables and Options"
 			>
+			{#each additionalVariables as group}
+					<div class="col-md-6">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_hourly"
+									name="hourly"
+									bind:group={$params.hourly}
+								/>
+								<label class="form-check-label" for="{e.name}_hourly">{@html e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>* Only available in Europe 
+					</small>
+				</div>
+
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
