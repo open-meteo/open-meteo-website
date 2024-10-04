@@ -532,6 +532,7 @@
 	</p>
 	<div class="table-responsive">
 		<table class="table">
+			<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>

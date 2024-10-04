@@ -398,6 +398,12 @@
 						target="_blank">Service status and uptime</a
 					>
 				</li>
+				<li class="mb-1">
+					<a
+						class="link-secondary text-decoration-none"
+						href="/en/docs/model-updates">Model Updates Overview</a
+					>
+				</li>
 			</ul>
 		</div>
 	</div>
