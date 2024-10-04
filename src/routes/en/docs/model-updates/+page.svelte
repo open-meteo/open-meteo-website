@@ -496,14 +496,6 @@
 		</div>
 		<div class="col-6">
 			<p>
-				Models with a delay exceeding 20 minutes are highlighted in yellow. If multiple weather
-				model updates are missed, the model is marked in red. Minor delays are fairly common due to
-				the need to transfer large amounts of data globally, which can be affected by varying
-				bandwidth.
-			</p>
-		</div>
-		<div class="col-6">
-			<p>
 				Open-Meteo operates with geographically distributed and redundant servers. Data across all
 				Open-Meteo servers is <a
 					title="Wikipedia: Eventual consistency"
@@ -512,6 +504,14 @@
 				but not all servers have been fully updated yet. If you need access to the most recent
 				forecast, it's recommended to wait an additional 10 minutes after the forecast update has
 				been applied.
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6">
+			<p>
+				Models with a delay exceeding 20 minutes are highlighted in yellow. If multiple weather
+				model updates are missed, the model is marked in red. Minor delays are fairly common.
 			</p>
 		</div>
 		<div class="col-6">
