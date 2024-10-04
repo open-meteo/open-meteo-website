@@ -568,15 +568,15 @@
 			in:fade
 			out:fade
 			style="min-height: 256px"
-			class="weather-week d-flex flex-column flex-md-row gap-md-2 mb-4"
+			class="weather-week flex flex-col md:flex-row md:gap-4 mb-4"
 		>
 			{#await weather then weather}
 				{#each weather.daily.time as time, index}
 					{@const selected = time.getDate() === selectedDay.getDate()}
 					<div
 						style="transition: 300ms; min-width: 13%; {selected ? 'transform: scale(1.025)' : ''}"
-						class="weather-week-item pointer-cursor align-items-center d-flex flex-row flex-md-column justify-content-between justify-md-content-center rounded pt-md-4 pb-md-3 gap-md-1 px-3 {selected
-							? 'bg-info-subtle'
+						class="weather-week-item pointer-cursor items-center flex flex-row md:flex-col justify-between md:justify-center rounded-lg pt-4 pb-3 gap-1 px-3 {selected
+							? 'bg-slate-200'
 							: ''}"
 						role="button"
 						on:click={() => {
@@ -587,11 +587,11 @@
 							<b>{time.getDate()} - {time.getMonth() + 1}</b>
 						</div>
 
-						<div class={selected ? 'fw-bold' : ''}>
+						<div class={selected ? 'font-bold' : ''}>
 							{time.toLocaleDateString('en-GB', { weekday: 'long' })}
 						</div>
 
-						<div class="weather-week-icon pe-none py-2">
+						<div class="weather-week-icon py-2">
 							<svg style="fill: var(--bs-body-color)" width="60px" height="60px">
 								<use
 									xlink:href="/images/weather-icons/wi-day-{weatherCodes[
@@ -601,13 +601,13 @@
 							</svg>
 						</div>
 						<div
-							class="d-flex p-1 justify-content-center weather-temp-max rounded"
+							class="flex px-3 py-2 justify-center weather-temp-max rounded-lg"
 							style={`background-color: ${colorScale[weather.daily.temperature_2m_max.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_max.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 						>
 							{weather.daily.temperature_2m_max.values(index).toFixed(1)} °C
 						</div>
 						<div
-							class="d-flex p-1 justify-content-center weather-temp-min rounded"
+							class="flex px-3 py-2 justify-center weather-temp-min rounded-lg"
 							style={`background: ${colorScale[weather.daily.temperature_2m_min.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_min.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 						>
 							{weather.daily.temperature_2m_min.values(index).toFixed(1)} °C
@@ -619,8 +619,9 @@
 			{/await}
 		</div>
 		<div>
-			<h3>
-				{selectedDay.toLocaleDateString('en-GB', { weekday: 'long' })}
+			<h3 class="text-2xl">
+				<span class="font-bold">{selectedDay.toLocaleDateString('en-GB', { weekday: 'long' })}</span
+				>
 				<small>
 					{selectedDay.getDate() === new Date(today.getTime() - 24 * 60 * 60 * 1000).getDate()
 						? ' (Yesterday)'
@@ -739,7 +740,7 @@
 						<tr style="border-top:1px solid #d3d3d3;">
 							<th
 								scope="row"
-								style="padding-left: 4px;  background: var(--bs-body-bg); left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
+								style="padding-left: 4px;  background: white; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 								>{entry.title}</th
 							>
 
@@ -782,7 +783,7 @@
 						<tr style="border-top:1px solid #d3d3d3;">
 							<th
 								scope="row"
-								style="z-index: 20; padding-left: 4px;  background: var(--bs-body-bg); left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
+								style="z-index: 20; padding-left: 4px;  background:  white; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 								>Wind Dir.</th
 							>
 							{#each weather.indexes as index}
@@ -808,25 +809,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	@media screen and (max-width: 768px) {
-		.weather-canvas-container {
-			margin-right: -2rem;
-			/* transform: scaleY(0.9); */
-		}
-	}
-
-	.now {
-		font-weight: bold;
-	}
-
-	td {
-		text-align: center;
-		font-size: 13px;
-	}
-
-	.now svg {
-		transform: scale(1.35);
-	}
-</style>

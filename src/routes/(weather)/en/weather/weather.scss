@@ -1,0 +1,24 @@
+// tailwind
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@media screen and (max-width: 768px) {
+    .weather-canvas-container {
+        margin-right: -2rem;
+        /* transform: scaleY(0.9); */
+    }
+}
+
+.now {
+    font-weight: bold;
+}
+
+td {
+    text-align: center;
+    font-size: 13px;
+}
+
+.now svg {
+    transform: scale(1.35);
+}
