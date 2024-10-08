@@ -576,7 +576,7 @@
 			<tr>
 				<th scope="row"
 					><a
-						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=overview"
+						href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview"
 						>ERA5-Ocean</a
 					>
 				</th>
