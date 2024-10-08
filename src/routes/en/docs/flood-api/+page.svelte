@@ -310,7 +310,7 @@
 				<tr>
 					<th scope="row"
 						><a
-							href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-historical?tab=overview"
+							href="https://cds.climate.copernicus.eu/datasets/cems-glofas-historical?tab=overview"
 							target="_blank">GloFAS v4 Reanalysis</a
 						></th
 					>
@@ -322,7 +322,7 @@
 				</tr>
 				<tr>
 					<th scope="row"><a
-						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-forecast?tab=overview"
+						href="https://cds.climate.copernicus.eu/datasets/cems-glofas-forecast?tab=overview"
 						target="_blank">GloFAS v4 Forecast</a
 					></th>
 					<td>Global</td>
@@ -333,7 +333,7 @@
 				</tr>
 				<tr>
 					<th scope="row"><a
-						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-seasonal?tab=overview"
+						href="https://ewds.climate.copernicus.eu/datasets/cems-glofas-seasonal?tab=overview"
 						target="_blank">GloFAS v4 Seasonal Forecast</a
 					></th>
 					<td>Global</td>
@@ -345,7 +345,7 @@
 				<tr>
 					<th scope="row"
 						><a
-							href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-historical?tab=overview"
+							href="https://ewds.climate.copernicus.eu/datasets/cems-glofas-historical?tab=overview"
 							target="_blank">GloFAS v3 Reanalysis</a
 						></th
 					>
@@ -358,7 +358,7 @@
 				<tr>
 					<th scope="row"
 						><a
-							href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-forecast?tab=overview"
+							href="https://ewds.climate.copernicus.eu/datasets/cems-glofas-forecast?tab=overview"
 							target="_blank">GloFAS v3 Forecast</a
 						></th
 					>
@@ -371,7 +371,7 @@
 				<tr>
 					<th scope="row"
 						><a
-							href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/cems-glofas-seasonal?tab=overview"
+							href="https://ewds.climate.copernicus.eu/datasets/cems-glofas-seasonal?tab=overview"
 							target="_blank">GloFAS v3 Seasonal Forecast</a
 						></th
 					>

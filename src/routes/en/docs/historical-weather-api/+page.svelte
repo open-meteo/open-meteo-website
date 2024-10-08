@@ -685,7 +685,7 @@
 			<tr>
 				<th scope="row"
 					><a
-						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=overview"
+						href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview"
 						>ERA5</a
 					>
 				</th>
@@ -698,7 +698,7 @@
 			<tr>
 				<th scope="row"
 					><a
-						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-land?tab=overview"
+						href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview"
 						>ERA5-Land</a
 					>
 				</th>
@@ -711,7 +711,7 @@
 			<tr>
 				<th scope="row"
 					><a
-						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=overview"
+						href="/reanalysis-era5-single-levels?tab=overview"
 						>ERA5-Ensemble</a
 					>
 				</th>
@@ -724,7 +724,7 @@
 			<tr>
 				<th scope="row"
 					><a
-						href="https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-cerra-single-levels?tab=overview"
+						href="https://cds.climate.copernicus.eu/datasets/reanalysis-cerra-single-levels?tab=overview"
 						>CERRA</a
 					>
 				</th>
