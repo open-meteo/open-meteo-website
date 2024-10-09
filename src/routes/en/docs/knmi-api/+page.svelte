@@ -751,9 +751,12 @@
 	</p>
 	<ul>
 		<li>
-			<strong>Solar Radiation:</strong> KNMI does not provide direct and diffuse solar radiation. provides
-			direct solar radiation. Open-Meteo uses a separation models to derive direct radiation from shortwave
-			solar radiation.
+			<strong>Solar Radiation:</strong> KNMI supplies only global solar radiation data and does not
+			offer direct or diffuse solar radiation. Open-Meteo applies the separation model from
+			<a
+				href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
+				>Razo, Müller Witwer</a
+			> to calculate direct radiation from shortwave solar radiation.
 		</li>
 		<li>
 			<strong>Wind Direction Correction:</strong> Wind direction has been calculated from U/V wind
