@@ -711,7 +711,7 @@
 			<tr>
 				<th scope="row"
 					><a
-						href="/reanalysis-era5-single-levels?tab=overview"
+						href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview"
 						>ERA5-Ensemble</a
 					>
 				</th>
