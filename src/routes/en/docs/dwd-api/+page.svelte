@@ -877,12 +877,12 @@
 
 	<figure class="figure">
 		<img src="/images/models/dwd_icon-d2.webp" class="figure-img img-fluid rounded" alt="...">
-		<figcaption class="figure-caption">ICON EU Area. Source: Open-Meteo.</figcaption>
+		<figcaption class="figure-caption">ICON D2 Area. Source: Open-Meteo.</figcaption>
 	</figure>
 
 	<figure class="figure">
 		<img src="/images/models/dwd_icon-eu.webp" class="figure-img img-fluid rounded" alt="...">
-		<figcaption class="figure-caption">ICON D2 Regional Model Area. Source: Open-Meteo.</figcaption>
+		<figcaption class="figure-caption">ICON EU Regional Model Area. Source: Open-Meteo.</figcaption>
 	</figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
