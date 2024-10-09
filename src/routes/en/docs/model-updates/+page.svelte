@@ -246,6 +246,10 @@
 						meta: fetchMeta('ncep_hrrr_conus', 'forecast', api_key_preferences)
 					},
 					{
+						name: 'NBM Conus',
+						meta: fetchMeta('ncep_nbm_conus', 'forecast', api_key_preferences)
+					},
+					{
 						name: 'HRRR Conus 15min',
 						meta: fetchMeta('ncep_hrrr_conus_15min', 'forecast', api_key_preferences)
 					}

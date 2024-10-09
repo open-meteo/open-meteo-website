@@ -241,7 +241,8 @@
 		[
 			{ name: 'gfs_seamless', label: 'GFS Seamless' },
 			{ name: 'gfs_global', label: 'GFS Global' },
-			{ name: 'gfs_hrrr', label: 'GFS HRRR' },
+			{ name: 'gfs_hrrr', label: 'HRRR Conus' },
+			{ name: 'ncep_nbm_conus', label: 'NBM Conus' },
 			{ name: 'gfs_graphcast025', label: 'GFS GraphCast' }
 		]
 	];
@@ -932,6 +933,16 @@
 				</tr>
 				<tr>
 					<th scope="row"
+						><a href="https://vlab.noaa.gov/web/mdl/nbm-documentation" target="_blank">NBM Conus</a></th
+					>
+					<td>U.S. Conus</td>
+					<td>2.5 km</td>
+					<td>Hourly, 3-Hourly after 36 hours, 6-Hourly after 8 days</td>
+					<td>11 days</td>
+					<td>Every hour</td>
+				</tr>
+				<tr>
+					<th scope="row"
 						><a href="https://registry.opendata.aws/noaa-nws-graphcastgfs-pds/" target="_blank"
 							>GFS GraphCast (experimental)</a
 						></th
@@ -947,8 +958,13 @@
 	</div>
 
 	<figure class="figure">
-		<img src="/images/models/ncep_hrrr.webp" class="figure-img img-fluid rounded" alt="...">
-		<figcaption class="figure-caption">HRRR Model Area. Source: Open-Meteo.</figcaption>
+		<img src="/images/models/ncep_hrrr.webp" class="figure-img img-fluid rounded" alt="HRRR U.S.Conus Model Area">
+		<figcaption class="figure-caption">HRRR U.S.Conus Model Area. Source: Open-Meteo.</figcaption>
+	</figure>
+
+	<figure class="figure">
+		<img src="/images/models/ncep_nbm_conus.webp" class="figure-img img-fluid rounded" alt="NBM U.S. Conus Model Area">
+		<figcaption class="figure-caption">NBM U.S. Conus Model Area. Source: Open-Meteo.</figcaption>
 	</figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>

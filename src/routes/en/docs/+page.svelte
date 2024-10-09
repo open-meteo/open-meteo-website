@@ -249,9 +249,10 @@
 			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
 			{ name: 'bom_access_global', label: 'BOM ACCESS Global' }
 		],[
-			{ name: 'gfs_seamless', label: 'GFS Seamless' },
-			{ name: 'gfs_global', label: 'GFS Global' },
-			{ name: 'gfs_hrrr', label: 'GFS HRRR' },
+			{ name: 'gfs_seamless', label: 'NCEP GFS Seamless' },
+			{ name: 'gfs_global', label: 'NCEP GFS Global 0.11°' },
+			{ name: 'gfs_hrrr', label: 'NCEP HRRR U.S. Conus' },
+			{ name: 'ncep_nbm_conus', label: 'NCEP NBM U.S. Conus' },
 			{ name: 'gfs_graphcast025', label: 'GFS GraphCast' }
 		],
 		[
