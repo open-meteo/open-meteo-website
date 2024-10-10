@@ -215,6 +215,14 @@
 			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
 			{ name: 'boundary_layer_height', label: 'Boundary Layer Height PBL' },
 			{ name: 'mass_density_8m', label: 'Mass Density (8 m)' },
+		],
+		[
+			{ name: 'thunderstorm_probability', label: 'Thunderstorm Probability' },
+			{ name: 'rain_probability', label: 'Rain Probability' },
+			{ name: 'snowfall_probability', label: 'Snowfall Probability' },
+			{ name: 'freezing_rain_probability', label: 'Freezing Rain Probability' },
+			{ name: 'ice_pellets_probability', label: 'Ice Probability' },
+			{ name: 'precipitation_probability', label: 'Precipitation Probability (>0.254 mm / 0.01")' },
 		]
 	];
 
@@ -241,7 +249,8 @@
 		[
 			{ name: 'gfs_seamless', label: 'GFS Seamless' },
 			{ name: 'gfs_global', label: 'GFS Global' },
-			{ name: 'gfs_hrrr', label: 'GFS HRRR' },
+			{ name: 'gfs_hrrr', label: 'HRRR Conus' },
+			{ name: 'ncep_nbm_conus', label: 'NBM Conus' },
 			{ name: 'gfs_graphcast025', label: 'GFS GraphCast' }
 		]
 	];
@@ -419,6 +428,10 @@
 						{/each}
 					</div>
 				{/each}
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: Probabilities for precipitation types and thunderstorms are only available in NBM. Additionally, NBM applies a precipitation probability threshold of greater than 0.254 mm (0.01 inch).
+				</div>
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
@@ -932,6 +945,16 @@
 				</tr>
 				<tr>
 					<th scope="row"
+						><a href="https://vlab.noaa.gov/web/mdl/nbm-documentation" target="_blank">NBM Conus</a></th
+					>
+					<td>U.S. Conus</td>
+					<td>2.5 km</td>
+					<td>Hourly, 3-Hourly after 36 hours, 6-Hourly after 8 days</td>
+					<td>11 days</td>
+					<td>Every hour</td>
+				</tr>
+				<tr>
+					<th scope="row"
 						><a href="https://registry.opendata.aws/noaa-nws-graphcastgfs-pds/" target="_blank"
 							>GFS GraphCast (experimental)</a
 						></th
@@ -947,8 +970,13 @@
 	</div>
 
 	<figure class="figure">
-		<img src="/images/models/ncep_hrrr.webp" class="figure-img img-fluid rounded" alt="...">
-		<figcaption class="figure-caption">HRRR Model Area. Source: Open-Meteo.</figcaption>
+		<img src="/images/models/ncep_hrrr.webp" class="figure-img img-fluid rounded" alt="HRRR U.S.Conus Model Area">
+		<figcaption class="figure-caption">HRRR U.S.Conus Model Area. Source: Open-Meteo.</figcaption>
+	</figure>
+
+	<figure class="figure">
+		<img src="/images/models/ncep_nbm_conus.webp" class="figure-img img-fluid rounded" alt="NBM U.S. Conus Model Area">
+		<figcaption class="figure-caption">NBM U.S. Conus Model Area. Source: Open-Meteo.</figcaption>
 	</figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
