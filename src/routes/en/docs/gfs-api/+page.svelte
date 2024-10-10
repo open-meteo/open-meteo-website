@@ -215,6 +215,14 @@
 			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
 			{ name: 'boundary_layer_height', label: 'Boundary Layer Height PBL' },
 			{ name: 'mass_density_8m', label: 'Mass Density (8 m)' },
+		],
+		[
+			{ name: 'thunderstorm_probability', label: 'Thunderstorm Probability' },
+			{ name: 'rain_probability', label: 'Rain Probability' },
+			{ name: 'snowfall_probability', label: 'Snowfall Probability' },
+			{ name: 'freezing_rain_probability', label: 'Freezing Rain Probability' },
+			{ name: 'ice_pellets_probability', label: 'Ice Probability' },
+			{ name: 'precipitation_probability', label: 'Precipitation Probability (>0.254 mm / 0.01")' },
 		]
 	];
 
@@ -420,6 +428,10 @@
 						{/each}
 					</div>
 				{/each}
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: Probabilities for precipitation types and thunderstorms are only available in NBM. Additionally, NBM applies a precipitation probability threshold of greater than 0.254 mm (0.01 inch).
+				</div>
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
