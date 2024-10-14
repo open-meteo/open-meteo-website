@@ -62,10 +62,9 @@
 		{ name: 'geopotential_height', label: 'Geopotential Height' }
 	];
 	const levels = [
-		10, 15, 20, 30, 40, 50, 70, 100, 125, 150, 175, 200, 225, 250, 
-		275, 300, 325, 350, 375, 400, 425, 450, 475, 500, 525, 550, 
-		575, 600, 625, 650, 675, 700, 725, 750, 775, 800, 825, 850, 
-		875, 900, 925, 950, 975, 1000
+		10, 15, 20, 30, 40, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400,
+		425, 450, 475, 500, 525, 550, 575, 600, 625, 650, 675, 700, 725, 750, 775, 800, 825, 850, 875,
+		900, 925, 950, 975, 1000
 	].reverse();
 
 	let pressureVariablesTab = 'temperature';
@@ -125,22 +124,23 @@
 			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
 			{ name: 'is_day', label: 'Is Day or Night' }
-		],[
+		],
+		[
 			{ name: 'precipitation', label: 'Precipitation' },
 			{ name: 'rain', label: 'Rain' },
 			{ name: 'showers', label: 'Showers' },
-			{ name: 'snowfall', label: 'Snowfall' },
+			{ name: 'snowfall', label: 'Snowfall' }
 		],
 		[
 			{ name: 'weather_code', label: 'Weather code' },
 			{ name: 'cloud_cover', label: 'Cloud cover Total' },
 			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'surface_pressure', label: 'Surface Pressure' },
+			{ name: 'surface_pressure', label: 'Surface Pressure' }
 		],
 		[
 			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
+			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 		]
 	];
 
@@ -214,7 +214,7 @@
 			{ name: 'convective_inhibition', label: 'Convective Inhibition' },
 			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
 			{ name: 'boundary_layer_height', label: 'Boundary Layer Height PBL' },
-			{ name: 'mass_density_8m', label: 'Mass Density (8 m)' },
+			{ name: 'mass_density_8m', label: 'Mass Density (8 m)' }
 		],
 		[
 			{ name: 'thunderstorm_probability', label: 'Thunderstorm Probability' },
@@ -222,7 +222,7 @@
 			{ name: 'snowfall_probability', label: 'Snowfall Probability' },
 			{ name: 'freezing_rain_probability', label: 'Freezing Rain Probability' },
 			{ name: 'ice_pellets_probability', label: 'Ice Probability' },
-			{ name: 'precipitation_probability', label: 'Precipitation Probability (>0.254 mm / 0.01")' },
+			{ name: 'precipitation_probability', label: 'Precipitation Probability (>0.254 mm / 0.01")' }
 		]
 	];
 
@@ -430,11 +430,18 @@
 				{/each}
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: Probabilities for precipitation types and thunderstorms are only available in NBM. Additionally, NBM applies a precipitation probability threshold of greater than 0.254 mm (0.01 inch).
+						>Note: Probabilities for precipitation types and thunderstorms are only available in
+						NBM. Additionally, NBM applies a precipitation probability threshold of greater than
+						0.254 mm (0.01 inch).
+					</small>
 				</div>
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
+							>&forecast_hours=</mark
+						>
+						and <mark>&past_hours=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -531,7 +538,8 @@
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -539,7 +547,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -548,10 +556,8 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90 }
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -569,7 +575,7 @@
 							bind:value={$params.azimuth}
 						/>
 						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -687,14 +693,16 @@
 				{/each}
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: Only available in North America. Other regions use
-						interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
+						>Note: Only available in North America. Other regions use interpolated hourly data.
+						Solar radiation is averaged over the 15 minutes. Use
 						<mark>instant</mark> for radiation at the indicated time.</small
 					>
 				</div>
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for 15-minutely weather variables using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for 15-minutely weather variables
+						using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -779,12 +787,12 @@
 			</div>
 		{/each}
 		{#if timezoneInvalid}
-		<div class="alert alert-warning" role="alert">
-			It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
-		</div>
+			<div class="alert alert-warning" role="alert">
+				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+			</div>
 		{/if}
 	</div>
-	
+
 	<div class="row py-3 px-0">
 		<h2>Current Weather</h2>
 		{#each current as group}
@@ -806,7 +814,8 @@
 		{/each}
 		<div class="col-md-12">
 			<small class="text-muted"
-				>Note: Current conditions are based on 15-minutely weather model data. Every weather variable available in hourly data, is available as current condition as well.</small
+				>Note: Current conditions are based on 15-minutely weather model data. Every weather
+				variable available in hourly data, is available as current condition as well.</small
 			>
 		</div>
 	</div>
@@ -945,7 +954,8 @@
 				</tr>
 				<tr>
 					<th scope="row"
-						><a href="https://vlab.noaa.gov/web/mdl/nbm-documentation" target="_blank">NBM Conus</a></th
+						><a href="https://vlab.noaa.gov/web/mdl/nbm-documentation" target="_blank">NBM Conus</a
+						></th
 					>
 					<td>U.S. Conus</td>
 					<td>2.5 km</td>
@@ -970,12 +980,20 @@
 	</div>
 
 	<figure class="figure">
-		<img src="/images/models/ncep_hrrr.webp" class="figure-img img-fluid rounded" alt="HRRR U.S.Conus Model Area">
+		<img
+			src="/images/models/ncep_hrrr.webp"
+			class="figure-img img-fluid rounded"
+			alt="HRRR U.S.Conus Model Area"
+		/>
 		<figcaption class="figure-caption">HRRR U.S.Conus Model Area. Source: Open-Meteo.</figcaption>
 	</figure>
 
 	<figure class="figure">
-		<img src="/images/models/ncep_nbm_conus.webp" class="figure-img img-fluid rounded" alt="NBM U.S. Conus Model Area">
+		<img
+			src="/images/models/ncep_nbm_conus.webp"
+			class="figure-img img-fluid rounded"
+			alt="NBM U.S. Conus Model Area"
+		/>
 		<figcaption class="figure-caption">NBM U.S. Conus Model Area. Source: Open-Meteo.</figcaption>
 	</figure>
 
@@ -989,7 +1007,11 @@
 	</p>
 	<div class="table-responsive">
 		<table class="table">
-			<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+			<caption
+				>You can find the update timings in the <a href="/en/docs/model-updates"
+					>model updates documentation</a
+				>.</caption
+			>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -1124,11 +1146,17 @@
 					<td>Per default, only 7 days are returned. Up to 16 days of forecast are possible.</td>
 				</tr>
 				<tr>
-					<th scope="row">forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th>
+					<th scope="row"
+						>forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th
+					>
 					<td>Integer (&gt;0)</td>
 					<td>No</td>
 					<td></td>
-					<td>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can controlled. Instead of using the current day as a reference, the current hour or the current 15-minute time-step is used. </td>
+					<td
+						>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can
+						controlled. Instead of using the current day as a reference, the current hour or the
+						current 15-minute time-step is used.
+					</td>
 				</tr>
 				<tr>
 					<th scope="row">start_date<br />end_date</th>
@@ -1146,7 +1174,8 @@
 					<td>No</td>
 					<td />
 					<td
-						>The time interval to get weather data for hourly or 15 minutely data. Time must be specified as an ISO8601 date (e.g.
+						>The time interval to get weather data for hourly or 15 minutely data. Time must be
+						specified as an ISO8601 date (e.g.
 						<mark>2022-06-30T12:00</mark>).
 					</td>
 				</tr>
@@ -1188,6 +1217,382 @@
 		Additional optional URL parameters will be added. For API stability, no required parameters will
 		be added in the future!
 	</p>
+
+	<h3 class="mt-5">Variable Per Model Availability</h3>
+	<p>
+		Various weather variables and levels may be available for each NOAA NCEP model. Certain
+		variables for the high-resolution GFS013 model are unavailable, so the standard GFS025 model is
+		used instead. The local area models HRRR and NBM differentiate between rain and shower
+		precipitation types. Probability data is directly available only for NBM, while Open-Meteo
+		calculates precipitation probability for the GFS025 model.
+	</p>
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Variable</th>
+					<th scope="col">GFS016</th>
+					<th scope="col">GFS025</th>
+					<th scope="col">HRRR</th>
+					<th scope="col">NBM</th>
+					<th scope="col">GraphCast</th>
+				</tr></thead
+			>
+			<tbody>
+				<tr>
+					<td>boundary_layer_height</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>cape</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>categorical_freezing_rain</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>cloud_cover</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<td>cloud_cover low/mid/high</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<td>convective_inhibition</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>direct/diffuse radiation</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>freezing_level_height</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td>latent_heat_flux</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>lifted_index</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>mass_density_8m</td>
+					<td></td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>precipitation</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+
+				<tr>
+					<td>pressure_msl</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+				</tr>
+
+				<tr>
+					<td>relative_humidity_2m</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>sensible_heat_flux</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>shortwave_radiation</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>showers</td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>snow_depth</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>snow_fall</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+
+				<tr>
+					<td>surface_temperature</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>temperature_2m</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+
+				<tr>
+					<td>total_column_integrated_water_vapour</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>uv_index</td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>visibility</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>wind 1000hPa</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<td>wind 10m</td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>wind 80m</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>wind_gusts_10m/</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<th colspan="6" scope="rowgroup">Pressure Variables on hPa Levels</th>
+				</tr>
+				<tr>
+					<td>geopotential_height</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<td>relative_humidity</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<td>vertical_velocity</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<td>temperature</td>
+					<td></td>
+					<td>x</td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<td>cloud_cover</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>wind</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th colspan="6" scope="rowgroup">Soil Variables</th>
+				</tr>
+				<tr>
+					<td>soil_moisture</td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>soil_temperature</td>
+					<td>x</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+
+				<tr>
+					<th colspan="6" scope="rowgroup">Probabilities</th>
+				</tr>
+				<tr>
+					<td>freezing_rain_probability</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>ice_pellets_probability</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>precipitation_probability</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>rain_probability</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>snowfall_probability</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>thunderstorm_probability</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>x</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 
 	<h3 class="mt-5">Hourly Parameter Definition</h3>
 	<p>
@@ -1326,19 +1731,24 @@
 					<th scope="row">global_tilted_irradiance</th>
 					<td>Preceding hour mean</td>
 					<td>W/m²</td>
-					<td>Total radiation received on a tilted pane as average of the preceding hour. 
-						The calculation is assuming a fixed albedo of 20% and in isotropic sky. 
-						Please specify tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. 
-						Azimuth should be close to 0° (0° south, -90° east, 90° west).
-						If azimuth is set to "nan", the calculation assumes a horizontal tracker. 
-						If tilt is set to "nan", it is assumed that the panel has a vertical tracker. 
-						If both are set to "nan", a bi-axial tracker is assumed.</td>
+					<td
+						>Total radiation received on a tilted pane as average of the preceding hour. The
+						calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify tilt
+						and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. Azimuth
+						should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to "nan", the
+						calculation assumes a horizontal tracker. If tilt is set to "nan", it is assumed that
+						the panel has a vertical tracker. If both are set to "nan", a bi-axial tracker is
+						assumed.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>Preceding hour sum</td>
 					<td>Seconds</td>
-					<td>Number of seconds of sunshine of the preceding hour per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+					<td
+						>Number of seconds of sunshine of the preceding hour per hour calculated by direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">vapour_pressure_deficit</th>
@@ -1440,9 +1850,7 @@
 					<th scope="row">visibility</th>
 					<td>Instant</td>
 					<td>meters</td>
-					<td
-						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td
-					>
+					<td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
 				</tr>
 				<tr>
 					<th scope="row">cape</th>
@@ -1496,8 +1904,8 @@
 	<h3 class="mt-5">15-Minutely Parameter Definition</h3>
 	<p>
 		The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
-		on the HRRR model which is only available in North America. If 15-minutely data is requested
-		for locations outside North America, data is interpolated from 1-hourly to 15-minutely.
+		on the HRRR model which is only available in North America. If 15-minutely data is requested for
+		locations outside North America, data is interpolated from 1-hourly to 15-minutely.
 	</p>
 	<p>
 		15-minutely data can be requested for other weather variables that are available for hourly
@@ -1590,19 +1998,24 @@
 					<th scope="row">global_tilted_irradiance</th>
 					<td>Preceding 15 minutes mean</td>
 					<td>W/m²</td>
-					<td>Total radiation received on a tilted pane as average of the preceding 15 minutes. 
-						The calculation is assuming a fixed albedo of 20% and in isotropic sky. 
-						Please specify tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. 
-						Azimuth should be close to 0° (0° south, -90° east, 90° west).
-						If azimuth is set to "nan", the calculation assumes a horizontal tracker. 
-						If tilt is set to "nan", it is assumed that the panel has a vertical tracker. 
-						If both are set to "nan", a bi-axial tracker is assumed.</td>
+					<td
+						>Total radiation received on a tilted pane as average of the preceding 15 minutes. The
+						calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify tilt
+						and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. Azimuth
+						should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to "nan", the
+						calculation assumes a horizontal tracker. If tilt is set to "nan", it is assumed that
+						the panel has a vertical tracker. If both are set to "nan", a bi-axial tracker is
+						assumed.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>Preceding 15 minutes sum</td>
 					<td>Seconds</td>
-					<td>Number of seconds of sunshine of the preceding 15-minutes per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+					<td
+						>Number of seconds of sunshine of the preceding 15-minutes per hour calculated by direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">precipitation</th>
@@ -1640,9 +2053,7 @@
 					<th scope="row">visibility</th>
 					<td>Instant</td>
 					<td>meters</td>
-					<td
-						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td
-					>
+					<td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
 				</tr>
 				<tr>
 					<th scope="row">weather_code</th>
@@ -1807,7 +2218,11 @@
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>seconds</td>
-					<td>The number of seconds of sunshine per day is determined by calculating direct normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine duration will consistently be less than daylight duration due to dawn and dusk.</td>
+					<td
+						>The number of seconds of sunshine per day is determined by calculating direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine
+						duration will consistently be less than daylight duration due to dawn and dusk.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">daylight_duration</th>
@@ -1937,8 +2352,8 @@
 					<td>Object</td>
 					<td>For each selected daily weather variable, the unit will be listed here.</td>
 				</tr>
-				<tr>
-			</tbody>
+				<tr> </tr></tbody
+			>
 		</table>
 	</div>
 	<h3 class="mt-5">Errors</h3>
