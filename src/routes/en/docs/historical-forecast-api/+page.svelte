@@ -237,7 +237,7 @@
 			{ name: 'bom_access_global', label: 'BOM ACCESS Global' }
 		],[
 			{ name: 'gfs_seamless', label: 'NCEP GFS Seamless' },
-			{ name: 'gfs_global', label: 'NCEP GFS Global 0.11°' },
+			{ name: 'gfs_global', label: 'NCEP GFS Global 0.11°/0.25°' },
 			{ name: 'gfs_hrrr', label: 'NCEP HRRR U.S. Conus' },
 			{ name: 'ncep_nbm_conus', label: 'NCEP NBM U.S. Conus' },
 			{ name: 'gfs_graphcast025', label: 'GFS GraphCast' }

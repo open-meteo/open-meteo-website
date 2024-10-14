@@ -248,7 +248,7 @@
 	const models = [
 		[
 			{ name: 'gfs_seamless', label: 'GFS Seamless' },
-			{ name: 'gfs_global', label: 'GFS Global' },
+			{ name: 'gfs_global', label: 'GFS Global 0.11°/0.25°' },
 			{ name: 'gfs_hrrr', label: 'HRRR Conus' },
 			{ name: 'ncep_nbm_conus', label: 'NBM Conus' },
 			{ name: 'gfs_graphcast025', label: 'GFS GraphCast' }
