@@ -236,9 +236,10 @@
 			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
 			{ name: 'bom_access_global', label: 'BOM ACCESS Global' }
 		],[
-			{ name: 'gfs_seamless', label: 'GFS Seamless' },
-			{ name: 'gfs_global', label: 'GFS Global' },
-			{ name: 'gfs_hrrr', label: 'GFS HRRR' },
+			{ name: 'gfs_seamless', label: 'NCEP GFS Seamless' },
+			{ name: 'gfs_global', label: 'NCEP GFS Global 0.11°/0.25°' },
+			{ name: 'gfs_hrrr', label: 'NCEP HRRR U.S. Conus' },
+			{ name: 'ncep_nbm_conus', label: 'NCEP NBM U.S. Conus' },
 			{ name: 'gfs_graphcast025', label: 'GFS GraphCast' }
 		],
 		[
@@ -813,7 +814,7 @@
 					<td>2022-11-24</td>
 				</tr>
 				<tr>
-					<th scope="row" rowspan="4">NOAA NCEP</th>
+					<th scope="row" rowspan="5">NOAA NCEP</th>
 					<td>GFS</td>
 					<td>Global</td>
 					<td>0.11° (~13 km)</td>
@@ -836,6 +837,14 @@
 					<td>1-Hourly</td>
 					<td>Every hour</td>
 					<td>2018-01-01</td>
+				</tr>
+				<tr>
+					<td>NBM</td>
+					<td>U.S. Conus</td>
+					<td>3 km</td>
+					<td>1-Hourly</td>
+					<td>Every hour</td>
+					<td>2024-10-08</td>
 				</tr>
 				<tr>
 					<td>GFS GraphCast</td>
