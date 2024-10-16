@@ -210,6 +210,10 @@
 						meta: fetchMeta('meteofrance_arpege_europe', 'forecast', api_key_preferences)
 					},
 					{
+						name: 'ARPEGE Europe 0.1° Probabilities',
+						meta: fetchMeta('meteofrance_arpege_europe_probabilities', 'forecast', api_key_preferences)
+					},
+					{
 						name: 'ARPEGE World 0.25°',
 						meta: fetchMeta('meteofrance_arpege_world025', 'forecast', api_key_preferences)
 					}
