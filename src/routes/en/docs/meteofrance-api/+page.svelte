@@ -50,6 +50,7 @@
 			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
+			{ name: 'precipitation_probability', label: 'Precipitation Probability' },
 			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
 			{ name: 'rain', label: 'Rain' },
 			{ name: 'snowfall', label: 'Snowfall' },
@@ -883,6 +884,18 @@
 					<td>Hourly<small class="text-muted"></small></td>
 					<td>4 days</td>
 					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://www.umr-cnrm.fr/spip.php?article121&lang=en" target="_blank"
+							>ARPEGE Europe Probabilities</a
+						></th
+					>
+					<td>Europe</td>
+					<td>0.1° (~11 km)</td>
+					<td>3-Hourly<small class="text-muted"></small></td>
+					<td>4 days</td>
+					<td>Every 12 hours</td>
 				</tr>
 				<tr>
 					<th scope="row"
