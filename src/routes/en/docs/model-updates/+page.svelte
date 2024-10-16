@@ -53,6 +53,7 @@
 			last_run_modification_time: json.last_run_modification_time,
 			temporal_resolution_seconds: json.temporal_resolution_seconds,
 			update_interval_seconds: json.update_interval_seconds,
+			area: json.area,
 			is_late: isLate,
 			is_really_late: isReallyLate
 		};
@@ -64,12 +65,14 @@
 				url: '',
 				models: [
 					{
-						name: 'COSMO 2i',
-						meta: fetchMeta('arpae_cosmo_2i', 'forecast', api_key_preferences)
+						name: 'COSMO 5m',
+						area: ['european_union'],
+						meta: fetchMeta('arpae_cosmo_5m', 'forecast', api_key_preferences)
 					},
 					{
-						name: 'COSMO 5m',
-						meta: fetchMeta('arpae_cosmo_5m', 'forecast', api_key_preferences)
+						name: 'COSMO 2i',
+						area: ['it'],
+						meta: fetchMeta('arpae_cosmo_2i', 'forecast', api_key_preferences)
 					}
 				]
 			},
@@ -79,6 +82,7 @@
 				models: [
 					{
 						name: 'ACCESS-G 0.15°',
+						area: [],
 						meta: fetchMeta('bom_access_global', 'forecast', api_key_preferences)
 					}
 				]
@@ -89,6 +93,7 @@
 				models: [
 					{
 						name: 'GFS Grapes 0.125°',
+						area: [],
 						meta: fetchMeta('cma_grapes_global', 'forecast', api_key_preferences)
 					}
 				]
@@ -99,15 +104,18 @@
 				models: [
 					{
 						name: 'GDPS 0.125°',
+						area: [],
 						meta: fetchMeta('cmc_gem_gdps', 'forecast', api_key_preferences)
 					},
 					{
-						name: 'HRDPS',
-						meta: fetchMeta('cmc_gem_hrdps', 'forecast', api_key_preferences)
+						name: 'RDPS',
+						area: ['ca', 'us'],
+						meta: fetchMeta('cmc_gem_rdps', 'forecast', api_key_preferences)
 					},
 					{
-						name: 'RDPS',
-						meta: fetchMeta('cmc_gem_rdps', 'forecast', api_key_preferences)
+						name: 'HRDPS',
+						area: ['ca'],
+						meta: fetchMeta('cmc_gem_hrdps', 'forecast', api_key_preferences)
 					}
 				]
 			},
@@ -117,6 +125,7 @@
 				models: [
 					{
 						name: 'Harmonie AROME Europe',
+						area: ['european_union'],
 						meta: fetchMeta('dmi_harmonie_arome_europe', 'forecast', api_key_preferences)
 					}
 				]
@@ -127,19 +136,23 @@
 				models: [
 					{
 						name: 'ICON',
+						area: [],
 						meta: fetchMeta('dwd_icon', 'forecast', api_key_preferences)
 					},
 					{
+						name: 'ICON-EU',
+						area: ['european_union'],
+						meta: fetchMeta('dwd_icon_eu', 'forecast', api_key_preferences)
+					},
+					{
 						name: 'ICON-D2',
+						area: ['de', 'ch', 'at'],
 						meta: fetchMeta('dwd_icon_d2', 'forecast', api_key_preferences)
 					},
 					{
 						name: 'ICON-D2 15min',
+						area: ['de', 'ch', 'at'],
 						meta: fetchMeta('dwd_icon_d2_15min', 'forecast', api_key_preferences)
-					},
-					{
-						name: 'ICON-EU',
-						meta: fetchMeta('dwd_icon_eu', 'forecast', api_key_preferences)
 					}
 				]
 			},
@@ -149,10 +162,12 @@
 				models: [
 					{
 						name: 'AIFS 0.25°',
+						area: [],
 						meta: fetchMeta('ecmwf_aifs025', 'forecast', api_key_preferences)
 					},
 					{
 						name: 'IFS 0.25°',
+						area: [],
 						meta: fetchMeta('ecmwf_ifs025', 'forecast', api_key_preferences)
 					}
 				]
@@ -163,10 +178,12 @@
 				models: [
 					{
 						name: 'GSM 0.5°',
+						area: [],
 						meta: fetchMeta('jma_gsm', 'forecast', api_key_preferences)
 					},
 					{
 						name: 'MSM 0.05°',
+						area: ['jp'],
 						meta: fetchMeta('jma_msm', 'forecast', api_key_preferences)
 					}
 				]
@@ -177,10 +194,12 @@
 				models: [
 					{
 						name: 'Harmonie AROME Europe',
+						area: ['european_union'],
 						meta: fetchMeta('knmi_harmonie_arome_europe', 'forecast', api_key_preferences)
 					},
 					{
 						name: 'Harmonie AROME Netherlands',
+						area: ['nl', 'be'],
 						meta: fetchMeta('knmi_harmonie_arome_netherlands', 'forecast', api_key_preferences)
 					}
 				]
@@ -190,32 +209,43 @@
 				url: '/en/docs/meteofrance-api',
 				models: [
 					{
-						name: 'AROME France 0.025°',
-						meta: fetchMeta('meteofrance_arome_france0025', 'forecast', api_key_preferences)
-					},
-					{
-						name: 'AROME France 0.025° 15min',
-						meta: fetchMeta('meteofrance_arome_france0025_15min', 'forecast', api_key_preferences)
-					},
-					{
-						name: 'AROME France 0.01 HD°',
-						meta: fetchMeta('meteofrance_arome_france_hd', 'forecast', api_key_preferences)
-					},
-					{
-						name: 'AROME France 0.01 HD 15min',
-						meta: fetchMeta('meteofrance_arome_france_hd_15min', 'forecast', api_key_preferences)
+						name: 'ARPEGE World 0.25°',
+						area: [],
+						meta: fetchMeta('meteofrance_arpege_world025', 'forecast', api_key_preferences)
 					},
 					{
 						name: 'ARPEGE Europe 0.1°',
+						area: ['european_union'],
 						meta: fetchMeta('meteofrance_arpege_europe', 'forecast', api_key_preferences)
 					},
 					{
 						name: 'ARPEGE Europe 0.1° Probabilities',
-						meta: fetchMeta('meteofrance_arpege_europe_probabilities', 'forecast', api_key_preferences)
+						area: ['european_union'],
+						meta: fetchMeta(
+							'meteofrance_arpege_europe_probabilities',
+							'forecast',
+							api_key_preferences
+						)
 					},
 					{
-						name: 'ARPEGE World 0.25°',
-						meta: fetchMeta('meteofrance_arpege_world025', 'forecast', api_key_preferences)
+						name: 'AROME France 0.01 HD°',
+						area: ['fr'],
+						meta: fetchMeta('meteofrance_arome_france_hd', 'forecast', api_key_preferences)
+					},
+					{
+						name: 'AROME France 0.01 HD 15min',
+						area: ['fr'],
+						meta: fetchMeta('meteofrance_arome_france_hd_15min', 'forecast', api_key_preferences)
+					},
+					{
+						name: 'AROME France 0.025°',
+						area: ['fr'],
+						meta: fetchMeta('meteofrance_arome_france0025', 'forecast', api_key_preferences)
+					},
+					{
+						name: 'AROME France 0.025° 15min',
+						area: ['fr'],
+						meta: fetchMeta('meteofrance_arome_france0025_15min', 'forecast', api_key_preferences)
 					}
 				]
 			},
@@ -225,6 +255,7 @@
 				models: [
 					{
 						name: 'MET Nordic PP',
+						area: ['no', 'se', 'dk'],
 						meta: fetchMeta('metno_nordic_pp', 'forecast', api_key_preferences)
 					}
 				]
@@ -235,26 +266,32 @@
 				models: [
 					{
 						name: 'GFS 0.11°',
+						area: [],
 						meta: fetchMeta('ncep_gfs013', 'forecast', api_key_preferences)
 					},
 					{
 						name: 'GFS 0.25°',
+						area: [],
 						meta: fetchMeta('ncep_gfs025', 'forecast', api_key_preferences)
 					},
 					{
 						name: 'GFS GraphCast 0.25°',
+						area: [],
 						meta: fetchMeta('ncep_gfs_graphcast025', 'forecast', api_key_preferences)
 					},
 					{
-						name: 'HRRR Conus',
-						meta: fetchMeta('ncep_hrrr_conus', 'forecast', api_key_preferences)
-					},
-					{
 						name: 'NBM Conus',
+						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_nbm_conus', 'forecast', api_key_preferences)
 					},
 					{
+						name: 'HRRR Conus',
+						area: ['us', 'ca'],
+						meta: fetchMeta('ncep_hrrr_conus', 'forecast', api_key_preferences)
+					},
+					{
 						name: 'HRRR Conus 15min',
+						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_hrrr_conus_15min', 'forecast', api_key_preferences)
 					}
 				]
@@ -265,10 +302,12 @@
 				models: [
 					{
 						name: 'UKMO Global Deterministic 0.09°',
+						area: [],
 						meta: fetchMeta('ukmo_global_deterministic_10km', 'forecast', api_key_preferences)
 					},
 					{
 						name: 'UKMO UKV',
+						area: ['gb'],
 						meta: fetchMeta('ukmo_uk_deterministic_2km', 'forecast', api_key_preferences)
 					}
 				]
@@ -282,14 +321,17 @@
 				models: [
 					{
 						name: 'ERA5 0.25°',
+						area: [],
 						meta: fetchMeta('copernicus_era5', 'archive', api_key_preferences)
 					},
 					{
 						name: 'ERA5-Land 0.1°',
+						area: [],
 						meta: fetchMeta('copernicus_era5_land', 'archive', api_key_preferences)
 					},
 					{
 						name: 'ERA5-Ensemble 0.25°',
+						area: [],
 						meta: fetchMeta('copernicus_era5_ensemble', 'archive', api_key_preferences)
 					}
 				]
@@ -300,10 +342,12 @@
 				models: [
 					{
 						name: 'IFS HRES 9km',
+						area: [],
 						meta: fetchMeta('ecmwf_ifs', 'archive', api_key_preferences)
 					},
 					{
 						name: 'IFS Analysis Long-Window 4D',
+						area: [],
 						meta: fetchMeta('ecmwf_ifs_analysis_long_window', 'archive', api_key_preferences)
 					}
 				]
@@ -317,6 +361,7 @@
 				models: [
 					{
 						name: 'ACCESS-GE 0.4°',
+						area: [],
 						meta: fetchMeta('bom_access_global_ensemble', 'ensemble', api_key_preferences)
 					}
 				]
@@ -327,6 +372,7 @@
 				models: [
 					{
 						name: 'GDPS 0.25° Ensemble',
+						area: [],
 						meta: fetchMeta('cmc_gem_geps', 'ensemble', api_key_preferences)
 					}
 				]
@@ -336,16 +382,19 @@
 				url: '/en/docs/dwd-api',
 				models: [
 					{
-						name: 'ICON-D2-EPS',
-						meta: fetchMeta('dwd_icon_d2_eps', 'ensemble', api_key_preferences)
-					},
-					{
 						name: 'ICON-EPS',
+						area: [],
 						meta: fetchMeta('dwd_icon_eps', 'ensemble', api_key_preferences)
 					},
 					{
 						name: 'ICON-EU-EPS',
+						area: ['european_union'],
 						meta: fetchMeta('dwd_icon_eu_eps', 'ensemble', api_key_preferences)
+					},
+					{
+						name: 'ICON-D2-EPS',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_eps', 'ensemble', api_key_preferences)
 					}
 				]
 			},
@@ -355,6 +404,7 @@
 				models: [
 					{
 						name: 'IFS 0.25° Ensemble',
+						area: [],
 						meta: fetchMeta('ecmwf_ifs025_ensemble', 'ensemble', api_key_preferences)
 					}
 				]
@@ -365,10 +415,12 @@
 				models: [
 					{
 						name: 'GFS 0.25 Ensemble',
+						area: [],
 						meta: fetchMeta('ncep_gefs025', 'ensemble', api_key_preferences)
 					},
 					{
 						name: 'GFS 0.25° Ensemble',
+						area: [],
 						meta: fetchMeta('ncep_gefs05', 'ensemble', api_key_preferences)
 					}
 				]
@@ -382,10 +434,12 @@
 				models: [
 					{
 						name: 'CAMS GLOBAL 0.4°',
+						area: [],
 						meta: fetchMeta('cams_global', 'air-quality', api_key_preferences)
 					},
 					{
 						name: 'CAMS Europe 0.1°',
+						area: ['european_union'],
 						meta: fetchMeta('cams_europe', 'air-quality', api_key_preferences)
 					}
 				]
@@ -399,10 +453,12 @@
 				models: [
 					{
 						name: 'MFWAM 0.08°',
+						area: [],
 						meta: fetchMeta('meteofrance_wave', 'marine', api_key_preferences)
 					},
 					{
 						name: 'SMOC Currents 0.08°',
+						area: [],
 						meta: fetchMeta('meteofrance_currents', 'marine', api_key_preferences)
 					}
 				]
@@ -413,6 +469,7 @@
 				models: [
 					{
 						name: 'WAM 0.25°',
+						area: [],
 						meta: fetchMeta('ecmwf_wam025', 'marine', api_key_preferences)
 					}
 				]
@@ -423,10 +480,12 @@
 				models: [
 					{
 						name: 'GFS Wave 0.25°',
+						area: [],
 						meta: fetchMeta('ncep_gfswave025', 'marine', api_key_preferences)
 					},
 					{
 						name: 'GFS Wave 0.16',
+						area: [],
 						meta: fetchMeta('ncep_gfswave016', 'marine', api_key_preferences)
 					}
 				]
@@ -452,6 +511,7 @@
 				models: [
 					{
 						name: 'ERA5-Ocean',
+						area: [],
 						meta: fetchMeta('copernicus_era5_ocean', 'marine', api_key_preferences)
 					}
 				]
@@ -484,7 +544,35 @@
 			//{ name: 'Flood API', providers: floodModels },
 		];
 	}
-	$: sections = getData($api_key_preferences);
+	let showGlobalModels = true;
+	let showEuropeanModels = true;
+	let showNorthAmericanModels = true;
+	let showAsianModels = true;
+
+	$: sectionsAll = getData($api_key_preferences);
+	$: sections = sectionsAll.map((e) => {
+		return {
+			name: e.name,
+			providers: e.providers.map((e) => {
+				return {
+					url: e.url,
+					provider: e.provider,
+					models: e.models.filter((e) => {
+						let isNorthAmerica = e.area.includes('ca') || e.area.includes('us');
+						let isGlobal = e.area.length == 0;
+						let isAsian = e.area.includes('jp');
+						let isEuropean = !isGlobal && !isNorthAmerica && !isAsian;
+						return (
+							(showGlobalModels && isGlobal) ||
+							(showNorthAmericanModels && isNorthAmerica) ||
+							(showEuropeanModels && isEuropean) ||
+							(showAsianModels && isAsian)
+						);
+					})
+				};
+			})
+		};
+	});
 </script>
 
 <svelte:head>
@@ -539,6 +627,63 @@
 			</p>
 			<LicenseSelector />
 		</div>
+
+		<div class="col-12 mb-3">
+			<div class="form-check form-switch">
+				<input
+					class="form-check-input"
+					type="checkbox"
+					value=""
+					id="globalWeatherModels"
+					bind:checked={showGlobalModels}
+				/>
+				<label class="form-check-label" for="globalWeatherModels"> Global Weather Models </label>
+			</div>
+			<div class="form-check form-switch">
+				<input
+					class="form-check-input"
+					type="checkbox"
+					value=""
+					id="europeanModels"
+					bind:checked={showEuropeanModels}
+				/>
+				<label class="form-check-label" for="europeanModels">
+					Local European Models <img
+						height="26"
+						src="/images/country-flags/european_union.svg"
+						alt="european_union"
+					/>
+				</label>
+			</div>
+			<div class="form-check form-switch">
+				<input
+					class="form-check-input"
+					type="checkbox"
+					value=""
+					id="northAmericanModel"
+					bind:checked={showNorthAmericanModels}
+				/>
+				<label class="form-check-label" for="northAmericanModel">
+					Local North American Models <img
+						height="26"
+						src="/images/country-flags/us.svg"
+						alt="us"
+					/><img height="26" src="/images/country-flags/ca.svg" alt="ca" /></label
+				>
+			</div>
+			<div class="form-check form-switch">
+				<input
+					class="form-check-input"
+					type="checkbox"
+					value=""
+					id="asianModels"
+					bind:checked={showAsianModels}
+				/>
+				<label class="form-check-label" for="asianModels">
+					Local Asian Models <img height="26" src="/images/country-flags/jp.svg" alt="jp" /></label
+				>
+			</div>
+		</div>
 	</div>
 	{#each sections as section}
 		<h2>{section.name}</h2>
@@ -549,6 +694,7 @@
 					<tr>
 						<th scope="col">Provider</th>
 						<th scope="col">Weather Model</th>
+						<th>Area</th>
 						<th scope="col">Last Model Run</th>
 						<th scope="col">Update Available</th>
 						<th scope="col">Temporal Resolution</th>
@@ -564,8 +710,18 @@
 									<td rowspan={provider.models.length}>{provider.provider}</td>
 								{/if}
 								<td>{model.name}</td>
+								<td>
+									{#each model.area as area}
+										<img
+											height="26"
+											src="/images/country-flags/{area}.svg"
+											alt={area}
+											title={area}
+										/>
+									{/each}
+								</td>
 								{#await model.meta}
-									<td colspan="5">Loading</td>
+									<td colspan="6">Loading</td>
 								{:then meta}
 									<td class:table-warning={meta.is_late} class:table-danger={meta.is_really_late}
 										>{meta.last_run_initialisation_time}</td
