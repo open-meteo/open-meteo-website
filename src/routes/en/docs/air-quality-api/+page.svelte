@@ -42,6 +42,7 @@
 			{ name: 'pm10', label: 'Particulate Matter PM<sub>10</sub>' },
 			{ name: 'pm2_5', label: 'Particulate Matter PM<sub>2.5</sub>' },
 			{ name: 'carbon_monoxide', label: 'Carbon Monoxide CO' },
+			{ name: 'carbon_dioxide', label: 'Carbon Dioxide CO<sub>2</sub>' },
 			{ name: 'nitrogen_dioxide', label: 'Nitrogen Dioxide NO<sub>2</sub>' },
 			{ name: 'sulphur_dioxide', label: 'Sulphur Dioxide SO<sub>2</sub>' },
 			{ name: 'ozone', label: 'Ozone O<sub>3</sub>' }
@@ -51,7 +52,8 @@
 			{ name: 'dust', label: 'Dust' },
 			{ name: 'uv_index', label: 'UV Index' },
 			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
-			{ name: 'ammonia', label: 'Ammonia NH<sub>3</sub> <small class="text-muted">(*)</small>' }
+			{ name: 'ammonia', label: 'Ammonia NH<sub>3</sub> <small class="text-muted">(*)</small>' },
+			{ name: 'methane', label: 'Methane CH<sub>4</sub>' }
 		],
 		[
 			{ name: 'alder_pollen', label: 'Alder Pollen <small class="text-muted">(*)</small>' },
@@ -713,23 +715,92 @@
 
 <ResultPreview {params} {defaultParameter} type="air-quality" action="air-quality" sdk_type="air_quality_api"/>
 
+<h2 id="data-sources" class="mt-5">Data Sources</h2>
+<div class="row">
+	<div class="col-12">
+		<p>
+			Forecast is based on the 11 kilometer CAMS European air quality forecast
+			and the 40 kilometer
+			CAMS global atmospheric composition forecasts. The European and global domain are not coupled and may show different forecasts.
+		</p>
+	</div>
+</div>
+<div class="table-responsive">
+	<table class="table">
+		<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+		<thead>
+			<tr>
+				<th scope="col">Data Set</th>
+				<th scope="col">Region</th>
+				<th scope="col">Spatial Resolution</th>
+				<th scope="col">Temporal Resolution</th>
+				<th scope="col">Data Availability</th>
+				<th scope="col">Update frequency</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://ads.atmosphere.copernicus.eu/datasets/cams-europe-air-quality-forecasts?tab=overview"
+						>CAMS European Air Quality Forecast</a
+					>
+				</th>
+				<td>Europe</td>
+				<td>0.1° (~11 km)</td>
+				<td>1-Hourly</td>
+				<td>October 2023 onwards</td>
+				<td>Every 24 hours, 4 days forecast</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://ads.atmosphere.copernicus.eu/datasets/cams-europe-air-quality-reanalyses?tab=overview"
+						>CAMS European Air Quality Reanalysis </a
+					>
+				</th>
+				<td>Europe</td>
+				<td>0.1° (~11 km)</td>
+				<td>Hourly</td>
+				<td>2013 onwards</td>
+				<td>-</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://ads.atmosphere.copernicus.eu/datasets/cams-global-atmospheric-composition-forecasts?tab=overview"
+						>CAMS global atmospheric composition forecasts</a
+					>
+				</th>
+				<td>Global</td>
+				<td>0.25° (~25 km)</td>
+				<td>3-Hourly</td>
+				<td>August 2022 onwards </td>
+				<td>Every 12 hours, 5 days forecast</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					><a
+						href="https://ads.atmosphere.copernicus.eu/datasets/cams-global-greenhouse-gas-forecasts?tab=overview"
+						>CAMS Global Greenhouse Gas Forecast</a
+					>
+				</th>
+				<td>Global</td>
+				<td>0.1° (~11 km)</td>
+				<td>3-Hourly</td>
+				<td>November 2024 onwards</td>
+				<td>Every 24 hours, 5 days forecast</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
 <div class="col-12 py-5">
 	<h2 id="api-documentation">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/air-quality</mark> accepts a geographical coordinate, a list of weather
 		variables and responds with a JSON hourly air quality forecast for 5 days. Time always starts at
 		0:00 today.
-	</p>
-	<p>
-		Forecast is based on the 11 kilometer <a
-			href="https://ads.atmosphere.copernicus.eu/cdsapp#!/dataset/cams-europe-air-quality-forecasts?tab=overview"
-			target="_blank">CAMS European air quality forecast</a
-		>
-		and the 40 kilometer
-		<a
-			href="https://ads.atmosphere.copernicus.eu/cdsapp#!/dataset/cams-global-atmospheric-composition-forecasts?tab=overview"
-			target="_blank">CAMS global atmospheric composition forecasts</a
-		>. The European and global domain are not coupled and may show different forecasts.
 	</p>
 	<p>All URL parameters are listed below:</p>
 	<div class="table-responsive">
@@ -928,6 +999,12 @@
 					<td>Atmospheric gases close to surface (10 meter above ground)</td>
 				</tr>
 				<tr>
+					<th scope="row">carbon_dioxide</th>
+					<td>Instant</td>
+					<td>ppm</td>
+					<td>CO2 close to surface (10 meter above ground)</td>
+				</tr>
+				<tr>
 					<th scope="row">ammonia</th>
 					<td>Instant</td>
 					<td>μg/m³</td>
@@ -938,6 +1015,12 @@
 					<td>Instant</td>
 					<td>Dimensionless</td>
 					<td>Aerosol optical depth at 550 nm of the entire atmosphere to indicate haze.</td>
+				</tr>
+				<tr>
+					<th scope="row">methane</th>
+					<td>Instant</td>
+					<td>μg/m³</td>
+					<td>Methane close to surface (10 meter above ground)</td>
 				</tr>
 				<tr>
 					<th scope="row">dust</th>
