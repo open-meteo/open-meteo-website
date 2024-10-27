@@ -441,6 +441,11 @@
 						name: 'CAMS Europe 0.1°',
 						area: ['european_union'],
 						meta: fetchMeta('cams_europe', 'air-quality', api_key_preferences)
+					},
+					{
+						name: 'CAMS Global Greenhouse Gases 0.1°',
+						area: ['european_union'],
+						meta: fetchMeta('cams_global_greenhouse_gases', 'air-quality', api_key_preferences)
 					}
 				]
 			}
