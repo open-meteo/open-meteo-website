@@ -52,12 +52,12 @@
 						href="https://www.dwd.de"
 						title="Deutscher Wetterdienst">Deutscher Wetterdienst DWD</a
 					>
-					(<a href="https://www.dwd.de/EN/service/copyright/copyright_node.html" title="DWD License"
-						>License</a
+					(<a href="https://www.ecmwf.int/en/forecasts/datasets/open-data" title="ECMWF License"
+						>CC-BY License</a
 					>)
 				</li>
 				<li>
-					Atmospheric and ensemble forecasts from European Centre for <a
+					Atmospheric, ensemble and wave forecasts from European Centre for <a
 						href="https://www.ecmwf.int"
 						title="ECMWF">Medium-Range Weather Forecasts ECMWF</a
 					>
@@ -66,7 +66,7 @@
 					>)
 				</li>
 				<li>
-					Atmospheric and ensemble forecasts from <a href="https://www.weather.gov/ncep/"
+					Atmospheric, ensemble and wave forecasts from <a href="https://www.weather.gov/ncep/"
 						>NOAA NCEP</a
 					>
 					(<a href="https://www.weather.gov/disclaimer" title="NOAA License">License</a>)
@@ -81,7 +81,7 @@
 					>)
 				</li>
 				<li>
-					Atmospheric forecasts from <a href="https://meteofrance.fr" title="Météo-France"
+					Atmospheric and wave forecasts from <a href="https://meteofrance.fr" title="Météo-France"
 						>Météo-France</a
 					>
 					(<a
@@ -144,12 +144,30 @@
 					>)
 				</li>
 				<li>
+					Atmospheric forecasts from <a
+						href="https://www.metoffice.gov.uk/"
+						title="UK Met Office">UK Met Office</a
+					>
+					(<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" title="UK Met Office License"
+						>CC-BY-SA License</a
+					>)
+				</li>
+				<li>
+					Wave forecasts from <a
+						href="https://www.metoffice.gov.uk/"
+						title="Copernicus Marine Service">Copernicus Marine Service</a
+					>
+					(<a href="https://marine.copernicus.eu/user-corner/service-commitments-and-licence" title="Copernicus Marine Service License"
+						>License</a
+					>)
+				</li>
+				<li>
 					Weather reanalysis, air quality forecasts and elevation data from <a
 						href="https://climate.copernicus.eu"
 						title="Copernicus Climate Change Service C3S">Copernicus Climate Change Service C3S</a
 					>
 					(<a
-						href="https://cds.climate.copernicus.eu/api/v2/terms/static/licence-to-use-copernicus-products.pdf"
+						href="https://object-store.os-api.cci2.ecmwf.int/cci2-prod-catalogue/licences/licence-to-use-copernicus-products/licence-to-use-copernicus-products_b4b9451f54cffa16ecef5c912c9cebd6979925a956e3fa677976e0cf198c2c18.pdf"
 						title="Copernicus License">License</a
 					>)
 				</li>
@@ -159,7 +177,7 @@
 						title="Global Flood Awareness System GloFAS">Global Flood Awareness System GloFAS</a
 					>
 					(<a
-						href="https://cds.climate.copernicus.eu/api/v2/terms/static/cems-floods.pdf"
+						href="https://object-store.os-api.cci2.ecmwf.int/cci2-prod-catalogue/licences/cems-floods/cems-floods_428a6e1019ec50b3dad9c37a90d630fab139059933a939dd5df620bfcb420cc3.pdf"
 						title="GloFAS License">License</a
 					>)
 				</li>
