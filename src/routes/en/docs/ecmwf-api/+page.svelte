@@ -79,19 +79,24 @@
 			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 			{ name: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_direction_100m', label: 'Wind Direction (100 m)' }
-		],
-		[
+			{ name: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 			{ name: 'surface_temperature', label: 'Surface temperature' },
-			{ name: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
-			{ name: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
-			{ name: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)' },
 			{ name: 'runoff', label: 'Surface Water Runoff' },
 			{ name: 'cape', label: 'CAPE' },
 			{
 				name: 'total_column_integrated_water_vapour',
 				label: 'Total Column Integrated Water Vapour'
 			}
+		],
+		[
+			{ name: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
+			{ name: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
+			{ name: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm)' },
+			{ name: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm)' },
+			{ name: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
+			{ name: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)' },
+			{ name: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)' },
+			{ name: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)' }
 		]
 	];
 
