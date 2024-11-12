@@ -190,7 +190,8 @@
 		[
 			{ name: 'is_day', label: 'Is Day or Night' },
 			{ name: 'lightning_potential', label: 'Lightning Potential Index LPI (2)' },
-			{ name: 'updraft', label: 'Updraft (2)' }
+			{ name: 'updraft', label: 'Updraft (2)' },
+			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
 		],
 		[
 			{ name: 'cape', label: 'CAPE' },

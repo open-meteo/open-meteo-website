@@ -61,6 +61,7 @@
 			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
+			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
 			{ name: 'precipitation', label: 'Precipitation (rain + snow)' },
 			{ name: 'rain', label: 'Rain' },
 			{ name: 'snowfall', label: 'Snowfall' }
