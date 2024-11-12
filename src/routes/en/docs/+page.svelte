@@ -207,6 +207,7 @@
 			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
 			{ name: 'is_day', label: 'Is Day or Night' },
 			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
+			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
 			{
 				name: 'total_column_integrated_water_vapour',
 				label: 'Total Column Integrated Water Vapour'

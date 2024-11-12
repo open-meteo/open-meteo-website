@@ -326,6 +326,7 @@
 			{ name: 'temperature_850hPa', label: 'Temperature (850 hPa)' },
 			{ name: 'geopotential_height_500hPa', label: 'Geopotential Height (500 hPa)' },
 			{ name: 'geopotential_height_850hPa', label: 'Geopotential Height (850 hPa)' },
+			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
 			//{ name: 'is_day', label: 'Is Day or Night' }
 		],
 		[
