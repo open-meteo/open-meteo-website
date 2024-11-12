@@ -136,7 +136,7 @@
 	];
 
 	const additionalVariables = [
-		[{ name: 'is_day', label: 'Is Day or Night' }],
+		[{ name: 'is_day', label: 'Is Day or Night' },{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }],
 		[{ name: 'sunshine_duration', label: 'Sunshine Duration' }]
 	];
 

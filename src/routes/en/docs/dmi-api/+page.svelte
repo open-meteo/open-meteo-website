@@ -129,7 +129,8 @@
 		[
 			{ name: 'is_day', label: 'Is Day or Night' },
 			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
-			{ name: 'freezing_level_height', label: 'Freezing Level Height' }
+			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
+			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
 		],
 		[
 			{ name: 'cape', label: 'CAPE' },

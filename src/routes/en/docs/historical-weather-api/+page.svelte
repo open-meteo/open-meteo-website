@@ -152,6 +152,7 @@
 	const additionalVariables = [
 		[
 			{ name: 'boundary_layer_height', label: 'Boundary Layer Height PBL' },
+			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
 			{
 				name: 'total_column_integrated_water_vapour',
 				label: 'Total Column Integrated Water Vapour'
