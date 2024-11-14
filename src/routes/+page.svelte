@@ -49,7 +49,7 @@
 		</p>
 		<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
 			<a href="/en/features" class="btn btn-primary btn-lg px-4 me-sm-3 mr-2">Features</a>
-			<a href="/en/docs" class="btn btn-outline-light btn-lg px-4">Documentation</a>
+			<a href="/en/docs" class="btn btn-outline-light btn-lg px-4">Try the API here!</a>
 		</div>
 	</div>
 </div>

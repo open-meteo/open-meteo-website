@@ -446,7 +446,7 @@
 				{/each}
 				<div class="col-md-12">
 					<small class="text-muted"
-						>Note: IFS in 0.4° resolution will be discontinued in the future.</small
+						>Note: IFS in 0.4° resolution will be discontinued on 27th November 2024.</small
 					>
 				</div>
 			</AccordionItem>

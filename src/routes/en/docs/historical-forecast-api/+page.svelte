@@ -349,6 +349,12 @@
 						($params.start_date = '2023-01-01'), ($params.end_date = '2023-12-31')
 					)}>2023</button
 				>
+				<button
+				class="btn btn-outline-primary btn-sm"
+				on:click|preventDefault={() => (
+					($params.start_date = '2024-01-01'), ($params.end_date = endDate)
+				)}>2024</button
+			>
 			</p>
 		</div>
 	</div>
