@@ -559,7 +559,7 @@
 					<td>Global</td>
 					<td>0.4° (~44 km)</td>
 					<td>3-Hourly</td>
-					<td>10 days</td>
+					<td>15 days</td>
 					<td>Every 6 hours</td>
 				</tr>
 				<tr>
@@ -570,7 +570,7 @@
 					<td>Global</td>
 					<td>0.25° (~25 km)</td>
 					<td>3-Hourly</td>
-					<td>10 days</td>
+					<td>15 days</td>
 					<td>Every 6 hours</td>
 				</tr>
 				<tr>
