@@ -1002,7 +1002,7 @@
 					<td>ECMWF</td>
 					<td>European Union</td>
 					<td>25 km</td>
-					<td>7 days</td>
+					<td>15 days</td>
 					<td>Every 6 hours</td>
 				</tr>
 				<tr>
