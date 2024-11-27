@@ -206,6 +206,7 @@
 			{ name: 'convective_inhibition', label: 'Convective Inhibition' },
 			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
 			{ name: 'boundary_layer_height', label: 'Boundary Layer Height PBL' },
+			{ name: 'hail', label: 'Hail (only Met Office UK 2km)' }
 		]
 	];
 
