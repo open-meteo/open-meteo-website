@@ -160,7 +160,8 @@
 		],
 		[
 			{ name: 'is_day', label: 'Is Day or Night' }, 
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
+			{ name: 'albedo', label: 'Albedo (only CERRA)' },
 		]
 	];
 
