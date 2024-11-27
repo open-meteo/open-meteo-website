@@ -83,6 +83,15 @@
 		]
 	];
 
+	const additionalVariables = [
+		[
+			{ name: 'wave_peak_period', label: 'Wave Peak Period (ERA5 only)' },
+		],
+		[
+		]
+	];
+
+
 	let models = [
 		[
 			{ name: 'best_match', label: 'Best match', caption: 'MeteoFrance Wave & Currents' },
@@ -258,35 +267,29 @@
 	<div class="row py-3 px-0">
 		<div class="accordion" id="accordionVariables">
 			<AccordionItem
-				id="models"
-				title="Wave Models"
-				count={countVariables(models, $params.models)}
+				id="additional-variables"
+				title="Additional Variables And Options"
+				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				{#each models as group}
-					<div class="col-md-6 mb-3">
+				{#each additionalVariables as group}
+					<div class="col-md-6">
 						{#each group as e}
 							<div class="form-check">
 								<input
 									class="form-check-input"
 									type="checkbox"
 									value={e.name}
-									id="{e.name}_model"
-									name="models"
-									bind:group={$params.models}
+									id="{e.name}_hourly"
+									name="hourly"
+									bind:group={$params.hourly}
 								/>
-								<label class="form-check-label" for="{e.name}_model"
-									>{e.label}&nbsp;<span class="text-muted">({e.caption})</span></label
-								>
+								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
 							</div>
 						{/each}
 					</div>
 				{/each}
-			</AccordionItem>
-			<AccordionItem
-				id="additional-variables"
-				title="Additional Options"
-			>
-				<div class="col-md-12 mb-3">
+
+				<div class="col-md-12 mb-3 mt-3">
 					<small class="text-muted"
 						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
 				</div>
@@ -343,6 +346,31 @@
 						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
 					</div>
 				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="models"
+				title="Wave Models"
+				count={countVariables(models, $params.models)}
+			>
+				{#each models as group}
+					<div class="col-md-6 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_model"
+									name="models"
+									bind:group={$params.models}
+								/>
+								<label class="form-check-label" for="{e.name}_model"
+									>{e.label}&nbsp;<span class="text-muted">({e.caption})</span></label
+								>
+							</div>
+						{/each}
+					</div>
+				{/each}
 			</AccordionItem>
 		</div>
 	</div>
