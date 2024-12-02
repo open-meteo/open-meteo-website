@@ -28,6 +28,8 @@
 		start_date: '',
 		end_date: '',
 		time_mode: 'forecast_days',
+		forecast_hours: '',
+		past_hours: '',
 		models: [],
 		tilt: 0,
 		azimuth: 0,
@@ -126,6 +128,19 @@
 			{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
 			{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
+		]
+	];
+
+	const additionalVariables = [
+		[
+			{ name: 'is_day', label: 'Is Day or Night' },
+			{ name: 'temperature_2m_min', label: 'Temperature 3-Hourly Minimum (2 m)' },
+			{ name: 'temperature_2m_max', label: 'Temperature 3-Hourly Maximum (2 m)' },
+			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
+		],
+		[
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
+			{ name: 'precipitation_type', label: 'Precipitation Type' },
 		]
 	];
 </script>
@@ -348,6 +363,70 @@
 								sea level.</small
 							>
 						</div>
+					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="additional-variables"
+				title="Additional Variables And Options"
+				count={countVariables(additionalVariables, $params.hourly)}
+			>
+				{#each additionalVariables as group}
+					<div class="col-md-6">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_hourly"
+									name="hourly"
+									bind:group={$params.hourly}
+								/>
+								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				<small class="text-muted mt-3">(1) Europe only, (2) Central Europe only</small>
+				<div class="col-md-12 mb-3 mt-3">
+					<small class="text-muted"
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="forecast_hours"
+							id="forecast_hours"
+							aria-label="Forecast Hours"
+							bind:value={$params.forecast_hours}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="forecast_hours">Forecast Hours</label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="past_hours"
+							id="past_hours"
+							aria-label="Past Hours"
+							bind:value={$params.past_hours}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="past_hours">Past Hours</label>
 					</div>
 				</div>
 			</AccordionItem>
@@ -774,6 +853,12 @@
 					>
 				</tr>
 				<tr>
+					<th scope="row">precipitation_type</th>
+					<td>Instantaneous</td>
+					<td>mm (inch)</td>
+					<td>0 = No precipitation, 1 = Rain, 3 = Freezing rain (i.e. supercooled raindrops which freeze on contact with the ground and other surfaces), 5 = Snow, 6 = Wet snow (i.e. snow particles which are starting to melt), 7 = Mixture of rain and snow, 8 = Ice pellets, 12 = Freezing drizzle (i.e. supercooled drizzle which freezes on contact with the ground and other surfaces)</td>
+				</tr>
+				<tr>
 					<th scope="row">runoff</th>
 					<td>Preceding hour sum</td>
 					<td>mm (inch)</td>
@@ -863,6 +948,14 @@
 					<td
 						>Air temperature 2 meter above ground. Additional temperature in the atmopshere are
 						given on different pressure levels.
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">temperature_2m_min<br />temperature_2m_max</th>
+					<td>Preceding 3-hour</td>
+					<td>°C (°F)</td>
+					<td
+						>Minimum and maximum temperature of the preceding 3 hours.
 					</td>
 				</tr>
 				<tr>
