@@ -151,10 +151,10 @@
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-	The API utilizes open-data ECMWF weather forecasts from the IFS weather model, which has a
+	The API uses open-data ECMWF weather forecasts from the IFS weather model with a
 	resolution of 9 km. However, the open-data access is restricted to a resolution of 25 km and
-	3-hourly values, although the model still boasts excellent accuracy for large scale weather
-	patterns. For more detailed local forecasts, we recommend utilizing the <a href="/en/docs"
+	3-hourly values, although the model still provides excellent accuracy for large scale weather
+	patterns. For more detailed local forecasts, we recommend using the <a href="/en/docs"
 		>generic weather forecast API</a
 	>, which combines weather models up to 1 km resolution seamlessly.
 </div>
@@ -930,10 +930,22 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">soil_temperature_0_7cm</th>
+					<th scope="row">soil_temperature_0_7cm<br/>soil_temperature_7_to_28cm<br/>soil_temperature_28_to_100cm<br/>soil_temperature_100_to_255cm</th>
 					<td>Instant</td>
 					<td>°C (°F)</td>
-					<td>Average temperature of the first soil level 0-7 cm below ground.</td>
+					<td>Average temperature of different soil depths below ground.</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						soil_moisture_0_to_7cm<br />soil_moisture_7_to_28cm<br />soil_moisture_28_to_100cm<br
+						/>soil_moisture_100_to_255cm
+					</th>
+					<td>Instant</td>
+					<td>m³/m³</td>
+					<td
+						>Average soil water content as volumetric mixing ratio at 0-7, 7-28, 28-100 and 100-255
+						cm depths.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">total_column_integrated_water_vapour</th>
@@ -980,6 +992,12 @@
 					<td>Wind direction at 10 meters above ground and different pressure levels.</td>
 				</tr>
 				<tr>
+					<th scope="row">wind_gusts_10m</th>
+					<td>Preceding 3-hour max</td>
+					<td>km/h (mph, m/s, knots)</td>
+					<td>Maximum 3 second wind at 10 m height above ground as a maximum of the preceding 3 hours</td>
+				</tr>
+				<tr>
 					<th scope="row">relative_humidity_1000hPa, ...</th>
 					<td>Instant</td>
 					<td>%</td>
@@ -1000,24 +1018,52 @@
 						></td
 					>
 				</tr>
-				<!--<tr>
-					<th scope="row">specific_humidity_1000hPa, ...</th>
-					<td>Instant</td>
-					<td>g/kg</td>
-					<td>Specific humidity at different atmospheric pressure levels</td>
+				<tr>
+					<th scope="row">shortwave_radiation</th>
+					<td>Preceding hour mean</td>
+					<td>W/m²</td>
+					<td
+						>Shortwave solar radiation as average of the preceding hour. This is equal to the total
+						global horizontal irradiation
+					</td>
 				</tr>
 				<tr>
-					<th scope="row">atmosphere_relative_vorticity_1000hPa, ...</th>
-					<td>Instant</td>
-					<td>s⁻¹</td>
-					<td>Relative vorticity at different atmospheric pressure levels</td>
+					<th scope="row">direct_radiation<br />direct_normal_irradiance</th>
+					<td>Preceding hour mean</td>
+					<td>W/m²</td>
+					<td
+						>Direct solar radiation as average of the preceding hour on the horizontal plane and the
+						normal plane (perpendicular to the sun). ECMWF IFS open-data does not provide direct and diffuse radiation. It is approximated based on <a
+							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
+							target="_blank">Razo, Müller Witwer</a
+						></td
+					>
 				</tr>
 				<tr>
-					<th scope="row">divergence_of_wind, ...</th>
-					<td>Instant</td>
-					<td>s⁻¹</td>
-					<td>Differgence of wind at different atmospheric pressure levels</td>
-				</tr>-->
+					<th scope="row">diffuse_radiation</th>
+					<td>Preceding hour mean</td>
+					<td>W/m²</td>
+					<td
+						>Diffuse solar radiation as average of the preceding hour. Similar to direct radiation, it is approximated based on <a
+							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
+							target="_blank">Razo, Müller Witwer</a
+						></td
+					>
+				</tr>
+				<tr>
+					<th scope="row">global_tilted_irradiance</th>
+					<td>Preceding hour mean</td>
+					<td>W/m²</td>
+					<td
+						>Total radiation received on a tilted pane as average of the preceding hour. The
+						calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify tilt
+						and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. Azimuth
+						should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to "nan", the
+						calculation assumes a horizontal tracker. If tilt is set to "nan", it is assumed that
+						the panel has a vertical tracker. If both are set to "nan", a bi-axial tracker is
+						assumed.</td
+					>
+				</tr>
 			</tbody>
 		</table>
 	</div>
