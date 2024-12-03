@@ -33,6 +33,8 @@
 		models: [],
 		tilt: 0,
 		azimuth: 0,
+		temporal_resolution: '',
+		cell_selection: ''
 	};
 
 	const params = urlHashStore({
@@ -63,7 +65,6 @@
 			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
 			{ name: 'precipitation', label: 'Precipitation (rain + snow)' },
 			{ name: 'rain', label: 'Rain' },
 			{ name: 'snowfall', label: 'Snowfall' }
@@ -427,6 +428,39 @@
 							<option value="24">24 hours</option>
 						</select>
 						<label for="past_hours">Past Hours</label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="temporal_resolution"
+							id="temporal_resolution"
+							aria-label="Temporal Resolution For Hourly Data"
+							bind:value={$params.temporal_resolution}
+						>
+							<option value="">1 Hourly</option>
+							<option value="hourly_3">3 Hourly</option>
+							<option value="hourly_6">6 Hourly</option>
+							<option value="native">Native Model Resolution</option>
+						</select>
+						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="cell_selection"
+							id="cell_selection"
+							aria-label="Grid Cell Selection"
+							bind:value={$params.cell_selection}
+						>
+							<option value="">Terrain Optimized, Prefers Land</option>
+							<option value="sea">Prefer Sea</option>
+							<option value="nearest">Nearest</option>
+						</select>
+						<label for="cell_selection">Grid Cell Selection</label>
 					</div>
 				</div>
 			</AccordionItem>
