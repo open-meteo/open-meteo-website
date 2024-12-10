@@ -162,6 +162,7 @@
 			{ name: 'is_day', label: 'Is Day or Night' }, 
 			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
 			{ name: 'albedo', label: 'Albedo (only CERRA)' },
+			{ name: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent (only CERRA)' },
 		]
 	];
 
