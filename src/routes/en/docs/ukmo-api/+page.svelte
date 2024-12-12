@@ -224,6 +224,12 @@
 	> if no other high resolution weather models are available.
 </div>-->
 
+<div class="alert alert-warning" role="alert">
+	UK Met Office data is provided under the <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC BY-SA 4.0</a> license. 
+	Therefore, any derived products from this data should also be redistributed under the same or a compatible license. Typically, Open-Meteo provides data under <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>.
+</div>
+
+
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<LocationSelection
 		bind:latitude={$params.latitude}
