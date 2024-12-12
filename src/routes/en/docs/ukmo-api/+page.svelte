@@ -225,8 +225,8 @@
 </div>-->
 
 <div class="alert alert-warning" role="alert">
-	UK Met Office data is provided under the <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0) license</a>. 
-	Therefore, any derived products from this data should also be redistributed under the same or a compatible license. Typically, Open-Meteo provides data under CC BY-4.0 or a compatible one.
+	UK Met Office data is provided under the <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC BY-SA 4.0</a> license. 
+	Therefore, any derived products from this data should also be redistributed under the same or a compatible license. Typically, Open-Meteo provides data under <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>.
 </div>
 
 
