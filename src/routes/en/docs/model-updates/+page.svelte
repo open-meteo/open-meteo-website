@@ -419,7 +419,7 @@
 						meta: fetchMeta('ncep_gefs025', 'ensemble', api_key_preferences)
 					},
 					{
-						name: 'GFS 0.25° Ensemble',
+						name: 'GFS 0.5° Ensemble',
 						area: [],
 						meta: fetchMeta('ncep_gefs05', 'ensemble', api_key_preferences)
 					}
