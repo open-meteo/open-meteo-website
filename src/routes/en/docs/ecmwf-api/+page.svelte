@@ -28,9 +28,13 @@
 		start_date: '',
 		end_date: '',
 		time_mode: 'forecast_days',
+		forecast_hours: '',
+		past_hours: '',
 		models: [],
 		tilt: 0,
 		azimuth: 0,
+		temporal_resolution: '',
+		cell_selection: ''
 	};
 
 	const params = urlHashStore({
@@ -61,7 +65,6 @@
 			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
 			{ name: 'precipitation', label: 'Precipitation (rain + snow)' },
 			{ name: 'rain', label: 'Rain' },
 			{ name: 'snowfall', label: 'Snowfall' }
@@ -128,6 +131,19 @@
 			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
+
+	const additionalVariables = [
+		[
+			{ name: 'is_day', label: 'Is Day or Night' },
+			{ name: 'temperature_2m_min', label: 'Temperature 3-Hourly Minimum (2 m)' },
+			{ name: 'temperature_2m_max', label: 'Temperature 3-Hourly Maximum (2 m)' },
+			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
+		],
+		[
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
+			{ name: 'precipitation_type', label: 'Precipitation Type' },
+		]
+	];
 </script>
 
 <svelte:head>
@@ -136,10 +152,10 @@
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-	The API utilizes open-data ECMWF weather forecasts from the IFS weather model, which has a
+	The API uses open-data ECMWF weather forecasts from the IFS weather model with a
 	resolution of 9 km. However, the open-data access is restricted to a resolution of 25 km and
-	3-hourly values, although the model still boasts excellent accuracy for large scale weather
-	patterns. For more detailed local forecasts, we recommend utilizing the <a href="/en/docs"
+	3-hourly values, although the model still provides excellent accuracy for large scale weather
+	patterns. For more detailed local forecasts, we recommend using the <a href="/en/docs"
 		>generic weather forecast API</a
 	>, which combines weather models up to 1 km resolution seamlessly.
 </div>
@@ -348,6 +364,103 @@
 								sea level.</small
 							>
 						</div>
+					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="additional-variables"
+				title="Additional Variables And Options"
+				count={countVariables(additionalVariables, $params.hourly)}
+			>
+				{#each additionalVariables as group}
+					<div class="col-md-6">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_hourly"
+									name="hourly"
+									bind:group={$params.hourly}
+								/>
+								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				<small class="text-muted mt-3">(1) Europe only, (2) Central Europe only</small>
+				<div class="col-md-12 mb-3 mt-3">
+					<small class="text-muted"
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="forecast_hours"
+							id="forecast_hours"
+							aria-label="Forecast Hours"
+							bind:value={$params.forecast_hours}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="forecast_hours">Forecast Hours</label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="past_hours"
+							id="past_hours"
+							aria-label="Past Hours"
+							bind:value={$params.past_hours}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="past_hours">Past Hours</label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="temporal_resolution"
+							id="temporal_resolution"
+							aria-label="Temporal Resolution For Hourly Data"
+							bind:value={$params.temporal_resolution}
+						>
+							<option value="">1 Hourly</option>
+							<option value="hourly_3">3 Hourly</option>
+							<option value="hourly_6">6 Hourly</option>
+							<option value="native">Native Model Resolution</option>
+						</select>
+						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="cell_selection"
+							id="cell_selection"
+							aria-label="Grid Cell Selection"
+							bind:value={$params.cell_selection}
+						>
+							<option value="">Terrain Optimized, Prefers Land</option>
+							<option value="sea">Prefer Sea</option>
+							<option value="nearest">Nearest</option>
+						</select>
+						<label for="cell_selection">Grid Cell Selection</label>
 					</div>
 				</div>
 			</AccordionItem>
@@ -774,6 +887,12 @@
 					>
 				</tr>
 				<tr>
+					<th scope="row">precipitation_type</th>
+					<td>Instantaneous</td>
+					<td>mm (inch)</td>
+					<td>0 = No precipitation, 1 = Rain, 3 = Freezing rain (i.e. supercooled raindrops which freeze on contact with the ground and other surfaces), 5 = Snow, 6 = Wet snow (i.e. snow particles which are starting to melt), 7 = Mixture of rain and snow, 8 = Ice pellets, 12 = Freezing drizzle (i.e. supercooled drizzle which freezes on contact with the ground and other surfaces)</td>
+				</tr>
+				<tr>
 					<th scope="row">runoff</th>
 					<td>Preceding hour sum</td>
 					<td>mm (inch)</td>
@@ -845,10 +964,22 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">soil_temperature_0_7cm</th>
+					<th scope="row">soil_temperature_0_7cm<br/>soil_temperature_7_to_28cm<br/>soil_temperature_28_to_100cm<br/>soil_temperature_100_to_255cm</th>
 					<td>Instant</td>
 					<td>°C (°F)</td>
-					<td>Average temperature of the first soil level 0-7 cm below ground.</td>
+					<td>Average temperature of different soil depths below ground.</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						soil_moisture_0_to_7cm<br />soil_moisture_7_to_28cm<br />soil_moisture_28_to_100cm<br
+						/>soil_moisture_100_to_255cm
+					</th>
+					<td>Instant</td>
+					<td>m³/m³</td>
+					<td
+						>Average soil water content as volumetric mixing ratio at 0-7, 7-28, 28-100 and 100-255
+						cm depths.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">total_column_integrated_water_vapour</th>
@@ -863,6 +994,14 @@
 					<td
 						>Air temperature 2 meter above ground. Additional temperature in the atmopshere are
 						given on different pressure levels.
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">temperature_2m_min<br />temperature_2m_max</th>
+					<td>Preceding 3-hour</td>
+					<td>°C (°F)</td>
+					<td
+						>Minimum and maximum temperature of the preceding 3 hours.
 					</td>
 				</tr>
 				<tr>
@@ -887,6 +1026,12 @@
 					<td>Wind direction at 10 meters above ground and different pressure levels.</td>
 				</tr>
 				<tr>
+					<th scope="row">wind_gusts_10m</th>
+					<td>Preceding 3-hour max</td>
+					<td>km/h (mph, m/s, knots)</td>
+					<td>Maximum 3 second wind at 10 m height above ground as a maximum of the preceding 3 hours</td>
+				</tr>
+				<tr>
 					<th scope="row">relative_humidity_1000hPa, ...</th>
 					<td>Instant</td>
 					<td>%</td>
@@ -907,24 +1052,52 @@
 						></td
 					>
 				</tr>
-				<!--<tr>
-					<th scope="row">specific_humidity_1000hPa, ...</th>
-					<td>Instant</td>
-					<td>g/kg</td>
-					<td>Specific humidity at different atmospheric pressure levels</td>
+				<tr>
+					<th scope="row">shortwave_radiation</th>
+					<td>Preceding hour mean</td>
+					<td>W/m²</td>
+					<td
+						>Shortwave solar radiation as average of the preceding hour. This is equal to the total
+						global horizontal irradiation
+					</td>
 				</tr>
 				<tr>
-					<th scope="row">atmosphere_relative_vorticity_1000hPa, ...</th>
-					<td>Instant</td>
-					<td>s⁻¹</td>
-					<td>Relative vorticity at different atmospheric pressure levels</td>
+					<th scope="row">direct_radiation<br />direct_normal_irradiance</th>
+					<td>Preceding hour mean</td>
+					<td>W/m²</td>
+					<td
+						>Direct solar radiation as average of the preceding hour on the horizontal plane and the
+						normal plane (perpendicular to the sun). ECMWF IFS open-data does not provide direct and diffuse radiation. It is approximated based on <a
+							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
+							target="_blank">Razo, Müller Witwer</a
+						></td
+					>
 				</tr>
 				<tr>
-					<th scope="row">divergence_of_wind, ...</th>
-					<td>Instant</td>
-					<td>s⁻¹</td>
-					<td>Differgence of wind at different atmospheric pressure levels</td>
-				</tr>-->
+					<th scope="row">diffuse_radiation</th>
+					<td>Preceding hour mean</td>
+					<td>W/m²</td>
+					<td
+						>Diffuse solar radiation as average of the preceding hour. Similar to direct radiation, it is approximated based on <a
+							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
+							target="_blank">Razo, Müller Witwer</a
+						></td
+					>
+				</tr>
+				<tr>
+					<th scope="row">global_tilted_irradiance</th>
+					<td>Preceding hour mean</td>
+					<td>W/m²</td>
+					<td
+						>Total radiation received on a tilted pane as average of the preceding hour. The
+						calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify tilt
+						and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. Azimuth
+						should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to "nan", the
+						calculation assumes a horizontal tracker. If tilt is set to "nan", it is assumed that
+						the panel has a vertical tracker. If both are set to "nan", a bi-axial tracker is
+						assumed.</td
+					>
+				</tr>
 			</tbody>
 		</table>
 	</div>
