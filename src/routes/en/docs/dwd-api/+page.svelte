@@ -192,6 +192,8 @@
 			{ name: 'lightning_potential', label: 'Lightning Potential Index LPI (2)' },
 			{ name: 'updraft', label: 'Updraft (2)' },
 			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
+			{ name: 'convective_cloud_base', label: 'Convective Cloud Base' },
+			{ name: 'convective_cloud_top', label: 'Convective Cloud Top' },
 		],
 		[
 			{ name: 'cape', label: 'CAPE' },
