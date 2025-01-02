@@ -294,12 +294,12 @@
 
 	<h2 id="privacy" class="display-5 mt-5">Open-Meteo is operated by</h2>
 	<p>
-		OpenMeteo Zippenfenig<br />
-		c/o Patrick Zippenfenig<br />
+		OpenMeteo GmbH<br />
 		Hintere Schilligmatte 6<br />
 		6463 Bürglen (UR)<br />
 		Switzerland
 	</p>
-	<p>VAT CHE 327.264.349 MWST</p>
+	<p>CEO: Patrick Zippenfenig</p>
+	<p>VAT CHE 332.429.722 MWST</p>
 	<p>Contact: <a href="mailto:info@open-meteo.com">info@open-meteo.com</a></p>
 </div>
