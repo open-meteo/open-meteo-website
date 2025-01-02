@@ -188,6 +188,31 @@
 		'geopotential_height_850hPa',
 	];
 
+	const ukmo_variables = [
+		'temperature_2m',
+		//'precipitation',
+		'rain',
+		'snowfall',
+		'relative_humidity_2m',
+		'dew_point_2m',
+		'apparent_temperature',
+		'vapour_pressure_deficit',
+		'weather_code',
+		'surface_pressure',
+		'pressure_msl',
+		'cloud_cover',
+		'wind_speed_10m',
+		'wind_direction_10m',
+		'surface_temperature',
+		'visibility',
+		'cape',
+		//'soil_temperature_0_to_10cm',
+		//'temperature_500hPa',
+		//'temperature_850hPa',
+		//'geopotential_height_500hPa',
+		//'geopotential_height_850hPa',
+	];
+
 	let available_variables = {
 		icon_seamless: icon_d2_variables,
 		icon_global: icon_global_variables,
@@ -198,6 +223,7 @@
 		gfs05: gfs05_variables,
 		ecmwf_ifs04: ecmwf__variables,
 		ecmwf_ifs025: ecmwf__variables,
+		ukmo_global_ensemble_20km: ukmo_variables,
 		gem_global: [
 			'temperature_2m',
 			'surface_pressure',
@@ -370,9 +396,12 @@
 		],
 		[
 			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4° Ensemble' }, 
-			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' }, 
+			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' }
+		],
+		[
 			{ name: 'gem_global', label: 'GEM Global Ensemble' }, 
-			{ name: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
+			{ name: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' },
+			{ name: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' }
 		]
 	];
 </script>
@@ -906,6 +935,15 @@
 					<td>40 km, 3-hourly</td>
 					<td>18</td>
 					<td>10 days</td>
+					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<th scope="row">UK Met Office</th>
+					<td>MOGREPS-G</td>
+					<td>Global</td>
+					<td>20 km, 1-hourly</td>
+					<td>18</td>
+					<td>8 days</td>
 					<td>Every 6 hours</td>
 				</tr>
 			</tbody>
