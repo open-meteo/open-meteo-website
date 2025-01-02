@@ -408,6 +408,6 @@
 		</div>
 	</div>
 	<div class="text-center pt-3">
-		<small class="d-block text-muted">© 2022-2024 Copyright: Open-Meteo.com</small>
+		<small class="d-block text-muted">© 2022-2025 Copyright: Open-Meteo.com</small>
 	</div>
 </footer>
