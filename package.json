@@ -31,7 +31,7 @@
 		"prettier-plugin-svelte": "^3.2.3",
 		"sass": "^1.77.4",
 		"semantic-release": "^24.0.0",
-		"svelte": "^4.2.15",
+		"svelte": "^5.0.0",
 		"svelte-bootstrap-icons": "^3.1.1",
 		"svelte-check": "^3.8.0",
 		"svelte-preprocess": "^5.1.4",
