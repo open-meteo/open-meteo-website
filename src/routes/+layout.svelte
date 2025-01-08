@@ -1,16 +1,19 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
-
-	import '../app.scss';
-	import { page } from '$app/state';
 	import { onMount, onDestroy } from 'svelte';
+
+	import { page } from '$app/state';
+	import type { Unsubscriber } from 'svelte/store';
+
 	import { theme, themeIsDark } from '$lib/stores';
+
 	import MoonStarsFill from 'svelte-bootstrap-icons/lib/MoonStarsFill.svelte';
 	import CircleHalf from 'svelte-bootstrap-icons/lib/CircleHalf.svelte';
 	import SunFill from 'svelte-bootstrap-icons/lib/SunFill.svelte';
 	import Github from 'svelte-bootstrap-icons/lib/Github.svelte';
 	import Twitter from 'svelte-bootstrap-icons/lib/Twitter.svelte';
-	import type { Unsubscriber } from 'svelte/store';
+
+	import '../app.scss';
+
 	interface Props {
 		children?: import('svelte').Snippet;
 	}
@@ -56,7 +59,7 @@
 
 	let body: HTMLElement = $state();
 	const bindBody = (node: any) => (body = node);
-	run(() => {
+	$effect(() => {
 		body?.setAttribute('data-bs-theme', $themeIsDark ? 'dark' : '');
 	});
 </script>

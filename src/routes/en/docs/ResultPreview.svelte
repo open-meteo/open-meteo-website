@@ -1,14 +1,14 @@
 <script lang="ts">
-	import { run } from 'svelte/legacy';
+	import { onMount } from 'svelte';
+	import type { Writable } from 'svelte/store';
+	import { fade } from 'svelte/transition';
 
 	import { api_key_preferences } from '$lib/stores';
-	import type { Writable } from 'svelte/store';
 	import HighchartContainer from '$lib/Elements/HighchartContainer.svelte';
-	import { onMount } from 'svelte';
+
 	import InfoCircle from 'svelte-bootstrap-icons/lib/InfoCircle.svelte';
 	import ExclamationTriangle from 'svelte-bootstrap-icons/lib/ExclamationTriangle.svelte';
 	import ArrowClockwise from 'svelte-bootstrap-icons/lib/ArrowClockwise.svelte';
-	import { fade } from 'svelte/transition';
 
 	interface Props {
 		params: Writable<any>;
@@ -148,12 +148,12 @@
 		})($api_key_preferences)
 	);
 
-	function getUrl(server: string, params: any) {
+	const getUrl = (server: string, params: any) => {
 		return `${server}?${new URLSearchParams({ ...params, ...params })}`.replaceAll('%2C', ',');
-	}
+	};
 
 	let previewUrl = $state('');
-	run(() => {
+	$effect(() => {
 		previewUrl = getUrl(server, parsedParams);
 	});
 	let xlsxUrl = $derived(getUrl(server, { ...parsedParams, format: 'xlsx' }));
