@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './highcharts.css';
 	import { onDestroy, onMount } from 'svelte';
 	import { dev } from '$app/environment';
 	import { themeIsDark } from '$lib/stores';
@@ -16,7 +17,6 @@
 		style = 'height: 400px',
 		class: clazz = 'w-100'
 	}: Props = $props();
-	
 
 	let node: HTMLElement = $state();
 	let chart: any;
@@ -28,8 +28,11 @@
 		if (dev) {
 			// const HighchartsDebugger = await import('highcharts/modules/debugger');
 			// HighchartsDebugger.default(Highcharts);
-			const Debugger = (await import('highcharts/es-modules/Extensions/Debugger/Debugger.js')).default;
-			const ErrorMessages = (await import('highcharts/es-modules/Extensions/Debugger/ErrorMessages.js')).default;
+			const Debugger = (await import('highcharts/es-modules/Extensions/Debugger/Debugger.js'))
+				.default;
+			const ErrorMessages = (
+				await import('highcharts/es-modules/Extensions/Debugger/ErrorMessages.js')
+			).default;
 			Highcharts.errorMessages = ErrorMessages;
 			Debugger.compose(Highcharts.Chart);
 		}
@@ -65,7 +68,3 @@
 	class:highcharts-dark={$themeIsDark}
 	class:highcharts-light={!$themeIsDark}
 ></div>
-
-<style>
-	@import './highcharts.css';
-</style>
