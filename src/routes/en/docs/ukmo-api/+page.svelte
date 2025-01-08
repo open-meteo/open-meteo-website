@@ -77,10 +77,10 @@
 		2250, 2500, 2750, 3000, 3250, 3500, 3750, 4000, 4500, 5000, 5500, 6000
 	];
 
-	let pressureVariablesTab = 'temperature';
-	let heightVariablesTab = 'temperature';
+	let pressureVariablesTab = $state('temperature');
+	let heightVariablesTab = $state('temperature');
 
-	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
+	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 
 	const hourly = [
 		[
@@ -254,7 +254,7 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -265,7 +265,7 @@
 						type="button"
 						role="tab"
 						aria-controls="pills-time_interval"
-						on:click={() => ($params.time_mode = 'time_interval')}
+						onclick={() => ($params.time_mode = 'time_interval')}
 						aria-selected="true"><CalendarEvent /> Time Interval</button
 					>
 				</li>
@@ -559,7 +559,7 @@
 								role="tab"
 								aria-controls="v-pills-height-{variable.name}"
 								aria-selected={heightVariablesTab == variable.name}
-								on:click={() => (heightVariablesTab = variable.name)}>{variable.label}</button
+								onclick={() => (heightVariablesTab = variable.name)}>{variable.label}</button
 							>
 						{/each}
 					</div>
@@ -626,7 +626,7 @@
 								role="tab"
 								aria-controls="v-pills-{variable.name}"
 								aria-selected={pressureVariablesTab == variable.name}
-								on:click={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
+								onclick={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
 							>
 						{/each}
 					</div>

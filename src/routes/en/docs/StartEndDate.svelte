@@ -1,19 +1,32 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import SveltyPicker from 'svelty-picker';
 
-	export let start_date = '';
-	export let end_date = '';
-	export let startDate = '';
-	export let endDate = '';
+	interface Props {
+		start_date?: string;
+		end_date?: string;
+		startDate?: string;
+		endDate?: string;
+	}
 
-	let time_interval = [start_date, end_date];
-	$: ((time_interval) => {
-		if (!time_interval) {
-			return;
-		}
-		start_date = time_interval[0];
-		end_date = time_interval[1];
-	})(time_interval);
+	let {
+		start_date = $bindable(''),
+		end_date = $bindable(''),
+		startDate = '',
+		endDate = ''
+	}: Props = $props();
+
+	let time_interval = $state([start_date, end_date]);
+	run(() => {
+		((time_interval) => {
+			if (!time_interval) {
+				return;
+			}
+			start_date = time_interval[0];
+			end_date = time_interval[1];
+		})(time_interval);
+	});
 
 	function onManualChange() {
 		if (!time_interval) {
@@ -36,49 +49,43 @@
 	{endDate}
 	bind:value={time_interval}
 >
-	<svelte:fragment
-		slot="inputs"
-		let:value
-		let:displayValue
-		let:isDirty
-		let:onInputFocus
-		let:onInputBlur
-		let:onKeyDown
-	>
-		<div class="row">
-			<div class="col-md-6">
-				<div class="form-floating">
-					<input
-						type="text"
-						class="form-control"
-						name="start_date"
-						id="start_date"
-						bind:value={start_date}
-						on:keydown={onKeyDown}
-						on:focus={onInputFocus}
-						on:blur={onInputBlur}
-						on:change={onManualChange}
-					/>
-					<label for="start_date">Start Date</label>
+	{#snippet inputs({ value, displayValue, isDirty, onInputFocus, onInputBlur, onKeyDown })}
+	
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-floating">
+						<input
+							type="text"
+							class="form-control"
+							name="start_date"
+							id="start_date"
+							bind:value={start_date}
+							onkeydown={onKeyDown}
+							onfocus={onInputFocus}
+							onblur={onInputBlur}
+							onchange={onManualChange}
+						/>
+						<label for="start_date">Start Date</label>
+					</div>
 				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-floating">
-					<input
-						type="text"
-						class="form-control"
-						name="end_date"
-						id="end_date"
-						bind:value={end_date}
-						on:keydown={onKeyDown}
-						on:focus={onInputFocus}
-						on:blur={onInputBlur}
-						on:change={onManualChange}
-					/>
-					<label for="end_date">End Date</label>
+				<div class="col-md-6">
+					<div class="form-floating">
+						<input
+							type="text"
+							class="form-control"
+							name="end_date"
+							id="end_date"
+							bind:value={end_date}
+							onkeydown={onKeyDown}
+							onfocus={onInputFocus}
+							onblur={onInputBlur}
+							onchange={onManualChange}
+						/>
+						<label for="end_date">End Date</label>
+					</div>
 				</div>
+				<input type="hidden" name="time_interval" value={displayValue} />
 			</div>
-			<input type="hidden" name="time_interval" value={displayValue} />
-		</div>
-	</svelte:fragment>
+		
+	{/snippet}
 </SveltyPicker>

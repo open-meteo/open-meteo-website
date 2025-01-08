@@ -7,11 +7,21 @@
 	import PlusLg from 'svelte-bootstrap-icons/lib/PlusLg.svelte';
 	import Trash from 'svelte-bootstrap-icons/lib/Trash.svelte';
 
-	export let latitude: number[];
-	export let longitude: number[];
-	export let timezone: string = 'UTC';
-	export let location_mode: string = 'location_search';
-	export let csv_coordinates: string = '';
+	interface Props {
+		latitude: number[];
+		longitude: number[];
+		timezone?: string;
+		location_mode?: string;
+		csv_coordinates?: string;
+	}
+
+	let {
+		latitude = $bindable(),
+		longitude = $bindable(),
+		timezone = $bindable('UTC'),
+		location_mode = $bindable('location_search'),
+		csv_coordinates = $bindable('')
+	}: Props = $props();
 
 	function locationCallback(event: CustomEvent<GeoLocation>, index: number) {
 		const lat = Number(event.detail.latitude.toFixed(4));
@@ -44,7 +54,7 @@
 				role="tab"
 				aria-controls="pills-location_search"
 				aria-selected="true"
-				on:click={() => (location_mode = 'location_search')}><GeoAltFill /> Coordinates</button
+				onclick={() => (location_mode = 'location_search')}><GeoAltFill /> Coordinates</button
 			>
 		</li>
 		<li class="nav-item" role="presentation">
@@ -55,7 +65,7 @@
 				type="button"
 				role="tab"
 				aria-controls="pills-csv_coordinates"
-				on:click={() => (location_mode = 'csv_coordinates')}
+				onclick={() => (location_mode = 'csv_coordinates')}
 				aria-selected="true"><List/> List</button
 			>
 		</li>
@@ -87,7 +97,7 @@
 								bind:value={latitude[index]}
 							/>
 							<label for="latitude">Latitude</label>
-							{#if latitude[index] < -90 || latitude[index] > 90 }
+							{#if latitude[index] < -90 || latitude[index] > 90}
 								<div class="invalid-tooltip" transition:slide>
 									Latitude must be between -90 and 90
 								</div>
@@ -108,7 +118,7 @@
 								bind:value={longitude[index]}
 							/>
 							<label for="longitude">Longitude</label>
-							{#if longitude[index] < -180 || longitude[index] > 180 }
+							{#if longitude[index] < -180 || longitude[index] > 180}
 								<div class="invalid-tooltip" transition:slide>
 									Longitude must be between -180 and 180
 								</div>
@@ -157,7 +167,7 @@
 							<button
 								type="button"
 								class="btn btn-outline-secondary w-100 p-3"
-								on:click={addLocation}
+								onclick={addLocation}
 								title="Add coordinates"><PlusLg /></button
 							>
 						</div>
@@ -166,7 +176,7 @@
 							<button
 								type="button"
 								class="btn btn-outline-secondary w-100 p-3"
-								on:click={() => removeLocation(index)}
+								onclick={() => removeLocation(index)}
 								title="Delete coordinates"><Trash /></button
 							>
 						</div>
@@ -191,7 +201,7 @@
 						id="csv_coordinates"
 						bind:value={csv_coordinates}
 						rows="5"
-					/>
+					></textarea>
 				</div>
 				<div class="col-md-6 mb-3">
 					<p>

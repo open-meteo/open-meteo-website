@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import { dev } from '$app/environment';
 	import LicenseSelector from '../LicenseSelector.svelte';
 	import ResultPreview from '../ResultPreview.svelte';
@@ -135,15 +137,15 @@
 				Quick:
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
+					onclick={preventDefault(() => (
 						($params.start_date = '1950-01-01'), ($params.end_date = '2050-12-31')
-					)}>1950-2050</button
+					))}>1950-2050</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
+					onclick={preventDefault(() => (
 						($params.start_date = '2015-01-01'), ($params.end_date = '2050-12-31')
-					)}>2015-2050</button
+					))}>2015-2050</button
 				>
 			</p>
 		</div>
@@ -352,7 +354,7 @@
 				<td>Italy</td>
 				<td>Fondazione Centro Euro-Mediterraneo sui Cambiamenti Climatici, Lecce (CMCC)</td>
 				<td>30&nbsp;km</td>
-				<td />
+				<td></td>
 			</tr>
 			<tr>
 				<th scope="row"
@@ -379,7 +381,7 @@
 					>Research Center for Environmental Changes, Academia Sinica, Nankang, Taipei (AS-RCEC)</td
 				>
 				<td>25&nbsp;km</td>
-				<td />
+				<td></td>
 			</tr>
 			<tr>
 				<th scope="row"
@@ -391,7 +393,7 @@
 				<td>Japan</td>
 				<td>Meteorological Research Institute, Tsukuba, Ibaraki (MRI) </td>
 				<td>20&nbsp;km</td>
-				<td />
+				<td></td>
 			</tr>
 			<tr>
 				<th scope="row"
@@ -554,7 +556,7 @@
 					<th scope="row">latitude<br />longitude</th>
 					<td>Floating point</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
@@ -566,7 +568,7 @@
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-12-31</mark>). Data is available from <mark>1950-01-01</mark> until
@@ -577,7 +579,7 @@
 					<th scope="row">models</th>
 					<td>String array</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>A list of climate models separated by comma. 7 climate models are available <mark
 							>CMCC_CM2_VHR4</mark
@@ -590,7 +592,7 @@
 					<th scope="row">daily</th>
 					<td>String array</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>A list of daily weather variable aggregations which should be returned. Values can be
 						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used.</td
@@ -667,7 +669,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See

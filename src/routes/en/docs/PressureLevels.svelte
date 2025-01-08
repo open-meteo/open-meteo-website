@@ -1,17 +1,16 @@
 <script lang="ts">
     import { altitudeAboveSeaLevelMeters } from '$lib/meteo';
 
-    export let pressureVariables = [
+    let { pressureVariables = [
         {name: "temperature", label: "Temperature"},
         {name: "relative_humidity", label: "Relative Humidity"},
         {name: "cloud_cover", label: "Cloud cover"},
         {name: "wind_speed", label: "Wind Speed"},
         {name: "wind_direction", label: "Wind Direction"},
         {name: "geopotential_height", label: "Geopotential Height"}
-    ]
-    export let levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse()
+    ], levels = [30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000].reverse() } = $props();
     
-    let selectedOptions: string[] = []
+    let selectedOptions: string[] = $state([])
 
     function sliceIntoChunks<T>(arr: Array<T>, chunkSize: number): Array<Array<T>> {
         const res = [];

@@ -26,7 +26,7 @@
 		/>
 	</svg>
 	<h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">About</h1>
-	<div class="col-lg-6 mx-auto" />
+	<div class="col-lg-6 mx-auto"></div>
 </div>
 
 <div class="container col-xxl-8 px-4 py-5">

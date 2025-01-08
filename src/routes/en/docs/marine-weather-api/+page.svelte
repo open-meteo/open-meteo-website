@@ -38,7 +38,7 @@
 		hourly: ['wave_height']
 	});
 
-	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
+	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 
 	const hourly = [
 		[
@@ -143,7 +143,7 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -154,7 +154,7 @@
 						type="button"
 						role="tab"
 						aria-controls="pills-time_interval"
-						on:click={() => ($params.time_mode = 'time_interval')}
+						onclick={() => ($params.time_mode = 'time_interval')}
 						aria-selected="true"><CalendarEvent/> Time Interval</button
 					>
 				</li>
@@ -642,7 +642,7 @@
 					<th scope="row">latitude, longitude</th>
 					<td>Floating point</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
@@ -654,7 +654,7 @@
 					<th scope="row">hourly</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of weather variables which should be returned. Values can be comma separated, or
 						multiple
@@ -665,7 +665,7 @@
 					<th scope="row">daily</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of daily weather variable aggregations which should be returned. Values can be
 						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
@@ -676,7 +676,7 @@
 					<th scope="row">current</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td>A list of variables to get current conditions.</td>
 				</tr>
 				<tr>
@@ -734,7 +734,7 @@
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-06-30</mark>).
@@ -744,7 +744,7 @@
 					<th scope="row">start_hour<br />end_hour</th>
 					<td>String (yyyy-mm-ddThh:mm)</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get weather data for hourly data. Time must be specified as an ISO8601 date (e.g.
 						<mark>2022-06-30T12:00</mark>).
@@ -779,7 +779,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See

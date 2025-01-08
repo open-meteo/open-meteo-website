@@ -1,7 +1,11 @@
 <script lang="ts">
     import { api_key_preferences } from "$lib/stores"
 	import { fade } from "svelte/transition";
-    export let requires_professional_plan = false;
+    interface Props {
+        requires_professional_plan?: boolean;
+    }
+
+    let { requires_professional_plan = false }: Props = $props();
 </script>
 
 <div class="row py-3 px-0">
@@ -19,7 +23,7 @@
                     role="tab"
                     aria-controls="pills-non_commercial"
                     aria-selected="true"
-                    on:click={() => ($api_key_preferences.use = 'non_commercial')}>Non-Commercial</button
+                    onclick={() => ($api_key_preferences.use = 'non_commercial')}>Non-Commercial</button
                 >
             </li>
             <li class="nav-item" role="presentation">
@@ -30,7 +34,7 @@
                     type="button"
                     role="tab"
                     aria-controls="pills-commercial"
-                    on:click={() => ($api_key_preferences.use = 'commercial')}
+                    onclick={() => ($api_key_preferences.use = 'commercial')}
                     aria-selected="true">Commercial</button
                 >
             </li>
@@ -42,7 +46,7 @@
                     type="button"
                     role="tab"
                     aria-controls="pills-self_hosted"
-                    on:click={() => ($api_key_preferences.use = 'self_hosted')}
+                    onclick={() => ($api_key_preferences.use = 'self_hosted')}
                     aria-selected="true">Self-Hosted</button
                 >
             </li>

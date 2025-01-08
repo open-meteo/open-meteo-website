@@ -1,10 +1,22 @@
 <script lang="ts">
-	export let id: string;
-	export let title: string;
-	export let count = {active: 0, total: 0};
 
-	export let open = count.active > 0;
-	export let renderBody = open;
+	interface Props {
+		id: string;
+		title: string;
+		count?: any;
+		open?: any;
+		renderBody?: any;
+		children?: import('svelte').Snippet;
+	}
+
+	let {
+		id,
+		title,
+		count = {active: 0, total: 0},
+		open = $bindable(count.active > 0),
+		renderBody = $bindable(open),
+		children
+	}: Props = $props();
 
 	function toggle() {
 		open = !open;
@@ -22,7 +34,7 @@
 			type="button"
 			aria-expanded={open}
 			aria-controls="collapse-{id}"
-			on:click={toggle}
+			onclick={toggle}
 		>
 			{title}
 			{#if count.active > 0}
@@ -40,7 +52,7 @@
 			class:collapse={!open}
 		>
 			<div class="accordion-body row">
-				<slot />
+				{@render children?.()}
 			</div>
 		</div>
 	{/if}

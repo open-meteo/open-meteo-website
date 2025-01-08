@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import LicenseSelector from '../LicenseSelector.svelte';
 	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
@@ -20,7 +22,7 @@
 	d.setDate(d.getDate() - 14);
 	let startDateDefault = d.toISOString().split('T')[0];
 	let startDate = '1940-01-01';
-	let endDate = '';
+	let endDate = $state('');
 
 	const defaultParameter = {
 		minutely_15: [],
@@ -75,9 +77,9 @@
 		30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000
 	].reverse();
 
-	let pressureVariablesTab = 'temperature';
+	let pressureVariablesTab = $state('temperature');
 
-	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
+	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 
 	const hourly = [
 		[
@@ -340,21 +342,21 @@
 				>-->
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
+					onclick={preventDefault(() => (
 						($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
-					)}>2022</button
+					))}>2022</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
+					onclick={preventDefault(() => (
 						($params.start_date = '2023-01-01'), ($params.end_date = '2023-12-31')
-					)}>2023</button
+					))}>2023</button
 				>
 				<button
 				class="btn btn-outline-primary btn-sm"
-				on:click|preventDefault={() => (
+				onclick={preventDefault(() => (
 					($params.start_date = '2024-01-01'), ($params.end_date = endDate)
-				)}>2024</button
+				))}>2024</button
 			>
 			</p>
 		</div>
@@ -531,7 +533,7 @@
 								role="tab"
 								aria-controls="v-pills-{variable.name}"
 								aria-selected={pressureVariablesTab == variable.name}
-								on:click={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
+								onclick={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
 							>
 						{/each}
 					</div>

@@ -25,35 +25,35 @@
 	import cloudCover from './canvas/cloud-cover';
 	import precip from './canvas/precip';
 
-	let location = $storedLocation;
+	let location = $state($storedLocation);
 	storedLocation.subscribe((value) => {
 		location = value;
 	});
-	let weatherModel = $model;
+	let weatherModel = $state($model);
 	model.subscribe((value) => {
 		weatherModel = value;
 	});
-	let temperature = $units.temperature;
-	let windSpeed = $units.windSpeed;
-	let precipitation = $units.precipitation;
+	let temperature = $state($units.temperature);
+	let windSpeed = $state($units.windSpeed);
+	let precipitation = $state($units.precipitation);
 	units.subscribe((value) => {
 		temperature = value.temperature;
 		windSpeed = value.windSpeed;
 		precipitation = value.precipitation;
 	});
 
-	let diffTemp: number;
-	let maxTemp: number;
+	let diffTemp: number = $state();
+	let maxTemp: number = $state();
 
-	let weatherCodesHourly: Float32Array | null | undefined;
-	let canvasElement: HTMLCanvasElement | null;
+	let weatherCodesHourly: Float32Array | null | undefined = $state();
+	let canvasElement: HTMLCanvasElement | null = $state();
 
 	const today = new Date();
-	let selectedDay = new Date();
+	let selectedDay = $state(new Date());
 
-	let entries = 0;
+	let entries = $state(0);
 
-	$: weather = (async (location: GeoLocation) => {
+	let weather = $derived((async (location: GeoLocation) => {
 		const params = {
 			latitude: location.latitude,
 			longitude: location.longitude,
@@ -207,12 +207,12 @@
 			windDirections: hourly.variables(5)?.valuesArray(),
 			indexes: indexes
 		};
-	})(location);
+	})(location));
 
 	let winddir = true;
 	entries = 6;
 
-	let scrollDiv: HTMLElement;
+	let scrollDiv: HTMLElement = $state();
 	let tableCells;
 	let manualScrolling = false;
 
@@ -333,7 +333,7 @@
 				name="temperatureUnit"
 				id="celsius"
 				value="celsius"
-				on:click={(event) => {
+				onclick={(event) => {
 					changeUnits('temperature', event.target?.value);
 				}}
 				bind:group={temperature}
@@ -345,7 +345,7 @@
 				name="temperatureUnit"
 				id="fahrenheit"
 				value="fahrenheit"
-				on:click={(event) => {
+				onclick={(event) => {
 					changeUnits('temperature', event.target?.value);
 				}}
 				bind:group={temperature}
@@ -359,7 +359,7 @@
 				name="windSpeedUnit"
 				id="kmh"
 				value="kmh"
-				on:click={(event) => {
+				onclick={(event) => {
 					changeUnits('windSpeed', event.target?.value);
 				}}
 				bind:group={windSpeed}
@@ -371,7 +371,7 @@
 				name="windSpeedUnit"
 				id="ms"
 				value="ms"
-				on:click={(event) => {
+				onclick={(event) => {
 					changeUnits('windSpeed', event.target?.value);
 				}}
 				bind:group={windSpeed}
@@ -383,7 +383,7 @@
 				name="windSpeedUnit"
 				id="mph"
 				value="mph"
-				on:click={(event) => {
+				onclick={(event) => {
 					changeUnits('windSpeed', event.target?.value);
 				}}
 				bind:group={windSpeed}
@@ -395,7 +395,7 @@
 				name="windSpeedUnit"
 				id="kn"
 				value="kn"
-				on:click={(event) => {
+				onclick={(event) => {
 					changeUnits('windSpeed', event.target?.value);
 				}}
 				bind:group={windSpeed}
@@ -409,7 +409,7 @@
 				name="precipitation"
 				id="mm"
 				value="mm"
-				on:click={(event) => {
+				onclick={(event) => {
 					changeUnits('precipitation', event.target?.value);
 				}}
 				bind:group={precipitation}
@@ -421,7 +421,7 @@
 				name="precipitation"
 				id="inch"
 				value="inch"
-				on:click={(event) => {
+				onclick={(event) => {
 					changeUnits('precipitation', event.target?.value);
 				}}
 				bind:group={precipitation}
@@ -435,7 +435,7 @@
 				name="weatherModel"
 				id="best_match"
 				value="best_match"
-				on:click={(event) => {
+				onclick={(event) => {
 					model.set(event.target?.value);
 				}}
 				bind:group={weatherModel}
@@ -447,7 +447,7 @@
 				name="weatherModel"
 				id="icon_seamless"
 				value="icon_seamless"
-				on:click={(event) => {
+				onclick={(event) => {
 					model.set(event.target?.value);
 				}}
 				bind:group={weatherModel}
@@ -459,7 +459,7 @@
 				name="weatherModel"
 				id="gfs_seamless"
 				value="gfs_seamless"
-				on:click={(event) => {
+				onclick={(event) => {
 					model.set(event.target?.value);
 				}}
 				bind:group={weatherModel}
@@ -471,7 +471,7 @@
 				name="weatherModel"
 				id="meteofrance_seamless"
 				value="meteofrance_seamless"
-				on:click={(event) => {
+				onclick={(event) => {
 					model.set(event.target?.value);
 				}}
 				bind:group={weatherModel}
@@ -483,7 +483,7 @@
 				name="weatherModel"
 				id="ecmwf_ifs04"
 				value="ecmwf_ifs04"
-				on:click={(event) => {
+				onclick={(event) => {
 					model.set(event.target?.value);
 				}}
 				bind:group={weatherModel}
@@ -495,7 +495,7 @@
 				name="weatherModel"
 				id="jma_seamless"
 				value="jma_seamless"
-				on:click={(event) => {
+				onclick={(event) => {
 					model.set(event.target?.value);
 				}}
 				bind:group={weatherModel}
@@ -507,7 +507,7 @@
 				name="weatherModel"
 				id="gem_seamless"
 				value="gem_seamless"
-				on:click={(event) => {
+				onclick={(event) => {
 					model.set(event.target?.value);
 				}}
 				bind:group={weatherModel}
@@ -519,7 +519,7 @@
 				name="weatherModel"
 				id="arpae_cosmo_seamless"
 				value="arpae_cosmo_seamless"
-				on:click={(event) => {
+				onclick={(event) => {
 					model.set(event.target?.value);
 				}}
 				bind:group={weatherModel}
@@ -531,7 +531,7 @@
 				name="weatherModel"
 				id="metno_seamless"
 				value="metno_seamless"
-				on:click={(event) => {
+				onclick={(event) => {
 					model.set(event.target?.value);
 				}}
 				bind:group={weatherModel}
@@ -543,7 +543,7 @@
 				name="weatherModel"
 				id="knmi_seamless"
 				value="knmi_seamless"
-				on:click={(event) => {
+				onclick={(event) => {
 					model.set(event.target?.value);
 				}}
 				bind:group={weatherModel}
@@ -555,7 +555,7 @@
 				name="weatherModel"
 				id="dmi_seamless"
 				value="dmi_seamless"
-				on:click={(event) => {
+				onclick={(event) => {
 					model.set(event.target?.value);
 				}}
 				bind:group={weatherModel}
@@ -580,7 +580,7 @@
 							? 'bg-info-subtle'
 							: ''}"
 						role="button"
-						on:click={() => {
+						onclick={() => {
 							switchDay(time);
 						}}
 					>

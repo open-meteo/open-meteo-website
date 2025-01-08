@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import { dev } from '$app/environment';
 	import LicenseSelector from '../LicenseSelector.svelte';
 	import ResultPreview from '../ResultPreview.svelte';
@@ -16,7 +18,7 @@
 	d.setDate(d.getDate() - 14);
 	let startDateDefault = d.toISOString().split('T')[0];
 	let startDate = '1940-01-01';
-	let endDate = '';
+	let endDate = $state('');
 
 	const defaultParameter = {
 		hourly: [],
@@ -58,7 +60,7 @@
 		}
 	});
 
-	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
+	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 
 	let hourly = [
 		[
@@ -279,45 +281,45 @@
 				Quick:
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
+					onclick={preventDefault(() => (
 						($params.start_date = '2000-01-01'), ($params.end_date = '2009-12-31')
-					)}>2000-2009</button
+					))}>2000-2009</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
+					onclick={preventDefault(() => (
 						($params.start_date = '2010-01-01'), ($params.end_date = '2019-12-31')
-					)}>2010-2019</button
+					))}>2010-2019</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
+					onclick={preventDefault(() => (
 						($params.start_date = '2020-01-01'), ($params.end_date = '2020-12-31')
-					)}>2020</button
+					))}>2020</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
+					onclick={preventDefault(() => (
 						($params.start_date = '2021-01-01'), ($params.end_date = '2021-12-31')
-					)}>2021</button
+					))}>2021</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
+					onclick={preventDefault(() => (
 						($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
-					)}>2022</button
+					))}>2022</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
+					onclick={preventDefault(() => (
 						($params.start_date = '2023-01-01'), ($params.end_date = '2023-12-31')
-					)}>2023</button
+					))}>2023</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
+					onclick={preventDefault(() => (
 						($params.start_date = '2024-01-01'), ($params.end_date = endDate)
-					)}>2024</button
+					))}>2024</button
 				>
 			</p>
 		</div>
@@ -445,7 +447,7 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90 }
+						{#if $params.tilt < 0 ||$params.tilt > 90}
 							<div class="invalid-tooltip" transition:slide>
 								Tilt must be between 0° and 90°
 							</div>
@@ -466,7 +468,7 @@
 							bind:value={$params.azimuth}
 						/>
 						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -801,7 +803,7 @@
 					<th scope="row">latitude<br />longitude</th>
 					<td>Floating point</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
@@ -813,7 +815,7 @@
 					<th scope="row">elevation</th>
 					<td>Floating point</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The elevation used for statistical downscaling. Per default, a <a
 							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
@@ -828,7 +830,7 @@
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-12-31</mark>).
@@ -838,7 +840,7 @@
 					<th scope="row">hourly</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of weather variables which should be returned. Values can be comma separated, or
 						multiple
@@ -849,7 +851,7 @@
 					<th scope="row">daily</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of daily weather variable aggregations which should be returned. Values can be
 						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
@@ -931,7 +933,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See

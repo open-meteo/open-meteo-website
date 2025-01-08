@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { run, createBubbler, preventDefault } from 'svelte/legacy';
+
+	const bubble = createBubbler();
 	import { onDestroy, onMount } from 'svelte';
 	import LicenseSelector from '../LicenseSelector.svelte';
 	import { api_key_preferences } from '$lib/stores';
@@ -12,28 +15,30 @@
 	});
 
 	//const params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
-	let action = 'https://geocoding-api.open-meteo.com/v1/search?';
-	$: switch ($api_key_preferences.use) {
-		case 'commercial':
-			action = `https://customer-geocoding-api.open-meteo.com/v1/search?apikey=${$api_key_preferences.apikey}&`;
-			break;
-		case 'self_hosted':
-			action = `${$api_key_preferences.self_host_server}/v1/search?`;
-			break;
-		default:
-			action = 'https://geocoding-api.open-meteo.com/v1/search?';
-	}
+	let action = $state('https://geocoding-api.open-meteo.com/v1/search?');
+	run(() => {
+		switch ($api_key_preferences.use) {
+			case 'commercial':
+				action = `https://customer-geocoding-api.open-meteo.com/v1/search?apikey=${$api_key_preferences.apikey}&`;
+				break;
+			case 'self_hosted':
+				action = `${$api_key_preferences.self_host_server}/v1/search?`;
+				break;
+			default:
+				action = 'https://geocoding-api.open-meteo.com/v1/search?';
+		}
+	});
 
 	//const paramsDefault = { ...params };
-	$: apiUrl = `${action}${new URLSearchParams($params)}`;
-	let debounceTimeout: number | undefined;
+	let apiUrl = $derived(`${action}${new URLSearchParams($params)}`);
+	let debounceTimeout: number | undefined = $state();
 
 	onDestroy(() => {
 		clearInterval(debounceTimeout);
 	});
 
 	// Fetch is automatically called after `params` changes due to reactive assignment
-	$: results = (async () => {
+	let results = $derived((async () => {
 		if (debounceTimeout) {
 			clearTimeout(debounceTimeout);
 		}
@@ -50,7 +55,7 @@
 		}
 
 		return await result.json();
-	})();
+	})());
 </script>
 
 <svelte:head>
@@ -62,7 +67,7 @@
 	id="geocoding_form"
 	method="get"
 	action="https://geocoding-api.open-meteo.com/v1/search"
-	on:submit|preventDefault
+	onsubmit={preventDefault(bubble('submit'))}
 >
 	<div class="row">
 		<h2>Search for cities or postal code</h2>
@@ -151,14 +156,14 @@
 <div class="col-12 table-responsive" style="min-height: 300px;">
 	{#await results}
 		<button class="btn btn-primary" type="button" disabled>
-			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 			Loading...
 		</button>
 	{:then results}
 		<table class="table">
 			<thead>
 				<tr>
-					<th />
+					<th></th>
 					<th>Name</th>
 					<th>Latitude</th>
 					<th>Longitude</th>
@@ -241,7 +246,7 @@
 					<th scope="row">name</th>
 					<td>String</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>String to search for. An empty string or only 1 character will return an empty result.
 						2 characters will only match exact matching locations. 3 and more characters will
@@ -284,7 +289,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See

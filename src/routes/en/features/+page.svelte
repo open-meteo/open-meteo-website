@@ -259,7 +259,7 @@
 					to a comprehensive set of weather variables, such as temperature, wind, clouds, and
 					precipitation, all delivered in an easy-to-use JSON format.
 				</p>
-				<p />
+				<p></p>
 				<p>
 					Our Forecast API combines the best weather models from national weather services, allowing
 					you to compare them directly. Stay informed about the weather conditions and make informed

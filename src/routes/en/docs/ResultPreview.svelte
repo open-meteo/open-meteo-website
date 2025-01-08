@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import { api_key_preferences } from '$lib/stores';
 	import type { Writable } from 'svelte/store';
 	import HighchartContainer from '$lib/Elements/HighchartContainer.svelte';
@@ -8,14 +10,27 @@
 	import ArrowClockwise from 'svelte-bootstrap-icons/lib/ArrowClockwise.svelte';
 	import { fade } from 'svelte/transition';
 
-	export let params: Writable<any>;
-	export let type: String = 'forecast';
-	export let action: String = 'forecast';
-	export let model_default: String = '';
-	export let sdk_type: String = 'weather_api';
-	export let sdk_cache: Number = 3600;
-	export let defaultParameter: any;
-	export let useStockChart = false;
+	interface Props {
+		params: Writable<any>;
+		type?: String;
+		action?: String;
+		model_default?: String;
+		sdk_type?: String;
+		sdk_cache?: Number;
+		defaultParameter: any;
+		useStockChart?: boolean;
+	}
+
+	let {
+		params,
+		type = 'forecast',
+		action = 'forecast',
+		model_default = '',
+		sdk_type = 'weather_api',
+		sdk_cache = 3600,
+		defaultParameter,
+		useStockChart = false
+	}: Props = $props();
 
 	// Only considers keys of the first object. Ignores nulls and empty strings
 	function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
@@ -37,7 +52,7 @@
    		s.replace (/[-_]+(.)/g, (_, c) =>  c.toUpperCase())
 
 	/// Parsed params that resolved CSV fields
-	$: parsedParams = ((p: any, api_key_preferences: any) => {
+	let parsedParams = $derived(((p: any, api_key_preferences: any) => {
 		const params = { ...p };
 		if ('time_mode' in params) {
 			if (params.time_mode == 'forecast_days') {
@@ -115,9 +130,9 @@
 		}
 
 		return objectDifference(params, defaultParameter);
-	})($params, $api_key_preferences);
+	})($params, $api_key_preferences));
 
-	$: server = ((api_key_preferences: any) => {
+	let server = $derived(((api_key_preferences: any) => {
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
 		switch (api_key_preferences.use) {
 			case 'commercial':
@@ -127,25 +142,28 @@
 			default:
 				return `https://${serverPrefix}.open-meteo.com/v1/${action}`;
 		}
-	})($api_key_preferences)
+	})($api_key_preferences))
 
 	function getUrl(server: string, params: any) {
 		return `${server}?${new URLSearchParams({ ...params, ...params })}`.replaceAll('%2C', ',');
 	}
 
-	$: previewUrl = getUrl(server, parsedParams);
-	$: xlsxUrl = getUrl(server, { ...parsedParams, format: 'xlsx' });
-	$: csvUrl = getUrl(server, { ...parsedParams, format: 'csv' });
+	let previewUrl;
+	run(() => {
+		previewUrl = getUrl(server, parsedParams);
+	});
+	let xlsxUrl = $derived(getUrl(server, { ...parsedParams, format: 'xlsx' }));
+	let csvUrl = $derived(getUrl(server, { ...parsedParams, format: 'csv' }));
 
-	$: sectionsWithData = ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly'].filter(
+	let sectionsWithData = $derived(['current', 'minutely_15', 'hourly', 'daily', 'six_hourly'].filter(
 		(v) => (v in $params && $params[v].length > 0)
-	);
-	$: sectionsArrayWithData = ['minutely_15', 'hourly', 'daily', 'six_hourly'].filter(
+	));
+	let sectionsArrayWithData = $derived(['minutely_15', 'hourly', 'daily', 'six_hourly'].filter(
 		(v) => (v in $params && $params[v].length > 0)
-	);
+	));
 
 	/// Adjusted call weight
-	$: callWeight = ((params) => {
+	let callWeight = $derived(((params) => {
 		function membersPerModel(model: string): number {
 			switch (model) {
 				case "icon_seamless": return 40
@@ -191,7 +209,7 @@
         const variablesWeight = nVariablesModels / 10.0
 		const variableTimeWeight = Math.max(variablesWeight, timeWeight * variablesWeight)
 		return Math.max(1.0, variableTimeWeight) * nLocations
-	})(parsedParams)
+	})(parsedParams))
 
 	function jsonToChart(data: any, downloadTime: number) {
 		//console.log(data);
@@ -420,7 +438,7 @@
 		return json;
 	}
 
-	let results: Promise<any> = Promise.resolve(null);
+	let results: Promise<any> = $state(Promise.resolve(null));
 
 	function reset() {
 		results = Promise.resolve(null);
@@ -511,7 +529,7 @@
 		return `<span class="token string">"${v}"</span>`
 	}
 
-	let mode = 'chart';
+	let mode = $state('chart');
 </script>
 
 <h2 id="api-response">API Response</h2>
@@ -531,7 +549,7 @@
 					role="tab"
 					aria-controls="pills-chart"
 					aria-selected="true"
-					on:click={() => (mode = 'chart')}>Chart And URL</button
+					onclick={() => (mode = 'chart')}>Chart And URL</button
 				>
 			</li>
 			<li class="nav-item" role="presentation">
@@ -542,7 +560,7 @@
 					type="button"
 					role="tab"
 					aria-controls="pills-python"
-					on:click={() => (mode = 'python')}
+					onclick={() => (mode = 'python')}
 					aria-selected="true">Python</button
 				>
 			</li>
@@ -554,7 +572,7 @@
 					type="button"
 					role="tab"
 					aria-controls="pills-typescript"
-					on:click={() => (mode = 'typescript')}
+					onclick={() => (mode = 'typescript')}
 					aria-selected="true">Typescript</button
 				>
 			</li>
@@ -566,7 +584,7 @@
 					type="button"
 					role="tab"
 					aria-controls="pills-swift"
-					on:click={() => (mode = 'swift')}
+					onclick={() => (mode = 'swift')}
 					aria-selected="true">Swift</button
 				>
 			</li>
@@ -578,7 +596,7 @@
 					type="button"
 					role="tab"
 					aria-controls="pills-other"
-					on:click={() => (mode = 'other')}
+					onclick={() => (mode = 'other')}
 					aria-selected="true">Other</button
 				>
 			</li>
@@ -623,7 +641,7 @@
 									<InfoCircle class="me-2" />
 									<div>
 										Parameters have changed.
-										<button type="submit" class="btn btn-primary ms-2" on:click={reload}
+										<button type="submit" class="btn btn-primary ms-2" onclick={reload}
 											><ArrowClockwise class="me-2" />Reload Chart
 										</button>
 									</div>
@@ -638,7 +656,7 @@
 							<div class="alert alert-danger d-flex align-items-center" role="alert">
 								<ExclamationTriangle class="me-2" />
 								<div>{error.message}</div>
-								<button type="submit" class="btn btn-danger ms-2" on:click={reload}
+								<button type="submit" class="btn btn-danger ms-2" onclick={reload}
 									><ArrowClockwise class="me-2" />Reload Chart
 								</button>
 							</div>

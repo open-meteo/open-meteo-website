@@ -3,13 +3,22 @@
 	import { dev } from '$app/environment';
 	import { themeIsDark } from '$lib/stores';
 
-	export let useStockChart = false;
-	export let options: any;
-	export let style = 'height: 400px';
-	let clazz = 'w-100';
-	export { clazz as class };
+	interface Props {
+		useStockChart?: boolean;
+		options: any;
+		style?: string;
+		class?: string;
+	}
 
-	let node: HTMLElement;
+	let {
+		useStockChart = false,
+		options = $bindable(),
+		style = 'height: 400px',
+		class: clazz = 'w-100'
+	}: Props = $props();
+	
+
+	let node: HTMLElement = $state();
 	let chart: any;
 
 	onMount(async () => {
@@ -55,7 +64,7 @@
 	class={clazz}
 	class:highcharts-dark={$themeIsDark}
 	class:highcharts-light={!$themeIsDark}
-/>
+></div>
 
 <style>
 	@import './highcharts.css';

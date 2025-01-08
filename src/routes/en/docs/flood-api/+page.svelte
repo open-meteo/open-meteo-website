@@ -89,7 +89,7 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -100,7 +100,7 @@
 						type="button"
 						role="tab"
 						aria-controls="pills-time_interval"
-						on:click={() => ($params.time_mode = 'time_interval')}
+						onclick={() => ($params.time_mode = 'time_interval')}
 						aria-selected="true"><CalendarEvent/> Time Interval</button
 					>
 				</li>
@@ -407,7 +407,7 @@
 					<th scope="row">latitude, longitude</th>
 					<td>Floating point</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
@@ -419,7 +419,7 @@
 					<th scope="row">daily</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of weather variables which should be returned. Values can be comma separated, or
 						multiple
@@ -454,7 +454,7 @@
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-06-30</mark>). Data are available from 1984-01-01 until 7 month forecast.
@@ -464,7 +464,7 @@
 					<th scope="row">ensemble</th>
 					<td>Boolean</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td>If <mark>True</mark> all forecast ensemble members will be returned</td>
 				</tr>
 				<tr>
@@ -489,7 +489,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See

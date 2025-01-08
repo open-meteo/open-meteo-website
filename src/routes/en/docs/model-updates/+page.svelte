@@ -549,13 +549,13 @@
 			//{ name: 'Flood API', providers: floodModels },
 		];
 	}
-	let showGlobalModels = true;
-	let showEuropeanModels = true;
-	let showNorthAmericanModels = true;
-	let showAsianModels = true;
+	let showGlobalModels = $state(true);
+	let showEuropeanModels = $state(true);
+	let showNorthAmericanModels = $state(true);
+	let showAsianModels = $state(true);
 
-	$: sectionsAll = getData($api_key_preferences);
-	$: sections = sectionsAll.map((e) => {
+	let sectionsAll = $derived(getData($api_key_preferences));
+	let sections = $derived(sectionsAll.map((e) => {
 		return {
 			name: e.name,
 			providers: e.providers.map((e) => {
@@ -577,7 +577,7 @@
 				};
 			})
 		};
-	});
+	}));
 </script>
 
 <svelte:head>

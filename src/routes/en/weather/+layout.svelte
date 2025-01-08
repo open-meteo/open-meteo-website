@@ -2,6 +2,11 @@
 	import { page } from '$app/stores';
 	import { dev } from '$app/environment';
 	import { storedLocation, type GeoLocation } from '$lib/stores';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	const links = [
 		{
@@ -92,7 +97,7 @@
 			</nav>
 		</div>
 		<main class="col-md-9 col-lg-10 p-2 p-md-3 p-lg-4">
-			<slot />
+			{@render children?.()}
 		</main>
 	</div>
 </div>

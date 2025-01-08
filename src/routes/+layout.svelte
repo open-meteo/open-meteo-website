@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run } from 'svelte/legacy';
+
 	import '../app.scss';
 	import { page } from '$app/stores';
 	import { onMount, onDestroy } from 'svelte';
@@ -9,6 +11,11 @@
 	import Github from 'svelte-bootstrap-icons/lib/Github.svelte';
 	import Twitter from 'svelte-bootstrap-icons/lib/Twitter.svelte';
 	import type { Unsubscriber } from 'svelte/store';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	let updateThemeOnChange: ((this: MediaQueryList, ev: MediaQueryListEvent) => any) | undefined;
 	let prefersDarkMode: MediaQueryList | undefined;
@@ -47,9 +54,11 @@
 		}
 	});
 
-	let body: HTMLElement;
+	let body: HTMLElement = $state();
 	const bindBody = (node: any) => (body = node);
-	$: body?.setAttribute('data-bs-theme', $themeIsDark ? 'dark' : '');
+	run(() => {
+		body?.setAttribute('data-bs-theme', $themeIsDark ? 'dark' : '');
+	});
 </script>
 
 <svelte:body use:bindBody />
@@ -81,12 +90,12 @@
 			aria-expanded="false"
 			aria-label="Toggle navigation"
 		>
-			<span class="navbar-toggler-icon" />
+			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav me-auto mb-2 mb-md-0">
 				<li class="d-md-none nav-item py-1 py-lg-1">
-					<div class="vr d-none d-lg-flex h-100 mx-lg-2" />
+					<div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
 					<hr class="d-lg-none my-2" />
 				</li>
 				<li class="nav-item">
@@ -157,7 +166,7 @@
 			{$theme}-->
 			<ul class="navbar-nav ml-sm-auto">
 				<li class="d-md-none nav-item py-1 py-lg-1">
-					<div class="vr d-none d-lg-flex h-100 mx-lg-2" />
+					<div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
 					<hr class="d-lg-none my-2" />
 				</li>
 				<li class="nav-item">
@@ -183,7 +192,7 @@
 					</a>
 				</li>
 				<li class="d-none d-md-block nav-item py-1">
-					<div class="vr d-none d-lg-flex h-100 mx-lg-2" />
+					<div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
 					<hr class="d-lg-none my-2" />
 				</li>
 				<li class="nav-item dropdown">
@@ -217,7 +226,7 @@
 								class="dropdown-item d-flex align-items-center"
 								class:active={$theme == 'light'}
 								aria-pressed={$theme == 'light'}
-								on:click={() => ($theme = 'light')}
+								onclick={() => ($theme = 'light')}
 							>
 								<SunFill class="bi me-2 opacity-50 theme-icon" />
 								<!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>-->
@@ -231,7 +240,7 @@
 								class="dropdown-item d-flex align-items-center"
 								class:active={$theme == 'dark'}
 								aria-pressed={$theme == 'dark'}
-								on:click={() => ($theme = 'dark')}
+								onclick={() => ($theme = 'dark')}
 							>
 								<MoonStarsFill class="bi me-2 opacity-50 theme-icon" />
 								Dark
@@ -244,7 +253,7 @@
 								class="dropdown-item d-flex align-items-center"
 								class:active={$theme == 'auto'}
 								aria-pressed={$theme == 'auto'}
-								on:click={() => ($theme = 'auto')}
+								onclick={() => ($theme = 'auto')}
 							>
 								<CircleHalf class="bi me-2 opacity-50 theme-icon" />
 								<!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>-->
@@ -259,7 +268,7 @@
 	</div>
 </nav>
 
-<slot />
+{@render children?.()}
 
 <footer class="container py-5 pt-4 my-md-5 pt-md-5">
 	<div class="row">

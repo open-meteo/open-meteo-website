@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { run, preventDefault } from 'svelte/legacy';
+
 	import { onMount } from 'svelte';
 	import LicenseSelector from '../LicenseSelector.svelte';
 	import { api_key_preferences } from '$lib/stores';
@@ -28,20 +30,22 @@
 		$params.longitude = $params.longitude.toSpliced(index, 1);
 	}
 
-	let base = 'https://api.open-meteo.com/v1/elevation?';
-	$: switch ($api_key_preferences.use) {
-		case 'commercial':
-			base = `https://customer-api.open-meteo.com/v1/elevation?apikey=${$api_key_preferences.apikey}&`;
-			break;
-		case 'self_hosted':
-			base = `${$api_key_preferences.self_host_server}/v1/elevation?`;
-			break;
-		default:
-			base = 'https://api.open-meteo.com/v1/elevation?';
-	}
+	let base = $state('https://api.open-meteo.com/v1/elevation?');
+	run(() => {
+		switch ($api_key_preferences.use) {
+			case 'commercial':
+				base = `https://customer-api.open-meteo.com/v1/elevation?apikey=${$api_key_preferences.apikey}&`;
+				break;
+			case 'self_hosted':
+				base = `${$api_key_preferences.self_host_server}/v1/elevation?`;
+				break;
+			default:
+				base = 'https://api.open-meteo.com/v1/elevation?';
+		}
+	});
 
-	let response = `{"elevation":[38.0]}`;
-	$: url = `${base}latitude=${$params.latitude}&longitude=${$params.longitude}`;
+	let response = $state(`{"elevation":[38.0]}`);
+	let url = $derived(`${base}latitude=${$params.latitude}&longitude=${$params.longitude}`);
 
 	async function submitForm() {
 		response = await (await fetch(url)).text();
@@ -115,7 +119,7 @@
 					<button
 						type="button"
 						class="btn btn-outline-secondary w-100 p-3"
-						on:click={addLocation}
+						onclick={addLocation}
 						title="Add coordinates"><PlusLg /></button
 					>
 				</div>
@@ -124,7 +128,7 @@
 					<button
 						type="button"
 						class="btn btn-outline-secondary w-100 p-3"
-						on:click={() => removeLocation(index)}
+						onclick={() => removeLocation(index)}
 						title="Delete coordinates"><Trash /></button
 					>
 				</div>
@@ -135,7 +139,7 @@
 	<LicenseSelector />
 
 	<div class="col-12 mb-3">
-		<button type="submit" class="btn btn-primary" on:click|preventDefault={submitForm}
+		<button type="submit" class="btn btn-primary" onclick={preventDefault(submitForm)}
 			>Preview</button
 		>
 	</div>
@@ -182,7 +186,7 @@
 					<th scope="row">latitude<br />longitude</th>
 					<td>Floating point array</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td>
 						Geographical WGS84 coordinates of the location. Multiple coordinates can be comma <mark
 							>,</mark
@@ -198,7 +202,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See
