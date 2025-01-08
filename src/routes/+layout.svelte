@@ -2,7 +2,7 @@
 	import { run } from 'svelte/legacy';
 
 	import '../app.scss';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { onMount, onDestroy } from 'svelte';
 	import { theme, themeIsDark } from '$lib/stores';
 	import MoonStarsFill from 'svelte-bootstrap-icons/lib/MoonStarsFill.svelte';
@@ -102,7 +102,7 @@
 					<a
 						href="/"
 						class="nav-link"
-						class:active={$page.url.pathname === '/'}
+						class:active={page.url.pathname === '/'}
 						aria-current="page"
 						title="Weather API">Home</a
 					>
@@ -112,14 +112,14 @@
 						href="/en/features"
 						class="nav-link"
 						title="API Features"
-						class:active={$page.url.pathname === '/en/features'}>Features</a
+						class:active={page.url.pathname === '/en/features'}>Features</a
 					>
 				</li>
 				<li class="nav-item">
 					<a
 						href="/en/pricing"
 						class="nav-link"
-						class:active={$page.url.pathname === '/en/pricing'}
+						class:active={page.url.pathname === '/en/pricing'}
 						title="Pricing">Pricing</a
 					>
 				</li>
@@ -128,7 +128,7 @@
 						href="/en/docs"
 						class="nav-link"
 						title="Documentation"
-						class:active={$page.url.pathname.startsWith('/en/docs')}>API Docs</a
+						class:active={page.url.pathname.startsWith('/en/docs')}>API Docs</a
 					>
 				</li>
 				<!-- <li class="nav-item">
@@ -136,7 +136,7 @@
 						href="/en/weather"
 						class="nav-link"
 						title="Weather"
-						class:active={$page.url.pathname.startsWith('/en/weather')}>Weather</a
+						class:active={page.url.pathname.startsWith('/en/weather')}>Weather</a
 					>
 				</li> -->
 				<!--<li class="nav-item">
@@ -408,9 +408,8 @@
 					>
 				</li>
 				<li class="mb-1">
-					<a
-						class="link-secondary text-decoration-none"
-						href="/en/docs/model-updates">Model Updates Overview</a
+					<a class="link-secondary text-decoration-none" href="/en/docs/model-updates"
+						>Model Updates Overview</a
 					>
 				</li>
 			</ul>

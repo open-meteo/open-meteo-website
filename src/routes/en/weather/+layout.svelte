@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { dev } from '$app/environment';
 	import { storedLocation, type GeoLocation } from '$lib/stores';
 	interface Props {
@@ -74,18 +74,18 @@
 							<a
 								class="btn btn-hover"
 								href={link.url}
-								class:active={$page.url.pathname == link.url ||
-									$page.url.pathname === link.url + '/'}>{link.title}</a
+								class:active={page.url.pathname == link.url || page.url.pathname === link.url + '/'}
+								>{link.title}</a
 							>
-							{#if link.children && ($page.url.pathname === link.url || $page.url.pathname === link.url + '/' || link.children.some((l) => l.url === $page.url.pathname || $page.url.pathname === l.url + '/'))}
+							{#if link.children && (page.url.pathname === link.url || page.url.pathname === link.url + '/' || link.children.some((l) => l.url === page.url.pathname || page.url.pathname === l.url + '/'))}
 								<ul class="list-unstyled ms-3 mb-4 mt-1">
 									{#each link.children as l}
 										<li>
 											<a
 												href={l.url}
 												class="btn btn-hover py-1 px-2"
-												class:active={$page.url.pathname === l.url + '/' ||
-													$page.url.pathname === l.url}>{l.title}</a
+												class:active={page.url.pathname === l.url + '/' ||
+													page.url.pathname === l.url}>{l.title}</a
 											>
 										</li>
 									{/each}
