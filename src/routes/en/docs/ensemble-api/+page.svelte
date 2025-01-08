@@ -1,5 +1,3 @@
-<!-- @migration-task Error while migrating Svelte code: `<caption>` cannot be a child of `<div>`. The browser will 'repair' the HTML (by moving, removing, or inserting elements) which breaks Svelte's assumptions about the structure of your components.
-https://svelte.dev/e/node_invalid_placement -->
 <script lang="ts">
 	import LicenseSelector from '../LicenseSelector.svelte';
 	import ResultPreview from '../ResultPreview.svelte';
@@ -43,7 +41,7 @@ https://svelte.dev/e/node_invalid_placement -->
 		hourly: ['temperature_2m'],
 		models: ['icon_seamless']
 	});
-	
+
 	const icon_global_variables = [
 		'weather_code',
 		'temperature_2m',
@@ -109,7 +107,7 @@ https://svelte.dev/e/node_invalid_placement -->
 		'temperature_500hPa',
 		'temperature_850hPa',
 		'geopotential_height_500hPa',
-		'geopotential_height_850hPa',
+		'geopotential_height_850hPa'
 	];
 
 	const gfs025_variables = [
@@ -163,7 +161,7 @@ https://svelte.dev/e/node_invalid_placement -->
 		'temperature_500hPa',
 		'temperature_850hPa',
 		'geopotential_height_500hPa',
-		'geopotential_height_850hPa',
+		'geopotential_height_850hPa'
 	];
 
 	const ecmwf__variables = [
@@ -187,7 +185,7 @@ https://svelte.dev/e/node_invalid_placement -->
 		'temperature_500hPa',
 		'temperature_850hPa',
 		'geopotential_height_500hPa',
-		'geopotential_height_850hPa',
+		'geopotential_height_850hPa'
 	];
 
 	let available_variables = {
@@ -223,7 +221,7 @@ https://svelte.dev/e/node_invalid_placement -->
 			'temperature_500hPa',
 			'temperature_850hPa',
 			'geopotential_height_500hPa',
-			'geopotential_height_850hPa',
+			'geopotential_height_850hPa'
 		],
 		bom_access_global_ensemble: [
 			'temperature_2m',
@@ -255,7 +253,7 @@ https://svelte.dev/e/node_invalid_placement -->
 			'soil_moisture_0_to_10cm',
 			'soil_moisture_10_to_40cm',
 			'soil_moisture_40_to_100cm',
-			'soil_moisture_100_to_200cm',
+			'soil_moisture_100_to_200cm'
 		]
 	};
 
@@ -328,7 +326,7 @@ https://svelte.dev/e/node_invalid_placement -->
 			{ name: 'temperature_850hPa', label: 'Temperature (850 hPa)' },
 			{ name: 'geopotential_height_500hPa', label: 'Geopotential Height (500 hPa)' },
 			{ name: 'geopotential_height_850hPa', label: 'Geopotential Height (850 hPa)' },
-			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
+			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
 			//{ name: 'is_day', label: 'Is Day or Night' }
 		],
 		[
@@ -345,7 +343,7 @@ https://svelte.dev/e/node_invalid_placement -->
 			{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
 			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
 			{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-			{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
+			{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' }
 			//{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
 		],
 		[
@@ -353,7 +351,7 @@ https://svelte.dev/e/node_invalid_placement -->
 			{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
 			{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
 			{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-			{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
+			{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' }
 			//{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
@@ -371,9 +369,9 @@ https://svelte.dev/e/node_invalid_placement -->
 			{ name: 'gfs05', label: 'GFS Ensemble 0.5' }
 		],
 		[
-			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4° Ensemble' }, 
-			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' }, 
-			{ name: 'gem_global', label: 'GEM Global Ensemble' }, 
+			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4° Ensemble' },
+			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' },
+			{ name: 'gem_global', label: 'GEM Global Ensemble' },
 			{ name: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
 		]
 	];
@@ -416,7 +414,7 @@ https://svelte.dev/e/node_invalid_placement -->
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						on:click={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -428,7 +426,7 @@ https://svelte.dev/e/node_invalid_placement -->
 						role="tab"
 						aria-controls="pills-time_interval"
 						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent/> Time Interval</button
+						aria-selected="true"><CalendarEvent /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -501,7 +499,7 @@ https://svelte.dev/e/node_invalid_placement -->
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 					</div>
 				</div>
@@ -578,7 +576,11 @@ https://svelte.dev/e/node_invalid_placement -->
 				{/each}
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
+							>&forecast_hours=</mark
+						>
+						and <mark>&past_hours=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -676,7 +678,8 @@ https://svelte.dev/e/node_invalid_placement -->
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -684,7 +687,7 @@ https://svelte.dev/e/node_invalid_placement -->
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -693,10 +696,8 @@ https://svelte.dev/e/node_invalid_placement -->
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90 }
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -714,7 +715,7 @@ https://svelte.dev/e/node_invalid_placement -->
 							bind:value={$params.azimuth}
 						/>
 						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -794,7 +795,13 @@ https://svelte.dev/e/node_invalid_placement -->
 	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="ensemble" action="ensemble" sdk_type="ensemble_api"/>
+<ResultPreview
+	{params}
+	{defaultParameter}
+	type="ensemble"
+	action="ensemble"
+	sdk_type="ensemble_api"
+/>
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
@@ -819,8 +826,12 @@ https://svelte.dev/e/node_invalid_placement -->
 		appropriate ensemble model to use would depend on the forecast horizon and region of interest.
 	</p>
 	<div class="table-responsive">
-		<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
 		<table class="table">
+			<caption
+				>You can find the update timings in the <a href="/en/docs/model-updates"
+					>model updates documentation</a
+				>.</caption
+			>
 			<thead>
 				<tr>
 					<th scope="col">National Weather Service</th>
@@ -944,11 +955,11 @@ https://svelte.dev/e/node_invalid_placement -->
 				<td>Yes</td>
 				<td />
 				<td
-						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
-						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
-						for multiple locations the JSON output changes to a list of structures. CSV and XLSX
-						formats add a column <mark>location_id</mark>.</td
-					>
+					>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
+					separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
+					for multiple locations the JSON output changes to a list of structures. CSV and XLSX
+					formats add a column <mark>location_id</mark>.</td
+				>
 			</tr>
 			<tr>
 				<th scope="row">models</th>
@@ -1060,11 +1071,17 @@ https://svelte.dev/e/node_invalid_placement -->
 				<td>Per default, only 7 days are returned. Up to 35 days of forecast are possible.</td>
 			</tr>
 			<tr>
-				<th scope="row">forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th>
+				<th scope="row"
+					>forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th
+				>
 				<td>Integer (&gt;0)</td>
 				<td>No</td>
 				<td></td>
-				<td>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can controlled. Instead of using the current day as a reference, the current hour or the current 15-minute time-step is used. </td>
+				<td
+					>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can
+					controlled. Instead of using the current day as a reference, the current hour or the
+					current 15-minute time-step is used.
+				</td>
 			</tr>
 			<tr>
 				<th scope="row">start_date<br />end_date</th>
@@ -1082,7 +1099,8 @@ https://svelte.dev/e/node_invalid_placement -->
 				<td>No</td>
 				<td />
 				<td
-					>The time interval to get weather data for hourly or 15 minutely data. Time must be specified as an ISO8601 date (e.g.
+					>The time interval to get weather data for hourly or 15 minutely data. Time must be
+					specified as an ISO8601 date (e.g.
 					<mark>2022-06-30T12:00</mark>).
 				</td>
 			</tr>
@@ -1243,19 +1261,23 @@ https://svelte.dev/e/node_invalid_placement -->
 				<th scope="row">global_tilted_irradiance</th>
 				<td>Preceding hour mean</td>
 				<td>W/m²</td>
-				<td>Total radiation received on a tilted pane as average of the preceding hour. 
-					The calculation is assuming a fixed albedo of 20% and in isotropic sky. 
-					Please specify tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. 
-					Azimuth should be close to 0° (0° south, -90° east, 90° west).
-					If azimuth is set to "nan", the calculation assumes a horizontal tracker. 
-					If tilt is set to "nan", it is assumed that the panel has a vertical tracker. 
-					If both are set to "nan", a bi-axial tracker is assumed.</td>
+				<td
+					>Total radiation received on a tilted pane as average of the preceding hour. The
+					calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify tilt
+					and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. Azimuth
+					should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to "nan", the
+					calculation assumes a horizontal tracker. If tilt is set to "nan", it is assumed that the
+					panel has a vertical tracker. If both are set to "nan", a bi-axial tracker is assumed.</td
+				>
 			</tr>
 			<tr>
 				<th scope="row">sunshine_duration</th>
 				<td>Preceding hour sum</td>
 				<td>Seconds</td>
-				<td>Number of seconds of sunshine of the preceding hour per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+				<td
+					>Number of seconds of sunshine of the preceding hour per hour calculated by direct
+					normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+				>
 			</tr>
 			<tr>
 				<th scope="row">vapour_pressure_deficit</th>
@@ -1344,9 +1366,7 @@ https://svelte.dev/e/node_invalid_placement -->
 				<th scope="row">visibility</th>
 				<td>Instant</td>
 				<td>meters</td>
-				<td
-					>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td
-				>
+				<td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
 			</tr>
 			<tr>
 				<th scope="row">cape</th>

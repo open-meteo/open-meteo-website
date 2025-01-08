@@ -1,5 +1,3 @@
-<!-- @migration-task Error while migrating Svelte code: `<button>` cannot be a descendant of `<button>`. The browser will 'repair' the HTML (by moving, removing, or inserting elements) which breaks Svelte's assumptions about the structure of your components.
-https://svelte.dev/e/node_invalid_placement -->
 <script lang="ts">
 	/**
 	 * TODO:
@@ -206,7 +204,7 @@ https://svelte.dev/e/node_invalid_placement -->
 						aria-label="Close"
 						title="Close"
 						on:click={closeModal}
-					/>
+					></button>
 				</div>
 				<div class="modal-body">
 					<div class="input-group">
@@ -268,12 +266,12 @@ https://svelte.dev/e/node_invalid_placement -->
 														{location.elevation.toFixed(0)}m asl{/if}</small
 												>
 												<div class="position-absolute top-0 end-0 p-2">
-													<button
+													<!-- <button
 														class="btn btn-outline-secondary btn-sm border-0"
 														on:click|stopPropagation={() => deleteFavorite(location)}
 														tabindex="-1"
 														title="Delete"><Trash /></button
-													>
+													> -->
 													<a
 														class="btn btn-outline-secondary btn-sm border-0"
 														href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
@@ -314,7 +312,7 @@ https://svelte.dev/e/node_invalid_placement -->
 														{location.elevation.toFixed(0)}m asl{/if})</small
 												>
 												<div class="position-absolute top-0 end-0 p-2">
-													<button
+													<!-- <button
 														class="btn btn-outline-secondary btn-sm border-0"
 														type="button"
 														on:click|stopPropagation={() => saveFavorite(location)}
@@ -327,7 +325,7 @@ https://svelte.dev/e/node_invalid_placement -->
 														on:click|stopPropagation={() => deleteRecent(location)}
 														tabindex="-1"
 														title="Delete"><Trash /></button
-													>
+													> -->
 													<a
 														class="btn btn-outline-secondary btn-sm border-0"
 														type="button"
@@ -373,13 +371,13 @@ https://svelte.dev/e/node_invalid_placement -->
 												{location.elevation.toFixed(0)}m asl{/if})</small
 										>
 										<div class="position-absolute top-0 end-0 p-2">
-											<button
+											<!-- <button
 												class="btn btn-outline-secondary btn-sm border-0"
 												type="button"
 												on:click|stopPropagation={() => saveFavorite(location)}
 												tabindex="-1"
 												title="Save"><Star /></button
-											>
+											> -->
 											<a
 												class="btn btn-outline-secondary btn-sm border-0"
 												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
@@ -405,5 +403,5 @@ https://svelte.dev/e/node_invalid_placement -->
 		</div>
 	</div>
 
-	<div class="modal-backdrop show" transition:fade|global={{ duration: 300 }} />
+	<div class="modal-backdrop show" transition:fade|global={{ duration: 300 }}></div>
 {/if}
