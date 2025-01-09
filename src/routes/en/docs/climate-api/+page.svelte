@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
-
 	import { dev } from '$app/environment';
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
+
 	import { countVariables } from '$lib/meteo';
+	import { urlHashStore } from '$lib/url-hash-store';
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
+
 	import StartEndDate from '../StartEndDate.svelte';
+	import ResultPreview from '../ResultPreview.svelte';
+	import LicenseSelector from '../LicenseSelector.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 
 	const defaultParameter = {
@@ -137,15 +137,19 @@
 				Quick:
 				<button
 					class="btn btn-outline-primary btn-sm"
-					onclick={preventDefault(() => (
-						($params.start_date = '1950-01-01'), ($params.end_date = '2050-12-31')
-					))}>1950-2050</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '1950-01-01';
+						$params.end_date = '2050-12-31';
+					}}>1950-2050</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					onclick={preventDefault(() => (
-						($params.start_date = '2015-01-01'), ($params.end_date = '2050-12-31')
-					))}>2015-2050</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2015-01-01';
+						$params.end_date = '2050-12-31';
+					}}>2015-2050</button
 				>
 			</p>
 		</div>
@@ -285,7 +289,14 @@
 	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="climate" action="climate" sdk_type="climate_api" useStockChart={true} />
+<ResultPreview
+	{params}
+	{defaultParameter}
+	type="climate"
+	action="climate"
+	sdk_type="climate_api"
+	useStockChart={true}
+/>
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">

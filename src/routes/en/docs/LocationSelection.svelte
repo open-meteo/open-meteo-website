@@ -1,7 +1,10 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
-	import LocationSearch from './LocationSearch.svelte';
+
 	import type { GeoLocation } from '$lib/stores';
+
+	import LocationSearch from './LocationSearch.svelte';
+
 	import GeoAltFill from 'svelte-bootstrap-icons/lib/GeoAltFill.svelte';
 	import List from 'svelte-bootstrap-icons/lib/List.svelte';
 	import PlusLg from 'svelte-bootstrap-icons/lib/PlusLg.svelte';
@@ -66,7 +69,7 @@
 				role="tab"
 				aria-controls="pills-csv_coordinates"
 				onclick={() => (location_mode = 'csv_coordinates')}
-				aria-selected="true"><List/> List</button
+				aria-selected="true"><List /> List</button
 			>
 		</li>
 	</ul>
@@ -196,17 +199,15 @@
 		>
 			<div class="row">
 				<div class="col-md-6 mb-3">
-					<textarea
-						class="form-control"
-						id="csv_coordinates"
-						bind:value={csv_coordinates}
-						rows="5"
+					<textarea class="form-control" id="csv_coordinates" bind:value={csv_coordinates} rows="5"
 					></textarea>
 				</div>
 				<div class="col-md-6 mb-3">
 					<p>
-						You can provide multiple coordinates. One per line and separated by commas. For each location, you can also set a time period if needed. Format:
-						latitude, longitude, elevation, timezone, start_date, end_date. Only latitude and longitude are required. Examples:
+						You can provide multiple coordinates. One per line and separated by commas. For each
+						location, you can also set a time period if needed. Format: latitude, longitude,
+						elevation, timezone, start_date, end_date. Only latitude and longitude are required.
+						Examples:
 					</p>
 					<pre>52.52,13.41
 51.5085,-0.1257,,auto

@@ -1,16 +1,18 @@
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
+	import { onMount } from 'svelte';
+
+	import { slide } from 'svelte/transition';
 
 	import { dev } from '$app/environment';
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
+
 	import { urlHashStore } from '$lib/url-hash-store';
 	import { countVariables } from '$lib/meteo';
+
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import { onMount } from 'svelte';
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
-	import { slide } from 'svelte/transition';
+	import LicenseSelector from '../LicenseSelector.svelte';
+	import ResultPreview from '../ResultPreview.svelte';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 2);
@@ -125,7 +127,7 @@
 			{ name: 'sunrise', label: 'Sunrise' },
 			{ name: 'sunset', label: 'Sunset' },
 			{ name: 'daylight_duration', label: 'Daylight Duration' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
+			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
 		],
 		[
 			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
@@ -161,10 +163,10 @@
 			}
 		],
 		[
-			{ name: 'is_day', label: 'Is Day or Night' }, 
+			{ name: 'is_day', label: 'Is Day or Night' },
 			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
 			{ name: 'albedo', label: 'Albedo (only CERRA)' },
-			{ name: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent (only CERRA)' },
+			{ name: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent (only CERRA)' }
 		]
 	];
 
@@ -198,7 +200,7 @@
 			{ name: 'pressure_msl_spread', label: 'Sealevel Pressure' },
 			{ name: 'cloud_cover_low_spread', label: 'Cloud cover Low' },
 			{ name: 'cloud_cover_mid_spread', label: 'Cloud cover Mid' },
-			{ name: 'cloud_cover_high_spread', label: 'Cloud cover High' },
+			{ name: 'cloud_cover_high_spread', label: 'Cloud cover High' }
 		],
 		[
 			{ name: 'wind_speed_10m_spread', label: 'Wind Speed (10 m)' },
@@ -215,16 +217,21 @@
 			{ name: 'soil_moisture_28_to_100cm_spread', label: 'Soil Moisture (28-100 cm)' },
 			{ name: 'soil_moisture_100_to_255cm_spread', label: 'Soil Moisture (100-255 cm)' }
 		]
-	]
+	];
 
 	let models = [
 		[
 			{ name: 'best_match', label: 'Best match', caption: 'ECMWF IFS & ERA5' },
 			{ name: 'ecmwf_ifs', label: 'ECMWF IFS', caption: '9 km, Global, 2017 onwards' },
-			{ name: 'ecmwf_ifs_analysis_long_window', label: 'ECMWF IFS Analysis Long-Window', caption: '9 km, 6-Hourly Measurements' },
+			{
+				name: 'ecmwf_ifs_analysis_long_window',
+				label: 'ECMWF IFS Analysis Long-Window',
+				caption: '9 km, 6-Hourly Measurements'
+			}
 			//{ name: 'ecmwf_ifs_analysis', label: 'ECMWF IFS Analysis', caption: '9 km, 6-Hourly Measurements' },
 			//{ name: 'ecmwf_ifs_long_window', label: 'ECMWF IFS Long-Window', caption: '9 km, 1-Hourly' }
-		],[
+		],
+		[
 			{ name: 'era5_seamless', label: 'ERA5-Seamless', caption: 'ERA5 & ERA5-Land combined' },
 			{ name: 'era5', label: 'ERA5', caption: '25 km, Global' },
 			{ name: 'era5_land', label: 'ERA5-Land', caption: '10 km, Global' },
@@ -244,7 +251,8 @@
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-	Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides access to a staggering 90 terabytes of meteorological data! Read the <a
+	Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides
+	access to a staggering 90 terabytes of meteorological data! Read the <a
 		href="https://open.substack.com/pub/openmeteo/p/processing-90-tb-historical-weather"
 		target="_blank">blog article</a
 	>.
@@ -281,45 +289,59 @@
 				Quick:
 				<button
 					class="btn btn-outline-primary btn-sm"
-					onclick={preventDefault(() => (
-						($params.start_date = '2000-01-01'), ($params.end_date = '2009-12-31')
-					))}>2000-2009</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2000-01-01';
+						$params.end_date = '2009-12-31';
+					}}>2000-2009</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					onclick={preventDefault(() => (
-						($params.start_date = '2010-01-01'), ($params.end_date = '2019-12-31')
-					))}>2010-2019</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2010-01-01';
+						$params.end_date = '2019-12-31';
+					}}>2010-2019</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					onclick={preventDefault(() => (
-						($params.start_date = '2020-01-01'), ($params.end_date = '2020-12-31')
-					))}>2020</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2020-01-01';
+						$params.end_date = '2020-12-31';
+					}}>2020</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					onclick={preventDefault(() => (
-						($params.start_date = '2021-01-01'), ($params.end_date = '2021-12-31')
-					))}>2021</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2021-01-01';
+						$params.end_date = '2021-12-31';
+					}}>2021</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					onclick={preventDefault(() => (
-						($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
-					))}>2022</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2022-01-01';
+						$params.end_date = '2022-12-31';
+					}}>2022</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					onclick={preventDefault(() => (
-						($params.start_date = '2023-01-01'), ($params.end_date = '2023-12-31')
-					))}>2023</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2023-01-01';
+						$params.end_date = '2023-12-31';
+					}}>2023</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					onclick={preventDefault(() => (
-						($params.start_date = '2024-01-01'), ($params.end_date = endDate)
-					))}>2024</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2024-01-01';
+						$params.end_date = endDate;
+					}}>2024</button
 				>
 			</p>
 		</div>
@@ -430,7 +452,8 @@
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -438,7 +461,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -447,10 +470,8 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90}
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -500,8 +521,9 @@
 				{/each}
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: Ensemble spread variables are available if the model <mark>ERA5-Ensemble</mark> is used. </small
-					>
+						>Note: Ensemble spread variables are available if the model <mark>ERA5-Ensemble</mark> is
+						used.
+					</small>
 				</div>
 			</AccordionItem>
 			<AccordionItem
@@ -559,9 +581,9 @@
 			</div>
 		{/each}
 		{#if timezoneInvalid}
-		<div class="alert alert-warning" role="alert">
-			It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
-		</div>
+			<div class="alert alert-warning" role="alert">
+				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+			</div>
 		{/if}
 	</div>
 
@@ -634,7 +656,14 @@
 	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="archive" action="archive" sdk_cache={-1} useStockChart={true} />
+<ResultPreview
+	{params}
+	{defaultParameter}
+	type="archive"
+	action="archive"
+	sdk_cache={-1}
+	useStockChart={true}
+/>
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">
@@ -648,20 +677,23 @@
 			stations nearby, such as rural areas or the open ocean.
 		</p>
 		<p>
-			The models for historical weather data use a spatial resolution of 9 km to resolve fine details 
-			close to coasts or complex mountain terrain. In general, a higher spatial resolution means that the data is
-			more detailed and represents the weather conditions more accurately at smaller scales.
+			The models for historical weather data use a spatial resolution of 9 km to resolve fine
+			details close to coasts or complex mountain terrain. In general, a higher spatial resolution
+			means that the data is more detailed and represents the weather conditions more accurately at
+			smaller scales.
 		</p>
 	</div>
 	<div class="col-6">
 		<p>
-			The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs at 0z and 12z, 
-			employing the most up-to-date version of IFS. This dataset offers the utmost resolution and precision 
-			in depicting historical weather conditions.
+			The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs at
+			0z and 12z, employing the most up-to-date version of IFS. This dataset offers the utmost
+			resolution and precision in depicting historical weather conditions.
 		</p>
-		<p>However, when studying climate change over decades, it is advisable to exclusively utilize ERA5 or ERA5-Land. 
-			This choice ensures data consistency and prevents unintentional alterations that could arise from the adoption 
-			of different weather model upgrades.</p>
+		<p>
+			However, when studying climate change over decades, it is advisable to exclusively utilize
+			ERA5 or ERA5-Land. This choice ensures data consistency and prevents unintentional alterations
+			that could arise from the adoption of different weather model upgrades.
+		</p>
 		<p>
 			You can access data dating back to 1940 with a delay of 2 days. If you're looking for weather
 			information from the previous day, our <a
@@ -674,7 +706,11 @@
 </div>
 <div class="table-responsive">
 	<table class="table">
-		<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+		<caption
+			>You can find the update timings in the <a href="/en/docs/model-updates"
+				>model updates documentation</a
+			>.</caption
+		>
 		<thead>
 			<tr>
 				<th scope="col">Data Set</th>
@@ -714,8 +750,7 @@
 			</tr>
 			<tr>
 				<th scope="row"
-					><a
-						href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview"
+					><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview"
 						>ERA5-Land</a
 					>
 				</th>
@@ -1084,19 +1119,24 @@
 					<th scope="row">global_tilted_irradiance</th>
 					<td>Preceding hour mean</td>
 					<td>W/m²</td>
-					<td>Total radiation received on a tilted pane as average of the preceding hour. 
-						The calculation is assuming a fixed albedo of 20% and in isotropic sky. 
-						Please specify tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. 
-						Azimuth should be close to 0° (0° south, -90° east, 90° west).
-						If azimuth is set to "nan", the calculation assumes a horizontal tracker. 
-						If tilt is set to "nan", it is assumed that the panel has a vertical tracker. 
-						If both are set to "nan", a bi-axial tracker is assumed.</td>
+					<td
+						>Total radiation received on a tilted pane as average of the preceding hour. The
+						calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify tilt
+						and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. Azimuth
+						should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to "nan", the
+						calculation assumes a horizontal tracker. If tilt is set to "nan", it is assumed that
+						the panel has a vertical tracker. If both are set to "nan", a bi-axial tracker is
+						assumed.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>Preceding hour sum</td>
 					<td>Seconds</td>
-					<td>Number of seconds of sunshine of the preceding hour per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+					<td
+						>Number of seconds of sunshine of the preceding hour per hour calculated by direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">wind_speed_10m<br />wind_speed_100m</th>
@@ -1252,7 +1292,11 @@
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>seconds</td>
-					<td>The number of seconds of sunshine per day is determined by calculating direct normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine duration will consistently be less than daylight duration due to dawn and dusk.</td>
+					<td
+						>The number of seconds of sunshine per day is determined by calculating direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine
+						duration will consistently be less than daylight duration due to dawn and dusk.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">daylight_duration</th>

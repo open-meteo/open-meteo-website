@@ -1,12 +1,13 @@
 <script lang="ts">
-	import { run, preventDefault } from 'svelte/legacy';
-
 	import { onMount } from 'svelte';
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import { api_key_preferences } from '$lib/stores';
-	import LocationSearch from '../LocationSearch.svelte';
+
 	import type { GeoLocation } from '$lib/stores';
+	import { api_key_preferences } from '$lib/stores';
 	import { urlHashStore } from '$lib/url-hash-store';
+
+	import LicenseSelector from '../LicenseSelector.svelte';
+	import LocationSearch from '../LocationSearch.svelte';
+
 	import PlusLg from 'svelte-bootstrap-icons/lib/PlusLg.svelte';
 	import Trash from 'svelte-bootstrap-icons/lib/Trash.svelte';
 
@@ -21,17 +22,20 @@
 		$params.latitude = $params.latitude.toSpliced(index, 1, latitude);
 		$params.longitude = $params.longitude.toSpliced(index, 1, longitude);
 	}
+
 	function addLocation() {
 		$params.latitude = [...$params.latitude, NaN];
 		$params.longitude = [...$params.longitude, NaN];
 	}
+
 	function removeLocation(index: number) {
 		$params.latitude = $params.latitude.toSpliced(index, 1);
 		$params.longitude = $params.longitude.toSpliced(index, 1);
 	}
 
 	let base = $state('https://api.open-meteo.com/v1/elevation?');
-	run(() => {
+
+	$effect(() => {
 		switch ($api_key_preferences.use) {
 			case 'commercial':
 				base = `https://customer-api.open-meteo.com/v1/elevation?apikey=${$api_key_preferences.apikey}&`;
@@ -139,8 +143,13 @@
 	<LicenseSelector />
 
 	<div class="col-12 mb-3">
-		<button type="submit" class="btn btn-primary" onclick={preventDefault(submitForm)}
-			>Preview</button
+		<button
+			type="submit"
+			class="btn btn-primary"
+			onclick={(e) => {
+				e.preventDefault();
+				submitForm();
+			}}>Preview</button
 		>
 	</div>
 </form>

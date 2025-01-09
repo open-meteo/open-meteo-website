@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { preventDefault } from 'svelte/legacy';
+	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
 
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
 	import { urlHashStore } from '$lib/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
@@ -10,11 +9,12 @@
 		countVariables,
 		sliceIntoChunks
 	} from '$lib/meteo';
+
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import { slide } from 'svelte/transition';
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
-	import { onMount } from 'svelte';
+	import LicenseSelector from '../LicenseSelector.svelte';
+	import ResultPreview from '../ResultPreview.svelte';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 2);
@@ -239,7 +239,8 @@
 			{ name: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' },
 			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
 			{ name: 'bom_access_global', label: 'BOM ACCESS Global' }
-		],[
+		],
+		[
 			{ name: 'gfs_seamless', label: 'NCEP GFS Seamless' },
 			{ name: 'gfs_global', label: 'NCEP GFS Global 0.11°/0.25°' },
 			{ name: 'gfs_hrrr', label: 'NCEP HRRR U.S. Conus' },
@@ -274,16 +275,19 @@
 			{ name: 'arpae_cosmo_seamless', label: 'ARPAE Seamless' },
 			{ name: 'arpae_cosmo_2i', label: 'ARPAE COSMO 2I' },
 			{ name: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
-		],[
+		],
+		[
 			{ name: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
 			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
-		],[
+		],
+		[
 			{ name: 'knmi_seamless', label: 'KNMI Seamless (with ECMWF)' },
 			{ name: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie Arome Europe' },
 			{ name: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
 			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
-			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
-		],[
+			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' }
+		],
+		[
 			{ name: 'ukmo_seamless', label: 'UK Met Office Seamless' },
 			{ name: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
 			{ name: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
@@ -303,7 +307,11 @@
 <div class="alert alert-info" role="alert">
 	This API provides access to archived high-resolution weather model data from the <a
 		href="/en/docs">Weather Forecast API</a
-	>. The data is continuously archived and updated daily. For more information read the <a href="https://openmeteo.substack.com/p/introducing-the-historical-forecast" title="Introducing the Historical Forecast API">announcement blog article</a>.
+	>. The data is continuously archived and updated daily. For more information read the
+	<a
+		href="https://openmeteo.substack.com/p/introducing-the-historical-forecast"
+		title="Introducing the Historical Forecast API">announcement blog article</a
+	>.
 </div>
 
 <form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
@@ -328,36 +336,30 @@
 			<p>Past weather forecasts from 2022 onwards are available.</p>
 			<p>
 				Quick:
-				<!--<button
+				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2020-01-01'), ($params.end_date = '2020-12-31')
-					)}>2020</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2022-01-01';
+						$params.end_date = '2022-12-31';
+					}}>2022</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2021-01-01'), ($params.end_date = '2021-12-31')
-					)}>2021</button
-				>-->
-				<button
-					class="btn btn-outline-primary btn-sm"
-					onclick={preventDefault(() => (
-						($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
-					))}>2022</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2023-01-01';
+						$params.end_date = '2023-12-31';
+					}}>2023</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					onclick={preventDefault(() => (
-						($params.start_date = '2023-01-01'), ($params.end_date = '2023-12-31')
-					))}>2023</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2024-01-01';
+						$params.end_date = endDate;
+					}}>2024</button
 				>
-				<button
-				class="btn btn-outline-primary btn-sm"
-				onclick={preventDefault(() => (
-					($params.start_date = '2024-01-01'), ($params.end_date = endDate)
-				))}>2024</button
-			>
 			</p>
 		</div>
 	</div>
@@ -1075,24 +1077,25 @@
 	</p>
 	<ul>
 		<li>
-			<strong><a href="/en/docs/historical-weather-api">Historical Weather API:</a></strong> This dataset is based on reanalysis weather models, particularly
-			ERA5. It offers data from 1940 onwards with reasonable consistency throughout the time series,
-			making it ideal for analyzing weather trends and climate change. The focus here is on consistency
-			rather than pinpoint accuracy, with a spatial resolution ranging from 9 to 25 kilometers.
+			<strong><a href="/en/docs/historical-weather-api">Historical Weather API:</a></strong> This dataset
+			is based on reanalysis weather models, particularly ERA5. It offers data from 1940 onwards with
+			reasonable consistency throughout the time series, making it ideal for analyzing weather trends
+			and climate change. The focus here is on consistency rather than pinpoint accuracy, with a spatial
+			resolution ranging from 9 to 25 kilometers.
 		</li>
 		<li>
-			<strong><a href="/en/docs/historical-forecast-api">Historical Forecast API:</a></strong> This dataset is constructed by continuously assembling
-			weather forecasts, concatenating the first hours of each model update. Initialized with actual
-			measurements, it closely mirrors local measurements but provides global coverage. However, it only
-			includes data from the past 2-5 years and lacks long-term consistency due to evolving weather models
-			and better initialization data over time.
+			<strong><a href="/en/docs/historical-forecast-api">Historical Forecast API:</a></strong> This dataset
+			is constructed by continuously assembling weather forecasts, concatenating the first hours of each
+			model update. Initialized with actual measurements, it closely mirrors local measurements but provides
+			global coverage. However, it only includes data from the past 2-5 years and lacks long-term consistency
+			due to evolving weather models and better initialization data over time.
 		</li>
 		<li>
-			<strong><a href="/en/docs/previous-runs-api">Previous Runs API</a></strong>: Similar to the Historical Forecast API, this dataset
-			archives high-resolution weather models but includes data with a lead time offset of 1, 2, 3,
-			4, or more days. This makes it ideal for analyzing forecast performance several days into the
-			future. Due to the vast amount of data, only common weather variables are stored, with data
-			processing beginning in early 2024.
+			<strong><a href="/en/docs/previous-runs-api">Previous Runs API</a></strong>: Similar to the
+			Historical Forecast API, this dataset archives high-resolution weather models but includes
+			data with a lead time offset of 1, 2, 3, 4, or more days. This makes it ideal for analyzing
+			forecast performance several days into the future. Due to the vast amount of data, only common
+			weather variables are stored, with data processing beginning in early 2024.
 		</li>
 	</ul>
 	<h4>Choosing the Right Dataset:</h4>
@@ -1117,6 +1120,8 @@
 	<h2 id="data-sources">API Parameter</h2>
 	<p>
 		As the API is identical to the Forecast API, please refer to the Weather Forecast API
-		documentation for all available variables and parameters. The only notable difference is the API host "historical-forecast-api.open-meteo.com" as historical data is moved to a different set of servers with access to a large storage system.
+		documentation for all available variables and parameters. The only notable difference is the API
+		host "historical-forecast-api.open-meteo.com" as historical data is moved to a different set of
+		servers with access to a large storage system.
 	</p>
 </div>

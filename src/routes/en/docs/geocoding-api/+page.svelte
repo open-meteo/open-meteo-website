@@ -1,22 +1,25 @@
 <script lang="ts">
-	import { run, createBubbler, preventDefault } from 'svelte/legacy';
+	import { onDestroy } from 'svelte';
 
-	const bubble = createBubbler();
-	import { onDestroy, onMount } from 'svelte';
-	import LicenseSelector from '../LicenseSelector.svelte';
+	import { createBubbler, preventDefault } from 'svelte/legacy';
+
 	import { api_key_preferences } from '$lib/stores';
 	import { urlHashStore } from '$lib/url-hash-store';
 
-	const params = urlHashStore({ 
-		name: 'Berlin', 
-		count: '10', 
-		language: 'en', 
-		format: 'json' 
+	import LicenseSelector from '../LicenseSelector.svelte';
+
+	const bubble = createBubbler();
+
+	const params = urlHashStore({
+		name: 'Berlin',
+		count: '10',
+		language: 'en',
+		format: 'json'
 	});
 
 	//const params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
 	let action = $state('https://geocoding-api.open-meteo.com/v1/search?');
-	run(() => {
+	$effect(() => {
 		switch ($api_key_preferences.use) {
 			case 'commercial':
 				action = `https://customer-geocoding-api.open-meteo.com/v1/search?apikey=${$api_key_preferences.apikey}&`;
@@ -31,31 +34,33 @@
 
 	//const paramsDefault = { ...params };
 	let apiUrl = $derived(`${action}${new URLSearchParams($params)}`);
-	let debounceTimeout: number | undefined = $state();
+	let debounceTimeout: number | undefined = undefined;
 
 	onDestroy(() => {
 		clearInterval(debounceTimeout);
 	});
 
 	// Fetch is automatically called after `params` changes due to reactive assignment
-	let results = $derived((async () => {
-		if (debounceTimeout) {
-			clearTimeout(debounceTimeout);
-		}
-		await new Promise((resolve) => {
-			debounceTimeout = setTimeout(resolve, 300);
-		});
+	let results = $derived(
+		(async () => {
+			if (debounceTimeout) {
+				clearTimeout(debounceTimeout);
+			}
+			await new Promise((resolve) => {
+				debounceTimeout = setTimeout(resolve, 300);
+			});
 
-		// Always set format=json to fetch data
-		const fetchUrl = `${action}${new URLSearchParams({ ...$params, ...{ format: 'json' } })}`;
-		const result = await fetch(fetchUrl);
+			// Always set format=json to fetch data
+			const fetchUrl = `${action}${new URLSearchParams({ ...$params, ...{ format: 'json' } })}`;
+			const result = await fetch(fetchUrl);
 
-		if (!result.ok) {
-			throw new Error(await result.text());
-		}
+			if (!result.ok) {
+				throw new Error(await result.text());
+			}
 
-		return await result.json();
-	})());
+			return await result.json();
+		})()
+	);
 </script>
 
 <svelte:head>
@@ -457,9 +462,9 @@
 		</table>
 	</div>
 
-	*Note: All IDs can be can be resolved via the API endpoint<a
-		href="https://geocoding-api.open-meteo.com/v1/get?id=2950159"
-		target="_new">https://geocoding-api.open-meteo.com/v1/get?id=2950159</a
+	*Note: All IDs can be can be resolved via the API endpoint
+	<a href="https://geocoding-api.open-meteo.com/v1/get?id=2950159" target="_new"
+		>https://geocoding-api.open-meteo.com/v1/get?id=2950159</a
 	>
 
 	<h3 class="mt-5">Errors</h3>

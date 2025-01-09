@@ -14,7 +14,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 
-	export let label: string = 'Search Locations ...';
+	export let label: string = 'Search Locations...';
 
 	interface ResultSet {
 		results: GeoLocation[] | undefined;
@@ -170,11 +170,8 @@
 	})();
 </script>
 
-<button
-	type="button"
-	style="padding: 6px"
-	class="btn btn-outline-secondary w-100"
-	on:click={openModal}><Search /> {label}</button
+<button type="button" class="btn btn-outline-secondary w-100 p-3" on:click={openModal}
+	><Search class="mb-1 me-1" /> {label}</button
 >
 
 {#if modalOpen}
