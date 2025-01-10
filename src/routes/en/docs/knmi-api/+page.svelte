@@ -136,7 +136,10 @@
 	];
 
 	const additionalVariables = [
-		[{ name: 'is_day', label: 'Is Day or Night' },{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }],
+		[
+			{ name: 'is_day', label: 'Is Day or Night' },
+			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
+		],
 		[{ name: 'sunshine_duration', label: 'Sunshine Duration' }]
 	];
 
@@ -197,7 +200,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						onclick={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -209,7 +213,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent /> Time Interval</button
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>

@@ -100,7 +100,7 @@
 			{ name: 'european_aqi_pm10', label: 'European AQI PM<sub>10</sub>' },
 			{ name: 'european_aqi_nitrogen_dioxide', label: 'European AQI NO<sub>2</sub>' },
 			{ name: 'european_aqi_ozone', label: 'European AQI O<sub>3</sub>' },
-			{ name: 'european_aqi_sulphur_dioxide', label: 'European AQI SO<sub>2</sub>' },
+			{ name: 'european_aqi_sulphur_dioxide', label: 'European AQI SO<sub>2</sub>' }
 		]
 	];
 
@@ -120,14 +120,33 @@
 		[
 			{ name: 'formaldehyde', label: 'Formaldehyde CH₂O' },
 			{ name: 'glyoxal', label: 'Glyoxal C₂H₂O₂' },
-			{ name: 'non_methane_volatile_organic_compounds', label: 'Non Methane Volatile Organic Compounds <small class="text-muted">(*)</small>' },
-			{ name: 'pm10_wildfires', label: 'PM<sub>10</sub> caused by wildfires <small class="text-muted">(*)</small>' },
+			{
+				name: 'non_methane_volatile_organic_compounds',
+				label: 'Non Methane Volatile Organic Compounds <small class="text-muted">(*)</small>'
+			},
+			{
+				name: 'pm10_wildfires',
+				label: 'PM<sub>10</sub> caused by wildfires <small class="text-muted">(*)</small>'
+			},
 			{ name: 'peroxyacyl_nitrates', label: 'Peroxyacyl Nitrates PAN' },
-			{ name: 'secondary_inorganic_aerosol', label: 'Secondary Inorganic Aerosol <small class="text-muted">(*)</small>' }
+			{
+				name: 'secondary_inorganic_aerosol',
+				label: 'Secondary Inorganic Aerosol <small class="text-muted">(*)</small>'
+			}
 		],
-		[	{ name: 'residential_elementary_carbon', label: 'Residential Rlementary Carbon <small class="text-muted">(*)</small>' },
-			{ name: 'total_elementary_carbon', label: 'Total Elementary Carbon <small class="text-muted">(*)</small>' },
-			{ name: 'pm2_5_total_organic_matter', label: 'PM<sub>2.5</sub> Total Organic Matter <small class="text-muted">(*)</small>' },
+		[
+			{
+				name: 'residential_elementary_carbon',
+				label: 'Residential Rlementary Carbon <small class="text-muted">(*)</small>'
+			},
+			{
+				name: 'total_elementary_carbon',
+				label: 'Total Elementary Carbon <small class="text-muted">(*)</small>'
+			},
+			{
+				name: 'pm2_5_total_organic_matter',
+				label: 'PM<sub>2.5</sub> Total Organic Matter <small class="text-muted">(*)</small>'
+			},
 			{ name: 'sea_salt_aerosol', label: 'Sea Salt Aerosol' },
 			{ name: 'nitrogen_monoxide', label: 'Nitrogen Monoxide NO' }
 		]
@@ -167,7 +186,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						onclick={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -179,7 +199,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent/> Time Interval</button
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -249,7 +269,7 @@
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 					</div>
 				</div>
@@ -326,7 +346,11 @@
 				<div class="col-md-12">
 					<div class="table-responsive">
 						<table class="table" id="airquality_table">
-							<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+							<caption
+								>You can find the update timings in the <a href="/en/docs/model-updates"
+									>model updates documentation</a
+								>.</caption
+							>
 							<thead>
 								<tr>
 									<th scope="col">Pollutant <small class="text-muted">(μg/m³)</small></th>
@@ -550,11 +574,8 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem
-				id="additional-variables"
-				title="Additional Variables and Options"
-			>
-			{#each additionalVariables as group}
+			<AccordionItem id="additional-variables" title="Additional Variables and Options">
+				{#each additionalVariables as group}
 					<div class="col-md-6">
 						{#each group as e}
 							<div class="form-check">
@@ -572,14 +593,16 @@
 					</div>
 				{/each}
 				<div class="col-md-12 mb-3">
-					<small class="text-muted"
-						>* Only available in Europe 
-					</small>
+					<small class="text-muted">* Only available in Europe </small>
 				</div>
 
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
+							>&forecast_hours=</mark
+						>
+						and <mark>&past_hours=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -713,21 +736,31 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="air-quality" action="air-quality" sdk_type="air_quality_api"/>
+<ResultPreview
+	{params}
+	{defaultParameter}
+	type="air-quality"
+	action="air-quality"
+	sdk_type="air_quality_api"
+/>
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">
 	<div class="col-12">
 		<p>
-			Forecast is based on the 11 kilometer CAMS European air quality forecast
-			and the 40 kilometer
-			CAMS global atmospheric composition forecasts. The European and global domain are not coupled and may show different forecasts.
+			Forecast is based on the 11 kilometer CAMS European air quality forecast and the 40 kilometer
+			CAMS global atmospheric composition forecasts. The European and global domain are not coupled
+			and may show different forecasts.
 		</p>
 	</div>
 </div>
 <div class="table-responsive">
 	<table class="table">
-		<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+		<caption
+			>You can find the update timings in the <a href="/en/docs/model-updates"
+				>model updates documentation</a
+			>.</caption
+		>
 		<thead>
 			<tr>
 				<th scope="col">Data Set</th>
@@ -756,8 +789,8 @@
 				<th scope="row"
 					><a
 						href="https://ads.atmosphere.copernicus.eu/datasets/cams-europe-air-quality-reanalyses?tab=overview"
-						>CAMS European Air Quality Reanalysis </a
-					>
+						>CAMS European Air Quality Reanalysis
+					</a>
 				</th>
 				<td>Europe</td>
 				<td>0.1° (~11 km)</td>
@@ -905,7 +938,10 @@
 					<td>Integer (&gt;0)</td>
 					<td>No</td>
 					<td></td>
-					<td>Similar to forecast_days, the number of timesteps of hourly data can controlled. Instead of using the current day as a reference, the current hour is used. </td>
+					<td
+						>Similar to forecast_days, the number of timesteps of hourly data can controlled.
+						Instead of using the current day as a reference, the current hour is used.
+					</td>
 				</tr>
 				<tr>
 					<th scope="row">start_date<br />end_date</th>
@@ -923,7 +959,8 @@
 					<td>No</td>
 					<td></td>
 					<td
-						>The time interval to get weather data for hourly data. Time must be specified as an ISO8601 date (e.g.
+						>The time interval to get weather data for hourly data. Time must be specified as an
+						ISO8601 date (e.g.
 						<mark>2022-06-30T12:00</mark>).
 					</td>
 				</tr>
@@ -1053,8 +1090,9 @@
 				</tr>
 				<tr>
 					<th scope="row">
-						european_aqi<br />european_aqi_pm2_5<br />european_aqi_pm10<br />european_aqi_nitrogen_dioxide<br
-						/>european_aqi_ozone<br />european_aqi_sulphur_dioxide
+						european_aqi<br />european_aqi_pm2_5<br />european_aqi_pm10<br
+						/>european_aqi_nitrogen_dioxide<br />european_aqi_ozone<br
+						/>european_aqi_sulphur_dioxide
 					</th>
 					<td>Instant</td>
 					<td>European AQI</td>
@@ -1067,8 +1105,8 @@
 				</tr>
 				<tr>
 					<th scope="row">
-						us_aqi<br />us_aqi_pm2_5<br />us_aqi_pm10<br />us_aqi_nitrogen_dioxide<br />us_aqi_ozone<br
-						/>us_aqi_sulphur_dioxide<br />us_aqi_carbon_monoxide
+						us_aqi<br />us_aqi_pm2_5<br />us_aqi_pm10<br />us_aqi_nitrogen_dioxide<br
+						/>us_aqi_ozone<br />us_aqi_sulphur_dioxide<br />us_aqi_carbon_monoxide
 					</th>
 					<td>Instant</td>
 					<td>U.S. AQI</td>

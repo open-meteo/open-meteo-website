@@ -124,22 +124,23 @@
 			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
 			{ name: 'is_day', label: 'Is Day or Night' }
-		],[
+		],
+		[
 			{ name: 'precipitation', label: 'Precipitation' },
 			{ name: 'rain', label: 'Rain' },
 			{ name: 'showers', label: 'Showers' },
-			{ name: 'snowfall', label: 'Snowfall' },
+			{ name: 'snowfall', label: 'Snowfall' }
 		],
 		[
 			{ name: 'weather_code', label: 'Weather code' },
 			{ name: 'cloud_cover', label: 'Cloud cover Total' },
 			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'surface_pressure', label: 'Surface Pressure' },
+			{ name: 'surface_pressure', label: 'Surface Pressure' }
 		],
 		[
 			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
+			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 		]
 	];
 
@@ -193,7 +194,7 @@
 			{ name: 'updraft', label: 'Updraft (2)' },
 			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
 			{ name: 'convective_cloud_base', label: 'Convective Cloud Base' },
-			{ name: 'convective_cloud_top', label: 'Convective Cloud Top' },
+			{ name: 'convective_cloud_top', label: 'Convective Cloud Top' }
 		],
 		[
 			{ name: 'cape', label: 'CAPE' },
@@ -227,7 +228,7 @@
 			{ name: 'icon_global', label: 'DWD ICON Global' },
 			{ name: 'icon_eu', label: 'DWD ICON EU' },
 			{ name: 'icon_d2', label: 'DWD ICON D2' }
-		],
+		]
 	];
 </script>
 
@@ -268,7 +269,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						onclick={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -280,7 +282,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent /> Time Interval</button
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -407,7 +409,11 @@
 				<small class="text-muted mt-3">(1) Europe only, (2) Central Europe only</small>
 				<div class="col-md-12 mb-3 mt-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
+							>&forecast_hours=</mark
+						>
+						and <mark>&past_hours=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -471,7 +477,8 @@
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -479,7 +486,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -488,10 +495,8 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90}
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -637,7 +642,9 @@
 				</div>
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for 15-minutely weather variables using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for 15-minutely weather variables
+						using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -722,9 +729,9 @@
 			</div>
 		{/each}
 		{#if timezoneInvalid}
-		<div class="alert alert-warning" role="alert">
-			It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
-		</div>
+			<div class="alert alert-warning" role="alert">
+				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+			</div>
 		{/if}
 	</div>
 
@@ -749,7 +756,8 @@
 		{/each}
 		<div class="col-md-12">
 			<small class="text-muted"
-				>Note: Current conditions are based on 15-minutely weather model data. Every weather variable available in hourly data, is available as current condition as well.</small
+				>Note: Current conditions are based on 15-minutely weather model data. Every weather
+				variable available in hourly data, is available as current condition as well.</small
 			>
 		</div>
 	</div>
@@ -838,7 +846,11 @@
 	</p>
 	<div class="table-responsive">
 		<table class="table">
-			<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+			<caption
+				>You can find the update timings in the <a href="/en/docs/model-updates"
+					>model updates documentation</a
+				>.</caption
+			>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>
@@ -879,12 +891,12 @@
 	</div>
 
 	<figure class="figure">
-		<img src="/images/models/dwd_icon-d2.webp" class="figure-img img-fluid rounded" alt="...">
+		<img src="/images/models/dwd_icon-d2.webp" class="figure-img img-fluid rounded" alt="..." />
 		<figcaption class="figure-caption">ICON D2 Area. Source: Open-Meteo.</figcaption>
 	</figure>
 
 	<figure class="figure">
-		<img src="/images/models/dwd_icon-eu.webp" class="figure-img img-fluid rounded" alt="...">
+		<img src="/images/models/dwd_icon-eu.webp" class="figure-img img-fluid rounded" alt="..." />
 		<figcaption class="figure-caption">ICON EU Regional Model Area. Source: Open-Meteo.</figcaption>
 	</figure>
 
@@ -1043,11 +1055,17 @@
 					<td>Per default, only 7 days are returned. Up to 10 days of forecast are possible.</td>
 				</tr>
 				<tr>
-					<th scope="row">forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th>
+					<th scope="row"
+						>forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th
+					>
 					<td>Integer (&gt;0)</td>
 					<td>No</td>
 					<td></td>
-					<td>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can controlled. Instead of using the current day as a reference, the current hour or the current 15-minute time-step is used. </td>
+					<td
+						>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can
+						controlled. Instead of using the current day as a reference, the current hour or the
+						current 15-minute time-step is used.
+					</td>
 				</tr>
 				<tr>
 					<th scope="row">start_date<br />end_date</th>
@@ -1065,7 +1083,8 @@
 					<td>No</td>
 					<td></td>
 					<td
-						>The time interval to get weather data for hourly or 15 minutely data. Time must be specified as an ISO8601 date (e.g.
+						>The time interval to get weather data for hourly or 15 minutely data. Time must be
+						specified as an ISO8601 date (e.g.
 						<mark>2022-06-30T12:00</mark>).
 					</td>
 				</tr>
@@ -1240,19 +1259,24 @@
 					<th scope="row">global_tilted_irradiance</th>
 					<td>Preceding hour mean</td>
 					<td>W/m²</td>
-					<td>Total radiation received on a tilted pane as average of the preceding hour. 
-						The calculation is assuming a fixed albedo of 20% and in isotropic sky. 
-						Please specify tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. 
-						Azimuth should be close to 0° (0° south, -90° east, 90° west).
-						If azimuth is set to "nan", the calculation assumes a horizontal tracker. 
-						If tilt is set to "nan", it is assumed that the panel has a vertical tracker. 
-						If both are set to "nan", a bi-axial tracker is assumed.</td>
+					<td
+						>Total radiation received on a tilted pane as average of the preceding hour. The
+						calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify tilt
+						and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. Azimuth
+						should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to "nan", the
+						calculation assumes a horizontal tracker. If tilt is set to "nan", it is assumed that
+						the panel has a vertical tracker. If both are set to "nan", a bi-axial tracker is
+						assumed.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>Preceding hour sum</td>
 					<td>Seconds</td>
-					<td>Number of seconds of sunshine of the preceding hour per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+					<td
+						>Number of seconds of sunshine of the preceding hour per hour calculated by direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">vapour_pressure_deficit</th>
@@ -1399,9 +1423,7 @@
 					<th scope="row">visibility</th>
 					<td>Instant</td>
 					<td>meters</td>
-					<td
-						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td
-					>
+					<td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
 				</tr>
 			</tbody>
 		</table>
@@ -1456,19 +1478,23 @@
 					<th scope="row">global_tilted_irradiance</th>
 					<td>Preceding 15 minutes mean</td>
 					<td>W/m²</td>
-					<td>Total radiation received on a tilted pane as average of the 15 minutes. 
-						The calculation is assuming a fixed albedo of 20% and in isotropic sky. 
-						Please specify tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. 
-						Azimuth should be close to 0° (0° south, -90° east, 90° west).
-						If azimuth is set to "nan", the calculation assumes a horizontal tracker. 
-						If tilt is set to "nan", it is assumed that the panel has a vertical tracker. 
-						If both are set to "nan", a bi-axial tracker is assumed.</td>
+					<td
+						>Total radiation received on a tilted pane as average of the 15 minutes. The calculation
+						is assuming a fixed albedo of 20% and in isotropic sky. Please specify tilt and azimuth
+						parameter. Tilt ranges from 0° to 90° and is typically around 45°. Azimuth should be
+						close to 0° (0° south, -90° east, 90° west). If azimuth is set to "nan", the calculation
+						assumes a horizontal tracker. If tilt is set to "nan", it is assumed that the panel has
+						a vertical tracker. If both are set to "nan", a bi-axial tracker is assumed.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>Preceding 15 minutes sum</td>
 					<td>Seconds</td>
-					<td>Number of seconds of sunshine of the preceding 15-minutes per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+					<td
+						>Number of seconds of sunshine of the preceding 15-minutes per hour calculated by direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">lightning_potential</th>
@@ -1677,7 +1703,11 @@
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>seconds</td>
-					<td>The number of seconds of sunshine per day is determined by calculating direct normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine duration will consistently be less than daylight duration due to dawn and dusk.</td>
+					<td
+						>The number of seconds of sunshine per day is determined by calculating direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine
+						duration will consistently be less than daylight duration due to dawn and dusk.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">daylight_duration</th>

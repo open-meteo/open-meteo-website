@@ -7,7 +7,7 @@
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
-	
+
 	const defaultParameter = {
 		six_hourly: [],
 		daily: [],
@@ -22,7 +22,7 @@
 		forecast_days: '92',
 		start_date: '',
 		end_date: '',
-		time_mode: 'forecast_days',
+		time_mode: 'forecast_days'
 		//models: []
 	};
 
@@ -30,7 +30,7 @@
 		latitude: [52.52],
 		longitude: [13.41],
 		...defaultParameter,
-    	daily: ['temperature_2m_max']
+		daily: ['temperature_2m_max']
 	});
 
 	const six_hourly = [
@@ -105,7 +105,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						onclick={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -117,7 +118,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent/> Time Interval</button
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -187,7 +188,7 @@
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 					</div>
 				</div>
@@ -306,7 +307,13 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="seasonal" action="seasonal" sdk_type="ensemble_api" />
+<ResultPreview
+	{params}
+	{defaultParameter}
+	type="seasonal"
+	action="seasonal"
+	sdk_type="ensemble_api"
+/>
 
 <div class="col-12 py-5">
 	<h2 id="api-documentation">API Documentation</h2>

@@ -57,7 +57,8 @@
 			{ name: 'swell_wave_direction', label: 'Swell Wave Direction' },
 			{ name: 'swell_wave_period', label: 'Swell Wave Period' },
 			{ name: 'swell_wave_peak_period', label: 'Swell Wave Peak Period' }
-		],[
+		],
+		[
 			{ name: 'ocean_current_velocity', label: 'Ocean Current Velocity' },
 			{ name: 'ocean_current_direction', label: 'Ocean Current Direction' }
 		]
@@ -84,18 +85,13 @@
 	];
 
 	const additionalVariables = [
-		[
-			{ name: 'wave_peak_period', label: 'Wave Peak Period (ERA5 only)' },
-		],
-		[
-		]
+		[{ name: 'wave_peak_period', label: 'Wave Peak Period (ERA5 only)' }],
+		[]
 	];
 
-
 	let models = [
+		[{ name: 'best_match', label: 'Best match', caption: 'MeteoFrance Wave & Currents' }],
 		[
-			{ name: 'best_match', label: 'Best match', caption: 'MeteoFrance Wave & Currents' },
-		],[
 			{ name: 'meteofrance_wave', label: 'MeteoFrance Wave', caption: '0.083°' },
 			{ name: 'meteofrance_currents', label: 'MeteoFrance Ocean Currents', caption: '0.083°' },
 			{ name: 'ewam', label: 'DWD EWAM', caption: '0.05° only Europe' },
@@ -105,7 +101,7 @@
 			{ name: 'ncep_gfswave025', label: 'GFS Wave 0.25°', caption: '0.25°, global' },
 			{ name: 'ncep_gfswave016', label: 'GFS Wave 0.16°', caption: '0.16°, mid-latitudes' },
 			//{ name: 'ncep_gefswave025', label: 'GFS Wave Ensemble', caption: '0.25°, global, 31 members' },
-			{ name: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' },
+			{ name: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' }
 		]
 	];
 </script>
@@ -143,7 +139,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						onclick={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -155,7 +152,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent/> Time Interval</button
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -229,7 +226,7 @@
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 					</div>
 				</div>
@@ -259,7 +256,9 @@
 		<div class="col-md-12 mb-3">
 			<p>
 				<small class="text-muted"
-					>Note: Ocean currents consider Eulerian, Waves and Tides at 0.08° (~8 km) resolution. This is not suitable for small scale currents and does not replace your nautical almanac.
+					>Note: Ocean currents consider Eulerian, Waves and Tides at 0.08° (~8 km) resolution. This
+					is not suitable for small scale currents and does not replace your nautical almanac.
+				</small>
 			</p>
 		</div>
 	</div>
@@ -291,7 +290,11 @@
 
 				<div class="col-md-12 mb-3 mt-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
+							>&forecast_hours=</mark
+						>
+						and <mark>&past_hours=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -347,11 +350,7 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem
-				id="models"
-				title="Wave Models"
-				count={countVariables(models, $params.models)}
-			>
+			<AccordionItem id="models" title="Wave Models" count={countVariables(models, $params.models)}>
 				{#each models as group}
 					<div class="col-md-6 mb-3">
 						{#each group as e}
@@ -395,9 +394,9 @@
 			</div>
 		{/each}
 		{#if timezoneInvalid}
-		<div class="alert alert-warning" role="alert">
-			It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
-		</div>
+			<div class="alert alert-warning" role="alert">
+				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+			</div>
 		{/if}
 	</div>
 
@@ -476,21 +475,29 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} useStockChart type="marine" action="marine" sdk_type="marine_api"/>
+<ResultPreview
+	{params}
+	{defaultParameter}
+	useStockChart
+	type="marine"
+	action="marine"
+	sdk_type="marine_api"
+/>
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">
 	<div class="col-6">
-		<p>
-			The Marine API combines wave models from different sources.
-		</p>
+		<p>The Marine API combines wave models from different sources.</p>
 	</div>
-	<div class="col-6">
-	</div>
+	<div class="col-6"></div>
 </div>
 <div class="table-responsive">
 	<table class="table">
-		<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+		<caption
+			>You can find the update timings in the <a href="/en/docs/model-updates"
+				>model updates documentation</a
+			>.</caption
+		>
 		<thead>
 			<tr>
 				<th scope="col">Data Set</th>
@@ -511,7 +518,13 @@
 					>
 				</th>
 				<td>Global</td>
-				<td><a href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=0&center=-23.399717243797422%2C42.59188729714914&zoom=10.52284658362573&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9XQVZfMDAxXzAyNy9jbWVtc19tb2RfZ2xvX3dhdl9hbmZjXzAuMDgzZGVnX1BUM0gtaV8yMDIzMTEvVkhNMCIsInpJbmRleCI6MCwiaXNFeHBsb3JpbmciOnRydWUsImxvZ1NjYWxlIjpmYWxzZX1d&basemap=dark" target="_blank" title="Visualize as map">Map</a></td>
+				<td
+					><a
+						href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=0&center=-23.399717243797422%2C42.59188729714914&zoom=10.52284658362573&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9XQVZfMDAxXzAyNy9jbWVtc19tb2RfZ2xvX3dhdl9hbmZjXzAuMDgzZGVnX1BUM0gtaV8yMDIzMTEvVkhNMCIsInpJbmRleCI6MCwiaXNFeHBsb3JpbmciOnRydWUsImxvZ1NjYWxlIjpmYWxzZX1d&basemap=dark"
+						target="_blank"
+						title="Visualize as map">Map</a
+					></td
+				>
 				<td>0.08° (~8 km)</td>
 				<td>3-Hourly</td>
 				<td>October 2021 with 10 day forecast</td>
@@ -525,7 +538,13 @@
 					>
 				</th>
 				<td>Global</td>
-				<td><a href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=-0.49402499198913574&center=-12.433872193277338%2C42.88370285999325&zoom=11.872305323411199&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9QSFlfMDAxXzAyNC9jbWVtc19tb2RfZ2xvX3BoeV9hbmZjX21lcmdlZC11dl9QVDFILWlfMjAyMjExL3VvIiwiekluZGV4IjowLCJpc0V4cGxvcmluZyI6dHJ1ZSwibG9nU2NhbGUiOmZhbHNlfV0%3D&basemap=dark" target="_blank" title="Visualize as map">Map</a></td>
+				<td
+					><a
+						href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=-0.49402499198913574&center=-12.433872193277338%2C42.88370285999325&zoom=11.872305323411199&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9QSFlfMDAxXzAyNC9jbWVtc19tb2RfZ2xvX3BoeV9hbmZjX21lcmdlZC11dl9QVDFILWlfMjAyMjExL3VvIiwiekluZGV4IjowLCJpc0V4cGxvcmluZyI6dHJ1ZSwibG9nU2NhbGUiOmZhbHNlfV0%3D&basemap=dark"
+						target="_blank"
+						title="Visualize as map">Map</a
+					></td
+				>
 				<td>0.08° (~8 km)</td>
 				<td>Hourly</td>
 				<td>January 2022 with 10 day forecast</td>
@@ -533,10 +552,7 @@
 			</tr>
 			<tr>
 				<th scope="row"
-					><a
-						href="https://www.ecmwf.int/en/elibrary/79883-wave-model"
-						>ECMWF WAM</a
-					>
+					><a href="https://www.ecmwf.int/en/elibrary/79883-wave-model">ECMWF WAM</a>
 				</th>
 				<td>Global</td>
 				<td></td>
@@ -547,10 +563,7 @@
 			</tr>
 			<tr>
 				<th scope="row"
-					><a
-						href="https://polar.ncep.noaa.gov/waves/index.php"
-						>NCEP GFS Wave</a
-					>
+					><a href="https://polar.ncep.noaa.gov/waves/index.php">NCEP GFS Wave</a>
 				</th>
 				<td>Global</td>
 				<td></td>
@@ -561,10 +574,7 @@
 			</tr>
 			<tr>
 				<th scope="row"
-					><a
-						href="https://polar.ncep.noaa.gov/waves/index.php"
-						>NCEP GFS Wave</a
-					>
+					><a href="https://polar.ncep.noaa.gov/waves/index.php">NCEP GFS Wave</a>
 				</th>
 				<td>Latitude 52.5°N - 15°S</td>
 				<td></td>
@@ -575,8 +585,7 @@
 			</tr>
 			<tr>
 				<th scope="row"
-					><a
-						href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
+					><a href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
 						>DWD GWAM</a
 					>
 				</th>
@@ -589,8 +598,7 @@
 			</tr>
 			<tr>
 				<th scope="row"
-					><a
-						href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
+					><a href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
 						>DWD EWAM</a
 					>
 				</th>
@@ -728,7 +736,10 @@
 					<td>Integer (&gt;0)</td>
 					<td>No</td>
 					<td></td>
-					<td>Similar to forecast_days, the number of timesteps of hourly data can controlled. Instead of using the current day as a reference, the current hour is used. </td>
+					<td
+						>Similar to forecast_days, the number of timesteps of hourly data can controlled.
+						Instead of using the current day as a reference, the current hour is used.
+					</td>
 				</tr>
 				<tr>
 					<th scope="row">start_date<br />end_date</th>
@@ -746,7 +757,8 @@
 					<td>No</td>
 					<td></td>
 					<td
-						>The time interval to get weather data for hourly data. Time must be specified as an ISO8601 date (e.g.
+						>The time interval to get weather data for hourly data. Time must be specified as an
+						ISO8601 date (e.g.
 						<mark>2022-06-30T12:00</mark>).
 					</td>
 				</tr>
@@ -817,7 +829,11 @@
 					<th scope="row">wave_height<br />wind_wave_height<br />swell_wave_height</th>
 					<td>Instant</td>
 					<td>Meter</td>
-					<td>Wave height of significant mean, wind and swell waves. Wave directions are always reported as the direction the waves come from. 0° = From north towards south; 90° = From east</td>
+					<td
+						>Wave height of significant mean, wind and swell waves. Wave directions are always
+						reported as the direction the waves come from. 0° = From north towards south; 90° = From
+						east</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">wave_direction<br />wind_wave_direction<br />swell_wave_direction</th>
@@ -847,7 +863,10 @@
 					<th scope="row">ocean_current_direction</th>
 					<td>Instant</td>
 					<td>°</td>
-					<td>Direction following the flow of the current. E.g. where the current is heading towards. 0° = Going north; 90° = Towards east.</td>
+					<td
+						>Direction following the flow of the current. E.g. where the current is heading towards.
+						0° = Going north; 90° = Towards east.</td
+					>
 				</tr>
 			</tbody>
 		</table>

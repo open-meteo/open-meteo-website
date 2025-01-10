@@ -89,7 +89,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						onclick={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -101,7 +102,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent/> Time Interval</button
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -173,7 +174,7 @@
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 					</div>
 				</div>
@@ -278,7 +279,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="flood" action="flood" sdk_type="flood_api"/>
+<ResultPreview {params} {defaultParameter} type="flood" action="flood" sdk_type="flood_api" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
@@ -321,10 +322,12 @@
 					<td>-</td>
 				</tr>
 				<tr>
-					<th scope="row"><a
-						href="https://cds.climate.copernicus.eu/datasets/cems-glofas-forecast?tab=overview"
-						target="_blank">GloFAS v4 Forecast</a
-					></th>
+					<th scope="row"
+						><a
+							href="https://cds.climate.copernicus.eu/datasets/cems-glofas-forecast?tab=overview"
+							target="_blank">GloFAS v4 Forecast</a
+						></th
+					>
 					<td>Global</td>
 					<td>0.05° (~5 km)</td>
 					<td>Daily</td>
@@ -332,10 +335,12 @@
 					<td>Daily</td>
 				</tr>
 				<tr>
-					<th scope="row"><a
-						href="https://ewds.climate.copernicus.eu/datasets/cems-glofas-seasonal?tab=overview"
-						target="_blank">GloFAS v4 Seasonal Forecast</a
-					></th>
+					<th scope="row"
+						><a
+							href="https://ewds.climate.copernicus.eu/datasets/cems-glofas-seasonal?tab=overview"
+							target="_blank">GloFAS v4 Seasonal Forecast</a
+						></th
+					>
 					<td>Global</td>
 					<td>0.05° (~5 km)</td>
 					<td>Daily</td>

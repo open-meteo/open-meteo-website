@@ -46,12 +46,12 @@
 
 	const pressureVariables = [
 		{ name: 'temperature', label: 'Temperature' },
-		{ name: 'relative_humidity', label: 'Relative Humidity' }, 
+		{ name: 'relative_humidity', label: 'Relative Humidity' },
 		//{ name: 'specific_humidity', label: 'Specific Humidity' },
 		{ name: 'cloud_cover', label: 'Cloud cover' },
 		{ name: 'wind_speed', label: 'Wind Speed' },
 		{ name: 'wind_direction', label: 'Wind Direction' },
-		{ name: 'geopotential_height', label: 'Geopotential Height' },
+		{ name: 'geopotential_height', label: 'Geopotential Height' }
 		//{ name: 'atmosphere_relative_vorticity', label: 'Relative Vorticity' },
 		//{ name: 'divergence_of_wind', label: 'Divergence of Wind' }
 	];
@@ -109,8 +109,8 @@
 		[
 			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4°' },
 			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
-			{ name: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' },
-		],
+			{ name: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' }
+		]
 	];
 
 	const solarVariables = [
@@ -137,11 +137,11 @@
 			{ name: 'is_day', label: 'Is Day or Night' },
 			{ name: 'temperature_2m_min', label: 'Temperature 3-Hourly Minimum (2 m)' },
 			{ name: 'temperature_2m_max', label: 'Temperature 3-Hourly Maximum (2 m)' },
-			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
+			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
 		],
 		[
 			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
-			{ name: 'precipitation_type', label: 'Precipitation Type' },
+			{ name: 'precipitation_type', label: 'Precipitation Type' }
 		]
 	];
 </script>
@@ -152,10 +152,10 @@
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-	The API uses open-data ECMWF weather forecasts from the IFS weather model with a
-	resolution of 9 km. However, the open-data access is restricted to a resolution of 25 km and
-	3-hourly values, although the model still provides excellent accuracy for large scale weather
-	patterns. For more detailed local forecasts, we recommend using the <a href="/en/docs"
+	The API uses open-data ECMWF weather forecasts from the IFS weather model with a resolution of 9
+	km. However, the open-data access is restricted to a resolution of 25 km and 3-hourly values,
+	although the model still provides excellent accuracy for large scale weather patterns. For more
+	detailed local forecasts, we recommend using the <a href="/en/docs"
 		>generic weather forecast API</a
 	>, which combines weather models up to 1 km resolution seamlessly.
 </div>
@@ -183,7 +183,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						onclick={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -195,7 +196,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent/> Time Interval</button
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -267,7 +268,7 @@
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 					</div>
 				</div>
@@ -392,7 +393,11 @@
 				<small class="text-muted mt-3">(1) Europe only, (2) Central Europe only</small>
 				<div class="col-md-12 mb-3 mt-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
+							>&forecast_hours=</mark
+						>
+						and <mark>&past_hours=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -489,7 +494,8 @@
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -497,7 +503,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -506,10 +512,8 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90}
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -642,9 +646,14 @@
 	<p>
 		This API uses <a href="https://www.ecmwf.int/en/forecasts/datasets/open-data"
 			>open-data ECMWF Integrated Forecast System IFS</a
-		>. ECMWF IFS models run every 6 hours at 9 km resolution, but only 0.25° grid spacing (~25 km) is
-		available as open data with a limited number of weather variables at 3-hourly intervals.</p>
-	<p>AIFS is an artificial intelligence weather model from ECMWF yielding better results as GraphCast and other models. Unfortunately, only 6-hourly time-steps are available. You can find more information about AIFS <a href="https://www.ecmwf.int/en/about/media-centre/aifs-blog">here</a>. As soon as ECWMF includes additional data, they will be made available in this API.
+		>. ECMWF IFS models run every 6 hours at 9 km resolution, but only 0.25° grid spacing (~25 km)
+		is available as open data with a limited number of weather variables at 3-hourly intervals.
+	</p>
+	<p>
+		AIFS is an artificial intelligence weather model from ECMWF yielding better results as GraphCast
+		and other models. Unfortunately, only 6-hourly time-steps are available. You can find more
+		information about AIFS <a href="https://www.ecmwf.int/en/about/media-centre/aifs-blog">here</a>.
+		As soon as ECWMF includes additional data, they will be made available in this API.
 	</p>
 	<p>
 		For hourly and high-resolution data (up to 1 km) try our <a href="/en/docs">forecast API</a> which
@@ -652,7 +661,11 @@
 	</p>
 	<div class="table-responsive">
 		<table class="table">
-			<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+			<caption
+				>You can find the update timings in the <a href="/en/docs/model-updates"
+					>model updates documentation</a
+				>.</caption
+			>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>
@@ -704,8 +717,8 @@
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/ecmwf</mark> accepts a geographical coordinate, a list of weather variables
-		and responds with a JSON hourly weather forecast for 10 days. Time always starts at 0:00 today.
-		All URL parameters are listed below:
+		and responds with a JSON hourly weather forecast for 10 days. Time always starts at 0:00 today. All
+		URL parameters are listed below:
 	</p>
 	<div class="table-responsive">
 		<table class="table">
@@ -890,7 +903,13 @@
 					<th scope="row">precipitation_type</th>
 					<td>Instantaneous</td>
 					<td>mm (inch)</td>
-					<td>0 = No precipitation, 1 = Rain, 3 = Freezing rain (i.e. supercooled raindrops which freeze on contact with the ground and other surfaces), 5 = Snow, 6 = Wet snow (i.e. snow particles which are starting to melt), 7 = Mixture of rain and snow, 8 = Ice pellets, 12 = Freezing drizzle (i.e. supercooled drizzle which freezes on contact with the ground and other surfaces)</td>
+					<td
+						>0 = No precipitation, 1 = Rain, 3 = Freezing rain (i.e. supercooled raindrops which
+						freeze on contact with the ground and other surfaces), 5 = Snow, 6 = Wet snow (i.e. snow
+						particles which are starting to melt), 7 = Mixture of rain and snow, 8 = Ice pellets, 12
+						= Freezing drizzle (i.e. supercooled drizzle which freezes on contact with the ground
+						and other surfaces)</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">runoff</th>
@@ -964,7 +983,10 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">soil_temperature_0_7cm<br/>soil_temperature_7_to_28cm<br/>soil_temperature_28_to_100cm<br/>soil_temperature_100_to_255cm</th>
+					<th scope="row"
+						>soil_temperature_0_7cm<br />soil_temperature_7_to_28cm<br
+						/>soil_temperature_28_to_100cm<br />soil_temperature_100_to_255cm</th
+					>
 					<td>Instant</td>
 					<td>°C (°F)</td>
 					<td>Average temperature of different soil depths below ground.</td>
@@ -1000,9 +1022,7 @@
 					<th scope="row">temperature_2m_min<br />temperature_2m_max</th>
 					<td>Preceding 3-hour</td>
 					<td>°C (°F)</td>
-					<td
-						>Minimum and maximum temperature of the preceding 3 hours.
-					</td>
+					<td>Minimum and maximum temperature of the preceding 3 hours. </td>
 				</tr>
 				<tr>
 					<th scope="row">geopotential_height_1000hPa</th>
@@ -1029,7 +1049,9 @@
 					<th scope="row">wind_gusts_10m</th>
 					<td>Preceding 3-hour max</td>
 					<td>km/h (mph, m/s, knots)</td>
-					<td>Maximum 3 second wind at 10 m height above ground as a maximum of the preceding 3 hours</td>
+					<td
+						>Maximum 3 second wind at 10 m height above ground as a maximum of the preceding 3 hours</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">relative_humidity_1000hPa, ...</th>
@@ -1067,7 +1089,8 @@
 					<td>W/m²</td>
 					<td
 						>Direct solar radiation as average of the preceding hour on the horizontal plane and the
-						normal plane (perpendicular to the sun). ECMWF IFS open-data does not provide direct and diffuse radiation. It is approximated based on <a
+						normal plane (perpendicular to the sun). ECMWF IFS open-data does not provide direct and
+						diffuse radiation. It is approximated based on <a
 							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
 							target="_blank">Razo, Müller Witwer</a
 						></td
@@ -1078,7 +1101,8 @@
 					<td>Preceding hour mean</td>
 					<td>W/m²</td>
 					<td
-						>Diffuse solar radiation as average of the preceding hour. Similar to direct radiation, it is approximated based on <a
+						>Diffuse solar radiation as average of the preceding hour. Similar to direct radiation,
+						it is approximated based on <a
 							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
 							target="_blank">Razo, Müller Witwer</a
 						></td

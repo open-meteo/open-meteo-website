@@ -104,7 +104,8 @@
 			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 		],
-		[	{ name: 'cloud_cover', label: 'Cloud cover Total' },
+		[
+			{ name: 'cloud_cover', label: 'Cloud cover Total' },
 			{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
 			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
 			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
@@ -225,10 +226,13 @@
 </div>-->
 
 <div class="alert alert-warning" role="alert">
-	UK Met Office data is provided under the <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC BY-SA 4.0</a> license. 
-	Therefore, any derived products from this data should also be redistributed under the same or a compatible license. Typically, Open-Meteo provides data under <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>.
+	UK Met Office data is provided under the <a
+		href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC BY-SA 4.0</a
+	>
+	license. Therefore, any derived products from this data should also be redistributed under the
+	same or a compatible license. Typically, Open-Meteo provides data under
+	<a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>.
 </div>
-
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<LocationSelection
@@ -254,7 +258,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						onclick={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -266,7 +271,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent /> Time Interval</button
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -835,10 +840,17 @@
 		>. For UKMO Global, values are interpolated from 3-hourly to 1-hourly after 54 hours and from
 		6-hourly data after 144 hours.
 	</p>
-	<p>Note: UKMO open-data has an additional delay of 4 hours. The forecast is therefore not as accurate as it could be.</p>
+	<p>
+		Note: UKMO open-data has an additional delay of 4 hours. The forecast is therefore not as
+		accurate as it could be.
+	</p>
 	<div class="table-responsive">
 		<table class="table">
-			<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+			<caption
+				>You can find the update timings in the <a href="/en/docs/model-updates"
+					>model updates documentation</a
+				>.</caption
+			>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>
@@ -902,9 +914,9 @@
 			are only available for the 2 km UKV model.
 		</li>
 		<li>
-			<strong>Cloud Cover (2m):</strong> UKMO UKV 2 km provides cloud cover at 2 metre above ground which can
-			be interpreted as fog. This is remarkable, because only very weather models are capable of modeling
-			low level cloud cover and fog with a good degree of accuracy.
+			<strong>Cloud Cover (2m):</strong> UKMO UKV 2 km provides cloud cover at 2 metre above ground which
+			can be interpreted as fog. This is remarkable, because only very weather models are capable of
+			modeling low level cloud cover and fog with a good degree of accuracy.
 		</li>
 	</ul>
 </div>

@@ -44,9 +44,12 @@
 		models: []
 	};
 
+	const lat = $state(52.52);
+	const lon = $state(13.41);
+
 	const params = urlHashStore({
-		latitude: [52.52],
-		longitude: [13.41],
+		latitude: [lat],
+		longitude: [lon],
 		...defaultParameter,
 		hourly: ['temperature_2m']
 	});
@@ -126,22 +129,23 @@
 			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
 			{ name: 'is_day', label: 'Is Day or Night' }
-		],[
+		],
+		[
 			{ name: 'precipitation', label: 'Precipitation' },
 			{ name: 'rain', label: 'Rain' },
 			{ name: 'showers', label: 'Showers' },
-			{ name: 'snowfall', label: 'Snowfall' },
+			{ name: 'snowfall', label: 'Snowfall' }
 		],
 		[
 			{ name: 'weather_code', label: 'Weather code' },
 			{ name: 'cloud_cover', label: 'Cloud cover Total' },
 			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'surface_pressure', label: 'Surface Pressure' },
+			{ name: 'surface_pressure', label: 'Surface Pressure' }
 		],
 		[
 			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
+			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 		]
 	];
 
@@ -218,7 +222,7 @@
 			{ name: 'lifted_index', label: 'Lifted Index' },
 			{ name: 'convective_inhibition', label: 'Convective Inhibition' },
 			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
-			{ name: 'boundary_layer_height', label: 'Boundary Layer Height PBL' },
+			{ name: 'boundary_layer_height', label: 'Boundary Layer Height PBL' }
 		]
 	];
 
@@ -249,7 +253,8 @@
 			{ name: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' },
 			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
 			{ name: 'bom_access_global', label: 'BOM ACCESS Global' }
-		],[
+		],
+		[
 			{ name: 'gfs_seamless', label: 'NCEP GFS Seamless' },
 			{ name: 'gfs_global', label: 'NCEP GFS Global 0.11°/0.25°' },
 			{ name: 'gfs_hrrr', label: 'NCEP HRRR U.S. Conus' },
@@ -284,16 +289,19 @@
 			{ name: 'arpae_cosmo_seamless', label: 'ARPAE Seamless' },
 			{ name: 'arpae_cosmo_2i', label: 'ARPAE COSMO 2I' },
 			{ name: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
-		],[
+		],
+		[
 			{ name: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
 			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
-		],[
+		],
+		[
 			{ name: 'knmi_seamless', label: 'KNMI Seamless (with ECMWF)' },
 			{ name: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie Arome Europe' },
 			{ name: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
 			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
-			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
-		],[
+			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' }
+		],
+		[
 			{ name: 'ukmo_seamless', label: 'UK Met Office Seamless' },
 			{ name: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
 			{ name: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
@@ -334,7 +342,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						onclick={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -346,7 +355,7 @@
 						role="tab"
 						aria-controls="pills-time_interval"
 						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent /> Time Interval</button
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -432,9 +441,10 @@
 							<p>
 								The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a
 								range of dates more easily. Archived forecasts come from a series of weather model
-								runs over time. You can access forecasts for
-								up to 3 months and continuously archived in the <a href="/en/docs/historical-forecast-api">Historical Forecast API</a>.
-								You can also check out our
+								runs over time. You can access forecasts for up to 3 months and continuously
+								archived in the
+								<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>. You can also
+								check out our
 								<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
 								data going all the way back to 1940.
 							</p>
@@ -492,7 +502,11 @@
 				{/each}
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
+							>&forecast_hours=</mark
+						>
+						and <mark>&past_hours=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -589,7 +603,8 @@
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -597,7 +612,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -606,10 +621,8 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90}
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -775,13 +788,16 @@
 				{/each}
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: Only available in Central Europe and North America. Other regions use interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
+						>Note: Only available in Central Europe and North America. Other regions use
+						interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
 						<mark>instant</mark> for radiation at the indicated time.</small
 					>
 				</div>
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for 15-minutely weather variables using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for 15-minutely weather variables
+						using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -843,9 +859,9 @@
 			</div>
 		{/each}
 		{#if timezoneInvalid}
-		<div class="alert alert-warning" role="alert">
-			It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
-		</div>
+			<div class="alert alert-warning" role="alert">
+				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+			</div>
 		{/if}
 	</div>
 
@@ -870,7 +886,8 @@
 		{/each}
 		<div class="col-md-12">
 			<small class="text-muted"
-				>Note: Current conditions are based on 15-minutely weather model data. Every weather variable available in hourly data, is available as current condition as well.</small
+				>Note: Current conditions are based on 15-minutely weather model data. Every weather
+				variable available in hourly data, is available as current condition as well.</small
 			>
 		</div>
 	</div>
@@ -961,7 +978,11 @@
 	</p>
 	<div class="table-responsive">
 		<table class="table">
-			<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+			<caption
+				>You can find the update timings in the <a href="/en/docs/model-updates"
+					>model updates documentation</a
+				>.</caption
+			>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>
@@ -1227,11 +1248,17 @@
 					<td>Per default, only 7 days are returned. Up to 16 days of forecast are possible.</td>
 				</tr>
 				<tr>
-					<th scope="row">forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th>
+					<th scope="row"
+						>forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th
+					>
 					<td>Integer (&gt;0)</td>
 					<td>No</td>
 					<td></td>
-					<td>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can controlled. Instead of using the current day as a reference, the current hour or the current 15-minute time-step is used. </td>
+					<td
+						>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can
+						controlled. Instead of using the current day as a reference, the current hour or the
+						current 15-minute time-step is used.
+					</td>
 				</tr>
 				<tr>
 					<th scope="row">start_date<br />end_date</th>
@@ -1249,7 +1276,8 @@
 					<td>No</td>
 					<td></td>
 					<td
-						>The time interval to get weather data for hourly or 15 minutely data. Time must be specified as an ISO8601 date (e.g.
+						>The time interval to get weather data for hourly or 15 minutely data. Time must be
+						specified as an ISO8601 date (e.g.
 						<mark>2022-06-30T12:00</mark>).
 					</td>
 				</tr>
@@ -1434,13 +1462,15 @@
 					<th scope="row">global_tilted_irradiance</th>
 					<td>Preceding hour mean</td>
 					<td>W/m²</td>
-					<td>Total radiation received on a tilted pane as average of the preceding hour. 
-						The calculation is assuming a fixed albedo of 20% and in isotropic sky. 
-						Please specify tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. 
-						Azimuth should be close to 0° (0° south, -90° east, 90° west).
-						If azimuth is set to "nan", the calculation assumes a horizontal tracker. 
-						If tilt is set to "nan", it is assumed that the panel has a vertical tracker. 
-						If both are set to "nan", a bi-axial tracker is assumed.</td>
+					<td
+						>Total radiation received on a tilted pane as average of the preceding hour. The
+						calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify tilt
+						and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. Azimuth
+						should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to "nan", the
+						calculation assumes a horizontal tracker. If tilt is set to "nan", it is assumed that
+						the panel has a vertical tracker. If both are set to "nan", a bi-axial tracker is
+						assumed.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">vapour_pressure_deficit</th>
@@ -1546,9 +1576,7 @@
 					<th scope="row">visibility</th>
 					<td>Instant</td>
 					<td>meters</td>
-					<td
-						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td
-					>
+					<td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
 				</tr>
 				<tr>
 					<th scope="row">
@@ -1587,8 +1615,8 @@
 	<h3 class="mt-5">15-Minutely Parameter Definition</h3>
 	<p>
 		The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
-		on NOAA HRRR model for North America and DWD ICON-D2 and Météo-France AROME model for Central Europe. If 15-minutely data is requested
-		for other regions data is interpolated from 1-hourly to 15-minutely.
+		on NOAA HRRR model for North America and DWD ICON-D2 and Météo-France AROME model for Central Europe.
+		If 15-minutely data is requested for other regions data is interpolated from 1-hourly to 15-minutely.
 	</p>
 	<p>
 		15-minutely data can be requested for other weather variables that are available for hourly
@@ -1744,9 +1772,7 @@
 					<td>x</td>
 				</tr>
 				<tr>
-					<th scope="row"
-						>wind_speed_10m<br />wind_speed_80m</th
-					>
+					<th scope="row">wind_speed_10m<br />wind_speed_80m</th>
 					<td>Instant</td>
 					<td>km/h (mph, m/s, knots)</td>
 					<td>x</td>
@@ -1754,9 +1780,7 @@
 					<td>x</td>
 				</tr>
 				<tr>
-					<th scope="row"
-						>wind_direction_10m<br />wind_direction_80m<br /></th
-					>
+					<th scope="row">wind_direction_10m<br />wind_direction_80m<br /></th>
 					<td>Instant</td>
 					<td>°</td>
 					<td>x</td>
@@ -1787,7 +1811,6 @@
 					<td>x</td>
 					<td></td>
 				</tr>
-				
 			</tbody>
 		</table>
 	</div>
@@ -1937,7 +1960,11 @@
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>seconds</td>
-					<td>The number of seconds of sunshine per day is determined by calculating direct normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine duration will consistently be less than daylight duration due to dawn and dusk.</td>
+					<td
+						>The number of seconds of sunshine per day is determined by calculating direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine
+						duration will consistently be less than daylight duration due to dawn and dusk.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">daylight_duration</th>
