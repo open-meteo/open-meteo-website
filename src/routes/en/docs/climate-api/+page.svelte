@@ -10,7 +10,7 @@
 	import LicenseSelector from '../LicenseSelector.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
+	const defaultParameters = {
 		location_mode: 'location_search',
 		csv_coordinates: '',
 		temperature_unit: 'celsius',
@@ -35,7 +35,7 @@
 			'MPI_ESM1_2_XR',
 			'NICAM16_8S'
 		],
-		...defaultParameter,
+		...defaultParameters,
 		daily: ['temperature_2m_max']
 	});
 
@@ -116,13 +116,8 @@
 </div>
 
 <form method="get" action="https://climate-api.open-meteo.com/v1/climate">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
+
 	<div class="row py-3 px-0">
 		<div class="col-md-6 mb-3">
 			<StartEndDate
@@ -291,7 +286,7 @@
 
 <ResultPreview
 	{params}
-	{defaultParameter}
+	{defaultParameters}
 	type="climate"
 	action="climate"
 	sdk_type="climate_api"

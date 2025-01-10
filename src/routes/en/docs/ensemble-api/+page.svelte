@@ -10,7 +10,7 @@
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
+	const defaultParameters = {
 		hourly: [],
 		//daily: [],
 		location_mode: 'location_search',
@@ -37,7 +37,7 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['temperature_2m'],
 		models: ['icon_seamless']
 	});
@@ -391,13 +391,7 @@
 </div>
 
 <form method="get" action="https://ensemble-api.open-meteo.com/v1/ensemble">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -798,7 +792,7 @@
 
 <ResultPreview
 	{params}
-	{defaultParameter}
+	{defaultParameters}
 	type="ensemble"
 	action="ensemble"
 	sdk_type="ensemble_api"

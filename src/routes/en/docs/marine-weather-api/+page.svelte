@@ -10,7 +10,7 @@
 	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { countVariables } from '$lib/meteo';
 
-	const defaultParameter = {
+	const defaultParameters = {
 		current: [],
 		hourly: [],
 		daily: [],
@@ -34,7 +34,7 @@
 	const params = urlHashStore({
 		latitude: [54.544587],
 		longitude: [10.227487],
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['wave_height']
 	});
 
@@ -116,13 +116,7 @@
 </svelte:head>
 
 <form method="get" action="https://marine-api.open-meteo.com/v1/marine">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -477,7 +471,7 @@
 
 <ResultPreview
 	{params}
-	{defaultParameter}
+	{defaultParameters}
 	useStockChart
 	type="marine"
 	action="marine"

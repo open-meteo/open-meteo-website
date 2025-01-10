@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 
-	import { createBubbler, preventDefault } from 'svelte/legacy';
+	import { createBubbler } from 'svelte/legacy';
 
 	import { api_key_preferences } from '$lib/stores';
 	import { urlHashStore } from '$lib/url-hash-store';
@@ -72,7 +72,10 @@
 	id="geocoding_form"
 	method="get"
 	action="https://geocoding-api.open-meteo.com/v1/search"
-	onsubmit={preventDefault(bubble('submit'))}
+	onsubmit={(e) => {
+		e.preventDefault();
+		bubble('submit');
+	}}
 >
 	<div class="row">
 		<h2>Search for cities or postal code</h2>

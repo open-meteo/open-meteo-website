@@ -17,7 +17,7 @@
 		model_default?: String;
 		sdk_type?: String;
 		sdk_cache?: Number;
-		defaultParameter: any;
+		defaultParameters: any;
 		useStockChart?: boolean;
 	}
 
@@ -28,7 +28,7 @@
 		model_default = '',
 		sdk_type = 'weather_api',
 		sdk_cache = 3600,
-		defaultParameter,
+		defaultParameters,
 		useStockChart = false
 	}: Props = $props();
 
@@ -130,7 +130,7 @@
 				params['apikey'] = api_key_preferences.apikey;
 			}
 
-			return objectDifference(params, defaultParameter);
+			return objectDifference(params, defaultParameters);
 		})($params, $api_key_preferences)
 	);
 

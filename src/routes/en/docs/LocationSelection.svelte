@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
+	import { type Parameters } from './docs';
+
 	import type { GeoLocation } from '$lib/stores';
 
 	import LocationSearch from './LocationSearch.svelte';
@@ -11,34 +13,22 @@
 	import Trash from 'svelte-bootstrap-icons/lib/Trash.svelte';
 
 	interface Props {
-		latitude: number[];
-		longitude: number[];
-		timezone?: string;
-		location_mode?: string;
-		csv_coordinates?: string;
+		params: Parameters;
 	}
 
-	let {
-		latitude = $bindable(),
-		longitude = $bindable(),
-		timezone = $bindable('UTC'),
-		location_mode = $bindable('location_search'),
-		csv_coordinates = $bindable('')
-	}: Props = $props();
+	let { params = $bindable() }: Props = $props();
 
 	function locationCallback(event: CustomEvent<GeoLocation>, index: number) {
-		const lat = Number(event.detail.latitude.toFixed(4));
-		const lon = Number(event.detail.longitude.toFixed(4));
-		latitude = latitude.toSpliced(index, 1, lat);
-		longitude = longitude.toSpliced(index, 1, lon);
+		params.latitude[index] = Number(event.detail.latitude.toFixed(4));
+		params.longitude[index] = Number(event.detail.longitude.toFixed(4));
 	}
 	function addLocation() {
-		latitude = [...latitude, NaN];
-		longitude = [...longitude, NaN];
+		params.latitude.push(NaN);
+		params.longitude.push(NaN);
 	}
 	function removeLocation(index: number) {
-		latitude = latitude.toSpliced(index, 1);
-		longitude = longitude.toSpliced(index, 1);
+		params.latitude = params.latitude.toSpliced(index, 1);
+		params.longitude = params.longitude.toSpliced(index, 1);
 	}
 </script>
 
@@ -51,31 +41,32 @@
 		<li class="nav-item" role="presentation">
 			<button
 				class="nav-link"
-				class:active={location_mode == 'location_search'}
+				class:active={params.location_mode == 'location_search'}
 				id="pills-location_search-tab"
 				type="button"
 				role="tab"
 				aria-controls="pills-location_search"
 				aria-selected="true"
-				onclick={() => (location_mode = 'location_search')}><GeoAltFill /> Coordinates</button
+				onclick={() => (params.location_mode = 'location_search')}
+				><GeoAltFill class="mb-1 me-1" /> Coordinates</button
 			>
 		</li>
 		<li class="nav-item" role="presentation">
 			<button
 				class="nav-link"
-				class:active={location_mode == 'csv_coordinates'}
+				class:active={params.location_mode == 'csv_coordinates'}
 				id="pills-csv_coordinates-tab"
 				type="button"
 				role="tab"
 				aria-controls="pills-csv_coordinates"
-				onclick={() => (location_mode = 'csv_coordinates')}
-				aria-selected="true"><List /> List</button
+				onclick={() => (params.location_mode = 'csv_coordinates')}
+				aria-selected="true"><List class="mb-1 me-1" /> List</button
 			>
 		</li>
 	</ul>
 </div>
 <div class="tab-content py-3" id="pills-tabContent">
-	{#if location_mode == 'location_search'}
+	{#if params.location_mode == 'location_search'}
 		<div
 			class="tab-pane active"
 			in:fade
@@ -84,23 +75,23 @@
 			aria-labelledby="pills-location_search-tab"
 			tabindex="0"
 		>
-			{#each latitude as _, index}
+			{#each params.latitude as _, index}
 				<div class="row">
 					<div class="col-md-3">
 						<div class="form-floating mb-3">
 							<input
 								type="number"
 								class="form-control"
-								class:is-invalid={latitude[index] < -90 || latitude[index] > 90}
+								class:is-invalid={params.latitude[index] < -90 || params.latitude[index] > 90}
 								name="latitude"
 								id="latitude"
 								step="0.000001"
 								min="-90"
 								max="90"
-								bind:value={latitude[index]}
+								bind:value={params.latitude[index]}
 							/>
 							<label for="latitude">Latitude</label>
-							{#if latitude[index] < -90 || latitude[index] > 90}
+							{#if params.latitude[index] < -90 || params.latitude[index] > 90}
 								<div class="invalid-tooltip" transition:slide>
 									Latitude must be between -90 and 90
 								</div>
@@ -112,16 +103,16 @@
 							<input
 								type="number"
 								class="form-control"
-								class:is-invalid={longitude[index] < -180 || longitude[index] > 180}
+								class:is-invalid={params.longitude[index] < -180 || params.longitude[index] > 180}
 								name="longitude"
 								id="longitude"
 								step="0.000001"
 								min="-180"
 								max="180"
-								bind:value={longitude[index]}
+								bind:value={params.longitude[index]}
 							/>
 							<label for="longitude">Longitude</label>
-							{#if longitude[index] < -180 || longitude[index] > 180}
+							{#if params.longitude[index] < -180 || params.longitude[index] > 180}
 								<div class="invalid-tooltip" transition:slide>
 									Longitude must be between -180 and 180
 								</div>
@@ -135,7 +126,7 @@
 								name="timezone"
 								id="timezone"
 								aria-label="Timezone"
-								bind:value={timezone}
+								bind:value={params.timezone}
 							>
 								<option value="America/Anchorage">America/Anchorage</option>
 								<option value="America/Los_Angeles">America/Los_Angeles</option>
@@ -188,7 +179,7 @@
 			{/each}
 		</div>
 	{/if}
-	{#if location_mode == 'csv_coordinates'}
+	{#if params.location_mode == 'csv_coordinates'}
 		<div
 			class="tab-pane active"
 			in:fade
@@ -199,7 +190,11 @@
 		>
 			<div class="row">
 				<div class="col-md-6 mb-3">
-					<textarea class="form-control" id="csv_coordinates" bind:value={csv_coordinates} rows="5"
+					<textarea
+						class="form-control"
+						id="csv_coordinates"
+						bind:value={params.csv_coordinates}
+						rows="5"
 					></textarea>
 				</div>
 				<div class="col-md-6 mb-3">

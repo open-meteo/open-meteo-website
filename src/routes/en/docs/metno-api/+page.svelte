@@ -10,7 +10,7 @@
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
+	const defaultParameters = {
 		current: [],
 		hourly: [],
 		location_mode: 'location_search',
@@ -36,7 +36,7 @@
 	const params = urlHashStore({
 		latitude: [59.91],
 		longitude: [10.75],
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
 
@@ -141,13 +141,7 @@
 </div>
 
 <form method="get" action="https://api.open-meteo.com/v1/metno">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -546,7 +540,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} model_default="metno_seamless" />
+<ResultPreview {params} {defaultParameters} model_default="metno_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>

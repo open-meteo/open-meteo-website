@@ -1,17 +1,20 @@
 <script lang="ts">
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
+	import { fade } from 'svelte/transition';
+
 	import { urlHashStore } from '$lib/url-hash-store';
 	import { countVariables } from '$lib/meteo';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import { fade } from 'svelte/transition';
-	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
-	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
 
+	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
+
+	import StartEndDate from '../StartEndDate.svelte';
+	import ResultPreview from '../ResultPreview.svelte';
+	import LicenseSelector from '../LicenseSelector.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
+	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
+	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
+
+	const defaultParameters = {
 		current: [],
 		hourly: [],
 		location_mode: 'location_search',
@@ -33,7 +36,7 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['pm10', 'pm2_5']
 	});
 
@@ -163,13 +166,7 @@
 </svelte:head>
 
 <form method="get" action="https://air-quality-api.open-meteo.com/v1/air-quality">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -738,7 +735,7 @@
 
 <ResultPreview
 	{params}
-	{defaultParameter}
+	{defaultParameters}
 	type="air-quality"
 	action="air-quality"
 	sdk_type="air_quality_api"

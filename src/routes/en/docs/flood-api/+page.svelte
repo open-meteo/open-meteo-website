@@ -10,7 +10,7 @@
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
+	const defaultParameters = {
 		daily: [],
 		location_mode: 'location_search',
 		csv_coordinates: '',
@@ -27,7 +27,7 @@
 	const params = urlHashStore({
 		latitude: [59.91],
 		longitude: [10.75],
-		...defaultParameter,
+		...defaultParameters,
 		daily: ['river_discharge']
 	});
 
@@ -67,12 +67,7 @@
 </svelte:head>
 
 <form method="get" action="https://flood-api.open-meteo.com/v1/flood">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -279,7 +274,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="flood" action="flood" sdk_type="flood_api" />
+<ResultPreview {params} {defaultParameters} type="flood" action="flood" sdk_type="flood_api" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>

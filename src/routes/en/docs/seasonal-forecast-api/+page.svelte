@@ -8,7 +8,7 @@
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
+	const defaultParameters = {
 		six_hourly: [],
 		daily: [],
 		location_mode: 'location_search',
@@ -29,7 +29,7 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameter,
+		...defaultParameters,
 		daily: ['temperature_2m_max']
 	});
 
@@ -82,13 +82,7 @@
 <div class="alert alert-primary" role="alert">Work in progress!</div>
 
 <form method="get" action="https://seasonal-api.open-meteo.com/v1/seasonal">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -309,7 +303,7 @@
 
 <ResultPreview
 	{params}
-	{defaultParameter}
+	{defaultParameters}
 	type="seasonal"
 	action="seasonal"
 	sdk_type="ensemble_api"

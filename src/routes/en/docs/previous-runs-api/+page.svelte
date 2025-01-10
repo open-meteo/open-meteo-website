@@ -10,7 +10,7 @@
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
+	const defaultParameters = {
 		current: [],
 		minutely_15: [],
 		hourly: [],
@@ -41,7 +41,7 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameter,
+		...defaultParameters,
 		past_days: '7',
 		hourly: [
 			'temperature_2m',
@@ -178,13 +178,7 @@
 </div>
 
 <form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -587,7 +581,7 @@
 	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="previous-runs" useStockChart={true} />
+<ResultPreview {params} {defaultParameters} type="previous-runs" useStockChart={true} />
 
 <div class="col-12 py-5">
 	<h2 id="documentation">API Documentation</h2>

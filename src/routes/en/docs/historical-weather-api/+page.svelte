@@ -22,7 +22,7 @@
 	let startDate = '1940-01-01';
 	let endDate = $state('');
 
-	const defaultParameter = {
+	const defaultParameters = {
 		hourly: [],
 		daily: [],
 		location_mode: 'location_search',
@@ -45,7 +45,7 @@
 		longitude: [13.41],
 		start_date: startDateDefault,
 		end_date: endDateDefault,
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
 
@@ -259,13 +259,7 @@
 </div>
 
 <form method="get" action="https://archive-api.open-meteo.com/v1/archive">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div class="col-md-6 mb-3">
@@ -658,7 +652,7 @@
 
 <ResultPreview
 	{params}
-	{defaultParameter}
+	{defaultParameters}
 	type="archive"
 	action="archive"
 	sdk_cache={-1}

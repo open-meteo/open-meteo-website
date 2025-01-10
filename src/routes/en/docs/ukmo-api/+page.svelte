@@ -16,7 +16,7 @@
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
+	const defaultParameters = {
 		current: [],
 		hourly: [],
 		daily: [],
@@ -47,7 +47,7 @@
 	const params = urlHashStore({
 		latitude: [51.5085],
 		longitude: [-0.1257],
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
 
@@ -217,31 +217,17 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/ukmo-api" />
 </svelte:head>
 
-<!--<div class="alert alert-primary" role="alert">
-	This API offers access to the renowned ICON weather models from the German Weather service DWD,
-	delivering 15-minutely data for short-term forecasts in central Europe and 11 km resolution global
-	forecasts. The ICON model is a preferred choice in <a href="/en/docs"
-		>generic weather forecast API</a
-	> if no other high resolution weather models are available.
-</div>-->
-
 <div class="alert alert-warning" role="alert">
 	UK Met Office data is provided under the <a
 		href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC BY-SA 4.0</a
 	>
-	license. Therefore, any derived products from this data should also be redistributed under the
-	same or a compatible license. Typically, Open-Meteo provides data under
+	license. Therefore, any derived products from this data should also be redistributed under the same
+	or a compatible license. Typically, Open-Meteo provides data under
 	<a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>.
 </div>
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -827,7 +813,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} model_default="ukmo_seamless" />
+<ResultPreview {params} {defaultParameters} model_default="ukmo_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>

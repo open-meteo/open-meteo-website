@@ -24,7 +24,7 @@
 	let startDate = '1940-01-01';
 	let endDate = $state('');
 
-	const defaultParameter = {
+	const defaultParameters = {
 		minutely_15: [],
 		hourly: [],
 		daily: [],
@@ -48,7 +48,7 @@
 		longitude: [13.41],
 		start_date: startDateDefault,
 		end_date: endDateDefault,
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
 
@@ -315,13 +315,7 @@
 </div>
 
 <form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div class="col-md-6 mb-3">
@@ -758,7 +752,7 @@
 	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="historical-forecast" useStockChart={true} />
+<ResultPreview {params} {defaultParameters} type="historical-forecast" useStockChart={true} />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>

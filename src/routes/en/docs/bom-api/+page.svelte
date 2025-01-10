@@ -10,7 +10,7 @@
 	import StartEndDate from '../StartEndDate.svelte';
 	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
+	const defaultParameters = {
 		current: [],
 		hourly: [],
 		daily: [],
@@ -41,7 +41,7 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
 
@@ -165,13 +165,7 @@
 </div>
 
 <form method="get" action="https://api.open-meteo.com/v1/bom">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -570,7 +564,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} model_default="bom_access_global" />
+<ResultPreview {params} {defaultParameters} model_default="bom_access_global" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
