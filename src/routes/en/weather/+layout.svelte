@@ -101,14 +101,3 @@
 		</main>
 	</div>
 </div>
-
-<style>
-	.hero-banner {
-		background-size: cover;
-		background-position: center;
-		height: 400px;
-	}
-	.hero-shadow {
-		text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.7);
-	}
-</style>

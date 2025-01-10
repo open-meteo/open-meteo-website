@@ -47,7 +47,7 @@
 	{endDate}
 	bind:value={time_interval}
 >
-	{#snippet children({ value, displayValue, isDirty, onInputFocus, onInputBlur, onKeyDown })}
+	{#snippet children()}
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-floating">
@@ -57,9 +57,6 @@
 						name="start_date"
 						id="start_date"
 						bind:value={start_date}
-						onkeydown={onKeyDown}
-						onfocus={onInputFocus}
-						onblur={onInputBlur}
 						onchange={onManualChange}
 					/>
 					<label for="start_date">Start Date</label>
@@ -73,15 +70,12 @@
 						name="end_date"
 						id="end_date"
 						bind:value={end_date}
-						onkeydown={onKeyDown}
-						onfocus={onInputFocus}
-						onblur={onInputBlur}
 						onchange={onManualChange}
 					/>
 					<label for="end_date">End Date</label>
 				</div>
 			</div>
-			<input type="hidden" name="time_interval" value={displayValue} />
+			<input type="hidden" name="time_interval" value={'displayValue'} />
 		</div>
 	{/snippet}
 </SveltyPicker>
