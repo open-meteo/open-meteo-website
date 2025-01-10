@@ -50,6 +50,6 @@
 		bind:value={time_interval}
 	></SveltyPicker>
 	<div class="date-range-picker-label">
-		<label>Start Date - End Date</label>
+		<label for="time_interval_input">Start Date - End Date</label>
 	</div>
 </div>
