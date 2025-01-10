@@ -213,6 +213,31 @@
 		//'geopotential_height_850hPa',
 	];
 
+	const ukmo_variables = [
+		'temperature_2m',
+		//'precipitation',
+		'rain',
+		'snowfall',
+		'relative_humidity_2m',
+		'dew_point_2m',
+		'apparent_temperature',
+		'vapour_pressure_deficit',
+		'weather_code',
+		'surface_pressure',
+		'pressure_msl',
+		'cloud_cover',
+		'wind_speed_10m',
+		'wind_direction_10m',
+		'surface_temperature',
+		'visibility',
+		'cape',
+		//'soil_temperature_0_to_10cm',
+		//'temperature_500hPa',
+		//'temperature_850hPa',
+		//'geopotential_height_500hPa',
+		//'geopotential_height_850hPa',
+	];
+
 	let available_variables = {
 		icon_seamless: icon_d2_variables,
 		icon_global: icon_global_variables,
@@ -937,6 +962,15 @@
 					<td>40 km, 3-hourly</td>
 					<td>18</td>
 					<td>10 days</td>
+					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<th scope="row">UK Met Office</th>
+					<td>MOGREPS-G</td>
+					<td>Global</td>
+					<td>20 km, 1-hourly</td>
+					<td>18</td>
+					<td>8 days</td>
 					<td>Every 6 hours</td>
 				</tr>
 			</tbody>
