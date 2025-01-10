@@ -188,6 +188,31 @@
 		'geopotential_height_850hPa'
 	];
 
+	const ukmo_variables = [
+		'temperature_2m',
+		//'precipitation',
+		'rain',
+		'snowfall',
+		'relative_humidity_2m',
+		'dew_point_2m',
+		'apparent_temperature',
+		'vapour_pressure_deficit',
+		'weather_code',
+		'surface_pressure',
+		'pressure_msl',
+		'cloud_cover',
+		'wind_speed_10m',
+		'wind_direction_10m',
+		'surface_temperature',
+		'visibility',
+		'cape'
+		//'soil_temperature_0_to_10cm',
+		//'temperature_500hPa',
+		//'temperature_850hPa',
+		//'geopotential_height_500hPa',
+		//'geopotential_height_850hPa',
+	];
+
 	let available_variables = {
 		icon_seamless: icon_d2_variables,
 		icon_global: icon_global_variables,
@@ -198,6 +223,7 @@
 		gfs05: gfs05_variables,
 		ecmwf_ifs04: ecmwf__variables,
 		ecmwf_ifs025: ecmwf__variables,
+		ukmo_global_ensemble_20km: ukmo_variables,
 		gem_global: [
 			'temperature_2m',
 			'surface_pressure',
@@ -262,11 +288,9 @@
 			return true;
 		}
 		for (const model of models) {
-			/* @ts-ignore */
 			if (!Object.hasOwn(available_variables, model)) {
 				continue;
 			}
-			/* @ts-ignore */
 			if (available_variables[model].includes(variable)) {
 				return true;
 			}
@@ -327,11 +351,9 @@
 			{ name: 'geopotential_height_500hPa', label: 'Geopotential Height (500 hPa)' },
 			{ name: 'geopotential_height_850hPa', label: 'Geopotential Height (850 hPa)' },
 			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
-			//{ name: 'is_day', label: 'Is Day or Night' }
 		],
 		[
 			{ name: 'cape', label: 'CAPE' },
-			//{ name: 'lifted_index', label: 'Lifted Index' },
 			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
 			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
 		]
@@ -344,7 +366,6 @@
 			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
 			{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
 			{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' }
-			//{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
 		],
 		[
 			{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
@@ -352,7 +373,6 @@
 			{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
 			{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
 			{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' }
-			//{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 		]
 	];
 
@@ -370,9 +390,12 @@
 		],
 		[
 			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4° Ensemble' },
-			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' },
+			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' }
+		],
+		[
 			{ name: 'gem_global', label: 'GEM Global Ensemble' },
-			{ name: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
+			{ name: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' },
+			{ name: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' }
 		]
 	];
 </script>
