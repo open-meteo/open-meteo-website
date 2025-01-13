@@ -1,14 +1,10 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 
-	import { createBubbler } from 'svelte/legacy';
-
 	import { api_key_preferences } from '$lib/stores';
 	import { urlHashStore } from '$lib/url-hash-store';
 
 	import LicenseSelector from '../LicenseSelector.svelte';
-
-	const bubble = createBubbler();
 
 	const params = urlHashStore({
 		name: 'Berlin',
@@ -43,6 +39,8 @@
 	// Fetch is automatically called after `params` changes due to reactive assignment
 	let results = $derived(
 		(async () => {
+			let urlParams = $params;
+
 			if (debounceTimeout) {
 				clearTimeout(debounceTimeout);
 			}
@@ -51,7 +49,7 @@
 			});
 
 			// Always set format=json to fetch data
-			const fetchUrl = `${action}${new URLSearchParams({ ...$params, ...{ format: 'json' } })}`;
+			const fetchUrl = `${action}${new URLSearchParams({ ...urlParams, format: 'json' })}`;
 			const result = await fetch(fetchUrl);
 
 			if (!result.ok) {
@@ -74,7 +72,6 @@
 	action="https://geocoding-api.open-meteo.com/v1/search"
 	onsubmit={(e) => {
 		e.preventDefault();
-		bubble('submit');
 	}}
 >
 	<div class="row">
