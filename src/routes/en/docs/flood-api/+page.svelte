@@ -1,28 +1,19 @@
 <script lang="ts">
-	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
-	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import { fade } from 'svelte/transition';
+
 	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
-	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
-	import { fade } from 'svelte/transition';
-	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
-	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
+
 	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
 	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
 
-	const defaultParameters = {
-		daily: [],
-		location_mode: 'location_search',
-		csv_coordinates: '',
-		timeformat: 'iso8601',
-		past_days: '0',
-		forecast_days: '92',
-		start_date: '',
-		end_date: '',
-		time_mode: 'forecast_days',
-		models: [],
-		ensemble: false
-	};
+	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
+	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
+
+	import { daily, models, defaultParameters } from './options';
 
 	const params = urlHashStore({
 		latitude: [59.91],
@@ -30,31 +21,6 @@
 		...defaultParameters,
 		daily: ['river_discharge']
 	});
-
-	const daily = [
-		[
-			{ name: 'river_discharge', label: 'River Discharge' },
-			{ name: 'river_discharge_mean', label: 'River Discharge Mean' },
-			{ name: 'river_discharge_median', label: 'River Discharge Median' },
-			{ name: 'river_discharge_max', label: 'River Discharge Maximum' },
-			{ name: 'river_discharge_min', label: 'River Discharge Minimum' },
-			{ name: 'river_discharge_p25', label: 'River Discharge 25<sup>th</sup> Percentile' },
-			{ name: 'river_discharge_p75', label: 'River Discharge 75<sup>th</sup> Percentile' }
-		]
-	];
-
-	const models = [
-		[
-			{ name: 'seamless_v4', label: 'GloFAS v4 Seamless' },
-			{ name: 'forecast_v4', label: 'GloFAS v4 Forecast' },
-			{ name: 'consolidated_v4', label: 'GloFAS v4 Consolidated' }
-		],
-		[
-			{ name: 'seamless_v3', label: 'GloFAS v3 Seamless' },
-			{ name: 'forecast_v3', label: 'GloFAS v3 Forecast' },
-			{ name: 'consolidated_v3', label: 'GloFAS v3 Consolidated' }
-		]
-	];
 </script>
 
 <svelte:head>
