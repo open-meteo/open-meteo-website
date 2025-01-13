@@ -2,19 +2,19 @@
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/url-hash-store';
+	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
 		countVariables,
 		sliceIntoChunks
-	} from '$lib/meteo';
+	} from '$lib/utils/meteo';
 
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 2);

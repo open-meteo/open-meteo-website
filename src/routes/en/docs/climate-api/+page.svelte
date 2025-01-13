@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { dev } from '$app/environment';
 
-	import { countVariables } from '$lib/meteo';
-	import { urlHashStore } from '$lib/url-hash-store';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
+	import { countVariables } from '$lib/utils/meteo';
+	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
 
-	import StartEndDate from '../StartEndDate.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
 
 	const defaultParameters = {
 		location_mode: 'location_search',

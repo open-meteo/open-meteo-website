@@ -1,20 +1,21 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/url-hash-store';
+	import { urlHashStore } from '$lib/utils/url-hash-store';
+
 	import {
 		countVariables,
 		sliceIntoChunks,
 		countPressureVariables,
 		altitudeAboveSeaLevelMeters
-	} from '$lib/meteo';
+	} from '$lib/utils/meteo';
 
-	import StartEndDate from './StartEndDate.svelte';
-	import ResultPreview from './ResultPreview.svelte';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import LicenseSelector from './LicenseSelector.svelte';
-	import LocationSelection from './LocationSelection.svelte';
-	import PressureLevelsHelpTable from './PressureLevelsHelpTable.svelte';
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+	import PressureLevelsHelpTable from '$lib/components/pressure/PressureLevelsHelpTable.svelte';
 
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';

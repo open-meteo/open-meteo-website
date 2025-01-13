@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import type { Writable } from 'svelte/store';
 	import { fade } from 'svelte/transition';
+	import type { Writable } from 'svelte/store';
 
-	import { api_key_preferences } from '$lib/stores';
-	import HighchartContainer from '$lib/Elements/HighchartContainer.svelte';
+	import { api_key_preferences } from '$lib/stores/settings';
+
+	import HighchartContainer from '$lib/components/highcharts/HighchartContainer.svelte';
 
 	import InfoCircle from 'svelte-bootstrap-icons/lib/InfoCircle.svelte';
 	import ExclamationTriangle from 'svelte-bootstrap-icons/lib/ExclamationTriangle.svelte';

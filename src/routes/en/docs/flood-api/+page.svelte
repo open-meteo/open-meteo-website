@@ -1,14 +1,14 @@
 <script lang="ts">
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
-	import { countVariables } from '$lib/meteo';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { countVariables } from '$lib/utils/meteo';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
 	import { fade } from 'svelte/transition';
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
 
 	const defaultParameters = {
 		daily: [],

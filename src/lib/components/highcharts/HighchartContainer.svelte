@@ -1,8 +1,11 @@
 <script lang="ts">
-	import './highcharts.css';
 	import { onDestroy, onMount } from 'svelte';
+
 	import { dev } from '$app/environment';
-	import { themeIsDark } from '$lib/stores';
+
+	import { themeIsDark } from '$lib/stores/settings';
+
+	import './highcharts.css';
 
 	interface Props {
 		useStockChart?: boolean;

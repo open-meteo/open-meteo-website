@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { fetchWeatherApi } from 'openmeteo';
-	import LocationSearch from '../docs/LocationSearch.svelte';
+
+	import LocationSearch from '$lib/components/location/LocationSearch.svelte';
+
 	import {
 		defaultLocation,
 		storedLocation,
@@ -8,8 +10,8 @@
 		model,
 		themeIsDark,
 		type GeoLocation
-	} from '$lib/stores';
-	import { convertUnit, getWeatherCode, range } from '$lib/meteo';
+	} from '$lib/stores/settings';
+	import { convertUnit, getWeatherCode, range } from '$lib/utils/meteo';
 
 	import { onDestroy, onMount } from 'svelte';
 	import { fade, scale } from 'svelte/transition';

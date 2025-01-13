@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import type { GeoLocation } from '$lib/stores';
-	import { api_key_preferences } from '$lib/stores';
-	import { urlHashStore } from '$lib/url-hash-store';
+	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import type { GeoLocation } from '$lib/stores/settings';
+	import { api_key_preferences } from '$lib/stores/settings';
 
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import LocationSearch from '../LocationSearch.svelte';
+	import LocationSearch from '$lib/components/location/LocationSearch.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
 
 	import PlusLg from 'svelte-bootstrap-icons/lib/PlusLg.svelte';
 	import Trash from 'svelte-bootstrap-icons/lib/Trash.svelte';

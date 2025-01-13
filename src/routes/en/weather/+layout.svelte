@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { dev } from '$app/environment';
-	import { storedLocation, type GeoLocation } from '$lib/stores';
+	import { storedLocation, type GeoLocation } from '$lib/stores/settings';
 	interface Props {
 		children?: import('svelte').Snippet;
 	}

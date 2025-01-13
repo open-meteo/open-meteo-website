@@ -3,7 +3,7 @@
 
 	import { type Parameters } from './docs';
 
-	import type { GeoLocation } from '$lib/stores';
+	import type { GeoLocation } from '$lib/stores/settings';
 
 	import LocationSearch from './LocationSearch.svelte';
 

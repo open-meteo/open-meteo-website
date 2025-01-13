@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/url-hash-store';
-	import { countVariables } from '$lib/meteo';
+	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { countVariables } from '$lib/utils/meteo';
 
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-
-	import StartEndDate from '../StartEndDate.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
 
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';

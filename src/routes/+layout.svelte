@@ -4,7 +4,7 @@
 	import { page } from '$app/state';
 	import type { Unsubscriber } from 'svelte/store';
 
-	import { theme, themeIsDark } from '$lib/stores';
+	import { theme, themeIsDark } from '$lib/stores/settings';
 
 	import MoonStarsFill from 'svelte-bootstrap-icons/lib/MoonStarsFill.svelte';
 	import CircleHalf from 'svelte-bootstrap-icons/lib/CircleHalf.svelte';

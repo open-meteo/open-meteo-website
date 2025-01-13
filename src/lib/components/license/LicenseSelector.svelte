@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { api_key_preferences } from '$lib/stores';
+	import { api_key_preferences } from '$lib/stores/settings';
+
 	import { fade } from 'svelte/transition';
 	interface Props {
 		requires_professional_plan?: boolean;

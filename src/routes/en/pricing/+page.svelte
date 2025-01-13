@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { themeIsDark } from '$lib/stores';
+	import { themeIsDark } from '$lib/stores/settings';
 </script>
 
 <svelte:head>

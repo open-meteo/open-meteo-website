@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 
-	import { api_key_preferences } from '$lib/stores';
-	import { urlHashStore } from '$lib/url-hash-store';
+	import { api_key_preferences } from '$lib/stores/settings';
+	import { urlHashStore } from '$lib/utils/url-hash-store';
 
-	import LicenseSelector from '../LicenseSelector.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
 
 	const params = urlHashStore({
 		name: 'Berlin',

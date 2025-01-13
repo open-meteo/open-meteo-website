@@ -1,20 +1,20 @@
 <script lang="ts">
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import PressureLevelsHelpTable from '../PressureLevelsHelpTable.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import PressureLevelsHelpTable from '$lib/components/pressure/PressureLevelsHelpTable.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
 		countVariables,
 		sliceIntoChunks
-	} from '$lib/meteo';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
+	} from '$lib/utils/meteo';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
 	import { fade, slide } from 'svelte/transition';
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
 
 	const defaultParameters = {
 		current: [],

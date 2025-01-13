@@ -10,7 +10,7 @@
 	import Map from 'svelte-bootstrap-icons/lib/Map.svelte';
 	import Search from 'svelte-bootstrap-icons/lib/Search.svelte';
 
-	import { favorites, last_visited, type GeoLocation } from '$lib/stores';
+	import { favorites, last_visited, type GeoLocation } from '$lib/stores/settings';
 	import { fade, fly } from 'svelte/transition';
 	import { quintOut } from 'svelte/easing';
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { altitudeAboveSeaLevelMeters } from '$lib/meteo';
+	import { altitudeAboveSeaLevelMeters } from '$lib/utils/meteo';
 
 	let {
 		pressureVariables = [
