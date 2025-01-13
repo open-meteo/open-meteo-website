@@ -5,10 +5,10 @@ import { defineConfig } from 'vite';
 function manualChunks(id) {
 	//return `${id}`.replace('/','_');
 	if (id.includes('stock.js')) {
-		return 'highstock'
+		return 'highstock';
 	}
 	if (id.includes('highcharts')) {
-		return 'highcharts'
+		return 'highcharts';
 	}
 	/*if (id.includes('node_modules')) {
 		return 'vendor';

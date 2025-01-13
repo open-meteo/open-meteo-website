@@ -1,5 +1,4 @@
 <script lang="ts">
-
 	interface Props {
 		id: string;
 		title: string;
@@ -12,7 +11,7 @@
 	let {
 		id,
 		title,
-		count = {active: 0, total: 0},
+		count = { active: 0, total: 0 },
 		open = $bindable(count.active > 0),
 		renderBody = $bindable(open),
 		children

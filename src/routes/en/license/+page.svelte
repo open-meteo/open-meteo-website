@@ -144,12 +144,12 @@
 					>)
 				</li>
 				<li>
-					Atmospheric forecasts from <a
-						href="https://www.metoffice.gov.uk/"
-						title="UK Met Office">UK Met Office</a
+					Atmospheric forecasts from <a href="https://www.metoffice.gov.uk/" title="UK Met Office"
+						>UK Met Office</a
 					>
-					(<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" title="UK Met Office License"
-						>CC-BY-SA License</a
+					(<a
+						href="https://creativecommons.org/licenses/by-sa/4.0/deed.en"
+						title="UK Met Office License">CC-BY-SA License</a
 					>)
 				</li>
 				<li>
@@ -157,8 +157,9 @@
 						href="https://www.metoffice.gov.uk/"
 						title="Copernicus Marine Service">Copernicus Marine Service</a
 					>
-					(<a href="https://marine.copernicus.eu/user-corner/service-commitments-and-licence" title="Copernicus Marine Service License"
-						>License</a
+					(<a
+						href="https://marine.copernicus.eu/user-corner/service-commitments-and-licence"
+						title="Copernicus Marine Service License">License</a
 					>)
 				</li>
 				<li>

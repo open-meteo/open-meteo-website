@@ -555,29 +555,31 @@
 	let showAsianModels = $state(true);
 
 	let sectionsAll = $derived(getData($api_key_preferences));
-	let sections = $derived(sectionsAll.map((e) => {
-		return {
-			name: e.name,
-			providers: e.providers.map((e) => {
-				return {
-					url: e.url,
-					provider: e.provider,
-					models: e.models.filter((e) => {
-						let isNorthAmerica = e.area.includes('ca') || e.area.includes('us');
-						let isGlobal = e.area.length == 0;
-						let isAsian = e.area.includes('jp');
-						let isEuropean = !isGlobal && !isNorthAmerica && !isAsian;
-						return (
-							(showGlobalModels && isGlobal) ||
-							(showNorthAmericanModels && isNorthAmerica) ||
-							(showEuropeanModels && isEuropean) ||
-							(showAsianModels && isAsian)
-						);
-					})
-				};
-			})
-		};
-	}));
+	let sections = $derived(
+		sectionsAll.map((e) => {
+			return {
+				name: e.name,
+				providers: e.providers.map((e) => {
+					return {
+						url: e.url,
+						provider: e.provider,
+						models: e.models.filter((e) => {
+							let isNorthAmerica = e.area.includes('ca') || e.area.includes('us');
+							let isGlobal = e.area.length == 0;
+							let isAsian = e.area.includes('jp');
+							let isEuropean = !isGlobal && !isNorthAmerica && !isAsian;
+							return (
+								(showGlobalModels && isGlobal) ||
+								(showNorthAmericanModels && isNorthAmerica) ||
+								(showEuropeanModels && isEuropean) ||
+								(showAsianModels && isAsian)
+							);
+						})
+					};
+				})
+			};
+		})
+	);
 </script>
 
 <svelte:head>

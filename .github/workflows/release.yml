@@ -10,7 +10,7 @@ on:
 
 # Allow one concurrent deployment
 concurrency:
-  group: "deploy"
+  group: 'deploy'
   cancel-in-progress: true
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm"
+          cache: 'npm'
       - run: npm ci
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures

@@ -101,8 +101,6 @@ Responsive.compose(Chart);
 StackingAxis.compose(Axis, Chart, Series);
 Tooltip.compose(Pointer);
 
-
-
 //import './broken-axis.src.js';
 // import BrokenAxis from 'highcharts/es-modules/Core/Axis/BrokenAxis.js';
 // Compositions
@@ -113,11 +111,10 @@ import ApproximationDefaults from 'highcharts/es-modules/Extensions/DataGrouping
 import ApproximationRegistry from 'highcharts/es-modules/Extensions/DataGrouping/ApproximationRegistry.js';
 import DataGrouping from 'highcharts/es-modules/Extensions/DataGrouping/DataGrouping.js';
 G.dataGrouping = {
-    approximationDefaults: ApproximationDefaults,
-    approximations: ApproximationRegistry
+	approximationDefaults: ApproximationDefaults,
+	approximations: ApproximationRegistry
 };
 DataGrouping.compose(G.Axis, G.Series, G.Tooltip);
-
 
 //import './mouse-wheel-zoom.src.js';
 // import DataModifyComposition from 'highcharts/es-modules/Series/DataModifyComposition.js';
@@ -144,9 +141,6 @@ G.StockChart = G.stockChart = StockChart;
 // RangeSelector.compose(G.Axis, G.Chart);
 // Scrollbar.compose(G.Axis);
 G.StockChart.compose(G.Chart, G.Axis, G.Series, G.SVGRenderer);
-
-
-
 
 // Default Export
 export default G;

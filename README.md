@@ -6,7 +6,6 @@ This repository contains the [open-meteo.com](https://open-meteo.com/) website. 
 
 The website is build using SvelteKit, Bootstrap and Highcharts. It can be run locally using `npm`, is entirely static and hosted on a CDN afterwards.
 
-
 ## Developing
 
 Once you've cloned the project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
@@ -31,7 +30,6 @@ You can preview the production build with `npm run preview`. The production buil
 ## Contributing
 
 Contributions are always welcome! Please create an issue ticket to discuss larger changes.
-
 
 ## License
 
