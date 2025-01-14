@@ -31,5 +31,8 @@ export default defineConfig({
 				manualChunks: manualChunks
 			}
 		}
+	},
+	optimizeDeps: {
+		exclude: ['highcharts']
 	}
 });

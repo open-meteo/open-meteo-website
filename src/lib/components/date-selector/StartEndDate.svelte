@@ -1,6 +1,5 @@
 <script lang="ts">
 	import SveltyPicker from 'svelty-picker';
-	import './start-end-date.css';
 
 	interface Props {
 		start_date?: string;
@@ -48,8 +47,43 @@
 		{startDate}
 		{endDate}
 		bind:value={time_interval}
-	></SveltyPicker>
-	<div class="date-range-picker-label">
-		<label for="time_interval_input">Start Date - End Date</label>
-	</div>
+	>
+		<svelte:fragment slot="inputs" let:displayValue let:onInputFocus let:onInputBlur let:onKeyDown>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-floating">
+						<input
+							type="text"
+							class="form-control"
+							name="start_date"
+							id="start_date"
+							bind:value={start_date}
+							onkeydown={onKeyDown}
+							onfocus={onInputFocus}
+							onblur={onInputBlur}
+							onchange={onManualChange}
+						/>
+						<label for="start_date">Start Date</label>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-floating">
+						<input
+							type="text"
+							class="form-control"
+							name="end_date"
+							id="end_date"
+							bind:value={end_date}
+							onkeydown={onKeyDown}
+							onfocus={onInputFocus}
+							onblur={onInputBlur}
+							onchange={onManualChange}
+						/>
+						<label for="end_date">End Date</label>
+					</div>
+				</div>
+				<input type="hidden" name="time_interval" value={displayValue} />
+			</div>
+		</svelte:fragment>
+	</SveltyPicker>
 </div>

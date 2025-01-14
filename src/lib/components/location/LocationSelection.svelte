@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { type Parameters } from './docs';
+	import { type Parameters } from '../parameters';
 
 	import type { GeoLocation } from '$lib/stores/settings';
 
