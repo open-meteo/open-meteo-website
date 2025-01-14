@@ -166,10 +166,10 @@
 					tabindex="0"
 				>
 					<div class="row">
-						<div class="col-md-3 mb-3">
+						<div class="col-md-6 mb-3">
 							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
-						<div class="col-md-9">
+						<div class="col-md-6">
 							<p>
 								The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a
 								range of dates more easily. Archived forecasts come from a series of weather model
