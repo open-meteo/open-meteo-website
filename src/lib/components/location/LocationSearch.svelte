@@ -170,7 +170,7 @@
 	})();
 </script>
 
-<button type="button" class="btn btn-outline-secondary w-100 p-3" on:click={openModal}
+<button type="button" class="btn btn-outline-secondary w-100 p-3" onclick={openModal}
 	><Search class="mb-1 me-1" /> {label}</button
 >
 
@@ -182,7 +182,7 @@
 		role="dialog"
 		aria-labelledby="locationSearchModalLabel"
 		aria-hidden={false}
-		on:click|self={closeModal}
+		onclick={closeModal}
 	>
 		<div
 			class="modal-dialog"
@@ -200,7 +200,7 @@
 						class="btn-close"
 						aria-label="Close"
 						title="Close"
-						on:click={closeModal}
+						onclick={closeModal}
 					></button>
 				</div>
 				<div class="modal-body">
@@ -220,7 +220,10 @@
 							class="btn btn-outline-secondary"
 							type="button"
 							title="Detect Location via GPS"
-							on:click|stopPropagation={() => (searchQuery = 'GPS')}><Cursor /></button
+							onclick={(e) => {
+								e.stopPropagation();
+								searchQuery = 'GPS';
+							}}><Cursor /></button
 						>
 					</div>
 					{#await results}
@@ -246,9 +249,11 @@
 											<button
 												class="list-group-item list-group-item-action position-relative"
 												type="button"
-												on:click={() => selectLocation(location)}
+												onclick={() => selectLocation(location)}
 											>
 												<img
+													style="margin-top: -0.25rem"
+													class="pe-1"
 													height="24"
 													src="/images/country-flags/{(
 														location.country_code || 'united_nations'
@@ -263,19 +268,26 @@
 														{location.elevation.toFixed(0)}m asl{/if}</small
 												>
 												<div class="position-absolute top-0 end-0 p-2">
-													<!-- <button
-														class="btn btn-outline-secondary btn-sm border-0"
-														on:click|stopPropagation={() => deleteFavorite(location)}
-														tabindex="-1"
-														title="Delete"><Trash /></button
-													> -->
 													<a
+														style="padding: 0.55rem 0.7rem"
+														class="btn btn-outline-secondary btn-sm border-0"
+														onclick={(e) => {
+															e.stopPropagation();
+															deleteFavorite(location);
+														}}
+														tabindex="-1"
+														title="Delete"><Trash /></a
+													>
+													<a
+														style="padding: 0.55rem 0.7rem"
 														class="btn btn-outline-secondary btn-sm border-0"
 														href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 														target="_blank"
 														tabindex="-1"
 														title="Show on map"
-														on:click|stopPropagation
+														onclick={(e) => {
+															e.stopPropagation();
+														}}
 													>
 														<Map />
 													</a>
@@ -291,9 +303,11 @@
 											<button
 												class="list-group-item list-group-item-action position-relative"
 												type="button"
-												on:click={() => selectLocation(location)}
+												onclick={() => selectLocation(location)}
 											>
 												<img
+													style="margin-top: -0.25rem"
+													class="pe-1"
 													height="24"
 													src="/images/country-flags/{(
 														location.country_code || 'united_nations'
@@ -309,28 +323,39 @@
 														{location.elevation.toFixed(0)}m asl{/if})</small
 												>
 												<div class="position-absolute top-0 end-0 p-2">
-													<!-- <button
-														class="btn btn-outline-secondary btn-sm border-0"
-														type="button"
-														on:click|stopPropagation={() => saveFavorite(location)}
-														tabindex="-1"
-														title="Save"><Star /></button
-													>
-													<button
-														class="btn btn-outline-secondary btn-sm border-0"
-														type="button"
-														on:click|stopPropagation={() => deleteRecent(location)}
-														tabindex="-1"
-														title="Delete"><Trash /></button
-													> -->
 													<a
+														style="padding: 0.55rem 0.7rem"
+														class="btn btn-outline-secondary btn-sm border-0"
+														type="button"
+														onclick={(e) => {
+															e.stopPropagation();
+															saveFavorite(location);
+														}}
+														tabindex="-1"
+														title="Save"><Star /></a
+													>
+													<a
+														style="padding: 0.55rem 0.7rem"
+														class="btn btn-outline-secondary btn-sm border-0"
+														type="button"
+														onclick={(e) => {
+															e.stopPropagation();
+															deleteRecent(location);
+														}}
+														tabindex="-1"
+														title="Delete"><Trash /></a
+													>
+													<a
+														style="padding: 0.55rem 0.7rem"
 														class="btn btn-outline-secondary btn-sm border-0"
 														type="button"
 														href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 														target="_blank"
 														tabindex="-1"
 														title="Show on map"
-														on:click|stopPropagation
+														onclick={(e) => {
+															e.stopPropagation();
+														}}
 													>
 														<Map />
 													</a>
@@ -350,7 +375,7 @@
 									<button
 										class="list-group-item list-group-item-action position-relative"
 										type="button"
-										on:click={() => selectLocation(location)}
+										onclick={() => selectLocation(location)}
 									>
 										<img
 											height="24"
@@ -368,20 +393,25 @@
 												{location.elevation.toFixed(0)}m asl{/if})</small
 										>
 										<div class="position-absolute top-0 end-0 p-2">
-											<!-- <button
+											<a
 												class="btn btn-outline-secondary btn-sm border-0"
 												type="button"
-												on:click|stopPropagation={() => saveFavorite(location)}
+												onclick={(e) => {
+													e.stopPropagation();
+													saveFavorite(location);
+												}}
 												tabindex="-1"
-												title="Save"><Star /></button
-											> -->
+												title="Save"><Star /></a
+											>
 											<a
 												class="btn btn-outline-secondary btn-sm border-0"
 												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 												target="_blank"
 												tabindex="-1"
 												title="Show on map"
-												on:click|stopPropagation
+												onclick={(e) => {
+													e.stopPropagation();
+												}}
 											>
 												<Map />
 											</a>
