@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { slide } from 'svelte/transition';
+	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
@@ -52,6 +52,8 @@
 	});
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
+
+	let citation = $state('apa');
 </script>
 
 <svelte:head>
@@ -1261,155 +1263,178 @@
 	<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 		<li class="nav-item" role="presentation">
 			<button
-				class="nav-link active"
+				class="nav-link"
+				class:active={citation === 'apa'}
 				id="pills-apa-tab"
 				data-bs-toggle="pill"
 				data-bs-target="#pills-apa"
 				type="button"
 				role="tab"
 				aria-controls="pills-apa"
-				aria-selected="true">APA</button
+				aria-selected="true"
+				onclick={() => (citation = 'apa')}>APA</button
 			>
 		</li>
 		<li class="nav-item" role="presentation">
 			<button
 				class="nav-link"
+				class:active={citation === 'mla'}
 				id="pills-mla-tab"
 				data-bs-toggle="pill"
 				data-bs-target="#pills-mla"
 				type="button"
 				role="tab"
 				aria-controls="pills-mla"
-				aria-selected="true">MLA</button
+				aria-selected="true"
+				onclick={() => (citation = 'mla')}>MLA</button
 			>
 		</li>
 		<li class="nav-item" role="presentation">
 			<button
 				class="nav-link"
+				class:active={citation === 'harvard'}
 				id="pills-harvard-tab"
 				data-bs-toggle="pill"
 				data-bs-target="#pills-harvard"
 				type="button"
 				role="tab"
 				aria-controls="pills-harvard"
-				aria-selected="true">Harvard</button
+				aria-selected="true"
+				onclick={() => (citation = 'harvard')}>Harvard</button
 			>
 		</li>
 		<li class="nav-item" role="presentation">
 			<button
 				class="nav-link"
+				class:active={citation === 'bibtex'}
 				id="pills-bibtex-tab"
 				data-bs-toggle="pill"
 				data-bs-target="#pills-bibtex"
 				type="button"
 				role="tab"
 				aria-controls="pills-bibtex"
-				aria-selected="false">BibTeX</button
+				aria-selected="false"
+				onclick={() => (citation = 'bibtex')}>BibTeX</button
 			>
 		</li>
 	</ul>
 	<div class="tab-content" id="pills-tabContent">
-		<div
-			class="tab-pane fade show active"
-			id="pills-apa"
-			role="tabpanel"
-			aria-labelledby="pills-apa-tab"
-			tabindex="0"
-		>
-			<p>
-				Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
-					title="zenodo publication"
-					href="https://doi.org/10.5281/ZENODO.7970649">https://doi.org/10.5281/ZENODO.7970649</a
-				>
-			</p>
-			<p>
-				Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
-				Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D.,
-				Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present [Data set].
-				ECMWF. <a href="https://doi.org/10.24381/cds.adbb2d47" title="era5-land"
-					>https://doi.org/10.24381/cds.adbb2d47</a
-				>
-			</p>
-			<p>
-				Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set]. ECMWF. <a
-					href="https://doi.org/10.24381/CDS.E2161BAC"
-					title="era5-land">https://doi.org/10.24381/CDS.E2161BAC</a
-				>
-			</p>
-			<p>
-				Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
-				U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
-				M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. (2021). CERRA
-				sub-daily regional reanalysis data for Europe on single levels from 1984 to present [Data
-				set]. ECMWF. <a href="https://doi.org/10.24381/CDS.622A565A" title="cerra"
-					>https://doi.org/10.24381/CDS.622A565A</a
-				>
-			</p>
-		</div>
-		<div
-			class="tab-pane fade show"
-			id="pills-mla"
-			role="tabpanel"
-			aria-labelledby="pills-mla-tab"
-			tabindex="0"
-		>
-			<p>
-				Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023, doi:10.5281/ZENODO.7970649.
-			</p>
-			<p>
-				Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
-				Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D.,
-				Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present [Data set].
-				ECMWF. https://doi.org/10.24381/cds.adbb2d47
-			</p>
-			<p>
-				Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set]. ECMWF.
-				https://doi.org/10.24381/CDS.E2161BAC
-			</p>
-			<p>
-				Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
-				U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
-				M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. CERRA Sub-Daily
-				Regional Reanalysis Data for Europe on Single Levels from 1984 to Present. ECMWF, 2021,
-				doi:10.24381/CDS.622A565A.
-			</p>
-		</div>
-		<div
-			class="tab-pane fade show"
-			id="pills-harvard"
-			role="tabpanel"
-			aria-labelledby="pills-harvard-tab"
-			tabindex="0"
-		>
-			<p>Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi: 10.5281/ZENODO.7970649.</p>
-			<p>
-				Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
-				Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D.,
-				Thépaut, J-N. (2023) “ERA5 hourly data on single levels from 1940 to present.” ECMWF. doi:
-				10.24381/cds.adbb2d47.
-			</p>
-			<p>
-				Muñoz Sabater, J. (2019) “ERA5-Land hourly data from 2001 to present.” ECMWF. doi:
-				10.24381/CDS.E2161BAC.
-			</p>
-			<p>
-				Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
-				U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
-				M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. (2021) “CERRA
-				sub-daily regional reanalysis data for Europe on single levels from 1984 to present.” ECMWF.
-				doi: 10.24381/CDS.622A565A.
-			</p>
-		</div>
-		<div
-			class="tab-pane fade"
-			id="pills-bibtex"
-			role="tabpanel"
-			aria-labelledby="pills-bibtex-tab"
-			tabindex="0"
-		>
-			<pre>
+		{#if citation === 'apa'}
+			<div
+				in:fade
+				class="tab-pane"
+				class:active={citation === 'apa'}
+				id="pills-apa"
+				role="tabpanel"
+				aria-labelledby="pills-apa-tab"
+				tabindex="0"
+			>
+				<p>
+					Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
+						title="zenodo publication"
+						href="https://doi.org/10.5281/ZENODO.7970649">https://doi.org/10.5281/ZENODO.7970649</a
+					>
+				</p>
+				<p>
+					Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
+					Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee,
+					D., Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present [Data
+					set]. ECMWF. <a href="https://doi.org/10.24381/cds.adbb2d47" title="era5-land"
+						>https://doi.org/10.24381/cds.adbb2d47</a
+					>
+				</p>
+				<p>
+					Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set]. ECMWF. <a
+						href="https://doi.org/10.24381/CDS.E2161BAC"
+						title="era5-land">https://doi.org/10.24381/CDS.E2161BAC</a
+					>
+				</p>
+				<p>
+					Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
+					U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
+					M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. (2021). CERRA
+					sub-daily regional reanalysis data for Europe on single levels from 1984 to present [Data
+					set]. ECMWF. <a href="https://doi.org/10.24381/CDS.622A565A" title="cerra"
+						>https://doi.org/10.24381/CDS.622A565A</a
+					>
+				</p>
+			</div>
+		{:else if citation === 'mla'}
+			<div
+				in:fade
+				class="tab-pane"
+				class:active={citation === 'mla'}
+				id="pills-mla"
+				role="tabpanel"
+				aria-labelledby="pills-mla-tab"
+				tabindex="0"
+			>
+				<p>
+					Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
+					doi:10.5281/ZENODO.7970649.
+				</p>
+				<p>
+					Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
+					Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee,
+					D., Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present [Data
+					set]. ECMWF. https://doi.org/10.24381/cds.adbb2d47
+				</p>
+				<p>
+					Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set]. ECMWF.
+					https://doi.org/10.24381/CDS.E2161BAC
+				</p>
+				<p>
+					Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
+					U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
+					M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. CERRA Sub-Daily
+					Regional Reanalysis Data for Europe on Single Levels from 1984 to Present. ECMWF, 2021,
+					doi:10.24381/CDS.622A565A.
+				</p>
+			</div>
+		{:else if citation === 'harvard'}
+			<div
+				in:fade
+				class="tab-pane"
+				class:active={citation === 'harvard'}
+				id="pills-harvard"
+				role="tabpanel"
+				aria-labelledby="pills-harvard-tab"
+				tabindex="0"
+			>
+				<p>
+					Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi: 10.5281/ZENODO.7970649.
+				</p>
+				<p>
+					Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
+					Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee,
+					D., Thépaut, J-N. (2023) “ERA5 hourly data on single levels from 1940 to present.” ECMWF.
+					doi: 10.24381/cds.adbb2d47.
+				</p>
+				<p>
+					Muñoz Sabater, J. (2019) “ERA5-Land hourly data from 2001 to present.” ECMWF. doi:
+					10.24381/CDS.E2161BAC.
+				</p>
+				<p>
+					Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
+					U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
+					M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. (2021) “CERRA
+					sub-daily regional reanalysis data for Europe on single levels from 1984 to present.”
+					ECMWF. doi: 10.24381/CDS.622A565A.
+				</p>
+			</div>
+		{:else if citation === 'bibtex'}
+			<div
+				in:fade
+				class="tab-pane"
+				class:active={citation === 'bibtex'}
+				id="pills-bibtex"
+				role="tabpanel"
+				aria-labelledby="pills-bibtex-tab"
+				tabindex="0"
+			>
+				<pre>
 <code
-					>@software&#123;Zippenfenig_Open-Meteo,
+						>@software&#123;Zippenfenig_Open-Meteo,
   author = &#123;Zippenfenig, Patrick&#125;,
   doi = &#123;10.5281/zenodo.7970649&#125;,
   license = &#123;CC-BY-4.0&#125;,
@@ -1418,9 +1443,9 @@
   copyright = &#123;Creative Commons Attribution 4.0 International&#125;,
   url = &#123;https://open-meteo.com/&#125;
 &#125;</code
-				></pre>
-			<pre><code
-					>@misc&#123;Hersbach_ERA5,
+					></pre>
+				<pre><code
+						>@misc&#123;Hersbach_ERA5,
   doi = &#123;10.24381/cds.adbb2d47&#125;,
   url = &#123;https://cds.climate.copernicus.eu/doi/10.24381/cds.adbb2d47&#125;,
   author = &#123;Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N.&#125;,
@@ -1428,9 +1453,9 @@
   publisher = &#123;ECMWF&#125;,
   year = &#123;2023&#125;
 &#125;</code
-				></pre>
-			<pre><code
-					>@misc&#123;Munoz_ERA5_LAND,
+					></pre>
+				<pre><code
+						>@misc&#123;Munoz_ERA5_LAND,
   doi = &#123;10.24381/CDS.E2161BAC&#125;,
   url = &#123;https://cds.climate.copernicus.eu/doi/10.24381/cds.e2161bac&#125;,
   author = &#123;Muñoz Sabater, J.&#125;,
@@ -1438,9 +1463,9 @@
   publisher = &#123;ECMWF&#125;,
   year = &#123;2019&#125;
 &#125;</code
-				></pre>
-			<pre><code
-					>@misc&#123;Schimanke_CERRA,
+					></pre>
+				<pre><code
+						>@misc&#123;Schimanke_CERRA,
   doi = &#123;10.24381/CDS.622A565A&#125;,
   url = &#123;https://cds.climate.copernicus.eu/doi/10.24381/cds.622a565a&#125;,
   author = &#123;Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q.&#125;,
@@ -1448,8 +1473,9 @@
   publisher = &#123;ECMWF&#125;,
   year = &#123;2021&#125;
 &#125;</code
-				></pre>
-		</div>
+					></pre>
+			</div>
+		{/if}
 	</div>
 </div>
 <p class="mt-4">Generated using Copernicus Climate Change Service information 2022.</p>
