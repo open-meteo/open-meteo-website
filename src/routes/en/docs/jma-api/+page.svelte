@@ -25,7 +25,6 @@
 		levels,
 		models,
 		current,
-		minutely_15,
 		solarVariables,
 		defaultParameters,
 		pressureVariables,

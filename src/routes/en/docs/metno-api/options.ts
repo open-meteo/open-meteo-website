@@ -18,6 +18,7 @@ export const defaultParameters = {
 	tilt: 0,
 	azimuth: 0,
 	time_mode: 'forecast_days',
+	models: [],
 	cell_selection: ''
 };
 

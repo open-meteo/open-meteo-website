@@ -15,7 +15,7 @@
 
 	import {
 		hourly,
-		models, //?
+		models,
 		current,
 		solarVariables,
 		defaultParameters,
@@ -342,6 +342,29 @@
 						{/if}
 					</div>
 				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="models"
+				title="Weather models"
+				count={countVariables(models, $params.models)}
+			>
+				{#each models as group}
+					<div class="col-md-4 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_model"
+									name="models"
+									bind:group={$params.models}
+								/>
+								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
 			</AccordionItem>
 		</div>
 	</div>
