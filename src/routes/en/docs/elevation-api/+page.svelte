@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import { api_key_preferences } from '$lib/stores';
-	import LocationSearch from '../LocationSearch.svelte';
-	import type { GeoLocation } from '$lib/stores';
-	import { urlHashStore } from '$lib/url-hash-store';
+
+	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import type { GeoLocation } from '$lib/stores/settings';
+	import { api_key_preferences } from '$lib/stores/settings';
+
+	import LocationSearch from '$lib/components/location/LocationSearch.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+
 	import PlusLg from 'svelte-bootstrap-icons/lib/PlusLg.svelte';
 	import Trash from 'svelte-bootstrap-icons/lib/Trash.svelte';
 
@@ -19,29 +22,34 @@
 		$params.latitude = $params.latitude.toSpliced(index, 1, latitude);
 		$params.longitude = $params.longitude.toSpliced(index, 1, longitude);
 	}
+
 	function addLocation() {
 		$params.latitude = [...$params.latitude, NaN];
 		$params.longitude = [...$params.longitude, NaN];
 	}
+
 	function removeLocation(index: number) {
 		$params.latitude = $params.latitude.toSpliced(index, 1);
 		$params.longitude = $params.longitude.toSpliced(index, 1);
 	}
 
-	let base = 'https://api.open-meteo.com/v1/elevation?';
-	$: switch ($api_key_preferences.use) {
-		case 'commercial':
-			base = `https://customer-api.open-meteo.com/v1/elevation?apikey=${$api_key_preferences.apikey}&`;
-			break;
-		case 'self_hosted':
-			base = `${$api_key_preferences.self_host_server}/v1/elevation?`;
-			break;
-		default:
-			base = 'https://api.open-meteo.com/v1/elevation?';
-	}
+	let base = $state('https://api.open-meteo.com/v1/elevation?');
 
-	let response = `{"elevation":[38.0]}`;
-	$: url = `${base}latitude=${$params.latitude}&longitude=${$params.longitude}`;
+	$effect(() => {
+		switch ($api_key_preferences.use) {
+			case 'commercial':
+				base = `https://customer-api.open-meteo.com/v1/elevation?apikey=${$api_key_preferences.apikey}&`;
+				break;
+			case 'self_hosted':
+				base = `${$api_key_preferences.self_host_server}/v1/elevation?`;
+				break;
+			default:
+				base = 'https://api.open-meteo.com/v1/elevation?';
+		}
+	});
+
+	let response = $state(`{"elevation":[38.0]}`);
+	let url = $derived(`${base}latitude=${$params.latitude}&longitude=${$params.longitude}`);
 
 	async function submitForm() {
 		response = await (await fetch(url)).text();
@@ -115,7 +123,7 @@
 					<button
 						type="button"
 						class="btn btn-outline-secondary w-100 p-3"
-						on:click={addLocation}
+						onclick={addLocation}
 						title="Add coordinates"><PlusLg /></button
 					>
 				</div>
@@ -124,7 +132,7 @@
 					<button
 						type="button"
 						class="btn btn-outline-secondary w-100 p-3"
-						on:click={() => removeLocation(index)}
+						onclick={() => removeLocation(index)}
 						title="Delete coordinates"><Trash /></button
 					>
 				</div>
@@ -135,8 +143,13 @@
 	<LicenseSelector />
 
 	<div class="col-12 mb-3">
-		<button type="submit" class="btn btn-primary" on:click|preventDefault={submitForm}
-			>Preview</button
+		<button
+			type="submit"
+			class="btn btn-primary"
+			onclick={(e) => {
+				e.preventDefault();
+				submitForm();
+			}}>Preview</button
 		>
 	</div>
 </form>
@@ -182,7 +195,7 @@
 					<th scope="row">latitude<br />longitude</th>
 					<td>Floating point array</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td>
 						Geographical WGS84 coordinates of the location. Multiple coordinates can be comma <mark
 							>,</mark
@@ -198,7 +211,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See

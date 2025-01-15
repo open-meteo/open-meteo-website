@@ -1,260 +1,47 @@
 <script lang="ts">
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import PressureLevelsHelpTable from '../PressureLevelsHelpTable.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
+	import { fade, slide } from 'svelte/transition';
+
+	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
 		countVariables,
 		sliceIntoChunks
-	} from '$lib/meteo';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import { fade, slide } from 'svelte/transition';
+	} from '$lib/utils/meteo';
+
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+	import PressureLevelsHelpTable from '$lib/components/pressure/PressureLevelsHelpTable.svelte';
+
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
-		current: [],
-		hourly: [],
-		daily: [],
-		minutely_15: [],
-		location_mode: 'location_search',
-		csv_coordinates: '',
-		temperature_unit: 'celsius',
-		wind_speed_unit: 'kmh',
-		precipitation_unit: 'mm',
-		timeformat: 'iso8601',
-		timezone: 'UTC',
-		past_days: '0',
-		past_hours: '',
-		past_minutely_15: '',
-		forecast_days: '7',
-		forecast_hours: '',
-		forecast_minutely_15: '',
-		temporal_resolution: '',
-		tilt: 0,
-		azimuth: 0,
-		start_date: '',
-		end_date: '',
-		time_mode: 'forecast_days',
-		models: [],
-		cell_selection: ''
-	};
+	import {
+		daily,
+		hourly,
+		levels,
+		models,
+		current,
+		minutely_15,
+		solarVariables,
+		defaultParameters,
+		pressureVariables,
+		additionalVariables
+	} from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
 
-	const pressureVariables = [
-		{ name: 'temperature', label: 'Temperature' },
-		{ name: 'dew_point', label: 'Dewpoint' },
-		{ name: 'relative_humidity', label: 'Relative Humidity' },
-		{ name: 'cloud_cover', label: 'Cloud cover' },
-		{ name: 'wind_speed', label: 'Wind Speed' },
-		{ name: 'wind_direction', label: 'Wind Direction' },
-		{ name: 'vertical_velocity', label: 'Vertical Velocity' },
-		{ name: 'geopotential_height', label: 'Geopotential Height' }
-	];
-	const levels = [
-		10, 15, 20, 30, 40, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400,
-		425, 450, 475, 500, 525, 550, 575, 600, 625, 650, 675, 700, 725, 750, 775, 800, 825, 850, 875,
-		900, 925, 950, 975, 1000
-	].reverse();
+	let pressureVariablesTab = $state('temperature');
 
-	let pressureVariablesTab = 'temperature';
-
-	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
-
-	const hourly = [
-		[
-			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'precipitation_probability', label: 'Precipitation Probability' },
-			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
-			{ name: 'rain', label: 'Rain' },
-			{ name: 'showers', label: 'Showers' },
-			{ name: 'snowfall', label: 'Snowfall' },
-			{ name: 'snow_depth', label: 'Snow Depth' }
-		],
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'surface_pressure', label: 'Surface Pressure' },
-			{ name: 'cloud_cover', label: 'Cloud cover Total' },
-			{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
-			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
-			{ name: 'visibility', label: 'Visibility' },
-			{ name: 'evapotranspiration', label: 'Evapotranspiration' },
-			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
-		],
-		[
-			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
-			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-			{ name: 'temperature_80m', label: 'Temperature (80 m)' }
-		],
-		[
-			{ name: 'surface_temperature', label: 'Surface Temperature' },
-			{ name: 'soil_temperature_0_to_10cm', label: 'Soil Temperature (0-10 cm)' },
-			{ name: 'soil_temperature_10_to_40cm', label: 'Soil Temperature (10-40 cm)' },
-			{ name: 'soil_temperature_40_to_100cm', label: 'Soil Temperature (40-100 cm)' },
-			{ name: 'soil_temperature_100_to_200cm', label: 'Soil Temperature (100-200 cm)' },
-			{ name: 'soil_moisture_0_to_10cm', label: 'Soil Moisture (0-10 cm)' },
-			{ name: 'soil_moisture_10_to_40cm', label: 'Soil Moisture (10-40 cm)' },
-			{ name: 'soil_moisture_40_to_100cm', label: 'Soil Moisture (40-100 cm)' },
-			{ name: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-200 cm)' }
-		]
-	];
-
-	const current = [
-		[
-			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'is_day', label: 'Is Day or Night' }
-		],
-		[
-			{ name: 'precipitation', label: 'Precipitation' },
-			{ name: 'rain', label: 'Rain' },
-			{ name: 'showers', label: 'Showers' },
-			{ name: 'snowfall', label: 'Snowfall' }
-		],
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'cloud_cover', label: 'Cloud cover Total' },
-			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'surface_pressure', label: 'Surface Pressure' }
-		],
-		[
-			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
-		]
-	];
-
-	const minutely_15 = [
-		[
-			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
-			{ name: 'rain', label: 'Rain' },
-			{ name: 'snowfall', label: 'Snowfall' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
-		],
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
-			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-			{ name: 'visibility', label: 'Visibility' },
-			{ name: 'cape', label: 'CAPE' },
-			{ name: 'is_day', label: 'Is Day or Night' }
-		]
-	];
-
-	const daily = [
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-			{ name: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-			{ name: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
-			{ name: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
-			{ name: 'sunrise', label: 'Sunrise' },
-			{ name: 'sunset', label: 'Sunset' },
-			{ name: 'daylight_duration', label: 'Daylight Duration' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
-			{ name: 'uv_index_max', label: 'UV Index' },
-			{ name: 'uv_index_clear_sky_max', label: 'UV Index Clear Sky' }
-		],
-		[
-			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
-			{ name: 'rain_sum', label: 'Rain Sum' },
-			{ name: 'showers_sum', label: 'Showers Sum' },
-			{ name: 'snowfall_sum', label: 'Snowfall Sum' },
-			{ name: 'precipitation_hours', label: 'Precipitation Hours' },
-			{ name: 'precipitation_probability_max', label: 'Precipitation Probability Max' },
-			{ name: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-			{ name: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
-			{ name: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
-			{ name: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
-			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
-		]
-	];
-
-	const additionalVariables = [
-		[
-			{ name: 'uv_index', label: 'UV Index' },
-			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
-			{ name: 'is_day', label: 'Is Day or Night' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
-			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
-			{
-				name: 'total_column_integrated_water_vapour',
-				label: 'Total Column Integrated Water Vapour'
-			}
-		],
-		[
-			{ name: 'cape', label: 'CAPE' },
-			{ name: 'lifted_index', label: 'Lifted Index' },
-			{ name: 'convective_inhibition', label: 'Convective Inhibition' },
-			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
-			{ name: 'boundary_layer_height', label: 'Boundary Layer Height PBL' },
-			{ name: 'mass_density_8m', label: 'Mass Density (8 m)' }
-		],
-		[
-			{ name: 'thunderstorm_probability', label: 'Thunderstorm Probability' },
-			{ name: 'rain_probability', label: 'Rain Probability' },
-			{ name: 'snowfall_probability', label: 'Snowfall Probability' },
-			{ name: 'freezing_rain_probability', label: 'Freezing Rain Probability' },
-			{ name: 'ice_pellets_probability', label: 'Ice Probability' },
-			{ name: 'precipitation_probability', label: 'Precipitation Probability (>0.254 mm / 0.01")' }
-		]
-	];
-
-	const solarVariables = [
-		[
-			{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-			{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
-			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-			{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-			{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-			{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
-		],
-		[
-			{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-			{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-			{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-			{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-			{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
-			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
-		]
-	];
-
-	const models = [
-		[
-			{ name: 'gfs_seamless', label: 'GFS Seamless' },
-			{ name: 'gfs_global', label: 'GFS Global 0.11°/0.25°' },
-			{ name: 'gfs_hrrr', label: 'HRRR Conus' },
-			{ name: 'ncep_nbm_conus', label: 'NBM Conus' },
-			{ name: 'gfs_graphcast025', label: 'GFS GraphCast' }
-		]
-	];
+	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 </script>
 
 <svelte:head>
@@ -270,13 +57,7 @@
 </div>
 
 <form method="get" action="https://api.open-meteo.com/v1/gfs">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -293,7 +74,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -304,8 +86,8 @@
 						type="button"
 						role="tab"
 						aria-controls="pills-time_interval"
-						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent /> Time Interval</button
+						onclick={() => ($params.time_mode = 'time_interval')}
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -605,7 +387,7 @@
 								role="tab"
 								aria-controls="v-pills-{variable.name}"
 								aria-selected={pressureVariablesTab == variable.name}
-								on:click={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
+								onclick={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
 							>
 						{/each}
 					</div>
@@ -890,7 +672,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} model_default="gfs_seamless" />
+<ResultPreview {params} {defaultParameters} model_default="gfs_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
@@ -1027,7 +809,7 @@
 					<th scope="row">latitude, longitude</th>
 					<td>Floating point</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
@@ -1039,7 +821,7 @@
 					<th scope="row">elevation</th>
 					<td>Floating point</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The elevation used for statistical downscaling. Per default, a <a
 							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
@@ -1054,7 +836,7 @@
 					<th scope="row">hourly</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of weather variables which should be returned. Values can be comma separated, or
 						multiple
@@ -1065,7 +847,7 @@
 					<th scope="row">daily</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of daily weather variable aggregations which should be returned. Values can be
 						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
@@ -1076,7 +858,7 @@
 					<th scope="row">current</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td>A list of weather variables to get current conditions.</td>
 				</tr>
 				<tr>
@@ -1163,7 +945,7 @@
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-06-30</mark>).
@@ -1173,7 +955,7 @@
 					<th scope="row">start_hour<br />end_hour<br />start_minutely_15<br />end_minutely_15</th>
 					<td>String (yyyy-mm-ddThh:mm)</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get weather data for hourly or 15 minutely data. Time must be
 						specified as an ISO8601 date (e.g.
@@ -1202,7 +984,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See

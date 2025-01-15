@@ -1,56 +1,64 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import { api_key_preferences } from '$lib/stores';
-	import { urlHashStore } from '$lib/url-hash-store';
+	import { onDestroy } from 'svelte';
 
-	const params = urlHashStore({ 
-		name: 'Berlin', 
-		count: '10', 
-		language: 'en', 
-		format: 'json' 
+	import { api_key_preferences } from '$lib/stores/settings';
+	import { urlHashStore } from '$lib/utils/url-hash-store';
+
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+
+	const params = urlHashStore({
+		name: 'Berlin',
+		count: '10',
+		language: 'en',
+		format: 'json'
 	});
 
 	//const params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
-	let action = 'https://geocoding-api.open-meteo.com/v1/search?';
-	$: switch ($api_key_preferences.use) {
-		case 'commercial':
-			action = `https://customer-geocoding-api.open-meteo.com/v1/search?apikey=${$api_key_preferences.apikey}&`;
-			break;
-		case 'self_hosted':
-			action = `${$api_key_preferences.self_host_server}/v1/search?`;
-			break;
-		default:
-			action = 'https://geocoding-api.open-meteo.com/v1/search?';
-	}
+	let action = $state('https://geocoding-api.open-meteo.com/v1/search?');
+	$effect(() => {
+		switch ($api_key_preferences.use) {
+			case 'commercial':
+				action = `https://customer-geocoding-api.open-meteo.com/v1/search?apikey=${$api_key_preferences.apikey}&`;
+				break;
+			case 'self_hosted':
+				action = `${$api_key_preferences.self_host_server}/v1/search?`;
+				break;
+			default:
+				action = 'https://geocoding-api.open-meteo.com/v1/search?';
+		}
+	});
 
 	//const paramsDefault = { ...params };
-	$: apiUrl = `${action}${new URLSearchParams($params)}`;
-	let debounceTimeout: number | undefined;
+	let apiUrl = $derived(`${action}${new URLSearchParams($params)}`);
+	let debounceTimeout: number | undefined = undefined;
 
 	onDestroy(() => {
 		clearInterval(debounceTimeout);
 	});
 
 	// Fetch is automatically called after `params` changes due to reactive assignment
-	$: results = (async () => {
-		if (debounceTimeout) {
-			clearTimeout(debounceTimeout);
-		}
-		await new Promise((resolve) => {
-			debounceTimeout = setTimeout(resolve, 300);
-		});
+	let results = $derived(
+		(async () => {
+			let urlParams = $params;
 
-		// Always set format=json to fetch data
-		const fetchUrl = `${action}${new URLSearchParams({ ...$params, ...{ format: 'json' } })}`;
-		const result = await fetch(fetchUrl);
+			if (debounceTimeout) {
+				clearTimeout(debounceTimeout);
+			}
+			await new Promise((resolve) => {
+				debounceTimeout = setTimeout(resolve, 300);
+			});
 
-		if (!result.ok) {
-			throw new Error(await result.text());
-		}
+			// Always set format=json to fetch data
+			const fetchUrl = `${action}${new URLSearchParams({ ...urlParams, format: 'json' })}`;
+			const result = await fetch(fetchUrl);
 
-		return await result.json();
-	})();
+			if (!result.ok) {
+				throw new Error(await result.text());
+			}
+
+			return await result.json();
+		})()
+	);
 </script>
 
 <svelte:head>
@@ -62,7 +70,9 @@
 	id="geocoding_form"
 	method="get"
 	action="https://geocoding-api.open-meteo.com/v1/search"
-	on:submit|preventDefault
+	onsubmit={(e) => {
+		e.preventDefault();
+	}}
 >
 	<div class="row">
 		<h2>Search for cities or postal code</h2>
@@ -151,14 +161,14 @@
 <div class="col-12 table-responsive" style="min-height: 300px;">
 	{#await results}
 		<button class="btn btn-primary" type="button" disabled>
-			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" />
+			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 			Loading...
 		</button>
 	{:then results}
 		<table class="table">
 			<thead>
 				<tr>
-					<th />
+					<th></th>
 					<th>Name</th>
 					<th>Latitude</th>
 					<th>Longitude</th>
@@ -241,7 +251,7 @@
 					<th scope="row">name</th>
 					<td>String</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>String to search for. An empty string or only 1 character will return an empty result.
 						2 characters will only match exact matching locations. 3 and more characters will
@@ -284,7 +294,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See
@@ -452,9 +462,9 @@
 		</table>
 	</div>
 
-	*Note: All IDs can be can be resolved via the API endpoint<a
-		href="https://geocoding-api.open-meteo.com/v1/get?id=2950159"
-		target="_new">https://geocoding-api.open-meteo.com/v1/get?id=2950159</a
+	*Note: All IDs can be can be resolved via the API endpoint
+	<a href="https://geocoding-api.open-meteo.com/v1/get?id=2950159" target="_new"
+		>https://geocoding-api.open-meteo.com/v1/get?id=2950159</a
 	>
 
 	<h3 class="mt-5">Errors</h3>

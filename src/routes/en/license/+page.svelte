@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
 
-	onMount(async () => {
-		const Tab = await import('bootstrap/js/dist/tab');
-	});
+	let citation = $state('apa');
 </script>
 
 <svelte:head>
@@ -38,7 +36,7 @@
 		/>
 	</svg>
 	<h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">License</h1>
-	<div class="col-lg-6 mx-auto" />
+	<div class="col-lg-6 mx-auto"></div>
 </div>
 
 <div class="container col-xxl-8 px-4 py-5">
@@ -144,12 +142,12 @@
 					>)
 				</li>
 				<li>
-					Atmospheric forecasts from <a
-						href="https://www.metoffice.gov.uk/"
-						title="UK Met Office">UK Met Office</a
+					Atmospheric forecasts from <a href="https://www.metoffice.gov.uk/" title="UK Met Office"
+						>UK Met Office</a
 					>
-					(<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" title="UK Met Office License"
-						>CC-BY-SA License</a
+					(<a
+						href="https://creativecommons.org/licenses/by-sa/4.0/deed.en"
+						title="UK Met Office License">CC-BY-SA License</a
 					>)
 				</li>
 				<li>
@@ -157,8 +155,9 @@
 						href="https://www.metoffice.gov.uk/"
 						title="Copernicus Marine Service">Copernicus Marine Service</a
 					>
-					(<a href="https://marine.copernicus.eu/user-corner/service-commitments-and-licence" title="Copernicus Marine Service License"
-						>License</a
+					(<a
+						href="https://marine.copernicus.eu/user-corner/service-commitments-and-licence"
+						title="Copernicus Marine Service License">License</a
 					>)
 				</li>
 				<li>
@@ -249,103 +248,123 @@
 				<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 					<li class="nav-item" role="presentation">
 						<button
-							class="nav-link active"
+							class="nav-link"
+							class:active={citation === 'apa'}
 							id="pills-apa-tab"
 							data-bs-toggle="pill"
 							data-bs-target="#pills-apa"
 							type="button"
 							role="tab"
 							aria-controls="pills-apa"
-							aria-selected="true">APA</button
+							aria-selected="true"
+							onclick={() => (citation = 'apa')}>APA</button
 						>
 					</li>
 					<li class="nav-item" role="presentation">
 						<button
 							class="nav-link"
+							class:active={citation === 'mla'}
 							id="pills-mla-tab"
 							data-bs-toggle="pill"
 							data-bs-target="#pills-mla"
 							type="button"
 							role="tab"
 							aria-controls="pills-mla"
-							aria-selected="true">MLA</button
+							aria-selected="true"
+							onclick={() => (citation = 'mla')}>MLA</button
 						>
 					</li>
 					<li class="nav-item" role="presentation">
 						<button
 							class="nav-link"
+							class:active={citation === 'harvard'}
 							id="pills-harvard-tab"
 							data-bs-toggle="pill"
 							data-bs-target="#pills-harvard"
 							type="button"
 							role="tab"
 							aria-controls="pills-harvard"
-							aria-selected="true">Harvard</button
+							aria-selected="true"
+							onclick={() => (citation = 'harvard')}>Harvard</button
 						>
 					</li>
 					<li class="nav-item" role="presentation">
 						<button
 							class="nav-link"
+							class:active={citation === 'bibtex'}
 							id="pills-bibtex-tab"
 							data-bs-toggle="pill"
 							data-bs-target="#pills-bibtex"
 							type="button"
 							role="tab"
 							aria-controls="pills-bibtex"
-							aria-selected="false">BibTeX</button
+							aria-selected="false"
+							onclick={() => (citation = 'bibtex')}>BibTeX</button
 						>
 					</li>
 				</ul>
 				<div class="tab-content" id="pills-tabContent">
-					<div
-						class="tab-pane fade show active"
-						id="pills-apa"
-						role="tabpanel"
-						aria-labelledby="pills-apa-tab"
-						tabindex="0"
-					>
-						<p>
-							Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
-								title="zenodo publication"
-								href="https://doi.org/10.5281/ZENODO.7970649"
-								>https://doi.org/10.5281/ZENODO.7970649</a
-							>
-						</p>
-					</div>
-					<div
-						class="tab-pane fade show"
-						id="pills-mla"
-						role="tabpanel"
-						aria-labelledby="pills-mla-tab"
-						tabindex="0"
-					>
-						<p>
-							Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
-							doi:10.5281/ZENODO.7970649.
-						</p>
-					</div>
-					<div
-						class="tab-pane fade show"
-						id="pills-harvard"
-						role="tabpanel"
-						aria-labelledby="pills-harvard-tab"
-						tabindex="0"
-					>
-						<p>
-							Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi:
-							10.5281/ZENODO.7970649.
-						</p>
-					</div>
-					<div
-						class="tab-pane fade"
-						id="pills-bibtex"
-						role="tabpanel"
-						aria-labelledby="pills-bibtex-tab"
-						tabindex="0"
-					>
-						<pre>
+					{#if citation === 'apa'}
+						<div
+							in:fade
+							class="tab-pane"
+							class:active={citation === 'apa'}
+							id="pills-apa"
+							role="tabpanel"
+							aria-labelledby="pills-apa-tab"
+							tabindex="0"
+						>
+							<p>
+								Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
+									title="zenodo publication"
+									href="https://doi.org/10.5281/ZENODO.7970649"
+									>https://doi.org/10.5281/ZENODO.7970649</a
+								>
+							</p>
+						</div>
+					{:else if citation === 'mla'}
+						<div
+							in:fade
+							class="tab-pane"
+							class:active={citation === 'mla'}
+							id="pills-mla"
+							role="tabpanel"
+							aria-labelledby="pills-mla-tab"
+							tabindex="0"
+						>
+							<p>
+								Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
+								doi:10.5281/ZENODO.7970649.
+							</p>
+						</div>
+					{:else if citation === 'harvard'}
+						<div
+							in:fade
+							class="tab-pane"
+							class:active={citation === 'harvard'}
+							id="pills-harvard"
+							role="tabpanel"
+							aria-labelledby="pills-harvard-tab"
+							tabindex="0"
+						>
+							<p>
+								Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi:
+								10.5281/ZENODO.7970649.
+							</p>
+						</div>
+					{:else if citation === 'bibtex'}
+						<div
+							in:fade
+							class="tab-pane"
+							class:active={citation === 'bibtex'}
+							id="pills-bibtex"
+							role="tabpanel"
+							aria-labelledby="pills-bibtex-tab"
+							tabindex="0"
+						>
+							<pre>
 <code
-								>@software&#123;Zippenfenig_Open-Meteo,
+									>@software&#123;Zippenfenig_Open-Meteo,
   author = &#123;Zippenfenig, Patrick&#125;,
   doi = &#123;10.5281/zenodo.7970649&#125;,
   license = &#123;CC-BY-4.0&#125;,
@@ -354,8 +373,9 @@
   copyright = &#123;Creative Commons Attribution 4.0 International&#125;,
   url = &#123;https://open-meteo.com/&#125;
 &#125;</code
-							></pre>
-					</div>
+								></pre>
+						</div>
+					{/if}
 				</div>
 			</div>
 		</div>

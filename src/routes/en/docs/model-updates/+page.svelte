@@ -1,6 +1,6 @@
 <script lang="ts">
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import { api_key_preferences } from '$lib/stores';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import { api_key_preferences } from '$lib/stores/settings';
 
 	async function fetchMeta(model: String, type: String, api_key_preferences: any) {
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
@@ -549,35 +549,37 @@
 			//{ name: 'Flood API', providers: floodModels },
 		];
 	}
-	let showGlobalModels = true;
-	let showEuropeanModels = true;
-	let showNorthAmericanModels = true;
-	let showAsianModels = true;
+	let showGlobalModels = $state(true);
+	let showEuropeanModels = $state(true);
+	let showNorthAmericanModels = $state(true);
+	let showAsianModels = $state(true);
 
-	$: sectionsAll = getData($api_key_preferences);
-	$: sections = sectionsAll.map((e) => {
-		return {
-			name: e.name,
-			providers: e.providers.map((e) => {
-				return {
-					url: e.url,
-					provider: e.provider,
-					models: e.models.filter((e) => {
-						let isNorthAmerica = e.area.includes('ca') || e.area.includes('us');
-						let isGlobal = e.area.length == 0;
-						let isAsian = e.area.includes('jp');
-						let isEuropean = !isGlobal && !isNorthAmerica && !isAsian;
-						return (
-							(showGlobalModels && isGlobal) ||
-							(showNorthAmericanModels && isNorthAmerica) ||
-							(showEuropeanModels && isEuropean) ||
-							(showAsianModels && isAsian)
-						);
-					})
-				};
-			})
-		};
-	});
+	let sectionsAll = $derived(getData($api_key_preferences));
+	let sections = $derived(
+		sectionsAll.map((e) => {
+			return {
+				name: e.name,
+				providers: e.providers.map((e) => {
+					return {
+						url: e.url,
+						provider: e.provider,
+						models: e.models.filter((e) => {
+							let isNorthAmerica = e.area.includes('ca') || e.area.includes('us');
+							let isGlobal = e.area.length == 0;
+							let isAsian = e.area.includes('jp');
+							let isEuropean = !isGlobal && !isNorthAmerica && !isAsian;
+							return (
+								(showGlobalModels && isGlobal) ||
+								(showNorthAmericanModels && isNorthAmerica) ||
+								(showEuropeanModels && isEuropean) ||
+								(showAsianModels && isAsian)
+							);
+						})
+					};
+				})
+			};
+		})
+	);
 </script>
 
 <svelte:head>

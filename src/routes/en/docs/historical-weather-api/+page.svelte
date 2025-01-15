@@ -1,14 +1,25 @@
 <script lang="ts">
-	import { dev } from '$app/environment';
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
-	import { countVariables } from '$lib/meteo';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { onMount } from 'svelte';
-	import StartEndDate from '../StartEndDate.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
-	import { slide } from 'svelte/transition';
+	import { fade, slide } from 'svelte/transition';
+
+	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { countVariables } from '$lib/utils/meteo';
+
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+
+	import {
+		daily,
+		hourly,
+		models,
+		solarVariables,
+		defaultParameters,
+		additionalVariables,
+		ensembleSpreadVariables
+	} from './options';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 2);
@@ -16,32 +27,14 @@
 	d.setDate(d.getDate() - 14);
 	let startDateDefault = d.toISOString().split('T')[0];
 	let startDate = '1940-01-01';
-	let endDate = '';
-
-	const defaultParameter = {
-		hourly: [],
-		daily: [],
-		location_mode: 'location_search',
-		time_mode: 'time_interval',
-		csv_coordinates: '',
-		temperature_unit: 'celsius',
-		wind_speed_unit: 'kmh',
-		precipitation_unit: 'mm',
-		timeformat: 'iso8601',
-		timezone: 'UTC',
-		temporal_resolution: '',
-		cell_selection: '',
-		tilt: 0,
-		azimuth: 0,
-		models: []
-	};
+	let endDate = $state('');
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
 		start_date: startDateDefault,
 		end_date: endDateDefault,
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
 
@@ -58,178 +51,9 @@
 		}
 	});
 
-	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
+	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 
-	let hourly = [
-		[
-			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'precipitation', label: 'Precipitation (rain + snow)' },
-			{ name: 'rain', label: 'Rain' },
-			{ name: 'snowfall', label: 'Snowfall' },
-			{ name: 'snow_depth', label: 'Snow depth' }
-		],
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'surface_pressure', label: 'Surface Pressure' },
-			{ name: 'cloud_cover', label: 'Cloud cover Total' },
-			{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
-			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
-			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
-		],
-		[
-			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
-			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
-		],
-		[
-			{ name: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
-			{ name: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
-			{ name: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm)' },
-			{ name: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm)' },
-			{ name: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
-			{ name: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)' },
-			{ name: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)' },
-			{ name: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)' }
-		]
-	];
-	if (dev) {
-		hourly.push([
-			{ name: 'soil_temperature_0_to_100cm', label: 'Soil Temperature (0-100 cm)' },
-			{ name: 'soil_moisture_0_to_100cm', label: 'Soil Moisture (0-100 cm)' },
-			{ name: 'soil_moisture_index_0_to_7cm', label: 'Soil Moisture Index (0-7 cm)' },
-			{ name: 'soil_moisture_index_7_to_28cm', label: 'Soil Moisture Index (7-28 cm)' },
-			{ name: 'soil_moisture_index_28_to_100cm', label: 'Soil Moisture Index (28-100 cm)' },
-			{ name: 'soil_moisture_index_0_to_100cm', label: 'Soil Moisture Index (0-100 cm)' }
-		]);
-	}
-
-	let daily = [
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-			{ name: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-			{ name: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
-			{ name: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
-			{ name: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
-			{ name: 'apparent_temperature_mean', label: 'Mean Apparent Temperature (2 m)' },
-			{ name: 'sunrise', label: 'Sunrise' },
-			{ name: 'sunset', label: 'Sunset' },
-			{ name: 'daylight_duration', label: 'Daylight Duration' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
-		],
-		[
-			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
-			{ name: 'rain_sum', label: 'Rain Sum' },
-			{ name: 'snowfall_sum', label: 'Snowfall Sum' },
-			{ name: 'precipitation_hours', label: 'Precipitation Hours' },
-			{ name: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-			{ name: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
-			{ name: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
-			{ name: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
-			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
-		]
-	];
-
-	if (dev) {
-		daily.push([
-			{ name: 'soil_temperature_0_to_100cm_mean', label: 'Mean Soil Temperature (0-100 cm)' },
-			{ name: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
-			{ name: 'soil_moisture_index_0_to_100cm_mean', label: 'Mean Soil Moisture Index (0-100 cm)' },
-			{ name: 'growing_degree_days_base_0_limit_50', label: 'Growing Degree Days Base 0 Limit 50' },
-			{ name: 'leaf_wetness_probability_mean', label: 'Mean Leaf Wetness Probability' },
-			{ name: 'vapour_pressure_deficit_max', label: 'Vapour Pressure Deficit Max' }
-		]);
-	}
-
-	const additionalVariables = [
-		[
-			{ name: 'boundary_layer_height', label: 'Boundary Layer Height PBL' },
-			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
-			{
-				name: 'total_column_integrated_water_vapour',
-				label: 'Total Column Integrated Water Vapour'
-			}
-		],
-		[
-			{ name: 'is_day', label: 'Is Day or Night' }, 
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
-			{ name: 'albedo', label: 'Albedo (only CERRA)' },
-			{ name: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent (only CERRA)' },
-		]
-	];
-
-	const solarVariables = [
-		[
-			{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-			{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
-			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-			{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-			{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-			{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
-		],
-		[
-			{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-			{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-			{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-			{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-			{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
-			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
-		]
-	];
-
-	const ensembleSpreadVariables = [
-		[
-			{ name: 'temperature_2m_spread', label: 'Temperature (2 m)' },
-			{ name: 'dew_point_2m_spread', label: 'Dewpoint (2 m)' },
-			{ name: 'precipitation_spread', label: 'Precipitation (rain + snow)' },
-			{ name: 'snowfall_spread', label: 'Snowfall' },
-			{ name: 'shortwave_radiation_spread', label: 'Shortwave Solar Radiation GHI' },
-			{ name: 'direct_radiation_spread', label: 'Direct Solar Radiation' },
-			{ name: 'pressure_msl_spread', label: 'Sealevel Pressure' },
-			{ name: 'cloud_cover_low_spread', label: 'Cloud cover Low' },
-			{ name: 'cloud_cover_mid_spread', label: 'Cloud cover Mid' },
-			{ name: 'cloud_cover_high_spread', label: 'Cloud cover High' },
-		],
-		[
-			{ name: 'wind_speed_10m_spread', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_speed_100m_spread', label: 'Wind Speed (100 m)' },
-			{ name: 'wind_direction_10m_spread', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_direction_100m_spread', label: 'Wind Direction (100 m)' },
-			{ name: 'wind_gusts_10m_spread', label: 'Wind Gusts (10 m)' },
-			{ name: 'soil_temperature_0_to_7cm_spread', label: 'Soil Temperature (0-7 cm)' },
-			{ name: 'soil_temperature_7_to_28cm_spread', label: 'Soil Temperature (7-28 cm)' },
-			{ name: 'soil_temperature_28_to_100cm_spread', label: 'Soil Temperature (28-100 cm)' },
-			{ name: 'soil_temperature_100_to_255cm_spread', label: 'Soil Temperature (100-255 cm)' },
-			{ name: 'soil_moisture_0_to_7cm_spread', label: 'Soil Moisture (0-7 cm)' },
-			{ name: 'soil_moisture_7_to_28cm_spread', label: 'Soil Moisture (7-28 cm)' },
-			{ name: 'soil_moisture_28_to_100cm_spread', label: 'Soil Moisture (28-100 cm)' },
-			{ name: 'soil_moisture_100_to_255cm_spread', label: 'Soil Moisture (100-255 cm)' }
-		]
-	]
-
-	let models = [
-		[
-			{ name: 'best_match', label: 'Best match', caption: 'ECMWF IFS & ERA5' },
-			{ name: 'ecmwf_ifs', label: 'ECMWF IFS', caption: '9 km, Global, 2017 onwards' },
-			{ name: 'ecmwf_ifs_analysis_long_window', label: 'ECMWF IFS Analysis Long-Window', caption: '9 km, 6-Hourly Measurements' },
-			//{ name: 'ecmwf_ifs_analysis', label: 'ECMWF IFS Analysis', caption: '9 km, 6-Hourly Measurements' },
-			//{ name: 'ecmwf_ifs_long_window', label: 'ECMWF IFS Long-Window', caption: '9 km, 1-Hourly' }
-		],[
-			{ name: 'era5_seamless', label: 'ERA5-Seamless', caption: 'ERA5 & ERA5-Land combined' },
-			{ name: 'era5', label: 'ERA5', caption: '25 km, Global' },
-			{ name: 'era5_land', label: 'ERA5-Land', caption: '10 km, Global' },
-			{ name: 'era5_ensemble', label: 'ERA5-Ensemble', caption: '0.5° ~55km, Global' },
-			{ name: 'cerra', label: 'CERRA', caption: '5 km, Europe, 1985 to June 2021' }
-		]
-	];
+	let citation = $state('apa');
 </script>
 
 <svelte:head>
@@ -242,20 +66,15 @@
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-	Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides access to a staggering 90 terabytes of meteorological data! Read the <a
+	Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides
+	access to a staggering 90 terabytes of meteorological data! Read the <a
 		href="https://open.substack.com/pub/openmeteo/p/processing-90-tb-historical-weather"
 		target="_blank">blog article</a
 	>.
 </div>
 
 <form method="get" action="https://archive-api.open-meteo.com/v1/archive">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div class="col-md-6 mb-3">
@@ -279,45 +98,59 @@
 				Quick:
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2000-01-01'), ($params.end_date = '2009-12-31')
-					)}>2000-2009</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2000-01-01';
+						$params.end_date = '2009-12-31';
+					}}>2000-2009</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2010-01-01'), ($params.end_date = '2019-12-31')
-					)}>2010-2019</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2010-01-01';
+						$params.end_date = '2019-12-31';
+					}}>2010-2019</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2020-01-01'), ($params.end_date = '2020-12-31')
-					)}>2020</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2020-01-01';
+						$params.end_date = '2020-12-31';
+					}}>2020</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2021-01-01'), ($params.end_date = '2021-12-31')
-					)}>2021</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2021-01-01';
+						$params.end_date = '2021-12-31';
+					}}>2021</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2022-01-01'), ($params.end_date = '2022-12-31')
-					)}>2022</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2022-01-01';
+						$params.end_date = '2022-12-31';
+					}}>2022</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2023-01-01'), ($params.end_date = '2023-12-31')
-					)}>2023</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2023-01-01';
+						$params.end_date = '2023-12-31';
+					}}>2023</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2024-01-01'), ($params.end_date = endDate)
-					)}>2024</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2024-01-01';
+						$params.end_date = endDate;
+					}}>2024</button
 				>
 			</p>
 		</div>
@@ -428,7 +261,8 @@
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -436,7 +270,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -445,10 +279,8 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90 }
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -466,7 +298,7 @@
 							bind:value={$params.azimuth}
 						/>
 						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -498,8 +330,9 @@
 				{/each}
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: Ensemble spread variables are available if the model <mark>ERA5-Ensemble</mark> is used. </small
-					>
+						>Note: Ensemble spread variables are available if the model <mark>ERA5-Ensemble</mark> is
+						used.
+					</small>
 				</div>
 			</AccordionItem>
 			<AccordionItem
@@ -557,9 +390,9 @@
 			</div>
 		{/each}
 		{#if timezoneInvalid}
-		<div class="alert alert-warning" role="alert">
-			It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
-		</div>
+			<div class="alert alert-warning" role="alert">
+				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+			</div>
 		{/if}
 	</div>
 
@@ -632,7 +465,14 @@
 	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="archive" action="archive" sdk_cache={-1} useStockChart={true} />
+<ResultPreview
+	{params}
+	{defaultParameters}
+	type="archive"
+	action="archive"
+	sdk_cache={-1}
+	useStockChart={true}
+/>
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">
@@ -646,20 +486,23 @@
 			stations nearby, such as rural areas or the open ocean.
 		</p>
 		<p>
-			The models for historical weather data use a spatial resolution of 9 km to resolve fine details 
-			close to coasts or complex mountain terrain. In general, a higher spatial resolution means that the data is
-			more detailed and represents the weather conditions more accurately at smaller scales.
+			The models for historical weather data use a spatial resolution of 9 km to resolve fine
+			details close to coasts or complex mountain terrain. In general, a higher spatial resolution
+			means that the data is more detailed and represents the weather conditions more accurately at
+			smaller scales.
 		</p>
 	</div>
 	<div class="col-6">
 		<p>
-			The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs at 0z and 12z, 
-			employing the most up-to-date version of IFS. This dataset offers the utmost resolution and precision 
-			in depicting historical weather conditions.
+			The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs at
+			0z and 12z, employing the most up-to-date version of IFS. This dataset offers the utmost
+			resolution and precision in depicting historical weather conditions.
 		</p>
-		<p>However, when studying climate change over decades, it is advisable to exclusively utilize ERA5 or ERA5-Land. 
-			This choice ensures data consistency and prevents unintentional alterations that could arise from the adoption 
-			of different weather model upgrades.</p>
+		<p>
+			However, when studying climate change over decades, it is advisable to exclusively utilize
+			ERA5 or ERA5-Land. This choice ensures data consistency and prevents unintentional alterations
+			that could arise from the adoption of different weather model upgrades.
+		</p>
 		<p>
 			You can access data dating back to 1940 with a delay of 2 days. If you're looking for weather
 			information from the previous day, our <a
@@ -672,7 +515,11 @@
 </div>
 <div class="table-responsive">
 	<table class="table">
-		<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+		<caption
+			>You can find the update timings in the <a href="/en/docs/model-updates"
+				>model updates documentation</a
+			>.</caption
+		>
 		<thead>
 			<tr>
 				<th scope="col">Data Set</th>
@@ -712,8 +559,7 @@
 			</tr>
 			<tr>
 				<th scope="row"
-					><a
-						href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview"
+					><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview"
 						>ERA5-Land</a
 					>
 				</th>
@@ -801,7 +647,7 @@
 					<th scope="row">latitude<br />longitude</th>
 					<td>Floating point</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
@@ -813,7 +659,7 @@
 					<th scope="row">elevation</th>
 					<td>Floating point</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The elevation used for statistical downscaling. Per default, a <a
 							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
@@ -828,7 +674,7 @@
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-12-31</mark>).
@@ -838,7 +684,7 @@
 					<th scope="row">hourly</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of weather variables which should be returned. Values can be comma separated, or
 						multiple
@@ -849,7 +695,7 @@
 					<th scope="row">daily</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of daily weather variable aggregations which should be returned. Values can be
 						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
@@ -931,7 +777,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See
@@ -1082,19 +928,24 @@
 					<th scope="row">global_tilted_irradiance</th>
 					<td>Preceding hour mean</td>
 					<td>W/m²</td>
-					<td>Total radiation received on a tilted pane as average of the preceding hour. 
-						The calculation is assuming a fixed albedo of 20% and in isotropic sky. 
-						Please specify tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. 
-						Azimuth should be close to 0° (0° south, -90° east, 90° west).
-						If azimuth is set to "nan", the calculation assumes a horizontal tracker. 
-						If tilt is set to "nan", it is assumed that the panel has a vertical tracker. 
-						If both are set to "nan", a bi-axial tracker is assumed.</td>
+					<td
+						>Total radiation received on a tilted pane as average of the preceding hour. The
+						calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify tilt
+						and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. Azimuth
+						should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to "nan", the
+						calculation assumes a horizontal tracker. If tilt is set to "nan", it is assumed that
+						the panel has a vertical tracker. If both are set to "nan", a bi-axial tracker is
+						assumed.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>Preceding hour sum</td>
 					<td>Seconds</td>
-					<td>Number of seconds of sunshine of the preceding hour per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+					<td
+						>Number of seconds of sunshine of the preceding hour per hour calculated by direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">wind_speed_10m<br />wind_speed_100m</th>
@@ -1250,7 +1101,11 @@
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>seconds</td>
-					<td>The number of seconds of sunshine per day is determined by calculating direct normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine duration will consistently be less than daylight duration due to dawn and dusk.</td>
+					<td
+						>The number of seconds of sunshine per day is determined by calculating direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine
+						duration will consistently be less than daylight duration due to dawn and dusk.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">daylight_duration</th>
@@ -1408,155 +1263,178 @@
 	<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 		<li class="nav-item" role="presentation">
 			<button
-				class="nav-link active"
+				class="nav-link"
+				class:active={citation === 'apa'}
 				id="pills-apa-tab"
 				data-bs-toggle="pill"
 				data-bs-target="#pills-apa"
 				type="button"
 				role="tab"
 				aria-controls="pills-apa"
-				aria-selected="true">APA</button
+				aria-selected="true"
+				onclick={() => (citation = 'apa')}>APA</button
 			>
 		</li>
 		<li class="nav-item" role="presentation">
 			<button
 				class="nav-link"
+				class:active={citation === 'mla'}
 				id="pills-mla-tab"
 				data-bs-toggle="pill"
 				data-bs-target="#pills-mla"
 				type="button"
 				role="tab"
 				aria-controls="pills-mla"
-				aria-selected="true">MLA</button
+				aria-selected="true"
+				onclick={() => (citation = 'mla')}>MLA</button
 			>
 		</li>
 		<li class="nav-item" role="presentation">
 			<button
 				class="nav-link"
+				class:active={citation === 'harvard'}
 				id="pills-harvard-tab"
 				data-bs-toggle="pill"
 				data-bs-target="#pills-harvard"
 				type="button"
 				role="tab"
 				aria-controls="pills-harvard"
-				aria-selected="true">Harvard</button
+				aria-selected="true"
+				onclick={() => (citation = 'harvard')}>Harvard</button
 			>
 		</li>
 		<li class="nav-item" role="presentation">
 			<button
 				class="nav-link"
+				class:active={citation === 'bibtex'}
 				id="pills-bibtex-tab"
 				data-bs-toggle="pill"
 				data-bs-target="#pills-bibtex"
 				type="button"
 				role="tab"
 				aria-controls="pills-bibtex"
-				aria-selected="false">BibTeX</button
+				aria-selected="false"
+				onclick={() => (citation = 'bibtex')}>BibTeX</button
 			>
 		</li>
 	</ul>
 	<div class="tab-content" id="pills-tabContent">
-		<div
-			class="tab-pane fade show active"
-			id="pills-apa"
-			role="tabpanel"
-			aria-labelledby="pills-apa-tab"
-			tabindex="0"
-		>
-			<p>
-				Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
-					title="zenodo publication"
-					href="https://doi.org/10.5281/ZENODO.7970649">https://doi.org/10.5281/ZENODO.7970649</a
-				>
-			</p>
-			<p>
-				Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
-				Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D.,
-				Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present [Data set].
-				ECMWF. <a href="https://doi.org/10.24381/cds.adbb2d47" title="era5-land"
-					>https://doi.org/10.24381/cds.adbb2d47</a
-				>
-			</p>
-			<p>
-				Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set]. ECMWF. <a
-					href="https://doi.org/10.24381/CDS.E2161BAC"
-					title="era5-land">https://doi.org/10.24381/CDS.E2161BAC</a
-				>
-			</p>
-			<p>
-				Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
-				U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
-				M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. (2021). CERRA
-				sub-daily regional reanalysis data for Europe on single levels from 1984 to present [Data
-				set]. ECMWF. <a href="https://doi.org/10.24381/CDS.622A565A" title="cerra"
-					>https://doi.org/10.24381/CDS.622A565A</a
-				>
-			</p>
-		</div>
-		<div
-			class="tab-pane fade show"
-			id="pills-mla"
-			role="tabpanel"
-			aria-labelledby="pills-mla-tab"
-			tabindex="0"
-		>
-			<p>
-				Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023, doi:10.5281/ZENODO.7970649.
-			</p>
-			<p>
-				Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
-				Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D.,
-				Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present [Data set].
-				ECMWF. https://doi.org/10.24381/cds.adbb2d47
-			</p>
-			<p>
-				Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set]. ECMWF.
-				https://doi.org/10.24381/CDS.E2161BAC
-			</p>
-			<p>
-				Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
-				U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
-				M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. CERRA Sub-Daily
-				Regional Reanalysis Data for Europe on Single Levels from 1984 to Present. ECMWF, 2021,
-				doi:10.24381/CDS.622A565A.
-			</p>
-		</div>
-		<div
-			class="tab-pane fade show"
-			id="pills-harvard"
-			role="tabpanel"
-			aria-labelledby="pills-harvard-tab"
-			tabindex="0"
-		>
-			<p>Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi: 10.5281/ZENODO.7970649.</p>
-			<p>
-				Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
-				Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D.,
-				Thépaut, J-N. (2023) “ERA5 hourly data on single levels from 1940 to present.” ECMWF. doi:
-				10.24381/cds.adbb2d47.
-			</p>
-			<p>
-				Muñoz Sabater, J. (2019) “ERA5-Land hourly data from 2001 to present.” ECMWF. doi:
-				10.24381/CDS.E2161BAC.
-			</p>
-			<p>
-				Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
-				U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
-				M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. (2021) “CERRA
-				sub-daily regional reanalysis data for Europe on single levels from 1984 to present.” ECMWF.
-				doi: 10.24381/CDS.622A565A.
-			</p>
-		</div>
-		<div
-			class="tab-pane fade"
-			id="pills-bibtex"
-			role="tabpanel"
-			aria-labelledby="pills-bibtex-tab"
-			tabindex="0"
-		>
-			<pre>
+		{#if citation === 'apa'}
+			<div
+				in:fade
+				class="tab-pane"
+				class:active={citation === 'apa'}
+				id="pills-apa"
+				role="tabpanel"
+				aria-labelledby="pills-apa-tab"
+				tabindex="0"
+			>
+				<p>
+					Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
+						title="zenodo publication"
+						href="https://doi.org/10.5281/ZENODO.7970649">https://doi.org/10.5281/ZENODO.7970649</a
+					>
+				</p>
+				<p>
+					Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
+					Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee,
+					D., Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present [Data
+					set]. ECMWF. <a href="https://doi.org/10.24381/cds.adbb2d47" title="era5-land"
+						>https://doi.org/10.24381/cds.adbb2d47</a
+					>
+				</p>
+				<p>
+					Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set]. ECMWF. <a
+						href="https://doi.org/10.24381/CDS.E2161BAC"
+						title="era5-land">https://doi.org/10.24381/CDS.E2161BAC</a
+					>
+				</p>
+				<p>
+					Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
+					U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
+					M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. (2021). CERRA
+					sub-daily regional reanalysis data for Europe on single levels from 1984 to present [Data
+					set]. ECMWF. <a href="https://doi.org/10.24381/CDS.622A565A" title="cerra"
+						>https://doi.org/10.24381/CDS.622A565A</a
+					>
+				</p>
+			</div>
+		{:else if citation === 'mla'}
+			<div
+				in:fade
+				class="tab-pane"
+				class:active={citation === 'mla'}
+				id="pills-mla"
+				role="tabpanel"
+				aria-labelledby="pills-mla-tab"
+				tabindex="0"
+			>
+				<p>
+					Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
+					doi:10.5281/ZENODO.7970649.
+				</p>
+				<p>
+					Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
+					Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee,
+					D., Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present [Data
+					set]. ECMWF. https://doi.org/10.24381/cds.adbb2d47
+				</p>
+				<p>
+					Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set]. ECMWF.
+					https://doi.org/10.24381/CDS.E2161BAC
+				</p>
+				<p>
+					Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
+					U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
+					M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. CERRA Sub-Daily
+					Regional Reanalysis Data for Europe on Single Levels from 1984 to Present. ECMWF, 2021,
+					doi:10.24381/CDS.622A565A.
+				</p>
+			</div>
+		{:else if citation === 'harvard'}
+			<div
+				in:fade
+				class="tab-pane"
+				class:active={citation === 'harvard'}
+				id="pills-harvard"
+				role="tabpanel"
+				aria-labelledby="pills-harvard-tab"
+				tabindex="0"
+			>
+				<p>
+					Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi: 10.5281/ZENODO.7970649.
+				</p>
+				<p>
+					Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
+					Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee,
+					D., Thépaut, J-N. (2023) “ERA5 hourly data on single levels from 1940 to present.” ECMWF.
+					doi: 10.24381/cds.adbb2d47.
+				</p>
+				<p>
+					Muñoz Sabater, J. (2019) “ERA5-Land hourly data from 2001 to present.” ECMWF. doi:
+					10.24381/CDS.E2161BAC.
+				</p>
+				<p>
+					Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
+					U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
+					M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. (2021) “CERRA
+					sub-daily regional reanalysis data for Europe on single levels from 1984 to present.”
+					ECMWF. doi: 10.24381/CDS.622A565A.
+				</p>
+			</div>
+		{:else if citation === 'bibtex'}
+			<div
+				in:fade
+				class="tab-pane"
+				class:active={citation === 'bibtex'}
+				id="pills-bibtex"
+				role="tabpanel"
+				aria-labelledby="pills-bibtex-tab"
+				tabindex="0"
+			>
+				<pre>
 <code
-					>@software&#123;Zippenfenig_Open-Meteo,
+						>@software&#123;Zippenfenig_Open-Meteo,
   author = &#123;Zippenfenig, Patrick&#125;,
   doi = &#123;10.5281/zenodo.7970649&#125;,
   license = &#123;CC-BY-4.0&#125;,
@@ -1565,9 +1443,9 @@
   copyright = &#123;Creative Commons Attribution 4.0 International&#125;,
   url = &#123;https://open-meteo.com/&#125;
 &#125;</code
-				></pre>
-			<pre><code
-					>@misc&#123;Hersbach_ERA5,
+					></pre>
+				<pre><code
+						>@misc&#123;Hersbach_ERA5,
   doi = &#123;10.24381/cds.adbb2d47&#125;,
   url = &#123;https://cds.climate.copernicus.eu/doi/10.24381/cds.adbb2d47&#125;,
   author = &#123;Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N.&#125;,
@@ -1575,9 +1453,9 @@
   publisher = &#123;ECMWF&#125;,
   year = &#123;2023&#125;
 &#125;</code
-				></pre>
-			<pre><code
-					>@misc&#123;Munoz_ERA5_LAND,
+					></pre>
+				<pre><code
+						>@misc&#123;Munoz_ERA5_LAND,
   doi = &#123;10.24381/CDS.E2161BAC&#125;,
   url = &#123;https://cds.climate.copernicus.eu/doi/10.24381/cds.e2161bac&#125;,
   author = &#123;Muñoz Sabater, J.&#125;,
@@ -1585,9 +1463,9 @@
   publisher = &#123;ECMWF&#125;,
   year = &#123;2019&#125;
 &#125;</code
-				></pre>
-			<pre><code
-					>@misc&#123;Schimanke_CERRA,
+					></pre>
+				<pre><code
+						>@misc&#123;Schimanke_CERRA,
   doi = &#123;10.24381/CDS.622A565A&#125;,
   url = &#123;https://cds.climate.copernicus.eu/doi/10.24381/cds.622a565a&#125;,
   author = &#123;Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q.&#125;,
@@ -1595,8 +1473,9 @@
   publisher = &#123;ECMWF&#125;,
   year = &#123;2021&#125;
 &#125;</code
-				></pre>
-		</div>
+					></pre>
+			</div>
+		{/if}
 	</div>
 </div>
 <p class="mt-4">Generated using Copernicus Climate Change Service information 2022.</p>

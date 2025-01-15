@@ -1,149 +1,37 @@
 <script lang="ts">
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
 		countVariables,
 		sliceIntoChunks
-	} from '$lib/meteo';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
+	} from '$lib/utils/meteo';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
 	import { fade, slide } from 'svelte/transition';
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
 
-	const defaultParameter = {
-		hourly: [],
-		location_mode: 'location_search',
-		csv_coordinates: '',
-		temperature_unit: 'celsius',
-		wind_speed_unit: 'kmh',
-		precipitation_unit: 'mm',
-		timeformat: 'iso8601',
-		past_days: '0',
-		forecast_days: '10',
-		start_date: '',
-		end_date: '',
-		time_mode: 'forecast_days',
-		forecast_hours: '',
-		past_hours: '',
-		models: [],
-		tilt: 0,
-		azimuth: 0,
-		temporal_resolution: '',
-		cell_selection: ''
-	};
+	import {
+		hourly,
+		levels,
+		models,
+		solarVariables,
+		defaultParameters,
+		pressureVariables,
+		additionalVariables
+	} from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
-
-	const pressureVariables = [
-		{ name: 'temperature', label: 'Temperature' },
-		{ name: 'relative_humidity', label: 'Relative Humidity' }, 
-		//{ name: 'specific_humidity', label: 'Specific Humidity' },
-		{ name: 'cloud_cover', label: 'Cloud cover' },
-		{ name: 'wind_speed', label: 'Wind Speed' },
-		{ name: 'wind_direction', label: 'Wind Direction' },
-		{ name: 'geopotential_height', label: 'Geopotential Height' },
-		//{ name: 'atmosphere_relative_vorticity', label: 'Relative Vorticity' },
-		//{ name: 'divergence_of_wind', label: 'Divergence of Wind' }
-	];
-	const levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100, 50];
-
-	let pressureVariablesTab = 'temperature';
-
-	const hourly = [
-		[
-			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'precipitation', label: 'Precipitation (rain + snow)' },
-			{ name: 'rain', label: 'Rain' },
-			{ name: 'snowfall', label: 'Snowfall' }
-		],
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'surface_pressure', label: 'Surface Pressure' },
-			{ name: 'cloud_cover', label: 'Cloud cover Total' },
-			{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
-			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
-			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
-		],
-		[
-			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
-			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-			{ name: 'surface_temperature', label: 'Surface temperature' },
-			{ name: 'runoff', label: 'Surface Water Runoff' },
-			{ name: 'cape', label: 'CAPE' },
-			{
-				name: 'total_column_integrated_water_vapour',
-				label: 'Total Column Integrated Water Vapour'
-			}
-		],
-		[
-			{ name: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
-			{ name: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
-			{ name: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm)' },
-			{ name: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm)' },
-			{ name: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
-			{ name: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)' },
-			{ name: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)' },
-			{ name: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)' }
-		]
-	];
-
-	const models = [
-		[
-			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4°' },
-			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
-			{ name: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' },
-		],
-	];
-
-	const solarVariables = [
-		[
-			{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-			{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
-			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-			{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-			{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-			{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
-		],
-		[
-			{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-			{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-			{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-			{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-			{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
-			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
-		]
-	];
-
-	const additionalVariables = [
-		[
-			{ name: 'is_day', label: 'Is Day or Night' },
-			{ name: 'temperature_2m_min', label: 'Temperature 3-Hourly Minimum (2 m)' },
-			{ name: 'temperature_2m_max', label: 'Temperature 3-Hourly Maximum (2 m)' },
-			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
-		],
-		[
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' },
-			{ name: 'precipitation_type', label: 'Precipitation Type' },
-		]
-	];
+	let pressureVariablesTab = $state('temperature');
 </script>
 
 <svelte:head>
@@ -152,21 +40,16 @@
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-	The API uses open-data ECMWF weather forecasts from the IFS weather model with a
-	resolution of 9 km. However, the open-data access is restricted to a resolution of 25 km and
-	3-hourly values, although the model still provides excellent accuracy for large scale weather
-	patterns. For more detailed local forecasts, we recommend using the <a href="/en/docs"
+	The API uses open-data ECMWF weather forecasts from the IFS weather model with a resolution of 9
+	km. However, the open-data access is restricted to a resolution of 25 km and 3-hourly values,
+	although the model still provides excellent accuracy for large scale weather patterns. For more
+	detailed local forecasts, we recommend using the <a href="/en/docs"
 		>generic weather forecast API</a
 	>, which combines weather models up to 1 km resolution seamlessly.
 </div>
 
 <form method="get" action="https://api.open-meteo.com/v1/ecmwf">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -183,7 +66,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -194,8 +78,8 @@
 						type="button"
 						role="tab"
 						aria-controls="pills-time_interval"
-						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent/> Time Interval</button
+						onclick={() => ($params.time_mode = 'time_interval')}
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -267,7 +151,7 @@
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 					</div>
 				</div>
@@ -319,7 +203,7 @@
 								role="tab"
 								aria-controls="v-pills-{variable.name}"
 								aria-selected={pressureVariablesTab == variable.name}
-								on:click={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
+								onclick={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
 							>
 						{/each}
 					</div>
@@ -392,7 +276,11 @@
 				<small class="text-muted mt-3">(1) Europe only, (2) Central Europe only</small>
 				<div class="col-md-12 mb-3 mt-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
+							>&forecast_hours=</mark
+						>
+						and <mark>&past_hours=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -489,7 +377,8 @@
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -497,7 +386,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -506,10 +395,8 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90 }
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -527,7 +414,7 @@
 							bind:value={$params.azimuth}
 						/>
 						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -635,16 +522,21 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} model_default="ecmwf_ifs025" />
+<ResultPreview {params} {defaultParameters} model_default="ecmwf_ifs025" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
 		This API uses <a href="https://www.ecmwf.int/en/forecasts/datasets/open-data"
 			>open-data ECMWF Integrated Forecast System IFS</a
-		>. ECMWF IFS models run every 6 hours at 9 km resolution, but only 0.25° grid spacing (~25 km) is
-		available as open data with a limited number of weather variables at 3-hourly intervals.</p>
-	<p>AIFS is an artificial intelligence weather model from ECMWF yielding better results as GraphCast and other models. Unfortunately, only 6-hourly time-steps are available. You can find more information about AIFS <a href="https://www.ecmwf.int/en/about/media-centre/aifs-blog">here</a>. As soon as ECWMF includes additional data, they will be made available in this API.
+		>. ECMWF IFS models run every 6 hours at 9 km resolution, but only 0.25° grid spacing (~25 km)
+		is available as open data with a limited number of weather variables at 3-hourly intervals.
+	</p>
+	<p>
+		AIFS is an artificial intelligence weather model from ECMWF yielding better results as GraphCast
+		and other models. Unfortunately, only 6-hourly time-steps are available. You can find more
+		information about AIFS <a href="https://www.ecmwf.int/en/about/media-centre/aifs-blog">here</a>.
+		As soon as ECWMF includes additional data, they will be made available in this API.
 	</p>
 	<p>
 		For hourly and high-resolution data (up to 1 km) try our <a href="/en/docs">forecast API</a> which
@@ -652,7 +544,11 @@
 	</p>
 	<div class="table-responsive">
 		<table class="table">
-			<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+			<caption
+				>You can find the update timings in the <a href="/en/docs/model-updates"
+					>model updates documentation</a
+				>.</caption
+			>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>
@@ -704,8 +600,8 @@
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/ecmwf</mark> accepts a geographical coordinate, a list of weather variables
-		and responds with a JSON hourly weather forecast for 10 days. Time always starts at 0:00 today.
-		All URL parameters are listed below:
+		and responds with a JSON hourly weather forecast for 10 days. Time always starts at 0:00 today. All
+		URL parameters are listed below:
 	</p>
 	<div class="table-responsive">
 		<table class="table">
@@ -723,7 +619,7 @@
 					<th scope="row">latitude, longitude</th>
 					<td>Floating point</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
@@ -735,7 +631,7 @@
 					<th scope="row">elevation</th>
 					<td>Floating point</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The elevation used for statistical downscaling. Per default, a <a
 							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
@@ -750,7 +646,7 @@
 					<th scope="row">hourly</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of weather variables which should be returned. Values can be comma separated, or
 						multiple
@@ -807,7 +703,7 @@
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-06-30</mark>).
@@ -835,7 +731,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See
@@ -890,7 +786,13 @@
 					<th scope="row">precipitation_type</th>
 					<td>Instantaneous</td>
 					<td>mm (inch)</td>
-					<td>0 = No precipitation, 1 = Rain, 3 = Freezing rain (i.e. supercooled raindrops which freeze on contact with the ground and other surfaces), 5 = Snow, 6 = Wet snow (i.e. snow particles which are starting to melt), 7 = Mixture of rain and snow, 8 = Ice pellets, 12 = Freezing drizzle (i.e. supercooled drizzle which freezes on contact with the ground and other surfaces)</td>
+					<td
+						>0 = No precipitation, 1 = Rain, 3 = Freezing rain (i.e. supercooled raindrops which
+						freeze on contact with the ground and other surfaces), 5 = Snow, 6 = Wet snow (i.e. snow
+						particles which are starting to melt), 7 = Mixture of rain and snow, 8 = Ice pellets, 12
+						= Freezing drizzle (i.e. supercooled drizzle which freezes on contact with the ground
+						and other surfaces)</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">runoff</th>
@@ -964,7 +866,10 @@
 					>
 				</tr>
 				<tr>
-					<th scope="row">soil_temperature_0_7cm<br/>soil_temperature_7_to_28cm<br/>soil_temperature_28_to_100cm<br/>soil_temperature_100_to_255cm</th>
+					<th scope="row"
+						>soil_temperature_0_7cm<br />soil_temperature_7_to_28cm<br
+						/>soil_temperature_28_to_100cm<br />soil_temperature_100_to_255cm</th
+					>
 					<td>Instant</td>
 					<td>°C (°F)</td>
 					<td>Average temperature of different soil depths below ground.</td>
@@ -1000,9 +905,7 @@
 					<th scope="row">temperature_2m_min<br />temperature_2m_max</th>
 					<td>Preceding 3-hour</td>
 					<td>°C (°F)</td>
-					<td
-						>Minimum and maximum temperature of the preceding 3 hours.
-					</td>
+					<td>Minimum and maximum temperature of the preceding 3 hours. </td>
 				</tr>
 				<tr>
 					<th scope="row">geopotential_height_1000hPa</th>
@@ -1029,7 +932,9 @@
 					<th scope="row">wind_gusts_10m</th>
 					<td>Preceding 3-hour max</td>
 					<td>km/h (mph, m/s, knots)</td>
-					<td>Maximum 3 second wind at 10 m height above ground as a maximum of the preceding 3 hours</td>
+					<td
+						>Maximum 3 second wind at 10 m height above ground as a maximum of the preceding 3 hours</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">relative_humidity_1000hPa, ...</th>
@@ -1067,7 +972,8 @@
 					<td>W/m²</td>
 					<td
 						>Direct solar radiation as average of the preceding hour on the horizontal plane and the
-						normal plane (perpendicular to the sun). ECMWF IFS open-data does not provide direct and diffuse radiation. It is approximated based on <a
+						normal plane (perpendicular to the sun). ECMWF IFS open-data does not provide direct and
+						diffuse radiation. It is approximated based on <a
 							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
 							target="_blank">Razo, Müller Witwer</a
 						></td
@@ -1078,7 +984,8 @@
 					<td>Preceding hour mean</td>
 					<td>W/m²</td>
 					<td
-						>Diffuse solar radiation as average of the preceding hour. Similar to direct radiation, it is approximated based on <a
+						>Diffuse solar radiation as average of the preceding hour. Similar to direct radiation,
+						it is approximated based on <a
 							href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
 							target="_blank">Razo, Müller Witwer</a
 						></td

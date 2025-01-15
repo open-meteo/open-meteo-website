@@ -1,23 +1,14 @@
 <script lang="ts">
-	import { dev } from '$app/environment';
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
-	import { countVariables } from '$lib/meteo';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
+	import { countVariables } from '$lib/utils/meteo';
+	import { urlHashStore } from '$lib/utils/url-hash-store';
 
-	const defaultParameter = {
-		location_mode: 'location_search',
-		csv_coordinates: '',
-		temperature_unit: 'celsius',
-		wind_speed_unit: 'kmh',
-		precipitation_unit: 'mm',
-		timeformat: 'iso8601',
-		timezone: 'UTC',
-		disable_bias_correction: false
-	};
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+
+	import { daily, models, defaultParameters } from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -33,70 +24,9 @@
 			'MPI_ESM1_2_XR',
 			'NICAM16_8S'
 		],
-		...defaultParameter,
+		...defaultParameters,
 		daily: ['temperature_2m_max']
 	});
-
-	let daily = [
-		[
-			{ name: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
-			{ name: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-			{ name: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-			{ name: 'wind_speed_10m_mean', label: 'Mean Wind Speed (10 m)' },
-			{ name: 'wind_speed_10m_max', label: 'Max Wind Speed (10 m)' },
-			{ name: 'cloud_cover_mean', label: 'Mean Cloud Cover' },
-			{ name: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' }
-		],
-		[
-			{ name: 'relative_humidity_2m_mean', label: 'Mean Relative Humidity (2 m)' },
-			{ name: 'relative_humidity_2m_max', label: 'Maximum Relative Humidity (2 m)' },
-			{ name: 'relative_humidity_2m_min', label: 'Minimum Relative Humidity (2 m)' },
-			{ name: 'dew_point_2m_mean', label: 'Mean Dewpoint (2 m)' },
-			{ name: 'dew_point_2m_min', label: 'Minimum Dewpoint (2 m)' },
-			{ name: 'dew_point_2m_max', label: 'Maximum Dewpoint (2 m)' }
-		],
-		[
-			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
-			{ name: 'rain_sum', label: 'Rain Sum' },
-			{ name: 'snowfall_sum', label: 'Snowfall Sum' },
-			{ name: 'pressure_msl_mean', label: 'Sealevel Pressure' },
-			{ name: 'soil_moisture_0_to_10cm_mean', label: 'Mean Soil Moisture (0-10 cm)' },
-			{ name: 'et0_fao_evapotranspiration_sum', label: 'Reference Evapotranspiration (ET₀)' }
-		]
-	];
-
-	if (dev) {
-		daily.push([
-			{ name: 'vapour_pressure_deficit_max', label: 'Vapour Pressure Deficit' },
-			{ name: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
-			{ name: 'soil_moisture_7_to_28cm_mean', label: 'Mean Soil Moisture (7-28 cm)' },
-			{ name: 'soil_moisture_28_to_100cm_mean', label: 'Mean Soil Moisture (28-100 cm)' },
-			{ name: 'soil_moisture_index_0_to_100cm_mean', label: 'Mean Soil Moisture Index (0-100 cm)' },
-			{ name: 'soil_moisture_index_0_to_10cm_mean', label: 'Mean Soil Moisture Index (0-10 cm)' },
-			{ name: 'soil_moisture_index_7_to_28cm_mean', label: 'Mean Soil Moisture Index (7-28 cm)' },
-			{
-				name: 'soil_moisture_index_28_to_100cm_mean',
-				label: 'Mean Soil Moisture Index (28-100 cm)'
-			},
-			{ name: 'soil_temperature_0_to_100cm_mean', label: 'Mean Soil Temperature (0-100 cm)' },
-			{ name: 'soil_temperature_7_to_28cm_mean', label: 'Mean Soil Temperature (7-28 cm)' },
-			{ name: 'soil_temperature_28_to_100cm_mean', label: 'Mean Soil Temperature (28-100 cm)' },
-			{ name: 'growing_degree_days_base_0_limit_50', label: 'GDD 0-50°C' },
-			{ name: 'daylight_duration', label: 'Daylight Duration' }
-		]);
-	}
-
-	const models = [
-		[
-			{ name: 'CMCC_CM2_VHR4', label: 'CMCC_CM2_VHR4', caption: '30 km' },
-			{ name: 'FGOALS_f3_H', label: 'FGOALS_f3_H', caption: '28 km' },
-			{ name: 'HiRAM_SIT_HR', label: 'HiRAM_SIT_HR', caption: '25 km' },
-			{ name: 'MRI_AGCM3_2_S', label: 'MRI_AGCM3_2_S', caption: '20 km' },
-			{ name: 'EC_Earth3P_HR', label: 'EC_Earth3P_HR', caption: '29 km' },
-			{ name: 'MPI_ESM1_2_XR', label: 'MPI_ESM1_2_XR', caption: '51 km' },
-			{ name: 'NICAM16_8S', label: 'NICAM16_8S', caption: '31 km' }
-		]
-	];
 </script>
 
 <svelte:head>
@@ -114,13 +44,8 @@
 </div>
 
 <form method="get" action="https://climate-api.open-meteo.com/v1/climate">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
+
 	<div class="row py-3 px-0">
 		<div class="col-md-6 mb-3">
 			<StartEndDate
@@ -135,15 +60,19 @@
 				Quick:
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '1950-01-01'), ($params.end_date = '2050-12-31')
-					)}>1950-2050</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '1950-01-01';
+						$params.end_date = '2050-12-31';
+					}}>1950-2050</button
 				>
 				<button
 					class="btn btn-outline-primary btn-sm"
-					on:click|preventDefault={() => (
-						($params.start_date = '2015-01-01'), ($params.end_date = '2050-12-31')
-					)}>2015-2050</button
+					onclick={(e) => {
+						e.preventDefault();
+						$params.start_date = '2015-01-01';
+						$params.end_date = '2050-12-31';
+					}}>2015-2050</button
 				>
 			</p>
 		</div>
@@ -283,7 +212,14 @@
 	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="climate" action="climate" sdk_type="climate_api" useStockChart={true} />
+<ResultPreview
+	{params}
+	{defaultParameters}
+	type="climate"
+	action="climate"
+	sdk_type="climate_api"
+	useStockChart={true}
+/>
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">
@@ -352,7 +288,7 @@
 				<td>Italy</td>
 				<td>Fondazione Centro Euro-Mediterraneo sui Cambiamenti Climatici, Lecce (CMCC)</td>
 				<td>30&nbsp;km</td>
-				<td />
+				<td></td>
 			</tr>
 			<tr>
 				<th scope="row"
@@ -379,7 +315,7 @@
 					>Research Center for Environmental Changes, Academia Sinica, Nankang, Taipei (AS-RCEC)</td
 				>
 				<td>25&nbsp;km</td>
-				<td />
+				<td></td>
 			</tr>
 			<tr>
 				<th scope="row"
@@ -391,7 +327,7 @@
 				<td>Japan</td>
 				<td>Meteorological Research Institute, Tsukuba, Ibaraki (MRI) </td>
 				<td>20&nbsp;km</td>
-				<td />
+				<td></td>
 			</tr>
 			<tr>
 				<th scope="row"
@@ -554,7 +490,7 @@
 					<th scope="row">latitude<br />longitude</th>
 					<td>Floating point</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
@@ -566,7 +502,7 @@
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-12-31</mark>). Data is available from <mark>1950-01-01</mark> until
@@ -577,7 +513,7 @@
 					<th scope="row">models</th>
 					<td>String array</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>A list of climate models separated by comma. 7 climate models are available <mark
 							>CMCC_CM2_VHR4</mark
@@ -590,7 +526,7 @@
 					<th scope="row">daily</th>
 					<td>String array</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>A list of daily weather variable aggregations which should be returned. Values can be
 						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used.</td
@@ -667,7 +603,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See

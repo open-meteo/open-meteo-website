@@ -1,234 +1,47 @@
 <script lang="ts">
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import PressureLevelsHelpTable from '../PressureLevelsHelpTable.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
+	import { fade, slide } from 'svelte/transition';
+
+	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
 		countVariables,
 		sliceIntoChunks
-	} from '$lib/meteo';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
-	import { fade, slide } from 'svelte/transition';
+	} from '$lib/utils/meteo';
+
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+	import PressureLevelsHelpTable from '$lib/components/pressure/PressureLevelsHelpTable.svelte';
+
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
-		current: [],
-		hourly: [],
-		daily: [],
-		location_mode: 'location_search',
-		csv_coordinates: '',
-		minutely_15: [],
-		temperature_unit: 'celsius',
-		wind_speed_unit: 'kmh',
-		precipitation_unit: 'mm',
-		timeformat: 'iso8601',
-		timezone: 'UTC',
-		past_days: '0',
-		past_hours: '',
-		past_minutely_15: '',
-		forecast_days: '7',
-		forecast_hours: '',
-		forecast_minutely_15: '',
-		start_date: '',
-		end_date: '',
-		tilt: 0,
-		azimuth: 0,
-		time_mode: 'forecast_days',
-		models: []
-	};
+	import {
+		daily,
+		hourly,
+		levels,
+		models,
+		current,
+		minutely_15,
+		solarVariables,
+		defaultParameters,
+		pressureVariables,
+		additionalVariables
+	} from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
 
-	const pressureVariables = [
-		{ name: 'temperature', label: 'Temperature' },
-		{ name: 'relative_humidity', label: 'Relative Humidity' },
-		{ name: 'cloud_cover', label: 'Cloud cover' },
-		{ name: 'wind_speed', label: 'Wind Speed' },
-		{ name: 'wind_direction', label: 'Wind Direction' },
-		{ name: 'geopotential_height', label: 'Geopotential Height' }
-	];
-	const levels = [
-		30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000
-	].reverse();
+	let pressureVariablesTab = $state('temperature');
 
-	let pressureVariablesTab = 'temperature';
-
-	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
-
-	const hourly = [
-		[
-			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			//{ name: 'precipitation_probability', label: 'Precipitation Probability' },
-			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
-			{ name: 'rain', label: 'Rain' },
-			{ name: 'showers', label: 'Showers' },
-			{ name: 'snowfall', label: 'Snowfall' },
-			{ name: 'snow_depth', label: 'Snow Depth' }
-		],
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'surface_pressure', label: 'Surface Pressure' },
-			{ name: 'cloud_cover', label: 'Cloud cover Total' },
-			{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
-			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
-			{ name: 'visibility', label: 'Visibility' },
-			{ name: 'evapotranspiration', label: 'Evapotranspiration' },
-			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
-		],
-		[
-			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
-			{ name: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
-			{ name: 'wind_speed_180m', label: 'Wind Speed (180 m)' },
-			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
-			{ name: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
-			{ name: 'wind_direction_180m', label: 'Wind Direction (180 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-			{ name: 'temperature_80m', label: 'Temperature (80 m)' },
-			{ name: 'temperature_120m', label: 'Temperature (120 m)' },
-			{ name: 'temperature_180m', label: 'Temperature (180 m)' }
-		],
-		[
-			{ name: 'soil_temperature_0cm', label: 'Soil Temperature (0 cm)' },
-			{ name: 'soil_temperature_6cm', label: 'Soil Temperature (6 cm)' },
-			{ name: 'soil_temperature_18cm', label: 'Soil Temperature (18 cm)' },
-			{ name: 'soil_temperature_54cm', label: 'Soil Temperature (54 cm)' },
-			{ name: 'soil_moisture_0_to_1cm', label: 'Soil Moisture (0-1 cm)' },
-			{ name: 'soil_moisture_1_to_3cm', label: 'Soil Moisture (1-3 cm)' },
-			{ name: 'soil_moisture_3_to_9cm', label: 'Soil Moisture (3-9 cm)' },
-			{ name: 'soil_moisture_9_to_27cm', label: 'Soil Moisture (9-27 cm)' },
-			{ name: 'soil_moisture_27_to_81cm', label: 'Soil Moisture (27-81 cm)' }
-		]
-	];
-
-	const current = [
-		[
-			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-			{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-			{ name: 'is_day', label: 'Is Day or Night' }
-		],[
-			{ name: 'precipitation', label: 'Precipitation' },
-			{ name: 'rain', label: 'Rain' },
-			{ name: 'showers', label: 'Showers' },
-			{ name: 'snowfall', label: 'Snowfall' },
-		],
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'cloud_cover', label: 'Cloud cover Total' },
-			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'surface_pressure', label: 'Surface Pressure' },
-		],
-		[
-			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-			{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-		]
-	];
-
-	const minutely_15 = [
-		[
-			{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
-			{ name: 'rain', label: 'Rain' },
-			{ name: 'snowfall', label: 'Snowfall' },
-			{ name: 'snowfall_height', label: 'Snowfall Height' },
-			{ name: 'freezing_level_height', label: 'Freezing Level Height' }
-		],
-		[
-			{ name: 'cape', label: 'CAPE' },
-			{ name: 'lightning_potential', label: 'Lightning Potential Index LPI' },
-			{ name: 'is_day', label: 'Is Day or Night' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
-		]
-	];
-
-	const daily = [
-		[
-			{ name: 'weather_code', label: 'Weather code' },
-			{ name: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-			{ name: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-			{ name: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
-			{ name: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
-			{ name: 'sunrise', label: 'Sunrise' },
-			{ name: 'sunset', label: 'Sunset' },
-			{ name: 'daylight_duration', label: 'Daylight Duration' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
-		],
-		[
-			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
-			{ name: 'rain_sum', label: 'Rain Sum' },
-			{ name: 'showers_sum', label: 'Showers Sum' },
-			{ name: 'snowfall_sum', label: 'Snowfall Sum' },
-			{ name: 'precipitation_hours', label: 'Precipitation Hours' },
-			{ name: 'precipitation_probability_max', label: 'Precipitation Probability Max' },
-			{ name: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-			{ name: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
-			{ name: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
-			{ name: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
-			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
-		]
-	];
-
-	const additionalVariables = [
-		[
-			{ name: 'is_day', label: 'Is Day or Night' },
-			{ name: 'lightning_potential', label: 'Lightning Potential Index LPI (2)' },
-			{ name: 'updraft', label: 'Updraft (2)' },
-			{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
-			{ name: 'convective_cloud_base', label: 'Convective Cloud Base' },
-			{ name: 'convective_cloud_top', label: 'Convective Cloud Top' },
-		],
-		[
-			{ name: 'cape', label: 'CAPE' },
-			{ name: 'freezing_level_height', label: 'Freezing Level Height' },
-			{ name: 'snowfall_height', label: 'Snowfall Height (1)' },
-			{ name: 'sunshine_duration', label: 'Sunshine Duration' }
-		]
-	];
-
-	const solarVariables = [
-		[
-			{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-			{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
-			{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-			{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-			{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-			{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
-		],
-		[
-			{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-			{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-			{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-			{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-			{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
-			{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
-		]
-	];
-	const models = [
-		[
-			{ name: 'icon_seamless', label: 'DWD ICON Seamless' },
-			{ name: 'icon_global', label: 'DWD ICON Global' },
-			{ name: 'icon_eu', label: 'DWD ICON EU' },
-			{ name: 'icon_d2', label: 'DWD ICON D2' }
-		],
-	];
+	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 </script>
 
 <svelte:head>
@@ -245,13 +58,7 @@
 </div>
 
 <form method="get" action="https://api.open-meteo.com/v1/dwd-icon">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -268,7 +75,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -279,8 +87,8 @@
 						type="button"
 						role="tab"
 						aria-controls="pills-time_interval"
-						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent /> Time Interval</button
+						onclick={() => ($params.time_mode = 'time_interval')}
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -407,7 +215,11 @@
 				<small class="text-muted mt-3">(1) Europe only, (2) Central Europe only</small>
 				<div class="col-md-12 mb-3 mt-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
+							>&forecast_hours=</mark
+						>
+						and <mark>&past_hours=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -471,7 +283,8 @@
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -479,7 +292,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -488,10 +301,8 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90 }
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -509,7 +320,7 @@
 							bind:value={$params.azimuth}
 						/>
 						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -538,7 +349,7 @@
 								role="tab"
 								aria-controls="v-pills-{variable.name}"
 								aria-selected={pressureVariablesTab == variable.name}
-								on:click={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
+								onclick={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
 							>
 						{/each}
 					</div>
@@ -637,7 +448,9 @@
 				</div>
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for 15-minutely weather variables using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for 15-minutely weather variables
+						using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -722,9 +535,9 @@
 			</div>
 		{/each}
 		{#if timezoneInvalid}
-		<div class="alert alert-warning" role="alert">
-			It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
-		</div>
+			<div class="alert alert-warning" role="alert">
+				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+			</div>
 		{/if}
 	</div>
 
@@ -749,7 +562,8 @@
 		{/each}
 		<div class="col-md-12">
 			<small class="text-muted"
-				>Note: Current conditions are based on 15-minutely weather model data. Every weather variable available in hourly data, is available as current condition as well.</small
+				>Note: Current conditions are based on 15-minutely weather model data. Every weather
+				variable available in hourly data, is available as current condition as well.</small
 			>
 		</div>
 	</div>
@@ -823,7 +637,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} model_default="icon_seamless" />
+<ResultPreview {params} {defaultParameters} model_default="icon_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
@@ -838,7 +652,11 @@
 	</p>
 	<div class="table-responsive">
 		<table class="table">
-			<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+			<caption
+				>You can find the update timings in the <a href="/en/docs/model-updates"
+					>model updates documentation</a
+				>.</caption
+			>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>
@@ -879,12 +697,12 @@
 	</div>
 
 	<figure class="figure">
-		<img src="/images/models/dwd_icon-d2.webp" class="figure-img img-fluid rounded" alt="...">
+		<img src="/images/models/dwd_icon-d2.webp" class="figure-img img-fluid rounded" alt="..." />
 		<figcaption class="figure-caption">ICON D2 Area. Source: Open-Meteo.</figcaption>
 	</figure>
 
 	<figure class="figure">
-		<img src="/images/models/dwd_icon-eu.webp" class="figure-img img-fluid rounded" alt="...">
+		<img src="/images/models/dwd_icon-eu.webp" class="figure-img img-fluid rounded" alt="..." />
 		<figcaption class="figure-caption">ICON EU Regional Model Area. Source: Open-Meteo.</figcaption>
 	</figure>
 
@@ -910,7 +728,7 @@
 					<th scope="row">latitude, longitude</th>
 					<td>Floating point</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
@@ -922,7 +740,7 @@
 					<th scope="row">elevation</th>
 					<td>Floating point</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The elevation used for statistical downscaling. Per default, a <a
 							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
@@ -937,7 +755,7 @@
 					<th scope="row">hourly</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of weather variables which should be returned. Values can be comma separated, or
 						multiple
@@ -948,7 +766,7 @@
 					<th scope="row">minutely_15</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of weather variables which should be returned. Values can be comma separated, or
 						multiple
@@ -959,7 +777,7 @@
 					<th scope="row">daily</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of daily weather variable aggregations which should be returned. Values can be
 						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
@@ -970,7 +788,7 @@
 					<th scope="row">current</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td>A list of weather variables to get current conditions.</td>
 				</tr>
 				<tr>
@@ -1043,17 +861,23 @@
 					<td>Per default, only 7 days are returned. Up to 10 days of forecast are possible.</td>
 				</tr>
 				<tr>
-					<th scope="row">forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th>
+					<th scope="row"
+						>forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th
+					>
 					<td>Integer (&gt;0)</td>
 					<td>No</td>
 					<td></td>
-					<td>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can controlled. Instead of using the current day as a reference, the current hour or the current 15-minute time-step is used. </td>
+					<td
+						>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can
+						controlled. Instead of using the current day as a reference, the current hour or the
+						current 15-minute time-step is used.
+					</td>
 				</tr>
 				<tr>
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-06-30</mark>).
@@ -1063,9 +887,10 @@
 					<th scope="row">start_hour<br />end_hour<br />start_minutely_15<br />end_minutely_15</th>
 					<td>String (yyyy-mm-ddThh:mm)</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
-						>The time interval to get weather data for hourly or 15 minutely data. Time must be specified as an ISO8601 date (e.g.
+						>The time interval to get weather data for hourly or 15 minutely data. Time must be
+						specified as an ISO8601 date (e.g.
 						<mark>2022-06-30T12:00</mark>).
 					</td>
 				</tr>
@@ -1091,7 +916,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See
@@ -1240,19 +1065,24 @@
 					<th scope="row">global_tilted_irradiance</th>
 					<td>Preceding hour mean</td>
 					<td>W/m²</td>
-					<td>Total radiation received on a tilted pane as average of the preceding hour. 
-						The calculation is assuming a fixed albedo of 20% and in isotropic sky. 
-						Please specify tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. 
-						Azimuth should be close to 0° (0° south, -90° east, 90° west).
-						If azimuth is set to "nan", the calculation assumes a horizontal tracker. 
-						If tilt is set to "nan", it is assumed that the panel has a vertical tracker. 
-						If both are set to "nan", a bi-axial tracker is assumed.</td>
+					<td
+						>Total radiation received on a tilted pane as average of the preceding hour. The
+						calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify tilt
+						and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. Azimuth
+						should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to "nan", the
+						calculation assumes a horizontal tracker. If tilt is set to "nan", it is assumed that
+						the panel has a vertical tracker. If both are set to "nan", a bi-axial tracker is
+						assumed.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>Preceding hour sum</td>
 					<td>Seconds</td>
-					<td>Number of seconds of sunshine of the preceding hour per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+					<td
+						>Number of seconds of sunshine of the preceding hour per hour calculated by direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">vapour_pressure_deficit</th>
@@ -1399,9 +1229,7 @@
 					<th scope="row">visibility</th>
 					<td>Instant</td>
 					<td>meters</td>
-					<td
-						>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td
-					>
+					<td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
 				</tr>
 			</tbody>
 		</table>
@@ -1456,19 +1284,23 @@
 					<th scope="row">global_tilted_irradiance</th>
 					<td>Preceding 15 minutes mean</td>
 					<td>W/m²</td>
-					<td>Total radiation received on a tilted pane as average of the 15 minutes. 
-						The calculation is assuming a fixed albedo of 20% and in isotropic sky. 
-						Please specify tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°. 
-						Azimuth should be close to 0° (0° south, -90° east, 90° west).
-						If azimuth is set to "nan", the calculation assumes a horizontal tracker. 
-						If tilt is set to "nan", it is assumed that the panel has a vertical tracker. 
-						If both are set to "nan", a bi-axial tracker is assumed.</td>
+					<td
+						>Total radiation received on a tilted pane as average of the 15 minutes. The calculation
+						is assuming a fixed albedo of 20% and in isotropic sky. Please specify tilt and azimuth
+						parameter. Tilt ranges from 0° to 90° and is typically around 45°. Azimuth should be
+						close to 0° (0° south, -90° east, 90° west). If azimuth is set to "nan", the calculation
+						assumes a horizontal tracker. If tilt is set to "nan", it is assumed that the panel has
+						a vertical tracker. If both are set to "nan", a bi-axial tracker is assumed.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>Preceding 15 minutes sum</td>
 					<td>Seconds</td>
-					<td>Number of seconds of sunshine of the preceding 15-minutes per hour calculated by direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td>
+					<td
+						>Number of seconds of sunshine of the preceding 15-minutes per hour calculated by direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">lightning_potential</th>
@@ -1677,7 +1509,11 @@
 				<tr>
 					<th scope="row">sunshine_duration</th>
 					<td>seconds</td>
-					<td>The number of seconds of sunshine per day is determined by calculating direct normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine duration will consistently be less than daylight duration due to dawn and dusk.</td>
+					<td
+						>The number of seconds of sunshine per day is determined by calculating direct
+						normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine
+						duration will consistently be less than daylight duration due to dawn and dusk.</td
+					>
 				</tr>
 				<tr>
 					<th scope="row">daylight_duration</th>

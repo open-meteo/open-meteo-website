@@ -41,73 +41,65 @@
 
 @import 'syntax-highlight.scss';
 
-
-
+html {
+	scrollbar-gutter: stable;
+}
 
 .feature-title {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 
-    h2,
-    h3 {
-        margin-bottom: 1rem;
-    }
+	h2,
+	h3 {
+		margin-bottom: 1rem;
+	}
 }
 
 .feature-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 4rem;
-    height: 4rem;
-    margin-bottom: 1rem;
-    font-size: 2rem;
-    color: #fff;
-    border-radius: .75rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 4rem;
+	height: 4rem;
+	margin-bottom: 1rem;
+	font-size: 2rem;
+	color: #fff;
+	border-radius: 0.75rem;
 }
 
 @media (max-width: 768px) {
-  .feature-icon {
-    min-width: 3rem;
-    height: 3rem;
+	.feature-icon {
+		min-width: 3rem;
+		height: 3rem;
 
-    svg {
-      transform: scale(0.8);
-    }
-  }
+		svg {
+			transform: scale(0.8);
+		}
+	}
 }
 
 .debug-hidden {
-    display: none;
+	display: none;
 }
-
-/*$color-mode-type: data;
-
-@include color-mode(dark) {
-  #substack {
-    filter: invert(95%) hue-rotate(180deg);
-  }
-}*/
 
 $color-mode-type: data;
 
 @include color-mode(dark) {
-		--sdt-bg-main: #3a3f44;
-		--sdt-shadow-color: #161616;
-		--sdt-color: #eee;
-		--sdt-header-color: #eee;
-		--sdt-primary: #e1ac4a;
-		--sdt-disabled-date: #bb5757;
-		--sdt-disabled-date-bg: var(--sdt-bg-main);
-		--sdt-btn-bg-hover: #777;
-		--sdt-btn-header-bg-hover: #777;
-		--sdt-color-selected: #fff;
-		--sdt-today-indicator: #ccc;
-		--sdt-clock-bg: #999;
-		/* custom buttons */
-		/*--sdt-today-bg: #e4a124;
+	--sdt-bg-main: #3a3f44;
+	--sdt-shadow-color: #161616;
+	--sdt-color: #eee;
+	--sdt-header-color: #eee;
+	--sdt-primary: #e1ac4a;
+	--sdt-disabled-date: #bb5757;
+	--sdt-disabled-date-bg: var(--sdt-bg-main);
+	--sdt-btn-bg-hover: #777;
+	--sdt-btn-header-bg-hover: #777;
+	--sdt-color-selected: #fff;
+	--sdt-today-indicator: #ccc;
+	--sdt-clock-bg: #999;
+	/* custom buttons */
+	/*--sdt-today-bg: #e4a124;
 		--sdt-today-color: #fff;
 		--sdt-clear-color: #666;
 		--sdt-clear-bg: #ddd;
@@ -116,18 +108,21 @@ $color-mode-type: data;
 }
 
 .std-component-wrap {
-  position: inherit !important;
-  display: inherit !important;
+	position: inherit !important;
+	display: inherit !important;
 }
 
 @media (max-width: 768px) {
-  .container-sm, .container {
-    max-width: 100%;
-  }
+	.container-sm,
+	.container {
+		max-width: 100%;
+	}
 }
 
-@media (min-width: 768px) and (max-width:992px) {
-  .container-md, .container-sm, .container {
-    max-width: 868px;
-  }
+@media (min-width: 768px) and (max-width: 992px) {
+	.container-md,
+	.container-sm,
+	.container {
+		max-width: 868px;
+	}
 }
