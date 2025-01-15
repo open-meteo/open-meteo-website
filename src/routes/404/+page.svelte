@@ -1,3 +1,8 @@
+<script lang="ts">
+	import { i18n } from '$lib/i18n';
+
+</script>
+
 <svelte:head>
 	<title>404 Error | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/about" />
@@ -31,8 +36,8 @@
 			Sorry, the page you are looking for does not exist.
 		</p>
 		<div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-			<a href="/" class="btn button btn-primary btn-lg px-4 me-sm-3">Home</a>
-			<a href="/en/docs" class="btn btn-outline-light btn-lg px-4">API Documentation</a>
+			<a href={i18n.route('/')} class="btn button btn-primary btn-lg px-4 me-sm-3">Home</a>
+			<a href={i18n.route('/docs')} class="btn btn-outline-light btn-lg px-4">API Documentation</a>
 		</div>
 	</div>
 </div>
