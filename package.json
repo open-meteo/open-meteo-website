@@ -49,6 +49,7 @@
 		"mode-watcher": "^0.5.0",
 		"openmeteo": "^1.1.4",
 		"prism-themes": "^1.9.0",
+		"rollup-plugin-visualizer": "^5.14.0",
 		"shiki": "^1.26.1",
 		"simple-icons": "^14.0.1",
 		"svelte-persisted-store": "^0.12.0",
