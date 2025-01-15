@@ -1,137 +1,33 @@
 <script lang="ts">
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
-	import { countVariables } from '$lib/meteo';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { fade } from 'svelte/transition';
+
+	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { countVariables } from '$lib/utils/meteo';
+
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
 
-	import LocationSelection from '../LocationSelection.svelte';
-
-	const defaultParameter = {
-		current: [],
-		hourly: [],
-		location_mode: 'location_search',
-		csv_coordinates: '',
-		timeformat: 'iso8601',
-		timezone: 'UTC',
-		past_days: '0',
-		past_hours: '',
-		forecast_days: '5',
-		forecast_hours: '',
-		temporal_resolution: '',
-		start_date: '',
-		end_date: '',
-		time_mode: 'forecast_days',
-		domains: 'auto',
-		cell_selection: ''
-	};
+	import {
+		hourly,
+		current,
+		aqi_european,
+		aqi_united_states,
+		defaultParameters,
+		additionalVariables
+	} from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['pm10', 'pm2_5']
 	});
-
-	const hourly = [
-		[
-			{ name: 'pm10', label: 'Particulate Matter PM<sub>10</sub>' },
-			{ name: 'pm2_5', label: 'Particulate Matter PM<sub>2.5</sub>' },
-			{ name: 'carbon_monoxide', label: 'Carbon Monoxide CO' },
-			{ name: 'carbon_dioxide', label: 'Carbon Dioxide CO<sub>2</sub>' },
-			{ name: 'nitrogen_dioxide', label: 'Nitrogen Dioxide NO<sub>2</sub>' },
-			{ name: 'sulphur_dioxide', label: 'Sulphur Dioxide SO<sub>2</sub>' },
-			{ name: 'ozone', label: 'Ozone O<sub>3</sub>' }
-		],
-		[
-			{ name: 'aerosol_optical_depth', label: 'Aerosol Optical Depth' },
-			{ name: 'dust', label: 'Dust' },
-			{ name: 'uv_index', label: 'UV Index' },
-			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
-			{ name: 'ammonia', label: 'Ammonia NH<sub>3</sub> <small class="text-muted">(*)</small>' },
-			{ name: 'methane', label: 'Methane CH<sub>4</sub>' }
-		],
-		[
-			{ name: 'alder_pollen', label: 'Alder Pollen <small class="text-muted">(*)</small>' },
-			{ name: 'birch_pollen', label: 'Birch Pollen <small class="text-muted">(*)</small>' },
-			{ name: 'grass_pollen', label: 'Grass Pollen <small class="text-muted">(*)</small>' },
-			{ name: 'mugwort_pollen', label: 'Mugwort Pollen <small class="text-muted">(*)</small>' },
-			{ name: 'olive_pollen', label: 'Olive Pollen <small class="text-muted">(*)</small>' },
-			{ name: 'ragweed_pollen', label: 'Ragweed Pollen <small class="text-muted">(*)</small>' }
-		]
-	];
-
-	const current = [
-		[
-			{ name: 'european_aqi', label: 'European AQI' },
-			{ name: 'us_aqi', label: 'United States AQI' },
-			{ name: 'pm10', label: 'Particulate Matter PM<sub>10</sub>' },
-			{ name: 'pm2_5', label: 'Particulate Matter PM<sub>2.5</sub>' },
-			{ name: 'carbon_monoxide', label: 'Carbon Monoxide CO' },
-			{ name: 'nitrogen_dioxide', label: 'Nitrogen Dioxide NO<sub>2</sub>' },
-			{ name: 'sulphur_dioxide', label: 'Sulphur Dioxide SO<sub>2</sub>' },
-			{ name: 'ozone', label: 'Ozone O<sub>3</sub>' }
-		],
-		[
-			{ name: 'aerosol_optical_depth', label: 'Aerosol Optical Depth' },
-			{ name: 'dust', label: 'Dust' },
-			{ name: 'uv_index', label: 'UV Index' },
-			{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
-			{ name: 'ammonia', label: 'Ammonia NH<sub>3</sub> <small class="text-muted">(*)</small>' }
-		],
-		[
-			{ name: 'alder_pollen', label: 'Alder Pollen <small class="text-muted">(*)</small>' },
-			{ name: 'birch_pollen', label: 'Birch Pollen <small class="text-muted">(*)</small>' },
-			{ name: 'grass_pollen', label: 'Grass Pollen <small class="text-muted">(*)</small>' },
-			{ name: 'mugwort_pollen', label: 'Mugwort Pollen <small class="text-muted">(*)</small>' },
-			{ name: 'olive_pollen', label: 'Olive Pollen <small class="text-muted">(*)</small>' },
-			{ name: 'ragweed_pollen', label: 'Ragweed Pollen <small class="text-muted">(*)</small>' }
-		]
-	];
-
-	const aqi_european = [
-		[
-			{ name: 'european_aqi', label: 'European AQI' },
-			{ name: 'european_aqi_pm2_5', label: 'European AQI PM<sub>2.5</sub>' },
-			{ name: 'european_aqi_pm10', label: 'European AQI PM<sub>10</sub>' },
-			{ name: 'european_aqi_nitrogen_dioxide', label: 'European AQI NO<sub>2</sub>' },
-			{ name: 'european_aqi_ozone', label: 'European AQI O<sub>3</sub>' },
-			{ name: 'european_aqi_sulphur_dioxide', label: 'European AQI SO<sub>2</sub>' },
-		]
-	];
-
-	const aqi_united_states = [
-		[
-			{ name: 'us_aqi', label: 'United States AQI' },
-			{ name: 'us_aqi_pm2_5', label: 'United States AQI PM<sub>2.5</sub>' },
-			{ name: 'us_aqi_pm10', label: 'United States AQI PM<sub>10</sub>' },
-			{ name: 'us_aqi_nitrogen_dioxide', label: 'United States AQI NO<sub>2</sub>' },
-			{ name: 'us_aqi_carbon_monoxide', label: 'United States AQI CO' },
-			{ name: 'us_aqi_ozone', label: 'United States AQI O<sub>3</sub>' },
-			{ name: 'us_aqi_sulphur_dioxide', label: 'United States AQI SO<sub>2</sub>' }
-		]
-	];
-
-	const additionalVariables = [
-		[
-			{ name: 'formaldehyde', label: 'Formaldehyde CH₂O' },
-			{ name: 'glyoxal', label: 'Glyoxal C₂H₂O₂' },
-			{ name: 'non_methane_volatile_organic_compounds', label: 'Non Methane Volatile Organic Compounds <small class="text-muted">(*)</small>' },
-			{ name: 'pm10_wildfires', label: 'PM<sub>10</sub> caused by wildfires <small class="text-muted">(*)</small>' },
-			{ name: 'peroxyacyl_nitrates', label: 'Peroxyacyl Nitrates PAN' },
-			{ name: 'secondary_inorganic_aerosol', label: 'Secondary Inorganic Aerosol <small class="text-muted">(*)</small>' }
-		],
-		[	{ name: 'residential_elementary_carbon', label: 'Residential Rlementary Carbon <small class="text-muted">(*)</small>' },
-			{ name: 'total_elementary_carbon', label: 'Total Elementary Carbon <small class="text-muted">(*)</small>' },
-			{ name: 'pm2_5_total_organic_matter', label: 'PM<sub>2.5</sub> Total Organic Matter <small class="text-muted">(*)</small>' },
-			{ name: 'sea_salt_aerosol', label: 'Sea Salt Aerosol' },
-			{ name: 'nitrogen_monoxide', label: 'Nitrogen Monoxide NO' }
-		]
-	];
 </script>
 
 <svelte:head>
@@ -144,13 +40,7 @@
 </svelte:head>
 
 <form method="get" action="https://air-quality-api.open-meteo.com/v1/air-quality">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -167,7 +57,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -178,8 +69,8 @@
 						type="button"
 						role="tab"
 						aria-controls="pills-time_interval"
-						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent/> Time Interval</button
+						onclick={() => ($params.time_mode = 'time_interval')}
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -249,7 +140,7 @@
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 					</div>
 				</div>
@@ -326,7 +217,11 @@
 				<div class="col-md-12">
 					<div class="table-responsive">
 						<table class="table" id="airquality_table">
-							<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+							<caption
+								>You can find the update timings in the <a href="/en/docs/model-updates"
+									>model updates documentation</a
+								>.</caption
+							>
 							<thead>
 								<tr>
 									<th scope="col">Pollutant <small class="text-muted">(μg/m³)</small></th>
@@ -550,11 +445,8 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem
-				id="additional-variables"
-				title="Additional Variables and Options"
-			>
-			{#each additionalVariables as group}
+			<AccordionItem id="additional-variables" title="Additional Variables and Options">
+				{#each additionalVariables as group}
 					<div class="col-md-6">
 						{#each group as e}
 							<div class="form-check">
@@ -572,14 +464,16 @@
 					</div>
 				{/each}
 				<div class="col-md-12 mb-3">
-					<small class="text-muted"
-						>* Only available in Europe 
-					</small>
+					<small class="text-muted">* Only available in Europe </small>
 				</div>
 
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark>&forecast_hours=</mark> and <mark>&past_hours=</mark> as shown below.
+						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
+							>&forecast_hours=</mark
+						>
+						and <mark>&past_hours=</mark> as shown below.
+					</small>
 				</div>
 				<div class="col-md-3">
 					<div class="form-floating mb-3">
@@ -713,21 +607,31 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="air-quality" action="air-quality" sdk_type="air_quality_api"/>
+<ResultPreview
+	{params}
+	{defaultParameters}
+	type="air-quality"
+	action="air-quality"
+	sdk_type="air_quality_api"
+/>
 
 <h2 id="data-sources" class="mt-5">Data Sources</h2>
 <div class="row">
 	<div class="col-12">
 		<p>
-			Forecast is based on the 11 kilometer CAMS European air quality forecast
-			and the 40 kilometer
-			CAMS global atmospheric composition forecasts. The European and global domain are not coupled and may show different forecasts.
+			Forecast is based on the 11 kilometer CAMS European air quality forecast and the 40 kilometer
+			CAMS global atmospheric composition forecasts. The European and global domain are not coupled
+			and may show different forecasts.
 		</p>
 	</div>
 </div>
 <div class="table-responsive">
 	<table class="table">
-		<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+		<caption
+			>You can find the update timings in the <a href="/en/docs/model-updates"
+				>model updates documentation</a
+			>.</caption
+		>
 		<thead>
 			<tr>
 				<th scope="col">Data Set</th>
@@ -756,8 +660,8 @@
 				<th scope="row"
 					><a
 						href="https://ads.atmosphere.copernicus.eu/datasets/cams-europe-air-quality-reanalyses?tab=overview"
-						>CAMS European Air Quality Reanalysis </a
-					>
+						>CAMS European Air Quality Reanalysis
+					</a>
 				</th>
 				<td>Europe</td>
 				<td>0.1° (~11 km)</td>
@@ -819,7 +723,7 @@
 					<th scope="row">latitude, longitude</th>
 					<td>Floating point</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
@@ -831,7 +735,7 @@
 					<th scope="row">hourly</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of weather variables which should be returned. Values can be comma separated, or
 						multiple
@@ -842,7 +746,7 @@
 					<th scope="row">current</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td>A list of variables to get current conditions.</td>
 				</tr>
 				<tr>
@@ -905,13 +809,16 @@
 					<td>Integer (&gt;0)</td>
 					<td>No</td>
 					<td></td>
-					<td>Similar to forecast_days, the number of timesteps of hourly data can controlled. Instead of using the current day as a reference, the current hour is used. </td>
+					<td
+						>Similar to forecast_days, the number of timesteps of hourly data can controlled.
+						Instead of using the current day as a reference, the current hour is used.
+					</td>
 				</tr>
 				<tr>
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-06-30</mark>).
@@ -921,9 +828,10 @@
 					<th scope="row">start_hour<br />end_hour</th>
 					<td>String (yyyy-mm-ddThh:mm)</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
-						>The time interval to get weather data for hourly data. Time must be specified as an ISO8601 date (e.g.
+						>The time interval to get weather data for hourly data. Time must be specified as an
+						ISO8601 date (e.g.
 						<mark>2022-06-30T12:00</mark>).
 					</td>
 				</tr>
@@ -949,7 +857,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See
@@ -1053,8 +961,9 @@
 				</tr>
 				<tr>
 					<th scope="row">
-						european_aqi<br />european_aqi_pm2_5<br />european_aqi_pm10<br />european_aqi_nitrogen_dioxide<br
-						/>european_aqi_ozone<br />european_aqi_sulphur_dioxide
+						european_aqi<br />european_aqi_pm2_5<br />european_aqi_pm10<br
+						/>european_aqi_nitrogen_dioxide<br />european_aqi_ozone<br
+						/>european_aqi_sulphur_dioxide
 					</th>
 					<td>Instant</td>
 					<td>European AQI</td>
@@ -1067,8 +976,8 @@
 				</tr>
 				<tr>
 					<th scope="row">
-						us_aqi<br />us_aqi_pm2_5<br />us_aqi_pm10<br />us_aqi_nitrogen_dioxide<br />us_aqi_ozone<br
-						/>us_aqi_sulphur_dioxide<br />us_aqi_carbon_monoxide
+						us_aqi<br />us_aqi_pm2_5<br />us_aqi_pm10<br />us_aqi_nitrogen_dioxide<br
+						/>us_aqi_ozone<br />us_aqi_sulphur_dioxide<br />us_aqi_carbon_monoxide
 					</th>
 					<td>Instant</td>
 					<td>U.S. AQI</td>

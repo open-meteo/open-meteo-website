@@ -1,22 +1,22 @@
 <script lang="ts">
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
 		countHeightVariables,
 		countVariables,
 		sliceIntoChunks
-	} from '$lib/meteo';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
+	} from '$lib/utils/meteo';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
 	import { fade, slide } from 'svelte/transition';
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
 
-	const defaultParameter = {
+	const defaultParameters = {
 		current: [],
 		hourly: [],
 		daily: [],
@@ -47,7 +47,7 @@
 	const params = urlHashStore({
 		latitude: [51.5085],
 		longitude: [-0.1257],
-		...defaultParameter,
+		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
 
@@ -77,10 +77,10 @@
 		2250, 2500, 2750, 3000, 3250, 3500, 3750, 4000, 4500, 5000, 5500, 6000
 	];
 
-	let pressureVariablesTab = 'temperature';
-	let heightVariablesTab = 'temperature';
+	let pressureVariablesTab = $state('temperature');
+	let heightVariablesTab = $state('temperature');
 
-	$: timezoneInvalid = $params.timezone == 'UTC' && $params.daily.length > 0;
+	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 
 	const hourly = [
 		[
@@ -104,7 +104,8 @@
 			{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 			{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 		],
-		[	{ name: 'cloud_cover', label: 'Cloud cover Total' },
+		[
+			{ name: 'cloud_cover', label: 'Cloud cover Total' },
 			{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
 			{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
 			{ name: 'cloud_cover_high', label: 'Cloud cover High' },
@@ -216,28 +217,17 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/ukmo-api" />
 </svelte:head>
 
-<!--<div class="alert alert-primary" role="alert">
-	This API offers access to the renowned ICON weather models from the German Weather service DWD,
-	delivering 15-minutely data for short-term forecasts in central Europe and 11 km resolution global
-	forecasts. The ICON model is a preferred choice in <a href="/en/docs"
-		>generic weather forecast API</a
-	> if no other high resolution weather models are available.
-</div>-->
-
 <div class="alert alert-warning" role="alert">
-	UK Met Office data is provided under the <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC BY-SA 4.0</a> license. 
-	Therefore, any derived products from this data should also be redistributed under the same or a compatible license. Typically, Open-Meteo provides data under <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>.
+	UK Met Office data is provided under the <a
+		href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC BY-SA 4.0</a
+	>
+	license. Therefore, any derived products from this data should also be redistributed under the same
+	or a compatible license. Typically, Open-Meteo provides data under
+	<a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</a>.
 </div>
 
-
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -254,7 +244,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -265,8 +256,8 @@
 						type="button"
 						role="tab"
 						aria-controls="pills-time_interval"
-						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent /> Time Interval</button
+						onclick={() => ($params.time_mode = 'time_interval')}
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -559,7 +550,7 @@
 								role="tab"
 								aria-controls="v-pills-height-{variable.name}"
 								aria-selected={heightVariablesTab == variable.name}
-								on:click={() => (heightVariablesTab = variable.name)}>{variable.label}</button
+								onclick={() => (heightVariablesTab = variable.name)}>{variable.label}</button
 							>
 						{/each}
 					</div>
@@ -626,7 +617,7 @@
 								role="tab"
 								aria-controls="v-pills-{variable.name}"
 								aria-selected={pressureVariablesTab == variable.name}
-								on:click={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
+								onclick={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
 							>
 						{/each}
 					</div>
@@ -822,7 +813,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} model_default="ukmo_seamless" />
+<ResultPreview {params} {defaultParameters} model_default="ukmo_seamless" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
@@ -835,10 +826,17 @@
 		>. For UKMO Global, values are interpolated from 3-hourly to 1-hourly after 54 hours and from
 		6-hourly data after 144 hours.
 	</p>
-	<p>Note: UKMO open-data has an additional delay of 4 hours. The forecast is therefore not as accurate as it could be.</p>
+	<p>
+		Note: UKMO open-data has an additional delay of 4 hours. The forecast is therefore not as
+		accurate as it could be.
+	</p>
 	<div class="table-responsive">
 		<table class="table">
-			<caption>You can find the update timings in the <a href="/en/docs/model-updates">model updates documentation</a>.</caption>
+			<caption
+				>You can find the update timings in the <a href="/en/docs/model-updates"
+					>model updates documentation</a
+				>.</caption
+			>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>
@@ -902,9 +900,9 @@
 			are only available for the 2 km UKV model.
 		</li>
 		<li>
-			<strong>Cloud Cover (2m):</strong> UKMO UKV 2 km provides cloud cover at 2 metre above ground which can
-			be interpreted as fog. This is remarkable, because only very weather models are capable of modeling
-			low level cloud cover and fog with a good degree of accuracy.
+			<strong>Cloud Cover (2m):</strong> UKMO UKV 2 km provides cloud cover at 2 metre above ground which
+			can be interpreted as fog. This is remarkable, because only very weather models are capable of
+			modeling low level cloud cover and fog with a good degree of accuracy.
 		</li>
 	</ul>
 </div>

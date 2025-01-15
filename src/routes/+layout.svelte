@@ -1,14 +1,24 @@
 <script lang="ts">
-	import '../app.scss';
-	import { page } from '$app/stores';
 	import { onMount, onDestroy } from 'svelte';
-	import { theme, themeIsDark } from '$lib/stores';
+
+	import { page } from '$app/state';
+	import type { Unsubscriber } from 'svelte/store';
+
+	import { theme, themeIsDark } from '$lib/stores/settings';
+
 	import MoonStarsFill from 'svelte-bootstrap-icons/lib/MoonStarsFill.svelte';
 	import CircleHalf from 'svelte-bootstrap-icons/lib/CircleHalf.svelte';
 	import SunFill from 'svelte-bootstrap-icons/lib/SunFill.svelte';
 	import Github from 'svelte-bootstrap-icons/lib/Github.svelte';
 	import Twitter from 'svelte-bootstrap-icons/lib/Twitter.svelte';
-	import type { Unsubscriber } from 'svelte/store';
+
+	import '../app.scss';
+
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	let updateThemeOnChange: ((this: MediaQueryList, ev: MediaQueryListEvent) => any) | undefined;
 	let prefersDarkMode: MediaQueryList | undefined;
@@ -47,9 +57,11 @@
 		}
 	});
 
-	let body: HTMLElement;
+	let body: HTMLElement = $state();
 	const bindBody = (node: any) => (body = node);
-	$: body?.setAttribute('data-bs-theme', $themeIsDark ? 'dark' : '');
+	$effect(() => {
+		body?.setAttribute('data-bs-theme', $themeIsDark ? 'dark' : '');
+	});
 </script>
 
 <svelte:body use:bindBody />
@@ -81,19 +93,19 @@
 			aria-expanded="false"
 			aria-label="Toggle navigation"
 		>
-			<span class="navbar-toggler-icon" />
+			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav me-auto mb-2 mb-md-0">
 				<li class="d-md-none nav-item py-1 py-lg-1">
-					<div class="vr d-none d-lg-flex h-100 mx-lg-2" />
+					<div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
 					<hr class="d-lg-none my-2" />
 				</li>
 				<li class="nav-item">
 					<a
 						href="/"
 						class="nav-link"
-						class:active={$page.url.pathname === '/'}
+						class:active={page.url.pathname === '/'}
 						aria-current="page"
 						title="Weather API">Home</a
 					>
@@ -103,14 +115,14 @@
 						href="/en/features"
 						class="nav-link"
 						title="API Features"
-						class:active={$page.url.pathname === '/en/features'}>Features</a
+						class:active={page.url.pathname === '/en/features'}>Features</a
 					>
 				</li>
 				<li class="nav-item">
 					<a
 						href="/en/pricing"
 						class="nav-link"
-						class:active={$page.url.pathname === '/en/pricing'}
+						class:active={page.url.pathname === '/en/pricing'}
 						title="Pricing">Pricing</a
 					>
 				</li>
@@ -119,7 +131,7 @@
 						href="/en/docs"
 						class="nav-link"
 						title="Documentation"
-						class:active={$page.url.pathname.startsWith('/en/docs')}>API Docs</a
+						class:active={page.url.pathname.startsWith('/en/docs')}>API Docs</a
 					>
 				</li>
 				<!-- <li class="nav-item">
@@ -127,7 +139,7 @@
 						href="/en/weather"
 						class="nav-link"
 						title="Weather"
-						class:active={$page.url.pathname.startsWith('/en/weather')}>Weather</a
+						class:active={page.url.pathname.startsWith('/en/weather')}>Weather</a
 					>
 				</li> -->
 				<!--<li class="nav-item">
@@ -157,7 +169,7 @@
 			{$theme}-->
 			<ul class="navbar-nav ml-sm-auto">
 				<li class="d-md-none nav-item py-1 py-lg-1">
-					<div class="vr d-none d-lg-flex h-100 mx-lg-2" />
+					<div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
 					<hr class="d-lg-none my-2" />
 				</li>
 				<li class="nav-item">
@@ -183,7 +195,7 @@
 					</a>
 				</li>
 				<li class="d-none d-md-block nav-item py-1">
-					<div class="vr d-none d-lg-flex h-100 mx-lg-2" />
+					<div class="vr d-none d-lg-flex h-100 mx-lg-2"></div>
 					<hr class="d-lg-none my-2" />
 				</li>
 				<li class="nav-item dropdown">
@@ -217,7 +229,7 @@
 								class="dropdown-item d-flex align-items-center"
 								class:active={$theme == 'light'}
 								aria-pressed={$theme == 'light'}
-								on:click={() => ($theme = 'light')}
+								onclick={() => ($theme = 'light')}
 							>
 								<SunFill class="bi me-2 opacity-50 theme-icon" />
 								<!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>-->
@@ -231,7 +243,7 @@
 								class="dropdown-item d-flex align-items-center"
 								class:active={$theme == 'dark'}
 								aria-pressed={$theme == 'dark'}
-								on:click={() => ($theme = 'dark')}
+								onclick={() => ($theme = 'dark')}
 							>
 								<MoonStarsFill class="bi me-2 opacity-50 theme-icon" />
 								Dark
@@ -244,7 +256,7 @@
 								class="dropdown-item d-flex align-items-center"
 								class:active={$theme == 'auto'}
 								aria-pressed={$theme == 'auto'}
-								on:click={() => ($theme = 'auto')}
+								onclick={() => ($theme = 'auto')}
 							>
 								<CircleHalf class="bi me-2 opacity-50 theme-icon" />
 								<!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>-->
@@ -259,7 +271,7 @@
 	</div>
 </nav>
 
-<slot />
+{@render children?.()}
 
 <footer class="container py-5 pt-4 my-md-5 pt-md-5">
 	<div class="row">
@@ -399,9 +411,8 @@
 					>
 				</li>
 				<li class="mb-1">
-					<a
-						class="link-secondary text-decoration-none"
-						href="/en/docs/model-updates">Model Updates Overview</a
+					<a class="link-secondary text-decoration-none" href="/en/docs/model-updates"
+						>Model Updates Overview</a
 					>
 				</li>
 			</ul>

@@ -1,60 +1,26 @@
 <script lang="ts">
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
-	import { countVariables } from '$lib/meteo';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { fade } from 'svelte/transition';
+
+	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { countVariables } from '$lib/utils/meteo';
+
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
-		daily: [],
-		location_mode: 'location_search',
-		csv_coordinates: '',
-		timeformat: 'iso8601',
-		past_days: '0',
-		forecast_days: '92',
-		start_date: '',
-		end_date: '',
-		time_mode: 'forecast_days',
-		models: [],
-		ensemble: false
-	};
+	import { daily, models, defaultParameters } from './options';
 
 	const params = urlHashStore({
 		latitude: [59.91],
 		longitude: [10.75],
-		...defaultParameter,
+		...defaultParameters,
 		daily: ['river_discharge']
 	});
-
-	const daily = [
-		[
-			{ name: 'river_discharge', label: 'River Discharge' },
-			{ name: 'river_discharge_mean', label: 'River Discharge Mean' },
-			{ name: 'river_discharge_median', label: 'River Discharge Median' },
-			{ name: 'river_discharge_max', label: 'River Discharge Maximum' },
-			{ name: 'river_discharge_min', label: 'River Discharge Minimum' },
-			{ name: 'river_discharge_p25', label: 'River Discharge 25<sup>th</sup> Percentile' },
-			{ name: 'river_discharge_p75', label: 'River Discharge 75<sup>th</sup> Percentile' }
-		]
-	];
-
-	const models = [
-		[
-			{ name: 'seamless_v4', label: 'GloFAS v4 Seamless' },
-			{ name: 'forecast_v4', label: 'GloFAS v4 Forecast' },
-			{ name: 'consolidated_v4', label: 'GloFAS v4 Consolidated' }
-		],
-		[
-			{ name: 'seamless_v3', label: 'GloFAS v3 Seamless' },
-			{ name: 'forecast_v3', label: 'GloFAS v3 Forecast' },
-			{ name: 'consolidated_v3', label: 'GloFAS v3 Consolidated' }
-		]
-	];
 </script>
 
 <svelte:head>
@@ -67,12 +33,7 @@
 </svelte:head>
 
 <form method="get" action="https://flood-api.open-meteo.com/v1/flood">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -89,7 +50,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -100,8 +62,8 @@
 						type="button"
 						role="tab"
 						aria-controls="pills-time_interval"
-						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent/> Time Interval</button
+						onclick={() => ($params.time_mode = 'time_interval')}
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -173,7 +135,7 @@
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 					</div>
 				</div>
@@ -278,7 +240,7 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="flood" action="flood" sdk_type="flood_api"/>
+<ResultPreview {params} {defaultParameters} type="flood" action="flood" sdk_type="flood_api" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
@@ -321,10 +283,12 @@
 					<td>-</td>
 				</tr>
 				<tr>
-					<th scope="row"><a
-						href="https://cds.climate.copernicus.eu/datasets/cems-glofas-forecast?tab=overview"
-						target="_blank">GloFAS v4 Forecast</a
-					></th>
+					<th scope="row"
+						><a
+							href="https://cds.climate.copernicus.eu/datasets/cems-glofas-forecast?tab=overview"
+							target="_blank">GloFAS v4 Forecast</a
+						></th
+					>
 					<td>Global</td>
 					<td>0.05° (~5 km)</td>
 					<td>Daily</td>
@@ -332,10 +296,12 @@
 					<td>Daily</td>
 				</tr>
 				<tr>
-					<th scope="row"><a
-						href="https://ewds.climate.copernicus.eu/datasets/cems-glofas-seasonal?tab=overview"
-						target="_blank">GloFAS v4 Seasonal Forecast</a
-					></th>
+					<th scope="row"
+						><a
+							href="https://ewds.climate.copernicus.eu/datasets/cems-glofas-seasonal?tab=overview"
+							target="_blank">GloFAS v4 Seasonal Forecast</a
+						></th
+					>
 					<td>Global</td>
 					<td>0.05° (~5 km)</td>
 					<td>Daily</td>
@@ -407,7 +373,7 @@
 					<th scope="row">latitude, longitude</th>
 					<td>Floating point</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
@@ -419,7 +385,7 @@
 					<th scope="row">daily</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of weather variables which should be returned. Values can be comma separated, or
 						multiple
@@ -454,7 +420,7 @@
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-06-30</mark>). Data are available from 1984-01-01 until 7 month forecast.
@@ -464,7 +430,7 @@
 					<th scope="row">ensemble</th>
 					<td>Boolean</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td>If <mark>True</mark> all forecast ensemble members will be returned</td>
 				</tr>
 				<tr>
@@ -489,7 +455,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See

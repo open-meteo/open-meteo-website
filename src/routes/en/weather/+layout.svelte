@@ -1,7 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { dev } from '$app/environment';
-	import { storedLocation, type GeoLocation } from '$lib/stores';
+	import { storedLocation, type GeoLocation } from '$lib/stores/settings';
+	interface Props {
+		children?: import('svelte').Snippet;
+	}
+
+	let { children }: Props = $props();
 
 	const links = [
 		{
@@ -69,18 +74,18 @@
 							<a
 								class="btn btn-hover"
 								href={link.url}
-								class:active={$page.url.pathname == link.url ||
-									$page.url.pathname === link.url + '/'}>{link.title}</a
+								class:active={page.url.pathname == link.url || page.url.pathname === link.url + '/'}
+								>{link.title}</a
 							>
-							{#if link.children && ($page.url.pathname === link.url || $page.url.pathname === link.url + '/' || link.children.some((l) => l.url === $page.url.pathname || $page.url.pathname === l.url + '/'))}
+							{#if link.children && (page.url.pathname === link.url || page.url.pathname === link.url + '/' || link.children.some((l) => l.url === page.url.pathname || page.url.pathname === l.url + '/'))}
 								<ul class="list-unstyled ms-3 mb-4 mt-1">
 									{#each link.children as l}
 										<li>
 											<a
 												href={l.url}
 												class="btn btn-hover py-1 px-2"
-												class:active={$page.url.pathname === l.url + '/' ||
-													$page.url.pathname === l.url}>{l.title}</a
+												class:active={page.url.pathname === l.url + '/' ||
+													page.url.pathname === l.url}>{l.title}</a
 											>
 										</li>
 									{/each}
@@ -92,18 +97,7 @@
 			</nav>
 		</div>
 		<main class="col-md-9 col-lg-10 p-2 p-md-3 p-lg-4">
-			<slot />
+			{@render children?.()}
 		</main>
 	</div>
 </div>
-
-<style>
-	.hero-banner {
-		background-size: cover;
-		background-position: center;
-		height: 400px;
-	}
-	.hero-shadow {
-		text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.7);
-	}
-</style>

@@ -1,10 +1,7 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { enhance } from '$app/forms';
+	import { fade } from 'svelte/transition';
 
-	onMount(async () => {
-		const Tab = await import('bootstrap/js/dist/tab');
-	});
+	let tabContent = $state('weather-api');
 </script>
 
 <svelte:head>
@@ -85,61 +82,70 @@
 				<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 					<li class="nav-item" role="presentation">
 						<button
-							class="active btn btn-outline-light"
+							class="btn btn-outline-light"
+							class:active={tabContent === 'weather-api'}
 							id="tab-weather-api-tab"
 							data-bs-toggle="pill"
 							data-bs-target="#tab-weather-api"
 							type="button"
 							role="tab"
 							aria-controls="tab-weather-api"
-							aria-selected="true">Forecast & Current</button
+							aria-selected="true"
+							onclick={() => (tabContent = 'weather-api')}>Forecast & Current</button
 						>
 					</li>
 					&nbsp;
 					<li class="nav-item" role="presentation">
 						<button
 							class="btn btn-outline-light"
+							class:active={tabContent === 'last-10-days'}
 							id="tab-last-10-days-tab"
 							data-bs-toggle="pill"
 							data-bs-target="#tab-last-10-days"
 							type="button"
 							role="tab"
 							aria-controls="tab-last-10-days"
-							aria-selected="false">Last 10 days</button
+							aria-selected="false"
+							onclick={() => (tabContent = 'last-10-days')}>Last 10 days</button
 						>
 					</li>
 					&nbsp;
 					<li class="nav-item" role="presentation">
 						<button
 							class="btn btn-outline-light"
+							class:active={tabContent === 'historical-weather'}
 							id="tab-historical-weather-data-tab"
 							data-bs-toggle="pill"
 							data-bs-target="#tab-historical-weather-data"
 							type="button"
 							role="tab"
 							aria-controls="tab-historical-weather-data"
-							aria-selected="false">Historical data</button
+							aria-selected="false"
+							onclick={() => (tabContent = 'historical-weather')}>Historical data</button
 						>
 					</li>
 				</ul>
 				<div class="tab-content" id="pills-tabContent">
-					<div
-						class="tab-pane fade show active"
-						id="tab-weather-api"
-						role="tabpanel"
-						aria-labelledby="tab-weather-api-tab"
-					>
-						<p>
-							$ curl <a
-								class="token string text-decoration-none"
-								href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
-								>"https://api.open-meteo.com/v1/forecast<wbr
-								/>?latitude=52.52&amp;longitude=13.41<wbr
-								/>&amp;current=temperature_2m,wind_speed_10m<wbr
-								/>&amp;hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"</a
-							>
-						</p>
-						<pre>{@html `<span class="token punctuation">&lbrace;</span>
+					{#if tabContent === 'weather-api'}
+						<div
+							in:fade
+							class="tab-pane"
+							class:active={tabContent === 'weather-api'}
+							id="tab-weather-api"
+							role="tabpanel"
+							aria-labelledby="tab-weather-api-tab"
+						>
+							<p>
+								$ curl <a
+									class="token string text-decoration-none"
+									href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
+									>"https://api.open-meteo.com/v1/forecast<wbr
+									/>?latitude=52.52&amp;longitude=13.41<wbr
+									/>&amp;current=temperature_2m,wind_speed_10m<wbr
+									/>&amp;hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"</a
+								>
+							</p>
+							<pre>{@html `<span class="token punctuation">&lbrace;</span>
   <span class="token property">"current"</span><span class="token operator">:</span> <span class="token punctuation">&lbrace;</span>
     <span class="token property">"time"</span><span class="token operator">:</span> <span class="token string">"2022-01-01T15:00"</span>
     <span class="token property">"temperature_2m"</span><span class="token operator">:</span> <span class="token number">2.4</span><span class="token punctuation">,</span>
@@ -152,23 +158,26 @@
     <span class="token property">"relative_humidity_2m"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">82</span><span class="token punctuation">,</span><span class="token number">83</span><span class="token punctuation">,</span><span class="token number">86</span><span class="token punctuation">,</span><span class="token number">85</span><span class="token punctuation">,</span><span class="token number">88</span><span class="token punctuation">,</span><span class="token number">88</span><span class="token punctuation">,</span><span class="token number">84</span><span class="token punctuation">,</span><span class="token number">76</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token punctuation">&rbrace;</span>
 <span class="token punctuation">&rbrace;</span>`}</pre>
-					</div>
-					<div
-						class="tab-pane fade"
-						id="tab-last-10-days"
-						role="tabpanel"
-						aria-labelledby="tab-last-10-days-tab"
-					>
-						<p>
-							$ curl <a
-								class="token string text-decoration-none"
-								href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&past_days=10&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
-								>"https://api.open-meteo.com/v1/forecast<wbr
-								/>?latitude=52.52&amp;longitude=13.41<wbr /><mark>&amp;past_days=10</mark><wbr
-								/>&amp;hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"</a
-							>
-						</p>
-						<pre>{@html `<span class="token punctuation">&lbrace;</span>
+						</div>
+					{:else if tabContent === 'last-10-days'}
+						<div
+							in:fade
+							class="tab-pane"
+							class:active={tabContent === 'last-10-days'}
+							id="tab-last-10-days"
+							role="tabpanel"
+							aria-labelledby="tab-last-10-days-tab"
+						>
+							<p>
+								$ curl <a
+									class="token string text-decoration-none"
+									href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&past_days=10&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
+									>"https://api.open-meteo.com/v1/forecast<wbr
+									/>?latitude=52.52&amp;longitude=13.41<wbr /><mark>&amp;past_days=10</mark><wbr
+									/>&amp;hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"</a
+								>
+							</p>
+							<pre>{@html `<span class="token punctuation">&lbrace;</span>
   <span class="token property">"hourly"</span><span class="token operator">:</span> <span class="token punctuation">&lbrace;</span>
     <span class="token property">"time"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"2022-06-19T00:00"</span><span class="token punctuation">,</span><span class="token string">"2022-06-19T01:00"</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span>
     <span class="token property">"wind_speed_10m"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">3.16</span><span class="token punctuation">,</span><span class="token number">3.02</span><span class="token punctuation">,</span><span class="token number">3.3</span><span class="token punctuation">,</span><span class="token number">3.14</span><span class="token punctuation">,</span><span class="token number">3.2</span><span class="token punctuation">,</span><span class="token number">2.95</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span><span class="token punctuation">,</span>
@@ -176,30 +185,34 @@
     <span class="token property">"relative_humidity_2m"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">82</span><span class="token punctuation">,</span><span class="token number">83</span><span class="token punctuation">,</span><span class="token number">86</span><span class="token punctuation">,</span><span class="token number">85</span><span class="token punctuation">,</span><span class="token number">88</span><span class="token punctuation">,</span><span class="token number">88</span><span class="token punctuation">,</span><span class="token number">84</span><span class="token punctuation">,</span><span class="token number">76</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token punctuation">&rbrace;</span>
 <span class="token punctuation">&rbrace;</span>`}</pre>
-					</div>
-					<div
-						class="tab-pane fade"
-						id="tab-historical-weather-data"
-						role="tabpanel"
-						aria-labelledby="tab-historical-weather-data-tab"
-					>
-						<p>
-							$ curl <a
-								class="token string text-decoration-none"
-								href="https://archive-api.open-meteo.com/v1/era5?latitude=52.52&longitude=13.41&start_date=2021-01-01&end_date=2021-12-31&hourly=temperature_2m"
-								>"https://archive-api.open-meteo.com/v1/era5<wbr
-								/>?latitude=52.52&amp;longitude=13.41<wbr /><mark
-									>&amp;start_date=2021-01-01<wbr />&amp;end_date=2021-12-31</mark
-								><wbr />&amp;hourly=temperature_2m"</a
-							>
-						</p>
-						<pre>{@html `<span class="token punctuation">&lbrace;</span>
+						</div>
+					{:else if tabContent === 'historical-weather'}
+						<div
+							in:fade
+							class="tab-pane"
+							class:active={tabContent === 'historical-weather'}
+							id="tab-historical-weather-data"
+							role="tabpanel"
+							aria-labelledby="tab-historical-weather-data-tab"
+						>
+							<p>
+								$ curl <a
+									class="token string text-decoration-none"
+									href="https://archive-api.open-meteo.com/v1/era5?latitude=52.52&longitude=13.41&start_date=2021-01-01&end_date=2021-12-31&hourly=temperature_2m"
+									>"https://archive-api.open-meteo.com/v1/era5<wbr
+									/>?latitude=52.52&amp;longitude=13.41<wbr /><mark
+										>&amp;start_date=2021-01-01<wbr />&amp;end_date=2021-12-31</mark
+									><wbr />&amp;hourly=temperature_2m"</a
+								>
+							</p>
+							<pre>{@html `<span class="token punctuation">&lbrace;</span>
   <span class="token property">"hourly"</span><span class="token operator">:</span> <span class="token punctuation">&lbrace;</span>
     <span class="token property">"time"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"2022-01-01T00:00"</span><span class="token punctuation">,</span><span class="token string">"2022-01-01T01:00"</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span>
     <span class="token property">"temperature_2m"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">1.7</span><span class="token punctuation">,</span><span class="token number">1.3</span><span class="token punctuation">,</span><span class="token number">1.8</span><span class="token punctuation">,</span><span class="token number">1.3</span><span class="token punctuation">,</span><span class="token number">1.8</span><span class="token punctuation">,</span> ...<span class="token punctuation">]</span><span class="token punctuation">,</span>
   <span class="token punctuation">&rbrace;</span>
 <span class="token punctuation">&rbrace;</span>`}</pre>
-					</div>
+						</div>
+					{/if}
 				</div>
 			</div>
 		</div>

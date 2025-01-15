@@ -1,4 +1,5 @@
-import preprocess from 'svelte-preprocess';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+
 import adapter from '@sveltejs/adapter-static';
 import * as child_process from 'node:child_process';
 
@@ -23,7 +24,7 @@ const config = {
 	},
 
 	preprocess: [
-		preprocess({
+		vitePreprocess({
 			scss: {
 				prependData: '@use "src/variables.scss" as *;'
 			}

@@ -1,156 +1,40 @@
 <script lang="ts">
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
-	import { countVariables, } from '$lib/meteo';
-	import AccordionItem from '$lib/Elements/AccordionItem.svelte';
 	import { fade, slide } from 'svelte/transition';
+
+	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { countVariables } from '$lib/utils/meteo';
+
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
 
-	const defaultParameter = {
-		current: [],
-		minutely_15: [],
-		hourly: [],
-		daily: [],
-		location_mode: 'location_search',
-		csv_coordinates: '',
-		temperature_unit: 'celsius',
-		wind_speed_unit: 'kmh',
-		precipitation_unit: 'mm',
-		timeformat: 'iso8601',
-		timezone: 'UTC',
-		time_mode: 'forecast_days',
-		past_days: '0',
-		past_hours: '',
-		past_minutely_15: '',
-		forecast_days: '7',
-		forecast_hours: '',
-		forecast_minutely_15: '',
-		temporal_resolution: '',
-		start_date: '',
-		end_date: '',
-		tilt: 0,
-		azimuth: 0,
-		models: [],
-		cell_selection: ''
-	};
+	import { models, previousDay, windVariables, solarVariables, defaultParameters } from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameter,
-		past_days: "7",
-		hourly: ['temperature_2m','temperature_2m_previous_day1','temperature_2m_previous_day2','temperature_2m_previous_day3','temperature_2m_previous_day4','temperature_2m_previous_day5']
-	});
-
-	const previousDay = [
-		{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-		{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-		{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-		{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-		{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
-		{ name: 'rain', label: 'Rain' },
-		{ name: 'showers', label: 'Showers' },
-		{ name: 'snowfall', label: 'Snowfall' },
-		{ name: 'weather_code', label: 'Weather code' },
-		{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-		{ name: 'surface_pressure', label: 'Surface Pressure' },
-		{ name: 'cloud_cover', label: 'Cloud cover Total' },
-		{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-		{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-	];
-
-	const solarVariables = [
-		{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-		{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
-		{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-		{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-		{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-
-		{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-		{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-		{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-		{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
-		{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
-	]
-
-	const windVariables = [
-		{ name: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
-		{ name: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
-		{ name: 'wind_speed_180m', label: 'Wind Speed (180 m)' },
-		{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
-		{ name: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
-		{ name: 'wind_direction_180m', label: 'Wind Direction (180 m)' },
-	]
-
-	const models = [
-		[
-			{ name: 'best_match', label: 'Best match' },
-			{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4°' },
-			{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
-			{ name: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' },
-			{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
-			{ name: 'bom_access_global', label: 'BOM ACCESS Global' }
-		],[
-			{ name: 'gfs_seamless', label: 'NCEP GFS Seamless' },
-			{ name: 'gfs_global', label: 'NCEP GFS Global 0.11°/0.25°' },
-			{ name: 'gfs_hrrr', label: 'NCEP HRRR U.S. Conus' },
-			{ name: 'ncep_nbm_conus', label: 'NCEP NBM U.S. Conus' },
-			{ name: 'gfs_graphcast025', label: 'GFS GraphCast' }
-		],
-		[
-			{ name: 'jma_seamless', label: 'JMA Seamless' },
-			{ name: 'jma_msm', label: 'JMA MSM' },
-			{ name: 'jma_gsm', label: 'JMA GSM' }
-		],
-		[
-			{ name: 'icon_seamless', label: 'DWD ICON Seamless' },
-			{ name: 'icon_global', label: 'DWD ICON Global' },
-			{ name: 'icon_eu', label: 'DWD ICON EU' },
-			{ name: 'icon_d2', label: 'DWD ICON D2' }
-		],
-		[
-			{ name: 'gem_seamless', label: 'GEM Seamless' },
-			{ name: 'gem_global', label: 'GEM Global' },
-			{ name: 'gem_regional', label: 'GEM Regional' },
-			{ name: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' }
-		],
-		[
-			{ name: 'meteofrance_seamless', label: 'Météo-France Seamless' },
-			{ name: 'meteofrance_arpege_world', label: 'Météo-France ARPEGE World' },
-			{ name: 'meteofrance_arpege_europe', label: 'Météo-France ARPEGE Europe' },
-			{ name: 'meteofrance_arome_france', label: 'Météo-France AROME France' },
-			{ name: 'meteofrance_arome_france_hd', label: 'Météo-France AROME France HD' }
-		],
-		[
-			{ name: 'arpae_cosmo_seamless', label: 'ARPAE Seamless' },
-			{ name: 'arpae_cosmo_2i', label: 'ARPAE COSMO 2I' },
-			{ name: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
-		],[
-			{ name: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
-			{ name: 'metno_nordic', label: 'MET Norway Nordic' }
-		],[
-			{ name: 'knmi_seamless', label: 'KNMI Seamless (with ECMWF)' },
-			{ name: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie Arome Europe' },
-			{ name: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
-			{ name: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
-			{ name: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' },
-		],[
-			{ name: 'ukmo_seamless', label: 'UK Met Office Seamless' },
-			{ name: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
-			{ name: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
+		...defaultParameters,
+		past_days: '7',
+		hourly: [
+			'temperature_2m',
+			'temperature_2m_previous_day1',
+			'temperature_2m_previous_day2',
+			'temperature_2m_previous_day3',
+			'temperature_2m_previous_day4',
+			'temperature_2m_previous_day5'
 		]
-	];
+	});
 
 	function formatVariableName(variable: string, previous_day: number) {
 		if (previous_day == 0) {
-			return variable
+			return variable;
 		}
-		return `${variable}_previous_day${previous_day}`
+		return `${variable}_previous_day${previous_day}`;
 	}
 </script>
 
@@ -160,17 +44,14 @@
 </svelte:head>
 
 <div class="alert alert-primary" role="alert">
-	Read the announcement for the Previous Day API and how you can use to it calculate model accuracy in the <a href="https://openmeteo.substack.com/p/weather-forecasts-from-previous-model-runs">Open-Meteo blog post</a>.
+	Read the announcement for the Previous Day API and how you can use to it calculate model accuracy
+	in the <a href="https://openmeteo.substack.com/p/weather-forecasts-from-previous-model-runs"
+		>Open-Meteo blog post</a
+	>.
 </div>
 
 <form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -187,7 +68,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock /> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -198,8 +80,8 @@
 						type="button"
 						role="tab"
 						aria-controls="pills-time_interval"
-						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent /> Time Interval</button
+						onclick={() => ($params.time_mode = 'time_interval')}
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -283,9 +165,9 @@
 						</div>
 						<div class="col-md-6">
 							<p>
-								The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a
-								range of dates more easily. Archived forecasts come from a series of weather model
-								runs over time.
+								The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
+								of dates more easily. Archived forecasts come from a series of weather model runs over
+								time.
 							</p>
 						</div>
 					</div>
@@ -297,23 +179,27 @@
 	<div class="row py-3 px-0">
 		<h2>Hourly Weather Variables</h2>
 		<div class="table-responsive">
-			<table class="table table-sm ">
+			<table class="table table-sm">
 				<tbody>
 					{#each previousDay as e}
 						<tr>
 							<td>{e.label}</td>
-							{#each {length: 8} as _, i}
-							<td><div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value={formatVariableName(e.name, i)}
-									id="{e.name}_hourly_previous_day{i}"
-									name="hourly"
-									bind:group={$params.hourly}
-								/>
-								<label class="form-check-label" for="{e.name}_hourly_previous_day{i}">Day {i}</label>
-							</div></td>
+							{#each { length: 8 } as _, i}
+								<td
+									><div class="form-check">
+										<input
+											class="form-check-input"
+											type="checkbox"
+											value={formatVariableName(e.name, i)}
+											id="{e.name}_hourly_previous_day{i}"
+											name="hourly"
+											bind:group={$params.hourly}
+										/>
+										<label class="form-check-label" for="{e.name}_hourly_previous_day{i}"
+											>Day {i}</label
+										>
+									</div></td
+								>
 							{/each}
 						</tr>
 					{/each}
@@ -324,10 +210,7 @@
 
 	<div class="row py-3 px-0">
 		<div class="accordion" id="accordionVariables">
-			<AccordionItem
-				id="additional-variables"
-				title="Additional Options"
-			>
+			<AccordionItem id="additional-variables" title="Additional Options">
 				<div class="col-md-6">
 					<div class="form-floating mb-6">
 						<select
@@ -362,28 +245,29 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem
-				id="solar"
-				title="Solar Radiation Variables"
-			>
+			<AccordionItem id="solar" title="Solar Radiation Variables">
 				<div class="table-responsive">
-					<table class="table table-sm ">
+					<table class="table table-sm">
 						<tbody>
 							{#each solarVariables as e}
 								<tr>
 									<td>{e.label}</td>
-									{#each {length: 8} as _, i}
-									<td><div class="form-check">
-										<input
-											class="form-check-input"
-											type="checkbox"
-											value={formatVariableName(e.name, i)}
-											id="{e.name}_hourly_previous_day{i}"
-											name="hourly"
-											bind:group={$params.hourly}
-										/>
-										<label class="form-check-label" for="{e.name}_hourly_previous_day{i}">Day {i}</label>
-									</div></td>
+									{#each { length: 8 } as _, i}
+										<td
+											><div class="form-check">
+												<input
+													class="form-check-input"
+													type="checkbox"
+													value={formatVariableName(e.name, i)}
+													id="{e.name}_hourly_previous_day{i}"
+													name="hourly"
+													bind:group={$params.hourly}
+												/>
+												<label class="form-check-label" for="{e.name}_hourly_previous_day{i}"
+													>Day {i}</label
+												>
+											</div></td
+										>
 									{/each}
 								</tr>
 							{/each}
@@ -393,7 +277,8 @@
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
 						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify Tilt and Azimuth below.</small
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.</small
 					>
 				</div>
 				<div class="col-md-3">
@@ -401,7 +286,7 @@
 						<input
 							type="number"
 							class="form-control"
-							class:is-invalid={$params.tilt < 0 ||$params.tilt > 90}
+							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
 							step="1"
@@ -410,10 +295,8 @@
 							bind:value={$params.tilt}
 						/>
 						<label for="tilt">Panel Tilt (0° horizontal)</label>
-						{#if $params.tilt < 0 ||$params.tilt > 90 }
-							<div class="invalid-tooltip" transition:slide>
-								Tilt must be between 0° and 90°
-							</div>
+						{#if $params.tilt < 0 || $params.tilt > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
 				</div>
@@ -431,7 +314,7 @@
 							bind:value={$params.azimuth}
 						/>
 						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180 }
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -439,28 +322,29 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem
-				id="wind_upper"
-				title="Wind on 80, 120 and 180 metre"
-			>
+			<AccordionItem id="wind_upper" title="Wind on 80, 120 and 180 metre">
 				<div class="table-responsive">
-					<table class="table table-sm ">
+					<table class="table table-sm">
 						<tbody>
 							{#each windVariables as e}
 								<tr>
 									<td>{e.label}</td>
-									{#each {length: 8} as _, i}
-									<td><div class="form-check">
-										<input
-											class="form-check-input"
-											type="checkbox"
-											value={formatVariableName(e.name, i)}
-											id="{e.name}_hourly_previous_day{i}"
-											name="hourly"
-											bind:group={$params.hourly}
-										/>
-										<label class="form-check-label" for="{e.name}_hourly_previous_day{i}">Day {i}</label>
-									</div></td>
+									{#each { length: 8 } as _, i}
+										<td
+											><div class="form-check">
+												<input
+													class="form-check-input"
+													type="checkbox"
+													value={formatVariableName(e.name, i)}
+													id="{e.name}_hourly_previous_day{i}"
+													name="hourly"
+													bind:group={$params.hourly}
+												/>
+												<label class="form-check-label" for="{e.name}_hourly_previous_day{i}"
+													>Day {i}</label
+												>
+											</div></td
+										>
 									{/each}
 								</tr>
 							{/each}
@@ -567,22 +451,44 @@
 		</div>
 	</div>
 
-	<LicenseSelector requires_professional_plan={true}/>
+	<LicenseSelector requires_professional_plan={true} />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="previous-runs" useStockChart={true}/>
+<ResultPreview {params} {defaultParameters} type="previous-runs" useStockChart={true} />
 
 <div class="col-12 py-5">
 	<h2 id="documentation">API Documentation</h2>
 	<div class="col-md-12 mb-3">
-		<p>Weather models constantly churn out updates, each predicting the future at different lead times. Think of Day 0 as latest forecast close to measurements, Day 1 as a glimpse 24 hours back, and Day 2 as a 48-hour rewind. Each day further back forecasts longer into the future and, typically, increases volatility. Data jumps become wilder past Day 6 or 7, highlighting the inherent challenge of long-term forecasting.</p>
-		<p>This data serves multiple purposes, including answering questions such as "what did yesterday's forecast predict for today?" or by comparing past forecasts with real-time observations, we can assess a forecast's accuracy and volatility. When combined with machine learning techniques, models can be trained specifically to enhance forecasts for the next 2 or 3 days.</p>
-		<p>The frequency of model updates varies, ranging from hourly to every six hours. For local models with shorter prediction horizons (2-5 days), we naturally have access to a shorter "time machine" of past predictions (2-5 days).</p>
 		<p>
-			<strong>Weather Models Sources:</strong> The Previous Runs API uses the same models as available in the general weather forecast API. Please refer to the <a href="/en/docs">Forecast API documentation</a> for a list of all weather models and weather variables.
+			Weather models constantly churn out updates, each predicting the future at different lead
+			times. Think of Day 0 as latest forecast close to measurements, Day 1 as a glimpse 24 hours
+			back, and Day 2 as a 48-hour rewind. Each day further back forecasts longer into the future
+			and, typically, increases volatility. Data jumps become wilder past Day 6 or 7, highlighting
+			the inherent challenge of long-term forecasting.
 		</p>
 		<p>
-			<strong>Data Availability:</strong> Data is generally available from January 2024 onwards. Exceptions are GFS temperature on 2 metre, which is available from March 2021 and JMA GSM + MSM models which are available from 2018. More data from previous runs can be reconstructed on request (depending on data availability from official sources).
+			This data serves multiple purposes, including answering questions such as "what did
+			yesterday's forecast predict for today?" or by comparing past forecasts with real-time
+			observations, we can assess a forecast's accuracy and volatility. When combined with machine
+			learning techniques, models can be trained specifically to enhance forecasts for the next 2 or
+			3 days.
+		</p>
+		<p>
+			The frequency of model updates varies, ranging from hourly to every six hours. For local
+			models with shorter prediction horizons (2-5 days), we naturally have access to a shorter
+			"time machine" of past predictions (2-5 days).
+		</p>
+		<p>
+			<strong>Weather Models Sources:</strong> The Previous Runs API uses the same models as
+			available in the general weather forecast API. Please refer to the
+			<a href="/en/docs">Forecast API documentation</a> for a list of all weather models and weather
+			variables.
+		</p>
+		<p>
+			<strong>Data Availability:</strong> Data is generally available from January 2024 onwards. Exceptions
+			are GFS temperature on 2 metre, which is available from March 2021 and JMA GSM + MSM models which
+			are available from 2018. More data from previous runs can be reconstructed on request (depending
+			on data availability from official sources).
 		</p>
 	</div>
 </div>
