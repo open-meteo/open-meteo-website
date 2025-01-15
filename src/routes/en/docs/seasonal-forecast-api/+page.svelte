@@ -1,77 +1,24 @@
 <script lang="ts">
-	import LicenseSelector from '../LicenseSelector.svelte';
-	import ResultPreview from '../ResultPreview.svelte';
-	import { urlHashStore } from '$lib/url-hash-store';
 	import { fade } from 'svelte/transition';
+
+	import { urlHashStore } from '$lib/utils/url-hash-store';
+
+	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
+	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
+	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
-	import StartEndDate from '../StartEndDate.svelte';
-	import LocationSelection from '../LocationSelection.svelte';
-	
-	const defaultParameter = {
-		six_hourly: [],
-		daily: [],
-		location_mode: 'location_search',
-		csv_coordinates: '',
-		temperature_unit: 'celsius',
-		wind_speed_unit: 'kmh',
-		precipitation_unit: 'mm',
-		timeformat: 'iso8601',
-		timezone: 'UTC',
-		past_days: '0',
-		forecast_days: '92',
-		start_date: '',
-		end_date: '',
-		time_mode: 'forecast_days',
-		//models: []
-	};
+
+	import { daily, six_hourly, defaultParameters } from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameter,
-    	daily: ['temperature_2m_max']
+		...defaultParameters,
+		daily: ['temperature_2m_max']
 	});
-
-	const six_hourly = [
-		[
-			{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-			{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-			{ name: 'temperature_2m_max', label: 'Temperature (2 m) 6h max' },
-			{ name: 'temperature_2m_min', label: 'Temperature (2 m) 6h min' },
-			{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation' },
-			{ name: 'cloud_cover', label: 'Total Cloud Cover' },
-			{ name: 'precipitation', label: 'Total Precipitation' },
-			{ name: 'showers', label: 'Showers' }
-		],
-		[
-			{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-			{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' }
-		],
-		[{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' }],
-		[
-			{ name: 'soil_temperature_0_to_10cm', label: 'Soil Temperature (0-10 cm)' },
-			{ name: 'soil_moisture_0_to_10cm', label: 'Soil Moisture (0-10 cm)' },
-			{ name: 'soil_moisture_10_to_40cm', label: 'Soil Moisture (10-40 cm)' },
-			{ name: 'soil_moisture_40_to_100cm', label: 'Soil Moisture (40-100 cm)' },
-			{ name: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-200 cm)' }
-		]
-	];
-
-	const daily = [
-		[
-			{ name: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-			{ name: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-			{ name: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' }
-		],
-		[
-			{ name: 'precipitation_sum', label: 'Precipitation Sum' },
-			{ name: 'rain_sum', label: 'Rain Sum' },
-			{ name: 'precipitation_hours', label: 'Precipitation Hours' },
-			{ name: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-			{ name: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' }
-		]
-	];
 </script>
 
 <svelte:head>
@@ -82,13 +29,7 @@
 <div class="alert alert-primary" role="alert">Work in progress!</div>
 
 <form method="get" action="https://seasonal-api.open-meteo.com/v1/seasonal">
-	<LocationSelection
-		bind:latitude={$params.latitude}
-		bind:longitude={$params.longitude}
-		bind:location_mode={$params.location_mode}
-		bind:csv_coordinates={$params.csv_coordinates}
-		bind:timezone={$params.timezone}
-	/>
+	<LocationSelection bind:params={$params} />
 
 	<div class="row py-3 px-0">
 		<div>
@@ -105,7 +46,8 @@
 						role="tab"
 						aria-controls="pills-forecast_days"
 						aria-selected="true"
-						on:click={() => ($params.time_mode = 'forecast_days')}><Clock/> Forecast Length</button
+						onclick={() => ($params.time_mode = 'forecast_days')}
+						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
 				<li class="nav-item" role="presentation">
@@ -116,8 +58,8 @@
 						type="button"
 						role="tab"
 						aria-controls="pills-time_interval"
-						on:click={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent/> Time Interval</button
+						onclick={() => ($params.time_mode = 'time_interval')}
+						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -187,7 +129,7 @@
 				>
 					<div class="row">
 						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date}/>
+							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
 					</div>
 				</div>
@@ -306,7 +248,13 @@
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameter} type="seasonal" action="seasonal" sdk_type="ensemble_api" />
+<ResultPreview
+	{params}
+	{defaultParameters}
+	type="seasonal"
+	action="seasonal"
+	sdk_type="ensemble_api"
+/>
 
 <div class="col-12 py-5">
 	<h2 id="api-documentation">API Documentation</h2>
@@ -331,7 +279,7 @@
 					<th scope="row">latitude, longitude</th>
 					<td>Floating point</td>
 					<td>Yes</td>
-					<td />
+					<td></td>
 					<td
 						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
@@ -343,7 +291,7 @@
 					<th scope="row">elevation</th>
 					<td>Floating point</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The elevation used for statistical downscaling. Per default, a <a
 							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
@@ -358,7 +306,7 @@
 					<th scope="row">hourly</th>
 					<td>String array</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>A list of weather variables which should be returned. Values can be comma separated, or
 						multiple
@@ -415,7 +363,7 @@
 					<th scope="row">start_date<br />end_date</th>
 					<td>String (yyyy-mm-dd)</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
 						<mark>2022-06-30</mark>).
@@ -443,7 +391,7 @@
 					<th scope="row">apikey</th>
 					<td>String</td>
 					<td>No</td>
-					<td />
+					<td></td>
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See
