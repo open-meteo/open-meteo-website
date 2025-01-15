@@ -246,9 +246,12 @@
 									<h6 class="lead mt-4">Favorites</h6>
 									<div class="list-group">
 										{#each $favorites as location}
-											<button
+											<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions (will be refactored later) -->
+											<div
+												role="button"
+												tabindex="0"
+												aria-roledescription="toolbar"
 												class="list-group-item list-group-item-action position-relative"
-												type="button"
 												onclick={() => selectLocation(location)}
 											>
 												<img
@@ -268,7 +271,7 @@
 														{location.elevation.toFixed(0)}m asl{/if}</small
 												>
 												<div class="position-absolute top-0 end-0 p-2">
-													<a
+													<button
 														style="padding: 0.55rem 0.7rem"
 														class="btn btn-outline-secondary btn-sm border-0"
 														onclick={(e) => {
@@ -276,7 +279,7 @@
 															deleteFavorite(location);
 														}}
 														tabindex="-1"
-														title="Delete"><Trash /></a
+														title="Delete"><Trash /></button
 													>
 													<a
 														style="padding: 0.55rem 0.7rem"
@@ -292,7 +295,7 @@
 														<Map />
 													</a>
 												</div>
-											</button>
+											</div>
 										{/each}
 									</div>
 								{/if}
@@ -300,9 +303,12 @@
 									<h6 class="lead mt-4">Recent Locations</h6>
 									<div class="list-group">
 										{#each $last_visited as location}
-											<button
+											<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions (will be refactored later) -->
+											<div
+												role="button"
+												tabindex="0"
+												aria-roledescription="toolbar"
 												class="list-group-item list-group-item-action position-relative"
-												type="button"
 												onclick={() => selectLocation(location)}
 											>
 												<img
@@ -323,7 +329,7 @@
 														{location.elevation.toFixed(0)}m asl{/if})</small
 												>
 												<div class="position-absolute top-0 end-0 p-2">
-													<a
+													<button
 														style="padding: 0.55rem 0.7rem"
 														class="btn btn-outline-secondary btn-sm border-0"
 														type="button"
@@ -332,9 +338,9 @@
 															saveFavorite(location);
 														}}
 														tabindex="-1"
-														title="Save"><Star /></a
+														title="Save"><Star /></button
 													>
-													<a
+													<button
 														style="padding: 0.55rem 0.7rem"
 														class="btn btn-outline-secondary btn-sm border-0"
 														type="button"
@@ -343,7 +349,7 @@
 															deleteRecent(location);
 														}}
 														tabindex="-1"
-														title="Delete"><Trash /></a
+														title="Delete"><Trash /></button
 													>
 													<a
 														style="padding: 0.55rem 0.7rem"
@@ -360,7 +366,7 @@
 														<Map />
 													</a>
 												</div>
-											</button>
+											</div>
 										{/each}
 									</div>
 								{/if}
@@ -372,9 +378,12 @@
 						{:else}
 							<div class="list-group mt-4">
 								{#each results.results || [] as location}
-									<button
+									<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions (will be refactored later) -->
+									<div
+										role="button"
+										tabindex="0"
+										aria-roledescription="toolbar"
 										class="list-group-item list-group-item-action position-relative"
-										type="button"
 										onclick={() => selectLocation(location)}
 									>
 										<img
@@ -393,7 +402,7 @@
 												{location.elevation.toFixed(0)}m asl{/if})</small
 										>
 										<div class="position-absolute top-0 end-0 p-2">
-											<a
+											<button
 												class="btn btn-outline-secondary btn-sm border-0"
 												type="button"
 												onclick={(e) => {
@@ -401,7 +410,7 @@
 													saveFavorite(location);
 												}}
 												tabindex="-1"
-												title="Save"><Star /></a
+												title="Save"><Star /></button
 											>
 											<a
 												class="btn btn-outline-secondary btn-sm border-0"
@@ -416,7 +425,7 @@
 												<Map />
 											</a>
 										</div>
-									</button>
+									</div>
 								{/each}
 							</div>
 						{/if}

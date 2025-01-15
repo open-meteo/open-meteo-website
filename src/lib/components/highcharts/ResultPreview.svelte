@@ -621,7 +621,7 @@
 					role="tab"
 					aria-controls="pills-chart"
 					aria-selected="true"
-					on:click={() => (mode = 'chart')}>Chart And URL</button
+					onclick={() => (mode = 'chart')}>Chart And URL</button
 				>
 			</li>
 			<li class="nav-item" role="presentation">
@@ -632,7 +632,7 @@
 					type="button"
 					role="tab"
 					aria-controls="pills-python"
-					on:click={() => (mode = 'python')}
+					onclick={() => (mode = 'python')}
 					aria-selected="true">Python</button
 				>
 			</li>
@@ -644,7 +644,7 @@
 					type="button"
 					role="tab"
 					aria-controls="pills-typescript"
-					on:click={() => (mode = 'typescript')}
+					onclick={() => (mode = 'typescript')}
 					aria-selected="true">Typescript</button
 				>
 			</li>
@@ -656,7 +656,7 @@
 					type="button"
 					role="tab"
 					aria-controls="pills-swift"
-					on:click={() => (mode = 'swift')}
+					onclick={() => (mode = 'swift')}
 					aria-selected="true">Swift</button
 				>
 			</li>
@@ -668,7 +668,7 @@
 					type="button"
 					role="tab"
 					aria-controls="pills-other"
-					on:click={() => (mode = 'other')}
+					onclick={() => (mode = 'other')}
 					aria-selected="true">Other</button
 				>
 			</li>
@@ -713,7 +713,7 @@
 									<InfoCircle class="me-2" />
 									<div>
 										Parameters have changed.
-										<button type="submit" class="btn btn-primary ms-2" on:click={reload}
+										<button type="submit" class="btn btn-primary ms-2" onclick={reload}
 											><ArrowClockwise class="me-2" />Reload Chart
 										</button>
 									</div>
@@ -728,7 +728,7 @@
 							<div class="alert alert-danger d-flex align-items-center" role="alert">
 								<ExclamationTriangle class="me-2" />
 								<div>{error.message}</div>
-								<button type="submit" class="btn btn-danger ms-2" on:click={reload}
+								<button type="submit" class="btn btn-danger ms-2" onclick={reload}
 									><ArrowClockwise class="me-2" />Reload Chart
 								</button>
 							</div>
@@ -957,8 +957,7 @@ targets: [
 <span class="token comment">/// By adding `utcOffsetSeconds` before, local-time is inferred</span>
 <span class="token keyword">let</span> dateFormatter <span class="token operator">=</span> <span class="token class-name">DateFormatter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 dateFormatter<span class="token punctuation">.</span>timeZone <span class="token operator">=</span> <span class="token punctuation">.</span>gmt
-dateFormatter<span class="token punctuation">.</span>dateFormat <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"yyyy-MM-dd HH:mm"</span></span>
-{#each sectionsArrayWithData as section}
+dateFormatter<span class="token punctuation">.</span>dateFormat <span class="token operator">=</span> <span class="token string-literal"><span class="token string">"yyyy-MM-dd HH:mm"</span></span>{#each sectionsArrayWithData as section}
 {'\n'}<span class="token keyword">for</span> <span class="token punctuation">(</span>i<span class="token punctuation">,</span> date<span class="token punctuation">)</span> <span class="token keyword">in</span> data<span class="token punctuation">.</span>{camelCase(section)}<span class="token punctuation">.</span>time<span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&lbrace;</span>
 {'\t'}<span class="token function">print</span><span class="token punctuation">(</span>dateFormatter<span class="token punctuation">.</span><span class="token function">string</span><span class="token punctuation">(</span>from<span class="token punctuation">:</span> date<span class="token punctuation">)</span><span class="token punctuation">)</span>{#each $params[section] as variable }{'\n\t'}<span class="token function">print</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>{camelCase(section)}<span class="token punctuation">.</span>{camelCase(variable)}<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>{/each}
 <span class="token punctuation">&rbrace;</span>{/each}
