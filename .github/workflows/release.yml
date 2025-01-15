@@ -1,0 +1,45 @@
+name: Build and Deploy
+
+on:
+  workflow_dispatch:
+
+#on:
+#  push:
+#    tags:
+#      - "v*.*.*"
+
+# Allow one concurrent deployment
+concurrency:
+  group: 'deploy'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
+      - run: npm run build
+      - run: npm run rename_index_files
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+      - name: Install LFTP
+        run: sudo apt update && sudo apt -qq -y install lftp
+      - name: Upload ftp
+        run: lftp storage.bunnycdn.com -u open-meteo,${{ secrets.ftp_password }} -e "set ftp:ssl-force false; set ssl:verify-certificate false; mirror --reverse -P 20 --continue --dereference -x ^\.git/$ build .; quit"
+      - run: "curl --request POST --url https://api.bunny.net/pullzone/1309127/purgeCache --header 'AccessKey: ${{ secrets.bunny_api_key }}' --header 'content-type: application/json'"
