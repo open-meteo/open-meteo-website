@@ -62,6 +62,3 @@ export const defaultLocation: GeoLocation = {
 export const storedLocation = persisted('stored-location', defaultLocation as GeoLocation);
 export const last_visited = persisted('last_visited_locations', [] as GeoLocation[]);
 export const favorites = persisted('favorites', [] as GeoLocation[]);
-
-//export const activeLocation = writable(defaultLocation);
-// $favorites.length > 0 ? $favorites[0] : $last_visited.length > 0 ? $last_visited[0] : defaultLocation

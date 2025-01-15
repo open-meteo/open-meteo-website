@@ -14,7 +14,7 @@ export function urlHashStore<T>(initialValue: T): Writable<T> {
 	const defaultValues = { ...initialValue };
 
 	function updateStorage(value: T) {
-		let diff: Partial<T> = {};
+		const diff: Partial<T> = {};
 		let count = 0;
 		for (const key in defaultValues) {
 			if (value[key] && defaultValues[key] !== value[key]) {

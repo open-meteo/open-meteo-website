@@ -1,14 +1,32 @@
+import { mdsvex, escapeSvelte } from 'mdsvex';
+import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
-import adapter from '@sveltejs/adapter-static';
-import * as child_process from 'node:child_process';
+import { createHighlighter } from 'shiki';
+
+const theme = 'one-dark-pro';
+
+const highlighter = await createHighlighter({
+	themes: [theme],
+	langs: ['json', 'bash']
+});
+
+/** @type {import('mdsvex').MdsvexOptions} */
+const mdsvexOptions = {
+	highlight: {
+		highlighter: async (code, lang = 'text') => {
+			const html = escapeSvelte(highlighter.codeToHtml(code, { lang, theme }));
+			return `{@html \`${html}\` }`;
+		}
+	}
+};
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
+	preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
+
 	kit: {
 		adapter: adapter({
-			// default options are shown. On some platforms
-			// these options are set automatically — see below
 			pages: 'build',
 			assets: 'build',
 			fallback: null,
@@ -17,19 +35,13 @@ const config = {
 		}),
 		paths: {
 			relative: false
-		},
-		version: {
-			name: child_process.execSync('git rev-parse HEAD').toString().trim()
 		}
+		// version: {
+		// 	name: child_process.execSync('git rev-parse HEAD').toString().trim()
+		// }
 	},
 
-	preprocess: [
-		vitePreprocess({
-			scss: {
-				prependData: '@use "src/variables.scss" as *;'
-			}
-		})
-	]
+	extensions: ['.svelte', '.svx', '.md']
 };
 
 export default config;
