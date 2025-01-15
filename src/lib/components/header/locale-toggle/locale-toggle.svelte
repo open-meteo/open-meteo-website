@@ -29,6 +29,6 @@
 	<DropdownMenu.Content align="end">
 		<DropdownMenu.Item on:click={() => switchToLanguage('en')}>English</DropdownMenu.Item>
 		<DropdownMenu.Item on:click={() => switchToLanguage('de')}>Deutsch</DropdownMenu.Item>
-		<DropdownMenu.Item on:click={() => switchToLanguage('fr')}>Français</DropdownMenu.Item>
+		<!-- <DropdownMenu.Item on:click={() => switchToLanguage('fr')}>Français</DropdownMenu.Item> -->
 	</DropdownMenu.Content>
 </DropdownMenu.Root>
