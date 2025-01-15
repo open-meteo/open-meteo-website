@@ -1,10 +1,4 @@
 /* Write your global styles here, in SCSS syntax. Variables and mixins from the src/variables.scss file are available here without importing */ /* Import only what you need from Bootstrap */
-
-// tailwind
-// @import "tailwindcss/base";
-// @import "tailwindcss/components";
-// @import "tailwindcss/utilities";
-
 @import 'bootstrap/scss/root';
 @import 'bootstrap/scss/reboot';
 @import 'bootstrap/scss/type';
@@ -98,13 +92,6 @@ $color-mode-type: data;
 	--sdt-color-selected: #fff;
 	--sdt-today-indicator: #ccc;
 	--sdt-clock-bg: #999;
-	/* custom buttons */
-	/*--sdt-today-bg: #e4a124;
-		--sdt-today-color: #fff;
-		--sdt-clear-color: #666;
-		--sdt-clear-bg: #ddd;
-		--sdt-clear-hover-color: #fff;
-		--sdt-clear-hover-bg: #dc3545;*/
 }
 
 .std-component-wrap {
