@@ -1,0 +1,56 @@
+input[name='time_interval_input'] {
+	padding: 1rem 0.75rem;
+	padding-top: 1.625rem;
+	padding-bottom: 0.625rem;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: var(--bs-body-color);
+	appearance: none;
+	background-color: var(--bs-body-bg);
+	background-clip: padding-box;
+	border: var(--bs-border-width) solid var(--bs-border-color);
+	border-radius: var(--bs-border-radius);
+	transition:
+		border-color 0.15s ease-in-out,
+		box-shadow 0.15s ease-in-out;
+	width: 100%;
+}
+
+.sdt-component-wrap {
+	width: 100%;
+}
+
+input[name='time_interval_input']:focus {
+	color: var(--bs-body-color);
+	background-color: var(--bs-body-bg);
+	border-color: #86b7fe;
+	outline: 0;
+	box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.date-range-picker-wrapper {
+	position: relative;
+}
+
+.date-range-picker-label {
+	color: rgba(var(--bs-body-color-rgb), 0.65);
+	transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	height: 100%;
+	padding: 1rem 0.75rem;
+	overflow: hidden;
+	text-align: start;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	pointer-events: none;
+	border: var(--bs-border-width) solid transparent;
+	transform-origin: 0 0;
+	transition:
+		opacity 0.1s ease-in-out,
+		transform 0.1s ease-in-out;
+}
