@@ -35,10 +35,11 @@ const config = {
 		}),
 		paths: {
 			relative: false
+		},
+		version: {
+			name: process.env.CF_PAGES_COMMIT_SHA ?? String(new Date().getTime()),
+			pollInterval: 2 * 60 * 1000 // 2 mins
 		}
-		// version: {
-		// 	name: child_process.execSync('git rev-parse HEAD').toString().trim()
-		// }
 	},
 
 	extensions: ['.svelte', '.svx', '.md']
