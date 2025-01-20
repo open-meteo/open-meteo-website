@@ -432,7 +432,7 @@
 		>
 			<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
 				<div class="toast-header d-flex align-items-center justify-content-center">
-					<strong class="me-1">Open-meteo </strong>
+					<strong class="me-1">Open-Meteo </strong>
 					<span> website has updated</span>
 					<button
 						type="button"
