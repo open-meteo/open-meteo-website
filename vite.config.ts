@@ -6,7 +6,13 @@ import { visualizer } from 'rollup-plugin-visualizer';
 export default defineConfig({
 	plugins: [
 		sveltekit(),
-		visualizer({filename: "build-stats.html"}),
+		visualizer({
+			filename: 'build-stats.html',
+			template: 'sunburst',
+			gzipSize: true,
+			brotliSize: true,
+			title: 'Open-Meteo Buildsize'
+		}),
 		paraglide({
 			project: './project.inlang',
 			outdir: './src/lib/paraglide'

@@ -44,7 +44,7 @@
 				{m.features_description()}
 			</p>
 			<div class="mt-2 flex gap-4">
-				<Button variant="default" href="#available-apis">Available APIs</Button>
+				<Button variant="default" href="#available-apis">{m.available_apis()}</Button>
 				<Button variant="outline-white" href={i18n.route('/pricing')}>{m.pricing()}</Button>
 			</div>
 		</div>
