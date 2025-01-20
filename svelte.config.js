@@ -1,8 +1,6 @@
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import adapter from '@sveltejs/adapter-static';
 
-console.log(process.env.GIT_HASH ?? new Date().getTime());
-
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
@@ -20,7 +18,7 @@ const config = {
 		},
 		version: {
 			name: process.env.CF_PAGES_COMMIT_SHA ?? String(new Date().getTime()),
-			pollInterval: 2 * 60 * 1000 // 2 mins
+			pollInterval: 5000 // 5sec
 		}
 	},
 
