@@ -425,7 +425,7 @@
 	<div class="text-center pt-3">
 		<small class="d-block text-muted">© 2022-2025 Copyright: Open-Meteo.com</small>
 	</div>
-	{#if current.updated && !updateNotificationClicked}
+	{#if updated.current && !updateNotificationClicked}
 		<div
 			transition:fade={{ duration: 250 }}
 			class="position-fixed bottom-0 end-0 p-4 rounded m-4 mb-8 bg-light-subtle shadow-lg"
