@@ -18,7 +18,7 @@ const config = {
 		},
 		version: {
 			name: process.env.CF_PAGES_COMMIT_SHA ?? String(new Date().getTime()),
-			pollInterval: 5000 // 5sec
+			pollInterval: 2 * 60 * 1000 // 2 mins
 		}
 	},
 
