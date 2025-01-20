@@ -1,7 +1,7 @@
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 import adapter from '@sveltejs/adapter-static';
-import * as child_process from 'node:child_process';
+import child_process from 'child_process';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -19,7 +19,8 @@ const config = {
 			relative: false
 		},
 		version: {
-			name: child_process.execSync('git rev-parse HEAD').toString().trim()
+			name: child_process.exec('git rev-parse HEAD').toString().trim(),
+			pollInterval: 5000
 		}
 	},
 
