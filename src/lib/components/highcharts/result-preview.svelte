@@ -416,7 +416,7 @@
 				text: title
 			},
 
-			subtitle: {
+			heroDescription: {
 				text: `Generated in ${generationtime_ms}ms, downloaded in ${downloadTime.toFixed(
 					0
 				)}ms, time in GMT${utc_offset_sign}${data.utc_offset_seconds / 3600}`

@@ -3,15 +3,7 @@
 	import Watch from 'lucide-svelte/icons/watch';
 	import MapPinned from 'lucide-svelte/icons/map-pinned';
 
-	import { mode } from 'mode-watcher';
-
 	import { i18n } from '$lib/i18n';
-
-	import Logo from '$lib/assets/icons/rain.svelte';
-
-	import * as m from '$lib/paraglide/messages.js';
-
-	import Button from '$lib/components/ui/button/button.svelte';
 </script>
 
 <svelte:head>
@@ -22,34 +14,6 @@
 		content="Open-Meteo offers feature rich and simple JSON APIs with global coverage and up to 1 km resolution. Get started today and access the most accurate weather forecasts worldwide. Our APIs combine cutting-edge local and global models from renowned national weather services. Stay up-to-date with hourly updates and utilize 80 years of historical weather data. Experience specialized forecasts for solar radiation, winds, and more. Easily resolve city names to coordinates, retrieve accurate elevation data, and manage timezones seamlessly."
 	/>
 </svelte:head>
-
-<div class="h-[500px]">
-	<div
-		class="absolute -z-10 h-full w-full"
-		style="
-		  background-image: url('/images/features_background.webp');
-          background-size: cover;
-          background-position: center;
-          height: 500px;
-		  {$mode === 'dark' ? 'opacity: 0.80;' : ''}
-        "
-	></div>
-	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">
-		<Logo width="96" height="96" shadow={true} />
-		<h1 class="text-shadow text-3xl font-light shadow-[rgba(0,0,0,0.7)] md:text-5xl">
-			{m.features()}
-		</h1>
-		<div class="flex flex-col items-center justify-center gap-6 md:w-1/2">
-			<p class="text-shadow text-center text-lg font-light shadow-[rgba(0,0,0,0.7)]">
-				{m.features_description()}
-			</p>
-			<div class="mt-2 flex gap-4">
-				<Button variant="default" href="#available-apis">{m.available_apis()}</Button>
-				<Button variant="outline-white" href={i18n.route('/pricing')}>{m.pricing()}</Button>
-			</div>
-		</div>
-	</div>
-</div>
 
 <div class="container mt-16">
 	<div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">

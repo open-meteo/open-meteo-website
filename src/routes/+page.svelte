@@ -10,13 +10,9 @@
 
 	import Github from 'simple-icons/icons/github.svg?raw';
 
-	import { mode } from 'mode-watcher';
-
 	import { i18n } from '$lib/i18n';
 
 	import * as m from '$lib/paraglide/messages.js';
-
-	import Logo from '$lib/assets/icons/sun.svelte';
 
 	import Mailbox from '$lib/assets/icons/mailbox.svelte';
 
@@ -40,34 +36,6 @@
 	<link rel="canonical" href="https://open-meteo.com/" />
 	<meta name="description" content={m.home_seo_description()} />
 </svelte:head>
-
-<div class="h-[500px]">
-	<div
-		class="absolute -z-10 h-full w-full"
-		style="
-          background-image: url('/images/convective_clouds.webp');
-          background-size: cover;
-          background-position: center;
-          height: 500px;
-		  {$mode === 'dark' ? 'opacity: 0.80;' : ''}
-        "
-	></div>
-	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">
-		<Logo width="96" height="96" shadow={true} />
-		<h1 class="text-shadow text-3xl font-light shadow-[rgba(0,0,0,0.7)] md:text-5xl">
-			{m.home_hero_title()}
-		</h1>
-		<div class="flex flex-col items-center justify-center gap-6 md:w-1/2">
-			<p class="text-shadow text-center text-lg font-light shadow-[rgba(0,0,0,0.7)]">
-				{m.home_hero_description()}
-			</p>
-			<div class="mt-2 flex gap-4">
-				<Button variant="default" href={i18n.route('/features')}>{m.features()}</Button>
-				<Button variant="outline-white" href={i18n.route('/docs')}>{m.try_api()}</Button>
-			</div>
-		</div>
-	</div>
-</div>
 
 <div class="container mt-8 lg:mt-16">
 	<div class="grid grid-cols-1 gap-6 md:grid-cols-2">

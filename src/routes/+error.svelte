@@ -1,4 +1,6 @@
 <script>
+	import { mode } from 'mode-watcher';
+
 	import { page } from '$app/state';
 
 	import { i18n } from '$lib/i18n';
@@ -17,12 +19,14 @@
 
 <div class="h-[500px]">
 	<div
-		class="absolute -z-10 h-full w-full"
+		class="absolute -z-10 h-full w-full duration-300"
 		style="
 		  background-image: url('/images/features_background.webp');
           background-size: cover;
           background-position: center;
           height: 500px;
+		  		  {$mode === 'dark' ? 'opacity: 0.75;' : ''}
+
         "
 	></div>
 	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">

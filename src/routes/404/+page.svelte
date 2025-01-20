@@ -15,7 +15,7 @@
 
 <div class="h-[500px]">
 	<div
-		class="absolute -z-10 h-full w-full"
+		class="absolute -z-10 h-full w-full duration-300"
 		style="
 		  background-image: url('/images/features_background.webp');
           background-size: cover;

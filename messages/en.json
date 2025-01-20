@@ -2,6 +2,7 @@
 	"$schema": "https://inlang.com/schema/inlang-message-format",
 	"home": "Home",
 	"docs": "API Docs",
+	"plans": "API Plans",
 	"terms": "Terms",
 	"pricing": "Pricing",
 	"contact": "Contact",

@@ -1,14 +1,6 @@
 <script lang="ts">
 	import MapPinned from 'lucide-svelte/icons/map-pinned';
 
-	import { i18n } from '$lib/i18n';
-
-	import Logo from '$lib/assets/icons/snow.svelte';
-
-	import * as m from '$lib/paraglide/messages.js';
-
-	import Button from '$lib/components/ui/button/button.svelte';
-
 	import { mode } from 'mode-watcher';
 </script>
 
@@ -20,34 +12,6 @@
 		content="Open-Meteo offers a pricing structure that caters to both non-commercial and commercial users. Non-commercial use is free, with fair usage guidelines and attribution required. Commercial clients enjoy dedicated API servers, personalized support, and a commercial use license. The API price includes millions of API calls, with options to adjust the quantity based on your needs. Our API boasts excellent uptime, low latency, and flexible payment options. We provide transparent pricing, predictable costs, and flexible cancellation options for your convenience."
 	/>
 </svelte:head>
-
-<div class="h-[500px]">
-	<div
-		class="absolute -z-10 h-full w-full"
-		style="
-          background-image: url('/images/snowy.webp');
-          background-size: cover;
-          background-position: center;
-          height: 500px;
-		  {$mode === 'dark' ? 'opacity: 0.80;' : ''}
-        "
-	></div>
-	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">
-		<Logo width="96" height="96" shadow={true} />
-		<h1 class="text-shadow text-3xl font-light shadow-[rgba(0,0,0,0.7)] md:text-5xl">
-			{m.pricing()}
-		</h1>
-		<div class="flex flex-col items-center justify-center gap-6 md:w-1/2">
-			<p class="text-shadow text-center text-lg font-light shadow-[rgba(0,0,0,0.7)]">
-				{m.pricing_description()}
-			</p>
-			<div class="mt-2 flex gap-4">
-				<Button variant="default" href="#plans">API Plans</Button>
-				<Button variant="outline-white" href={i18n.route('/docs')}>{m.docs()}</Button>
-			</div>
-		</div>
-	</div>
-</div>
 
 <div class="container mt-4">
 	<div id="plans">

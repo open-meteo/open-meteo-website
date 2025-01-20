@@ -19,8 +19,8 @@
 		--border: 214.3 31.8% 91.4%;
 		--input: 214.3 31.8% 91.4%;
 
-        --primary: 215.75 98.36% 52.16%;
-        --primary-foreground: 210 40% 98%;
+		--primary: 215.75 98.36% 52.16%;
+		--primary-foreground: 210 40% 98%;
 
 		--secondary: 210 40% 96.1%;
 		--secondary-foreground: 222.2 47.4% 11.2%;
@@ -72,6 +72,8 @@
 		--link: 215.83 98.63% 71.37%;
 
 		--ring: 212.7 26.8% 83.9%;
+
+		--mark-color: 45 94.66% 20.55%;
 	}
 }
 
@@ -80,7 +82,7 @@
 		@apply border-border;
 	}
 	body {
-		@apply bg-background text-foreground font-sans;
+		@apply bg-background font-sans text-foreground;
 	}
 }
 
@@ -90,29 +92,29 @@ html {
 }
 
 p a {
-	@apply text-link underline underline-offset-2 duration-200
+	@apply text-link underline underline-offset-2 duration-200;
 }
 
 p a:hover {
-	@apply brightness-125 dark:brightness-75
+	@apply brightness-125 dark:brightness-75;
 }
 
 .shiki {
 	@apply rounded-xl px-4 py-6;
 }
 
-.curl  {
+.curl {
 	text-indent: -3rem;
 	padding-left: 2rem;
 }
 
 .curl .line::before {
-	content: "$";
+	content: '$';
 	width: 1rem;
 	margin-right: 1rem;
 	display: inline-block;
 	text-align: right;
-	color: rgba(115, 138, 148, 0.5)
+	color: rgba(115, 138, 148, 0.5);
 }
 
 .code-numbered .shiki {
@@ -132,5 +134,14 @@ p a:hover {
 	margin-right: 1rem;
 	display: inline-block;
 	text-align: right;
-	color: rgba(115, 138, 148, 0.5)
+	color: rgba(115, 138, 148, 0.5);
+}
+
+mark,
+.mark {
+	margin-top: -0.1875em;
+
+	padding: 0.1875em;
+	color: hsl(var(--foreground));
+	background-color: hsl(var(--mark-color));
 }
