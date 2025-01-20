@@ -20,7 +20,7 @@ const config = {
 		},
 		version: {
 			name: child_process.exec('git rev-parse HEAD').toString().trim(),
-			pollInterval: 5000
+			pollInterval: 2 * 60 * 1000 // 2 mins
 		}
 	},
 
