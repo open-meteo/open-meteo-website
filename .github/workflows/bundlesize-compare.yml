@@ -2,7 +2,6 @@ name: 'Buildsize Compare'
 
 on:
   pull_request:
-  pull_request_target:
 
 jobs:
   build-head:
@@ -18,11 +17,11 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Upload stats.json
+      - name: Upload stats
         uses: actions/upload-artifact@v4
         with:
           name: head-stats
-          path: ./dist/stats.json
+          path: ./build-stats.json
 
   build-base:
     name: 'Build base'
@@ -37,11 +36,11 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Upload stats.json
+      - name: Upload stats
         uses: actions/upload-artifact@v4
         with:
           name: base-stats
-          path: ./dist/stats.json
+          path: ./build-stats.json
 
   compare:
     name: 'Compare base & head bundle sizes'
@@ -51,8 +50,15 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/download-artifact@v4
+      # TODO add hash stipping
+      # - name: Strip content hashes from stats files
+      #   run: |
+      #     sed -i -E 's/index\.[0-9a-zA-Z_-]{8,}\./index./g' ./head-stats/stats.json
+      #     sed -i -E 's/\.[0-9a-zA-Z_-]{8,}\.chunk\././g' ./head-stats/stats.json
+      #     sed -i -E 's/index\.[0-9a-zA-Z_-]{8,}\./index./g' ./base-stats/stats.json
+      #     sed -i -E 's/\.[0-9a-zA-Z_-]{8,}\.chunk\././g' ./base-stats/stats.json
       - uses: twk3/rollup-size-compare-action@v1.1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          current-stats-json-path: ./head-stats/stats.json
-          base-stats-json-path: ./base-stats/stats.json
+          current-stats-json-path: ./head-stats/build-stats.json
+          base-stats-json-path: ./base-stats/build-stats.json

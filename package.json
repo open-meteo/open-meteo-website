@@ -47,7 +47,7 @@
 		"@tailwindcss/container-queries": "^0.1.1",
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.16",
-		"highcharts": "11.4.1",
+		"highcharts": "12.1.2",
 		"openmeteo": "^1.1.4",
 		"prism-themes": "^1.9.0",
 		"rollup-plugin-visualizer": "^5.14.0",
