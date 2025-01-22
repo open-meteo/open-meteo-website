@@ -14,7 +14,7 @@
 	},
 	"telemetry": "off",
 	"sourceLanguageTag": "en",
-	"languageTags": ["en", "de"],
+	"languageTags": ["en"],
 	"baseLocale": "en",
-	"locales": ["en", "de"]
+	"locales": ["en"]
 }
