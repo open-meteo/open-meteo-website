@@ -1,4 +1,4 @@
-# .github/workflows/bundlesize-compare.yml
+name: 'Buildsize Compare'
 
 on:
   # this action will error unless run in a pr context
