@@ -17,11 +17,11 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Upload stats.json
+      - name: Upload stats
         uses: actions/upload-artifact@v4
         with:
           name: head-stats
-          path: ./stats.json
+          path: ./build-stats.json
 
   build-base:
     name: 'Build base'
@@ -36,11 +36,11 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Upload stats.json
+      - name: Upload stats
         uses: actions/upload-artifact@v4
         with:
           name: base-stats
-          path: ./stats.json
+          path: ./build-stats.json
 
   compare:
     name: 'Compare base & head bundle sizes'
@@ -53,5 +53,5 @@ jobs:
       - uses: twk3/rollup-size-compare-action@v1.1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          current-stats-json-path: ./head-stats/stats.json
-          base-stats-json-path: ./base-stats/stats.json
+          current-stats-json-path: ./head-stats/build-stats.json
+          base-stats-json-path: ./base-stats/build-stats.json
