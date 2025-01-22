@@ -29,8 +29,6 @@
 		const Highcharts = (await import('$lib/HighchartsCustom')).default;
 
 		if (dev) {
-			// const HighchartsDebugger = await import('highcharts/modules/debugger');
-			// HighchartsDebugger.default(Highcharts);
 			const Debugger = (await import('highcharts/es-modules/Extensions/Debugger/Debugger.js'))
 				.default;
 			const ErrorMessages = (
@@ -39,7 +37,6 @@
 			Highcharts.errorMessages = ErrorMessages;
 			Debugger.compose(Highcharts.Chart);
 		}
-		//HighchartsAccessibility(Highcharts);
 		options.chart = options.chart || {};
 		options.chart.styledMode = true;
 		options.accessibility = {
@@ -50,9 +47,6 @@
 			href: 'http://open-meteo.com'
 		};
 		if (useStockChart) {
-			// const HighchartsStock = await import('highcharts/modules/stock');
-			// HighchartsStock.default(Highcharts);
-			// chart = new Highcharts.StockChart(node, options);
 			chart = new Highcharts.StockChart(node, options);
 		} else {
 			chart = new Highcharts.Chart(node, options);
