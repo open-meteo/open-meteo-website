@@ -6,11 +6,11 @@ export default defineConfig({
 	plugins: [
 		sveltekit(),
 		visualizer({
-			filename: 'build-stats.html',
-			template: 'sunburst',
-			gzipSize: true,
-			brotliSize: true,
-			title: 'Open-Meteo Buildsize'
+			// filename: 'build-stats.html',
+			template: 'raw-data'
+			// gzipSize: true,
+			// brotliSize: true,
+			// title: 'Open-Meteo Buildsize'
 		})
 	],
 	css: {
