@@ -28,7 +28,6 @@ const G: AnyRecord = Highcharts;
 G.Axis = Axis;
 G.Chart = Chart;
 G.DataLabel = DataLabel;
-G.HTMLElement = HTMLElement;
 G.Legend = Legend;
 G.PlotLineOrBand = PlotLineOrBand;
 G.Pointer = Pointer;
