@@ -40,7 +40,7 @@
 			</p>
 			<div class="mt-2 flex gap-4">
 				<Button variant="default" href={i18n.route('/')}>{m.home()}</Button>
-				<Button variant="outline-white" href={i18n.route('/docs')}>{m.docs()}</Button>
+				<Button variant="outline-white" href={'/en/docs'}>{m.docs()}</Button>
 			</div>
 		</div>
 	</div>

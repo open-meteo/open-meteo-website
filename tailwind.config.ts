@@ -73,6 +73,9 @@ const config: Config = {
 			fontFamily: {
 				sans: [...fontFamily.sans]
 			},
+			fontSize: {
+				xxs: '11px'
+			},
 			textShadow: {
 				sm: '0 1px 2px var(--tw-shadow-color)',
 				DEFAULT: '3px 3px 2px var(--tw-shadow-color)',

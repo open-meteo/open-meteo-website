@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { mode } from 'mode-watcher';
 
+	import { dev } from '$app/environment';
+
 	import Button from '$lib/components/ui/button/button.svelte';
 
 	import Logo from '$lib/assets/icons/sun.svelte';
@@ -39,7 +41,7 @@
           background-size: cover;
           background-position: center;
           height: {heroHeight}px;
-		  {$mode === 'dark' ? 'opacity: 0.75;' : ''}
+		  {$mode === 'dark' && dev ? 'opacity: 0.6;' : ''}
         "
 	></div>
 	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">

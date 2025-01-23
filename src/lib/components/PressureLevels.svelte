@@ -96,7 +96,9 @@
 												/>
 												<label class="form-check-label" for="{variable.name}_{level}hPa">
 													{level} hPa
-													<small class="text-muted">({altitudeAboveSeaLevelMeters(level)})</small>
+													<small class="text-muted-foreground"
+														>({altitudeAboveSeaLevelMeters(level)})</small
+													>
 												</label>
 											</div>
 										{/each}
@@ -106,7 +108,7 @@
 						</div>
 					{/each}
 					<div class="mt-3">
-						<small class="text-muted"
+						<small class="text-muted-foreground"
 							>Note: Altitudes are approximate and in meters <strong> above sea level</strong> (not
 							above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
 							level.</small

@@ -16,7 +16,7 @@
 	import Toggle from '$lib/components/ui/toggle/toggle.svelte';
 
 	import DarkmodeToggle from './darkmode-toggle/darkmode-toggle.svelte';
-	import LocaleToggle from './locale-toggle/locale-toggle.svelte';
+	// import LocaleToggle from './locale-toggle/locale-toggle.svelte';
 
 	let { pathname } = $props();
 
@@ -62,7 +62,7 @@
 					class="mr-auto px-3"
 					data-text={m.features()}
 					highlight={pathname === '/features' ? 'active' : undefined}
-					href={i18n.route('/features')}
+					href={'/en/features'}
 					onclick={() => (toggleMenu = false)}>{m.features()}</Button
 				>
 				<Button
@@ -70,7 +70,7 @@
 					class="mr-auto px-3"
 					data-text={m.pricing()}
 					highlight={pathname === '/pricing' ? 'active' : undefined}
-					href={i18n.route('/pricing')}
+					href={'/en/pricing'}
 					onclick={() => (toggleMenu = false)}>{m.pricing()}</Button
 				>
 				<Button
@@ -78,7 +78,7 @@
 					class="mr-auto px-3"
 					data-text={m.docs()}
 					highlight={pathname === '/docs' ? 'active' : undefined}
-					href={i18n.route('/docs')}
+					href={'/en/docs'}
 					onclick={() => (toggleMenu = false)}>{m.docs()}</Button
 				>
 				<hr class="mb-4 ml-3 mt-2" />
@@ -98,9 +98,9 @@
 				>
 				<div class="mx-2 hidden border-l md:flex"></div>
 				<div class="ml-auto flex gap-1">
-					{#if dev}
+					<!-- {#if dev}
 						<LocaleToggle {pathname} />
-					{/if}
+					{/if} -->
 					<div class="relative"><DarkmodeToggle /></div>
 				</div>
 			</div>

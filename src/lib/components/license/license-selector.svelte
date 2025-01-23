@@ -5,6 +5,7 @@
 
 	import { api_key_preferences } from '$lib/stores/settings';
 
+	import * as Alert from '$lib/components/ui/alert';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
 	interface Props {
@@ -16,7 +17,7 @@
 	let licenseSelected = $state('non_commercial');
 </script>
 
-<div class="overflow-hidden rounded-lg bg-[#282c34] p-6 text-white">
+<div class="overflow-hidden">
 	<ToggleGroup.Root type="single" bind:value={licenseSelected} class="justify-start gap-0">
 		<ToggleGroup.Item
 			value="non_commercial"
@@ -43,27 +44,21 @@
 			Self-Hosted
 		</ToggleGroup.Item>
 	</ToggleGroup.Root>
-	<div class="relative min-h-[550px] lg:min-h-[500px]">
+	<div class="relative mt-3">
 		{#if licenseSelected === 'non_commercial'}
-			<div
-				in:fade
-				id="pills-non_commercial"
-				role="tabpanel"
-				aria-labelledby="pills-non_commercial-tab"
-				tabindex="0"
-			>
-				<div class="col-md-12">
-					<div class=" alert alert-info" role="alert">
+			<div in:fade>
+				<Alert.Root variant="informative">
+					<Alert.Description>
 						Only for <strong>non-commercial use</strong> and less than 10.000 daily API calls. See
 						<a href={i18n.route('/terms')}>Terms</a> for more details.
-					</div>
-				</div>
+					</Alert.Description>
+				</Alert.Root>
 			</div>
 		{:else if licenseSelected === 'commercial'}
 			<div in:fade id="commercial" role="tabpanel" aria-labelledby="commercial-tab" tabindex="0">
 				<div class="row">
-					<div class="col-md-3">
-						<div class="form-floating">
+					<div class=" ">
+						<div class=" ">
 							<input
 								type="text"
 								class="form-control"
@@ -77,7 +72,7 @@
 					</div>
 					<div class="col-md-9">
 						<div class="alert alert-info" role="alert">
-							See <a href={i18n.route('/pricing')}>Pricing</a> for more details.{#if requires_professional_plan}
+							See <a href={'/en/pricing'}>Pricing</a> for more details.{#if requires_professional_plan}
 								This API requires the <mark>Professional</mark> subscription.{/if}
 						</div>
 					</div>
@@ -93,8 +88,8 @@
 				tabindex="0"
 			>
 				<div class="row">
-					<div class="col-md-3">
-						<div class="form-floating">
+					<div class=" ">
+						<div class=" ">
 							<input
 								type="text"
 								class="form-control"

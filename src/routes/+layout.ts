@@ -17,9 +17,9 @@ export const load: LayoutLoad = async (event) => {
 		heroHeight: 600,
 		heroTitle: m.home_hero_title(),
 		heroDescription: m.home_hero_description(),
-		heroPrimaryButtonPath: i18n.route('/features'),
+		heroPrimaryButtonPath: '/en/features',
 		heroPrimaryButtonText: m.features(),
-		heroSecondaryButtonPath: i18n.route('/docs'),
+		heroSecondaryButtonPath: '/en/docs',
 		heroSecondaryButtonText: m.try_api()
 	};
 };

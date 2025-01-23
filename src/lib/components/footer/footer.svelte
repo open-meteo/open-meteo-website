@@ -10,10 +10,10 @@
 			<a href={i18n.route('/')} class="text-lg font-bold">Open-Meteo</a>
 			<ul class="list-unstyled text-small">
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={i18n.route('/features')}>{m.features()}</a>
+					<a class="text-secondary-foreground" href={'/en/features'}>{m.features()}</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={i18n.route('/pricing')}>{m.pricing()}</a>
+					<a class="text-secondary-foreground" href={'/en/pricing'}>{m.pricing()}</a>
 				</li>
 				<li class="mb-1">
 					<a class="text-secondary-foreground" href={i18n.route('/about')}
@@ -31,12 +31,10 @@
 			</ul>
 		</div>
 		<div class="">
-			<a href={i18n.route('/docs')} class="text-lg font-bold">Weather APIs</a>
+			<a href={'/en/docs'} class="text-lg font-bold">Weather APIs</a>
 			<ul class="list-unstyled text-small">
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={i18n.route('/docs')}
-						>{m.weather_forecast_api()}</a
-					>
+					<a class="text-secondary-foreground" href={'/en/docs'}>{m.weather_forecast_api()}</a>
 				</li>
 				<li class="mb-1">
 					<a class="text-secondary-foreground" href={i18n.route('/docs/historical-weather-api')}

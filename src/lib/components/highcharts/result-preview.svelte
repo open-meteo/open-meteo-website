@@ -602,9 +602,9 @@
 	let mode = $state('chart');
 </script>
 
-<h2 id="api-response">API Response</h2>
+<h2 id="api-response" class="mt-6 text-2xl">API Response</h2>
 
-<div class="row px-0 py-3">
+<div class="">
 	<div>
 		<ul class="nav nav-underline" role="tablist">
 			<li class="nav-item" role="presentation">
@@ -740,7 +740,7 @@
 
 				<div class="col-12 my-4">
 					<label for="api_url" class="form-label">API URL</label>
-					<small class="text-muted"
+					<small class="text-muted-foreground"
 						>(<a id="api_url_link" target="_blank" href={previewUrl}>Open in new tab</a> or copy this
 						URL into your application)</small
 					>.
