@@ -227,7 +227,7 @@
 
 				<p class="mb-3">
 					{@html m.home_80_years_historical_data_description_part1({
-						historical_weather_link: `<a href=${i18n.route('/docs/historical-weather-api')} title="${m.historical_weather_via_api()}">${m.historical_weather_api()}</a>`
+						historical_weather_link: `<a href=${'/en/docs/historical-weather-api'} title="${m.historical_weather_via_api()}">${m.historical_weather_api()}</a>`
 					})}
 				</p>
 				<p>

@@ -8,7 +8,7 @@
 	import type { GeoLocation } from '$lib/stores/settings';
 
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
-	import LocationSearch from '$lib/components/LocationSearch.svelte';
+	import LocationSearch from '$lib/components/location/location-search.svelte';
 
 	import Plus from 'lucide-svelte/icons/plus';
 	import Trash from 'lucide-svelte/icons/trash-2';

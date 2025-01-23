@@ -227,7 +227,7 @@
 
 				<p class="mb-3">
 					{@html m.home_80_years_historical_data_description_part1({
-						historical_weather_link: `<a href=${i18n.route('/docs/historical-weather-api')} title="${m.historical_weather_via_api()}">${m.historical_weather_api()}</a>`
+						historical_weather_link: `<a href=${'/en/docs/historical-weather-api'} title="${m.historical_weather_via_api()}">${m.historical_weather_api()}</a>`
 					})}
 				</p>
 				<p>
@@ -325,10 +325,8 @@
 					href="https://openmeteo.substack.com/subscribe?utm_source=landingpage&simple=true&next=https%3A%2F%2Fopenmeteo.substack.com%2F"
 					title="Newsletter Sign-Up">{m.subscribe_to_the_newsletter()}</Button
 				>
-				<Button
-					variant="outline-grey"
-					href={i18n.route('/features#available-apis')}
-					title="APIs & Features">{m.available_apis()}</Button
+				<Button variant="outline-grey" href={'/en/features#available-apis'} title="APIs & Features"
+					>{m.available_apis()}</Button
 				>
 			</div>
 		</div>

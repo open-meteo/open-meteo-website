@@ -847,27 +847,25 @@
 	</p>
 	<ul>
 		<li>
-			<strong
-				><a href={i18n.route('/docs/historical-weather-api')}>Historical Weather API:</a></strong
-			> This dataset is based on reanalysis weather models, particularly ERA5. It offers data from 1940
-			onwards with reasonable consistency throughout the time series, making it ideal for analyzing weather
-			trends and climate change. The focus here is on consistency rather than pinpoint accuracy, with
-			a spatial resolution ranging from 9 to 25 kilometers.
+			<strong><a href={'/en/docs/historical-weather-api'}>Historical Weather API:</a></strong> This dataset
+			is based on reanalysis weather models, particularly ERA5. It offers data from 1940 onwards with
+			reasonable consistency throughout the time series, making it ideal for analyzing weather trends
+			and climate change. The focus here is on consistency rather than pinpoint accuracy, with a spatial
+			resolution ranging from 9 to 25 kilometers.
 		</li>
 		<li>
-			<strong
-				><a href={i18n.route('/docs/historical-forecast-api')}>Historical Forecast API:</a></strong
-			> This dataset is constructed by continuously assembling weather forecasts, concatenating the first
-			hours of each model update. Initialized with actual measurements, it closely mirrors local measurements
+			<strong><a href={'/en/docs/historical-forecast-api'}>Historical Forecast API:</a></strong> This
+			dataset is constructed by continuously assembling weather forecasts, concatenating the first hours
+			of each model update. Initialized with actual measurements, it closely mirrors local measurements
 			but provides global coverage. However, it only includes data from the past 2-5 years and lacks
 			long-term consistency due to evolving weather models and better initialization data over time.
 		</li>
 		<li>
-			<strong><a href={i18n.route('/docs/previous-runs-api')}>Previous Runs API</a></strong>:
-			Similar to the Historical Forecast API, this dataset archives high-resolution weather models
-			but includes data with a lead time offset of 1, 2, 3, 4, or more days. This makes it ideal for
-			analyzing forecast performance several days into the future. Due to the vast amount of data,
-			only common weather variables are stored, with data processing beginning in early 2024.
+			<strong><a href={'/en//docs/previous-runs-api'}>Previous Runs API</a></strong>: Similar to the
+			Historical Forecast API, this dataset archives high-resolution weather models but includes
+			data with a lead time offset of 1, 2, 3, 4, or more days. This makes it ideal for analyzing
+			forecast performance several days into the future. Due to the vast amount of data, only common
+			weather variables are stored, with data processing beginning in early 2024.
 		</li>
 	</ul>
 	<h4>Choosing the Right Dataset:</h4>

@@ -55,7 +55,7 @@
 				<li>You may only use the free API services for non-commercial purposes.</li>
 				<li>
 					You accept to the CC-BY 4.0 license, as specified in the <a
-						href={i18n.route('/license')}
+						href={'/en/license'}
 						title="Open-Meteo further license details">license conditions</a
 					>.
 				</li>
@@ -134,9 +134,8 @@
 				</li>
 				<li>
 					The data obtained through the API is provided under the terms of the CC-BY 4.0 license, as
-					specified in the <a
-						href={i18n.route('/license')}
-						title="Open-Meteo further license details">license conditions</a
+					specified in the <a href={'/en/license'} title="Open-Meteo further license details"
+						>license conditions</a
 					>.
 				</li>
 			</ul>

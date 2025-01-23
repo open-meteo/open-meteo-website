@@ -25,7 +25,7 @@
 
 <nav class="container flex flex-wrap py-4 md:flex-nowrap">
 	<div class="flex w-full justify-between md:w-[unset]">
-		<Button variant="ghost" class="-ml-3 flex gap-2 px-3 text-lg" href={i18n.route('/')}>
+		<Button variant="ghost" class="-ml-3 flex gap-2 px-3 text-lg" href={'/'}>
 			<Logo width="28" height="28" class="w-4" />
 			Open-meteo
 		</Button>
@@ -54,7 +54,7 @@
 					class="mr-auto px-3"
 					data-text={m.home()}
 					highlight={pathname === '/' ? 'active' : undefined}
-					href={i18n.route('/')}
+					href={'/'}
 					onclick={() => (toggleMenu = false)}>{m.home()}</Button
 				>
 				<Button

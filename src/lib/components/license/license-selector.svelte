@@ -50,7 +50,7 @@
 				<Alert.Root variant="informative">
 					<Alert.Description>
 						Only for <strong>non-commercial use</strong> and less than 10.000 daily API calls. See
-						<a href={i18n.route('/terms')}>Terms</a> for more details.
+						<a href={'/en/terms'}>Terms</a> for more details.
 					</Alert.Description>
 				</Alert.Root>
 			</div>

@@ -167,10 +167,10 @@
 								range of dates more easily. Archived forecasts come from a series of weather model
 								runs over time. You can access forecasts for up to 3 months and continuously
 								archived in the
-								<a href={i18n.route('/docs/historical-forecast-api')}>Historical Forecast API</a>.
-								You can also check out our
-								<a href={i18n.route('/docs/historical-weather-api')}>Historical Weather API</a>,
-								which provides data going all the way back to 1940.
+								<a href={'/en/docs/historical-forecast-api'}>Historical Forecast API</a>. You can
+								also check out our
+								<a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, which
+								provides data going all the way back to 1940.
 							</p>
 						</div>
 					</div>
@@ -715,7 +715,7 @@
 	<!-- <div class="table-responsive">
 		<table class="table">
 			<caption
-				>You can find the update timings in the <a href={i18n.route('/docs/model-updates')}
+				>You can find the update timings in the <a href={'/en/docs/model-updates'}
 					>model updates documentation</a
 				>.</caption
 			>

@@ -478,14 +478,14 @@
 		is a collaboration of multiple European national weather services under the name "United Weather
 		Centres-West" (UWC-West). Forecasts for Europe use 2 km resolution and provide a large range of
 		weather variables. All data is updated every 3 hours and provides forecast for up to 2.5 days.
-		After 2.5 days, Open-Meteo combines forecasts with the <a href={i18n.route('/docs/ecmwf-api')}
+		After 2.5 days, Open-Meteo combines forecasts with the <a href={'/en/docs/ecmwf-api'}
 			>ECMWF IFS 0.25° model</a
 		> to provide up to 10 days of forecast.
 	</p>
 	<div class="table-responsive">
 		<table class="table">
 			<caption
-				>You can find the update timings in the <a href={i18n.route('/docs/model-updates')}
+				>You can find the update timings in the <a href={'/en/docs/model-updates'}
 					>model updates documentation</a
 				>.</caption
 			>

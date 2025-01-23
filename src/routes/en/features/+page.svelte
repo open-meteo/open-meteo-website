@@ -1,12 +1,17 @@
 <script lang="ts">
 	import Zap from 'lucide-svelte/icons/zap';
+	import Gauge from 'lucide-svelte/icons/gauge';
 	import Watch from 'lucide-svelte/icons/watch';
 	import Waves from 'lucide-svelte/icons/waves';
 	import Archive from 'lucide-svelte/icons/archive';
 	import Mountain from 'lucide-svelte/icons/mountain';
+	import Lightbulb from 'lucide-svelte/icons/lightbulb';
+	import FileCheck from 'lucide-svelte/icons/file-check';
 	import MapPinned from 'lucide-svelte/icons/map-pinned';
 
-	import { i18n } from '$lib/i18n';
+	import Mailbox from '$lib/assets/icons/mailbox.svelte';
+
+	import Button from '$lib/components/ui/button/button.svelte';
 </script>
 
 <svelte:head>
@@ -110,9 +115,9 @@
 				<h3 class="pl-3 text-2xl">80 Years Historical Data</h3>
 			</div>
 			<p class="mb-3">
-				With our <a href={i18n.route('/docs/historical-weather-api')}>Historical Weather API</a>,
-				you have access to over 80 years of hourly weather data, covering any location on earth, all
-				at a 10-kilometer resolution. This extensive dataset allows you to delve into the past and
+				With our <a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, you have
+				access to over 80 years of hourly weather data, covering any location on earth, all at a
+				10-kilometer resolution. This extensive dataset allows you to delve into the past and
 				analyze historical weather patterns.
 			</p>
 			<p>
@@ -244,14 +249,14 @@
 				<div>
 					<h3 class="text-3xl font-bold">Ensemble Models API</h3>
 					<h4 class="mb-3 text-xl font-light">Harness the Power of Many!</h4>
-					<!-- <p class="mb-3">
+					<p class="mb-3">
 						Why settle for a single weather forecast when you can tap into the collective wisdom of
 						over 200 individual forecasts? With our <a
 							href="/en/docs/ensemble-api"
 							title="Ensemble Forecast API Documentation">Ensemble Models API</a
 						>, you can access a wealth of weather predictions and estimate the likelihood of
-						different outcomes for the next 4 weeks. 
-					</p>-->
+						different outcomes for the next 4 weeks.
+					</p>
 					<p class="mb-3">
 						Experience the ultimate forecasting accuracy with our API, which combines the insights
 						of 7 different ensemble models from renowned institutes. With just one API call, you
@@ -270,13 +275,13 @@
 				<div>
 					<h3 class="text-3xl font-bold">Climate Change API</h3>
 					<h4 class="mb-3 text-xl font-light">Explore the Future of Your Region!</h4>
-					<!-- <p class="mb-3">
+					<p class="mb-3">
 						Curious about the impact of climate change on your area? Our <a
 							href="/en/docs/climate-api"
 							title="Climate Change API Documentation">Climate Change API</a
 						> provides valuable insights by delivering downscaled IPCC climate predictions specifically
 						tailored to a 10 km resolution, going beyond the limitations of continental-scale data.
-					</p> -->
+					</p>
 					<p>
 						Harness the power of high-resolution IPCC climate models, carefully downscaled and
 						statistically corrected to provide accurate forecasts at a local level. With this API,
@@ -290,7 +295,7 @@
 				<div>
 					<h3 class="text-3xl font-bold">Marine, Air Quality, and Floods</h3>
 					<h4 class="mb-3 text-xl font-light">Comprehensive Environmental Analysis!</h4>
-					<!-- <p class="mb-3">
+					<p class="mb-3">
 						Dive into the world of marine weather with our <a
 							href="/en/docs/marine-weather-api"
 							title="Marine Weather API Documentation">Marine Weather API</a
@@ -312,14 +317,14 @@
 						>. Access ensemble flood forecasts that estimate the volume of water discharged by
 						rivers worldwide. This invaluable information allows for the prediction of potential
 						flood events and aids in proactive measures for flood preparedness.
-					</p> -->
+					</p>
 				</div>
 			</div>
 			<div>
 				<div>
 					<h3 class="text-3xl font-bold">Geocoding, and Elevation</h3>
 					<h4 class="mb-3 text-xl font-light">Disclose Location Insights!</h4>
-					<!-- <p class="mb-3">
+					<p class="mb-3">
 						Discover any city or town worldwide with our <a
 							href="/en/docs/geocoding-api"
 							title="Geocoding API Documentation">Geocoding API</a
@@ -333,8 +338,106 @@
 						> to unlock the power of elevation data. Resolve any set of coordinates to their corresponding
 						elevation using our digital elevation model with impressive resolution, up to 90 meters.
 						Enhance your understanding of terrain and elevation variations for various geographic points.
-					</p> -->
+					</p>
 				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+		<div class="">
+			<div class="mb-3 flex items-center">
+				<div
+					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+				>
+					<div
+						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
+					></div>
+					<Gauge size="34" strokeWidth={1.2} />
+				</div>
+
+				<h3 class="pl-3 text-2xl">Lightning Fast APIs</h3>
+			</div>
+			<p class="mb-3">
+				Open-Meteo has designed its APIs to deliver lightning-fast performance and scalability.
+				Weather data is stored on high-speed NVMe disks in optimized time-series formats. API
+				requests typically have a response time of under 10 milliseconds.
+			</p>
+			<p class="mb-3">
+				To ensure reliability and low latency, Open-Meteo operates servers in Europe and North
+				America. Additionally, we offer the flexibility to add API servers to local points of
+				presence in any cloud provider or hosting center. If performance is crucial for your needs,
+				feel free to reach out to us.
+			</p>
+		</div>
+		<div class="">
+			<div class="mb-3 flex items-center">
+				<div
+					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+				>
+					<div
+						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
+					></div>
+					<Lightbulb size="34" strokeWidth={1.2} />
+				</div>
+
+				<h3 class="pl-3 text-2xl">User-Friendly APIs</h3>
+			</div>
+
+			<p class="mb-3">
+				Our JSON-based APIs are incredibly easy to use. All you need is a basic understanding of
+				geographic coordinates (e.g., <mark>52.52°N 13.405°E</mark> for Berlin), how to make HTTP requests,
+				and work with JSON data.
+			</p>
+			<p class="mb-3">
+				We provide <a href="/en/docs">comprehensive API documentation</a> with detailed explanations
+				and all the necessary parameters, making it simple for you to integrate our APIs into your projects.
+			</p>
+		</div>
+		<div class="">
+			<div class="mb-3 flex items-center">
+				<div
+					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+				>
+					<div
+						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
+					></div>
+					<FileCheck size="34" strokeWidth={1.2} />
+				</div>
+
+				<h3 class="pl-3 text-2xl">Reliable APIs</h3>
+			</div>
+			<p class="mb-3">
+				We understand the importance of API stability. Rest assured, we are committed to maintaining
+				the stability of our APIs. Any modifications will adhere to semantic versioning, and
+				breaking changes will be introduced as new major versions.
+			</p>
+			<p class="mb-3">
+				To keep you informed, all API changes will be documented and logged in our GitHub
+				repository. This ensures transparency and allows you to stay updated on any modifications
+				made to our APIs.
+			</p>
+		</div>
+	</div>
+
+	<div class="my-12 mb-24 flex flex-col items-center justify-center">
+		<Mailbox width="72" height="72" shadow={false} />
+		<h2 class="my-4 text-4xl font-bold" id="contact">Next steps</h2>
+		<div class="text-center">
+			<p class="lead mb-4">
+				Our <a href="/en/docs">documentation</a> provides a good start to help you integrate weather
+				forecast into you application. For commercial applications, we recommend exploring our
+				<a href="/en/pricing" title="API Subscription Plans">API subscriptions</a>. Should you
+				require any assistance, have suggestions for improvements, or need to report a bug, we
+				encourage you to reach out to us through our
+				<a href="https://github.com/open-meteo/open-meteo" title="GitHub Repository" target="_blank"
+					>GitHub repository</a
+				>. Alternatively, you can also contact us directly via email. We're here to support you
+				every step of the way.
+			</p>
+			<div class="mt-4 flex justify-center gap-4">
+				<Button href={'/en/pricing'} title="Newsletter Sign-Up">API Pricing</Button>
+				<Button variant="outline-grey" href="mailto:info@open-meteo.com">Email us</Button>
 			</div>
 		</div>
 	</div>
