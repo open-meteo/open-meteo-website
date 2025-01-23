@@ -10,8 +10,6 @@
 
 	import Github from 'simple-icons/icons/github.svg?raw';
 
-	import { i18n } from '$lib/i18n';
-
 	import * as m from '$lib/paraglide/messages.js';
 
 	import Mailbox from '$lib/assets/icons/mailbox.svelte';
