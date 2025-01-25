@@ -198,9 +198,7 @@
 								onclick={() => ($theme = 'light')}
 							>
 								<SunFill class="bi me-2 opacity-50 theme-icon" />
-								<!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>-->
 								Light
-								<!--<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
 							</button>
 						</li>
 						<li>
@@ -213,7 +211,6 @@
 							>
 								<MoonStarsFill class="bi me-2 opacity-50 theme-icon" />
 								Dark
-								<!-- <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
 							</button>
 						</li>
 						<li>
@@ -225,9 +222,7 @@
 								onclick={() => ($theme = 'auto')}
 							>
 								<CircleHalf class="bi me-2 opacity-50 theme-icon" />
-								<!--<svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>-->
 								Auto
-								<!--<svg class="bi ms-auto d-none"><use href="#check2"></use></svg>-->
 							</button>
 						</li>
 					</ul>
