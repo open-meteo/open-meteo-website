@@ -602,7 +602,7 @@
 	let mode = $state('chart');
 </script>
 
-<h2 id="api-response" class="mt-6 text-2xl">API Response</h2>
+<h2 id="api-response" class="mb-2 mt-6 text-2xl">API Response</h2>
 
 <div class="">
 	<div>

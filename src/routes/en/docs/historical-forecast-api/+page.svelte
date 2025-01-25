@@ -4,8 +4,6 @@
 
 	import * as Alert from '$lib/components/ui/alert';
 
-	import { i18n } from '$lib/i18n';
-
 	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,

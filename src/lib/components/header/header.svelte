@@ -1,22 +1,18 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import { dev } from '$app/environment';
 
-	import { i18n } from '$lib/i18n';
 	import Logo from '$lib/assets/icons/sun.svelte';
-	import * as m from '$lib/paraglide/messages.js';
 
 	import Menu from 'lucide-svelte/icons/menu';
 	import Cross from 'lucide-svelte/icons/x';
 
-	import Github from 'simple-icons/icons/github.svg?raw';
 	import X from 'simple-icons/icons/x.svg?raw';
+	import Github from 'simple-icons/icons/github.svg?raw';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Toggle from '$lib/components/ui/toggle/toggle.svelte';
 
 	import DarkmodeToggle from './darkmode-toggle/darkmode-toggle.svelte';
-	// import LocaleToggle from './locale-toggle/locale-toggle.svelte';
 
 	let { pathname } = $props();
 
@@ -26,7 +22,7 @@
 <nav class="container flex flex-wrap py-4 md:flex-nowrap">
 	<div class="flex w-full justify-between md:w-[unset]">
 		<Button variant="ghost" class="-ml-3 flex gap-2 px-3 text-lg" href={'/'}>
-			<Logo width="28" height="28" class="w-4" />
+			<Logo width="28" height="28" />
 			Open-meteo
 		</Button>
 		<Toggle class="relative px-5 md:hidden" bind:pressed={toggleMenu} variant="outline">
@@ -52,34 +48,34 @@
 				<Button
 					variant="ghost"
 					class="mr-auto px-3"
-					data-text={m.home()}
+					data-text="Home"
 					highlight={pathname === '/' ? 'active' : undefined}
 					href={'/'}
-					onclick={() => (toggleMenu = false)}>{m.home()}</Button
+					onclick={() => (toggleMenu = false)}>Home</Button
 				>
 				<Button
 					variant="ghost"
 					class="mr-auto px-3"
-					data-text={m.features()}
-					highlight={pathname === '/features' ? 'active' : undefined}
+					data-text="Features"
+					highlight={pathname === '/en/features' ? 'active' : undefined}
 					href={'/en/features'}
-					onclick={() => (toggleMenu = false)}>{m.features()}</Button
+					onclick={() => (toggleMenu = false)}>Features</Button
 				>
 				<Button
 					variant="ghost"
 					class="mr-auto px-3"
-					data-text={m.pricing()}
-					highlight={pathname === '/pricing' ? 'active' : undefined}
+					data-text="Pricing"
+					highlight={pathname === '/en/pricing' ? 'active' : undefined}
 					href={'/en/pricing'}
-					onclick={() => (toggleMenu = false)}>{m.pricing()}</Button
+					onclick={() => (toggleMenu = false)}>Pricing</Button
 				>
 				<Button
 					variant="ghost"
 					class="mr-auto px-3"
-					data-text={m.docs()}
-					highlight={pathname === '/docs' ? 'active' : undefined}
+					data-text="API Docs"
+					highlight={pathname.startsWith('/en/docs') ? 'active' : undefined}
 					href={'/en/docs'}
-					onclick={() => (toggleMenu = false)}>{m.docs()}</Button
+					onclick={() => (toggleMenu = false)}>API Docs</Button
 				>
 				<hr class="mb-4 ml-3 mt-2" />
 			</div>

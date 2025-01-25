@@ -4,22 +4,22 @@ export const trailingSlash = 'never';
 
 import type { LayoutLoad } from './$types';
 
-import { i18n } from '$lib/i18n';
-
-import * as m from '$lib/paraglide/messages.js';
+import Sun from '$lib/assets/icons/sun.svelte';
 
 export const load: LayoutLoad = async (event) => {
 	const { pathname } = event.url;
 
 	return {
 		pathname,
+		Logo: Sun,
 		heroImage: '/images/convective_clouds.webp',
 		heroHeight: 600,
-		heroTitle: m.home_hero_title(),
-		heroDescription: m.home_hero_description(),
+		heroTitle: 'Free Weather API',
+		heroDescription:
+			'Open-Meteo is an open-source weather API and offers free access for non-commercial use. No API key required. Start using it now!',
 		heroPrimaryButtonPath: '/en/features',
-		heroPrimaryButtonText: m.features(),
+		heroPrimaryButtonText: 'Features',
 		heroSecondaryButtonPath: '/en/docs',
-		heroSecondaryButtonText: m.try_api()
+		heroSecondaryButtonText: 'Try the API here'
 	};
 };

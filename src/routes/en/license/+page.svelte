@@ -32,14 +32,14 @@
 			d="M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 0 1-.948-.316l1-3a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 1 1-.948-.316l1-3a.5.5 0 0 1 .632-.317zm.247-6.998a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973zM8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4.002 4.002 0 0 1 8.5 2z"
 		/>
 	</svg>
-	<h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">License</h1>
-	<div class="col-lg-6 mx-auto"></div>
+	<h1 class=" " style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">License</h1>
+	<div class="  mx-auto"></div>
 </div>
 
-<div class="col-xxl-8 container px-4 py-5">
-	<div class="row flex-lg-row align-items-top g-5 py-5">
-		<div class="col-lg-6">
-			<h2 class="display-5 lh-1 mb-3">Data Sources</h2>
+<div class="  container px-4 py-5">
+	<div class="row py-5">
+		<div class=" ">
+			<h2 class="    mb-3">Data Sources</h2>
 			<p>Open-Meteo utilizes open-data from various national weather service including:</p>
 			<ul>
 				<li>
@@ -191,8 +191,8 @@
 				</li>
 			</ul>
 		</div>
-		<div class="col-lg-6">
-			<h2 class="display-5 lh-1 mb-3">License</h2>
+		<div class=" ">
+			<h2 class="    mb-3">License</h2>
 			<p class="lead">
 				API data are offered under <a
 					href="https://creativecommons.org/licenses/by/4.0/"
@@ -230,7 +230,7 @@
 		</div>
 
 		<div class="col-lg-12">
-			<h2 class="display-5 lh-1 mb-3">Citation</h2>
+			<h2 class="    mb-3">Citation</h2>
 			<p>
 				We encourage researchers in the field of meteorology and related disciplines to cite
 				Open-Meteo in their work. By acknowledging Open-Meteo as the source of weather data and

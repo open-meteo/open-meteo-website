@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import { i18n } from '$lib/i18n';
-
 	import { api_key_preferences } from '$lib/stores/settings';
 
+	import Input from '../ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
 	import * as Alert from '$lib/components/ui/alert';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
@@ -55,57 +55,50 @@
 				</Alert.Root>
 			</div>
 		{:else if licenseSelected === 'commercial'}
-			<div in:fade id="commercial" role="tabpanel" aria-labelledby="commercial-tab" tabindex="0">
-				<div class="row">
-					<div class=" ">
-						<div class=" ">
-							<input
-								type="text"
-								class="form-control"
-								name="apikey"
-								id="apikey"
-								bind:value={$api_key_preferences.apikey}
-								required
-							/>
-							<label for="apikey">API Key</label>
-						</div>
-					</div>
-					<div class="col-md-9">
-						<div class="alert alert-info" role="alert">
+			<div in:fade class="flex gap-3">
+				<div class="relative flex md:w-1/3">
+					<Input
+						class="h-13 pt-6"
+						type="text"
+						name="apikey"
+						id="apikey"
+						bind:value={$api_key_preferences.apikey}
+						required
+					/>
+					<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1" for="apikey"
+						>API Key</Label
+					>
+				</div>
+				<div class="md:w-2/3">
+					<Alert.Root variant="informative">
+						<Alert.Description>
 							See <a href={'/en/pricing'}>Pricing</a> for more details.{#if requires_professional_plan}
 								This API requires the <mark>Professional</mark> subscription.{/if}
-						</div>
-					</div>
+						</Alert.Description>
+					</Alert.Root>
 				</div>
 			</div>
 		{:else if licenseSelected === 'self_hosted'}
-			<div
-				class="tab-pane active"
-				in:fade
-				id="pills-self_hosted"
-				role="tabpanel"
-				aria-labelledby="pills-self_hosted-tab"
-				tabindex="0"
-			>
-				<div class="row">
-					<div class=" ">
-						<div class=" ">
-							<input
-								type="text"
-								class="form-control"
-								name="self_host_server"
-								id="self_host_server"
-								bind:value={$api_key_preferences.self_host_server}
-							/>
-							<label for="self_host_server">Server URL</label>
-						</div>
-					</div>
-					<div class="col-md-9">
-						<div class="alert alert-info" role="alert">
+			<div in:fade class="flex gap-3">
+				<div class="relative flex md:w-1/3">
+					<Input
+						class="h-13 pt-6"
+						type="text"
+						name="self_host_server"
+						id="self_host_server"
+						bind:value={$api_key_preferences.self_host_server}
+					/>
+					<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1" for="apikey"
+						>Server URL</Label
+					>
+				</div>
+				<div class="md:w-2/3">
+					<Alert.Root variant="informative">
+						<Alert.Description>
 							See <a href="https://github.com/open-meteo/open-meteo">GitHub</a> for more instructions.
 							Make sure your node supports HTTPS.
-						</div>
-					</div>
+						</Alert.Description>
+					</Alert.Root>
 				</div>
 			</div>
 		{/if}

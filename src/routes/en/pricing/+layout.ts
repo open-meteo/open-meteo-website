@@ -1,18 +1,17 @@
 import type { LayoutLoad } from './$types';
 
-import { i18n } from '$lib/i18n';
-
-import * as m from '$lib/paraglide/messages.js';
+import Snow from '$lib/assets/icons/snow.svelte';
 
 export const load = (() => {
 	return {
+		Logo: Snow,
 		heroImage: '/images/snowy.webp',
 		heroHeight: 500,
-		heroTitle: m.pricing(),
-		heroDescription: m.pricing_description(),
+		heroTitle: 'Pricing',
+		heroDescription: 'Commercial use license, support and dedicated API capacity',
 		heroPrimaryButtonPath: '#plans',
-		heroPrimaryButtonText: m.plans(),
+		heroPrimaryButtonText: 'API Plans',
 		heroSecondaryButtonPath: '/en/docs',
-		heroSecondaryButtonText: m.docs()
+		heroSecondaryButtonText: 'API Docs'
 	};
 }) satisfies LayoutLoad;

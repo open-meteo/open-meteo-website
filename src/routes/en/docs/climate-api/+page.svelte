@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { dev } from '$app/environment';
 
-	import { i18n } from '$lib/i18n';
-
 	import { countVariables } from '$lib/utils/meteo';
 	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import AccordionItem from '$lib/components/AccordionItem.svelte';

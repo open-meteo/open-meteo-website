@@ -176,15 +176,7 @@
 <Button variant="ghost" onclick={openModal}><Search size={20} class="mr-1" /> {label}</Button>
 
 {#if modalOpen}
-	<div
-		class="modal d-block show"
-		id="locationSearchModal"
-		tabindex="-1"
-		role="dialog"
-		aria-labelledby="locationSearchModalLabel"
-		aria-hidden={false}
-		on:click|self={closeModal}
-	>
+	<div on:click|self={closeModal}>
 		<div
 			class="modal-dialog"
 			role="document"

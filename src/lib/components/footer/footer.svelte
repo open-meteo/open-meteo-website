@@ -1,31 +1,22 @@
-<script lang="ts">
-	import { i18n } from '$lib/i18n';
-
-	import * as m from '$lib/paraglide/messages.js';
-</script>
-
 <footer class="container pb-16 pt-5">
 	<div class="flex flex-wrap justify-between gap-5">
 		<div class="col-6 col-md">
 			<a href={'/'} class="text-lg font-bold">Open-Meteo</a>
 			<ul class="list-unstyled text-small">
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/features'}>{m.features()}</a>
+					<a class="text-secondary-foreground" href={'/en/features'}>Features</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/pricing'}>{m.pricing()}</a>
+					<a class="text-secondary-foreground" href={'/en/pricing'}>Pricing</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/about'}
-						>{m.about_us()} &amp; {m.contact()}</a
-					>
+					<a class="text-secondary-foreground" href={'/en/about'}>About us &amp; Contact</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/license'}>{m.license()}</a>
+					<a class="text-secondary-foreground" href={'/en/license'}>License</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/terms'}>{m.terms()} &amp; {m.privacy()}</a
-					>
+					<a class="text-secondary-foreground" href={'/en/terms'}>Terms &amp; Privacy</a>
 				</li>
 			</ul>
 		</div>
@@ -33,11 +24,11 @@
 			<a href={'/en/docs'} class="text-lg font-bold">Weather APIs</a>
 			<ul class="list-unstyled text-small">
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs'}>{m.weather_forecast_api()}</a>
+					<a class="text-secondary-foreground" href={'/en/docs'}>Weather Forecast API</a>
 				</li>
 				<li class="mb-1">
 					<a class="text-secondary-foreground" href={'/en/docs/historical-weather-api'}
-						>{m.historical_weather_api()}</a
+						>Historical Weather API</a
 					>
 				</li>
 				<li class="mb-1">

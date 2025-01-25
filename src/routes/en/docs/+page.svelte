@@ -3,8 +3,6 @@
 
 	import { fade, slide } from 'svelte/transition';
 
-	import { i18n } from '$lib/i18n';
-
 	import { urlHashStore } from '$lib/utils/url-hash-store';
 
 	import {
@@ -59,6 +57,21 @@
 	timeModeSelected.subscribe((newTab) => {
 		$params.time_mode = newTab;
 	});
+
+	const forecastDaysOptions = [
+		{ value: 1, label: '1 day' },
+		{ value: 3, label: '3 days' },
+		{ value: 7, label: '7 days (default)' },
+		{ value: 14, label: '14 days' },
+		{ value: 16, label: '17 days' }
+	];
+
+	let forecastDays = $state(
+		forecastDaysOptions.find((fco) => String(fco.value) == $params.forecast_days)
+	);
+	$effect(() => {
+		$params.forecast_days = forecastDays.value;
+	});
 </script>
 
 <svelte:head>
@@ -73,9 +86,9 @@
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<LocationSelection bind:params={$params} />
 
-	<div class="">
+	<div class="mt-6">
 		<ToggleGroup.Root type="single" bind:value={$timeModeSelected} class="mt-2 justify-start gap-0">
-			{$params.time_mode}
+			<b class="mr-2">{$params.time_mode}</b>
 			Time:
 			<ToggleGroup.Item
 				value="forecast_days"
@@ -94,51 +107,50 @@
 		</ToggleGroup.Root>
 		<div class="mt-3">
 			{#if $params.time_mode == 'forecast_days'}
-				<div in:fade class="flex flex-col md:flex-row">
-					<div class="relative pr-2 md:w-1/4">
-						<Select.Root
-							name="forecast_days"
-							id="forecast_days"
-							bind:selected={$params.forecast_days}
-						>
-							<Select.Trigger class="h-12 pt-6">
-								<Select.Value />
-							</Select.Trigger>
-							<Select.Content>
-								<Select.Item value="1">1 day</Select.Item>
-								<Select.Item value="3">3 days</Select.Item>
-								<Select.Item value="7">7 days (default)</Select.Item>
-								<Select.Item value="14">14 days</Select.Item>
-								<Select.Item value="16">16 days</Select.Item>
-							</Select.Content>
-							<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
-								>Forecast days</Label
-							>
-						</Select.Root>
+				<div in:fade class="flex flex-col gap-4 md:flex-row">
+					<div class="flex gap-4 md:w-1/2">
+						<div class="relative md:w-1/2">
+							<Select.Root name="forecast_days" bind:selected={forecastDays}>
+								<Select.Trigger class="h-12 pt-6">
+									<Select.Value />
+								</Select.Trigger>
+								<Select.Content>
+									<Select.Item value="1">1 day</Select.Item>
+									<Select.Item value="3">3 days</Select.Item>
+									<Select.Item value="7">7 days (default)</Select.Item>
+									<Select.Item value="14">14 days</Select.Item>
+									<Select.Item value="16">16 days</Select.Item>
+								</Select.Content>
+								<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+									>Forecast days</Label
+								>
+							</Select.Root>
+						</div>
+						<div class="relative md:w-1/2">
+							<Select.Root name="past_days" id="past_days" bind:selected={$params.past_days}>
+								<Select.Trigger class="h-12 pt-6">
+									<Select.Value />
+								</Select.Trigger>
+								<Select.Content>
+									<Select.Item value="0">0 (default)</Select.Item>
+									<Select.Item value="1">1</Select.Item>
+									<Select.Item value="2">2</Select.Item>
+									<Select.Item value="3">3</Select.Item>
+									<Select.Item value="5">5</Select.Item>
+									<Select.Item value="7">1 week</Select.Item>
+									<Select.Item value="14">2 weeks</Select.Item>
+									<Select.Item value="31">1 month</Select.Item>
+									<Select.Item value="61">2 months</Select.Item>
+									<Select.Item value="92">3 months</Select.Item>
+								</Select.Content>
+								<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1">
+									Past days</Label
+								>
+							</Select.Root>
+						</div>
 					</div>
-					<div class="relative md:w-1/4">
-						<Select.Root name="past_days" id="past_days" bind:selected={$params.past_days}>
-							<Select.Trigger class="h-12 pt-6">
-								<Select.Value />
-							</Select.Trigger>
-							<Select.Content>
-								<Select.Item value="0">0 (default)</Select.Item>
-								<Select.Item value="1">1</Select.Item>
-								<Select.Item value="2">2</Select.Item>
-								<Select.Item value="3">3</Select.Item>
-								<Select.Item value="5">5</Select.Item>
-								<Select.Item value="7">1 week</Select.Item>
-								<Select.Item value="14">2 weeks</Select.Item>
-								<Select.Item value="31">1 month</Select.Item>
-								<Select.Item value="61">2 months</Select.Item>
-								<Select.Item value="92">3 months</Select.Item>
-							</Select.Content>
-							<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1">
-								Past days</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="pl-2 md:w-1/2">
+
+					<div class="md:w-1/2">
 						<p>
 							By default, we provide forecasts for 7 days, but you can access forecasts for up to 16
 							days. If you're interested in past weather data, you can use the <mark>Past Days</mark
@@ -149,30 +161,20 @@
 				</div>
 			{/if}
 			{#if $params.time_mode == 'time_interval'}
-				<div
-					class="tab-pane active"
-					in:fade
-					id="pills-time_interval"
-					role="tabpanel"
-					aria-labelledby="pills-time_interval-tab"
-					tabindex="0"
-				>
-					<div class="row">
-						<div class="  mb-3">
-							<DatePicker bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
-						</div>
-						<div class=" ">
-							<p>
-								The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a
-								range of dates more easily. Archived forecasts come from a series of weather model
-								runs over time. You can access forecasts for up to 3 months and continuously
-								archived in the
-								<a href={'/en/docs/historical-forecast-api'}>Historical Forecast API</a>. You can
-								also check out our
-								<a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, which
-								provides data going all the way back to 1940.
-							</p>
-						</div>
+				<div in:fade class="flex gap-4">
+					<div class="mb-3 md:w-1/2">
+						<DatePicker bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
+					</div>
+					<div class="mb-3 md:w-1/2">
+						<p>
+							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
+							of dates more easily. Archived forecasts come from a series of weather model runs over
+							time. You can access forecasts for up to 3 months and continuously archived in the
+							<a href={'/en/docs/historical-forecast-api'}>Historical Forecast API</a>. You can also
+							check out our
+							<a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, which provides
+							data going all the way back to 1940.
+						</p>
 					</div>
 				</div>
 			{/if}
@@ -181,7 +183,7 @@
 
 	<div class="mt-8">
 		<h2 class="text-2xl">Hourly Weather Variables</h2>
-		<div class="mt-3 flex gap-2">
+		<div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 			{#each hourly as group}
 				<div class="">
 					{#each group as e}
@@ -568,14 +570,13 @@
 		</div>
 	</div>
 
-	<div class=" ">
-		<h2>Daily Weather Variables</h2>
-		{#each daily as group}
-			<div class=" ">
+	<div class="mt-3">
+		<h2 class="text-2xl">Daily Weather Variables</h2>
+		<div class="mt-2 grid grid-cols-4">
+			{#each daily as group}
 				{#each group as e}
-					<div class="form-check">
+					<div>
 						<input
-							class="form-check-input"
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_daily"
@@ -585,8 +586,8 @@
 						<label class="form-check-label" for="{e.name}_daily">{e.label}</label>
 					</div>
 				{/each}
-			</div>
-		{/each}
+			{/each}
+		</div>
 		{#if timezoneInvalid}
 			<div class="alert alert-warning" role="alert">
 				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
@@ -594,12 +595,12 @@
 		{/if}
 	</div>
 
-	<div class=" ">
-		<h2>Current Weather</h2>
-		{#each current as group}
-			<div class="  mb-2">
+	<div class="mt-3">
+		<h2 class="text-2xl">Current Weather</h2>
+		<div class="mt-2 grid grid-cols-4">
+			{#each current as group}
 				{#each group as e}
-					<div class="form-check">
+					<div>
 						<input
 							class="form-check-input"
 							type="checkbox"
@@ -611,8 +612,8 @@
 						<label class="form-check-label" for="{e.name}_current">{e.label}</label>
 					</div>
 				{/each}
-			</div>
-		{/each}
+			{/each}
+		</div>
 		<div class=" ">
 			<small class="text-muted-foreground"
 				>Note: Current conditions are based on 15-minutely weather model data. Every weather

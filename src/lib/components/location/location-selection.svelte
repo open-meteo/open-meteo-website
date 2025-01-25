@@ -48,7 +48,7 @@
 <h2 class="text-2xl">Location and Time</h2>
 
 <ToggleGroup.Root type="single" bind:value={$locationTabSelected} class="mt-2 justify-start gap-0">
-	{params.location_mode}
+	<b class="mr-2">{params.location_mode}</b>
 	Location:
 	<ToggleGroup.Item
 		value="location_search"
@@ -68,9 +68,9 @@
 
 <div class="mt-4">
 	{#if params.location_mode == 'location_search'}
-		<div class="" in:fade>
+		<div class="flex flex-col gap-3" in:fade>
 			{#each params.latitude as _, index}
-				<div class="flex flex-col items-center justify-between gap-6 md:flex-row">
+				<div class="flex flex-col justify-between gap-6 md:flex-row md:items-center">
 					<div class="relative flex items-center gap-2 md:w-1/4">
 						<!-- class:is-invalid={params.latitude[index] < -90 || params.latitude[index] > 90}-->
 						<Input
@@ -116,8 +116,9 @@
 							</div>
 						{/if}
 					</div>
-					<div class="flex w-1/4 items-center gap-2">
-						<Select.Root name="timezone" id="timezone" selected={'UTC'}>
+					<div class="flex items-center gap-2 md:w-1/4">
+						<!-- TODO: BIND-->
+						<Select.Root name="timezone" selected={{ value: 'UTC', label: 'Not set (GMT+0)' }}>
 							<Select.Trigger>
 								<Select.Value />
 							</Select.Trigger>
@@ -173,11 +174,11 @@
 	{#if params.location_mode == 'csv_coordinates'}
 		<div class="" in:fade>
 			<div class="flex flex-col gap-6 md:flex-row">
-				<div class="w-1/2">
+				<div class="md:w-1/2">
 					<textarea class="w-full rounded-md border" bind:value={params.csv_coordinates} rows="5"
 					></textarea>
 				</div>
-				<div class="w-1/2">
+				<div class="md:w-1/2">
 					<p>
 						You can provide multiple coordinates. One per line and separated by commas. For each
 						location, you can also set a time period if needed. Format: latitude, longitude,

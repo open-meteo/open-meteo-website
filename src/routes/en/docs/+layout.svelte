@@ -2,7 +2,6 @@
 	import { page } from '$app/state';
 	import { dev } from '$app/environment';
 
-	import { i18n } from '$lib/i18n';
 	import { languageTag } from '$lib/paraglide/runtime.js';
 
 	import Logo from '$lib/assets/icons/cog.svelte';

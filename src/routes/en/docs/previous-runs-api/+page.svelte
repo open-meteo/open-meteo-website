@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { i18n } from '$lib/i18n';
-
 	import * as Alert from '$lib/components/ui/alert';
 
 	import { urlHashStore } from '$lib/utils/url-hash-store';

@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { i18n } from '$lib/i18n';
-
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/utils/url-hash-store';
@@ -84,7 +82,7 @@
 <form method="get" class="mt-3" action="https://archive-api.open-meteo.com/v1/archive">
 	<LocationSelection bind:params={$params} />
 
-	<div class="mt-6 flex">
+	<div class="mt-6 flex gap-4">
 		<div class="md:w-1/2">
 			<DatePicker
 				bind:start_date={$params.start_date}

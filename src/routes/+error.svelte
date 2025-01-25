@@ -3,8 +3,6 @@
 
 	import { page } from '$app/state';
 
-	import { i18n } from '$lib/i18n';
-
 	import * as m from '$lib/paraglide/messages.js';
 
 	import Logo from '$lib/assets/icons/rain.svelte';

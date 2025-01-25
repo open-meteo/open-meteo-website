@@ -5,9 +5,8 @@
 
 	import Button from '$lib/components/ui/button/button.svelte';
 
-	import Logo from '$lib/assets/icons/sun.svelte';
-
 	interface Props {
+		Logo: import('svelte').Snippet;
 		heroImage: string;
 		heroTitle: string;
 		heroHeight: number;
@@ -20,6 +19,7 @@
 	}
 
 	let {
+		Logo,
 		heroImage,
 		heroHeight,
 		heroTitle,
@@ -32,7 +32,7 @@
 	}: Props = $props();
 </script>
 
-<!-- max-h-[400px] min-h-[400px] max-h-[500px] min-h-[500px] max-h-[600px] min-h-[600px] -->
+<!-- max-h-[300px] min-h-[300px] max-h-[400px] min-h-[400px] max-h-[500px] min-h-[500px] max-h-[600px] min-h-[600px] -->
 <div class=" max-h-[{heroHeight}px] min-h-[{heroHeight}px] flex items-center">
 	<div
 		class="absolute top-[72px] -z-10 h-full w-full duration-200"

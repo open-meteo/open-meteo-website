@@ -52,10 +52,10 @@
 		bind:value={time_interval}
 	>
 		<svelte:fragment slot="inputs" let:displayValue let:onInputFocus let:onInputBlur let:onKeyDown>
-			<div class="flex flex-col gap-2 md:flex-row">
-				<div class="relative flex">
+			<div class="flex flex-col gap-4 md:flex-row">
+				<div class="relative flex md:w-1/2">
 					<Input
-						class="h-12 pt-6"
+						class="h-13 pt-6"
 						type="text"
 						name="start_date"
 						id="start_date"
@@ -71,9 +71,9 @@
 					>
 				</div>
 
-				<div class="relative flex flex-row">
+				<div class="relative flex flex-row md:w-1/2">
 					<Input
-						class="h-12 pt-6"
+						class="h-13 pt-6"
 						type="text"
 						name="end_date"
 						id="end_date"

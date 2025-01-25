@@ -4,10 +4,10 @@
 	import Watch from 'lucide-svelte/icons/watch';
 	import Waves from 'lucide-svelte/icons/waves';
 	import Archive from 'lucide-svelte/icons/archive';
-	import Mountain from 'lucide-svelte/icons/mountain';
 	import Lightbulb from 'lucide-svelte/icons/lightbulb';
 	import FileCheck from 'lucide-svelte/icons/file-check';
 	import MapPinned from 'lucide-svelte/icons/map-pinned';
+	import MountainSnow from 'lucide-svelte/icons/mountain-snow';
 
 	import Mailbox from '$lib/assets/icons/mailbox.svelte';
 
@@ -23,8 +23,8 @@
 	/>
 </svelte:head>
 
-<div class="container mt-16">
-	<div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
+<div class="container my-12">
+	<div class="mt-6 grid grid-cols-1 gap-8 md:mt-12 md:grid-cols-2 xl:grid-cols-3">
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
@@ -109,7 +109,7 @@
 					<div
 						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Archive size="34" strokeWidth={1.2} />
+					<Archive size="34" strokeWidth={1.3} />
 				</div>
 
 				<h3 class="pl-3 text-2xl">80 Years Historical Data</h3>
@@ -135,7 +135,7 @@
 					<div
 						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Waves size="34" strokeWidth={1.2} />
+					<Waves size="34" strokeWidth={1.4} />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Specialised Forecasts</h3>
@@ -160,7 +160,7 @@
 					<div
 						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Mountain size="34" strokeWidth={1.2} />
+					<MountainSnow size="34" strokeWidth={1.3} />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Geocoding, Elevation, Timezones</h3>
@@ -353,7 +353,7 @@
 					<div
 						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Gauge size="34" strokeWidth={1.2} />
+					<Gauge size="34" strokeWidth={1.4} />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Lightning Fast APIs</h3>
@@ -378,7 +378,7 @@
 					<div
 						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Lightbulb size="34" strokeWidth={1.2} />
+					<Lightbulb size="34" strokeWidth={1.4} />
 				</div>
 
 				<h3 class="pl-3 text-2xl">User-Friendly APIs</h3>

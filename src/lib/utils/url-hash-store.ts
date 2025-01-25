@@ -23,7 +23,7 @@ export function urlHashStore<T>(initialValue: T): Writable<T> {
 			}
 		}
 		if (count > 0) {
-			history?.replaceState(null, '', `#${new URLSearchParams(diff)}`.replaceAll('%2C', ','));
+			history?.replaceState(null, '', `?${new URLSearchParams(diff)}`.replaceAll('%2C', ','));
 		}
 		if (count == 0 && location?.hash && location?.hash.length > 0) {
 			// Remove all hash parameters
@@ -32,7 +32,7 @@ export function urlHashStore<T>(initialValue: T): Writable<T> {
 	}
 	function deserialize(url: string): T {
 		let object = { ...defaultValues };
-		let index = url.indexOf('#');
+		let index = url.indexOf('?');
 		if (index !== -1) {
 			for (const [key, value] of new URLSearchParams(url.substring(index + 1))) {
 				// @ts-ignore

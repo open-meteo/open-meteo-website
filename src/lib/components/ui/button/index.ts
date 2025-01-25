@@ -22,6 +22,11 @@ const buttonVariants = tv({
 			sm: 'h-9 rounded-md px-3',
 			lg: 'h-11 rounded-md px-8',
 			icon: 'h-10 w-10'
+		},
+		highlight: {
+			default: 'grow-text',
+			active: 'grow-text font-bold',
+			end: 'ml-auto justify-self-end'
 		}
 	},
 	defaultVariants: {
@@ -32,10 +37,12 @@ const buttonVariants = tv({
 
 type Variant = VariantProps<typeof buttonVariants>['variant'];
 type Size = VariantProps<typeof buttonVariants>['size'];
+type Highlight = VariantProps<typeof buttonVariants>['highlight'];
 
 type Props = ButtonPrimitive.Props & {
 	variant?: Variant;
 	size?: Size;
+	highlight?: Highlight;
 };
 
 type Events = ButtonPrimitive.Events;

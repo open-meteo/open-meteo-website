@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { i18n } from '$lib/i18n';
-
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import { api_key_preferences } from '$lib/stores/settings';
 

@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
-	import { i18n } from '$lib/i18n';
-
 	import * as m from '$lib/paraglide/messages.js';
 	import { languageTag } from '$lib/paraglide/runtime.js';
 	import type { AvailableLanguageTag } from '$lib/paraglide/runtime';

@@ -10,8 +10,6 @@
 
 	import Github from 'simple-icons/icons/github.svg?raw';
 
-	import * as m from '$lib/paraglide/messages.js';
-
 	import Mailbox from '$lib/assets/icons/mailbox.svelte';
 
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -30,29 +28,38 @@
 </script>
 
 <svelte:head>
-	<title>🌤️ {m.home_seo_title()} | Open-Meteo.com</title>
+	<title>🌤️ Free Open-Source Weather API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/" />
-	<meta name="description" content={m.home_seo_description()} />
+	<meta
+		name="description"
+		content="Open-Source ☀️️️️️️️️️️️️️️️️️️️️️️️️️️️️️ Weather API with free access for non-commercial use. No API Key required ✅. Accurate weather forecasts for any location. Open-Meteo provides high-resolution open data ranging from 1 to 11 kilometers from national weather services. With a user-friendly JSON API, integrating weather data has never been easier. Experience the precision and convenience of Open-Meteo's Forecast API for reliable and comprehensive weather information worldwide."
+	/>
 </svelte:head>
 
 <div class="container mt-8 lg:mt-16">
 	<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 		<div>
-			<h2 class="text-3xl font-light lg:text-5xl">{m.home_subtitle()}</h2>
+			<h2 class="text-3xl font-light lg:text-5xl">Accurate Weather Forecasts for Any Location</h2>
 			<p class="mt-4">
-				{m.home_subtitle_description_part1()}
+				Open-Meteo partners with national weather services to bring you open data with high
+				resolution, ranging from 1 to 11 kilometers. Our powerful APIs intelligently select the most
+				suitable weather models for your specific location, ensuring accurate and reliable
+				forecasts.
 			</p>
 			<p class="mt-4">
-				{m.home_subtitle_description_part2()}
+				With our user-friendly JSON API, accessing weather data has never been easier. Whether
+				you're developing an application or seeking weather information for personal use, our APIs
+				provide seamless integration and deliver the data you need in a simple and accessible
+				format.
 			</p>
 			<p class="mt-4">
-				{m.home_subtitle_description_part3()}
+				Experience the precision and convenience of Open-Meteo's Forecast API, providing
+				comprehensive weather information worldwide. Stay informed and make informed decisions with
+				our reliable weather forecasts.
 			</p>
 			<div class="mt-4 flex gap-4">
-				<Button variant="default" href={'/en/features'}>
-					{m.see_features()}
-				</Button>
-				<Button variant="outline-grey" href={'/en/docs'}>{m.read_docs()}</Button>
+				<Button variant="default" href={'/en/features'}>See features</Button>
+				<Button variant="outline-grey" href={'/en/docs'}>Read the docs</Button>
 			</div>
 		</div>
 
@@ -64,7 +71,7 @@
 					aria-label="Toggle bold"
 					disabled={tabSelected === 'weather-api'}
 				>
-					{m.home_toggle_forecast_and_current()}
+					Forecast & Current
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="last-10-days"
@@ -72,7 +79,7 @@
 					aria-label="Toggle italic"
 					disabled={tabSelected === 'last-10-days'}
 				>
-					{m.home_toggle_last_10_days()}
+					Last 10 days
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="historical-weather"
@@ -80,7 +87,7 @@
 					aria-label="Toggle strikethrough"
 					disabled={tabSelected === 'historical-weather'}
 				>
-					{m.home_toggle_historical()}
+					Historical data
 				</ToggleGroup.Item>
 			</ToggleGroup.Root>
 			<div class="relative min-h-[550px] lg:min-h-[500px]">
@@ -177,14 +184,21 @@
 						<MapPinned size="32" strokeWidth={1.3} />
 					</div>
 
-					<h3 class="pl-3 text-2xl">{m.home_high_resolution()}</h3>
+					<h3 class="pl-3 text-2xl">High Resolution</h3>
 				</div>
 
 				<p class="mb-3">
-					{m.home_high_resolution_description_part1()}
+					Open-Meteo leverages a powerful combination of global (11 km) and mesoscale (1 km) weather
+					models from esteemed national weather services, providing comprehensive forecasts with
+					remarkable precision. No matter where you are in the world, you can access the most
+					reliable and accurate weather predictions available.
 				</p>
 				<p>
-					{m.home_high_resolution_description_part2()}
+					Our weather data is presented in hourly resolution, allowing you to plan your activities
+					with confidence. The initial days of the forecast benefit from localized weather models,
+					offering highly detailed and accurate information. Subsequently, global weather models
+					provide forecasts for up to 16 days. Through seamless integration, our APIs deliver a
+					straightforward and reliable hourly weather forecast experience.
 				</p>
 			</div>
 
@@ -199,13 +213,18 @@
 						<Watch size="36" strokeWidth={1.2} />
 					</div>
 
-					<h3 class="pl-3 text-2xl">{m.home_rapid_updates()}</h3>
+					<h3 class="pl-3 text-2xl">Rapid Updates</h3>
 				</div>
 				<p class="mb-3">
-					{m.home_rapid_updates_description_part1()}
+					At Open-Meteo, we understand the importance of having the most up-to-date weather
+					information. That's why our local weather models are updated every hour, ensuring that our
+					forecasts reflect the latest changes in conditions, including updates from rain radars.
 				</p>
 				<p>
-					{m.home_rapid_updates_description_part2()}
+					Our weather models rely on a wealth of real-time data, including measurements from various
+					sources such as airplanes, buoys, radar systems, and satellites. By incorporating this
+					diverse and comprehensive data, our numerical weather predictions provide a deeper
+					analysis than traditional weather stations, resulting in more accurate forecasts.
 				</p>
 			</div>
 
@@ -220,16 +239,25 @@
 						<Archive size="32" strokeWidth={1.4} />
 					</div>
 
-					<h3 class="pl-3 text-2xl">{m.home_80_years_historical_data()}</h3>
+					<h3 class="pl-3 text-2xl">80 Years Historical Data</h3>
 				</div>
 
 				<p class="mb-3">
-					{@html m.home_80_years_historical_data_description_part1({
-						historical_weather_link: `<a href=${'/en/docs/historical-weather-api'} title="${m.historical_weather_via_api()}">${m.historical_weather_api()}</a>`
-					})}
+					Explore the past with our comprehensive <a
+						href="/en/docs/historical-weather-api"
+						title="Historical weather data via API">Historical Weather API</a
+					>. With over 80 years of hourly weather data available at a 10 kilometer resolution, you
+					can dive into the climate of any location. Behind the scenes, this extensive dataset,
+					comprising 50 TB of information, enables you to access temperature records spanning eight
+					decades in an instant.
 				</p>
 				<p>
-					{m.home_80_years_historical_data_description_part2()}
+					Moreover, our 1 kilometer weather models continuously archive recent data, ensuring that
+					you can seamlessly retrieve the latest forecasts alongside historical information from
+					previous weeks. This functionality opens up possibilities for training machine learning
+					applications and gaining valuable insights from the combination of present and past
+					weather data. Discover the power of our historical weather API and unlock a treasure trove
+					of weather information.
 				</p>
 			</div>
 
@@ -244,17 +272,30 @@
 						<div class="absolute h-8 w-8 fill-white">{@html Github}</div>
 					</div>
 
-					<h3 class="pl-3 text-2xl">{m.home_opensource()}</h3>
+					<h3 class="pl-3 text-2xl">Open-Source</h3>
 				</div>
 				<p class="mb-3">
-					{@html m.home_opensource_description_part1({
-						github_link:
-							'<a href="https://github.com/open-meteo/open-meteo" title="Open-Meteo GitHub respository">GitHub</a>'
-					})}
+					We believe in the power of open-source software. That's why the entire codebase of
+					Open-Meteo is accessible on <a
+						href="https://github.com/open-meteo/open-meteo"
+						title="Open-Meteo GitHub respository">GitHub</a
+					>, released under the
+					<a href="https://github.com/open-meteo/open-meteo/blob/main/LICENSE">AGPLv3 licence</a>.
+					This means you can explore, use, modify, and contribute to the code.
 				</p>
-				<p class="mb-3">{m.home_opensource_description_part2()}</p>
+				<p class="mb-3">
+					If you wish to take it a step further, we're here to support you in setting up your own
+					API instances. This allows you to have complete control and enjoy practically unlimited
+					API calls, making it ideal for demanding applications like machine learning or large
+					language models.
+				</p>
 				<p>
-					{@html m.home_opensource_description_part3()}
+					In addition, our data is licensed under <a
+						href="https://creativecommons.org/licenses/by/4.0/"
+						title="CC BY 4.0 Licence Information">Attribution 4.0 International (CC BY 4.0)</a
+					>. This means you are free to share and adapt the data, even for commercial purposes. We
+					believe in fostering an open ecosystem that encourages transparency, collaboration and
+					innovation.
 				</p>
 			</div>
 
@@ -269,16 +310,23 @@
 						<Key size="30" strokeWidth={1.6} />
 					</div>
 
-					<h3 class="pl-3 text-2xl">{m.home_free_api()}</h3>
+					<h3 class="pl-3 text-2xl">Free API</h3>
 				</div>
 				<p class="mb-3">
-					{m.home_free_api_description_part1()}
+					Open-Meteo offers free access to its APIs for non-commercial use, making it convenient for
+					individuals and developers to explore and integrate weather data into their projects. The
+					best part is that no API key, registration, or credit card is required to enjoy this
+					service.
 				</p>
 
 				<p>
-					{@html m.home_free_api_description_part1({
-						api_subscription_link: `<a href=${'/en/pricing'} title="${m.pricing_api_subscription}">${m.api_subscription}</a>`
-					})}
+					We trust our users to utilize the free API responsibly and kindly request appropriate
+					credit for the data used. While there are no strict access restrictions, we encourage fair
+					usage of the service. If you require commercial usage or anticipate exceeding 10'000 API
+					calls per day, we recommend considering our <a
+						href="/en/pricing"
+						title="Pricing for our paid API subscription">API subscription</a
+					> for enhanced features and support.
 				</p>
 			</div>
 
@@ -293,15 +341,21 @@
 						<Lightbulb size="33" strokeWidth={1.6} />
 					</div>
 
-					<h3 class="pl-3 text-2xl">{m.home_easy_to_use()}</h3>
+					<h3 class="pl-3 text-2xl">Easy to Use</h3>
 				</div>
 				<p class="mb-3">
-					{m.home_easy_to_use_description_part1()}
+					We've designed our APIs to be incredibly user-friendly. They are based on the widely
+					adopted HTTP protocol and utilize the simplicity of JSON data format. All you need to get
+					started is a basic understanding of geographic coordinates, making HTTP requests, and
+					working with JSON data.
 				</p>
 				<p>
-					{@html m.home_easy_to_use_description_part2({
-						documentation_link: `<a href=${'/en/docs'} title="${m.documentation_title()}">${m.documentation_small()}</a>`
-					})}
+					To assist you in seamlessly integrating our APIs into your projects, we provide
+					comprehensive <a href="/en/docs" title="Weather API Technical Documentation"
+						>documentation</a
+					>. It includes detailed explanations of all parameters and their usage. Whether you're
+					using Python, R, Julia, PHP, JavaScript, React, Flutter, Java, or any other programming
+					language, our APIs are designed to work effortlessly with your application.
 				</p>
 			</div>
 		</div>
@@ -309,22 +363,25 @@
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center">
 		<Mailbox width="72" height="72" shadow={false} />
-		<h2 class="my-4 text-4xl font-bold" id="contact">{m.stay_up_to_date()}</h2>
+		<h2 class="my-4 text-4xl font-bold" id="contact">Stay up to date!</h2>
 		<div class="text-center">
 			<p>
-				{@html m.home_engagement({
-					latest_features_link: `<a href=${'/en/features'} title="${m.latest_features_title()}">${m.latest_features()}</a>`,
-					blog_link: `<a href="https://openmeteo.substack.com/archive?sort=new" target="_blank">${m.blog_small()}</a>`,
-					twitter_link: `<a href="https://twitter.com/open_meteo" target="_blank">Twitter</a>`
-				})}
+				We're constantly evolving and expanding. We're dedicated to providing you with the <a
+					href="/en/features"
+					title="All Features of the Weather API">latest features</a
+				>, weather variables, and data sources. If you want to stay in the loop and be the first to
+				know about our exciting updates, we invite you to subscribe to our
+				<a href="https://openmeteo.substack.com/archive?sort=new" target="_blank">blog</a>
+				or follow us on <a href="https://twitter.com/open_meteo" target="_blank">Twitter</a>. By
+				doing so, you'll never miss out on the latest developments and enhancements in our services.
 			</p>
 			<div class="mt-4 flex justify-center gap-4">
 				<Button
 					href="https://openmeteo.substack.com/subscribe?utm_source=landingpage&simple=true&next=https%3A%2F%2Fopenmeteo.substack.com%2F"
-					title="Newsletter Sign-Up">{m.subscribe_to_the_newsletter()}</Button
+					title="Newsletter Sign-Up">Subscribe to the Newsletter</Button
 				>
 				<Button variant="outline-grey" href={'/en/features#available-apis'} title="APIs & Features"
-					>{m.available_apis()}</Button
+					>Available APIs</Button
 				>
 			</div>
 		</div>

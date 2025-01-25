@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { i18n } from '$lib/i18n';
-
 	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import { api_key_preferences } from '$lib/stores/settings';
 	import type { GeoLocation } from '$lib/stores/settings';

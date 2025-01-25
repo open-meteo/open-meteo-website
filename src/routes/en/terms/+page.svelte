@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { i18n } from '$lib/i18n';
 </script>
 
 <svelte:head>
@@ -33,11 +32,11 @@
 			d="M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 0 1-.948-.316l1-3a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 1 1-.948-.316l1-3a.5.5 0 0 1 .632-.317zm.247-6.998a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973zM8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4.002 4.002 0 0 1 8.5 2z"
 		/>
 	</svg>
-	<h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">Terms & Privacy</h1>
+	<h1 class=" " style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">Terms & Privacy</h1>
 </div>
 
 <div class="container px-4 py-5">
-	<h2 id="terms" class="display-5 lh-1 mb-3">Terms of Use</h2>
+	<h2 id="terms" class="    mb-3">Terms of Use</h2>
 	<p>
 		Open-Meteo assumes no responsibility for any inaccuracies or omissions in the data, their
 		availability, or any losses or damages resulting from their usage. The accuracy and completeness
@@ -47,7 +46,7 @@
 		other cause.
 	</p>
 	<div class="row">
-		<div class="col-lg-6">
+		<div class=" ">
 			<h3>Non-Commercial Use</h3>
 			<p>By using the Free API for non-commercial use you agree to following terms:</p>
 			<ul>
@@ -95,7 +94,7 @@
 				of Open-Meteo.
 			</p>
 		</div>
-		<div class="col-lg-6">
+		<div class=" ">
 			<h3>API Subscription</h3>
 			<p>
 				When using the <a
@@ -192,14 +191,14 @@
 		contact us at <a href="mailto:info@open-meteo.com">info@open-meteo.com</a>.
 	</p>
 
-	<h2 id="privacy" class="display-5 mt-5">Privacy</h2>
+	<h2 id="privacy" class="  mt-5">Privacy</h2>
 	<p>
 		By using our service, you consent to the terms of our privacy policy and agree that we may
 		collect non-personal information as outlined below. If you have any questions or concerns about
 		our privacy policy, please contact us.
 	</p>
 	<div class="row">
-		<div class="col-lg-6">
+		<div class=" ">
 			<h3>Website of Open-Meteo.com</h3>
 			<p>
 				The Open-Meteo.com website does not collect any data from our users, including personal
@@ -213,7 +212,7 @@
 				information will be shared with advertisers or marketing agencies.
 			</p>
 		</div>
-		<div class="col-lg-6">
+		<div class=" ">
 			<h3>Blog and Newsletter</h3>
 			<p>
 				When you sign up for our newsletter, we collect your email address. We use a secure
@@ -225,7 +224,7 @@
 				will not share or sell it with any third-party providers.
 			</p>
 		</div>
-		<div class="col-lg-6">
+		<div class=" ">
 			<h3>Free Non-Commercial API Service</h3>
 			<p>
 				We may collect non-personal information, such as IP addresses, for technical reasons such as
@@ -238,7 +237,7 @@
 				party. All log files will be deleted after a period of 90 days.
 			</p>
 		</div>
-		<div class="col-lg-6">
+		<div class=" ">
 			<h3>Subscription to Paid API Services</h3>
 			<p>
 				When you sign up for our paid API service and make payments through Stripe, we may collect
@@ -296,7 +295,7 @@
 		>.
 	</p>
 
-	<h2 id="privacy" class="display-5 mt-5">Open-Meteo is operated by</h2>
+	<h2 id="privacy" class="  mt-5">Open-Meteo is operated by</h2>
 	<p>
 		OpenMeteo GmbH<br />
 		Hintere Schilligmatte 6<br />

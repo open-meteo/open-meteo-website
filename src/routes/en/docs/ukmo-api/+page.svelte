@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { i18n } from '$lib/i18n';
-
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import { urlHashStore } from '$lib/utils/url-hash-store';
