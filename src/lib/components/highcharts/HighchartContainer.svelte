@@ -39,6 +39,9 @@
 		}
 		options.chart = options.chart || {};
 		options.chart.styledMode = true;
+		options.lang = {
+			locale: 'en-GB'
+		};
 		options.accessibility = {
 			enabled: false
 		};
