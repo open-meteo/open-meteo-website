@@ -52,14 +52,14 @@
 	Location:
 	<ToggleGroup.Item
 		value="location_search"
-		class="ml-2  min-h-12  rounded-e-none !opacity-100 lg:min-h-[unset] "
+		class="ml-2  min-h-12  rounded-e-none opacity-100! lg:min-h-[unset] "
 		disabled={params.location_mode === 'location_search'}
 	>
 		<Locate size={20} class="mr-1" />Coordinates
 	</ToggleGroup.Item>
 	<ToggleGroup.Item
 		value="csv_coordinates"
-		class=" min-h-12 rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset] "
+		class=" min-h-12 rounded-md rounded-s-none opacity-100! duration-300 lg:min-h-[unset] "
 		disabled={params.location_mode === 'csv_coordinates'}
 	>
 		<List size={20} class="mr-1" />List

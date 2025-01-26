@@ -21,7 +21,7 @@
 	<ToggleGroup.Root type="single" bind:value={licenseSelected} class="justify-start gap-0">
 		<ToggleGroup.Item
 			value="non_commercial"
-			class=" min-h-12 rounded-e-none !opacity-100 lg:min-h-[unset]"
+			class=" min-h-12 rounded-e-none opacity-100! lg:min-h-[unset]"
 			aria-label="Toggle bold"
 			disabled={licenseSelected === 'non_commercial'}
 		>
@@ -29,7 +29,7 @@
 		</ToggleGroup.Item>
 		<ToggleGroup.Item
 			value="commercial"
-			class="min-h-12 rounded-none !opacity-100 lg:min-h-[unset]"
+			class="min-h-12 rounded-none opacity-100! lg:min-h-[unset]"
 			aria-label="Toggle italic"
 			disabled={licenseSelected === 'commercial'}
 		>
@@ -37,7 +37,7 @@
 		</ToggleGroup.Item>
 		<ToggleGroup.Item
 			value="self_hosted"
-			class="min-h-12 rounded-s-none !opacity-100 lg:min-h-[unset]"
+			class="min-h-12 rounded-s-none opacity-100! lg:min-h-[unset]"
 			aria-label="Toggle strikethrough"
 			disabled={licenseSelected === 'self_hosted'}
 		>

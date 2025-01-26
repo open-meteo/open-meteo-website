@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import { dev } from '$app/environment';
 
-	import { languageTag } from '$lib/paraglide/runtime.js';
+	// import { languageTag } from '$lib/paraglide/runtime.js';
 
 	import Logo from '$lib/assets/icons/cog.svelte';
 	import Chevrons from 'lucide-svelte/icons/chevrons-up-down';
@@ -48,7 +48,7 @@
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
 	}
 
-	const lang = languageTag();
+	// const lang = languageTag();
 
 	let selectedPath = $derived.by(() => {
 		for (const link of links) {
@@ -59,10 +59,7 @@
 					}
 				}
 			}
-			if (
-				page.url.pathname === (lang !== 'en' ? '/' + lang : '') + link.url ||
-				page.url.pathname === (lang !== 'en' ? '/' + lang : '') + link.url + '/'
-			) {
+			if (page.url.pathname === link.url || page.url.pathname === link.url + '/') {
 				return link;
 			}
 		}

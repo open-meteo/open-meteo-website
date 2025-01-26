@@ -47,7 +47,7 @@
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<MapPinned size="36" strokeWidth={1.2} />
 				</div>
@@ -72,7 +72,7 @@
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<Zap size="32" strokeWidth={1.1} />
 				</div>
@@ -97,7 +97,7 @@
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<Watch size="36" strokeWidth={1.2} />
 				</div>
@@ -124,7 +124,7 @@
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<Archive size="34" strokeWidth={1.3} />
 				</div>
@@ -147,7 +147,7 @@
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<Waves size="34" strokeWidth={1.4} />
 				</div>
@@ -170,7 +170,7 @@
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-gradient-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-gradient-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<MountainSnow size="34" strokeWidth={1.3} />
 				</div>

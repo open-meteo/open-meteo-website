@@ -92,14 +92,14 @@
 			Time:
 			<ToggleGroup.Item
 				value="forecast_days"
-				class="ml-2  min-h-12  rounded-e-none !opacity-100 lg:min-h-[unset] "
+				class="ml-2  min-h-12  rounded-e-none opacity-100! lg:min-h-[unset] "
 				disabled={$params.time_mode === 'forecast_days'}
 			>
 				<Clock size={20} class="mr-1" />Forecast Length
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="time_interval"
-				class=" min-h-12 rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset]"
+				class=" min-h-12 rounded-md rounded-s-none opacity-100! duration-300 lg:min-h-[unset]"
 				disabled={$params.time_mode === 'time_interval'}
 			>
 				<Calendar size={20} class="mr-1" />Time Interval
