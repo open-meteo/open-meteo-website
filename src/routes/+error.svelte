@@ -3,8 +3,6 @@
 
 	import { page } from '$app/state';
 
-	import * as m from '$lib/paraglide/messages.js';
-
 	import Logo from '$lib/assets/icons/rain.svelte';
 
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -37,8 +35,8 @@
 				Sorry, there was an error: {page.error?.message}
 			</p>
 			<div class="mt-2 flex gap-4">
-				<Button variant="default" href={'/'}>{m.home()}</Button>
-				<Button variant="outline-white" href={'/en/docs'}>{m.docs()}</Button>
+				<Button variant="default" href={'/'}>Home</Button>
+				<Button variant="outline-white" href={'/en/docs'}>API Documentation</Button>
 			</div>
 		</div>
 	</div>

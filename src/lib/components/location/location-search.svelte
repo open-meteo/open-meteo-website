@@ -176,7 +176,7 @@
 <Button variant="ghost" onclick={openModal}><Search size={20} class="mr-1" /> {label}</Button>
 
 {#if modalOpen}
-	<div on:click|self={closeModal}>
+	<div onclick={closeModal}>
 		<div
 			class="modal-dialog"
 			role="document"
@@ -193,7 +193,7 @@
 						class="btn-close"
 						aria-label="Close"
 						title="Close"
-						on:click={closeModal}
+						onclick={closeModal}
 					></button>
 				</div>
 				<div class="modal-body">
@@ -213,7 +213,7 @@
 							class="btn btn-outline-secondary"
 							type="button"
 							title="Detect Location via GPS"
-							on:click|stopPropagation={() => (searchQuery = 'GPS')}><Cursor /></button
+							onclick={() => (searchQuery = 'GPS')}><Cursor /></button
 						>
 					</div>
 					{#await results}
@@ -239,7 +239,7 @@
 											<button
 												class="list-group-item list-group-item-action position-relative"
 												type="button"
-												on:click={() => selectLocation(location)}
+												onclick={() => selectLocation(location)}
 											>
 												<img
 													height="24"
@@ -258,7 +258,7 @@
 												<div class="position-absolute end-0 top-0 p-2">
 													<!-- <button
 														class="btn btn-outline-secondary btn-sm border-0"
-														on:click|stopPropagation={() => deleteFavorite(location)}
+														onclick|stopPropagation={() => deleteFavorite(location)}
 														tabindex="-1"
 														title="Delete"><Trash /></button
 													> -->
@@ -268,7 +268,9 @@
 														target="_blank"
 														tabindex="-1"
 														title="Show on map"
-														on:click|stopPropagation
+														onclick={(e) => {
+															e.stopPropagation();
+														}}
 													>
 														<Map />
 													</a>
@@ -284,7 +286,7 @@
 											<button
 												class="list-group-item list-group-item-action position-relative"
 												type="button"
-												on:click={() => selectLocation(location)}
+												onclick={() => selectLocation(location)}
 											>
 												<img
 													height="24"
@@ -305,14 +307,14 @@
 													<!-- <button
 														class="btn btn-outline-secondary btn-sm border-0"
 														type="button"
-														on:click|stopPropagation={() => saveFavorite(location)}
+														onclick|stopPropagation={() => saveFavorite(location)}
 														tabindex="-1"
 														title="Save"><Star /></button
 													>
 													<button
 														class="btn btn-outline-secondary btn-sm border-0"
 														type="button"
-														on:click|stopPropagation={() => deleteRecent(location)}
+														onclick|stopPropagation={() => deleteRecent(location)}
 														tabindex="-1"
 														title="Delete"><Trash /></button
 													> -->
@@ -323,7 +325,9 @@
 														target="_blank"
 														tabindex="-1"
 														title="Show on map"
-														on:click|stopPropagation
+														onclick={(e) => {
+															e.stopPropagation();
+														}}
 													>
 														<Map />
 													</a>
@@ -343,7 +347,7 @@
 									<button
 										class="list-group-item list-group-item-action position-relative"
 										type="button"
-										on:click={() => selectLocation(location)}
+										onclick={() => selectLocation(location)}
 									>
 										<img
 											height="24"
@@ -364,7 +368,7 @@
 											<!-- <button
 												class="btn btn-outline-secondary btn-sm border-0"
 												type="button"
-												on:click|stopPropagation={() => saveFavorite(location)}
+												onclick|stopPropagation={() => saveFavorite(location)}
 												tabindex="-1"
 												title="Save"><Star /></button
 											> -->
@@ -374,7 +378,9 @@
 												target="_blank"
 												tabindex="-1"
 												title="Show on map"
-												on:click|stopPropagation
+												onclick={(e) => {
+													e.stopPropagation();
+												}}
 											>
 												<Map />
 											</a>
