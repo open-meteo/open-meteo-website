@@ -397,7 +397,7 @@
 	sdk_type="marine_api"
 />
 
-<h2 id="data-sources" class="mt-5">Data Sources</h2>
+<h2 id="data-sources" class="mb-3 mt-5 text-2xl">Data Sources</h2>
 <div class="row">
 	<div class="col-6">
 		<p>The Marine API combines wave models from different sources.</p>
@@ -405,8 +405,10 @@
 	<div class="col-6"></div>
 </div>
 <div class="table-responsive">
-	<table class="table">
-		<caption
+	<table
+		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+	>
+		<caption class="text-muted-foreground mt-2 table-caption text-left"
 			>You can find the update timings in the <a href={'/en/docs/model-updates'}
 				>model updates documentation</a
 			>.</caption
@@ -540,7 +542,7 @@
 	</table>
 </div>
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="api-documentation">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/marine</mark> accepts a geographical coordinate, a list of marine variables
@@ -548,7 +550,9 @@
 		All URL parameters are listed below:
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -728,7 +732,9 @@
 		from the preceding hour as an average or sum.
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -792,7 +798,9 @@
 		> accepts the following values:
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -851,7 +859,9 @@
       </code>
     </pre>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>

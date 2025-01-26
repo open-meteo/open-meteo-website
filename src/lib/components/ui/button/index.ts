@@ -11,7 +11,7 @@ const buttonVariants = tv({
 			destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
 			outline: 'border-input hover:bg-accent hover:text-accent-foreground border',
 			secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-			ghost: 'hover:bg-accent hover:text-accent-foreground',
+			ghost: 'grow-text hover:bg-accent hover:text-accent-foreground',
 			link: 'text-primary underline-offset-4 hover:underline',
 			'outline-grey': 'border-grey hover:bg-grey hover:text-grey-foreground border',
 			'outline-white': 'border-white/80 hover:bg-white/80 hover:text-black/90 border',
@@ -24,9 +24,7 @@ const buttonVariants = tv({
 			icon: 'h-10 w-10'
 		},
 		highlight: {
-			default: 'grow-text',
-			active: 'grow-text font-bold',
-			end: 'ml-auto justify-self-end'
+			active: 'font-bold'
 		}
 	},
 	defaultVariants: {

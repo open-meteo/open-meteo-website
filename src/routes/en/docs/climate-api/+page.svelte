@@ -133,7 +133,7 @@
 
 	<div class=" ">
 		<h2 class="mb-2 mt-6 text-2xl">Settings</h2>
-		<div class="col-12 pb-3">
+		<div class=" pb-3">
 			<div class="form-check form-switch">
 				<input
 					class="form-check-input"
@@ -223,7 +223,7 @@
 	useStockChart={true}
 />
 
-<h2 id="data-sources" class="mt-5">Data Sources</h2>
+<h2 id="data-sources" class="mb-3 mt-5 text-2xl">Data Sources</h2>
 <div class="row">
 	<div class="col-6">
 		<p>
@@ -270,7 +270,9 @@
 	</div>
 </div>
 <div class="table-responsive">
-	<table class="table">
+	<table
+		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+	>
 		<thead>
 			<tr>
 				<th scope="col">Climate Model</th>
@@ -384,8 +386,10 @@
 	</p>
 </div>
 <div class="table-responsive">
-	<table class="table">
-		<caption
+	<table
+		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+	>
+		<caption class="text-muted-foreground mt-2 table-caption text-left"
 			>&#x26a0;&#xfe0f; = Only daily <mark>mean</mark> values available. No daily minima or maxima.</caption
 		>
 		<thead>
@@ -467,7 +471,7 @@
 	</table>
 </div>
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="api-documentation">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/climate</mark> allows users to retrieve climate weather data from multiple
@@ -477,7 +481,9 @@
 	</p>
 	<p>All URL parameters are listed below:</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -629,7 +635,9 @@
 		list:
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -779,7 +787,9 @@
     </pre>
 
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>

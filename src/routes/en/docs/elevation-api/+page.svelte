@@ -142,7 +142,7 @@
 
 	<LicenseSelector />
 
-	<div class="col-12 mb-3">
+	<div class=" mb-3">
 		<button
 			type="submit"
 			class="btn btn-primary"
@@ -154,11 +154,11 @@
 	</div>
 </form>
 
-<div class="col-12 mb-3">
+<div class=" mb-3">
 	<div class="form-control" style="height: 50px; width: 100%;">{response}</div>
 </div>
 
-<div class="col-12">
+<div class=" ">
 	<label for="api_url" class="form-label"
 		>API URL (<a id="api_url_link" target="_blank" href={url}>Open in new tab</a>)</label
 	>
@@ -166,7 +166,7 @@
 	<div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
 </div>
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="api-documentation">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/elevation</mark> accepts one or multiple geographical coordinate and returns
@@ -180,7 +180,9 @@
 	</p>
 	<p>All URL parameters are listed below:</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>

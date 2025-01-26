@@ -242,7 +242,7 @@
 
 <ResultPreview {params} {defaultParameters} type="flood" action="flood" sdk_type="flood_api" />
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
 		This API uses reanalysis and forecast data from the <a
@@ -257,7 +257,9 @@
 		website provides additional maps to help understand how rivers are covered in this dataset.
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>
@@ -358,7 +360,9 @@
 		below:
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -475,7 +479,9 @@
 	<h3 class="mt-5">Daily Parameter Definition</h3>
 	<p>The parameter <mark>&daily=</mark> accepts the following values:</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -525,7 +531,9 @@
       </code>
     </pre>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>

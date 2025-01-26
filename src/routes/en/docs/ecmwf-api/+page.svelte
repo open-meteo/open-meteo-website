@@ -530,7 +530,7 @@
 
 <ResultPreview {params} {defaultParameters} model_default="ecmwf_ifs025" />
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
 		This API uses <a href="https://www.ecmwf.int/en/forecasts/datasets/open-data"
@@ -549,8 +549,10 @@
 		combines multiple models.
 	</p>
 	<div class="table-responsive">
-		<table class="table">
-			<caption
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
+			<caption class="text-muted-foreground mt-2 table-caption text-left"
 				>You can find the update timings in the <a href={'/en/docs/model-updates'}
 					>model updates documentation</a
 				>.</caption
@@ -610,7 +612,9 @@
 		URL parameters are listed below:
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -761,7 +765,9 @@
 		from the preceding hour as and average or sum.
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -1036,7 +1042,9 @@
       </code>
     </pre>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -1106,14 +1114,16 @@
     </pre>
 </div>
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="weathervariables">Weather variable documentation</h2>
 </div>
 
 <div class="col-6">
 	<h3>WMO Weather interpretation codes (WW)</h3>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Code</th>

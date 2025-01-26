@@ -154,18 +154,20 @@
 	<LicenseSelector />
 </form>
 
-<div class="col-12">
+<div class=" ">
 	<h2>Preview and API URL</h2>
 </div>
 
-<div class="col-12 table-responsive" style="min-height: 300px;">
+<div class=" table-responsive" style="min-height: 300px;">
 	{#await results}
 		<button class="btn btn-primary" type="button" disabled>
 			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 			Loading...
 		</button>
 	{:then results}
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th></th>
@@ -221,7 +223,7 @@
 	{/await}
 </div>
 
-<div class="col-12">
+<div class=" ">
 	<label for="api_url" class="form-label"
 		>API URL (<a id="api_url_link" target="_blank" href={apiUrl}>Open in new tab</a>)</label
 	>
@@ -229,14 +231,16 @@
 	<div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
 </div>
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="api-documentation">API Documentation</h2>
 	<p>
 		The API endpoint <mark>https://geocoding-api.open-meteo.com/v1/search</mark> accepts a search term
 		and returns a list of matching locations. URL parameters are listed below:
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -360,7 +364,9 @@
       </code>
     </pre>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>

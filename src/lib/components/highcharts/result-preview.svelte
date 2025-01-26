@@ -9,6 +9,7 @@
 	import InfoCircle from 'lucide-svelte/icons/info';
 	import ExclamationTriangle from 'lucide-svelte/icons/triangle-alert';
 	import ArrowClockwise from 'lucide-svelte/icons/refresh-cw';
+	import Button from '../ui/button/button.svelte';
 
 	interface Props {
 		params: Writable<any>;
@@ -733,12 +734,12 @@
 						</div>
 					{/await}
 				</div>
-				<div class="col-12">
-					<a href={xlsxUrl} class="btn btn-outline-primary">Download XLSX</a>
-					<a href={csvUrl} class="btn btn-outline-primary">Download CSV</a>
+				<div class="mt-3 flex gap-3">
+					<Button href={xlsxUrl}>Download XLSX</Button>
+					<Button href={csvUrl}>Download CSV</Button>
 				</div>
 
-				<div class="col-12 my-4">
+				<div class="mt-3">
 					<label for="api_url" class="form-label">API URL</label>
 					<small class="text-muted-foreground"
 						>(<a id="api_url_link" target="_blank" href={previewUrl}>Open in new tab</a> or copy this

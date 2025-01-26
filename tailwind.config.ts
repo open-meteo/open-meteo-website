@@ -80,6 +80,9 @@ const config: Config = {
 				sm: '0 1px 2px var(--tw-shadow-color)',
 				DEFAULT: '3px 3px 2px var(--tw-shadow-color)',
 				lg: '0 8px 16px var(--tw-shadow-color)'
+			},
+			textUnderlineOffset: {
+				3: '3px'
 			}
 		}
 	},

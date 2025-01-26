@@ -577,7 +577,7 @@
 
 <ResultPreview {params} {defaultParameters} model_default="jma_seamless" />
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
 		This API uses global and local weather models from the Japan Meteorological Agency JMA. Due to
@@ -588,8 +588,10 @@
 		>. For GSM, values are interpolated from 6-hourly to 1-hourly values.
 	</p>
 	<div class="table-responsive">
-		<table class="table">
-			<caption
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
+			<caption class="text-muted-foreground mt-2 table-caption text-left"
 				>You can find the update timings in the <a href={'/en/docs/model-updates'}
 					>model updates documentation</a
 				>.</caption
@@ -639,8 +641,10 @@
 		contains 168 hours. All URL parameters are listed below:
 	</p>
 	<div class="table-responsive">
-		<table class="table">
-			<caption
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
+			<caption class="text-muted-foreground mt-2 table-caption text-left"
 				>You can find the update timings in the <a href={'/en/docs/model-updates'}
 					>model updates documentation</a
 				>.</caption
@@ -855,7 +859,9 @@
 		from the preceding hour as an average or sum.
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -1062,7 +1068,9 @@
 
 	<p>All pressure level have valid times of the indicated hour (instant).</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -1130,7 +1138,9 @@
 		> accepts the following values:
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -1230,7 +1240,9 @@
       </code>
     </pre>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>

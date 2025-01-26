@@ -461,7 +461,7 @@
 
 <ResultPreview {params} {defaultParameters} type="previous-runs" useStockChart={true} />
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="documentation">API Documentation</h2>
 	<div class="  mb-3">
 		<p>

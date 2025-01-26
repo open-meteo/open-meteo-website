@@ -468,7 +468,7 @@
 	sdk_type="ensemble_api"
 />
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
 		Ensemble models are a type of weather forecasting technique that use multiple members or
@@ -491,8 +491,10 @@
 		appropriate ensemble model to use would depend on the forecast horizon and region of interest.
 	</p>
 	<div class="table-responsive">
-		<table class="table">
-			<caption
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
+			<caption class="text-muted-foreground mt-2 table-caption text-left"
 				>You can find the update timings in the <a href={'/en/docs/model-updates'}
 					>model updates documentation</a
 				>.</caption
@@ -612,7 +614,9 @@
 	at 0:00 today. All URL parameters are listed below:
 </p>
 <div class="table-responsive">
-	<table class="table">
+	<table
+		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+	>
 		<thead>
 			<tr>
 				<th scope="col">Parameter</th>
@@ -823,7 +827,9 @@
 	from the preceding hour as an average or sum.
 </p>
 <div class="table-responsive">
-	<table class="table">
+	<table
+		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+	>
 		<thead>
 			<tr>
 				<th scope="col">Variable</th>

@@ -25,20 +25,3 @@
 >
 	<slot />
 </ButtonPrimitive.Root>
-
-<style>
-	:global(.grow-text) {
-		flex-direction: column;
-	}
-
-	:global(.grow-text::after) {
-		content: attr(data-text);
-		content: attr(data-text) / '';
-		height: 0;
-		visibility: hidden;
-		overflow: hidden;
-		user-select: none;
-		pointer-events: none;
-		font-weight: bold;
-	}
-</style>

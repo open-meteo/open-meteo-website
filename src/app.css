@@ -39,6 +39,8 @@
 		--ring: 222.2 84% 4.9%;
 
 		--radius: 0.5rem;
+
+		--mark-color: 45 100% 90.27%;
 	}
 
 	.dark {
@@ -144,4 +146,19 @@ mark,
 	padding: 0.1875em;
 	color: hsl(var(--foreground));
 	background-color: hsl(var(--mark-color));
+}
+
+.grow-text {
+	flex-direction: column;
+}
+
+.grow-text::after {
+	content: attr(data-text);
+	content: attr(data-text) / '';
+	height: 0;
+	visibility: hidden;
+	overflow: hidden;
+	user-select: none;
+	pointer-events: none;
+	font-weight: bold;
 }

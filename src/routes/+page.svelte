@@ -363,7 +363,7 @@
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center">
 		<Mailbox width="72" height="72" shadow={false} />
-		<h2 class="my-4 text-4xl font-bold" id="contact">Stay up to date!</h2>
+		<h2 class="mb-4 mt-2 text-4xl font-bold" id="contact">Stay up to date!</h2>
 		<div class="text-center">
 			<p>
 				We're constantly evolving and expanding. We're dedicated to providing you with the <a

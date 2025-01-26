@@ -700,8 +700,8 @@
 
 <ResultPreview {params} {defaultParameters} />
 
-<div class="col-12 py-5">
-	<h2 id="data-sources">Data Source</h2>
+<div class=" ">
+	<h2 class="mb-3 text-2xl" id="data-sources">Data Source</h2>
 	<p>
 		Open-Meteo weather forecast APIs use weather models from multiple national weather providers.
 		For each location worldwide, the best models will be combined to provide the best possible
@@ -713,133 +713,133 @@
 		all weather variables are available. With the drop down <mark>Weather models</mark> (just below the
 		hourly variables), you can select and compare individual weather models.
 	</p>
-	<!-- <div class="table-responsive">
-		<table class="table">
-			<caption
-				>You can find the update timings in the <a href={'/en/docs/model-updates'}
-					>model updates documentation</a
-				>.</caption
-			>
-			<thead>
-				<tr>
-					<th scope="col">Weather Model</th>
-					<th scope="col">National Weather Provider</th>
-					<th scope="col">Origin Country</th>
-					<th scope="col">Resolution</th>
-					<th scope="col">Forecast Length</th>
-					<th scope="col">Update frequency</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row"><a href="/en/docs/dwd-api">ICON</a></th>
-					<td>Deutscher Wetterdienst (DWD)</td>
-					<td>Germany</td>
-					<td>2 - 11 km</td>
-					<td>7.5 days</td>
-					<td>Every 3 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/gfs-api">GFS & HRRR</a></th>
-					<td>NOAA</td>
-					<td>United States</td>
-					<td>3 - 25 km</td>
-					<td>16 days</td>
-					<td>Every hour</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/meteofrance-api">ARPEGE & AROME</a></th>
-					<td>Météo-France</td>
-					<td>France</td>
-					<td>1 - 25 km</td>
-					<td>4 days</td>
-					<td>Every hour</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/ecmwf-api">IFS & AIFS</a></th>
-					<td>ECMWF</td>
-					<td>European Union</td>
-					<td>25 km</td>
-					<td>15 days</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/ukmo-api">UKMO</a></th>
-					<td>UK Met Office</td>
-					<td>United Kingdom</td>
-					<td>2 - 10 km</td>
-					<td>7 days</td>
-					<td>Every hour</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/jma-api">MSM & GSM</a></th>
-					<td>JMA</td>
-					<td>Japan</td>
-					<td>5 - 55 km</td>
-					<td>11 days</td>
-					<td>Every 3 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/metno-api">MET Nordic</a></th>
-					<td>MET Norway</td>
-					<td>Norway</td>
-					<td>1 km</td>
-					<td>2.5 days</td>
-					<td>Every hour</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/knmi-api">HARMONIE</a></th>
-					<td>KNMI</td>
-					<td>Netherlands</td>
-					<td>2 km</td>
-					<td>2.5 days</td>
-					<td>Every hour</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/dmi-api">HARMONIE</a></th>
-					<td>DMI</td>
-					<td>Denmark</td>
-					<td>2 km</td>
-					<td>2.5 days</td>
-					<td>Every 3 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/gem-api">GEM</a></th>
-					<td>Canadian Weather Service</td>
-					<td>Canada</td>
-					<td>2.5 km</td>
-					<td>10 days</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/cma-api">GFS GRAPES</a></th>
-					<td>China Meteorological Administration (CMA)</td>
-					<td>China</td>
-					<td>15 km</td>
-					<td>10 days</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"><a href="/en/docs/bom-api">ACCESS-G</a></th>
-					<td>Australian Bureau of Meteorology (BOM)</td>
-					<td>Australia</td>
-					<td>15 km</td>
-					<td>10 days</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row">COSMO 2I & 5M</th>
-					<td>AM ARPAE ARPAP</td>
-					<td>Italy</td>
-					<td>2 km</td>
-					<td>3 days</td>
-					<td>Every 3 hours</td>
-				</tr>
-			</tbody>
-		</table>
-	</div> -->
+	<table
+		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+	>
+		<caption class="text-muted-foreground mt-2 table-caption text-left"
+			>You can find the update timings in the <a href={'/en/docs/model-updates'}
+				>model updates documentation</a
+			>.</caption
+		>
+		<thead>
+			<tr>
+				<th scope="col">Weather Model</th>
+				<th scope="col">National Weather Provider</th>
+				<th scope="col">Origin Country</th>
+				<th scope="col">Resolution</th>
+				<th scope="col">Forecast Length</th>
+				<th scope="col">Update frequency</th>
+			</tr>
+		</thead>
+		<tbody class="[&_a]:text-link [&_a]:underline-offset-3 [&_a]:underline">
+			<tr>
+				<th scope="row"><a href="/en/docs/dwd-api">ICON</a></th>
+				<td>Deutscher Wetterdienst (DWD)</td>
+				<td>Germany</td>
+				<td>2 - 11 km</td>
+				<td>7.5 days</td>
+				<td>Every 3 hours</td>
+			</tr>
+			<tr>
+				<th scope="row"><a href="/en/docs/gfs-api">GFS & HRRR</a></th>
+				<td>NOAA</td>
+				<td>United States</td>
+				<td>3 - 25 km</td>
+				<td>16 days</td>
+				<td>Every hour</td>
+			</tr>
+			<tr>
+				<th scope="row"><a href="/en/docs/meteofrance-api">ARPEGE & AROME</a></th>
+				<td>Météo-France</td>
+				<td>France</td>
+				<td>1 - 25 km</td>
+				<td>4 days</td>
+				<td>Every hour</td>
+			</tr>
+			<tr>
+				<th scope="row"><a href="/en/docs/ecmwf-api">IFS & AIFS</a></th>
+				<td>ECMWF</td>
+				<td>European Union</td>
+				<td>25 km</td>
+				<td>15 days</td>
+				<td>Every 6 hours</td>
+			</tr>
+			<tr>
+				<th scope="row"><a href="/en/docs/ukmo-api">UKMO</a></th>
+				<td>UK Met Office</td>
+				<td>United Kingdom</td>
+				<td>2 - 10 km</td>
+				<td>7 days</td>
+				<td>Every hour</td>
+			</tr>
+			<tr>
+				<th scope="row"><a href="/en/docs/jma-api">MSM & GSM</a></th>
+				<td>JMA</td>
+				<td>Japan</td>
+				<td>5 - 55 km</td>
+				<td>11 days</td>
+				<td>Every 3 hours</td>
+			</tr>
+			<tr>
+				<th scope="row"><a href="/en/docs/metno-api">MET Nordic</a></th>
+				<td>MET Norway</td>
+				<td>Norway</td>
+				<td>1 km</td>
+				<td>2.5 days</td>
+				<td>Every hour</td>
+			</tr>
+			<tr>
+				<th scope="row"><a href="/en/docs/knmi-api">HARMONIE</a></th>
+				<td>KNMI</td>
+				<td>Netherlands</td>
+				<td>2 km</td>
+				<td>2.5 days</td>
+				<td>Every hour</td>
+			</tr>
+			<tr>
+				<th scope="row"><a href="/en/docs/dmi-api">HARMONIE</a></th>
+				<td>DMI</td>
+				<td>Denmark</td>
+				<td>2 km</td>
+				<td>2.5 days</td>
+				<td>Every 3 hours</td>
+			</tr>
+			<tr>
+				<th scope="row"><a href="/en/docs/gem-api">GEM</a></th>
+				<td>Canadian Weather Service</td>
+				<td>Canada</td>
+				<td>2.5 km</td>
+				<td>10 days</td>
+				<td>Every 6 hours</td>
+			</tr>
+			<tr>
+				<th scope="row"><a href="/en/docs/cma-api">GFS GRAPES</a></th>
+				<td>China Meteorological Administration (CMA)</td>
+				<td>China</td>
+				<td>15 km</td>
+				<td>10 days</td>
+				<td>Every 6 hours</td>
+			</tr>
+			<tr>
+				<th scope="row"><a href="/en/docs/bom-api">ACCESS-G</a></th>
+				<td>Australian Bureau of Meteorology (BOM)</td>
+				<td>Australia</td>
+				<td>15 km</td>
+				<td>10 days</td>
+				<td>Every 6 hours</td>
+			</tr>
+			<tr>
+				<th scope="row">COSMO 2I & 5M</th>
+				<td>AM ARPAE ARPAP</td>
+				<td>Italy</td>
+				<td>2 km</td>
+				<td>3 days</td>
+				<td>Every 3 hours</td>
+			</tr>
+		</tbody>
+	</table>
 
-	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
+	<h2 id="api-documentation" class="mb-3 mt-6 text-2xl">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/forecast</mark> accepts a geographical coordinate, a list of weather
 		variables and responds with a JSON hourly weather forecast for 7 days. Time always starts at
@@ -847,221 +847,218 @@
 		<mark>&forecast_days=16</mark> is set, up to 16 days of forecast can be returned. All URL parameters
 		are listed below:
 	</p>
-	<div class="table-responsive">
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Parameter</th>
-					<th scope="col">Format</th>
-					<th scope="col">Required</th>
-					<th scope="col">Default</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">latitude, longitude</th>
-					<td>Floating point</td>
-					<td>Yes</td>
-					<td></td>
-					<td
-						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
-						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
-						for multiple locations the JSON output changes to a list of structures. CSV and XLSX
-						formats add a column <mark>location_id</mark>.</td
+	<table
+		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+	>
+		<thead>
+			<tr>
+				<th scope="col">Parameter</th>
+				<th scope="col">Format</th>
+				<th scope="col">Required</th>
+				<th scope="col">Default</th>
+				<th scope="col">Description</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row">latitude, longitude</th>
+				<td>Floating point</td>
+				<td>Yes</td>
+				<td></td>
+				<td
+					>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
+					separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
+					for multiple locations the JSON output changes to a list of structures. CSV and XLSX
+					formats add a column <mark>location_id</mark>.</td
+				>
+			</tr>
+			<tr>
+				<th scope="row">elevation</th>
+				<td>Floating point</td>
+				<td>No</td>
+				<td></td>
+				<td
+					>The elevation used for statistical downscaling. Per default, a <a
+						href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
+						title="Elevation based grid-cell selection explained"
+						>90 meter digital elevation model is used</a
+					>. You can manually set the elevation to correctly match mountain peaks. If
+					<mark>&elevation=nan</mark> is specified, downscaling will be disabled and the API uses the
+					average grid-cell height. For multiple locations, elevation can also be comma separated.</td
+				>
+			</tr>
+			<tr>
+				<th scope="row">hourly</th>
+				<td>String array</td>
+				<td>No</td>
+				<td></td>
+				<td
+					>A list of weather variables which should be returned. Values can be comma separated, or
+					multiple
+					<mark>&hourly=</mark> parameter in the URL can be used.
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">daily</th>
+				<td>String array</td>
+				<td>No</td>
+				<td></td>
+				<td
+					>A list of daily weather variable aggregations which should be returned. Values can be
+					comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
+					daily weather variables are specified, parameter <mark>timezone</mark> is required.</td
+				>
+			</tr>
+			<tr>
+				<th scope="row">current</th>
+				<td>String array</td>
+				<td>No</td>
+				<td></td>
+				<td>A list of weather variables to get current conditions.</td>
+			</tr>
+			<tr>
+				<th scope="row">temperature_unit</th>
+				<td>String</td>
+				<td>No</td>
+				<td><mark>celsius</mark></td>
+				<td
+					>If <mark>fahrenheit</mark> is set, all temperature values are converted to Fahrenheit.</td
+				>
+			</tr>
+			<tr>
+				<th scope="row">wind_speed_unit</th>
+				<td>String</td>
+				<td>No</td>
+				<td><mark>kmh</mark></td>
+				<td>Other wind speed speed units: <mark>ms</mark>, <mark>mph</mark> and <mark>kn</mark></td>
+			</tr>
+			<tr>
+				<th scope="row">precipitation_unit</th>
+				<td>String</td>
+				<td>No</td>
+				<td><mark>mm</mark></td>
+				<td>Other precipitation amount units: <mark>inch</mark></td>
+			</tr>
+			<tr>
+				<th scope="row">timeformat</th>
+				<td>String</td>
+				<td>No</td>
+				<td><mark>iso8601</mark></td>
+				<td
+					>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX epoch
+					time in seconds. Please note that all timestamp are in GMT+0! For daily values with unix
+					timestamps, please apply
+					<mark>utc_offset_seconds</mark> again to get the correct date.
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">timezone</th>
+				<td>String</td>
+				<td>No</td>
+				<td><mark>GMT</mark></td>
+				<td
+					>If <mark>timezone</mark> is set, all timestamps are returned as local-time and data is
+					returned starting at 00:00 local-time. Any time zone name from the
+					<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank"
+						>time zone database</a
 					>
-				</tr>
-				<tr>
-					<th scope="row">elevation</th>
-					<td>Floating point</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>The elevation used for statistical downscaling. Per default, a <a
-							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
-							title="Elevation based grid-cell selection explained"
-							>90 meter digital elevation model is used</a
-						>. You can manually set the elevation to correctly match mountain peaks. If
-						<mark>&elevation=nan</mark> is specified, downscaling will be disabled and the API uses the
-						average grid-cell height. For multiple locations, elevation can also be comma separated.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">hourly</th>
-					<td>String array</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>A list of weather variables which should be returned. Values can be comma separated, or
-						multiple
-						<mark>&hourly=</mark> parameter in the URL can be used.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">daily</th>
-					<td>String array</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>A list of daily weather variable aggregations which should be returned. Values can be
-						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
-						daily weather variables are specified, parameter <mark>timezone</mark> is required.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">current</th>
-					<td>String array</td>
-					<td>No</td>
-					<td></td>
-					<td>A list of weather variables to get current conditions.</td>
-				</tr>
-				<tr>
-					<th scope="row">temperature_unit</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>celsius</mark></td>
-					<td
-						>If <mark>fahrenheit</mark> is set, all temperature values are converted to Fahrenheit.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">wind_speed_unit</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>kmh</mark></td>
-					<td
-						>Other wind speed speed units: <mark>ms</mark>, <mark>mph</mark> and <mark>kn</mark></td
-					>
-				</tr>
-				<tr>
-					<th scope="row">precipitation_unit</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>mm</mark></td>
-					<td>Other precipitation amount units: <mark>inch</mark></td>
-				</tr>
-				<tr>
-					<th scope="row">timeformat</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>iso8601</mark></td>
-					<td
-						>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX epoch
-						time in seconds. Please note that all timestamp are in GMT+0! For daily values with unix
-						timestamps, please apply
-						<mark>utc_offset_seconds</mark> again to get the correct date.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">timezone</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>GMT</mark></td>
-					<td
-						>If <mark>timezone</mark> is set, all timestamps are returned as local-time and data is
-						returned starting at 00:00 local-time. Any time zone name from the
-						<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank"
-							>time zone database</a
-						>
-						is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
-						resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
-						can be specified.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">past_days</th>
-					<td>Integer (0-92)</td>
-					<td>No</td>
-					<td><mark>0</mark></td>
-					<td
-						>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">forecast_days</th>
-					<td>Integer (0-16)</td>
-					<td>No</td>
-					<td><mark>7</mark></td>
-					<td>Per default, only 7 days are returned. Up to 16 days of forecast are possible.</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						>forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th
-					>
-					<td>Integer (&gt;0)</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can
-						controlled. Instead of using the current day as a reference, the current hour or the
-						current 15-minute time-step is used.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">start_date<br />end_date</th>
-					<td>String (yyyy-mm-dd)</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
-						<mark>2022-06-30</mark>).
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">start_hour<br />end_hour<br />start_minutely_15<br />end_minutely_15</th>
-					<td>String (yyyy-mm-ddThh:mm)</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>The time interval to get weather data for hourly or 15 minutely data. Time must be
-						specified as an ISO8601 date (e.g.
-						<mark>2022-06-30T12:00</mark>).
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">models</th>
-					<td>String array</td>
-					<td>No</td>
-					<td><mark>auto</mark></td>
-					<td
-						>Manually select one or more weather models. Per default, the best suitable weather
-						models will be combined.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">cell_selection</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>land</mark></td>
-					<td
-						>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
-						suitable grid-cell on land with
-						<a
-							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
-							title="Elevation based grid-cell selection explained"
-							>similar elevation to the requested coordinates using a 90-meter digital elevation
-							model</a
-						>.
-						<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
-						grid-cell.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">apikey</th>
-					<td>String</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>Only required to commercial use to access reserved API resources for customers. The
-						server URL requires the prefix <mark>customer-</mark>. See
-						<a href={'/en/pricing'} title="Pricing information to use the weather API commercially"
-							>pricing</a
-						> for more information.</td
-					>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+					is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
+					resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
+					can be specified.</td
+				>
+			</tr>
+			<tr>
+				<th scope="row">past_days</th>
+				<td>Integer (0-92)</td>
+				<td>No</td>
+				<td><mark>0</mark></td>
+				<td
+					>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
+				>
+			</tr>
+			<tr>
+				<th scope="row">forecast_days</th>
+				<td>Integer (0-16)</td>
+				<td>No</td>
+				<td><mark>7</mark></td>
+				<td>Per default, only 7 days are returned. Up to 16 days of forecast are possible.</td>
+			</tr>
+			<tr>
+				<th scope="row"
+					>forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th
+				>
+				<td>Integer (&gt;0)</td>
+				<td>No</td>
+				<td></td>
+				<td
+					>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can
+					controlled. Instead of using the current day as a reference, the current hour or the
+					current 15-minute time-step is used.
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">start_date<br />end_date</th>
+				<td>String (yyyy-mm-dd)</td>
+				<td>No</td>
+				<td></td>
+				<td
+					>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
+					<mark>2022-06-30</mark>).
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">start_hour<br />end_hour<br />start_minutely_15<br />end_minutely_15</th>
+				<td>String (yyyy-mm-ddThh:mm)</td>
+				<td>No</td>
+				<td></td>
+				<td
+					>The time interval to get weather data for hourly or 15 minutely data. Time must be
+					specified as an ISO8601 date (e.g.
+					<mark>2022-06-30T12:00</mark>).
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">models</th>
+				<td>String array</td>
+				<td>No</td>
+				<td><mark>auto</mark></td>
+				<td
+					>Manually select one or more weather models. Per default, the best suitable weather models
+					will be combined.
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">cell_selection</th>
+				<td>String</td>
+				<td>No</td>
+				<td><mark>land</mark></td>
+				<td
+					>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
+					suitable grid-cell on land with
+					<a
+						href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
+						title="Elevation based grid-cell selection explained"
+						>similar elevation to the requested coordinates using a 90-meter digital elevation model</a
+					>.
+					<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
+					grid-cell.
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">apikey</th>
+				<td>String</td>
+				<td>No</td>
+				<td></td>
+				<td
+					>Only required to commercial use to access reserved API resources for customers. The
+					server URL requires the prefix <mark>customer-</mark>. See
+					<a href={'/en/pricing'} title="Pricing information to use the weather API commercially"
+						>pricing</a
+					> for more information.</td
+				>
+			</tr>
+		</tbody>
+	</table>
 	<p>
 		Additional optional URL parameters will be added. For API stability, no required parameters will
 		be added in the future!
@@ -1074,7 +1071,9 @@
 		from the preceding hour as an average or sum.
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -1360,7 +1359,9 @@
 		data, but will use interpolation.
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -1564,7 +1565,9 @@
 
 	<p>All pressure level have valid times of the indicated hour (instant).</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -1632,7 +1635,9 @@
 		> accepts the following values:
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -1768,7 +1773,9 @@
     </pre>
 
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -1862,14 +1869,16 @@
     </pre>
 </div>
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="weathervariables">Weather variable documentation</h2>
 </div>
 
 <div class="col-6">
 	<h3>WMO Weather interpretation codes (WW)</h3>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Code</th>

@@ -528,7 +528,7 @@
 
 <ResultPreview {params} {defaultParameters} type="historical-forecast" useStockChart={true} />
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
 		The weather data precisely aligns with the weather forecast API, created by continuously
@@ -555,7 +555,9 @@
 		the following weather forecast models:
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">National Weather Provider</th>
@@ -834,7 +836,7 @@
 	</div>
 </div>
 
-<div class="col-12 py-2">
+<div class=" py-2">
 	<h2 id="data-sources">Which Historical Weather Data to Use?</h2>
 	<p>
 		Open-Meteo provides various datasets for historical weather data: the Historical Weather API and
@@ -884,7 +886,7 @@
 	</ul>
 </div>
 
-<div class="col-12 py-2">
+<div class=" py-2">
 	<h2 id="data-sources">API Parameter</h2>
 	<p>
 		As the API is identical to the Forecast API, please refer to the Weather Forecast API

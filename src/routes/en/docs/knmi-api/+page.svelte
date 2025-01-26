@@ -549,7 +549,7 @@
 
 <ResultPreview {params} {defaultParameters} model_default="knmi_seamless" />
 
-<div class="col-12 py-5">
+<div class=" ">
 	<h2 id="data-sources">Data Source</h2>
 	<p>
 		KNMI provides weather forecasts from the HARMONIE AROME model with ECMWF IFS initialization.
@@ -561,7 +561,9 @@
 		> to provide up to 10 days of forecast.
 	</p>
 	<div class="table-responsive">
-		<table class="table">
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>

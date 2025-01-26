@@ -587,7 +587,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/status" />
 </svelte:head>
 
-<div class="col-12">
+<div class=" ">
 	<h2>Model Updates</h2>
 	<div class="row">
 		<div class="col-6">
@@ -626,7 +626,7 @@
 			</p>
 		</div>
 
-		<div class="col-12">
+		<div class=" ">
 			<p>
 				The free and commercial API services of Open-Meteo operate on different servers, leading to
 				slight variations in update times. Please choose the appropriate type below. Note that API
@@ -635,7 +635,7 @@
 			<LicenseSelector />
 		</div>
 
-		<div class="col-12 mb-3">
+		<div class=" mb-3">
 			<div class="form-check form-switch">
 				<input
 					class="form-check-input"
@@ -696,7 +696,9 @@
 		<h2>{section.name}</h2>
 
 		<div class="table-responsive">
-			<table class="table">
+			<table
+				class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
 				<thead>
 					<tr>
 						<th scope="col">Provider</th>
