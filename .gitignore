@@ -11,4 +11,4 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 yarn.lock
 build-stats.html
-stats.json
+build-stats.json
