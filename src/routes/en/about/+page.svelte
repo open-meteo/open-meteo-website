@@ -4,7 +4,7 @@
 </svelte:head>
 
 <div class="container my-6 grid gap-6 md:my-12 md:grid-cols-2">
-	<div class="">
+	<div>
 		<h2 class="mb-3 text-4xl">About</h2>
 		<p class="mb-3">
 			Open-Meteo is an open-source weather API and offers free access for non-commercial use. No API
@@ -45,7 +45,7 @@
 			>.
 		</p>
 	</div>
-	<div id="contact" class=" ">
+	<div id="contact">
 		<h2 class="mb-3 text-4xl">Vision</h2>
 		<p class="mb-3">
 			At our core, we believe that weather information should be freely available to everyone.
@@ -71,7 +71,7 @@
 			accurate and reliable weather information available.
 		</p>
 	</div>
-	<div id="contact" class=" ">
+	<div id="contact">
 		<h2 class="mb-3 text-4xl">Contact</h2>
 		<p class="mb-3">
 			We're thrilled that you're interested in contacting us! Whether you have a question, comment,

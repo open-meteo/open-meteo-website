@@ -13,7 +13,7 @@
 <div class="container">
 	<div>
 		<div>
-			<h2 class="    mb-3">Data Sources</h2>
+			<h2 class="mb-3">Data Sources</h2>
 			<p>Open-Meteo utilizes open-data from various national weather service including:</p>
 			<ul>
 				<li>
