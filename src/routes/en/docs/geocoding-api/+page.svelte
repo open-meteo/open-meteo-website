@@ -6,6 +6,14 @@
 
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select/index';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
 	const params = urlHashStore({
 		name: 'Berlin',
 		count: '10',
@@ -76,7 +84,7 @@
 >
 	<div>
 		<h2>Search for cities or postal code</h2>
-		<div class=" ">
+		<div>
 			<div class="  position-relative">
 				<input
 					type="text"
@@ -94,7 +102,6 @@
 		<div class="col-3">
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="language"
 					id="language"
 					aria-label="Language"
@@ -117,7 +124,6 @@
 		<div class="col-3">
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="count"
 					id="count"
 					aria-label="Number of results"
@@ -136,7 +142,6 @@
 		<div class="col-3">
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="format"
 					id="format"
 					aria-label="Format"
@@ -154,7 +159,7 @@
 	<LicenseSelector />
 </form>
 
-<div class=" ">
+<div>
 	<h2>Preview and API URL</h2>
 </div>
 
@@ -223,7 +228,7 @@
 	{/await}
 </div>
 
-<div class=" ">
+<div>
 	<label for="api_url" class="form-label"
 		>API URL (<a id="api_url_link" target="_blank" href={apiUrl}>Open in new tab</a>)</label
 	>
@@ -231,7 +236,7 @@
 	<div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
 </div>
 
-<div class=" ">
+<div>
 	<h2 id="api-documentation">API Documentation</h2>
 	<p>
 		The API endpoint <mark>https://geocoding-api.open-meteo.com/v1/search</mark> accepts a search term
@@ -473,7 +478,7 @@
 		>https://geocoding-api.open-meteo.com/v1/get?id=2950159</a
 	>
 
-	<h3 class="mt-5">Errors</h3>
+	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
 	<p>
 		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 		object is returned with a HTTP 400 status code.

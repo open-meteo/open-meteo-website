@@ -31,7 +31,7 @@
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<MapPinned size="36" strokeWidth={1.2} />
 				</div>
@@ -55,7 +55,7 @@
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<Zap size="36" strokeWidth={1.2} />
 				</div>
@@ -82,7 +82,7 @@
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<Watch size="36" strokeWidth={1.2} />
 				</div>
@@ -107,7 +107,7 @@
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<Archive size="34" strokeWidth={1.3} />
 				</div>
@@ -133,7 +133,7 @@
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<Waves size="34" strokeWidth={1.4} />
 				</div>
@@ -158,7 +158,7 @@
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<MountainSnow size="34" strokeWidth={1.3} />
 				</div>
@@ -345,13 +345,13 @@
 	</div>
 
 	<div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-		<div class="">
+		<div>
 			<div class="mb-3 flex items-center">
 				<div
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<Gauge size="34" strokeWidth={1.4} />
 				</div>
@@ -370,13 +370,13 @@
 				feel free to reach out to us.
 			</p>
 		</div>
-		<div class="">
+		<div>
 			<div class="mb-3 flex items-center">
 				<div
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<Lightbulb size="34" strokeWidth={1.4} />
 				</div>
@@ -394,13 +394,13 @@
 				and all the necessary parameters, making it simple for you to integrate our APIs into your projects.
 			</p>
 		</div>
-		<div class="">
+		<div>
 			<div class="mb-3 flex items-center">
 				<div
 					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
-						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<FileCheck size="34" strokeWidth={1.2} />
 				</div>

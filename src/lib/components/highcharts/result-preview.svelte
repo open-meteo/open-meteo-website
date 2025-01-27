@@ -660,7 +660,7 @@
 			<div in:fade>
 				<div>
 					{#await results}
-						<div class="" style={useStockChart ? 'height: 500px' : 'height: 400px'}>
+						<div style={useStockChart ? 'height: 500px' : 'height: 400px'}>
 							<div class="spinner-border" role="status">
 								<span class="visually-hidden">Loading...</span>
 							</div>
@@ -677,7 +677,7 @@
 								</div>
 							{/each}
 						{:else}
-							<div class="" style={useStockChart ? 'height: 500px' : 'height: 400px'}>
+							<div style={useStockChart ? 'height: 500px' : 'height: 400px'}>
 								<div class="flex h-full items-center justify-center">
 									<Alert.Root class="my-auto w-[unset] !pl-8" variant="informative">
 										<Alert.Description>
@@ -1063,9 +1063,7 @@ current <span class="token operator">=</span> response<span
 				class="tab-pane active"
 				in:fade
 				id="pills-typescript"
-				role="tabpanel"
 				aria-labelledby="pills-typescript-tab"
-				tabindex="0"
 			>
 				<div>
 					<p>
@@ -1311,14 +1309,7 @@ current <span class="token operator">=</span> response<span
 			</div>
 		{/if}
 		{#if mode == 'swift'}
-			<div
-				class="tab-pane active"
-				in:fade
-				id="pills-swift"
-				role="tabpanel"
-				aria-labelledby="pills-swift-tab"
-				tabindex="0"
-			>
+			<div class="tab-pane active" in:fade id="pills-swift" aria-labelledby="pills-swift-tab">
 				<div>
 					<p>
 						The preview code applies all parameters above automatically and structures weather data
@@ -1545,14 +1536,7 @@ dateFormatter<span class="token punctuation">.</span>dateFormat <span class="tok
 			</div>
 		{/if}
 		{#if mode == 'other'}
-			<div
-				class="tab-pane active"
-				in:fade
-				id="pills-other"
-				role="tabpanel"
-				aria-labelledby="pills-other-tab"
-				tabindex="0"
-			>
+			<div class="tab-pane active" in:fade id="pills-other" aria-labelledby="pills-other-tab">
 				<div>
 					<p>
 						Support for additional programming languages in our integrations may be available in the

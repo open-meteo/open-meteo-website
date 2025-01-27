@@ -2,8 +2,6 @@
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 
-	import * as Alert from '$lib/components/ui/alert';
-
 	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
@@ -17,6 +15,14 @@
 	import AccordionItem from '$lib/components/AccordionItem.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select/index';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
 	import {
 		daily,
@@ -90,7 +96,7 @@
 	<LocationSelection bind:params={$params} />
 
 	<div class="flex flex-row">
-		<div class="">
+		<div>
 			<DatePicker
 				bind:start_date={$params.start_date}
 				bind:end_date={$params.end_date}
@@ -98,7 +104,7 @@
 				{endDate}
 			/>
 		</div>
-		<div class="">
+		<div>
 			<p>Past weather forecasts from 2022 onwards are available.</p>
 			<p>
 				Quick:
@@ -130,56 +136,53 @@
 		</div>
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2>Hourly Weather Variables</h2>
 		{#each hourly as group}
-			<div class=" ">
+			<div>
 				{#each group as e}
-					<div class="form-check">
+					<div>
 						<input
-							class="form-check-input"
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_hourly"
 							name="hourly"
 							bind:group={$params.hourly}
 						/>
-						<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+						<label for="{e.name}_hourly">{e.label}</label>
 					</div>
 				{/each}
 			</div>
 		{/each}
 	</div>
 
-	<div class=" ">
-		<div class="accordion" id="accordionVariables">
+	<div>
+		<Accordion.Root class="rounded-lg border" multiple={true}>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
 				{#each additionalVariables as group}
-					<div class=" ">
+					<div>
 						{#each group as e}
-							<div class="form-check">
+							<div>
 								<input
-									class="form-check-input"
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
 									name="hourly"
 									bind:group={$params.hourly}
 								/>
-								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+								<label for="{e.name}_hourly">{e.label}</label>
 							</div>
 						{/each}
 					</div>
 				{/each}
 
-				<div class=" ">
+				<div>
 					<div class="  mb-6">
 						<select
-							class=" "
 							name="temporal_resolution"
 							id="temporal_resolution"
 							aria-label="Temporal Resolution For Hourly Data"
@@ -193,10 +196,9 @@
 						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
 					</div>
 				</div>
-				<div class=" ">
+				<div>
 					<div class="  mb-6">
 						<select
-							class=" "
 							name="cell_selection"
 							id="cell_selection"
 							aria-label="Grid Cell Selection"
@@ -216,18 +218,17 @@
 				count={countVariables(solarVariables, $params.hourly)}
 			>
 				{#each solarVariables as group}
-					<div class=" ">
+					<div>
 						{#each group as e}
-							<div class="form-check">
+							<div>
 								<input
-									class="form-check-input"
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
 									name="hourly"
 									bind:group={$params.hourly}
 								/>
-								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+								<label for="{e.name}_hourly">{e.label}</label>
 							</div>
 						{/each}
 					</div>
@@ -239,8 +240,8 @@
 						please specify Tilt and Azimuth below.</small
 					>
 				</div>
-				<div class=" ">
-					<div class=" ">
+				<div>
+					<div>
 						<input
 							type="number"
 							class="form-control"
@@ -258,8 +259,8 @@
 						{/if}
 					</div>
 				</div>
-				<div class=" ">
-					<div class=" ">
+				<div>
+					<div>
 						<input
 							type="number"
 							class="form-control"
@@ -286,49 +287,41 @@
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
 				<div class="  align-items-start">
-					<div
-						class="nav flex-column nav-pills me-3"
-						id="v-pills-tab"
-						role="tablist"
-						aria-orientation="vertical"
-					>
+					<div class="nav flex-column me-3" id="v-pills-tab" aria-orientation="vertical">
 						{#each pressureVariables as variable, i}
 							<button
 								class="nav-link text-nowrap text-start"
 								class:active={pressureVariablesTab == variable.name}
 								id="v-pills-{variable.name}-tab"
 								type="button"
-								role="tab"
 								aria-controls="v-pills-{variable.name}"
 								aria-selected={pressureVariablesTab == variable.name}
 								onclick={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
 							>
 						{/each}
 					</div>
-					<div class=" " id="v-pills-tabContent">
+					<div id="v-pills-tabContent">
 						{#each pressureVariables as variable}
 							<div
 								class="tab-pane fade"
 								class:active={pressureVariablesTab == variable.name}
 								class:show={pressureVariablesTab == variable.name}
 								id="v-pills-{variable.name}"
-								role="tabpanel"
 								aria-labelledby="v-pills-{variable.name}-tab"
 							>
 								<div>
 									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
 										<div class="col-lg-4">
 											{#each chunk as level}
-												<div class="form-check">
+												<div>
 													<input
-														class="form-check-input"
 														type="checkbox"
 														value="{variable.name}_{level}hPa"
 														id="{variable.name}_{level}hPa"
 														name="hourly"
 														bind:group={$params.hourly}
 													/>
-													<label class="form-check-label" for="{variable.name}_{level}hPa">
+													<label for="{variable.name}_{level}hPa">
 														{level} hPa
 														<small class="text-muted-foreground"
 															>({altitudeAboveSeaLevelMeters(level)})</small
@@ -359,21 +352,20 @@
 				{#each models as group}
 					<div class="  mb-3">
 						{#each group as e}
-							<div class="form-check">
+							<div>
 								<input
-									class="form-check-input"
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_model"
 									name="models"
 									bind:group={$params.models}
 								/>
-								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
+								<label for="{e.name}_model">{e.label}</label>
 							</div>
 						{/each}
 					</div>
 				{/each}
-				<div class=" ">
+				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
 						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
@@ -389,33 +381,31 @@
 				{#each minutely_15 as group}
 					<div class="  mb-3">
 						{#each group as e}
-							<div class="form-check">
+							<div>
 								<input
-									class="form-check-input"
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_minutely_15"
 									name="minutely_15"
 									bind:group={$params.minutely_15}
 								/>
-								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
+								<label for="{e.name}_minutely_15">{e.label}</label>
 							</div>
 						{/each}
 					</div>
 				{/each}
 				{#each solarVariables as group}
-					<div class=" ">
+					<div>
 						{#each group as e}
-							<div class="form-check">
+							<div>
 								<input
-									class="form-check-input"
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_minutely_15"
 									name="minutely_15"
 									bind:group={$params.minutely_15}
 								/>
-								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
+								<label for="{e.name}_minutely_15">{e.label}</label>
 							</div>
 						{/each}
 					</div>
@@ -428,24 +418,23 @@
 					>
 				</div>
 			</AccordionItem>
-		</div>
+		</Accordion.Root>
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2>Daily Weather Variables</h2>
 		{#each daily as group}
-			<div class=" ">
+			<div>
 				{#each group as e}
-					<div class="form-check">
+					<div>
 						<input
-							class="form-check-input"
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_daily"
 							name="daily"
 							bind:group={$params.daily}
 						/>
-						<label class="form-check-label" for="{e.name}_daily">{e.label}</label>
+						<label for="{e.name}_daily">{e.label}</label>
 					</div>
 				{/each}
 			</div>
@@ -457,12 +446,11 @@
 		{/if}
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2 class="mb-2 mt-6 text-2xl">Settings</h2>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="temperature_unit"
 					id="temperature_unit"
 					aria-label="Temperature Unit"
@@ -474,10 +462,9 @@
 				<label for="temperature_unit">Temperature Unit</label>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="wind_speed_unit"
 					id="wind_speed_unit"
 					aria-label="Windspeed Unit"
@@ -491,10 +478,9 @@
 				<label for="wind_speed_unit">Wind Speed Unit</label>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="precipitation_unit"
 					id="precipitation_unit"
 					aria-label="Precipitation Unit"
@@ -506,10 +492,9 @@
 				<label for="precipitation_unit">Precipitation Unit</label>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="timeformat"
 					id="timeformat"
 					aria-label="Timeformat"
@@ -528,7 +513,7 @@
 
 <ResultPreview {params} {defaultParameters} type="historical-forecast" useStockChart={true} />
 
-<div class=" ">
+<div>
 	<h2 id="data-sources">Data Source</h2>
 	<p>
 		The weather data precisely aligns with the weather forecast API, created by continuously

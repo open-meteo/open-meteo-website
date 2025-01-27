@@ -63,11 +63,11 @@
 			</div>
 		</div>
 
-		<div class="overflow-hidden rounded-lg bg-[#FAFAFA] dark:bg-[#282C34] p-6 duration-200">
+		<div class="overflow-hidden rounded-lg bg-[#FAFAFA] p-6 duration-200 dark:bg-[#282C34]">
 			<ToggleGroup.Root type="single" bind:value={tabSelected} class="justify-start gap-0">
 				<ToggleGroup.Item
 					value="weather-api"
-					class=" min-h-12 rounded-e-none opacity-100! lg:min-h-[unset]"
+					class=" opacity-100! min-h-12 rounded-e-none lg:min-h-[unset]"
 					aria-label="Toggle bold"
 					disabled={tabSelected === 'weather-api'}
 				>
@@ -75,7 +75,7 @@
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="last-10-days"
-					class="min-h-12 rounded-none opacity-100! lg:min-h-[unset]"
+					class="opacity-100! min-h-12 rounded-none lg:min-h-[unset]"
 					aria-label="Toggle italic"
 					disabled={tabSelected === 'last-10-days'}
 				>
@@ -83,19 +83,19 @@
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="historical-weather"
-					class="min-h-12 rounded-s-none opacity-100! lg:min-h-[unset]"
+					class="opacity-100! min-h-12 rounded-s-none lg:min-h-[unset]"
 					aria-label="Toggle strikethrough"
 					disabled={tabSelected === 'historical-weather'}
 				>
 					Historical data
 				</ToggleGroup.Item>
 			</ToggleGroup.Root>
-			<div class="relative min-h-[550px] lg:min-h-[500px]">
+			<div class="relative min-h-[530px] lg:min-h-[475px]">
 				{#if tabSelected === 'weather-api'}
 					<div in:fade class="group absolute w-full">
 						<Button
 							variant="ghost"
-							class="curl mt-20 max-h-20 min-h-8 w-full bg-transparent! p-0 lg:mt-12 [&_.shiki]:w-full [&_code]:w-full [&_code]:text-wrap [&_code]:break-words"
+							class="curl bg-transparent! mt-20 max-h-20 min-h-8 w-full p-0 lg:mt-12 [&_.shiki]:w-full [&_code]:w-full [&_code]:text-wrap [&_code]:break-words"
 							href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
 						>
 							<WeatherApiCurlBlock />
@@ -120,7 +120,7 @@
 					<div in:fade class="group absolute w-full">
 						<Button
 							variant="ghost"
-							class="curl mt-20 max-h-20 min-h-8 w-full bg-transparent! p-0 lg:mt-12 [&_.shiki]:w-full [&_code]:w-full [&_code]:text-wrap [&_code]:break-words"
+							class="curl bg-transparent! mt-20 max-h-20 min-h-8 w-full p-0 lg:mt-12 [&_.shiki]:w-full [&_code]:w-full [&_code]:text-wrap [&_code]:break-words"
 							href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&past_days=10&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
 						>
 							<Last10DaysCurlBlock />
@@ -145,7 +145,7 @@
 					<div in:fade class="group absolute w-full">
 						<Button
 							variant="ghost"
-							class="curl mt-20 max-h-20 min-h-8 w-full text-ellipsis bg-transparent! p-0 lg:mt-12 [&_.shiki]:w-full [&_code]:w-full [&_code]:text-wrap [&_code]:break-words"
+							class="curl bg-transparent! mt-20 max-h-20 min-h-8 w-full text-ellipsis p-0 lg:mt-12 [&_.shiki]:w-full [&_code]:w-full [&_code]:text-wrap [&_code]:break-words"
 							href="https://archive-api.open-meteo.com/v1/era5?latitude=52.52&longitude=13.41&start_date=2021-01-01&end_date=2021-12-31&hourly=temperature_2m"
 						>
 							<HistoricalWeatherCurlBlock />
@@ -179,7 +179,7 @@
 						class="bg-primary relative flex h-12 w-12 items-center justify-center rounded-xl text-white md:h-14 md:w-14"
 					>
 						<div
-							class="absolute h-12 w-12 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<MapPinned size="32" strokeWidth={1.3} />
 					</div>
@@ -208,7 +208,7 @@
 						class="bg-primary relative flex h-12 w-12 items-center justify-center rounded-xl text-white md:h-14 md:w-14"
 					>
 						<div
-							class="absolute h-12 w-12 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<Watch size="36" strokeWidth={1.2} />
 					</div>
@@ -234,7 +234,7 @@
 						class="bg-primary relative flex h-12 w-12 items-center justify-center rounded-xl text-white md:h-14 md:w-14"
 					>
 						<div
-							class="absolute h-12 w-12 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<Archive size="32" strokeWidth={1.4} />
 					</div>
@@ -267,7 +267,7 @@
 						class="bg-primary relative flex h-12 w-12 items-center justify-center rounded-xl text-white md:h-14 md:w-14"
 					>
 						<div
-							class="absolute h-12 w-12 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<div class="absolute h-8 w-8 fill-white">{@html Github}</div>
 					</div>
@@ -305,7 +305,7 @@
 						class="bg-primary relative flex h-12 w-12 items-center justify-center rounded-xl text-white md:h-14 md:w-14"
 					>
 						<div
-							class="absolute h-12 w-12 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<Key size="30" strokeWidth={1.6} />
 					</div>
@@ -336,7 +336,7 @@
 						class="bg-primary relative flex h-12 w-12 items-center justify-center rounded-xl text-white md:h-14 md:w-14"
 					>
 						<div
-							class="absolute h-12 w-12 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
+							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<Lightbulb size="33" strokeWidth={1.6} />
 					</div>

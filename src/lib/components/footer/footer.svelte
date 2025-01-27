@@ -20,7 +20,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="">
+		<div>
 			<a href={'/en/docs'} class="text-lg font-bold">Weather APIs</a>
 			<ul class="list-unstyled text-small">
 				<li class="mb-1">
@@ -55,7 +55,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="">
+		<div>
 			<p class="text-lg font-bold">Other APIs</p>
 			<ul class="list-unstyled text-small">
 				<li class="mb-1">
@@ -83,7 +83,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="">
+		<div>
 			<p class="text-lg font-bold">External</p>
 			<ul class="list-unstyled text-small">
 				<li class="mb-1">

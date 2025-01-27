@@ -47,23 +47,24 @@
 
 <h2 class="text-2xl">Location and Time</h2>
 
-<ToggleGroup.Root type="single" bind:value={$locationTabSelected} class="mt-2 justify-start gap-0">
-	<b class="mr-2">{params.location_mode}</b>
+<ToggleGroup.Root type="single" bind:value={$locationTabSelected} class="mt-2 justify-start gap-0 ">
 	Location:
-	<ToggleGroup.Item
-		value="location_search"
-		class="opacity-100!  ml-2  min-h-12 rounded-e-none lg:min-h-[unset] "
-		disabled={params.location_mode === 'location_search'}
-	>
-		<Locate size={20} class="mr-1" />Coordinates
-	</ToggleGroup.Item>
-	<ToggleGroup.Item
-		value="csv_coordinates"
-		class=" opacity-100! min-h-12 rounded-md rounded-s-none duration-300 lg:min-h-[unset] "
-		disabled={params.location_mode === 'csv_coordinates'}
-	>
-		<List size={20} class="mr-1" />List
-	</ToggleGroup.Item>
+	<div class="ml-2 flex rounded-lg border">
+		<ToggleGroup.Item
+			value="location_search"
+			class="opacity-100!   min-h-12 rounded-e-none lg:min-h-[unset] "
+			disabled={params.location_mode === 'location_search'}
+		>
+			<Locate size={20} class="mr-1" />Coordinates
+		</ToggleGroup.Item>
+		<ToggleGroup.Item
+			value="csv_coordinates"
+			class=" opacity-100! min-h-12 rounded-md rounded-s-none duration-300 lg:min-h-[unset] "
+			disabled={params.location_mode === 'csv_coordinates'}
+		>
+			<List size={20} class="mr-1" />List
+		</ToggleGroup.Item>
+	</div>
 </ToggleGroup.Root>
 
 <div class="mt-4">
@@ -175,7 +176,7 @@
 		</div>
 	{/if}
 	{#if params.location_mode == 'csv_coordinates'}
-		<div class="" in:fade>
+		<div in:fade>
 			<div class="flex flex-col gap-6 md:flex-row">
 				<div class="md:w-1/2">
 					<textarea class="w-full rounded-md border" bind:value={params.csv_coordinates} rows="5"

@@ -6,14 +6,21 @@
 	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
 
-	import Button from '$lib/components/ui/button/button.svelte';
-	import * as Alert from '$lib/components/ui/alert';
-
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import AccordionItem from '$lib/components/AccordionItem.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select/index';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
+	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 
 	import {
 		daily,
@@ -155,47 +162,47 @@
 		</div>
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2>Hourly Weather Variables</h2>
 		{#each hourly as group}
-			<div class=" ">
+			<div>
 				{#each group as e}
-					<div class="form-check">
+					<div class="">
 						<input
-							class="form-check-input"
+							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_hourly"
 							name="hourly"
 							bind:group={$params.hourly}
 						/>
-						<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+						<label for="{e.name}_hourly">{e.label}</label>
 					</div>
 				{/each}
 			</div>
 		{/each}
 	</div>
 
-	<div class=" ">
-		<div class="accordion" id="accordionVariables">
+	<div>
+		<Accordion.Root class="rounded-lg border" multiple={true}>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
 				{#each additionalVariables as group}
-					<div class=" ">
+					<div>
 						{#each group as e}
-							<div class="form-check">
+							<div class="">
 								<input
-									class="form-check-input"
+									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
 									name="hourly"
 									bind:group={$params.hourly}
 								/>
-								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+								<label for="{e.name}_hourly">{e.label}</label>
 							</div>
 						{/each}
 					</div>
@@ -204,7 +211,6 @@
 				<div class="  mt-3">
 					<div class="  mb-6">
 						<select
-							class=" "
 							name="temporal_resolution"
 							id="temporal_resolution"
 							aria-label="Temporal Resolution For Hourly Data"
@@ -221,7 +227,6 @@
 				<div class="  mt-3">
 					<div class="  mb-6">
 						<select
-							class=" "
 							name="cell_selection"
 							id="cell_selection"
 							aria-label="Grid Cell Selection"
@@ -241,18 +246,18 @@
 				count={countVariables(solarVariables, $params.hourly)}
 			>
 				{#each solarVariables as group}
-					<div class=" ">
+					<div>
 						{#each group as e}
-							<div class="form-check">
+							<div class="">
 								<input
-									class="form-check-input"
+									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
 									name="hourly"
 									bind:group={$params.hourly}
 								/>
-								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+								<label for="{e.name}_hourly">{e.label}</label>
 							</div>
 						{/each}
 					</div>
@@ -264,8 +269,8 @@
 						please specify Tilt and Azimuth below.</small
 					>
 				</div>
-				<div class=" ">
-					<div class=" ">
+				<div>
+					<div>
 						<input
 							type="number"
 							class="form-control"
@@ -283,8 +288,8 @@
 						{/if}
 					</div>
 				</div>
-				<div class=" ">
-					<div class=" ">
+				<div>
+					<div>
 						<input
 							type="number"
 							class="form-control"
@@ -311,18 +316,18 @@
 				count={countVariables(ensembleSpreadVariables, $params.hourly)}
 			>
 				{#each ensembleSpreadVariables as group}
-					<div class=" ">
+					<div>
 						{#each group as e}
-							<div class="form-check">
+							<div class="">
 								<input
-									class="form-check-input"
+									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
 									name="hourly"
 									bind:group={$params.hourly}
 								/>
-								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+								<label for="{e.name}_hourly">{e.label}</label>
 							</div>
 						{/each}
 					</div>
@@ -342,23 +347,23 @@
 				{#each models as group}
 					<div class="  mb-3">
 						{#each group as e}
-							<div class="form-check">
+							<div class="">
 								<input
-									class="form-check-input"
+									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_model"
 									name="models"
 									bind:group={$params.models}
 								/>
-								<label class="form-check-label" for="{e.name}_model"
+								<label for="{e.name}_model"
 									>{e.label}&nbsp;<span class="text-muted-foreground">({e.caption})</span></label
 								>
 							</div>
 						{/each}
 					</div>
 				{/each}
-				<div class=" ">
+				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> combines ERA5 and ERA5-Land seamlessly. The
 						CERRA model will also be included in <mark>Best Match</mark> once real-time updates become
@@ -366,24 +371,24 @@
 					>
 				</div>
 			</AccordionItem>
-		</div>
+		</Accordion.Root>
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2>Daily Weather Variables</h2>
 		{#each daily as group}
-			<div class=" ">
+			<div>
 				{#each group as e}
-					<div class="form-check">
+					<div class="">
 						<input
-							class="form-check-input"
+							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_daily"
 							name="daily"
 							bind:group={$params.daily}
 						/>
-						<label class="form-check-label" for="{e.name}_daily">{e.label}</label>
+						<label for="{e.name}_daily">{e.label}</label>
 					</div>
 				{/each}
 			</div>
@@ -395,12 +400,11 @@
 		{/if}
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2 class="mb-2 mt-6 text-2xl">Settings</h2>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="temperature_unit"
 					id="temperature_unit"
 					aria-label="Temperature Unit"
@@ -412,10 +416,9 @@
 				<label for="temperature_unit">Temperature Unit</label>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="wind_speed_unit"
 					id="wind_speed_unit"
 					aria-label="Windspeed Unit"
@@ -429,10 +432,9 @@
 				<label for="wind_speed_unit">Wind Speed Unit</label>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="precipitation_unit"
 					id="precipitation_unit"
 					aria-label="Precipitation Unit"
@@ -444,10 +446,9 @@
 				<label for="precipitation_unit">Precipitation Unit</label>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="timeformat"
 					id="timeformat"
 					aria-label="Timeformat"
@@ -621,7 +622,7 @@
 	in order to understand the limitations and potential biases of the data.
 </p>
 
-<div class=" ">
+<div>
 	<h2 id="api-documentation">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/archive</mark> allows users to retrieve historical weather data for a
@@ -1246,20 +1247,15 @@
 			</tbody>
 		</table>
 	</div>
-	<h3 class="mt-5">Errors</h3>
-	<p>
+	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
+	<p class="mb-3">
 		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 		object is returned with a HTTP 400 status code.
 	</p>
-	<pre><code>
-{`
-  "error": true,
-  "reason": "Cannot initialize WeatherVariable from invalid String value tempeture_2m for key hourly"
-`}
-      </code></pre>
+	<WeatherForecastError />
 </div>
 
-<h2 id="citation">Citation & Acknowledgement</h2>
+<h2 id="citation" class="mb-3 mt-5 text-2xl">Citation & Acknowledgement</h2>
 <p>
 	We encourage researchers in the field of meteorology and related disciplines to cite Open-Meteo
 	and its sources in their work. Citing not only gives proper credit but also promotes transparency,
@@ -1268,68 +1264,44 @@
 	researchers can benefit from the valuable resources it provides.
 </p>
 
-<div class="rounded border p-3">
-	<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-		<li class="nav-item" role="presentation">
-			<Button
-				class="nav-link"
-				id="pills-apa-tab"
-				data-bs-toggle="pill"
-				data-bs-target="#pills-apa"
-				role="tab"
-				aria-controls="pills-apa"
-				aria-selected="true"
-				onclick={() => (citation = 'apa')}>APA</Button
+<div class="mt-3 rounded border p-6">
+	<ToggleGroup.Root type="single" bind:value={citation} class="mb-3 justify-start gap-0">
+		Citation:
+		<div class="ml-2 flex rounded-lg border">
+			<ToggleGroup.Item
+				value="apa"
+				class="opacity-100!   min-h-12 rounded-e-none lg:min-h-[unset] "
+				disabled={citation === 'apa'}
 			>
-		</li>
-		<li class="nav-item" role="presentation">
-			<Button
-				class="nav-link"
-				id="pills-mla-tab"
-				data-bs-toggle="pill"
-				data-bs-target="#pills-mla"
-				role="tab"
-				aria-controls="pills-mla"
-				aria-selected="true"
-				onclick={() => (citation = 'mla')}>MLA</Button
+				APA
+			</ToggleGroup.Item>
+			<ToggleGroup.Item
+				value="mla"
+				class=" opacity-100! min-h-12 rounded-none duration-300 lg:min-h-[unset] "
+				disabled={citation === 'mla'}
 			>
-		</li>
-		<li class="nav-item" role="presentation">
-			<Button
-				class="nav-link"
-				id="pills-harvard-tab"
-				data-bs-toggle="pill"
-				data-bs-target="#pills-harvard"
-				role="tab"
-				aria-controls="pills-harvard"
-				aria-selected="true"
-				onclick={() => (citation = 'harvard')}>Harvard</Button
+				MLA
+			</ToggleGroup.Item>
+			<ToggleGroup.Item
+				value="harvard"
+				class=" opacity-100! min-h-12 rounded-none duration-300 lg:min-h-[unset] "
+				disabled={citation === 'harvard'}
 			>
-		</li>
-		<li class="nav-item" role="presentation">
-			<Button
-				class="nav-link"
-				id="pills-bibtex-tab"
-				data-bs-toggle="pill"
-				data-bs-target="#pills-bibtex"
-				role="tab"
-				aria-controls="pills-bibtex"
-				aria-selected="false"
-				onclick={() => (citation = 'bibtex')}>BibTeX</Button
+				Harvard
+			</ToggleGroup.Item>
+			<ToggleGroup.Item
+				value="bibtex"
+				class=" opacity-100! min-h-12 rounded-md rounded-s-none duration-300 lg:min-h-[unset] "
+				disabled={citation === 'bibtex'}
 			>
-		</li>
-	</ul>
-	<div class=" " id="pills-tabContent">
+				BibTex
+			</ToggleGroup.Item>
+		</div>
+	</ToggleGroup.Root>
+
+	<div>
 		{#if citation === 'apa'}
-			<div
-				in:fade
-				class="tab-pane"
-				class:active={citation === 'apa'}
-				id="pills-apa"
-				role="tabpanel"
-				aria-labelledby="pills-apa-tab"
-				tabindex="0"
-			>
+			<div in:fade class:active={citation === 'apa'} id="pills-apa" aria-labelledby="pills-apa-tab">
 				<p>
 					Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
 						title="zenodo publication"
@@ -1361,15 +1333,7 @@
 				</p>
 			</div>
 		{:else if citation === 'mla'}
-			<div
-				in:fade
-				class="tab-pane"
-				class:active={citation === 'mla'}
-				id="pills-mla"
-				role="tabpanel"
-				aria-labelledby="pills-mla-tab"
-				tabindex="0"
-			>
+			<div in:fade class:active={citation === 'mla'} id="pills-mla" aria-labelledby="pills-mla-tab">
 				<p>
 					Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
 					doi:10.5281/ZENODO.7970649.
@@ -1395,12 +1359,9 @@
 		{:else if citation === 'harvard'}
 			<div
 				in:fade
-				class="tab-pane"
 				class:active={citation === 'harvard'}
 				id="pills-harvard"
-				role="tabpanel"
 				aria-labelledby="pills-harvard-tab"
-				tabindex="0"
 			>
 				<p>
 					Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi: 10.5281/ZENODO.7970649.
@@ -1426,12 +1387,9 @@
 		{:else if citation === 'bibtex'}
 			<div
 				in:fade
-				class="tab-pane"
 				class:active={citation === 'bibtex'}
 				id="pills-bibtex"
-				role="tabpanel"
 				aria-labelledby="pills-bibtex-tab"
-				tabindex="0"
 			>
 				<pre>
 <code
@@ -1479,4 +1437,6 @@
 		{/if}
 	</div>
 </div>
-<p class="mt-4">Generated using Copernicus Climate Change Service information 2022.</p>
+<p class="text-muted-foreground mt-2">
+	Generated using Copernicus Climate Change Service information 2022.
+</p>

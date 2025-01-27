@@ -13,6 +13,14 @@
 	import Clock from 'lucide-svelte/icons/clock';
 	import Calendar from 'lucide-svelte/icons/calendar-cog';
 
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select/index';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
 	import { daily, models, defaultParameters } from './options';
 
 	const params = urlHashStore({
@@ -35,54 +43,48 @@
 <form method="get" action="https://flood-api.open-meteo.com/v1/flood">
 	<LocationSelection bind:params={$params} />
 
-	<div class=" ">
+	<div>
 		<div>
-			<ul class="nav nav-underline" id="pills-tab" role="tablist">
-				<li class="nav-item" role="presentation" style="width: 70px;">
+			<ul class="nav nav-underline">
+				<li style="width: 70px;">
 					<span class="nav-link disabled" aria-disabled="true">Time:</span>
 				</li>
-				<li class="nav-item" role="presentation">
+				<li>
 					<button
 						class="nav-link"
 						class:active={$params.time_mode == 'forecast_days'}
 						id="pills-forecast_days-tab"
 						type="button"
-						role="tab"
 						aria-controls="pills-forecast_days"
-						aria-selected="true"
 						onclick={() => ($params.time_mode = 'forecast_days')}
 						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
-				<li class="nav-item" role="presentation">
+				<li>
 					<button
 						class="nav-link"
 						class:active={$params.time_mode == 'time_interval'}
 						id="pills-time_interval-tab"
 						type="button"
-						role="tab"
 						aria-controls="pills-time_interval"
 						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><Calendar class="mb-1 me-1" /> Time Interval</button
+						><Calendar class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
 		</div>
-		<div class="  py-3" id="pills-tabContent">
+		<div class="  py-3">
 			{#if $params.time_mode == 'forecast_days'}
 				<div
 					class="tab-pane active"
 					in:fade
 					id="pills-forecast_days"
-					role="tabpanel"
 					aria-labelledby="pills-forecast_days-tab"
-					tabindex="0"
 				>
 					<div>
-						<div class=" ">
+						<div>
 							<div class="  mb-3">
 								<select
-									class=" "
 									name="forecast_days"
 									id="forecast_days"
 									aria-label="Forecast days"
@@ -98,10 +100,9 @@
 								<label for="forecast_days">Forecast days</label>
 							</div>
 						</div>
-						<div class=" ">
+						<div>
 							<div class="  mb-3">
 								<select
-									class=" "
 									name="past_days"
 									id="past_days"
 									aria-label="Past days"
@@ -129,9 +130,7 @@
 					class="tab-pane active"
 					in:fade
 					id="pills-time_interval"
-					role="tabpanel"
 					aria-labelledby="pills-time_interval-tab"
-					tabindex="0"
 				>
 					<div>
 						<div class="  mb-3">
@@ -143,36 +142,36 @@
 		</div>
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2>Daily Weather Variables</h2>
 		{#each daily as group}
-			<div class=" ">
+			<div>
 				{#each group as e}
-					<div class="form-check">
+					<div class="">
 						<input
-							class="form-check-input"
+							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_daily"
 							name="daily"
 							bind:group={$params.daily}
 						/>
-						<label class="form-check-label" for="{e.name}_daily">{@html e.label}</label>
+						<label for="{e.name}_daily">{@html e.label}</label>
 					</div>
 				{/each}
 			</div>
 		{/each}
-		<div class=" ">
+		<div>
 			<div class="form-check form-switch">
 				<input
-					class="form-check-input"
+					class=""
 					type="checkbox"
 					id="ensemble"
 					name="ensemble"
 					value="true"
 					bind:checked={$params.ensemble}
 				/>
-				<label class="form-check-label" for="ensemble">All 50 Ensemble Members</label>
+				<label for="ensemble">All 50 Ensemble Members</label>
 			</div>
 			<p class="mt-2">
 				<small class="text-muted-foreground"
@@ -182,8 +181,8 @@
 		</div>
 	</div>
 
-	<div class=" ">
-		<div class="accordion" id="accordionVariables">
+	<div>
+		<Accordion.Root class="rounded-lg border" multiple={true}>
 			<AccordionItem
 				id="models"
 				title="Flood Models"
@@ -192,21 +191,21 @@
 				{#each models as group}
 					<div class="  mb-3">
 						{#each group as e}
-							<div class="form-check">
+							<div class="">
 								<input
-									class="form-check-input"
+									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_model"
 									name="models"
 									bind:group={$params.models}
 								/>
-								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
+								<label for="{e.name}_model">{e.label}</label>
 							</div>
 						{/each}
 					</div>
 				{/each}
-				<div class=" ">
+				<div>
 					<p>
 						<small class="text-muted-foreground"
 							>Note: <mark>Seamless</mark> combines forecast and consolidated historical data. Per default,
@@ -215,15 +214,14 @@
 					</p>
 				</div>
 			</AccordionItem>
-		</div>
+		</Accordion.Root>
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2 class="mb-2 mt-6 text-2xl">Settings</h2>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="timeformat"
 					id="timeformat"
 					aria-label="Timeformat"
@@ -242,7 +240,7 @@
 
 <ResultPreview {params} {defaultParameters} type="flood" action="flood" sdk_type="flood_api" />
 
-<div class=" ">
+<div>
 	<h2 id="data-sources">Data Source</h2>
 	<p>
 		This API uses reanalysis and forecast data from the <a
@@ -575,7 +573,7 @@
 			</tbody>
 		</table>
 	</div>
-	<h3 class="mt-5">Errors</h3>
+	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
 	<p>
 		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 		object is returned with a HTTP 400 status code.

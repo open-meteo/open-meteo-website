@@ -11,6 +11,14 @@
 	import Clock from 'lucide-svelte/icons/clock';
 	import Calendar from 'lucide-svelte/icons/calendar-cog';
 
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select/index';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
 	import { daily, six_hourly, defaultParameters } from './options';
 
 	const params = urlHashStore({
@@ -26,59 +34,55 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/seasonal-forecast-api" />
 </svelte:head>
 
-<div class="alert alert-primary" role="alert">Work in progress!</div>
+<Alert.Root variant="informative">
+	<Alert.Description>Work in progress!</Alert.Description>
+</Alert.Root>
 
 <form method="get" action="https://seasonal-api.open-meteo.com/v1/seasonal">
 	<LocationSelection bind:params={$params} />
 
-	<div class=" ">
+	<div>
 		<div>
-			<ul class="nav nav-underline" id="pills-tab" role="tablist">
-				<li class="nav-item" role="presentation" style="width: 70px;">
+			<ul class="nav nav-underline">
+				<li style="width: 70px;">
 					<span class="nav-link disabled" aria-disabled="true">Time:</span>
 				</li>
-				<li class="nav-item" role="presentation">
+				<li>
 					<button
 						class="nav-link"
 						class:active={$params.time_mode == 'forecast_days'}
 						id="pills-forecast_days-tab"
 						type="button"
-						role="tab"
 						aria-controls="pills-forecast_days"
-						aria-selected="true"
 						onclick={() => ($params.time_mode = 'forecast_days')}
 						><Clock class="mb-1 me-1" /> Forecast Length</button
 					>
 				</li>
-				<li class="nav-item" role="presentation">
+				<li>
 					<button
 						class="nav-link"
 						class:active={$params.time_mode == 'time_interval'}
 						id="pills-time_interval-tab"
 						type="button"
-						role="tab"
 						aria-controls="pills-time_interval"
 						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><Calendar class="mb-1 me-1" /> Time Interval</button
+						><Calendar class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
 		</div>
-		<div class="  py-3" id="pills-tabContent">
+		<div class="  py-3">
 			{#if $params.time_mode == 'forecast_days'}
 				<div
 					class="tab-pane active"
 					in:fade
 					id="pills-forecast_days"
-					role="tabpanel"
 					aria-labelledby="pills-forecast_days-tab"
-					tabindex="0"
 				>
 					<div>
-						<div class=" ">
+						<div>
 							<div class="  mb-3">
 								<select
-									class=" "
 									name="forecast_days"
 									id="forecast_days"
 									aria-label="Forecast days"
@@ -92,10 +96,9 @@
 								<label for="forecast_days">Forecast days</label>
 							</div>
 						</div>
-						<div class=" ">
+						<div>
 							<div class="  mb-3">
 								<select
-									class=" "
 									name="past_days"
 									id="past_days"
 									aria-label="Past days"
@@ -123,9 +126,7 @@
 					class="tab-pane active"
 					in:fade
 					id="pills-time_interval"
-					role="tabpanel"
 					aria-labelledby="pills-time_interval-tab"
-					tabindex="0"
 				>
 					<div>
 						<div class="  mb-3">
@@ -137,54 +138,53 @@
 		</div>
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2>6-Hourly Weather Variables</h2>
 		{#each six_hourly as group}
-			<div class=" ">
+			<div>
 				{#each group as e}
-					<div class="form-check">
+					<div class="">
 						<input
-							class="form-check-input"
+							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_six_hourly"
 							name="six_hourly"
 							bind:group={$params.six_hourly}
 						/>
-						<label class="form-check-label" for="{e.name}_six_hourly">{e.label}</label>
+						<label for="{e.name}_six_hourly">{e.label}</label>
 					</div>
 				{/each}
 			</div>
 		{/each}
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2>Daily Weather Variables</h2>
 		{#each daily as group}
-			<div class=" ">
+			<div>
 				{#each group as e}
-					<div class="form-check">
+					<div class="">
 						<input
-							class="form-check-input"
+							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_daily"
 							name="daily"
 							bind:group={$params.daily}
 						/>
-						<label class="form-check-label" for="{e.name}_daily">{e.label}</label>
+						<label for="{e.name}_daily">{e.label}</label>
 					</div>
 				{/each}
 			</div>
 		{/each}
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2 class="mb-2 mt-6 text-2xl">Settings</h2>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="temperature_unit"
 					id="temperature_unit"
 					aria-label="Temperature Unit"
@@ -196,10 +196,9 @@
 				<label for="temperature_unit">Temperature Unit</label>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="wind_speed_unit"
 					id="wind_speed_unit"
 					aria-label="Windspeed Unit"
@@ -213,10 +212,9 @@
 				<label for="wind_speed_unit">Wind Speed Unit</label>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="precipitation_unit"
 					id="precipitation_unit"
 					aria-label="Precipitation Unit"
@@ -228,10 +226,9 @@
 				<label for="precipitation_unit">Precipitation Unit</label>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="timeformat"
 					id="timeformat"
 					aria-label="Timeformat"
@@ -256,7 +253,7 @@
 	sdk_type="ensemble_api"
 />
 
-<div class=" ">
+<div>
 	<h2 id="api-documentation">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/ecmwf</mark> accepts a geographical coordinate, a list of weather variables
@@ -601,7 +598,7 @@
 			</tbody>
 		</table>
 	</div>
-	<h3 class="mt-5">Errors</h3>
+	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
 	<p>
 		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 		object is returned with a HTTP 400 status code.

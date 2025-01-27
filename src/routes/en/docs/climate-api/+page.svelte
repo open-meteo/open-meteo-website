@@ -10,6 +10,14 @@
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select/index';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
 	import { daily, models, defaultParameters } from './options';
 
 	const params = urlHashStore({
@@ -40,15 +48,17 @@
 	/>
 </svelte:head>
 
-<div class="alert alert-primary" role="alert">
-	Read the <a href="https://openmeteo.substack.com/p/climate-change-api">blog article</a> with more information
-	about climate models and how data is downscaled to 10 km resolution.
-</div>
+<Alert.Root variant="informative">
+	<Alert.Description>
+		Read the <a href="https://openmeteo.substack.com/p/climate-change-api">blog article</a> with more
+		information about climate models and how data is downscaled to 10 km resolution.
+	</Alert.Description>
+</Alert.Root>
 
 <form method="get" action="https://climate-api.open-meteo.com/v1/climate">
 	<LocationSelection bind:params={$params} />
 
-	<div class=" ">
+	<div>
 		<div class="  mb-3">
 			<DatePicker
 				bind:start_date={$params.start_date}
@@ -80,29 +90,29 @@
 		</div>
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2>Daily Weather Variables</h2>
 		{#each daily as group}
-			<div class=" ">
+			<div>
 				{#each group as e}
-					<div class="form-check">
+					<div class="">
 						<input
-							class="form-check-input"
+							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_daily"
 							name="daily"
 							bind:group={$params.daily}
 						/>
-						<label class="form-check-label" for="{e.name}_daily">{e.label}</label>
+						<label for="{e.name}_daily">{e.label}</label>
 					</div>
 				{/each}
 			</div>
 		{/each}
 	</div>
 
-	<div class=" ">
-		<div class="accordion" id="accordionVariables">
+	<div>
+		<Accordion.Root class="rounded-lg border" multiple={true}>
 			<AccordionItem
 				id="models"
 				title="Climate models"
@@ -111,16 +121,16 @@
 				{#each models as group}
 					<div class="  mb-3">
 						{#each group as e}
-							<div class="form-check">
+							<div class="">
 								<input
-									class="form-check-input"
+									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_model"
 									name="models"
 									bind:group={$params.models}
 								/>
-								<label class="form-check-label" for="{e.name}_model"
+								<label for="{e.name}_model"
 									>{e.label}&nbsp;<span class="text-muted-foreground">({e.caption})</span></label
 								>
 							</div>
@@ -128,29 +138,28 @@
 					</div>
 				{/each}
 			</AccordionItem>
-		</div>
+		</Accordion.Root>
 	</div>
 
-	<div class=" ">
+	<div>
 		<h2 class="mb-2 mt-6 text-2xl">Settings</h2>
 		<div class=" pb-3">
 			<div class="form-check form-switch">
 				<input
-					class="form-check-input"
+					class=""
 					type="checkbox"
 					id="disable_bias_correction"
 					name="disable_bias_correction"
 					bind:checked={$params.disable_bias_correction}
 				/>
-				<label class="form-check-label" for="disable_bias_correction"
+				<label for="disable_bias_correction"
 					>Raw data. Disable statistical downscaling with ERA5-Land (10 km)</label
 				>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="temperature_unit"
 					id="temperature_unit"
 					aria-label="Temperature Unit"
@@ -162,10 +171,9 @@
 				<label for="temperature_unit">Temperature Unit</label>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="wind_speed_unit"
 					id="wind_speed_unit"
 					aria-label="Windspeed Unit"
@@ -179,10 +187,9 @@
 				<label for="wind_speed_unit">Wind Speed Unit</label>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="precipitation_unit"
 					id="precipitation_unit"
 					aria-label="Precipitation Unit"
@@ -194,10 +201,9 @@
 				<label for="precipitation_unit">Precipitation Unit</label>
 			</div>
 		</div>
-		<div class=" ">
+		<div>
 			<div class="  mb-3">
 				<select
-					class=" "
 					name="timeformat"
 					id="timeformat"
 					aria-label="Timeformat"
@@ -471,7 +477,7 @@
 	</table>
 </div>
 
-<div class=" ">
+<div>
 	<h2 id="api-documentation">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/climate</mark> allows users to retrieve climate weather data from multiple
@@ -843,7 +849,7 @@
 			</tbody>
 		</table>
 	</div>
-	<h3 class="mt-5">Errors</h3>
+	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
 	<p>
 		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 		object is returned with a HTTP 400 status code.

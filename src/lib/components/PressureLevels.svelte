@@ -51,50 +51,42 @@
 	>
 		<div class="accordion-body">
 			<div class="  align-items-start">
-				<div
-					class="nav flex-column nav-pills me-3"
-					id="v-pills-tab"
-					role="tablist"
-					aria-orientation="vertical"
-				>
+				<div class="nav flex-column me-3" id="v-pills-tab" aria-orientation="vertical">
 					{#each pressureVariables as variable, i}
 						<button
 							class="nav-link text-nowrap text-start"
 							class:active={i === 0}
 							id="v-pills-{variable.name}-tab"
-							data-bs-toggle="pill"
 							data-bs-target="#v-pills-{variable.name}"
 							type="button"
-							role="tab"
 							aria-controls="v-pills-{variable.name}"
 							aria-selected={i === 0}>{variable.label}</button
 						>
 					{/each}
 				</div>
-				<div class=" " id="v-pills-tabContent">
+				<div id="v-pills-tabContent">
 					{#each pressureVariables as variable, i}
 						<div
 							class="tab-pane fade"
 							class:active={i === 0}
 							class:show={i === 0}
 							id="v-pills-{variable.name}"
-							role="tabpanel"
 							aria-labelledby="v-pills-{variable.name}-tab"
 						>
 							<div>
 								{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
 									<div class="col-lg-4">
 										{#each chunk as level}
-											<div class="form-check">
+											<div class="">
 												<input
-													class="form-check-input"
+													class=""
 													type="checkbox"
 													value="{variable.name}_{level}hPa"
 													id="{variable.name}_{level}hPa"
 													name="hourly"
 													bind:group={selectedOptions}
 												/>
-												<label class="form-check-label" for="{variable.name}_{level}hPa">
+												<label for="{variable.name}_{level}hPa">
 													{level} hPa
 													<small class="text-muted-foreground"
 														>({altitudeAboveSeaLevelMeters(level)})</small

@@ -2,6 +2,14 @@
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import { api_key_preferences } from '$lib/stores/settings';
 
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select/index';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
 	async function fetchMeta(model: String, type: String, api_key_preferences: any) {
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
 		let url: string;
@@ -587,7 +595,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/status" />
 </svelte:head>
 
-<div class=" ">
+<div>
 	<h2>Model Updates</h2>
 	<div>
 		<div class="col-6">
@@ -626,7 +634,7 @@
 			</p>
 		</div>
 
-		<div class=" ">
+		<div>
 			<p>
 				The free and commercial API services of Open-Meteo operate on different servers, leading to
 				slight variations in update times. Please choose the appropriate type below. Note that API
@@ -637,24 +645,12 @@
 
 		<div class=" mb-3">
 			<div class="form-check form-switch">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value=""
-					id="globalWeatherModels"
-					bind:checked={showGlobalModels}
-				/>
-				<label class="form-check-label" for="globalWeatherModels"> Global Weather Models </label>
+				<input type="checkbox" value="" id="globalWeatherModels" bind:checked={showGlobalModels} />
+				<label for="globalWeatherModels"> Global Weather Models </label>
 			</div>
 			<div class="form-check form-switch">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value=""
-					id="europeanModels"
-					bind:checked={showEuropeanModels}
-				/>
-				<label class="form-check-label" for="europeanModels">
+				<input type="checkbox" value="" id="europeanModels" bind:checked={showEuropeanModels} />
+				<label for="europeanModels">
 					Local European Models <img
 						height="26"
 						src="/images/country-flags/european_union.svg"
@@ -664,13 +660,12 @@
 			</div>
 			<div class="form-check form-switch">
 				<input
-					class="form-check-input"
 					type="checkbox"
 					value=""
 					id="northAmericanModel"
 					bind:checked={showNorthAmericanModels}
 				/>
-				<label class="form-check-label" for="northAmericanModel">
+				<label for="northAmericanModel">
 					Local North American Models <img
 						height="26"
 						src="/images/country-flags/us.svg"
@@ -679,14 +674,8 @@
 				>
 			</div>
 			<div class="form-check form-switch">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					value=""
-					id="asianModels"
-					bind:checked={showAsianModels}
-				/>
-				<label class="form-check-label" for="asianModels">
+				<input type="checkbox" value="" id="asianModels" bind:checked={showAsianModels} />
+				<label for="asianModels">
 					Local Asian Models <img height="26" src="/images/country-flags/jp.svg" alt="jp" /></label
 				>
 			</div>

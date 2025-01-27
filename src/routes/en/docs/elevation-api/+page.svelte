@@ -11,6 +11,14 @@
 	import Plus from 'lucide-svelte/icons/plus';
 	import Trash from 'lucide-svelte/icons/trash-2';
 
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select/index';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41]
@@ -69,12 +77,14 @@
 	/>
 </svelte:head>
 
-<div class="alert alert-primary" role="alert">
-	Get more information on how weather forecasts are improved with elevation models in our <a
-		href="https://openmeteo.substack.com/p/87a094f1-325d-497a-8a9d-4d16b794fd15"
-		target="_blank">blog article</a
-	>.
-</div>
+<Alert.Root variant="informative">
+	<Alert.Description>
+		Get more information on how weather forecasts are improved with elevation models in our <a
+			href="https://openmeteo.substack.com/p/87a094f1-325d-497a-8a9d-4d16b794fd15"
+			target="_blank">blog article</a
+		>.
+	</Alert.Description>
+</Alert.Root>
 
 <form
 	id="elevation_form"
@@ -85,7 +95,7 @@
 	<div>
 		<h2>Select Coordinates or City</h2>
 		{#each $params.latitude as _, index}
-			<div class=" ">
+			<div>
 				<div class="  mb-3">
 					<input
 						type="number"
@@ -100,7 +110,7 @@
 					<label for="latitude">Latitude</label>
 				</div>
 			</div>
-			<div class=" ">
+			<div>
 				<div class="  mb-3">
 					<input
 						type="number"
@@ -158,7 +168,7 @@
 	<div class="form-control" style="height: 50px; width: 100%;">{response}</div>
 </div>
 
-<div class=" ">
+<div>
 	<label for="api_url" class="form-label"
 		>API URL (<a id="api_url_link" target="_blank" href={url}>Open in new tab</a>)</label
 	>
@@ -166,7 +176,7 @@
 	<div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
 </div>
 
-<div class=" ">
+<div>
 	<h2 id="api-documentation">API Documentation</h2>
 	<p>
 		The API endpoint <mark>/v1/elevation</mark> accepts one or multiple geographical coordinate and returns
@@ -243,7 +253,7 @@
       </code>
     </pre>
 
-	<h3 class="mt-5">Errors</h3>
+	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
 	<p>
 		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 		object is returned with a HTTP 400 status code.

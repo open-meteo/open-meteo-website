@@ -141,10 +141,10 @@
 		><Button variant="ghost"><Search size={20} class="mr-1" /> {label}</Button>
 	</Dialog.Trigger>
 	<Dialog.Content class="flex min-h-[400px] flex-col sm:max-w-[600px]">
-		<Dialog.Header class="">
+		<Dialog.Header>
 			<Dialog.Title>Search Locations</Dialog.Title>
 		</Dialog.Header>
-		<div class="">
+		<div>
 			<div class="flex gap-3">
 				<Input
 					type="search"
@@ -179,7 +179,7 @@
 							<div class="rounded-lg border">
 								{#each $favorites as location}
 									<Button
-										class="flex h-[unset] w-full justify-between rounded-none px-3 py-2 [&:not(:last-child)]:border-b"
+										class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2"
 										variant={'custom'}
 										onclick={() => selectLocation(location)}
 									>
@@ -230,7 +230,7 @@
 							<div class="rounded-lg border">
 								{#each $last_visited as location}
 									<Button
-										class="flex h-[unset] w-full justify-between rounded-none px-3 py-2 [&:not(:last-child)]:border-b"
+										class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2"
 										variant={'custom'}
 										onclick={() => selectLocation(location)}
 									>
@@ -293,7 +293,7 @@
 						<div class="rounded-lg border">
 							{#each results.results || [] as location}
 								<Button
-									class="flex h-[unset] w-full justify-between rounded-none px-3 py-2 [&:not(:last-child)]:border-b"
+									class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2"
 									variant={'custom'}
 									onclick={() => selectLocation(location)}
 								>

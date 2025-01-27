@@ -46,23 +46,23 @@
 	></div>
 	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">
 		<Logo width="96" height="96" shadow={true} />
-		<h1 class="text-shadow text-3xl font-light shadow-[rgba(0,0,0,0.7)] md:text-5xl">
+		<h1 class="text-shadow text-2xl font-light shadow-[rgba(0,0,0,0.7)] md:text-5xl">
 			{heroTitle}
 		</h1>
 		<div class="flex flex-col items-center justify-center gap-6 md:w-1/2">
-			<p class="text-shadow text-center text-lg font-light shadow-[rgba(0,0,0,0.7)]">
-				{heroDescription}
-			</p>
-			<div class="mt-2 flex gap-4">
-				{#if heroPrimaryButtonText}
+			{#if heroDescription}
+				<p class="text-shadow text-center text-lg font-light shadow-[rgba(0,0,0,0.7)]">
+					{heroDescription}
+				</p>
+			{/if}
+			{#if heroPrimaryButtonText}
+				<div class="mt-2 flex gap-4">
 					<Button variant="default" href={heroPrimaryButtonPath}>{heroPrimaryButtonText}</Button>
-				{/if}
-				{#if heroSecondaryButtonText}
 					<Button variant="outline-white" href={heroSecondaryButtonPath}
 						>{heroSecondaryButtonText}</Button
 					>
-				{/if}
-			</div>
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>
