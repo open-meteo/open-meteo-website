@@ -6,7 +6,7 @@ export default defineConfig({
 	plugins: [
 		sveltekit(),
 		visualizer({
-			// filename: 'build-stats.html',
+			filename: 'build-stats.json',
 			template: 'raw-data'
 			// gzipSize: true,
 			// brotliSize: true,

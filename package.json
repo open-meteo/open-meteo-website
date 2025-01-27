@@ -4,9 +4,9 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "svelte-kit sync && vite dev",
+		"build": "svelte-kit sync && vite build",
 		"staging": "NODE_ENV=development vite build --mode development",
-		"build": "vite build",
 		"rename_index_files": "node scripts/rename_to_index_html.js",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
@@ -42,7 +42,7 @@
 		"vite": "^6.0.11"
 	},
 	"dependencies": {
-		"highcharts": "^11.4.1",
+		"highcharts": "^12.1.2",
 		"openmeteo": "^1.1.3",
 		"svelte-local-storage-store": "^0.6.4",
 		"svelte-persisted-store": "^0.12.0",
