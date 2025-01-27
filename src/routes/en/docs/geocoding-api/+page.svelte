@@ -74,7 +74,7 @@
 		e.preventDefault();
 	}}
 >
-	<div class="row">
+	<div>
 		<h2>Search for cities or postal code</h2>
 		<div class=" ">
 			<div class="  position-relative">

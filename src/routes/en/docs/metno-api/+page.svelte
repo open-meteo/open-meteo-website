@@ -78,7 +78,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="tab-content py-3" id="pills-tabContent">
+		<div class="  py-3" id="pills-tabContent">
 			{#if $params.time_mode == 'forecast_days'}
 				<div
 					class="tab-pane active"
@@ -88,7 +88,7 @@
 					aria-labelledby="pills-forecast_days-tab"
 					tabindex="0"
 				>
-					<div class="row">
+					<div>
 						<div class=" ">
 							<div class="  mb-3">
 								<select
@@ -140,7 +140,7 @@
 					aria-labelledby="pills-time_interval-tab"
 					tabindex="0"
 				>
-					<div class="row">
+					<div>
 						<div class="  mb-3">
 							<DatePicker bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>

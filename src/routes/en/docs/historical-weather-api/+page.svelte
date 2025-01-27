@@ -474,7 +474,7 @@
 />
 
 <h2 id="data-sources" class="mb-3 mt-5 text-2xl">Data Sources</h2>
-<div class="row">
+<div>
 	<div class="col-6">
 		<p>
 			The Historical Weather API is based on reanalysis datasets and uses a combination of weather
@@ -1319,7 +1319,7 @@
 			>
 		</li>
 	</ul>
-	<div class="tab-content" id="pills-tabContent">
+	<div class=" " id="pills-tabContent">
 		{#if citation === 'apa'}
 			<div
 				in:fade

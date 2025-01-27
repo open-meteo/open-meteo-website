@@ -18,32 +18,35 @@
 </script>
 
 <div class="overflow-hidden">
-	<ToggleGroup.Root type="single" bind:value={licenseSelected} class="justify-start gap-0">
-		<ToggleGroup.Item
-			value="non_commercial"
-			class=" min-h-12 rounded-e-none opacity-100! lg:min-h-[unset]"
-			aria-label="Toggle bold"
-			disabled={licenseSelected === 'non_commercial'}
-		>
-			Non-Commercial
-		</ToggleGroup.Item>
-		<ToggleGroup.Item
-			value="commercial"
-			class="min-h-12 rounded-none opacity-100! lg:min-h-[unset]"
-			aria-label="Toggle italic"
-			disabled={licenseSelected === 'commercial'}
-		>
-			Commercial
-		</ToggleGroup.Item>
-		<ToggleGroup.Item
-			value="self_hosted"
-			class="min-h-12 rounded-s-none opacity-100! lg:min-h-[unset]"
-			aria-label="Toggle strikethrough"
-			disabled={licenseSelected === 'self_hosted'}
-		>
-			Self-Hosted
-		</ToggleGroup.Item>
-	</ToggleGroup.Root>
+	<div class="flex items-center gap-2">
+		<div class="text-muted-foreground">Usage license:</div>
+		<ToggleGroup.Root type="single" bind:value={licenseSelected} class="justify-start gap-0">
+			<ToggleGroup.Item
+				value="non_commercial"
+				class=" opacity-100! min-h-12 rounded-e-none lg:min-h-[unset]"
+				aria-label="Toggle bold"
+				disabled={licenseSelected === 'non_commercial'}
+			>
+				Non-Commercial
+			</ToggleGroup.Item>
+			<ToggleGroup.Item
+				value="commercial"
+				class="opacity-100! min-h-12 rounded-none lg:min-h-[unset]"
+				aria-label="Toggle italic"
+				disabled={licenseSelected === 'commercial'}
+			>
+				Commercial
+			</ToggleGroup.Item>
+			<ToggleGroup.Item
+				value="self_hosted"
+				class="opacity-100! min-h-12 rounded-s-none lg:min-h-[unset]"
+				aria-label="Toggle strikethrough"
+				disabled={licenseSelected === 'self_hosted'}
+			>
+				Self-Hosted
+			</ToggleGroup.Item>
+		</ToggleGroup.Root>
+	</div>
 	<div class="relative mt-3">
 		{#if licenseSelected === 'non_commercial'}
 			<div in:fade>

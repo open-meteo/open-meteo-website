@@ -6,10 +6,13 @@
 	import { api_key_preferences } from '$lib/stores/settings';
 	import HighchartContainer from './highcharts-container.svelte';
 
+	import Button from '../ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
 	import InfoCircle from 'lucide-svelte/icons/info';
 	import ExclamationTriangle from 'lucide-svelte/icons/triangle-alert';
 	import ArrowClockwise from 'lucide-svelte/icons/refresh-cw';
-	import Button from '../ui/button/button.svelte';
 
 	interface Props {
 		params: Writable<any>;
@@ -603,93 +606,61 @@
 	let mode = $state('chart');
 </script>
 
-<h2 id="api-response" class="mb-2 mt-6 text-2xl">API Response</h2>
+<h2 id="api-response" class="mt-6 text-2xl">API Response</h2>
 
-<div class="">
-	<div>
-		<ul class="nav nav-underline" role="tablist">
-			<li class="nav-item" role="presentation">
-				<span class="nav-link disabled" aria-disabled="true">Preview:</span>
-			</li>
-			<li class="nav-item" role="presentation">
-				<button
-					class="nav-link"
-					class:active={mode == 'chart'}
-					id="pills-chart-tab"
-					type="button"
-					role="tab"
-					aria-controls="pills-chart"
-					aria-selected="true"
-					onclick={() => (mode = 'chart')}>Chart And URL</button
-				>
-			</li>
-			<li class="nav-item" role="presentation">
-				<button
-					class="nav-link"
-					class:active={mode == 'python'}
-					id="pills-python-tab"
-					type="button"
-					role="tab"
-					aria-controls="pills-python"
-					onclick={() => (mode = 'python')}
-					aria-selected="true">Python</button
-				>
-			</li>
-			<li class="nav-item" role="presentation">
-				<button
-					class="nav-link"
-					class:active={mode == 'typescript'}
-					id="pills-typescript-tab"
-					type="button"
-					role="tab"
-					aria-controls="pills-typescript"
-					onclick={() => (mode = 'typescript')}
-					aria-selected="true">Typescript</button
-				>
-			</li>
-			<li class="nav-item" role="presentation">
-				<button
-					class="nav-link"
-					class:active={mode == 'swift'}
-					id="pills-swift-tab"
-					type="button"
-					role="tab"
-					aria-controls="pills-swift"
-					onclick={() => (mode = 'swift')}
-					aria-selected="true">Swift</button
-				>
-			</li>
-			<li class="nav-item" role="presentation">
-				<button
-					class="nav-link"
-					class:active={mode == 'other'}
-					id="pills-other-tab"
-					type="button"
-					role="tab"
-					aria-controls="pills-other"
-					onclick={() => (mode = 'other')}
-					aria-selected="true">Other</button
-				>
-			</li>
-		</ul>
+<div class="mt-4">
+	<div class="flex items-center gap-2">
+		<div class="text-muted-foreground">Preview:</div>
+		<ToggleGroup.Root type="single" bind:value={mode} class="justify-start gap-0">
+			<ToggleGroup.Item
+				value="chart"
+				class="opacity-100! min-h-12 rounded-e-none lg:min-h-[unset]"
+				aria-label="Toggle bold"
+				disabled={mode === 'chart'}
+			>
+				Chart & URL
+			</ToggleGroup.Item>
+			<ToggleGroup.Item
+				value="python"
+				class="opacity-100! min-h-12 rounded-none lg:min-h-[unset]"
+				aria-label="Toggle italic"
+				disabled={mode === 'python'}
+			>
+				Python
+			</ToggleGroup.Item>
+			<ToggleGroup.Item
+				value="typescript"
+				class="opacity-100! min-h-12 rounded-none lg:min-h-[unset]"
+				aria-label="Toggle italic"
+				disabled={mode === 'typescript'}
+			>
+				Typescript
+			</ToggleGroup.Item>
+			<ToggleGroup.Item
+				value="swift"
+				class="opacity-100! min-h-12 rounded-none lg:min-h-[unset]"
+				aria-label="Toggle italic"
+				disabled={mode === 'swift'}
+			>
+				Swift
+			</ToggleGroup.Item>
+			<ToggleGroup.Item
+				value="other"
+				class="opacity-100! min-h-12 rounded-s-none lg:min-h-[unset]"
+				aria-label="Toggle strikethrough"
+				disabled={mode === 'other'}
+			>
+				Other
+			</ToggleGroup.Item>
+		</ToggleGroup.Root>
 	</div>
 
-	<div class="tab-content py-3">
+	<div class="py-3">
 		{#if mode == 'chart'}
-			<div
-				class="tab-pane active"
-				in:fade
-				id="pills-chart"
-				role="tabpanel"
-				aria-labelledby="pills-chart-tab"
-				tabindex="0"
-			>
-				<div id="container w-100">
+			<div in:fade>
+				<div>
 					{#await results}
-						<div
-							class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
-							style={useStockChart ? 'height: 500px' : 'height: 400px'}
-						>
+						<div class="" style={useStockChart ? 'height: 500px' : 'height: 400px'}>
 							<div class="spinner-border" role="status">
 								<span class="visually-hidden">Loading...</span>
 							</div>
@@ -697,39 +668,62 @@
 					{:then results}
 						{#if results}
 							{#each results.slice(0, 10) as chart}
-								<HighchartContainer
-									options={chart}
-									{useStockChart}
-									style={useStockChart ? 'height: 500px' : 'height: 400px'}
-								/>
+								<div class="w-full">
+									<HighchartContainer
+										options={chart}
+										{useStockChart}
+										style={useStockChart ? 'height: 500px' : 'height: 400px'}
+									/>
+								</div>
 							{/each}
 						{:else}
-							<div
-								class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
-								style={useStockChart ? 'height: 500px' : 'height: 400px'}
-							>
-								<div class="alert alert-primary d-flex align-items-center" role="alert">
-									<InfoCircle class="me-2" />
-									<div>
-										Parameters have changed.
-										<button type="submit" class="btn btn-primary ms-2" onclick={reload}
-											><ArrowClockwise class="me-2" />Reload Chart
-										</button>
-									</div>
+							<div class="" style={useStockChart ? 'height: 500px' : 'height: 400px'}>
+								<div class="flex h-full items-center justify-center">
+									<Alert.Root class="my-auto w-[unset] !pl-8" variant="informative">
+										<Alert.Description>
+											<div class="flex items-center justify-center gap-2">
+												<div class="text-muted-foreground flex items-center">
+													<InfoCircle class="mr-2" />
+													Parameters have changed.
+												</div>
+
+												<Button
+													variant="ghost"
+													type="submit"
+													class="flex cursor-pointer !flex-row"
+													onclick={reload}
+													><ArrowClockwise class="mr-2" />Reload Chart
+												</Button>
+											</div>
+										</Alert.Description>
+									</Alert.Root>
 								</div>
 							</div>
 						{/if}
 					{:catch error}
 						<div
-							class="d-flex justify-content-center align-items-center bg-secondary-subtle rounded-3"
+							class="bg-secondary-subtle rounded-3"
 							style={useStockChart ? 'height: 500px' : 'height: 400px'}
 						>
-							<div class="alert alert-danger d-flex align-items-center" role="alert">
-								<ExclamationTriangle class="me-2" />
-								<div>{error.message}</div>
-								<button type="submit" class="btn btn-danger ms-2" onclick={reload}
-									><ArrowClockwise class="me-2" />Reload Chart
-								</button>
+							<div class="flex h-full items-center justify-center">
+								<Alert.Root variant="destructive" class="my-auto w-[unset] !pl-8">
+									<Alert.Description>
+										<div class="flex items-center justify-center gap-2">
+											<div class="flex items-center">
+												<ExclamationTriangle class="mr-2" />
+												{error.message}
+											</div>
+
+											<Button
+												variant="ghost"
+												type="submit"
+												class="flex cursor-pointer !flex-row"
+												onclick={reload}
+												><ArrowClockwise class="mr-2" />Reload Chart
+											</Button>
+										</div>
+									</Alert.Description>
+								</Alert.Root>
 							</div>
 						</div>
 					{/await}
@@ -754,15 +748,8 @@
 			</div>
 		{/if}
 		{#if mode == 'python'}
-			<div
-				class="tab-pane active"
-				in:fade
-				id="pills-python"
-				role="tabpanel"
-				aria-labelledby="pills-python-tab"
-				tabindex="0"
-			>
-				<div class="row">
+			<div in:fade>
+				<div>
 					<p>
 						The sample code automatically applies all the parameters selected above. It includes
 						caching and the conversion to Pandas DataFrames. The use of DataFrames is entirely
@@ -1080,7 +1067,7 @@ current <span class="token operator">=</span> response<span
 				aria-labelledby="pills-typescript-tab"
 				tabindex="0"
 			>
-				<div class="row">
+				<div>
 					<p>
 						The preview code applies all parameters above automatically and structures weather data
 						into an easily usable object. More information and examples are available on <a
@@ -1332,7 +1319,7 @@ current <span class="token operator">=</span> response<span
 				aria-labelledby="pills-swift-tab"
 				tabindex="0"
 			>
-				<div class="row">
+				<div>
 					<p>
 						The preview code applies all parameters above automatically and structures weather data
 						into an easily usable object. More information and examples are available on <a
@@ -1566,7 +1553,7 @@ dateFormatter<span class="token punctuation">.</span>dateFormat <span class="tok
 				aria-labelledby="pills-other-tab"
 				tabindex="0"
 			>
-				<div class="row">
+				<div>
 					<p>
 						Support for additional programming languages in our integrations may be available in the
 						future. If your preferred programming language isn't currently supported, you can still

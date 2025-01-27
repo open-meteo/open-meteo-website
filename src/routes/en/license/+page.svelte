@@ -292,7 +292,7 @@
 						>
 					</li>
 				</ul>
-				<div class="tab-content" id="pills-tabContent">
+				<div class=" " id="pills-tabContent">
 					<div
 						class="tab-pane fade show active"
 						id="pills-apa"

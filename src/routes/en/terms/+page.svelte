@@ -45,7 +45,7 @@
 		disclaims all liability under these Terms of Use, whether arising from contract, tort, or any
 		other cause.
 	</p>
-	<div class="row">
+	<div>
 		<div class=" ">
 			<h3>Non-Commercial Use</h3>
 			<p>By using the Free API for non-commercial use you agree to following terms:</p>
@@ -197,7 +197,7 @@
 		collect non-personal information as outlined below. If you have any questions or concerns about
 		our privacy policy, please contact us.
 	</p>
-	<div class="row">
+	<div>
 		<div class=" ">
 			<h3>Website of Open-Meteo.com</h3>
 			<p>

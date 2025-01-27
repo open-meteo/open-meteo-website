@@ -40,6 +40,9 @@
 		additionalVariables
 	} from './options';
 
+	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
+	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
+
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
@@ -86,20 +89,20 @@
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<LocationSelection bind:params={$params} />
 
-	<div class="mt-6">
+	<div class="mt-12">
 		<ToggleGroup.Root type="single" bind:value={$timeModeSelected} class="mt-2 justify-start gap-0">
 			<b class="mr-2">{$params.time_mode}</b>
 			Time:
 			<ToggleGroup.Item
 				value="forecast_days"
-				class="ml-2  min-h-12  rounded-e-none opacity-100! lg:min-h-[unset] "
+				class="opacity-100!  ml-2  min-h-12 rounded-e-none lg:min-h-[unset] "
 				disabled={$params.time_mode === 'forecast_days'}
 			>
 				<Clock size={20} class="mr-1" />Forecast Length
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="time_interval"
-				class=" min-h-12 rounded-md rounded-s-none opacity-100! duration-300 lg:min-h-[unset]"
+				class=" opacity-100! min-h-12 rounded-md rounded-s-none duration-300 lg:min-h-[unset]"
 				disabled={$params.time_mode === 'time_interval'}
 			>
 				<Calendar size={20} class="mr-1" />Time Interval
@@ -380,7 +383,7 @@
 				title="Pressure Level Variables"
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
-				<div class="d-flex align-items-start">
+				<div class="  align-items-start">
 					<div
 						class="nav flex-column nav-pills me-3"
 						id="v-pills-tab"
@@ -400,7 +403,7 @@
 							>
 						{/each}
 					</div>
-					<div class="tab-content" id="v-pills-tabContent">
+					<div class=" " id="v-pills-tabContent">
 						{#each pressureVariables as variable}
 							<div
 								class="tab-pane fade"
@@ -410,7 +413,7 @@
 								role="tabpanel"
 								aria-labelledby="v-pills-{variable.name}-tab"
 							>
-								<div class="row">
+								<div>
 									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
 										<div class="col-lg-4">
 											{#each chunk as level}
@@ -1628,7 +1631,7 @@
 		</table>
 	</div>
 
-	<h3 class="mt-5">Daily Parameter Definition</h3>
+	<h3 class="mv-b mt-5">Daily Parameter Definition</h3>
 	<p>
 		Aggregations are a simple 24 hour aggregation from hourly values. The parameter <mark
 			>&daily=</mark
@@ -1749,28 +1752,9 @@
 		</table>
 	</div>
 
-	<h3 class="mt-5">JSON Return Object</h3>
-	<p>On success a JSON object will be returned.</p>
-	<pre>
-      <code>
-{`
-  "latitude": 52.52,
-  "longitude": 13.419,
-  "elevation": 44.812,
-  "generationtime_ms": 2.2119,
-  "utc_offset_seconds": 0,
-  "timezone": "Europe/Berlin",
-  "timezone_abbreviation": "CEST",
-  "hourly": {
-    "time": ["2022-07-01T00:00", "2022-07-01T01:00", "2022-07-01T02:00", ...],
-    "temperature_2m": [13, 12.7, 12.7, 12.5, 12.5, 12.8, 13, 12.9, 13.3, ...]
-  },
-  "hourly_units": {
-    "temperature_2m": "°C"
-  }
-`}
-      </code>
-    </pre>
+	<h3 class="mb-3 mt-5 text-2xl">JSON Return Object</h3>
+	<p class="mb-3">On success a JSON object will be returned.</p>
+	<div class="code-numbered"><WeatherForecastObject /></div>
 
 	<div class="table-responsive">
 		<table
@@ -1854,23 +1838,16 @@
 			</tbody>
 		</table>
 	</div>
-	<h3 class="mt-5">Errors</h3>
-	<p>
+	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
+	<p class="mb-3">
 		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 		object is returned with a HTTP 400 status code.
 	</p>
-	<pre>
-      <code>
-{`
-  "error": true,
-  "reason": "Cannot initialize WeatherVariable from invalid String value tempeture_2m for key hourly"
-`}
-      </code>
-    </pre>
+	<div class=""><WeatherForecastError /></div>
 </div>
 
 <div class=" ">
-	<h2 id="weathervariables">Weather variable documentation</h2>
+	<h2 id="weathervariables" class="mb-3 mt-6 text-2xl">Weather variable documentation</h2>
 </div>
 
 <div class="col-6">

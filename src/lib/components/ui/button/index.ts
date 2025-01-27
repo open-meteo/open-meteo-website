@@ -3,15 +3,15 @@ import type { Button as ButtonPrimitive } from 'bits-ui';
 import Root from './button.svelte';
 
 const buttonVariants = tv({
-	base: 'ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+	base: 'ring-offset-background cursor-pointer focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
 	variants: {
+		//bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]
 		variant: {
-			default:
-				'bg-primary text-primary-foreground hover:bg-primary/80 bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]',
+			default: 'bg-primary text-primary-foreground hover:bg-primary/80 ',
 			destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
 			outline: 'border-input hover:bg-accent hover:text-accent-foreground border',
 			secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-			ghost: 'grow-text hover:bg-accent hover:text-accent-foreground',
+			ghost: 'hover:bg-accent hover:text-accent-foreground',
 			link: 'text-primary underline-offset-4 hover:underline',
 			'outline-grey': 'border-grey hover:bg-grey hover:text-grey-foreground border',
 			'outline-white': 'border-white/80 hover:bg-white/80 hover:text-black/90 border',

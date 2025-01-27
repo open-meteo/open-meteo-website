@@ -63,7 +63,7 @@
 			</div>
 		</div>
 
-		<div class="overflow-hidden rounded-lg bg-[#282c34] p-6 text-white">
+		<div class="overflow-hidden rounded-lg bg-[#FAFAFA] dark:bg-[#282C34] p-6 duration-200">
 			<ToggleGroup.Root type="single" bind:value={tabSelected} class="justify-start gap-0">
 				<ToggleGroup.Item
 					value="weather-api"
@@ -112,7 +112,7 @@
 						>
 							<Clipboard size="22" strokeWidth={1} />
 						</Button>
-						<div class="code-numbered mt-10 lg:mt-2">
+						<div class="code-numbered -ml-4 mt-10 lg:mt-2">
 							<WeatherApiCodeBlock />
 						</div>
 					</div>
@@ -137,7 +137,7 @@
 						>
 							<Clipboard size="22" strokeWidth={1} />
 						</Button>
-						<div class="code-numbered mt-10 lg:mt-2">
+						<div class="code-numbered -ml-4 mt-10 lg:mt-2">
 							<Last10DaysCodeBlock />
 						</div>
 					</div>
@@ -162,7 +162,7 @@
 						>
 							<Clipboard size="22" strokeWidth={1} />
 						</Button>
-						<div class="code-numbered mt-10 lg:mt-2">
+						<div class="code-numbered -ml-4 mt-10 lg:mt-2">
 							<HistoricalWeatherCodeBlock />
 						</div>
 					</div>

@@ -224,7 +224,7 @@
 />
 
 <h2 id="data-sources" class="mb-3 mt-5 text-2xl">Data Sources</h2>
-<div class="row">
+<div>
 	<div class="col-6">
 		<p>
 			This API utilizes regional downscaled climate models with up to 20 kilometer resolution from
@@ -375,7 +375,7 @@
 		</tbody>
 	</table>
 </div>
-<div class="row">
+<div>
 	<p>
 		Some weather variables may not be available in all climate models. Notably, soil moisture is
 		only available in

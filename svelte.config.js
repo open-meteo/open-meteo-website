@@ -4,10 +4,18 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 import { createHighlighter } from 'shiki';
 
-const theme = 'one-dark-pro';
+// const themes = {
+// 	dark: 'github-dark',
+// 	light: 'github-light'
+// };
+
+const themes = {
+	dark: 'one-dark-pro',
+	light: 'one-light'
+};
 
 const highlighter = await createHighlighter({
-	themes: [theme],
+	themes: Object.values(themes),
 	langs: ['json', 'bash']
 });
 
@@ -15,7 +23,7 @@ const highlighter = await createHighlighter({
 const mdsvexOptions = {
 	highlight: {
 		highlighter: async (code, lang = 'text') => {
-			const html = escapeSvelte(highlighter.codeToHtml(code, { lang, theme }));
+			const html = escapeSvelte(highlighter.codeToHtml(code, { lang: lang, themes: themes }));
 			return `{@html \`${html}\` }`;
 		}
 	}
@@ -23,6 +31,7 @@ const mdsvexOptions = {
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
+	extensions: ['.svelte', '.svx', '.md'],
 	preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
 
 	kit: {
@@ -39,10 +48,12 @@ const config = {
 		version: {
 			name: process.env.CF_PAGES_COMMIT_SHA ?? String(new Date().getTime()),
 			pollInterval: 2 * 60 * 1000 // 2 mins
+		},
+		output: {
+			preloadStrategy: 'modulepreload',
+			bundleStrategy: 'split'
 		}
-	},
-
-	extensions: ['.svelte', '.svx', '.md']
+	}
 };
 
 export default config;

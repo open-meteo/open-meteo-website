@@ -82,7 +82,7 @@
 	target="container"
 	action="https://api.open-meteo.com/v1/elevation"
 >
-	<div class="row">
+	<div>
 		<h2>Select Coordinates or City</h2>
 		{#each $params.latitude as _, index}
 			<div class=" ">

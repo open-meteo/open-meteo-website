@@ -1,21 +1,19 @@
 <script lang="ts">
-	import { fade, fly } from 'svelte/transition';
-	import { quintOut } from 'svelte/easing';
-
-	import { onDestroy, createEventDispatcher, onMount } from 'svelte';
+	import { onDestroy, createEventDispatcher } from 'svelte';
 
 	import { favorites, last_visited, type GeoLocation } from '$lib/stores/settings';
 
 	import Button from '../ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Dialog from '$lib/components/ui/dialog/index.js';
 
 	import Map from 'lucide-svelte/icons/map';
 	import Star from 'lucide-svelte/icons/star';
-	import List from 'lucide-svelte/icons/list';
-	import Plus from 'lucide-svelte/icons/plus';
 	import Trash from 'lucide-svelte/icons/trash-2';
+	import Input from '../ui/input/input.svelte';
 	import Cursor from 'lucide-svelte/icons/mouse-pointer-2';
-	import Locate from 'lucide-svelte/icons/locate';
 	import Search from 'lucide-svelte/icons/search';
+	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 
 	export let label: string = 'Search Locations...';
 
@@ -23,57 +21,21 @@
 		results: GeoLocation[] | undefined;
 	}
 
-	let modalOpen = false;
-
 	const dispatch = createEventDispatcher();
 	let debounceTimeout: number | undefined;
 	let searchQuery = '';
-
-	function focusElement(element: HTMLElement) {
-		element.focus();
-	}
-
-	// Close modal on `escape` key press
-	onMount(() => {
-		window.addEventListener('keydown', handleKeyDown);
-		function handleKeyDown(ev: KeyboardEvent) {
-			if (ev.key == 'Escape' && modalOpen && searchQuery == '') {
-				closeModal();
-			}
-		}
-		return () => {
-			if (modalOpen) {
-				closeModal();
-			}
-			window.removeEventListener('keydown', handleKeyDown);
-		};
-	});
 
 	onDestroy(() => {
 		clearInterval(debounceTimeout);
 	});
 
 	let scrollY: number | undefined;
-	function openModal() {
-		modalOpen = true;
-
-		// Disable scrolling
-		scrollY = window.scrollY;
-		document.body.style.position = 'fixed';
-		document.body.style.top = `-${scrollY}px`;
-		document.body.style.overflow = 'hidden';
-	}
 
 	function closeModal() {
-		modalOpen = false;
-
-		// Restore scrolling
-		document.body.style.position = '';
-		document.body.style.top = '';
-		document.body.style.overflow = '';
+		dialogOpen = false;
 		if (scrollY) {
 			// @ts-ignore
-			window.scrollTo({ top: scrollY, left: 0, behavior: 'instant' });
+			window.scrollTo({ top: scrollY, behavior: 'instant' });
 		}
 	}
 
@@ -116,7 +78,6 @@
 		dispatch('location', location);
 	}
 
-	// Fetch is automatically called after `searchQuery` changes due to reactive assignment
 	$: results = (async () => {
 		if (debounceTimeout) {
 			clearTimeout(debounceTimeout);
@@ -171,233 +132,219 @@
 
 		return (await result.json()) as ResultSet;
 	})();
+
+	let dialogOpen = false;
 </script>
 
-<Button variant="ghost" onclick={openModal}><Search size={20} class="mr-1" /> {label}</Button>
-
-{#if modalOpen}
-	<div onclick={closeModal}>
-		<div
-			class="modal-dialog"
-			role="document"
-			in:fly|global={{ y: -50, duration: 300 }}
-			out:fly|global={{ y: -50, duration: 300, easing: quintOut }}
-		>
-			<div class="modal-content">
-				<div class="modal-header no-border">
-					<label for="location_search" id="locationSearchModalLabel"
-						><span class="lead">Search Locations</span></label
-					>
-					<button
-						type="button"
-						class="btn-close"
-						aria-label="Close"
-						title="Close"
-						onclick={closeModal}
-					></button>
+<Dialog.Root bind:open={dialogOpen} preventScroll={false}>
+	<Dialog.Trigger
+		><Button variant="ghost"><Search size={20} class="mr-1" /> {label}</Button>
+	</Dialog.Trigger>
+	<Dialog.Content class="flex min-h-[400px] flex-col sm:max-w-[600px]">
+		<Dialog.Header class="">
+			<Dialog.Title>Search Locations</Dialog.Title>
+		</Dialog.Header>
+		<div class="">
+			<div class="flex gap-3">
+				<Input
+					type="search"
+					id="location_search"
+					autocomplete="off"
+					spellcheck="false"
+					aria-label="Search Location"
+					bind:value={searchQuery}
+				/>
+				<Button
+					variant="ghost"
+					title="Detect Location via GPS"
+					onclick={() => (searchQuery = 'GPS')}><Cursor size={20} strokeWidth={1.2} /></Button
+				>
+			</div>
+			{#await results}
+				<div class="mt-4 flex h-full items-center justify-center">
+					<Alert.Root class="my-auto w-[unset]" variant="informative">
+						<Alert.Description>Loading...</Alert.Description>
+					</Alert.Root>
 				</div>
-				<div class="modal-body">
-					<div class="input-group">
-						<input
-							type="search"
-							class="form-control"
-							id="location_search"
-							autocomplete="off"
-							spellcheck="false"
-							aria-label="Search Location"
-							use:focusElement
-							bind:value={searchQuery}
-						/>
-						<button
-							tabindex="-1"
-							class="btn btn-outline-secondary"
-							type="button"
-							title="Detect Location via GPS"
-							onclick={() => (searchQuery = 'GPS')}><Cursor /></button
-						>
-					</div>
-					{#await results}
-						<div class="d-flex justify-content-center mt-4">
-							<div class="spinner-border" role="status">
-								<span class="visually-hidden">Loading...</span>
-							</div>
-						</div>
-					{:then results}
-						{#if results.results && results.results.length == 0}
-							{#if searchQuery.length < 2}
-								{#if $last_visited.length == 0 && $favorites.length == 0}
-									<div class="list-group mt-4">
-										<li class="list-group-item">
-											<span>Start typing to search for locations</span>
-										</li>
-									</div>
-								{/if}
-								{#if $favorites.length > 0}
-									<h6 class="lead mt-4">Favorites</h6>
-									<div class="list-group">
-										{#each $favorites as location}
-											<button
-												class="list-group-item list-group-item-action position-relative"
-												type="button"
-												onclick={() => selectLocation(location)}
-											>
-												<img
-													height="24"
-													src="/images/country-flags/{(
-														location.country_code || 'united_nations'
-													).toLowerCase()}.svg"
-													title={location.country}
-													alt={location.country_code}
-												/>
-												{location.name}<br />
-												<small class="text-muted-foreground">
-													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
-													{location.longitude.toFixed(2)}°E {#if location.elevation}
-														{location.elevation.toFixed(0)}m asl{/if}</small
-												>
-												<div class="position-absolute end-0 top-0 p-2">
-													<!-- <button
-														class="btn btn-outline-secondary btn-sm border-0"
-														onclick|stopPropagation={() => deleteFavorite(location)}
-														tabindex="-1"
-														title="Delete"><Trash /></button
-													> -->
-													<a
-														class="btn btn-outline-secondary btn-sm border-0"
-														href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
-														target="_blank"
-														tabindex="-1"
-														title="Show on map"
-														onclick={(e) => {
-															e.stopPropagation();
-														}}
-													>
-														<Map />
-													</a>
-												</div>
-											</button>
-										{/each}
-									</div>
-								{/if}
-								{#if $last_visited.length > 0}
-									<h6 class="lead mt-4">Recent Locations</h6>
-									<div class="list-group">
-										{#each $last_visited as location}
-											<button
-												class="list-group-item list-group-item-action position-relative"
-												type="button"
-												onclick={() => selectLocation(location)}
-											>
-												<img
-													height="24"
-													src="/images/country-flags/{(
-														location.country_code || 'united_nations'
-													).toLowerCase()}.svg"
-													title={location.country}
-													alt={location.country_code}
-												/>
-												{location.name}<br />
-												<small class="text-muted-foreground"
-													>{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
-														2
-													)}°E {#if location.elevation}
-														{location.elevation.toFixed(0)}m asl{/if})</small
-												>
-												<div class="position-absolute end-0 top-0 p-2">
-													<!-- <button
-														class="btn btn-outline-secondary btn-sm border-0"
-														type="button"
-														onclick|stopPropagation={() => saveFavorite(location)}
-														tabindex="-1"
-														title="Save"><Star /></button
-													>
-													<button
-														class="btn btn-outline-secondary btn-sm border-0"
-														type="button"
-														onclick|stopPropagation={() => deleteRecent(location)}
-														tabindex="-1"
-														title="Delete"><Trash /></button
-													> -->
-													<a
-														class="btn btn-outline-secondary btn-sm border-0"
-														type="button"
-														href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
-														target="_blank"
-														tabindex="-1"
-														title="Show on map"
-														onclick={(e) => {
-															e.stopPropagation();
-														}}
-													>
-														<Map />
-													</a>
-												</div>
-											</button>
-										{/each}
-									</div>
-								{/if}
-							{:else}
-								<div class="list-group mt-4">
-									<li class="list-group-item"><span>No locations found</span></li>
-								</div>
-							{/if}
-						{:else}
-							<div class="list-group mt-4">
-								{#each results.results || [] as location}
-									<button
-										class="list-group-item list-group-item-action position-relative"
-										type="button"
+			{:then results}
+				{#if results.results && results.results.length == 0}
+					{#if searchQuery.length < 2}
+						{#if $last_visited.length == 0 && $favorites.length == 0}
+							<Alert.Root class="my-auto w-[unset]" variant="informative">
+								<Alert.Description>Start typing to search for locations</Alert.Description>
+							</Alert.Root>
+						{/if}
+						{#if $favorites.length > 0}
+							<h6 class="text-muted-foreground mb-4 mt-4 text-xl">Favorites</h6>
+							<div class="rounded-lg border">
+								{#each $favorites as location}
+									<Button
+										class="flex h-[unset] w-full justify-between rounded-none px-3 py-2 [&:not(:last-child)]:border-b"
+										variant={'custom'}
 										onclick={() => selectLocation(location)}
 									>
-										<img
-											height="24"
-											src="/images/country-flags/{(
-												location.country_code || 'united_nations'
-											).toLowerCase()}.svg"
-											title={location.country}
-											alt={location.country_code}
-										/>
-										{location.name}<br />
-										<small class="text-muted-foreground"
-											>{location.admin1 || ''} ({location.latitude.toFixed(2)}°E {location.longitude.toFixed(
-												2
-											)}°N{#if location.elevation}
-												{location.elevation.toFixed(0)}m asl{/if})</small
-										>
-										<div class="position-absolute end-0 top-0 p-2">
-											<!-- <button
-												class="btn btn-outline-secondary btn-sm border-0"
-												type="button"
-												onclick|stopPropagation={() => saveFavorite(location)}
-												tabindex="-1"
-												title="Save"><Star /></button
-											> -->
-											<a
-												class="btn btn-outline-secondary btn-sm border-0"
+										<div class="-z-10 flex flex-col gap-1">
+											<div class="flex items-center gap-2 text-lg">
+												<img
+													height="24"
+													width="24"
+													src="/images/country-flags/{(
+														location.country_code || 'united_nations'
+													).toLowerCase()}.svg"
+													title={location.country}
+													alt={location.country_code}
+												/>
+												{location.name}
+											</div>
+
+											<div class="text-muted-foreground text-left text-sm">
+												{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
+												{location.longitude.toFixed(2)}°E{#if location.elevation}
+													{+' ' + location.elevation.toFixed(0)}m asl{/if})
+											</div>
+										</div>
+
+										<div class="-mr-1 flex justify-self-end">
+											<Button
+												class="px-3"
+												variant="ghost"
+												onclick={() => deleteFavorite(location)}
+												title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
+											>
+											<Button
+												class="px-3"
+												variant="ghost"
 												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 												target="_blank"
-												tabindex="-1"
 												title="Show on map"
-												onclick={(e) => {
-													e.stopPropagation();
-												}}
 											>
-												<Map />
-											</a>
+												<Map size={20} strokeWidth={1.2} />
+											</Button>
 										</div>
-									</button>
+									</Button>
 								{/each}
 							</div>
 						{/if}
-					{:catch error}
-						<div class="mt-4">
-							<div class="alert alert-danger" role="alert">{error.message}</div>
-						</div>
-					{/await}
-				</div>
-			</div>
-		</div>
-	</div>
+						{#if $last_visited.length > 0}
+							<h6 class="text-muted-foreground mb-4 mt-4 text-xl">Recent Locations</h6>
+							<div class="rounded-lg border">
+								{#each $last_visited as location}
+									<Button
+										class="flex h-[unset] w-full justify-between rounded-none px-3 py-2 [&:not(:last-child)]:border-b"
+										variant={'custom'}
+										onclick={() => selectLocation(location)}
+									>
+										<div class="-z-10 flex flex-col gap-1">
+											<div class="flex items-center gap-2 text-lg">
+												<img
+													height="24"
+													width="24"
+													src="/images/country-flags/{(
+														location.country_code || 'united_nations'
+													).toLowerCase()}.svg"
+													title={location.country}
+													alt={location.country_code}
+												/>
+												{location.name}
+											</div>
 
-	<div class="modal-backdrop show" transition:fade|global={{ duration: 300 }}></div>
-{/if}
+											<div class="text-muted-foreground text-left text-sm">
+												{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
+													2
+												)}°E{#if location.elevation}
+													{+' ' + location.elevation.toFixed(0)}m asl{/if})
+											</div>
+										</div>
+
+										<div class="-mr-1 flex justify-self-end">
+											<Button
+												class="px-3"
+												variant="ghost"
+												onclick={(e) => saveFavorite(location)}
+												title="Save"><Star size={20} strokeWidth={1.2} /></Button
+											>
+											<Button
+												class="px-3"
+												variant="ghost"
+												onclick={() => deleteRecent(location)}
+												title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
+											>
+											<Button
+												class="px-3"
+												variant="ghost"
+												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
+												target="_blank"
+												title="Show on map"
+											>
+												<Map size={20} strokeWidth={1.2} />
+											</Button>
+										</div>
+									</Button>
+								{/each}
+							</div>
+						{/if}
+					{:else}
+						<div class="list-group mt-4">
+							<li class="list-group-item"><span>No locations found</span></li>
+						</div>
+					{/if}
+				{:else}
+					<div class="list-group mt-4">
+						<div class="rounded-lg border">
+							{#each results.results || [] as location}
+								<Button
+									class="flex h-[unset] w-full justify-between rounded-none px-3 py-2 [&:not(:last-child)]:border-b"
+									variant={'custom'}
+									onclick={() => selectLocation(location)}
+								>
+									<div class="-z-10 flex flex-col gap-1">
+										<div class="flex items-center gap-2 text-lg">
+											<img
+												height="24"
+												width="24"
+												src="/images/country-flags/{(
+													location.country_code || 'united_nations'
+												).toLowerCase()}.svg"
+												title={location.country}
+												alt={location.country_code}
+											/>
+											{location.name}
+										</div>
+
+										<div class="text-muted-foreground text-left text-sm">
+											{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
+												2
+											)}°E{#if location.elevation}
+												{+' ' + location.elevation.toFixed(0)}m asl{/if})
+										</div>
+									</div>
+									<div class="-mr-1 flex justify-self-end">
+										<Button
+											class="px-3"
+											variant="custom"
+											onclick={() => saveFavorite(location)}
+											title="Save"><Star size={20} strokeWidth={1.2} /></Button
+										>
+										<Button
+											class="px-3"
+											variant="custom"
+											href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
+											target="_blank"
+											title="Show on map"
+										>
+											<Map size={20} strokeWidth={1.2} />
+										</Button>
+									</div>
+								</Button>
+							{/each}
+						</div>
+					</div>
+				{/if}
+			{:catch error}
+				<div class="mt-4">
+					<div class="alert alert-danger" role="alert">{error.message}</div>
+				</div>
+			{/await}
+		</div>
+	</Dialog.Content>
+</Dialog.Root>

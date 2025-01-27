@@ -47,7 +47,7 @@
 				<hr class="my-1 ml-3" />
 				<Button
 					variant="ghost"
-					class="mr-auto px-3"
+					class="grow-text mr-auto flex-col px-3"
 					data-text="Home"
 					highlight={pathname === '/' ? 'active' : undefined}
 					href={'/'}
@@ -55,7 +55,7 @@
 				>
 				<Button
 					variant="ghost"
-					class="mr-auto px-3"
+					class="grow-text mr-auto flex-col px-3"
 					data-text="Features"
 					highlight={pathname === '/en/features' ? 'active' : undefined}
 					href={'/en/features'}
@@ -63,7 +63,7 @@
 				>
 				<Button
 					variant="ghost"
-					class="mr-auto px-3"
+					class="grow-text mr-auto flex-col px-3"
 					data-text="Pricing"
 					highlight={pathname === '/en/pricing' ? 'active' : undefined}
 					href={'/en/pricing'}
@@ -71,7 +71,7 @@
 				>
 				<Button
 					variant="ghost"
-					class="mr-auto px-3"
+					class="grow-text mr-auto flex-col px-3"
 					data-text="API Docs"
 					highlight={pathname.startsWith('/en/docs') ? 'active' : undefined}
 					href={'/en/docs'}

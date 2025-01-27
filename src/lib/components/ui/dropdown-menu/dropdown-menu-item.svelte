@@ -14,9 +14,9 @@
 
 <DropdownMenuPrimitive.Item
 	class={cn(
-		'data-highlighted:bg-accent data-highlighted:text-accent-foreground relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-hidden data-disabled:pointer-events-none data-disabled:opacity-50',
+		'data-highlighted:bg-accent data-highlighted:text-accent-foreground outline-hidden data-disabled:pointer-events-none data-disabled:opacity-50 relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm',
 		inset && 'pl-8',
-		className
+		[className, 'cursor-pointer']
 	)}
 	{...$$restProps}
 	on:click

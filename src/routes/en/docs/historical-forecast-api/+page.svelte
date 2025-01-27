@@ -285,7 +285,7 @@
 				title="Pressure Level Variables"
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
-				<div class="d-flex align-items-start">
+				<div class="  align-items-start">
 					<div
 						class="nav flex-column nav-pills me-3"
 						id="v-pills-tab"
@@ -305,7 +305,7 @@
 							>
 						{/each}
 					</div>
-					<div class="tab-content" id="v-pills-tabContent">
+					<div class=" " id="v-pills-tabContent">
 						{#each pressureVariables as variable}
 							<div
 								class="tab-pane fade"
@@ -315,7 +315,7 @@
 								role="tabpanel"
 								aria-labelledby="v-pills-{variable.name}-tab"
 							>
-								<div class="row">
+								<div>
 									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
 										<div class="col-lg-4">
 											{#each chunk as level}

@@ -589,7 +589,7 @@
 
 <div class=" ">
 	<h2>Model Updates</h2>
-	<div class="row">
+	<div>
 		<div class="col-6">
 			<p>
 				This page offers a brief overview of all models integrated into Open-Meteo. These models are
@@ -610,7 +610,7 @@
 			</p>
 		</div>
 	</div>
-	<div class="row">
+	<div>
 		<div class="col-6">
 			<p>
 				Models with a delay exceeding 20 minutes are highlighted in yellow. If multiple weather

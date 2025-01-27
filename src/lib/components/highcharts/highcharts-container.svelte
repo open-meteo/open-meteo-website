@@ -9,7 +9,7 @@
 	export let useStockChart = false;
 	export let options: any;
 	export let style = 'height: 400px';
-	let clazz = 'w-100';
+	let clazz = 'w-full';
 	export { clazz as class };
 
 	let node: HTMLElement;

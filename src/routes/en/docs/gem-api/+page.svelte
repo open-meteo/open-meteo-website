@@ -91,7 +91,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="tab-content py-3" id="pills-tabContent">
+		<div class="  py-3" id="pills-tabContent">
 			{#if $params.time_mode == 'forecast_days'}
 				<div
 					class="tab-pane active"
@@ -101,7 +101,7 @@
 					aria-labelledby="pills-forecast_days-tab"
 					tabindex="0"
 				>
-					<div class="row">
+					<div>
 						<div class=" ">
 							<div class="  mb-3">
 								<select
@@ -155,7 +155,7 @@
 					aria-labelledby="pills-time_interval-tab"
 					tabindex="0"
 				>
-					<div class="row">
+					<div>
 						<div class="  mb-3">
 							<DatePicker bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
 						</div>
@@ -363,7 +363,7 @@
 				title="Pressure Level Variables"
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
-				<div class="d-flex align-items-start">
+				<div class="  align-items-start">
 					<div
 						class="nav flex-column nav-pills me-3"
 						id="v-pills-tab"
@@ -383,7 +383,7 @@
 							>
 						{/each}
 					</div>
-					<div class="tab-content" id="v-pills-tabContent">
+					<div class=" " id="v-pills-tabContent">
 						{#each pressureVariables as variable}
 							<div
 								class="tab-pane fade"
@@ -393,7 +393,7 @@
 								role="tabpanel"
 								aria-labelledby="v-pills-{variable.name}-tab"
 							>
-								<div class="row">
+								<div>
 									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
 										<div class="col-lg-4">
 											{#each chunk as level}

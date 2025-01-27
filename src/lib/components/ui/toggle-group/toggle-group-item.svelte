@@ -22,7 +22,7 @@
 			variant: ctx.variant || variant,
 			size: ctx.size || size
 		}),
-		className
+		[className, 'cursor-pointer']
 	)}
 	{value}
 	{...$$restProps}
