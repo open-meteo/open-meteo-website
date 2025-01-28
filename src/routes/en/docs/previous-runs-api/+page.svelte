@@ -180,7 +180,7 @@
 
 	<div>
 		<h2>Hourly Weather Variables</h2>
-		<div class="table-responsive">
+		<div>
 			<table class="table-sm table">
 				<tbody>
 					{#each previousDay as e}
@@ -243,7 +243,7 @@
 				</div>
 			</AccordionItem>
 			<AccordionItem id="solar" title="Solar Radiation Variables">
-				<div class="table-responsive">
+				<div>
 					<table class="table-sm table">
 						<tbody>
 							{#each solarVariables as e}
@@ -279,7 +279,6 @@
 					<div>
 						<input
 							type="number"
-							class="form-control"
 							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
@@ -298,7 +297,6 @@
 					<div>
 						<input
 							type="number"
-							class="form-control"
 							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
 							name="azimuth"
 							id="azimuth"
@@ -317,7 +315,7 @@
 				</div>
 			</AccordionItem>
 			<AccordionItem id="wind_upper" title="Wind on 80, 120 and 180 metre">
-				<div class="table-responsive">
+				<div>
 					<table class="table-sm table">
 						<tbody>
 							{#each windVariables as e}

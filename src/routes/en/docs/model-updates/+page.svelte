@@ -598,14 +598,14 @@
 <div>
 	<h2>Model Updates</h2>
 	<div>
-		<div class="col-6">
+		<div class=" ">
 			<p>
 				This page offers a brief overview of all models integrated into Open-Meteo. These models are
 				typically updated every few hours. Open-Meteo aims to download and process the data as soon
 				as it becomes available, immediately after it is released by national weather services.
 			</p>
 		</div>
-		<div class="col-6">
+		<div class=" ">
 			<p>
 				Open-Meteo operates with geographically distributed and redundant servers. Data across all
 				Open-Meteo servers is <a
@@ -619,13 +619,13 @@
 		</div>
 	</div>
 	<div>
-		<div class="col-6">
+		<div class=" ">
 			<p>
 				Models with a delay exceeding 20 minutes are highlighted in yellow. If multiple weather
 				model updates are missed, the model is marked in red. Minor delays are fairly common.
 			</p>
 		</div>
-		<div class="col-6">
+		<div class=" ">
 			<p>
 				To report a model issue, please open a ticket on <a
 					title="GitHub Open-Meteo Repository"
@@ -684,7 +684,7 @@
 	{#each sections as section}
 		<h2>{section.name}</h2>
 
-		<div class="table-responsive">
+		<div>
 			<table
 				class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>

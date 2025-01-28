@@ -172,9 +172,8 @@
 		{#each hourly as group}
 			<div>
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_hourly"
@@ -198,9 +197,8 @@
 				{#each additionalVariables as group}
 					<div>
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
@@ -294,9 +292,8 @@
 				{#each solarVariables as group}
 					<div>
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
@@ -319,7 +316,6 @@
 					<div>
 						<input
 							type="number"
-							class="form-control"
 							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
@@ -338,7 +334,6 @@
 					<div>
 						<input
 							type="number"
-							class="form-control"
 							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
 							name="azimuth"
 							id="azimuth"
@@ -361,8 +356,8 @@
 				title="Pressure Level Variables"
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
-				<div class="  align-items-start">
-					<div class="nav flex-column me-3" id="v-pills-tab" aria-orientation="vertical">
+				<div class="   ">
+					<div class="nav flex-column me-3">
 						{#each pressureVariables as variable, i}
 							<button
 								class="nav-link text-nowrap text-start"
@@ -375,10 +370,9 @@
 							>
 						{/each}
 					</div>
-					<div id="v-pills-tabContent">
+					<div>
 						{#each pressureVariables as variable}
 							<div
-								class="tab-pane fade"
 								class:active={pressureVariablesTab == variable.name}
 								class:show={pressureVariablesTab == variable.name}
 								id="v-pills-{variable.name}"
@@ -386,11 +380,10 @@
 							>
 								<div>
 									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
-										<div class="col-lg-4">
+										<div>
 											{#each chunk as level}
-												<div class="">
+												<div>
 													<input
-														class=""
 														type="checkbox"
 														value="{variable.name}_{level}hPa"
 														id="{variable.name}_{level}hPa"
@@ -428,9 +421,8 @@
 				{#each models as group}
 					<div class="  mb-3">
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_model"
@@ -451,9 +443,8 @@
 		{#each daily as group}
 			<div>
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_daily"
@@ -477,9 +468,8 @@
 		{#each current as group}
 			<div class="  mb-2">
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_current"
@@ -575,7 +565,7 @@
 		> from the Canadian weather service. Global and regional weather models are combined into a seamless
 		prediction. For GEM Global, values are interpolated from 3-hourly to 1-hourly values.
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -651,7 +641,7 @@
 		and responds with a JSON hourly weather forecast for 7 days. Time always starts at 0:00 today and
 		contains 168 hours. All URL parameters are listed below:
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -863,7 +853,7 @@
 		as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
 		from the preceding hour as an average or sum.
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1117,7 +1107,7 @@
 	<PressureLevelsHelpTable {levels} />
 
 	<p>All pressure level have valid times of the indicated hour (instant).</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1192,7 +1182,7 @@
 			>&daily=</mark
 		> accepts the following values:
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1309,7 +1299,7 @@
 `}
       </code>
     </pre>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>

@@ -178,9 +178,8 @@
 		{#each models as group}
 			<div class="  mb-3">
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_model"
@@ -198,9 +197,8 @@
 		{#each hourly as group}
 			<div>
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_hourly"
@@ -225,9 +223,8 @@
 				{#each additionalVariables as group}
 					<div>
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
@@ -322,9 +319,8 @@
 				{#each solarVariables as group}
 					<div>
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
@@ -348,7 +344,6 @@
 					<div>
 						<input
 							type="number"
-							class="form-control"
 							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
@@ -367,7 +362,6 @@
 					<div>
 						<input
 							type="number"
-							class="form-control"
 							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
 							name="azimuth"
 							id="azimuth"
@@ -483,7 +477,7 @@
 		Meanwhile, the GFS model can forecast up to 35 days, albeit at a lower resolution of 50 km. The
 		appropriate ensemble model to use would depend on the forecast horizon and region of interest.
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -606,7 +600,7 @@
 	and responds with a JSON hourly weather forecast for 7 days for each ensemble member. Time always starts
 	at 0:00 today. All URL parameters are listed below:
 </p>
-<div class="table-responsive">
+<div>
 	<table
 		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 	>
@@ -819,7 +813,7 @@
 	as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
 	from the preceding hour as an average or sum.
 </p>
-<div class="table-responsive">
+<div>
 	<table
 		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 	>

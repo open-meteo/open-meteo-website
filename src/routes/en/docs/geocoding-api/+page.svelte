@@ -88,7 +88,6 @@
 			<div class="  position-relative">
 				<input
 					type="text"
-					class="form-control"
 					name="name"
 					id="name"
 					aria-label="Location name"
@@ -232,7 +231,7 @@
 	<label for="api_url" class="form-label"
 		>API URL (<a id="api_url_link" target="_blank" href={apiUrl}>Open in new tab</a>)</label
 	>
-	<input type="text" class="form-control" id="api_url" value={apiUrl} readonly />
+	<input type="text" id="api_url" value={apiUrl} readonly />
 	<div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
 </div>
 
@@ -242,7 +241,7 @@
 		The API endpoint <mark>https://geocoding-api.open-meteo.com/v1/search</mark> accepts a search term
 		and returns a list of matching locations. URL parameters are listed below:
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -368,7 +367,7 @@
 `}
       </code>
     </pre>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -493,7 +492,7 @@
     </pre>
 </div>
 
-<div class="col-6">
+<div class=" ">
 	<h3>Attribution</h3>
 	<ul>
 		<li>Location data based on <a href="https://www.geonames.org" target="_new">GeoNames</a></li>

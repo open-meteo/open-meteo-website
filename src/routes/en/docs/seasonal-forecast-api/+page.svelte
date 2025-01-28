@@ -143,9 +143,8 @@
 		{#each six_hourly as group}
 			<div>
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_six_hourly"
@@ -164,9 +163,8 @@
 		{#each daily as group}
 			<div>
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_daily"
@@ -260,7 +258,7 @@
 		and responds with a JSON hourly weather forecast for 7 days. Time always starts at 0:00 today and
 		contains 168 hours. All URL parameters are listed below:
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -413,7 +411,7 @@
 		as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
 		from the preceding hour as and average or sum.
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -540,7 +538,7 @@
 `}
       </code>
     </pre>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>

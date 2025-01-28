@@ -152,9 +152,8 @@
 		{#each hourly as group}
 			<div>
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_hourly"
@@ -178,9 +177,8 @@
 				{#each additionalVariables as group}
 					<div>
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
@@ -274,9 +272,8 @@
 				{#each solarVariables as group}
 					<div>
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
@@ -299,7 +296,6 @@
 					<div>
 						<input
 							type="number"
-							class="form-control"
 							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
@@ -318,7 +314,6 @@
 					<div>
 						<input
 							type="number"
-							class="form-control"
 							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
 							name="azimuth"
 							id="azimuth"
@@ -344,9 +339,8 @@
 		{#each daily as group}
 			<div>
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_daily"
@@ -439,7 +433,7 @@
 		of Meteorology (BOM). It presents data in 1-hour intervals, delivering forecasts for a duration
 		of up to 10 days. The model undergoes four daily runs at 0:00, 6:00, 12:00, and 18:00 UTC.
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -483,7 +477,7 @@
 		<mark>&forecast_days=16</mark> is set, up to 10 days of forecast can be returned. All URL parameters
 		are listed below:
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -689,7 +683,7 @@
 		as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
 		from the preceding hour as an average or sum.
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -939,7 +933,7 @@
 			>&daily=</mark
 		> accepts the following values:
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1056,7 +1050,7 @@
 `}
       </code>
     </pre>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>

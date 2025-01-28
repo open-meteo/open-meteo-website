@@ -45,21 +45,21 @@
 	});
 </script>
 
-<h2 class="text-2xl">Location and Time</h2>
+<h2 class="text-2xl md:text-3xl">Location and Time</h2>
 
-<ToggleGroup.Root type="single" bind:value={$locationTabSelected} class="mt-2 justify-start gap-0 ">
-	Location:
+<ToggleGroup.Root type="single" bind:value={$locationTabSelected} class="mt-3 justify-start gap-0 ">
+	<div class="text-muted-foreground">Location:</div>
 	<div class="ml-2 flex rounded-lg border">
 		<ToggleGroup.Item
 			value="location_search"
-			class="opacity-100!   min-h-12 rounded-e-none lg:min-h-[unset] "
+			class="min-h-12 rounded-e-none !opacity-100 lg:min-h-[unset] "
 			disabled={params.location_mode === 'location_search'}
 		>
 			<Locate size={20} class="mr-1" />Coordinates
 		</ToggleGroup.Item>
 		<ToggleGroup.Item
 			value="csv_coordinates"
-			class=" opacity-100! min-h-12 rounded-md rounded-s-none duration-300 lg:min-h-[unset] "
+			class="min-h-12 rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset] "
 			disabled={params.location_mode === 'csv_coordinates'}
 		>
 			<List size={20} class="mr-1" />List
@@ -69,7 +69,7 @@
 
 <div class="mt-4">
 	{#if params.location_mode == 'location_search'}
-		<div class="flex flex-col gap-10" in:fade>
+		<div class="flex flex-col gap-9" in:fade>
 			{#each params.latitude as _, index}
 				<div class="flex flex-col gap-6 md:flex-row md:items-center">
 					<div class="relative flex flex-col gap-2 md:w-1/4">
@@ -85,11 +85,11 @@
 							bind:value={params.latitude[index]}
 						/>
 						<Label
-							class="text-muted-foreground text-xxs absolute left-2 top-[0.33rem] z-10 px-1"
+							class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
 							for="latitude">Latitude</Label
 						>
 						{#if params.latitude[index] < -90 || params.latitude[index] > 90}
-							<div class="absolute top-14" transition:slide>
+							<div class="absolute top-14 text-sm" transition:slide>
 								Latitude must be between -90 and 90
 							</div>
 						{/if}
@@ -111,7 +111,7 @@
 							for="longitude">Longitude</Label
 						>
 						{#if params.longitude[index] < -180 || params.longitude[index] > 180}
-							<div class="absolute top-14" transition:slide>
+							<div class="absolute top-14 text-sm" transition:slide>
 								Longitude must be between -180 and 180
 							</div>
 						{/if}
@@ -149,26 +149,24 @@
 					</div>
 
 					<div class="flex gap-6 md:w-1/4">
-						<div class="  ">
-							<LocationSearch
-								on:location={(event) => locationCallback(event, index)}
-								label="Search"
-							/>
-						</div>
+						<LocationSearch
+							on:location={(event) => locationCallback(event, index)}
+							label="Search"
+						/>
 						{#if index == 0}
-							<div class="  ">
-								<Button variant="ghost" onclick={addLocation} title="Add coordinates"
-									><Plus size={22} /></Button
-								>
-							</div>
+							<Button
+								variant="outline"
+								class="h-12 px-5 pr-6"
+								onclick={addLocation}
+								title="Add coordinates"><Plus size={22} /></Button
+							>
 						{:else}
-							<div class="  ">
-								<Button
-									variant="ghost"
-									onclick={() => removeLocation(index)}
-									title="Delete coordinates"><Trash size={20} /></Button
-								>
-							</div>
+							<Button
+								variant="outline"
+								class="h-12 px-5 pr-6"
+								onclick={() => removeLocation(index)}
+								title="Delete coordinates"><Trash size={20} /></Button
+							>
 						{/if}
 					</div>
 				</div>

@@ -244,7 +244,6 @@
 					<div>
 						<input
 							type="number"
-							class="form-control"
 							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
@@ -263,7 +262,6 @@
 					<div>
 						<input
 							type="number"
-							class="form-control"
 							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
 							name="azimuth"
 							id="azimuth"
@@ -286,8 +284,8 @@
 				title="Pressure Level Variables"
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
-				<div class="  align-items-start">
-					<div class="nav flex-column me-3" id="v-pills-tab" aria-orientation="vertical">
+				<div class="   ">
+					<div class="nav flex-column me-3">
 						{#each pressureVariables as variable, i}
 							<button
 								class="nav-link text-nowrap text-start"
@@ -300,10 +298,9 @@
 							>
 						{/each}
 					</div>
-					<div id="v-pills-tabContent">
+					<div>
 						{#each pressureVariables as variable}
 							<div
-								class="tab-pane fade"
 								class:active={pressureVariablesTab == variable.name}
 								class:show={pressureVariablesTab == variable.name}
 								id="v-pills-{variable.name}"
@@ -311,7 +308,7 @@
 							>
 								<div>
 									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
-										<div class="col-lg-4">
+										<div>
 											{#each chunk as level}
 												<div>
 													<input
@@ -539,7 +536,7 @@
 		for any global location, though users can also manually specify the weather model. Open-Meteo utilizes
 		the following weather forecast models:
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>

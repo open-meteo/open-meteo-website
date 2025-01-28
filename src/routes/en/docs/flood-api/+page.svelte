@@ -147,9 +147,8 @@
 		{#each daily as group}
 			<div>
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_daily"
@@ -164,7 +163,6 @@
 		<div>
 			<div class="form-check form-switch">
 				<input
-					class=""
 					type="checkbox"
 					id="ensemble"
 					name="ensemble"
@@ -191,9 +189,8 @@
 				{#each models as group}
 					<div class="  mb-3">
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_model"
@@ -254,7 +251,7 @@
 		Varying coordiantes by 0.1° can help to get a more representable discharge rate. The GloFAS
 		website provides additional maps to help understand how rivers are covered in this dataset.
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -357,7 +354,7 @@
 		data from the largest river in a 5 km area for the given coordinates. All URL parameters are listed
 		below:
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -476,7 +473,7 @@
 
 	<h3 class="mt-5">Daily Parameter Definition</h3>
 	<p>The parameter <mark>&daily=</mark> accepts the following values:</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -528,7 +525,7 @@
 `}
       </code>
     </pre>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>

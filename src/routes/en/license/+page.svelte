@@ -277,7 +277,7 @@
 							10.5281/ZENODO.7970649.
 						</p>
 					</div>
-					<div class="tab-pane fade" id="pills-bibtex" aria-labelledby="pills-bibtex-tab">
+					<div id="pills-bibtex" aria-labelledby="pills-bibtex-tab">
 						<pre>
 <code
 								>@software&#123;Zippenfenig_Open-Meteo,

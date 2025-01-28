@@ -173,9 +173,8 @@
 		{#each hourly as group}
 			<div>
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_hourly"
@@ -199,9 +198,8 @@
 				{#each additionalVariables as group}
 					<div>
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
@@ -265,9 +263,8 @@
 				{#each solarVariables as group}
 					<div>
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
@@ -290,7 +287,6 @@
 					<div>
 						<input
 							type="number"
-							class="form-control"
 							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
 							name="tilt"
 							id="tilt"
@@ -309,7 +305,6 @@
 					<div>
 						<input
 							type="number"
-							class="form-control"
 							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
 							name="azimuth"
 							id="azimuth"
@@ -332,24 +327,17 @@
 				title="Pressure Level Variables"
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
-				<div class="  align-items-start">
-					<div class="nav flex-column me-3" id="v-pills-tab" aria-orientation="vertical">
+				<div class="   ">
+					<div class="nav flex-column me-3">
 						{#each pressureVariables as variable, i}
-							<button
-								class="nav-link text-nowrap text-start"
-								class:active={pressureVariablesTab == variable.name}
-								id="v-pills-{variable.name}-tab"
-								type="button"
-								aria-controls="v-pills-{variable.name}"
-								aria-selected={pressureVariablesTab == variable.name}
-								onclick={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
+							<Button onclick={() => (pressureVariablesTab = variable.name)}
+								>{variable.label}</Button
 							>
 						{/each}
 					</div>
-					<div id="v-pills-tabContent">
+					<div>
 						{#each pressureVariables as variable}
 							<div
-								class="tab-pane fade"
 								class:active={pressureVariablesTab == variable.name}
 								class:show={pressureVariablesTab == variable.name}
 								id="v-pills-{variable.name}"
@@ -357,11 +345,10 @@
 							>
 								<div>
 									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
-										<div class="col-lg-4">
+										<div>
 											{#each chunk as level}
-												<div class="">
+												<div>
 													<input
-														class=""
 														type="checkbox"
 														value="{variable.name}_{level}hPa"
 														id="{variable.name}_{level}hPa"
@@ -399,9 +386,8 @@
 				{#each minutely_15 as group}
 					<div class="  mb-3">
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_minutely_15"
@@ -417,9 +403,8 @@
 				{#each solarVariables as group}
 					<div>
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_minutely_15"
@@ -489,9 +474,8 @@
 				{#each models as group}
 					<div class="  mb-3">
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_model"
@@ -512,9 +496,8 @@
 		{#each daily as group}
 			<div>
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_daily"
@@ -538,9 +521,8 @@
 		{#each current as group}
 			<div class="  mb-2">
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_current"
@@ -638,7 +620,7 @@
 		15-minutely data is only available for a small number of weather variables and only in Central
 		Europe.
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -702,7 +684,7 @@
 		and responds with a JSON hourly weather forecast for 7 days. Time always starts at 0:00 today and
 		contains 168 hours. All URL parameters are listed below:
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -931,7 +913,7 @@
 		as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
 		from the preceding hour as an average or sum.
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1239,7 +1221,7 @@
 		15-minutely data can be requested for other weather variables that are available for hourly
 		data, but will use interpolation.
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1379,7 +1361,7 @@
 	<PressureLevelsHelpTable {levels} />
 
 	<p>All pressure level have valid times of the indicated hour (instant).</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1449,7 +1431,7 @@
 			>&daily=</mark
 		> accepts the following values:
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1567,7 +1549,7 @@
       </code>
     </pre>
 
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1668,9 +1650,9 @@
 	<h2 id="weathervariables">Weather variable documentation</h2>
 </div>
 
-<div class="col-6">
+<div class=" ">
 	<h3>WMO Weather interpretation codes (WW)</h3>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>

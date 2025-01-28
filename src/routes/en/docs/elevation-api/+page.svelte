@@ -99,7 +99,6 @@
 				<div class="  mb-3">
 					<input
 						type="number"
-						class="form-control"
 						name="latitude"
 						id="latitude"
 						step="0.000001"
@@ -114,7 +113,6 @@
 				<div class="  mb-3">
 					<input
 						type="number"
-						class="form-control"
 						name="longitude"
 						id="longitude"
 						step="0.000001"
@@ -165,14 +163,14 @@
 </form>
 
 <div class=" mb-3">
-	<div class="form-control" style="height: 50px; width: 100%;">{response}</div>
+	<div style="height: 50px; width: 100%;">{response}</div>
 </div>
 
 <div>
 	<label for="api_url" class="form-label"
 		>API URL (<a id="api_url_link" target="_blank" href={url}>Open in new tab</a>)</label
 	>
-	<input type="text" class="form-control" id="api_url" readonly value={url} />
+	<input type="text" id="api_url" readonly value={url} />
 	<div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
 </div>
 
@@ -189,7 +187,7 @@
 		> with 90 meters resolution. The GLO-90 dataset is available worldwide with a free license.
 	</p>
 	<p>All URL parameters are listed below:</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>

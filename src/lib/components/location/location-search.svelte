@@ -138,7 +138,9 @@
 
 <Dialog.Root bind:open={dialogOpen} preventScroll={false}>
 	<Dialog.Trigger
-		><Button variant="ghost"><Search size={20} class="mr-1" /> {label}</Button>
+		><Button variant="outline" class="h-12 px-5 pr-6"
+			><Search size={20} class="mr-1" /> {label}</Button
+		>
 	</Dialog.Trigger>
 	<Dialog.Content class="flex min-h-[400px] flex-col sm:max-w-[600px]">
 		<Dialog.Header>

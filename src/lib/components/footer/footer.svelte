@@ -1,6 +1,6 @@
 <footer class="container pb-16 pt-5">
 	<div class="flex flex-wrap justify-between gap-5">
-		<div class="col-6 col-md">
+		<div class="  col-md">
 			<a href={'/'} class="text-lg font-bold">Open-Meteo</a>
 			<ul class="list-unstyled text-small">
 				<li class="mb-1">

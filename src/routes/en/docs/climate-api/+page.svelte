@@ -95,9 +95,8 @@
 		{#each daily as group}
 			<div>
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_daily"
@@ -121,9 +120,8 @@
 				{#each models as group}
 					<div class="  mb-3">
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_model"
@@ -146,7 +144,6 @@
 		<div class=" pb-3">
 			<div class="form-check form-switch">
 				<input
-					class=""
 					type="checkbox"
 					id="disable_bias_correction"
 					name="disable_bias_correction"
@@ -231,7 +228,7 @@
 
 <h2 id="data-sources" class="mb-3 mt-5 text-2xl">Data Sources</h2>
 <div>
-	<div class="col-6">
+	<div class=" ">
 		<p>
 			This API utilizes regional downscaled climate models with up to 20 kilometer resolution from
 			the <a href="https://hrcm.ceda.ac.uk/research/cmip6-highresmip/" title="CMIP6 HighResMIP"
@@ -255,7 +252,7 @@
 			to predict crop yield, pest infestation, and water balance.
 		</p>
 	</div>
-	<div class="col-6">
+	<div class=" ">
 		<p>
 			While the data from past and recent years is available, it should not be mistaken for actual
 			measurements, as it serves the purpose of model validation rather than showing actual past
@@ -275,7 +272,7 @@
 		</p>
 	</div>
 </div>
-<div class="table-responsive">
+<div>
 	<table
 		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 	>
@@ -391,7 +388,7 @@
 		each model:
 	</p>
 </div>
-<div class="table-responsive">
+<div>
 	<table
 		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 	>
@@ -486,7 +483,7 @@
 		range of 1950 to 2050.
 	</p>
 	<p>All URL parameters are listed below:</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -640,7 +637,7 @@
 		be retrieved at once. The parameter <mark>&daily=</mark> accepts the following values as comma separated
 		list:
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -792,7 +789,7 @@
       </code>
     </pre>
 
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>

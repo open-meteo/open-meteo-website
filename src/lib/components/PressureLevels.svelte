@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { altitudeAboveSeaLevelMeters } from '$lib/utils/meteo';
 
+	import Button from '$lib/components/ui/button/button.svelte';
+
 	let {
 		pressureVariables = [
 			{ name: 'temperature', label: 'Temperature' },
@@ -50,24 +52,15 @@
 		data-bs-parent="#accordionVariables"
 	>
 		<div class="accordion-body">
-			<div class="  align-items-start">
-				<div class="nav flex-column me-3" id="v-pills-tab" aria-orientation="vertical">
+			<div class="   ">
+				<div class="nav flex-column me-3">
 					{#each pressureVariables as variable, i}
-						<button
-							class="nav-link text-nowrap text-start"
-							class:active={i === 0}
-							id="v-pills-{variable.name}-tab"
-							data-bs-target="#v-pills-{variable.name}"
-							type="button"
-							aria-controls="v-pills-{variable.name}"
-							aria-selected={i === 0}>{variable.label}</button
-						>
+						<Button>{variable.label}</Button>
 					{/each}
 				</div>
-				<div id="v-pills-tabContent">
+				<div>
 					{#each pressureVariables as variable, i}
 						<div
-							class="tab-pane fade"
 							class:active={i === 0}
 							class:show={i === 0}
 							id="v-pills-{variable.name}"
@@ -75,11 +68,10 @@
 						>
 							<div>
 								{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
-									<div class="col-lg-4">
+									<div>
 										{#each chunk as level}
-											<div class="">
+											<div>
 												<input
-													class=""
 													type="checkbox"
 													value="{variable.name}_{level}hPa"
 													id="{variable.name}_{level}hPa"

@@ -153,9 +153,8 @@
 		{#each hourly as group}
 			<div>
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_hourly"
@@ -182,9 +181,8 @@
 				{#each aqi_european as group}
 					<div>
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
@@ -215,7 +213,7 @@
 					</p>
 				</div>
 				<div>
-					<div class="table-responsive">
+					<div>
 						<table class="text-left" id="airquality_table">
 							<caption class="text-muted-foreground mt-2 table-caption text-left"
 								>You can find the update timings in the <a href={'/en/docs/model-updates'}
@@ -299,9 +297,8 @@
 				{#each aqi_united_states as group}
 					<div>
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
@@ -338,7 +335,7 @@
 					</p>
 				</div>
 				<div>
-					<div class="table-responsive">
+					<div>
 						<table class="text-left" id="airquality_table_us">
 							<thead>
 								<tr>
@@ -464,9 +461,8 @@
 				{#each additionalVariables as group}
 					<div>
 						{#each group as e}
-							<div class="">
+							<div>
 								<input
-									class=""
 									type="checkbox"
 									value={e.name}
 									id="{e.name}_hourly"
@@ -564,9 +560,8 @@
 		{#each current as group}
 			<div class="  mb-2">
 				{#each group as e}
-					<div class="">
+					<div>
 						<input
-							class=""
 							type="checkbox"
 							value={e.name}
 							id="{e.name}_current"
@@ -629,7 +624,7 @@
 		</p>
 	</div>
 </div>
-<div class="table-responsive">
+<div>
 	<table
 		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 	>
@@ -713,7 +708,7 @@
 		0:00 today.
 	</p>
 	<p>All URL parameters are listed below:</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -888,7 +883,7 @@
 		as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
 		from the preceding hour as an average or sum.
 	</p>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1024,7 +1019,7 @@
 `}
       </code>
     </pre>
-	<div class="table-responsive">
+	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>

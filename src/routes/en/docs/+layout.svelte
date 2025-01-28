@@ -66,7 +66,7 @@
 		return {};
 	});
 
-	let mobileNavClicked = $state(false);
+	let mobileNavOpened = $state(false);
 </script>
 
 <div class="flex flex-col md:flex-row">
@@ -75,14 +75,14 @@
 			<Button
 				variant="custom"
 				onclick={() => {
-					mobileNavClicked = !mobileNavClicked;
+					mobileNavOpened = !mobileNavOpened;
 				}}
 				class="flex justify-start rounded-md border p-3 md:hidden"
 			>
 				<Chevrons class="mr-2" /><b>{selectedPath.title}</b>
 			</Button>
 			<ul
-				class={`list-unstyled overflow-hidden duration-500 ${mobileNavClicked ? 'mt-2 max-h-[800px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
+				class={`list-unstyled overflow-hidden duration-500 ${mobileNavOpened ? 'mt-2 max-h-[800px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
 			>
 				{#each links as link}
 					<li
@@ -91,7 +91,12 @@
 							? 'border-border'
 							: 'border-transparent'}"
 					>
-						<a href={link.url}>{link.title}</a>
+						<a
+							href={link.url}
+							onclick={() => {
+								mobileNavOpened = false;
+							}}>{link.title}</a
+						>
 						{#if link.children}
 							<ul
 								class={`list-unstyled ml-3 overflow-hidden duration-500 ${
@@ -107,7 +112,13 @@
 											? 'border-border'
 											: 'border-transparent'}"
 									>
-										<a href={l.url} class="my-1">{l.title}</a>
+										<a
+											href={l.url}
+											class="my-1"
+											onclick={() => {
+												mobileNavOpened = false;
+											}}>{l.title}</a
+										>
 									</li>
 								{/each}
 							</ul>
