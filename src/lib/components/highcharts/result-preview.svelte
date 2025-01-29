@@ -15,6 +15,15 @@
 	import ExclamationTriangle from 'lucide-svelte/icons/triangle-alert';
 	import ArrowClockwise from 'lucide-svelte/icons/refresh-cw';
 
+	// import { codeToHtml } from 'shiki';
+
+	// const pythonInstall = await codeToHtml(
+	// 	`pip install openmeteo-requests{'\n'}pip install requests-cache retry-requests numpy pandas`,
+	// 	{ lang: 'python', theme: 'one-dark-pro' }
+	// );
+
+	const pythonInstall = `pip install openmeteo-requests{'\n'}pip install requests-cache retry-requests numpy pandas`;
+
 	interface Props {
 		params: Writable<any>;
 		type?: String;
@@ -616,7 +625,7 @@
 		<div class="ml-2 flex rounded-lg border">
 			<ToggleGroup.Item
 				value="chart"
-				class="opacity-100! min-h-12 rounded-e-none lg:min-h-[unset]"
+				class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
 				aria-label="Toggle bold"
 				disabled={mode === 'chart'}
 			>
@@ -624,7 +633,7 @@
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="python"
-				class="opacity-100! min-h-12 rounded-none lg:min-h-[unset]"
+				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
 				aria-label="Toggle italic"
 				disabled={mode === 'python'}
 			>
@@ -632,7 +641,7 @@
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="typescript"
-				class="opacity-100! min-h-12 rounded-none lg:min-h-[unset]"
+				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
 				aria-label="Toggle italic"
 				disabled={mode === 'typescript'}
 			>
@@ -640,7 +649,7 @@
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="swift"
-				class="opacity-100! min-h-12 rounded-none lg:min-h-[unset]"
+				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
 				aria-label="Toggle italic"
 				disabled={mode === 'swift'}
 			>
@@ -648,7 +657,7 @@
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="other"
-				class="opacity-100! min-h-12 rounded-s-none lg:min-h-[unset]"
+				class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
 				aria-label="Toggle strikethrough"
 				disabled={mode === 'other'}
 			>
@@ -740,8 +749,12 @@
 				<div>
 					API URL
 					<small class="text-muted-foreground"
-						>(<a id="api_url_link" target="_blank" href={previewUrl}>Open in new tab</a> or copy this
-						URL into your application)</small
+						>(<a
+							id="api_url_link"
+							target="_blank"
+							class="text-link underline underline-offset-2"
+							href={previewUrl}>Open in new tab</a
+						> or copy this URL into your application)</small
 					>.
 				</div>
 				{#if callWeight > 1}
@@ -765,9 +778,8 @@
 					> documentation.
 				</p>
 				<h4>Install</h4>
-				<pre class="rounded-3 dark py-2"><code
-						>pip install openmeteo-requests{'\n'}pip install requests-cache retry-requests numpy pandas</code
-					></pre>
+				{@html pythonInstall}
+				<pre class="rounded-3 dark py-2"><code></code></pre>
 				<h4>Usage</h4>
 				<pre class="rounded-3 dark py-2"><code
 						><span class="token keyword">import</span> openmeteo_requests

@@ -100,14 +100,14 @@
 			<div class="ml-2 flex rounded-lg border">
 				<ToggleGroup.Item
 					value="forecast_days"
-					class="min-h-12 rounded-e-none !opacity-100 lg:min-h-[unset] "
+					class="min-h-12 cursor-pointer rounded-e-none !opacity-100 lg:min-h-[unset] "
 					disabled={$params.time_mode === 'forecast_days'}
 				>
 					<Clock size={20} class="mr-1" />Forecast Length
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="time_interval"
-					class="min-h-12 rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset]"
+					class="min-h-12 cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset]"
 					disabled={$params.time_mode === 'time_interval'}
 				>
 					<Calendar size={20} class="mr-1" />Time Interval
@@ -116,11 +116,11 @@
 		</ToggleGroup.Root>
 		<div class="mt-4">
 			{#if $params.time_mode == 'forecast_days'}
-				<div in:fade class="flex flex-col gap-4 md:flex-row">
-					<div class="flex flex-col gap-4 md:w-1/2 md:flex-row">
-						<div class="relative md:w-1/2">
+				<div class="grid gap-3 lg:grid-cols-2 lg:gap-6">
+					<div class="grid gap-3 sm:grid-cols-2 sm:gap-6">
+						<div class="relative">
 							<Select.Root name="forecast_days" bind:selected={forecastDays}>
-								<Select.Trigger class="h-12 pt-6">
+								<Select.Trigger class="h-12 cursor-pointer pt-6">
 									<Select.Value />
 								</Select.Trigger>
 								<Select.Content>
@@ -135,9 +135,9 @@
 								>
 							</Select.Root>
 						</div>
-						<div class="relative md:w-1/2">
+						<div class="relative">
 							<Select.Root name="past_days" id="past_days" bind:selected={$params.past_days}>
-								<Select.Trigger class="h-12 pt-6">
+								<Select.Trigger class="h-12 cursor-pointer pt-6">
 									<Select.Value />
 								</Select.Trigger>
 								<Select.Content>
@@ -159,7 +159,7 @@
 						</div>
 					</div>
 
-					<div class="md:w-1/2">
+					<div class="">
 						<p>
 							By default, we provide forecasts for 7 days, but you can access forecasts for up to 16
 							days. If you're interested in past weather data, you can use the <mark>Past Days</mark
@@ -192,17 +192,20 @@
 
 	<div class="mb-6 mt-6 md:mt-12">
 		<h2 class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
-		<div class="mt-2 grid gap-x-2 sm:grid-cols-2 md:mt-4 lg:grid-cols-3 2xl:grid-cols-4">
+		<div class="mt-2 grid gap-x-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 			{#each hourly as group}
 				{#each group as e}
-					<div class="flex gap-1 pr-1">
+					<div class="group flex items-center">
 						<Checkbox
+							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 							value={e.name}
 							id="{e.name}_hourly"
 							name="hourly"
 							bind:group={$params.hourly}
 						/>
-						<Label for="{e.name}_hourly" class="truncate">{e.label}</Label>
+						<Label for="{e.name}_hourly" class="cursor-pointer truncate py-1 pl-[0.4rem]"
+							>{e.label}</Label
+						>
 					</div>
 				{/each}
 			{/each}
@@ -569,7 +572,7 @@
 
 	<div class="mt-6 md:mt-12">
 		<h2 class="text-2xl md:text-3xl">Daily Weather Variables</h2>
-		<div class="mt-2 grid sm:grid-cols-2 md:mt-4 lg:grid-cols-3 2xl:grid-cols-4">
+		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 			{#each daily as group}
 				{#each group as e}
 					<div class="flex gap-1 pr-1">
@@ -594,7 +597,7 @@
 
 	<div class="mt-6 md:mt-12">
 		<h2 class="text-2xl md:text-3xl">Current Weather</h2>
-		<div class="mt-2 grid grid-cols-4 md:mt-4">
+		<div class="mt-2 grid grid-cols-4">
 			{#each current as group}
 				{#each group as e}
 					<div>
@@ -610,7 +613,7 @@
 				{/each}
 			{/each}
 		</div>
-		<div class="text-muted-foreground mt-2 text-sm">
+		<div class="text-muted-foreground mt-1 text-sm">
 			Note: Current conditions are based on 15-minutely weather model data. Every weather variable
 			available in hourly data, is available as current condition as well.
 		</div>

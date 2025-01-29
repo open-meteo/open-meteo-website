@@ -437,7 +437,7 @@
 			</p>
 			<div class="mt-4 flex justify-center gap-4">
 				<Button href={'/en/pricing'} title="Newsletter Sign-Up">API Pricing</Button>
-				<Button variant="outline-grey" href="mailto:info@open-meteo.com">Email us</Button>
+				<Button variant="outline" href="mailto:info@open-meteo.com">Email us</Button>
 			</div>
 		</div>
 	</div>

@@ -57,9 +57,16 @@
 			{/if}
 			{#if heroPrimaryButtonText}
 				<div class="mt-2 flex gap-4">
-					<Button variant="default" href={heroPrimaryButtonPath}>{heroPrimaryButtonText}</Button>
-					<Button variant="outline-white" href={heroSecondaryButtonPath}
-						>{heroSecondaryButtonText}</Button
+					<Button
+						variant="default"
+						href={heroPrimaryButtonPath}
+						class="bg-linear-to-t dark:bg-linear-to-b bg-primary from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						>{heroPrimaryButtonText}</Button
+					>
+					<Button
+						variant="outline"
+						class="bg-transparent text-white hover:bg-white/75 hover:text-black dark:border-white/75 dark:brightness-[92%]"
+						href={heroSecondaryButtonPath}>{heroSecondaryButtonText}</Button
 					>
 				</div>
 			{/if}

@@ -58,8 +58,12 @@
 				our reliable weather forecasts.
 			</p>
 			<div class="mt-4 flex gap-4">
-				<Button variant="default" href={'/en/features'}>See features</Button>
-				<Button variant="outline-grey" href={'/en/docs'}>Read the docs</Button>
+				<Button
+					variant="default"
+					class="bg-linear-to-t dark:bg-linear-to-b bg-primary from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+					href={'/en/features'}>See features</Button
+				>
+				<Button variant="outline" href={'/en/docs'}>Read the docs</Button>
 			</div>
 		</div>
 
@@ -377,10 +381,11 @@
 			</p>
 			<div class="mt-4 flex justify-center gap-4">
 				<Button
+					class="bg-linear-to-t dark:bg-linear-to-b bg-primary from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					href="https://openmeteo.substack.com/subscribe?utm_source=landingpage&simple=true&next=https%3A%2F%2Fopenmeteo.substack.com%2F"
 					title="Newsletter Sign-Up">Subscribe to the Newsletter</Button
 				>
-				<Button variant="outline-grey" href={'/en/features#available-apis'} title="APIs & Features"
+				<Button variant="outline" href={'/en/features#available-apis'} title="APIs & Features"
 					>Available APIs</Button
 				>
 			</div>

@@ -24,7 +24,7 @@
 </svelte:head>
 
 <div class="container mb-12 mt-4">
-	<div id="plans">
+	<div id="plans" class="min-h-[668px]">
 		<script async src="https://js.stripe.com/v3/pricing-table.js"></script>
 		{#if $mode === 'dark'}
 			<stripe-pricing-table
@@ -315,7 +315,7 @@
 			</p>
 			<div class="mt-4 flex justify-center gap-4">
 				<Button href="#plans" title="Newsletter Sign-Up">API Plans</Button>
-				<Button variant="outline-grey" href="mailto:info@open-meteo.com">Email us</Button>
+				<Button variant="outline" href="mailto:info@open-meteo.com">Email us</Button>
 			</div>
 		</div>
 	</div>

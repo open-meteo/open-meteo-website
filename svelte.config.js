@@ -1,7 +1,6 @@
 import { mdsvex, escapeSvelte } from 'mdsvex';
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-
 import { createHighlighter } from 'shiki';
 
 // const themes = {

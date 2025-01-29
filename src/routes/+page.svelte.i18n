@@ -54,7 +54,7 @@
 				<Button variant="default" href={'/en/features'}>
 					{m.see_features()}
 				</Button>
-				<Button variant="outline-grey" href={'/en/docs'}>{m.read_docs()}</Button>
+				<Button variant="outline" href={'/en/docs'}>{m.read_docs()}</Button>
 			</div>
 		</div>
 
@@ -326,7 +326,7 @@
 					title="Newsletter Sign-Up">{m.subscribe_to_the_newsletter()}</Button
 				>
 				<Button
-					variant="outline-grey"
+					variant="outline"
 					href={i18n.route('/features#available-apis')}
 					title="APIs & Features">{m.available_apis()}</Button
 				>

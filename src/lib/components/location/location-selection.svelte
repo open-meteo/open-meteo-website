@@ -52,14 +52,14 @@
 	<div class="ml-2 flex rounded-lg border">
 		<ToggleGroup.Item
 			value="location_search"
-			class="min-h-12 rounded-e-none !opacity-100 lg:min-h-[unset] "
+			class="min-h-12 cursor-pointer rounded-e-none !opacity-100 lg:min-h-[unset] "
 			disabled={params.location_mode === 'location_search'}
 		>
 			<Locate size={20} class="mr-1" />Coordinates
 		</ToggleGroup.Item>
 		<ToggleGroup.Item
 			value="csv_coordinates"
-			class="min-h-12 rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset] "
+			class="min-h-12 cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset] "
 			disabled={params.location_mode === 'csv_coordinates'}
 		>
 			<List size={20} class="mr-1" />List
@@ -71,8 +71,8 @@
 	{#if params.location_mode == 'location_search'}
 		<div class="flex flex-col gap-9" in:fade>
 			{#each params.latitude as _, index}
-				<div class="flex flex-col gap-6 md:flex-row md:items-center">
-					<div class="relative flex flex-col gap-2 md:w-1/4">
+				<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+					<div class="relative flex flex-col gap-2">
 						<!-- class:is-invalid={params.latitude[index] < -90 || params.latitude[index] > 90}-->
 						<Input
 							type="number"
@@ -94,7 +94,7 @@
 							</div>
 						{/if}
 					</div>
-					<div class="relative flex flex-col gap-2 md:w-1/4">
+					<div class="relative flex flex-col gap-2">
 						<!-- class:is-invalid={params.longitude[index] < -180 || params.longitude[index] > 180}-->
 						<Input
 							type="number"
@@ -116,10 +116,10 @@
 							</div>
 						{/if}
 					</div>
-					<div class="relative flex items-center gap-2 md:w-1/4">
+					<div class="relative flex items-center gap-2">
 						<!-- TODO: BIND-->
 						<Select.Root name="timezone" selected={{ value: 'UTC', label: 'Not set (GMT+0)' }}>
-							<Select.Trigger class="h-12 pt-6">
+							<Select.Trigger class="h-12 cursor-pointer pt-6">
 								<Select.Value />
 							</Select.Trigger>
 							<Select.Content>
@@ -148,7 +148,7 @@
 						</Select.Root>
 					</div>
 
-					<div class="flex gap-6 md:w-1/4">
+					<div class="flex gap-6">
 						<LocationSearch
 							on:location={(event) => locationCallback(event, index)}
 							label="Search"
@@ -156,14 +156,14 @@
 						{#if index == 0}
 							<Button
 								variant="outline"
-								class="h-12 px-5 pr-6"
+								class="h-12 cursor-pointer px-5 pr-6"
 								onclick={addLocation}
 								title="Add coordinates"><Plus size={22} /></Button
 							>
 						{:else}
 							<Button
 								variant="outline"
-								class="h-12 px-5 pr-6"
+								class="h-12 cursor-pointer px-5  pr-6"
 								onclick={() => removeLocation(index)}
 								title="Delete coordinates"><Trash size={20} /></Button
 							>
