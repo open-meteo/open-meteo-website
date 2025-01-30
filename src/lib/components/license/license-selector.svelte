@@ -25,7 +25,6 @@
 				<ToggleGroup.Item
 					value="non_commercial"
 					class=" opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
-					aria-label="Toggle bold"
 					disabled={licenseSelected === 'non_commercial'}
 				>
 					Non-Commercial
@@ -33,7 +32,6 @@
 				<ToggleGroup.Item
 					value="commercial"
 					class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
-					aria-label="Toggle italic"
 					disabled={licenseSelected === 'commercial'}
 				>
 					Commercial
@@ -41,7 +39,6 @@
 				<ToggleGroup.Item
 					value="self_hosted"
 					class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
-					aria-label="Toggle strikethrough"
 					disabled={licenseSelected === 'self_hosted'}
 				>
 					Self-Hosted

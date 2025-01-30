@@ -1258,7 +1258,7 @@
 
 <div class="mt-3 rounded border p-6">
 	<ToggleGroup.Root type="single" bind:value={citation} class="mb-3 justify-start gap-0">
-		Citation:
+		<div class="text-muted-foreground">Citation:</div>
 		<div class="ml-2 flex rounded-lg border">
 			<ToggleGroup.Item
 				value="apa"
@@ -1293,7 +1293,7 @@
 
 	<div>
 		{#if citation === 'apa'}
-			<div in:fade class:active={citation === 'apa'} id="pills-apa" aria-labelledby="pills-apa-tab">
+			<div in:fade>
 				<p>
 					Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
 						title="zenodo publication"
@@ -1349,12 +1349,7 @@
 				</p>
 			</div>
 		{:else if citation === 'harvard'}
-			<div
-				in:fade
-				class:active={citation === 'harvard'}
-				id="pills-harvard"
-				aria-labelledby="pills-harvard-tab"
-			>
+			<div in:fade>
 				<p>
 					Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi: 10.5281/ZENODO.7970649.
 				</p>
@@ -1377,12 +1372,7 @@
 				</p>
 			</div>
 		{:else if citation === 'bibtex'}
-			<div
-				in:fade
-				class:active={citation === 'bibtex'}
-				id="pills-bibtex"
-				aria-labelledby="pills-bibtex-tab"
-			>
+			<div in:fade>
 				<pre>
 <code
 						>@software&#123;Zippenfenig_Open-Meteo,

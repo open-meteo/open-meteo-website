@@ -1,4 +1,10 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
+
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
+	let citation = $state('apa');
 </script>
 
 <svelte:head>
@@ -203,8 +209,8 @@
 			</p>
 		</div>
 
-		<div class="col-lg-12">
-			<h2 class="    mb-3">Citation</h2>
+		<div class="">
+			<h2 class="mb-3">Citation</h2>
 			<p>
 				We encourage researchers in the field of meteorology and related disciplines to cite
 				Open-Meteo in their work. By acknowledging Open-Meteo as the source of weather data and
@@ -215,48 +221,45 @@
 				initiatives like Open-Meteo, ensuring that future researchers can benefit from the valuable
 				resources it provides.
 			</p>
-			<div class="rounded border p-3">
-				<ul class="nav mb-3">
-					<li>
-						<button
-							class="nav-link active"
-							id="pills-apa-tab"
-							data-bs-target="#pills-apa"
-							type="button"
-							aria-controls="pills-apa">APA</button
-						>
-					</li>
-					<li>
-						<button
-							class="nav-link"
-							id="pills-mla-tab"
-							data-bs-target="#pills-mla"
-							type="button"
-							aria-controls="pills-mla">MLA</button
-						>
-					</li>
-					<li>
-						<button
-							class="nav-link"
-							id="pills-harvard-tab"
-							data-bs-target="#pills-harvard"
-							type="button"
-							aria-controls="pills-harvard">Harvard</button
-						>
-					</li>
-					<li>
-						<button
-							class="nav-link"
-							id="pills-bibtex-tab"
-							data-bs-target="#pills-bibtex"
-							type="button"
-							aria-controls="pills-bibtex"
-							aria-selected="false">BibTeX</button
-						>
-					</li>
-				</ul>
-				<div>
-					<div class="tab-pane fade show active" id="pills-apa" aria-labelledby="pills-apa-tab">
+		</div>
+		<div class="mt-3 rounded border p-6">
+			<ToggleGroup.Root type="single" bind:value={citation} class="mb-3 justify-start gap-0">
+				<div class="text-muted-foreground">Citation:</div>
+				<div class="ml-2 flex rounded-lg border">
+					<ToggleGroup.Item
+						value="apa"
+						class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset] "
+						disabled={citation === 'apa'}
+					>
+						APA
+					</ToggleGroup.Item>
+					<ToggleGroup.Item
+						value="mla"
+						class=" opacity-100! min-h-12 cursor-pointer rounded-none duration-300 lg:min-h-[unset] "
+						disabled={citation === 'mla'}
+					>
+						MLA
+					</ToggleGroup.Item>
+					<ToggleGroup.Item
+						value="harvard"
+						class=" opacity-100! min-h-12 cursor-pointer rounded-none duration-300 lg:min-h-[unset] "
+						disabled={citation === 'harvard'}
+					>
+						Harvard
+					</ToggleGroup.Item>
+					<ToggleGroup.Item
+						value="bibtex"
+						class=" opacity-100! min-h-12 cursor-pointer rounded-md rounded-s-none duration-300 lg:min-h-[unset] "
+						disabled={citation === 'bibtex'}
+					>
+						BibTex
+					</ToggleGroup.Item>
+				</div>
+			</ToggleGroup.Root>
+
+			<div>
+				{#if citation === 'apa'}
+					<div in:fade>
 						<p>
 							Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
 								title="zenodo publication"
@@ -265,19 +268,22 @@
 							>
 						</p>
 					</div>
-					<div class="tab-pane fade show" id="pills-mla" aria-labelledby="pills-mla-tab">
+				{:else if citation === 'mla'}
+					<div in:fade>
 						<p>
 							Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
 							doi:10.5281/ZENODO.7970649.
 						</p>
 					</div>
-					<div class="tab-pane fade show" id="pills-harvard" aria-labelledby="pills-harvard-tab">
+				{:else if citation === 'harvard'}
+					<div in:fade>
 						<p>
 							Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi:
 							10.5281/ZENODO.7970649.
 						</p>
 					</div>
-					<div id="pills-bibtex" aria-labelledby="pills-bibtex-tab">
+				{:else if citation === 'bibtex'}
+					<div in:fade>
 						<pre>
 <code
 								>@software&#123;Zippenfenig_Open-Meteo,
@@ -291,7 +297,7 @@
 &#125;</code
 							></pre>
 					</div>
-				</div>
+				{/if}
 			</div>
 		</div>
 	</div>

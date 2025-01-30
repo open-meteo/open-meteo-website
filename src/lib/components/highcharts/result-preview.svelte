@@ -286,7 +286,6 @@
 	);
 
 	function jsonToChart(data: any, downloadTime: number) {
-		//console.log(data);
 		let yAxis: any = [];
 		const codes = {
 			0: 'fair',
@@ -496,7 +495,6 @@
 				animation: false
 			}
 		};
-		//console.log(json);
 		return json;
 	}
 
@@ -547,7 +545,6 @@
 			return `x<span class="token punctuation">.</span>Variable<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Variable<span class="token punctuation">.</span>${variable}`;
 		}
 		const groups = matches.groups;
-		console.log(groups);
 		let results = [
 			`x<span class="token punctuation">.</span>Variable<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Variable<span class="token punctuation">.</span>${groups.variable}`
 		];
@@ -626,7 +623,6 @@
 			<ToggleGroup.Item
 				value="chart"
 				class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
-				aria-label="Toggle bold"
 				disabled={mode === 'chart'}
 			>
 				Chart & URL
@@ -634,7 +630,6 @@
 			<ToggleGroup.Item
 				value="python"
 				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
-				aria-label="Toggle italic"
 				disabled={mode === 'python'}
 			>
 				Python
@@ -642,7 +637,6 @@
 			<ToggleGroup.Item
 				value="typescript"
 				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
-				aria-label="Toggle italic"
 				disabled={mode === 'typescript'}
 			>
 				Typescript
@@ -650,7 +644,6 @@
 			<ToggleGroup.Item
 				value="swift"
 				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
-				aria-label="Toggle italic"
 				disabled={mode === 'swift'}
 			>
 				Swift
@@ -658,7 +651,6 @@
 			<ToggleGroup.Item
 				value="other"
 				class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
-				aria-label="Toggle strikethrough"
 				disabled={mode === 'other'}
 			>
 				Other

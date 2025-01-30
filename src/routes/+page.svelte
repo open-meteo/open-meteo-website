@@ -106,6 +106,7 @@
 						</Button>
 						<Button
 							variant="outline"
+							name="copy-code-to-clipboard"
 							class="absolute right-0 top-2 z-10 opacity-0 duration-300 group-hover:opacity-100"
 							onclick={() => {
 								window.prompt(
@@ -131,6 +132,7 @@
 						</Button>
 						<Button
 							variant="outline"
+							name="copy-code-to-clipboard"
 							class="absolute right-0 top-2 z-10 opacity-0 duration-300 group-hover:opacity-100"
 							onclick={() => {
 								window.prompt(
@@ -156,6 +158,7 @@
 						</Button>
 						<Button
 							variant="outline"
+							name="copy-code-to-clipboard"
 							class="absolute right-0 top-2 z-10 opacity-0 duration-300 group-hover:opacity-100"
 							onclick={() => {
 								window.prompt(

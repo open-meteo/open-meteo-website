@@ -31,26 +31,14 @@
 
 <div class="accordion-item">
 	<h2 class="accordion-header" id="heading-pressure-levels">
-		<button
-			class="accordion-button collapsed py-2"
-			type="button"
-			data-bs-toggle="collapse"
-			data-bs-target="#collapse-pressure-levels"
-			aria-expanded="false"
-			aria-controls="collapse-pressure-levels"
-		>
+		<Button>
 			Pressure Levels{#if selectedOptions.length > 0}&nbsp;<span
 					class="badge rounded-pill bg-secondary"
 					>{selectedOptions.length}/{pressureVariables.length * levels.length}</span
 				>{/if}
-		</button>
+		</Button>
 	</h2>
-	<div
-		id="collapse-pressure-levels"
-		class="accordion-collapse collapse"
-		aria-labelledby="heading-pressure-levels"
-		data-bs-parent="#accordionVariables"
-	>
+	<div id="collapse-pressure-levels">
 		<div class="accordion-body">
 			<div class="   ">
 				<div class="nav flex-column me-3">

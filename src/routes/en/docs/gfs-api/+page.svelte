@@ -366,14 +366,8 @@
 				<div class="   ">
 					<div class="nav flex-column me-3">
 						{#each pressureVariables as variable, i}
-							<button
-								class="nav-link text-nowrap text-start"
-								class:active={pressureVariablesTab == variable.name}
-								id="v-pills-{variable.name}-tab"
-								type="button"
-								aria-controls="v-pills-{variable.name}"
-								aria-selected={pressureVariablesTab == variable.name}
-								onclick={() => (pressureVariablesTab = variable.name)}>{variable.label}</button
+							<Button onclick={() => (pressureVariablesTab = variable.name)}
+								>{variable.label}</Button
 							>
 						{/each}
 					</div>

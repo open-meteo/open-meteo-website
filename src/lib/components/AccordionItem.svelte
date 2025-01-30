@@ -29,7 +29,7 @@
 </script>
 
 <Accordion.Item value={id}>
-	<Accordion.Trigger class="px-4"
+	<Accordion.Trigger class="underline-offset-3 cursor-pointer px-4"
 		><h2 id="heading-{id}">
 			{title}
 			{#if count.active > 0}

@@ -192,18 +192,23 @@
 
 	<div class="mb-6 mt-6 md:mt-12">
 		<h2 class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
-		<div class="mt-2 grid gap-x-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+		<div class="mt-2 grid grid-flow-row gap-x-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 			{#each hourly as group}
 				{#each group as e}
 					<div class="group flex items-center">
 						<Checkbox
 							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-							value={e.name}
-							id="{e.name}_hourly"
-							name="hourly"
-							bind:group={$params.hourly}
+							value={e.value}
+							checked={$params.hourly.includes(e.value)}
+							onCheckedChange={(checked) => {
+								if (checked) {
+									$params.hourly.push(e.value);
+								} else {
+									$params.hourly.pop(e.value);
+								}
+							}}
 						/>
-						<Label for="{e.name}_hourly" class="cursor-pointer truncate py-1 pl-[0.4rem]"
+						<Label for="{e.value}_hourly" class="cursor-pointer truncate py-1 pl-[0.4rem]"
 							>{e.label}</Label
 						>
 					</div>

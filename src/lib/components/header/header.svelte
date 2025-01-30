@@ -25,7 +25,12 @@
 			<Logo width="28" height="28" />
 			Open-meteo
 		</Button>
-		<Toggle class="relative px-5 md:hidden" bind:pressed={toggleMenu} variant="outline">
+		<Toggle
+			name="mobile-menu"
+			class="relative px-5 md:hidden"
+			bind:pressed={toggleMenu}
+			variant="outline"
+		>
 			{#if !toggleMenu}
 				<div class="absolute" transition:fade={{ duration: 150 }}>
 					<Menu />
