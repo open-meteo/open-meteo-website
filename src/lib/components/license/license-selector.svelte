@@ -67,8 +67,9 @@
 						bind:value={$api_key_preferences.apikey}
 						required
 					/>
-					<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1" for="apikey"
-						>API Key</Label
+					<Label
+						class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+						for="apikey">API Key</Label
 					>
 				</div>
 				<div class="md:w-2/3">
@@ -90,8 +91,9 @@
 						id="self_host_server"
 						bind:value={$api_key_preferences.self_host_server}
 					/>
-					<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1" for="apikey"
-						>Server URL</Label
+					<Label
+						class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+						for="apikey">Server URL</Label
 					>
 				</div>
 				<div class="md:w-2/3">

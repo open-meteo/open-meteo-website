@@ -119,7 +119,7 @@
 				<div class="grid gap-3 lg:grid-cols-2 lg:gap-6">
 					<div class="grid gap-3 sm:grid-cols-2 sm:gap-6">
 						<div class="relative">
-							<Select.Root name="forecast_days" bind:selected={forecastDays}>
+							<Select.Root preventScroll={false} name="forecast_days" bind:selected={forecastDays}>
 								<Select.Trigger class="h-12 cursor-pointer pt-6">
 									<Select.Value />
 								</Select.Trigger>
@@ -130,13 +130,18 @@
 									<Select.Item value="14">14 days</Select.Item>
 									<Select.Item value="16">16 days</Select.Item>
 								</Select.Content>
-								<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 									>Forecast days</Label
 								>
 							</Select.Root>
 						</div>
 						<div class="relative">
-							<Select.Root name="past_days" id="past_days" bind:selected={$params.past_days}>
+							<Select.Root
+								preventScroll={false}
+								name="past_days"
+								id="past_days"
+								bind:selected={$params.past_days}
+							>
 								<Select.Trigger class="h-12 cursor-pointer pt-6">
 									<Select.Value />
 								</Select.Trigger>
@@ -152,7 +157,9 @@
 									<Select.Item value="61">2 months</Select.Item>
 									<Select.Item value="92">3 months</Select.Item>
 								</Select.Content>
-								<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1">
+								<Label
+									class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>
 									Past days</Label
 								>
 							</Select.Root>
@@ -251,11 +258,12 @@
 				<div class="mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root
+							preventScroll={false}
 							name="forecast_hours"
 							id="forecast_hours"
 							bind:selected={$params.forecast_hours}
 						>
-							<Select.Trigger class="h-12 pt-6">
+							<Select.Trigger class="h-12 cursor-pointer pt-6">
 								<Select.Value />
 							</Select.Trigger>
 							<Select.Content>
@@ -265,15 +273,20 @@
 								<Select.Item value="12">12 hours</Select.Item>
 								<Select.Item value="24">24 hours</Select.Item>
 							</Select.Content>
-							<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 								>Forecast Hours</Label
 							>
 						</Select.Root>
 					</div>
 
 					<div class="relative">
-						<Select.Root name="past_hours" id="past_hours" bind:selected={$params.past_hours}>
-							<Select.Trigger class="h-12 pt-6">
+						<Select.Root
+							preventScroll={false}
+							name="past_hours"
+							id="past_hours"
+							bind:selected={$params.past_hours}
+						>
+							<Select.Trigger class="h-12 cursor-pointer pt-6">
 								<Select.Value />
 							</Select.Trigger>
 							<Select.Content>
@@ -283,7 +296,7 @@
 								<Select.Item value="12">12 hours</Select.Item>
 								<Select.Item value="24">24 hours</Select.Item>
 							</Select.Content>
-							<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 								>Past Hours</Label
 							>
 						</Select.Root>
@@ -291,11 +304,12 @@
 
 					<div class="relative col-span-2">
 						<Select.Root
+							preventScroll={false}
 							name="temporal_resolution"
 							id="temporal_resolution"
 							bind:selected={$params.temporal_resolution}
 						>
-							<Select.Trigger class="h-12 pt-6">
+							<Select.Trigger class="h-12 cursor-pointer pt-6">
 								<Select.Value />
 							</Select.Trigger>
 							<Select.Content>
@@ -304,19 +318,20 @@
 								<Select.Item value="hourly_6">6 Hourly</Select.Item>
 								<Select.Item value="native">Native Model Resolution</Select.Item>
 							</Select.Content>
-							<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 								>Temporal Resolution For Hourly Data</Label
 							>
 						</Select.Root>
 					</div>
 					<div class="relative col-span-2">
 						<Select.Root
+							preventScroll={false}
 							class="min-w-1/2"
 							name="cell_selection"
 							id="cell_selection"
 							bind:selected={$params.cell_selection}
 						>
-							<Select.Trigger class="h-12 pt-6">
+							<Select.Trigger class="h-12 cursor-pointer pt-6">
 								<Select.Value />
 							</Select.Trigger>
 							<Select.Content>
@@ -324,7 +339,7 @@
 								<Select.Item value="sea">Prefer Sea</Select.Item>
 								<Select.Item value="nearest">Nearest</Select.Item>
 							</Select.Content>
-							<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 								>Grid Cell Selection</Label
 							>
 						</Select.Root>
@@ -535,11 +550,12 @@
 				</div>
 				<div>
 					<Select.Root
+						preventScroll={false}
 						name="forecast_minutely_15"
 						id="forecast_minutely_15"
 						bind:selected={$params.forecast_minutely_15}
 					>
-						<Select.Trigger>
+						<Select.Trigger class="cursor-pointer">
 							<Select.Value />
 						</Select.Trigger>
 						<Select.Content>
@@ -554,11 +570,12 @@
 				</div>
 				<div>
 					<Select.Root
+						preventScroll={false}
 						name="past_minutely_15"
 						id="past_minutely_15"
 						bind:selected={$params.past_minutely_15}
 					>
-						<Select.Trigger>
+						<Select.Trigger class="cursor-pointer">
 							<Select.Value />
 						</Select.Trigger>
 						<Select.Content>
@@ -629,18 +646,19 @@
 		<div class="mt-2 flex flex-col gap-6 md:mt-4 md:flex-row">
 			<div class="relative md:w-1/4">
 				<Select.Root
+					preventScroll={false}
 					name="temperature_unit"
 					id="temperature_unit"
 					bind:selected={$params.temperature_unit}
 				>
-					<Select.Trigger class="h-12 pt-6">
+					<Select.Trigger class="h-12 cursor-pointer pt-6">
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content>
 						<Select.Item value="celsius">Celsius °C</Select.Item>
 						<Select.Item value="fahrenheit">Fahrenheit °F</Select.Item>
 					</Select.Content>
-					<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 						>Temperature Unit</Label
 					>
 				</Select.Root>
@@ -648,11 +666,12 @@
 
 			<div class="relative md:w-1/4">
 				<Select.Root
+					preventScroll={false}
 					name="wind_speed_unit"
 					id="wind_speed_unit"
 					bind:selected={$params.wind_speed_unit}
 				>
-					<Select.Trigger class="h-12 pt-6">
+					<Select.Trigger class="h-12 cursor-pointer pt-6">
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content>
@@ -661,7 +680,7 @@
 						<Select.Item value="mph">Mph</Select.Item>
 						<Select.Item value="kn">Knots</Select.Item>
 					</Select.Content>
-					<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 						>Wind Speed Unit</Label
 					>
 				</Select.Root>
@@ -669,33 +688,39 @@
 
 			<div class="relative md:w-1/4">
 				<Select.Root
+					preventScroll={false}
 					name="precipitation_unit"
 					id="precipitation_unit"
 					bind:selected={$params.precipitation_unit}
 				>
-					<Select.Trigger class="h-12 pt-6">
+					<Select.Trigger class="h-12 cursor-pointer pt-6">
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content>
 						<Select.Item value="mm">Millimeter</Select.Item>
 						<Select.Item value="inch">Inch</Select.Item>
 					</Select.Content>
-					<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 						>Precipitation Unit</Label
 					>
 				</Select.Root>
 			</div>
 
 			<div class="relative md:w-1/4">
-				<Select.Root name="timeformat" id="timeformat" bind:selected={$params.timeformat}>
-					<Select.Trigger class="h-12 pt-6">
+				<Select.Root
+					preventScroll={false}
+					name="timeformat"
+					id="timeformat"
+					bind:selected={$params.timeformat}
+				>
+					<Select.Trigger class="h-12 cursor-pointer pt-6">
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content>
 						<Select.Item value="iso8601">ISO 8601 (e.g. 2022-12-31)</Select.Item>
 						<Select.Item value="unixtime">Unix timestamp</Select.Item>
 					</Select.Content>
-					<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 						>Timeformat</Label
 					>
 				</Select.Root>

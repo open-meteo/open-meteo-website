@@ -21,13 +21,13 @@
 
 <nav class="container flex flex-wrap py-4 md:flex-nowrap">
 	<div class="flex w-full justify-between md:w-[unset]">
-		<Button variant="ghost" class="-ml-3 flex gap-2 px-3 text-lg" href={'/'}>
+		<Button variant="ghost" class="-ml-3  flex gap-2 px-3 text-lg" href={'/'}>
 			<Logo width="28" height="28" />
 			Open-meteo
 		</Button>
 		<Toggle
 			name="mobile-menu"
-			class="relative px-5 md:hidden"
+			class="relative cursor-pointer px-5 md:hidden"
 			bind:pressed={toggleMenu}
 			variant="outline"
 		>

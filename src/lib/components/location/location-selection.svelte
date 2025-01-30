@@ -85,7 +85,7 @@
 							bind:value={params.latitude[index]}
 						/>
 						<Label
-							class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 							for="latitude">Latitude</Label
 						>
 						{#if params.latitude[index] < -90 || params.latitude[index] > 90}
@@ -107,7 +107,7 @@
 							bind:value={params.longitude[index]}
 						/>
 						<Label
-							class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 							for="longitude">Longitude</Label
 						>
 						{#if params.longitude[index] < -180 || params.longitude[index] > 180}
@@ -118,7 +118,11 @@
 					</div>
 					<div class="relative flex items-center gap-2">
 						<!-- TODO: BIND-->
-						<Select.Root name="timezone" selected={{ value: 'UTC', label: 'Not set (GMT+0)' }}>
+						<Select.Root
+							name="timezone"
+							preventScroll={false}
+							selected={{ value: 'UTC', label: 'Not set (GMT+0)' }}
+						>
 							<Select.Trigger class="h-12 cursor-pointer pt-6">
 								<Select.Value />
 							</Select.Trigger>
@@ -142,7 +146,7 @@
 								<Select.Item value="Australia/Sydney">Australia/Sydney</Select.Item>
 								<Select.Item value="Pacific/Auckland">Pacific/Auckland</Select.Item>
 							</Select.Content>
-							<Label class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 								>Timezone</Label
 							>
 						</Select.Root>

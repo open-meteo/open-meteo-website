@@ -10,7 +10,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
-		"lint": "prettier --check . && eslint ."
+		"lint": "prettier --check . && eslint .",
+		"update-components": "npx shadcn-svelte@latest add -y -o accordion alert button checkbox dialog dropdown-menu input label select sonner toggle toggle-group"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",

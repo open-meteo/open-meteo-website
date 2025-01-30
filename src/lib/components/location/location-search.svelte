@@ -137,11 +137,9 @@
 </script>
 
 <Dialog.Root bind:open={dialogOpen} preventScroll={false}>
-	<Dialog.Trigger
-		><Button variant="outline" class="h-12 cursor-pointer px-5 pr-6"
-			><Search size={20} class="mr-1" /> {label}</Button
-		>
-	</Dialog.Trigger>
+	<Dialog.Trigger class="h-12 cursor-pointer px-5 pr-6"
+		><Search size={20} class="mr-1" /> {label}</Dialog.Trigger
+	>
 	<Dialog.Content class="top-[17%] flex min-h-[400px] translate-y-0 flex-col sm:max-w-[600px]">
 		<Dialog.Header>
 			<Dialog.Title>Search Locations</Dialog.Title>

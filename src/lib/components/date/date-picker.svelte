@@ -66,7 +66,7 @@
 						onchange={onManualChange}
 					/>
 					<Label
-						class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+						class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 						for="start_date">Start date</Label
 					>
 				</div>
@@ -84,7 +84,7 @@
 						onchange={onManualChange}
 					/>
 					<Label
-						class="text-muted-foreground text-xxs absolute left-2 top-2 z-10 px-1"
+						class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 						for="end_date">End date</Label
 					>
 				</div>
