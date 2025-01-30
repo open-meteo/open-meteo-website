@@ -17,7 +17,7 @@
 	let licenseSelected = $state('non_commercial');
 </script>
 
-<div class="overflow-hidden">
+<div class="">
 	<div class="flex items-center">
 		<div class="text-muted-foreground">Usage license:</div>
 		<div class="ml-2 flex rounded-lg border">
@@ -46,7 +46,7 @@
 			</ToggleGroup.Root>
 		</div>
 	</div>
-	<div class="relative mt-3">
+	<div class="relative mt-3 md:mt-6">
 		{#if licenseSelected === 'non_commercial'}
 			<div in:fade>
 				<Alert.Root variant="informative">
@@ -57,8 +57,8 @@
 				</Alert.Root>
 			</div>
 		{:else if licenseSelected === 'commercial'}
-			<div in:fade class="flex gap-3">
-				<div class="relative flex md:w-1/3">
+			<div in:fade class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6">
+				<div class="relative flex">
 					<Input
 						class="h-13 pt-6"
 						type="text"
@@ -72,7 +72,7 @@
 						for="apikey">API Key</Label
 					>
 				</div>
-				<div class="md:w-2/3">
+				<div class="col-span-2">
 					<Alert.Root variant="informative">
 						<Alert.Description>
 							See <a href={'/en/pricing'}>Pricing</a> for more details.{#if requires_professional_plan}
@@ -82,8 +82,8 @@
 				</div>
 			</div>
 		{:else if licenseSelected === 'self_hosted'}
-			<div in:fade class="flex gap-3">
-				<div class="relative flex md:w-1/3">
+			<div in:fade class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6">
+				<div class="relative flex">
 					<Input
 						class="h-13 pt-6"
 						type="text"
@@ -96,7 +96,7 @@
 						for="apikey">Server URL</Label
 					>
 				</div>
-				<div class="md:w-2/3">
+				<div class="col-span-2">
 					<Alert.Root variant="informative">
 						<Alert.Description>
 							See <a href="https://github.com/open-meteo/open-meteo">GitHub</a> for more instructions.

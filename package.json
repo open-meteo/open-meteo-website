@@ -4,9 +4,9 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "svelte-kit sync && vite dev",
-		"build": "svelte-kit sync && vite build",
-		"preview": "vite preview",
+		"dev": "svelte-kit sync && vite dev --host",
+		"build": "svelte-kit sync && vite build -l info",
+		"preview": "vite preview --host",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",

@@ -137,10 +137,11 @@
 </script>
 
 <Dialog.Root bind:open={dialogOpen} preventScroll={false}>
-	<Dialog.Trigger class="h-12 cursor-pointer px-5 pr-6"
+	<Dialog.Trigger
+		class="hover:bg-accent flex h-12 cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
 		><Search size={20} class="mr-1" /> {label}</Dialog.Trigger
 	>
-	<Dialog.Content class="top-[17%] flex min-h-[400px] translate-y-0 flex-col sm:max-w-[600px]">
+	<Dialog.Content class="top-[10%] flex min-h-[400px] translate-y-0 flex-col sm:max-w-[600px]">
 		<Dialog.Header>
 			<Dialog.Title>Search Locations</Dialog.Title>
 		</Dialog.Header>
@@ -155,9 +156,11 @@
 					bind:value={searchQuery}
 				/>
 				<Button
-					variant="ghost"
+					variant="outline"
+					class="cursor-pointer"
 					title="Detect Location via GPS"
-					onclick={() => (searchQuery = 'GPS')}><Cursor size={20} strokeWidth={1.2} /></Button
+					onclick={() => (searchQuery = 'GPS')}
+					><Cursor class="pointer-events-none" size={20} strokeWidth={1.2} /></Button
 				>
 			</div>
 			{#await results}
@@ -179,11 +182,11 @@
 							<div class="rounded-lg border">
 								{#each $favorites as location}
 									<Button
-										class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2"
-										variant={'custom'}
+										variant="outline"
+										class="not-last:border-b flex h-[unset] w-full cursor-pointer justify-between rounded-none px-3 py-2"
 										onclick={() => selectLocation(location)}
 									>
-										<div class="-z-10 flex flex-col gap-1">
+										<div class="pointer-events-none flex flex-col gap-1">
 											<div class="flex items-center gap-2 text-lg">
 												<img
 													height="24"
@@ -230,11 +233,11 @@
 							<div class="rounded-lg border">
 								{#each $last_visited as location}
 									<Button
-										class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2"
-										variant={'custom'}
+										variant="outline"
+										class="not-last:border-b flex h-[unset] w-full cursor-pointer justify-between rounded-none px-3 py-2"
 										onclick={() => selectLocation(location)}
 									>
-										<div class="-z-10 flex flex-col gap-1">
+										<div class="pointer-events-none flex flex-col gap-1">
 											<div class="flex items-center gap-2 text-lg">
 												<img
 													height="24"
@@ -258,20 +261,20 @@
 
 										<div class="-mr-1 flex justify-self-end">
 											<Button
-												class="px-3"
 												variant="ghost"
+												class="cursor-pointer px-3 duration-200 hover:brightness-[120%]"
 												onclick={(e) => saveFavorite(location)}
 												title="Save"><Star size={20} strokeWidth={1.2} /></Button
 											>
 											<Button
-												class="px-3"
 												variant="ghost"
+												class="cursor-pointer px-3 duration-200 hover:brightness-[120%]"
 												onclick={() => deleteRecent(location)}
 												title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
 											>
 											<Button
-												class="px-3"
 												variant="ghost"
+												class="cursor-pointer px-3 duration-200 hover:brightness-[120%]"
 												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 												target="_blank"
 												title="Show on map"
@@ -293,11 +296,11 @@
 						<div class="rounded-lg border">
 							{#each results.results || [] as location}
 								<Button
-									class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2"
-									variant={'custom'}
+									variant="outline"
+									class="not-last:border-b flex h-[unset] w-full cursor-pointer cursor-pointer justify-between rounded-none px-3 py-2"
 									onclick={() => selectLocation(location)}
 								>
-									<div class="-z-10 flex flex-col gap-1">
+									<div class="pointer-events-none flex flex-col gap-1">
 										<div class="flex items-center gap-2 text-lg">
 											<img
 												height="24"
@@ -320,14 +323,14 @@
 									</div>
 									<div class="-mr-1 flex justify-self-end">
 										<Button
-											class="px-3"
-											variant="custom"
+											variant="ghost"
+											class="cursor-pointer px-3 duration-200 hover:brightness-[120%]"
 											onclick={() => saveFavorite(location)}
 											title="Save"><Star size={20} strokeWidth={1.2} /></Button
 										>
 										<Button
-											class="px-3"
-											variant="custom"
+											variant="ghost"
+											class="cursor-pointer px-3 duration-200 hover:brightness-[120%]"
 											href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 											target="_blank"
 											title="Show on map"

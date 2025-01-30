@@ -116,8 +116,8 @@
 		</ToggleGroup.Root>
 		<div class="mt-4">
 			{#if $params.time_mode == 'forecast_days'}
-				<div class="grid gap-3 lg:grid-cols-2 lg:gap-6">
-					<div class="grid gap-3 sm:grid-cols-2 sm:gap-6">
+				<div class="grid gap-3 md:gap-6 lg:grid-cols-2">
+					<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
 						<div class="relative">
 							<Select.Root preventScroll={false} name="forecast_days" bind:selected={forecastDays}>
 								<Select.Trigger class="h-12 cursor-pointer pt-6">
@@ -643,8 +643,10 @@
 
 	<div class="mt-6 md:mt-12">
 		<h2 class="text-2xl md:text-3xl">Settings</h2>
-		<div class="mt-2 flex flex-col gap-6 md:mt-4 md:flex-row">
-			<div class="relative md:w-1/4">
+		<div
+			class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-6 md:flex-row md:gap-6 lg:grid-cols-4"
+		>
+			<div class="relative">
 				<Select.Root
 					preventScroll={false}
 					name="temperature_unit"
@@ -664,7 +666,7 @@
 				</Select.Root>
 			</div>
 
-			<div class="relative md:w-1/4">
+			<div class="relative">
 				<Select.Root
 					preventScroll={false}
 					name="wind_speed_unit"
@@ -686,7 +688,7 @@
 				</Select.Root>
 			</div>
 
-			<div class="relative md:w-1/4">
+			<div class="relative">
 				<Select.Root
 					preventScroll={false}
 					name="precipitation_unit"
@@ -706,7 +708,7 @@
 				</Select.Root>
 			</div>
 
-			<div class="relative md:w-1/4">
+			<div class="relative">
 				<Select.Root
 					preventScroll={false}
 					name="timeformat"
@@ -728,7 +730,7 @@
 		</div>
 	</div>
 
-	<div class="mt-6"><LicenseSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
 </form>
 
 <div class="mt-6 md:mt-12">

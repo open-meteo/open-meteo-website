@@ -27,7 +27,7 @@
 		</Button>
 		<Toggle
 			name="mobile-menu"
-			class="relative cursor-pointer px-5 md:hidden"
+			class="relative cursor-pointer px-6 md:hidden"
 			bind:pressed={toggleMenu}
 			variant="outline"
 		>

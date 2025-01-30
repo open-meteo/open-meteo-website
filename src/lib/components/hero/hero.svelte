@@ -33,7 +33,17 @@
 </script>
 
 <!-- max-h-[300px] min-h-[300px] max-h-[400px] min-h-[400px] max-h-[500px] min-h-[500px] max-h-[600px] min-h-[600px] -->
-<div class="max-h-[{heroHeight}px] min-h-[{heroHeight}px] flex items-center duration-200">
+<div class="max-h-[{heroHeight}px] min-h-[{heroHeight}px] relative flex items-center duration-200">
+	<div
+		class="absolute -z-10 h-full w-full duration-200"
+		style="
+          background-image: url('{heroImage}');
+          background-size: cover;
+          background-position: center;
+          height: {heroHeight}px;
+		  {$mode === 'dark' && dev ? 'opacity: 0.6;' : ''}
+        "
+	></div>
 	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">
 		<Logo width="96" height="96" shadow={true} />
 		<h1 class="text-shadow text-2xl font-light shadow-[rgba(0,0,0,0.7)] md:text-5xl">

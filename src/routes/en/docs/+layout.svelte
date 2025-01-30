@@ -71,13 +71,13 @@
 
 <div class="flex flex-col md:flex-row">
 	<aside class="w-full md:w-1/6 md:min-w-[230px] md:max-w-[400px]">
-		<nav class="sticky top-0 flex flex-col p-6 md:pr-3">
+		<nav class="sticky top-0 flex flex-col p-6 pb-3 md:pb-6 md:pr-3">
 			<Button
-				variant="custom"
+				variant="outline"
+				class="flex cursor-pointer justify-start p-3 md:hidden"
 				onclick={() => {
 					mobileNavOpened = !mobileNavOpened;
 				}}
-				class="flex justify-start rounded-md border p-3 md:hidden"
 			>
 				<Chevrons class="mr-2" /><b>{selectedPath.title}</b>
 			</Button>
