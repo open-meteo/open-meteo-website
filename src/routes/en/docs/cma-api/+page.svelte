@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import {
 		countVariables,
 		sliceIntoChunks,
@@ -54,7 +54,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/cma-api" />
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		This API provides weather forecasts based on the global GFS GRAPES model from the Chinese
 		Meteorological Administration. For more extensive use cases, we recommend the <a

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { slide, fade } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -56,7 +56,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/jma-api" />
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		The API is optimized for Japan, utilizing JMA global GSM and local MSM models. However, for most
 		use-cases, we recommend the <a href={'/en/docs'}>generic Weather Forecast API</a>.

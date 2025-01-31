@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -51,7 +51,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/ecmwf-api" />
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		The API uses open-data ECMWF weather forecasts from the IFS weather model with a resolution of 9
 		km. However, the open-data access is restricted to a resolution of 25 km and 3-hourly values,

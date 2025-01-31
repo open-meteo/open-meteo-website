@@ -20,7 +20,7 @@
 <div class="">
 	<div class="flex items-center">
 		<div class="text-muted-foreground">Usage license:</div>
-		<div class="ml-2 flex rounded-lg border">
+		<div class="border-border ml-2 flex rounded-lg border">
 			<ToggleGroup.Root type="single" bind:value={licenseSelected} class="justify-start gap-0">
 				<ToggleGroup.Item
 					value="non_commercial"
@@ -49,7 +49,7 @@
 	<div class="relative mt-3 md:mt-6">
 		{#if licenseSelected === 'non_commercial'}
 			<div in:fade>
-				<Alert.Root variant="informative">
+				<Alert.Root class="border-border">
 					<Alert.Description>
 						Only for <strong>non-commercial use</strong> and less than 10.000 daily API calls. See
 						<a href={'/en/terms'}>Terms</a> for more details.
@@ -73,7 +73,7 @@
 					>
 				</div>
 				<div class="col-span-2">
-					<Alert.Root variant="informative">
+					<Alert.Root class="border-border">
 						<Alert.Description>
 							See <a href={'/en/pricing'}>Pricing</a> for more details.{#if requires_professional_plan}
 								This API requires the <mark>Professional</mark> subscription.{/if}
@@ -97,7 +97,7 @@
 					>
 				</div>
 				<div class="col-span-2">
-					<Alert.Root variant="informative">
+					<Alert.Root class="border-border">
 						<Alert.Description>
 							See <a href="https://github.com/open-meteo/open-meteo">GitHub</a> for more instructions.
 							Make sure your node supports HTTPS.

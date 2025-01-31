@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { api_key_preferences } from '$lib/stores/settings';
 
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
 
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -51,7 +51,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/previous-runs-api" />
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		Read the announcement for the Previous Day API and how you can use to it calculate model
 		accuracy in the <a

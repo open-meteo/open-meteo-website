@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -57,7 +57,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/meteofrance-api" />
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		The API leverages Météo-France's AROME and ARPEGE weather models, tailored for Central Europe
 		and specifically France. With updates for AROME every hour, nowcast is provided for Central

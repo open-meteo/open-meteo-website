@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
 
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -60,7 +60,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/ensemble-api" />
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		The initial version of ensemble weather models has been integrated. You can learn more about
 		these models in the <a

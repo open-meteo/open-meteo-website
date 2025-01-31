@@ -28,8 +28,9 @@
 	}
 </script>
 
-<Accordion.Item value={id}>
-	<Accordion.Trigger class="underline-offset-3 cursor-pointer px-4"
+<Accordion.Item class="border-border border-b" value={id}>
+	<Accordion.Trigger
+		class="underline-offset-3 border-border [[data-state=open]]:bg-accent [[data-state=open]]:border-b cursor-pointer px-4"
 		><h2 id="heading-{id}">
 			{title}
 			{#if count.active > 0}

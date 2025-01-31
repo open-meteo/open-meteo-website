@@ -10,7 +10,7 @@ export const defaultParameters = {
 	precipitation_unit: 'mm',
 	timeformat: 'iso8601',
 	timezone: 'UTC',
-	past_days: '0',
+	past_days: 0,
 	past_hours: '',
 	past_minutely_15: '',
 	temporal_resolution: '',

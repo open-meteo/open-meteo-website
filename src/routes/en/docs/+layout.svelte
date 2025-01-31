@@ -128,7 +128,7 @@
 			</ul>
 		</nav>
 	</aside>
-	<div class="flex flex-col p-6 pt-0 md:w-5/6 md:pl-3 md:pt-6">
+	<div class="flex flex-1 flex-col overflow-auto p-6 pt-0 md:w-5/6 md:pl-3 md:pt-6">
 		{@render children?.()}
 	</div>
 </div>

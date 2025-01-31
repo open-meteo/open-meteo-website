@@ -21,7 +21,7 @@
 
 <nav class="container flex flex-wrap py-4 md:flex-nowrap">
 	<div class="flex w-full justify-between md:w-[unset]">
-		<Button variant="ghost" class="-ml-3  flex gap-2 px-3 text-lg" href={'/'}>
+		<Button variant="ghost" class="-ml-3 flex gap-2 px-3 text-lg hover:bg-transparent" href={'/'}>
 			<Logo width="28" height="28" />
 			Open-meteo
 		</Button>
@@ -52,37 +52,35 @@
 				<hr class="my-1 ml-3" />
 				<Button
 					variant="ghost"
-					class="grow-text mr-auto flex-col px-3"
+					class="grow-text mr-auto flex-col px-3 {pathname === '/' ? 'font-bold' : ''}"
 					data-text="Home"
-					highlight={pathname === '/' ? 'active' : undefined}
 					href={'/'}
 					onclick={() => (toggleMenu = false)}>Home</Button
 				>
 				<Button
 					variant="ghost"
-					class="grow-text mr-auto flex-col px-3"
+					class="grow-text mr-auto flex-col px-3 {pathname === '/en/features' ? 'font-bold' : ''}"
 					data-text="Features"
-					highlight={pathname === '/en/features' ? 'active' : undefined}
 					href={'/en/features'}
 					onclick={() => (toggleMenu = false)}>Features</Button
 				>
 				<Button
 					variant="ghost"
-					class="grow-text mr-auto flex-col px-3"
+					class="grow-text mr-auto flex-col px-3 {pathname === '/en/pricing' ? 'font-bold' : ''}"
 					data-text="Pricing"
-					highlight={pathname === '/en/pricing' ? 'active' : undefined}
 					href={'/en/pricing'}
 					onclick={() => (toggleMenu = false)}>Pricing</Button
 				>
 				<Button
 					variant="ghost"
-					class="grow-text mr-auto flex-col px-3"
+					class="grow-text mr-auto flex-col px-3 {pathname.startsWith('/en/docs')
+						? 'font-bold'
+						: ''}"
 					data-text="API Docs"
-					highlight={pathname.startsWith('/en/docs') ? 'active' : undefined}
 					href={'/en/docs'}
 					onclick={() => (toggleMenu = false)}>API Docs</Button
 				>
-				<hr class="mb-4 ml-3 mt-2" />
+				<hr class="border-border mb-4 ml-3 mt-2" />
 			</div>
 			<div class="flex gap-1 md:ml-auto md:flex-row md:justify-self-end">
 				<Button
@@ -97,7 +95,7 @@
 						{@html X}
 					</div></Button
 				>
-				<div class="mx-2 hidden border-l md:flex"></div>
+				<div class="border-border mx-2 hidden border-l md:flex"></div>
 				<div class="ml-auto flex gap-1">
 					<!-- {#if dev}
 						<LocaleToggle {pathname} />

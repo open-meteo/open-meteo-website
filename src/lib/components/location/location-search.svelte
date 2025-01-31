@@ -34,7 +34,6 @@
 	function closeModal() {
 		dialogOpen = false;
 		if (scrollY) {
-			// @ts-ignore
 			window.scrollTo({ top: scrollY, behavior: 'instant' });
 		}
 	}
@@ -138,10 +137,12 @@
 
 <Dialog.Root bind:open={dialogOpen} preventScroll={false}>
 	<Dialog.Trigger
-		class="hover:bg-accent flex h-12 cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
+		class="hover:bg-accent border-border flex h-12 cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
 		><Search size={20} class="mr-1" /> {label}</Dialog.Trigger
 	>
-	<Dialog.Content class="top-[10%] flex min-h-[400px] translate-y-0 flex-col sm:max-w-[600px]">
+	<Dialog.Content
+		class="border-border top-[10%] flex min-h-[400px] translate-y-0 flex-col sm:max-w-[600px]"
+	>
 		<Dialog.Header>
 			<Dialog.Title>Search Locations</Dialog.Title>
 		</Dialog.Header>
@@ -165,7 +166,7 @@
 			</div>
 			{#await results}
 				<div class="mt-4 flex h-full items-center justify-center">
-					<Alert.Root class="my-auto w-[unset]" variant="informative">
+					<Alert.Root class="border-border my-auto w-[unset]">
 						<Alert.Description>Loading...</Alert.Description>
 					</Alert.Root>
 				</div>
@@ -173,13 +174,13 @@
 				{#if results.results && results.results.length == 0}
 					{#if searchQuery.length < 2}
 						{#if $last_visited.length == 0 && $favorites.length == 0}
-							<Alert.Root class="my-auto w-[unset]" variant="informative">
+							<Alert.Root class="border-border my-auto w-[unset]">
 								<Alert.Description>Start typing to search for locations</Alert.Description>
 							</Alert.Root>
 						{/if}
 						{#if $favorites.length > 0}
 							<h6 class="text-muted-foreground mb-4 mt-4 text-xl">Favorites</h6>
-							<div class="rounded-lg border">
+							<div class="border-border rounded-lg border">
 								{#each $favorites as location}
 									<Button
 										variant="outline"
@@ -209,14 +210,14 @@
 
 										<div class="-mr-1 flex justify-self-end">
 											<Button
-												class="px-3"
 												variant="ghost"
+												class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
 												onclick={() => deleteFavorite(location)}
 												title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
 											>
 											<Button
-												class="px-3"
 												variant="ghost"
+												class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
 												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 												target="_blank"
 												title="Show on map"
@@ -230,7 +231,7 @@
 						{/if}
 						{#if $last_visited.length > 0}
 							<h6 class="text-muted-foreground mb-4 mt-4 text-xl">Recent Locations</h6>
-							<div class="rounded-lg border">
+							<div class="border-border rounded-lg border">
 								{#each $last_visited as location}
 									<Button
 										variant="outline"
@@ -262,19 +263,19 @@
 										<div class="-mr-1 flex justify-self-end">
 											<Button
 												variant="ghost"
-												class="cursor-pointer px-3 duration-200 hover:brightness-[120%]"
+												class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
 												onclick={(e) => saveFavorite(location)}
 												title="Save"><Star size={20} strokeWidth={1.2} /></Button
 											>
 											<Button
 												variant="ghost"
-												class="cursor-pointer px-3 duration-200 hover:brightness-[120%]"
+												class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
 												onclick={() => deleteRecent(location)}
 												title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
 											>
 											<Button
 												variant="ghost"
-												class="cursor-pointer px-3 duration-200 hover:brightness-[120%]"
+												class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
 												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 												target="_blank"
 												title="Show on map"
@@ -293,7 +294,7 @@
 					{/if}
 				{:else}
 					<div class="list-group mt-4">
-						<div class="rounded-lg border">
+						<div class="border-border rounded-lg border">
 							{#each results.results || [] as location}
 								<Button
 									variant="outline"
@@ -324,13 +325,13 @@
 									<div class="-mr-1 flex justify-self-end">
 										<Button
 											variant="ghost"
-											class="cursor-pointer px-3 duration-200 hover:brightness-[120%]"
+											class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
 											onclick={() => saveFavorite(location)}
 											title="Save"><Star size={20} strokeWidth={1.2} /></Button
 										>
 										<Button
 											variant="ghost"
-											class="cursor-pointer px-3 duration-200 hover:brightness-[120%]"
+											class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
 											href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 											target="_blank"
 											title="Show on map"
@@ -344,9 +345,9 @@
 					</div>
 				{/if}
 			{:catch error}
-				<div class="mt-4">
-					<div class="alert alert-danger" role="alert">{error.message}</div>
-				</div>
+				<Alert.Root variant="destructive" class="my-auto w-[unset]">
+					<Alert.Description>{error.message}</Alert.Description>
+				</Alert.Root>
 			{/await}
 		</div>
 	</Dialog.Content>

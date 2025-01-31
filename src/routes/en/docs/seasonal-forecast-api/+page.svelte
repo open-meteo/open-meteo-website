@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
@@ -34,7 +34,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/seasonal-forecast-api" />
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>Work in progress!</Alert.Description>
 </Alert.Root>
 

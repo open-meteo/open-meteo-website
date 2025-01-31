@@ -371,22 +371,16 @@
 					};
 
 					if (k[0] == 'weather_code') {
-						// @ts-ignore
 						ser.tooltip.pointFormatter = function () {
-							// @ts-ignore
 							let condition = codes[this.y];
-							// @ts-ignore
 							return (
 								'<span style="color:' +
-								/* @ts-ignore */
 								this.series.color +
 								'">\u25CF</span> ' +
-								/* @ts-ignore */
 								this.series.name +
 								': <b>' +
 								condition +
 								'</b> (' +
-								/* @ts-ignore */
 								this.y +
 								' wmo)<br/>'
 							);
@@ -402,7 +396,6 @@
 		if ('daily' in data && 'sunrise' in data.daily && 'sunset' in data.daily) {
 			let rise = data.daily.sunrise;
 			let set = data.daily.sunset;
-			// @ts-ignore
 			plotBands = rise.map(function (r, i) {
 				return {
 					color: 'rgb(255, 255, 194)',
@@ -619,7 +612,7 @@
 	<div class="text-muted-foreground">Preview:</div>
 
 	<ToggleGroup.Root type="single" bind:value={mode} class="justify-start gap-0">
-		<div class="ml-2 flex rounded-lg border">
+		<div class="border-border ml-2 flex rounded-lg border">
 			<ToggleGroup.Item
 				value="chart"
 				class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
@@ -683,7 +676,7 @@
 					{:else}
 						<div style={useStockChart ? 'height: 500px' : 'height: 400px'}>
 							<div class="flex h-full items-center justify-center">
-								<Alert.Root class="my-auto w-[unset] !pl-8" variant="informative">
+								<Alert.Root class="border-border my-auto w-[unset] !pl-8">
 									<Alert.Description>
 										<div class="flex items-center justify-center gap-2">
 											<div class="text-muted-foreground flex items-center">

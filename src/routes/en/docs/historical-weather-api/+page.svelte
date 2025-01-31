@@ -3,7 +3,7 @@
 
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
 
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -76,7 +76,7 @@
 	/>
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides
 		access to a staggering 90 terabytes of meteorological data! Read the <a

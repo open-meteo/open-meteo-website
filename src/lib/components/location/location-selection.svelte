@@ -39,21 +39,21 @@
 		params.longitude = params.longitude.toSpliced(index, 1);
 	}
 
-	let locationTabSelected = writable(params.location_mode);
-	locationTabSelected.subscribe((newTab) => {
-		params.location_mode = newTab;
-	});
+	let locationTabSelected = $derived(params.location_mode);
 </script>
 
 <h2 class="text-2xl md:text-3xl">Location and Time</h2>
 
-<ToggleGroup.Root type="single" bind:value={$locationTabSelected} class="mt-3 justify-start gap-0 ">
+<ToggleGroup.Root type="single" value={locationTabSelected} class="mt-3 justify-start gap-0 ">
 	<div class="text-muted-foreground">Location:</div>
-	<div class="ml-2 flex rounded-lg border">
+	<div class="border-border ml-2 flex rounded-lg border">
 		<ToggleGroup.Item
 			value="location_search"
 			class="min-h-12 cursor-pointer rounded-e-none !opacity-100 lg:min-h-[unset] "
 			disabled={params.location_mode === 'location_search'}
+			onclick={() => {
+				params.location_mode = 'location_search';
+			}}
 		>
 			<Locate size={20} class="mr-1" />Coordinates
 		</ToggleGroup.Item>
@@ -61,17 +61,20 @@
 			value="csv_coordinates"
 			class="min-h-12 cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset] "
 			disabled={params.location_mode === 'csv_coordinates'}
+			onclick={() => {
+				params.location_mode = 'csv_coordinates';
+			}}
 		>
 			<List size={20} class="mr-1" />List
 		</ToggleGroup.Item>
 	</div>
 </ToggleGroup.Root>
 
-<div class="mt-4">
+<div class="mt-3 md:mt-4">
 	{#if params.location_mode == 'location_search'}
 		<div class="flex flex-col gap-9" in:fade>
 			{#each params.latitude as _, index}
-				<div class="grid gap-3 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
+				<div class="grid gap-3 overflow-auto sm:grid-cols-2 md:gap-6 xl:grid-cols-4">
 					<div class="relative flex flex-col gap-2">
 						<!-- class:is-invalid={params.latitude[index] < -90 || params.latitude[index] > 90}-->
 						<Input
@@ -123,10 +126,10 @@
 							preventScroll={false}
 							selected={{ value: 'UTC', label: 'Not set (GMT+0)' }}
 						>
-							<Select.Trigger class="h-12 cursor-pointer pt-6">
+							<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
 								<Select.Value />
 							</Select.Trigger>
-							<Select.Content>
+							<Select.Content class="border-border">
 								<Select.Item value="America/Anchorage">America/Anchorage</Select.Item>
 								<Select.Item value="America/Los_Angeles">America/Los_Angeles</Select.Item>
 								<Select.Item value="America/Denver">America/Denver</Select.Item>
@@ -181,7 +184,10 @@
 		<div in:fade>
 			<div class="flex flex-col gap-6 md:flex-row">
 				<div class="md:w-1/2">
-					<textarea class="w-full rounded-md border" bind:value={params.csv_coordinates} rows="5"
+					<textarea
+						class="border-border w-full rounded-md border p-4"
+						bind:value={params.csv_coordinates}
+						rows="5"
 					></textarea>
 				</div>
 				<div class="md:w-1/2">

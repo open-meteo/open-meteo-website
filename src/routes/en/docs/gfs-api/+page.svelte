@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -57,7 +57,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/gfs-api" />
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		By combining the reliable NOAA GFS weather model with the rapid updating HRRR weather model,
 		this API provides unrivaled forecasts for the US region. For a global forecast, the <a

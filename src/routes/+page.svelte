@@ -71,7 +71,7 @@
 			<ToggleGroup.Root type="single" bind:value={tabSelected} class="justify-start gap-0">
 				<ToggleGroup.Item
 					value="weather-api"
-					class=" opacity-100! min-h-12 rounded-e-none lg:min-h-[unset]"
+					class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
 					aria-label="Toggle bold"
 					disabled={tabSelected === 'weather-api'}
 				>
@@ -79,7 +79,7 @@
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="last-10-days"
-					class="opacity-100! min-h-12 rounded-none lg:min-h-[unset]"
+					class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
 					aria-label="Toggle italic"
 					disabled={tabSelected === 'last-10-days'}
 				>
@@ -87,7 +87,7 @@
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="historical-weather"
-					class="opacity-100! min-h-12 rounded-s-none lg:min-h-[unset]"
+					class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
 					aria-label="Toggle strikethrough"
 					disabled={tabSelected === 'historical-weather'}
 				>
@@ -107,7 +107,7 @@
 						<Button
 							variant="outline"
 							name="copy-code-to-clipboard"
-							class="absolute right-0 top-2 z-10 opacity-0 duration-300 group-hover:opacity-100"
+							class="absolute right-0 top-2 z-10 cursor-pointer opacity-0 duration-300 group-hover:opacity-100"
 							onclick={() => {
 								window.prompt(
 									'Copy to clipboard: Ctrl+C, Enter',
@@ -133,7 +133,7 @@
 						<Button
 							variant="outline"
 							name="copy-code-to-clipboard"
-							class="absolute right-0 top-2 z-10 opacity-0 duration-300 group-hover:opacity-100"
+							class="absolute right-0 top-2 z-10 cursor-pointer opacity-0 duration-300 group-hover:opacity-100"
 							onclick={() => {
 								window.prompt(
 									'Copy to clipboard: Ctrl+C, Enter',
@@ -159,7 +159,7 @@
 						<Button
 							variant="outline"
 							name="copy-code-to-clipboard"
-							class="absolute right-0 top-2 z-10 opacity-0 duration-300 group-hover:opacity-100"
+							class="absolute right-0 top-2 z-10 cursor-pointer opacity-0 duration-300 group-hover:opacity-100"
 							onclick={() => {
 								window.prompt(
 									'Copy to clipboard: Ctrl+C, Enter',

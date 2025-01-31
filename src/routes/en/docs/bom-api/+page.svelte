@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
 
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -38,7 +38,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/bom-api" />
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		This API provides weather forecasts based on the global ACCESS-G model from the Australian
 		Bureau of Meteorology (BOM). For more comprehensive applications, we recommend the <a

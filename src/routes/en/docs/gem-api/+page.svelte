@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -56,7 +56,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/gem-api" />
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		The API utilizes GEM models from the Canadian Meteorological Center, optimized for North
 		America. However, updates every 6 hours may not reflect the latest weather developments. For

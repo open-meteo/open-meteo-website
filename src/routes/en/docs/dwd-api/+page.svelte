@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import {
 		countVariables,
 		sliceIntoChunks,
@@ -57,7 +57,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/dwd-api" />
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		This API offers access to the renowned ICON weather models from the German Weather service DWD,
 		delivering 15-minutely data for short-term forecasts in central Europe and 11 km resolution

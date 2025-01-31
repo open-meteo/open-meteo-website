@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
-
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { goto } from '$app/navigation';
+
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import {
 		countVariables,
@@ -11,6 +11,8 @@
 		countPressureVariables,
 		altitudeAboveSeaLevelMeters
 	} from '$lib/utils/meteo';
+
+	import { storageMode, urlHashes } from '$lib/stores/url-hash-store';
 
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
@@ -28,8 +30,12 @@
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/PressureLevelsHelpTable.svelte';
 
-	import Calendar from 'lucide-svelte/icons/calendar-cog';
 	import Clock from 'lucide-svelte/icons/clock';
+	import Database from 'lucide-svelte/icons/database';
+	import Calendar from 'lucide-svelte/icons/calendar-cog';
+	import ListRestart from 'lucide-svelte/icons/list-restart';
+
+	import type { Parameters } from '$lib/docs';
 
 	import {
 		daily,
@@ -56,29 +62,44 @@
 		hourly: ['temperature_2m']
 	});
 
+	console.log($params);
+
 	let pressureVariablesTab = $state('temperature');
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
-
-	let timeModeSelected = writable($params.time_mode);
-	timeModeSelected.subscribe((newTab) => {
-		$params.time_mode = newTab;
-	});
 
 	const forecastDaysOptions = [
 		{ value: 1, label: '1 day' },
 		{ value: 3, label: '3 days' },
 		{ value: 7, label: '7 days (default)' },
 		{ value: 14, label: '14 days' },
-		{ value: 16, label: '17 days' }
+		{ value: 16, label: '16 days' }
 	];
 
-	let forecastDays = $state(
+	const pastDaysOptions = [
+		{ value: 0, label: '0 days (default)' },
+		{ value: 1, label: '1 day' },
+		{ value: 2, label: '2 days' },
+		{ value: 3, label: '3 days' },
+		{ value: 5, label: '5 days' },
+		{ value: 7, label: '1 week' },
+		{ value: 14, label: '2 weeks' },
+		{ value: 31, label: '1 month' },
+		{ value: 61, label: '2 months' },
+		{ value: 92, label: '3 months' }
+	];
+
+	let forecastDays = $derived(
 		forecastDaysOptions.find((fco) => String(fco.value) == $params.forecast_days)
 	);
-	$effect(() => {
-		$params.forecast_days = forecastDays.value;
-	});
+
+	let pastDays = $derived(pastDaysOptions.find((pdo) => String(pdo.value) == $params.past_days));
+
+	let storage = $derived($storageMode);
+
+	let timeModeSelected = $derived($params.time_mode);
+
+	let hourlySelected = $derived($params.hourly);
 </script>
 
 <svelte:head>
@@ -90,18 +111,62 @@
 	/>
 </svelte:head>
 
+<div class="mb-6 flex items-center">
+	<!-- <ToggleGroup.Root
+		type="single"
+		value={storage}
+		onValueChange={(e) => {
+			storageMode.set(e);
+			if (e === 'reset') {
+				params.reset();
+				goto(`?`, { noScroll: true });
+			}
+		}}
+		class="justify-start gap-0"
+	>
+		<div class="text-muted-foreground">Use stored values?</div>
+
+		<div class="border-border ml-2 flex rounded-lg border">
+			<ToggleGroup.Item
+				value="store"
+				class="min-h-12 cursor-pointer rounded-e-none !opacity-100  lg:min-h-[unset] "
+				disabled={storage === 'store'}
+			>
+				<Database size={20} class="mr-1" />Localstorage
+			</ToggleGroup.Item>
+			<ToggleGroup.Item
+				value="reset"
+				class="min-h-12 cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset]"
+				disabled={storage === 'reset'}
+			>
+				<ListRestart size={20} class="mr-1" />Reset every time
+			</ToggleGroup.Item>
+		</div>
+	</ToggleGroup.Root> -->
+	<Button
+		class="h-13 ml-4 cursor-pointer px-5"
+		variant="outline"
+		onclick={() => {
+			params.reset();
+		}}>Reset all</Button
+	>
+</div>
+
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<LocationSelection bind:params={$params} />
 
 	<div class="mt-6 md:mt-12">
-		<ToggleGroup.Root type="single" bind:value={$timeModeSelected} class="mt-2 justify-start gap-0">
+		<ToggleGroup.Root type="single" value={timeModeSelected} class="mt-2 justify-start gap-0">
 			<div class="text-muted-foreground">Time:</div>
 
-			<div class="ml-2 flex rounded-lg border">
+			<div class="border-border ml-2 flex rounded-lg border">
 				<ToggleGroup.Item
 					value="forecast_days"
 					class="min-h-12 cursor-pointer rounded-e-none !opacity-100 lg:min-h-[unset] "
 					disabled={$params.time_mode === 'forecast_days'}
+					onclick={() => {
+						$params.time_mode = 'forecast_days';
+					}}
 				>
 					<Clock size={20} class="mr-1" />Forecast Length
 				</ToggleGroup.Item>
@@ -109,26 +174,34 @@
 					value="time_interval"
 					class="min-h-12 cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset]"
 					disabled={$params.time_mode === 'time_interval'}
+					onclick={() => {
+						$params.time_mode = 'time_interval';
+					}}
 				>
 					<Calendar size={20} class="mr-1" />Time Interval
 				</ToggleGroup.Item>
 			</div>
 		</ToggleGroup.Root>
-		<div class="mt-4">
-			{#if $params.time_mode == 'forecast_days'}
-				<div class="grid gap-3 md:gap-6 lg:grid-cols-2">
+		<div class="mt-3 md:mt-4">
+			{#if $params.time_mode === 'forecast_days'}
+				<div in:fade class="grid gap-3 md:gap-6 lg:grid-cols-2">
 					<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
 						<div class="relative">
-							<Select.Root preventScroll={false} name="forecast_days" bind:selected={forecastDays}>
-								<Select.Trigger class="h-12 cursor-pointer pt-6">
+							<Select.Root
+								name="forecast_days"
+								preventScroll={false}
+								selected={forecastDays}
+								onSelectedChange={(e) => {
+									$params.forecast_days = e.value;
+								}}
+							>
+								<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
 									<Select.Value />
 								</Select.Trigger>
-								<Select.Content>
-									<Select.Item value="1">1 day</Select.Item>
-									<Select.Item value="3">3 days</Select.Item>
-									<Select.Item value="7">7 days (default)</Select.Item>
-									<Select.Item value="14">14 days</Select.Item>
-									<Select.Item value="16">16 days</Select.Item>
+								<Select.Content class="border-border">
+									{#each forecastDaysOptions as fdo}
+										<Select.Item value={fdo.value}>{fdo.label}</Select.Item>
+									{/each}
 								</Select.Content>
 								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 									>Forecast days</Label
@@ -137,25 +210,20 @@
 						</div>
 						<div class="relative">
 							<Select.Root
-								preventScroll={false}
 								name="past_days"
-								id="past_days"
-								bind:selected={$params.past_days}
+								preventScroll={false}
+								selected={pastDays}
+								onSelectedChange={(e) => {
+									$params.past_days = e.value;
+								}}
 							>
-								<Select.Trigger class="h-12 cursor-pointer pt-6">
+								<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
 									<Select.Value />
 								</Select.Trigger>
-								<Select.Content>
-									<Select.Item value="0">0 (default)</Select.Item>
-									<Select.Item value="1">1</Select.Item>
-									<Select.Item value="2">2</Select.Item>
-									<Select.Item value="3">3</Select.Item>
-									<Select.Item value="5">5</Select.Item>
-									<Select.Item value="7">1 week</Select.Item>
-									<Select.Item value="14">2 weeks</Select.Item>
-									<Select.Item value="31">1 month</Select.Item>
-									<Select.Item value="61">2 months</Select.Item>
-									<Select.Item value="92">3 months</Select.Item>
+								<Select.Content class="border-border">
+									{#each pastDaysOptions as pdo}
+										<Select.Item value={pdo.value}>{pdo.label}</Select.Item>
+									{/each}
 								</Select.Content>
 								<Label
 									class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
@@ -176,7 +244,7 @@
 					</div>
 				</div>
 			{/if}
-			{#if $params.time_mode == 'time_interval'}
+			{#if $params.time_mode === 'time_interval'}
 				<div in:fade class="flex flex-col gap-4 md:flex-row">
 					<div class="mb-3 md:w-1/2">
 						<DatePicker bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
@@ -204,15 +272,17 @@
 				{#each group as e}
 					<div class="group flex items-center">
 						<Checkbox
+							id="{e.value}_hourly"
 							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 							value={e.value}
-							checked={$params.hourly.includes(e.value)}
+							checked={$params.hourly?.includes(e.value)}
 							onCheckedChange={(checked) => {
 								if (checked) {
 									$params.hourly.push(e.value);
 								} else {
 									$params.hourly.pop(e.value);
 								}
+								$params.hourly = $params.hourly;
 							}}
 						/>
 						<Label for="{e.value}_hourly" class="cursor-pointer truncate py-1 pl-[0.4rem]"
@@ -225,7 +295,7 @@
 	</div>
 
 	<div>
-		<Accordion.Root class="rounded-lg border" multiple={true}>
+		<Accordion.Root class="border-border rounded-lg border" multiple={true}>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -444,7 +514,6 @@
 														value="{variable.name}_{level}hPa"
 														id="{variable.name}_{level}hPa"
 														name="hourly"
-														bind:group={$params.hourly}
 													/>
 													<label for="{variable.name}_{level}hPa">
 														{level} hPa
@@ -478,13 +547,7 @@
 					<div class="  mb-3">
 						{#each group as e}
 							<div>
-								<input
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_model"
-									name="models"
-									bind:group={$params.models}
-								/>
+								<input type="checkbox" value={e.name} id="{e.name}_model" name="models" />
 								<label for="{e.name}_model">{e.label}</label>
 							</div>
 						{/each}
@@ -512,7 +575,6 @@
 									value={e.name}
 									id="{e.name}_minutely_15"
 									name="minutely_15"
-									bind:group={$params.minutely_15}
 								/>
 								<label for="{e.name}_minutely_15">{e.label}</label>
 							</div>
@@ -528,7 +590,6 @@
 									value={e.name}
 									id="{e.name}_minutely_15"
 									name="minutely_15"
-									bind:group={$params.minutely_15}
 								/>
 								<label for="{e.name}_minutely_15">{e.label}</label>
 							</div>
@@ -549,12 +610,7 @@
 					</small>
 				</div>
 				<div>
-					<Select.Root
-						preventScroll={false}
-						name="forecast_minutely_15"
-						id="forecast_minutely_15"
-						bind:selected={$params.forecast_minutely_15}
-					>
+					<Select.Root preventScroll={false} name="forecast_minutely_15" id="forecast_minutely_15">
 						<Select.Trigger class="cursor-pointer">
 							<Select.Value />
 						</Select.Trigger>
@@ -569,12 +625,7 @@
 					</Select.Root>
 				</div>
 				<div>
-					<Select.Root
-						preventScroll={false}
-						name="past_minutely_15"
-						id="past_minutely_15"
-						bind:selected={$params.past_minutely_15}
-					>
+					<Select.Root preventScroll={false} name="past_minutely_15" id="past_minutely_15">
 						<Select.Trigger class="cursor-pointer">
 							<Select.Value />
 						</Select.Trigger>
@@ -598,13 +649,7 @@
 			{#each daily as group}
 				{#each group as e}
 					<div class="flex gap-1 pr-1">
-						<input
-							type="checkbox"
-							value={e.name}
-							id="{e.name}_daily"
-							name="daily"
-							bind:group={$params.daily}
-						/>
+						<input type="checkbox" value={e.name} id="{e.name}_daily" name="daily" />
 						<label for="{e.name}_daily" class="truncate">{e.label}</label>
 					</div>
 				{/each}
@@ -619,17 +664,11 @@
 
 	<div class="mt-6 md:mt-12">
 		<h2 class="text-2xl md:text-3xl">Current Weather</h2>
-		<div class="mt-2 grid grid-cols-4">
+		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 			{#each current as group}
 				{#each group as e}
 					<div>
-						<input
-							type="checkbox"
-							value={e.name}
-							id="{e.name}_current"
-							name="current"
-							bind:group={$params.current}
-						/>
+						<input type="checkbox" value={e.name} id="{e.name}_current" name="current" />
 						<label for="{e.name}_current">{e.label}</label>
 					</div>
 				{/each}
@@ -647,13 +686,8 @@
 			class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-6 md:flex-row md:gap-6 lg:grid-cols-4"
 		>
 			<div class="relative">
-				<Select.Root
-					preventScroll={false}
-					name="temperature_unit"
-					id="temperature_unit"
-					bind:selected={$params.temperature_unit}
-				>
-					<Select.Trigger class="h-12 cursor-pointer pt-6">
+				<Select.Root preventScroll={false} name="temperature_unit" id="temperature_unit">
+					<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content>
@@ -667,13 +701,8 @@
 			</div>
 
 			<div class="relative">
-				<Select.Root
-					preventScroll={false}
-					name="wind_speed_unit"
-					id="wind_speed_unit"
-					bind:selected={$params.wind_speed_unit}
-				>
-					<Select.Trigger class="h-12 cursor-pointer pt-6">
+				<Select.Root preventScroll={false} name="wind_speed_unit" id="wind_speed_unit">
+					<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content>
@@ -689,13 +718,8 @@
 			</div>
 
 			<div class="relative">
-				<Select.Root
-					preventScroll={false}
-					name="precipitation_unit"
-					id="precipitation_unit"
-					bind:selected={$params.precipitation_unit}
-				>
-					<Select.Trigger class="h-12 cursor-pointer pt-6">
+				<Select.Root preventScroll={false} name="precipitation_unit" id="precipitation_unit">
+					<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content>
@@ -709,13 +733,8 @@
 			</div>
 
 			<div class="relative">
-				<Select.Root
-					preventScroll={false}
-					name="timeformat"
-					id="timeformat"
-					bind:selected={$params.timeformat}
-				>
-					<Select.Trigger class="h-12 cursor-pointer pt-6">
+				<Select.Root preventScroll={false} name="timeformat" id="timeformat">
+					<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content>
@@ -752,7 +771,7 @@
 			the hourly variables), you can select and compare individual weather models.
 		</p>
 		<table
-			class="mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<caption class="text-muted-foreground mt-2 table-caption text-left"
 				>You can find the update timings in the <a
@@ -890,7 +909,7 @@
 			are listed below:
 		</p>
 		<table
-			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -1119,7 +1138,7 @@
 			from the preceding hour as an average or sum.
 		</p>
 		<table
-			class="mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -1409,7 +1428,7 @@
 		</p>
 		<div>
 			<table
-				class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1618,7 +1637,7 @@
 		</p>
 
 		<table
-			class="mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -1689,7 +1708,7 @@
 			> accepts the following values:
 		</p>
 		<table
-			class="mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -1808,7 +1827,7 @@
 		<p class="">On success a JSON object will be returned.</p>
 		<div class="code-numbered mt-2 md:mt-4"><WeatherForecastObject /></div>
 		<table
-			class="mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -1904,7 +1923,7 @@
 	<div class="mt-3 md:mt-6">
 		<h3 class="text-xl md:text-2xl">WMO Weather interpretation codes (WW)</h3>
 		<table
-			class="mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>

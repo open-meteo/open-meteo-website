@@ -1,5 +1,9 @@
 /// Generic helper functions
 
+export const isNumeric = (num: string | number) =>
+	(typeof num === 'number' || (typeof num === 'string' && num.trim() !== '')) &&
+	!isNaN(num as number);
+
 export const altitudeAboveSeaLevelMeters = (pressureLevelHpA: number): string => {
 	let altitude = (-1 / 2.25577) * 10e4 * (Math.pow(pressureLevelHpA / 1013.25, 1 / 5.25588) - 1);
 	if (altitude <= 500) {

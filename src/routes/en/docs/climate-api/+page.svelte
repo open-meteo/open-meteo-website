@@ -2,7 +2,7 @@
 	import { dev } from '$app/environment';
 
 	import { countVariables } from '$lib/utils/meteo';
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import AccordionItem from '$lib/components/AccordionItem.svelte';
 
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -48,7 +48,7 @@
 	/>
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		Read the <a href="https://openmeteo.substack.com/p/climate-change-api">blog article</a> with more
 		information about climate models and how data is downscaled to 10 km resolution.

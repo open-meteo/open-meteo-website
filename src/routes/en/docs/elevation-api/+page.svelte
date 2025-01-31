@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { api_key_preferences } from '$lib/stores/settings';
 	import type { GeoLocation } from '$lib/stores/settings';
 
@@ -77,7 +77,7 @@
 	/>
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		Get more information on how weather forecasts are improved with elevation models in our <a
 			href="https://openmeteo.substack.com/p/87a094f1-325d-497a-8a9d-4d16b794fd15"

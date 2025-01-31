@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -80,7 +80,7 @@
 	/>
 </svelte:head>
 
-<Alert.Root variant="informative">
+<Alert.Root>
 	<Alert.Description>
 		This API provides access to archived high-resolution weather model data from the <a
 			href={'/en/docs'}>Weather Forecast API</a

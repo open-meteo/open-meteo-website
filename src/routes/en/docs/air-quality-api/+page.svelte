@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
 
 	import AccordionItem from '$lib/components/AccordionItem.svelte';
