@@ -72,9 +72,12 @@
 
 <div class="mt-3 md:mt-4">
 	{#if params.location_mode == 'location_search'}
-		<div class="flex flex-col gap-9" in:fade>
+		<div class="flex flex-col" in:fade>
 			{#each params.latitude as _, index}
-				<div class="grid gap-3 overflow-auto sm:grid-cols-2 md:gap-6 xl:grid-cols-4">
+				<div
+					transition:slide
+					class="grid gap-3 overflow-auto pb-9 sm:grid-cols-2 md:gap-6 xl:grid-cols-4"
+				>
 					<div class="relative flex flex-col gap-2">
 						<!-- class:is-invalid={params.latitude[index] < -90 || params.latitude[index] > 90}-->
 						<Input

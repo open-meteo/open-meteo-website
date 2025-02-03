@@ -39,7 +39,7 @@
 </script>
 
 <div class="date-range-picker-wrapper">
-	<SveltyPicker
+	<!-- <SveltyPicker
 		name="time_interval"
 		pickerOnly={false}
 		todayBtn={false}
@@ -91,5 +91,5 @@
 				<input type="hidden" name="time_interval" value={displayValue} />
 			</div>
 		</svelte:fragment>
-	</SveltyPicker>
+	</SveltyPicker> -->
 </div>

@@ -228,7 +228,7 @@
 
 <h2 id="data-sources" class="mb-3 mt-5 text-2xl">Data Sources</h2>
 <div>
-	<div class=" ">
+	<div>
 		<p>
 			This API utilizes regional downscaled climate models with up to 20 kilometer resolution from
 			the <a href="https://hrcm.ceda.ac.uk/research/cmip6-highresmip/" title="CMIP6 HighResMIP"
@@ -252,7 +252,7 @@
 			to predict crop yield, pest infestation, and water balance.
 		</p>
 	</div>
-	<div class=" ">
+	<div>
 		<p>
 			While the data from past and recent years is available, it should not be mistaken for actual
 			measurements, as it serves the purpose of model validation rather than showing actual past

@@ -102,12 +102,7 @@
 		</div>
 		<div class="  py-3">
 			{#if $params.time_mode == 'forecast_days'}
-				<div
-					class="tab-pane active"
-					in:fade
-					id="pills-forecast_days"
-					aria-labelledby="pills-forecast_days-tab"
-				>
+				<div in:fade id="pills-forecast_days" aria-labelledby="pills-forecast_days-tab">
 					<div>
 						<div>
 							<div class="  mb-3">
@@ -152,12 +147,7 @@
 				</div>
 			{/if}
 			{#if $params.time_mode == 'time_interval'}
-				<div
-					class="tab-pane active"
-					in:fade
-					id="pills-time_interval"
-					aria-labelledby="pills-time_interval-tab"
-				>
+				<div in:fade id="pills-time_interval" aria-labelledby="pills-time_interval-tab">
 					<div>
 						<div class="  mb-3">
 							<DatePicker bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
@@ -1650,7 +1640,7 @@
 	<h2 id="weathervariables">Weather variable documentation</h2>
 </div>
 
-<div class=" ">
+<div>
 	<h3>WMO Weather interpretation codes (WW)</h3>
 	<div>
 		<table

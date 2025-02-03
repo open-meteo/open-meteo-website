@@ -2,10 +2,10 @@ export interface Parameters {
 	latitude?: Array<number>;
 	longitude?: Array<number>;
 
-	current?: Array<any>;
-	minutely_15?: Array<any>;
-	hourly?: Array<any>;
-	daily?: Array<any>;
+	current?: Array<string>;
+	minutely_15?: Array<string>;
+	hourly?: Array<string>;
+	daily?: Array<string>;
 	location_mode?: string;
 	csv_coordinates?: string;
 	temperature_unit?: string;

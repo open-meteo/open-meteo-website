@@ -699,7 +699,7 @@
 					{/if}
 				{:catch error}
 					<div
-						class="bg-secondary-subtle rounded-3"
+						class="bg-secondary-subtle"
 						style={useStockChart ? 'height: 500px' : 'height: 400px'}
 					>
 						<div class="flex h-full items-center justify-center">
@@ -726,8 +726,16 @@
 				{/await}
 			</div>
 			<div class="mt-3 flex gap-3">
-				<Button href={xlsxUrl}>Download XLSX</Button>
-				<Button href={csvUrl}>Download CSV</Button>
+				<Button
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:text-white"
+					href={xlsxUrl}>Download XLSX</Button
+				>
+				<Button
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:text-white"
+					href={csvUrl}>Download CSV</Button
+				>
 			</div>
 
 			<div class="mt-3 flex flex-col">
@@ -753,20 +761,21 @@
 		</div>
 	{/if}
 	{#if mode == 'python'}
-		<div in:fade>
+		<div class="" in:fade>
 			<div>
-				<p>
+				<p class="mb-3">
 					The sample code automatically applies all the parameters selected above. It includes
 					caching and the conversion to Pandas DataFrames. The use of DataFrames is entirely
 					optional. You can find further details and examples in the <a
 						href="https://pypi.org/project/openmeteo-requests/">Python API client</a
 					> documentation.
 				</p>
-				<h4>Install</h4>
-				{@html pythonInstall}
-				<pre class="rounded-3 dark py-2"><code></code></pre>
-				<h4>Usage</h4>
-				<pre class="rounded-3 dark py-2"><code
+				<h4 class="text-xl md:text-2xl">Install</h4>
+				<pre class="rounded-3 dark my-2 py-2 md:my-4"><code
+						>pip install openmeteo-requests{'\n'}pip install requests-cache retry-requests numpy pandas</code
+					></pre>
+				<h4 class="text-xl md:text-2xl">Usage</h4>
+				<pre class="rounded-3 dark mt-2 py-2 md:mt-4"><code
 						><span class="token keyword">import</span> openmeteo_requests
 {#if sdk_type == 'ensemble_api'}
 							<span class="token keyword">from</span> openmeteo_sdk.Variable <span
@@ -774,8 +783,7 @@
 							> Variable
 <span class="token keyword">from</span> openmeteo_sdk.Aggregation <span
 								class="token keyword">import</span
-							> Aggregation
-						{/if}
+							> Aggregation{/if}
 <span class="token keyword">import</span> requests_cache
 <span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
 <span class="token keyword">from</span> retry_requests <span class="token keyword">import</span
@@ -890,9 +898,9 @@ current <span class="token operator">=</span> response<span class="token punctua
 								><span class="token punctuation">)</span><span class="token punctuation">.</span
 								>Value<span class="token punctuation">(</span><span class="token punctuation"
 									>)</span
-								>{'\n'}
-							{/each}
-<span class="token keyword">print</span><span class="token punctuation">(</span
+								>{'\n'}{/each}
+<span class="token keyword">print</span><span
+								class="token punctuation">(</span
 							><span class="token string-interpolation"
 								><span class="token string">f"Current time </span><span class="token interpolation"
 									><span class="token punctuation">&lbrace;</span>current<span
@@ -911,9 +919,8 @@ current <span class="token operator">=</span> response<span class="token punctua
 											class="token punctuation">&rbrace;</span
 										></span
 									><span class="token string">"</span></span
-								><span class="token punctuation">)</span>
-							{/each}{/if}
-{#each sectionsArrayWithData as section}
+								><span class="token punctuation">)</span
+								>{/each}{/if}{#each sectionsArrayWithData as section}
 							{#if sdk_type == 'ensemble_api'}
 								<span class="token comment"># Process {section} data</span>
 {section} <span
@@ -947,9 +954,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 									)}<span class="token punctuation">,</span> {section}_variables<span
 										class="token punctuation">)</span
 									>{'\n'}
-								{/each}
-							{:else}
-								<span class="token comment"
+								{/each}{:else}<span class="token comment"
 									># Process {section} data. The order of variables needs to be the same as requested.</span
 								>
 {section} <span class="token operator">=</span> response<span
@@ -957,17 +962,16 @@ current <span class="token operator">=</span> response<span class="token punctua
 								>{titleCase(section)}<span class="token punctuation">(</span><span
 									class="token punctuation">)</span
 								>
-{#each $params[section] as variable, index}
-									{section}_{variable} <span class="token operator">=</span> {section}<span
-										class="token punctuation">.</span
-									>Variables<span class="token punctuation">(</span><span class="token number"
-										>{index}</span
-									><span class="token punctuation"></span><span class="token punctuation">)</span
-									><span class="token punctuation">.</span>ValuesAsNumpy<span
+{#each $params[section] as variable, index}{section}_{variable} <span
+										class="token operator">=</span
+									> {section}<span class="token punctuation">.</span>Variables<span
 										class="token punctuation">(</span
-									><span class="token punctuation">)</span>{'\n'}
-								{/each}
-							{/if}
+									><span class="token number">{index}</span><span class="token punctuation"
+									></span><span class="token punctuation">)</span><span class="token punctuation"
+										>.</span
+									>ValuesAsNumpy<span class="token punctuation">(</span><span
+										class="token punctuation">)</span
+									>{'\n'}{/each}{/if}
 {section}_data <span class="token operator">=</span> <span
 								class="token punctuation">&lbrace;</span
 							><span class="token string">"date"</span><span class="token punctuation">:</span
@@ -1012,8 +1016,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 							>
 {#if sdk_type == 'ensemble_api'}
 								<span class="token comment"># Process all members</span
-								>
-{#each $params[section] as variable}
+								>{#each $params[section] as variable}
 									<span class="token keyword">for</span> variable <span class="token keyword"
 										>in</span
 									> {section}_{variable}<span class="token punctuation">:</span>
@@ -1034,40 +1037,28 @@ current <span class="token operator">=</span> response<span class="token punctua
 									><span class="token punctuation">]</span> <span class="token operator">=</span
 									> variable<span class="token punctuation">.</span>ValuesAsNumpy<span
 										class="token punctuation">(</span
-									><span class="token punctuation">)</span>{'\n'}
-								{/each}
-							{:else}
-								{#each $params[section] as hourly}
+									><span class="token punctuation">)</span
+									>{'\n'}{/each}{:else}{#each $params[section] as hourly}
 									{section}_data<span class="token punctuation">[</span><span
 										class="token string-interpolation"
 										><span class="token string">"{hourly}"</span></span
 									><span class="token punctuation">]</span> <span class="token operator">=</span
-									> {section}_{hourly}{'\n'}
-								{/each}
-							{/if}
-{section}_dataframe <span class="token operator">=</span> pd<span
-								class="token punctuation">.</span
-							>DataFrame<span class="token punctuation">(</span>data <span class="token operator"
-								>=</span
-							> {section}_data<span class="token punctuation">)</span>
-<span class="token keyword"
-								>print</span
-							><span class="token punctuation">(</span>{section}_dataframe<span
+									> {section}_{hourly}{/each}{'\n'}{/if}
+{section}_dataframe <span
+								class="token operator">=</span
+							> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation"
+								>(</span
+							>data <span class="token operator">=</span> {section}_data<span
 								class="token punctuation">)</span
 							>
-{`\n`}
-						{/each}
+<span class="token keyword">print</span><span class="token punctuation">(</span
+							>{section}_dataframe<span class="token punctuation">)</span>{`\n`}{/each}
 </code></pre>
 			</div>
 		</div>
 	{/if}
 	{#if mode == 'typescript'}
-		<div
-			class="tab-pane active"
-			in:fade
-			id="pills-typescript"
-			aria-labelledby="pills-typescript-tab"
-		>
+		<div in:fade>
 			<div>
 				<p>
 					The preview code applies all parameters above automatically and structures weather data
@@ -1164,15 +1155,15 @@ current <span class="token operator">=</span> response<span class="token punctua
 							class="token punctuation">;</span
 						>
 
-{#each sectionsWithData as section}
-							<span class="token keyword">const</span> {camelCase(section)} <span
-								class="token operator">=</span
-							> response<span class="token punctuation">.</span><span class="token function"
-								>{camelCase(section)}</span
-							><span class="token punctuation">(</span><span class="token punctuation">)</span><span
-								class="token operator">!</span
-							><span class="token punctuation">;</span>{'\n'}
-						{/each}
+{#each sectionsWithData as section}<span class="token keyword">const</span> {camelCase(
+								section
+							)} <span class="token operator">=</span> response<span class="token punctuation"
+								>.</span
+							><span class="token function">{camelCase(section)}</span><span
+								class="token punctuation">(</span
+							><span class="token punctuation">)</span><span class="token operator">!</span><span
+								class="token punctuation">;</span
+							>{'\n'}{/each}
 <span class="token comment"
 							>// Note: The order of weather variables in the URL query and the indices below need to match!</span
 						>
@@ -1208,9 +1199,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 								>{/each}
 	<span class="token punctuation">&rbrace;</span><span
 								class="token punctuation">,</span
-							>
-						{/if}
-{#each sectionsArrayWithData as section}
+							>{/if}{#each sectionsArrayWithData as section}
 							{'\t'}{camelCase(section)}<span class="token operator">:</span> <span
 								class="token punctuation">&lbrace;</span
 							>
@@ -1259,29 +1248,27 @@ current <span class="token operator">=</span> response<span class="token punctua
 								>{/each}
 {'\t'}<span class="token punctuation">&rbrace;</span><span
 								class="token punctuation">,</span
-							>{'\n'}
-						{/each}
+							>{'\n'}{/each}
 <span class="token punctuation">&rbrace;</span><span class="token punctuation">;</span>
 
 <span class="token comment"
 							>// `weatherData` now contains a simple structure with arrays for datetime and weather data</span
 						>
-{#each sectionsArrayWithData as section}
-							<span class="token keyword">for</span> <span class="token punctuation">(</span><span
-								class="token keyword">let</span
-							> i <span class="token operator">=</span> <span class="token number">0</span><span
-								class="token punctuation">;</span
-							> i <span class="token operator">&lt;</span> weatherData<span
+{#each sectionsArrayWithData as section}<span class="token keyword">for</span> <span
+								class="token punctuation">(</span
+							><span class="token keyword">let</span> i <span class="token operator">=</span> <span
+								class="token number">0</span
+							><span class="token punctuation">;</span> i <span class="token operator">&lt;</span
+							> weatherData<span class="token punctuation">.</span>{camelCase(section)}<span
 								class="token punctuation">.</span
-							>{camelCase(section)}<span class="token punctuation">.</span>time<span
-								class="token punctuation">.</span
-							>length<span class="token punctuation">;</span> i<span class="token operator">++</span
-							><span class="token punctuation">)</span> <span class="token punctuation"
-								>&lbrace;</span
-							>
-{'\t'}<span class="token builtin">console</span><span class="token punctuation"
-								>.</span
-							><span class="token function">log</span><span class="token punctuation">(</span
+							>time<span class="token punctuation">.</span>length<span class="token punctuation"
+								>;</span
+							> i<span class="token operator">++</span><span class="token punctuation">)</span
+							> <span class="token punctuation">&lbrace;</span>
+{'\t'}<span class="token builtin"
+								>console</span
+							><span class="token punctuation">.</span><span class="token function">log</span><span
+								class="token punctuation">(</span
 							>
 {'\t'}{'\t'}weatherData<span class="token punctuation">.</span>{camelCase(
 								section
@@ -1301,14 +1288,13 @@ current <span class="token operator">=</span> response<span class="token punctua
 							><span class="token punctuation">;</span>
 <span class="token punctuation"
 								>&rbrace;</span
-							>{'\n'}
-						{/each}
+							>{'\n'}{/each}
 </code></pre>
 			</div>
 		</div>
 	{/if}
 	{#if mode == 'swift'}
-		<div class="tab-pane active" in:fade id="pills-swift" aria-labelledby="pills-swift-tab">
+		<div in:fade>
 			<div>
 				<p>
 					The preview code applies all parameters above automatically and structures weather data
@@ -1376,30 +1362,24 @@ targets: [
 						>latitude
 <span class="token keyword">let</span> longitude <span class="token operator">=</span> response<span
 							class="token punctuation">.</span
-						>longitude
-{#each sectionsWithData as section, index}
+						>longitude{#each sectionsWithData as section, index}
 							{'\n'}<span class="token keyword">let</span> {camelCase(section)} <span
 								class="token operator">=</span
 							> response<span class="token punctuation">.</span>{camelCase(section)}<span
 								class="token operator">!</span
-							>
-						{/each}
+							>{/each}
 
 <span class="token keyword">struct</span> <span class="token class-name">WeatherData</span> <span
 							class="token punctuation">&lbrace;</span
-						>
-{#each sectionsWithData as section, index}
+						>{#each sectionsWithData as section, index}
 							{#if index != 0}{'\n'}{/if}{'\t'}<span class="token keyword">let</span> {camelCase(
 								section
 							)}<span class="token punctuation">:</span> <span class="token class-name"
 								>{titleCase(section)}</span
-							>
-						{/each}
-{#each sectionsWithData as section}
+							>{/each}{#each sectionsWithData as section}
 							{'\n\t'}<span class="token keyword">struct</span> <span class="token class-name"
 								>{titleCase(section)}</span
-							> <span class="token punctuation">&lbrace;</span>
-{#if section == 'current'}
+							> <span class="token punctuation">&lbrace;</span>{#if section == 'current'}
 								{'\t'}{'\t'}<span class="token keyword">let</span> time<span
 									class="token punctuation">:</span
 								> <span class="token class-name">Date</span
@@ -1407,8 +1387,7 @@ targets: [
 										>let</span
 									> {camelCase(variable)}<span class="token punctuation">:</span> <span
 										class="token class-name">Float</span
-									>{/each}
-							{:else}
+									>{/each}{:else}
 								{'\t'}{'\t'}<span class="token keyword">let</span> time<span
 									class="token punctuation">:</span
 								> <span class="token punctuation">[</span><span class="token class-name">Date</span
@@ -1419,10 +1398,8 @@ targets: [
 										class="token punctuation">[</span
 									><span class="token class-name">Float</span><span class="token punctuation"
 										>]</span
-									>{/each}
-							{/if}
-{'\t'}<span class="token punctuation">&rbrace;</span>
-						{/each}
+									>{/each}{/if}
+{'\t'}<span class="token punctuation">&rbrace;</span>{/each}
 <span class="token punctuation">&rbrace;</span>
 
 <span class="token comment"
@@ -1430,14 +1407,12 @@ targets: [
 						>
 <span class="token keyword">let</span> data <span class="token operator">=</span> <span
 							class="token class-name">WeatherData</span
-						><span class="token punctuation">(</span>
-{#each sectionsWithData as section, index}
+						><span class="token punctuation">(</span>{#each sectionsWithData as section, index}
 							{#if index != 0}<span class="token punctuation">,</span>{'\n'}{/if}{'\t'}{camelCase(
 								section
 							)}<span class="token punctuation">:</span> <span class="token punctuation">.</span
 							><span class="token keyword">init</span><span class="token punctuation">(</span
-							>
-{#if section == 'current'}
+							>{#if section == 'current'}
 								{'\t'}{'\t'}time<span class="token punctuation">:</span> <span
 									class="token class-name">Date</span
 								><span class="token punctuation">(</span>timeIntervalSince1970<span
@@ -1458,8 +1433,7 @@ targets: [
 									> <span class="token number">{index}</span><span class="token punctuation">)</span
 									><span class="token operator">!</span><span class="token punctuation">.</span
 									>value{/each}
-{'\t'}<span class="token punctuation">)</span>
-							{:else}
+{'\t'}<span class="token punctuation">)</span>{:else}
 								{'\t'}{'\t'}time<span class="token punctuation">:</span> {camelCase(section)}<span
 									class="token punctuation">.</span
 								><span class="token function">getDateTime</span><span class="token punctuation"
@@ -1474,9 +1448,7 @@ targets: [
 									> <span class="token number">{index}</span><span class="token punctuation">)</span
 									><span class="token operator">!</span><span class="token punctuation">.</span
 									>values{/each}
-{'\t'}<span class="token punctuation">)</span>
-							{/if}
-						{/each}
+{'\t'}<span class="token punctuation">)</span>{/if}{/each}
 <span class="token punctuation">)</span>
 
 <span class="token comment">/// Timezone `.gmt` is deliberately used. </span>
@@ -1489,9 +1461,7 @@ dateFormatter<span class="token punctuation">.</span>timeZone <span class="token
 dateFormatter<span class="token punctuation">.</span>dateFormat <span class="token operator">=</span
 						> <span class="token string-literal"
 							><span class="token string">"yyyy-MM-dd HH:mm"</span></span
-						>
-
-{#each sectionsArrayWithData as section}
+						>{#each sectionsArrayWithData as section}
 							{'\n'}<span class="token keyword">for</span> <span class="token punctuation">(</span
 							>i<span class="token punctuation">,</span> date<span class="token punctuation">)</span
 							> <span class="token keyword">in</span> data<span class="token punctuation">.</span
@@ -1515,14 +1485,13 @@ dateFormatter<span class="token punctuation">.</span>dateFormat <span class="tok
 								><span class="token punctuation">)</span>{/each}
 <span class="token punctuation"
 								>&rbrace;</span
-							>
-						{/each}
+							>{/each}
 </code></pre>
 			</div>
 		</div>
 	{/if}
 	{#if mode == 'other'}
-		<div class="tab-pane active" in:fade id="pills-other" aria-labelledby="pills-other-tab">
+		<div>
 			<div>
 				<p>
 					Support for additional programming languages in our integrations may be available in the

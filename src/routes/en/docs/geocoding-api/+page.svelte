@@ -492,7 +492,7 @@
     </pre>
 </div>
 
-<div class=" ">
+<div>
 	<h3>Attribution</h3>
 	<ul>
 		<li>Location data based on <a href="https://www.geonames.org" target="_new">GeoNames</a></li>

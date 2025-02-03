@@ -35,6 +35,10 @@
 		--destructive: 0 72.2% 50.6%;
 		--destructive-foreground: 210 40% 98%;
 
+		--warning: 45 100% 90.27%;
+		--warning-dark: 45 94.66% 20.55%;
+		--warning-foreground: 45 100% 75.55%;
+
 		--link: 215.75 98.36% 52.16%;
 
 		--ring: 222.2 84% 4.9%;
@@ -72,6 +76,10 @@
 
 		--destructive: 0 62.8% 30.6%;
 		--destructive-foreground: 210 40% 98%;
+
+		--warning: 45 94.66% 10.27%;
+		--warning-dark: 45 100% 70.82%;
+		--warning-foreground: 45 94.66% 30.82%;
 
 		--link: 215.83 98.63% 71.37%;
 

@@ -468,7 +468,7 @@
 
 <h2 id="data-sources" class="mb-3 mt-5 text-2xl">Data Sources</h2>
 <div>
-	<div class=" ">
+	<div>
 		<p>
 			The Historical Weather API is based on reanalysis datasets and uses a combination of weather
 			station, aircraft, buoy, radar, and satellite observations to create a comprehensive record of
@@ -484,7 +484,7 @@
 			smaller scales.
 		</p>
 	</div>
-	<div class=" ">
+	<div>
 		<p>
 			The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs at
 			0z and 12z, employing the most up-to-date version of IFS. This dataset offers the utmost

@@ -12,13 +12,14 @@
 		altitudeAboveSeaLevelMeters
 	} from '$lib/utils/meteo';
 
-	import { storageMode, urlHashes } from '$lib/stores/url-hash-store';
+	import { storageMode } from '$lib/stores/url-hash-store';
 
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
+	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select/index';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
@@ -47,11 +48,19 @@
 		solarVariables,
 		defaultParameters,
 		pressureVariables,
-		additionalVariables
+		additionalVariables,
+		timeFormatOptions,
+		temperatureOptions,
+		windSpeedOptions,
+		pastDaysOptions,
+		forecastDaysOptions,
+		precipitationOptions
 	} from './options';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
+
+	let storage = $derived($storageMode);
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -66,38 +75,69 @@
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 
-	const forecastDaysOptions = [
-		{ value: 1, label: '1 day' },
-		{ value: 3, label: '3 days' },
-		{ value: 7, label: '7 days (default)' },
-		{ value: 14, label: '14 days' },
-		{ value: 16, label: '16 days' }
-	];
-
-	const pastDaysOptions = [
-		{ value: 0, label: '0 days (default)' },
-		{ value: 1, label: '1 day' },
-		{ value: 2, label: '2 days' },
-		{ value: 3, label: '3 days' },
-		{ value: 5, label: '5 days' },
-		{ value: 7, label: '1 week' },
-		{ value: 14, label: '2 weeks' },
-		{ value: 31, label: '1 month' },
-		{ value: 61, label: '2 months' },
-		{ value: 92, label: '3 months' }
-	];
-
 	let forecastDays = $derived(
 		forecastDaysOptions.find((fco) => String(fco.value) == $params.forecast_days)
 	);
 
 	let pastDays = $derived(pastDaysOptions.find((pdo) => String(pdo.value) == $params.past_days));
 
-	let storage = $derived($storageMode);
-
 	let timeModeSelected = $derived($params.time_mode);
 
-	let hourlySelected = $derived($params.hourly);
+	let temperatureUnit = $derived(
+		temperatureOptions.find((to) => String(to.value) == $params.temperature_unit)
+	);
+	let windSpeedUnit = $derived(
+		windSpeedOptions.find((wso) => String(wso.value) == $params.wind_speed_unit)
+	);
+	let precipitationUnit = $derived(
+		precipitationOptions.find((po) => String(po.value) == $params.precipitation_unit)
+	);
+	let timeFormat = $derived(
+		timeFormatOptions.find((tfo) => String(tfo.value) == $params.timeformat)
+	);
+
+	export const forecastHoursOptions = [
+		{ value: '', label: '- (default)' },
+		{ value: 1, label: '1 hour' },
+		{ value: 6, label: '6 hours' },
+		{ value: 12, label: '12 hours' },
+		{ value: 24, label: '24 hours' }
+	];
+
+	let forecastHours = $derived(
+		forecastHoursOptions.find((fho) => String(fho.value) == $params.forecast_hours)
+	);
+
+	export const pastHoursOptions = [
+		{ value: '', label: '- (default)' },
+		{ value: 1, label: '1 hour' },
+		{ value: 6, label: '6 hours' },
+		{ value: 12, label: '12 hours' },
+		{ value: 24, label: '24 hours' }
+	];
+
+	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
+
+	export const temporalResolutionOptions = [
+		{ value: '', label: '1 Hourly' },
+		{ value: 'hourly_3', label: '3 Hourly' },
+		{ value: 'hourly_6', label: '6 Hourly' },
+		{ value: 'native', label: 'Native Model Resolution' }
+	];
+
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
+	);
+
+	export const gridCellSelectionOptions = [
+		{ value: '', label: 'Terrain Optimized, Prefers Land' },
+		{ value: 'sea', label: 'Prefer Sea' },
+		{ value: 'nearest', label: 'Nearest' }
+	];
+
+	let cellSelection = $derived(
+		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
+	);
 </script>
 
 <svelte:head>
@@ -170,8 +210,8 @@
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="time_interval"
-					class="min-h-12 cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset]"
-					disabled={$params.time_mode === 'time_interval'}
+					class="min-h-12 cursor-pointer rounded-md rounded-s-none duration-300 lg:min-h-[unset]"
+					disabled={true}
 					onclick={() => {
 						$params.time_mode = 'time_interval';
 					}}
@@ -190,7 +230,7 @@
 								preventScroll={false}
 								selected={forecastDays}
 								onSelectedChange={(e) => {
-									$params.forecast_days = e.value;
+									$params.forecast_days = String(e.value);
 								}}
 							>
 								<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
@@ -212,7 +252,7 @@
 								preventScroll={false}
 								selected={pastDays}
 								onSelectedChange={(e) => {
-									$params.past_days = e.value;
+									$params.past_days = String(e.value);
 								}}
 							>
 								<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
@@ -265,38 +305,51 @@
 
 	<div class="mb-6 mt-6 md:mt-12">
 		<h2 class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
-		<div class="mt-2 grid grid-flow-row gap-x-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+		<div
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+		>
 			{#each hourly as group}
-				{#each group as e}
-					<div class="group flex items-center">
-						<Checkbox
-							id="{e.value}_hourly"
-							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-							value={e.value}
-							checked={$params.hourly?.includes(e.value)}
-							onCheckedChange={(checked) => {
-								if ($params.hourly?.includes(e.value)) {
-									$params.hourly = $params.hourly.filter((item) => {
-    									return item !== e.value
-									});
-								} else {
-									$params.hourly.push(e.value);
-									$params.hourly = $params.hourly
-								}
-								
-							}}
-						/>
-						<Label for="{e.value}_hourly" class="cursor-pointer truncate py-1 pl-[0.4rem]"
-							>{e.label}</Label
-						>
-					</div>
-				{/each}
+				<div class="">
+					{#each group as e}
+						<div class="group flex items-center">
+							<Checkbox
+								id="{e.value}_hourly"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								value={e.value}
+								checked={$params.hourly?.includes(e.value)}
+								onCheckedChange={() => {
+									if ($params.hourly?.includes(e.value)) {
+										$params.hourly = $params.hourly.filter((item) => {
+											return item !== e.value;
+										});
+									} else {
+										$params.hourly.push(e.value);
+										$params.hourly = $params.hourly;
+									}
+								}}
+							/>
+							<Label for="{e.value}_hourly" class="cursor-pointer truncate py-1 pl-[0.4rem]"
+								>{e.label}</Label
+							>
+						</div>
+					{/each}
+				</div>
 			{/each}
 		</div>
 	</div>
 
 	<div>
-		<Accordion.Root class="border-border rounded-lg border" multiple={true}>
+		<Accordion.Root
+			class="border-border rounded-lg border"
+			multiple={true}
+			value={[
+				`${countVariables(additionalVariables, $params.hourly).active ? 'additional-variables' : ''}`,
+				`${countVariables(solarVariables, $params.hourly).active ? 'solar-variables' : ''}`,
+				// `${countVariables(pressureVariables, levels, $params.hourly) ? 'pressure-variables' : ''}`
+				`${countVariables(models, $params.models).active ? 'models' : ''}`,
+				`${countVariables(solarVariables, $params.hourly).active ? 'minutely_15' : ''}`
+			]}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -306,15 +359,26 @@
 					{#each additionalVariables as group}
 						<div>
 							{#each group as e}
-								<div>
-									<input
-										type="checkbox"
-										value={e.name}
-										id="{e.name}_hourly"
-										name="hourly"
-										bind:group={$params.hourly}
+								<div class="group flex items-center">
+									<Checkbox
+										id="{e.value}_hourly"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.hourly?.includes(e.value)}
+										onCheckedChange={() => {
+											if ($params.hourly?.includes(e.value)) {
+												$params.hourly = $params.hourly.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.hourly.push(e.value);
+												$params.hourly = $params.hourly;
+											}
+										}}
 									/>
-									<label for="{e.name}_hourly">{e.label}</label>
+									<Label for="{e.value}_hourly" class="cursor-pointer truncate py-1 pl-[0.4rem]"
+										>{e.label}</Label
+									>
 								</div>
 							{/each}
 						</div>
@@ -329,43 +393,42 @@
 				<div class="mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root
-							preventScroll={false}
 							name="forecast_hours"
-							id="forecast_hours"
-							bind:selected={$params.forecast_hours}
+							preventScroll={false}
+							selected={forecastHours}
+							onSelectedChange={(e) => {
+								$params.forecast_hours = String(e.value);
+							}}
 						>
 							<Select.Trigger class="h-12 cursor-pointer pt-6">
 								<Select.Value />
 							</Select.Trigger>
 							<Select.Content>
-								<Select.Item value="">- (default)</Select.Item>
-								<Select.Item value="1">1 hour</Select.Item>
-								<Select.Item value="6">6 hours</Select.Item>
-								<Select.Item value="12">12 hours</Select.Item>
-								<Select.Item value="24">24 hours</Select.Item>
+								{#each forecastHoursOptions as fho}
+									<Select.Item value={fho.value}>{fho.label}</Select.Item>
+								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 								>Forecast Hours</Label
 							>
 						</Select.Root>
 					</div>
-
 					<div class="relative">
 						<Select.Root
-							preventScroll={false}
 							name="past_hours"
-							id="past_hours"
-							bind:selected={$params.past_hours}
+							preventScroll={false}
+							selected={pastHours}
+							onSelectedChange={(e) => {
+								$params.past_hours = String(e.value);
+							}}
 						>
 							<Select.Trigger class="h-12 cursor-pointer pt-6">
 								<Select.Value />
 							</Select.Trigger>
 							<Select.Content>
-								<Select.Item value="">- (default)</Select.Item>
-								<Select.Item value="1">1 hour</Select.Item>
-								<Select.Item value="6">6 hours</Select.Item>
-								<Select.Item value="12">12 hours</Select.Item>
-								<Select.Item value="24">24 hours</Select.Item>
+								{#each pastHoursOptions as pho}
+									<Select.Item value={pho.value}>{pho.label}</Select.Item>
+								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 								>Past Hours</Label
@@ -375,19 +438,20 @@
 
 					<div class="relative col-span-2">
 						<Select.Root
-							preventScroll={false}
 							name="temporal_resolution"
-							id="temporal_resolution"
-							bind:selected={$params.temporal_resolution}
+							preventScroll={false}
+							selected={temporalResolution}
+							onSelectedChange={(e) => {
+								$params.temporal_resolution = String(e.value);
+							}}
 						>
 							<Select.Trigger class="h-12 cursor-pointer pt-6">
 								<Select.Value />
 							</Select.Trigger>
 							<Select.Content>
-								<Select.Item value="">1 Hourly</Select.Item>
-								<Select.Item value="hourly_3">3 Hourly</Select.Item>
-								<Select.Item value="hourly_6">6 Hourly</Select.Item>
-								<Select.Item value="native">Native Model Resolution</Select.Item>
+								{#each temporalResolutionOptions as tro}
+									<Select.Item value={tro.value}>{tro.label}</Select.Item>
+								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 								>Temporal Resolution For Hourly Data</Label
@@ -396,19 +460,20 @@
 					</div>
 					<div class="relative col-span-2">
 						<Select.Root
-							preventScroll={false}
-							class="min-w-1/2"
 							name="cell_selection"
-							id="cell_selection"
-							bind:selected={$params.cell_selection}
+							preventScroll={false}
+							selected={cellSelection}
+							onSelectedChange={(e) => {
+								$params.cell_selection = String(e.value);
+							}}
 						>
 							<Select.Trigger class="h-12 cursor-pointer pt-6">
 								<Select.Value />
 							</Select.Trigger>
 							<Select.Content>
-								<Select.Item value="">Terrain Optimized, Prefers Land</Select.Item>
-								<Select.Item value="sea">Prefer Sea</Select.Item>
-								<Select.Item value="nearest">Nearest</Select.Item>
+								{#each gridCellSelectionOptions as gcso}
+									<Select.Item value={gcso.value}>{gcso.label}</Select.Item>
+								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 								>Grid Cell Selection</Label
@@ -649,16 +714,38 @@
 		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 			{#each daily as group}
 				{#each group as e}
-					<div class="flex gap-1 pr-1">
-						<input type="checkbox" value={e.name} id="{e.name}_daily" name="daily" />
-						<label for="{e.name}_daily" class="truncate">{e.label}</label>
+					<div class="group flex items-center">
+						<Checkbox
+							id="{e.value}_daily"
+							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+							value={e.value}
+							checked={$params.daily?.includes(e.value)}
+							onCheckedChange={() => {
+								if ($params.daily?.includes(e.value)) {
+									$params.daily = $params.daily.filter((item) => {
+										return item !== e.value;
+									});
+								} else {
+									$params.daily.push(e.value);
+									$params.daily = $params.daily;
+								}
+							}}
+						/>
+						<Label for="{e.value}_daily" class="cursor-pointer truncate py-1 pl-[0.4rem]"
+							>{e.label}</Label
+						>
 					</div>
 				{/each}
 			{/each}
 		</div>
 		{#if timezoneInvalid}
-			<div class="alert alert-warning" role="alert">
-				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+			<div transition:slide>
+				<Alert.Root class="bg-warning text-warning-dark border-warning-foreground mt-2 md:mt-4">
+					<Alert.Description>
+						It is recommended to select a timezone for daily data. Per default the API will use
+						GMT+0.
+					</Alert.Description>
+				</Alert.Root>
 			</div>
 		{/if}
 	</div>
@@ -668,9 +755,26 @@
 		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 			{#each current as group}
 				{#each group as e}
-					<div>
-						<input type="checkbox" value={e.name} id="{e.name}_current" name="current" />
-						<label for="{e.name}_current">{e.label}</label>
+					<div class="group flex items-center">
+						<Checkbox
+							id="{e.value}_current"
+							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+							value={e.value}
+							checked={$params.hcurrent?.includes(e.value)}
+							onCheckedChange={() => {
+								if ($params.current?.includes(e.value)) {
+									$params.current = $params.current.filter((item) => {
+										return item !== e.value;
+									});
+								} else {
+									$params.current.push(e.value);
+									$params.current = $params.current;
+								}
+							}}
+						/>
+						<Label for="{e.value}_current" class="cursor-pointer truncate py-1 pl-[0.4rem]"
+							>{e.label}</Label
+						>
 					</div>
 				{/each}
 			{/each}
@@ -687,13 +791,21 @@
 			class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-6 md:flex-row md:gap-6 lg:grid-cols-4"
 		>
 			<div class="relative">
-				<Select.Root preventScroll={false} name="temperature_unit" id="temperature_unit">
+				<Select.Root
+					name="temperature_unit"
+					preventScroll={false}
+					selected={temperatureUnit}
+					onSelectedChange={(e) => {
+						$params.temperature_unit = e.value;
+					}}
+				>
 					<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
 						<Select.Value />
 					</Select.Trigger>
-					<Select.Content>
-						<Select.Item value="celsius">Celsius °C</Select.Item>
-						<Select.Item value="fahrenheit">Fahrenheit °F</Select.Item>
+					<Select.Content class="border-border">
+						{#each temperatureOptions as to}
+							<Select.Item value={to.value}>{to.label}</Select.Item>
+						{/each}
 					</Select.Content>
 					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 						>Temperature Unit</Label
@@ -702,15 +814,21 @@
 			</div>
 
 			<div class="relative">
-				<Select.Root preventScroll={false} name="wind_speed_unit" id="wind_speed_unit">
+				<Select.Root
+					name="wind_speed_unit"
+					preventScroll={false}
+					selected={windSpeedUnit}
+					onSelectedChange={(e) => {
+						$params.wind_speed_unit = e.value;
+					}}
+				>
 					<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
 						<Select.Value />
 					</Select.Trigger>
-					<Select.Content>
-						<Select.Item value="kmh">Km/h</Select.Item>
-						<Select.Item value="ms">m/s</Select.Item>
-						<Select.Item value="mph">Mph</Select.Item>
-						<Select.Item value="kn">Knots</Select.Item>
+					<Select.Content class="border-border">
+						{#each windSpeedOptions as wso}
+							<Select.Item value={wso.value}>{wso.label}</Select.Item>
+						{/each}
 					</Select.Content>
 					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 						>Wind Speed Unit</Label
@@ -719,13 +837,21 @@
 			</div>
 
 			<div class="relative">
-				<Select.Root preventScroll={false} name="precipitation_unit" id="precipitation_unit">
+				<Select.Root
+					preventScroll={false}
+					name="precipitation_unit"
+					selected={precipitationUnit}
+					onSelectedChange={(e) => {
+						$params.precipitation_unit = e.value;
+					}}
+				>
 					<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
 						<Select.Value />
 					</Select.Trigger>
-					<Select.Content>
-						<Select.Item value="mm">Millimeter</Select.Item>
-						<Select.Item value="inch">Inch</Select.Item>
+					<Select.Content class="border-border">
+						{#each precipitationOptions as po}
+							<Select.Item value={po.value}>{po.label}</Select.Item>
+						{/each}
 					</Select.Content>
 					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 						>Precipitation Unit</Label
@@ -734,13 +860,21 @@
 			</div>
 
 			<div class="relative">
-				<Select.Root preventScroll={false} name="timeformat" id="timeformat">
+				<Select.Root
+					preventScroll={false}
+					name="timeformat"
+					selected={timeFormat}
+					onSelectedChange={(e) => {
+						$params.timeformat = e.value;
+					}}
+				>
 					<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
 						<Select.Value />
 					</Select.Trigger>
-					<Select.Content>
-						<Select.Item value="iso8601">ISO 8601 (e.g. 2022-12-31)</Select.Item>
-						<Select.Item value="unixtime">Unix timestamp</Select.Item>
+					<Select.Content class="border-border">
+						{#each timeFormatOptions as tfo}
+							<Select.Item value={tfo.value}>{tfo.label}</Select.Item>
+						{/each}
 					</Select.Content>
 					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 						>Timeformat</Label

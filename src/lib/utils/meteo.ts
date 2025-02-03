@@ -1,5 +1,9 @@
 /// Generic helper functions
 
+export const pad = (n: string | number) => {
+	return ('0' + n).slice(-2);
+};
+
 export const isNumeric = (num: string | number) =>
 	(typeof num === 'number' || (typeof num === 'string' && num.trim() !== '')) &&
 	!isNaN(num as number);
@@ -28,20 +32,23 @@ export const sliceIntoChunks = (arr: Array<T>, chunkSize: number): Array<Array<T
 };
 
 export const countVariables = (
-	variables: { name: string; label: string }[][],
+	variables: { value: string; label: string }[][],
 	params: string[]
 ) => {
+	console.log(
+		variables.reduce((i, e) => i + e.reduce((i, e) => i + (params.includes(e.value) ? 1 : 0), 0), 0)
+	);
 	return {
 		total: variables.reduce((i, e) => i + e.length, 0),
 		active: variables.reduce(
-			(i, e) => i + e.reduce((i, e) => i + (params.includes(e.name) ? 1 : 0), 0),
+			(i, e) => i + e.reduce((i, e) => i + (params.includes(e.value) ? 1 : 0), 0),
 			0
 		)
 	};
 };
 
 export const countPressureVariables = (
-	variables: { name: string; label: string }[],
+	variables: { value: string; label: string }[],
 	levels: number[],
 	params: string[]
 ) => {
@@ -51,7 +58,7 @@ export const countPressureVariables = (
 			(i, variable) =>
 				i +
 				levels.reduce(
-					(i, level) => i + (params.includes(`${variable.name}_${level}hPa`) ? 1 : 0),
+					(i, level) => i + (params.includes(`${variable.value}_${level}hPa`) ? 1 : 0),
 					0
 				),
 			0
@@ -60,7 +67,7 @@ export const countPressureVariables = (
 };
 
 export const countHeightVariables = (
-	variables: { name: string; label: string }[],
+	variables: { value: string; label: string }[],
 	levels: number[],
 	params: string[]
 ) => {
@@ -69,7 +76,10 @@ export const countHeightVariables = (
 		active: variables.reduce(
 			(i, variable) =>
 				i +
-				levels.reduce((i, level) => i + (params.includes(`${variable.name}_${level}m`) ? 1 : 0), 0),
+				levels.reduce(
+					(i, level) => i + (params.includes(`${variable.value}_${level}m`) ? 1 : 0),
+					0
+				),
 			0
 		)
 	};

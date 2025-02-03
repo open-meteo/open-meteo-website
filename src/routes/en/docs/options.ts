@@ -1,3 +1,5 @@
+import { pad } from '$lib/utils/meteo';
+
 export const defaultParameters = {
 	current: [],
 	minutely_15: [],
@@ -275,4 +277,57 @@ export const models = [
 		{ value: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
 		{ value: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 	]
+];
+
+export const forecastDaysOptions = [
+	{ value: 1, label: '1 day' },
+	{ value: 3, label: '3 days' },
+	{ value: 7, label: '7 days (default)' },
+	{ value: 14, label: '14 days' },
+	{ value: 16, label: '16 days' }
+];
+
+export const pastDaysOptions = [
+	{ value: 0, label: '0 days (default)' },
+	{ value: 1, label: '1 day' },
+	{ value: 2, label: '2 days' },
+	{ value: 3, label: '3 days' },
+	{ value: 5, label: '5 days' },
+	{ value: 7, label: '1 week' },
+	{ value: 14, label: '2 weeks' },
+	{ value: 31, label: '1 month' },
+	{ value: 61, label: '2 months' },
+	{ value: 92, label: '3 months' }
+];
+
+export const temperatureOptions = [
+	{ value: 'celsius', label: 'Celsius °C' },
+	{ value: 'fahrenheit', label: 'Fahrenheit °F' }
+];
+
+export const windSpeedOptions = [
+	{ value: 'kmh', label: 'km/h' },
+	{ value: 'ms', label: 'm/s' },
+	{ value: 'mph', label: 'mph' },
+	{ value: 'kn', label: 'Knots' }
+];
+
+export const precipitationOptions = [
+	{ value: 'mm', label: 'Millimeter' },
+	{ value: 'inch', label: 'Inch' }
+];
+
+export const timeFormatOptions = [
+	{
+		value: 'iso8601',
+		label:
+			'ISO 8601 (e.g. ' +
+			new Date().getFullYear() +
+			'-' +
+			pad(new Date().getMonth()) +
+			'-' +
+			pad(new Date().getDate()) +
+			')'
+	},
+	{ value: 'unixtime', label: 'Unix timestamp' }
 ];
