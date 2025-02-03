@@ -35,9 +35,6 @@ export const countVariables = (
 	variables: { value: string; label: string }[][],
 	params: string[]
 ) => {
-	console.log(
-		variables.reduce((i, e) => i + e.reduce((i, e) => i + (params.includes(e.value) ? 1 : 0), 0), 0)
-	);
 	return {
 		total: variables.reduce((i, e) => i + e.length, 0),
 		active: variables.reduce(

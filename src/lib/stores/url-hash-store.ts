@@ -66,7 +66,7 @@ export const urlHashStore = (initialValues: Parameters) => {
 			let defaultValue = defaultValues[key];
 
 			if (defaultValue.constructor === Array) {
-				if (JSON.stringify(defaultValue) === JSON.stringify(value)) {
+				if (JSON.stringify(defaultValue) !== JSON.stringify(value)) {
 					urlHashes.update((urlValues) => {
 						urlValues[key] = value.split(/,|%2C/);
 						return urlValues;
