@@ -62,8 +62,6 @@
 		hourly: ['temperature_2m']
 	});
 
-	console.log($params);
-
 	let pressureVariablesTab = $state('temperature');
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
@@ -112,7 +110,7 @@
 </svelte:head>
 
 <div class="mb-6 flex items-center">
-	<!-- <ToggleGroup.Root
+	<ToggleGroup.Root
 		type="single"
 		value={storage}
 		onValueChange={(e) => {
@@ -142,7 +140,7 @@
 				<ListRestart size={20} class="mr-1" />Reset every time
 			</ToggleGroup.Item>
 		</div>
-	</ToggleGroup.Root> -->
+	</ToggleGroup.Root>
 	<Button
 		class="h-13 ml-4 cursor-pointer px-5"
 		variant="outline"
@@ -277,12 +275,15 @@
 							value={e.value}
 							checked={$params.hourly?.includes(e.value)}
 							onCheckedChange={(checked) => {
-								if (checked) {
-									$params.hourly.push(e.value);
+								if ($params.hourly?.includes(e.value)) {
+									$params.hourly = $params.hourly.filter((item) => {
+    									return item !== e.value
+									});
 								} else {
-									$params.hourly.pop(e.value);
+									$params.hourly.push(e.value);
+									$params.hourly = $params.hourly
 								}
-								$params.hourly = $params.hourly;
+								
 							}}
 						/>
 						<Label for="{e.value}_hourly" class="cursor-pointer truncate py-1 pl-[0.4rem]"

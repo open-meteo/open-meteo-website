@@ -11,23 +11,20 @@ import type { Parameters } from '$lib/docs';
 //export const urlHashes: Persisted<Parameters> = persisted('urlHashes', {});
 export const storageMode = persisted('storageMode', 'store');
 
-export const urlHashes: Persisted<Parameters> = writable({});
+export const urlHashes: Persisted<Parameters> = persisted('urlHashes', {});
 
 export const urlHashStore = (initialValues: Parameters) => {
 	const { subscribe, set } = urlHashes;
 
-	const defaultValues = { ...initialValues };
-	//const initDefaultValues = { ...initialValues, ...get(urlHashes) };
+	const defaultValues = JSON.parse(JSON.stringify(initialValues));
+	const initDefaultValues = JSON.parse(JSON.stringify({ ...initialValues, ...get(urlHashes) }));
 
 	// set default values first
-	// if (get(storageMode) === 'reset') {
-	// 	urlHashes.set({ ...defaultValues });
-	// } else {
-	// 	urlHashes.set({ ...initDefaultValues });
-	// }
-	urlHashes.set({ ...initialValues });
-
-	// console.log(defaultValues);
+	if (get(storageMode) === 'reset') {
+		urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
+	} else {
+		urlHashes.set(JSON.parse(JSON.stringify(initDefaultValues)));
+	}
 
 	const updateURLParams = (values) => {
 		if (browser) {
@@ -36,9 +33,6 @@ export const urlHashStore = (initialValues: Parameters) => {
 
 				// params key is array
 				if (Array === defaultValue.constructor) {
-					if (key === 'hourly') {
-						console.log(value, defaultValue, defaultValues);
-					}
 					if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
 						if (page.url.searchParams.has(key) && page.url.searchParams.get(key) !== value) {
 							page.url.searchParams.delete(key);
@@ -62,7 +56,7 @@ export const urlHashStore = (initialValues: Parameters) => {
 					}
 				}
 			}
-			goto(`?${page.url.searchParams.toString().replace('%2C', ',')}`, { noScroll: true });
+			goto(`?${page.url.searchParams.toString().replaceAll('%2C', ',')}`, { noScroll: true });
 		}
 	};
 
@@ -74,7 +68,7 @@ export const urlHashStore = (initialValues: Parameters) => {
 			if (defaultValue.constructor === Array) {
 				if (JSON.stringify(defaultValue) === JSON.stringify(value)) {
 					urlHashes.update((urlValues) => {
-						urlValues[key] = value.split(',').split('%2C');
+						urlValues[key] = value.split(/,|%2C/);
 						return urlValues;
 					});
 				}
@@ -95,9 +89,9 @@ export const urlHashStore = (initialValues: Parameters) => {
 		}
 	}
 
-	// if (get(storageMode) === 'store') {
-	// 	updateURLParams(get(urlHashes));
-	// }
+	if (get(storageMode) === 'store') {
+		updateURLParams(get(urlHashes));
+	}
 
 	urlHashes.subscribe((values) => {
 		updateURLParams(values);
@@ -106,7 +100,7 @@ export const urlHashStore = (initialValues: Parameters) => {
 	return {
 		set,
 		reset: () => {
-			urlHashes.set({ ...defaultValues });
+			urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
 		},
 		subscribe
 	};

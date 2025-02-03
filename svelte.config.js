@@ -52,6 +52,7 @@ const config = {
 			preloadStrategy: 'modulepreload',
 			bundleStrategy: 'split'
 		}
+		// inlineStyleThreshold: 10000 // crashes > 40000
 	}
 };
 

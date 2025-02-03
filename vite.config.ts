@@ -20,4 +20,7 @@ export default defineConfig({
 		// 	outdir: './src/lib/paraglide'
 		// })
 	]
+	// build: {
+	// 	assetsInlineLimit: 262144 // 262kB
+	// }
 });
