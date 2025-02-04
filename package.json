@@ -16,6 +16,7 @@
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
+		"@fullhuman/postcss-purgecss": "^7.0.2",
 		"@popperjs/core": "^2.11.8",
 		"@semantic-release/commit-analyzer": "^13.0.0",
 		"@semantic-release/github": "^11.0.1",
@@ -29,6 +30,7 @@
 		"eslint": "^9.19.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^2.46.1",
+		"postcss": "^8.5.1",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.2.6",
 		"rollup-plugin-visualizer": "^5.14.0",
@@ -39,7 +41,8 @@
 		"svelte-check": "^4.0.0",
 		"typescript": "^5.5.0",
 		"typescript-eslint": "^8.23.0",
-		"vite": "^6.0.11"
+		"vite": "^6.0.11",
+		"vite-plugin-svelte-purgecss": "^0.2.7"
 	},
 	"dependencies": {
 		"highcharts": "^12.1.2",

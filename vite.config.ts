@@ -2,9 +2,17 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 
+import { purgeCss } from 'vite-plugin-svelte-purgecss';
+
 export default defineConfig({
 	plugins: [
 		sveltekit(),
+		purgeCss({
+			safelist: {
+				deep: [/dropdown-menu$/],
+				greedy: [/highcharts/]
+			}
+		}),
 		visualizer({
 			filename: 'build-stats.json',
 			template: 'raw-data'
