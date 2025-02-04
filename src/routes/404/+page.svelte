@@ -1,6 +1,7 @@
 <svelte:head>
 	<title>404 Error | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/about" />
+	<link rel="preload" as="image" href="/images/features_background.webp" />
 </svelte:head>
 
 <div

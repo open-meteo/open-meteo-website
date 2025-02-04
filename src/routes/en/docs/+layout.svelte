@@ -43,6 +43,10 @@
 	}
 </script>
 
+<svelte:head>
+	<link rel="preload" as="image" href={page.data.hero} />
+</svelte:head>
+
 <div
 	class="px-4 py-5 text-center text-white hero-banner"
 	style="background-image: url('{page.data.hero}');"
