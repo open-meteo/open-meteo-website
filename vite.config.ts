@@ -14,7 +14,7 @@ import rollupOptions from './rollup.config';
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
-		// tailwindcssCleaner(),
+		tailwindcssCleaner(),
 		// purgeCSSPlugin({
 		// 	verbose: true,
 		// 	variables: true,
