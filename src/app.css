@@ -89,15 +89,14 @@
 	}
 }
 
+html {
+	overflow-y: overlay;
+}
+
 @layer base {
 	body {
 		@apply bg-background text-foreground font-sans;
 	}
-}
-
-html {
-	scrollbar-gutter: stable;
-	scroll-behavior: smooth;
 }
 
 p a {
@@ -112,7 +111,6 @@ p a:hover {
 .dark .shiki span {
 	color: var(--shiki-dark) !important;
 	background-color: var(--shiki-dark-bg) !important;
-	/* Optional, if you also want font styles */
 	font-style: var(--shiki-dark-font-style) !important;
 	font-weight: var(--shiki-dark-font-weight) !important;
 	text-decoration: var(--shiki-dark-text-decoration) !important;

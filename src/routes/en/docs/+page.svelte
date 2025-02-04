@@ -328,8 +328,9 @@
 									}
 								}}
 							/>
-							<Label for="{e.value}_hourly" class="cursor-pointer truncate py-1 pl-[0.4rem]"
-								>{e.label}</Label
+							<Label
+								for="{e.value}_hourly"
+								class="ml-[0.32rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
 							>
 						</div>
 					{/each}
@@ -376,7 +377,7 @@
 											}
 										}}
 									/>
-									<Label for="{e.value}_hourly" class="cursor-pointer truncate py-1 pl-[0.4rem]"
+									<Label for="{e.value}_hourly" class="ml-[0.4rem] cursor-pointer truncate py-1"
 										>{e.label}</Label
 									>
 								</div>
@@ -731,7 +732,7 @@
 								}
 							}}
 						/>
-						<Label for="{e.value}_daily" class="cursor-pointer truncate py-1 pl-[0.4rem]"
+						<Label for="{e.value}_daily" class="ml-[0.4rem] cursor-pointer truncate py-1"
 							>{e.label}</Label
 						>
 					</div>
@@ -772,7 +773,7 @@
 								}
 							}}
 						/>
-						<Label for="{e.value}_current" class="cursor-pointer truncate py-1 pl-[0.4rem]"
+						<Label for="{e.value}_current" class="ml-[0.4rem] cursor-pointer truncate py-1"
 							>{e.label}</Label
 						>
 					</div>

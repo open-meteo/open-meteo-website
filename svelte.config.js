@@ -3,11 +3,6 @@ import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { createHighlighter } from 'shiki';
 
-// const themes = {
-// 	dark: 'github-dark',
-// 	light: 'github-light'
-// };
-
 const themes = {
 	dark: 'one-dark-pro',
 	light: 'one-light'
@@ -52,6 +47,7 @@ const config = {
 			preloadStrategy: 'modulepreload',
 			bundleStrategy: 'split'
 		}
+
 		// inlineStyleThreshold: 10000 // crashes > 40000
 	}
 };

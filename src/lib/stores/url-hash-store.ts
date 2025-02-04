@@ -60,7 +60,7 @@ export const urlHashStore = (initialValues: Parameters) => {
 		}
 	};
 
-	// check if urlParams overrides any default values
+	// check if urlParams overrides any default values OR stored values
 	if (browser && page.url.search) {
 		for (let [key, value] of page.url.searchParams.entries()) {
 			let defaultValue = defaultValues[key];
