@@ -10,8 +10,6 @@
 		altitudeAboveSeaLevelMeters
 	} from '$lib/utils/meteo';
 
-	import { storageMode } from '$lib/stores/url-hash-store';
-
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';

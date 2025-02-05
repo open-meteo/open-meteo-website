@@ -27,6 +27,7 @@
 		</Button>
 		<Toggle
 			name="mobile-menu"
+			aria-label="Mobile menu"
 			class="relative cursor-pointer px-6 md:hidden"
 			bind:pressed={toggleMenu}
 			variant="outline"

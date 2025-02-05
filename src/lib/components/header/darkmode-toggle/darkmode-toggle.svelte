@@ -16,7 +16,7 @@
 		<Button
 			builders={[builder]}
 			size="icon"
-			class="cursor-pointer"
+			class="flex cursor-pointer"
 			variant="outline"
 			aria-labelledby="darkmode_toggle_label"
 		>

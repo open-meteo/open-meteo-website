@@ -107,6 +107,7 @@
 						<Button
 							variant="outline"
 							name="copy-code-to-clipboard"
+							aria-label="Copy to clipboard"
 							class="absolute right-0 top-2 z-10 cursor-pointer opacity-0 duration-300 group-hover:opacity-100"
 							onclick={() => {
 								window.prompt(
@@ -133,6 +134,7 @@
 						<Button
 							variant="outline"
 							name="copy-code-to-clipboard"
+							aria-label="Copy to clipboard"
 							class="absolute right-0 top-2 z-10 cursor-pointer opacity-0 duration-300 group-hover:opacity-100"
 							onclick={() => {
 								window.prompt(
@@ -159,6 +161,7 @@
 						<Button
 							variant="outline"
 							name="copy-code-to-clipboard"
+							aria-label="Copy to clipboard"
 							class="absolute right-0 top-2 z-10 cursor-pointer opacity-0 duration-300 group-hover:opacity-100"
 							onclick={() => {
 								window.prompt(
