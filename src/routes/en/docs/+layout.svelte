@@ -43,6 +43,10 @@
 	}
 </script>
 
+<svelte:head>
+	<link rel="preload" fetchpriority="high" as="image" href={page.data.hero} type="image/webp" />
+</svelte:head>
+
 <div
 	class="px-4 py-5 text-center text-white hero-banner"
 	style="background-image: url('{page.data.hero}');"
