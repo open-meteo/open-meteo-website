@@ -16,6 +16,7 @@
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
+		"@fullhuman/postcss-purgecss": "^7.0.2",
 		"@popperjs/core": "^2.11.8",
 		"@semantic-release/commit-analyzer": "^13.0.0",
 		"@semantic-release/github": "^11.0.1",
@@ -29,6 +30,8 @@
 		"eslint": "^9.19.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^2.46.1",
+		"estree-walker": "^3.0.3",
+		"postcss": "^8.5.1",
 		"prettier": "^3.4.2",
 		"prettier-plugin-svelte": "^3.2.6",
 		"rollup-plugin-visualizer": "^5.14.0",
