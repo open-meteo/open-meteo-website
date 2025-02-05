@@ -1,0 +1,19 @@
+@include color-mode(dark) {
+	--sdt-bg-main: #3a3f44;
+	--sdt-shadow-color: #161616;
+	--sdt-color: #eee;
+	--sdt-header-color: #eee;
+	--sdt-primary: #e1ac4a;
+	--sdt-disabled-date: #bb5757;
+	--sdt-disabled-date-bg: var(--sdt-bg-main);
+	--sdt-btn-bg-hover: #777;
+	--sdt-btn-header-bg-hover: #777;
+	--sdt-color-selected: #fff;
+	--sdt-today-indicator: #ccc;
+	--sdt-clock-bg: #999;
+}
+
+.std-component-wrap {
+	position: inherit !important;
+	display: inherit !important;
+}
