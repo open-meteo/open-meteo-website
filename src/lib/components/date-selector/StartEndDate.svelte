@@ -1,5 +1,6 @@
 <script lang="ts">
 	import SveltyPicker from 'svelty-picker';
+	import './date-picker.scss';
 
 	interface Props {
 		start_date?: string;
