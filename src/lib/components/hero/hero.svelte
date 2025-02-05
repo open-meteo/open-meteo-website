@@ -33,7 +33,7 @@
 </script>
 
 <svelte:head>
-	<link rel="preload" as="image" href={heroImage} />
+	<link rel="preload" fetchpriority="high" as="image" href={heroImage} type="image/webp" />
 </svelte:head>
 
 <!-- max-h-[300px] min-h-[300px] max-h-[400px] min-h-[400px] max-h-[500px] min-h-[500px] max-h-[600px] min-h-[600px] -->
