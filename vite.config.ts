@@ -10,7 +10,7 @@ export default defineConfig({
 		purgeCss({
 			safelist: {
 				deep: [/dropdown-menu$/],
-				greedy: [/highcharts/]
+				greedy: [/highcharts/, /svelte-ergyxs/, /sdt-/]
 			}
 		}),
 		visualizer({
