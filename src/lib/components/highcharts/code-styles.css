@@ -3,11 +3,12 @@ pre {
 	-o-tab-size: 4;
 	tab-size: 4;
 	padding: 1rem 2rem;
+	background: #fafafa;
 }
 
-pre.dark {
+.dark pre {
 	background: #212121;
-	color: #fff;
+	color: white;
 }
 
 .token.comment,

@@ -300,6 +300,37 @@ export const pastDaysOptions = [
 	{ value: 92, label: '3 months' }
 ];
 
+// Additional variable options
+export const forecastHoursOptions = [
+	{ value: '', label: '- (default)' },
+	{ value: 1, label: '1 hour' },
+	{ value: 6, label: '6 hours' },
+	{ value: 12, label: '12 hours' },
+	{ value: 24, label: '24 hours' }
+];
+
+export const pastHoursOptions = [
+	{ value: '', label: '- (default)' },
+	{ value: 1, label: '1 hour' },
+	{ value: 6, label: '6 hours' },
+	{ value: 12, label: '12 hours' },
+	{ value: 24, label: '24 hours' }
+];
+
+export const temporalResolutionOptions = [
+	{ value: '', label: '1 Hourly' },
+	{ value: 'hourly_3', label: '3 Hourly' },
+	{ value: 'hourly_6', label: '6 Hourly' },
+	{ value: 'native', label: 'Native Model Resolution' }
+];
+
+export const gridCellSelectionOptions = [
+	{ value: '', label: 'Terrain Optimized, Prefers Land' },
+	{ value: 'sea', label: 'Prefer Sea' },
+	{ value: 'nearest', label: 'Nearest' }
+];
+
+// Settings
 export const temperatureOptions = [
 	{ value: 'celsius', label: 'Celsius °C' },
 	{ value: 'fahrenheit', label: 'Fahrenheit °F' }

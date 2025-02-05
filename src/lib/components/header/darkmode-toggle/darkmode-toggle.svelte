@@ -12,19 +12,15 @@
 </script>
 
 <DropdownMenu.Root preventScroll={false}>
-	<DropdownMenu.Trigger asChild let:builder>
-		<Button
-			builders={[builder]}
-			size="icon"
-			class="flex cursor-pointer"
-			variant="outline"
-			aria-labelledby="darkmode_toggle_label"
-		>
-			{#if $mode === 'dark'}
-				<Moon size={22} strokeWidth={1.5} />
-			{:else}<Sun size={22} strokeWidth={1.5} />{/if}
-			<span id="darkmode_toggle_label" class="md:hidden">Toggle theme</span>
-		</Button>
+	<DropdownMenu.Trigger
+		class="flex cursor-pointer"
+		variant="outline"
+		aria-labelledby="darkmode_toggle_label"
+	>
+		{#if $mode === 'dark'}
+			<Moon size={22} strokeWidth={1.5} />
+		{:else}<Sun size={22} strokeWidth={1.5} />{/if}
+		<span id="darkmode_toggle_label" class="md:hidden">Toggle theme</span>
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content align="end" class="border-border p-0">
 		<DropdownMenu.Item class="cursor-pointer px-3 py-2" onclick={() => setMode('light')}

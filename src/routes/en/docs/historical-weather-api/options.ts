@@ -1,5 +1,7 @@
 import { dev } from '$app/environment';
 
+import { pad } from '$lib/utils/meteo';
+
 export const defaultParameters = {
 	hourly: [],
 	daily: [],
@@ -192,4 +194,37 @@ export const models = [
 		{ name: 'era5_ensemble', label: 'ERA5-Ensemble', caption: '0.5° ~55km, Global' },
 		{ name: 'cerra', label: 'CERRA', caption: '5 km, Europe, 1985 to June 2021' }
 	]
+];
+
+// Settings
+export const temperatureOptions = [
+	{ value: 'celsius', label: 'Celsius °C' },
+	{ value: 'fahrenheit', label: 'Fahrenheit °F' }
+];
+
+export const windSpeedOptions = [
+	{ value: 'kmh', label: 'km/h' },
+	{ value: 'ms', label: 'm/s' },
+	{ value: 'mph', label: 'mph' },
+	{ value: 'kn', label: 'Knots' }
+];
+
+export const precipitationOptions = [
+	{ value: 'mm', label: 'Millimeter' },
+	{ value: 'inch', label: 'Inch' }
+];
+
+export const timeFormatOptions = [
+	{
+		value: 'iso8601',
+		label:
+			'ISO 8601 (e.g. ' +
+			new Date().getFullYear() +
+			'-' +
+			pad(new Date().getMonth()) +
+			'-' +
+			pad(new Date().getDate()) +
+			')'
+	},
+	{ value: 'unixtime', label: 'Unix timestamp' }
 ];

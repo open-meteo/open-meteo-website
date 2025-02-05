@@ -40,15 +40,19 @@
 		current,
 		minutely_15,
 		solarVariables,
+		pastDaysOptions,
+		pastHoursOptions,
+		windSpeedOptions,
 		defaultParameters,
 		pressureVariables,
-		additionalVariables,
 		timeFormatOptions,
 		temperatureOptions,
-		windSpeedOptions,
-		pastDaysOptions,
 		forecastDaysOptions,
-		precipitationOptions
+		additionalVariables,
+		precipitationOptions,
+		forecastHoursOptions,
+		gridCellSelectionOptions,
+		temporalResolutionOptions
 	} from './options';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
@@ -75,6 +79,21 @@
 
 	let timeModeSelected = $derived($params.time_mode);
 
+	// Additional variable settings
+	let forecastHours = $derived(
+		forecastHoursOptions.find((fho) => String(fho.value) == $params.forecast_hours)
+	);
+
+	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
+
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
+	);
+	let cellSelection = $derived(
+		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
+	);
+
+	// Settings
 	let temperatureUnit = $derived(
 		temperatureOptions.find((to) => String(to.value) == $params.temperature_unit)
 	);
@@ -87,49 +106,6 @@
 	let timeFormat = $derived(
 		timeFormatOptions.find((tfo) => String(tfo.value) == $params.timeformat)
 	);
-
-	export const forecastHoursOptions = [
-		{ value: '', label: '- (default)' },
-		{ value: 1, label: '1 hour' },
-		{ value: 6, label: '6 hours' },
-		{ value: 12, label: '12 hours' },
-		{ value: 24, label: '24 hours' }
-	];
-
-	let forecastHours = $derived(
-		forecastHoursOptions.find((fho) => String(fho.value) == $params.forecast_hours)
-	);
-
-	export const pastHoursOptions = [
-		{ value: '', label: '- (default)' },
-		{ value: 1, label: '1 hour' },
-		{ value: 6, label: '6 hours' },
-		{ value: 12, label: '12 hours' },
-		{ value: 24, label: '24 hours' }
-	];
-
-	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
-
-	export const temporalResolutionOptions = [
-		{ value: '', label: '1 Hourly' },
-		{ value: 'hourly_3', label: '3 Hourly' },
-		{ value: 'hourly_6', label: '6 Hourly' },
-		{ value: 'native', label: 'Native Model Resolution' }
-	];
-
-	let temporalResolution = $derived(
-		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
-	);
-
-	export const gridCellSelectionOptions = [
-		{ value: '', label: 'Terrain Optimized, Prefers Land' },
-		{ value: 'sea', label: 'Prefer Sea' },
-		{ value: 'nearest', label: 'Nearest' }
-	];
-
-	let cellSelection = $derived(
-		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
-	);
 </script>
 
 <svelte:head>
@@ -140,16 +116,6 @@
 		content="Weather Forecast APIs with weather models from multiple national weather providers, combining the best models for accurate forecasts worldwide. Explore the API documentation to learn more about the available weather models, their origin countries, resolutions, forecast lengths, and update frequencies. Get detailed JSON hourly weather forecasts for up to 7 or 16 days by specifying the geographical coordinates and desired weather variables in the API endpoint. Discover the comprehensive list of URL parameters for customizing your weather forecast requests."
 	/>
 </svelte:head>
-
-<div class="mb-6 flex items-center">
-	<Button
-		class="h-13 ml-4 cursor-pointer px-5"
-		variant="outline"
-		onclick={() => {
-			params.reset();
-		}}>Reset all</Button
-	>
-</div>
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<LocationSelection bind:params={$params} />
@@ -461,27 +427,41 @@
 				count={countVariables(solarVariables, $params.hourly)}
 			>
 				{#each solarVariables as group}
-					<div>
+					<div class="grid md:grid-cols-2">
 						{#each group as e}
-							<div>
-								<input
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_hourly"
-									name="hourly"
-									bind:group={$params.hourly}
+							<div class="group flex items-center">
+								<Checkbox
+									id="{e.value}_hourly"
+									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+									value={e.value}
+									checked={$params.hourly?.includes(e.value)}
+									aria-labelledby="{e.value}_label"
+									onCheckedChange={() => {
+										if ($params.hourly?.includes(e.value)) {
+											$params.hourly = $params.hourly.filter((item) => {
+												return item !== e.value;
+											});
+										} else {
+											$params.hourly.push(e.value);
+											$params.hourly = $params.hourly;
+										}
+									}}
 								/>
-								<label for="{e.name}_hourly">{e.label}</label>
+								<Label
+									id="{e.value}_label"
+									for="{e.value}_hourly"
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								>
 							</div>
 						{/each}
 					</div>
 				{/each}
 				<div>
-					<small class="text-muted-foreground"
-						>Note: Solar radiation is averaged over the past hour. Use
+					<div class="text-muted-foreground">
+						Note: Solar radiation is averaged over the past hour. Use
 						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-						please specify Tilt and Azimuth below.</small
-					>
+						please specify Tilt and Azimuth below.
+					</div>
 				</div>
 				<div>
 					<div>

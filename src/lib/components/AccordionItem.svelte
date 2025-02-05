@@ -29,8 +29,10 @@
 				{title}
 			</h2>
 			{#if count.active > 0}
-				<div in:fade class="bg-secondary ml-2 rounded-full px-3 py-1 text-sm no-underline">
-					{count.active}{#if count.total > 0}&nbsp;/&nbsp;{count.total}{/if}
+				<div in:fade class="relative">
+					<div class="bg-secondary absolute top-0 ml-2 rounded-full px-3 py-1 text-sm no-underline">
+						{count.active}{#if count.total > 0}&nbsp;/&nbsp;{count.total}{/if}
+					</div>
 				</div>
 			{/if}
 		</div>

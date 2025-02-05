@@ -721,12 +721,12 @@
 			<div class="mt-3 flex gap-3">
 				<Button
 					variant="outline"
-					class="border-primary hover:bg-primary hover:text-white"
+					class="border-primary text-primary dark:text-[#3888ff] hover:bg-primary hover:!text-white"
 					href={xlsxUrl}>Download XLSX</Button
 				>
 				<Button
 					variant="outline"
-					class="border-primary hover:bg-primary hover:text-white"
+					class="border-primary text-primary dark:text-[#3888ff] hover:bg-primary hover:!text-white"
 					href={csvUrl}>Download CSV</Button
 				>
 			</div>
@@ -771,9 +771,9 @@
 						The use of DataFrames is entirely optional. You can find further details and examples in the <a href="https://pypi.org/project/openmeteo-requests/">Python API client</a> documentation.
 					</p>
 					<h4 class="text-xl md:text-2xl">Install</h4>
-					<pre class="dark rounded-lg my-2 md:my-4 overflow-auto py-2"><code >pip install openmeteo-requests{'\n'}pip install requests-cache retry-requests numpy pandas</code></pre>
+					<pre class=" rounded-lg my-2 md:my-4 overflow-auto py-2"><code >pip install openmeteo-requests{'\n'}pip install requests-cache retry-requests numpy pandas</code></pre>
 					<h4 class="text-xl md:text-2xl">Usage</h4>
-					<pre class="dark rounded-lg my-2 md:my-4 overflow-auto py-2"><code ><span class="token keyword">import</span> openmeteo_requests
+					<pre class=" rounded-lg my-2 md:my-4 overflow-auto py-2"><code ><span class="token keyword">import</span> openmeteo_requests
 {#if sdk_type == 'ensemble_api'}
 <span class="token keyword">from</span> openmeteo_sdk.Variable <span class="token keyword">import</span> Variable
 <span class="token keyword">from</span> openmeteo_sdk.Aggregation <span class="token keyword">import</span> Aggregation{/if}
@@ -850,9 +850,9 @@ current_{variable} <span class="token operator">=</span> current<span class="tok
 					</p>
 					<p class="mb-3">Caveats: The code generator does not handle sunrise and sunset correctly. It is supposed to be ".valuesInt64" instead of ".values". For the ensemble API, multiple members per variable are not correctly decoded. You will have to loop over `variables`.</p>
 					<h4 class="text-xl md:text-2xl">Install</h4>
-					<pre class="dark my-2 md:my-4 rounded-lg overflow-auto py-2"><code >npm install openmeteo</code></pre>
+					<pre class=" my-2 md:my-4 rounded-lg overflow-auto py-2"><code >npm install openmeteo</code></pre>
 					<h4 class="text-xl md:text-2xl">Usage</h4>
-					<pre class="dark my-2 md:my-4 rounded-lg overflow-auto py-2">
+					<pre class=" my-2 md:my-4 rounded-lg overflow-auto py-2">
 <code><span class="token keyword">import</span> <span class="token punctuation">&lbrace;</span> fetchWeatherApi <span class="token punctuation">&rbrace;</span> <span class="token keyword">from</span> <span class="token string">'openmeteo'</span><span class="token punctuation">;</span>
 	
 <span class="token keyword">const</span> params <span class="token operator">=</span> {@html formatPrism(parsedParams)}<span class="token punctuation">;</span>
@@ -914,7 +914,7 @@ current_{variable} <span class="token operator">=</span> current<span class="tok
 					<p class="mb-3">Caveats: The code generator does not handle sunrise and sunset correctly. It is supposed to be [Int64] instead of [Float] and ".valuesInt64" instead of ".values". For the ensemble API, multiple members per variable are not correctly decoded. You will have to loop over `variables`.</p>
 					<h4 class="text-xl md:text-2xl">Install</h4>
 					<p class="my-3">Add OpenMeteoSdk as a dependency to your Package.swift</p>
-					<pre class="dark my-2 md:my-4 rounded-lg overflow-auto py-2"><code >dependencies: [
+					<pre class=" my-2 md:my-4 rounded-lg overflow-auto py-2"><code >dependencies: [
 {'\t'}.package(url: "https://github.com/open-meteo/sdk.git", from: "1.5.0")
 ],
 targets: [
@@ -923,7 +923,7 @@ targets: [
 {'\t'}])
 ]</code></pre>
 					<h4 class="text-xl md:text-2xl">Usage</h4>
-					<pre class="dark my-2 md:my-4 rounded-lg overflow-auto py-2">
+					<pre class=" my-2 md:my-4 rounded-lg overflow-auto py-2">
 <code class="language-swift"><span class="token keyword">import</span> <span class="token class-name">OpenMeteoSdk</span>
 
 <span class="token comment">/// Make sure the URL contains `&format=flatbuffers`</span>

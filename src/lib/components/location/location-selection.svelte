@@ -203,7 +203,7 @@
 						elevation, timezone, start_date, end_date. Only latitude and longitude are required.
 						Examples:
 					</p>
-					<pre>52.52,13.41
+					<pre class="mt-2 rounded-lg md:mt-4">52.52,13.41
 51.5085,-0.1257,,auto
 52.52,13.41,,Europe/Berlin,2021-01-01,2021-01-31</pre>
 				</div>

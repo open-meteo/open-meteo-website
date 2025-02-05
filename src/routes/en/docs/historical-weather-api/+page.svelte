@@ -27,7 +27,11 @@
 		hourly,
 		models,
 		solarVariables,
+		windSpeedOptions,
+		timeFormatOptions,
 		defaultParameters,
+		temperatureOptions,
+		precipitationOptions,
 		additionalVariables,
 		ensembleSpreadVariables
 	} from './options';
@@ -63,6 +67,20 @@
 	});
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
+
+	// Settings
+	let temperatureUnit = $derived(
+		temperatureOptions.find((to) => String(to.value) == $params.temperature_unit)
+	);
+	let windSpeedUnit = $derived(
+		windSpeedOptions.find((wso) => String(wso.value) == $params.wind_speed_unit)
+	);
+	let precipitationUnit = $derived(
+		precipitationOptions.find((po) => String(po.value) == $params.precipitation_unit)
+	);
+	let timeFormat = $derived(
+		timeFormatOptions.find((tfo) => String(tfo.value) == $params.timeformat)
+	);
 
 	let citation = $state('apa');
 </script>
@@ -110,6 +128,7 @@
 			<p>
 				Quick:
 				<Button
+					class="cursor-pointer"
 					onclick={(e) => {
 						e.preventDefault();
 						$params.start_date = '2000-01-01';
@@ -117,6 +136,7 @@
 					}}>2000-2009</Button
 				>
 				<Button
+					class="cursor-pointer"
 					onclick={(e) => {
 						e.preventDefault();
 						$params.start_date = '2010-01-01';
@@ -124,6 +144,7 @@
 					}}>2010-2019</Button
 				>
 				<Button
+					class="cursor-pointer"
 					onclick={(e) => {
 						e.preventDefault();
 						$params.start_date = '2020-01-01';
@@ -131,6 +152,7 @@
 					}}>2020</Button
 				>
 				<Button
+					class="cursor-pointer"
 					onclick={(e) => {
 						e.preventDefault();
 						$params.start_date = '2021-01-01';
@@ -138,6 +160,7 @@
 					}}>2021</Button
 				>
 				<Button
+					class="cursor-pointer"
 					onclick={(e) => {
 						e.preventDefault();
 						$params.start_date = '2022-01-01';
@@ -145,6 +168,7 @@
 					}}>2022</Button
 				>
 				<Button
+					class="cursor-pointer"
 					onclick={(e) => {
 						e.preventDefault();
 						$params.start_date = '2023-01-01';
@@ -152,6 +176,7 @@
 					}}>2023</Button
 				>
 				<Button
+					class="cursor-pointer"
 					onclick={(e) => {
 						e.preventDefault();
 						$params.start_date = '2024-01-01';
@@ -183,7 +208,7 @@
 	</div>
 
 	<div>
-		<Accordion.Root class="rounded-lg border" multiple={true}>
+		<Accordion.Root class="border-border rounded-lg border" multiple={true}>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -392,79 +417,132 @@
 		{/if}
 	</div>
 
-	<div>
-		<h2 class="mb-2 mt-6 text-2xl">Settings</h2>
-		<div>
-			<div class="  mb-3">
-				<select
+	<div class="mt-6 md:mt-12">
+		<h2 class="text-2xl md:text-3xl">Settings</h2>
+		<div
+			class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-6 md:flex-row md:gap-6 lg:grid-cols-4"
+		>
+			<div class="relative">
+				<Select.Root
 					name="temperature_unit"
-					id="temperature_unit"
-					aria-label="Temperature Unit"
-					bind:value={$params.temperature_unit}
+					preventScroll={false}
+					selected={temperatureUnit}
+					onSelectedChange={(e) => {
+						$params.temperature_unit = e.value;
+					}}
 				>
-					<option selected value="celsius">Celsius °C</option>
-					<option value="fahrenheit">Fahrenheit °F</option>
-				</select>
-				<label for="temperature_unit">Temperature Unit</label>
+					<Select.Trigger
+						aria-label="Temperature setting"
+						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>
+						<Select.Value />
+					</Select.Trigger>
+					<Select.Content class="border-border">
+						{#each temperatureOptions as to}
+							<Select.Item value={to.value}>{to.label}</Select.Item>
+						{/each}
+					</Select.Content>
+					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+						>Temperature Unit</Label
+					>
+				</Select.Root>
 			</div>
-		</div>
-		<div>
-			<div class="  mb-3">
-				<select
+
+			<div class="relative">
+				<Select.Root
 					name="wind_speed_unit"
-					id="wind_speed_unit"
-					aria-label="Windspeed Unit"
-					bind:value={$params.wind_speed_unit}
+					preventScroll={false}
+					selected={windSpeedUnit}
+					onSelectedChange={(e) => {
+						$params.wind_speed_unit = e.value;
+					}}
 				>
-					<option selected value="kmh">Km/h</option>
-					<option value="ms">m/s</option>
-					<option value="mph">Mph</option>
-					<option value="kn">Knots</option>
-				</select>
-				<label for="wind_speed_unit">Wind Speed Unit</label>
+					<Select.Trigger
+						aria-label="Wind speed setting"
+						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>
+						<Select.Value />
+					</Select.Trigger>
+					<Select.Content class="border-border">
+						{#each windSpeedOptions as wso}
+							<Select.Item value={wso.value}>{wso.label}</Select.Item>
+						{/each}
+					</Select.Content>
+					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+						>Wind Speed Unit</Label
+					>
+				</Select.Root>
 			</div>
-		</div>
-		<div>
-			<div class="  mb-3">
-				<select
+
+			<div class="relative">
+				<Select.Root
+					preventScroll={false}
 					name="precipitation_unit"
-					id="precipitation_unit"
-					aria-label="Precipitation Unit"
-					bind:value={$params.precipitation_unit}
+					selected={precipitationUnit}
+					onSelectedChange={(e) => {
+						$params.precipitation_unit = e.value;
+					}}
 				>
-					<option selected value="mm">Millimeter</option>
-					<option value="inch">Inch</option>
-				</select>
-				<label for="precipitation_unit">Precipitation Unit</label>
+					<Select.Trigger
+						aria-label="Precipitation setting"
+						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>
+						<Select.Value />
+					</Select.Trigger>
+					<Select.Content class="border-border">
+						{#each precipitationOptions as po}
+							<Select.Item value={po.value}>{po.label}</Select.Item>
+						{/each}
+					</Select.Content>
+					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+						>Precipitation Unit</Label
+					>
+				</Select.Root>
 			</div>
-		</div>
-		<div>
-			<div class="  mb-3">
-				<select
+
+			<div class="relative">
+				<Select.Root
+					preventScroll={false}
 					name="timeformat"
-					id="timeformat"
-					aria-label="Timeformat"
-					bind:value={$params.timeformat}
+					selected={timeFormat}
+					onSelectedChange={(e) => {
+						$params.timeformat = e.value;
+					}}
 				>
-					<option selected value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
-					<option value="unixtime">Unix timestamp</option>
-				</select>
-				<label for="timeformat">Timeformat</label>
+					<Select.Trigger
+						aria-label="Time format setting"
+						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>
+						<Select.Value />
+					</Select.Trigger>
+					<Select.Content class="border-border">
+						{#each timeFormatOptions as tfo}
+							<Select.Item value={tfo.value}>{tfo.label}</Select.Item>
+						{/each}
+					</Select.Content>
+					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+						>Timeformat</Label
+					>
+				</Select.Root>
 			</div>
 		</div>
 	</div>
 
-	<LicenseSelector requires_professional_plan={true} />
+	<div class="mt-6 md:mt-12">
+		<LicenseSelector requires_professional_plan={true} />
+	</div>
 </form>
 
-<ResultPreview
-	{params}
-	{defaultParameters}
-	type="archive"
-	action="archive"
-	sdk_cache={-1}
-	useStockChart={true}
-/>
+<div class="mt-6 md:mt-12">
+	<ResultPreview
+		{params}
+		{defaultParameters}
+		type="archive"
+		action="archive"
+		sdk_cache={-1}
+		useStockChart={true}
+	/>
+</div>
 
 <h2 id="data-sources" class="mb-3 mt-5 text-2xl">Data Sources</h2>
 <div>
@@ -1256,34 +1334,34 @@
 	researchers can benefit from the valuable resources it provides.
 </p>
 
-<div class="mt-3 rounded border p-6">
+<div class="border-border mt-3 rounded-lg border p-6">
 	<ToggleGroup.Root type="single" bind:value={citation} class="mb-3 justify-start gap-0">
 		<div class="text-muted-foreground">Citation:</div>
-		<div class="ml-2 flex rounded-lg border">
+		<div class="border-border ml-2 flex rounded-lg border">
 			<ToggleGroup.Item
 				value="apa"
-				class="opacity-100!   min-h-12 rounded-e-none lg:min-h-[unset] "
+				class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset] "
 				disabled={citation === 'apa'}
 			>
 				APA
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="mla"
-				class=" opacity-100! min-h-12 rounded-none duration-300 lg:min-h-[unset] "
+				class=" opacity-100! min-h-12 cursor-pointer rounded-none duration-300 lg:min-h-[unset] "
 				disabled={citation === 'mla'}
 			>
 				MLA
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="harvard"
-				class=" opacity-100! min-h-12 rounded-none duration-300 lg:min-h-[unset] "
+				class=" opacity-100! min-h-12 cursor-pointer rounded-none duration-300 lg:min-h-[unset] "
 				disabled={citation === 'harvard'}
 			>
 				Harvard
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="bibtex"
-				class=" opacity-100! min-h-12 rounded-md rounded-s-none duration-300 lg:min-h-[unset] "
+				class=" opacity-100! min-h-12 cursor-pointer rounded-md rounded-s-none duration-300 lg:min-h-[unset] "
 				disabled={citation === 'bibtex'}
 			>
 				BibTex
@@ -1373,7 +1451,7 @@
 			</div>
 		{:else if citation === 'bibtex'}
 			<div in:fade>
-				<pre>
+				<pre class="overflow-auto rounded-lg">
 <code
 						>@software&#123;Zippenfenig_Open-Meteo,
   author = &#123;Zippenfenig, Patrick&#125;,
@@ -1384,8 +1462,7 @@
   copyright = &#123;Creative Commons Attribution 4.0 International&#125;,
   url = &#123;https://open-meteo.com/&#125;
 &#125;</code
-					></pre>
-				<pre><code
+					><br /><br /><code
 						>@misc&#123;Hersbach_ERA5,
   doi = &#123;10.24381/cds.adbb2d47&#125;,
   url = &#123;https://cds.climate.copernicus.eu/doi/10.24381/cds.adbb2d47&#125;,
@@ -1394,8 +1471,7 @@
   publisher = &#123;ECMWF&#125;,
   year = &#123;2023&#125;
 &#125;</code
-					></pre>
-				<pre><code
+					><br /><br /><code
 						>@misc&#123;Munoz_ERA5_LAND,
   doi = &#123;10.24381/CDS.E2161BAC&#125;,
   url = &#123;https://cds.climate.copernicus.eu/doi/10.24381/cds.e2161bac&#125;,
@@ -1404,8 +1480,7 @@
   publisher = &#123;ECMWF&#125;,
   year = &#123;2019&#125;
 &#125;</code
-					></pre>
-				<pre><code
+					><br /><br /><code
 						>@misc&#123;Schimanke_CERRA,
   doi = &#123;10.24381/CDS.622A565A&#125;,
   url = &#123;https://cds.climate.copernicus.eu/doi/10.24381/cds.622a565a&#125;,
