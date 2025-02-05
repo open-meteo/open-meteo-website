@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import { goto } from '$app/navigation';
-
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import {
@@ -32,9 +30,7 @@
 	import PressureLevelsHelpTable from '$lib/components/PressureLevelsHelpTable.svelte';
 
 	import Clock from 'lucide-svelte/icons/clock';
-	import Database from 'lucide-svelte/icons/database';
 	import Calendar from 'lucide-svelte/icons/calendar-cog';
-	import ListRestart from 'lucide-svelte/icons/list-restart';
 
 	import type { Parameters } from '$lib/docs';
 
@@ -59,8 +55,6 @@
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
-
-	let storage = $derived($storageMode);
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -150,37 +144,6 @@
 </svelte:head>
 
 <div class="mb-6 flex items-center">
-	<ToggleGroup.Root
-		type="single"
-		value={storage}
-		onValueChange={(e) => {
-			storageMode.set(e);
-			if (e === 'reset') {
-				params.reset();
-				goto(`?`, { noScroll: true });
-			}
-		}}
-		class="justify-start gap-0"
-	>
-		<div class="text-muted-foreground">Use stored values?</div>
-
-		<div class="border-border ml-2 flex rounded-lg border">
-			<ToggleGroup.Item
-				value="store"
-				class="min-h-12 cursor-pointer rounded-e-none !opacity-100  lg:min-h-[unset] "
-				disabled={storage === 'store'}
-			>
-				<Database size={20} class="mr-1" />Localstorage
-			</ToggleGroup.Item>
-			<ToggleGroup.Item
-				value="reset"
-				class="min-h-12 cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset]"
-				disabled={storage === 'reset'}
-			>
-				<ListRestart size={20} class="mr-1" />Reset every time
-			</ToggleGroup.Item>
-		</div>
-	</ToggleGroup.Root>
 	<Button
 		class="h-13 ml-4 cursor-pointer px-5"
 		variant="outline"

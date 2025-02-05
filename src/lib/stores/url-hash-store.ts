@@ -1,6 +1,5 @@
-import { get, writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
-import { persisted, type Persisted } from 'svelte-persisted-store';
 import { page } from '$app/state';
 import { goto } from '$app/navigation';
 import { browser } from '$app/environment';
@@ -8,23 +7,14 @@ import { browser } from '$app/environment';
 import { isNumeric } from '$lib/utils/meteo';
 import type { Parameters } from '$lib/docs';
 
-//export const urlHashes: Persisted<Parameters> = persisted('urlHashes', {});
-export const storageMode = persisted('storageMode', 'store');
-
-export const urlHashes: Persisted<Parameters> = persisted('urlHashes', {});
+export const urlHashes: Writable<Parameters> = writable({});
 
 export const urlHashStore = (initialValues: Parameters) => {
 	const { subscribe, set } = urlHashes;
 
 	const defaultValues = JSON.parse(JSON.stringify(initialValues));
-	const initDefaultValues = JSON.parse(JSON.stringify({ ...initialValues, ...get(urlHashes) }));
 
-	// set default values first
-	if (get(storageMode) === 'reset') {
-		urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
-	} else {
-		urlHashes.set(JSON.parse(JSON.stringify(initDefaultValues)));
-	}
+	urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
 
 	const updateURLParams = (values) => {
 		if (browser) {
@@ -87,10 +77,6 @@ export const urlHashStore = (initialValues: Parameters) => {
 				}
 			}
 		}
-	}
-
-	if (get(storageMode) === 'store') {
-		updateURLParams(get(urlHashes));
 	}
 
 	urlHashes.subscribe((values) => {
