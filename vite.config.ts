@@ -4,6 +4,18 @@ import { visualizer } from 'rollup-plugin-visualizer';
 
 import { purgeCss } from './src/lib/purge/index';
 
+function replaceChunckNames() {
+	return {
+		name: 'replace-chunk-names-plugin',
+		apply: 'build' as const,
+		config(config) {
+			config.build.rollupOptions.output.chunkFileNames =
+				config.build.rollupOptions.output.chunkFileNames.replace('[hash]', `[name].[hash].chunk`);
+			return config;
+		}
+	};
+}
+
 export default defineConfig({
 	plugins: [
 		sveltekit(),
@@ -12,6 +24,7 @@ export default defineConfig({
 				greedy: [/highcharts/, /svelte-ergyxs/, /sdt-/, /dropdown-/]
 			}
 		}),
+		replaceChunckNames(),
 		visualizer({
 			filename: 'build-stats.json',
 			template: 'raw-data'

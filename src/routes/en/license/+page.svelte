@@ -11,6 +11,13 @@
 		name="description"
 		content="Open-Meteo utilizes open-data from various national weather services, providing accurate forecasts worldwide. The API data is offered under Attribution 4.0 International (CC BY 4.0) license. You are free to share and adapt the material, with appropriate credit. The source code is available on GitHub under the GNU Affero General Public License. Researchers are encouraged to cite Open-Meteo in their work, promoting transparency and collaboration in the scientific community. Join us in supporting open-source initiatives and fostering a culture of recognition."
 	/>
+	<link
+		rel="preload"
+		fetchpriority="high"
+		as="image"
+		href="/images/features_background.webp"
+		type="image/webp"
+	/>
 </svelte:head>
 
 <div
