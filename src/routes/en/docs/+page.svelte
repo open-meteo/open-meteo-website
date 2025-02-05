@@ -233,7 +233,10 @@
 									$params.forecast_days = String(e.value);
 								}}
 							>
-								<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
+								<Select.Trigger
+									aria-label="Forecast days input"
+									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+								>
 									<Select.Value />
 								</Select.Trigger>
 								<Select.Content class="border-border">
@@ -255,7 +258,10 @@
 									$params.past_days = String(e.value);
 								}}
 							>
-								<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
+								<Select.Trigger
+									aria-label="Past days input"
+									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+								>
 									<Select.Value />
 								</Select.Trigger>
 								<Select.Content class="border-border">
@@ -317,6 +323,7 @@
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 								value={e.value}
 								checked={$params.hourly?.includes(e.value)}
+								aria-labelledby="{e.value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(e.value)) {
 										$params.hourly = $params.hourly.filter((item) => {
@@ -329,8 +336,9 @@
 								}}
 							/>
 							<Label
+								id="{e.value}_label"
 								for="{e.value}_hourly"
-								class="ml-[0.32rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
 							>
 						</div>
 					{/each}
@@ -366,6 +374,7 @@
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 										value={e.value}
 										checked={$params.hourly?.includes(e.value)}
+										aria-labelledby="{e.value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(e.value)) {
 												$params.hourly = $params.hourly.filter((item) => {
@@ -377,8 +386,10 @@
 											}
 										}}
 									/>
-									<Label for="{e.value}_hourly" class="ml-[0.4rem] cursor-pointer truncate py-1"
-										>{e.label}</Label
+									<Label
+										id="{e.value}_label"
+										for="{e.value}_hourly"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
 									>
 								</div>
 							{/each}
@@ -721,6 +732,7 @@
 							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 							value={e.value}
 							checked={$params.daily?.includes(e.value)}
+							aria-labelledby="{e.value}_daily_label"
 							onCheckedChange={() => {
 								if ($params.daily?.includes(e.value)) {
 									$params.daily = $params.daily.filter((item) => {
@@ -732,8 +744,10 @@
 								}
 							}}
 						/>
-						<Label for="{e.value}_daily" class="ml-[0.4rem] cursor-pointer truncate py-1"
-							>{e.label}</Label
+						<Label
+							id="{e.value}_daily_label"
+							for="{e.value}_daily"
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
 						>
 					</div>
 				{/each}
@@ -762,6 +776,7 @@
 							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 							value={e.value}
 							checked={$params.hcurrent?.includes(e.value)}
+							aria-labelledby="{e.value}_current_label"
 							onCheckedChange={() => {
 								if ($params.current?.includes(e.value)) {
 									$params.current = $params.current.filter((item) => {
@@ -773,8 +788,10 @@
 								}
 							}}
 						/>
-						<Label for="{e.value}_current" class="ml-[0.4rem] cursor-pointer truncate py-1"
-							>{e.label}</Label
+						<Label
+							id="{e.value}_current_label"
+							for="{e.value}_current"
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
 						>
 					</div>
 				{/each}
@@ -800,7 +817,10 @@
 						$params.temperature_unit = e.value;
 					}}
 				>
-					<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
+					<Select.Trigger
+						aria-label="Temperature setting"
+						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content class="border-border">
@@ -823,7 +843,10 @@
 						$params.wind_speed_unit = e.value;
 					}}
 				>
-					<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
+					<Select.Trigger
+						aria-label="Wind speed setting"
+						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content class="border-border">
@@ -846,7 +869,10 @@
 						$params.precipitation_unit = e.value;
 					}}
 				>
-					<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
+					<Select.Trigger
+						aria-label="Precipitation setting"
+						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content class="border-border">
@@ -869,7 +895,10 @@
 						$params.timeformat = e.value;
 					}}
 				>
-					<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
+					<Select.Trigger
+						aria-label="Time format setting"
+						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>
 						<Select.Value />
 					</Select.Trigger>
 					<Select.Content class="border-border">

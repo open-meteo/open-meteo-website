@@ -129,7 +129,10 @@
 							preventScroll={false}
 							selected={{ value: 'UTC', label: 'Not set (GMT+0)' }}
 						>
-							<Select.Trigger class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">
+							<Select.Trigger
+								aria-label="timezone selection"
+								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+							>
 								<Select.Value />
 							</Select.Trigger>
 							<Select.Content class="border-border">

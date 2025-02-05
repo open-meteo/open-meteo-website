@@ -67,7 +67,7 @@
 			</div>
 		</div>
 
-		<div class="overflow-hidden rounded-lg bg-[#FAFAFA] p-6 duration-200 dark:bg-[#282C34]">
+		<div class="overflow-hidden rounded-lg bg-[#FAFAFA] p-6 duration-200 dark:bg-[#212121]">
 			<ToggleGroup.Root type="single" bind:value={tabSelected} class="justify-start gap-0">
 				<ToggleGroup.Item
 					value="weather-api"

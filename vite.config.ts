@@ -11,6 +11,23 @@ import { browserslistToTargets } from 'lightningcss';
 
 import rollupOptions from './rollup.config';
 
+function replaceChunckNames() {
+	return {
+		name: 'replace-chunk-names-plugin',
+		apply: 'build' as const,
+		config(config) {
+			config.build.rollupOptions.output.chunkFileNames =
+				config.build.rollupOptions.output.chunkFileNames.replace('[hash]', `[name].[hash].chunk`);
+
+			// config.build.rollupOptions.output.entryFileNames =
+			// 	config.build.rollupOptions.output.entryFileNames.replace('[hash]', `[name]-[hash]`);
+
+			console.log(config.build.rollupOptions.output);
+			return config;
+		}
+	};
+}
+
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
@@ -22,6 +39,7 @@ export default defineConfig({
 		// 	fontFace: true
 		// }),
 		sveltekit(),
+		replaceChunckNames(),
 		visualizer({
 			filename: 'build-stats.json',
 			template: 'raw-data'
@@ -44,6 +62,6 @@ export default defineConfig({
 	build: {
 		// assetsInlineLimit: Infinity, // 262kB
 		// minify: 'terser',
-		// rollupOptions: rollupOptions
+		rollupOptions: rollupOptions
 	}
 });

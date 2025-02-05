@@ -86,11 +86,16 @@
 				<Button
 					variant="ghost"
 					href="https://github.com/open-meteo/open-meteo"
+					aria-label="Github link"
 					class="relative w-10"
 					><div class="flex h-7 w-7 dark:fill-white">
 						{@html Github}
 					</div></Button
-				><Button variant="ghost" href="https://x.com/open_meteo" class="relative w-10"
+				><Button
+					variant="ghost"
+					href="https://x.com/open_meteo"
+					aria-label="Twitter link"
+					class="relative w-10"
 					><div class="absolute h-5 w-5 dark:fill-white">
 						{@html X}
 					</div></Button

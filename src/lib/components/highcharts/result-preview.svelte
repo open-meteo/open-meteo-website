@@ -728,12 +728,12 @@
 			<div class="mt-3 flex gap-3">
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:text-white"
+					class="border-primary hover:bg-primary hover:text-white"
 					href={xlsxUrl}>Download XLSX</Button
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:text-white"
+					class="border-primary hover:bg-primary hover:text-white"
 					href={csvUrl}>Download CSV</Button
 				>
 			</div>
@@ -756,7 +756,14 @@
 						of factors like long time intervals, the number of locations, variables, or models involved.
 					</p>
 				{/if}
-				<Input class="mt-2" type="text" id="api_url" readonly bind:value={previewUrl} />
+				<Input
+					class="mt-2"
+					type="text"
+					id="api_url"
+					readonly
+					aria-label="Copy to clipboard"
+					bind:value={previewUrl}
+				/>
 			</div>
 		</div>
 	{/if}

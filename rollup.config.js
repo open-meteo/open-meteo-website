@@ -9,15 +9,15 @@ export default {
 		//manualChuncks: ()=>{}
 	},
 	plugins: [
-		PluginCritical({
-			criticalUrl: 'https://362-shadcn-svelte.open-meteo-website.pages.dev',
-			criticalBase: './',
-			criticalPages: [
-				{ uri: '', template: 'index' },
-				{ uri: '/en/about', template: 'en/about/' }
-			],
-			criticalConfig: {}
-		})
+		// PluginCritical({
+		// 	criticalUrl: 'https://362-shadcn-svelte.open-meteo-website.pages.dev',
+		// 	criticalBase: './',
+		// 	criticalPages: [
+		// 		{ uri: '', template: 'index' },
+		// 		{ uri: '/en/about', template: 'en/about/' }
+		// 	],
+		// 	criticalConfig: {}
+		// })
 		// postcss({ plugins: [inlineCssVars()] })
 	]
 };

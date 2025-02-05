@@ -4,8 +4,8 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { createHighlighter } from 'shiki';
 
 const themes = {
-	dark: 'one-dark-pro',
-	light: 'one-light'
+	dark: 'material-theme-darker',
+	light: 'material-theme-lighter'
 };
 
 const highlighter = await createHighlighter({

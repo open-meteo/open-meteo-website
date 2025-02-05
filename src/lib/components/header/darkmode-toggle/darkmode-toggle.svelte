@@ -13,11 +13,17 @@
 
 <DropdownMenu.Root preventScroll={false}>
 	<DropdownMenu.Trigger asChild let:builder>
-		<Button builders={[builder]} class="cursor-pointer" variant="outline" size="icon">
+		<Button
+			builders={[builder]}
+			size="icon"
+			class="cursor-pointer"
+			variant="outline"
+			aria-labelledby="darkmode_toggle_label"
+		>
 			{#if $mode === 'dark'}
 				<Moon size={22} strokeWidth={1.5} />
 			{:else}<Sun size={22} strokeWidth={1.5} />{/if}
-			<span class="md:hidden">Toggle theme</span>
+			<span id="darkmode_toggle_label" class="md:hidden">Toggle theme</span>
 		</Button>
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content align="end" class="border-border p-0">
