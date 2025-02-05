@@ -11,7 +11,13 @@
 		name="description"
 		content="Open-Source ☀️️️️️️️️️️️️️️️️️️️️️️️️️️️️️ Weather API with free access for non-commercial use. No API Key required ✅. Accurate weather forecasts for any location. Open-Meteo provides high-resolution open data ranging from 1 to 11 kilometers from national weather services. With a user-friendly JSON API, integrating weather data has never been easier. Experience the precision and convenience of Open-Meteo's Forecast API for reliable and comprehensive weather information worldwide."
 	/>
-	<link rel="preload" as="image" href="/images/convective_clouds.webp" />
+	<link
+		rel="preload"
+		fetchpriority="high"
+		as="image"
+		href="/images/convective_clouds.webp"
+		type="image/webp"
+	/>
 </svelte:head>
 
 <div

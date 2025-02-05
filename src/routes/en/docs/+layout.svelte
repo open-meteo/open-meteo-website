@@ -44,7 +44,7 @@
 </script>
 
 <svelte:head>
-	<link rel="preload" as="image" href={page.data.hero} />
+	<link rel="preload" fetchpriority="high" as="image" href={page.data.hero} type="image/webp" />
 </svelte:head>
 
 <div

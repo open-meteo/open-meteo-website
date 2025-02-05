@@ -5,7 +5,13 @@
 		name="description"
 		content="Terms of Use of Open-Meteo the open-source weather API that offers free access for non-commercial use. No API key required. Our user-friendly API integrates high-resolution local and global weather models, providing accurate forecasts for any location worldwide. We believe in making weather information accessible to everyone and encourage contributions from our users. Contact us via email, social media, or GitHub for any inquiries or feedback. Join us in our mission to provide the most accurate and reliable weather data available."
 	/>
-	<link rel="preload" as="image" href="/images/features_background.webp" />
+	<link
+		rel="preload"
+		fetchpriority="high"
+		as="image"
+		href="/images/features_background.webp"
+		type="image/webp"
+	/>
 </svelte:head>
 
 <div

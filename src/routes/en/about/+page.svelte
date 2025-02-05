@@ -1,7 +1,13 @@
 <svelte:head>
 	<title>👋 About | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/about" />
-	<link rel="preload" as="image" href="/images/features_background.webp" />
+	<link
+		rel="preload"
+		fetchpriority="high"
+		as="image"
+		href="/images/features_background.webp"
+		type="image/webp"
+	/>
 </svelte:head>
 
 <div
