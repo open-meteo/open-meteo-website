@@ -9,8 +9,7 @@ export default defineConfig({
 		sveltekit(),
 		purgeCss({
 			safelist: {
-				deep: [/dropdown-menu$/],
-				greedy: [/highcharts/, /svelte-ergyxs/, /sdt-/]
+				greedy: [/highcharts/, /svelte-ergyxs/, /sdt-/, /dropdown-/]
 			}
 		}),
 		visualizer({
