@@ -53,28 +53,32 @@
 				<hr class="my-1 ml-3" />
 				<Button
 					variant="ghost"
-					class="grow-text mr-auto flex-col px-3 {pathname === '/' ? 'font-bold' : ''}"
+					class="grow-text mr-auto flex-col gap-0 px-3 {pathname === '/' ? 'font-bold' : ''}"
 					data-text="Home"
 					href={'/'}
 					onclick={() => (toggleMenu = false)}>Home</Button
 				>
 				<Button
 					variant="ghost"
-					class="grow-text mr-auto flex-col px-3 {pathname === '/en/features' ? 'font-bold' : ''}"
+					class="grow-text mr-auto flex-col gap-0 px-3 {pathname === '/en/features'
+						? 'font-bold'
+						: ''}"
 					data-text="Features"
 					href={'/en/features'}
 					onclick={() => (toggleMenu = false)}>Features</Button
 				>
 				<Button
 					variant="ghost"
-					class="grow-text mr-auto flex-col px-3 {pathname === '/en/pricing' ? 'font-bold' : ''}"
+					class="grow-text mr-auto flex-col gap-0 px-3 {pathname === '/en/pricing'
+						? 'font-bold'
+						: ''}"
 					data-text="Pricing"
 					href={'/en/pricing'}
 					onclick={() => (toggleMenu = false)}>Pricing</Button
 				>
 				<Button
 					variant="ghost"
-					class="grow-text mr-auto flex-col px-3 {pathname.startsWith('/en/docs')
+					class="grow-text mr-auto flex-col gap-0 px-3 {pathname.startsWith('/en/docs')
 						? 'font-bold'
 						: ''}"
 					data-text="API Docs"
@@ -88,24 +92,22 @@
 					variant="ghost"
 					href="https://github.com/open-meteo/open-meteo"
 					aria-label="Github link"
-					class="relative w-10"
-					><div class="flex h-7 w-7 dark:fill-white">
+					class="relative flex w-10 items-center gap-0"
+					><div class="flex dark:fill-white [&_svg]:h-6 [&_svg]:w-6">
 						{@html Github}
 					</div></Button
 				><Button
 					variant="ghost"
 					href="https://x.com/open_meteo"
 					aria-label="Twitter link"
-					class="relative w-10"
-					><div class="absolute h-5 w-5 dark:fill-white">
+					class="relative flex w-10 items-center gap-0"
+					><div class="absolute dark:fill-white [&_svg]:h-5 [&_svg]:w-5">
 						{@html X}
 					</div></Button
 				>
 				<div class="border-border mx-2 hidden border-l md:flex"></div>
 				<div class="ml-auto flex gap-1">
-					<!-- {#if dev}
-						<LocaleToggle {pathname} />
-					{/if} -->
+					<!-- <LocaleToggle {pathname} /> -->
 					<div class="relative"><DarkmodeToggle /></div>
 				</div>
 			</div>

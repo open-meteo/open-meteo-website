@@ -425,7 +425,6 @@
 			<div class="relative">
 				<Select.Root
 					name="temperature_unit"
-					preventScroll={false}
 					selected={temperatureUnit}
 					onSelectedChange={(e) => {
 						$params.temperature_unit = e.value;
@@ -434,10 +433,8 @@
 					<Select.Trigger
 						aria-label="Temperature setting"
 						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-					>
-						<Select.Value />
-					</Select.Trigger>
-					<Select.Content class="border-border">
+					></Select.Trigger>
+					<Select.Content preventScroll={false} class="border-border">
 						{#each temperatureOptions as to}
 							<Select.Item value={to.value}>{to.label}</Select.Item>
 						{/each}
@@ -451,7 +448,6 @@
 			<div class="relative">
 				<Select.Root
 					name="wind_speed_unit"
-					preventScroll={false}
 					selected={windSpeedUnit}
 					onSelectedChange={(e) => {
 						$params.wind_speed_unit = e.value;
@@ -460,10 +456,8 @@
 					<Select.Trigger
 						aria-label="Wind speed setting"
 						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-					>
-						<Select.Value />
-					</Select.Trigger>
-					<Select.Content class="border-border">
+					></Select.Trigger>
+					<Select.Content preventScroll={false} class="border-border">
 						{#each windSpeedOptions as wso}
 							<Select.Item value={wso.value}>{wso.label}</Select.Item>
 						{/each}
@@ -476,7 +470,6 @@
 
 			<div class="relative">
 				<Select.Root
-					preventScroll={false}
 					name="precipitation_unit"
 					selected={precipitationUnit}
 					onSelectedChange={(e) => {
@@ -486,10 +479,8 @@
 					<Select.Trigger
 						aria-label="Precipitation setting"
 						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-					>
-						<Select.Value />
-					</Select.Trigger>
-					<Select.Content class="border-border">
+					></Select.Trigger>
+					<Select.Content preventScroll={false} class="border-border">
 						{#each precipitationOptions as po}
 							<Select.Item value={po.value}>{po.label}</Select.Item>
 						{/each}
@@ -502,7 +493,6 @@
 
 			<div class="relative">
 				<Select.Root
-					preventScroll={false}
 					name="timeformat"
 					selected={timeFormat}
 					onSelectedChange={(e) => {
@@ -512,10 +502,8 @@
 					<Select.Trigger
 						aria-label="Time format setting"
 						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-					>
-						<Select.Value />
-					</Select.Trigger>
-					<Select.Content class="border-border">
+					></Select.Trigger>
+					<Select.Content preventScroll={false} class="border-border">
 						{#each timeFormatOptions as tfo}
 							<Select.Item value={tfo.value}>{tfo.label}</Select.Item>
 						{/each}

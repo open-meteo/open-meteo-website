@@ -1,9 +1,6 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
-
 	import { resetMode, setMode, mode } from 'mode-watcher';
 
-	import { Button } from '$lib/components/ui/button/index.js';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 
 	import Sun from 'lucide-svelte/icons/sun';
@@ -11,10 +8,9 @@
 	import Eclipse from 'lucide-svelte/icons/eclipse';
 </script>
 
-<DropdownMenu.Root preventScroll={false}>
+<DropdownMenu.Root>
 	<DropdownMenu.Trigger
-		class="flex cursor-pointer"
-		variant="outline"
+		class="border-border hover:bg-accent flex h-10 w-10 cursor-pointer items-center justify-center rounded-md [&_svg]:h-6 [&_svg]:w-6"
 		aria-labelledby="darkmode_toggle_label"
 	>
 		{#if $mode === 'dark'}
@@ -22,7 +18,7 @@
 		{:else}<Sun size={22} strokeWidth={1.5} />{/if}
 		<span id="darkmode_toggle_label" class="md:hidden">Toggle theme</span>
 	</DropdownMenu.Trigger>
-	<DropdownMenu.Content align="end" class="border-border p-0">
+	<DropdownMenu.Content preventScroll={false} align="end" class="border-border p-0">
 		<DropdownMenu.Item class="cursor-pointer px-3 py-2" onclick={() => setMode('light')}
 			><div class="flex items-center">
 				<Sun class="mr-2" strokeWidth={1.2} />Light

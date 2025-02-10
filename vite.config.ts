@@ -18,11 +18,6 @@ function replaceChunckNames() {
 		config(config) {
 			config.build.rollupOptions.output.chunkFileNames =
 				config.build.rollupOptions.output.chunkFileNames.replace('[hash]', `[name].[hash].chunk`);
-
-			// config.build.rollupOptions.output.entryFileNames =
-			// 	config.build.rollupOptions.output.entryFileNames.replace('[hash]', `[name]-[hash]`);
-
-			console.log(config.build.rollupOptions.output);
 			return config;
 		}
 	};
@@ -52,16 +47,8 @@ export default defineConfig({
 		// 	outdir: './src/lib/paraglide'
 		// }),
 	],
-
-	css: {
-		lightningcss: {
-			targets: browserslistToTargets(browserslist('>= 0.25%'))
-		}
-	},
-
+		
 	build: {
-		// assetsInlineLimit: Infinity, // 262kB
-		// minify: 'terser',
 		rollupOptions: rollupOptions
 	}
 });

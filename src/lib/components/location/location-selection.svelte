@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
-	import { writable } from 'svelte/store';
 
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
@@ -123,19 +122,12 @@
 						{/if}
 					</div>
 					<div class="relative flex items-center gap-2">
-						<!-- TODO: BIND-->
-						<Select.Root
-							name="timezone"
-							preventScroll={false}
-							selected={{ value: 'UTC', label: 'Not set (GMT+0)' }}
-						>
+						<Select.Root name="timezone" bind:value={params.timezone}>
 							<Select.Trigger
 								aria-label="timezone selection"
 								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-							>
-								<Select.Value />
-							</Select.Trigger>
-							<Select.Content class="border-border">
+							></Select.Trigger>
+							<Select.Content preventScroll={false} class="border-border">
 								<Select.Item value="America/Anchorage">America/Anchorage</Select.Item>
 								<Select.Item value="America/Los_Angeles">America/Los_Angeles</Select.Item>
 								<Select.Item value="America/Denver">America/Denver</Select.Item>

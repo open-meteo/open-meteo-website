@@ -17,14 +17,14 @@
 	// };
 </script>
 
-<DropdownMenu.Root preventScroll={false}>
+<DropdownMenu.Root>
 	<DropdownMenu.Trigger asChild let:builder>
 		<!-- <Button builders={[builder]} variant="outline" size="icon">
 			<span>{languageTag()}</span>
 			<span class="sr-only">{m.toggle_language()}</span>
 		</Button> -->
 	</DropdownMenu.Trigger>
-	<DropdownMenu.Content align="end">
+	<DropdownMenu.Content align="end" preventScroll={false}>
 		<!-- <DropdownMenu.Item onclick={() => switchToLanguage('en')}>English</DropdownMenu.Item>
 		<DropdownMenu.Item onclick={() => switchToLanguage('de')}>Deutsch</DropdownMenu.Item> -->
 		<!-- <DropdownMenu.Item onclick={() => switchToLanguage('fr')}>Français</DropdownMenu.Item> -->

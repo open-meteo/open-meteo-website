@@ -152,23 +152,17 @@
 				<div in:fade class="grid gap-3 md:gap-6 lg:grid-cols-2">
 					<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
 						<div class="relative">
-							<Select.Root
-								name="forecast_days"
-								preventScroll={false}
-								selected={forecastDays}
-								onSelectedChange={(e) => {
-									$params.forecast_days = String(e.value);
-								}}
-							>
+							<Select.Root name="forecast_days" type="single" bind:value={$params.forecast_days}>
 								<Select.Trigger
 									aria-label="Forecast days input"
 									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+									>{forecastDays?.label}</Select.Trigger
 								>
-									<Select.Value />
-								</Select.Trigger>
-								<Select.Content class="border-border">
+								<Select.Content preventScroll={false} class="border-border">
 									{#each forecastDaysOptions as fdo}
-										<Select.Item value={fdo.value}>{fdo.label}</Select.Item>
+										<Select.Item class="cursor-pointer" value={String(fdo.value)}
+											>{fdo.label}</Select.Item
+										>
 									{/each}
 								</Select.Content>
 								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
@@ -177,23 +171,14 @@
 							</Select.Root>
 						</div>
 						<div class="relative">
-							<Select.Root
-								name="past_days"
-								preventScroll={false}
-								selected={pastDays}
-								onSelectedChange={(e) => {
-									$params.past_days = String(e.value);
-								}}
-							>
+							<Select.Root name="past_days" type="single" bind:value={$params.past_days}>
 								<Select.Trigger
 									aria-label="Past days input"
-									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
 								>
-									<Select.Value />
-								</Select.Trigger>
-								<Select.Content class="border-border">
+								<Select.Content preventScroll={false} class="border-border">
 									{#each pastDaysOptions as pdo}
-										<Select.Item value={pdo.value}>{pdo.label}</Select.Item>
+										<Select.Item value={String(pdo.value)}>{pdo.label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label
@@ -333,16 +318,13 @@
 					<div class="relative">
 						<Select.Root
 							name="forecast_hours"
-							preventScroll={false}
 							selected={forecastHours}
 							onSelectedChange={(e) => {
 								$params.forecast_hours = String(e.value);
 							}}
 						>
-							<Select.Trigger class="h-12 cursor-pointer pt-6">
-								<Select.Value />
-							</Select.Trigger>
-							<Select.Content>
+							<Select.Trigger class="h-12 cursor-pointer pt-6"></Select.Trigger>
+							<Select.Content preventScroll={false}>
 								{#each forecastHoursOptions as fho}
 									<Select.Item value={fho.value}>{fho.label}</Select.Item>
 								{/each}
@@ -355,16 +337,13 @@
 					<div class="relative">
 						<Select.Root
 							name="past_hours"
-							preventScroll={false}
 							selected={pastHours}
 							onSelectedChange={(e) => {
 								$params.past_hours = String(e.value);
 							}}
 						>
-							<Select.Trigger class="h-12 cursor-pointer pt-6">
-								<Select.Value />
-							</Select.Trigger>
-							<Select.Content>
+							<Select.Trigger class="h-12 cursor-pointer pt-6"></Select.Trigger>
+							<Select.Content preventScroll={false}>
 								{#each pastHoursOptions as pho}
 									<Select.Item value={pho.value}>{pho.label}</Select.Item>
 								{/each}
@@ -378,16 +357,13 @@
 					<div class="relative col-span-2">
 						<Select.Root
 							name="temporal_resolution"
-							preventScroll={false}
 							selected={temporalResolution}
 							onSelectedChange={(e) => {
 								$params.temporal_resolution = String(e.value);
 							}}
 						>
-							<Select.Trigger class="h-12 cursor-pointer pt-6">
-								<Select.Value />
-							</Select.Trigger>
-							<Select.Content>
+							<Select.Trigger class="h-12 cursor-pointer pt-6"></Select.Trigger>
+							<Select.Content preventScroll={false}>
 								{#each temporalResolutionOptions as tro}
 									<Select.Item value={tro.value}>{tro.label}</Select.Item>
 								{/each}
@@ -400,16 +376,13 @@
 					<div class="relative col-span-2">
 						<Select.Root
 							name="cell_selection"
-							preventScroll={false}
 							selected={cellSelection}
 							onSelectedChange={(e) => {
 								$params.cell_selection = String(e.value);
 							}}
 						>
-							<Select.Trigger class="h-12 cursor-pointer pt-6">
-								<Select.Value />
-							</Select.Trigger>
-							<Select.Content>
+							<Select.Trigger class="h-12 cursor-pointer pt-6"></Select.Trigger>
+							<Select.Content preventScroll={false}>
 								{#each gridCellSelectionOptions as gcso}
 									<Select.Item value={gcso.value}>{gcso.label}</Select.Item>
 								{/each}
@@ -629,11 +602,9 @@
 					</small>
 				</div>
 				<div>
-					<Select.Root preventScroll={false} name="forecast_minutely_15" id="forecast_minutely_15">
-						<Select.Trigger class="cursor-pointer">
-							<Select.Value />
-						</Select.Trigger>
-						<Select.Content>
+					<Select.Root name="forecast_minutely_15" id="forecast_minutely_15">
+						<Select.Trigger class="cursor-pointer"></Select.Trigger>
+						<Select.Content preventScroll={false}>
 							<Select.Item value="">- (default)</Select.Item>
 							<Select.Item value="4">1 hour</Select.Item>
 							<Select.Item value="24">6 hours</Select.Item>
@@ -644,11 +615,9 @@
 					</Select.Root>
 				</div>
 				<div>
-					<Select.Root preventScroll={false} name="past_minutely_15" id="past_minutely_15">
-						<Select.Trigger class="cursor-pointer">
-							<Select.Value />
-						</Select.Trigger>
-						<Select.Content>
+					<Select.Root name="past_minutely_15" id="past_minutely_15">
+						<Select.Trigger class="cursor-pointer"></Select.Trigger>
+						<Select.Content preventScroll={false}>
 							<Select.Item value="">- (default)</Select.Item>
 							<Select.Item value="1">1 hour</Select.Item>
 							<Select.Item value="6">6 hours</Select.Item>
@@ -752,7 +721,6 @@
 			<div class="relative">
 				<Select.Root
 					name="temperature_unit"
-					preventScroll={false}
 					selected={temperatureUnit}
 					onSelectedChange={(e) => {
 						$params.temperature_unit = e.value;
@@ -761,10 +729,8 @@
 					<Select.Trigger
 						aria-label="Temperature setting"
 						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-					>
-						<Select.Value />
-					</Select.Trigger>
-					<Select.Content class="border-border">
+					></Select.Trigger>
+					<Select.Content preventScroll={false} class="border-border">
 						{#each temperatureOptions as to}
 							<Select.Item value={to.value}>{to.label}</Select.Item>
 						{/each}
@@ -778,7 +744,6 @@
 			<div class="relative">
 				<Select.Root
 					name="wind_speed_unit"
-					preventScroll={false}
 					selected={windSpeedUnit}
 					onSelectedChange={(e) => {
 						$params.wind_speed_unit = e.value;
@@ -787,10 +752,8 @@
 					<Select.Trigger
 						aria-label="Wind speed setting"
 						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-					>
-						<Select.Value />
-					</Select.Trigger>
-					<Select.Content class="border-border">
+					></Select.Trigger>
+					<Select.Content preventScroll={false} class="border-border">
 						{#each windSpeedOptions as wso}
 							<Select.Item value={wso.value}>{wso.label}</Select.Item>
 						{/each}
@@ -803,7 +766,6 @@
 
 			<div class="relative">
 				<Select.Root
-					preventScroll={false}
 					name="precipitation_unit"
 					selected={precipitationUnit}
 					onSelectedChange={(e) => {
@@ -813,10 +775,8 @@
 					<Select.Trigger
 						aria-label="Precipitation setting"
 						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-					>
-						<Select.Value />
-					</Select.Trigger>
-					<Select.Content class="border-border">
+					></Select.Trigger>
+					<Select.Content preventScroll={false} class="border-border">
 						{#each precipitationOptions as po}
 							<Select.Item value={po.value}>{po.label}</Select.Item>
 						{/each}
@@ -829,7 +789,6 @@
 
 			<div class="relative">
 				<Select.Root
-					preventScroll={false}
 					name="timeformat"
 					selected={timeFormat}
 					onSelectedChange={(e) => {
@@ -839,10 +798,8 @@
 					<Select.Trigger
 						aria-label="Time format setting"
 						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-					>
-						<Select.Value />
-					</Select.Trigger>
-					<Select.Content class="border-border">
+					></Select.Trigger>
+					<Select.Content preventScroll={false} class="border-border">
 						{#each timeFormatOptions as tfo}
 							<Select.Item value={tfo.value}>{tfo.label}</Select.Item>
 						{/each}

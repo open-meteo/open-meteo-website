@@ -13,7 +13,6 @@
 	import Input from '../ui/input/input.svelte';
 	import Cursor from 'lucide-svelte/icons/mouse-pointer-2';
 	import Search from 'lucide-svelte/icons/search';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 
 	export let label: string = 'Search Locations...';
 
@@ -31,30 +30,30 @@
 
 	let scrollY: number | undefined;
 
-	function closeModal() {
+	const closeModal = () => {
 		dialogOpen = false;
 		if (scrollY) {
 			window.scrollTo({ top: scrollY, behavior: 'instant' });
 		}
-	}
+	};
 
-	function deleteRecent(location: GeoLocation) {
+	const deleteRecent = (location: GeoLocation) => {
 		$last_visited = $last_visited.filter((item) => item.id != location.id);
-	}
+	};
 
-	function deleteFavorite(location: GeoLocation) {
+	const deleteFavorite = (location: GeoLocation) => {
 		$favorites = $favorites.filter((item) => item.id != location.id);
-	}
+	};
 
 	// Save a new favorite location. Remove it from recent locations.
-	function saveFavorite(location: GeoLocation) {
+	const saveFavorite = (location: GeoLocation) => {
 		$favorites = [location, ...$favorites];
 		deleteRecent(location);
 		searchQuery = '';
-	}
+	};
 
 	// Save as recent location, unless it is a favorite
-	function saveRecent(location: GeoLocation) {
+	const saveRecent = (location: GeoLocation) => {
 		if ($favorites.find((item) => item.id == location.id)) {
 			// Reorder favorites
 			let temp = $favorites.filter((item) => item.id != location.id);
@@ -68,14 +67,14 @@
 			temp.pop();
 		}
 		$last_visited = temp;
-	}
+	};
 
-	function selectLocation(location: GeoLocation) {
+	const selectLocation = (location: GeoLocation) => {
 		saveRecent(location);
 		searchQuery = '';
 		closeModal();
 		dispatch('location', location);
-	}
+	};
 
 	$: results = (async () => {
 		if (debounceTimeout) {
@@ -135,12 +134,13 @@
 	let dialogOpen = false;
 </script>
 
-<Dialog.Root bind:open={dialogOpen} preventScroll={false}>
+<Dialog.Root bind:open={dialogOpen}>
 	<Dialog.Trigger
 		class="hover:bg-accent border-border flex h-12 cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
 		><Search size={20} class="mr-1" /> {label}</Dialog.Trigger
 	>
 	<Dialog.Content
+		preventScroll={false}
 		class="border-border top-[10%] flex min-h-[400px] translate-y-0 flex-col sm:max-w-[600px]"
 	>
 		<Dialog.Header>
