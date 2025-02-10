@@ -1,3 +1,15 @@
+{""+/* 
+TODO:
+- consider switch between archive and realtime endpoints -> Archive data requires large amounts of storage (>4TB)
+- future option for satellite corrected weather forecasts? Data needs to be on the same node
+- api endpoint URL... regular API server? dedicated satellite only server that pulls in weather model SW rad (+ens, +prev days)?
+- proper solar variables documentation
+- better time switch for hourly/10 and 15min
+- better model selection
+- add GEOS data
+- add image with satellite area cover
+*/""}
+
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
@@ -443,7 +455,7 @@
 					<td>0.05° (~ 5km)</td>
 					<td>15 minutely</td>
 					<td>Every Hour</td>
-					<td>1 Hour</td>
+					<td>2 Hours</td>
 				</tr>
 				<tr>
 					<th scope="row"
@@ -457,7 +469,7 @@
 					<td>0.05° (~ 5km)</td>
 					<td>30 minutely</td>
 					<td>Every Hour</td>
-					<td>3 Hours</td>
+					<td>2 Days</td>
 				</tr>
 				<tr>
 					<th scope="row"
