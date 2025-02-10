@@ -49,7 +49,7 @@
 		"openmeteo": "^1.1.3",
 		"svelte-local-storage-store": "^0.6.4",
 		"svelte-persisted-store": "^0.12.0",
-		"svelty-picker": "^5.2.11"
+		"svelty-picker": "^6.1.3"
 	},
 	"release": {
 		"branches": [
