@@ -1,22 +1,8 @@
-{""+/* 
-TODO:
-- consider switch between archive and realtime endpoints -> Archive data requires large amounts of storage (>4TB)
-- future option for satellite corrected weather forecasts? Data needs to be on the same node
-- api endpoint URL... regular API server? dedicated satellite only server that pulls in weather model SW rad (+ens, +prev days)?
-- proper solar variables documentation
-- better time switch for hourly/10 and 15min
-- better model selection
-- add GEOS data
-- add image with satellite area cover
-*/""}
-
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/utils/url-hash-store';
-	import {
-		countVariables
-	} from '$lib/utils/meteo';
+	import { countVariables } from '$lib/utils/meteo';
 
 	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
 	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
@@ -27,25 +13,29 @@ TODO:
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
 
-	import {
-		daily,
-		hourly,
-		models,
-		defaultParameters,
-		additionalVariables
-	} from './options';
+	import { daily, hourly, models, defaultParameters, additionalVariables } from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameters,
-		forecast_days: '1',
-		past_days: '5',
-		hourly: ['shortwave_radiation']
+		...defaultParameters
 	});
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 </script>
+
+{'' +
+	/* 
+TODO:
+- consider switch between archive and realtime endpoints -> Archive data requires large amounts of storage (>4TB)
+- future option for satellite corrected weather forecasts? Data needs to be on the same node
+- api endpoint URL... regular API server? dedicated satellite only server that pulls in weather model SW rad (+ens, +prev days)?
+- proper solar variables documentation
+- better time switch for hourly/10 and 15min
+- better model selection
+- add GEOS data
+- add image with satellite area cover
+*/ ''}
 
 <svelte:head>
 	<title>Satellite Radiation API 🛰️☀️ | Open-Meteo.com</title>
@@ -181,12 +171,11 @@ TODO:
 			</div>
 		{/each}
 
-
 		<div class="col-md-12 mb-3">
 			<small class="text-muted"
 				>Note: Solar radiation is averaged over the past hour. Use
-				<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-				please specify Tilt and Azimuth below.</small
+				<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+				specify Tilt and Azimuth below.</small
 			>
 		</div>
 		<div class="col-md-3">
@@ -333,11 +322,7 @@ TODO:
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem
-				id="models"
-				title="Models"
-				count={countVariables(models, $params.models)}
-			>
+			<AccordionItem id="models" title="Models" count={countVariables(models, $params.models)}>
 				{#each models as group}
 					<div class="col-md-4 mb-3">
 						{#each group as e}
@@ -414,13 +399,11 @@ TODO:
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameters} model_default="eumetsat_lsa_saf_msg"/>
+<ResultPreview {params} {defaultParameters} model_default="eumetsat_lsa_saf_msg" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
-	<p>
-		TODO docs
-	</p>
+	<p>TODO docs</p>
 	<div class="table-responsive">
 		<table class="table">
 			<thead>
@@ -437,9 +420,8 @@ TODO:
 			<tbody>
 				<tr>
 					<th rowspan="2" scope="row"
-						><a
-							href="https://lsa-saf.eumetsat.int/en/data/products/radiation/"
-							target="_blank">EUMETSAT LSA SAF</a
+						><a href="https://lsa-saf.eumetsat.int/en/data/products/radiation/" target="_blank"
+							>EUMETSAT LSA SAF</a
 						></th
 					>
 					<td>MSG</td>
@@ -473,9 +455,7 @@ TODO:
 				</tr>
 				<tr>
 					<th scope="row"
-						><a
-							href="https://www.eorc.jaxa.jp/ptree/userguide.html"
-							target="_blank">JMA JAXA</a
+						><a href="https://www.eorc.jaxa.jp/ptree/userguide.html" target="_blank">JMA JAXA</a
 						></th
 					>
 					<td>Himawari-9</td>
@@ -489,7 +469,6 @@ TODO:
 		</table>
 	</div>
 
-
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
 	<p>
 		For a detailed list of all available weather variables please refer to the general <a
@@ -498,15 +477,20 @@ TODO:
 	</p>
 	<ul>
 		<li>
-			<strong>Himawari direct and diffuse radiation</strong> JMA JAXA provides only shortwave radiation data and does not
-			offer direct or diffuse solar radiation. Open-Meteo applies the separation model from
+			<strong>Himawari direct and diffuse radiation</strong> JMA JAXA provides only shortwave
+			radiation data and does not offer direct or diffuse solar radiation. Open-Meteo applies the
+			separation model from
 			<a
 				href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
 				>Razo, Müller Witwer</a
 			> to calculate direct radiation from shortwave solar radiation.
 		</li>
 		<li>
-			<strong>Instantaneous Values Correction</strong>: All satellites provide data as instantaneous values. However, a full Earth scan takes approximately 10–15 minutes. As a result, the top and bottom of each scan have a significant time difference. To ensure comparability with data sources like weather models, OpenMeteo corrects for these scan time differences and derives backward-averaged values.
+			<strong>Instantaneous Values Correction</strong>: All satellites provide data as instantaneous
+			values. However, a full Earth scan takes approximately 10–15 minutes. As a result, the top and
+			bottom of each scan have a significant time difference. To ensure comparability with data
+			sources like weather models, OpenMeteo corrects for these scan time differences and derives
+			backward-averaged values.
 		</li>
 	</ul>
 </div>

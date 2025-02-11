@@ -40,6 +40,7 @@
 	];
 	if (dev) {
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
+		links.push({ title: 'Satellite Radiation API', url: '/en/docs/satellite-radiation-api' });
 	}
 </script>
 
