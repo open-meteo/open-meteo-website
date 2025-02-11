@@ -1360,13 +1360,13 @@
 	<div>
 		{#if citation === 'apa'}
 			<div in:fade>
-				<p>
+				<p class="mb-3">
 					Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
 						title="zenodo publication"
 						href="https://doi.org/10.5281/ZENODO.7970649">https://doi.org/10.5281/ZENODO.7970649</a
 					>
 				</p>
-				<p>
+				<p class="mb-3">
 					Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
 					Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee,
 					D., Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present [Data
@@ -1374,7 +1374,7 @@
 						>https://doi.org/10.24381/cds.adbb2d47</a
 					>
 				</p>
-				<p>
+				<p class="mb-3">
 					Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set]. ECMWF. <a
 						href="https://doi.org/10.24381/CDS.E2161BAC"
 						title="era5-land">https://doi.org/10.24381/CDS.E2161BAC</a
@@ -1392,17 +1392,17 @@
 			</div>
 		{:else if citation === 'mla'}
 			<div in:fade class:active={citation === 'mla'} id="pills-mla" aria-labelledby="pills-mla-tab">
-				<p>
+				<p class="mb-3">
 					Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
 					doi:10.5281/ZENODO.7970649.
 				</p>
-				<p>
+				<p class="mb-3">
 					Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
 					Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee,
 					D., Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present [Data
 					set]. ECMWF. https://doi.org/10.24381/cds.adbb2d47
 				</p>
-				<p>
+				<p class="mb-3">
 					Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set]. ECMWF.
 					https://doi.org/10.24381/CDS.E2161BAC
 				</p>
@@ -1416,16 +1416,16 @@
 			</div>
 		{:else if citation === 'harvard'}
 			<div in:fade>
-				<p>
+				<p class="mb-3">
 					Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi: 10.5281/ZENODO.7970649.
 				</p>
-				<p>
+				<p class="mb-3">
 					Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
 					Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee,
 					D., Thépaut, J-N. (2023) “ERA5 hourly data on single levels from 1940 to present.” ECMWF.
 					doi: 10.24381/cds.adbb2d47.
 				</p>
-				<p>
+				<p class="mb-3">
 					Muñoz Sabater, J. (2019) “ERA5-Land hourly data from 2001 to present.” ECMWF. doi:
 					10.24381/CDS.E2161BAC.
 				</p>
