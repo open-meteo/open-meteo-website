@@ -19,11 +19,13 @@
 		last_date?: Date;
 	}
 
+	const now = new Date();
+
 	let {
 		start_date = $bindable(''),
 		end_date = $bindable(''),
-		begin_date = $bindable(''),
-		last_date = $bindable('')
+		begin_date = new Date('1940-01-01'),
+		last_date = new Date(`${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`)
 	}: Props = $props();
 
 	$effect(() => {
@@ -38,6 +40,12 @@
 			endDate.setDate(endDate.getDate() + 7);
 
 			end_date = endDate.toISOString().split('T')[0];
+		}
+
+		if (begin_date === '') {
+			let beginDate = new Date('1940-01-01');
+
+			begin_date = endDate.toISOString().split('T')[0];
 		}
 	});
 </script>

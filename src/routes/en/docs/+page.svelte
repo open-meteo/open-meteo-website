@@ -58,6 +58,7 @@
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
+	import { onMount } from 'svelte';
 
 	const params: Writable<Parameters> = urlHashStore({
 		latitude: [52.52],
