@@ -115,6 +115,12 @@
 		`${countVariables(models, $params.models).active ? 'models' : ''}`,
 		`${countVariables(solarVariables, $params.hourly).active ? 'minutely_15' : ''}`
 	];
+
+	let begin_date = new Date();
+	begin_date.setMonth(begin_date.getMonth() - 3);
+
+	let last_date = new Date();
+	last_date.setDate(last_date.getDate() + 14);
 </script>
 
 <svelte:head>
@@ -130,27 +136,29 @@
 	<LocationSelection bind:params={$params} />
 
 	<div class="mt-6 md:mt-12">
-		<ToggleGroup.Root type="single" value={timeModeSelected} class="mt-2 justify-start gap-0">
+		<ToggleGroup.Root
+			type="single"
+			bind:value={() => $params.time_mode, (tm) => ($params.time_mode = tm)}
+			class="mt-2 justify-start gap-0"
+		>
 			<div class="text-muted-foreground">Time:</div>
-
+			{timeModeSelected}
 			<div class="border-border ml-2 flex rounded-lg border">
 				<ToggleGroup.Item
 					value="forecast_days"
 					class="min-h-12 cursor-pointer rounded-e-none !opacity-100 lg:min-h-[unset] "
 					disabled={$params.time_mode === 'forecast_days'}
 					onclick={() => {
-						$params.time_mode = 'forecast_days';
+						$params.start_date = '';
+						$params.end_date = '';
 					}}
 				>
 					<Clock size={20} class="mr-1" />Forecast Length
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="time_interval"
-					class="min-h-12 cursor-pointer rounded-md rounded-s-none duration-300 lg:min-h-[unset]"
-					disabled={$params.time_mode === 'time_interval'}
-					onclick={() => {
-						$params.time_mode = 'time_interval';
-					}}
+					class="min-h-12 cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset]"
+					disabled={timeModeSelected === 'time_interval'}
 				>
 					<Calendar size={20} class="mr-1" />Time Interval
 				</ToggleGroup.Item>
@@ -214,7 +222,12 @@
 			{#if $params.time_mode === 'time_interval'}
 				<div in:fade class="flex flex-col gap-4 md:flex-row">
 					<div class="mb-3 md:w-1/2">
-						<DatePicker bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
+						<DatePicker
+							bind:start_date={$params.start_date}
+							bind:end_date={$params.end_date}
+							bind:begin_date
+							bind:last_date
+						/>
 					</div>
 					<div class="mb-3 md:w-1/2">
 						<p>
