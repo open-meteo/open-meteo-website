@@ -1,17 +1,25 @@
 <script lang="ts">
-	import { fade, slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
 
-	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
-	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
-	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
-	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
-	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import AccordionItem from '$lib/components/AccordionItem.svelte';
+	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
-	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
-	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
+	import Clock from 'lucide-svelte/icons/clock';
+	import Calendar from 'lucide-svelte/icons/calendar-cog';
+
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select/index';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
 	import { daily, hourly, models, defaultParameters, additionalVariables } from './options';
 
@@ -45,7 +53,7 @@ TODO:
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<LocationSelection bind:params={$params} />
 
-	<div class="row py-3 px-0">
+	<div class="row px-0 py-3">
 		<div>
 			<ul class="nav nav-underline" id="pills-tab" role="tablist">
 				<li class="nav-item" role="presentation" style="width: 70px;">
@@ -73,7 +81,7 @@ TODO:
 						role="tab"
 						aria-controls="pills-time_interval"
 						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
+						aria-selected="true"><Calendar class="mb-1 me-1" /> Time Interval</button
 					>
 				</li>
 			</ul>
@@ -151,7 +159,7 @@ TODO:
 		</div>
 	</div>
 
-	<div class="row py-3 px-0">
+	<div class="row px-0 py-3">
 		<h2>Variables</h2>
 		{#each hourly as group}
 			<div class="col-md-6">
@@ -220,138 +228,139 @@ TODO:
 		</div>
 	</div>
 
-	<div class="row py-3 px-0">
+	<div class="row px-0 py-3">
 		<div class="accordion" id="accordionVariables">
-			<AccordionItem
-				id="additional-variables"
-				title="Additional Variables And Options"
-				count={countVariables(additionalVariables, $params.hourly)}
-			>
-				{#each additionalVariables as group}
+			<Accordion.Root class="border-border rounded-lg border" multiple={true}>
+				<AccordionItem
+					id="additional-variables"
+					title="Additional Variables And Options"
+					count={countVariables(additionalVariables, $params.hourly)}
+				>
+					{#each additionalVariables as group}
+						<div class="col-md-6">
+							{#each group as e}
+								<div class="form-check">
+									<input
+										class="form-check-input"
+										type="checkbox"
+										value={e.name}
+										id="{e.name}_hourly"
+										name="hourly"
+										bind:group={$params.hourly}
+									/>
+									<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
+								</div>
+							{/each}
+						</div>
+					{/each}
+					<div class="col-md-12 mb-3">
+						<small class="text-muted"
+							>Note: You can further adjust the forecast time range for hourly weather variables
+							using <mark>&forecast_hours=</mark>
+							and <mark>&past_hours=</mark> as shown below.
+						</small>
+					</div>
+					<div class="col-md-3">
+						<div class="form-floating mb-3">
+							<select
+								class="form-select"
+								name="forecast_hours"
+								id="forecast_hours"
+								aria-label="Forecast Hours"
+								bind:value={$params.forecast_hours}
+							>
+								<option value="">- (default)</option>
+								<option value="1">1 hour</option>
+								<option value="6">6 hours</option>
+								<option value="12">12 hours</option>
+								<option value="24">24 hours</option>
+							</select>
+							<label for="forecast_hours">Forecast Hours</label>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-floating mb-3">
+							<select
+								class="form-select"
+								name="past_hours"
+								id="past_hours"
+								aria-label="Past Hours"
+								bind:value={$params.past_hours}
+							>
+								<option value="">- (default)</option>
+								<option value="1">1 hour</option>
+								<option value="6">6 hours</option>
+								<option value="12">12 hours</option>
+								<option value="24">24 hours</option>
+							</select>
+							<label for="past_hours">Past Hours</label>
+						</div>
+					</div>
 					<div class="col-md-6">
-						{#each group as e}
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_hourly"
-									name="hourly"
-									bind:group={$params.hourly}
-								/>
-								<label class="form-check-label" for="{e.name}_hourly">{e.label}</label>
-							</div>
-						{/each}
+						<div class="form-floating mb-6">
+							<select
+								class="form-select"
+								name="temporal_resolution"
+								id="temporal_resolution"
+								aria-label="Temporal Resolution For Hourly Data"
+								bind:value={$params.temporal_resolution}
+							>
+								<option value="">1 Hourly</option>
+								<option value="hourly_3">3 Hourly</option>
+								<option value="hourly_6">6 Hourly</option>
+								<option value="native">Native Model Resolution</option>
+							</select>
+							<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
+						</div>
 					</div>
-				{/each}
-				<div class="col-md-12 mb-3">
-					<small class="text-muted"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
-							>&forecast_hours=</mark
+					<div class="col-md-6">
+						<div class="form-floating mb-6">
+							<select
+								class="form-select"
+								name="cell_selection"
+								id="cell_selection"
+								aria-label="Grid Cell Selection"
+								bind:value={$params.cell_selection}
+							>
+								<option value="">Terrain Optimized, Prefers Land</option>
+								<option value="sea">Prefer Sea</option>
+								<option value="nearest">Nearest</option>
+							</select>
+							<label for="cell_selection">Grid Cell Selection</label>
+						</div>
+					</div>
+				</AccordionItem>
+				<AccordionItem id="models" title="Models" count={countVariables(models, $params.models)}>
+					{#each models as group}
+						<div class="col-md-4 mb-3">
+							{#each group as e}
+								<div class="form-check">
+									<input
+										class="form-check-input"
+										type="checkbox"
+										value={e.name}
+										id="{e.name}_model"
+										name="models"
+										bind:group={$params.models}
+									/>
+									<label class="form-check-label" for="{e.name}_model">{e.label}</label>
+								</div>
+							{/each}
+						</div>
+					{/each}
+					<div class="col-md-12">
+						<small class="text-muted"
+							>Note: The default <mark>Best Match</mark> provides the best forecast for any given
+							location worldwide. <mark>Seamless</mark> combines all models from a given provider into
+							a seamless prediction.</small
 						>
-						and <mark>&past_hours=</mark> as shown below.
-					</small>
-				</div>
-				<div class="col-md-3">
-					<div class="form-floating mb-3">
-						<select
-							class="form-select"
-							name="forecast_hours"
-							id="forecast_hours"
-							aria-label="Forecast Hours"
-							bind:value={$params.forecast_hours}
-						>
-							<option value="">- (default)</option>
-							<option value="1">1 hour</option>
-							<option value="6">6 hours</option>
-							<option value="12">12 hours</option>
-							<option value="24">24 hours</option>
-						</select>
-						<label for="forecast_hours">Forecast Hours</label>
 					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-floating mb-3">
-						<select
-							class="form-select"
-							name="past_hours"
-							id="past_hours"
-							aria-label="Past Hours"
-							bind:value={$params.past_hours}
-						>
-							<option value="">- (default)</option>
-							<option value="1">1 hour</option>
-							<option value="6">6 hours</option>
-							<option value="12">12 hours</option>
-							<option value="24">24 hours</option>
-						</select>
-						<label for="past_hours">Past Hours</label>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-floating mb-6">
-						<select
-							class="form-select"
-							name="temporal_resolution"
-							id="temporal_resolution"
-							aria-label="Temporal Resolution For Hourly Data"
-							bind:value={$params.temporal_resolution}
-						>
-							<option value="">1 Hourly</option>
-							<option value="hourly_3">3 Hourly</option>
-							<option value="hourly_6">6 Hourly</option>
-							<option value="native">Native Model Resolution</option>
-						</select>
-						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-floating mb-6">
-						<select
-							class="form-select"
-							name="cell_selection"
-							id="cell_selection"
-							aria-label="Grid Cell Selection"
-							bind:value={$params.cell_selection}
-						>
-							<option value="">Terrain Optimized, Prefers Land</option>
-							<option value="sea">Prefer Sea</option>
-							<option value="nearest">Nearest</option>
-						</select>
-						<label for="cell_selection">Grid Cell Selection</label>
-					</div>
-				</div>
-			</AccordionItem>
-			<AccordionItem id="models" title="Models" count={countVariables(models, $params.models)}>
-				{#each models as group}
-					<div class="col-md-4 mb-3">
-						{#each group as e}
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_model"
-									name="models"
-									bind:group={$params.models}
-								/>
-								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
-							</div>
-						{/each}
-					</div>
-				{/each}
-				<div class="col-md-12">
-					<small class="text-muted"
-						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
-					>
-				</div>
-			</AccordionItem>
+				</AccordionItem>
+			</Accordion.Root>
 		</div>
 	</div>
 
-	<div class="row py-3 px-0">
+	<div class="row px-0 py-3">
 		<h2>Daily Weather Variables</h2>
 		{#each daily as group}
 			<div class="col-md-6">
@@ -377,7 +386,7 @@ TODO:
 		{/if}
 	</div>
 
-	<div class="row py-3 px-0">
+	<div class="row px-0 py-3">
 		<h2>Settings</h2>
 		<div class="col-md-3">
 			<div class="form-floating mb-3">
