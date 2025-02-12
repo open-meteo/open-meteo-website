@@ -41,6 +41,7 @@ export const hourly = [
 		{ name: 'ocean_current_velocity', label: 'Ocean Current Velocity' },
 		{ name: 'ocean_current_direction', label: 'Ocean Current Direction' },
 		{ name: 'sea_level_height_msl', label: 'Sea Level Height including tides (above global mean sea level)' },
+		{ name: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
 	]
 ];
 
