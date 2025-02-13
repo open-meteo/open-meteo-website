@@ -39,6 +39,29 @@
 	}
 
 	let locationTabSelected = $derived(params.location_mode);
+
+	const timeZoneOptions = [
+		{ value: 'UTC', label: 'Not set (GMT+0)' },
+		{ value: 'auto', label: 'Automatically detect time zone' },
+		{ value: 'GMT', label: 'GMT+0' },
+		{ value: 'America/Anchorage', label: 'America/Anchorage' },
+		{ value: 'America/Los_Angeles', label: 'America/Los Angeles' },
+		{ value: 'America/Denver', label: 'America/Denver' },
+		{ value: 'America/Chicago', label: 'America/Chicago' },
+		{ value: 'America/New_York', label: 'America/New York' },
+		{ value: 'America/Sao_Paulo', label: 'America/Sao Paulo' },
+		{ value: 'Europe/London', label: 'Europe/London' },
+		{ value: 'Europe/Berlin', label: 'Europe/Berlin' },
+		{ value: 'Europe/Moscow', label: 'Europe/Moscow' },
+		{ value: 'Africa/Cairo', label: 'Africa/Cairo' },
+		{ value: 'Asia/Bangkok', label: 'Asia/Bangkok' },
+		{ value: 'Asia/Singapore', label: 'Asia/Singapore' },
+		{ value: 'Asia/Tokyo', label: 'Asia/Tokyo' },
+		{ value: 'Australia/Sydney', label: 'Australia/Sydney' },
+		{ value: 'Pacific/Auckland', label: 'Pacific/Auckland' }
+	];
+
+	let timeZone = $derived(timeZoneOptions.find((tzo) => String(tzo.value) == params.timezone));
 </script>
 
 <h2 class="text-2xl md:text-3xl">Location and Time</h2>
@@ -122,30 +145,15 @@
 						{/if}
 					</div>
 					<div class="relative flex items-center gap-2">
-						<Select.Root name="timezone" bind:value={params.timezone}>
+						<Select.Root name="timezone" type="single" bind:value={params.timezone}>
 							<Select.Trigger
 								aria-label="timezone selection"
-								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-							></Select.Trigger>
+								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{timeZone?.label}</Select.Trigger
+							>
 							<Select.Content preventScroll={false} class="border-border">
-								<Select.Item value="America/Anchorage">America/Anchorage</Select.Item>
-								<Select.Item value="America/Los_Angeles">America/Los_Angeles</Select.Item>
-								<Select.Item value="America/Denver">America/Denver</Select.Item>
-								<Select.Item value="America/Chicago">America/Chicago</Select.Item>
-								<Select.Item value="America/New_York">America/New_York</Select.Item>
-								<Select.Item value="America/Sao_Paulo">America/Sao_Paulo</Select.Item>
-								<Select.Item value="UTC">Not set (GMT+0)</Select.Item>
-								<Select.Item value="GMT">GMT+0</Select.Item>
-								<Select.Item value="auto">Automatically detect time zone</Select.Item>
-								<Select.Item value="Europe/London">Europe/London</Select.Item>
-								<Select.Item value="Europe/Berlin">Europe/Berlin</Select.Item>
-								<Select.Item value="Europe/Moscow">Europe/Moscow</Select.Item>
-								<Select.Item value="Africa/Cairo">Africa/Cairo</Select.Item>
-								<Select.Item value="Asia/Bangkok">Asia/Bangkok</Select.Item>
-								<Select.Item value="Asia/Singapore">Asia/Singapore</Select.Item>
-								<Select.Item value="Asia/Tokyo">Asia/Tokyo</Select.Item>
-								<Select.Item value="Australia/Sydney">Australia/Sydney</Select.Item>
-								<Select.Item value="Pacific/Auckland">Pacific/Auckland</Select.Item>
+								{#each timeZoneOptions as timezone}
+									<Select.Item value={timezone.value}>{timezone.label}</Select.Item>
+								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 								>Timezone</Label
