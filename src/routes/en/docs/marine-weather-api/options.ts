@@ -45,6 +45,15 @@ export const hourly = [
 	]
 ];
 
+export const minutely_15 = [
+	[
+		{ name: 'ocean_current_velocity', label: 'Ocean Current Velocity' },
+		{ name: 'ocean_current_direction', label: 'Ocean Current Direction' },
+	],
+	[
+		{ name: 'sea_level_height_msl', label: 'Sea Level Height including tides (above global mean sea level)' },
+	]
+];
 export const daily = [
 	[
 		{ name: 'wave_height_max', label: 'Wave Height Max' },

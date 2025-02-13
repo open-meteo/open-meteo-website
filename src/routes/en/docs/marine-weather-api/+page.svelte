@@ -13,13 +13,16 @@
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
 
-	import { daily, hourly, models, defaultParameters, additionalVariables } from './options';
+	import { daily, hourly, models, defaultParameters, additionalVariables, minutely_15 } from './options';
 
 	const params = urlHashStore({
 		latitude: [54.544587],
 		longitude: [10.227487],
 		...defaultParameters,
-		hourly: ['wave_height']
+		hourly: ['wave_height'],
+		minutely_15: [],
+		past_minutely_15: '',
+		forecast_minutely_15: '',
 	});
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
@@ -260,6 +263,76 @@
 							<option value="native">Native Model Resolution</option>
 						</select>
 						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
+					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="minutely_15"
+				title="15-Minutely Weather Variables"
+				count={countVariables(minutely_15, $params.hourly)}
+			>
+				{#each minutely_15 as group}
+					<div class="col-md-6 mb-3">
+						{#each group as e}
+							<div class="form-check">
+								<input
+									class="form-check-input"
+									type="checkbox"
+									value={e.name}
+									id="{e.name}_minutely_15"
+									name="minutely_15"
+									bind:group={$params.minutely_15}
+								/>
+								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
+							</div>
+						{/each}
+					</div>
+				{/each}
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: Only interpolated data from 1-hourly values.</small
+					>
+				</div>
+				<div class="col-md-12 mb-3">
+					<small class="text-muted"
+						>Note: You can further adjust the forecast time range for 15-minutely weather variables
+						using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
+					</small>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="forecast_minutely_15"
+							id="forecast_minutely_15"
+							aria-label="Forecast Minutely 15 Steps"
+							bind:value={$params.forecast_minutely_15}
+						>
+							<option value="">- (default)</option>
+							<option value="4">1 hour</option>
+							<option value="24">6 hours</option>
+							<option value="48">12 hours</option>
+							<option value="96">24 hours</option>
+						</select>
+						<label for="forecast_minutely_15">Forecast Minutely 15</label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-floating mb-3">
+						<select
+							class="form-select"
+							name="past_minutely_15"
+							id="past_minutely_15"
+							aria-label="Past Minutely 15 Steps"
+							bind:value={$params.past_minutely_15}
+						>
+							<option value="">- (default)</option>
+							<option value="1">1 hour</option>
+							<option value="6">6 hours</option>
+							<option value="12">12 hours</option>
+							<option value="24">24 hours</option>
+						</select>
+						<label for="past_minutely_15">Past Minutely 15</label>
 					</div>
 				</div>
 			</AccordionItem>
