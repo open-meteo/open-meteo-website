@@ -172,8 +172,8 @@
 		<div class="col-md-12 mb-3">
 			<p>
 				<small class="text-muted"
-					>Note: Ocean currents consider Eulerian, Waves and Tides at 0.08° (~8 km) resolution. This
-					is not suitable for small scale currents and does not replace your nautical almanac.
+					>Note: Tides and ocean currents are computed at 0.08° (~8 km) resolution using numerical models. Accuracy at coastal areas is limited. This
+					is not suitable for coastal navigation and does not replace your nautical almanac. Use with caution!
 				</small>
 			</p>
 		</div>
@@ -520,7 +520,7 @@
 				<th scope="row"
 					><a
 						href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_PHY_001_024/services"
-						>MeteoFrance SMOC Currents</a
+						>MeteoFrance SMOC Currents, Tides & SST</a
 					>
 				</th>
 				<td>Global</td>
@@ -852,6 +852,30 @@
 					<td
 						>Direction following the flow of the current. E.g. where the current is heading towards.
 						0° = Going north; 90° = Towards east.</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">sea_surface_temperature</th>
+					<td>Instant</td>
+					<td>Celsius</td>
+					<td
+						>The sea surface temperature close to the water surface</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">sea_level_height_msl</th>
+					<td>Instant</td>
+					<td>metre</td>
+					<td
+						>The sea level height accounts for ocean tides, the inverted barometer effect, sea surface height, global mean steric variation, and global mean mass volume variation. The reference (datum) height is the global mean sea level, not the lowest astronomical tide. Accuracy is limited in coastal areas—while it can be reasonably accurate near unobstructed coasts, it may be completely unreliable further inland. This data is not suitable for coastal navigation.</td
+					>
+				</tr>
+				<tr>
+					<th scope="row">invert_barometer_height</th>
+					<td>Instant</td>
+					<td>metre</td>
+					<td
+						>Invert barometer effect is the height low and high pressure systems effect the sea level height. This is already considered in <mark>sea_level_height_msl</mark></td
 					>
 				</tr>
 			</tbody>
