@@ -39,7 +39,25 @@ export const hourly = [
 	],
 	[
 		{ name: 'ocean_current_velocity', label: 'Ocean Current Velocity' },
+		{ name: 'ocean_current_direction', label: 'Ocean Current Direction' },
+		{
+			name: 'sea_level_height_msl',
+			label: 'Sea Level Height including tides (above global mean sea level)'
+		},
+		{ name: 'sea_surface_temperature', label: 'Sea Surface Temperature SST' }
+	]
+];
+
+export const minutely_15 = [
+	[
+		{ name: 'ocean_current_velocity', label: 'Ocean Current Velocity' },
 		{ name: 'ocean_current_direction', label: 'Ocean Current Direction' }
+	],
+	[
+		{
+			name: 'sea_level_height_msl',
+			label: 'Sea Level Height including tides (above global mean sea level)'
+		}
 	]
 ];
 
@@ -64,7 +82,10 @@ export const daily = [
 ];
 
 export const additionalVariables = [
-	[{ name: 'wave_peak_period', label: 'Wave Peak Period (ERA5 only)' }],
+	[
+		{ name: 'wave_peak_period', label: 'Wave Peak Period (ERA5 only)' },
+		{ name: 'invert_barometer_height', label: 'Inverted Barometer Height' }
+	],
 	[]
 ];
 
