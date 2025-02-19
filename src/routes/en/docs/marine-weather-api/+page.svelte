@@ -13,7 +13,14 @@
 	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
 	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
 
-	import { daily, hourly, models, defaultParameters, additionalVariables, minutely_15 } from './options';
+	import {
+		daily,
+		hourly,
+		models,
+		defaultParameters,
+		additionalVariables,
+		minutely_15
+	} from './options';
 
 	const params = urlHashStore({
 		latitude: [54.544587],
@@ -22,7 +29,7 @@
 		hourly: ['wave_height'],
 		minutely_15: [],
 		past_minutely_15: '',
-		forecast_minutely_15: '',
+		forecast_minutely_15: ''
 	});
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
@@ -172,8 +179,9 @@
 		<div class="col-md-12 mb-3">
 			<p>
 				<small class="text-muted"
-					>Note: Tides and ocean currents are computed at 0.08° (~8 km) resolution using numerical models. Accuracy at coastal areas is limited. This
-					is not suitable for coastal navigation and does not replace your nautical almanac. Use with caution!
+					>Note: Tides and ocean currents are computed at 0.08° (~8 km) resolution using numerical
+					models. Accuracy at coastal areas is limited. This is not suitable for coastal navigation
+					and does not replace your nautical almanac. Use with caution!
 				</small>
 			</p>
 		</div>
@@ -289,9 +297,7 @@
 					</div>
 				{/each}
 				<div class="col-md-12 mb-3">
-					<small class="text-muted"
-						>Note: Only interpolated data from 1-hourly values.</small
-					>
+					<small class="text-muted">Note: Only interpolated data from 1-hourly values.</small>
 				</div>
 				<div class="col-md-12 mb-3">
 					<small class="text-muted"
@@ -327,10 +333,10 @@
 							bind:value={$params.past_minutely_15}
 						>
 							<option value="">- (default)</option>
-							<option value="1">1 hour</option>
-							<option value="6">6 hours</option>
-							<option value="12">12 hours</option>
-							<option value="24">24 hours</option>
+							<option value={1 * 4}>1 hour</option>
+							<option value={6 * 4}>6 hours</option>
+							<option value={12 * 4}>12 hours</option>
+							<option value={24 * 4}>24 hours</option>
 						</select>
 						<label for="past_minutely_15">Past Minutely 15</label>
 					</div>
@@ -858,16 +864,19 @@
 					<th scope="row">sea_surface_temperature</th>
 					<td>Instant</td>
 					<td>Celsius</td>
-					<td
-						>The sea surface temperature close to the water surface</td
-					>
+					<td>The sea surface temperature close to the water surface</td>
 				</tr>
 				<tr>
 					<th scope="row">sea_level_height_msl</th>
 					<td>Instant</td>
 					<td>metre</td>
 					<td
-						>The sea level height accounts for ocean tides, the inverted barometer effect, sea surface height, global mean steric variation, and global mean mass volume variation. The reference (datum) height is the global mean sea level, not the lowest astronomical tide. Accuracy is limited in coastal areas—while it can be reasonably accurate near unobstructed coasts, it may be completely unreliable further inland. This data is not suitable for coastal navigation.</td
+						>The sea level height accounts for ocean tides, the inverted barometer effect, sea
+						surface height, global mean steric variation, and global mean mass volume variation. The
+						reference (datum) height is the global mean sea level, not the lowest astronomical tide.
+						Accuracy is limited in coastal areas—while it can be reasonably accurate near
+						unobstructed coasts, it may be completely unreliable further inland. This data is not
+						suitable for coastal navigation.</td
 					>
 				</tr>
 				<tr>
@@ -875,7 +884,8 @@
 					<td>Instant</td>
 					<td>metre</td>
 					<td
-						>Invert barometer effect is the height low and high pressure systems effect the sea level height. This is already considered in <mark>sea_level_height_msl</mark></td
+						>Invert barometer effect is the height low and high pressure systems effect the sea
+						level height. This is already considered in <mark>sea_level_height_msl</mark></td
 					>
 				</tr>
 			</tbody>
