@@ -32,7 +32,6 @@ TODO:
 - api endpoint URL... regular API server? dedicated satellite only server that pulls in weather model SW rad (+ens, +prev days)?
 - proper solar variables documentation
 - better time switch for hourly/10 and 15min
-- better model selection
 - add GEOS data
 - add image with satellite area cover
 */ ''}
@@ -399,7 +398,7 @@ TODO:
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameters} model_default="eumetsat_lsa_saf_msg" />
+<ResultPreview {params} {defaultParameters} model_default="satellite_radiation_seamless" action="archive" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
@@ -486,11 +485,17 @@ TODO:
 			> to calculate direct radiation from shortwave solar radiation.
 		</li>
 		<li>
-			<strong>Instantaneous Values Correction</strong>: All satellites provide data as instantaneous
+			<strong>Instantaneous Values Correction</strong>: Satellites provide data as instantaneous
 			values. However, a full Earth scan takes approximately 10–15 minutes. As a result, the top and
 			bottom of each scan have a significant time difference. To ensure comparability with data
 			sources like weather models, OpenMeteo corrects for these scan time differences and derives
 			backward-averaged values.
+		</li>
+		<li>
+			<strong>Gap-Filling</strong>: Satellites often have missing values for 1–2 time steps. Small
+			gaps are filled using cubic interpolation on the clearness index (kt) and a solar position
+			model. However, larger gaps of several hours or more cannot be filled and will return NaN
+			values.
 		</li>
 	</ul>
 </div>

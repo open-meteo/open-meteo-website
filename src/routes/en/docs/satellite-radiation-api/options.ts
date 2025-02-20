@@ -68,6 +68,7 @@ export const additionalVariables = [
 
 export const models = [
 	[
+		{ name: 'satellite_radiation_seamless', label: 'Automatic Selection'},
 		{ name: 'eumetsat_sarah3', label: 'eumetsat_sarah3'},
 		{ name: 'jma_jaxa_himawari', label: 'jma_jaxa_himawari'},
 		{ name: 'eumetsat_lsa_saf_msg', label: 'eumetsat_lsa_saf_msg'},
