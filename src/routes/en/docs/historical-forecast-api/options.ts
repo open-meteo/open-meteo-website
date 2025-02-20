@@ -186,6 +186,7 @@ export const models = [
 		{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4°' },
 		{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
 		{ name: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' },
+		{ name: 'ecmwf_aifs025_single', label: 'ECMWF AIFS 0.25° Single' },
 		{ name: 'cma_grapes_global', label: 'CMA GRAPES Global' },
 		{ name: 'bom_access_global', label: 'BOM ACCESS Global' }
 	],
