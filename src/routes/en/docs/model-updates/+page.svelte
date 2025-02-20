@@ -166,6 +166,11 @@
 						meta: fetchMeta('ecmwf_aifs025', 'forecast', api_key_preferences)
 					},
 					{
+						name: 'AIFS 0.25° Single',
+						area: [],
+						meta: fetchMeta('ecmwf_aifs025_single', 'forecast', api_key_preferences)
+					},
+					{
 						name: 'IFS 0.25°',
 						area: [],
 						meta: fetchMeta('ecmwf_ifs025', 'forecast', api_key_preferences)
