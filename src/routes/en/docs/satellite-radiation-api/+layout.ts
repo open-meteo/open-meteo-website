@@ -4,6 +4,6 @@ export const load = (() => {
 	return {
 		title: 'Satellite Radiation API',
 		subtitle: 'Real-time Solar Irradiance From Multiple Satellites',
-		hero: '/images/iceland_mountain.webp'
+		hero: '/images/cirrus.webp'
 	};
 }) satisfies LayoutLoad;
