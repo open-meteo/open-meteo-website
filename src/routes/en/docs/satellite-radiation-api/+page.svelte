@@ -398,7 +398,7 @@ TODO:
 	<LicenseSelector />
 </form>
 
-<ResultPreview {params} {defaultParameters} model_default="satellite_radiation_seamless" action="archive" />
+<ResultPreview {params} {defaultParameters} model_default="satellite_radiation_seamless" type="satellite" action="archive" />
 
 <div class="col-12 py-5">
 	<h2 id="data-sources">Data Source</h2>
