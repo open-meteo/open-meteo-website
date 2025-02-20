@@ -16,13 +16,13 @@ export const urlHashStore = (initialValues: Parameters) => {
 
 	urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
 
-	const updateURLParams = (values) => {
+	const updateURLParams = (values: Parameters) => {
 		if (browser) {
-			for (let [key, value] of Object.entries(values)) {
+			for (const [key, value] of Object.entries(values)) {
 				let defaultValue = defaultValues[key];
 
 				// params key is array
-				if (Array === defaultValue.constructor) {
+				if (defaultValue && Array === defaultValue.constructor) {
 					if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
 						if (page.url.searchParams.has(key) && page.url.searchParams.get(key) !== value) {
 							page.url.searchParams.delete(key);
@@ -31,31 +31,35 @@ export const urlHashStore = (initialValues: Parameters) => {
 						page.url.searchParams.set(key, value.join(','));
 					}
 				} else {
+					let val: number | string = value;
 					if (isNumeric(defaultValue)) {
 						defaultValue = Number(defaultValue);
 					}
 					if (isNumeric(value)) {
-						value = Number(value);
+						val = Number(value);
 					}
-					if (value != defaultValue) {
-						page.url.searchParams.set(key, value);
+					if (val != defaultValue) {
+						page.url.searchParams.set(key, String(val));
 					} else {
-						if (page.url.searchParams.has(key) && page.url.searchParams.get(key) !== value) {
+						if (page.url.searchParams.has(key) && page.url.searchParams.get(key) !== val) {
 							page.url.searchParams.delete(key);
 						}
 					}
 				}
 			}
-			goto(`?${page.url.searchParams.toString().replaceAll('%2C', ',')}`, { noScroll: true });
+			goto(`?${page.url.searchParams.toString().replaceAll('%2C', ',')}`, {
+				noScroll: true,
+				keepFocus: true
+			});
 		}
 	};
 
 	// check if urlParams overrides any default values OR stored values
 	if (browser && page.url.search) {
-		for (let [key, value] of page.url.searchParams.entries()) {
+		for (const [key, value] of page.url.searchParams.entries()) {
 			let defaultValue = defaultValues[key];
 
-			if (defaultValue.constructor === Array) {
+			if (defaultValue && defaultValue.constructor === Array) {
 				if (JSON.stringify(defaultValue) !== JSON.stringify(value)) {
 					urlHashes.update((urlValues) => {
 						urlValues[key] = value.split(/,|%2C/);
@@ -63,15 +67,16 @@ export const urlHashStore = (initialValues: Parameters) => {
 					});
 				}
 			} else {
+				let val: number | string = value;
 				if (isNumeric(defaultValue)) {
 					defaultValue = Number(defaultValue);
 				}
 				if (isNumeric(value)) {
-					value = Number(value);
+					val = Number(value);
 				}
-				if (defaultValue !== value) {
+				if (defaultValue !== val) {
 					urlHashes.update((urlValues) => {
-						urlValues[key] = value;
+						urlValues[key] = val;
 						return urlValues;
 					});
 				}

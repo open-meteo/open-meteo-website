@@ -10,6 +10,8 @@
 		altitudeAboveSeaLevelMeters
 	} from '$lib/utils/meteo';
 
+	import SuperDebug from 'sveltekit-superforms';
+
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -52,8 +54,10 @@
 		additionalVariables,
 		precipitationOptions,
 		forecastHoursOptions,
+		pastMinutely15Options,
 		gridCellSelectionOptions,
-		temporalResolutionOptions
+		temporalResolutionOptions,
+		forecastMinutely15Options
 	} from './options';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
@@ -85,14 +89,18 @@
 	let forecastHours = $derived(
 		forecastHoursOptions.find((fho) => String(fho.value) == $params.forecast_hours)
 	);
-
 	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
-
 	let temporalResolution = $derived(
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
 	let cellSelection = $derived(
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
+	);
+	let forecastMinutely15 = $derived(
+		forecastMinutely15Options.find((fmo) => String(fmo.value) == $params.forecast_minutely_15)
+	);
+	let pastMinutely15 = $derived(
+		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
 	);
 
 	// Settings
@@ -109,13 +117,40 @@
 		timeFormatOptions.find((tfo) => String(tfo.value) == $params.timeformat)
 	);
 
-	const accordionValues = [
-		`${countVariables(additionalVariables, $params.hourly).active ? 'additional-variables' : ''}`,
-		`${countVariables(solarVariables, $params.hourly).active ? 'solar-variables' : ''}`,
-		// `${countVariables(pressureVariables, levels, $params.hourly) ? 'pressure-variables' : ''}`
-		`${countVariables(models, $params.models).active ? 'models' : ''}`,
-		`${countVariables(solarVariables, $params.hourly).active ? 'minutely_15' : ''}`
-	];
+	let accordionValues = $state([]);
+
+	onMount(() => {
+		if (
+			countVariables(additionalVariables, $params.hourly).active &&
+			!accordionValues.includes('additional-variables')
+		) {
+			accordionValues.push('additional-variables');
+		}
+
+		if (
+			countVariables(solarVariables, $params.hourly).active &&
+			!accordionValues.includes('solar-variables')
+		) {
+			accordionValues.push('solar-variables');
+		}
+
+		if (
+			countPressureVariables(pressureVariables, levels, $params.hourly).active &&
+			!accordionValues.includes('pressure-variables')
+		) {
+			accordionValues.push('pressure-variables');
+		}
+
+		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
+			accordionValues.push('models');
+		}
+		if (
+			countVariables(solarVariables, $params.minutely_15).active &&
+			!accordionValues.includes('minutely_15')
+		) {
+			accordionValues.push('minutely_15');
+		}
+	});
 
 	let begin_date = new Date();
 	begin_date.setMonth(begin_date.getMonth() - 3);
@@ -134,20 +169,20 @@
 </svelte:head>
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
+	<!-- <SuperDebug data={params} /> -->
 	<LocationSelection bind:params={$params} />
 
-	<div class="mt-6 md:mt-12">
+	<div class="mt-6">
 		<ToggleGroup.Root
 			type="single"
 			bind:value={() => $params.time_mode, (tm) => ($params.time_mode = tm)}
 			class="mt-2 justify-start gap-0"
 		>
 			<div class="text-muted-foreground">Time:</div>
-			{timeModeSelected}
 			<div class="border-border ml-2 flex rounded-lg border">
 				<ToggleGroup.Item
 					value="forecast_days"
-					class="min-h-12 cursor-pointer rounded-e-none !opacity-100 lg:min-h-[unset] "
+					class="cursor-pointer rounded-e-none !opacity-100"
 					disabled={$params.time_mode === 'forecast_days'}
 					onclick={() => {
 						$params.start_date = '';
@@ -158,7 +193,7 @@
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="time_interval"
-					class="min-h-12 cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset]"
+					class="cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300"
 					disabled={timeModeSelected === 'time_interval'}
 				>
 					<Calendar size={20} class="mr-1" />Time Interval
@@ -226,8 +261,8 @@
 						<DatePicker
 							bind:start_date={$params.start_date}
 							bind:end_date={$params.end_date}
-							bind:begin_date
-							bind:last_date
+							{begin_date}
+							{last_date}
 						/>
 					</div>
 					<div class="mb-3 md:w-1/2">
@@ -285,7 +320,7 @@
 	</div>
 
 	<div>
-		<Accordion.Root class="border-border rounded-lg border" multiple={true} value={accordionValues}>
+		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -323,16 +358,17 @@
 						</div>
 					{/each}
 				</div>
+
 				<div class="text-muted-foreground mt-1 text-sm">
 					Note: You can further adjust the forecast time range for hourly weather variables using <mark
 						>&forecast_hours=</mark
 					>
 					and <mark>&past_hours=</mark> as shown below.
 				</div>
-				<div class="mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
+				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -347,7 +383,9 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="h-12 cursor-pointer pt-6">{pastHours?.label}</Select.Trigger>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{pastHours?.label}</Select.Trigger
+							>
 							<Select.Content preventScroll={false} class="border-border">
 								{#each pastHoursOptions as pho}
 									<Select.Item value={String(pho.value)}>{pho.label}</Select.Item>
@@ -365,7 +403,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -380,7 +418,7 @@
 					</div>
 					<div class="relative col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -409,7 +447,7 @@
 									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 									value={e.value}
 									checked={$params.hourly?.includes(e.value)}
-									aria-labelledby="{e.value}_label"
+									aria-labelledby="{e.value}_hourly_label"
 									onCheckedChange={() => {
 										if ($params.hourly?.includes(e.value)) {
 											$params.hourly = $params.hourly.filter((item) => {
@@ -422,7 +460,7 @@
 									}}
 								/>
 								<Label
-									id="{e.value}_label"
+									id="{e.value}_hourly_label"
 									for="{e.value}_hourly"
 									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
 								>
@@ -437,29 +475,36 @@
 						please specify Tilt and Azimuth below.
 					</div>
 				</div>
-				<div>
-					<div>
-						<input
+
+				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
+					<div class="relative">
+						<Input
+							key="tilt"
 							type="number"
-							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
+							class="h-12 cursor-pointer pt-6 {$params.tilt < 0 || $params.tilt > 90
+								? 'text-red'
+								: ''}"
 							name="tilt"
-							id="tilt"
 							step="1"
 							min="0"
 							max="90"
 							bind:value={$params.tilt}
 						/>
-						<label for="tilt">Panel Tilt (0° horizontal)</label>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="tilt">Panel Tilt (0° horizontal)</Label
+						>
 						{#if $params.tilt < 0 || $params.tilt > 90}
 							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
-				</div>
-				<div>
-					<div>
-						<input
+
+					<div class="relative">
+						<Input
 							type="number"
-							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
+							class="h-12 cursor-pointer pt-6 {$params.azimuth < -90 || $params.azimuth > 90
+								? 'text-red'
+								: ''}"
 							name="azimuth"
 							id="azimuth"
 							step="1"
@@ -467,8 +512,11 @@
 							max="90"
 							bind:value={$params.azimuth}
 						/>
-						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</Label
+						>
+						{#if Number($params.azimuth) < -90 || Number($params.azimuth) > 90}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -481,45 +529,69 @@
 				title="Pressure Level Variables"
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
-				<div class="   ">
-					<div class="nav flex-column me-3">
-						{#each pressureVariables as variable, i}
-							<Button variant="ghost" onclick={() => (pressureVariablesTab = variable.name)}
-								>{variable.label}</Button
-							>
-						{/each}
+				<div class="flex gap-3 md:gap-6">
+					<div class="md:min-w-[150px]">
+						<ToggleGroup.Root
+							type="single"
+							bind:value={pressureVariablesTab}
+							class="justify-start gap-0"
+						>
+							<div class="border-border flex flex-col rounded-lg border">
+								{#each pressureVariables as variable, i}
+									<ToggleGroup.Item
+										value={variable.value}
+										class="min-h-12 cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
+										0
+											? 'rounded-t-md'
+											: ''} {i === pressureVariables.length - 1 ? 'rounded-b-md' : ''}"
+										disabled={pressureVariablesTab === variable.value}
+										onclick={() => (pressureVariablesTab = variable.value)}
+										>{variable.label}
+									</ToggleGroup.Item>
+								{/each}
+							</div>
+						</ToggleGroup.Root>
 					</div>
-					<div>
+					<div class="">
 						{#each pressureVariables as variable}
-							<div
-								class:active={pressureVariablesTab == variable.name}
-								class:show={pressureVariablesTab == variable.name}
-								id="v-pills-{variable.name}"
-								aria-labelledby="v-pills-{variable.name}-tab"
-							>
+							{#if pressureVariablesTab === variable.value}
+								<div class="mb-3">{variable.label}</div>
 								<div>
-									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
-										<div>
+									<div class="grid grid-cols-1 md:grid-cols-3">
+										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
 											{#each chunk as level}
-												<div>
-													<input
-														type="checkbox"
-														value="{variable.name}_{level}hPa"
-														id="{variable.name}_{level}hPa"
-														name="hourly"
+												<div class="group flex items-center">
+													<Checkbox
+														id="{variable.value}_{level}hPa"
+														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+														value="{variable.value}_{level}hPa"
+														checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
+														aria-labelledby="{variable.value}_{level}hPa"
+														onCheckedChange={() => {
+															if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
+																$params.hourly = $params.hourly.filter((item) => {
+																	return item !== `${variable.value}_${level}hPa`;
+																});
+															} else {
+																$params.hourly.push(`${variable.value}_${level}hPa`);
+																$params.hourly = $params.hourly;
+															}
+														}}
 													/>
-													<label for="{variable.name}_{level}hPa">
-														{level} hPa
+													<Label
+														for="{variable.value}_{level}hPa"
+														class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]"
+														>{level} hPa
 														<small class="text-muted-foreground"
 															>({altitudeAboveSeaLevelMeters(level)})</small
-														>
-													</label>
+														></Label
+													>
 												</div>
 											{/each}
-										</div>
-									{/each}
+										{/each}
+									</div>
 								</div>
-							</div>
+							{/if}
 						{/each}
 						<div class="mt-3">
 							<small class="text-muted-foreground"
@@ -536,16 +608,38 @@
 				title="Weather models"
 				count={countVariables(models, $params.models)}
 			>
-				{#each models as group}
-					<div class="  mb-3">
-						{#each group as e}
-							<div>
-								<input type="checkbox" value={e.name} id="{e.name}_model" name="models" />
-								<label for="{e.name}_model">{e.label}</label>
-							</div>
-						{/each}
-					</div>
-				{/each}
+				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+					{#each models as group}
+						<div class="mb-3">
+							{#each group as e}
+								<div class="group flex items-center">
+									<Checkbox
+										id="{e.value}_model"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.models?.includes(e.value)}
+										aria-labelledby="{e.value}_label"
+										onCheckedChange={() => {
+											if ($params.models?.includes(e.value)) {
+												$params.models = $params.models.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.models.push(e.value);
+												$params.models = $params.models;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_model_label"
+										for="{e.value}_model"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
@@ -557,38 +651,71 @@
 			<AccordionItem
 				id="minutely_15"
 				title="15-Minutely Weather Variables"
-				count={countVariables(solarVariables, $params.hourly)}
+				count={countVariables(solarVariables, $params.minutely_15) +
+					countVariables(minutely_15, $params.minutely_15)}
 			>
-				{#each minutely_15 as group}
-					<div class="  mb-3">
+				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+					{#each minutely_15 as group}
 						{#each group as e}
-							<div>
-								<input
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_minutely_15"
-									name="minutely_15"
+							<div class="group flex items-center">
+								<Checkbox
+									id="{e.value}_minutely_15"
+									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+									value="{e.value}_minutely_15"
+									checked={$params.minutely_15?.includes(e.value)}
+									aria-labelledby="{e.value}_minutely_15_label"
+									onCheckedChange={() => {
+										if ($params.minutely_15?.includes(e.value)) {
+											$params.minutely_15 = $params.minutely_15.filter((item) => {
+												return item !== e.value;
+											});
+										} else {
+											$params.minutely_15.push(e.value);
+											$params.minutely_15 = $params.minutely_15;
+										}
+									}}
 								/>
-								<label for="{e.name}_minutely_15">{e.label}</label>
+								<Label
+									id="{e.value}_minutely_15_label"
+									for="{e.value}_minutely_15"
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								>
 							</div>
 						{/each}
-					</div>
-				{/each}
-				{#each solarVariables as group}
-					<div>
+					{/each}
+				</div>
+
+				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+					{#each solarVariables as group}
 						{#each group as e}
-							<div>
-								<input
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_minutely_15"
-									name="minutely_15"
+							<div class="group flex items-center">
+								<Checkbox
+									id="{e.value}_minutely_15"
+									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+									value="{e.value}_minutely_15"
+									checked={$params.minutely_15?.includes(e.value)}
+									aria-labelledby="{e.value}_minutely_15_label"
+									onCheckedChange={() => {
+										if ($params.minutely_15?.includes(e.value)) {
+											$params.minutely_15 = $params.minutely_15.filter((item) => {
+												return item !== e.value;
+											});
+										} else {
+											$params.minutely_15.push(e.value);
+											$params.minutely_15 = $params.minutely_15;
+										}
+									}}
 								/>
-								<label for="{e.name}_minutely_15">{e.label}</label>
+								<Label
+									id="{e.value}_minutely_15_label"
+									for="{e.value}_minutely_15"
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								>
 							</div>
 						{/each}
-					</div>
-				{/each}
+					{/each}
+				</div>
+
 				<div>
 					<small class="text-muted-foreground"
 						>Note: Only available in Central Europe and North America. Other regions use
@@ -602,31 +729,41 @@
 						using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
 					</small>
 				</div>
-				<div>
-					<Select.Root name="forecast_minutely_15">
-						<Select.Trigger class="cursor-pointer"></Select.Trigger>
-						<Select.Content preventScroll={false}>
-							<Select.Item value="">- (default)</Select.Item>
-							<Select.Item value="4">1 hour</Select.Item>
-							<Select.Item value="24">6 hours</Select.Item>
-							<Select.Item value="48">12 hours</Select.Item>
-							<Select.Item value="96">24 hours</Select.Item>
-						</Select.Content>
-						<Label>Forecast Minutely 15</Label>
-					</Select.Root>
-				</div>
-				<div>
-					<Select.Root name="past_minutely_15">
-						<Select.Trigger class="cursor-pointer"></Select.Trigger>
-						<Select.Content preventScroll={false}>
-							<Select.Item value="">- (default)</Select.Item>
-							<Select.Item value="1">1 hour</Select.Item>
-							<Select.Item value="6">6 hours</Select.Item>
-							<Select.Item value="12">12 hours</Select.Item>
-							<Select.Item value="24">24 hours</Select.Item>
-						</Select.Content>
-						<Label>Past Minutely 15</Label>
-					</Select.Root>
+				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
+					<div class="relative">
+						<Select.Root
+							name="cell_selection"
+							type="single"
+							bind:value={$params.forecast_minutely_15}
+						>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{forecastMinutely15?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each forecastMinutely15Options as fmo}
+									<Select.Item value={fmo.value}>{fmo.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Forecast Minutely 15</Label
+							>
+						</Select.Root>
+					</div>
+					<div class="relative">
+						<Select.Root name="cell_selection" type="single" bind:value={$params.past_minutely_15}>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{pastMinutely15?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each pastMinutely15Options as pmo}
+									<Select.Item value={pmo.value}>{pmo.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Past Minutely 15</Label
+							>
+						</Select.Root>
+					</div>
 				</div>
 			</AccordionItem>
 		</Accordion.Root>

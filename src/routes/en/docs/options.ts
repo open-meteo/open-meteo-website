@@ -355,10 +355,26 @@ export const timeFormatOptions = [
 			'ISO 8601 (e.g. ' +
 			new Date().getFullYear() +
 			'-' +
-			pad(new Date().getMonth()) +
+			pad(new Date().getMonth() + 1) +
 			'-' +
 			pad(new Date().getDate()) +
 			')'
 	},
 	{ value: 'unixtime', label: 'Unix timestamp' }
+];
+
+export const forecastMinutely15Options = [
+	{ value: '', label: '- (default)' },
+	{ value: 1 * 4, label: '1 hour' },
+	{ value: 6 * 4, label: '6 hours' },
+	{ value: 12 * 4, label: '12 hours' },
+	{ value: 24 * 4, label: '24 hours' }
+];
+
+export const pastMinutely15Options = [
+	{ value: '', label: '- (default)' },
+	{ value: 1 * 4, label: '1 hour' },
+	{ value: 6 * 4, label: '6 hours' },
+	{ value: 12 * 4, label: '12 hours' },
+	{ value: 24 * 4, label: '24 hours' }
 ];

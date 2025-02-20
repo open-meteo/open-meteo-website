@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
-	import Input from '$lib/components/ui/input/input.svelte';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
 
 	import * as Select from '$lib/components/ui/select/index';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
@@ -71,7 +71,7 @@
 	<div class="border-border ml-2 flex rounded-lg border">
 		<ToggleGroup.Item
 			value="location_search"
-			class="min-h-12 cursor-pointer rounded-e-none !opacity-100 lg:min-h-[unset] "
+			class="cursor-pointer rounded-e-none !opacity-100"
 			disabled={params.location_mode === 'location_search'}
 			onclick={() => {
 				params.location_mode = 'location_search';
@@ -81,7 +81,7 @@
 		</ToggleGroup.Item>
 		<ToggleGroup.Item
 			value="csv_coordinates"
-			class="min-h-12 cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 lg:min-h-[unset] "
+			class="cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300"
 			disabled={params.location_mode === 'csv_coordinates'}
 			onclick={() => {
 				params.location_mode = 'csv_coordinates';
@@ -98,9 +98,17 @@
 			{#each params.latitude as _, index}
 				<div
 					transition:slide
-					class="grid gap-3 overflow-auto pb-9 sm:grid-cols-2 md:gap-6 xl:grid-cols-4"
+					class="grid gap-3 duration-300 sm:grid-cols-2 md:gap-6 md:gap-y-3 xl:grid-cols-4 {index <
+					params.latitude.length - 1
+						? 'pb-6'
+						: ''}"
 				>
-					<div class="relative flex flex-col gap-2">
+					<div
+						class="relative flex flex-col gap-2 duration-200 {params.latitude[index] < -90 ||
+						params.latitude[index] > 90
+							? 'pb-6'
+							: ''}"
+					>
 						<!-- class:is-invalid={params.latitude[index] < -90 || params.latitude[index] > 90}-->
 						<Input
 							type="number"
@@ -117,12 +125,17 @@
 							for="latitude">Latitude</Label
 						>
 						{#if params.latitude[index] < -90 || params.latitude[index] > 90}
-							<div class="absolute top-14 text-sm" transition:slide>
+							<div class="absolute left-3 top-14 text-sm duration-300" transition:slide>
 								Latitude must be between -90 and 90
 							</div>
 						{/if}
 					</div>
-					<div class="relative flex flex-col gap-2">
+					<div
+						class="relative flex flex-col gap-2 duration-200 {params.longitude[index] < -180 ||
+						params.longitude[index] > 180
+							? 'pb-6'
+							: ''}"
+					>
 						<!-- class:is-invalid={params.longitude[index] < -180 || params.longitude[index] > 180}-->
 						<Input
 							type="number"
@@ -139,12 +152,12 @@
 							for="longitude">Longitude</Label
 						>
 						{#if params.longitude[index] < -180 || params.longitude[index] > 180}
-							<div class="absolute top-14 text-sm" transition:slide>
+							<div class="absolute left-3 top-14 text-sm" transition:slide>
 								Longitude must be between -180 and 180
 							</div>
 						{/if}
 					</div>
-					<div class="relative flex items-center gap-2">
+					<div class="relative flex items-center">
 						<Select.Root name="timezone" type="single" bind:value={params.timezone}>
 							<Select.Trigger
 								aria-label="timezone selection"
