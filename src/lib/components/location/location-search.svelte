@@ -219,7 +219,10 @@
 												<Button
 													variant="ghost"
 													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
-													onclick={() => deleteFavorite(location)}
+													onclick={(e) => {
+														e.stopPropagation();
+														deleteFavorite(location);
+													}}
 													title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
 												>
 												<Button
@@ -228,6 +231,9 @@
 													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 													target="_blank"
 													title="Show on map"
+													onclick={(e) => {
+														e.stopPropagation();
+													}}
 												>
 													<Map size={20} strokeWidth={1.2} />
 												</Button>
@@ -271,13 +277,19 @@
 												<Button
 													variant="ghost"
 													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
-													onclick={(e) => saveFavorite(location)}
+													onclick={(e) => {
+														e.stopPropagation();
+														saveFavorite(location);
+													}}
 													title="Save"><Star size={20} strokeWidth={1.2} /></Button
 												>
 												<Button
 													variant="ghost"
 													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
-													onclick={() => deleteRecent(location)}
+													onclick={(e) => {
+														e.stopPropagation();
+														deleteRecent(location);
+													}}
 													title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
 												>
 												<Button
@@ -286,6 +298,9 @@
 													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 													target="_blank"
 													title="Show on map"
+													onclick={(e) => {
+														e.stopPropagation();
+													}}
 												>
 													<Map size={20} strokeWidth={1.2} />
 												</Button>
@@ -333,7 +348,10 @@
 											<Button
 												variant="ghost"
 												class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
-												onclick={() => saveFavorite(location)}
+												onclick={(e) => {
+													e.stopPropagation();
+													saveFavorite(location);
+												}}
 												title="Save"><Star size={20} strokeWidth={1.2} /></Button
 											>
 											<Button
@@ -342,6 +360,9 @@
 												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 												target="_blank"
 												title="Show on map"
+												onclick={(e) => {
+													e.stopPropagation();
+												}}
 											>
 												<Map size={20} strokeWidth={1.2} />
 											</Button>
