@@ -179,32 +179,33 @@
 		)
 	);
 
+	const membersPerModel = (model: string): number => {
+		switch (model) {
+			case 'icon_seamless':
+				return 40;
+			case 'icon_global':
+				return 40;
+			case 'icon_eu':
+				return 40;
+			case 'icon_d2':
+				return 20;
+			case 'gfs_seamless':
+				return 31;
+			case 'gfs025':
+				return 31;
+			case 'gfs025':
+				return 31;
+			case 'ecmwf_ifs04':
+				return 51;
+			case 'gem_global':
+				return 21;
+		}
+		return 1;
+	};
+
 	/// Adjusted call weight
 	let callWeight = $derived(
 		((params) => {
-			function membersPerModel(model: string): number {
-				switch (model) {
-					case 'icon_seamless':
-						return 40;
-					case 'icon_global':
-						return 40;
-					case 'icon_eu':
-						return 40;
-					case 'icon_d2':
-						return 20;
-					case 'gfs_seamless':
-						return 31;
-					case 'gfs025':
-						return 31;
-					case 'gfs025':
-						return 31;
-					case 'ecmwf_ifs04':
-						return 51;
-					case 'gem_global':
-						return 21;
-				}
-				return 1;
-			}
 			let nDays = 1;
 			if ('start_date' in params) {
 				const start = new Date(params['start_date']).getTime();

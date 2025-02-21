@@ -4,11 +4,12 @@ pre {
 	tab-size: 4;
 	padding: 1rem 2rem;
 	background: #fafafa;
+	color: #90a4ae;
 }
 
 .dark pre {
 	background: #212121;
-	color: white;
+	color: #eeffff;
 }
 
 .token.comment,
@@ -29,7 +30,13 @@ pre {
 .token.boolean,
 .token.number,
 .token.function {
-	color: #f08d49;
+	color: #f76d47;
+}
+
+.dark .token.boolean,
+.dark .token.number,
+.dark .token.function {
+	color: #f78c6c;
 }
 
 .token.property,
@@ -42,14 +49,28 @@ pre {
 .token.important,
 .token.keyword,
 .token.builtin {
-	color: #cc99cd;
+	color: #6182b8;
+}
+
+.dark .token.selector,
+.dark .token.important,
+.dark .token.keyword,
+.dark .token.builtin {
+	color: #82aaff;
 }
 
 .token.string,
 .token.char,
 .token.regex,
 .token.variable {
-	color: #7ec699;
+	color: #91b859;
+}
+
+.dark .token.string,
+.dark .token.char,
+.dark .token.regex,
+.dark .token.variable {
+	color: #c3e88d;
 }
 
 .token.operator,

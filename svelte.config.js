@@ -10,7 +10,7 @@ const themes = {
 
 const highlighter = await createHighlighter({
 	themes: Object.values(themes),
-	langs: ['json', 'bash']
+	langs: ['json', 'bash', 'python', 'typescript', 'swift']
 });
 
 /** @type {import('mdsvex').MdsvexOptions} */

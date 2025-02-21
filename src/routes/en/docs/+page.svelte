@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -32,7 +34,6 @@
 	import Clock from 'lucide-svelte/icons/clock';
 	import Calendar from 'lucide-svelte/icons/calendar-cog';
 
-	import type { Writable } from 'svelte/store';
 	import type { Parameters } from '$lib/docs';
 
 	import {
@@ -62,7 +63,6 @@
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
-	import { onMount } from 'svelte';
 
 	const params: Writable<Parameters> = urlHashStore({
 		latitude: [52.52],
@@ -169,37 +169,44 @@
 </svelte:head>
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
-	<!-- <SuperDebug data={params} /> -->
+	<!-- <SuperDebug data={api_key_preferences} /> -->
 	<LocationSelection bind:params={$params} />
 
 	<div class="mt-6">
-		<ToggleGroup.Root
-			type="single"
-			bind:value={() => $params.time_mode, (tm) => ($params.time_mode = tm)}
-			class="mt-2 justify-start gap-0"
-		>
-			<div class="text-muted-foreground">Time:</div>
-			<div class="border-border ml-2 flex rounded-lg border">
-				<ToggleGroup.Item
-					value="forecast_days"
-					class="cursor-pointer rounded-e-none !opacity-100"
+		<div class="mt-3 flex items-center gap-2">
+			<div class="text-muted-foreground">Location:</div>
+
+			<div class="border-border flex rounded-md border">
+				<Button
+					variant="ghost"
+					class="cursor-pointer rounded-e-none !opacity-100 {$params.time_mode === 'forecast_days'
+						? 'bg-accent cursor-not-allowed'
+						: ''}"
 					disabled={$params.time_mode === 'forecast_days'}
 					onclick={() => {
+						$params.time_mode = 'forecast_days';
 						$params.start_date = '';
 						$params.end_date = '';
 					}}
 				>
-					<Clock size={20} class="mr-1" />Forecast Length
-				</ToggleGroup.Item>
-				<ToggleGroup.Item
-					value="time_interval"
-					class="cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300"
-					disabled={timeModeSelected === 'time_interval'}
+					<Clock size={20} />Forecast Length
+				</Button>
+				<Button
+					variant="ghost"
+					class="cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 {$params.time_mode ===
+					'time_interval'
+						? 'bg-accent'
+						: ''}"
+					disabled={$params.time_mode === 'time_interval'}
+					onclick={() => {
+						$params.time_mode = 'time_interval';
+					}}
 				>
-					<Calendar size={20} class="mr-1" />Time Interval
-				</ToggleGroup.Item>
+					<Calendar size={20} />Time Interval
+				</Button>
 			</div>
-		</ToggleGroup.Root>
+		</div>
+
 		<div class="mt-3 md:mt-4">
 			{#if $params.time_mode === 'forecast_days'}
 				<div in:fade class="grid gap-3 md:gap-6 lg:grid-cols-2">

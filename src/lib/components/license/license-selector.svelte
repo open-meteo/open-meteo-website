@@ -15,6 +15,10 @@
 	let { requires_professional_plan = false }: Props = $props();
 
 	let licenseSelected = $state('non_commercial');
+
+	$effect(() => {
+		$api_key_preferences.use = licenseSelected;
+	});
 </script>
 
 <div class="">

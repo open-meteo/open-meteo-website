@@ -21,7 +21,11 @@
 
 <nav class="container flex flex-wrap py-4 md:flex-nowrap">
 	<div class="flex w-full justify-between md:w-[unset]">
-		<Button variant="ghost" class="-ml-3 flex gap-2 px-3 text-lg hover:bg-transparent" href={'/'}>
+		<Button
+			variant="ghost"
+			class="-ml-3 flex gap-2 px-3 text-lg hover:bg-transparent [&_svg]:h-6 [&_svg]:w-6"
+			href={'/'}
+		>
 			<Logo width="28" height="28" />
 			Open-meteo
 		</Button>

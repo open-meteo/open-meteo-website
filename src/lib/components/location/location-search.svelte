@@ -143,103 +143,169 @@
 		class="hover:bg-accent border-border flex h-12 cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
 		><Search size={20} class="mr-1" /> {label}</Dialog.Trigger
 	>
-	<Dialog.Content
-		preventScroll={false}
-		class="border-border top-[10%] flex min-h-[400px] translate-y-0 flex-col sm:max-w-[600px]"
-	>
-		<Dialog.Header>
-			<Dialog.Title>Search Locations</Dialog.Title>
-		</Dialog.Header>
-		<div>
-			<div class="flex gap-3">
-				<Input
-					type="search"
-					id="location_search"
-					autocomplete="off"
-					spellcheck="false"
-					aria-label="Search Location"
-					bind:value={searchQuery}
-				/>
-				<Button
-					variant="outline"
-					class="cursor-pointer"
-					title="Detect Location via GPS"
-					onclick={() => (searchQuery = 'GPS')}
-					><Cursor class="pointer-events-none" size={20} strokeWidth={1.2} /></Button
-				>
-			</div>
-			{#await results}
-				<div class="mt-4 flex h-full items-center justify-center">
-					<Alert.Root class="border-border my-auto w-[unset]">
-						<Alert.Description>Loading...</Alert.Description>
-					</Alert.Root>
+	<Dialog.Portal>
+		<Dialog.Overlay class="bg-black/5" duration={300} />
+
+		<Dialog.Content
+			preventScroll={true}
+			class="border-border top-[10%] flex min-h-[400px] translate-y-0 flex-col sm:max-w-[600px]"
+		>
+			<Dialog.Header>
+				<Dialog.Title>Search Locations</Dialog.Title>
+			</Dialog.Header>
+			<div>
+				<div class="flex gap-3">
+					<Input
+						type="search"
+						id="location_search"
+						autocomplete="off"
+						spellcheck="false"
+						aria-label="Search Location"
+						bind:value={searchQuery}
+					/>
+					<Button
+						variant="outline"
+						class="cursor-pointer"
+						title="Detect Location via GPS"
+						onclick={() => (searchQuery = 'GPS')}
+						><Cursor class="pointer-events-none" size={20} strokeWidth={1.2} /></Button
+					>
 				</div>
-			{:then results}
-				{#if results.results && results.results.length == 0}
-					{#if searchQuery.length < 2}
-						{#if $last_visited.length == 0 && $favorites.length == 0}
-							<Alert.Root class="border-border my-auto w-[unset]">
-								<Alert.Description>Start typing to search for locations</Alert.Description>
-							</Alert.Root>
-						{/if}
-						{#if $favorites.length > 0}
-							<h6 class="text-muted-foreground mb-4 mt-4 text-xl">Favorites</h6>
-							<div class="border-border rounded-lg border">
-								{#each $favorites as location}
-									<Button
-										variant="outline"
-										class="not-last:border-b flex h-[unset] w-full cursor-pointer justify-between rounded-none px-3 py-2"
-										onclick={() => selectLocation(location)}
-									>
-										<div class="pointer-events-none flex flex-col gap-1">
-											<div class="flex items-center gap-2 text-lg">
-												<img
-													height="24"
-													width="24"
-													src="/images/country-flags/{(
-														location.country_code || 'united_nations'
-													).toLowerCase()}.svg"
-													title={location.country}
-													alt={location.country_code}
-												/>
-												{location.name}
+				{#await results}
+					<div class="mt-4 flex h-full items-center justify-center">
+						<Alert.Root class="border-border my-auto w-[unset]">
+							<Alert.Description>Loading...</Alert.Description>
+						</Alert.Root>
+					</div>
+				{:then results}
+					{#if results.results && results.results.length == 0}
+						{#if searchQuery.length < 2}
+							{#if $last_visited.length == 0 && $favorites.length == 0}
+								<Alert.Root class="border-border my-auto w-[unset]">
+									<Alert.Description>Start typing to search for locations</Alert.Description>
+								</Alert.Root>
+							{/if}
+							{#if $favorites.length > 0}
+								<h6 class="text-muted-foreground mb-4 mt-4 text-xl">Favorites</h6>
+								<div class="border-border rounded-lg border">
+									{#each $favorites as location}
+										<Button
+											variant="outline"
+											class="not-last:border-b flex h-[unset] w-full cursor-pointer justify-between rounded-none px-3 py-2"
+											onclick={() => selectLocation(location)}
+										>
+											<div class="pointer-events-none flex flex-col gap-1">
+												<div class="flex items-center gap-2 text-lg">
+													<img
+														height="24"
+														width="24"
+														src="/images/country-flags/{(
+															location.country_code || 'united_nations'
+														).toLowerCase()}.svg"
+														title={location.country}
+														alt={location.country_code}
+													/>
+													{location.name}
+												</div>
+
+												<div class="text-muted-foreground text-left text-sm">
+													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
+													{location.longitude.toFixed(2)}°E{#if location.elevation}
+														{+' ' + location.elevation.toFixed(0)}m asl{/if})
+												</div>
 											</div>
 
-											<div class="text-muted-foreground text-left text-sm">
-												{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
-												{location.longitude.toFixed(2)}°E{#if location.elevation}
-													{+' ' + location.elevation.toFixed(0)}m asl{/if})
+											<div class="-mr-1 flex justify-self-end">
+												<Button
+													variant="ghost"
+													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
+													onclick={() => deleteFavorite(location)}
+													title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
+												>
+												<Button
+													variant="ghost"
+													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
+													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
+													target="_blank"
+													title="Show on map"
+												>
+													<Map size={20} strokeWidth={1.2} />
+												</Button>
 											</div>
-										</div>
+										</Button>
+									{/each}
+								</div>
+							{/if}
+							{#if $last_visited.length > 0}
+								<h6 class="text-muted-foreground mb-4 mt-4 text-xl">Recent Locations</h6>
+								<div class="border-border rounded-lg border">
+									{#each $last_visited as location}
+										<Button
+											variant="outline"
+											class="not-last:border-b flex h-[unset] w-full cursor-pointer justify-between rounded-none px-3 py-2"
+											onclick={() => selectLocation(location)}
+										>
+											<div class="pointer-events-none flex flex-col gap-1">
+												<div class="flex items-center gap-2 text-lg">
+													<img
+														height="24"
+														width="24"
+														src="/images/country-flags/{(
+															location.country_code || 'united_nations'
+														).toLowerCase()}.svg"
+														title={location.country}
+														alt={location.country_code}
+													/>
+													{location.name}
+												</div>
 
-										<div class="-mr-1 flex justify-self-end">
-											<Button
-												variant="ghost"
-												class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
-												onclick={() => deleteFavorite(location)}
-												title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
-											>
-											<Button
-												variant="ghost"
-												class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
-												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
-												target="_blank"
-												title="Show on map"
-											>
-												<Map size={20} strokeWidth={1.2} />
-											</Button>
-										</div>
-									</Button>
-								{/each}
+												<div class="text-muted-foreground text-left text-sm">
+													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
+														2
+													)}°E{#if location.elevation}
+														{+' ' + location.elevation.toFixed(0)}m asl{/if})
+												</div>
+											</div>
+
+											<div class="-mr-1 flex justify-self-end">
+												<Button
+													variant="ghost"
+													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
+													onclick={(e) => saveFavorite(location)}
+													title="Save"><Star size={20} strokeWidth={1.2} /></Button
+												>
+												<Button
+													variant="ghost"
+													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
+													onclick={() => deleteRecent(location)}
+													title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
+												>
+												<Button
+													variant="ghost"
+													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
+													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
+													target="_blank"
+													title="Show on map"
+												>
+													<Map size={20} strokeWidth={1.2} />
+												</Button>
+											</div>
+										</Button>
+									{/each}
+								</div>
+							{/if}
+						{:else}
+							<div class="list-group mt-4">
+								<li class="list-group-item"><span>No locations found</span></li>
 							</div>
 						{/if}
-						{#if $last_visited.length > 0}
-							<h6 class="text-muted-foreground mb-4 mt-4 text-xl">Recent Locations</h6>
+					{:else}
+						<div class="list-group mt-4">
 							<div class="border-border rounded-lg border">
-								{#each $last_visited as location}
+								{#each results.results || [] as location}
 									<Button
 										variant="outline"
-										class="not-last:border-b flex h-[unset] w-full cursor-pointer justify-between rounded-none px-3 py-2"
+										class="not-last:border-b flex h-[unset] w-full cursor-pointer cursor-pointer justify-between rounded-none px-3 py-2"
 										onclick={() => selectLocation(location)}
 									>
 										<div class="pointer-events-none flex flex-col gap-1">
@@ -263,19 +329,12 @@
 													{+' ' + location.elevation.toFixed(0)}m asl{/if})
 											</div>
 										</div>
-
 										<div class="-mr-1 flex justify-self-end">
 											<Button
 												variant="ghost"
 												class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
-												onclick={(e) => saveFavorite(location)}
+												onclick={() => saveFavorite(location)}
 												title="Save"><Star size={20} strokeWidth={1.2} /></Button
-											>
-											<Button
-												variant="ghost"
-												class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
-												onclick={() => deleteRecent(location)}
-												title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
 											>
 											<Button
 												variant="ghost"
@@ -290,69 +349,14 @@
 									</Button>
 								{/each}
 							</div>
-						{/if}
-					{:else}
-						<div class="list-group mt-4">
-							<li class="list-group-item"><span>No locations found</span></li>
 						</div>
 					{/if}
-				{:else}
-					<div class="list-group mt-4">
-						<div class="border-border rounded-lg border">
-							{#each results.results || [] as location}
-								<Button
-									variant="outline"
-									class="not-last:border-b flex h-[unset] w-full cursor-pointer cursor-pointer justify-between rounded-none px-3 py-2"
-									onclick={() => selectLocation(location)}
-								>
-									<div class="pointer-events-none flex flex-col gap-1">
-										<div class="flex items-center gap-2 text-lg">
-											<img
-												height="24"
-												width="24"
-												src="/images/country-flags/{(
-													location.country_code || 'united_nations'
-												).toLowerCase()}.svg"
-												title={location.country}
-												alt={location.country_code}
-											/>
-											{location.name}
-										</div>
-
-										<div class="text-muted-foreground text-left text-sm">
-											{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
-												2
-											)}°E{#if location.elevation}
-												{+' ' + location.elevation.toFixed(0)}m asl{/if})
-										</div>
-									</div>
-									<div class="-mr-1 flex justify-self-end">
-										<Button
-											variant="ghost"
-											class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
-											onclick={() => saveFavorite(location)}
-											title="Save"><Star size={20} strokeWidth={1.2} /></Button
-										>
-										<Button
-											variant="ghost"
-											class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
-											href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
-											target="_blank"
-											title="Show on map"
-										>
-											<Map size={20} strokeWidth={1.2} />
-										</Button>
-									</div>
-								</Button>
-							{/each}
-						</div>
-					</div>
-				{/if}
-			{:catch error}
-				<Alert.Root variant="destructive" class="my-auto w-[unset]">
-					<Alert.Description>{error.message}</Alert.Description>
-				</Alert.Root>
-			{/await}
-		</div>
-	</Dialog.Content>
+				{:catch error}
+					<Alert.Root variant="destructive" class="my-auto w-[unset]">
+						<Alert.Description>{error.message}</Alert.Description>
+					</Alert.Root>
+				{/await}
+			</div>
+		</Dialog.Content>
+	</Dialog.Portal>
 </Dialog.Root>
