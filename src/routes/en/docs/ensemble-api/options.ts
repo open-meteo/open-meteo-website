@@ -268,101 +268,101 @@ export const available_variables = {
 
 export const hourly = [
 	[
-		{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-		{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-		{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-		{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-		{ name: 'precipitation', label: 'Precipitation (rain + snow)' },
-		{ name: 'rain', label: 'Rain' },
-		{ name: 'snowfall', label: 'Snowfall' },
-		{ name: 'snow_depth', label: 'Snow Depth' }
+		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
+		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
+		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
+		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
+		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
+		{ value: 'rain', label: 'Rain' },
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'snow_depth', label: 'Snow Depth' }
 	],
 	[
-		{ name: 'weather_code', label: 'Weather code' },
-		{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-		{ name: 'surface_pressure', label: 'Surface Pressure' },
-		{ name: 'cloud_cover', label: 'Cloud cover Total' },
-		{ name: 'visibility', label: 'Visibility' },
-		{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-		{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
+		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'surface_pressure', label: 'Surface Pressure' },
+		{ value: 'cloud_cover', label: 'Cloud cover Total' },
+		{ value: 'visibility', label: 'Visibility' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 	],
 	[
-		{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-		{ name: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
-		{ name: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
-		{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-		{ name: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
-		{ name: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
-		{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-		{ name: 'temperature_80m', label: 'Temperature (80 m)' },
-		{ name: 'temperature_120m', label: 'Temperature (120 m)' }
+		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+		{ value: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
+		{ value: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
+		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
+		{ value: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
+		{ value: 'temperature_80m', label: 'Temperature (80 m)' },
+		{ value: 'temperature_120m', label: 'Temperature (120 m)' }
 	],
 	[
-		{ name: 'surface_temperature', label: 'Surface Temperature' },
-		{ name: 'soil_temperature_0_to_10cm', label: 'Soil Temperature (0-10 cm)' },
-		{ name: 'soil_temperature_10_to_40cm', label: 'Soil Temperature (10-40 cm)' },
-		{ name: 'soil_temperature_40_to_100cm', label: 'Soil Temperature (40-100 cm)' },
-		{ name: 'soil_temperature_100_to_200cm', label: 'Soil Temperature (100-200 cm)' },
-		{ name: 'soil_moisture_0_to_10cm', label: 'Soil Moisture (0-10 cm)' },
-		{ name: 'soil_moisture_10_to_40cm', label: 'Soil Moisture (10-40 cm)' },
-		{ name: 'soil_moisture_40_to_100cm', label: 'Soil Moisture (40-100 cm)' },
-		{ name: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-400 cm)' }
+		{ value: 'surface_temperature', label: 'Surface Temperature' },
+		{ value: 'soil_temperature_0_to_10cm', label: 'Soil Temperature (0-10 cm)' },
+		{ value: 'soil_temperature_10_to_40cm', label: 'Soil Temperature (10-40 cm)' },
+		{ value: 'soil_temperature_40_to_100cm', label: 'Soil Temperature (40-100 cm)' },
+		{ value: 'soil_temperature_100_to_200cm', label: 'Soil Temperature (100-200 cm)' },
+		{ value: 'soil_moisture_0_to_10cm', label: 'Soil Moisture (0-10 cm)' },
+		{ value: 'soil_moisture_10_to_40cm', label: 'Soil Moisture (10-40 cm)' },
+		{ value: 'soil_moisture_40_to_100cm', label: 'Soil Moisture (40-100 cm)' },
+		{ value: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-400 cm)' }
 	]
 ];
 
 export const additionalVariables = [
 	[
-		{ name: 'uv_index', label: 'UV Index' },
-		{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
-		{ name: 'temperature_500hPa', label: 'Temperature (500 hPa)' },
-		{ name: 'temperature_850hPa', label: 'Temperature (850 hPa)' },
-		{ name: 'geopotential_height_500hPa', label: 'Geopotential Height (500 hPa)' },
-		{ name: 'geopotential_height_850hPa', label: 'Geopotential Height (850 hPa)' },
-		{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
+		{ value: 'uv_index', label: 'UV Index' },
+		{ value: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
+		{ value: 'temperature_500hPa', label: 'Temperature (500 hPa)' },
+		{ value: 'temperature_850hPa', label: 'Temperature (850 hPa)' },
+		{ value: 'geopotential_height_500hPa', label: 'Geopotential Height (500 hPa)' },
+		{ value: 'geopotential_height_850hPa', label: 'Geopotential Height (850 hPa)' },
+		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
 	],
 	[
-		{ name: 'cape', label: 'CAPE' },
-		{ name: 'freezing_level_height', label: 'Freezing Level Height' },
-		{ name: 'sunshine_duration', label: 'Sunshine Duration' }
+		{ value: 'cape', label: 'CAPE' },
+		{ value: 'freezing_level_height', label: 'Freezing Level Height' },
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
 	]
 ];
 
 export const solarVariables = [
 	[
-		{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-		{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
-		{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-		{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-		{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' }
+		{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
+		{ value: 'direct_radiation', label: 'Direct Solar Radiation' },
+		{ value: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
+		{ value: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
+		{ value: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' }
 	],
 	[
-		{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-		{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-		{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-		{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' }
+		{ value: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
+		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
+		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
+		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
+		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' }
 	]
 ];
 
 export const models = [
 	[
-		{ name: 'icon_seamless', label: 'DWD ICON EPS Seamless' },
-		{ name: 'icon_global', label: 'DWD ICON EPS Global' },
-		{ name: 'icon_eu', label: 'DWD ICON EPS EU' },
-		{ name: 'icon_d2', label: 'DWD ICON EPS D2' }
+		{ value: 'icon_seamless', label: 'DWD ICON EPS Seamless' },
+		{ value: 'icon_global', label: 'DWD ICON EPS Global' },
+		{ value: 'icon_eu', label: 'DWD ICON EPS EU' },
+		{ value: 'icon_d2', label: 'DWD ICON EPS D2' }
 	],
 	[
-		{ name: 'gfs_seamless', label: 'GFS Ensemble Seamless' },
-		{ name: 'gfs025', label: 'GFS Ensemble 0.25' },
-		{ name: 'gfs05', label: 'GFS Ensemble 0.5' }
+		{ value: 'gfs_seamless', label: 'GFS Ensemble Seamless' },
+		{ value: 'gfs025', label: 'GFS Ensemble 0.25' },
+		{ value: 'gfs05', label: 'GFS Ensemble 0.5' }
 	],
 	[
-		{ name: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4° Ensemble' },
-		{ name: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' }
+		{ value: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4° Ensemble' },
+		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' }
 	],
 	[
-		{ name: 'gem_global', label: 'GEM Global Ensemble' },
-		{ name: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' },
-		{ name: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' }
+		{ value: 'gem_global', label: 'GEM Global Ensemble' },
+		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' },
+		{ value: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' }
 	]
 ];

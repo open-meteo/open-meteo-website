@@ -24,53 +24,45 @@ export const defaultParameters = {
 	cell_selection: ''
 };
 
-
 export const hourly = [
 	[
-		{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-		{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
-		{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-		{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-		{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-		{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
+		{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
+		{ value: 'direct_radiation', label: 'Direct Solar Radiation' },
+		{ value: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
+		{ value: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
+		{ value: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
+		{ value: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
 	],
 	[
-		{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-		{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-		{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-		{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
-		{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
+		{ value: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
+		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
+		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
+		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
+		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
+		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 	]
 ];
 
 export const daily = [
 	[
-		{ name: 'sunrise', label: 'Sunrise' },
-		{ name: 'sunset', label: 'Sunset' },
-		{ name: 'daylight_duration', label: 'Daylight Duration' },
-		{ name: 'sunshine_duration', label: 'Sunshine Duration' },
+		{ value: 'sunrise', label: 'Sunrise' },
+		{ value: 'sunset', label: 'Sunset' },
+		{ value: 'daylight_duration', label: 'Daylight Duration' },
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
 	],
-	[
-		{ name: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
-	]
+	[{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' }]
 ];
 
 export const additionalVariables = [
-	[
-		{ name: 'is_day', label: 'Is Day or Night' },
-	],
-	[
-		{ name: 'sunshine_duration', label: 'Sunshine Duration' }
-	]
+	[{ value: 'is_day', label: 'Is Day or Night' }],
+	[{ value: 'sunshine_duration', label: 'Sunshine Duration' }]
 ];
-
 
 export const models = [
 	[
-		{ name: 'eumetsat_sarah3', label: 'eumetsat_sarah3'},
-		{ name: 'jma_jaxa_himawari', label: 'jma_jaxa_himawari'},
-		{ name: 'eumetsat_lsa_saf_msg', label: 'eumetsat_lsa_saf_msg'},
-		{ name: 'eumetsat_lsa_saf_iodc', label: 'eumetsat_lsa_saf_iodc'},
+		{ value: 'eumetsat_sarah3', label: 'eumetsat_sarah3' },
+		{ value: 'jma_jaxa_himawari', label: 'jma_jaxa_himawari' },
+		{ value: 'eumetsat_lsa_saf_msg', label: 'eumetsat_lsa_saf_msg' },
+		{ value: 'eumetsat_lsa_saf_iodc', label: 'eumetsat_lsa_saf_iodc' }
 	]
 ];

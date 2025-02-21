@@ -19,48 +19,48 @@ export const defaultParameters = {
 
 export const hourly = [
 	[
-		{ name: 'pm10', label: 'Particulate Matter PM<sub>10</sub>' },
-		{ name: 'pm2_5', label: 'Particulate Matter PM<sub>2.5</sub>' },
-		{ name: 'carbon_monoxide', label: 'Carbon Monoxide CO' },
-		{ name: 'carbon_dioxide', label: 'Carbon Dioxide CO<sub>2</sub>' },
-		{ name: 'nitrogen_dioxide', label: 'Nitrogen Dioxide NO<sub>2</sub>' },
-		{ name: 'sulphur_dioxide', label: 'Sulphur Dioxide SO<sub>2</sub>' },
-		{ name: 'ozone', label: 'Ozone O<sub>3</sub>' }
+		{ value: 'pm10', label: 'Particulate Matter PM<sub>10</sub>' },
+		{ value: 'pm2_5', label: 'Particulate Matter PM<sub>2.5</sub>' },
+		{ value: 'carbon_monoxide', label: 'Carbon Monoxide CO' },
+		{ value: 'carbon_dioxide', label: 'Carbon Dioxide CO<sub>2</sub>' },
+		{ value: 'nitrogen_dioxide', label: 'Nitrogen Dioxide NO<sub>2</sub>' },
+		{ value: 'sulphur_dioxide', label: 'Sulphur Dioxide SO<sub>2</sub>' },
+		{ value: 'ozone', label: 'Ozone O<sub>3</sub>' }
 	],
 	[
-		{ name: 'aerosol_optical_depth', label: 'Aerosol Optical Depth' },
-		{ name: 'dust', label: 'Dust' },
-		{ name: 'uv_index', label: 'UV Index' },
-		{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
+		{ value: 'aerosol_optical_depth', label: 'Aerosol Optical Depth' },
+		{ value: 'dust', label: 'Dust' },
+		{ value: 'uv_index', label: 'UV Index' },
+		{ value: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
 		{
-			name: 'ammonia',
+			value: 'ammonia',
 			label: 'Ammonia NH<sub>3</sub> <small class="text-muted-foreground">(*)</small>'
 		},
-		{ name: 'methane', label: 'Methane CH<sub>4</sub>' }
+		{ value: 'methane', label: 'Methane CH<sub>4</sub>' }
 	],
 	[
 		{
-			name: 'alder_pollen',
+			value: 'alder_pollen',
 			label: 'Alder Pollen <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'birch_pollen',
+			value: 'birch_pollen',
 			label: 'Birch Pollen <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'grass_pollen',
+			value: 'grass_pollen',
 			label: 'Grass Pollen <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'mugwort_pollen',
+			value: 'mugwort_pollen',
 			label: 'Mugwort Pollen <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'olive_pollen',
+			value: 'olive_pollen',
 			label: 'Olive Pollen <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'ragweed_pollen',
+			value: 'ragweed_pollen',
 			label: 'Ragweed Pollen <small class="text-muted-foreground">(*)</small>'
 		}
 	]
@@ -68,48 +68,48 @@ export const hourly = [
 
 export const current = [
 	[
-		{ name: 'european_aqi', label: 'European AQI' },
-		{ name: 'us_aqi', label: 'United States AQI' },
-		{ name: 'pm10', label: 'Particulate Matter PM<sub>10</sub>' },
-		{ name: 'pm2_5', label: 'Particulate Matter PM<sub>2.5</sub>' },
-		{ name: 'carbon_monoxide', label: 'Carbon Monoxide CO' },
-		{ name: 'nitrogen_dioxide', label: 'Nitrogen Dioxide NO<sub>2</sub>' },
-		{ name: 'sulphur_dioxide', label: 'Sulphur Dioxide SO<sub>2</sub>' },
-		{ name: 'ozone', label: 'Ozone O<sub>3</sub>' }
+		{ value: 'european_aqi', label: 'European AQI' },
+		{ value: 'us_aqi', label: 'United States AQI' },
+		{ value: 'pm10', label: 'Particulate Matter PM<sub>10</sub>' },
+		{ value: 'pm2_5', label: 'Particulate Matter PM<sub>2.5</sub>' },
+		{ value: 'carbon_monoxide', label: 'Carbon Monoxide CO' },
+		{ value: 'nitrogen_dioxide', label: 'Nitrogen Dioxide NO<sub>2</sub>' },
+		{ value: 'sulphur_dioxide', label: 'Sulphur Dioxide SO<sub>2</sub>' },
+		{ value: 'ozone', label: 'Ozone O<sub>3</sub>' }
 	],
 	[
-		{ name: 'aerosol_optical_depth', label: 'Aerosol Optical Depth' },
-		{ name: 'dust', label: 'Dust' },
-		{ name: 'uv_index', label: 'UV Index' },
-		{ name: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
+		{ value: 'aerosol_optical_depth', label: 'Aerosol Optical Depth' },
+		{ value: 'dust', label: 'Dust' },
+		{ value: 'uv_index', label: 'UV Index' },
+		{ value: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
 		{
-			name: 'ammonia',
+			value: 'ammonia',
 			label: 'Ammonia NH<sub>3</sub> <small class="text-muted-foreground">(*)</small>'
 		}
 	],
 	[
 		{
-			name: 'alder_pollen',
+			value: 'alder_pollen',
 			label: 'Alder Pollen <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'birch_pollen',
+			value: 'birch_pollen',
 			label: 'Birch Pollen <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'grass_pollen',
+			value: 'grass_pollen',
 			label: 'Grass Pollen <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'mugwort_pollen',
+			value: 'mugwort_pollen',
 			label: 'Mugwort Pollen <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'olive_pollen',
+			value: 'olive_pollen',
 			label: 'Olive Pollen <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'ragweed_pollen',
+			value: 'ragweed_pollen',
 			label: 'Ragweed Pollen <small class="text-muted-foreground">(*)</small>'
 		}
 	]
@@ -117,61 +117,61 @@ export const current = [
 
 export const aqi_european = [
 	[
-		{ name: 'european_aqi', label: 'European AQI' },
-		{ name: 'european_aqi_pm2_5', label: 'European AQI PM<sub>2.5</sub>' },
-		{ name: 'european_aqi_pm10', label: 'European AQI PM<sub>10</sub>' },
-		{ name: 'european_aqi_nitrogen_dioxide', label: 'European AQI NO<sub>2</sub>' },
-		{ name: 'european_aqi_ozone', label: 'European AQI O<sub>3</sub>' },
-		{ name: 'european_aqi_sulphur_dioxide', label: 'European AQI SO<sub>2</sub>' }
+		{ value: 'european_aqi', label: 'European AQI' },
+		{ value: 'european_aqi_pm2_5', label: 'European AQI PM<sub>2.5</sub>' },
+		{ value: 'european_aqi_pm10', label: 'European AQI PM<sub>10</sub>' },
+		{ value: 'european_aqi_nitrogen_dioxide', label: 'European AQI NO<sub>2</sub>' },
+		{ value: 'european_aqi_ozone', label: 'European AQI O<sub>3</sub>' },
+		{ value: 'european_aqi_sulphur_dioxide', label: 'European AQI SO<sub>2</sub>' }
 	]
 ];
 
 export const aqi_united_states = [
 	[
-		{ name: 'us_aqi', label: 'United States AQI' },
-		{ name: 'us_aqi_pm2_5', label: 'United States AQI PM<sub>2.5</sub>' },
-		{ name: 'us_aqi_pm10', label: 'United States AQI PM<sub>10</sub>' },
-		{ name: 'us_aqi_nitrogen_dioxide', label: 'United States AQI NO<sub>2</sub>' },
-		{ name: 'us_aqi_carbon_monoxide', label: 'United States AQI CO' },
-		{ name: 'us_aqi_ozone', label: 'United States AQI O<sub>3</sub>' },
-		{ name: 'us_aqi_sulphur_dioxide', label: 'United States AQI SO<sub>2</sub>' }
+		{ value: 'us_aqi', label: 'United States AQI' },
+		{ value: 'us_aqi_pm2_5', label: 'United States AQI PM<sub>2.5</sub>' },
+		{ value: 'us_aqi_pm10', label: 'United States AQI PM<sub>10</sub>' },
+		{ value: 'us_aqi_nitrogen_dioxide', label: 'United States AQI NO<sub>2</sub>' },
+		{ value: 'us_aqi_carbon_monoxide', label: 'United States AQI CO' },
+		{ value: 'us_aqi_ozone', label: 'United States AQI O<sub>3</sub>' },
+		{ value: 'us_aqi_sulphur_dioxide', label: 'United States AQI SO<sub>2</sub>' }
 	]
 ];
 
 export const additionalVariables = [
 	[
-		{ name: 'formaldehyde', label: 'Formaldehyde CH₂O' },
-		{ name: 'glyoxal', label: 'Glyoxal C₂H₂O₂' },
+		{ value: 'formaldehyde', label: 'Formaldehyde CH₂O' },
+		{ value: 'glyoxal', label: 'Glyoxal C₂H₂O₂' },
 		{
-			name: 'non_methane_volatile_organic_compounds',
+			value: 'non_methane_volatile_organic_compounds',
 			label:
 				'Non Methane Volatile Organic Compounds <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'pm10_wildfires',
+			value: 'pm10_wildfires',
 			label: 'PM<sub>10</sub> caused by wildfires <small class="text-muted-foreground">(*)</small>'
 		},
-		{ name: 'peroxyacyl_nitrates', label: 'Peroxyacyl Nitrates PAN' },
+		{ value: 'peroxyacyl_nitrates', label: 'Peroxyacyl Nitrates PAN' },
 		{
-			name: 'secondary_inorganic_aerosol',
+			value: 'secondary_inorganic_aerosol',
 			label: 'Secondary Inorganic Aerosol <small class="text-muted-foreground">(*)</small>'
 		}
 	],
 	[
 		{
-			name: 'residential_elementary_carbon',
+			value: 'residential_elementary_carbon',
 			label: 'Residential Rlementary Carbon <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'total_elementary_carbon',
+			value: 'total_elementary_carbon',
 			label: 'Total Elementary Carbon <small class="text-muted-foreground">(*)</small>'
 		},
 		{
-			name: 'pm2_5_total_organic_matter',
+			value: 'pm2_5_total_organic_matter',
 			label:
 				'PM<sub>2.5</sub> Total Organic Matter <small class="text-muted-foreground">(*)</small>'
 		},
-		{ name: 'sea_salt_aerosol', label: 'Sea Salt Aerosol' },
-		{ name: 'nitrogen_monoxide', label: 'Nitrogen Monoxide NO' }
+		{ value: 'sea_salt_aerosol', label: 'Sea Salt Aerosol' },
+		{ value: 'nitrogen_monoxide', label: 'Nitrogen Monoxide NO' }
 	]
 ];
