@@ -1858,7 +1858,7 @@
 </div>
 
 <div class="col-12 py-5">
-	<h2 id="weathervariables">Weather variable documentation</h2>
+	<h2 id="weather_variable_documentation">Weather variable documentation</h2>
 </div>
 
 <div class="col-6">
