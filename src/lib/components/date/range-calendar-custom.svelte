@@ -108,12 +108,10 @@
 >
 	<div class="flex w-full flex-col items-center gap-3">
 		<div class="flex w-full justify-between">
-			<Button variant="outline" class="cursor-pointer px-3" onclick={decreaseStart}
-				><ChevronLeft /></Button
-			>
+			<Button variant="outline" class="px-3" onclick={decreaseStart}><ChevronLeft /></Button>
 			<Button
 				variant="ghost"
-				class="cursor-pointer px-6 py-4"
+				class="px-6 py-4"
 				onclick={() => {
 					if (monthModeStart) {
 						yearModeStart = true;
@@ -121,16 +119,14 @@
 					monthModeStart = true;
 				}}>{startDate.getFullYear()} - {monthList[startDate.getMonth()]}</Button
 			>
-			<Button variant="outline" class="cursor-pointer px-3" onclick={increaseStart}
-				><ChevronRight /></Button
-			>
+			<Button variant="outline" class="px-3" onclick={increaseStart}><ChevronRight /></Button>
 		</div>
 		<div class="flex max-h-[300px] justify-between overflow-y-auto">
 			{#if yearModeStart}
 				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
 					{#each yearList as year}
 						<Button
-							class="cursor-pointer {startDate.getFullYear() === year ? 'bg-accent/75' : ''}"
+							class={startDate.getFullYear() === year ? 'bg-accent/75' : ''}
 							variant="ghost"
 							disabled={year < begin_date.getFullYear()}
 							onclick={() => {
@@ -146,9 +142,7 @@
 				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-3 gap-1">
 					{#each monthsForLocale() as month, i}
 						<Button
-							class="cursor-pointer {monthList[startDate.getMonth()] === month
-								? 'bg-accent/75'
-								: ''}"
+							class={monthList[startDate.getMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
 							disabled={new Date(`${startDate.getFullYear()}-${pad(i + 1)}-01`).getTime() <
 								begin_date.getTime() - 27 * 24 * 60 * 60 * 1000 ||
@@ -168,7 +162,7 @@
 				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
 					{#each startDates as date}
 						<Button
-							class="cursor-pointer duration-200 hover:rounded-md 
+							class="duration-200 hover:rounded-md 
 								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? 'font-bold' : ''}
 								{date.getTime() > startDate.getTime() && date.getTime() < endDate.getTime()
 								? 'bg-accent/50 rounded-none'
@@ -179,8 +173,8 @@
 								? 'bg-accent rounded-e-md rounded-s-none'
 								: ''}"
 							variant="ghost"
-							disabled={date.getTime() < begin_date.getTime() ||
-								date.getTime() > last_date.getTime()}
+							disabled={date.getTime() < begin_date.getTime() - 23 * 60 * 60 * 1000 ||
+								date.getTime() > last_date.getTime() + 23 * 60 * 60 * 1000}
 							onclick={() => {
 								let newDate = new Date(startDate);
 								newDate.setDate(date.getDate());
@@ -195,12 +189,10 @@
 	<div class="border-border border-r"></div>
 	<div class="flex w-full flex-col items-center gap-3">
 		<div class="flex w-full justify-between">
-			<Button variant="outline" class="cursor-pointer px-3" onclick={decreaseEnd}
-				><ChevronLeft /></Button
-			>
+			<Button variant="outline" class="px-3" onclick={decreaseEnd}><ChevronLeft /></Button>
 			<Button
 				variant="ghost"
-				class="cursor-pointer px-6 py-4"
+				class="px-6 py-4"
 				onclick={() => {
 					if (monthModeEnd) {
 						yearModeEnd = true;
@@ -208,16 +200,14 @@
 					monthModeEnd = true;
 				}}>{endDate.getFullYear()} - {monthList[endDate.getMonth()]}</Button
 			>
-			<Button variant="outline" class="cursor-pointer px-3" onclick={increaseEnd}
-				><ChevronRight /></Button
-			>
+			<Button variant="outline" class="px-3" onclick={increaseEnd}><ChevronRight /></Button>
 		</div>
 		<div class="flex max-h-[300px] justify-between overflow-y-auto">
 			{#if yearModeEnd}
 				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
 					{#each yearList as year}
 						<Button
-							class="cursor-pointer {endDate.getFullYear() === year ? 'bg-accent/75' : ''}"
+							class={endDate.getFullYear() === year ? 'bg-accent/75' : ''}
 							variant="ghost"
 							disabled={year < begin_date.getFullYear()}
 							onclick={() => {
@@ -233,11 +223,12 @@
 				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-3 gap-1">
 					{#each monthsForLocale() as month, i}
 						<Button
-							class="cursor-pointer {monthList[endDate.getMonth()] === month ? 'bg-accent/75' : ''}"
+							class={monthList[endDate.getMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={new Date(`${endDate.getFullYear()}-${pad(i)}-01`).getTime() <
+							disabled={new Date(`${endDate.getFullYear()}-${pad(i + 1)}-01`).getTime() <
 								begin_date.getTime() ||
-								new Date(`${endDate.getFullYear()}-${pad(i)}-01`).getTime() > last_date.getTime()}
+								new Date(`${endDate.getFullYear()}-${pad(i + 1)}-01`).getTime() >
+									last_date.getTime()}
 							onclick={() => {
 								monthModeEnd = false;
 								let newDate = new Date(endDate);
@@ -251,7 +242,7 @@
 				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
 					{#each endDates as date}
 						<Button
-							class="cursor-pointer duration-200 hover:rounded-md
+							class="duration-200 hover:rounded-md
 								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? ' font-bold' : ''}
 								{date.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]
 								? 'bg-accent rounded-s-none'
@@ -261,8 +252,8 @@
 								? 'bg-accent rounded-e-none rounded-s-md'
 								: ''}"
 							variant="ghost"
-							disabled={date.getTime() < begin_date.getTime() ||
-								date.getTime() > last_date.getTime()}
+							disabled={date.getTime() < begin_date.getTime() - 23 * 60 * 60 * 1000 ||
+								date.getTime() > last_date.getTime() + 23 * 60 * 60 * 1000}
 							onclick={() => {
 								let newDate = new Date(endDate);
 								newDate.setDate(date.getDate());

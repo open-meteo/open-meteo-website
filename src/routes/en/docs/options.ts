@@ -331,39 +331,6 @@ export const gridCellSelectionOptions = [
 	{ value: 'nearest', label: 'Nearest' }
 ];
 
-// Settings
-export const temperatureOptions = [
-	{ value: 'celsius', label: 'Celsius °C' },
-	{ value: 'fahrenheit', label: 'Fahrenheit °F' }
-];
-
-export const windSpeedOptions = [
-	{ value: 'kmh', label: 'km/h' },
-	{ value: 'ms', label: 'm/s' },
-	{ value: 'mph', label: 'mph' },
-	{ value: 'kn', label: 'Knots' }
-];
-
-export const precipitationOptions = [
-	{ value: 'mm', label: 'Millimeter' },
-	{ value: 'inch', label: 'Inch' }
-];
-
-export const timeFormatOptions = [
-	{
-		value: 'iso8601',
-		label:
-			'ISO 8601 (e.g. ' +
-			new Date().getFullYear() +
-			'-' +
-			pad(new Date().getMonth() + 1) +
-			'-' +
-			pad(new Date().getDate()) +
-			')'
-	},
-	{ value: 'unixtime', label: 'Unix timestamp' }
-];
-
 export const forecastMinutely15Options = [
 	{ value: '', label: '- (default)' },
 	{ value: 1 * 4, label: '1 hour' },

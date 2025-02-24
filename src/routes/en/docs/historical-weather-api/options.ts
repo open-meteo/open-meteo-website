@@ -196,35 +196,32 @@ export const models = [
 	]
 ];
 
-// Settings
-export const temperatureOptions = [
-	{ value: 'celsius', label: 'Celsius °C' },
-	{ value: 'fahrenheit', label: 'Fahrenheit °F' }
+// Additional variable options
+export const temporalResolutionOptions = [
+	{ value: '', label: '1 Hourly' },
+	{ value: 'hourly_3', label: '3 Hourly' },
+	{ value: 'hourly_6', label: '6 Hourly' },
+	{ value: 'native', label: 'Native Model Resolution' }
 ];
 
-export const windSpeedOptions = [
-	{ value: 'kmh', label: 'km/h' },
-	{ value: 'ms', label: 'm/s' },
-	{ value: 'mph', label: 'mph' },
-	{ value: 'kn', label: 'Knots' }
+export const gridCellSelectionOptions = [
+	{ value: '', label: 'Terrain Optimized, Prefers Land' },
+	{ value: 'sea', label: 'Prefer Sea' },
+	{ value: 'nearest', label: 'Nearest' }
 ];
 
-export const precipitationOptions = [
-	{ value: 'mm', label: 'Millimeter' },
-	{ value: 'inch', label: 'Inch' }
+export const forecastMinutely15Options = [
+	{ value: '', label: '- (default)' },
+	{ value: 1 * 4, label: '1 hour' },
+	{ value: 6 * 4, label: '6 hours' },
+	{ value: 12 * 4, label: '12 hours' },
+	{ value: 24 * 4, label: '24 hours' }
 ];
 
-export const timeFormatOptions = [
-	{
-		value: 'iso8601',
-		label:
-			'ISO 8601 (e.g. ' +
-			new Date().getFullYear() +
-			'-' +
-			pad(new Date().getMonth()) +
-			'-' +
-			pad(new Date().getDate()) +
-			')'
-	},
-	{ value: 'unixtime', label: 'Unix timestamp' }
+export const pastMinutely15Options = [
+	{ value: '', label: '- (default)' },
+	{ value: 1 * 4, label: '1 hour' },
+	{ value: 6 * 4, label: '6 hours' },
+	{ value: 12 * 4, label: '12 hours' },
+	{ value: 24 * 4, label: '24 hours' }
 ];

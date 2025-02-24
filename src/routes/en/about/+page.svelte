@@ -6,11 +6,11 @@
 <div class="container my-6 grid gap-6 md:my-12 md:grid-cols-2">
 	<div>
 		<h2 class="mb-3 text-4xl">About</h2>
-		<p class="mb-3">
+		<p>
 			Open-Meteo is an open-source weather API and offers free access for non-commercial use. No API
 			key is required. You can use it immediately!
 		</p>
-		<p class="mb-3">
+		<p>
 			We at Open-Meteo believe that access to accurate and reliable weather data should be available
 			to everyone. That's why we have created an open-source weather API that utilizes open-data
 			weather forecasts provided by national weather services. These numerical weather predictions
@@ -18,14 +18,14 @@
 			in binary file formats, grid-systems, projections, and the fundamentals of weather
 			predictions.
 		</p>
-		<p class="mb-3">
+		<p>
 			Our team has worked hard to create a user-friendly API that integrates high-resolution local
 			and global weather models. Every day, over 2 TB of data are downloaded and processed from
 			multiple national weather services. We then store the collected data in local files using a
 			customized file format and compression technique to enhance access to time-series data such as
 			a 14-day temperature forecast.
 		</p>
-		<p class="mb-3">
+		<p>
 			Unlike other weather APIs, Open-Meteo provides complete access to its source code, and all
 			data sources are openly listed, crediting the national weather services for their work. With
 			Docker or prebuilt Ubuntu packages, users can launch their own weather API within minutes. By
@@ -33,7 +33,7 @@
 			processing and even make modifications themselves. We welcome and encourage contributions from
 			our users.
 		</p>
-		<p class="mb-3">
+		<p>
 			The API is available for non-commercial use at no cost. Despite being free of charge, the
 			forecast accuracy is top-notch. The API utilizes a vast array of local weather models with
 			rapid updates, ensuring that the most precise forecast is generated for any location globally.
@@ -47,38 +47,38 @@
 	</div>
 	<div id="contact">
 		<h2 class="mb-3 text-4xl">Vision</h2>
-		<p class="mb-3">
+		<p>
 			At our core, we believe that weather information should be freely available to everyone.
 			That's why we built our weather API on open data - making it accessible to all without any
 			barriers. Our team of dedicated developers and weather experts work tirelessly to ensure that
 			our API is accurate, reliable, and easy to use.
 		</p>
-		<p class="mb-3">
+		<p>
 			We understand the importance of weather information in our daily lives. From planning a
 			weekend getaway to making critical business decisions, accurate and up-to-date weather data
 			can be the difference between success and failure. Our API delivers weather data in a variety
 			of formats, making it easy for developers and businesses to integrate weather data into their
 			applications and services.
 		</p>
-		<p class="mb-3">
+		<p>
 			Our goal is to make weather data accessible to everyone - from hobbyists and startups to large
 			corporations and government agencies. Whether you need weather information for personal or
 			professional use, our API has got you covered. We are constantly adding new features and
 			improving our API to better serve our users.
 		</p>
-		<p class="mb-3">
+		<p>
 			Thank you for choosing our weather API. We look forward to providing you with the most
 			accurate and reliable weather information available.
 		</p>
 	</div>
 	<div id="contact">
 		<h2 class="mb-3 text-4xl">Contact</h2>
-		<p class="mb-3">
+		<p>
 			We're thrilled that you're interested in contacting us! Whether you have a question, comment,
 			or just want to say hello, we're always here to listen and help.
 		</p>
 
-		<p class="mb-3">
+		<p>
 			At our core, we believe that communication is key to building strong relationships with our
 			users. That's why we've made it easy for you to get in touch with us. You can reach us through
 			any of the following channels:
@@ -102,7 +102,7 @@
 				>.
 			</li>
 		</ul>
-		<p class="mb-3">
+		<p>
 			We're committed to providing our users with the best possible experience. That's why we're
 			always looking for feedback on how we can improve. Whether you have a suggestion for a new
 			feature or just want to let us know how we're doing, we're all ears.

@@ -12,11 +12,9 @@
 		altitudeAboveSeaLevelMeters
 	} from '$lib/utils/meteo';
 
-	import SuperDebug from 'sveltekit-superforms';
-
-	import Input from '$lib/components/ui/input/input.svelte';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
 	import * as Alert from '$lib/components/ui/alert';
@@ -24,6 +22,7 @@
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
+	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import AccordionItem from '$lib/components/AccordionItem.svelte';
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
@@ -46,14 +45,10 @@
 		solarVariables,
 		pastDaysOptions,
 		pastHoursOptions,
-		windSpeedOptions,
 		defaultParameters,
 		pressureVariables,
-		timeFormatOptions,
-		temperatureOptions,
 		forecastDaysOptions,
 		additionalVariables,
-		precipitationOptions,
 		forecastHoursOptions,
 		pastMinutely15Options,
 		gridCellSelectionOptions,
@@ -83,8 +78,6 @@
 
 	let pastDays = $derived(pastDaysOptions.find((pdo) => String(pdo.value) == $params.past_days));
 
-	let timeModeSelected = $derived($params.time_mode);
-
 	// Additional variable settings
 	let forecastHours = $derived(
 		forecastHoursOptions.find((fho) => String(fho.value) == $params.forecast_hours)
@@ -103,22 +96,7 @@
 		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
 	);
 
-	// Settings
-	let temperatureUnit = $derived(
-		temperatureOptions.find((to) => String(to.value) == $params.temperature_unit)
-	);
-	let windSpeedUnit = $derived(
-		windSpeedOptions.find((wso) => String(wso.value) == $params.wind_speed_unit)
-	);
-	let precipitationUnit = $derived(
-		precipitationOptions.find((po) => String(po.value) == $params.precipitation_unit)
-	);
-	let timeFormat = $derived(
-		timeFormatOptions.find((tfo) => String(tfo.value) == $params.timeformat)
-	);
-
 	let accordionValues = $state([]);
-
 	onMount(() => {
 		if (
 			countVariables(additionalVariables, $params.hourly).active &&
@@ -169,17 +147,18 @@
 </svelte:head>
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
-	<!-- <SuperDebug data={api_key_preferences} /> -->
+	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
+	<!-- TIME -->
 	<div class="mt-6">
 		<div class="mt-3 flex items-center gap-2">
-			<div class="text-muted-foreground">Location:</div>
+			<div class="text-muted-foreground">Time:</div>
 
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="cursor-pointer rounded-e-none !opacity-100 {$params.time_mode === 'forecast_days'
+					class="rounded-e-none !opacity-100 {$params.time_mode === 'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
 					disabled={$params.time_mode === 'forecast_days'}
@@ -193,7 +172,7 @@
 				</Button>
 				<Button
 					variant="ghost"
-					class="cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 {$params.time_mode ===
+					class="rounded-md rounded-s-none !opacity-100 duration-300 {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -288,8 +267,9 @@
 		</div>
 	</div>
 
-	<div class="mb-6 mt-6 md:mt-12">
-		<h2 class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
+	<!-- HOURLY -->
+	<div class="mt-6 md:mt-12">
+		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -326,7 +306,8 @@
 		</div>
 	</div>
 
-	<div>
+	<!-- ADDITIONAL VARIABLES -->
+	<div class="mt-6">
 		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem
 				id="additional-variables"
@@ -486,7 +467,7 @@
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
 					<div class="relative">
 						<Input
-							key="tilt"
+							id="tilt"
 							type="number"
 							class="h-12 cursor-pointer pt-6 {$params.tilt < 0 || $params.tilt > 90
 								? 'text-red'
@@ -776,8 +757,9 @@
 		</Accordion.Root>
 	</div>
 
+	<!-- DAILY -->
 	<div class="mt-6 md:mt-12">
-		<h2 class="text-2xl md:text-3xl">Daily Weather Variables</h2>
+		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2>
 		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 			{#each daily as group}
 				{#each group as e}
@@ -820,8 +802,9 @@
 		{/if}
 	</div>
 
+	<!-- CURRENT -->
 	<div class="mt-6 md:mt-12">
-		<h2 class="text-2xl md:text-3xl">Current Weather</h2>
+		<h2 id="current_weather" class="text-2xl md:text-3xl">Current Weather</h2>
 		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 			{#each current as group}
 				{#each group as e}
@@ -858,96 +841,25 @@
 		</div>
 	</div>
 
+	<!-- SETTINGS -->
 	<div class="mt-6 md:mt-12">
-		<h2 class="text-2xl md:text-3xl">Settings</h2>
-		<div
-			class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-6 md:flex-row md:gap-6 lg:grid-cols-4"
-		>
-			<div class="relative">
-				<Select.Root name="temperature_unit" type="single" bind:value={$params.temperature_unit}>
-					<Select.Trigger
-						aria-label="Temperature setting"
-						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{temperatureUnit?.label}</Select.Trigger
-					>
-					<Select.Content preventScroll={false} class="border-border">
-						{#each temperatureOptions as to}
-							<Select.Item value={to.value}>{to.label}</Select.Item>
-						{/each}
-					</Select.Content>
-					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-						>Temperature Unit</Label
-					>
-				</Select.Root>
-			</div>
-
-			<div class="relative">
-				<Select.Root name="wind_speed_unit" type="single" bind:value={$params.wind_speed_unit}>
-					<Select.Trigger
-						aria-label="Wind speed setting"
-						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{windSpeedUnit?.label}</Select.Trigger
-					>
-					<Select.Content preventScroll={false} class="border-border">
-						{#each windSpeedOptions as wso}
-							<Select.Item value={wso.value}>{wso.label}</Select.Item>
-						{/each}
-					</Select.Content>
-					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-						>Wind Speed Unit</Label
-					>
-				</Select.Root>
-			</div>
-
-			<div class="relative">
-				<Select.Root
-					name="precipitation_unit"
-					type="single"
-					bind:value={$params.precipitation_unit}
-				>
-					<Select.Trigger
-						aria-label="Precipitation setting"
-						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{precipitationUnit?.label}</Select.Trigger
-					>
-					<Select.Content preventScroll={false} class="border-border">
-						{#each precipitationOptions as po}
-							<Select.Item value={po.value}>{po.label}</Select.Item>
-						{/each}
-					</Select.Content>
-					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-						>Precipitation Unit</Label
-					>
-				</Select.Root>
-			</div>
-
-			<div class="relative">
-				<Select.Root name="timeformat" type="single" bind:value={$params.timeformat}>
-					<Select.Trigger
-						aria-label="Time format setting"
-						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{timeFormat?.label}</Select.Trigger
-					>
-					<Select.Content preventScroll={false} class="border-border">
-						{#each timeFormatOptions as tfo}
-							<Select.Item value={tfo.value}>{tfo.label}</Select.Item>
-						{/each}
-					</Select.Content>
-					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-						>Timeformat</Label
-					>
-				</Select.Root>
-			</div>
-		</div>
+		<Settings bind:params={$params} />
 	</div>
 
+	<!-- LISENCE -->
 	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
 </form>
 
+<!-- RESULT -->
 <div class="mt-6 md:mt-12">
 	<ResultPreview {params} {defaultParameters} />
 </div>
 
+<!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
-	<h2 class="text-2xl md:text-3xl" id="data-sources">Data Source</h2>
+	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
 	<div class="mt-2 md:mt-4">
-		<p class="mb-3">
+		<p>
 			Open-Meteo weather forecast APIs use weather models from multiple national weather providers.
 			For each location worldwide, the best models will be combined to provide the best possible
 			forecast.
@@ -1086,8 +998,10 @@
 		</table>
 	</div>
 </div>
+
+<!-- API DOCS -->
 <div class="mt-6 md:mt-12">
-	<h2 id="api-documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The API endpoint <mark>/v1/forecast</mark> accepts a geographical coordinate, a list of
@@ -1317,8 +1231,10 @@
 		</p>
 	</div>
 </div>
+
+<!-- API DOCS - HOURLY -->
 <div class="mt-6 md:mt-12">
-	<h2 class="text-2xl md:text-3xl">Hourly Parameter Definition</h2>
+	<h3 id="hourly_parameter_definition" class="text-xl md:text-2xl">Hourly Parameter Definition</h3>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The parameter <mark>&hourly=</mark> accepts the following values. Most weather variables are given
@@ -1602,8 +1518,12 @@
 		</table>
 	</div>
 </div>
+
+<!-- API DOCS - 15 MIN -->
 <div class="mt-6 md:mt-12">
-	<h2 class="text-2xl md:text-3xl">15-Minutely Parameter Definition</h2>
+	<h3 id="15_minutely_parameter_definition" class="text-xl md:text-2xl">
+		15-Minutely Parameter Definition
+	</h3>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
@@ -1810,8 +1730,10 @@
 		</div>
 	</div>
 </div>
+
+<!-- API DOCS - PRESSURE -->
 <div class="mt-6 md:mt-12">
-	<h2 class="text-2xl md:text-3xl">Pressure Level Variables</h2>
+	<h3 id="pressure_level_variables" class="text-xl md:text-2xl">Pressure Level Variables</h3>
 	<div class="mt-2 md:mt-4">
 		<p>
 			Pressure level variables do not have fixed altitudes. Altitude varies with atmospheric
@@ -1887,8 +1809,10 @@
 		</table>
 	</div>
 </div>
+
+<!-- API DOCS - DAILY -->
 <div class="mt-6 md:mt-12">
-	<h2 class="text-2xl md:text-3xl">Daily Parameter Definition</h2>
+	<h3 id="daily_parameter_definition" class="text-xl md:text-2xl">Daily Parameter Definition</h3>
 	<div class="mt-2 md:mt-4">
 		<p>
 			Aggregations are a simple 24 hour aggregation from hourly values. The parameter <mark
@@ -2009,8 +1933,10 @@
 		</table>
 	</div>
 </div>
+
+<!-- API DOCS - JSON -->
 <div class="mt-6 md:mt-12">
-	<h2 class="text-2xl md:text-3xl">JSON Return Object</h2>
+	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
 		<div class="code-numbered mt-2 md:mt-4"><WeatherForecastObject /></div>
@@ -2040,8 +1966,9 @@
 						>The elevation from a 90 meter digital elevation model. This effects which grid-cell is
 						selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is used to
 						adapt weather conditions for this elevation. This elevation can also be controlled with
-						the query parameter <mark>elevation</mark>. If <mark>&elevation=nan</mark> is specified,
-						all downscaling is disabled and the averge grid-cell elevation is used.</td
+						the query parameter <mark>elevation</mark>. If
+						<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the averge grid-cell
+						elevation is used.</td
 					>
 				</tr>
 				<tr>
@@ -2096,8 +2023,10 @@
 		</table>
 	</div>
 </div>
+
+<!-- API DOCS - ERRORS -->
 <div class="mt-6 md:mt-12">
-	<h2 class="text-2xl md:text-3xl">Errors</h2>
+	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
 	<div class="mt-2 md:mt-4">
 		<p>
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
@@ -2106,8 +2035,12 @@
 		<div class="mt-2 md:mt-4"><WeatherForecastError /></div>
 	</div>
 </div>
+
+<!-- WEATHER VARIABLES -->
 <div class="mt-6 md:mt-12">
-	<h2 id="weathervariables" class="text-2xl md:text-3xl">Weather variable documentation</h2>
+	<h2 id="weather_variable_documentation" class="text-2xl md:text-3xl">
+		Weather variable documentation
+	</h2>
 	<div class="mt-3 md:mt-6">
 		<h3 class="text-xl md:text-2xl">WMO Weather interpretation codes (WW)</h3>
 		<table

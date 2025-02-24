@@ -54,7 +54,7 @@
 				<h3 class="pl-3 text-2xl">Local And Global Models</h3>
 			</div>
 
-			<p class="mb-3">
+			<p>
 				Open-Meteo brings together cutting-edge local (1 km resolution) and global (11 km) weather
 				models sourced from renowned national weather services. This means you have access to the
 				most accurate forecast for any location worldwide.
@@ -78,7 +78,7 @@
 
 				<h3 class="pl-3 text-2xl">Commercial Use License</h3>
 			</div>
-			<p class="mb-3">
+			<p>
 				Commercial clients enjoy the advantages of dedicated API servers and personalized support.
 				If you have any inquiries or require assistance, please feel free to reach out to us at <a
 					href="mailto:info@open-meteo.com">info@open-meteo.com</a
@@ -103,12 +103,12 @@
 
 				<h3 class="pl-3 text-2xl">Large API Call Volume</h3>
 			</div>
-			<p class="mb-3">
+			<p>
 				The API price includes millions of API calls, and you will not be billed for each individual
 				API call. We suggest updating the weather forecast API every hour to achieve optimal
 				accuracy.
 			</p>
-			<p class="mb-3">
+			<p>
 				If you anticipate a higher volume of API calls, you have the option to adjust the quantity
 				of the API professional plan, doubling or even tripling the number of monthly API calls.
 			</p>
@@ -130,7 +130,7 @@
 
 				<h3 class="pl-3 text-2xl">Excellent Uptime, Low Latency</h3>
 			</div>
-			<p class="mb-3">
+			<p>
 				Our API is built with top-tier servers and redundant data centers to ensure exceptional
 				availability, reaching 99.9% uptime. You can monitor the real-time statistics at:
 				<a href="https://status.open-meteo.com/">https://status.open-meteo.com/</a>.
@@ -188,7 +188,7 @@
 	</div>
 
 	<div class="mt-12 md:mt-24" id="faq">
-		<h2 id="weathervariables" class="text-center text-5xl font-light">
+		<h2 id="weather_variable_documentation" class="text-center text-5xl font-light">
 			Frequently Asked Questions
 		</h2>
 
@@ -207,7 +207,7 @@
 
 			<div>
 				<h4 class="mb-3 text-2xl">What happens if I exceed my monthly call volume?</h4>
-				<p class="mb-3">
+				<p>
 					If you approach 80%, 90%, or 100% of your monthly call volume, you will receive email
 					notifications to keep you informed. However, due to the ample number of API calls
 					provided, it is unlikely that you will reach this limit.
@@ -291,24 +291,24 @@
 			Unlock the Power of Open-Source Weather Data!
 		</h2>
 		<div class="text-center">
-			<p class="mb-3">
+			<p>
 				Subscribe to our open-source API service and be a part of a thriving community that promotes
 				development, innovation, and collaboration. By joining us, you contribute to the ongoing
 				maintenance and enhancement of our service, ensuring its availability for everyone.
 			</p>
-			<p class="mb-3">
+			<p>
 				With access to comprehensive open-data weather forecasts, you can fuel your projects,
 				research endeavors, and educational initiatives with accurate and reliable information. Our
 				commitment to an open-source ecosystem allows you to explore, modify, and build upon our
 				API, fostering endless possibilities and empowering your creativity.
 			</p>
-			<p class="mb-3">
+			<p>
 				By subscribing, you directly support the continuous development of our service, enabling us
 				to invest in cutting-edge technologies and expand our data sources. Together, we can push
 				the boundaries of weather prediction, drive advancements in various industries, and make a
 				positive impact on the world.
 			</p>
-			<p class="mb-3">
+			<p>
 				Join us now and embrace the power of open-source. Together, let's create a future where
 				knowledge is freely shared, collaboration thrives, and innovation knows no bounds. Subscribe
 				today and be part of this exciting journey!

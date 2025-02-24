@@ -243,3 +243,49 @@ export const models = [
 		{ value: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 	]
 ];
+
+// Additional variable options
+export const forecastHoursOptions = [
+	{ value: '', label: '- (default)' },
+	{ value: 1, label: '1 hour' },
+	{ value: 6, label: '6 hours' },
+	{ value: 12, label: '12 hours' },
+	{ value: 24, label: '24 hours' }
+];
+
+export const pastHoursOptions = [
+	{ value: '', label: '- (default)' },
+	{ value: 1, label: '1 hour' },
+	{ value: 6, label: '6 hours' },
+	{ value: 12, label: '12 hours' },
+	{ value: 24, label: '24 hours' }
+];
+
+export const temporalResolutionOptions = [
+	{ value: '', label: '1 Hourly' },
+	{ value: 'hourly_3', label: '3 Hourly' },
+	{ value: 'hourly_6', label: '6 Hourly' },
+	{ value: 'native', label: 'Native Model Resolution' }
+];
+
+export const gridCellSelectionOptions = [
+	{ value: '', label: 'Terrain Optimized, Prefers Land' },
+	{ value: 'sea', label: 'Prefer Sea' },
+	{ value: 'nearest', label: 'Nearest' }
+];
+
+export const forecastMinutely15Options = [
+	{ value: '', label: '- (default)' },
+	{ value: 1 * 4, label: '1 hour' },
+	{ value: 6 * 4, label: '6 hours' },
+	{ value: 12 * 4, label: '12 hours' },
+	{ value: 24 * 4, label: '24 hours' }
+];
+
+export const pastMinutely15Options = [
+	{ value: '', label: '- (default)' },
+	{ value: 1 * 4, label: '1 hour' },
+	{ value: 6 * 4, label: '6 hours' },
+	{ value: 12 * 4, label: '12 hours' },
+	{ value: 24 * 4, label: '24 hours' }
+];

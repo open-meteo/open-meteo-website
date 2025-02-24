@@ -11,8 +11,9 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
 	import InfoCircle from 'lucide-svelte/icons/info';
-	import ExclamationTriangle from 'lucide-svelte/icons/triangle-alert';
+	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 	import ArrowClockwise from 'lucide-svelte/icons/refresh-cw';
+	import ExclamationTriangle from 'lucide-svelte/icons/triangle-alert';
 
 	import type { Writable } from 'svelte/store';
 	import type { Parameters } from '$lib/docs';
@@ -602,7 +603,7 @@
 	let mode = $state('chart');
 </script>
 
-<h2 id="api-response" class="text-2xl md:text-3xl">API Response</h2>
+<h2 id="api_response" class="text-2xl md:text-3xl">API Response</h2>
 
 <div class="mt-2 flex items-center md:mt-4">
 	<div class="text-muted-foreground">Preview:</div>
@@ -651,17 +652,19 @@
 <div class="py-3">
 	{#if mode == 'chart'}
 		<div in:fade>
-			<div>
+			<div class="relative" style={useStockChart ? 'height: 500px' : 'height: 400px'}>
 				{#await results}
-					<div style={useStockChart ? 'height: 500px' : 'height: 400px'}>
-						<div class="spinner-border" role="status">
-							<span class="visually-hidden">Loading...</span>
-						</div>
+					<div
+						class="bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center"
+						in:fade={{ delay: 400, duration: 400 }}
+						out:fade={{ duration: 300 }}
+					>
+						<LoaderCircle size={40} class="animate-spin" /><span class="hidden">Loading...</span>
 					</div>
 				{:then results}
 					{#if results}
 						{#each results.slice(0, 10) as chart}
-							<div class="w-full">
+							<div transition:fade={{ duration: 300 }} class="absolute top-0 w-full">
 								<HighchartContainer
 									options={chart}
 									{useStockChart}
@@ -670,8 +673,11 @@
 							</div>
 						{/each}
 					{:else}
-						<div style={useStockChart ? 'height: 500px' : 'height: 400px'}>
-							<div class="flex h-full items-center justify-center">
+						<div
+							transition:fade={{ duration: 300 }}
+							style={useStockChart ? 'height: 500px' : 'height: 400px'}
+						>
+							<div class="absolute top-0 flex h-full w-full items-center justify-center">
 								<Alert.Root class="border-border my-auto w-[unset] !pl-8">
 									<Alert.Description>
 										<div class="flex items-center justify-center gap-2">
@@ -680,11 +686,7 @@
 												Parameters have changed.
 											</div>
 
-											<Button
-												variant="ghost"
-												type="submit"
-												class="flex cursor-pointer !flex-row"
-												onclick={reload}
+											<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
 												><ArrowClockwise class="mr-2" />Reload Chart
 											</Button>
 										</div>
@@ -695,22 +697,23 @@
 					{/if}
 				{:catch error}
 					<div
-						class="bg-secondary-subtle"
+						transition:fade={{ duration: 300 }}
+						class="bg-accent/25 absolute top-0 z-30 w-full"
 						style={useStockChart ? 'height: 500px' : 'height: 400px'}
 					>
-						<div class="flex h-full items-center justify-center">
+						<div class="flex h-full w-full items-center justify-center px-6 dark:brightness-150">
 							<Alert.Root variant="destructive" class="my-auto w-[unset] !pl-8">
 								<Alert.Description>
 									<div class="flex items-center justify-center gap-2">
 										<div class="flex items-center">
 											<ExclamationTriangle class="mr-2" />
-											{error.message}
+											{JSON.parse(error.message).reason}
 										</div>
 
 										<Button
-											variant="ghost"
+											variant="outline"
 											type="submit"
-											class="flex cursor-pointer !flex-row"
+											class="border-red flex !flex-row"
 											onclick={reload}
 											><ArrowClockwise class="mr-2" />Reload Chart
 										</Button>
@@ -766,7 +769,7 @@
 	{#if mode == 'python'}
 		<div in:fade id="pills-python" aria-labelledby="pills-python-tab">
 			<div>
-				<p class="mb-3">
+				<p>
 					The sample code automatically applies all the parameters selected above. It includes
 					caching and the conversion to Pandas DataFrames. The use of DataFrames is entirely
 					optional. You can find further details and examples in the <a
@@ -1063,13 +1066,13 @@ current <span class="token operator">=</span> response<span class="token punctua
 	{#if mode == 'typescript'}
 		<div in:fade id="pills-typescript" aria-labelledby="pills-typescript-tab">
 			<div>
-				<p class="mb-3">
+				<p>
 					The preview code applies all parameters above automatically and structures weather data
 					into an easily usable object. More information and examples are available on <a
 						href="https://www.npmjs.com/package/openmeteo">NPM</a
 					>.
 				</p>
-				<p class="mb-3">
+				<p>
 					Caveats: The code generator does not handle sunrise and sunset correctly. It is supposed
 					to be ".valuesInt64" instead of ".values". For the ensemble API, multiple members per
 					variable are not correctly decoded. You will have to loop over `variables`.
@@ -1300,13 +1303,13 @@ current <span class="token operator">=</span> response<span class="token punctua
 	{#if mode == 'swift'}
 		<div in:fade id="pills-swift" aria-labelledby="pills-swift-tab">
 			<div>
-				<p class="mb-3">
+				<p>
 					The preview code applies all parameters above automatically and structures weather data
 					into an easily usable object. More information and examples are available on <a
 						href="https://github.com/open-meteo/sdk/tree/main/swift">GitHub</a
 					>.
 				</p>
-				<p class="mb-3">
+				<p>
 					Caveats: The code generator does not handle sunrise and sunset correctly. It is supposed
 					to be [Int64] instead of [Float] and ".valuesInt64" instead of ".values". For the ensemble
 					API, multiple members per variable are not correctly decoded. You will have to loop over
@@ -1497,7 +1500,7 @@ dateFormatter<span class="token punctuation">.</span>dateFormat <span class="tok
 	{#if mode == 'other'}
 		<div in:fade id="pills-other" aria-labelledby="pills-other-tab">
 			<div>
-				<p class="mb-3">
+				<p>
 					Support for additional programming languages in our integrations may be available in the
 					future. If your preferred programming language isn't currently supported, you can still
 					use the JSON or CSV format, which should function in most programming languages.

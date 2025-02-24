@@ -12,9 +12,11 @@
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
-	import Input from '$lib/components/ui/input/input.svelte';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select/index';
 	import * as Accordion from '$lib/components/ui/accordion';
@@ -27,14 +29,15 @@
 		hourly,
 		models,
 		solarVariables,
-		windSpeedOptions,
-		timeFormatOptions,
 		defaultParameters,
-		temperatureOptions,
-		precipitationOptions,
 		additionalVariables,
-		ensembleSpreadVariables
+		ensembleSpreadVariables,
+		pastMinutely15Options,
+		gridCellSelectionOptions,
+		temporalResolutionOptions,
+		forecastMinutely15Options
 	} from './options';
+	import Settings from '$lib/components/settings/settings.svelte';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 2);
@@ -82,6 +85,49 @@
 		timeFormatOptions.find((tfo) => String(tfo.value) == $params.timeformat)
 	);
 
+	// Additional variable settings
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
+	);
+	let cellSelection = $derived(
+		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
+	);
+	let forecastMinutely15 = $derived(
+		forecastMinutely15Options.find((fmo) => String(fmo.value) == $params.forecast_minutely_15)
+	);
+	let pastMinutely15 = $derived(
+		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
+	);
+
+	let accordionValues = $state([]);
+
+	onMount(() => {
+		if (
+			countVariables(additionalVariables, $params.hourly).active &&
+			!accordionValues.includes('additional-variables')
+		) {
+			accordionValues.push('additional-variables');
+		}
+
+		if (
+			countVariables(solarVariables, $params.hourly).active &&
+			!accordionValues.includes('solar-variables')
+		) {
+			accordionValues.push('solar-variables');
+		}
+
+		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
+			accordionValues.push('models');
+		}
+		if (
+			countVariables(solarVariables, $params.minutely_15).active &&
+			!accordionValues.includes('minutely_15')
+		) {
+			accordionValues.push('minutely_15');
+		}
+	});
+
+	// Citation
 	let citation = $state('apa');
 </script>
 
@@ -98,6 +144,7 @@
 	<Alert.Description>
 		Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides
 		access to a staggering 90 terabytes of meteorological data! Read the <a
+			class="underline"
 			href="https://open.substack.com/pub/openmeteo/p/processing-90-tb-historical-weather"
 			target="_blank">blog article</a
 		>.
@@ -107,7 +154,7 @@
 <form method="get" class="mt-3" action="https://archive-api.open-meteo.com/v1/archive">
 	<LocationSelection bind:params={$params} />
 
-	<div class="mt-6 flex gap-4">
+	<div class="mt-6 flex flex-col gap-4 md:flex-row">
 		<div class="md:w-1/2">
 			<DatePicker
 				bind:start_date={$params.start_date}
@@ -125,141 +172,194 @@
 				>
 				and adjust the <mark>Past Days</mark> setting.
 			</p>
-			<p>
+			<div class="flex flex-wrap items-center gap-2">
 				Quick:
 				<Button
-					class="cursor-pointer"
-					onclick={(e) => {
-						e.preventDefault();
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					onclick={() => {
 						$params.start_date = '2000-01-01';
 						$params.end_date = '2009-12-31';
 					}}>2000-2009</Button
 				>
 				<Button
-					class="cursor-pointer"
-					onclick={(e) => {
-						e.preventDefault();
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					onclick={() => {
 						$params.start_date = '2010-01-01';
 						$params.end_date = '2019-12-31';
 					}}>2010-2019</Button
 				>
 				<Button
-					class="cursor-pointer"
-					onclick={(e) => {
-						e.preventDefault();
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					onclick={() => {
 						$params.start_date = '2020-01-01';
 						$params.end_date = '2020-12-31';
 					}}>2020</Button
 				>
 				<Button
-					class="cursor-pointer"
-					onclick={(e) => {
-						e.preventDefault();
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					onclick={() => {
 						$params.start_date = '2021-01-01';
 						$params.end_date = '2021-12-31';
 					}}>2021</Button
 				>
 				<Button
-					class="cursor-pointer"
-					onclick={(e) => {
-						e.preventDefault();
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					onclick={() => {
 						$params.start_date = '2022-01-01';
 						$params.end_date = '2022-12-31';
 					}}>2022</Button
 				>
 				<Button
-					class="cursor-pointer"
-					onclick={(e) => {
-						e.preventDefault();
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					onclick={() => {
 						$params.start_date = '2023-01-01';
 						$params.end_date = '2023-12-31';
 					}}>2023</Button
 				>
 				<Button
-					class="cursor-pointer"
-					onclick={(e) => {
-						e.preventDefault();
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					onclick={() => {
 						$params.start_date = '2024-01-01';
-						$params.end_date = endDate;
+						$params.end_date = '2024-12-31';
 					}}>2024</Button
 				>
-			</p>
+				<Button
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					onclick={() => {
+						$params.start_date = '2025-01-01';
+						$params.end_date = endDateDefault;
+					}}>2025</Button
+				>
+			</div>
 		</div>
 	</div>
 
-	<div>
-		<h2>Hourly Weather Variables</h2>
-		{#each hourly as group}
-			<div>
-				{#each group as e}
-					<div>
-						<input
-							type="checkbox"
-							value={e.name}
-							id="{e.name}_hourly"
-							name="hourly"
-							bind:group={$params.hourly}
-						/>
-						<label for="{e.name}_hourly">{e.label}</label>
-					</div>
-				{/each}
-			</div>
-		{/each}
+	<div class="mt-6 md:mt-12">
+		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
+		<div
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+		>
+			{#each hourly as group}
+				<div class="">
+					{#each group as e}
+						<div class="group flex items-center">
+							<Checkbox
+								id="{e.value}_hourly"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								value={e.value}
+								checked={$params.hourly?.includes(e.value)}
+								aria-labelledby="{e.value}_label"
+								onCheckedChange={() => {
+									if ($params.hourly?.includes(e.value)) {
+										$params.hourly = $params.hourly.filter((item) => {
+											return item !== e.value;
+										});
+									} else {
+										$params.hourly.push(e.value);
+										$params.hourly = $params.hourly;
+									}
+								}}
+							/>
+							<Label
+								id="{e.value}_label"
+								for="{e.value}_hourly"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+							>
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
 	</div>
 
-	<div>
-		<Accordion.Root class="border-border rounded-lg border" multiple={true}>
+	<div class="mt-6">
+		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				{#each additionalVariables as group}
-					<div>
-						{#each group as e}
-							<div>
-								<input
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_hourly"
-									name="hourly"
-									bind:group={$params.hourly}
-								/>
-								<label for="{e.name}_hourly">{e.label}</label>
-							</div>
-						{/each}
-					</div>
-				{/each}
+				<div class="grid md:grid-cols-2">
+					{#each additionalVariables as group}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center">
+									<Checkbox
+										id="{e.value}_hourly"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.hourly?.includes(e.value)}
+										aria-labelledby="{e.value}_label"
+										onCheckedChange={() => {
+											if ($params.hourly?.includes(e.value)) {
+												$params.hourly = $params.hourly.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.hourly.push(e.value);
+												$params.hourly = $params.hourly;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_label"
+										for="{e.value}_hourly"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
 
-				<div class="  mt-3">
-					<div class="  mb-6">
-						<select
+				<div class="text-muted-foreground mt-1 text-sm">
+					Note: You can further adjust the forecast time range for hourly weather variables using <mark
+						>&forecast_hours=</mark
+					>
+					and <mark>&past_hours=</mark> as shown below.
+				</div>
+				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
+					<div class="relative col-span-2">
+						<Select.Root
 							name="temporal_resolution"
-							id="temporal_resolution"
-							aria-label="Temporal Resolution For Hourly Data"
+							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<option value="">1 Hourly</option>
-							<option value="hourly_3">3 Hourly</option>
-							<option value="hourly_6">6 Hourly</option>
-							<option value="native">Native Model Resolution</option>
-						</select>
-						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{temporalResolution?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each temporalResolutionOptions as tro}
+									<Select.Item value={tro.value}>{tro.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Temporal Resolution For Hourly Data</Label
+							>
+						</Select.Root>
 					</div>
-				</div>
-				<div class="  mt-3">
-					<div class="  mb-6">
-						<select
-							name="cell_selection"
-							id="cell_selection"
-							aria-label="Grid Cell Selection"
-							bind:value={$params.cell_selection}
-						>
-							<option value="">Terrain Optimized, Prefers Land</option>
-							<option value="sea">Prefer Sea</option>
-							<option value="nearest">Nearest</option>
-						</select>
-						<label for="cell_selection">Grid Cell Selection</label>
+					<div class="relative col-span-2">
+						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{cellSelection?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each gridCellSelectionOptions as gcso}
+									<Select.Item value={gcso.value}>{gcso.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Grid Cell Selection</Label
+							>
+						</Select.Root>
 					</div>
 				</div>
 			</AccordionItem>
@@ -269,51 +369,72 @@
 				count={countVariables(solarVariables, $params.hourly)}
 			>
 				{#each solarVariables as group}
-					<div>
+					<div class="grid md:grid-cols-2">
 						{#each group as e}
-							<div>
-								<input
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_hourly"
-									name="hourly"
-									bind:group={$params.hourly}
+							<div class="group flex items-center">
+								<Checkbox
+									id="{e.value}_hourly"
+									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+									value={e.value}
+									checked={$params.hourly?.includes(e.value)}
+									aria-labelledby="{e.value}_hourly_label"
+									onCheckedChange={() => {
+										if ($params.hourly?.includes(e.value)) {
+											$params.hourly = $params.hourly.filter((item) => {
+												return item !== e.value;
+											});
+										} else {
+											$params.hourly.push(e.value);
+											$params.hourly = $params.hourly;
+										}
+									}}
 								/>
-								<label for="{e.name}_hourly">{e.label}</label>
+								<Label
+									id="{e.value}_hourly_label"
+									for="{e.value}_hourly"
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								>
 							</div>
 						{/each}
 					</div>
 				{/each}
-				<div class="  mb-3">
-					<small class="text-muted-foreground"
-						>Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-						please specify Tilt and Azimuth below.</small
-					>
-				</div>
 				<div>
-					<div>
-						<input
-							type="number"
-							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
-							name="tilt"
+					<div class="text-muted-foreground">
+						Note: Solar radiation is averaged over the past hour. Use
+						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+						please specify Tilt and Azimuth below.
+					</div>
+				</div>
+
+				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
+					<div class="relative">
+						<Input
 							id="tilt"
+							type="number"
+							class="h-12 cursor-pointer pt-6 {$params.tilt < 0 || $params.tilt > 90
+								? 'text-red'
+								: ''}"
+							name="tilt"
 							step="1"
 							min="0"
 							max="90"
 							bind:value={$params.tilt}
 						/>
-						<label for="tilt">Panel Tilt (0° horizontal)</label>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="tilt">Panel Tilt (0° horizontal)</Label
+						>
 						{#if $params.tilt < 0 || $params.tilt > 90}
 							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
-				</div>
-				<div>
-					<div>
-						<input
+
+					<div class="relative">
+						<Input
 							type="number"
-							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
+							class="h-12 cursor-pointer pt-6 {$params.azimuth < -90 || $params.azimuth > 90
+								? 'text-red'
+								: ''}"
 							name="azimuth"
 							id="azimuth"
 							step="1"
@@ -321,8 +442,11 @@
 							max="90"
 							bind:value={$params.azimuth}
 						/>
-						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</Label
+						>
+						{#if Number($params.azimuth) < -90 || Number($params.azimuth) > 90}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -330,190 +454,57 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem
-				id="ensemble-spread-variables"
-				title="ERA5-Ensemble Spread Variables"
-				count={countVariables(ensembleSpreadVariables, $params.hourly)}
-			>
-				{#each ensembleSpreadVariables as group}
-					<div>
-						{#each group as e}
-							<div>
-								<input
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_hourly"
-									name="hourly"
-									bind:group={$params.hourly}
-								/>
-								<label for="{e.name}_hourly">{e.label}</label>
-							</div>
-						{/each}
-					</div>
-				{/each}
-				<div class="  mb-3">
-					<small class="text-muted-foreground"
-						>Note: Ensemble spread variables are available if the model <mark>ERA5-Ensemble</mark> is
-						used.
-					</small>
-				</div>
-			</AccordionItem>
-			<AccordionItem
-				id="models"
-				title="Reanalysis models"
-				count={countVariables(models, $params.models)}
-			>
-				{#each models as group}
-					<div class="  mb-3">
-						{#each group as e}
-							<div>
-								<input
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_model"
-									name="models"
-									bind:group={$params.models}
-								/>
-								<label for="{e.name}_model"
-									>{e.label}&nbsp;<span class="text-muted-foreground">({e.caption})</span></label
-								>
-							</div>
-						{/each}
-					</div>
-				{/each}
-				<div>
-					<small class="text-muted-foreground"
-						>Note: The default <mark>Best Match</mark> combines ERA5 and ERA5-Land seamlessly. The
-						CERRA model will also be included in <mark>Best Match</mark> once real-time updates become
-						available.</small
-					>
-				</div>
-			</AccordionItem>
 		</Accordion.Root>
+		<div>ERA5</div>
+		<div>Reanalysis models</div>
 	</div>
 
-	<div>
-		<h2>Daily Weather Variables</h2>
-		{#each daily as group}
-			<div>
+	<div class="mt-6 md:mt-12">
+		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2>
+		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+			{#each daily as group}
 				{#each group as e}
-					<div>
-						<input
-							type="checkbox"
-							value={e.name}
-							id="{e.name}_daily"
-							name="daily"
-							bind:group={$params.daily}
+					<div class="group flex items-center">
+						<Checkbox
+							id="{e.value}_daily"
+							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+							value={e.value}
+							checked={$params.daily?.includes(e.value)}
+							aria-labelledby="{e.value}_daily_label"
+							onCheckedChange={() => {
+								if ($params.daily?.includes(e.value)) {
+									$params.daily = $params.daily.filter((item) => {
+										return item !== e.value;
+									});
+								} else {
+									$params.daily.push(e.value);
+									$params.daily = $params.daily;
+								}
+							}}
 						/>
-						<label for="{e.name}_daily">{e.label}</label>
+						<Label
+							id="{e.value}_daily_label"
+							for="{e.value}_daily"
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+						>
 					</div>
 				{/each}
-			</div>
-		{/each}
+			{/each}
+		</div>
 		{#if timezoneInvalid}
-			<div class="alert alert-warning" role="alert">
-				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+			<div transition:slide>
+				<Alert.Root class="bg-warning text-warning-dark border-warning-foreground mt-2 md:mt-4">
+					<Alert.Description>
+						It is recommended to select a timezone for daily data. Per default the API will use
+						GMT+0.
+					</Alert.Description>
+				</Alert.Root>
 			</div>
 		{/if}
 	</div>
 
 	<div class="mt-6 md:mt-12">
-		<h2 class="text-2xl md:text-3xl">Settings</h2>
-		<div
-			class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-6 md:flex-row md:gap-6 lg:grid-cols-4"
-		>
-			<div class="relative">
-				<Select.Root
-					name="temperature_unit"
-					selected={temperatureUnit}
-					onSelectedChange={(e) => {
-						$params.temperature_unit = e.value;
-					}}
-				>
-					<Select.Trigger
-						aria-label="Temperature setting"
-						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-					></Select.Trigger>
-					<Select.Content preventScroll={false} class="border-border">
-						{#each temperatureOptions as to}
-							<Select.Item value={to.value}>{to.label}</Select.Item>
-						{/each}
-					</Select.Content>
-					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-						>Temperature Unit</Label
-					>
-				</Select.Root>
-			</div>
-
-			<div class="relative">
-				<Select.Root
-					name="wind_speed_unit"
-					selected={windSpeedUnit}
-					onSelectedChange={(e) => {
-						$params.wind_speed_unit = e.value;
-					}}
-				>
-					<Select.Trigger
-						aria-label="Wind speed setting"
-						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-					></Select.Trigger>
-					<Select.Content preventScroll={false} class="border-border">
-						{#each windSpeedOptions as wso}
-							<Select.Item value={wso.value}>{wso.label}</Select.Item>
-						{/each}
-					</Select.Content>
-					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-						>Wind Speed Unit</Label
-					>
-				</Select.Root>
-			</div>
-
-			<div class="relative">
-				<Select.Root
-					name="precipitation_unit"
-					selected={precipitationUnit}
-					onSelectedChange={(e) => {
-						$params.precipitation_unit = e.value;
-					}}
-				>
-					<Select.Trigger
-						aria-label="Precipitation setting"
-						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-					></Select.Trigger>
-					<Select.Content preventScroll={false} class="border-border">
-						{#each precipitationOptions as po}
-							<Select.Item value={po.value}>{po.label}</Select.Item>
-						{/each}
-					</Select.Content>
-					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-						>Precipitation Unit</Label
-					>
-				</Select.Root>
-			</div>
-
-			<div class="relative">
-				<Select.Root
-					name="timeformat"
-					selected={timeFormat}
-					onSelectedChange={(e) => {
-						$params.timeformat = e.value;
-					}}
-				>
-					<Select.Trigger
-						aria-label="Time format setting"
-						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-					></Select.Trigger>
-					<Select.Content preventScroll={false} class="border-border">
-						{#each timeFormatOptions as tfo}
-							<Select.Item value={tfo.value}>{tfo.label}</Select.Item>
-						{/each}
-					</Select.Content>
-					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-						>Timeformat</Label
-					>
-				</Select.Root>
-			</div>
-		</div>
+		<Settings bind:params={$params} />
 	</div>
 
 	<div class="mt-6 md:mt-12">
@@ -532,329 +523,337 @@
 	/>
 </div>
 
-<h2 id="data-sources" class="mb-3 mt-5 text-2xl">Data Sources</h2>
-<div>
-	<div>
-		<p>
-			The Historical Weather API is based on reanalysis datasets and uses a combination of weather
-			station, aircraft, buoy, radar, and satellite observations to create a comprehensive record of
-			past weather conditions. These datasets are able to fill in gaps by using mathematical models
-			to estimate the values of various weather variables. As a result, reanalysis datasets are able
-			to provide detailed historical weather information for locations that may not have had weather
-			stations nearby, such as rural areas or the open ocean.
-		</p>
-		<p>
-			The models for historical weather data use a spatial resolution of 9 km to resolve fine
-			details close to coasts or complex mountain terrain. In general, a higher spatial resolution
-			means that the data is more detailed and represents the weather conditions more accurately at
-			smaller scales.
-		</p>
+<div class="mt-6 md:mt-12">
+	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
+	<div class="mt-2 md:mt-4">
+		<div>
+			<p>
+				The Historical Weather API is based on reanalysis datasets and uses a combination of weather
+				station, aircraft, buoy, radar, and satellite observations to create a comprehensive record
+				of past weather conditions. These datasets are able to fill in gaps by using mathematical
+				models to estimate the values of various weather variables. As a result, reanalysis datasets
+				are able to provide detailed historical weather information for locations that may not have
+				had weather stations nearby, such as rural areas or the open ocean.
+			</p>
+			<p>
+				The models for historical weather data use a spatial resolution of 9 km to resolve fine
+				details close to coasts or complex mountain terrain. In general, a higher spatial resolution
+				means that the data is more detailed and represents the weather conditions more accurately
+				at smaller scales.
+			</p>
+		</div>
+		<div>
+			<p>
+				The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs at
+				0z and 12z, employing the most up-to-date version of IFS. This dataset offers the utmost
+				resolution and precision in depicting historical weather conditions.
+			</p>
+			<p>
+				However, when studying climate change over decades, it is advisable to exclusively utilize
+				ERA5 or ERA5-Land. This choice ensures data consistency and prevents unintentional
+				alterations that could arise from the adoption of different weather model upgrades.
+			</p>
+			<p>
+				You can access data dating back to 1940 with a delay of 2 days. If you're looking for
+				weather information from the previous day, our <a
+					href={'/en/docs'}
+					title="Weather Forecast API documentation">Forecast API</a
+				>
+				offers the <mark>&past_days=</mark> feature for your convenience.
+			</p>
+		</div>
 	</div>
-	<div>
-		<p>
-			The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs at
-			0z and 12z, employing the most up-to-date version of IFS. This dataset offers the utmost
-			resolution and precision in depicting historical weather conditions.
-		</p>
-		<p>
-			However, when studying climate change over decades, it is advisable to exclusively utilize
-			ERA5 or ERA5-Land. This choice ensures data consistency and prevents unintentional alterations
-			that could arise from the adoption of different weather model upgrades.
-		</p>
-		<p>
-			You can access data dating back to 1940 with a delay of 2 days. If you're looking for weather
-			information from the previous day, our <a
-				href={'/en/docs'}
-				title="Weather Forecast API documentation">Forecast API</a
-			>
-			offers the <mark>&past_days=</mark> feature for your convenience.
-		</p>
-	</div>
-</div>
-<div>
-	<table
-		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-	>
-		<caption class="text-muted-foreground mt-2 table-caption text-left"
-			>You can find the update timings in the <a href={'/en/docs/model-updates'}
-				>model updates documentation</a
-			>.</caption
-		>
-		<thead>
-			<tr>
-				<th scope="col">Data Set</th>
-				<th scope="col">Region</th>
-				<th scope="col">Spatial Resolution</th>
-				<th scope="col">Temporal Resolution</th>
-				<th scope="col">Data Availability</th>
-				<th scope="col">Update frequency</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th scope="row"
-					><a
-						href="https://www.ecmwf.int/en/forecasts/documentation-and-support/changes-ecmwf-model"
-						>ECMWF IFS</a
-					>
-				</th>
-				<td>Global</td>
-				<td>9 km</td>
-				<td>Hourly</td>
-				<td>2017 to present</td>
-				<td>Daily with 2 days delay</td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a
-						href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview"
-						>ERA5</a
-					>
-				</th>
-				<td>Global</td>
-				<td>0.25° (~25 km)</td>
-				<td>Hourly</td>
-				<td>1940 to present</td>
-				<td>Daily with 5 days delay</td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview"
-						>ERA5-Land</a
-					>
-				</th>
-				<td>Global</td>
-				<td>0.1° (~11 km)</td>
-				<td>Hourly</td>
-				<td>1950 to present</td>
-				<td>Daily with 5 days delay</td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a
-						href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview"
-						>ERA5-Ensemble</a
-					>
-				</th>
-				<td>Global</td>
-				<td>0.5° (~55 km)</td>
-				<td>3-Hourly</td>
-				<td>1940 to present</td>
-				<td>Daily with 5 days delay</td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a
-						href="https://cds.climate.copernicus.eu/datasets/reanalysis-cerra-single-levels?tab=overview"
-						>CERRA</a
-					>
-				</th>
-				<td>Europe</td>
-				<td>5 km</td>
-				<td>Hourly</td>
-				<td>1985 to June 2021</td>
-				<td>-</td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a
-						href="https://confluence.ecmwf.int/display/FUG/Section+2.5+Model+Data+Assimilation%2C+4D-Var"
-						>ECMWF IFS Assimilation Long-Window</a
-					>
-				</th>
-				<td>Global</td>
-				<td>9 km</td>
-				<td>6-Hourly</td>
-				<td>2024 to present</td>
-				<td>Daily with 2 days delay</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-<p>
-	Different reanalysis models may include different sets of weather variables in their datasets. For
-	example, the ERA5 model includes all weather variables, while the ERA5-Land model only includes
-	surface variables such as temperature, humidity, soil temperature, and soil moisture. The CERRA
-	model includes most weather variables, but does not include soil temperature and moisture. It is
-	important to be aware of the specific variables that are included in a particular reanalysis model
-	in order to understand the limitations and potential biases of the data.
-</p>
-
-<div>
-	<h2 id="api-documentation">API Documentation</h2>
-	<p>
-		The API endpoint <mark>/v1/archive</mark> allows users to retrieve historical weather data for a
-		specific location and time period. To use this endpoint, you can specify a geographical coordinate,
-		a time interval, and a list of weather variables that they are interested in. The endpoint will then
-		return the requested data in a format that can be easily accessed and used by applications or other
-		software. This endpoint can be very useful for researchers and other users who need to access detailed
-		historical weather data for specific locations and time periods.
-	</p>
-	<p>All URL parameters are listed below:</p>
 	<div>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
+			<caption class="text-muted-foreground mt-2 table-caption text-left"
+				>You can find the update timings in the <a href={'/en/docs/model-updates'}
+					>model updates documentation</a
+				>.</caption
+			>
 			<thead>
 				<tr>
-					<th scope="col">Parameter</th>
-					<th scope="col">Format</th>
-					<th scope="col">Required</th>
-					<th scope="col">Default</th>
-					<th scope="col">Description</th>
+					<th scope="col">Data Set</th>
+					<th scope="col">Region</th>
+					<th scope="col">Spatial Resolution</th>
+					<th scope="col">Temporal Resolution</th>
+					<th scope="col">Data Availability</th>
+					<th scope="col">Update frequency</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="[&_a]:text-link [&_a]:underline-offset-3 [&_a]:underline">
 				<tr>
-					<th scope="row">latitude<br />longitude</th>
-					<td>Floating point</td>
-					<td>Yes</td>
-					<td></td>
-					<td
-						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
-						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
-						for multiple locations the JSON output changes to a list of structures. CSV and XLSX
-						formats add a column <mark>location_id</mark>.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">elevation</th>
-					<td>Floating point</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>The elevation used for statistical downscaling. Per default, a <a
-							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
-							title="Elevation based grid-cell selection explained"
-							>90 meter digital elevation model is used</a
-						>. You can manually set the elevation to correctly match mountain peaks. If
-						<mark>&elevation=nan</mark> is specified, downscaling will be disabled and the API uses the
-						average grid-cell height. For multiple locations, elevation can also be comma separated.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">start_date<br />end_date</th>
-					<td>String (yyyy-mm-dd)</td>
-					<td>Yes</td>
-					<td></td>
-					<td
-						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
-						<mark>2022-12-31</mark>).
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">hourly</th>
-					<td>String array</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>A list of weather variables which should be returned. Values can be comma separated, or
-						multiple
-						<mark>&hourly=</mark> parameter in the URL can be used.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">daily</th>
-					<td>String array</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>A list of daily weather variable aggregations which should be returned. Values can be
-						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
-						daily weather variables are specified, parameter <mark>timezone</mark> is required.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">temperature_unit</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>celsius</mark></td>
-					<td
-						>If <mark>fahrenheit</mark> is set, all temperature values are converted to Fahrenheit.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">wind_speed_unit</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>kmh</mark></td>
-					<td
-						>Other wind speed speed units: <mark>ms</mark>, <mark>mph</mark> and <mark>kn</mark></td
-					>
-				</tr>
-				<tr>
-					<th scope="row">precipitation_unit</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>mm</mark></td>
-					<td>Other precipitation amount units: <mark>inch</mark></td>
-				</tr>
-				<tr>
-					<th scope="row">timeformat</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>iso8601</mark></td>
-					<td
-						>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX epoch
-						time in seconds. Please note that all time is then in GMT+0! For daily values with unix
-						timestamp, please apply
-						<mark>utc_offset_seconds</mark> again to get the correct date.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">timezone</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>GMT</mark></td>
-					<td
-						>If <mark>timezone</mark> is set, all timestamps are returned as local-time and data is
-						returned starting at 00:00 local-time. Any time zone name from the
-						<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank"
-							>time zone database</a
+					<th scope="row"
+						><a
+							href="https://www.ecmwf.int/en/forecasts/documentation-and-support/changes-ecmwf-model"
+							>ECMWF IFS</a
 						>
-						is supported If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
-						resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
-						can be specified.</td
-					>
+					</th>
+					<td>Global</td>
+					<td>9 km</td>
+					<td>Hourly</td>
+					<td>2017 to present</td>
+					<td>Daily with 2 days delay</td>
 				</tr>
 				<tr>
-					<th scope="row">cell_selection</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>land</mark></td>
-					<td
-						>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
-						suitable grid-cell on land with
-						<a
-							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
-							title="Elevation based grid-cell selection explained"
-							>similar elevation to the requested coordinates using a 90-meter digital elevation
-							model</a
-						>.
-						<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
-						grid-cell.
-					</td>
+					<th scope="row"
+						><a
+							href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview"
+							>ERA5</a
+						>
+					</th>
+					<td>Global</td>
+					<td>0.25° (~25 km)</td>
+					<td>Hourly</td>
+					<td>1940 to present</td>
+					<td>Daily with 5 days delay</td>
 				</tr>
 				<tr>
-					<th scope="row">apikey</th>
-					<td>String</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>Only required to commercial use to access reserved API resources for customers. The
-						server URL requires the prefix <mark>customer-</mark>. See
-						<a href={'/en/pricing'} title="Pricing information to use the weather API commercially"
-							>pricing</a
-						> for more information.</td
-					>
+					<th scope="row"
+						><a href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land?tab=overview"
+							>ERA5-Land</a
+						>
+					</th>
+					<td>Global</td>
+					<td>0.1° (~11 km)</td>
+					<td>Hourly</td>
+					<td>1950 to present</td>
+					<td>Daily with 5 days delay</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a
+							href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview"
+							>ERA5-Ensemble</a
+						>
+					</th>
+					<td>Global</td>
+					<td>0.5° (~55 km)</td>
+					<td>3-Hourly</td>
+					<td>1940 to present</td>
+					<td>Daily with 5 days delay</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a
+							href="https://cds.climate.copernicus.eu/datasets/reanalysis-cerra-single-levels?tab=overview"
+							>CERRA</a
+						>
+					</th>
+					<td>Europe</td>
+					<td>5 km</td>
+					<td>Hourly</td>
+					<td>1985 to June 2021</td>
+					<td>-</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a
+							href="https://confluence.ecmwf.int/display/FUG/Section+2.5+Model+Data+Assimilation%2C+4D-Var"
+							>ECMWF IFS Assimilation Long-Window</a
+						>
+					</th>
+					<td>Global</td>
+					<td>9 km</td>
+					<td>6-Hourly</td>
+					<td>2024 to present</td>
+					<td>Daily with 2 days delay</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 	<p>
-		Additional optional URL parameters will be added. For API stability, no required parameters will
-		be added in the future!
+		Different reanalysis models may include different sets of weather variables in their datasets.
+		For example, the ERA5 model includes all weather variables, while the ERA5-Land model only
+		includes surface variables such as temperature, humidity, soil temperature, and soil moisture.
+		The CERRA model includes most weather variables, but does not include soil temperature and
+		moisture. It is important to be aware of the specific variables that are included in a
+		particular reanalysis model in order to understand the limitations and potential biases of the
+		data.
 	</p>
+</div>
+
+<div class="mt-6 md:mt-12">
+	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The API endpoint <mark>/v1/archive</mark> allows users to retrieve historical weather data for
+			a specific location and time period. To use this endpoint, you can specify a geographical coordinate,
+			a time interval, and a list of weather variables that they are interested in. The endpoint will
+			then return the requested data in a format that can be easily accessed and used by applications
+			or other software. This endpoint can be very useful for researchers and other users who need to
+			access detailed historical weather data for specific locations and time periods.
+		</p>
+		<p>All URL parameters are listed below:</p>
+		<div>
+			<table
+				class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Required</th>
+						<th scope="col">Default</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">latitude<br />longitude</th>
+						<td>Floating point</td>
+						<td>Yes</td>
+						<td></td>
+						<td
+							>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
+							separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return
+							data for multiple locations the JSON output changes to a list of structures. CSV and
+							XLSX formats add a column <mark>location_id</mark>.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">elevation</th>
+						<td>Floating point</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>The elevation used for statistical downscaling. Per default, a <a
+								href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
+								title="Elevation based grid-cell selection explained"
+								>90 meter digital elevation model is used</a
+							>. You can manually set the elevation to correctly match mountain peaks. If
+							<mark>&elevation=nan</mark> is specified, downscaling will be disabled and the API uses
+							the average grid-cell height. For multiple locations, elevation can also be comma separated.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">start_date<br />end_date</th>
+						<td>String (yyyy-mm-dd)</td>
+						<td>Yes</td>
+						<td></td>
+						<td
+							>The time interval to get weather data. A day must be specified as an ISO8601 date
+							(e.g.
+							<mark>2022-12-31</mark>).
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">hourly</th>
+						<td>String array</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>A list of weather variables which should be returned. Values can be comma separated,
+							or multiple
+							<mark>&hourly=</mark> parameter in the URL can be used.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">daily</th>
+						<td>String array</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>A list of daily weather variable aggregations which should be returned. Values can be
+							comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
+							daily weather variables are specified, parameter <mark>timezone</mark> is required.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">temperature_unit</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>celsius</mark></td>
+						<td
+							>If <mark>fahrenheit</mark> is set, all temperature values are converted to Fahrenheit.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">wind_speed_unit</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>kmh</mark></td>
+						<td
+							>Other wind speed speed units: <mark>ms</mark>, <mark>mph</mark> and
+							<mark>kn</mark></td
+						>
+					</tr>
+					<tr>
+						<th scope="row">precipitation_unit</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>mm</mark></td>
+						<td>Other precipitation amount units: <mark>inch</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">timeformat</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>iso8601</mark></td>
+						<td
+							>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX
+							epoch time in seconds. Please note that all time is then in GMT+0! For daily values
+							with unix timestamp, please apply
+							<mark>utc_offset_seconds</mark> again to get the correct date.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">timezone</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>GMT</mark></td>
+						<td
+							>If <mark>timezone</mark> is set, all timestamps are returned as local-time and data
+							is returned starting at 00:00 local-time. Any time zone name from the
+							<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank"
+								>time zone database</a
+							>
+							is supported If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
+							resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
+							can be specified.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">cell_selection</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>land</mark></td>
+						<td
+							>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
+							suitable grid-cell on land with
+							<a
+								href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
+								title="Elevation based grid-cell selection explained"
+								>similar elevation to the requested coordinates using a 90-meter digital elevation
+								model</a
+							>.
+							<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
+							grid-cell.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">apikey</th>
+						<td>String</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>Only required to commercial use to access reserved API resources for customers. The
+							server URL requires the prefix <mark>customer-</mark>. See
+							<a
+								href={'/en/pricing'}
+								title="Pricing information to use the weather API commercially">pricing</a
+							> for more information.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p>
+			Additional optional URL parameters will be added. For API stability, no required parameters
+			will be added in the future!
+		</p>
+	</div>
 
 	<h3 class="mt-5">Hourly Parameter Definition</h3>
 	<p>
@@ -1306,142 +1305,153 @@
 		</table>
 	</div>
 	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
-	<p class="mb-3">
+	<p>
 		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 		object is returned with a HTTP 400 status code.
 	</p>
 	<WeatherForecastError />
 </div>
 
-<h2 id="citation" class="mb-3 mt-5 text-2xl">Citation & Acknowledgement</h2>
-<p>
-	We encourage researchers in the field of meteorology and related disciplines to cite Open-Meteo
-	and its sources in their work. Citing not only gives proper credit but also promotes transparency,
-	reproducibility, and collaboration within the scientific community. Together, let's foster a
-	culture of recognition and support for open-data initiatives like Open-Meteo, ensuring that future
-	researchers can benefit from the valuable resources it provides.
-</p>
+<div class="mt-6 md:mt-12">
+	<h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2>
+	<div class="mt-3 md:mt-6">
+		<p>
+			We encourage researchers in the field of meteorology and related disciplines to cite
+			Open-Meteo and its sources in their work. Citing not only gives proper credit but also
+			promotes transparency, reproducibility, and collaboration within the scientific community.
+			Together, let's foster a culture of recognition and support for open-data initiatives like
+			Open-Meteo, ensuring that future researchers can benefit from the valuable resources it
+			provides.
+		</p>
 
-<div class="border-border mt-3 rounded-lg border p-6">
-	<ToggleGroup.Root type="single" bind:value={citation} class="mb-3 justify-start gap-0">
-		<div class="text-muted-foreground">Citation:</div>
-		<div class="border-border ml-2 flex rounded-lg border">
-			<ToggleGroup.Item
-				value="apa"
-				class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset] "
-				disabled={citation === 'apa'}
-			>
-				APA
-			</ToggleGroup.Item>
-			<ToggleGroup.Item
-				value="mla"
-				class=" opacity-100! min-h-12 cursor-pointer rounded-none duration-300 lg:min-h-[unset] "
-				disabled={citation === 'mla'}
-			>
-				MLA
-			</ToggleGroup.Item>
-			<ToggleGroup.Item
-				value="harvard"
-				class=" opacity-100! min-h-12 cursor-pointer rounded-none duration-300 lg:min-h-[unset] "
-				disabled={citation === 'harvard'}
-			>
-				Harvard
-			</ToggleGroup.Item>
-			<ToggleGroup.Item
-				value="bibtex"
-				class=" opacity-100! min-h-12 cursor-pointer rounded-md rounded-s-none duration-300 lg:min-h-[unset] "
-				disabled={citation === 'bibtex'}
-			>
-				BibTex
-			</ToggleGroup.Item>
-		</div>
-	</ToggleGroup.Root>
+		<div class="border-border mt-3 rounded-lg border p-6 md:mt-6">
+			<ToggleGroup.Root type="single" bind:value={citation} class="mb-3 justify-start gap-0">
+				<div class="text-muted-foreground">Citation:</div>
+				<div class="border-border ml-2 flex rounded-lg border">
+					<ToggleGroup.Item
+						value="apa"
+						class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset] "
+						disabled={citation === 'apa'}
+					>
+						APA
+					</ToggleGroup.Item>
+					<ToggleGroup.Item
+						value="mla"
+						class=" opacity-100! min-h-12 cursor-pointer rounded-none duration-300 lg:min-h-[unset] "
+						disabled={citation === 'mla'}
+					>
+						MLA
+					</ToggleGroup.Item>
+					<ToggleGroup.Item
+						value="harvard"
+						class=" opacity-100! min-h-12 cursor-pointer rounded-none duration-300 lg:min-h-[unset] "
+						disabled={citation === 'harvard'}
+					>
+						Harvard
+					</ToggleGroup.Item>
+					<ToggleGroup.Item
+						value="bibtex"
+						class=" opacity-100! min-h-12 cursor-pointer rounded-md rounded-s-none duration-300 lg:min-h-[unset] "
+						disabled={citation === 'bibtex'}
+					>
+						BibTex
+					</ToggleGroup.Item>
+				</div>
+			</ToggleGroup.Root>
 
-	<div>
-		{#if citation === 'apa'}
-			<div in:fade>
-				<p class="mb-3">
-					Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
-						title="zenodo publication"
-						href="https://doi.org/10.5281/ZENODO.7970649">https://doi.org/10.5281/ZENODO.7970649</a
+			<div>
+				{#if citation === 'apa'}
+					<div in:fade>
+						<p>
+							Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]. Zenodo. <a
+								title="zenodo publication"
+								href="https://doi.org/10.5281/ZENODO.7970649"
+								>https://doi.org/10.5281/ZENODO.7970649</a
+							>
+						</p>
+						<p>
+							Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
+							Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C.,
+							Dee, D., Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present
+							[Data set]. ECMWF. <a href="https://doi.org/10.24381/cds.adbb2d47" title="era5-land"
+								>https://doi.org/10.24381/cds.adbb2d47</a
+							>
+						</p>
+						<p>
+							Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set].
+							ECMWF. <a href="https://doi.org/10.24381/CDS.E2161BAC" title="era5-land"
+								>https://doi.org/10.24381/CDS.E2161BAC</a
+							>
+						</p>
+						<p>
+							Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R.,
+							Andrea U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said
+							A., Glinton M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q.
+							(2021). CERRA sub-daily regional reanalysis data for Europe on single levels from 1984
+							to present [Data set]. ECMWF. <a
+								href="https://doi.org/10.24381/CDS.622A565A"
+								title="cerra">https://doi.org/10.24381/CDS.622A565A</a
+							>
+						</p>
+					</div>
+				{:else if citation === 'mla'}
+					<div
+						in:fade
+						class:active={citation === 'mla'}
+						id="pills-mla"
+						aria-labelledby="pills-mla-tab"
 					>
-				</p>
-				<p class="mb-3">
-					Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
-					Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee,
-					D., Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present [Data
-					set]. ECMWF. <a href="https://doi.org/10.24381/cds.adbb2d47" title="era5-land"
-						>https://doi.org/10.24381/cds.adbb2d47</a
-					>
-				</p>
-				<p class="mb-3">
-					Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set]. ECMWF. <a
-						href="https://doi.org/10.24381/CDS.E2161BAC"
-						title="era5-land">https://doi.org/10.24381/CDS.E2161BAC</a
-					>
-				</p>
-				<p>
-					Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
-					U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
-					M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. (2021). CERRA
-					sub-daily regional reanalysis data for Europe on single levels from 1984 to present [Data
-					set]. ECMWF. <a href="https://doi.org/10.24381/CDS.622A565A" title="cerra"
-						>https://doi.org/10.24381/CDS.622A565A</a
-					>
-				</p>
-			</div>
-		{:else if citation === 'mla'}
-			<div in:fade class:active={citation === 'mla'} id="pills-mla" aria-labelledby="pills-mla-tab">
-				<p class="mb-3">
-					Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
-					doi:10.5281/ZENODO.7970649.
-				</p>
-				<p class="mb-3">
-					Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
-					Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee,
-					D., Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present [Data
-					set]. ECMWF. https://doi.org/10.24381/cds.adbb2d47
-				</p>
-				<p class="mb-3">
-					Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set]. ECMWF.
-					https://doi.org/10.24381/CDS.E2161BAC
-				</p>
-				<p>
-					Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
-					U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
-					M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. CERRA Sub-Daily
-					Regional Reanalysis Data for Europe on Single Levels from 1984 to Present. ECMWF, 2021,
-					doi:10.24381/CDS.622A565A.
-				</p>
-			</div>
-		{:else if citation === 'harvard'}
-			<div in:fade>
-				<p class="mb-3">
-					Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi: 10.5281/ZENODO.7970649.
-				</p>
-				<p class="mb-3">
-					Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
-					Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee,
-					D., Thépaut, J-N. (2023) “ERA5 hourly data on single levels from 1940 to present.” ECMWF.
-					doi: 10.24381/cds.adbb2d47.
-				</p>
-				<p class="mb-3">
-					Muñoz Sabater, J. (2019) “ERA5-Land hourly data from 2001 to present.” ECMWF. doi:
-					10.24381/CDS.E2161BAC.
-				</p>
-				<p>
-					Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea
-					U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton
-					M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q. (2021) “CERRA
-					sub-daily regional reanalysis data for Europe on single levels from 1984 to present.”
-					ECMWF. doi: 10.24381/CDS.622A565A.
-				</p>
-			</div>
-		{:else if citation === 'bibtex'}
-			<div in:fade>
-				<pre class="overflow-auto rounded-lg">
+						<p>
+							Zippenfenig, Patrick. Open-Meteo.com Weather API., Zenodo, 2023,
+							doi:10.5281/ZENODO.7970649.
+						</p>
+						<p>
+							Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
+							Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C.,
+							Dee, D., Thépaut, J-N. (2023). ERA5 hourly data on single levels from 1940 to present
+							[Data set]. ECMWF. https://doi.org/10.24381/cds.adbb2d47
+						</p>
+						<p>
+							Muñoz Sabater, J. (2019). ERA5-Land hourly data from 2001 to present [Data set].
+							ECMWF. https://doi.org/10.24381/CDS.E2161BAC
+						</p>
+						<p>
+							Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R.,
+							Andrea U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said
+							A., Glinton M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q.
+							CERRA Sub-Daily Regional Reanalysis Data for Europe on Single Levels from 1984 to
+							Present. ECMWF, 2021, doi:10.24381/CDS.622A565A.
+						</p>
+					</div>
+				{:else if citation === 'harvard'}
+					<div in:fade>
+						<p>
+							Zippenfenig, P. (2023) Open-Meteo.com Weather API. Zenodo. doi:
+							10.5281/ZENODO.7970649.
+						</p>
+						<p>
+							Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J.,
+							Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C.,
+							Dee, D., Thépaut, J-N. (2023) “ERA5 hourly data on single levels from 1940 to
+							present.” ECMWF. doi: 10.24381/cds.adbb2d47.
+						</p>
+						<p>
+							Muñoz Sabater, J. (2019) “ERA5-Land hourly data from 2001 to present.” ECMWF. doi:
+							10.24381/CDS.E2161BAC.
+						</p>
+						<p>
+							Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R.,
+							Andrea U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said
+							A., Glinton M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q.
+							(2021) “CERRA sub-daily regional reanalysis data for Europe on single levels from 1984
+							to present.” ECMWF. doi: 10.24381/CDS.622A565A.
+						</p>
+					</div>
+				{:else if citation === 'bibtex'}
+					<div in:fade>
+						<pre class="overflow-auto rounded-lg">
 <code
-						>@software&#123;Zippenfenig_Open-Meteo,
+								>@software&#123;Zippenfenig_Open-Meteo,
   author = &#123;Zippenfenig, Patrick&#125;,
   doi = &#123;10.5281/zenodo.7970649&#125;,
   license = &#123;CC-BY-4.0&#125;,
@@ -1450,8 +1460,8 @@
   copyright = &#123;Creative Commons Attribution 4.0 International&#125;,
   url = &#123;https://open-meteo.com/&#125;
 &#125;</code
-					><br /><br /><code
-						>@misc&#123;Hersbach_ERA5,
+							><br /><br /><code
+								>@misc&#123;Hersbach_ERA5,
   doi = &#123;10.24381/cds.adbb2d47&#125;,
   url = &#123;https://cds.climate.copernicus.eu/doi/10.24381/cds.adbb2d47&#125;,
   author = &#123;Hersbach, H., Bell, B., Berrisford, P., Biavati, G., Horányi, A., Muñoz Sabater, J., Nicolas, J., Peubey, C., Radu, R., Rozum, I., Schepers, D., Simmons, A., Soci, C., Dee, D., Thépaut, J-N.&#125;,
@@ -1459,8 +1469,8 @@
   publisher = &#123;ECMWF&#125;,
   year = &#123;2023&#125;
 &#125;</code
-					><br /><br /><code
-						>@misc&#123;Munoz_ERA5_LAND,
+							><br /><br /><code
+								>@misc&#123;Munoz_ERA5_LAND,
   doi = &#123;10.24381/CDS.E2161BAC&#125;,
   url = &#123;https://cds.climate.copernicus.eu/doi/10.24381/cds.e2161bac&#125;,
   author = &#123;Muñoz Sabater, J.&#125;,
@@ -1468,8 +1478,8 @@
   publisher = &#123;ECMWF&#125;,
   year = &#123;2019&#125;
 &#125;</code
-					><br /><br /><code
-						>@misc&#123;Schimanke_CERRA,
+							><br /><br /><code
+								>@misc&#123;Schimanke_CERRA,
   doi = &#123;10.24381/CDS.622A565A&#125;,
   url = &#123;https://cds.climate.copernicus.eu/doi/10.24381/cds.622a565a&#125;,
   author = &#123;Schimanke S., Ridal M., Le Moigne P., Berggren L., Undén P., Randriamampianina R., Andrea U., Bazile E., Bertelsen A., Brousseau P., Dahlgren P., Edvinsson L., El Said A., Glinton M., Hopsch S., Isaksson L., Mladek R., Olsson E., Verrelle A., Wang Z.Q.&#125;,
@@ -1477,11 +1487,13 @@
   publisher = &#123;ECMWF&#125;,
   year = &#123;2021&#125;
 &#125;</code
-					></pre>
+							></pre>
+					</div>
+				{/if}
 			</div>
-		{/if}
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Generated using Copernicus Climate Change Service information 2022.
+		</p>
 	</div>
 </div>
-<p class="text-muted-foreground mt-2">
-	Generated using Copernicus Climate Change Service information 2022.
-</p>

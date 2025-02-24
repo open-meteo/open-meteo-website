@@ -44,7 +44,6 @@
 
 		if (begin_date === '') {
 			let beginDate = new Date('1940-01-01');
-
 			begin_date = endDate.toISOString().split('T')[0];
 		}
 	});
@@ -53,7 +52,7 @@
 <div>
 	<Popover.Root>
 		<Popover.Trigger class="h-13 flex w-full cursor-pointer gap-6">
-			<div class="border-border h-13 relative flex w-full rounded-md border px-3 pt-5 text-sm">
+			<div class="border-border h-13 relative flex w-full rounded-md border px-3 pt-6 text-sm">
 				<CalendarIcon class="mr-1 mt-1 size-3" />
 
 				{#if start_date}
@@ -69,7 +68,7 @@
 					>
 				{/if}
 			</div>
-			<div class="border-border h-13 relative flex w-full rounded-md border px-3 pt-5 text-sm">
+			<div class="border-border h-13 relative flex w-full rounded-md border px-3 pt-6 text-sm">
 				<CalendarIcon class="mr-1 mt-1 size-3" />
 
 				{#if end_date}

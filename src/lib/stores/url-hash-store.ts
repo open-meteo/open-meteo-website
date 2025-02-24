@@ -46,6 +46,9 @@ export const urlHashStore = (initialValues: Parameters) => {
 						}
 					}
 				}
+				if (page.url.searchParams.has(key) && page.url.searchParams.get(key) === '') {
+					page.url.searchParams.delete(key);
+				}
 			}
 			goto(`?${page.url.searchParams.toString().replaceAll('%2C', ',')}`, {
 				noScroll: true,

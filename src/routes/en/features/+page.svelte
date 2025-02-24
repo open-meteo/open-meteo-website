@@ -39,7 +39,7 @@
 				<h3 class="pl-3 text-2xl">Local And Global Models</h3>
 			</div>
 
-			<p class="mb-3">
+			<p>
 				Open-Meteo brings together cutting-edge local (1 km resolution) and global (11 km) weather
 				models sourced from renowned national weather services. This means you have access to the
 				most accurate forecast for any location worldwide.
@@ -63,7 +63,7 @@
 				<h3 class="pl-3 text-2xl">High Resolution</h3>
 			</div>
 
-			<p class="mb-3">
+			<p>
 				Open-Meteo APIs are designed to provide you with the most precise weather information for
 				your location. We select the highest resolution weather models available, ensuring detailed
 				forecasts for your specific area. If you're in Europe or the US, we utilize impressive 1-2
@@ -89,7 +89,7 @@
 
 				<h3 class="pl-3 text-2xl">Hourly Updates</h3>
 			</div>
-			<p class="mb-3">
+			<p>
 				At Open-Meteo, we understand the importance of up-to-date weather information. That's why
 				our local 1 km resolution models are updated every hour, ensuring that our forecasts are
 				always current and accurate.
@@ -114,7 +114,7 @@
 
 				<h3 class="pl-3 text-2xl">80 Years Historical Data</h3>
 			</div>
-			<p class="mb-3">
+			<p>
 				With our <a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, you have
 				access to over 80 years of hourly weather data, covering any location on earth, all at a
 				10-kilometer resolution. This extensive dataset allows you to delve into the past and
@@ -140,7 +140,7 @@
 
 				<h3 class="pl-3 text-2xl">Specialised Forecasts</h3>
 			</div>
-			<p class="mb-3">
+			<p>
 				At Open-Meteo, we go beyond standard weather forecasts. In addition to providing predictions
 				for temperature, clouds, and rain, we offer detailed forecasts for a range of specialized
 				factors. These include solar radiation, winds at higher altitude, transpiration, soil
@@ -165,12 +165,12 @@
 
 				<h3 class="pl-3 text-2xl">Geocoding, Elevation, Timezones</h3>
 			</div>
-			<p class="mb-3">
+			<p>
 				With our collection of utility APIs, you can effortlessly handle various tasks. Need to find
 				the precise coordinates for a city name? Our geocoding API can help you resolve city names
 				to coordinates.
 			</p>
-			<p class="mb-3">
+			<p>
 				Want to know the elevation of a specific point? Our elevation API provides you with accurate
 				elevation data, allowing you to plan activities or analyze terrain with ease.
 			</p>
@@ -183,7 +183,9 @@
 	</div>
 
 	<div class="mt-16" id="available-apis">
-		<h2 id="weathervariables" class="mb-5 text-center text-5xl font-light">Available APIs</h2>
+		<h2 id="weather_variable_documentation" class="mb-5 text-center text-5xl font-light">
+			Available APIs
+		</h2>
 		<p class="text-center">
 			Open-Meteo offers a diverse range of APIs that go beyond traditional weather forecasting.
 			Explore a world of possibilities with our APIs for past weather data, ocean data, air quality,
@@ -196,7 +198,7 @@
 				<div>
 					<h3 class="text-3xl font-bold">Forecast API</h3>
 					<h4 class="mb-3 text-xl font-light">Your Go-To Solution for Weather Forecasts!</h4>
-					<p class="mb-3">
+					<p>
 						Experience the simplicity and power of our <a
 							href={'/en/docs'}
 							title="Weather Forecast API Documentation">Forecast API</a
@@ -204,12 +206,12 @@
 						access to a comprehensive set of weather variables, such as temperature, wind, clouds,
 						and precipitation, all delivered in an easy-to-use JSON format.
 					</p>
-					<p class="mb-3">
+					<p>
 						Our Forecast API combines the best weather models from national weather services,
 						allowing you to compare them directly. Stay informed about the weather conditions and
 						make informed decisions based on the most reliable and up-to-date forecasts available.
 					</p>
-					<p class="mb-3">
+					<p>
 						But that's not all! With our "Past Days" feature, you can also access historical weather
 						data from the past months. Analyze trends, study weather patterns, and unlock valuable
 						insights using this valuable feature.
@@ -225,14 +227,14 @@
 				<div>
 					<h3 class="text-3xl font-bold">Historical Weather API</h3>
 					<h4 class="mb-3 text-xl font-light">Unlock the Past Weather!</h4>
-					<p class="mb-3">
+					<p>
 						Step back in time and explore the weather history with our <a
 							href="/en/docs/historical-weather-api"
 							title="Historical weather API Documentation">Historical Weather API</a
 						>. Access past weather data from as far back as 1940, with hourly resolution available
 						for any location on earth.
 					</p>
-					<p class="mb-3">
+					<p>
 						Harnessing the power of 50TB of reanalysis weather data, our Historical Weather API
 						offers a wealth of information for your analysis and research needs. Benefit from global
 						coverage without any missing data, ensuring a comprehensive view of weather patterns
@@ -249,7 +251,7 @@
 				<div>
 					<h3 class="text-3xl font-bold">Ensemble Models API</h3>
 					<h4 class="mb-3 text-xl font-light">Harness the Power of Many!</h4>
-					<p class="mb-3">
+					<p>
 						Why settle for a single weather forecast when you can tap into the collective wisdom of
 						over 200 individual forecasts? With our <a
 							href="/en/docs/ensemble-api"
@@ -257,7 +259,7 @@
 						>, you can access a wealth of weather predictions and estimate the likelihood of
 						different outcomes for the next 4 weeks.
 					</p>
-					<p class="mb-3">
+					<p>
 						Experience the ultimate forecasting accuracy with our API, which combines the insights
 						of 7 different ensemble models from renowned institutes. With just one API call, you
 						gain access to a diverse range of perspectives and can make informed decisions based on
@@ -275,7 +277,7 @@
 				<div>
 					<h3 class="text-3xl font-bold">Climate Change API</h3>
 					<h4 class="mb-3 text-xl font-light">Explore the Future of Your Region!</h4>
-					<p class="mb-3">
+					<p>
 						Curious about the impact of climate change on your area? Our <a
 							href="/en/docs/climate-api"
 							title="Climate Change API Documentation">Climate Change API</a
@@ -295,14 +297,14 @@
 				<div>
 					<h3 class="text-3xl font-bold">Marine, Air Quality, and Floods</h3>
 					<h4 class="mb-3 text-xl font-light">Comprehensive Environmental Analysis!</h4>
-					<p class="mb-3">
+					<p>
 						Dive into the world of marine weather with our <a
 							href="/en/docs/marine-weather-api"
 							title="Marine Weather API Documentation">Marine Weather API</a
 						>, providing detailed ocean wave forecasts generated by both local and global models.
 						Stay informed about wave conditions and make informed decisions for marine activities.
 					</p>
-					<p class="mb-3">
+					<p>
 						Monitor the quality of the air you breathe using our <a
 							href="/en/docs/air-quality-api"
 							title="Air Quality API Documentation">Air Quality API</a
@@ -310,7 +312,7 @@
 						pollen. Stay ahead of potential health concerns and plan your outdoor activities
 						accordingly.
 					</p>
-					<p class="mb-3">
+					<p>
 						Stay prepared and informed about potential floods with our <a
 							href="/en/docs/flood-api"
 							title="Flood API Documentation">Flood API</a
@@ -324,7 +326,7 @@
 				<div>
 					<h3 class="text-3xl font-bold">Geocoding, and Elevation</h3>
 					<h4 class="mb-3 text-xl font-light">Disclose Location Insights!</h4>
-					<p class="mb-3">
+					<p>
 						Discover any city or town worldwide with our <a
 							href="/en/docs/geocoding-api"
 							title="Geocoding API Documentation">Geocoding API</a
@@ -358,12 +360,12 @@
 
 				<h3 class="pl-3 text-2xl">Lightning Fast APIs</h3>
 			</div>
-			<p class="mb-3">
+			<p>
 				Open-Meteo has designed its APIs to deliver lightning-fast performance and scalability.
 				Weather data is stored on high-speed NVMe disks in optimized time-series formats. API
 				requests typically have a response time of under 10 milliseconds.
 			</p>
-			<p class="mb-3">
+			<p>
 				To ensure reliability and low latency, Open-Meteo operates servers in Europe and North
 				America. Additionally, we offer the flexibility to add API servers to local points of
 				presence in any cloud provider or hosting center. If performance is crucial for your needs,
@@ -384,12 +386,12 @@
 				<h3 class="pl-3 text-2xl">User-Friendly APIs</h3>
 			</div>
 
-			<p class="mb-3">
+			<p>
 				Our JSON-based APIs are incredibly easy to use. All you need is a basic understanding of
 				geographic coordinates (e.g., <mark>52.52°N 13.405°E</mark> for Berlin), how to make HTTP requests,
 				and work with JSON data.
 			</p>
-			<p class="mb-3">
+			<p>
 				We provide <a href="/en/docs">comprehensive API documentation</a> with detailed explanations
 				and all the necessary parameters, making it simple for you to integrate our APIs into your projects.
 			</p>
@@ -407,12 +409,12 @@
 
 				<h3 class="pl-3 text-2xl">Reliable APIs</h3>
 			</div>
-			<p class="mb-3">
+			<p>
 				We understand the importance of API stability. Rest assured, we are committed to maintaining
 				the stability of our APIs. Any modifications will adhere to semantic versioning, and
 				breaking changes will be introduced as new major versions.
 			</p>
-			<p class="mb-3">
+			<p>
 				To keep you informed, all API changes will be documented and logged in our GitHub
 				repository. This ensures transparency and allows you to stay updated on any modifications
 				made to our APIs.

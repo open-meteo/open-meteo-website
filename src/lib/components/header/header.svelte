@@ -37,11 +37,11 @@
 			variant="outline"
 		>
 			{#if !toggleMenu}
-				<div class="absolute" transition:fade={{ duration: 150 }}>
+				<div class="absolute [&_svg]:h-5 [&_svg]:w-5" transition:fade={{ duration: 150 }}>
 					<Menu />
 				</div>
 			{:else}
-				<div class="absolute" transition:fade={{ duration: 150 }}>
+				<div class="absolute [&_svg]:h-5 [&_svg]:w-5" transition:fade={{ duration: 150 }}>
 					<Cross />
 				</div>
 			{/if}
@@ -54,7 +54,7 @@
 	>
 		<div class="flex flex-col pt-4 md:flex-row md:pt-0">
 			<div class="flex flex-col md:flex-row">
-				<hr class="my-1 ml-3" />
+				<hr class="border-border my-1 ml-3" />
 				<Button
 					variant="ghost"
 					class="grow-text mr-auto flex-col gap-0 px-3 {pathname === '/' ? 'font-bold' : ''}"

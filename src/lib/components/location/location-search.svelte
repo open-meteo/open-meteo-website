@@ -165,7 +165,7 @@
 					/>
 					<Button
 						variant="outline"
-						class="cursor-pointer"
+						class=""
 						title="Detect Location via GPS"
 						onclick={() => (searchQuery = 'GPS')}
 						><Cursor class="pointer-events-none" size={20} strokeWidth={1.2} /></Button
@@ -191,7 +191,7 @@
 									{#each $favorites as location}
 										<Button
 											variant="outline"
-											class="not-last:border-b flex h-[unset] w-full cursor-pointer justify-between rounded-none px-3 py-2"
+											class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2"
 											onclick={() => selectLocation(location)}
 										>
 											<div class="pointer-events-none flex flex-col gap-1">
@@ -218,7 +218,7 @@
 											<div class="-mr-1 flex justify-self-end">
 												<Button
 													variant="ghost"
-													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
+													class="px-3 duration-200 hover:brightness-[140%]"
 													onclick={(e) => {
 														e.stopPropagation();
 														deleteFavorite(location);
@@ -227,7 +227,7 @@
 												>
 												<Button
 													variant="ghost"
-													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
+													class="px-3 duration-200 hover:brightness-[140%]"
 													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 													target="_blank"
 													title="Show on map"
@@ -248,7 +248,7 @@
 									{#each $last_visited as location}
 										<Button
 											variant="outline"
-											class="not-last:border-b flex h-[unset] w-full cursor-pointer justify-between rounded-none px-3 py-2"
+											class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2"
 											onclick={() => selectLocation(location)}
 										>
 											<div class="pointer-events-none flex flex-col gap-1">
@@ -276,7 +276,7 @@
 											<div class="-mr-1 flex justify-self-end">
 												<Button
 													variant="ghost"
-													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
+													class="px-3 duration-200 hover:brightness-[140%]"
 													onclick={(e) => {
 														e.stopPropagation();
 														saveFavorite(location);
@@ -285,7 +285,7 @@
 												>
 												<Button
 													variant="ghost"
-													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
+													class="px-3 duration-200 hover:brightness-[140%]"
 													onclick={(e) => {
 														e.stopPropagation();
 														deleteRecent(location);
@@ -294,7 +294,7 @@
 												>
 												<Button
 													variant="ghost"
-													class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
+													class="px-3 duration-200 hover:brightness-[140%]"
 													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 													target="_blank"
 													title="Show on map"
@@ -320,7 +320,7 @@
 								{#each results.results || [] as location}
 									<Button
 										variant="outline"
-										class="not-last:border-b flex h-[unset] w-full cursor-pointer cursor-pointer justify-between rounded-none px-3 py-2"
+										class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2"
 										onclick={() => selectLocation(location)}
 									>
 										<div class="pointer-events-none flex flex-col gap-1">
@@ -347,7 +347,7 @@
 										<div class="-mr-1 flex justify-self-end">
 											<Button
 												variant="ghost"
-												class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
+												class="px-3 duration-200 hover:brightness-[140%]"
 												onclick={(e) => {
 													e.stopPropagation();
 													saveFavorite(location);
@@ -356,7 +356,7 @@
 											>
 											<Button
 												variant="ghost"
-												class="cursor-pointer px-3 duration-200 hover:brightness-[140%]"
+												class="px-3 duration-200 hover:brightness-[140%]"
 												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 												target="_blank"
 												title="Show on map"

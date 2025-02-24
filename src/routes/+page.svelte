@@ -108,7 +108,7 @@
 							variant="outline"
 							name="copy-code-to-clipboard"
 							aria-label="Copy to clipboard"
-							class="absolute right-0 top-2 z-10 cursor-pointer opacity-0 duration-300 group-hover:opacity-100"
+							class="absolute right-0 top-2 z-10 opacity-0 duration-300 group-hover:opacity-100"
 							onclick={() => {
 								window.prompt(
 									'Copy to clipboard: Ctrl+C, Enter',
@@ -135,7 +135,7 @@
 							variant="outline"
 							name="copy-code-to-clipboard"
 							aria-label="Copy to clipboard"
-							class="absolute right-0 top-2 z-10 cursor-pointer opacity-0 duration-300 group-hover:opacity-100"
+							class="absolute right-0 top-2 z-10 opacity-0 duration-300 group-hover:opacity-100"
 							onclick={() => {
 								window.prompt(
 									'Copy to clipboard: Ctrl+C, Enter',
@@ -162,7 +162,7 @@
 							variant="outline"
 							name="copy-code-to-clipboard"
 							aria-label="Copy to clipboard"
-							class="absolute right-0 top-2 z-10 cursor-pointer opacity-0 duration-300 group-hover:opacity-100"
+							class="absolute right-0 top-2 z-10 opacity-0 duration-300 group-hover:opacity-100"
 							onclick={() => {
 								window.prompt(
 									'Copy to clipboard: Ctrl+C, Enter',
@@ -197,7 +197,7 @@
 					<h3 class="pl-3 text-2xl">High Resolution</h3>
 				</div>
 
-				<p class="mb-3">
+				<p>
 					Open-Meteo leverages a powerful combination of global (11 km) and mesoscale (1 km) weather
 					models from esteemed national weather services, providing comprehensive forecasts with
 					remarkable precision. No matter where you are in the world, you can access the most
@@ -225,7 +225,7 @@
 
 					<h3 class="pl-3 text-2xl">Rapid Updates</h3>
 				</div>
-				<p class="mb-3">
+				<p>
 					At Open-Meteo, we understand the importance of having the most up-to-date weather
 					information. That's why our local weather models are updated every hour, ensuring that our
 					forecasts reflect the latest changes in conditions, including updates from rain radars.
@@ -252,7 +252,7 @@
 					<h3 class="pl-3 text-2xl">80 Years Historical Data</h3>
 				</div>
 
-				<p class="mb-3">
+				<p>
 					Explore the past with our comprehensive <a
 						href="/en/docs/historical-weather-api"
 						title="Historical weather data via API">Historical Weather API</a
@@ -284,7 +284,7 @@
 
 					<h3 class="pl-3 text-2xl">Open-Source</h3>
 				</div>
-				<p class="mb-3">
+				<p>
 					We believe in the power of open-source software. That's why the entire codebase of
 					Open-Meteo is accessible on <a
 						href="https://github.com/open-meteo/open-meteo"
@@ -293,7 +293,7 @@
 					<a href="https://github.com/open-meteo/open-meteo/blob/main/LICENSE">AGPLv3 licence</a>.
 					This means you can explore, use, modify, and contribute to the code.
 				</p>
-				<p class="mb-3">
+				<p>
 					If you wish to take it a step further, we're here to support you in setting up your own
 					API instances. This allows you to have complete control and enjoy practically unlimited
 					API calls, making it ideal for demanding applications like machine learning or large
@@ -322,7 +322,7 @@
 
 					<h3 class="pl-3 text-2xl">Free API</h3>
 				</div>
-				<p class="mb-3">
+				<p>
 					Open-Meteo offers free access to its APIs for non-commercial use, making it convenient for
 					individuals and developers to explore and integrate weather data into their projects. The
 					best part is that no API key, registration, or credit card is required to enjoy this
@@ -353,7 +353,7 @@
 
 					<h3 class="pl-3 text-2xl">Easy to Use</h3>
 				</div>
-				<p class="mb-3">
+				<p>
 					We've designed our APIs to be incredibly user-friendly. They are based on the widely
 					adopted HTTP protocol and utilize the simplicity of JSON data format. All you need to get
 					started is a basic understanding of geographic coordinates, making HTTP requests, and

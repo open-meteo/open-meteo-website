@@ -9,6 +9,17 @@
 		altitudeAboveSeaLevelMeters
 	} from '$lib/utils/meteo';
 
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select/index';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
+	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import AccordionItem from '$lib/components/AccordionItem.svelte';
@@ -18,14 +29,6 @@
 
 	import Clock from 'lucide-svelte/icons/clock';
 	import Calendar from 'lucide-svelte/icons/calendar-cog';
-
-	import Input from '$lib/components/ui/input/input.svelte';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select/index';
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
 	import {
 		daily,
@@ -1637,7 +1640,7 @@
 </div>
 
 <div>
-	<h2 id="weathervariables">Weather variable documentation</h2>
+	<h2 id="weather_variable_documentation">Weather variable documentation</h2>
 </div>
 
 <div>

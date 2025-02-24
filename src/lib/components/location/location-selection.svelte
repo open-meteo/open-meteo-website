@@ -62,14 +62,14 @@
 	let timeZone = $derived(timeZoneOptions.find((tzo) => String(tzo.value) == params.timezone));
 </script>
 
-<h2 class="text-2xl md:text-3xl">Location and Time</h2>
+<h2 id="location_and_time" class="text-2xl md:text-3xl">Location and Time</h2>
 <div class="mt-3 flex items-center gap-2">
 	<div class="text-muted-foreground">Location:</div>
 
 	<div class="border-border flex rounded-md border">
 		<Button
 			variant="ghost"
-			class="cursor-pointer rounded-e-none !opacity-100 {params.location_mode === 'location_search'
+			class="rounded-e-none !opacity-100 {params.location_mode === 'location_search'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={params.location_mode === 'location_search'}
@@ -81,7 +81,7 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="cursor-pointer rounded-md rounded-s-none !opacity-100 duration-300 {params.location_mode ===
+			class="rounded-md rounded-s-none !opacity-100 duration-300 {params.location_mode ===
 			'csv_coordinates'
 				? 'bg-accent'
 				: ''}"
@@ -184,14 +184,14 @@
 						{#if index == 0}
 							<Button
 								variant="outline"
-								class="h-12 cursor-pointer px-5 pr-6"
+								class="h-12 px-5 pr-6"
 								onclick={addLocation}
 								title="Add coordinates"><Plus size={22} /></Button
 							>
 						{:else}
 							<Button
 								variant="outline"
-								class="h-12 cursor-pointer px-5  pr-6"
+								class="h-12 px-5  pr-6"
 								onclick={() => removeLocation(index)}
 								title="Delete coordinates"><Trash size={20} /></Button
 							>
