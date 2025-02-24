@@ -578,7 +578,7 @@
 			<tr>
 				<th scope="row"
 					><a href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
-						>DWD GWAM</a
+						>DWD EWAM</a
 					>
 				</th>
 				<td>Europe</td>
@@ -591,7 +591,7 @@
 			<tr>
 				<th scope="row"
 					><a href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
-						>DWD EWAM</a
+						>DWD GWAM</a
 					>
 				</th>
 				<td>Global</td>

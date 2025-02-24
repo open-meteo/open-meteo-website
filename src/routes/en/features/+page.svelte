@@ -245,7 +245,7 @@
 </div>
 
 <div class="container px-4 py-md-5" id="available-apis">
-	<h2 id="weathervariables" class="pb-2 text-center display-5">Available APIs</h2>
+	<h2 id="weather_variable_documentation" class="pb-2 text-center display-5">Available APIs</h2>
 	<p class="lead text-center">
 		Open-Meteo offers a diverse range of APIs that go beyond traditional weather forecasting.
 		Explore a world of possibilities with our APIs for past weather data, ocean data, air quality,
