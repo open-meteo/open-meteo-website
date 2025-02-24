@@ -158,8 +158,10 @@
 </Alert.Root>
 
 <form method="get" class="mt-3" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
+	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
+	<!-- TIME -->
 	<div class="mt-6 flex flex-col gap-4 md:flex-row">
 		<div class="mb-3 md:w-1/2">
 			<DatePicker
@@ -209,6 +211,7 @@
 		</div>
 	</div>
 
+	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">
 		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
 		<div
@@ -247,6 +250,7 @@
 		</div>
 	</div>
 
+	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
 		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem
@@ -697,6 +701,7 @@
 		</Accordion.Root>
 	</div>
 
+	<!-- DAILY -->
 	<div class="mt-6 md:mt-12">
 		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2>
 		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
@@ -741,17 +746,21 @@
 		{/if}
 	</div>
 
+	<!-- SETTINGS -->
 	<div class="mt-6 md:mt-12">
 		<Settings bind:params={$params} />
 	</div>
 
+	<!-- LICENSE -->
 	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
 </form>
 
+<!-- RESULTS -->
 <div class="mt-6 md:mt-12">
 	<ResultPreview {params} {defaultParameters} type="historical-forecast" useStockChart={true} />
 </div>
 
+<!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
 	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
 	<div class="mt-2 md:mt-4">

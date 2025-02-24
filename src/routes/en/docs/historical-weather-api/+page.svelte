@@ -6,12 +6,6 @@
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
 
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
-	import AccordionItem from '$lib/components/AccordionItem.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
@@ -22,6 +16,13 @@
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
+	import Settings from '$lib/components/settings/settings.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import AccordionItem from '$lib/components/AccordionItem.svelte';
+	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 
 	import {
@@ -31,13 +32,12 @@
 		solarVariables,
 		defaultParameters,
 		additionalVariables,
-		ensembleSpreadVariables,
+		//ensembleSpreadVariables,
 		pastMinutely15Options,
 		gridCellSelectionOptions,
 		temporalResolutionOptions,
 		forecastMinutely15Options
 	} from './options';
-	import Settings from '$lib/components/settings/settings.svelte';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 2);
@@ -70,20 +70,6 @@
 	});
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
-
-	// Settings
-	let temperatureUnit = $derived(
-		temperatureOptions.find((to) => String(to.value) == $params.temperature_unit)
-	);
-	let windSpeedUnit = $derived(
-		windSpeedOptions.find((wso) => String(wso.value) == $params.wind_speed_unit)
-	);
-	let precipitationUnit = $derived(
-		precipitationOptions.find((po) => String(po.value) == $params.precipitation_unit)
-	);
-	let timeFormat = $derived(
-		timeFormatOptions.find((tfo) => String(tfo.value) == $params.timeformat)
-	);
 
 	// Additional variable settings
 	let temporalResolution = $derived(
@@ -152,8 +138,10 @@
 </Alert.Root>
 
 <form method="get" class="mt-3" action="https://archive-api.open-meteo.com/v1/archive">
+	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
+	<!-- TIME -->
 	<div class="mt-6 flex flex-col gap-4 md:flex-row">
 		<div class="md:w-1/2">
 			<DatePicker
@@ -242,6 +230,7 @@
 		</div>
 	</div>
 
+	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">
 		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
 		<div
@@ -280,6 +269,7 @@
 		</div>
 	</div>
 
+	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
 		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem
@@ -459,6 +449,7 @@
 		<div>Reanalysis models</div>
 	</div>
 
+	<!-- DAILY -->
 	<div class="mt-6 md:mt-12">
 		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2>
 		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
@@ -503,15 +494,18 @@
 		{/if}
 	</div>
 
+	<!-- SETTINGS -->
 	<div class="mt-6 md:mt-12">
 		<Settings bind:params={$params} />
 	</div>
 
+	<!-- LICENSE -->
 	<div class="mt-6 md:mt-12">
 		<LicenseSelector requires_professional_plan={true} />
 	</div>
 </form>
 
+<!-- RESULT -->
 <div class="mt-6 md:mt-12">
 	<ResultPreview
 		{params}
@@ -523,6 +517,7 @@
 	/>
 </div>
 
+<!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
 	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
 	<div class="mt-2 md:mt-4">
@@ -674,6 +669,7 @@
 	</p>
 </div>
 
+<!-- API DOCS -->
 <div class="mt-6 md:mt-12">
 	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
 	<div class="mt-2 md:mt-4">

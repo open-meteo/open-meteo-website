@@ -846,7 +846,7 @@
 		<Settings bind:params={$params} />
 	</div>
 
-	<!-- LISENCE -->
+	<!-- LICENSE -->
 	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
 </form>
 

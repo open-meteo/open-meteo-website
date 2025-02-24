@@ -26,15 +26,7 @@
 						'#daily_weather_variables',
 						'#settings',
 						'#api_response',
-						'#data_sources',
-						'#api_documentation',
-						'#hourly_parameter_definition',
-						'#15_minutely_parameter_definition',
-						'#pressure_level_variables',
-						'#daily_parameter_definition',
-						'#json_return_object',
-						'#errors',
-						'#weather_variable_documentation'
+						'#data_sources'
 					]
 				},
 				{ title: 'Previous Model Runs', url: '/en/docs/previous-runs-api' },
@@ -107,7 +99,7 @@
 	let activeAnchor = $state('');
 	if (browser) {
 		activeAnchor = window.location.hash;
-		if (activeAnchor != '') {
+		if (window.location.hash != '') {
 			extendAnchors = true;
 			extendChildAnchors = true;
 		}
@@ -182,25 +174,24 @@
 											? 'border-border'
 											: 'border-transparent'}"
 									>
-										<div class="flex items-center">
+										<a
+											href={l.url}
+											class="my-1 flex items-center"
+											onclick={() => {
+												if (l.url == selectedPath.url) {
+													extendChildAnchors = !extendChildAnchors;
+												} else {
+													mobileNavOpened = false;
+												}
+											}}
+										>
 											{#if l.anchors && l.url == selectedPath.url}
 												<ChevronRight
 													size="18"
 													class="duration-300 {extendChildAnchors ? 'rotate-90' : ''}"
 												/>
-											{/if}
-											<a
-												href={l.url}
-												class="my-1"
-												onclick={() => {
-													if (l.url == selectedPath.url) {
-														extendChildAnchors = !extendChildAnchors;
-													} else {
-														mobileNavOpened = false;
-													}
-												}}>{l.title}</a
-											>
-										</div>
+											{/if}{l.title}</a
+										>
 										{#if l.anchors && l.url == selectedPath.url}
 											<ul
 												class="flex max-h-0 flex-col overflow-hidden text-sm capitalize duration-300 {extendChildAnchors
