@@ -564,9 +564,9 @@
 		</table>
 	</div>
 
-	<figure class="figure">
-		<img src="/images/models/knmi_harmonie.webp" class="figure-img img-fluid rounded" alt="..." />
-		<figcaption class="figure-caption">
+	<figure>
+		<img src="/images/models/knmi_harmonie.webp" class="rounded-lg" alt="..." />
+		<figcaption>
 			KNMI HARMONIE AROME model area Europe (blue/red) and Netherlands nest (green). Source: <a
 				href="https://english.knmidata.nl/latest/newsletters/open-data-newsletter/2024/open-data-march-2024"
 				>KMNI Blog</a

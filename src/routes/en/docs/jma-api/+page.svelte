@@ -589,9 +589,9 @@
 		<small class="text-muted-foreground">JMA models like RSM are not available.</small>
 	</div>
 
-	<figure class="figure">
-		<img src="/images/models/jma_msm.webp" class="figure-img img-fluid rounded" alt="..." />
-		<figcaption class="figure-caption">JMA MSM model area. Source: Open-Meteo.</figcaption>
+	<figure>
+		<img src="/images/models/jma_msm.webp" class="rounded-lg" alt="..." />
+		<figcaption>JMA MSM model area. Source: Open-Meteo.</figcaption>
 	</figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>

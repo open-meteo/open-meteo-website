@@ -820,11 +820,9 @@
 		</table>
 	</div>
 
-	<figure class="figure">
-		<img src="/images/models/ukmo_2km_ukv.webp" class="figure-img img-fluid rounded" alt="..." />
-		<figcaption class="figure-caption">
-			UKMO UKV 2km model covering UK and Ireland. Source: UK Met Office.
-		</figcaption>
+	<figure>
+		<img src="/images/models/ukmo_2km_ukv.webp" class="rounded-lg" alt="..." />
+		<figcaption>UKMO UKV 2km model covering UK and Ireland. Source: UK Met Office.</figcaption>
 	</figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>

@@ -3,18 +3,18 @@ export const defaultParameters = {
 	hourly: [],
 	daily: [],
 	location_mode: 'location_search',
-	csv_coordinates: '',
+	csv_coordinates: undefined,
 	temperature_unit: 'celsius',
 	wind_speed_unit: 'kmh',
 	precipitation_unit: 'mm',
 	timeformat: 'iso8601',
 	timezone: 'UTC',
 	time_mode: 'time_interval',
-	temporal_resolution: '',
+	temporal_resolution: undefined,
 	tilt: 0,
 	azimuth: 0,
 	models: [],
-	cell_selection: ''
+	cell_selection: undefined
 };
 
 export const pressureVariables = [

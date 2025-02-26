@@ -29,7 +29,17 @@
 						'#data_sources'
 					]
 				},
-				{ title: 'Previous Model Runs', url: '/en/docs/previous-runs-api' },
+				{
+					title: 'Previous Model Runs',
+					url: '/en/docs/previous-runs-api',
+					anchors: [
+						'#location_and_time',
+						'#hourly_weather_variables',
+						'#settings',
+						'#api_response',
+						'#api_documentation'
+					]
+				},
 				{ title: 'DWD Germany', url: '/en/docs/dwd-api' },
 				{ title: 'NOAA U.S.', url: '/en/docs/gfs-api' },
 				{ title: 'Météo-France', url: '/en/docs/meteofrance-api' },
@@ -133,12 +143,13 @@
 							: 'border-transparent'}"
 					>
 						<a
-							class="flex items-center"
+							class="flex items-center gap-1"
 							href={link.url}
 							onclick={() => {
 								if (link.url == selectedPath.url) {
 									extendAnchors = !extendAnchors;
 								} else {
+									extendAnchors = false;
 									mobileNavOpened = false;
 								}
 							}}
@@ -154,7 +165,9 @@
 									: ''}"
 							>
 								{#each link.anchors as anchor}
-									<a class="pt-2" href={anchor}>#{anchor.replaceAll('_', ' ').replace('#', '')}</a>
+									<a class="pt-2" onclick={() => (activeAnchor = anchor)} href={anchor}
+										>{anchor.replaceAll('_', ' ').replace('#', '')}</a
+									>
 								{/each}
 							</ul>
 						{/if}
@@ -164,7 +177,7 @@
 								class={`list-unstyled ml-3 overflow-hidden duration-500 ${
 									selectedPath.url === link.url ||
 									link.children.some((l) => l.url === selectedPath.url)
-										? 'mt-2 max-h-[500px]'
+										? 'mb-2 mt-2 max-h-[500px]'
 										: 'max-h-0'
 								}`}
 							>
@@ -176,11 +189,12 @@
 									>
 										<a
 											href={l.url}
-											class="my-1 flex items-center"
+											class="my-1 flex items-center gap-1"
 											onclick={() => {
 												if (l.url == selectedPath.url) {
 													extendChildAnchors = !extendChildAnchors;
 												} else {
+													extendChildAnchors = false;
 													mobileNavOpened = false;
 												}
 											}}
@@ -195,12 +209,14 @@
 										{#if l.anchors && l.url == selectedPath.url}
 											<ul
 												class="flex max-h-0 flex-col overflow-hidden text-sm capitalize duration-300 {extendChildAnchors
-													? 'max-h-[500px]'
+													? 'max-h-[500px] pb-2'
 													: ''}"
 											>
 												{#each l.anchors as anchor}
-													<a class="py-1 {activeAnchor === anchor ? 'underline' : ''}" href={anchor}
-														>#{anchor.replaceAll('_', ' ').replace('#', '')}</a
+													<a
+														onclick={() => (activeAnchor = anchor)}
+														class="ml-2 py-1 {activeAnchor === anchor ? 'underline' : ''}"
+														href={anchor}>{anchor.replaceAll('_', ' ').replace('#', '')}</a
 													>
 												{/each}
 											</ul>

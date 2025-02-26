@@ -1,26 +1,39 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-	import { countVariables } from '$lib/utils/meteo';
+	import type { Parameters } from '$lib/docs';
 
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
-	import AccordionItem from '$lib/components/AccordionItem.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/PressureLevelsHelpTable.svelte';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import {
+		countVariables,
+		sliceIntoChunks,
+		countPressureVariables,
+		altitudeAboveSeaLevelMeters
+	} from '$lib/utils/meteo';
 
 	import Clock from 'lucide-svelte/icons/clock';
 	import Calendar from 'lucide-svelte/icons/calendar-cog';
 
-	import Input from '$lib/components/ui/input/input.svelte';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select/index';
+	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
+
+	import Settings from '$lib/components/settings/settings.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import AccordionItem from '$lib/components/AccordionItem.svelte';
+	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import PressureLevelsHelpTable from '$lib/components/PressureLevelsHelpTable.svelte';
 
 	import {
 		hourly,
@@ -30,6 +43,17 @@
 		available_variables,
 		additionalVariables
 	} from './options';
+
+	import {
+		pastDaysOptions,
+		pastHoursOptions,
+		forecastDaysOptions,
+		forecastHoursOptions,
+		pastMinutely15Options,
+		gridCellSelectionOptions,
+		temporalResolutionOptions,
+		forecastMinutely15Options
+	} from '../options';
 
 	const params = urlHashStore({
 		latitude: [52.52],

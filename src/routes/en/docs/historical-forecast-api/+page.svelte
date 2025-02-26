@@ -49,6 +49,7 @@
 	var d = new Date();
 	d.setDate(d.getDate() - 2);
 	let endDateDefault = d.toISOString().split('T')[0];
+	let endDate = $state(endDateDefault);
 	d.setDate(d.getDate() - 14);
 	let startDateDefault = d.toISOString().split('T')[0];
 
@@ -145,7 +146,7 @@
 	/>
 </svelte:head>
 
-<Alert.Root>
+<Alert.Root class="border-border mb-4">
 	<Alert.Description>
 		This API provides access to archived high-resolution weather model data from the <a
 			href={'/en/docs'}>Weather Forecast API</a
@@ -157,7 +158,7 @@
 	</Alert.Description>
 </Alert.Root>
 
-<form method="get" class="mt-3" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
+<form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 

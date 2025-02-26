@@ -13,11 +13,11 @@ export interface Parameters {
 	precipitation_unit?: string;
 	timeformat?: string;
 	timezone?: string;
-	past_days?: string;
+	past_days?: number;
 	past_hours?: string;
 	past_minutely_15?: string;
 	temporal_resolution?: string;
-	forecast_days?: string;
+	forecast_days?: number;
 	forecast_hours?: string;
 	forecast_minutely_15?: string;
 	start_date?: string;

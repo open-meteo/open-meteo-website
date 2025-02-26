@@ -1,30 +1,40 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
 
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import Clock from 'lucide-svelte/icons/clock';
+	import Calendar from 'lucide-svelte/icons/calendar-cog';
+
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
+
+	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import AccordionItem from '$lib/components/AccordionItem.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
-	import Clock from 'lucide-svelte/icons/clock';
-	import Calendar from 'lucide-svelte/icons/calendar-cog';
-
-	import { Label } from '$lib/components/ui/label';
-	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select/index';
-	import * as Accordion from '$lib/components/ui/accordion';
-
 	import { models, previousDay, windVariables, solarVariables, defaultParameters } from './options';
 
-	import { pastDaysOptions, forecastDaysOptions } from '../options';
-	import Settings from '$lib/components/settings/settings.svelte';
+	import {
+		pastDaysOptions,
+		forecastDaysOptions,
+		gridCellSelectionOptions,
+		temporalResolutionOptions
+	} from '../options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -49,10 +59,55 @@
 	}
 
 	let forecastDays = $derived(
-		forecastDaysOptions.find((fco) => String(fco.value) == $params.forecast_days)
+		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
 	);
 
-	let pastDays = $derived(pastDaysOptions.find((pdo) => String(pdo.value) == $params.past_days));
+	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
+
+	// Additional variable settings
+	let cellSelection = $derived(
+		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
+	);
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
+	);
+
+	let accordionValues = $state([]);
+	onMount(() => {
+		if (
+			(temporalResolution.value || cellSelection.value) &&
+			!accordionValues.includes('additional-variables')
+		) {
+			accordionValues.push('additional-variables');
+		}
+
+		if (
+			//(countVariables(solarVariables, $params.hourly).active ||
+			($params.tilt ? $params.tilt > 0 : false) ||
+			(($params.azimuth ? $params.azimuth > 0 : false) &&
+				!accordionValues.includes('solar-variables'))
+		) {
+			accordionValues.push('solar-variables');
+		}
+
+		// wind-variables TODO
+		// if (
+		// 	countVariables(solarVariables, $params.minutely_15).active &&
+		// 	!accordionValues.includes('wind-variables')
+		// ) {
+		// 	accordionValues.push('wind-variables');
+		// }
+
+		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
+			accordionValues.push('models');
+		}
+	});
+
+	let begin_date = new Date();
+	begin_date.setMonth(begin_date.getMonth() - 3);
+
+	let last_date = new Date();
+	last_date.setDate(last_date.getDate() + 14);
 </script>
 
 <svelte:head>
@@ -60,7 +115,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/previous-runs-api" />
 </svelte:head>
 
-<Alert.Root>
+<Alert.Root class="border-border mb-4">
 	<Alert.Description>
 		Read the announcement for the Previous Day API and how you can use to it calculate model
 		accuracy in the <a
@@ -71,7 +126,7 @@
 	</Alert.Description>
 </Alert.Root>
 
-<form method="get" class="mt-3" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
+<form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
 	<LocationSelection bind:params={$params} />
 
 	<!-- TIME -->
@@ -237,58 +292,77 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" multiple={true}>
+		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem id="additional-variables" title="Additional Options">
-				<div>
-					<div class="  mb-6">
-						<select
+				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
+					<div class="relative col-span-2">
+						<Select.Root
 							name="temporal_resolution"
-							id="temporal_resolution"
-							aria-label="Temporal Resolution For Hourly Data"
+							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<option value="">1 Hourly</option>
-							<option value="hourly_3">3 Hourly</option>
-							<option value="hourly_6">6 Hourly</option>
-							<option value="native">Native Model Resolution</option>
-						</select>
-						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{temporalResolution?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each temporalResolutionOptions as tro}
+									<Select.Item value={tro.value}>{tro.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Temporal Resolution For Hourly Data</Label
+							>
+						</Select.Root>
 					</div>
-				</div>
-				<div>
-					<div class="  mb-6">
-						<select
-							name="cell_selection"
-							id="cell_selection"
-							aria-label="Grid Cell Selection"
-							bind:value={$params.cell_selection}
-						>
-							<option value="">Terrain Optimized, Prefers Land</option>
-							<option value="sea">Prefer Sea</option>
-							<option value="nearest">Nearest</option>
-						</select>
-						<label for="cell_selection">Grid Cell Selection</label>
+					<div class="relative col-span-2">
+						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{cellSelection?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each gridCellSelectionOptions as gcso}
+									<Select.Item value={gcso.value}>{gcso.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Grid Cell Selection</Label
+							>
+						</Select.Root>
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem id="solar" title="Solar Radiation Variables">
+			<AccordionItem id="solar-variables" title="Solar Radiation Variables">
 				<div>
-					<table class="table-sm table">
+					<table class="w-full">
 						<tbody>
 							{#each solarVariables as e}
-								<tr>
+								<tr class="border-border border-b">
 									<td>{e.label}</td>
 									{#each { length: 8 } as _, i}
-										<td
-											><div>
-												<input
-													type="checkbox"
-													value={formatVariableName(e.name, i)}
-													id="{e.name}_hourly_previous_day{i}"
-													name="hourly"
-													bind:group={$params.hourly}
+										<td class="py-1"
+											><div class="flex items-center justify-center px-2">
+												<Checkbox
+													id="{e.value}_hourly_previous_day{i}"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													value={formatVariableName(e.value, i)}
+													checked={$params.hourly?.includes(formatVariableName(e.value, i))}
+													aria-labelledby="{e.value}_hourly_previous_day_label{i}"
+													onCheckedChange={() => {
+														if ($params.hourly?.includes(formatVariableName(e.value, i))) {
+															$params.hourly = $params.hourly.filter((item) => {
+																return item !== formatVariableName(e.value, i);
+															});
+														} else {
+															$params.hourly.push(formatVariableName(e.value, i));
+															$params.hourly = $params.hourly;
+														}
+													}}
 												/>
-												<label for="{e.name}_hourly_previous_day{i}">Day {i}</label>
+												<Label
+													id="{e.value}_hourly_previous_day_label{i}"
+													for="{e.value}_hourly_previous_day{i}"
+													class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">Day {i}</Label
+												>
 											</div></td
 										>
 									{/each}
@@ -304,29 +378,35 @@
 						please specify Tilt and Azimuth below.</small
 					>
 				</div>
-				<div>
-					<div>
-						<input
-							type="number"
-							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
-							name="tilt"
+				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
+					<div class="relative">
+						<Input
 							id="tilt"
+							type="number"
+							class="h-12 cursor-pointer pt-6 {$params.tilt < 0 || $params.tilt > 90
+								? 'text-red'
+								: ''}"
+							name="tilt"
 							step="1"
 							min="0"
 							max="90"
 							bind:value={$params.tilt}
 						/>
-						<label for="tilt">Panel Tilt (0° horizontal)</label>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="tilt">Panel Tilt (0° horizontal)</Label
+						>
 						{#if $params.tilt < 0 || $params.tilt > 90}
 							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
-				</div>
-				<div>
-					<div>
-						<input
+
+					<div class="relative">
+						<Input
 							type="number"
-							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
+							class="h-12 cursor-pointer pt-6 {$params.azimuth < -90 || $params.azimuth > 90
+								? 'text-red'
+								: ''}"
 							name="azimuth"
 							id="azimuth"
 							step="1"
@@ -334,8 +414,11 @@
 							max="90"
 							bind:value={$params.azimuth}
 						/>
-						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</Label
+						>
+						{#if Number($params.azimuth) < -90 || Number($params.azimuth) > 90}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -343,24 +426,38 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem id="wind_upper" title="Wind on 80, 120 and 180 metre">
+			<AccordionItem id="wind-variables" title="Wind on 80, 120 and 180 meter">
 				<div>
-					<table class="table-sm table">
+					<table class="w-full">
 						<tbody>
 							{#each windVariables as e}
-								<tr>
+								<tr class="border-border border-b">
 									<td>{e.label}</td>
 									{#each { length: 8 } as _, i}
-										<td
-											><div>
-												<input
-													type="checkbox"
-													value={formatVariableName(e.name, i)}
-													id="{e.name}_hourly_previous_day{i}"
-													name="hourly"
-													bind:group={$params.hourly}
+										<td class="py-1"
+											><div class="flex items-center justify-center px-2">
+												<Checkbox
+													id="{e.value}_hourly_previous_day{i}"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													value={formatVariableName(e.value, i)}
+													checked={$params.hourly?.includes(formatVariableName(e.value, i))}
+													aria-labelledby="{e.value}_hourly_previous_day_label{i}"
+													onCheckedChange={() => {
+														if ($params.hourly?.includes(formatVariableName(e.value, i))) {
+															$params.hourly = $params.hourly.filter((item) => {
+																return item !== formatVariableName(e.value, i);
+															});
+														} else {
+															$params.hourly.push(formatVariableName(e.value, i));
+															$params.hourly = $params.hourly;
+														}
+													}}
 												/>
-												<label for="{e.name}_hourly_previous_day{i}">Day {i}</label>
+												<Label
+													id="{e.value}_hourly_previous_day_label{i}"
+													for="{e.value}_hourly_previous_day{i}"
+													class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">Day {i}</Label
+												>
 											</div></td
 										>
 									{/each}

@@ -609,14 +609,14 @@
 		</table>
 	</div>
 
-	<figure class="figure">
-		<img src="/images/models/gem_hrdps.webp" class="figure-img img-fluid rounded" alt="..." />
-		<figcaption class="figure-caption">HRDPS Model Area. Source: Open-Meteo.</figcaption>
+	<figure>
+		<img src="/images/models/gem_hrdps.webp" class="rounded-lg" alt="..." />
+		<figcaption>HRDPS Model Area. Source: Open-Meteo.</figcaption>
 	</figure>
 
-	<figure class="figure">
-		<img src="/images/models/gem_rdps.webp" class="figure-img img-fluid rounded" alt="..." />
-		<figcaption class="figure-caption">RDPS Regional Model Area. Source: Open-Meteo.</figcaption>
+	<figure>
+		<img src="/images/models/gem_rdps.webp" class="rounded-lg" alt="..." />
+		<figcaption>RDPS Regional Model Area. Source: Open-Meteo.</figcaption>
 	</figure>
 
 	<h2 id="api-documentation" class="mt-5">API Documentation</h2>

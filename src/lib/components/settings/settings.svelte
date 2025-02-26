@@ -2,7 +2,7 @@
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select/index';
 
-	import { type Parameters } from '$lib/components/parameters';
+	import { type Parameters } from '$lib/docs';
 
 	import {
 		windSpeedOptions,

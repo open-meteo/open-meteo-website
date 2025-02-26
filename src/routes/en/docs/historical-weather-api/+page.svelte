@@ -126,7 +126,7 @@
 	/>
 </svelte:head>
 
-<Alert.Root>
+<Alert.Root class="mb-4">
 	<Alert.Description>
 		Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides
 		access to a staggering 90 terabytes of meteorological data! Read the <a
@@ -137,7 +137,7 @@
 	</Alert.Description>
 </Alert.Root>
 
-<form method="get" class="mt-3" action="https://archive-api.open-meteo.com/v1/archive">
+<form method="get" action="https://archive-api.open-meteo.com/v1/archive">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 

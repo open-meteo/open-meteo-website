@@ -3,8 +3,6 @@
 
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-
 	import {
 		countVariables,
 		sliceIntoChunks,
@@ -12,15 +10,20 @@
 		altitudeAboveSeaLevelMeters
 	} from '$lib/utils/meteo';
 
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import Clock from 'lucide-svelte/icons/clock';
+	import Calendar from 'lucide-svelte/icons/calendar-cog';
+
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select/index';
+	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -30,10 +33,8 @@
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/PressureLevelsHelpTable.svelte';
 
-	import Clock from 'lucide-svelte/icons/clock';
-	import Calendar from 'lucide-svelte/icons/calendar-cog';
-
-	import type { Parameters } from '$lib/docs';
+	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
+	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
 
 	import {
 		daily,
@@ -56,27 +57,21 @@
 		forecastMinutely15Options
 	} from './options';
 
-	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
-	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
-
-	const params: Writable<Parameters> = urlHashStore({
+	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-
 		...defaultParameters,
-
 		hourly: ['temperature_2m']
 	});
 
-	let pressureVariablesTab = $state('temperature');
-
-	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
-
-	let forecastDays = $derived(
-		forecastDaysOptions.find((fco) => String(fco.value) == $params.forecast_days)
+	let timezoneInvalid = $derived(
+		$params.timezone == 'UTC' && ($params.daily ? $params.daily.length > 0 : false)
 	);
 
-	let pastDays = $derived(pastDaysOptions.find((pdo) => String(pdo.value) == $params.past_days));
+	let forecastDays = $derived(
+		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
+	);
+	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
 	// Additional variable settings
 	let forecastHours = $derived(
@@ -95,18 +90,25 @@
 	let pastMinutely15 = $derived(
 		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
 	);
+	let pressureVariablesTab = $state('temperature');
 
 	let accordionValues = $state([]);
 	onMount(() => {
 		if (
-			countVariables(additionalVariables, $params.hourly).active &&
+			(countVariables(additionalVariables, $params.hourly).active ||
+				forecastHours.value ||
+				pastHours.value ||
+				temporalResolution.value ||
+				cellSelection.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
 		}
 
 		if (
-			countVariables(solarVariables, $params.hourly).active &&
+			(countVariables(solarVariables, $params.hourly).active ||
+				$params.tilt > 0 ||
+				$params.azimuth > 0) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
@@ -122,8 +124,11 @@
 		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
 			accordionValues.push('models');
 		}
+
 		if (
-			countVariables(solarVariables, $params.minutely_15).active &&
+			(countVariables(solarVariables, $params.minutely_15).active ||
+				forecastMinutely15.value ||
+				pastMinutely15.value) &&
 			!accordionValues.includes('minutely_15')
 		) {
 			accordionValues.push('minutely_15');
@@ -326,11 +331,11 @@
 										checked={$params.hourly?.includes(e.value)}
 										aria-labelledby="{e.value}_label"
 										onCheckedChange={() => {
-											if ($params.hourly?.includes(e.value)) {
+											if (e.value && $params.hourly?.includes(e.value)) {
 												$params.hourly = $params.hourly.filter((item) => {
 													return item !== e.value;
 												});
-											} else {
+											} else if (e.value && $params.hourly) {
 												$params.hourly.push(e.value);
 												$params.hourly = $params.hourly;
 											}

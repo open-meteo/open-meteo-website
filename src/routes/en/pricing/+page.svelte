@@ -188,9 +188,7 @@
 	</div>
 
 	<div class="mt-12 md:mt-24" id="faq">
-		<h2 id="weather_variable_documentation" class="text-center text-5xl font-light">
-			Frequently Asked Questions
-		</h2>
+		<h2 id="faq" class="text-center text-5xl font-light">Frequently Asked Questions</h2>
 
 		<div class="mt-6 grid gap-x-2 gap-y-6 md:mt-12 md:grid-cols-2">
 			<div>

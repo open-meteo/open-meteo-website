@@ -24,7 +24,7 @@
 		"cookie": "^0.7.0",
 		"critical": "^7.2.1",
 		"embla-carousel-svelte": "^8.5.2",
-		"eslint": "^9.20.0",
+		"eslint": "^9.21.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^2.46.1",
 		"formsnap": "^1.0.1",

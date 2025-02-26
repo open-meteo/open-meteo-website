@@ -4,26 +4,26 @@ export const defaultParameters = {
 	daily: [],
 	minutely_15: [],
 	location_mode: 'location_search',
-	csv_coordinates: '',
+	csv_coordinates: undefined,
 	temperature_unit: 'celsius',
 	wind_speed_unit: 'kmh',
 	precipitation_unit: 'mm',
 	timeformat: 'iso8601',
 	timezone: 'UTC',
-	past_days: '0',
-	past_hours: '',
-	past_minutely_15: '',
-	forecast_days: '4',
-	forecast_hours: '',
-	forecast_minutely_15: '',
-	temporal_resolution: '',
-	start_date: '',
-	end_date: '',
+	past_days: 0,
+	past_hours: undefined,
+	past_minutely_15: undefined,
+	forecast_days: 4,
+	forecast_hours: undefined,
+	forecast_minutely_15: undefined,
+	temporal_resolution: undefined,
+	start_date: undefined,
+	end_date: undefined,
 	tilt: 0,
 	azimuth: 0,
 	time_mode: 'forecast_days',
 	models: [],
-	cell_selection: ''
+	cell_selection: undefined
 };
 
 export const minutely_15 = [
@@ -208,4 +208,10 @@ export const models = [
 		{ value: 'arome_france', label: 'AROME France' },
 		{ value: 'arome_france_hd', label: 'AROME France HD' }
 	]
+];
+
+export const forecastDaysOptions = [
+	{ value: 1, label: '1 day' },
+	{ value: 3, label: '3 days' },
+	{ value: 4, label: '4 days (default)' }
 ];

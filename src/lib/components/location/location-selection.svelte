@@ -6,9 +6,8 @@
 	import { Button } from '$lib/components/ui/button';
 
 	import * as Select from '$lib/components/ui/select/index';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
-	import { type Parameters } from '$lib/components/parameters';
+	import { type Parameters } from '$lib/docs';
 
 	import type { GeoLocation } from '$lib/stores/settings';
 
@@ -26,16 +25,22 @@
 	let { params = $bindable() }: Props = $props();
 
 	function locationCallback(event: CustomEvent<GeoLocation>, index: number) {
-		params.latitude[index] = Number(event.detail.latitude.toFixed(4));
-		params.longitude[index] = Number(event.detail.longitude.toFixed(4));
+		if (params.latitude && params.longitude) {
+			params.latitude[index] = Number(event.detail.latitude.toFixed(4));
+			params.longitude[index] = Number(event.detail.longitude.toFixed(4));
+		}
 	}
 	function addLocation() {
-		params.latitude.push(NaN);
-		params.longitude.push(NaN);
+		if (params.latitude && params.longitude) {
+			params.latitude.push(NaN);
+			params.longitude.push(NaN);
+		}
 	}
 	function removeLocation(index: number) {
-		params.latitude = params.latitude.toSpliced(index, 1);
-		params.longitude = params.longitude.toSpliced(index, 1);
+		if (params.latitude && params.longitude) {
+			params.latitude = params.latitude.toSpliced(index, 1);
+			params.longitude = params.longitude.toSpliced(index, 1);
+		}
 	}
 
 	const timeZoneOptions = [

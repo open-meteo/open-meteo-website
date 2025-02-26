@@ -1,8 +1,8 @@
 <footer class="container pb-16 pt-5">
 	<div class="flex flex-wrap justify-between gap-5">
-		<div class="  col-md">
+		<div class="">
 			<a href={'/'} class="text-lg font-bold">Open-Meteo</a>
-			<ul class="list-unstyled text-small">
+			<ul class="list-unstyled text-small mt-2">
 				<li class="mb-1">
 					<a class="text-secondary-foreground" href={'/en/features'}>Features</a>
 				</li>
@@ -21,8 +21,8 @@
 			</ul>
 		</div>
 		<div>
-			<a href={'/en/docs'} class="text-lg font-bold">Weather APIs</a>
-			<ul class="list-unstyled text-small">
+			<a href={'/en/docs'} class="  text-lg font-bold">Weather APIs</a>
+			<ul class="list-unstyled text-small mt-2">
 				<li class="mb-1">
 					<a class="text-secondary-foreground" href={'/en/docs'}>Weather Forecast API</a>
 				</li>
@@ -56,8 +56,8 @@
 			</ul>
 		</div>
 		<div>
-			<p class="text-lg font-bold">Other APIs</p>
-			<ul class="list-unstyled text-small">
+			<span class="text-lg font-bold">Other APIs</span>
+			<ul class="list-unstyled text-small mt-2">
 				<li class="mb-1">
 					<a class="text-secondary-foreground" href={'/en/docs/ensemble-api'}>Ensemble API</a>
 				</li>
@@ -84,8 +84,8 @@
 			</ul>
 		</div>
 		<div>
-			<p class="text-lg font-bold">External</p>
-			<ul class="list-unstyled text-small">
+			<span class="text-lg font-bold">External</span>
+			<ul class="list-unstyled text-small mt-2">
 				<li class="mb-1">
 					<a
 						rel="me"

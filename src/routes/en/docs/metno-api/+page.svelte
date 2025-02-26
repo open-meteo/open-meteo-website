@@ -494,9 +494,9 @@
 		</table>
 	</div>
 
-	<figure class="figure">
-		<img src="/images/models/metno_nordic.webp" class="figure-img img-fluid rounded" alt="..." />
-		<figcaption class="figure-caption">
+	<figure>
+		<img src="/images/models/metno_nordic.webp" class="rounded-lg" alt="..." />
+		<figcaption>
 			MET Nordic model area (black). Source: <a
 				href="https://github.com/metno/NWPdocs/wiki/MEPS-dataset">Met Norway GitHub</a
 			>.
