@@ -3,7 +3,7 @@
 
 	import { fade, slide } from 'svelte/transition';
 
-	import { countVariables } from '$lib/utils/meteo';
+	import { countVariables, countPreviousVariables } from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -18,12 +18,11 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import AccordionItem from '$lib/components/AccordionItem.svelte';
+	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
@@ -40,7 +39,7 @@
 		latitude: [52.52],
 		longitude: [13.41],
 		...defaultParameters,
-		past_days: '7',
+		past_days: 7,
 		hourly: [
 			'temperature_2m',
 			'temperature_2m_previous_day1',
@@ -72,31 +71,31 @@
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
 
-	let accordionValues = $state([]);
+	let accordionValues: string[] = $state([]);
 	onMount(() => {
 		if (
-			(temporalResolution.value || cellSelection.value) &&
+			((temporalResolution ? temporalResolution.value : false) ||
+				(cellSelection ? cellSelection.value : false)) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
 		}
 
 		if (
-			//(countVariables(solarVariables, $params.hourly).active ||
-			($params.tilt ? $params.tilt > 0 : false) ||
-			(($params.azimuth ? $params.azimuth > 0 : false) &&
-				!accordionValues.includes('solar-variables'))
+			(countPreviousVariables(solarVariables, $params.hourly, true).active ||
+				($params.tilt ? $params.tilt > 0 : false) ||
+				($params.azimuth ? $params.azimuth > 0 : false)) &&
+			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
 		}
 
-		// wind-variables TODO
-		// if (
-		// 	countVariables(solarVariables, $params.minutely_15).active &&
-		// 	!accordionValues.includes('wind-variables')
-		// ) {
-		// 	accordionValues.push('wind-variables');
-		// }
+		if (
+			countPreviousVariables(windVariables, $params.hourly, true).active &&
+			!accordionValues.includes('wind-variables')
+		) {
+			accordionValues.push('wind-variables');
+		}
 
 		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
 			accordionValues.push('models');
@@ -127,6 +126,7 @@
 </Alert.Root>
 
 <form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
+	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
 	<!-- TIME -->
@@ -331,46 +331,48 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem id="solar-variables" title="Solar Radiation Variables">
-				<div>
-					<table class="w-full">
-						<tbody>
-							{#each solarVariables as e}
-								<tr class="border-border border-b">
-									<td>{e.label}</td>
-									{#each { length: 8 } as _, i}
-										<td class="py-1"
-											><div class="flex items-center justify-center px-2">
-												<Checkbox
-													id="{e.value}_hourly_previous_day{i}"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-													value={formatVariableName(e.value, i)}
-													checked={$params.hourly?.includes(formatVariableName(e.value, i))}
-													aria-labelledby="{e.value}_hourly_previous_day_label{i}"
-													onCheckedChange={() => {
-														if ($params.hourly?.includes(formatVariableName(e.value, i))) {
-															$params.hourly = $params.hourly.filter((item) => {
-																return item !== formatVariableName(e.value, i);
-															});
-														} else {
-															$params.hourly.push(formatVariableName(e.value, i));
-															$params.hourly = $params.hourly;
-														}
-													}}
-												/>
-												<Label
-													id="{e.value}_hourly_previous_day_label{i}"
-													for="{e.value}_hourly_previous_day{i}"
-													class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">Day {i}</Label
-												>
-											</div></td
-										>
-									{/each}
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
+			<AccordionItem
+				id="solar-variables"
+				title="Solar Radiation Variables"
+				count={countPreviousVariables(solarVariables, $params.hourly)}
+			>
+				<table class="w-full">
+					<tbody>
+						{#each solarVariables as e}
+							<tr class="border-border border-b">
+								<td>{e.label}</td>
+								{#each { length: 8 } as _, i}
+									<td class="py-1"
+										><div class="flex items-center justify-center px-2">
+											<Checkbox
+												id="{e.value}_hourly_previous_day{i}"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												value={formatVariableName(e.value, i)}
+												checked={$params.hourly?.includes(formatVariableName(e.value, i))}
+												aria-labelledby="{e.value}_hourly_previous_day_label{i}"
+												onCheckedChange={() => {
+													if ($params.hourly?.includes(formatVariableName(e.value, i))) {
+														$params.hourly = $params.hourly.filter((item) => {
+															return item !== formatVariableName(e.value, i);
+														});
+													} else {
+														$params.hourly.push(formatVariableName(e.value, i));
+														$params.hourly = $params.hourly;
+													}
+												}}
+											/>
+											<Label
+												id="{e.value}_hourly_previous_day_label{i}"
+												for="{e.value}_hourly_previous_day{i}"
+												class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">Day {i}</Label
+											>
+										</div></td
+									>
+								{/each}
+							</tr>
+						{/each}
+					</tbody>
+				</table>
 				<div class="  mb-3">
 					<small class="text-muted-foreground"
 						>Note: Solar radiation is averaged over the past hour. Use
@@ -426,46 +428,48 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem id="wind-variables" title="Wind on 80, 120 and 180 meter">
-				<div>
-					<table class="w-full">
-						<tbody>
-							{#each windVariables as e}
-								<tr class="border-border border-b">
-									<td>{e.label}</td>
-									{#each { length: 8 } as _, i}
-										<td class="py-1"
-											><div class="flex items-center justify-center px-2">
-												<Checkbox
-													id="{e.value}_hourly_previous_day{i}"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-													value={formatVariableName(e.value, i)}
-													checked={$params.hourly?.includes(formatVariableName(e.value, i))}
-													aria-labelledby="{e.value}_hourly_previous_day_label{i}"
-													onCheckedChange={() => {
-														if ($params.hourly?.includes(formatVariableName(e.value, i))) {
-															$params.hourly = $params.hourly.filter((item) => {
-																return item !== formatVariableName(e.value, i);
-															});
-														} else {
-															$params.hourly.push(formatVariableName(e.value, i));
-															$params.hourly = $params.hourly;
-														}
-													}}
-												/>
-												<Label
-													id="{e.value}_hourly_previous_day_label{i}"
-													for="{e.value}_hourly_previous_day{i}"
-													class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">Day {i}</Label
-												>
-											</div></td
-										>
-									{/each}
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
+			<AccordionItem
+				id="wind-variables"
+				title="Wind on 80, 120 and 180 meter"
+				count={countPreviousVariables(windVariables, $params.hourly)}
+			>
+				<table class="w-full">
+					<tbody>
+						{#each windVariables as e}
+							<tr class="border-border border-b">
+								<td>{e.label}</td>
+								{#each { length: 8 } as _, i}
+									<td class="py-1"
+										><div class="flex items-center justify-center px-2">
+											<Checkbox
+												id="{e.value}_hourly_previous_day{i}"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												value={formatVariableName(e.value, i)}
+												checked={$params.hourly?.includes(formatVariableName(e.value, i))}
+												aria-labelledby="{e.value}_hourly_previous_day_label{i}"
+												onCheckedChange={() => {
+													if ($params.hourly?.includes(formatVariableName(e.value, i))) {
+														$params.hourly = $params.hourly.filter((item) => {
+															return item !== formatVariableName(e.value, i);
+														});
+													} else {
+														$params.hourly.push(formatVariableName(e.value, i));
+														$params.hourly = $params.hourly;
+													}
+												}}
+											/>
+											<Label
+												id="{e.value}_hourly_previous_day_label{i}"
+												for="{e.value}_hourly_previous_day{i}"
+												class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">Day {i}</Label
+											>
+										</div></td
+									>
+								{/each}
+							</tr>
+						{/each}
+					</tbody>
+				</table>
 			</AccordionItem>
 			<AccordionItem
 				id="models"

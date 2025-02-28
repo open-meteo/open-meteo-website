@@ -1,22 +1,25 @@
 export const defaultParameters = {
-	current: [],
-	hourly: [],
 	daily: [],
-	location_mode: 'location_search',
-	csv_coordinates: '',
-	length_unit: 'metric',
-	wind_speed_unit: 'kmh',
-	timeformat: 'iso8601',
-	timezone: 'UTC',
-	past_days: '0',
-	past_hours: '',
-	forecast_days: '7',
-	forecast_hours: '',
-	temporal_resolution: '',
-	start_date: '',
-	end_date: '',
+	hourly: [],
+	models: [],
+	current: [],
+
 	time_mode: 'forecast_days',
-	models: []
+	end_date: undefined,
+	start_date: undefined,
+
+	timezone: 'UTC',
+	past_days: 0,
+	forecast_days: 7,
+	location_mode: 'location_search',
+	length_unit: 'metric',
+	timeformat: 'iso8601',
+	wind_speed_unit: 'kmh',
+
+	past_hours: undefined,
+	forecast_hours: undefined,
+	csv_coordinates: undefined,
+	temporal_resolution: undefined
 };
 
 export const hourly = [

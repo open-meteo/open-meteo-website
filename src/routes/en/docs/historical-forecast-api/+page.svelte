@@ -1,22 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+
 	import { slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-
 	import {
-		altitudeAboveSeaLevelMeters,
-		countPressureVariables,
 		countVariables,
-		sliceIntoChunks
+		sliceIntoChunks,
+		countPressureVariables,
+		altitudeAboveSeaLevelMeters
 	} from '$lib/utils/meteo';
 
-	import Settings from '$lib/components/settings/settings.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
-	import AccordionItem from '$lib/components/AccordionItem.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -24,9 +18,16 @@
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select/index';
+	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
+
+	import Settings from '$lib/components/settings/settings.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import AccordionItem from '$lib/components/AccordionItem.svelte';
+	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import {
 		daily,
@@ -101,18 +102,23 @@
 		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
 	);
 
-	let accordionValues = $state([]);
-
+	let accordionValues: string[] = $state([]);
 	onMount(() => {
 		if (
-			countVariables(additionalVariables, $params.hourly).active &&
+			(countVariables(additionalVariables, $params.hourly).active ||
+				(pastHours ? pastHours.value : false) ||
+				(cellSelection ? cellSelection.value : false) ||
+				(forecastHours ? forecastHours.value : false) ||
+				(temporalResolution ? temporalResolution.value : false)) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
 		}
 
 		if (
-			countVariables(solarVariables, $params.hourly).active &&
+			(countVariables(solarVariables, $params.hourly).active ||
+				($params.tilt ? $params.tilt > 0 : false) ||
+				($params.azimuth ? $params.azimuth > 0 : false)) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
@@ -128,8 +134,11 @@
 		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
 			accordionValues.push('models');
 		}
+
 		if (
-			countVariables(solarVariables, $params.minutely_15).active &&
+			(countVariables(solarVariables, $params.minutely_15).active ||
+				(pastMinutely15 ? pastMinutely15.value : false) ||
+				(forecastMinutely15 ? forecastMinutely15.value : false)) &&
 			!accordionValues.includes('minutely_15')
 		) {
 			accordionValues.push('minutely_15');

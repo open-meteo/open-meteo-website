@@ -863,17 +863,21 @@
 	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
 </form>
 
-<ResultPreview {params} {defaultParameters} model_default="meteofrance_seamless" />
+<!-- RESULT -->
+<div class="mt-6 md:mt-12">
+	<ResultPreview {params} {defaultParameters} model_default="meteofrance_seamless" />
+</div>
 
-<div>
-	<h2 id="data-sources">Data Source</h2>
-	<p>
-		This API uses global Météo-France ARPEGE weather forecast and combines them with high-resolution
-		AROME forecasts. AROME is a 1.5 km high resolution model covering France and neighboring areas.
-		For other locations, only ARPEGE is used. For ARPEGE, values are interpolated from 3 or 6-hourly
-		to 1-hourly values after 72 or 96 hours respectively.
-	</p>
-	<div>
+<!-- DATA SOURCES -->
+<div class="mt-6 md:mt-12">
+	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
+	<div class="mt-2 md:mt-4">
+		<p>
+			This API uses global Météo-France ARPEGE weather forecast and combines them with
+			high-resolution AROME forecasts. AROME is a 1.5 km high resolution model covering France and
+			neighboring areas. For other locations, only ARPEGE is used. For ARPEGE, values are
+			interpolated from 3 or 6-hourly to 1-hourly values after 72 or 96 hours respectively.
+		</p>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -985,23 +989,32 @@
 		>
 	</div>
 
-	<figure>
-		<img src="/images/models/meteofrance_arome.webp" class="rounded-lg" alt="..." />
-		<figcaption>MeteoFrance AROME & AROME HD Model Area. Source: Open-Meteo.</figcaption>
-	</figure>
+	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+		<figure class="w-full">
+			<img src="/images/models/meteofrance_arome.webp" class="rounded-lg" alt="..." />
+			<figcaption class="text-muted-foreground">
+				MeteoFrance AROME & AROME HD Model Area. Source: Open-Meteo.
+			</figcaption>
+		</figure>
 
-	<figure>
-		<img src="/images/models/meteofrance_arpege_europe.webp" class="rounded-lg" alt="..." />
-		<figcaption>MeteoFrance ARPEGE Model Area. Source: Open-Meteo.</figcaption>
-	</figure>
+		<figure class="w-full">
+			<img src="/images/models/meteofrance_arpege_europe.webp" class="rounded-lg" alt="..." />
+			<figcaption class="text-muted-foreground">
+				MeteoFrance ARPEGE Model Area. Source: Open-Meteo.
+			</figcaption>
+		</figure>
+	</div>
+</div>
 
-	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
-	<p>
-		The API endpoint <mark>/v1/meteofrance</mark> accepts a geographical coordinate, a list of weather
-		variables and responds with a JSON hourly weather forecast for 4 days. Time always starts at 0:00
-		today and contains 168 hours. All URL parameters are listed below:
-	</p>
-	<div>
+<!-- API DOCS -->
+<div class="mt-6 md:mt-12">
+	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The API endpoint <mark>/v1/meteofrance</mark> accepts a geographical coordinate, a list of weather
+			variables and responds with a JSON hourly weather forecast for 4 days. Time always starts at 0:00
+			today and contains 168 hours. All URL parameters are listed below:
+		</p>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1213,18 +1226,21 @@
 			</tbody>
 		</table>
 	</div>
-	<p>
+	<p class="text-muted-foreground">
 		Additional optional URL parameters will be added. For API stability, no required parameters will
 		be added in the future!
 	</p>
+</div>
 
-	<h3 class="mt-5">Hourly Parameter Definition</h3>
-	<p>
-		The parameter <mark>&hourly=</mark> accepts the following values. Most weather variables are given
-		as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
-		from the preceding hour as an average or sum.
-	</p>
-	<div>
+<!-- API DOCS - HOURLY -->
+<div class="mt-6 md:mt-12">
+	<h3 id="hourly_parameter_definition" class="text-xl md:text-2xl">Hourly Parameter Definition</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The parameter <mark>&hourly=</mark> accepts the following values. Most weather variables are given
+			as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
+			from the preceding hour as an average or sum.
+		</p>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1402,13 +1418,6 @@
 						transpiration of plants increases. For low VPD (&lt;0.4), transpiration decreases</td
 					>
 				</tr>
-				<!--<tr>
-            <th scope="row">evapotranspiration</th>
-            <td>Preceding hour sum</td>
-            <td>mm (inch)</td>
-            <td>Evapotranspration from land surface and plants that weather models assumes for this location. Available
-              soil water is considered. 1 mm evapotranspiration per hour equals 1 liter of water per spare meter.</td>
-          </tr>-->
 				<tr>
 					<th scope="row">et0_fao_evapotranspiration</th>
 					<td>Preceding hour sum</td>
@@ -1446,42 +1455,6 @@
 						millimeter, divide by 7. E.g. 7 cm snow = 10 mm precipitation water equivalent</td
 					>
 				</tr>
-				<!--<tr>
-              <th scope="row">rain</th>
-              <td>Preceding hour sum</td>
-              <td>mm (inch)</td>
-              <td>Rain from large scale weather systems of the preceding hour in millimeter</td>
-            </tr>
-            <tr>
-              <th scope="row">showers</th>
-              <td>Preceding hour sum</td>
-              <td>mm (inch)</td>
-              <td>Showers from convective precipitation in millimeters from the preceding hour</td>
-            </tr>
-            <tr>
-              <th scope="row">weather_code</th>
-              <td>Instant</td>
-              <td>WMO code</td>
-              <td>Weather condition as a numeric code. Follow WMO weather interpretation codes. See table below for details.</td>
-            </tr>
-          <tr>
-            <th scope="row">snow_depth</th>
-            <td>Instant</td>
-            <td>meters</td>
-            <td>Snow depth on the ground</td>
-          </tr>
-          <tr>
-            <th scope="row">freezing_level_height</th>
-            <td>Instant</td>
-            <td>meters</td>
-            <td>Altitude above sea level of the 0°C level</td>
-          </tr>
-          <tr>
-            <th scope="row">visibility</th>
-            <td>Instant</td>
-            <td>meters</td>
-            <td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
-          </tr>-->
 				<tr>
 					<th scope="row">cape</th>
 					<td>Instant</td>
@@ -1493,44 +1466,27 @@
 						>.</td
 					>
 				</tr>
-				<!--<tr>
-            <th scope="row">lifted_index</th>
-            <td>Instant</td>
-            <td>dimensionless</td>
-            <td>Atmospheric stability. See <a href="https://en.wikipedia.org/wiki/Lifted_index" target="_blank">Wikipedia</a>.</td>
-          </tr>
-          <tr>
-            <th scope="row">
-              soil_temperature_0_to_10cm<br />soil_temperature_10_to_40cm<br />soil_temperature_40_to_100cm<br />soil_temperature_100_to_200cm
-            </th>
-            <td>Instant</td>
-            <td>°C (°F)</td>
-            <td>Temperature in the soil as an average on 0-10, 10-40, 40-100 and 100-200 cm depths.</td>
-          </tr>
-          <tr>
-            <th scope="row">
-              soil_moisture_0_to_10cm<br />soil_moisture_10_to_40cm<br />soil_moisture_40_to_100cm<br />soil_moisture_100_to_200cm
-            </th>
-            <td>Instant</td>
-            <td>m³/m³</td>
-            <td>Average soil water content as volumetric mixing ratio at 0-10, 10-40, 40-100 and 100-200 cm depths.</td>
-          </tr>-->
 			</tbody>
 		</table>
 	</div>
+</div>
 
-	<h3 class="mt-5">Pressure Level Variables</h3>
-	<p>
-		Pressure level variables do not have fixed altitudes. Altitude varies with atmospheric pressure.
-		1000 hPa is roughly between 60 and 160 meters above sea level. Estimated altitudes are given
-		below. Altitudes are in meters above sea level (not above ground). For precise altitudes, <mark
-			>geopotential_height</mark
-		> can be used.
-	</p>
-	<PressureLevelsHelpTable {levels} />
+<!-- API DOCS - PRESSURE -->
+<div class="mt-6 md:mt-12">
+	<h3 id="pressure_level_variables" class="text-xl md:text-2xl">Pressure Level Variables</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			Pressure level variables do not have fixed altitudes. Altitude varies with atmospheric
+			pressure. 1000 hPa is roughly between 60 and 160 meters above sea level. Estimated altitudes
+			are given below. Altitudes are in meters above sea level (not above ground). For precise
+			altitudes, <mark>geopotential_height</mark> can be used.
+		</p>
 
-	<p>All pressure level have valid times of the indicated hour (instant).</p>
-	<div>
+		<PressureLevelsHelpTable {levels} />
+		<p class="text-muted-foreground">
+			All pressure level have valid times of the indicated hour (instant).
+		</p>
+
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1599,14 +1555,17 @@
 			</tbody>
 		</table>
 	</div>
+</div>
 
-	<h3 class="mt-5">Daily Parameter Definition</h3>
-	<p>
-		Aggregations are a simple 24 hour aggregation from hourly values. The parameter <mark
-			>&daily=</mark
-		> accepts the following values:
-	</p>
-	<div>
+<!-- API DOCS - DAILY -->
+<div class="mt-6 md:mt-12">
+	<h3 id="daily_parameter_definition" class="text-xl md:text-2xl">Daily Parameter Definition</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			Aggregations are a simple 24 hour aggregation from hourly values. The parameter <mark
+				>&daily=</mark
+			> accepts the following values:
+		</p>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1633,16 +1592,6 @@
 					<td>mm</td>
 					<td>Sum of daily precipitation (including rain, showers and snowfall)</td>
 				</tr>
-				<!--<tr>
-              <th scope="row">rain_sum</th>
-              <td>mm</td>
-              <td>Sum of daily rain</td>
-            </tr>
-            <tr>
-              <th scope="row">showers_sum</th>
-              <td>mm</td>
-              <td>Sum of daily showers</td>
-            </tr>-->
 				<tr>
 					<th scope="row">snowfall_sum</th>
 					<td>cm</td>
@@ -1653,11 +1602,6 @@
 					<td>hours</td>
 					<td>The number of hours with rain</td>
 				</tr>
-				<!--<tr>
-              <th scope="row">weather_code</th>
-              <td>WMO code</td>
-              <td>The most severe weather condition on a given day</td>
-            </tr>-->
 				<tr>
 					<th scope="row">sunrise<br />sunset</th>
 					<td>iso8601</td>
@@ -1700,32 +1644,16 @@
 			</tbody>
 		</table>
 	</div>
+</div>
 
-	<h3 class="mt-5">JSON Return Object</h3>
-	<p>On success a JSON object will be returned.</p>
-	<pre>
-      <code>
-{`
-  "latitude": 52.52,
-  "longitude": 13.419,
-  "elevation": 44.812,
-  "generationtime_ms": 2.2119,
-  "utc_offset_seconds": 0,
-  "timezone": "Europe/Berlin",
-  "timezone_abbreviation": "CEST",
-  "hourly": {
-    "time": ["2022-07-01T00:00", "2022-07-01T01:00", "2022-07-01T02:00", ...],
-    "temperature_2m": [13, 12.7, 12.7, 12.5, 12.5, 12.8, 13, 12.9, 13.3, ...]
-  },
-  "hourly_units": {
-    "temperature_2m": "°C"
-  }
-`}
-      </code>
-    </pre>
-	<div>
+<!-- API DOCS - JSON -->
+<div class="mt-6 md:mt-12">
+	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<div class="mt-2 md:mt-4">
+		<p class="">On success a JSON object will be returned.</p>
+		<div class="code-numbered mt-2 md:mt-4"><WeatherForecastObject /></div>
 		<table
-			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -1750,8 +1678,9 @@
 						>The elevation from a 90 meter digital elevation model. This effects which grid-cell is
 						selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is used to
 						adapt weather conditions for this elevation. This elevation can also be controlled with
-						the query parameter <mark>elevation</mark>. If <mark>&elevation=nan</mark> is specified,
-						all downscaling is disabled and the averge grid-cell elevation is used.</td
+						the query parameter <mark>elevation</mark>. If
+						<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the averge grid-cell
+						elevation is used.</td
 					>
 				</tr>
 				<tr>
@@ -1802,21 +1731,19 @@
 					<td>Object</td>
 					<td>For each selected daily weather variable, the unit will be listed here.</td>
 				</tr>
-				<tr> </tr></tbody
-			>
+			</tbody>
 		</table>
 	</div>
-	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
-	<p>
-		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
-		object is returned with a HTTP 400 status code.
-	</p>
-	<pre>
-      <code>
-{`
-  "error": true,
-  "reason": "Cannot initialize WeatherVariable from invalid String value tempeture_2m for key hourly"
-`}
-      </code>
-    </pre>
+</div>
+
+<!-- API DOCS - ERRORS -->
+<div class="mt-6 md:mt-12">
+	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
+			object is returned with a HTTP 400 status code.
+		</p>
+		<div class="mt-2 md:mt-4"><WeatherForecastError /></div>
+	</div>
 </div>

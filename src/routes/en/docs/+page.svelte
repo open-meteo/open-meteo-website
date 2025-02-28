@@ -74,15 +74,15 @@
 	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
 	// Additional variable settings
+	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
 	let forecastHours = $derived(
 		forecastHoursOptions.find((fho) => String(fho.value) == $params.forecast_hours)
 	);
-	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
-	let temporalResolution = $derived(
-		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
-	);
 	let cellSelection = $derived(
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
+	);
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
 	let forecastMinutely15 = $derived(
 		forecastMinutely15Options.find((fmo) => String(fmo.value) == $params.forecast_minutely_15)
@@ -92,14 +92,14 @@
 	);
 	let pressureVariablesTab = $state('temperature');
 
-	let accordionValues = $state([]);
+	let accordionValues: string[] = $state([]);
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				forecastHours.value ||
-				pastHours.value ||
-				temporalResolution.value ||
-				cellSelection.value) &&
+				(pastHours ? pastHours.value : false) ||
+				(cellSelection ? cellSelection.value : false) ||
+				(forecastHours ? forecastHours.value : false) ||
+				(temporalResolution ? temporalResolution.value : false)) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -107,8 +107,8 @@
 
 		if (
 			(countVariables(solarVariables, $params.hourly).active ||
-				$params.tilt > 0 ||
-				$params.azimuth > 0) &&
+				($params.tilt ? $params.tilt > 0 : false) ||
+				($params.azimuth ? $params.azimuth > 0 : false)) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
@@ -127,8 +127,8 @@
 
 		if (
 			(countVariables(solarVariables, $params.minutely_15).active ||
-				forecastMinutely15.value ||
-				pastMinutely15.value) &&
+				(pastMinutely15 ? pastMinutely15.value : false) ||
+				(forecastMinutely15 ? forecastMinutely15.value : false)) &&
 			!accordionValues.includes('minutely_15')
 		) {
 			accordionValues.push('minutely_15');

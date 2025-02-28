@@ -35,12 +35,32 @@ export const countVariables = (
 	variables: { value: string; label: string }[][],
 	params: string[]
 ) => {
+	const flattenedVariables = variables.flat().map((v) => v.value);
+	const overlap = params.filter((p) => flattenedVariables.includes(p));
 	return {
-		total: variables.reduce((i, e) => i + e.length, 0),
-		active: variables.reduce(
-			(i, e) => i + e.reduce((i, e) => i + (params.includes(e.value) ? 1 : 0), 0),
-			0
-		)
+		total: flattenedVariables.length,
+		active: overlap.length
+	};
+};
+
+export const countPreviousVariables = (
+	variables: { value: string; label: string }[][],
+	params: string[]
+) => {
+	const flattenedVariables = variables.flat().map((v) => v.value);
+
+	let active = 0;
+	for (const p of params) {
+		for (const fV of flattenedVariables) {
+			if (p.startsWith(fV)) {
+				active += 1;
+			}
+		}
+	}
+
+	return {
+		total: flattenedVariables.length * 8,
+		active: active
 	};
 };
 
@@ -49,17 +69,20 @@ export const countPressureVariables = (
 	levels: number[],
 	params: string[]
 ) => {
+	const flattenedVariables = variables.flat().map((v) => v.value);
+
+	let active = 0;
+	for (const level of levels) {
+		for (const fV of flattenedVariables) {
+			if (params.includes(`${fV}_${level}hPa`)) {
+				active += 1;
+			}
+		}
+	}
+
 	return {
-		total: variables.length * levels.length,
-		active: variables.reduce(
-			(i, variable) =>
-				i +
-				levels.reduce(
-					(i, level) => i + (params.includes(`${variable.value}_${level}hPa`) ? 1 : 0),
-					0
-				),
-			0
-		)
+		total: flattenedVariables.length * levels.length,
+		active: active
 	};
 };
 

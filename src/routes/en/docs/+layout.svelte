@@ -119,7 +119,7 @@
 	}
 </script>
 
-<div class="flex flex-col md:flex-row">
+<div class="mb-12 flex flex-col md:mb-24 md:flex-row">
 	<aside class="w-full md:w-1/6 md:min-w-[230px] md:max-w-[400px]">
 		<nav class="sticky top-0 flex flex-col p-6 pb-3 md:pb-6 md:pr-3">
 			<Button

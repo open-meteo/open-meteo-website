@@ -24,6 +24,7 @@
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
+	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
 
 	import {
 		daily,
@@ -32,12 +33,10 @@
 		solarVariables,
 		defaultParameters,
 		additionalVariables,
-		//ensembleSpreadVariables,
-		pastMinutely15Options,
-		gridCellSelectionOptions,
-		temporalResolutionOptions,
-		forecastMinutely15Options
+		ensembleSpreadVariables
 	} from './options';
+
+	import { gridCellSelectionOptions, temporalResolutionOptions } from '../options';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 2);
@@ -56,6 +55,50 @@
 		hourly: ['temperature_2m']
 	});
 
+	let timezoneInvalid = $derived(
+		$params.timezone == 'UTC' && ($params.daily ? $params.daily.length > 0 : false)
+	);
+
+	// Additional variable settings
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
+	);
+	let cellSelection = $derived(
+		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
+	);
+
+	let accordionValues = $state([]);
+	onMount(() => {
+		if (
+			(countVariables(additionalVariables, $params.hourly).active ||
+				temporalResolution.value ||
+				cellSelection.value) &&
+			!accordionValues.includes('additional-variables')
+		) {
+			accordionValues.push('additional-variables');
+		}
+
+		if (
+			(countVariables(solarVariables, $params.hourly).active ||
+				$params.tilt > 0 ||
+				$params.azimuth > 0) &&
+			!accordionValues.includes('solar-variables')
+		) {
+			accordionValues.push('solar-variables');
+		}
+
+		if (
+			countVariables(ensembleSpreadVariables, $params.hourly).active &&
+			!accordionValues.includes('ensemble-spread-variables')
+		) {
+			accordionValues.push('ensemble-spread-variables');
+		}
+
+		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
+			accordionValues.push('models');
+		}
+	});
+
 	onMount(async () => {
 		var d = new Date();
 		endDate = d.toISOString().split('T')[0];
@@ -66,50 +109,6 @@
 		d.setDate(d.getDate() - 14);
 		if ($params.start_date == startDateDefault) {
 			$params.start_date = d.toISOString().split('T')[0];
-		}
-	});
-
-	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
-
-	// Additional variable settings
-	let temporalResolution = $derived(
-		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
-	);
-	let cellSelection = $derived(
-		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
-	);
-	let forecastMinutely15 = $derived(
-		forecastMinutely15Options.find((fmo) => String(fmo.value) == $params.forecast_minutely_15)
-	);
-	let pastMinutely15 = $derived(
-		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
-	);
-
-	let accordionValues = $state([]);
-
-	onMount(() => {
-		if (
-			countVariables(additionalVariables, $params.hourly).active &&
-			!accordionValues.includes('additional-variables')
-		) {
-			accordionValues.push('additional-variables');
-		}
-
-		if (
-			countVariables(solarVariables, $params.hourly).active &&
-			!accordionValues.includes('solar-variables')
-		) {
-			accordionValues.push('solar-variables');
-		}
-
-		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
-			accordionValues.push('models');
-		}
-		if (
-			countVariables(solarVariables, $params.minutely_15).active &&
-			!accordionValues.includes('minutely_15')
-		) {
-			accordionValues.push('minutely_15');
 		}
 	});
 
@@ -126,7 +125,7 @@
 	/>
 </svelte:head>
 
-<Alert.Root class="mb-4">
+<Alert.Root class="border-border mb-4">
 	<Alert.Description>
 		Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides
 		access to a staggering 90 terabytes of meteorological data! Read the <a
@@ -444,9 +443,96 @@
 					</div>
 				</div>
 			</AccordionItem>
+			<AccordionItem
+				id="ensemble-spread-variables"
+				title="ERA5-Ensemble Spread Variables"
+				count={countVariables(ensembleSpreadVariables, $params.hourly)}
+			>
+				<div class="mt-2 grid sm:grid-cols-2">
+					{#each ensembleSpreadVariables as group}
+						<div class="col-md-6">
+							{#each group as e}
+								<div class="group flex items-center">
+									<Checkbox
+										id="{e.value}_hourly"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.hourly?.includes(e.value)}
+										aria-labelledby="{e.value}_hourly_label"
+										onCheckedChange={() => {
+											if ($params.hourly?.includes(e.value)) {
+												$params.hourly = $params.hourly.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.hourly.push(e.value);
+												$params.hourly = $params.hourly;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_hourly_label"
+										for="{e.value}_hourly"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
+				<div>
+					<small class="text-muted-foreground"
+						>Note: Ensemble spread variables are available if the model <mark>ERA5-Ensemble</mark> is
+						used.
+					</small>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="models"
+				title="Reanalysis models"
+				count={countVariables(models, $params.models)}
+			>
+				<div class="mt-2 grid sm:grid-cols-2">
+					{#each models as group}
+						<div class="mb-3">
+							{#each group as e}
+								<div class="group flex items-center">
+									<Checkbox
+										id="{e.value}_model"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.models?.includes(e.value)}
+										aria-labelledby="{e.value}_label"
+										onCheckedChange={() => {
+											if ($params.models?.includes(e.value)) {
+												$params.models = $params.models.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.models.push(e.value);
+												$params.models = $params.models;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_model_label"
+										for="{e.value}_model"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
+				<div>
+					<small class="text-muted-foreground"
+						>Note: The default <mark>Best Match</mark> combines ERA5 and ERA5-Land seamlessly. The
+						CERRA model will also be included in <mark>Best Match</mark> once real-time updates become
+						available.</small
+					>
+				</div>
+			</AccordionItem>
 		</Accordion.Root>
-		<div>ERA5</div>
-		<div>Reanalysis models</div>
 	</div>
 
 	<!-- DAILY -->
@@ -845,19 +931,22 @@
 				</tbody>
 			</table>
 		</div>
-		<p>
+		<p class="text-muted-foreground">
 			Additional optional URL parameters will be added. For API stability, no required parameters
 			will be added in the future!
 		</p>
 	</div>
+</div>
 
-	<h3 class="mt-5">Hourly Parameter Definition</h3>
-	<p>
-		The parameter <mark>&hourly=</mark> accepts the following values. Most weather variables are given
-		as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
-		from the preceding hour as and average or sum.
-	</p>
-	<div>
+<!-- API DOCS - HOURLY -->
+<div class="mt-6 md:mt-12">
+	<h3 id="hourly_parameter_definition" class="text-xl md:text-2xl">Hourly Parameter Definition</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The parameter <mark>&hourly=</mark> accepts the following values. Most weather variables are given
+			as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
+			from the preceding hour as and average or sum.
+		</p>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1100,14 +1189,18 @@
 			</tbody>
 		</table>
 	</div>
+</div>
 
-	<h3 class="mt-5">Daily Parameter Definition</h3>
-	<p>
-		Aggregations are a simple 24 hour aggregation from hourly values. The parameter <mark
-			>&daily=</mark
-		> accepts the following values:
-	</p>
-	<div>
+<!-- API DOCS - DAILY -->
+<div class="mt-6 md:mt-12">
+	<h3 id="daily_parameter_definition" class="text-xl md:text-2xl">Daily Parameter Definition</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			Aggregations are a simple 24 hour aggregation from hourly values. The parameter <mark
+				>&daily=</mark
+			> accepts the following values:
+		</p>
+
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1196,31 +1289,16 @@
 			</tbody>
 		</table>
 	</div>
+</div>
 
-	<h3 class="mt-5">JSON Return Object</h3>
-	<p>On success a JSON object will be returned.</p>
-	<pre>
-      <code>
-{`
-  "latitude": 52.52,
-  "longitude": 13.419,
-  "generationtime_ms": 2.2119,
-  "timezone": "Europe/Berlin",
-  "timezone_abbreviation": "CEST",
-  "hourly": {
-    "time": ["2022-07-01T00:00", "2022-07-01T01:00", "2022-07-01T02:00", ...],
-    "temperature_2m": [13, 12.7, 12.7, 12.5, 12.5, 12.8, 13, 12.9, 13.3, ...]
-  },
-  "hourly_units": {
-    "temperature_2m": "°C"
-  },
-`}
-      </code>
-    </pre>
-
-	<div>
+<!-- API DOCS - JSON -->
+<div class="mt-6 md:mt-12">
+	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<div class="mt-2 md:mt-4">
+		<p class="">On success a JSON object will be returned.</p>
+		<div class="code-numbered mt-2 md:mt-4"><WeatherForecastObject /></div>
 		<table
-			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -1245,8 +1323,9 @@
 						>The elevation from a 90 meter digital elevation model. This effects which grid-cell is
 						selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is used to
 						adapt weather conditions for this elevation. This elevation can also be controlled with
-						the query parameter <mark>elevation</mark>. If <mark>&elevation=nan</mark> is specified,
-						all downscaling is disabled and the averge grid-cell elevation is used.</td
+						the query parameter <mark>elevation</mark>. If
+						<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the averge grid-cell
+						elevation is used.</td
 					>
 				</tr>
 				<tr>
@@ -1300,14 +1379,21 @@
 			</tbody>
 		</table>
 	</div>
-	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
-	<p>
-		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
-		object is returned with a HTTP 400 status code.
-	</p>
-	<WeatherForecastError />
 </div>
 
+<!-- API DOCS - ERRORS -->
+<div class="mt-6 md:mt-12">
+	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
+			object is returned with a HTTP 400 status code.
+		</p>
+		<div class="mt-2 md:mt-4"><WeatherForecastError /></div>
+	</div>
+</div>
+
+<!-- CITATION -->
 <div class="mt-6 md:mt-12">
 	<h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2>
 	<div class="mt-3 md:mt-6">

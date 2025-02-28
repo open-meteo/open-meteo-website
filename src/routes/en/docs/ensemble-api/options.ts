@@ -1,24 +1,24 @@
 export const defaultParameters = {
 	hourly: [],
 	location_mode: 'location_search',
-	csv_coordinates: '',
+	csv_coordinates: undefined,
 	temperature_unit: 'celsius',
 	wind_speed_unit: 'kmh',
 	precipitation_unit: 'mm',
 	timeformat: 'iso8601',
 	timezone: 'UTC',
-	past_days: '0',
-	past_hours: '',
-	forecast_days: '7',
-	forecast_hours: '',
-	temporal_resolution: '',
-	start_date: '',
-	end_date: '',
+	past_days: 0,
+	past_hours: undefined,
+	forecast_days: 7,
+	forecast_hours: undefined,
+	temporal_resolution: undefined,
+	start_date: undefined,
+	end_date: undefined,
 	tilt: 0,
 	azimuth: 0,
 	time_mode: 'forecast_days',
 	models: [],
-	cell_selection: ''
+	cell_selection: undefined
 };
 
 export const icon_global_variables = [
@@ -169,7 +169,6 @@ export const ecmwf_variables = [
 
 export const ukmo_variables = [
 	'temperature_2m',
-	//'precipitation',
 	'rain',
 	'snowfall',
 	'relative_humidity_2m',
@@ -185,11 +184,6 @@ export const ukmo_variables = [
 	'surface_temperature',
 	'visibility',
 	'cape'
-	//'soil_temperature_0_to_10cm',
-	//'temperature_500hPa',
-	//'temperature_850hPa',
-	//'geopotential_height_500hPa',
-	//'geopotential_height_850hPa',
 ];
 
 export const gem_global_variables = [
@@ -365,4 +359,14 @@ export const models = [
 		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' },
 		{ value: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' }
 	]
+];
+
+export const forecastDaysOptions = [
+	{ value: 1, label: '1 day' },
+	{ value: 3, label: '3 days' },
+	{ value: 7, label: '7 days (default)' },
+	{ value: 14, label: '14 days' },
+	{ value: 16, label: '16 days' },
+	{ value: 30, label: '30 days' },
+	{ value: 35, label: '35 days' }
 ];
