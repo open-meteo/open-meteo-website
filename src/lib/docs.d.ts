@@ -30,6 +30,7 @@ export interface Parameters {
 	azimuth?: string;
 
 	timeformat?: string;
+	length_unit?: string;
 	wind_speed_unit?: string;
 	temperature_unit?: string;
 	precipitation_unit?: string;

@@ -4,16 +4,18 @@ export const defaultParameters = {
 	models: [],
 	current: [],
 
+	timezone: 'UTC',
+	location_mode: 'location_search',
+
 	time_mode: 'forecast_days',
+	past_days: '0',
+	forecast_days: '7',
+
 	end_date: undefined,
 	start_date: undefined,
 
-	timezone: 'UTC',
-	past_days: '0',
-	forecast_days: '7',
-	location_mode: 'location_search',
-	length_unit: 'metric',
 	timeformat: 'iso8601',
+	length_unit: 'metric',
 	wind_speed_unit: 'kmh',
 
 	past_hours: undefined,
@@ -106,4 +108,15 @@ export const models = [
 		//{ value: 'ncep_gefswave025', label: 'GFS Wave Ensemble', caption: '0.25°, global, 31 members' },
 		{ value: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' }
 	]
+];
+
+export const forecastDaysOptions = [
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days' },
+	{ value: '5', label: '5 days' },
+	{ value: '7', label: '7 days (default)' },
+	{ value: '8', label: '8 days' },
+	{ value: '10', label: '10 days' },
+	{ value: '14', label: '14 days' },
+	{ value: '16', label: '16 days' }
 ];

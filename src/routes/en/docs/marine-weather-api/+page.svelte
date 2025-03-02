@@ -33,22 +33,22 @@
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/PressureLevelsHelpTable.svelte';
 
+	import MarineObject from '$lib/components/code/docs/marine-object.svx';
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
-	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
 
 	import {
 		daily,
 		hourly,
 		models,
+		minutely_15,
 		defaultParameters,
 		additionalVariables,
-		minutely_15
+		forecastDaysOptions
 	} from './options';
 
 	import {
 		pastDaysOptions,
 		pastHoursOptions,
-		forecastDaysOptions,
 		forecastHoursOptions,
 		pastMinutely15Options,
 		gridCellSelectionOptions,
@@ -76,11 +76,56 @@
 	);
 	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
+	// Additional variable settings
+	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
+	let forecastHours = $derived(
+		forecastHoursOptions.find((fho) => String(fho.value) == $params.forecast_hours)
+	);
+	let cellSelection = $derived(
+		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
+	);
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
+	);
+	let forecastMinutely15 = $derived(
+		forecastMinutely15Options.find((fmo) => String(fmo.value) == $params.forecast_minutely_15)
+	);
+	let pastMinutely15 = $derived(
+		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
+	);
+
+	let accordionValues: string[] = $state([]);
+	onMount(() => {
+		if (
+			(countVariables(additionalVariables, $params.hourly).active ||
+				(pastHours ? pastHours.value : false) ||
+				(cellSelection ? cellSelection.value : false) ||
+				(forecastHours ? forecastHours.value : false) ||
+				(temporalResolution ? temporalResolution.value : false)) &&
+			!accordionValues.includes('additional-variables')
+		) {
+			accordionValues.push('additional-variables');
+		}
+
+		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
+			accordionValues.push('models');
+		}
+
+		if (
+			(countVariables(minutely_15, $params.minutely_15).active ||
+				(pastMinutely15 ? pastMinutely15.value : false) ||
+				(forecastMinutely15 ? forecastMinutely15.value : false)) &&
+			!accordionValues.includes('minutely_15')
+		) {
+			accordionValues.push('minutely_15');
+		}
+	});
+
 	let begin_date = new Date();
 	begin_date.setMonth(begin_date.getMonth() - 3);
 
 	let last_date = new Date();
-	last_date.setDate(last_date.getDate() + 14);
+	last_date.setDate(last_date.getDate() + 16);
 </script>
 
 <svelte:head>
@@ -255,438 +300,484 @@
 		</p>
 	</div>
 
-	<div>
-		<Accordion.Root class="rounded-lg border" multiple={true}>
+	<!-- ADDITIONAL VARIABLES -->
+	<div class="mt-6">
+		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				{#each additionalVariables as group}
-					<div>
-						{#each group as e}
-							<div>
-								<input
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_hourly"
-									name="hourly"
-									bind:group={$params.hourly}
-								/>
-								<label for="{e.name}_hourly">{e.label}</label>
-							</div>
-						{/each}
-					</div>
-				{/each}
+				<div class="grid md:grid-cols-2">
+					{#each additionalVariables as group}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center">
+									<Checkbox
+										id="{e.value}_hourly"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.hourly?.includes(e.value)}
+										aria-labelledby="{e.value}_label"
+										onCheckedChange={() => {
+											if (e.value && $params.hourly?.includes(e.value)) {
+												$params.hourly = $params.hourly.filter((item) => {
+													return item !== e.value;
+												});
+											} else if (e.value && $params.hourly) {
+												$params.hourly.push(e.value);
+												$params.hourly = $params.hourly;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_label"
+										for="{e.value}_hourly"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
 
-				<div class="  mb-3 mt-3">
-					<small class="text-muted-foreground"
-						>Note: You can further adjust the forecast time range for hourly weather variables using <mark
-							>&forecast_hours=</mark
-						>
-						and <mark>&past_hours=</mark> as shown below.
-					</small>
+				<div class="text-muted-foreground mt-1 text-sm">
+					Note: You can further adjust the forecast time range for hourly weather variables using <mark
+						>&forecast_hours=</mark
+					>
+					and <mark>&past_hours=</mark> as shown below.
 				</div>
-				<div>
-					<div class="  mb-3">
-						<select
-							name="forecast_hours"
-							id="forecast_hours"
-							aria-label="Forecast Hours"
-							bind:value={$params.forecast_hours}
-						>
-							<option value="">- (default)</option>
-							<option value="1">1 hour</option>
-							<option value="6">6 hours</option>
-							<option value="12">12 hours</option>
-							<option value="24">24 hours</option>
-						</select>
-						<label for="forecast_hours">Forecast Hours</label>
+				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
+					<div class="relative">
+						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{forecastHours?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each forecastHoursOptions as fho}
+									<Select.Item value={fho.value}>{fho.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Forecast Hours</Label
+							>
+						</Select.Root>
 					</div>
-				</div>
-				<div>
-					<div class="  mb-3">
-						<select
-							name="past_hours"
-							id="past_hours"
-							aria-label="Past Hours"
-							bind:value={$params.past_hours}
-						>
-							<option value="">- (default)</option>
-							<option value="1">1 hour</option>
-							<option value="6">6 hours</option>
-							<option value="12">12 hours</option>
-							<option value="24">24 hours</option>
-						</select>
-						<label for="past_hours">Past Hours</label>
+					<div class="relative">
+						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{pastHours?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each pastHoursOptions as pho}
+									<Select.Item value={pho.value}>{pho.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Past Hours</Label
+							>
+						</Select.Root>
 					</div>
-				</div>
-				<div>
-					<div class="  mb-6">
-						<select
+
+					<div class="relative col-span-2">
+						<Select.Root
 							name="temporal_resolution"
-							id="temporal_resolution"
-							aria-label="Temporal Resolution For Hourly Data"
+							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<option value="">1 Hourly</option>
-							<option value="hourly_3">3 Hourly</option>
-							<option value="hourly_6">6 Hourly</option>
-							<option value="native">Native Model Resolution</option>
-						</select>
-						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{temporalResolution?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each temporalResolutionOptions as tro}
+									<Select.Item value={tro.value}>{tro.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Temporal Resolution For Hourly Data</Label
+							>
+						</Select.Root>
 					</div>
+					<div class="relative col-span-2">
+						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{cellSelection?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each gridCellSelectionOptions as gcso}
+									<Select.Item value={gcso.value}>{gcso.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Grid Cell Selection</Label
+							>
+						</Select.Root>
+					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="models"
+				title="Weather models"
+				count={countVariables(models, $params.models)}
+			>
+				<div class="mt-2 grid sm:grid-cols-2">
+					{#each models as group}
+						<div class="mb-3">
+							{#each group as e}
+								<div class="group flex items-center">
+									<Checkbox
+										id="{e.value}_model"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.models?.includes(e.value)}
+										aria-labelledby="{e.value}_label"
+										onCheckedChange={() => {
+											if ($params.models?.includes(e.value)) {
+												$params.models = $params.models.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.models.push(e.value);
+												$params.models = $params.models;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_model_label"
+										for="{e.value}_model"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
+				<div>
+					<small class="text-muted-foreground"
+						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
+						a seamless prediction.</small
+					>
 				</div>
 			</AccordionItem>
 			<AccordionItem
 				id="minutely_15"
 				title="15-Minutely Weather Variables"
-				count={countVariables(minutely_15, $params.hourly)}
+				count={countVariables(minutely_15, $params.minutely_15)}
 			>
-				{#each minutely_15 as group}
-					<div class="col-md-6 mb-3">
+				<div class="mt-2 grid">
+					{#each minutely_15 as group}
 						{#each group as e}
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_minutely_15"
-									name="minutely_15"
-									bind:group={$params.minutely_15}
+							<div class="group flex items-center">
+								<Checkbox
+									id="{e.value}_minutely_15"
+									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+									value="{e.value}_minutely_15"
+									checked={$params.minutely_15?.includes(e.value)}
+									aria-labelledby="{e.value}_minutely_15_label"
+									onCheckedChange={() => {
+										if ($params.minutely_15?.includes(e.value)) {
+											$params.minutely_15 = $params.minutely_15.filter((item) => {
+												return item !== e.value;
+											});
+										} else {
+											$params.minutely_15.push(e.value);
+											$params.minutely_15 = $params.minutely_15;
+										}
+									}}
 								/>
-								<label class="form-check-label" for="{e.name}_minutely_15">{e.label}</label>
+								<Label
+									id="{e.value}_minutely_15_label"
+									for="{e.value}_minutely_15"
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								>
 							</div>
 						{/each}
-					</div>
-				{/each}
-				<div class="col-md-12 mb-3">
-					<small class="text-muted">Note: Only interpolated data from 1-hourly values.</small>
+					{/each}
 				</div>
-				<div class="col-md-12 mb-3">
-					<small class="text-muted"
+
+				<div>
+					<small class="text-muted-foreground"
+						>Note: Only available in Central Europe and North America. Other regions use
+						interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
+						<mark>instant</mark> for radiation at the indicated time.</small
+					>
+				</div>
+				<div>
+					<small class="text-muted-foreground"
 						>Note: You can further adjust the forecast time range for 15-minutely weather variables
 						using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
 					</small>
 				</div>
-				<div class="col-md-3">
-					<div class="form-floating mb-3">
-						<select
-							class="form-select"
-							name="forecast_minutely_15"
-							id="forecast_minutely_15"
-							aria-label="Forecast Minutely 15 Steps"
+				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
+					<div class="relative">
+						<Select.Root
+							name="cell_selection"
+							type="single"
 							bind:value={$params.forecast_minutely_15}
 						>
-							<option value="">- (default)</option>
-							<option value="4">1 hour</option>
-							<option value="24">6 hours</option>
-							<option value="48">12 hours</option>
-							<option value="96">24 hours</option>
-						</select>
-						<label for="forecast_minutely_15">Forecast Minutely 15</label>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{forecastMinutely15?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each forecastMinutely15Options as fmo}
+									<Select.Item value={fmo.value}>{fmo.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Forecast Minutely 15</Label
+							>
+						</Select.Root>
+					</div>
+					<div class="relative">
+						<Select.Root name="cell_selection" type="single" bind:value={$params.past_minutely_15}>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{pastMinutely15?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each pastMinutely15Options as pmo}
+									<Select.Item value={pmo.value}>{pmo.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Past Minutely 15</Label
+							>
+						</Select.Root>
 					</div>
 				</div>
-				<div class="col-md-3">
-					<div class="form-floating mb-3">
-						<select
-							class="form-select"
-							name="past_minutely_15"
-							id="past_minutely_15"
-							aria-label="Past Minutely 15 Steps"
-							bind:value={$params.past_minutely_15}
-						>
-							<option value="">- (default)</option>
-							<option value={1 * 4}>1 hour</option>
-							<option value={6 * 4}>6 hours</option>
-							<option value={12 * 4}>12 hours</option>
-							<option value={24 * 4}>24 hours</option>
-						</select>
-						<label for="past_minutely_15">Past Minutely 15</label>
-					</div>
-				</div>
-			</AccordionItem>
-			<AccordionItem id="models" title="Wave Models" count={countVariables(models, $params.models)}>
-				{#each models as group}
-					<div class="  mb-3">
-						{#each group as e}
-							<div>
-								<input
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_model"
-									name="models"
-									bind:group={$params.models}
-								/>
-								<label for="{e.name}_model"
-									>{e.label}&nbsp;<span class="text-muted-foreground">({e.caption})</span></label
-								>
-							</div>
-						{/each}
-					</div>
-				{/each}
 			</AccordionItem>
 		</Accordion.Root>
 	</div>
 
-	<div>
-		<h2>Daily Marine Variables</h2>
-		{#each daily as group}
-			<div>
+	<!-- DAILY -->
+	<div class="mt-6 md:mt-12">
+		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Marine Variables</h2>
+		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+			{#each daily as group}
 				{#each group as e}
-					<div>
-						<input
-							type="checkbox"
-							value={e.name}
-							id="{e.name}_daily"
-							name="daily"
-							bind:group={$params.daily}
+					<div class="group flex items-center">
+						<Checkbox
+							id="{e.value}_daily"
+							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+							value={e.value}
+							checked={$params.daily?.includes(e.value)}
+							aria-labelledby="{e.value}_daily_label"
+							onCheckedChange={() => {
+								if ($params.daily?.includes(e.value)) {
+									$params.daily = $params.daily.filter((item) => {
+										return item !== e.value;
+									});
+								} else {
+									$params.daily.push(e.value);
+									$params.daily = $params.daily;
+								}
+							}}
 						/>
-						<label for="{e.name}_daily">{e.label}</label>
+						<Label
+							id="{e.value}_daily_label"
+							for="{e.value}_daily"
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+						>
 					</div>
 				{/each}
-			</div>
-		{/each}
+			{/each}
+		</div>
 		{#if timezoneInvalid}
-			<div class="alert alert-warning" role="alert">
-				It is recommended to select a timezone for daily data. Per default the API will use GMT+0.
+			<div transition:slide>
+				<Alert.Root class="bg-warning text-warning-dark border-warning-foreground mt-2 md:mt-4">
+					<Alert.Description>
+						It is recommended to select a timezone for daily data. Per default the API will use
+						GMT+0.
+					</Alert.Description>
+				</Alert.Root>
 			</div>
 		{/if}
 	</div>
 
-	<div>
-		<h2>Current Conditions</h2>
-		{#each hourly as group}
-			<div class="  mb-2">
-				{#each group as e}
-					<div>
-						<input
-							type="checkbox"
-							value={e.name}
-							id="{e.name}_current"
-							name="current"
-							bind:group={$params.current}
-						/>
-						<label for="{e.name}_current">{e.label}</label>
-					</div>
-				{/each}
-			</div>
-		{/each}
-	</div>
+	<!-- CURRENT -->
+	<div class="mt-6 md:mt-12">
+		<h2 id="current_conditions" class="text-2xl md:text-3xl">Current Conditions</h2>
 
-	<div>
-		<h2 class="mb-2 mt-6 text-2xl">Settings</h2>
-		<div>
-			<div class="  mb-3">
-				<select
-					name="length_unit"
-					id="length_unit"
-					aria-label="Length Unit"
-					bind:value={$params.length_unit}
-				>
-					<option value="metric">Metric</option>
-					<option value="imperial">Imperial</option>
-				</select>
-				<label for="length_unit">Length Unit</label>
-			</div>
-		</div>
-		<div>
-			<div class="  mb-3">
-				<select
-					name="wind_speed_unit"
-					id="wind_speed_unit"
-					aria-label="Velocity Unit"
-					bind:value={$params.wind_speed_unit}
-				>
-					<option value="kmh">Km/h</option>
-					<option value="ms">m/s</option>
-					<option value="mph">Mph</option>
-					<option value="kn">Knots</option>
-				</select>
-				<label for="wind_speed_unit">Velocity Unit</label>
-			</div>
-		</div>
-		<div>
-			<div class="  mb-3">
-				<select
-					name="timeformat"
-					id="timeformat"
-					aria-label="Timeformat"
-					bind:value={$params.timeformat}
-				>
-					<option value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
-					<option value="unixtime">Unix timestamp</option>
-				</select>
-				<label for="timeformat">Timeformat</label>
-			</div>
+		<div class="text-muted-foreground mt-1 text-sm">
+			Note: Current conditions are based on 15-minutely weather model data. Every weather variable
+			available in hourly data, is available as current condition as well.
 		</div>
 	</div>
 
-	<LicenseSelector />
+	<!-- SETTINGS -->
+	<div class="mt-6 md:mt-12">
+		<Settings bind:params={$params} visible={['length', 'velocity', 'timeformat']} />
+	</div>
+
+	<!-- LICENSE -->
+	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
 </form>
 
-<ResultPreview
-	{params}
-	{defaultParameters}
-	useStockChart
-	type="marine"
-	action="marine"
-	sdk_type="marine_api"
-/>
+<!-- RESULT -->
+<div class="mt-6 md:mt-12">
+	<ResultPreview
+		{params}
+		{defaultParameters}
+		useStockChart
+		type="marine"
+		action="marine"
+		sdk_type="marine_api"
+	/>
+</div>
 
-<h2 id="data-sources" class="mb-3 mt-5 text-2xl">Data Sources</h2>
-<div>
-	<div>
+<!-- DATA SOURCES -->
+<div class="mt-6 md:mt-12">
+	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
+	<div class="mt-2 md:mt-4">
 		<p>The Marine API combines wave models from different sources.</p>
-	</div>
-	<div></div>
-</div>
-<div>
-	<table
-		class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-	>
-		<caption class="text-muted-foreground mt-2 table-caption text-left"
-			>You can find the update timings in the <a href={'/en/docs/model-updates'}
-				>model updates documentation</a
-			>.</caption
+
+		<table
+			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
-		<thead>
-			<tr>
-				<th scope="col">Data Set</th>
-				<th scope="col">Region</th>
-				<th scope="col"></th>
-				<th scope="col">Spatial Resolution</th>
-				<th scope="col">Temporal Resolution</th>
-				<th scope="col">Data Availability</th>
-				<th scope="col">Update frequency</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th scope="row"
-					><a
-						href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_WAV_001_027/description"
-						>MeteoFrance MFWAM</a
+			<caption class="text-muted-foreground mt-2 table-caption text-left"
+				>You can find the update timings in the <a href={'/en/docs/model-updates'}
+					>model updates documentation</a
+				>.</caption
+			>
+			<thead>
+				<tr>
+					<th scope="col">Data Set</th>
+					<th scope="col">Region</th>
+					<th scope="col"></th>
+					<th scope="col">Spatial Resolution</th>
+					<th scope="col">Temporal Resolution</th>
+					<th scope="col">Data Availability</th>
+					<th scope="col">Update frequency</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row"
+						><a
+							href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_WAV_001_027/description"
+							>MeteoFrance MFWAM</a
+						>
+					</th>
+					<td>Global</td>
+					<td
+						><a
+							href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=0&center=-23.399717243797422%2C42.59188729714914&zoom=10.52284658362573&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9XQVZfMDAxXzAyNy9jbWVtc19tb2RfZ2xvX3dhdl9hbmZjXzAuMDgzZGVnX1BUM0gtaV8yMDIzMTEvVkhNMCIsInpJbmRleCI6MCwiaXNFeHBsb3JpbmciOnRydWUsImxvZ1NjYWxlIjpmYWxzZX1d&basemap=dark"
+							target="_blank"
+							title="Visualize as map">Map</a
+						></td
 					>
-				</th>
-				<td>Global</td>
-				<td
-					><a
-						href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=0&center=-23.399717243797422%2C42.59188729714914&zoom=10.52284658362573&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9XQVZfMDAxXzAyNy9jbWVtc19tb2RfZ2xvX3dhdl9hbmZjXzAuMDgzZGVnX1BUM0gtaV8yMDIzMTEvVkhNMCIsInpJbmRleCI6MCwiaXNFeHBsb3JpbmciOnRydWUsImxvZ1NjYWxlIjpmYWxzZX1d&basemap=dark"
-						target="_blank"
-						title="Visualize as map">Map</a
-					></td
-				>
-				<td>0.08° (~8 km)</td>
-				<td>3-Hourly</td>
-				<td>October 2021 with 10 day forecast</td>
-				<td>Every 12 hours</td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a
-						href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_PHY_001_024/services"
-						>MeteoFrance SMOC Currents, Tides & SST</a
+					<td>0.08° (~8 km)</td>
+					<td>3-Hourly</td>
+					<td>October 2021 with 10 day forecast</td>
+					<td>Every 12 hours</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a
+							href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_PHY_001_024/services"
+							>MeteoFrance SMOC Currents, Tides & SST</a
+						>
+					</th>
+					<td>Global</td>
+					<td
+						><a
+							href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=-0.49402499198913574&center=-12.433872193277338%2C42.88370285999325&zoom=11.872305323411199&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9QSFlfMDAxXzAyNC9jbWVtc19tb2RfZ2xvX3BoeV9hbmZjX21lcmdlZC11dl9QVDFILWlfMjAyMjExL3VvIiwiekluZGV4IjowLCJpc0V4cGxvcmluZyI6dHJ1ZSwibG9nU2NhbGUiOmZhbHNlfV0%3D&basemap=dark"
+							target="_blank"
+							title="Visualize as map">Map</a
+						></td
 					>
-				</th>
-				<td>Global</td>
-				<td
-					><a
-						href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=-0.49402499198913574&center=-12.433872193277338%2C42.88370285999325&zoom=11.872305323411199&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9QSFlfMDAxXzAyNC9jbWVtc19tb2RfZ2xvX3BoeV9hbmZjX21lcmdlZC11dl9QVDFILWlfMjAyMjExL3VvIiwiekluZGV4IjowLCJpc0V4cGxvcmluZyI6dHJ1ZSwibG9nU2NhbGUiOmZhbHNlfV0%3D&basemap=dark"
-						target="_blank"
-						title="Visualize as map">Map</a
-					></td
-				>
-				<td>0.08° (~8 km)</td>
-				<td>Hourly</td>
-				<td>January 2022 with 10 day forecast</td>
-				<td>Every 24 hours</td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a href="https://www.ecmwf.int/en/elibrary/79883-wave-model">ECMWF WAM</a>
-				</th>
-				<td>Global</td>
-				<td></td>
-				<td>0.25° (~25 km)</td>
-				<td>3-Hourly</td>
-				<td>March 2024 with 10 day forecast</td>
-				<td>Every 6 hours</td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a href="https://polar.ncep.noaa.gov/waves/index.php">NCEP GFS Wave</a>
-				</th>
-				<td>Global</td>
-				<td></td>
-				<td>0.25° (~25 km)</td>
-				<td>Hourly</td>
-				<td>June 2024 with 16 day forecast</td>
-				<td>Every 6 hours</td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a href="https://polar.ncep.noaa.gov/waves/index.php">NCEP GFS Wave</a>
-				</th>
-				<td>Latitude 52.5°N - 15°S</td>
-				<td></td>
-				<td>0.16° (~16 km)</td>
-				<td>Hourly</td>
-				<td>October 2024 with 16 day forecast</td>
-				<td>Every 6 hours</td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
-						>DWD EWAM</a
-					>
-				</th>
-				<td>Europe</td>
-				<td></td>
-				<td>0.05° (~5 km)</td>
-				<td>Hourly</td>
-				<td>August 2022 with 8 day forecast</td>
-				<td>Twice daily</td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
-						>DWD GWAM</a
-					>
-				</th>
-				<td>Global</td>
-				<td></td>
-				<td>0.25° (~25 km)</td>
-				<td>Hourly</td>
-				<td>August 2022 with 4 day forecast</td>
-				<td>Twice daily</td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a
-						href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview"
-						>ERA5-Ocean</a
-					>
-				</th>
-				<td>Global</td>
-				<td></td>
-				<td>0.5° (~50 km)</td>
-				<td>Hourly</td>
-				<td>1940 to present</td>
-				<td>Daily with 5 days delay</td>
-			</tr>
-		</tbody>
-	</table>
+					<td>0.08° (~8 km)</td>
+					<td>Hourly</td>
+					<td>January 2022 with 10 day forecast</td>
+					<td>Every 24 hours</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://www.ecmwf.int/en/elibrary/79883-wave-model">ECMWF WAM</a>
+					</th>
+					<td>Global</td>
+					<td></td>
+					<td>0.25° (~25 km)</td>
+					<td>3-Hourly</td>
+					<td>March 2024 with 10 day forecast</td>
+					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://polar.ncep.noaa.gov/waves/index.php">NCEP GFS Wave</a>
+					</th>
+					<td>Global</td>
+					<td></td>
+					<td>0.25° (~25 km)</td>
+					<td>Hourly</td>
+					<td>June 2024 with 16 day forecast</td>
+					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://polar.ncep.noaa.gov/waves/index.php">NCEP GFS Wave</a>
+					</th>
+					<td>Latitude 52.5°N - 15°S</td>
+					<td></td>
+					<td>0.16° (~16 km)</td>
+					<td>Hourly</td>
+					<td>October 2024 with 16 day forecast</td>
+					<td>Every 6 hours</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
+							>DWD EWAM</a
+						>
+					</th>
+					<td>Europe</td>
+					<td></td>
+					<td>0.05° (~5 km)</td>
+					<td>Hourly</td>
+					<td>August 2022 with 8 day forecast</td>
+					<td>Twice daily</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
+							>DWD GWAM</a
+						>
+					</th>
+					<td>Global</td>
+					<td></td>
+					<td>0.25° (~25 km)</td>
+					<td>Hourly</td>
+					<td>August 2022 with 4 day forecast</td>
+					<td>Twice daily</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a
+							href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview"
+							>ERA5-Ocean</a
+						>
+					</th>
+					<td>Global</td>
+					<td></td>
+					<td>0.5° (~50 km)</td>
+					<td>Hourly</td>
+					<td>1940 to present</td>
+					<td>Daily with 5 days delay</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
 
-<div>
-	<h2 id="api-documentation">API Documentation</h2>
-	<p>
-		The API endpoint <mark>/v1/marine</mark> accepts a geographical coordinate, a list of marine variables
-		and responds with a JSON hourly marine weather forecast for 7 days. Time always starts at 0:00 today.
-		All URL parameters are listed below:
-	</p>
-	<div>
+<!-- API DOCS -->
+<div class="mt-6 md:mt-12">
+	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The API endpoint <mark>/v1/marine</mark> accepts a geographical coordinate, a list of marine variables
+			and responds with a JSON hourly marine weather forecast for 7 days. Time always starts at 0:00
+			today. All URL parameters are listed below:
+		</p>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -861,14 +952,17 @@
 		Additional optional URL parameters will be added. For API stability, no required parameters will
 		be added in the future!
 	</p>
+</div>
 
-	<h3 class="mt-5">Hourly Parameter Definition</h3>
-	<p>
-		The parameter <mark>&hourly=</mark> accepts the following values. Most weather variables are given
-		as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
-		from the preceding hour as an average or sum.
-	</p>
-	<div>
+<!-- API DOCS - HOURLY -->
+<div class="mt-6 md:mt-12">
+	<h3 id="hourly_parameter_definition" class="text-xl md:text-2xl">Hourly Parameter Definition</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The parameter <mark>&hourly=</mark> accepts the following values. Most weather variables are given
+			as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
+			from the preceding hour as an average or sum.
+		</p>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -955,14 +1049,17 @@
 			</tbody>
 		</table>
 	</div>
+</div>
 
-	<h3 class="mt-5">Daily Parameter Definition</h3>
-	<p>
-		Aggregations are a simple 24 hour aggregation from hourly values. The parameter <mark
-			>&daily=</mark
-		> accepts the following values:
-	</p>
-	<div>
+<!-- API DOCS - DAILY -->
+<div class="mt-6 md:mt-12">
+	<h3 id="daily_parameter_definition" class="text-xl md:text-2xl">Daily Parameter Definition</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			Aggregations are a simple 24 hour aggregation from hourly values. The parameter <mark
+				>&daily=</mark
+			> accepts the following values:
+		</p>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -1000,32 +1097,16 @@
 			</tbody>
 		</table>
 	</div>
+</div>
 
-	<h3 class="mt-5">JSON Return Object</h3>
-	<p>On success a JSON object will be returned.</p>
-	<pre>
-      <code>
-{`
-  "latitude": 52.52,
-  "longitude": 13.419,
-  "elevation": 44.812,
-  "generationtime_ms": 2.2119,
-  "utc_offset_seconds": 0,
-  "timezone": "Europe/Berlin",
-  "timezone_abbreviation": "CEST",
-  "hourly": {
-    "time": ["2022-07-01T00:00", "2022-07-01T01:00", "2022-07-01T02:00", ...],
-    "wave_height": [1, 1.7, 1.7, 1.5, 1.5, 1.8, 2.0, 1.9, 1.3, ...]
-  },
-  "hourly_units": {
-    "wave_height": "m"
-  },
-`}
-      </code>
-    </pre>
-	<div>
+<!-- API DOCS - JSON -->
+<div class="mt-6 md:mt-12">
+	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<div class="mt-2 md:mt-4">
+		<p class="">On success a JSON object will be returned.</p>
+		<div class="code-numbered mt-2 md:mt-4"><MarineObject /></div>
 		<table
-			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -1094,29 +1175,34 @@
 			</tbody>
 		</table>
 	</div>
-	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
-	<p>
-		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
-		object is returned with a HTTP 400 status code.
-	</p>
-	<pre>
-      <code>
-{`
-  "error": true,
-  "reason": "Cannot initialize WeatherVariable from invalid String value tempeture_2m for key hourly"
-`}
-      </code>
-    </pre>
 </div>
 
-<h2 id="citation">Citation & Acknowledgement</h2>
-<p>
-	Generated using ICON Wave forecast from the <a
-		href="https://www.dwd.de/EN/service/copyright/copyright_node.html"
-		target="_blank">German Weather Service DWD</a
-	>.
-</p>
-<p>
-	All users of Open-Meteo data must provide a clear attribution to DWD as well as a reference to
-	Open-Meteo.
-</p>
+<!-- API DOCS - ERRORS -->
+<div class="mt-6 md:mt-12">
+	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
+			object is returned with a HTTP 400 status code.
+		</p>
+		<div class="mt-2 md:mt-4"><WeatherForecastError /></div>
+	</div>
+</div>
+
+<!-- CITATION -->
+<div class="mt-6 md:mt-12">
+	<h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2>
+	<div class="mt-3 md:mt-6">
+		<h2 id="citation">Citation & Acknowledgement</h2>
+		<p>
+			Generated using ICON Wave forecast from the <a
+				href="https://www.dwd.de/EN/service/copyright/copyright_node.html"
+				target="_blank">German Weather Service DWD</a
+			>.
+		</p>
+		<p>
+			All users of Open-Meteo data must provide a clear attribution to DWD as well as a reference to
+			Open-Meteo.
+		</p>
+	</div>
+</div>

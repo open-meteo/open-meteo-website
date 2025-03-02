@@ -1,23 +1,28 @@
 import { dev } from '$app/environment';
 
-import { pad } from '$lib/utils/meteo';
-
 export const defaultParameters = {
-	hourly: [],
 	daily: [],
+	hourly: [],
+	models: [],
+
 	location_mode: 'location_search',
+
 	time_mode: 'time_interval',
+
 	csv_coordinates: '',
+
 	temperature_unit: 'celsius',
 	wind_speed_unit: 'kmh',
 	precipitation_unit: 'mm',
 	timeformat: 'iso8601',
+
 	timezone: 'UTC',
+
 	temporal_resolution: '',
 	cell_selection: '',
+
 	tilt: '0',
-	azimuth: '0',
-	models: []
+	azimuth: '0'
 };
 
 export const hourly = [

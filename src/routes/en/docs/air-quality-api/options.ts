@@ -1,20 +1,24 @@
 export const defaultParameters = {
-	current: [],
 	hourly: [],
-	location_mode: 'location_search',
-	csv_coordinates: '',
-	timeformat: 'iso8601',
+	current: [],
+
 	timezone: 'UTC',
-	past_days: '0',
-	past_hours: '',
-	forecast_days: '5',
-	forecast_hours: '',
-	temporal_resolution: '',
-	start_date: '',
-	end_date: '',
+	location_mode: 'location_search',
+	csv_coordinates: undefined,
+
 	time_mode: 'forecast_days',
+	past_days: '0',
+	forecast_days: '5',
+
+	end_date: undefined,
+	start_date: undefined,
+
 	domains: 'auto',
-	cell_selection: ''
+	timeformat: 'iso8601',
+	past_hours: undefined,
+	cell_selection: undefined,
+	forecast_hours: undefined,
+	temporal_resolution: undefined
 };
 
 export const hourly = [
@@ -174,4 +178,11 @@ export const additionalVariables = [
 		{ value: 'sea_salt_aerosol', label: 'Sea Salt Aerosol' },
 		{ value: 'nitrogen_monoxide', label: 'Nitrogen Monoxide NO' }
 	]
+];
+
+export const forecastDaysOptions = [
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days' },
+	{ value: '5', label: '5 days (default)' },
+	{ value: '7', label: '7 days' }
 ];

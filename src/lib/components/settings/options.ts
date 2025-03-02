@@ -32,3 +32,8 @@ export const timeFormatOptions = [
 	},
 	{ value: 'unixtime', label: 'Unix timestamp' }
 ];
+
+export const lengthOptions = [
+	{ value: 'metric', label: 'Metric' },
+	{ value: 'imperial', label: 'Imperial' }
+];

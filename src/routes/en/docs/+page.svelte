@@ -126,7 +126,9 @@
 		}
 
 		if (
-			(countVariables(solarVariables, $params.minutely_15).active ||
+			(countVariables(minutely_15, $params.minutely_15).active +
+				countVariables(solarVariables, $params.minutely_15).active >
+				0 ||
 				(pastMinutely15 ? pastMinutely15.value : false) ||
 				(forecastMinutely15 ? forecastMinutely15.value : false)) &&
 			!accordionValues.includes('minutely_15')
@@ -640,8 +642,14 @@
 			<AccordionItem
 				id="minutely_15"
 				title="15-Minutely Weather Variables"
-				count={countVariables(solarVariables, $params.minutely_15) +
-					countVariables(minutely_15, $params.minutely_15)}
+				count={{
+					active:
+						countVariables(solarVariables, $params.minutely_15).active +
+						countVariables(minutely_15, $params.minutely_15).active,
+					total:
+						countVariables(solarVariables, $params.minutely_15).total +
+						countVariables(minutely_15, $params.minutely_15).total
+				}}
 			>
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 					{#each minutely_15 as group}

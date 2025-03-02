@@ -5,19 +5,19 @@ export const defaultParameters = {
 
 	timezone: 'UTC',
 	location_mode: 'location_search',
-	csv_coordinates: '',
+	csv_coordinates: undefined,
 
 	time_mode: 'forecast_days',
 	past_days: '0',
 	forecast_days: '3',
 
-	past_hours: '',
-	forecast_hours: '',
-	cell_selection: '',
-	temporal_resolution: '',
+	past_hours: undefined,
+	forecast_hours: undefined,
+	cell_selection: undefined,
+	temporal_resolution: undefined,
 
-	end_date: '',
-	start_date: '',
+	end_date: undefined,
+	start_date: undefined,
 
 	tilt: '0',
 	azimuth: '0',

@@ -1,13 +1,15 @@
 import { dev } from '$app/environment';
 
 export const defaultParameters = {
+	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: '',
-	temperature_unit: 'celsius',
-	wind_speed_unit: 'kmh',
-	precipitation_unit: 'mm',
+
 	timeformat: 'iso8601',
-	timezone: 'UTC',
+	wind_speed_unit: 'kmh',
+	temperature_unit: 'celsius',
+	precipitation_unit: 'mm',
+
 	disable_bias_correction: false
 };
 

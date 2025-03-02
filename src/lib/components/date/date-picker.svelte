@@ -34,12 +34,16 @@
 		if (!start_date) {
 			let startDate = new Date();
 			startDate.setDate(startDate.getDate() - 7);
+
 			start_date = startDate.toISOString().split('T')[0];
 		}
 
 		if (!end_date) {
 			let endDate = new Date();
 			endDate.setDate(endDate.getDate() + 7);
+			if (endDate.getTime() > last_date.getTime()) {
+				endDate.setDate(last_date.getDate());
+			}
 			end_date = endDate.toISOString().split('T')[0];
 		}
 

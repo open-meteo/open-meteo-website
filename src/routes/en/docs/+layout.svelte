@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { browser, dev } from '$app/environment';
+	import { afterNavigate } from '$app/navigation';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Chevrons from 'lucide-svelte/icons/chevrons-up-down';
@@ -117,6 +118,15 @@
 			activeAnchor = window.location.hash;
 		});
 	}
+
+	afterNavigate((e) => {
+		console.log(e);
+		if (!e.from || e.from.route.id !== e.to.route.id) {
+			setTimeout(() => {
+				window.scrollTo(0, 0);
+			}, 100);
+		}
+	});
 </script>
 
 <div class="mb-12 flex flex-col md:mb-24 md:flex-row">
@@ -151,6 +161,7 @@
 								} else {
 									extendAnchors = false;
 									mobileNavOpened = false;
+									// window.scrollTo({ top: 0, behavior: 'instant' });
 								}
 							}}
 						>
@@ -196,6 +207,7 @@
 												} else {
 													extendChildAnchors = false;
 													mobileNavOpened = false;
+													// window.scrollTo({ top: 0, behavior: 'instant' });
 												}
 											}}
 										>

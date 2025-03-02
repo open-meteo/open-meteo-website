@@ -60,7 +60,9 @@
 	};
 
 	const monthList = monthsForLocale();
-	const yearList = [...Array(86).keys()].map((y) => y + 1940).reverse();
+	const yearList = [...Array(last_date.getFullYear() - 1940 + 1).keys()]
+		.map((y) => y + 1940)
+		.reverse();
 
 	let startDates = $derived(getDatesInMonth(startDate.getFullYear(), startDate.getMonth() + 1));
 	let endDates = $derived(getDatesInMonth(endDate.getFullYear(), endDate.getMonth() + 1));
