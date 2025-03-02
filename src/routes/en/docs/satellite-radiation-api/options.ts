@@ -1,27 +1,33 @@
 export const defaultParameters = {
-	hourly: ['shortwave_radiation'],
 	daily: [],
-	location_mode: 'location_search',
-	csv_coordinates: '',
-	temperature_unit: 'celsius',
-	wind_speed_unit: 'kmh',
-	precipitation_unit: 'mm',
-	timeformat: 'iso8601',
-	timezone: 'UTC',
-	past_days: '5',
-	past_hours: '',
-	past_minutely_15: '',
-	forecast_days: '1',
-	forecast_hours: '',
-	forecast_minutely_15: '',
-	temporal_resolution: '',
-	start_date: '',
-	end_date: '',
-	tilt: 0,
-	azimuth: 0,
-	time_mode: 'forecast_days',
+	hourly: ['shortwave_radiation'],
 	models: [],
-	cell_selection: ''
+
+	timezone: 'UTC',
+	location_mode: 'location_search',
+	csv_coordinates: undefined,
+
+	time_mode: 'forecast_days',
+	past_days: 5,
+	forecast_days: 1,
+
+	start_date: undefined,
+	end_date: undefined,
+
+	tilt: '0',
+	azimuth: '0',
+
+	past_hours: undefined,
+	cell_selection: undefined,
+	forecast_hours: undefined,
+	past_minutely_15: undefined,
+	temporal_resolution: undefined,
+	forecast_minutely_15: undefined,
+
+	timeformat: 'iso8601',
+	wind_speed_unit: 'kmh',
+	temperature_unit: 'celsius',
+	precipitation_unit: 'mm'
 };
 
 export const hourly = [

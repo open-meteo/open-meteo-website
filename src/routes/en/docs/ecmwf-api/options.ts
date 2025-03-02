@@ -1,36 +1,41 @@
 export const defaultParameters = {
 	hourly: [],
-	location_mode: 'location_search',
-	csv_coordinates: '',
-	temperature_unit: 'celsius',
-	wind_speed_unit: 'kmh',
-	precipitation_unit: 'mm',
-	timeformat: 'iso8601',
-	past_days: '0',
-	forecast_days: '10',
-	start_date: '',
-	end_date: '',
-	time_mode: 'forecast_days',
-	forecast_hours: '',
-	past_hours: '',
 	models: [],
-	tilt: 0,
-	azimuth: 0,
-	temporal_resolution: '',
-	cell_selection: ''
+
+	timezone: 'UTC',
+	location_mode: 'location_search',
+	csv_coordinates: undefined,
+
+	timeformat: 'iso8601',
+	wind_speed_unit: 'kmh',
+	temperature_unit: 'celsius',
+	precipitation_unit: 'mm',
+
+	start_date: undefined,
+	end_date: undefined,
+
+	time_mode: 'forecast_days',
+	past_days: '0',
+	forecast_days: 10,
+
+	tilt: '0',
+	azimuth: '0',
+
+	past_hours: undefined,
+	forecast_hours: undefined,
+	cell_selection: undefined,
+	temporal_resolution: undefined
 };
 
 export const pressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
 	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	//{ value: 'specific_humidity', label: 'Specific Humidity' },
 	{ value: 'cloud_cover', label: 'Cloud cover' },
 	{ value: 'wind_speed', label: 'Wind Speed' },
 	{ value: 'wind_direction', label: 'Wind Direction' },
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
-	//{ value: 'atmosphere_relative_vorticity', label: 'Relative Vorticity' },
-	//{ value: 'divergence_of_wind', label: 'Divergence of Wind' }
 ];
+
 export const levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100, 50];
 
 export const hourly = [
@@ -118,4 +123,13 @@ export const additionalVariables = [
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
 		{ value: 'precipitation_type', label: 'Precipitation Type' }
 	]
+];
+
+export const forecastDaysOptions = [
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days' },
+	{ value: '5', label: '5 days' },
+	{ value: '7', label: '7 days' },
+	{ value: '10', label: '10 days (default)' },
+	{ value: '15', label: '15 days' }
 ];

@@ -19,11 +19,9 @@
 		<span id="darkmode_toggle_label" class="md:hidden">Toggle theme</span>
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content preventScroll={false} align="end" class="border-border p-0">
-		<DropdownMenu.Item class="cursor-pointer px-3 py-2" onclick={() => setMode('light')}
-			><div class="flex items-center">
-				<Sun class="mr-2" strokeWidth={1.2} />Light
-			</div></DropdownMenu.Item
-		>
+		<DropdownMenu.Item class="cursor-pointer px-3 py-2" onclick={() => setMode('light')}>
+			<Sun class="mr-2" strokeWidth={1.2} />Light
+		</DropdownMenu.Item>
 		<DropdownMenu.Item class="cursor-pointer px-3 py-2" onclick={() => setMode('dark')}
 			><Moon size={22} class="mr-2" strokeWidth={1.2} />Dark</DropdownMenu.Item
 		>

@@ -9,8 +9,8 @@ export const defaultParameters = {
 	start_date: undefined,
 
 	timezone: 'UTC',
-	past_days: 0,
-	forecast_days: 7,
+	past_days: '0',
+	forecast_days: '7',
 	location_mode: 'location_search',
 	length_unit: 'metric',
 	timeformat: 'iso8601',

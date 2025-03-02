@@ -101,12 +101,15 @@
 		}
 		end_date = newDate.toISOString().split('T')[0];
 	};
+
+	let selectEndNext = $state(false);
 </script>
 
 <div
 	class="border-border flex w-full flex-col items-stretch justify-between gap-3 overflow-auto border-b p-3 md:flex-row"
 >
 	<div class="flex w-full flex-col items-center gap-3">
+		<div class="text-sm font-bold">Start date</div>
 		<div class="flex w-full justify-between">
 			<Button variant="outline" class="px-3" onclick={decreaseStart}><ChevronLeft /></Button>
 			<Button
@@ -144,10 +147,9 @@
 						<Button
 							class={monthList[startDate.getMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={new Date(`${startDate.getFullYear()}-${pad(i + 1)}-01`).getTime() <
-								begin_date.getTime() - 27 * 24 * 60 * 60 * 1000 ||
-								new Date(`${startDate.getFullYear()}-${pad(i + 1)}-01`).getTime() +
-									27 * 24 * 60 * 60 * 1000 >
+							disabled={new Date(`${startDate.getFullYear()}-${pad(i + 1)}-30`).getTime() <
+								begin_date.getTime() ||
+								new Date(`${startDate.getFullYear()}-${pad(i + 1)}-01`).getTime() >
 									last_date.getTime()}
 							onclick={() => {
 								monthModeStart = false;
@@ -159,7 +161,13 @@
 					{/each}
 				</div>
 			{:else}
-				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
+				<!-- svelte-ignore a11y_no_static_element_interactions -->
+				<div
+					in:scale={{ start: 0.8, duration: 300 }}
+					class="grid grid-cols-5"
+					aria-roledescription="Date picker window"
+					onmouseleave={() => (selectEndNext = false)}
+				>
 					{#each startDates as date}
 						<Button
 							class="duration-200 hover:rounded-md 
@@ -173,12 +181,20 @@
 								? 'bg-accent rounded-e-md rounded-s-none'
 								: ''}"
 							variant="ghost"
-							disabled={date.getTime() < begin_date.getTime() - 23 * 60 * 60 * 1000 ||
-								date.getTime() > last_date.getTime() + 23 * 60 * 60 * 1000}
+							disabled={date.getTime() < begin_date.getTime() - 11 * 60 * 60 * 1000 ||
+								date.getTime() > last_date.getTime() + 11 * 60 * 60 * 1000}
 							onclick={() => {
-								let newDate = new Date(startDate);
-								newDate.setDate(date.getDate());
-								updateStartDate(newDate);
+								if (selectEndNext) {
+									let newDate = new Date(startDate);
+									newDate.setDate(date.getDate());
+									updateEndDate(newDate);
+									selectEndNext = false;
+								} else {
+									let newDate = new Date(startDate);
+									newDate.setDate(date.getDate());
+									updateStartDate(newDate);
+									selectEndNext = true;
+								}
 							}}>{date.getDate()}</Button
 						>
 					{/each}
@@ -188,6 +204,7 @@
 	</div>
 	<div class="border-border border-r"></div>
 	<div class="flex w-full flex-col items-center gap-3">
+		<div class="text-sm font-bold">End date</div>
 		<div class="flex w-full justify-between">
 			<Button variant="outline" class="px-3" onclick={decreaseEnd}><ChevronLeft /></Button>
 			<Button
@@ -225,7 +242,7 @@
 						<Button
 							class={monthList[endDate.getMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={new Date(`${endDate.getFullYear()}-${pad(i + 1)}-01`).getTime() <
+							disabled={new Date(`${endDate.getFullYear()}-${pad(i + 1)}-30`).getTime() <
 								begin_date.getTime() ||
 								new Date(`${endDate.getFullYear()}-${pad(i + 1)}-01`).getTime() >
 									last_date.getTime()}
@@ -252,8 +269,8 @@
 								? 'bg-accent rounded-e-none rounded-s-md'
 								: ''}"
 							variant="ghost"
-							disabled={date.getTime() < begin_date.getTime() - 23 * 60 * 60 * 1000 ||
-								date.getTime() > last_date.getTime() + 23 * 60 * 60 * 1000}
+							disabled={date.getTime() < begin_date.getTime() - 11 * 60 * 60 * 1000 ||
+								date.getTime() > last_date.getTime() + 11 * 60 * 60 * 1000}
 							onclick={() => {
 								let newDate = new Date(endDate);
 								newDate.setDate(date.getDate());

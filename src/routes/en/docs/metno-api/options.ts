@@ -1,25 +1,31 @@
 export const defaultParameters = {
-	current: [],
 	hourly: [],
+	models: [],
+	current: [],
+
+	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: '',
-	temperature_unit: 'celsius',
-	wind_speed_unit: 'kmh',
-	precipitation_unit: 'mm',
-	timeformat: 'iso8601',
-	timezone: 'UTC',
-	past_days: '0',
-	past_hours: '',
-	forecast_days: '3',
-	forecast_hours: '',
-	temporal_resolution: '',
-	start_date: '',
-	end_date: '',
-	tilt: 0,
-	azimuth: 0,
+
 	time_mode: 'forecast_days',
-	models: [],
-	cell_selection: ''
+	past_days: '0',
+	forecast_days: '3',
+
+	past_hours: '',
+	forecast_hours: '',
+	cell_selection: '',
+	temporal_resolution: '',
+
+	end_date: '',
+	start_date: '',
+
+	tilt: '0',
+	azimuth: '0',
+
+	timeformat: 'iso8601',
+	wind_speed_unit: 'kmh',
+	temperature_unit: 'celsius',
+	precipitation_unit: 'mm'
 };
 
 export const hourly = [
@@ -107,4 +113,10 @@ export const models = [
 		{ value: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
 		{ value: 'metno_nordic', label: 'MET Norway Nordic' }
 	]
+];
+
+export const forecastDaysOptions = [
+	{ value: '1', label: '1 day' },
+	{ value: '2', label: '2 days' },
+	{ value: '3', label: '3 days (default)' }
 ];

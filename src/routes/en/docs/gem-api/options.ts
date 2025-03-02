@@ -16,8 +16,8 @@ export const defaultParameters = {
 	temporal_resolution: '',
 	start_date: '',
 	end_date: '',
-	tilt: 0,
-	azimuth: 0,
+	tilt: '0',
+	azimuth: '0',
 	time_mode: 'forecast_days',
 	models: [],
 	cell_selection: ''
@@ -169,4 +169,12 @@ export const models = [
 		{ value: 'gem_regional', label: 'GEM Regional' },
 		{ value: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' }
 	]
+];
+
+export const forecastDaysOptions = [
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days' },
+	{ value: '5', label: '5 days' },
+	{ value: '7', label: '7 days (default)' },
+	{ value: '10', label: '10 days' }
 ];

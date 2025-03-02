@@ -1,29 +1,35 @@
 export const defaultParameters = {
-	current: [],
-	hourly: [],
 	daily: [],
+	hourly: [],
+	models: [],
+	current: [],
 	minutely_15: [],
+
+	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: '',
-	temperature_unit: 'celsius',
-	wind_speed_unit: 'kmh',
-	precipitation_unit: 'mm',
+
 	timeformat: 'iso8601',
-	timezone: 'UTC',
-	past_days: '0',
-	past_hours: '',
-	past_minutely_15: '',
-	forecast_days: '7',
-	forecast_hours: '',
-	forecast_minutely_15: '',
-	temporal_resolution: '',
-	start_date: '',
-	end_date: '',
-	tilt: 0,
-	azimuth: 0,
+	wind_speed_unit: 'kmh',
+	temperature_unit: 'celsius',
+	precipitation_unit: 'mm',
+
 	time_mode: 'forecast_days',
-	models: [],
-	cell_selection: ''
+	past_days: '0',
+	forecast_days: '7',
+
+	end_date: '',
+	start_date: '',
+
+	past_hours: '',
+	forecast_hours: '',
+	cell_selection: '',
+	past_minutely_15: '',
+	temporal_resolution: '',
+	forecast_minutely_15: '',
+
+	tilt: '0',
+	azimuth: '0'
 };
 
 export const hourly = [
@@ -128,4 +134,12 @@ export const solarVariables = [
 		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
 		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 	]
+];
+
+export const forecastDaysOptions = [
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days' },
+	{ value: '5', label: '5 days' },
+	{ value: '7', label: '7 days (default)' },
+	{ value: '10', label: '10 days' }
 ];

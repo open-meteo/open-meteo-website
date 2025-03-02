@@ -15,8 +15,8 @@ export const defaultParameters = {
 	timezone: 'UTC',
 	temporal_resolution: '',
 	cell_selection: '',
-	tilt: 0,
-	azimuth: 0,
+	tilt: '0',
+	azimuth: '0',
 	models: []
 };
 
@@ -194,34 +194,4 @@ export const models = [
 		{ value: 'era5_ensemble', label: 'ERA5-Ensemble', caption: '0.5° ~55km, Global' },
 		{ value: 'cerra', label: 'CERRA', caption: '5 km, Europe, 1985 to June 2021' }
 	]
-];
-
-// Additional variable options
-export const temporalResolutionOptions = [
-	{ value: '', label: '1 Hourly' },
-	{ value: 'hourly_3', label: '3 Hourly' },
-	{ value: 'hourly_6', label: '6 Hourly' },
-	{ value: 'native', label: 'Native Model Resolution' }
-];
-
-export const gridCellSelectionOptions = [
-	{ value: '', label: 'Terrain Optimized, Prefers Land' },
-	{ value: 'sea', label: 'Prefer Sea' },
-	{ value: 'nearest', label: 'Nearest' }
-];
-
-export const forecastMinutely15Options = [
-	{ value: '', label: '- (default)' },
-	{ value: 1 * 4, label: '1 hour' },
-	{ value: 6 * 4, label: '6 hours' },
-	{ value: 12 * 4, label: '12 hours' },
-	{ value: 24 * 4, label: '24 hours' }
-];
-
-export const pastMinutely15Options = [
-	{ value: '', label: '- (default)' },
-	{ value: 1 * 4, label: '1 hour' },
-	{ value: 6 * 4, label: '6 hours' },
-	{ value: 12 * 4, label: '12 hours' },
-	{ value: 24 * 4, label: '24 hours' }
 ];

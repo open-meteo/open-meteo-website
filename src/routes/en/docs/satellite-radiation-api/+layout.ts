@@ -1,9 +1,14 @@
 import type { LayoutLoad } from './$types';
 
-export const load = (() => {
+export const load: LayoutLoad = async () => {
 	return {
-		title: 'Satellite Radiation API',
-		subtitle: 'Real-time Solar Irradiance From Multiple Satellites',
-		hero: '/images/iceland_mountain.webp'
+		heroTitle: 'Satellite Radiation API',
+		heroDescription: 'Real-time Solar Irradiance From Multiple Satellites',
+		heroImage: '/images/cirrus.webp',
+		heroHeight: 400,
+		heroPrimaryButtonPath: null,
+		heroPrimaryButtonText: null,
+		heroSecondaryButtonPath: null,
+		heroSecondaryButtonText: null
 	};
-}) satisfies LayoutLoad;
+};

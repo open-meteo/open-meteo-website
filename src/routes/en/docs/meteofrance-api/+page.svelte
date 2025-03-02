@@ -213,9 +213,7 @@
 								>
 								<Select.Content preventScroll={false} class="border-border">
 									{#each forecastDaysOptions as fdo}
-										<Select.Item class="cursor-pointer" value={String(fdo.value)}
-											>{fdo.label}</Select.Item
-										>
+										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
@@ -231,9 +229,7 @@
 								>
 								<Select.Content preventScroll={false} class="border-border">
 									{#each pastDaysOptions as pdo}
-										<Select.Item class="cursor-pointer" value={String(pdo.value)}
-											>{pdo.label}</Select.Item
-										>
+										<Select.Item class="cursor-pointer" value={pdo.value}>{pdo.label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label
@@ -375,7 +371,7 @@
 							>
 							<Select.Content preventScroll={false} class="border-border">
 								{#each forecastHoursOptions as fho}
-									<Select.Item value={String(fho.value)}>{fho.label}</Select.Item>
+									<Select.Item value={fho.value}>{fho.label}</Select.Item>
 								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
@@ -390,7 +386,7 @@
 							>
 							<Select.Content preventScroll={false} class="border-border">
 								{#each pastHoursOptions as pho}
-									<Select.Item value={String(pho.value)}>{pho.label}</Select.Item>
+									<Select.Item value={pho.value}>{pho.label}</Select.Item>
 								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
@@ -1484,7 +1480,7 @@
 
 		<PressureLevelsHelpTable {levels} />
 		<p class="text-muted-foreground">
-			All pressure level have valid times of the indicated hour (instant).
+			All pressure levels have valid times of the indicated hour (instant).
 		</p>
 
 		<table

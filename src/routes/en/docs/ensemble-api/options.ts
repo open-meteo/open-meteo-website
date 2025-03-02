@@ -7,15 +7,15 @@ export const defaultParameters = {
 	precipitation_unit: 'mm',
 	timeformat: 'iso8601',
 	timezone: 'UTC',
-	past_days: 0,
+	past_days: '0',
 	past_hours: undefined,
-	forecast_days: 7,
+	forecast_days: '7',
 	forecast_hours: undefined,
 	temporal_resolution: undefined,
 	start_date: undefined,
 	end_date: undefined,
-	tilt: 0,
-	azimuth: 0,
+	tilt: '0',
+	azimuth: '0',
 	time_mode: 'forecast_days',
 	models: [],
 	cell_selection: undefined
@@ -362,11 +362,11 @@ export const models = [
 ];
 
 export const forecastDaysOptions = [
-	{ value: 1, label: '1 day' },
-	{ value: 3, label: '3 days' },
-	{ value: 7, label: '7 days (default)' },
-	{ value: 14, label: '14 days' },
-	{ value: 16, label: '16 days' },
-	{ value: 30, label: '30 days' },
-	{ value: 35, label: '35 days' }
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days' },
+	{ value: '7', label: '7 days (default)' },
+	{ value: '14', label: '14 days' },
+	{ value: '16', label: '16 days' },
+	{ value: '30', label: '30 days' },
+	{ value: '35', label: '35 days' }
 ];

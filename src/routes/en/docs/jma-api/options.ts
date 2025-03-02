@@ -1,26 +1,32 @@
 export const defaultParameters = {
-	current: [],
-	hourly: [],
 	daily: [],
+	hourly: [],
+	models: [],
+	current: [],
+
 	location_mode: 'location_search',
-	csv_coordinates: '',
-	temperature_unit: 'celsius',
+	csv_coordinates: undefined,
+
+	timezone: 'UTC',
+	timeformat: 'iso8601',
 	wind_speed_unit: 'kmh',
 	precipitation_unit: 'mm',
-	timeformat: 'iso8601',
-	timezone: 'UTC',
-	past_days: '0',
-	past_hours: '',
-	forecast_days: '7',
-	forecast_hours: '',
-	temporal_resolution: '',
-	start_date: '',
-	end_date: '',
-	tilt: 0,
-	azimuth: 0,
+	temperature_unit: 'celsius',
+
+	start_date: undefined,
+	end_date: undefined,
+
+	tilt: '0',
+	azimuth: '0',
+
 	time_mode: 'forecast_days',
-	models: [],
-	cell_selection: ''
+	past_days: '0',
+	forecast_days: '7',
+
+	past_hours: undefined,
+	forecast_hours: undefined,
+	cell_selection: undefined,
+	temporal_resolution: undefined
 };
 
 export const pressureVariables = [
@@ -146,4 +152,12 @@ export const models = [
 		{ value: 'jma_msm', label: 'JMA MSM' },
 		{ value: 'jma_gsm', label: 'JMA GSM' }
 	]
+];
+
+export const forecastDaysOptions = [
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days' },
+	{ value: '5', label: '5 days' },
+	{ value: '7', label: '7 days (default)' },
+	{ value: '1', label: '11 days' }
 ];

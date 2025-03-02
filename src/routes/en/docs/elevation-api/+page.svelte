@@ -19,6 +19,9 @@
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
+	import ElevationError from '$lib/components/code/docs/elevation-error.svx';
+	import ElevationObject from '$lib/components/code/docs/elevation-object.svx';
+
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41]
@@ -77,7 +80,7 @@
 	/>
 </svelte:head>
 
-<Alert.Root>
+<Alert.Root class="border-border mb-4">
 	<Alert.Description>
 		Get more information on how weather forecasts are improved with elevation models in our <a
 			href="https://openmeteo.substack.com/p/87a094f1-325d-497a-8a9d-4d16b794fd15"
@@ -150,7 +153,7 @@
 
 	<LicenseSelector />
 
-	<div class=" mb-3">
+	<div class="">
 		<button
 			type="submit"
 			class="btn btn-primary"
@@ -174,20 +177,22 @@
 	<div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
 </div>
 
-<div>
-	<h2 id="api-documentation">API Documentation</h2>
-	<p>
-		The API endpoint <mark>/v1/elevation</mark> accepts one or multiple geographical coordinate and returns
-		the terrain elevation for those points.
-	</p>
-	<p>
-		Data is based on the <a
-			href="https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model"
-			>Copernicus DEM 2021 release GLO-90</a
-		> with 90 meters resolution. The GLO-90 dataset is available worldwide with a free license.
-	</p>
-	<p>All URL parameters are listed below:</p>
-	<div>
+<!-- API DOCS -->
+<div class="mt-6 md:mt-12">
+	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The API endpoint <mark>/v1/elevation</mark> accepts one or multiple geographical coordinate and
+			returns the terrain elevation for those points.
+		</p>
+		<p>
+			Data is based on the <a
+				href="https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model"
+				>Copernicus DEM 2021 release GLO-90</a
+			> with 90 meters resolution. The GLO-90 dataset is available worldwide with a free license.
+		</p>
+		<p>All URL parameters are listed below:</p>
+
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -233,46 +238,48 @@
 			</tbody>
 		</table>
 	</div>
-	<p>
+	<p class="text-muted-foreground">
 		Additional optional URL parameters will be added. For API stability, no required parameters will
 		be added in the future!
 	</p>
-
-	<h3 class="mt-5">JSON Return Object</h3>
-	<p>
-		On success a JSON object is returned with just one attribute <mark>elevation</mark>. It is
-		always an array, even if only one coordinate is requested.
-	</p>
-	<pre>
-      <code>
-{`
-  "elevation": [38.0]
-`}
-      </code>
-    </pre>
-
-	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
-	<p>
-		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
-		object is returned with a HTTP 400 status code.
-	</p>
-	<pre>
-      <code>
-{`
-  "error":true,
-  "reason":"Latitude must be in range of -90 to 90°. Given: 522.52."
-`}
-      </code>
-    </pre>
 </div>
 
-<h2 id="citation">Citation & Acknowledgement</h2>
-<pre>
+<!-- API DOCS - JSON -->
+<div class="mt-6 md:mt-12">
+	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			On success a JSON object is returned with just one attribute <mark>elevation</mark>. It is
+			always an array, even if only one coordinate is requested.
+		</p>
+		<ElevationObject />
+	</div>
+</div>
+
+<!-- API DOCS - ERRORS -->
+<div class="mt-6 md:mt-12">
+	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
+			object is returned with a HTTP 400 status code.
+		</p>
+		<ElevationError />
+	</div>
+</div>
+
+<!-- CITATION -->
+<div class="mt-6 md:mt-12">
+	<h2 id="citation" class="text-xl md:text-2xl">Citation & Acknowledgement</h2>
+	<div class="mt-2 md:mt-4">
+		<pre>
 ESA - EUsers, who, in their research, use the Copernicus DEM, are requested to use the following DOI when citing the data source in their publications: 
 
 https://doi.org/10.5270/ESA-c5d3d65
-  </pre>
-<p>
-	All users of Open-Meteo data must provide a clear attribution to the Copernicus program as well as
-	a reference to Open-Meteo.
-</p>
+		</pre>
+		<p>
+			All users of Open-Meteo data must provide a clear attribution to the Copernicus program as
+			well as a reference to Open-Meteo.
+		</p>
+	</div>
+</div>

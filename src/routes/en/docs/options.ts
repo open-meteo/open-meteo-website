@@ -1,29 +1,35 @@
 export const defaultParameters = {
+	daily: [],
+	hourly: [],
+	models: [],
 	current: [],
 	minutely_15: [],
-	hourly: [],
-	daily: [],
+
+	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: undefined,
-	temperature_unit: 'celsius',
-	wind_speed_unit: 'kmh',
-	precipitation_unit: 'mm',
-	timeformat: 'iso8601',
-	timezone: 'UTC',
-	past_days: 0,
+
+	time_mode: 'forecast_days',
+	past_days: '0',
+	forecast_days: '7',
+
+	end_date: undefined,
+	start_date: undefined,
+
 	past_hours: undefined,
+	cell_selection: undefined,
+	forecast_hours: undefined,
 	past_minutely_15: undefined,
 	temporal_resolution: undefined,
-	forecast_days: 7,
-	forecast_hours: undefined,
 	forecast_minutely_15: undefined,
-	start_date: undefined,
-	end_date: undefined,
-	tilt: 0,
-	azimuth: 0,
-	time_mode: 'forecast_days',
-	cell_selection: undefined,
-	models: []
+
+	tilt: '0',
+	azimuth: '0',
+
+	timeformat: 'iso8601',
+	wind_speed_unit: 'kmh',
+	temperature_unit: 'celsius',
+	precipitation_unit: 'mm'
 };
 
 export const pressureVariables = [
@@ -279,41 +285,41 @@ export const models = [
 ];
 
 export const forecastDaysOptions = [
-	{ value: 1, label: '1 day' },
-	{ value: 3, label: '3 days' },
-	{ value: 7, label: '7 days (default)' },
-	{ value: 14, label: '14 days' },
-	{ value: 16, label: '16 days' }
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days' },
+	{ value: '7', label: '7 days (default)' },
+	{ value: '14', label: '14 days' },
+	{ value: '16', label: '16 days' }
 ];
 
 export const pastDaysOptions = [
-	{ value: 0, label: '0 days (default)' },
-	{ value: 1, label: '1 day' },
-	{ value: 2, label: '2 days' },
-	{ value: 3, label: '3 days' },
-	{ value: 5, label: '5 days' },
-	{ value: 7, label: '1 week' },
-	{ value: 14, label: '2 weeks' },
-	{ value: 31, label: '1 month' },
-	{ value: 61, label: '2 months' },
-	{ value: 92, label: '3 months' }
+	{ value: '0', label: '0 days (default)' },
+	{ value: '1', label: '1 day' },
+	{ value: '2', label: '2 days' },
+	{ value: '3', label: '3 days' },
+	{ value: '5', label: '5 days' },
+	{ value: '7', label: '1 week' },
+	{ value: '14', label: '2 weeks' },
+	{ value: '31', label: '1 month' },
+	{ value: '61', label: '2 months' },
+	{ value: '92', label: '3 months' }
 ];
 
 // Additional variable options
 export const forecastHoursOptions = [
 	{ value: '', label: '- (default)' },
-	{ value: 1, label: '1 hour' },
-	{ value: 6, label: '6 hours' },
-	{ value: 12, label: '12 hours' },
-	{ value: 24, label: '24 hours' }
+	{ value: '1', label: '1 hour' },
+	{ value: '6', label: '6 hours' },
+	{ value: '12', label: '12 hours' },
+	{ value: '24', label: '24 hours' }
 ];
 
 export const pastHoursOptions = [
 	{ value: '', label: '- (default)' },
-	{ value: 1, label: '1 hour' },
-	{ value: 6, label: '6 hours' },
-	{ value: 12, label: '12 hours' },
-	{ value: 24, label: '24 hours' }
+	{ value: '1', label: '1 hour' },
+	{ value: '6', label: '6 hours' },
+	{ value: '12', label: '12 hours' },
+	{ value: '24', label: '24 hours' }
 ];
 
 export const temporalResolutionOptions = [
@@ -331,16 +337,16 @@ export const gridCellSelectionOptions = [
 
 export const forecastMinutely15Options = [
 	{ value: '', label: '- (default)' },
-	{ value: 1 * 4, label: '1 hour' },
-	{ value: 6 * 4, label: '6 hours' },
-	{ value: 12 * 4, label: '12 hours' },
-	{ value: 24 * 4, label: '24 hours' }
+	{ value: `${1 * 4}`, label: '1 hour' },
+	{ value: `${6 * 4}`, label: '6 hours' },
+	{ value: `${12 * 4}`, label: '12 hours' },
+	{ value: `${24 * 4}`, label: '24 hours' }
 ];
 
 export const pastMinutely15Options = [
 	{ value: '', label: '- (default)' },
-	{ value: 1 * 4, label: '1 hour' },
-	{ value: 6 * 4, label: '6 hours' },
-	{ value: 12 * 4, label: '12 hours' },
-	{ value: 24 * 4, label: '24 hours' }
+	{ value: `${1 * 4}`, label: '1 hour' },
+	{ value: `${6 * 4}`, label: '6 hours' },
+	{ value: `${12 * 4}`, label: '12 hours' },
+	{ value: `${24 * 4}`, label: '24 hours' }
 ];

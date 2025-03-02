@@ -1,19 +1,22 @@
 export const defaultParameters = {
-	six_hourly: [],
 	daily: [],
+	six_hourly: [],
+
+	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: '',
-	temperature_unit: 'celsius',
-	wind_speed_unit: 'kmh',
-	precipitation_unit: 'mm',
-	timeformat: 'iso8601',
-	timezone: 'UTC',
+
+	time_mode: 'forecast_days',
 	past_days: '0',
-	forecast_days: '92',
+	forecast_days: 92,
+
 	start_date: '',
 	end_date: '',
-	time_mode: 'forecast_days'
-	//models: []
+
+	timeformat: 'iso8601',
+	wind_speed_unit: 'kmh',
+	temperature_unit: 'celsius',
+	precipitation_unit: 'mm'
 };
 
 export const six_hourly = [

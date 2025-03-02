@@ -10,7 +10,7 @@ export const defaultParameters = {
 	precipitation_unit: 'mm',
 	timeformat: 'iso8601',
 	timezone: 'UTC',
-	past_days: 0,
+	past_days: '0',
 	past_hours: undefined,
 	past_minutely_15: undefined,
 	forecast_days: 4,
@@ -19,8 +19,8 @@ export const defaultParameters = {
 	temporal_resolution: undefined,
 	start_date: undefined,
 	end_date: undefined,
-	tilt: 0,
-	azimuth: 0,
+	tilt: '0',
+	azimuth: '0',
 	time_mode: 'forecast_days',
 	models: [],
 	cell_selection: undefined
@@ -211,7 +211,7 @@ export const models = [
 ];
 
 export const forecastDaysOptions = [
-	{ value: 1, label: '1 day' },
-	{ value: 3, label: '3 days' },
-	{ value: 4, label: '4 days (default)' }
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days' },
+	{ value: '4', label: '4 days (default)' }
 ];

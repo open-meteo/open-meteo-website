@@ -26,10 +26,18 @@
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
-	import { models, previousDay, windVariables, solarVariables, defaultParameters } from './options';
+	import SuperDebug from 'sveltekit-superforms';
 
 	import {
+		models,
+		previousDay,
+		windVariables,
+		solarVariables,
 		pastDaysOptions,
+		defaultParameters
+	} from './options';
+
+	import {
 		forecastDaysOptions,
 		gridCellSelectionOptions,
 		temporalResolutionOptions
@@ -38,8 +46,9 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
+
 		...defaultParameters,
-		past_days: 7,
+
 		hourly: [
 			'temperature_2m',
 			'temperature_2m_previous_day1',
@@ -106,7 +115,7 @@
 	begin_date.setMonth(begin_date.getMonth() - 3);
 
 	let last_date = new Date();
-	last_date.setDate(last_date.getDate() + 14);
+	last_date.setDate(last_date.getDate() + 16);
 </script>
 
 <svelte:head>
@@ -178,9 +187,7 @@
 								>
 								<Select.Content preventScroll={false} class="border-border">
 									{#each forecastDaysOptions as fdo}
-										<Select.Item class="cursor-pointer" value={String(fdo.value)}
-											>{fdo.label}</Select.Item
-										>
+										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
@@ -196,9 +203,7 @@
 								>
 								<Select.Content preventScroll={false} class="border-border">
 									{#each pastDaysOptions as pdo}
-										<Select.Item class="cursor-pointer" value={String(pdo.value)}
-											>{pdo.label}</Select.Item
-										>
+										<Select.Item class="cursor-pointer" value={pdo.value}>{pdo.label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label
@@ -534,6 +539,8 @@
 <div class="mt-6 md:mt-12">
 	<ResultPreview {params} {defaultParameters} type="previous-runs" useStockChart={true} />
 </div>
+
+<SuperDebug data={$params} />
 
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">

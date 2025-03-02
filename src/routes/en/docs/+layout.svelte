@@ -174,10 +174,10 @@
 
 						{#if link.children}
 							<ul
-								class={`list-unstyled ml-3 overflow-hidden duration-500 ${
+								class={`list-unstyled ml-3 overflow-auto duration-500 ${
 									selectedPath.url === link.url ||
 									link.children.some((l) => l.url === selectedPath.url)
-										? 'mb-2 mt-2 max-h-[500px]'
+										? 'mb-2 mt-2 max-h-[700px]'
 										: 'max-h-0'
 								}`}
 							>
@@ -228,23 +228,6 @@
 					</li>
 				{/each}
 			</ul>
-			<!-- <ul class="mt-6 flex flex-col gap-2">
-				<a href="#location_and_time"> #Location and Time </a>
-				<a href="#hourly_weather_variables"> #Hourly Weather Variables </a>
-				<a href="#daily_weather_variables"> #Daily Weather Variables </a>
-				<a href="#current_weather"> #Current Weather </a>
-				<a href="#settings"> #Settings </a>
-				<a href="#api_response"> #API Response </a>
-				<a href="#data_sources"> #Data Sources </a>
-				<a href="#api_documentation"> #API Documentation </a>
-				<a href="#hourly_parameter_definition"> #Hourly Parameter Definition </a>
-				<a href="#15_minutely_parameter_definition"> #15-Minutely Parameter Definition </a>
-				<a href="#pressure_level_variables"> #Pressure Level Variables </a>
-				<a href="#daily_parameter_definition"> #Daily Parameter Definition </a>
-				<a href="#json_return_object"> #JSON Return Object </a>
-				<a href="#errors"> #Errors </a>
-				<a href="#weather_variable_documentation"> #Weather variable documentation </a>
-			</ul> -->
 		</nav>
 	</aside>
 	<div class="flex flex-1 flex-col overflow-auto p-6 pt-0 md:w-5/6 md:pl-3 md:pt-6">

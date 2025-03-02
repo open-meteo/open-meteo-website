@@ -36,16 +36,19 @@
 		models,
 		minutely_15,
 		solarVariables,
-		pastHoursOptions,
 		defaultParameters,
 		pressureVariables,
-		additionalVariables,
+		additionalVariables
+	} from './options';
+
+	import {
+		pastHoursOptions,
 		forecastHoursOptions,
 		pastMinutely15Options,
 		gridCellSelectionOptions,
 		temporalResolutionOptions,
 		forecastMinutely15Options
-	} from './options';
+	} from '../options';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 2);
@@ -80,7 +83,7 @@
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 
-	let begin_date = new Date('1940-01-01');
+	let begin_date = new Date('2016-01-01');
 	let last_date = new Date();
 	last_date.setDate(last_date.getDate() - 2);
 
@@ -315,7 +318,7 @@
 							>
 							<Select.Content preventScroll={false} class="border-border">
 								{#each forecastHoursOptions as fho}
-									<Select.Item value={String(fho.value)}>{fho.label}</Select.Item>
+									<Select.Item value={fho.value}>{fho.label}</Select.Item>
 								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
@@ -330,7 +333,7 @@
 							>
 							<Select.Content preventScroll={false} class="border-border">
 								{#each pastHoursOptions as pho}
-									<Select.Item value={String(pho.value)}>{pho.label}</Select.Item>
+									<Select.Item value={pho.value}>{pho.label}</Select.Item>
 								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
