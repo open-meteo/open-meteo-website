@@ -11,8 +11,6 @@
 
 	import '../app.css';
 
-	import './perf';
-
 	let { children, data } = $props();
 
 	const pathname = $derived(data.pathname);
