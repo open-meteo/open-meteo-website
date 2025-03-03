@@ -154,6 +154,7 @@ p:not(:last-child) {
 
 div > .shiki {
 	overflow: auto;
+	padding-left: calc(var(--spacing) * 6);
 }
 
 .curl {

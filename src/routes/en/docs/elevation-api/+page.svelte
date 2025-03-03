@@ -32,6 +32,7 @@
 		const longitude = Number(event.detail.longitude.toFixed(4));
 		$params.latitude = $params.latitude.toSpliced(index, 1, latitude);
 		$params.longitude = $params.longitude.toSpliced(index, 1, longitude);
+		submitForm();
 	}
 
 	function addLocation() {
@@ -83,6 +84,7 @@
 <Alert.Root class="border-border mb-4">
 	<Alert.Description>
 		Get more information on how weather forecasts are improved with elevation models in our <a
+			class="text-link underline"
 			href="https://openmeteo.substack.com/p/87a094f1-325d-497a-8a9d-4d16b794fd15"
 			target="_blank">blog article</a
 		>.
@@ -94,87 +96,108 @@
 	method="get"
 	target="container"
 	action="https://api.open-meteo.com/v1/elevation"
+	onchange={submitForm()}
 >
 	<div>
-		<h2>Select Coordinates or City</h2>
-		{#each $params.latitude as _, index}
-			<div>
-				<div class="  mb-3">
-					<input
-						type="number"
-						name="latitude"
-						id="latitude"
-						step="0.000001"
-						min="-90"
-						max="90"
-						bind:value={$params.latitude[index]}
-					/>
-					<label for="latitude">Latitude</label>
+		<h2 id="elevation_search" class="text-2xl md:text-3xl">Select Coordinates or City</h2>
+		<div class="mt-3">
+			{#each $params.latitude as _, index}
+				<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
+					<div class="relative">
+						<Input
+							type="number"
+							class="h-12 pt-6"
+							name="latitude"
+							id="latitude"
+							step="0.000001"
+							min="-90"
+							max="90"
+							bind:value={$params.latitude[index]}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="name">Latitude</Label
+						>
+					</div>
+
+					<div class="relative">
+						<Input
+							type="number"
+							class="h-12 pt-6"
+							name="longitude"
+							id="longitude"
+							step="0.000001"
+							min="-180"
+							max="180"
+							bind:value={$params.longitude[index]}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="name">Longitude</Label
+						>
+					</div>
+
+					<div>
+						<LocationSearch on:location={(event) => locationCallback(event, index)} />
+					</div>
+					{#if index == 0}
+						<div>
+							<button
+								type="button"
+								class="btn btn-outline-secondary w-100 p-3"
+								onclick={addLocation}
+								title="Add coordinates"><Plus /></button
+							>
+						</div>
+					{:else}
+						<div class="col-md-1">
+							<button
+								type="button"
+								class="btn btn-outline-secondary w-100 p-3"
+								onclick={() => removeLocation(index)}
+								title="Delete coordinates"><Trash /></button
+							>
+						</div>
+					{/if}
 				</div>
-			</div>
-			<div>
-				<div class="  mb-3">
-					<input
-						type="number"
-						name="longitude"
-						id="longitude"
-						step="0.000001"
-						min="-180"
-						max="180"
-						bind:value={$params.longitude[index]}
-					/>
-					<label for="longitude">Longitude</label>
-				</div>
-			</div>
-			<div class="col-md-5">
-				<LocationSearch on:location={(event) => locationCallback(event, index)} />
-			</div>
-			{#if index == 0}
-				<div class="col-md-1">
-					<button
-						type="button"
-						class="btn btn-outline-secondary w-100 p-3"
-						onclick={addLocation}
-						title="Add coordinates"><Plus /></button
-					>
-				</div>
-			{:else}
-				<div class="col-md-1">
-					<button
-						type="button"
-						class="btn btn-outline-secondary w-100 p-3"
-						onclick={() => removeLocation(index)}
-						title="Delete coordinates"><Trash /></button
-					>
-				</div>
-			{/if}
-		{/each}
+			{/each}
+		</div>
 	</div>
 
-	<LicenseSelector />
-
-	<div class="">
-		<button
-			type="submit"
-			class="btn btn-primary"
-			onclick={(e) => {
-				e.preventDefault();
-				submitForm();
-			}}>Preview</button
-		>
+	<!-- LICENSE -->
+	<div class="mt-3 md:mt-6">
+		<LicenseSelector />
 	</div>
 </form>
 
-<div class=" mb-3">
-	<div style="height: 50px; width: 100%;">{response}</div>
-</div>
+<!-- RESULT -->
+<div class="mt-6 md:mt-12">
+	<h2 id="results" class="mb-6 text-2xl md:text-3xl">Preview and API URL</h2>
 
-<div>
-	<label for="api_url" class="form-label"
-		>API URL (<a id="api_url_link" target="_blank" href={url}>Open in new tab</a>)</label
-	>
-	<input type="text" id="api_url" readonly value={url} />
-	<div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
+	<div class="border-border mb-3 w-full rounded-md border px-2 py-3">{response}</div>
+
+	<div>
+		API URL
+		<small class="text-muted-foreground"
+			>(<a
+				id="api_url_link"
+				target="_blank"
+				class="text-link underline underline-offset-2"
+				href={url}>Open in new tab</a
+			>)</small
+		>
+	</div>
+	<Input
+		class="mt-2"
+		type="text"
+		id="api_url"
+		readonly
+		aria-label="Copy to clipboard"
+		value={url}
+	/>
+	<div class="text-muted-foreground mt-1 text-sm">
+		You can copy this API URL into your application
+	</div>
 </div>
 
 <!-- API DOCS -->
@@ -272,12 +295,12 @@
 <div class="mt-6 md:mt-12">
 	<h2 id="citation" class="text-xl md:text-2xl">Citation & Acknowledgement</h2>
 	<div class="mt-2 md:mt-4">
-		<pre>
+		<pre class="overflow-auto rounded-lg">
 ESA - EUsers, who, in their research, use the Copernicus DEM, are requested to use the following DOI when citing the data source in their publications: 
 
 https://doi.org/10.5270/ESA-c5d3d65
 		</pre>
-		<p>
+		<p class="mt-3">
 			All users of Open-Meteo data must provide a clear attribution to the Copernicus program as
 			well as a reference to Open-Meteo.
 		</p>

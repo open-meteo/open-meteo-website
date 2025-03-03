@@ -747,7 +747,7 @@
 							class="text-link underline underline-offset-2"
 							href={previewUrl}>Open in new tab</a
 						> or copy this URL into your application)</small
-					>.
+					>
 				</div>
 				{#if callWeight > 1}
 					<p class="mt-2">

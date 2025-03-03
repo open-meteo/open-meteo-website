@@ -33,13 +33,13 @@ export const sliceIntoChunks = (arr: Array<T>, chunkSize: number): Array<Array<T
 
 export const countVariables = (
 	variables: { value: string; label: string }[][],
-	params: string[]
+	params: string[] | undefined
 ) => {
 	const flattenedVariables = variables.flat().map((v) => v.value);
-	const overlap = params.filter((p) => flattenedVariables.includes(p));
+	const overlap = params?.filter((p) => flattenedVariables.includes(p));
 	return {
 		total: flattenedVariables.length,
-		active: overlap.length
+		active: overlap?.length ?? 0
 	};
 };
 

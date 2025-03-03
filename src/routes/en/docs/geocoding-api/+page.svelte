@@ -102,16 +102,7 @@
 	<h2 id="geocoding_search" class="text-2xl md:text-3xl">Search for cities or postal code</h2>
 	<div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 md:mt-4 lg:grid-cols-4">
 		<div class="relative">
-			<Input
-				type="text"
-				class="h-12 pt-6"
-				name="name"
-				id="name"
-				step="0.000001"
-				min="-180"
-				max="180"
-				bind:value={$params.name}
-			/>
+			<Input type="text" class="h-12 pt-6" name="name" id="name" bind:value={$params.name} />
 			<Label
 				class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 				for="name">Name</Label
@@ -246,9 +237,7 @@
 			</div>
 		{/await}
 	</div>
-</div>
 
-<div class="mt-6 md:mt-12">
 	<div>
 		API URL
 		<small class="text-muted-foreground"
@@ -257,10 +246,9 @@
 				target="_blank"
 				class="text-link underline underline-offset-2"
 				href={apiUrl}>Open in new tab</a
-			> or copy this URL into your application)</small
-		>.
+			>)</small
+		>
 	</div>
-	<div id="emailHelp">You can copy this API URL into your application</div>
 	<Input
 		class="mt-2"
 		type="text"
@@ -269,6 +257,9 @@
 		aria-label="Copy to clipboard"
 		value={apiUrl}
 	/>
+	<div class="text-muted-foreground mt-1 text-sm">
+		You can copy this API URL into your application
+	</div>
 </div>
 
 <!-- API DOCS -->
@@ -492,7 +483,7 @@
 	</div>
 </div>
 
-<!-- API DOCS - ERRORS -->
+<!-- ATTRIBUTION -->
 <div class="mt-6 md:mt-12">
 	<h3 id="attribution" class="text-xl md:text-2xl">Attribution</h3>
 	<div class="mt-2 md:mt-4">

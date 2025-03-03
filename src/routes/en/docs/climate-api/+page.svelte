@@ -18,10 +18,9 @@
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/PressureLevelsHelpTable.svelte';
 
-	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
-	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
+	import ClimateError from '$lib/components/code/docs/climate-error.svx';
+	import ClimateObject from '$lib/components/code/docs/climate-object.svx';
 
 	import { daily, models, defaultParameters } from './options';
 
@@ -758,7 +757,7 @@
 	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
-		<div class="code-numbered mt-2 md:mt-4"><WeatherForecastObject /></div>
+		<div class="code-numbered mt-2 md:mt-4"><ClimateObject /></div>
 		<table
 			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -776,18 +775,6 @@
 					<td
 						>WGS84 of the center of the weather grid-cell which was used to generate this forecast.
 						This coordinate might be a few kilometers away from the requested coordinate.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">elevation</th>
-					<td>Floating point</td>
-					<td
-						>The elevation from a 90 meter digital elevation model. This effects which grid-cell is
-						selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is used to
-						adapt weather conditions for this elevation. This elevation can also be controlled with
-						the query parameter <mark>elevation</mark>. If
-						<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the averge grid-cell
-						elevation is used.</td
 					>
 				</tr>
 				<tr>
@@ -810,20 +797,6 @@
 						>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
 						<mark>CEST</mark>)</td
 					>
-				</tr>
-				<tr>
-					<th scope="row">hourly</th>
-					<td>Object</td>
-					<td
-						>For each selected weather variable, data will be returned as a floating point array.
-						Additionally a
-						<mark>time</mark> array will be returned with ISO8601 timestamps.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">hourly_units</th>
-					<td>Object</td>
-					<td>For each selected weather variable, the unit will be listed here.</td>
 				</tr>
 				<tr>
 					<th scope="row">daily</th>
@@ -851,7 +824,7 @@
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 			object is returned with a HTTP 400 status code.
 		</p>
-		<div class="mt-2 md:mt-4"><WeatherForecastError /></div>
+		<div class="mt-2 md:mt-4"><ClimateError /></div>
 	</div>
 </div>
 

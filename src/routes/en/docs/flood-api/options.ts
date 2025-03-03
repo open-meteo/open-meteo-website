@@ -1,14 +1,19 @@
 export const defaultParameters = {
 	daily: [],
+	models: [],
+
 	location_mode: 'location_search',
-	csv_coordinates: '',
+	csv_coordinates: undefined,
+
 	timeformat: 'iso8601',
+
+	time_mode: 'forecast_days',
 	past_days: '0',
 	forecast_days: '92',
-	start_date: '',
-	end_date: '',
-	time_mode: 'forecast_days',
-	models: [],
+
+	start_date: undefined,
+	end_date: undefined,
+
 	ensemble: false
 };
 
@@ -35,4 +40,13 @@ export const models = [
 		{ value: 'forecast_v3', label: 'GloFAS v3 Forecast' },
 		{ value: 'consolidated_v3', label: 'GloFAS v3 Consolidated' }
 	]
+];
+
+export const forecastDaysOptions = [
+	{ value: '1', label: '1 day' },
+	{ value: '7', label: '7 days' },
+	{ value: '14', label: '2 weeks' },
+	{ value: '31', label: '1 month' },
+	{ value: '92', label: '3 months (default)' },
+	{ value: '183', label: '6 months' }
 ];
