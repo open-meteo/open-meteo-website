@@ -33,9 +33,6 @@
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
-	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
-	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
-
 	import {
 		daily,
 		hourly,
@@ -558,30 +555,27 @@
 											{#each chunk as level}
 												<div class="group flex items-center">
 													<Checkbox
-														id="{variable.value}_{level}hPa"
+														id="{variable.value}_{level}m"
 														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-														value="{variable.value}_{level}hPa"
-														checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
-														aria-labelledby="{variable.value}_{level}hPa"
+														value="{variable.value}_{level}m"
+														checked={$params.hourly?.includes(`${variable.value}_${level}m`)}
+														aria-labelledby="{variable.value}_{level}m"
 														onCheckedChange={() => {
-															if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
+															if ($params.hourly?.includes(`${variable.value}_${level}m`)) {
 																$params.hourly = $params.hourly.filter((item) => {
-																	return item !== `${variable.value}_${level}hPa`;
+																	return item !== `${variable.value}_${level}m`;
 																});
 															} else {
-																$params.hourly.push(`${variable.value}_${level}hPa`);
+																$params.hourly.push(`${variable.value}_${level}m`);
 																$params.hourly = $params.hourly;
 															}
 														}}
 													/>
 													<Label
-														for="{variable.value}_{level}hPa"
+														for="{variable.value}_{level}m"
 														class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]"
-														>{level} hPa
-														<small class="text-muted-foreground"
-															>({altitudeAboveSeaLevelMeters(level)})</small
-														></Label
-													>
+														>{level} m
+													</Label>
 												</div>
 											{/each}
 										{/each}

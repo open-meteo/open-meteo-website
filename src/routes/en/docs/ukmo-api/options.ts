@@ -1,39 +1,42 @@
 export const defaultParameters = {
-	current: [],
-	hourly: [],
 	daily: [],
+	hourly: [],
+	models: [],
+	current: [],
+
+	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: undefined,
-	minutely_15: [],
-	temperature_unit: 'celsius',
-	wind_speed_unit: 'kmh',
-	precipitation_unit: 'mm',
-	timeformat: 'iso8601',
-	timezone: 'UTC',
+
+	time_mode: 'forecast_days',
 	past_days: '0',
-	past_hours: undefined,
-	past_minutely_15: undefined,
 	forecast_days: '7',
-	forecast_hours: undefined,
-	forecast_minutely_15: undefined,
-	temporal_resolution: undefined,
-	start_date: undefined,
+
 	end_date: undefined,
+	start_date: undefined,
+
+	past_hours: undefined,
+	cell_selection: undefined,
+	forecast_hours: undefined,
+	temporal_resolution: undefined,
+
 	tilt: '0',
 	azimuth: '0',
-	time_mode: 'forecast_days',
-	models: [],
-	cell_selection: undefined
+
+	timeformat: 'iso8601',
+	wind_speed_unit: 'kmh',
+	temperature_unit: 'celsius',
+	precipitation_unit: 'mm'
 };
 
 export const pressureVariables = [
-	{ name: 'temperature', label: 'Temperature' },
-	{ name: 'relative_humidity', label: 'Relative Humidity' },
-	{ name: 'cloud_cover', label: 'Cloud cover' },
-	{ name: 'wind_speed', label: 'Wind Speed' },
-	{ name: 'wind_direction', label: 'Wind Direction' },
-	{ name: 'vertical_velocity', label: 'Vertical Velocity' },
-	{ name: 'geopotential_height', label: 'Geopotential Height' }
+	{ value: 'temperature', label: 'Temperature' },
+	{ value: 'relative_humidity', label: 'Relative Humidity' },
+	{ value: 'cloud_cover', label: 'Cloud cover' },
+	{ value: 'wind_speed', label: 'Wind Speed' },
+	{ value: 'wind_direction', label: 'Wind Direction' },
+	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
+	{ value: 'geopotential_height', label: 'Geopotential Height' }
 ];
 
 export const levels = [
@@ -42,11 +45,11 @@ export const levels = [
 ].reverse();
 
 export const heightVariables = [
-	{ name: 'temperature', label: 'Temperature' },
-	{ name: 'relative_humidity', label: 'Relative Humidity' },
-	{ name: 'cloud_cover', label: 'Cloud cover' },
-	{ name: 'wind_speed', label: 'Wind Speed' },
-	{ name: 'wind_direction', label: 'Wind Direction' }
+	{ value: 'temperature', label: 'Temperature' },
+	{ value: 'relative_humidity', label: 'Relative Humidity' },
+	{ value: 'cloud_cover', label: 'Cloud cover' },
+	{ value: 'wind_speed', label: 'Wind Speed' },
+	{ value: 'wind_direction', label: 'Wind Direction' }
 ];
 
 export const heights = [
@@ -56,131 +59,126 @@ export const heights = [
 
 export const hourly = [
 	[
-		{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-		{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-		{ name: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-		{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-		//{ name: 'precipitation_probability', label: 'Precipitation Probability' },
-		{ name: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
-		{ name: 'rain', label: 'Rain' },
-		{ name: 'showers', label: 'Showers' },
-		{ name: 'snowfall', label: 'Snowfall' },
-		{ name: 'hail', label: 'Hail' }
-		//{ name: 'snow_depth', label: 'Snow Depth' } // only water req
+		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
+		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
+		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
+		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
+		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
+		{ value: 'rain', label: 'Rain' },
+		{ value: 'showers', label: 'Showers' },
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'hail', label: 'Hail' }
 	],
 	[
-		{ name: 'weather_code', label: 'Weather code' },
-		{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-		{ name: 'visibility', label: 'Visibility' },
-		{ name: 'surface_pressure', label: 'Surface Pressure' },
-		{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-		{ name: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
+		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'visibility', label: 'Visibility' },
+		{ value: 'surface_pressure', label: 'Surface Pressure' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 	],
 	[
-		{ name: 'cloud_cover', label: 'Cloud cover Total' },
-		{ name: 'cloud_cover_low', label: 'Cloud cover Low' },
-		{ name: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-		{ name: 'cloud_cover_high', label: 'Cloud cover High' },
-		{ name: 'cloud_cover_2m', label: 'Cloud cover / Fog (2m)' },
-		{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-		{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-		{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
+		{ value: 'cloud_cover', label: 'Cloud cover Total' },
+		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
+		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
+		{ value: 'cloud_cover_high', label: 'Cloud cover High' },
+		{ value: 'cloud_cover_2m', label: 'Cloud cover / Fog (2m)' },
+		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 	]
 ];
 
 export const current = [
 	[
-		{ name: 'temperature_2m', label: 'Temperature (2 m)' },
-		{ name: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-		{ name: 'apparent_temperature', label: 'Apparent Temperature' },
-		{ name: 'is_day', label: 'Is Day or Night' }
+		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
+		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
+		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
+		{ value: 'is_day', label: 'Is Day or Night' }
 	],
 	[
-		{ name: 'precipitation', label: 'Precipitation' },
-		{ name: 'rain', label: 'Rain' },
-		{ name: 'showers', label: 'Showers' },
-		{ name: 'snowfall', label: 'Snowfall' }
+		{ value: 'precipitation', label: 'Precipitation' },
+		{ value: 'rain', label: 'Rain' },
+		{ value: 'showers', label: 'Showers' },
+		{ value: 'snowfall', label: 'Snowfall' }
 	],
 	[
-		{ name: 'weather_code', label: 'Weather code' },
-		{ name: 'cloud_cover', label: 'Cloud cover Total' },
-		{ name: 'pressure_msl', label: 'Sealevel Pressure' },
-		{ name: 'surface_pressure', label: 'Surface Pressure' }
+		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'cloud_cover', label: 'Cloud cover Total' },
+		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'surface_pressure', label: 'Surface Pressure' }
 	],
 	[
-		{ name: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-		{ name: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-		{ name: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
+		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 	]
 ];
 
 export const daily = [
 	[
-		{ name: 'weather_code', label: 'Weather code' },
-		{ name: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-		{ name: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-		{ name: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
-		{ name: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
-		{ name: 'sunrise', label: 'Sunrise' },
-		{ name: 'sunset', label: 'Sunset' },
-		{ name: 'daylight_duration', label: 'Daylight Duration' },
-		{ name: 'sunshine_duration', label: 'Sunshine Duration' }
+		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
+		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
+		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
+		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
+		{ value: 'sunrise', label: 'Sunrise' },
+		{ value: 'sunset', label: 'Sunset' },
+		{ value: 'daylight_duration', label: 'Daylight Duration' },
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
 	],
 	[
-		{ name: 'precipitation_sum', label: 'Precipitation Sum' },
-		{ name: 'rain_sum', label: 'Rain Sum' },
-		{ name: 'showers_sum', label: 'Showers Sum' },
-		{ name: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ name: 'precipitation_hours', label: 'Precipitation Hours' },
-		{ name: 'precipitation_probability_max', label: 'Precipitation Probability Max' },
-		{ name: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-		{ name: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
-		{ name: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
-		{ name: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
-		{ name: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
+		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
+		{ value: 'rain_sum', label: 'Rain Sum' },
+		{ value: 'showers_sum', label: 'Showers Sum' },
+		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
+		{ value: 'precipitation_probability_max', label: 'Precipitation Probability Max' },
+		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
+		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
+		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
+		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
 	]
 ];
 
 export const additionalVariables = [
 	[
-		{ name: 'is_day', label: 'Is Day or Night' },
-		{ name: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
-		//{ name: 'lightning_potential', label: 'Lightning Potential Index LPI (2)' },
-		//{ name: 'updraft', label: 'Updraft (2)' }
+		{ value: 'is_day', label: 'Is Day or Night' },
+		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
 	],
 	[
-		{ name: 'cape', label: 'CAPE' },
-		{ name: 'convective_inhibition', label: 'Convective Inhibition' },
-		{ name: 'freezing_level_height', label: 'Freezing Level Height' },
-		//{ name: 'snowfall_height', label: 'Snowfall Height (1)' },
-		{ name: 'sunshine_duration', label: 'Sunshine Duration' }
+		{ value: 'cape', label: 'CAPE' },
+		{ value: 'convective_inhibition', label: 'Convective Inhibition' },
+		{ value: 'freezing_level_height', label: 'Freezing Level Height' },
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
 	]
 ];
 
 export const solarVariables = [
 	[
-		{ name: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-		{ name: 'direct_radiation', label: 'Direct Solar Radiation' },
-		{ name: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-		{ name: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-		{ name: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-		{ name: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
+		{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
+		{ value: 'direct_radiation', label: 'Direct Solar Radiation' },
+		{ value: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
+		{ value: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
+		{ value: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
+		{ value: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
 	],
 	[
-		{ name: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-		{ name: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-		{ name: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-		{ name: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ name: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
-		{ name: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
+		{ value: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
+		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
+		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
+		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
+		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
+		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 	]
 ];
 
 export const models = [
 	[
-		{ name: 'ukmo_seamless', label: 'UK Met Office Seamless' },
-		{ name: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
-		{ name: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
+		{ value: 'ukmo_seamless', label: 'UK Met Office Seamless' },
+		{ value: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
+		{ value: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 	]
 ];
 

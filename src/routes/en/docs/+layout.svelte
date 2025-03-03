@@ -66,7 +66,6 @@
 	let mobileNavOpened = $state(false);
 
 	afterNavigate((e) => {
-		console.log(e);
 		if (!e.from || e.from.route.id !== e.to.route.id) {
 			setTimeout(() => {
 				window.scrollTo(0, 0);
