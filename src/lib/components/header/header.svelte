@@ -103,7 +103,7 @@
 				><Button
 					variant="ghost"
 					href="https://x.com/open_meteo"
-					aria-label="Twitter link"
+					aria-label="X link"
 					class="relative flex w-10 items-center gap-0"
 					><div class="absolute dark:fill-white [&_svg]:h-5 [&_svg]:w-5">
 						{@html X}

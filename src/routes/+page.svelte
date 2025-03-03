@@ -39,20 +39,22 @@
 <div class="container mt-8 lg:mt-16">
 	<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 		<div>
-			<h2 class="text-3xl font-light lg:text-5xl">Accurate Weather Forecasts for Any Location</h2>
-			<p class="mt-4">
+			<h2 class="mb-3 text-3xl font-light md:mb-5 lg:text-5xl">
+				Accurate Weather Forecasts for Any Location
+			</h2>
+			<p>
 				Open-Meteo partners with national weather services to bring you open data with high
 				resolution, ranging from 1 to 11 kilometers. Our powerful APIs intelligently select the most
 				suitable weather models for your specific location, ensuring accurate and reliable
 				forecasts.
 			</p>
-			<p class="mt-4">
+			<p>
 				With our user-friendly JSON API, accessing weather data has never been easier. Whether
 				you're developing an application or seeking weather information for personal use, our APIs
 				provide seamless integration and deliver the data you need in a simple and accessible
 				format.
 			</p>
-			<p class="mt-4">
+			<p>
 				Experience the precision and convenience of Open-Meteo's Forecast API, providing
 				comprehensive weather information worldwide. Stay informed and make informed decisions with
 				our reliable weather forecasts.
@@ -181,7 +183,7 @@
 		</div>
 	</div>
 
-	<div id="featured-3">
+	<div id="featured">
 		<div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
 			<div>
 				<div class="mb-3 flex items-center">
@@ -382,8 +384,8 @@
 				>, weather variables, and data sources. If you want to stay in the loop and be the first to
 				know about our exciting updates, we invite you to subscribe to our
 				<a href="https://openmeteo.substack.com/archive?sort=new" target="_blank">blog</a>
-				or follow us on <a href="https://twitter.com/open_meteo" target="_blank">Twitter</a>. By
-				doing so, you'll never miss out on the latest developments and enhancements in our services.
+				or follow us on <a href="https://x.com/open_meteo" target="_blank">X</a>. By doing so,
+				you'll never miss out on the latest developments and enhancements in our services.
 			</p>
 			<div class="mt-4 flex justify-center gap-4">
 				<Button

@@ -10,143 +10,150 @@
 	/>
 </svelte:head>
 
-<div class="container mt-10 lg:mt-20">
-	<h2 id="terms" class="mb-3 text-3xl font-light md:text-5xl">Terms of Use</h2>
-	<p>
-		Open-Meteo assumes no responsibility for any inaccuracies or omissions in the data, their
-		availability, or any losses or damages resulting from their usage. The accuracy and completeness
-		of the data products and their uninterrupted provision are not guaranteed by Open-Meteo, and
-		they are provided without any warranty, either statutory or otherwise. In any event, Open-Meteo
-		disclaims all liability under these Terms of Use, whether arising from contract, tort, or any
-		other cause.
-	</p>
+<div class="container my-6 lg:my-12">
 	<div>
-		<div>
-			<h3>Non-Commercial Use</h3>
-			<p>By using the Free API for non-commercial use you agree to following terms:</p>
-			<ul>
-				<li>Less than 10'000 API calls per day, 5'000 per hour and 600 per minute.</li>
-				<li>You may only use the free API services for non-commercial purposes.</li>
-				<li>
-					You accept to the CC-BY 4.0 license, as specified in the <a
-						href={'/en/license'}
-						title="Open-Meteo further license details">license conditions</a
-					>.
-				</li>
-				<li>
-					We reserve the right to block applications and IP addresses that misuse our service
-					without prior notice.
-				</li>
-			</ul>
-			<p>
-				Non-commercial use is defined as as
-				<a href="https://wiki.creativecommons.org/wiki/NonCommercial_interpretation"
-					>elaborated by creative commons</a
-				>. To make it easier to understand, here are some examples that qualify as non-commercial
-				use:
-			</p>
-			<ul>
-				<li>
-					Using our service for private or non-profit websites or apps that do not have
-					subscriptions or advertising.
-				</li>
-				<li>Utilizing our service for personal home automation purposes.</li>
-				<li>Using our service for public research conducted at public institutions.</li>
-				<li>Incorporating our service into educational content.</li>
-			</ul>
-			<p>On the other hand, the following examples are considered commercial use:</p>
-			<ul>
-				<li>Operating websites or apps that have subscriptions or display advertisements.</li>
-				<li>Integrating our service into commercial products or promotional activities.</li>
-				<li>Conducting undisclosed research at commercial entities.</li>
-			</ul>
-			<p>
-				If you plan to use our service for commercial purposes or require additional API calls, we
-				kindly request you to consider subscribing to our API plans as explained in detail on the <a
-					href={'/en/pricing'}
-					title="Pricing information to use the weather API commercially">pricing</a
-				> page. Your subscription helps support the continuous development, maintenance, and support
-				of Open-Meteo.
-			</p>
-		</div>
-		<div>
-			<h3>API Subscription</h3>
-			<p>
-				When using the <a
-					href={'/en/pricing'}
-					title="Pricing information to use the weather API commercially">paid API subscription</a
-				>, you agree to the following terms:
-			</p>
-			<ul>
-				<li>
-					By subscribing to our service, you authorize us to charge the applicable subscription fees
-					through the payment gateway Stripe.
-				</li>
-				<li>
-					You agree to provide accurate and up-to-date payment information and promptly update it if
-					there are any changes.
-				</li>
-			</ul>
-			<p>Account and Security:</p>
-			<ul>
-				<li>
-					You are responsible for maintaining the confidentiality and security of your account login
-					credentials.
-				</li>
-				<li>You agree not to share your account or login information with any third party.</li>
-				<li>You are solely responsible for any activities that occur under your account.</li>
-			</ul>
-			<p>Intellectual Property:</p>
-			<ul>
-				<li>
-					All intellectual property rights in our SaaS service, including but not limited to
-					software, content, and trademarks, belong to us.
-				</li>
-				<li>
-					You are granted a limited, non-exclusive, and non-transferable license to use our service
-					for the duration of your subscription.
-				</li>
-				<li>
-					The data obtained through the API is provided under the terms of the CC-BY 4.0 license, as
-					specified in the <a href={'/en/license'} title="Open-Meteo further license details"
-						>license conditions</a
-					>.
-				</li>
-			</ul>
-			<p>Limitation of Liability:</p>
-			<ul>
-				<li>
-					Our service is provided on an "as is" and "as available" basis without any warranties,
-					express or implied.
-				</li>
-				<li>
-					We do not guarantee the accuracy, completeness, or reliability of our service or its
-					suitability for your specific needs.
-				</li>
-				<li>
-					We shall not be liable for any indirect, incidental, consequential, or punitive damages
-					arising from or related to your use of our service.
-				</li>
-				<li>
-					Our total liability, if any, shall be limited to the amount you paid for the subscription
-					fee during the twelve months preceding the claim.
-				</li>
-			</ul>
-			<p>Termination:</p>
-			<ul>
-				<li>
-					Either party may terminate the subscription at the end of each payment schedule, for any
-					reason, with or without notice.
-				</li>
-				<li>
-					Upon missed payments, we reserve the right to terminate the subscription and access to our
-					service after 14 days.
-				</li>
-				<li>
-					Upon termination, your access to the service and any associated data may be immediately
-					deactivated.
-				</li>
-			</ul>
+		<h2 id="terms" class="mb-3 text-3xl font-light lg:mb-5 lg:text-5xl">Terms of Use</h2>
+		<p>
+			Open-Meteo assumes no responsibility for any inaccuracies or omissions in the data, their
+			availability, or any losses or damages resulting from their usage. The accuracy and
+			completeness of the data products and their uninterrupted provision are not guaranteed by
+			Open-Meteo, and they are provided without any warranty, either statutory or otherwise. In any
+			event, Open-Meteo disclaims all liability under these Terms of Use, whether arising from
+			contract, tort, or any other cause.
+		</p>
+		<div class="my-3 grid gap-6 md:my-6 md:grid-cols-2 md:gap-12">
+			<div class="[&_p]:mt-3">
+				<h3 id="non_commercial_use" class="mb-3 text-xl font-light lg:text-2xl">
+					Non-Commercial Use
+				</h3>
+				<p>By using the Free API for non-commercial use you agree to following terms:</p>
+				<ul class="ml-6 list-disc">
+					<li>Less than 10'000 API calls per day, 5'000 per hour and 600 per minute.</li>
+					<li>You may only use the free API services for non-commercial purposes.</li>
+					<li>
+						You accept to the CC-BY 4.0 license, as specified in the <a
+							class="text-link underline"
+							href={'/en/license'}
+							title="Open-Meteo further license details">license conditions</a
+						>.
+					</li>
+					<li>
+						We reserve the right to block applications and IP addresses that misuse our service
+						without prior notice.
+					</li>
+				</ul>
+				<p>
+					Non-commercial use is defined as as
+					<a href="https://wiki.creativecommons.org/wiki/NonCommercial_interpretation"
+						>elaborated by creative commons</a
+					>. To make it easier to understand, here are some examples that qualify as non-commercial
+					use:
+				</p>
+				<ul class="ml-6 list-disc">
+					<li>
+						Using our service for private or non-profit websites or apps that do not have
+						subscriptions or advertising.
+					</li>
+					<li>Utilizing our service for personal home automation purposes.</li>
+					<li>Using our service for public research conducted at public institutions.</li>
+					<li>Incorporating our service into educational content.</li>
+				</ul>
+				<p>On the other hand, the following examples are considered commercial use:</p>
+				<ul class="ml-6 list-disc">
+					<li>Operating websites or apps that have subscriptions or display advertisements.</li>
+					<li>Integrating our service into commercial products or promotional activities.</li>
+					<li>Conducting undisclosed research at commercial entities.</li>
+				</ul>
+				<p>
+					If you plan to use our service for commercial purposes or require additional API calls, we
+					kindly request you to consider subscribing to our API plans as explained in detail on the <a
+						href={'/en/pricing'}
+						title="Pricing information to use the weather API commercially">pricing</a
+					> page. Your subscription helps support the continuous development, maintenance, and support
+					of Open-Meteo.
+				</p>
+			</div>
+			<div class="[&_p]:mt-3">
+				<h3 id="api_subcription" class="mb-3 text-xl font-light lg:text-2xl">API Subscription</h3>
+				<p>
+					When using the <a
+						href={'/en/pricing'}
+						title="Pricing information to use the weather API commercially">paid API subscription</a
+					>, you agree to the following terms:
+				</p>
+				<ul class="ml-6 list-disc">
+					<li>
+						By subscribing to our service, you authorize us to charge the applicable subscription
+						fees through the payment gateway Stripe.
+					</li>
+					<li>
+						You agree to provide accurate and up-to-date payment information and promptly update it
+						if there are any changes.
+					</li>
+				</ul>
+				<p>Account and Security:</p>
+				<ul class="ml-6 list-disc">
+					<li>
+						You are responsible for maintaining the confidentiality and security of your account
+						login credentials.
+					</li>
+					<li>You agree not to share your account or login information with any third party.</li>
+					<li>You are solely responsible for any activities that occur under your account.</li>
+				</ul>
+				<p>Intellectual Property:</p>
+				<ul class="ml-6 list-disc">
+					<li>
+						All intellectual property rights in our SaaS service, including but not limited to
+						software, content, and trademarks, belong to us.
+					</li>
+					<li>
+						You are granted a limited, non-exclusive, and non-transferable license to use our
+						service for the duration of your subscription.
+					</li>
+					<li>
+						The data obtained through the API is provided under the terms of the CC-BY 4.0 license,
+						as specified in the <a
+							class="text-link underline"
+							href={'/en/license'}
+							title="Open-Meteo further license details">license conditions</a
+						>.
+					</li>
+				</ul>
+				<p>Limitation of Liability:</p>
+				<ul class="ml-6 list-disc">
+					<li>
+						Our service is provided on an "as is" and "as available" basis without any warranties,
+						express or implied.
+					</li>
+					<li>
+						We do not guarantee the accuracy, completeness, or reliability of our service or its
+						suitability for your specific needs.
+					</li>
+					<li>
+						We shall not be liable for any indirect, incidental, consequential, or punitive damages
+						arising from or related to your use of our service.
+					</li>
+					<li>
+						Our total liability, if any, shall be limited to the amount you paid for the
+						subscription fee during the twelve months preceding the claim.
+					</li>
+				</ul>
+				<p>Termination:</p>
+				<ul class="ml-6 list-disc">
+					<li>
+						Either party may terminate the subscription at the end of each payment schedule, for any
+						reason, with or without notice.
+					</li>
+					<li>
+						Upon missed payments, we reserve the right to terminate the subscription and access to
+						our service after 14 days.
+					</li>
+					<li>
+						Upon termination, your access to the service and any associated data may be immediately
+						deactivated.
+					</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 
@@ -166,15 +173,15 @@
 		contact us at <a href="mailto:info@open-meteo.com">info@open-meteo.com</a>.
 	</p>
 
-	<h2 id="privacy" class="  mt-5">Privacy</h2>
+	<h2 id="privacy" class="mb-3 mt-6 text-3xl font-light lg:mb-5 lg:mt-12 lg:text-5xl">Privacy</h2>
 	<p>
 		By using our service, you consent to the terms of our privacy policy and agree that we may
 		collect non-personal information as outlined below. If you have any questions or concerns about
 		our privacy policy, please contact us.
 	</p>
-	<div>
+	<div class="my-3 grid gap-6 md:my-6 md:grid-cols-2 md:gap-12">
 		<div>
-			<h3>Website of Open-Meteo.com</h3>
+			<h3 class="mb-3 text-xl font-light lg:text-2xl">Website of Open-Meteo.com</h3>
 			<p>
 				The Open-Meteo.com website does not collect any data from our users, including personal
 				information, usage statistics, or any other data that could be used to identify you. We do
@@ -188,7 +195,7 @@
 			</p>
 		</div>
 		<div>
-			<h3>Blog and Newsletter</h3>
+			<h3 class="mb-3 text-xl font-light lg:text-2xl">Blog and Newsletter</h3>
 			<p>
 				When you sign up for our newsletter, we collect your email address. We use a secure
 				third-party email marketing platform <a
@@ -200,7 +207,7 @@
 			</p>
 		</div>
 		<div>
-			<h3>Free Non-Commercial API Service</h3>
+			<h3 class="mb-3 text-xl font-light lg:text-2xl">Free Non-Commercial API Service</h3>
 			<p>
 				We may collect non-personal information, such as IP addresses, for technical reasons such as
 				server maintenance or prevent misuse, but this information is not linked to user identities
@@ -213,12 +220,12 @@
 			</p>
 		</div>
 		<div>
-			<h3>Subscription to Paid API Services</h3>
+			<h3 class="mb-3 text-xl font-light lg:text-2xl">Subscription to Paid API Services</h3>
 			<p>
 				When you sign up for our paid API service and make payments through Stripe, we may collect
 				the following information:
 			</p>
-			<ul>
+			<ul class="ml-6 list-disc">
 				<li>Contact information, such as your name, email address, and phone number</li>
 				<li>
 					Billing information, including your credit card details, billing address, and payment
@@ -270,7 +277,9 @@
 		>.
 	</p>
 
-	<h2 id="privacy" class="  mt-5">Open-Meteo is operated by</h2>
+	<h2 id="operated_by" class="mb-3 mt-6 text-3xl font-light lg:mb-5 lg:mt-12 lg:text-5xl">
+		Open-Meteo is operated by
+	</h2>
 	<p>
 		OpenMeteo GmbH<br />
 		Hintere Schilligmatte 6<br />

@@ -3,10 +3,10 @@
 	<link rel="canonical" href="https://open-meteo.com/en/about" />
 </svelte:head>
 
-<div class="container my-6 grid gap-6 md:my-12 md:grid-cols-2">
+<div class="container my-6 grid gap-6 md:my-12 md:grid-cols-2 md:gap-12">
 	<div>
-		<h2 class="mb-3 text-4xl">About</h2>
-		<p>
+		<h2 id="about" class="mb-3 text-3xl font-light lg:mb-5 lg:text-5xl">About</h2>
+		<p class="text-accent-foreground text-xl font-light">
 			Open-Meteo is an open-source weather API and offers free access for non-commercial use. No API
 			key is required. You can use it immediately!
 		</p>
@@ -45,8 +45,8 @@
 			>.
 		</p>
 	</div>
-	<div id="contact">
-		<h2 class="mb-3 text-4xl">Vision</h2>
+	<div>
+		<h2 id="vision" class="mb-3 text-3xl font-light lg:mb-5 lg:text-5xl">Vision</h2>
 		<p>
 			At our core, we believe that weather information should be freely available to everyone.
 			That's why we built our weather API on open data - making it accessible to all without any
@@ -71,8 +71,8 @@
 			accurate and reliable weather information available.
 		</p>
 	</div>
-	<div id="contact">
-		<h2 class="mb-3 text-4xl">Contact</h2>
+	<div>
+		<h2 id="contact" class="mb-3 text-3xl font-light lg:mb-5 lg:text-5xl">Contact</h2>
 		<p>
 			We're thrilled that you're interested in contacting us! Whether you have a question, comment,
 			or just want to say hello, we're always here to listen and help.
@@ -83,21 +83,24 @@
 			users. That's why we've made it easy for you to get in touch with us. You can reach us through
 			any of the following channels:
 		</p>
-		<ul class="mb-3">
+		<ul class="mb-3 ml-6 list-disc">
 			<li>
-				Email: Shoot us an email at <a href="mailto:info@open-meteo.com">info@open-meteo.com</a>.
-				Our friendly team will get back to you as soon as possible.
+				Email: Shoot us an email at <a class="text-link underline" href="mailto:info@open-meteo.com"
+					>info@open-meteo.com</a
+				>. Our friendly team will get back to you as soon as possible.
 			</li>
 			<li>
 				Social Media: You can also connect with us on social media. Follow us on <a
-					rel="me"
-					href="https://twitter.com/open_meteo">Twitter</a
+					class="text-link underline"
+					href="https://x.com/open_meteo">X</a
 				>
-				or <a rel="me" href="https://fosstodon.org/@openmeteo">Mastodon</a> and send us a message. We'd
-				love to hear from you!
+				or
+				<a class="text-link underline" href="https://fosstodon.org/@openmeteo">Mastodon</a>
+				and send us a message. We'd love to hear from you!
 			</li>
 			<li>
 				GitHub: Engage with other developers and data-scientists at <a
+					class="text-link underline"
 					href="https://github.com/open-meteo/open-meteo/discussions">GitHub Discussions</a
 				>.
 			</li>

@@ -2,13 +2,16 @@
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import { api_key_preferences } from '$lib/stores/settings';
 
-	import Input from '$lib/components/ui/input/input.svelte';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+	import { Switch } from '$lib/components/ui/switch';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select/index';
+	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	async function fetchMeta(model: String, type: String, api_key_preferences: any) {
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
@@ -601,185 +604,189 @@
 </svelte:head>
 
 <div>
-	<h2>Model Updates</h2>
-	<div>
-		<div>
-			<p>
-				This page offers a brief overview of all models integrated into Open-Meteo. These models are
-				typically updated every few hours. Open-Meteo aims to download and process the data as soon
-				as it becomes available, immediately after it is released by national weather services.
-			</p>
-		</div>
-		<div>
-			<p>
-				Open-Meteo operates with geographically distributed and redundant servers. Data across all
-				Open-Meteo servers is <a
-					title="Wikipedia: Eventual consistency"
-					href="https://en.wikipedia.org/wiki/Eventual_consistency">eventually consistent</a
-				>, meaning there may be instances where the API indicates a weather model has been updated,
-				but not all servers have been fully updated yet. If you need access to the most recent
-				forecast, it's recommended to wait an additional 10 minutes after the forecast update has
-				been applied.
-			</p>
-		</div>
-	</div>
-	<div>
-		<div>
-			<p>
-				Models with a delay exceeding 20 minutes are highlighted in yellow. If multiple weather
-				model updates are missed, the model is marked in red. Minor delays are fairly common.
-			</p>
-		</div>
-		<div>
-			<p>
-				To report a model issue, please open a ticket on <a
-					title="GitHub Open-Meteo Repository"
-					href="https://github.com/open-meteo/open-meteo/issues">GitHub</a
-				>. Commercial clients can contact us directly via email.
-			</p>
-		</div>
+	<h2 id="model_updates" class="text-2xl md:text-3xl">Model Updates</h2>
+	<div class="mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-2 lg:gap-x-6">
+		<p>
+			This page offers a brief overview of all models integrated into Open-Meteo. These models are
+			typically updated every few hours. Open-Meteo aims to download and process the data as soon as
+			it becomes available, immediately after it is released by national weather services.
+		</p>
 
-		<div>
-			<p>
-				The free and commercial API services of Open-Meteo operate on different servers, leading to
-				slight variations in update times. Please choose the appropriate type below. Note that API
-				calls to the metadata API are not counted toward daily or monthly request limits.
-			</p>
+		<p>
+			Open-Meteo operates with geographically distributed and redundant servers. Data across all
+			Open-Meteo servers is <a
+				title="Wikipedia: Eventual consistency"
+				href="https://en.wikipedia.org/wiki/Eventual_consistency">eventually consistent</a
+			>, meaning there may be instances where the API indicates a weather model has been updated,
+			but not all servers have been fully updated yet. If you need access to the most recent
+			forecast, it's recommended to wait an additional 10 minutes after the forecast update has been
+			applied.
+		</p>
+
+		<p>
+			Models with a delay exceeding 20 minutes are highlighted in yellow. If multiple weather model
+			updates are missed, the model is marked in red. Minor delays are fairly common.
+		</p>
+
+		<p>
+			To report a model issue, please open a ticket on <a
+				title="GitHub Open-Meteo Repository"
+				href="https://github.com/open-meteo/open-meteo/issues">GitHub</a
+			>. Commercial clients can contact us directly via email.
+		</p>
+	</div>
+	<div class="mt-3">
+		<p>
+			The free and commercial API services of Open-Meteo operate on different servers, leading to
+			slight variations in update times. Please choose the appropriate type below. Note that API
+			calls to the metadata API are not counted toward daily or monthly request limits.
+		</p>
+		<div class="mt-6">
 			<LicenseSelector />
 		</div>
-
-		<div class=" mb-3">
-			<div class="form-check form-switch">
-				<input type="checkbox" value="" id="globalWeatherModels" bind:checked={showGlobalModels} />
-				<label for="globalWeatherModels"> Global Weather Models </label>
-			</div>
-			<div class="form-check form-switch">
-				<input type="checkbox" value="" id="europeanModels" bind:checked={showEuropeanModels} />
-				<label for="europeanModels">
-					Local European Models <img
-						height="26"
-						src="/images/country-flags/european_union.svg"
-						alt="european_union"
-					/>
-				</label>
-			</div>
-			<div class="form-check form-switch">
-				<input
-					type="checkbox"
-					value=""
-					id="northAmericanModel"
-					bind:checked={showNorthAmericanModels}
-				/>
-				<label for="northAmericanModel">
-					Local North American Models <img
-						height="26"
-						src="/images/country-flags/us.svg"
-						alt="us"
-					/><img height="26" src="/images/country-flags/ca.svg" alt="ca" /></label
-				>
-			</div>
-			<div class="form-check form-switch">
-				<input type="checkbox" value="" id="asianModels" bind:checked={showAsianModels} />
-				<label for="asianModels">
-					Local Asian Models <img height="26" src="/images/country-flags/jp.svg" alt="jp" /></label
-				>
-			</div>
+	</div>
+	<div class="mt-6">
+		<div class="flex items-center gap-2">
+			<Switch id="global_models" name="globalWeatherModels" bind:checked={showGlobalModels} />
+			<Label for="global_models" class="mb-[2px] cursor-pointer text-xl"
+				>Global Weather Models</Label
+			>
+		</div>
+		<div class="flex items-center gap-2">
+			<Switch id="european_models" name="europeanModels" bind:checked={showEuropeanModels} />
+			<Label for="european_models" class="mb-[2px]  cursor-pointer text-xl"
+				>Local European Models</Label
+			>
+			<img
+				height="26"
+				width="26"
+				src="/images/country-flags/european_union.svg"
+				alt="european_union"
+			/>
+		</div>
+		<div class="flex items-center gap-2">
+			<Switch
+				id="north_american_models"
+				name="northAmericanModel"
+				bind:checked={showNorthAmericanModels}
+			/>
+			<Label for="north_american_models" class="mb-[2px] cursor-pointer text-xl"
+				>Local North American Models</Label
+			>
+			<img height="26" width="26" src="/images/country-flags/us.svg" alt="us" />
+			<img height="26" width="26" src="/images/country-flags/ca.svg" alt="ca" />
+		</div>
+		<div class="flex items-center gap-2">
+			<Switch id="asian_models" name="asianModels" bind:checked={showAsianModels} />
+			<Label for="asian_models" class="mb-[2px] cursor-pointer text-xl">Local Asian Models</Label>
+			<img height="26" width="26" src="/images/country-flags/jp.svg" alt="jp" />
 		</div>
 	</div>
 	{#each sections as section}
-		<h2>{section.name}</h2>
+		<div class="mt-6">
+			<h2 class="text-2xl md:text-3xl">{section.name}</h2>
 
-		<div>
-			<table
-				class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-			>
-				<thead>
-					<tr>
-						<th scope="col">Provider</th>
-						<th scope="col">Weather Model</th>
-						<th>Area</th>
-						<th scope="col">Last Model Run</th>
-						<th scope="col">Update Available</th>
-						<th scope="col">Temporal Resolution</th>
-						<th scope="col">Update frequency</th>
-						<th scope="col">API</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each section.providers as provider}
-						{#each provider.models as model, index}
-							<tr>
-								{#if index == 0}
-									<td rowspan={provider.models.length}>{provider.provider}</td>
-								{/if}
-								<td>{model.name}</td>
-								<td>
-									{#each model.area as area}
-										<img
-											height="26"
-											src="/images/country-flags/{area}.svg"
-											alt={area}
-											title={area}
-										/>
-									{/each}
-								</td>
-								{#await model.meta}
-									<td colspan="6">Loading</td>
-								{:then meta}
-									<td class:table-warning={meta.is_late} class:table-danger={meta.is_really_late}
-										>{meta.last_run_initialisation_time}</td
-									>
-									<td class:table-warning={meta.is_late} class:table-danger={meta.is_really_late}
-										>{meta.last_run_availability_time}</td
-									>
-									<td>{meta.temporal_resolution_seconds / 3600} hourly</td>
-									<td>Every {meta.update_interval_seconds / 3600} h</td>
-									<td><a href={meta.url} target="_blank">Link</a></td>
-								{:catch error}
-									<td colspan="5" class="table-danger">{error}</td>
-								{/await}
-							</tr>
+			<div>
+				<table
+					class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				>
+					<thead>
+						<tr>
+							<th scope="col">Provider</th>
+							<th scope="col">Weather Model</th>
+							<th>Area</th>
+							<th scope="col">Last Model Run</th>
+							<th scope="col">Update Available</th>
+							<th scope="col">Temporal Resolution</th>
+							<th scope="col">Update frequency</th>
+							<th scope="col">API</th>
+						</tr>
+					</thead>
+					<tbody>
+						{#each section.providers as provider}
+							{#each provider.models as model, index}
+								<tr>
+									{#if index == 0}
+										<td rowspan={provider.models.length}>{provider.provider}</td>
+									{/if}
+									<td>{model.name}</td>
+									<td>
+										{#each model.area as area}
+											<img
+												height="26"
+												width="26"
+												src="/images/country-flags/{area}.svg"
+												alt={area}
+												title={area}
+											/>
+										{/each}
+									</td>
+									{#await model.meta}
+										<td colspan="6">Loading</td>
+									{:then meta}
+										<td
+											class="{meta.is_late ? 'bg-amber-200/75' : ''} {meta.is_really_late
+												? 'bg-red-400/75'
+												: ''}">{meta.last_run_initialisation_time}</td
+										>
+										<td
+											class="{meta.is_late ? 'bg-amber-200/75' : ''} {meta.is_really_late
+												? 'bg-red-400/75'
+												: ''}">{meta.last_run_availability_time}</td
+										>
+										<td>{meta.temporal_resolution_seconds / 3600} hourly</td>
+										<td>Every {meta.update_interval_seconds / 3600} h</td>
+										<td><a href={meta.url} class="text-link underline" target="_blank">Link</a></td>
+									{:catch error}
+										<td colspan="5" class="bg-red">{error}</td>
+									{/await}
+								</tr>
+							{/each}
 						{/each}
-					{/each}
-				</tbody>
-			</table>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	{/each}
-	<h2>Metadata API Documentation</h2>
-	<p>
-		You can retrieve the update times for each individual model via the API. However, these times do
-		not directly correlate with the update times in the Forecast API, as Open-Meteo automatically
-		selects the most appropriate weather model for each location (referred to as "Best Match"). The
-		table above provides an API link for each model, returning a JSON object with the following
-		fields:
-	</p>
-	<ul>
-		<li>
-			<strong>last_run_initialisation_time:</strong> The model's initialization time or reference time
-			represented as a Unix timestamp (e.g., 1724796000 for Tue Aug 27, 2024, 22:00:00 GMT+0000).
-		</li>
-		<li>
-			<strong>last_run_modification_time:</strong> The time when the data download and conversion were
-			completed, which does not indicate when the data became available on the API.
-		</li>
-		<li>
-			<strong>last_run_availability_time:</strong> The time when the data is actually accessible on the
-			API server. Important: Open-Meteo utilizes multiple redundant API servers, so there may be slight
-			differences between them while the data is being copied. To ensure all API calls use the most recent
-			data, please wait 10 minutes after the availability time.
-		</li>
-		<li>
-			<strong>temporal_resolution_seconds:</strong> The temporal resolution of the model in seconds.
-			By default, the API interpolates the data to a 1-hour resolution. However, the underlying model
-			may only provide data in 3 or 6-hourly steps. A value of 3600 indicates that the data is 1-hourly.
-		</li>
-		<li>
-			<strong>update_interval_seconds:</strong> The typical time interval between model updates, such
-			as 3600 seconds for a model that updates every hour.
-		</li>
-	</ul>
-	<p>
-		Additional attributes, such as spatial resolution, area, grid systems, and more, will be added
-		in the future.
-	</p>
+	<div class="mt-6 md:mt-12">
+		<h2 class="text-2xl md:text-3xl">Metadata API Documentation</h2>
+		<div class="mt-2 md:mt-4">
+			<p>
+				You can retrieve the update times for each individual model via the API. However, these
+				times do not directly correlate with the update times in the Forecast API, as Open-Meteo
+				automatically selects the most appropriate weather model for each location (referred to as
+				"Best Match"). The table above provides an API link for each model, returning a JSON object
+				with the following fields:
+			</p>
+			<ul class="ml-6 list-disc">
+				<li>
+					<strong>last_run_initialisation_time:</strong> The model's initialization time or reference
+					time represented as a Unix timestamp (e.g., 1724796000 for Tue Aug 27, 2024, 22:00:00 GMT+0000).
+				</li>
+				<li>
+					<strong>last_run_modification_time:</strong> The time when the data download and conversion
+					were completed, which does not indicate when the data became available on the API.
+				</li>
+				<li>
+					<strong>last_run_availability_time:</strong> The time when the data is actually accessible
+					on the API server. Important: Open-Meteo utilizes multiple redundant API servers, so there
+					may be slight differences between them while the data is being copied. To ensure all API calls
+					use the most recent data, please wait 10 minutes after the availability time.
+				</li>
+				<li>
+					<strong>temporal_resolution_seconds:</strong> The temporal resolution of the model in seconds.
+					By default, the API interpolates the data to a 1-hour resolution. However, the underlying model
+					may only provide data in 3 or 6-hourly steps. A value of 3600 indicates that the data is 1-hourly.
+				</li>
+				<li>
+					<strong>update_interval_seconds:</strong> The typical time interval between model updates,
+					such as 3600 seconds for a model that updates every hour.
+				</li>
+			</ul>
+			<p>
+				Additional attributes, such as spatial resolution, area, grid systems, and more, will be
+				added in the future.
+			</p>
+		</div>
+	</div>
 </div>

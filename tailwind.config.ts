@@ -1,8 +1,6 @@
 import { fontFamily } from 'tailwindcss/defaultTheme';
 import type { Config } from 'tailwindcss';
 
-import plugin from 'tailwindcss/plugin';
-
 const config: Config = {
 	darkMode: 'class',
 	content: ['./src/**/*.{html,js,svelte,ts}'],
@@ -81,28 +79,11 @@ const config: Config = {
 			fontSize: {
 				xxs: '11px'
 			},
-			textShadow: {
-				sm: '0 1px 2px var(--tw-shadow-color)',
-				DEFAULT: '3px 3px 2px var(--tw-shadow-color)',
-				lg: '0 8px 16px var(--tw-shadow-color)'
-			},
 			textUnderlineOffset: {
 				3: '3px'
 			}
 		}
-	},
-	plugins: [
-		plugin(function ({ matchUtilities, theme }) {
-			matchUtilities(
-				{
-					'text-shadow': (value) => ({
-						textShadow: value
-					})
-				},
-				{ values: theme('textShadow') }
-			);
-		})
-	]
+	}
 };
 
 export default config;

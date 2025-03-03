@@ -1110,7 +1110,7 @@
 			is covered by weather stations with accurate and consistent measurements. To address this gap,
 			numerical weather models are used to approximate past global weather.
 		</p>
-		<ul class="ml-4 list-disc">
+		<ul class="ml-6 list-disc">
 			<li>
 				<strong
 					><a class="text-link underline" href={'/en/docs/historical-weather-api'}
@@ -1144,7 +1144,7 @@
 			</li>
 		</ul>
 		<h4 class="my-2 text-lg md:my-4 md:text-xl">Choosing the Right Dataset:</h4>
-		<ul class="ml-4 list-disc">
+		<ul class="ml-6 list-disc">
 			<li>
 				For analyzing weather trends or climate change over decades, use the Historical Weather API
 				with reanalysis data from 1940 onwards.

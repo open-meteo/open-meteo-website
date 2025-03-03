@@ -766,6 +766,7 @@
 			</AccordionItem>
 		</Accordion.Root>
 	</div>
+
 	<!-- DAILY -->
 	<div class="mt-6 md:mt-12">
 		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2>
