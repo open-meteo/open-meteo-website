@@ -26,8 +26,6 @@
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
-	import SuperDebug from 'sveltekit-superforms';
-
 	import {
 		models,
 		previousDay,
@@ -539,8 +537,6 @@
 <div class="mt-6 md:mt-12">
 	<ResultPreview {params} {defaultParameters} type="previous-runs" useStockChart={true} />
 </div>
-
-<SuperDebug data={$params} />
 
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
