@@ -10,15 +10,12 @@
 	import Clock from 'lucide-svelte/icons/clock';
 	import Calendar from 'lucide-svelte/icons/calendar-cog';
 
-	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
-	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -26,7 +23,6 @@
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/PressureLevelsHelpTable.svelte';
 
 	import AirQualityObject from '$lib/components/code/docs/air-quality-object.svx';
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
@@ -58,10 +54,6 @@
 		hourly: ['pm10', 'pm2_5']
 	});
 
-	let timezoneInvalid = $derived(
-		$params.timezone == 'UTC' && ($params.daily ? $params.daily.length > 0 : false)
-	);
-
 	let forecastDays = $derived(
 		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
 	);
@@ -81,6 +73,20 @@
 
 	let accordionValues: string[] = $state([]);
 	onMount(() => {
+		if (
+			countVariables(aqi_european, $params.hourly).active &&
+			!accordionValues.includes('european_air_quality_index')
+		) {
+			accordionValues.push('european_air_quality_index');
+		}
+
+		if (
+			countVariables(aqi_united_states, $params.hourly).active &&
+			!accordionValues.includes('united_states_air_quality_index')
+		) {
+			accordionValues.push('united_states_air_quality_index');
+		}
+
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
 				(pastHours ? pastHours.value : false) ||
@@ -279,15 +285,29 @@
 				{#each aqi_european as group}
 					<div>
 						{#each group as e}
-							<div>
-								<input
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_hourly"
-									name="hourly"
-									bind:group={$params.hourly}
+							<div class="group flex items-center">
+								<Checkbox
+									id="{e.value}_hourly"
+									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+									value={e.value}
+									checked={$params.hourly?.includes(e.value)}
+									aria-labelledby="{e.value}_label"
+									onCheckedChange={() => {
+										if ($params.hourly?.includes(e.value)) {
+											$params.hourly = $params.hourly.filter((item) => {
+												return item !== e.value;
+											});
+										} else {
+											$params.hourly.push(e.value);
+											$params.hourly = $params.hourly;
+										}
+									}}
 								/>
-								<label for="{e.name}_hourly">{@html e.label}</label>
+								<Label
+									id="{e.value}_label"
+									for="{e.value}_hourly"
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{@html e.label}</Label
+								>
 							</div>
 						{/each}
 					</div>
@@ -312,7 +332,10 @@
 				</div>
 				<div>
 					<div>
-						<table class="text-left" id="airquality_table">
+						<table
+							class="[&_tr]:border-border w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+							id="airquality_table"
+						>
 							<caption class="text-muted-foreground mt-2 table-caption text-left"
 								>You can find the update timings in the <a href={'/en/docs/model-updates'}
 									>model updates documentation</a
@@ -395,15 +418,29 @@
 				{#each aqi_united_states as group}
 					<div>
 						{#each group as e}
-							<div>
-								<input
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_hourly"
-									name="hourly"
-									bind:group={$params.hourly}
+							<div class="group flex items-center">
+								<Checkbox
+									id="{e.value}_hourly"
+									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+									value={e.value}
+									checked={$params.hourly?.includes(e.value)}
+									aria-labelledby="{e.value}_label"
+									onCheckedChange={() => {
+										if ($params.hourly?.includes(e.value)) {
+											$params.hourly = $params.hourly.filter((item) => {
+												return item !== e.value;
+											});
+										} else {
+											$params.hourly.push(e.value);
+											$params.hourly = $params.hourly;
+										}
+									}}
 								/>
-								<label for="{e.name}_hourly">{@html e.label}</label>
+								<Label
+									id="{e.value}_label"
+									for="{e.value}_hourly"
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{@html e.label}</Label
+								>
 							</div>
 						{/each}
 					</div>
@@ -434,7 +471,10 @@
 				</div>
 				<div>
 					<div>
-						<table class="text-left" id="airquality_table_us">
+						<table
+							class="[&_tr]:border-border w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+							id="airquality_table_us"
+						>
 							<thead>
 								<tr>
 									<th scope="col">Pollutant</th>
@@ -740,7 +780,7 @@
 		</p>
 
 		<table
-			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<caption class="text-muted-foreground mt-2 table-caption text-left"
 				>You can find the update timings in the <a href={'/en/docs/model-updates'}
@@ -826,7 +866,7 @@
 		</p>
 		<p>All URL parameters are listed below:</p>
 		<table
-			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -1004,7 +1044,7 @@
 			from the preceding hour as an average or sum.
 		</p>
 		<table
-			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -1124,7 +1164,7 @@
 		<p class="">On success a JSON object will be returned.</p>
 		<div class="code-numbered mt-2 md:mt-4"><AirQualityObject /></div>
 		<table
-			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
