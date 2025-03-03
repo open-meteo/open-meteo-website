@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 
+	import { fade } from 'svelte/transition';
+
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { api_key_preferences } from '$lib/stores/settings';
 
@@ -13,6 +15,12 @@
 	import * as Select from '$lib/components/ui/select/index';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
+	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+
+	import SuperDebug from 'sveltekit-superforms';
+
+	import { countOptions, formatOptions, languageOptions } from './options';
 
 	const params = urlHashStore({
 		name: 'Berlin',
@@ -67,6 +75,12 @@
 			return await result.json();
 		})()
 	);
+
+	const count = $derived(countOptions.find((co) => co.value == $params.count));
+
+	const format = $derived(formatOptions.find((fo) => fo.value == $params.format));
+
+	const language = $derived(languageOptions.find((lo) => lo.value == $params.language));
 </script>
 
 <svelte:head>
@@ -82,149 +96,153 @@
 		e.preventDefault();
 	}}
 >
-	<div>
-		<h2>Search for cities or postal code</h2>
-		<div>
-			<div class="  position-relative">
-				<input
-					type="text"
-					name="name"
-					id="name"
-					aria-label="Location name"
-					autocomplete="off"
-					spellcheck="false"
-					bind:value={$params.name}
-				/>
-				<label for="name">Name</label>
-			</div>
+	<h2 id="geocoding_search" class="text-2xl md:text-3xl">Search for cities or postal code</h2>
+	<div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 md:mt-4 lg:grid-cols-4">
+		<div class="relative">
+			<Input
+				type="text"
+				class="h-12 pt-6"
+				name="name"
+				id="name"
+				step="0.000001"
+				min="-180"
+				max="180"
+				bind:value={$params.name}
+			/>
+			<Label
+				class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+				for="name">Name</Label
+			>
 		</div>
-		<div class="col-3">
-			<div class="  mb-3">
-				<select
-					name="language"
-					id="language"
-					aria-label="Language"
-					data-default="en"
-					bind:value={$params.language}
+
+		<div class="relative">
+			<Select.Root name="forecast_days" type="single" bind:value={$params.language}>
+				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>{language?.label}</Select.Trigger
 				>
-					<option value="en">English</option>
-					<option value="de">German</option>
-					<option value="fr">French</option>
-					<option value="es">Spanish</option>
-					<option value="it">Italian</option>
-					<option value="pt">Portuguese</option>
-					<option value="ru">Russian</option>
-					<option value="tr">Turkish</option>
-					<option value="hi">Hindi</option>
-				</select>
-				<label for="language">Language</label>
-			</div>
+				<Select.Content preventScroll={false} class="border-border">
+					{#each languageOptions as lo}
+						<Select.Item class="cursor-pointer" value={lo.value}>{lo.label}</Select.Item>
+					{/each}
+				</Select.Content>
+				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					>Language</Label
+				>
+			</Select.Root>
 		</div>
-		<div class="col-3">
-			<div class="  mb-3">
-				<select
-					name="count"
-					id="count"
-					aria-label="Number of results"
-					data-default="10"
-					bind:value={$params.count}
+
+		<div class="relative">
+			<Select.Root name="forecast_days" type="single" bind:value={$params.count}>
+				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>{count?.label}</Select.Trigger
 				>
-					<option value="1">1</option>
-					<option value="10">10</option>
-					<option value="20">20</option>
-					<option value="50">50</option>
-					<option value="100">100</option>
-				</select>
-				<label for="count">Number of results</label>
-			</div>
+				<Select.Content preventScroll={false} class="border-border">
+					{#each countOptions as co}
+						<Select.Item class="cursor-pointer" value={co.value}>{co.label}</Select.Item>
+					{/each}
+				</Select.Content>
+				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					>Number of Results</Label
+				>
+			</Select.Root>
 		</div>
-		<div class="col-3">
-			<div class="  mb-3">
-				<select
-					name="format"
-					id="format"
-					aria-label="Format"
-					data-default="json"
-					bind:value={$params.format}
+
+		<div class="relative">
+			<Select.Root name="format" type="single" bind:value={$params.format}>
+				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>{format?.label}</Select.Trigger
 				>
-					<option value="json">json</option>
-					<option value="protobuf">protobuf</option>
-				</select>
-				<label for="format">Format</label>
-			</div>
+				<Select.Content preventScroll={false} class="border-border">
+					{#each formatOptions as fo}
+						<Select.Item class="cursor-pointer" value={fo.value}>{fo.label}</Select.Item>
+					{/each}
+				</Select.Content>
+				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					>Format</Label
+				>
+			</Select.Root>
 		</div>
 	</div>
 
-	<LicenseSelector />
+	<!-- LICENSE -->
+	<div class="mt-3 md:mt-6">
+		<LicenseSelector />
+	</div>
 </form>
 
-<div>
-	<h2>Preview and API URL</h2>
-</div>
+<!-- DATA SOURCES -->
+<div class="mt-6 md:mt-12">
+	<h2 id="data_sources" class="mb-6 text-2xl md:text-3xl">Preview and API URL</h2>
 
-<div class=" table-responsive" style="min-height: 300px;">
-	{#await results}
-		<button class="btn btn-primary" type="button" disabled>
-			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-			Loading...
-		</button>
-	{:then results}
-		<table
-			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th></th>
-					<th>Name</th>
-					<th>Latitude</th>
-					<th>Longitude</th>
-					<th>Elevation</th>
-					<th>Population</th>
-					<th>Admin1</th>
-					<th>Admin2</th>
-					<th>Admin3</th>
-					<th>Admin4</th>
-					<th>Feature code</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#if (results.results || []).length == 0}
+	<div class="relative min-h-[580px]">
+		{#await results}
+			<div
+				class="bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center"
+				in:fade={{ duration: 300 }}
+				out:fade={{ duration: 100 }}
+			>
+				<LoaderCircle size={40} class="animate-spin" /><span class="hidden">Loading...</span>
+			</div>
+		{:then results}
+			<table
+				class="w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
 					<tr>
-						<td colspan="11"><strong>No locations found</strong></td>
+						<th></th>
+						<th>Name</th>
+						<th>Latitude</th>
+						<th>Longitude</th>
+						<th>Elevation</th>
+						<th>Population</th>
+						<th>Admin1</th>
+						<th>Admin2</th>
+						<th>Admin3</th>
+						<th>Admin4</th>
+						<th>Feature code</th>
 					</tr>
-				{:else}
-					{#each results.results as location}
+				</thead>
+				<tbody>
+					{#if (results.results || []).length == 0}
 						<tr>
-							<td class="p-1"
-								><img
-									height="32"
-									src="/images/country-flags/{(
-										location.country_code || 'united_nations'
-									).toLowerCase()}.svg"
-									title={location.country || ''}
-									alt={location.country || ''}
-								/></td
-							>
-							<td>{location.name}</td>
-							<td>{location.latitude}</td>
-							<td>{location.longitude}</td>
-							<td>{location.elevation || ''}</td>
-							<td>{location.population || ''}</td>
-							<td>{location.admin1 || ''}</td>
-							<td>{location.admin2 || ''}</td>
-							<td>{location.admin3 || ''}</td>
-							<td>{location.admin4 || ''}</td>
-							<td>{location.feature_code || ''}</td>
+							<td colspan="11" class="mt-3 text-center"><strong>No locations found</strong></td>
+							<td colspan="11" class="mt-3 text-center">No locations found</td>
 						</tr>
-					{/each}
-				{/if}
-			</tbody>
-		</table>
-	{:catch error}
-		<div class="alert alert-danger" role="alert">
-			{error.message}
-		</div>
-	{/await}
+					{:else}
+						{#each results.results as location}
+							<tr>
+								<td class="min-w-[40px] p-1"
+									><img
+										height="32"
+										width="32"
+										src="/images/country-flags/{(
+											location.country_code || 'united_nations'
+										).toLowerCase()}.svg"
+										title={location.country || ''}
+										alt={location.country || ''}
+									/></td
+								>
+								<td>{location.name}</td>
+								<td>{location.latitude}</td>
+								<td>{location.longitude}</td>
+								<td>{location.elevation || ''}</td>
+								<td>{location.population || ''}</td>
+								<td>{location.admin1 || ''}</td>
+								<td>{location.admin2 || ''}</td>
+								<td>{location.admin3 || ''}</td>
+								<td>{location.admin4 || ''}</td>
+								<td>{location.feature_code || ''}</td>
+							</tr>
+						{/each}
+					{/if}
+				</tbody>
+			</table>
+		{:catch error}
+			<div class="alert alert-danger" role="alert">
+				{error.message}
+			</div>
+		{/await}
+	</div>
 </div>
 
 <div>

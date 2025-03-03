@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { browser, dev } from '$app/environment';
+	import { dev } from '$app/environment';
 	import { afterNavigate } from '$app/navigation';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Chevrons from 'lucide-svelte/icons/chevrons-up-down';
-	import ChevronRight from 'lucide-svelte/icons/chevron-right';
 
 	interface Props {
 		children?: import('svelte').Snippet;
@@ -18,29 +17,8 @@
 			title: 'Weather Forecast',
 			url: '/en/docs',
 			children: [
-				{
-					title: 'Historical Forecast',
-					url: '/en/docs/historical-forecast-api',
-					anchors: [
-						'#location_and_time',
-						'#hourly_weather_variables',
-						'#daily_weather_variables',
-						'#settings',
-						'#api_response',
-						'#data_sources'
-					]
-				},
-				{
-					title: 'Previous Model Runs',
-					url: '/en/docs/previous-runs-api',
-					anchors: [
-						'#location_and_time',
-						'#hourly_weather_variables',
-						'#settings',
-						'#api_response',
-						'#api_documentation'
-					]
-				},
+				{ title: 'Historical Forecast', url: '/en/docs/historical-forecast-api' },
+				{ title: 'Previous Model Runs', url: '/en/docs/previous-runs-api' },
 				{ title: 'DWD Germany', url: '/en/docs/dwd-api' },
 				{ title: 'NOAA U.S.', url: '/en/docs/gfs-api' },
 				{ title: 'Météo-France', url: '/en/docs/meteofrance-api' },
@@ -53,23 +31,6 @@
 				{ title: 'CMA China', url: '/en/docs/cma-api' },
 				{ title: 'KNMI Netherlands', url: '/en/docs/knmi-api' },
 				{ title: 'DMI Denmark', url: '/en/docs/dmi-api' }
-			],
-			anchors: [
-				'#location_and_time',
-				'#hourly_weather_variables',
-				'#daily_weather_variables',
-				'#current_weather',
-				'#settings',
-				'#api_response',
-				'#data_sources',
-				'#api_documentation',
-				'#hourly_parameter_definition',
-				'#15_minutely_parameter_definition',
-				'#pressure_level_variables',
-				'#daily_parameter_definition',
-				'#json_return_object',
-				'#errors',
-				'#weather_variable_documentation'
 			]
 		},
 		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
@@ -103,21 +64,6 @@
 	});
 
 	let mobileNavOpened = $state(false);
-
-	let extendAnchors = $state(false);
-	let extendChildAnchors = $state(false);
-
-	let activeAnchor = $state('');
-	if (browser) {
-		activeAnchor = window.location.hash;
-		if (window.location.hash != '') {
-			extendAnchors = true;
-			extendChildAnchors = true;
-		}
-		$effect(() => {
-			activeAnchor = window.location.hash;
-		});
-	}
 
 	afterNavigate((e) => {
 		console.log(e);
@@ -156,32 +102,13 @@
 							class="flex items-center gap-1"
 							href={link.url}
 							onclick={() => {
-								if (link.url == selectedPath.url) {
-									extendAnchors = !extendAnchors;
-								} else {
-									extendAnchors = false;
+								if (link.url != selectedPath.url) {
 									mobileNavOpened = false;
-									// window.scrollTo({ top: 0, behavior: 'instant' });
 								}
 							}}
 						>
-							{#if link.anchors && link.url == selectedPath.url}
-								<ChevronRight size="18" class="duration-300 {extendAnchors ? 'rotate-90' : ''}" />
-							{/if}{link.title}</a
+							{link.title}</a
 						>
-						{#if link.anchors && link.url == selectedPath.url}
-							<ul
-								class="flex max-h-0 flex-col overflow-hidden text-sm capitalize duration-300 {extendAnchors
-									? 'max-h-[500px]'
-									: ''}"
-							>
-								{#each link.anchors as anchor}
-									<a class="pt-2" onclick={() => (activeAnchor = anchor)} href={anchor}
-										>{anchor.replaceAll('_', ' ').replace('#', '')}</a
-									>
-								{/each}
-							</ul>
-						{/if}
 
 						{#if link.children}
 							<ul
@@ -202,37 +129,13 @@
 											href={l.url}
 											class="my-1 flex items-center gap-1"
 											onclick={() => {
-												if (l.url == selectedPath.url) {
-													extendChildAnchors = !extendChildAnchors;
-												} else {
-													extendChildAnchors = false;
+												if (l.url != selectedPath.url) {
 													mobileNavOpened = false;
-													// window.scrollTo({ top: 0, behavior: 'instant' });
 												}
 											}}
 										>
-											{#if l.anchors && l.url == selectedPath.url}
-												<ChevronRight
-													size="18"
-													class="duration-300 {extendChildAnchors ? 'rotate-90' : ''}"
-												/>
-											{/if}{l.title}</a
+											{l.title}</a
 										>
-										{#if l.anchors && l.url == selectedPath.url}
-											<ul
-												class="flex max-h-0 flex-col overflow-hidden text-sm capitalize duration-300 {extendChildAnchors
-													? 'max-h-[500px] pb-2'
-													: ''}"
-											>
-												{#each l.anchors as anchor}
-													<a
-														onclick={() => (activeAnchor = anchor)}
-														class="ml-2 py-1 {activeAnchor === anchor ? 'underline' : ''}"
-														href={anchor}>{anchor.replaceAll('_', ' ').replace('#', '')}</a
-													>
-												{/each}
-											</ul>
-										{/if}
 									</li>
 								{/each}
 							</ul>

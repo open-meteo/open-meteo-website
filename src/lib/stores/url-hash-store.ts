@@ -16,7 +16,7 @@ export const urlHashStore = (initialValues: Parameters) => {
 
 	urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
 
-	const updateURLParams = (values: Parameters, timeout = false) => {
+	const updateURLParams = (values: Parameters) => {
 		if (browser) {
 			for (const [key, value] of Object.entries(values)) {
 				let defaultValue = defaultValues[key];
@@ -51,15 +51,10 @@ export const urlHashStore = (initialValues: Parameters) => {
 				}
 			}
 
-			setTimeout(
-				() => {
-					goto(`?${page.url.searchParams.toString().replaceAll('%2C', ',')}`, {
-						noScroll: true,
-						keepFocus: true
-					});
-				},
-				timeout ? 500 : 0
-			);
+			goto(`?${page.url.searchParams.toString().replaceAll('%2C', ',')}`, {
+				noScroll: true,
+				keepFocus: true
+			});
 		}
 	};
 

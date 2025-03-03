@@ -34,4 +34,9 @@ export interface Parameters {
 	wind_speed_unit?: string;
 	temperature_unit?: string;
 	precipitation_unit?: string;
+
+	name?: string;
+	count?: string;
+	format?: string;
+	language?: string;
 }
