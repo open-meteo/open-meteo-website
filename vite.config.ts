@@ -22,7 +22,6 @@ export default defineConfig({
 	plugins: [
 		tailwindcss(),
 		tailwindcssCleaner(),
-
 		sveltekit(),
 		replaceChunckNames(),
 		visualizer({
