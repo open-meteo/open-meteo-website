@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "svelte-kit sync && vite dev --host",
 		"build": "svelte-kit sync && vite build -l info",
+		"staging": "NODE_ENV=development vite build --mode development",
 		"preview": "vite preview --host",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
