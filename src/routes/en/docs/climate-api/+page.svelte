@@ -1,12 +1,26 @@
 <script lang="ts">
-	import { countVariables } from '$lib/utils/meteo';
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { onMount } from 'svelte';
 
-	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
-	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
-	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
-	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
-	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+	import { countVariables } from '$lib/utils/meteo';
+
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Accordion from '$lib/components/ui/accordion';
+
+	import Settings from '$lib/components/settings/settings.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import AccordionItem from '$lib/components/AccordionItem.svelte';
+	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+
+	import ClimateError from '$lib/components/code/docs/climate-error.svx';
+	import ClimateObject from '$lib/components/code/docs/climate-object.svx';
 
 	import { daily, models, defaultParameters } from './options';
 
@@ -27,6 +41,19 @@
 		...defaultParameters,
 		daily: ['temperature_2m_max']
 	});
+
+	let accordionValues: string[] = $state([]);
+	onMount(() => {
+		if (
+			countVariables(models, $params.models).active < models[0].length &&
+			!accordionValues.includes('models')
+		) {
+			accordionValues.push('models');
+		}
+	});
+
+	let begin_date = new Date('1950-01-01');
+	let last_date = new Date('2050-12-31');
 </script>
 
 <svelte:head>
@@ -38,192 +65,154 @@
 	/>
 </svelte:head>
 
-<div class="alert alert-primary" role="alert">
-	Read the <a href="https://openmeteo.substack.com/p/climate-change-api">blog article</a> with more information
-	about climate models and how data is downscaled to 10 km resolution.
-</div>
+<Alert.Root class="border-border mb-4">
+	<Alert.Description>
+		Read the <a href="https://openmeteo.substack.com/p/climate-change-api">blog article</a> with more
+		information about climate models and how data is downscaled to 10 km resolution.
+	</Alert.Description>
+</Alert.Root>
 
 <form method="get" action="https://climate-api.open-meteo.com/v1/climate">
 	<LocationSelection bind:params={$params} />
 
-	<div class="row py-3 px-0">
-		<div class="col-md-6 mb-3">
-			<StartEndDate
+	<!-- TIME -->
+	<div class="mt-6 flex flex-col gap-4 md:flex-row">
+		<div class="mb-3 md:w-1/2">
+			<DatePicker
 				bind:start_date={$params.start_date}
 				bind:end_date={$params.end_date}
-				startDate="1950-01-01"
-				endDate="2050-12-31"
+				{begin_date}
+				{last_date}
 			/>
 		</div>
-		<div class="col-md-6 mb-3">
-			<p>
+		<div>
+			<p>Past weather forecasts from 2022 onwards are available.</p>
+			<div class="flex flex-wrap items-center gap-2">
 				Quick:
-				<button
-					class="btn btn-outline-primary btn-sm"
+				<Button
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 					onclick={(e) => {
-						e.preventDefault();
 						$params.start_date = '1950-01-01';
 						$params.end_date = '2050-12-31';
-					}}>1950-2050</button
+					}}>1950-2050</Button
 				>
-				<button
-					class="btn btn-outline-primary btn-sm"
+				<Button
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 					onclick={(e) => {
-						e.preventDefault();
 						$params.start_date = '2015-01-01';
 						$params.end_date = '2050-12-31';
-					}}>2015-2050</button
+					}}>2015-2050</Button
 				>
-			</p>
+			</div>
 		</div>
 	</div>
 
-	<div class="row py-3 px-0">
-		<h2>Daily Weather Variables</h2>
-		{#each daily as group}
-			<div class="col-md-4">
+	<!-- DAILY -->
+	<div class="mt-6 md:mt-12">
+		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2>
+		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+			{#each daily as group}
 				{#each group as e}
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value={e.name}
-							id="{e.name}_daily"
-							name="daily"
-							bind:group={$params.daily}
+					<div class="group flex items-center">
+						<Checkbox
+							id="{e.value}_daily"
+							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+							value={e.value}
+							checked={$params.daily?.includes(e.value)}
+							aria-labelledby="{e.value}_daily_label"
+							onCheckedChange={() => {
+								if ($params.daily?.includes(e.value)) {
+									$params.daily = $params.daily.filter((item) => {
+										return item !== e.value;
+									});
+								} else {
+									$params.daily.push(e.value);
+									$params.daily = $params.daily;
+								}
+							}}
 						/>
-						<label class="form-check-label" for="{e.name}_daily">{e.label}</label>
+						<Label
+							id="{e.value}_daily_label"
+							for="{e.value}_daily"
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+						>
 					</div>
 				{/each}
-			</div>
-		{/each}
+			{/each}
+		</div>
 	</div>
 
-	<div class="row py-3 px-0">
-		<div class="accordion" id="accordionVariables">
+	<!-- CLIMATE MODELS -->
+	<div class="mt-6">
+		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem
 				id="models"
 				title="Climate models"
 				count={countVariables(models, $params.models)}
 			>
-				{#each models as group}
-					<div class="col-md-4 mb-3">
-						{#each group as e}
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_model"
-									name="models"
-									bind:group={$params.models}
-								/>
-								<label class="form-check-label" for="{e.name}_model"
-									>{e.label}&nbsp;<span class="text-muted">({e.caption})</span></label
-								>
-							</div>
-						{/each}
-					</div>
-				{/each}
+				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+					{#each models as group}
+						<div class="mb-3">
+							{#each group as e}
+								<div class="group flex items-center">
+									<Checkbox
+										id="{e.value}_model"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.models?.includes(e.value)}
+										aria-labelledby="{e.value}_label"
+										onCheckedChange={() => {
+											if ($params.models?.includes(e.value)) {
+												$params.models = $params.models.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.models.push(e.value);
+												$params.models = $params.models;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_model_label"
+										for="{e.value}_model"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
 			</AccordionItem>
-		</div>
+		</Accordion.Root>
 	</div>
 
-	<div class="row py-3 px-0">
-		<h2>Settings</h2>
-		<div class="col-12 pb-3">
-			<div class="form-check form-switch">
-				<input
-					class="form-check-input"
-					type="checkbox"
-					id="disable_bias_correction"
-					name="disable_bias_correction"
-					bind:checked={$params.disable_bias_correction}
-				/>
-				<label class="form-check-label" for="disable_bias_correction"
-					>Raw data. Disable statistical downscaling with ERA5-Land (10 km)</label
-				>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					name="temperature_unit"
-					id="temperature_unit"
-					aria-label="Temperature Unit"
-					bind:value={$params.temperature_unit}
-				>
-					<option value="celsius">Celsius °C</option>
-					<option value="fahrenheit">Fahrenheit °F</option>
-				</select>
-				<label for="temperature_unit">Temperature Unit</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					name="wind_speed_unit"
-					id="wind_speed_unit"
-					aria-label="Windspeed Unit"
-					bind:value={$params.wind_speed_unit}
-				>
-					<option value="kmh">Km/h</option>
-					<option value="ms">m/s</option>
-					<option value="mph">Mph</option>
-					<option value="kn">Knots</option>
-				</select>
-				<label for="wind_speed_unit">Wind Speed Unit</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					name="precipitation_unit"
-					id="precipitation_unit"
-					aria-label="Precipitation Unit"
-					bind:value={$params.precipitation_unit}
-				>
-					<option value="mm">Millimeter</option>
-					<option value="inch">Inch</option>
-				</select>
-				<label for="precipitation_unit">Precipitation Unit</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					name="timeformat"
-					id="timeformat"
-					aria-label="Timeformat"
-					bind:value={$params.timeformat}
-				>
-					<option value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
-					<option value="unixtime">Unix timestamp</option>
-				</select>
-				<label for="timeformat">Timeformat</label>
-			</div>
-		</div>
+	<!-- SETTINGS -->
+	<div class="mt-6 md:mt-12">
+		<Settings bind:params={$params} />
 	</div>
 
-	<LicenseSelector requires_professional_plan={true} />
+	<!-- LICENSE -->
+	<div class="mt-3 md:mt-6"><LicenseSelector requires_professional_plan={true} /></div>
 </form>
 
-<ResultPreview
-	{params}
-	{defaultParameters}
-	type="climate"
-	action="climate"
-	sdk_type="climate_api"
-	useStockChart={true}
-/>
+<!-- RESULT -->
+<div class="mt-6 md:mt-12">
+	<ResultPreview
+		{params}
+		{defaultParameters}
+		type="climate"
+		action="climate"
+		sdk_type="climate_api"
+		useStockChart={true}
+	/>
+</div>
 
-<h2 id="data-sources" class="mt-5">Data Sources</h2>
-<div class="row">
-	<div class="col-6">
+<!-- DATA SOURCES -->
+<div class="mt-6 md:mt-12">
+	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
+	<div class="mt-2 md:mt-4">
 		<p>
 			This API utilizes regional downscaled climate models with up to 20 kilometer resolution from
 			the <a href="https://hrcm.ceda.ac.uk/research/cmip6-highresmip/" title="CMIP6 HighResMIP"
@@ -236,7 +225,7 @@
 			vulnerable regions to climate change impacts or assessing the impact of climate change on
 			specific sectors, such as agriculture or public health. The reference point used is ERA5-Land,
 			which is accessible through the <a
-				href="/en/docs/historical-weather-api"
+				href={'/en/docs/historical-weather-api'}
 				title="Historical Weather Information via API">Historical Weather API</a
 			>.
 		</p>
@@ -246,8 +235,7 @@
 			30°C or duration and frequency of droughts. Furthermore, daily data enables running of models
 			to predict crop yield, pest infestation, and water balance.
 		</p>
-	</div>
-	<div class="col-6">
+
 		<p>
 			While the data from past and recent years is available, it should not be mistaken for actual
 			measurements, as it serves the purpose of model validation rather than showing actual past
@@ -265,217 +253,223 @@
 			provide a general recommendation on which model is better. It is recommended to run analyses
 			with multiple models and evaluate their performance afterward.
 		</p>
+
+		<table
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
+			<thead>
+				<tr>
+					<th scope="col">Climate Model</th>
+					<th scope="col">Origin</th>
+					<th scope="col">Run by</th>
+					<th scope="col">Resolution</th>
+					<th scope="col">Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row"
+						><a href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.CMCC.CMCC-CM2-VHR4"
+							>CMCC-CM2-VHR4</a
+						>
+					</th>
+					<td>Italy</td>
+					<td>Fondazione Centro Euro-Mediterraneo sui Cambiamenti Climatici, Lecce (CMCC)</td>
+					<td>30&nbsp;km</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.CAS.FGOALS-f3-H"
+							>FGOALS_f3_H</a
+						>
+					</th>
+					<td>China</td>
+					<td>Chinese Academy of Sciences, Beijing (CAS)</td>
+					<td>28&nbsp;km</td>
+					<td
+						><a href="https://link.springer.com/content/pdf/10.1007/s00376-022-2030-5.pdf">Model</a
+						></td
+					>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a
+							href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.AS-RCEC.HiRAM-SIT-HR"
+							>HiRAM_SIT_HR</a
+						>
+					</th>
+					<td>Taiwan</td>
+					<td
+						>Research Center for Environmental Changes, Academia Sinica, Nankang, Taipei (AS-RCEC)</td
+					>
+					<td>25&nbsp;km</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a
+							href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.MRI.MRI-AGCM3-2-S.highresSST-present"
+							>MRI_AGCM3_2_S</a
+						>
+					</th>
+					<td>Japan</td>
+					<td>Meteorological Research Institute, Tsukuba, Ibaraki (MRI) </td>
+					<td>20&nbsp;km</td>
+					<td></td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a
+							href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.EC-Earth-Consortium.EC-Earth3P-HR"
+							>EC_Earth3P_HR</a
+						>
+					</th>
+					<td>Europe</td>
+					<td
+						>EC-Earth consortium, Rossby Center, Swedish Meteorological and Hydrological
+						Institute/SMHI, Norrkoping, Sweden</td
+					>
+					<td>29&nbsp;km</td>
+					<td><a href="https://gmd.copernicus.org/articles/13/3507/2020/">Model</a></td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a
+							href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.MPI-M.MPI-ESM1-2-XR"
+							>MPI_ESM1_2_XR</a
+						>
+					</th>
+					<td>Germany</td>
+					<td>Max Planck Institute for Meteorology, Hamburg 20146, Germany</td>
+					<td>51&nbsp;km</td>
+					<td><a href="https://gmd.copernicus.org/articles/12/3241/2019/">Model</a></td>
+				</tr>
+				<tr>
+					<th scope="row"
+						><a href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.MIROC.NICAM16-8S"
+							>NICAM16_8S</a
+						>
+					</th>
+					<td>Japan</td>
+					<td
+						>Japan Agency for Marine-Earth Science and Technology, Kanagawa 236-0001, Japan (MIROC)</td
+					>
+					<td>31&nbsp;km</td>
+					<td><a href="https://gmd.copernicus.org/articles/14/795/2021/">Model</a></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<p>
+			Some weather variables may not be available in all climate models. Notably, soil moisture is
+			only available in
+			<mark>MRI-AGCM3-2-S</mark> and <mark>EC_Earth3P_HR</mark>. Additionally, some models may not
+			provide certain aggregations, such as maximum relative humidity. However, mean relative
+			humidity is generally available. The table below outlines the weather variables that are
+			available in each model:
+		</p>
+
+		<table
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
+			<caption class="text-muted-foreground mt-2 table-caption text-left"
+				>&#x26a0;&#xfe0f; = Only daily <mark>mean</mark> values available. No daily minima or maxima.</caption
+			>
+			<thead>
+				<tr>
+					<th scope="col" style="width: 22%">Model</th>
+					<th scope="col" style="width: 13%">Temperature</th>
+					<th scope="col" style="width: 13%">Relative<br />Humidity</th>
+					<th scope="col" style="width: 13%">Wind</th>
+					<th scope="col" style="width: 13%">Precipitation</th>
+					<th scope="col" style="width: 13%">Snowfall,<br />Solar Radiation &<br />Clouds</th>
+					<th scope="col" style="width: 13%">Soil moisture</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row">CMCC-CM2-VHR4</th>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x274c;</td>
+					<td>&#x274c;</td>
+				</tr>
+				<tr>
+					<th scope="row">FGOALS-f3-H</th>
+					<td>&#x2705;</td>
+					<td>&#x26a0;&#xfe0f;</td>
+					<td>&#x26a0;&#xfe0f;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x274c;</td>
+				</tr>
+				<tr>
+					<th scope="row">HiRAM-SIT-HR</th>
+					<td>&#x2705;</td>
+					<td>&#x26a0;&#xfe0f;</td>
+					<td>&#x26a0;&#xfe0f;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x274c;</td>
+				</tr>
+				<tr>
+					<th scope="row">MRI-AGCM3-2-S</th>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">EC_Earth3P_HR</th>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">MPI_ESM1_2_XR</th>
+					<td>&#x2705;</td>
+					<td>&#x26a0;&#xfe0f;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x274c;</td>
+				</tr>
+				<tr>
+					<th scope="row">NICAM16_8S</th>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x274c;</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </div>
-<div class="table-responsive">
-	<table class="table">
-		<thead>
-			<tr>
-				<th scope="col">Climate Model</th>
-				<th scope="col">Origin</th>
-				<th scope="col">Run by</th>
-				<th scope="col">Resolution</th>
-				<th scope="col">Description</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th scope="row"
-					><a href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.CMCC.CMCC-CM2-VHR4"
-						>CMCC-CM2-VHR4</a
-					>
-				</th>
-				<td>Italy</td>
-				<td>Fondazione Centro Euro-Mediterraneo sui Cambiamenti Climatici, Lecce (CMCC)</td>
-				<td>30&nbsp;km</td>
-				<td></td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.CAS.FGOALS-f3-H"
-						>FGOALS_f3_H</a
-					>
-				</th>
-				<td>China</td>
-				<td>Chinese Academy of Sciences, Beijing (CAS)</td>
-				<td>28&nbsp;km</td>
-				<td
-					><a href="https://link.springer.com/content/pdf/10.1007/s00376-022-2030-5.pdf">Model</a
-					></td
-				>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.AS-RCEC.HiRAM-SIT-HR"
-						>HiRAM_SIT_HR</a
-					>
-				</th>
-				<td>Taiwan</td>
-				<td
-					>Research Center for Environmental Changes, Academia Sinica, Nankang, Taipei (AS-RCEC)</td
-				>
-				<td>25&nbsp;km</td>
-				<td></td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a
-						href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.MRI.MRI-AGCM3-2-S.highresSST-present"
-						>MRI_AGCM3_2_S</a
-					>
-				</th>
-				<td>Japan</td>
-				<td>Meteorological Research Institute, Tsukuba, Ibaraki (MRI) </td>
-				<td>20&nbsp;km</td>
-				<td></td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a
-						href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.EC-Earth-Consortium.EC-Earth3P-HR"
-						>EC_Earth3P_HR</a
-					>
-				</th>
-				<td>Europe</td>
-				<td
-					>EC-Earth consortium, Rossby Center, Swedish Meteorological and Hydrological
-					Institute/SMHI, Norrkoping, Sweden</td
-				>
-				<td>29&nbsp;km</td>
-				<td><a href="https://gmd.copernicus.org/articles/13/3507/2020/">Model</a></td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.MPI-M.MPI-ESM1-2-XR"
-						>MPI_ESM1_2_XR</a
-					>
-				</th>
-				<td>Germany</td>
-				<td>Max Planck Institute for Meteorology, Hamburg 20146, Germany</td>
-				<td>51&nbsp;km</td>
-				<td><a href="https://gmd.copernicus.org/articles/12/3241/2019/">Model</a></td>
-			</tr>
-			<tr>
-				<th scope="row"
-					><a href="https://www.wdc-climate.de/ui/cmip6?input=CMIP6.HighResMIP.MIROC.NICAM16-8S"
-						>NICAM16_8S</a
-					>
-				</th>
-				<td>Japan</td>
-				<td
-					>Japan Agency for Marine-Earth Science and Technology, Kanagawa 236-0001, Japan (MIROC)</td
-				>
-				<td>31&nbsp;km</td>
-				<td><a href="https://gmd.copernicus.org/articles/14/795/2021/">Model</a></td>
-			</tr>
-		</tbody>
-	</table>
-</div>
-<div class="row">
-	<p>
-		Some weather variables may not be available in all climate models. Notably, soil moisture is
-		only available in
-		<mark>MRI-AGCM3-2-S</mark> and <mark>EC_Earth3P_HR</mark>. Additionally, some models may not
-		provide certain aggregations, such as maximum relative humidity. However, mean relative humidity
-		is generally available. The table below outlines the weather variables that are available in
-		each model:
-	</p>
-</div>
-<div class="table-responsive">
-	<table class="table">
-		<caption
-			>&#x26a0;&#xfe0f; = Only daily <mark>mean</mark> values available. No daily minima or maxima.</caption
-		>
-		<thead>
-			<tr>
-				<th scope="col" style="width: 22%">Model</th>
-				<th scope="col" style="width: 13%">Temperature</th>
-				<th scope="col" style="width: 13%">Relative<br />Humidity</th>
-				<th scope="col" style="width: 13%">Wind</th>
-				<th scope="col" style="width: 13%">Precipitation</th>
-				<th scope="col" style="width: 13%">Snowfall,<br />Solar Radiation &<br />Clouds</th>
-				<th scope="col" style="width: 13%">Soil moisture</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<th scope="row">CMCC-CM2-VHR4</th>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x274c;</td>
-				<td>&#x274c;</td>
-			</tr>
-			<tr>
-				<th scope="row">FGOALS-f3-H</th>
-				<td>&#x2705;</td>
-				<td>&#x26a0;&#xfe0f;</td>
-				<td>&#x26a0;&#xfe0f;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x274c;</td>
-			</tr>
-			<tr>
-				<th scope="row">HiRAM-SIT-HR</th>
-				<td>&#x2705;</td>
-				<td>&#x26a0;&#xfe0f;</td>
-				<td>&#x26a0;&#xfe0f;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x274c;</td>
-			</tr>
-			<tr>
-				<th scope="row">MRI-AGCM3-2-S</th>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-			</tr>
-			<tr>
-				<th scope="row">EC_Earth3P_HR</th>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-			</tr>
-			<tr>
-				<th scope="row">MPI_ESM1_2_XR</th>
-				<td>&#x2705;</td>
-				<td>&#x26a0;&#xfe0f;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x274c;</td>
-			</tr>
-			<tr>
-				<th scope="row">NICAM16_8S</th>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x2705;</td>
-				<td>&#x274c;</td>
-			</tr>
-		</tbody>
-	</table>
-</div>
 
-<div class="col-12 py-5">
-	<h2 id="api-documentation">API Documentation</h2>
-	<p>
-		The API endpoint <mark>/v1/climate</mark> allows users to retrieve climate weather data from multiple
-		climate models. To use this endpoint, you can specify a geographical coordinate, a time interval,
-		and a list of weather variables that they are interested in. It is recommended to use the full time
-		range of 1950 to 2050.
-	</p>
-	<p>All URL parameters are listed below:</p>
-	<div class="table-responsive">
-		<table class="table">
+<!-- API DOCS -->
+<div class="mt-6 md:mt-12">
+	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The API endpoint <mark>/v1/climate</mark> allows users to retrieve climate weather data from multiple
+			climate models. To use this endpoint, you can specify a geographical coordinate, a time interval,
+			and a list of weather variables that they are interested in. It is recommended to use the full
+			time range of 1950 to 2050.
+		</p>
+		<p>All URL parameters are listed below:</p>
+		<table
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -607,7 +601,7 @@
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See
-						<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+						<a href={'/en/pricing'} title="Pricing information to use the weather API commercially"
 							>pricing</a
 						> for more information.</td
 					>
@@ -615,19 +609,24 @@
 			</tbody>
 		</table>
 	</div>
-	<p>
+	<p class="text-muted-foreground mt-2">
 		Additional optional URL parameters may be added. For API stability, no required parameters will
 		be added in the future!
 	</p>
+</div>
 
-	<h3 class="mt-5">Daily Parameter Definition</h3>
-	<p>
-		The climate data in this API is presented as daily aggregations. Multiple weather variables can
-		be retrieved at once. The parameter <mark>&daily=</mark> accepts the following values as comma separated
-		list:
-	</p>
-	<div class="table-responsive">
-		<table class="table">
+<!-- API DOCS - DAILY -->
+<div class="mt-6 md:mt-12">
+	<h3 id="daily_parameter_definition" class="text-xl md:text-2xl">Daily Parameter Definition</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The climate data in this API is presented as daily aggregations. Multiple weather variables
+			can be retrieved at once. The parameter <mark>&daily=</mark> accepts the following values as comma
+			separated list:
+		</p>
+		<table
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -751,33 +750,17 @@
 			</tbody>
 		</table>
 	</div>
+</div>
 
-	<h3 class="mt-5">JSON Return Object</h3>
-	<p>
-		On success a JSON object will be returned. Please note: the resulting JSON might be multiple
-		mega bytes in size.
-	</p>
-	<pre>
-      <code>
-{`
-  "latitude": 52.52,
-  "longitude": 13.419,
-  "generationtime_ms": 2.2119,
-  "timezone": "Europe/Berlin",
-  "timezone_abbreviation": "CEST",
-  "daily": {
-    "time": ["2022-07-01", "2022-07-01", "2022-07-01", ...],
-    "temperature_2m_max": [13, 12.7, 12.7, 12.5, 12.5, 12.8, ...]
-  },
-  "daily_units": {
-    "temperature_2m": "°C"
-  },
-`}
-      </code>
-    </pre>
-
-	<div class="table-responsive">
-		<table class="table">
+<!-- API DOCS - JSON -->
+<div class="mt-6 md:mt-12">
+	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<div class="mt-2 md:mt-4">
+		<p class="">On success a JSON object will be returned.</p>
+		<div class="code-numbered mt-2 md:mt-4"><ClimateObject /></div>
+		<table
+			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -831,33 +814,39 @@
 			</tbody>
 		</table>
 	</div>
-	<h3 class="mt-5">Errors</h3>
-	<p>
-		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
-		object is returned with a HTTP 400 status code.
-	</p>
-	<pre><code>
-{`
-  "error": true,
-  "reason": "Cannot initialize WeatherVariable from invalid String value tempeture_2m for key hourly"
-`}
-      </code></pre>
 </div>
 
-<h2 id="citation">Citation & Acknowledgement</h2>
-<p>
-	CMIP6 model data is licensed under a Creative Commons Attribution 4.0 International License (<a
-		href="https://creativecommons.org/licenses/">CC BY 4.0</a
-	>). Consult
-	<a href="https://pcmdi.llnl.gov/CMIP6/TermsOfUse">https://pcmdi.llnl.gov/CMIP6/TermsOfUse</a> for terms
-	of use governing CMIP6 output, including citation requirements and proper acknowledgment. The data
-	producers and data providers make no warranty, either express or implied, including, but not limited
-	to, warranties of merchantability and fitness for a particular purpose. All liabilities arising from
-	the supply of the information (including any liability arising in negligence) are excluded to the fullest
-	extent permitted by law.
-</p>
+<!-- API DOCS - ERRORS -->
+<div class="mt-6 md:mt-12">
+	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
+			object is returned with a HTTP 400 status code.
+		</p>
+		<div class="mt-2 md:mt-4"><ClimateError /></div>
+	</div>
+</div>
 
-<p>
-	All users of Open-Meteo data must provide a clear attribution to the CMIP6 program as well as a
-	reference to Open-Meteo.
-</p>
+<!-- CITATION -->
+<div class="mt-6 md:mt-12">
+	<h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2>
+	<div class="mt-3 md:mt-6">
+		<p>
+			CMIP6 model data is licensed under a Creative Commons Attribution 4.0 International License (<a
+				href="https://creativecommons.org/licenses/">CC BY 4.0</a
+			>). Consult
+			<a href="https://pcmdi.llnl.gov/CMIP6/TermsOfUse">https://pcmdi.llnl.gov/CMIP6/TermsOfUse</a> for
+			terms of use governing CMIP6 output, including citation requirements and proper acknowledgment.
+			The data producers and data providers make no warranty, either express or implied, including, but
+			not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities
+			arising from the supply of the information (including any liability arising in negligence) are
+			excluded to the fullest extent permitted by law.
+		</p>
+
+		<p>
+			All users of Open-Meteo data must provide a clear attribution to the CMIP6 program as well as
+			a reference to Open-Meteo.
+		</p>
+	</div>
+</div>

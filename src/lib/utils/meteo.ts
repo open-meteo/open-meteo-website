@@ -1,6 +1,14 @@
 /// Generic helper functions
 
-export function altitudeAboveSeaLevelMeters(pressureLevelHpA: number): string {
+export const pad = (n: string | number) => {
+	return ('0' + n).slice(-2);
+};
+
+export const isNumeric = (num: string | number) =>
+	(typeof num === 'number' || (typeof num === 'string' && num.trim() !== '')) &&
+	!isNaN(num as number);
+
+export const altitudeAboveSeaLevelMeters = (pressureLevelHpA: number): string => {
 	let altitude = (-1 / 2.25577) * 10e4 * (Math.pow(pressureLevelHpA / 1013.25, 1 / 5.25588) - 1);
 	if (altitude <= 500) {
 		return `${Math.round(altitude / 10) * 10} m`;
@@ -12,63 +20,91 @@ export function altitudeAboveSeaLevelMeters(pressureLevelHpA: number): string {
 		return `${Math.round(altitude / 100) / 10} km`;
 	}
 	return `${Math.round(altitude / 1000)} km`;
-}
+};
 
-export function sliceIntoChunks<T>(arr: Array<T>, chunkSize: number): Array<Array<T>> {
+export const sliceIntoChunks = (arr: Array<T>, chunkSize: number): Array<Array<T>> => {
 	const res = [];
 	for (let i = 0; i < arr.length; i += chunkSize) {
 		const chunk = arr.slice(i, i + chunkSize);
 		res.push(chunk);
 	}
 	return res;
-}
+};
 
-export function countVariables(variables: { name: string; label: string }[][], params: string[]) {
+export const countVariables = (
+	variables: { value: string; label: string }[][],
+	params: string[] | undefined
+) => {
+	const flattenedVariables = variables.flat().map((v) => v.value);
+	const overlap = params?.filter((p) => flattenedVariables.includes(p));
 	return {
-		total: variables.reduce((i, e) => i + e.length, 0),
-		active: variables.reduce(
-			(i, e) => i + e.reduce((i, e) => i + (params.includes(e.name) ? 1 : 0), 0),
-			0
-		)
+		total: flattenedVariables.length,
+		active: overlap?.length ?? 0
 	};
-}
+};
 
-export function countPressureVariables(
-	variables: { name: string; label: string }[],
+export const countPreviousVariables = (
+	variables: { value: string; label: string }[][],
+	params: string[]
+) => {
+	const flattenedVariables = variables.flat().map((v) => v.value);
+
+	let active = 0;
+	for (const p of params) {
+		for (const fV of flattenedVariables) {
+			if (p.startsWith(fV)) {
+				active += 1;
+			}
+		}
+	}
+
+	return {
+		total: flattenedVariables.length * 8,
+		active: active
+	};
+};
+
+export const countPressureVariables = (
+	variables: { value: string; label: string }[],
 	levels: number[],
 	params: string[]
-) {
+) => {
+	const flattenedVariables = variables.flat().map((v) => v.value);
+
+	let active = 0;
+	for (const level of levels) {
+		for (const fV of flattenedVariables) {
+			if (params.includes(`${fV}_${level}hPa`)) {
+				active += 1;
+			}
+		}
+	}
+
+	return {
+		total: flattenedVariables.length * levels.length,
+		active: active
+	};
+};
+
+export const countHeightVariables = (
+	variables: { value: string; label: string }[],
+	levels: number[],
+	params: string[]
+) => {
 	return {
 		total: variables.length * levels.length,
 		active: variables.reduce(
 			(i, variable) =>
 				i +
 				levels.reduce(
-					(i, level) => i + (params.includes(`${variable.name}_${level}hPa`) ? 1 : 0),
+					(i, level) => i + (params.includes(`${variable.value}_${level}m`) ? 1 : 0),
 					0
 				),
 			0
 		)
 	};
-}
+};
 
-export function countHeightVariables(
-	variables: { name: string; label: string }[],
-	levels: number[],
-	params: string[]
-) {
-	return {
-		total: variables.length * levels.length,
-		active: variables.reduce(
-			(i, variable) =>
-				i +
-				levels.reduce((i, level) => i + (params.includes(`${variable.name}_${level}m`) ? 1 : 0), 0),
-			0
-		)
-	};
-}
-
-// Sequence generator function (commonly referred to as "range", e.g. Clojure, PHP, etc.)
 export const range = (start: number, stop: number, step: number) =>
 	Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
 

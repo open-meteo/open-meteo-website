@@ -1,0 +1,6 @@
+```json
+{
+    "error": true,
+    "reason": "Cannot initialize WeatherVariable from invalid String value river_discharge for key daily"
+}
+```

@@ -1,10 +1,29 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 
-	import { api_key_preferences } from '$lib/stores/settings';
-	import { urlHashStore } from '$lib/utils/url-hash-store';
+	import { fade } from 'svelte/transition';
 
-	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { api_key_preferences } from '$lib/stores/settings';
+
+	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+
+	import Input from '$lib/components/ui/input/input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select/index';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
+	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+
+	import SuperDebug from 'sveltekit-superforms';
+
+	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
+	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';
+
+	import { countOptions, formatOptions, languageOptions } from './options';
 
 	const params = urlHashStore({
 		name: 'Berlin',
@@ -59,6 +78,12 @@
 			return await result.json();
 		})()
 	);
+
+	const count = $derived(countOptions.find((co) => co.value == $params.count));
+
+	const format = $derived(formatOptions.find((fo) => fo.value == $params.format));
+
+	const language = $derived(languageOptions.find((lo) => lo.value == $params.language));
 </script>
 
 <svelte:head>
@@ -74,169 +99,180 @@
 		e.preventDefault();
 	}}
 >
-	<div class="row">
-		<h2>Search for cities or postal code</h2>
-		<div class="col-md-3">
-			<div class="form-floating position-relative">
-				<input
-					type="text"
-					class="form-control"
-					name="name"
-					id="name"
-					aria-label="Location name"
-					autocomplete="off"
-					spellcheck="false"
-					bind:value={$params.name}
-				/>
-				<label for="name">Name</label>
-			</div>
+	<h2 id="geocoding_search" class="text-2xl md:text-3xl">Search for cities or postal code</h2>
+	<div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 md:mt-4 lg:grid-cols-4">
+		<div class="relative">
+			<Input type="text" class="h-12 pt-6" name="name" id="name" bind:value={$params.name} />
+			<Label
+				class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+				for="name">Name</Label
+			>
 		</div>
-		<div class="col-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					name="language"
-					id="language"
-					aria-label="Language"
-					data-default="en"
-					bind:value={$params.language}
+
+		<div class="relative">
+			<Select.Root name="forecast_days" type="single" bind:value={$params.language}>
+				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>{language?.label}</Select.Trigger
 				>
-					<option value="en">English</option>
-					<option value="de">German</option>
-					<option value="fr">French</option>
-					<option value="es">Spanish</option>
-					<option value="it">Italian</option>
-					<option value="pt">Portuguese</option>
-					<option value="ru">Russian</option>
-					<option value="tr">Turkish</option>
-					<option value="hi">Hindi</option>
-				</select>
-				<label for="language">Language</label>
-			</div>
+				<Select.Content preventScroll={false} class="border-border">
+					{#each languageOptions as lo}
+						<Select.Item class="cursor-pointer" value={lo.value}>{lo.label}</Select.Item>
+					{/each}
+				</Select.Content>
+				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					>Language</Label
+				>
+			</Select.Root>
 		</div>
-		<div class="col-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					name="count"
-					id="count"
-					aria-label="Number of results"
-					data-default="10"
-					bind:value={$params.count}
+
+		<div class="relative">
+			<Select.Root name="forecast_days" type="single" bind:value={$params.count}>
+				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>{count?.label}</Select.Trigger
 				>
-					<option value="1">1</option>
-					<option value="10">10</option>
-					<option value="20">20</option>
-					<option value="50">50</option>
-					<option value="100">100</option>
-				</select>
-				<label for="count">Number of results</label>
-			</div>
+				<Select.Content preventScroll={false} class="border-border">
+					{#each countOptions as co}
+						<Select.Item class="cursor-pointer" value={co.value}>{co.label}</Select.Item>
+					{/each}
+				</Select.Content>
+				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					>Number of Results</Label
+				>
+			</Select.Root>
 		</div>
-		<div class="col-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					name="format"
-					id="format"
-					aria-label="Format"
-					data-default="json"
-					bind:value={$params.format}
+
+		<div class="relative">
+			<Select.Root name="format" type="single" bind:value={$params.format}>
+				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>{format?.label}</Select.Trigger
 				>
-					<option value="json">json</option>
-					<option value="protobuf">protobuf</option>
-				</select>
-				<label for="format">Format</label>
-			</div>
+				<Select.Content preventScroll={false} class="border-border">
+					{#each formatOptions as fo}
+						<Select.Item class="cursor-pointer" value={fo.value}>{fo.label}</Select.Item>
+					{/each}
+				</Select.Content>
+				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					>Format</Label
+				>
+			</Select.Root>
 		</div>
 	</div>
 
-	<LicenseSelector />
+	<!-- LICENSE -->
+	<div class="mt-3 md:mt-6">
+		<LicenseSelector />
+	</div>
 </form>
 
-<div class="col-12">
-	<h2>Preview and API URL</h2>
-</div>
+<!-- RESULT -->
+<div class="mt-6 md:mt-12">
+	<h2 id="results" class="mb-6 text-2xl md:text-3xl">Preview and API URL</h2>
 
-<div class="col-12 table-responsive" style="min-height: 300px;">
-	{#await results}
-		<button class="btn btn-primary" type="button" disabled>
-			<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-			Loading...
-		</button>
-	{:then results}
-		<table class="table">
-			<thead>
-				<tr>
-					<th></th>
-					<th>Name</th>
-					<th>Latitude</th>
-					<th>Longitude</th>
-					<th>Elevation</th>
-					<th>Population</th>
-					<th>Admin1</th>
-					<th>Admin2</th>
-					<th>Admin3</th>
-					<th>Admin4</th>
-					<th>Feature code</th>
-				</tr>
-			</thead>
-			<tbody>
-				{#if (results.results || []).length == 0}
+	<div class="relative min-h-[580px]">
+		{#await results}
+			<div
+				class="bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center"
+				in:fade={{ duration: 300 }}
+				out:fade={{ duration: 100 }}
+			>
+				<LoaderCircle size={40} class="animate-spin" /><span class="hidden">Loading...</span>
+			</div>
+		{:then results}
+			<table
+				class="w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
 					<tr>
-						<td colspan="11"><strong>No locations found</strong></td>
+						<th></th>
+						<th>Name</th>
+						<th>Latitude</th>
+						<th>Longitude</th>
+						<th>Elevation</th>
+						<th>Population</th>
+						<th>Admin1</th>
+						<th>Admin2</th>
+						<th>Admin3</th>
+						<th>Admin4</th>
+						<th>Feature code</th>
 					</tr>
-				{:else}
-					{#each results.results as location}
+				</thead>
+				<tbody>
+					{#if (results.results || []).length == 0}
 						<tr>
-							<td class="p-1"
-								><img
-									height="32"
-									src="/images/country-flags/{(
-										location.country_code || 'united_nations'
-									).toLowerCase()}.svg"
-									title={location.country || ''}
-									alt={location.country || ''}
-								/></td
-							>
-							<td>{location.name}</td>
-							<td>{location.latitude}</td>
-							<td>{location.longitude}</td>
-							<td>{location.elevation || ''}</td>
-							<td>{location.population || ''}</td>
-							<td>{location.admin1 || ''}</td>
-							<td>{location.admin2 || ''}</td>
-							<td>{location.admin3 || ''}</td>
-							<td>{location.admin4 || ''}</td>
-							<td>{location.feature_code || ''}</td>
+							<td colspan="11" class="mt-3 text-center"><strong>No locations found</strong></td>
+							<td colspan="11" class="mt-3 text-center">No locations found</td>
 						</tr>
-					{/each}
-				{/if}
-			</tbody>
-		</table>
-	{:catch error}
-		<div class="alert alert-danger" role="alert">
-			{error.message}
-		</div>
-	{/await}
+					{:else}
+						{#each results.results as location}
+							<tr>
+								<td class="min-w-[40px] p-1"
+									><img
+										height="32"
+										width="32"
+										src="/images/country-flags/{(
+											location.country_code || 'united_nations'
+										).toLowerCase()}.svg"
+										title={location.country || ''}
+										alt={location.country || ''}
+									/></td
+								>
+								<td>{location.name}</td>
+								<td>{location.latitude}</td>
+								<td>{location.longitude}</td>
+								<td>{location.elevation || ''}</td>
+								<td>{location.population || ''}</td>
+								<td>{location.admin1 || ''}</td>
+								<td>{location.admin2 || ''}</td>
+								<td>{location.admin3 || ''}</td>
+								<td>{location.admin4 || ''}</td>
+								<td>{location.feature_code || ''}</td>
+							</tr>
+						{/each}
+					{/if}
+				</tbody>
+			</table>
+		{:catch error}
+			<div class="alert alert-danger" role="alert">
+				{error.message}
+			</div>
+		{/await}
+	</div>
+
+	<div>
+		API URL
+		<small class="text-muted-foreground"
+			>(<a
+				id="api_url_link"
+				target="_blank"
+				class="text-link underline underline-offset-2"
+				href={apiUrl}>Open in new tab</a
+			>)</small
+		>
+	</div>
+	<Input
+		class="mt-2"
+		type="text"
+		id="api_url"
+		readonly
+		aria-label="Copy to clipboard"
+		value={apiUrl}
+	/>
+	<div class="text-muted-foreground mt-1 text-sm">
+		You can copy this API URL into your application
+	</div>
 </div>
 
-<div class="col-12">
-	<label for="api_url" class="form-label"
-		>API URL (<a id="api_url_link" target="_blank" href={apiUrl}>Open in new tab</a>)</label
-	>
-	<input type="text" class="form-control" id="api_url" value={apiUrl} readonly />
-	<div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
-</div>
-
-<div class="col-12 py-5">
-	<h2 id="api-documentation">API Documentation</h2>
-	<p>
-		The API endpoint <mark>https://geocoding-api.open-meteo.com/v1/search</mark> accepts a search term
-		and returns a list of matching locations. URL parameters are listed below:
-	</p>
-	<div class="table-responsive">
-		<table class="table">
+<!-- API DOCS -->
+<div class="mt-6 md:mt-12">
+	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The API endpoint <mark>https://geocoding-api.open-meteo.com/v1/search</mark> accepts a search term
+			and returns a list of matching locations. URL parameters are listed below:
+		</p>
+		<table
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -298,69 +334,33 @@
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See
-						<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+						<a href={'/en/pricing'} title="Pricing information to use the weather API commercially"
 							>pricing</a
 						> for more information.</td
 					>
 				</tr>
-				<!--<tr>
-              <th scope="row">country_codes</th>
-              <td>String array</td>
-              <td>No</td>
-              <td></td>
-              <td>Optionally a comma-separated list of country codes, filters all search results to those countries. Country code must be upper-cased. E.g. <mark>&country_codes=DE,AT,CH</mark> to limit search to Germany, Austria and Switzerland.</td>
-            </tr>-->
 			</tbody>
 		</table>
 	</div>
-	<p>
+	<p class="text-muted-foreground mt-2">
 		Additional optional URL parameters will be added. For API stability, no required parameters will
 		be added in the future!
 	</p>
+</div>
 
-	<h3 class="mt-5">JSON Return Object</h3>
-	<p>
-		On success a JSON object will be returned. Empty fields are not returned. E.g. <mark
-			>admin4</mark
-		> will be missing if no fourth administrative level is available.
-	</p>
-	<pre>
-      <code>
-{`
-  "results": [
-    {
-      "id": 2950159,
-      "name": "Berlin",
-      "latitude": 52.52437,
-      "longitude": 13.41053,
-      "elevation": 74.0,
-      "feature_code": "PPLC",
-      "country_code": "DE",
-      "admin1_id": 2950157,
-      "admin2_id": 0,
-      "admin3_id": 6547383,
-      "admin4_id": 6547539,
-      "timezone": "Europe/Berlin",
-      "population": 3426354,
-      "postcodes": [
-        "10967",
-        "13347"
-      ],
-      "country_id": 2921044,
-      "country": "Deutschland",
-      "admin1": "Berlin",
-      "admin2": "",
-      "admin3": "Berlin, Stadt",
-      "admin4": "Berlin"
-    },
-    {
-      ...
-    }]
-`}
-      </code>
-    </pre>
-	<div class="table-responsive">
-		<table class="table">
+<!-- API DOCS - JSON -->
+<div class="mt-6 md:mt-12">
+	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			On success a JSON object will be returned. Empty fields are not returned. E.g. <mark
+				>admin4</mark
+			> will be missing if no fourth administrative level is available.
+		</p>
+		<GeocodingObject />
+		<table
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -460,36 +460,48 @@
 				</tr>
 			</tbody>
 		</table>
+		<div class="text-muted-foreground mt-2">
+			*Note: All IDs can be can be resolved via the API endpoint
+			<a
+				class="text-link underline"
+				href="https://geocoding-api.open-meteo.com/v1/get?id=2950159"
+				target="_new">https://geocoding-api.open-meteo.com/v1/get?id=2950159</a
+			>
+		</div>
 	</div>
-
-	*Note: All IDs can be can be resolved via the API endpoint
-	<a href="https://geocoding-api.open-meteo.com/v1/get?id=2950159" target="_new"
-		>https://geocoding-api.open-meteo.com/v1/get?id=2950159</a
-	>
-
-	<h3 class="mt-5">Errors</h3>
-	<p>
-		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
-		object is returned with a HTTP 400 status code.
-	</p>
-	<pre>
-      <code>
-{`
-  "error": true,
-  "reason": "Parameter count must be between 1 and 100."
-`}
-      </code>
-    </pre>
 </div>
 
-<div class="col-6">
-	<h3>Attribution</h3>
-	<ul>
-		<li>Location data based on <a href="https://www.geonames.org" target="_new">GeoNames</a></li>
-		<li>
-			Country flags from <a href="https://github.com/HatScripts/circle-flags" target="_new"
-				>HatScripts/circle-flags</a
-			>
-		</li>
-	</ul>
+<!-- API DOCS - ERRORS -->
+<div class="mt-6 md:mt-12">
+	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
+			object is returned with a HTTP 400 status code.
+		</p>
+		<GeocodingError />
+	</div>
+</div>
+
+<!-- ATTRIBUTION -->
+<div class="mt-6 md:mt-12">
+	<h3 id="attribution" class="text-xl md:text-2xl">Attribution</h3>
+	<div class="mt-2 md:mt-4">
+		<ul class="ml-6 list-disc">
+			<li>
+				Location data based on <a
+					class="text-link underline"
+					href="https://www.geonames.org"
+					target="_new">GeoNames</a
+				>
+			</li>
+			<li>
+				Country flags from <a
+					class="text-link underline"
+					href="https://github.com/HatScripts/circle-flags"
+					target="_new">HatScripts/circle-flags</a
+				>
+			</li>
+		</ul>
+	</div>
 </div>

@@ -1,19 +1,35 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	import { fade } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
 
-	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
-	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
-	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
-	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
-	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
-	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
+	import Clock from 'lucide-svelte/icons/clock';
+	import Calendar from 'lucide-svelte/icons/calendar-cog';
 
-	import { daily, models, defaultParameters } from './options';
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+
+	import * as Select from '$lib/components/ui/select';
+	import * as Accordion from '$lib/components/ui/accordion';
+
+	import Settings from '$lib/components/settings/settings.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import AccordionItem from '$lib/components/AccordionItem.svelte';
+	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+
+	import FloodError from '$lib/components/code/docs/flood-error.svx';
+	import FloodObject from '$lib/components/code/docs/flood-object.svx';
+
+	import { daily, models, defaultParameters, forecastDaysOptions } from './options';
+
+	import { pastDaysOptions } from '../options';
 
 	const params = urlHashStore({
 		latitude: [59.91],
@@ -21,6 +37,24 @@
 		...defaultParameters,
 		daily: ['river_discharge']
 	});
+
+	let forecastDays = $derived(
+		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
+	);
+	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
+
+	let accordionValues: string[] = $state([]);
+	onMount(() => {
+		if (countVariables(models, $params.models).active > 0 && !accordionValues.includes('models')) {
+			accordionValues.push('models');
+		}
+	});
+
+	let begin_date = new Date();
+	begin_date.setMonth(begin_date.getMonth() - 3);
+
+	let last_date = new Date();
+	last_date.setDate(last_date.getDate() + 183);
 </script>
 
 <svelte:head>
@@ -33,231 +67,254 @@
 </svelte:head>
 
 <form method="get" action="https://flood-api.open-meteo.com/v1/flood">
+	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
-	<div class="row py-3 px-0">
-		<div>
-			<ul class="nav nav-underline" id="pills-tab" role="tablist">
-				<li class="nav-item" role="presentation" style="width: 70px;">
-					<span class="nav-link disabled" aria-disabled="true">Time:</span>
-				</li>
-				<li class="nav-item" role="presentation">
-					<button
-						class="nav-link"
-						class:active={$params.time_mode == 'forecast_days'}
-						id="pills-forecast_days-tab"
-						type="button"
-						role="tab"
-						aria-controls="pills-forecast_days"
-						aria-selected="true"
-						onclick={() => ($params.time_mode = 'forecast_days')}
-						><Clock class="mb-1 me-1" /> Forecast Length</button
-					>
-				</li>
-				<li class="nav-item" role="presentation">
-					<button
-						class="nav-link"
-						class:active={$params.time_mode == 'time_interval'}
-						id="pills-time_interval-tab"
-						type="button"
-						role="tab"
-						aria-controls="pills-time_interval"
-						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
-					>
-				</li>
-			</ul>
-		</div>
-		<div class="tab-content py-3" id="pills-tabContent">
-			{#if $params.time_mode == 'forecast_days'}
-				<div
-					class="tab-pane active"
-					in:fade
-					id="pills-forecast_days"
-					role="tabpanel"
-					aria-labelledby="pills-forecast_days-tab"
-					tabindex="0"
+	<!-- TIME -->
+	<div class="mt-6">
+		<div class="mt-3 flex items-center gap-2">
+			<div class="text-muted-foreground">Time:</div>
+
+			<div class="border-border flex rounded-md border">
+				<Button
+					variant="ghost"
+					class="rounded-e-none !opacity-100 {$params.time_mode === 'forecast_days'
+						? 'bg-accent cursor-not-allowed'
+						: ''}"
+					disabled={$params.time_mode === 'forecast_days'}
+					onclick={() => {
+						$params.time_mode = 'forecast_days';
+						$params.start_date = '';
+						$params.end_date = '';
+					}}
 				>
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-floating mb-3">
-								<select
-									class="form-select"
-									name="forecast_days"
-									id="forecast_days"
-									aria-label="Forecast days"
-									bind:value={$params.forecast_days}
+					<Clock size={20} />Forecast Length
+				</Button>
+				<Button
+					variant="ghost"
+					class="rounded-md rounded-s-none !opacity-100 duration-300 {$params.time_mode ===
+					'time_interval'
+						? 'bg-accent'
+						: ''}"
+					disabled={$params.time_mode === 'time_interval'}
+					onclick={() => {
+						$params.time_mode = 'time_interval';
+					}}
+				>
+					<Calendar size={20} />Time Interval
+				</Button>
+			</div>
+		</div>
+
+		<div class="mt-3 md:mt-4">
+			{#if $params.time_mode === 'forecast_days'}
+				<div in:fade class="grid gap-3 md:gap-6 lg:grid-cols-2">
+					<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
+						<div class="relative">
+							<Select.Root name="forecast_days" type="single" bind:value={$params.forecast_days}>
+								<Select.Trigger
+									aria-label="Forecast days input"
+									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+									>{forecastDays?.label}</Select.Trigger
 								>
-									<option value="1">1 day</option>
-									<option value="7">7 days</option>
-									<option value="14">2 weeks</option>
-									<option value="31">1 month</option>
-									<option value="92">3 months (default)</option>
-									<option value="183">6 months</option>
-								</select>
-								<label for="forecast_days">Forecast days</label>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-floating mb-3">
-								<select
-									class="form-select"
-									name="past_days"
-									id="past_days"
-									aria-label="Past days"
-									bind:value={$params.past_days}
+								<Select.Content preventScroll={false} class="border-border">
+									{#each forecastDaysOptions as fdo}
+										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
+									{/each}
+								</Select.Content>
+								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+									>Forecast days</Label
 								>
-									<option value="0">0 (default)</option>
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="5">5</option>
-									<option value="7">1 week</option>
-									<option value="14">2 weeks</option>
-									<option value="31">1 month</option>
-									<option value="61">2 months</option>
-									<option value="92">3 months</option>
-								</select>
-								<label for="past_days">Past days</label>
-							</div>
+							</Select.Root>
 						</div>
+						<div class="relative">
+							<Select.Root name="past_days" type="single" bind:value={$params.past_days}>
+								<Select.Trigger
+									aria-label="Past days input"
+									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
+								>
+								<Select.Content preventScroll={false} class="border-border">
+									{#each pastDaysOptions as pdo}
+										<Select.Item class="cursor-pointer" value={pdo.value}>{pdo.label}</Select.Item>
+									{/each}
+								</Select.Content>
+								<Label
+									class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>
+									Past days</Label
+								>
+							</Select.Root>
+						</div>
+					</div>
+
+					<div class="">
+						<p>
+							By default, we provide forecasts for 7 days, but you can access forecasts for up to 16
+							days. If you're interested in past weather data, you can use the <mark>Past Days</mark
+							>
+							feature to access archived forecasts.
+						</p>
 					</div>
 				</div>
 			{/if}
-			{#if $params.time_mode == 'time_interval'}
-				<div
-					class="tab-pane active"
-					in:fade
-					id="pills-time_interval"
-					role="tabpanel"
-					aria-labelledby="pills-time_interval-tab"
-					tabindex="0"
-				>
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
-						</div>
+			{#if $params.time_mode === 'time_interval'}
+				<div in:fade class="flex flex-col gap-4 md:flex-row">
+					<div class="mb-3 md:w-1/2">
+						<DatePicker
+							bind:start_date={$params.start_date}
+							bind:end_date={$params.end_date}
+							{begin_date}
+							{last_date}
+						/>
+					</div>
+					<div class="mb-3 md:w-1/2">
+						<p>
+							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
+							of dates more easily. Archived forecasts come from a series of weather model runs over
+							time. You can access forecasts for up to 3 months and continuously archived in the
+							<a href={'/en/docs/historical-forecast-api'}>Historical Forecast API</a>. You can also
+							check out our
+							<a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, which provides
+							data going all the way back to 1940.
+						</p>
 					</div>
 				</div>
 			{/if}
 		</div>
 	</div>
 
-	<div class="row py-3 px-0">
-		<h2>Daily Weather Variables</h2>
-		{#each daily as group}
-			<div class="col-md-6">
+	<!-- DAILY -->
+	<div class="mt-6 md:mt-12">
+		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2>
+		<div class="mt-2">
+			{#each daily as group}
 				{#each group as e}
-					<div class="form-check">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							value={e.name}
-							id="{e.name}_daily"
-							name="daily"
-							bind:group={$params.daily}
+					<div class="group flex items-center">
+						<Checkbox
+							id="{e.value}_daily"
+							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+							value={e.value}
+							checked={$params.daily?.includes(e.value)}
+							aria-labelledby="{e.value}_daily_label"
+							onCheckedChange={() => {
+								if ($params.daily?.includes(e.value)) {
+									$params.daily = $params.daily.filter((item) => {
+										return item !== e.value;
+									});
+								} else {
+									$params.daily.push(e.value);
+									$params.daily = $params.daily;
+								}
+							}}
 						/>
-						<label class="form-check-label" for="{e.name}_daily">{@html e.label}</label>
+						<Label
+							id="{e.value}_daily_label"
+							for="{e.value}_daily"
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{@html e.label}</Label
+						>
 					</div>
 				{/each}
-			</div>
-		{/each}
-		<div class="col-md-6">
-			<div class="form-check form-switch">
-				<input
-					class="form-check-input"
-					type="checkbox"
+			{/each}
+			<div class="group flex items-center">
+				<Checkbox
 					id="ensemble"
-					name="ensemble"
+					class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 					value="true"
 					bind:checked={$params.ensemble}
+					aria-labelledby="ensemble_label"
 				/>
-				<label class="form-check-label" for="ensemble">All 50 Ensemble Members</label>
-			</div>
-			<p class="mt-2">
-				<small class="text-muted"
-					>Note: Statistical and ensemble forecasts are only available for forecasts.</small
+				<Label
+					id="ensemble_label"
+					for="ensemble"
+					class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">All 50 Ensemble Members</Label
 				>
-			</p>
+			</div>
 		</div>
 	</div>
 
-	<div class="row py-3 px-0">
-		<div class="accordion" id="accordionVariables">
+	<!-- ADDITIONAL VARIABLES -->
+	<div class="mt-6">
+		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem
 				id="models"
-				title="Flood Models"
+				title="Flood models"
 				count={countVariables(models, $params.models)}
 			>
-				{#each models as group}
-					<div class="col-md-4 mb-3">
-						{#each group as e}
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_model"
-									name="models"
-									bind:group={$params.models}
-								/>
-								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
-							</div>
-						{/each}
-					</div>
-				{/each}
-				<div class="col-md-12">
-					<p>
-						<small class="text-muted"
-							>Note: <mark>Seamless</mark> combines forecast and consolidated historical data. Per default,
-							GloFAS version 4 with data from 1984 up to 7 months of forecast is used.</small
-						>
-					</p>
+				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+					{#each models as group}
+						<div class="mb-3">
+							{#each group as e}
+								<div class="group flex items-center">
+									<Checkbox
+										id="{e.value}_model"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.models?.includes(e.value)}
+										aria-labelledby="{e.value}_label"
+										onCheckedChange={() => {
+											if ($params.models?.includes(e.value)) {
+												$params.models = $params.models.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.models.push(e.value);
+												$params.models = $params.models;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_model_label"
+										for="{e.value}_model"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
 				</div>
+				<p>
+					<small class="text-muted-foreground"
+						>Note: <mark>Seamless</mark> combines forecast and consolidated historical data. Per default,
+						GloFAS version 4 with data from 1984 up to 7 months of forecast is used.</small
+					>
+				</p>
 			</AccordionItem>
-		</div>
+		</Accordion.Root>
 	</div>
 
-	<div class="row py-3 px-0">
-		<h2>Settings</h2>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					name="timeformat"
-					id="timeformat"
-					aria-label="Timeformat"
-					bind:value={$params.timeformat}
-				>
-					<option value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
-					<option value="unixtime">Unix timestamp</option>
-				</select>
-				<label for="timeformat">Timeformat</label>
-			</div>
-		</div>
+	<!-- SETTINGS -->
+	<div class="mt-6 md:mt-12">
+		<Settings bind:params={$params} visible={['timeformat']} />
 	</div>
 
-	<LicenseSelector />
+	<!-- LICENSE -->
+	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
 </form>
 
-<ResultPreview {params} {defaultParameters} type="flood" action="flood" sdk_type="flood_api" />
+<!-- RESULT -->
+<div class="mt-6 md:mt-12">
+	<ResultPreview {params} {defaultParameters} type="flood" action="flood" sdk_type="flood_api" />
+</div>
 
-<div class="col-12 py-5">
-	<h2 id="data-sources">Data Source</h2>
-	<p>
-		This API uses reanalysis and forecast data from the <a
-			href="https://www.globalfloods.eu"
-			target="_blank">Global Flood Awareness System (GloFAS)</a
-		>. Per default, GloFAS version 4 with seamless data from 1984 until 7 months of forecast is
-		used.
-	</p>
-	<p>
-		Please note: Due to the 5 km resolution the closest river might not be selected correctly.
-		Varying coordiantes by 0.1° can help to get a more representable discharge rate. The GloFAS
-		website provides additional maps to help understand how rivers are covered in this dataset.
-	</p>
-	<div class="table-responsive">
-		<table class="table">
+<!-- DATA SOURCES -->
+<div class="mt-6 md:mt-12">
+	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
+	<div class="mt-2 md:mt-4">
+		<p>
+			This API uses reanalysis and forecast data from the <a
+				href="https://www.globalfloods.eu"
+				target="_blank">Global Flood Awareness System (GloFAS)</a
+			>. Per default, GloFAS version 4 with seamless data from 1984 until 7 months of forecast is
+			used.
+		</p>
+		<p>
+			Please note: Due to the 5 km resolution the closest river might not be selected correctly.
+			Varying coordiantes by 0.1° can help to get a more representable discharge rate. The GloFAS
+			website provides additional maps to help understand how rivers are covered in this dataset.
+		</p>
+		<table
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Weather Model</th>
@@ -268,7 +325,7 @@
 					<th scope="col">Update frequency</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="[&_a]:text-link [&_a]:underline-offset-3 [&_a]:underline">
 				<tr>
 					<th scope="row"
 						><a
@@ -350,15 +407,20 @@
 			</tbody>
 		</table>
 	</div>
+</div>
 
-	<h2 id="api-documentation" class="mt-5">API Documentation</h2>
-	<p>
-		The API endpoint <mark>/v1/flood</mark> accepts a geographical coordinate and returns river discharge
-		data from the largest river in a 5 km area for the given coordinates. All URL parameters are listed
-		below:
-	</p>
-	<div class="table-responsive">
-		<table class="table">
+<!-- API DOCS -->
+<div class="mt-6 md:mt-12">
+	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The API endpoint <mark>/v1/flood</mark> accepts a geographical coordinate and returns river discharge
+			data from the largest river in a 5 km area for the given coordinates. All URL parameters are listed
+			below:
+		</p>
+		<table
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Parameter</th>
@@ -459,7 +521,7 @@
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See
-						<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+						<a href={'/en/pricing'} title="Pricing information to use the weather API commercially"
 							>pricing</a
 						> for more information.</td
 					>
@@ -467,15 +529,20 @@
 			</tbody>
 		</table>
 	</div>
-	<p>
+	<p class="text-muted-foreground mt-2">
 		Additional optional URL parameters will be added. For API stability, no required parameters will
 		be added in the future!
 	</p>
+</div>
 
-	<h3 class="mt-5">Daily Parameter Definition</h3>
-	<p>The parameter <mark>&daily=</mark> accepts the following values:</p>
-	<div class="table-responsive">
-		<table class="table">
+<!-- API DOCS - DAILY -->
+<div class="mt-6 md:mt-12">
+	<h3 id="daily_parameter_definition" class="text-xl md:text-2xl">Daily Parameter Definition</h3>
+	<div class="mt-2 md:mt-4">
+		<p>The parameter <mark>&daily=</mark> accepts the following values:</p>
+		<table
+			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Variable</th>
@@ -503,81 +570,71 @@
 			</tbody>
 		</table>
 	</div>
+</div>
 
-	<h3 class="mt-5">JSON Return Object</h3>
-	<p>On success a JSON object will be returned.</p>
-	<pre>
-      <code>
-{`
-  "latitude": 52.52,
-  "longitude": 13.419,
-  "generationtime_ms": 2.2119,
-  "timezone": "Europe/Berlin",
-  "timezone_abbreviation": "CEST",
-  "hourly": {
-    "time": ["2022-07-01T00:00", "2022-07-01T01:00", "2022-07-01T02:00", ...],
-    "temperature_2m": [13, 12.7, 12.7, 12.5, 12.5, 12.8, 13, 12.9, 13.3, ...]
-  },
-  "hourly_units": {
-    "temperature_2m": "°C"
-  },
-`}
-      </code>
-    </pre>
-	<div class="table-responsive">
-		<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Parameter</th>
-					<th scope="col">Format</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">latitude, longitude</th>
-					<td>Floating point</td>
-					<td
-						>WGS84 of the center of the weather grid-cell which was used to generate this forecast.
-						This coordinate might be a few kilometers away from the requested coordinate.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">generationtime_ms</th>
-					<td>Floating point</td>
-					<td
-						>Generation time of the weather forecast in milliseconds. This is mainly used for
-						performance monitoring and improvements.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">daily</th>
-					<td>Object</td>
-					<td
-						>For each selected weather variable, data will be returned as a floating point array.
-						Additionally a
-						<mark>time</mark> array will be returned with ISO8601 timestamps.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">daily_units</th>
-					<td>Object</td>
-					<td>For each selected weather variable, the unit will be listed here.</td>
-				</tr>
-			</tbody>
-		</table>
+<!-- API DOCS - JSON -->
+<div class="mt-6 md:mt-12">
+	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<div class="mt-2 md:mt-4">
+		<p>On success a JSON object will be returned.</p>
+		<FloodObject />
+		<div>
+			<table
+				class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">latitude, longitude</th>
+						<td>Floating point</td>
+						<td
+							>WGS84 of the center of the weather grid-cell which was used to generate this
+							forecast. This coordinate might be a few kilometers away from the requested
+							coordinate.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">generationtime_ms</th>
+						<td>Floating point</td>
+						<td
+							>Generation time of the weather forecast in milliseconds. This is mainly used for
+							performance monitoring and improvements.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">daily</th>
+						<td>Object</td>
+						<td
+							>For each selected weather variable, data will be returned as a floating point array.
+							Additionally a
+							<mark>time</mark> array will be returned with ISO8601 timestamps.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">daily_units</th>
+						<td>Object</td>
+						<td>For each selected weather variable, the unit will be listed here.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
-	<h3 class="mt-5">Errors</h3>
-	<p>
-		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
-		object is returned with a HTTP 400 status code.
-	</p>
-	<pre>
-      <code>
-{`
-  "error": true,
-  "reason": "Cannot initialize WeatherVariable from invalid String value tempeture_2m for key hourly"
-`}
-      </code>
-    </pre>
+</div>
+
+<!-- API DOCS - ERRORS -->
+<div class="mt-6 md:mt-12">
+	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
+			object is returned with a HTTP 400 status code.
+		</p>
+		<div class="mt-2 md:mt-4"><FloodError /></div>
+	</div>
 </div>

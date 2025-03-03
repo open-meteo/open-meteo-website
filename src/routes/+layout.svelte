@@ -1,21 +1,26 @@
 <script lang="ts">
+	import { ModeWatcher } from 'mode-watcher';
+
+	import { page } from '$app/state';
+
+	import Hero from '$lib/components/hero/hero.svelte';
 	import Header from '$lib/components/header/header.svelte';
 	import Footer from '$lib/components/footer/footer.svelte';
-	import UpdateNotification from '$lib/components/notification/update.svelte';
 
-	import '../app.scss';
+	import UpdateNotification from '$lib/components/update/update-notification.svelte';
 
-	interface Props {
-		children?: import('svelte').Snippet;
-	}
+	import '../app.css';
 
-	let { children }: Props = $props();
+	import './perf';
+
+	let { children, data } = $props();
+
+	const pathname = $derived(data.pathname);
 </script>
 
-<Header />
-
-{@render children?.()}
-
+<Header {pathname} />
+<Hero {...page.data} />
+{@render children()}
 <Footer />
-
+<ModeWatcher />
 <UpdateNotification />
