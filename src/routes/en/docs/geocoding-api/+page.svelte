@@ -20,6 +20,9 @@
 
 	import SuperDebug from 'sveltekit-superforms';
 
+	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
+	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';
+
 	import { countOptions, formatOptions, languageOptions } from './options';
 
 	const params = urlHashStore({
@@ -170,9 +173,9 @@
 	</div>
 </form>
 
-<!-- DATA SOURCES -->
+<!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<h2 id="data_sources" class="mb-6 text-2xl md:text-3xl">Preview and API URL</h2>
+	<h2 id="results" class="mb-6 text-2xl md:text-3xl">Preview and API URL</h2>
 
 	<div class="relative min-h-[580px]">
 		{#await results}
@@ -245,21 +248,37 @@
 	</div>
 </div>
 
-<div>
-	<label for="api_url" class="form-label"
-		>API URL (<a id="api_url_link" target="_blank" href={apiUrl}>Open in new tab</a>)</label
-	>
-	<input type="text" id="api_url" value={apiUrl} readonly />
-	<div id="emailHelp" class="form-text">You can copy this API URL into your application</div>
+<div class="mt-6 md:mt-12">
+	<div>
+		API URL
+		<small class="text-muted-foreground"
+			>(<a
+				id="api_url_link"
+				target="_blank"
+				class="text-link underline underline-offset-2"
+				href={apiUrl}>Open in new tab</a
+			> or copy this URL into your application)</small
+		>.
+	</div>
+	<div id="emailHelp">You can copy this API URL into your application</div>
+	<Input
+		class="mt-2"
+		type="text"
+		id="api_url"
+		readonly
+		aria-label="Copy to clipboard"
+		value={apiUrl}
+	/>
 </div>
 
-<div>
-	<h2 id="api-documentation">API Documentation</h2>
-	<p>
-		The API endpoint <mark>https://geocoding-api.open-meteo.com/v1/search</mark> accepts a search term
-		and returns a list of matching locations. URL parameters are listed below:
-	</p>
-	<div>
+<!-- API DOCS -->
+<div class="mt-6 md:mt-12">
+	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The API endpoint <mark>https://geocoding-api.open-meteo.com/v1/search</mark> accepts a search term
+			and returns a list of matching locations. URL parameters are listed below:
+		</p>
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -329,63 +348,25 @@
 						> for more information.</td
 					>
 				</tr>
-				<!--<tr>
-              <th scope="row">country_codes</th>
-              <td>String array</td>
-              <td>No</td>
-              <td></td>
-              <td>Optionally a comma-separated list of country codes, filters all search results to those countries. Country code must be upper-cased. E.g. <mark>&country_codes=DE,AT,CH</mark> to limit search to Germany, Austria and Switzerland.</td>
-            </tr>-->
 			</tbody>
 		</table>
 	</div>
-	<p>
+	<p class="text-muted-foreground mt-2">
 		Additional optional URL parameters will be added. For API stability, no required parameters will
 		be added in the future!
 	</p>
+</div>
 
-	<h3 class="mt-5">JSON Return Object</h3>
-	<p>
-		On success a JSON object will be returned. Empty fields are not returned. E.g. <mark
-			>admin4</mark
-		> will be missing if no fourth administrative level is available.
-	</p>
-	<pre>
-      <code>
-{`
-  "results": [
-    {
-      "id": 2950159,
-      "name": "Berlin",
-      "latitude": 52.52437,
-      "longitude": 13.41053,
-      "elevation": 74.0,
-      "feature_code": "PPLC",
-      "country_code": "DE",
-      "admin1_id": 2950157,
-      "admin2_id": 0,
-      "admin3_id": 6547383,
-      "admin4_id": 6547539,
-      "timezone": "Europe/Berlin",
-      "population": 3426354,
-      "postcodes": [
-        "10967",
-        "13347"
-      ],
-      "country_id": 2921044,
-      "country": "Deutschland",
-      "admin1": "Berlin",
-      "admin2": "",
-      "admin3": "Berlin, Stadt",
-      "admin4": "Berlin"
-    },
-    {
-      ...
-    }]
-`}
-      </code>
-    </pre>
-	<div>
+<!-- API DOCS - JSON -->
+<div class="mt-6 md:mt-12">
+	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			On success a JSON object will be returned. Empty fields are not returned. E.g. <mark
+				>admin4</mark
+			> will be missing if no fourth administrative level is available.
+		</p>
+		<GeocodingObject />
 		<table
 			class="mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
@@ -488,36 +469,48 @@
 				</tr>
 			</tbody>
 		</table>
+		<div class="text-muted-foreground mt-2">
+			*Note: All IDs can be can be resolved via the API endpoint
+			<a
+				class="text-link underline"
+				href="https://geocoding-api.open-meteo.com/v1/get?id=2950159"
+				target="_new">https://geocoding-api.open-meteo.com/v1/get?id=2950159</a
+			>
+		</div>
 	</div>
-
-	*Note: All IDs can be can be resolved via the API endpoint
-	<a href="https://geocoding-api.open-meteo.com/v1/get?id=2950159" target="_new"
-		>https://geocoding-api.open-meteo.com/v1/get?id=2950159</a
-	>
-
-	<h3 class="mb-3 mt-5 text-2xl">Errors</h3>
-	<p>
-		In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
-		object is returned with a HTTP 400 status code.
-	</p>
-	<pre>
-      <code>
-{`
-  "error": true,
-  "reason": "Parameter count must be between 1 and 100."
-`}
-      </code>
-    </pre>
 </div>
 
-<div>
-	<h3>Attribution</h3>
-	<ul>
-		<li>Location data based on <a href="https://www.geonames.org" target="_new">GeoNames</a></li>
-		<li>
-			Country flags from <a href="https://github.com/HatScripts/circle-flags" target="_new"
-				>HatScripts/circle-flags</a
-			>
-		</li>
-	</ul>
+<!-- API DOCS - ERRORS -->
+<div class="mt-6 md:mt-12">
+	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
+			object is returned with a HTTP 400 status code.
+		</p>
+		<GeocodingError />
+	</div>
+</div>
+
+<!-- API DOCS - ERRORS -->
+<div class="mt-6 md:mt-12">
+	<h3 id="attribution" class="text-xl md:text-2xl">Attribution</h3>
+	<div class="mt-2 md:mt-4">
+		<ul class="ml-6 list-disc">
+			<li>
+				Location data based on <a
+					class="text-link underline"
+					href="https://www.geonames.org"
+					target="_new">GeoNames</a
+				>
+			</li>
+			<li>
+				Country flags from <a
+					class="text-link underline"
+					href="https://github.com/HatScripts/circle-flags"
+					target="_new">HatScripts/circle-flags</a
+				>
+			</li>
+		</ul>
+	</div>
 </div>
