@@ -1,0 +1,6 @@
+```json
+{
+    "error": true,
+    "reason": "Parameter count must be between 1 and 100."
+}
+```

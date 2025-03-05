@@ -1,0 +1,212 @@
+@import 'tailwindcss';
+
+@config '../tailwind.config.ts';
+
+@layer base {
+	:root {
+		--background: 0 0% 100%;
+		--foreground: 222.2 84% 4.9%;
+
+		--muted: 210 40% 96.1%;
+		--muted-foreground: 215.4 16.3% 46.9%;
+
+		--popover: 0 0% 100%;
+		--popover-foreground: 222.2 84% 4.9%;
+
+		--card: 0 0% 100%;
+		--card-foreground: 222.2 84% 4.9%;
+
+		--border: 214.3 31.8% 91.4%;
+		--border-dark: 0 0% 40%;
+		--input: 214.3 31.8% 91.4%;
+
+		--primary: 215.75 98.36% 52.16%;
+		--primary-foreground: 210 40% 98%;
+
+		--secondary: 210 40% 96.1%;
+		--secondary-foreground: 222.2 47.4% 11.2%;
+
+		--accent: 210 40% 96.1%;
+		--accent-foreground: 222.2 47.4% 11.2%;
+
+		--grey: 208.24 7.3% 45.69%;
+		--grey-foreground: 210 40% 98%;
+
+		--destructive: 0 72.2% 50.6%;
+		--destructive-foreground: 210 40% 98%;
+
+		--warning: 45 100% 90.27%;
+		--warning-dark: 45 94.66% 20.55%;
+		--warning-foreground: 45 100% 75.55%;
+
+		--link: 215.75 98.36% 52.16%;
+
+		--ring: 222.2 84% 4.9%;
+
+		--radius: 0.5rem;
+
+		--mark-color: 45 100% 90.27%;
+	}
+
+	.dark {
+		--background: 222.2 84% 4.9%;
+		--foreground: 210 40% 98%;
+
+		--muted: 217.2 32.6% 17.5%;
+		--muted-foreground: 215 20.2% 65.1%;
+
+		--popover: 222.2 84% 4.9%;
+		--popover-foreground: 210 40% 98%;
+
+		--card: 222.2 84% 4.9%;
+		--card-foreground: 210 40% 98%;
+
+		--border: 217.2 32.6% 17.5%;
+		--border-dark: 0 0% 60%;
+		--input: 217.2 32.6% 17.5%;
+
+		--secondary: 217.2 32.6% 17.5%;
+		--secondary-foreground: 210 40% 98%;
+
+		--accent: 217.2 32.6% 17.5%;
+		--accent-foreground: 210 40% 98%;
+
+		--grey: 217.2 32.6% 17.5%;
+		--grey-foreground: 210 40% 98%;
+
+		--destructive: 0 62.8% 30.6%;
+		--destructive-foreground: 210 40% 98%;
+
+		--warning: 45 94.66% 10.27%;
+		--warning-dark: 45 100% 70.82%;
+		--warning-foreground: 45 94.66% 30.82%;
+
+		--link: 215.83 98.63% 71.37%;
+
+		--ring: 212.7 26.8% 83.9%;
+
+		--mark-color: 45 94.66% 20.55%;
+	}
+}
+
+html {
+	overflow-y: overlay;
+	scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	scroll-margin-top: 1.75rem;
+	text-underline-offset: 6px;
+	transition: 300ms;
+}
+
+h2:target,
+h3:target,
+h4:target {
+	text-decoration: underline;
+}
+
+@layer base {
+	body {
+		@apply bg-background text-foreground font-sans;
+	}
+}
+
+p a {
+	@apply text-link underline underline-offset-2 duration-200;
+}
+
+p a:hover {
+	@apply brightness-125 dark:brightness-75;
+}
+
+p:not(:last-child) {
+	@apply mb-3;
+}
+
+.dark .shiki,
+.dark .shiki span {
+	color: var(--shiki-dark) !important;
+	background-color: var(--shiki-dark-bg) !important;
+	font-style: var(--shiki-dark-font-style) !important;
+	font-weight: var(--shiki-dark-font-weight) !important;
+	text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+.shiki {
+	@apply rounded-xl px-4 py-6;
+}
+
+.curl .shiki span > span {
+	transition: 200ms;
+}
+
+.curl:hover span > span {
+	filter: brightness(80%);
+}
+
+.dark .curl:hover span > span {
+	filter: brightness(120%);
+}
+
+div > .shiki {
+	overflow: auto;
+	padding-left: calc(var(--spacing) * 6);
+}
+
+.curl {
+	text-indent: -3rem;
+	padding-left: 2rem;
+}
+
+.curl .line::before {
+	content: '$';
+	width: 1rem;
+	margin-right: 1rem;
+	display: inline-block;
+	text-align: right;
+	color: rgba(115, 138, 148, 0.5);
+}
+
+.code-numbered .shiki {
+	padding-left: calc(var(--spacing) * 8);
+}
+
+.code-numbered code {
+	counter-reset: step;
+	counter-increment: step 0;
+}
+
+.code-numbered code .line::before {
+	content: counter(step);
+	counter-increment: step;
+	width: 1rem;
+	margin-left: -1rem;
+	margin-right: 1rem;
+	display: inline-block;
+	text-align: right;
+	color: rgba(115, 138, 148, 0.5);
+}
+
+mark,
+.mark {
+	margin-top: -0.1875em;
+
+	padding: 0.1875em;
+	color: hsl(var(--foreground));
+	background-color: hsl(var(--mark-color));
+}
+
+.grow-text::after {
+	content: attr(data-text);
+	content: attr(data-text) / '';
+	height: 0;
+	visibility: hidden;
+	overflow: hidden;
+	user-select: none;
+	pointer-events: none;
+	font-weight: bold;
+}

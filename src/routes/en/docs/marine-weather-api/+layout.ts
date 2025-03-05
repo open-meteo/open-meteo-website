@@ -2,8 +2,8 @@ import type { LayoutLoad } from './$types';
 
 export const load = (() => {
 	return {
-		title: 'Marine Weather API',
-		subtitle: 'Hourly wave forecasts at 5 km resolution',
-		hero: '/images/beach.webp'
+		heroTitle: 'Marine Weather API',
+		heroDescription: 'Hourly wave forecasts at 5 km resolution',
+		heroImage: '/images/beach.webp'
 	};
 }) satisfies LayoutLoad;

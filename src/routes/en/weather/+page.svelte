@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fetchWeatherApi } from 'openmeteo';
 
-	import LocationSearch from '$lib/components/location/LocationSearch.svelte';
+	import LocationSearch from '$lib/components/location/location-search.svelte';
 
 	import {
 		defaultLocation,
