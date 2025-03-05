@@ -884,8 +884,9 @@
 				class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
-					>You can find the update timings in the <a href={'/en/docs/model-updates'}
-						>model updates documentation</a
+					>You can find the update timings in the <a
+						class="text-link underline"
+						href={'/en/docs/model-updates'}>model updates documentation</a
 					>.</caption
 				>
 				<thead>
