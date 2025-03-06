@@ -1971,7 +1971,7 @@
 	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
-		<div class="code-numbered mt-2 md:mt-4"><WeatherForecastObject /></div>
+		<div class="code-numbered -mx-6 md:ml-0 lg:mx-0 mt-2 md:mt-4"><WeatherForecastObject /></div>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
 				class="[&_tr]:border-border mx-6 lg:mx-0 md:ml-0 min-w-[1040px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
@@ -2067,7 +2067,7 @@
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 			object is returned with a HTTP 400 status code.
 		</p>
-		<div class="mt-2 md:mt-4"><WeatherForecastError /></div>
+		<div class="mt-2 md:mt-4 -mx-6 md:ml-0 lg:mx-0"><WeatherForecastError /></div>
 	</div>
 </div>
 
