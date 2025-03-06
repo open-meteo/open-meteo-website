@@ -18,7 +18,6 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -26,7 +25,6 @@
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/PressureLevelsHelpTable.svelte';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
@@ -118,8 +116,9 @@
 	<Alert.Description>
 		The API makes use of MET Nordic weather models exclusively for North Europe, offering
 		exceptional short-term weather forecasts with hourly updates and 1 km resolution. However, for
-		longer forecasts of up to 16 days, the <a href={'/en/docs'}>generic Weather Forecast API</a> transparently
-		combines MET Nordic with other weather models to take advantage of hourly updates.
+		longer forecasts of up to 16 days, the <a class="underline text-link" href={'/en/docs'}
+			>generic Weather Forecast API</a
+		> transparently combines MET Nordic with other weather models to take advantage of hourly updates.
 	</Alert.Description>
 </Alert.Root>
 
@@ -270,7 +269,7 @@
 							<Label
 								id="{e.value}_label"
 								for="{e.value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 							>
 						</div>
 					{/each}
@@ -312,7 +311,7 @@
 									<Label
 										id="{e.value}_label"
 										for="{e.value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}
@@ -423,7 +422,7 @@
 								<Label
 									id="{e.value}_hourly_label"
 									for="{e.value}_hourly"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 								>
 							</div>
 						{/each}
@@ -515,7 +514,7 @@
 									<Label
 										id="{e.value}_model_label"
 										for="{e.value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}
@@ -560,7 +559,7 @@
 						<Label
 							id="{e.value}_current_label"
 							for="{e.value}_current"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 						>
 					</div>
 				{/each}
@@ -607,8 +606,9 @@
 			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<caption class="text-muted-foreground mt-2 table-caption text-left"
-				>You can find the update timings in the <a href={'/en/docs/model-updates'}
-					>model updates documentation</a
+				>You can find the update timings in the <a
+					class="text-link underline"
+					href={'/en/docs/model-updates'}>model updates documentation</a
 				>.</caption
 			>
 			<thead>

@@ -300,7 +300,7 @@
 							<Label
 								id="{e.value}_label"
 								for="{e.value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 							>
 						</div>
 					{/each}
@@ -342,7 +342,7 @@
 									<Label
 										id="{e.value}_label"
 										for="{e.value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}
@@ -453,7 +453,7 @@
 								<Label
 									id="{e.value}_hourly_label"
 									for="{e.value}_hourly"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 								>
 							</div>
 						{/each}
@@ -571,7 +571,7 @@
 													/>
 													<Label
 														for="{variable.value}_{level}hPa"
-														class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]"
+														class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
 														>{level} hPa
 														<small class="text-muted-foreground"
 															>({altitudeAboveSeaLevelMeters(level)})</small
@@ -624,7 +624,7 @@
 									<Label
 										id="{e.value}_model_label"
 										for="{e.value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}
@@ -675,7 +675,7 @@
 								<Label
 									id="{e.value}_minutely_15_label"
 									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 								>
 							</div>
 						{/each}
@@ -706,7 +706,7 @@
 								<Label
 									id="{e.value}_minutely_15_label"
 									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 								>
 							</div>
 						{/each}
@@ -793,7 +793,7 @@
 						<Label
 							id="{e.value}_daily_label"
 							for="{e.value}_daily"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 						>
 					</div>
 				{/each}
@@ -838,7 +838,7 @@
 						<Label
 							id="{e.value}_current_label"
 							for="{e.value}_current"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 						>
 					</div>
 				{/each}
@@ -885,7 +885,7 @@
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
-						class="text-link underline underline-offset-2"
+						class="text-link underline"
 						href={'/en/docs/model-updates'}>model updates documentation</a
 					>.</caption
 				>
@@ -1053,6 +1053,7 @@
 					<td></td>
 					<td
 						>The elevation used for statistical downscaling. Per default, a <a
+							class="text-link underline"
 							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
 							title="Elevation based grid-cell selection explained"
 							>90 meter digital elevation model is used</a
@@ -1135,8 +1136,10 @@
 					<td
 						>If <mark>timezone</mark> is set, all timestamps are returned as local-time and data is
 						returned starting at 00:00 local-time. Any time zone name from the
-						<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank"
-							>time zone database</a
+						<a
+							class="text-link underline"
+							href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
+							target="_blank">time zone database</a
 						>
 						is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
 						resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
@@ -1212,6 +1215,7 @@
 						>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
 						suitable grid-cell on land with
 						<a
+							class="text-link underline"
 							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
 							title="Elevation based grid-cell selection explained"
 							>similar elevation to the requested coordinates using a 90-meter digital elevation
@@ -1229,8 +1233,10 @@
 					<td
 						>Only required to commercial use to access reserved API resources for customers. The
 						server URL requires the prefix <mark>customer-</mark>. See
-						<a href={'/en/pricing'} title="Pricing information to use the weather API commercially"
-							>pricing</a
+						<a
+							class="text-link underline"
+							href={'/en/pricing'}
+							title="Pricing information to use the weather API commercially">pricing</a
 						> for more information.</td
 					>
 				</tr>
@@ -1404,6 +1410,7 @@
 					<td>J/kg</td>
 					<td
 						>Convective available potential energy. See <a
+							class="text-link underline"
 							href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
 							target="_blank">Wikipedia</a
 						>.</td
@@ -1425,6 +1432,7 @@
 					<td>mm (inch)</td>
 					<td
 						>ET₀ Reference Evapotranspiration of a well watered grass field. Based on <a
+							class="text-link underline"
 							href="https://www.fao.org/3/x0490e/x0490e04.htm"
 							target="_blank">FAO-56 Penman-Monteith equations</a
 						> ET₀ is calculated from temperature, wind speed, humidity and solar radiation. Unlimited
@@ -1792,6 +1800,7 @@
 					<td
 						>Cloud cover at the specified pressure level. Cloud cover is approximated based on
 						relative humidity using <a
+							class="text-link underline"
 							href="https://www.ecmwf.int/sites/default/files/elibrary/2005/16958-parametrization-cloud-cover.pdf"
 							target="_blank">Sundqvist et al. (1989)</a
 						>. It may not match perfectly with low, mid and high cloud cover variables.</td
@@ -1935,6 +1944,7 @@
 						>Daily maximum in UV Index starting from 0. <mark>uv_index_clear_sky_max</mark>
 						assumes cloud free conditions. Please follow the
 						<a
+							class="text-link underline"
 							href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index"
 							>official WMO guidelines</a
 						> for ultraviolet index.</td

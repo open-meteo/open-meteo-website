@@ -66,19 +66,6 @@
 		hourly: ['temperature_2m']
 	});
 
-	onMount(async () => {
-		var d = new Date();
-		endDate = d.toISOString().split('T')[0];
-		d.setDate(d.getDate() - 1);
-		if ($params.end_date == startDateDefault) {
-			$params.end_date = d.toISOString().split('T')[0];
-		}
-		d.setDate(d.getDate() - 14);
-		if ($params.start_date == startDateDefault) {
-			$params.start_date = d.toISOString().split('T')[0];
-		}
-	});
-
 	let pressureVariablesTab = $state('temperature');
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
@@ -149,6 +136,19 @@
 			accordionValues.push('minutely_15');
 		}
 	});
+
+	onMount(async () => {
+		var d = new Date();
+		endDate = d.toISOString().split('T')[0];
+		d.setDate(d.getDate() - 1);
+		if ($params.end_date == startDateDefault) {
+			$params.end_date = d.toISOString().split('T')[0];
+		}
+		d.setDate(d.getDate() - 14);
+		if ($params.start_date == startDateDefault) {
+			$params.start_date = d.toISOString().split('T')[0];
+		}
+	});
 </script>
 
 <svelte:head>
@@ -163,9 +163,11 @@
 <Alert.Root class="border-border mb-4">
 	<Alert.Description>
 		This API provides access to archived high-resolution weather model data from the <a
+			class="text-link underline"
 			href={'/en/docs'}>Weather Forecast API</a
 		>. The data is continuously archived and updated daily. For more information read the
 		<a
+			class="text-link underline"
 			href="https://openmeteo.substack.com/p/introducing-the-historical-forecast"
 			title="Introducing the Historical Forecast API">announcement blog article</a
 		>.
@@ -256,7 +258,7 @@
 							<Label
 								id="{e.value}_label"
 								for="{e.value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 							>
 						</div>
 					{/each}
@@ -298,7 +300,7 @@
 									<Label
 										id="{e.value}_label"
 										for="{e.value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}
@@ -409,7 +411,7 @@
 								<Label
 									id="{e.value}_hourly_label"
 									for="{e.value}_hourly"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 								>
 							</div>
 						{/each}
@@ -527,7 +529,7 @@
 													/>
 													<Label
 														for="{variable.value}_{level}hPa"
-														class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]"
+														class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
 														>{level} hPa
 														<small class="text-muted-foreground"
 															>({altitudeAboveSeaLevelMeters(level)})</small
@@ -580,7 +582,7 @@
 									<Label
 										id="{e.value}_model_label"
 										for="{e.value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}
@@ -631,7 +633,7 @@
 								<Label
 									id="{e.value}_minutely_15_label"
 									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 								>
 							</div>
 						{/each}
@@ -662,7 +664,7 @@
 								<Label
 									id="{e.value}_minutely_15_label"
 									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 								>
 							</div>
 						{/each}
@@ -749,7 +751,7 @@
 						<Label
 							id="{e.value}_daily_label"
 							for="{e.value}_daily"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 						>
 					</div>
 				{/each}

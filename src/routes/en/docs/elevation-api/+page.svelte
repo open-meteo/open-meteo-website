@@ -11,13 +11,10 @@
 	import Plus from 'lucide-svelte/icons/plus';
 	import Trash from 'lucide-svelte/icons/trash-2';
 
-	import Input from '$lib/components/ui/input/input.svelte';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select/index';
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
 	import ElevationError from '$lib/components/code/docs/elevation-error.svx';
 	import ElevationObject from '$lib/components/code/docs/elevation-object.svx';
@@ -96,7 +93,7 @@
 	method="get"
 	target="container"
 	action="https://api.open-meteo.com/v1/elevation"
-	onchange={submitForm()}
+	onchange={() => submitForm()}
 >
 	<div>
 		<h2 id="elevation_search" class="text-2xl md:text-3xl">Select Coordinates or City</h2>

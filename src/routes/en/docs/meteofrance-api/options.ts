@@ -1,29 +1,35 @@
 export const defaultParameters = {
-	current: [],
-	hourly: [],
 	daily: [],
+	hourly: [],
+	models: [],
+	current: [],
 	minutely_15: [],
+
+	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: undefined,
-	temperature_unit: 'celsius',
-	wind_speed_unit: 'kmh',
-	precipitation_unit: 'mm',
-	timeformat: 'iso8601',
-	timezone: 'UTC',
+
+	time_mode: 'forecast_days',
 	past_days: '0',
-	past_hours: undefined,
-	past_minutely_15: undefined,
-	forecast_days: 4,
-	forecast_hours: undefined,
-	forecast_minutely_15: undefined,
-	temporal_resolution: undefined,
-	start_date: undefined,
+	forecast_days: '4',
+
 	end_date: undefined,
+	start_date: undefined,
+
+	past_hours: undefined,
+	forecast_hours: undefined,
+	cell_selection: undefined,
+	past_minutely_15: undefined,
+	temporal_resolution: undefined,
+	forecast_minutely_15: undefined,
+
 	tilt: '0',
 	azimuth: '0',
-	time_mode: 'forecast_days',
-	models: [],
-	cell_selection: undefined
+
+	timeformat: 'iso8601',
+	wind_speed_unit: 'kmh',
+	precipitation_unit: 'mm',
+	temperature_unit: 'celsius'
 };
 
 export const minutely_15 = [

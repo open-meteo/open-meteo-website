@@ -1,53 +1,30 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	import { fade, slide } from 'svelte/transition';
-
-	import {
-		countVariables,
-		sliceIntoChunks,
-		countPressureVariables,
-		altitudeAboveSeaLevelMeters
-	} from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import Clock from 'lucide-svelte/icons/clock';
 	import Calendar from 'lucide-svelte/icons/calendar-cog';
 
-	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select';
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
-	import AccordionItem from '$lib/components/AccordionItem.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/PressureLevelsHelpTable.svelte';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
 
 	import { daily, six_hourly, defaultParameters } from './options';
 
-	import {
-		pastDaysOptions,
-		pastHoursOptions,
-		forecastDaysOptions,
-		forecastHoursOptions,
-		pastMinutely15Options,
-		gridCellSelectionOptions,
-		temporalResolutionOptions,
-		forecastMinutely15Options
-	} from '../options';
+	import { pastDaysOptions, forecastDaysOptions } from '../options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -240,7 +217,7 @@
 						<Label
 							id="{e.value}_daily_label"
 							for="{e.value}_daily"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 						>
 					</div>
 				{/each}

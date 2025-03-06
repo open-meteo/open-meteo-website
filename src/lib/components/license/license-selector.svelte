@@ -79,7 +79,7 @@
 				<div class="col-span-2">
 					<Alert.Root class="border-border">
 						<Alert.Description>
-							See <a href={'/en/pricing'}>Pricing</a> for more details.{#if requires_professional_plan}
+							See <a class="text-link underline" href={'/en/pricing'}>Pricing</a> for more details.{#if requires_professional_plan}
 								This API requires the <mark>Professional</mark> subscription.{/if}
 						</Alert.Description>
 					</Alert.Root>
@@ -103,8 +103,9 @@
 				<div class="col-span-2">
 					<Alert.Root class="border-border">
 						<Alert.Description>
-							See <a href="https://github.com/open-meteo/open-meteo">GitHub</a> for more instructions.
-							Make sure your node supports HTTPS.
+							See <a class="text-link underline" href="https://github.com/open-meteo/open-meteo"
+								>GitHub</a
+							> for more instructions. Make sure your node supports HTTPS.
 						</Alert.Description>
 					</Alert.Root>
 				</div>

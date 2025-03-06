@@ -155,8 +155,8 @@
 		This API offers access to the renowned ICON weather models from the German Weather service DWD,
 		delivering 15-minutely data for short-term forecasts in central Europe and 11 km resolution
 		global forecasts. The ICON model is a preferred choice in <a
-			href={'/en/docs'}
-			class="text-link underline">generic weather forecast API</a
+			class="text-link underline"
+			href={'/en/docs'}>generic weather forecast API</a
 		> if no other high resolution weather models are available.
 	</Alert.Description>
 </Alert.Root>
@@ -308,7 +308,7 @@
 							<Label
 								id="{e.value}_label"
 								for="{e.value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 							>
 						</div>
 					{/each}
@@ -350,7 +350,7 @@
 									<Label
 										id="{e.value}_label"
 										for="{e.value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}
@@ -461,7 +461,7 @@
 								<Label
 									id="{e.value}_hourly_label"
 									for="{e.value}_hourly"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 								>
 							</div>
 						{/each}
@@ -579,7 +579,7 @@
 													/>
 													<Label
 														for="{variable.value}_{level}hPa"
-														class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]"
+														class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
 														>{level} hPa
 														<small class="text-muted-foreground"
 															>({altitudeAboveSeaLevelMeters(level)})</small
@@ -632,7 +632,7 @@
 									<Label
 										id="{e.value}_model_label"
 										for="{e.value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}
@@ -677,7 +677,7 @@
 								<Label
 									id="{e.value}_minutely_15_label"
 									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 								>
 							</div>
 						{/each}
@@ -708,7 +708,7 @@
 								<Label
 									id="{e.value}_minutely_15_label"
 									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 								>
 							</div>
 						{/each}
@@ -795,7 +795,7 @@
 						<Label
 							id="{e.value}_daily_label"
 							for="{e.value}_daily"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 						>
 					</div>
 				{/each}
@@ -840,7 +840,7 @@
 						<Label
 							id="{e.value}_current_label"
 							for="{e.value}_current"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 						>
 					</div>
 				{/each}

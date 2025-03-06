@@ -8,7 +8,7 @@ export const defaultParameters = {
 
 	time_mode: 'forecast_days',
 	past_days: '0',
-	forecast_days: 92,
+	forecast_days: '92',
 
 	start_date: '',
 	end_date: '',

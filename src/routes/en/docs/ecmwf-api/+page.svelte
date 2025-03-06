@@ -130,8 +130,9 @@
 		The API uses open-data ECMWF weather forecasts from the IFS weather model with a resolution of 9
 		km. However, the open-data access is restricted to a resolution of 25 km and 3-hourly values,
 		although the model still provides excellent accuracy for large scale weather patterns. For more
-		detailed local forecasts, we recommend using the <a href={'/en/docs'}
-			>generic weather forecast API</a
+		detailed local forecasts, we recommend using the <a
+			class="text-link underline"
+			href={'/en/docs'}>generic weather forecast API</a
 		>, which combines weather models up to 1 km resolution seamlessly.
 	</Alert.Description>
 </Alert.Root>
@@ -283,7 +284,7 @@
 							<Label
 								id="{e.value}_label"
 								for="{e.value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 							>
 						</div>
 					{/each}
@@ -325,7 +326,7 @@
 									<Label
 										id="{e.value}_label"
 										for="{e.value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}
@@ -436,7 +437,7 @@
 								<Label
 									id="{e.value}_hourly_label"
 									for="{e.value}_hourly"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 								>
 							</div>
 						{/each}
@@ -554,7 +555,7 @@
 													/>
 													<Label
 														for="{variable.value}_{level}hPa"
-														class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]"
+														class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
 														>{level} hPa
 														<small class="text-muted-foreground"
 															>({altitudeAboveSeaLevelMeters(level)})</small
@@ -607,7 +608,7 @@
 									<Label
 										id="{e.value}_model_label"
 										for="{e.value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}
@@ -664,8 +665,9 @@
 			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<caption class="text-muted-foreground mt-2 table-caption text-left"
-				>You can find the update timings in the <a href={'/en/docs/model-updates'}
-					>model updates documentation</a
+				>You can find the update timings in the <a
+					class="text-link underline"
+					href={'/en/docs/model-updates'}>model updates documentation</a
 				>.</caption
 			>
 			<thead>

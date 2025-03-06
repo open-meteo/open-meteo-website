@@ -67,8 +67,10 @@
 
 <Alert.Root class="border-border mb-4">
 	<Alert.Description>
-		Read the <a href="https://openmeteo.substack.com/p/climate-change-api">blog article</a> with more
-		information about climate models and how data is downscaled to 10 km resolution.
+		Read the <a
+			class="text-link underline"
+			href="https://openmeteo.substack.com/p/climate-change-api">blog article</a
+		> with more information about climate models and how data is downscaled to 10 km resolution.
 	</Alert.Description>
 </Alert.Root>
 
@@ -136,7 +138,7 @@
 						<Label
 							id="{e.value}_daily_label"
 							for="{e.value}_daily"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 						>
 					</div>
 				{/each}
@@ -177,7 +179,7 @@
 									<Label
 										id="{e.value}_model_label"
 										for="{e.value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}

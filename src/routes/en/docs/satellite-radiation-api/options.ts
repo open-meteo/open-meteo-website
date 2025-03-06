@@ -8,8 +8,8 @@ export const defaultParameters = {
 	csv_coordinates: undefined,
 
 	time_mode: 'forecast_days',
-	past_days: 5,
-	forecast_days: 1,
+	past_days: '5',
+	forecast_days: '1',
 
 	start_date: undefined,
 	end_date: undefined,

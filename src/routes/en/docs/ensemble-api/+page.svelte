@@ -40,10 +40,8 @@
 		pastDaysOptions,
 		pastHoursOptions,
 		forecastHoursOptions,
-		pastMinutely15Options,
 		gridCellSelectionOptions,
-		temporalResolutionOptions,
-		forecastMinutely15Options
+		temporalResolutionOptions
 	} from '../options';
 
 	const params = urlHashStore({
@@ -273,7 +271,7 @@
 							<Label
 								id="{e.value}_model_label"
 								for="{e.value}_models"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 							>
 						</div>
 					{/each}
@@ -313,7 +311,7 @@
 							<Label
 								id="{e.value}_label"
 								for="{e.value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 							>
 						</div>
 					{/each}
@@ -356,7 +354,7 @@
 									<Label
 										id="{e.value}_label"
 										for="{e.value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}
@@ -468,7 +466,7 @@
 								<Label
 									id="{e.value}_hourly_label"
 									for="{e.value}_hourly"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 								>
 							</div>
 						{/each}
@@ -582,8 +580,9 @@
 			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<caption class="text-muted-foreground mt-2 table-caption text-left"
-				>You can find the update timings in the <a href={'/en/docs/model-updates'}
-					>model updates documentation</a
+				>You can find the update timings in the <a
+					class="text-link underline"
+					href={'/en/docs/model-updates'}>model updates documentation</a
 				>. To ensure ease of use, all data is interpolated to a 1-hourly time-step resolution. As
 				the forecast horizon extends further into the future, some ensemble models may reduce the
 				time resolution to 6-hourly intervals.</caption

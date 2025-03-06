@@ -210,7 +210,7 @@
 						<Label
 							id="{e.value}_daily_label"
 							for="{e.value}_daily"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{@html e.label}</Label
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html e.label}</Label
 						>
 					</div>
 				{/each}
@@ -226,7 +226,7 @@
 				<Label
 					id="ensemble_label"
 					for="ensemble"
-					class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">All 50 Ensemble Members</Label
+					class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">All 50 Ensemble Members</Label
 				>
 			</div>
 		</div>
@@ -265,7 +265,7 @@
 									<Label
 										id="{e.value}_model_label"
 										for="{e.value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}

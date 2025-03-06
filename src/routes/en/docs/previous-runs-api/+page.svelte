@@ -281,7 +281,7 @@
 										<Label
 											id="{e.value}_hourly_previous_day_label{i}"
 											for="{e.value}_hourly_previous_day{i}"
-											class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">Day {i}</Label
+											class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
 										>
 									</div></td
 								>
@@ -367,7 +367,7 @@
 											<Label
 												id="{e.value}_hourly_previous_day_label{i}"
 												for="{e.value}_hourly_previous_day{i}"
-												class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">Day {i}</Label
+												class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
 											>
 										</div></td
 									>
@@ -464,7 +464,7 @@
 											<Label
 												id="{e.value}_hourly_previous_day_label{i}"
 												for="{e.value}_hourly_previous_day{i}"
-												class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">Day {i}</Label
+												class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
 											>
 										</div></td
 									>
@@ -504,7 +504,7 @@
 									<Label
 										id="{e.value}_model_label"
 										for="{e.value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.32rem]">{e.label}</Label
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 									>
 								</div>
 							{/each}

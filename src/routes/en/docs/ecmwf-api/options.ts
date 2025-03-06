@@ -16,7 +16,7 @@ export const defaultParameters = {
 
 	time_mode: 'forecast_days',
 	past_days: '0',
-	forecast_days: 10,
+	forecast_days: '10',
 
 	tilt: '0',
 	azimuth: '0',

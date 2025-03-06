@@ -115,10 +115,12 @@ h4:target {
 	}
 }
 
+tbody a,
 p a {
 	@apply text-link underline underline-offset-2 duration-200;
 }
 
+tbody a:hover,
 p a:hover {
 	@apply brightness-125 dark:brightness-75;
 }
@@ -198,6 +200,10 @@ mark,
 	padding: 0.1875em;
 	color: hsl(var(--foreground));
 	background-color: hsl(var(--mark-color));
+}
+
+figcaption {
+	@apply mt-1;
 }
 
 .grow-text::after {
