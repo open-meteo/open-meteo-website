@@ -899,7 +899,7 @@
 					</tr>
 				</thead>
 				<tbody class="[&_a]:text-link [&_a]:underline-offset-3 [&_a]:underline">
-					<tr>
+					<tr class="">
 						<th scope="row"><a href="/en/docs/dwd-api">ICON</a></th>
 						<td>Deutscher Wetterdienst (DWD)</td>
 						<td>Germany</td>

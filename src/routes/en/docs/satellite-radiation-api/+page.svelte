@@ -49,7 +49,8 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		...defaultParameters
+		...defaultParameters,
+		hourly: ['shortwave_radiation']
 	});
 
 	let timezoneInvalid = $derived(
@@ -527,7 +528,7 @@ TODO:
 
 	<!-- SETTINGS -->
 	<div class="mt-6 md:mt-12">
-		<Settings bind:params={$params} />
+		<Settings bind:params={$params} visible={['timeformat']} />
 	</div>
 
 	<!-- LICENSE -->
@@ -536,15 +537,22 @@ TODO:
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview {params} {defaultParameters} model_default="eumetsat_lsa_saf_msg" />
+	<ResultPreview
+		{params}
+		{defaultParameters}
+		model_default="satellite_radiation_seamless"
+		type="satellite"
+		action="archive"
+	/>
 </div>
 
 <!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
 	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
 	<div class="mt-2 md:mt-4">
-		<p>TODO docs</p>
-		<table class="table">
+		<table
+			class="[&_tr]:border-border mx-6 md:mx-0 mt-2 w-full min-w-[1025px] caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		>
 			<thead>
 				<tr>
 					<th scope="col">Provider</th>
@@ -618,7 +626,7 @@ TODO:
 				href="/en/docs">Weather Forecast API</a
 			>. Only notable remarks are listed below
 		</p>
-		<ul>
+		<ul class="list-disc ml-6">
 			<li>
 				<strong>Himawari direct and diffuse radiation</strong> JMA JAXA provides only shortwave
 				radiation data and does not offer direct or diffuse solar radiation. Open-Meteo applies the

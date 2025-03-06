@@ -1,6 +1,6 @@
 export const defaultParameters = {
 	daily: [],
-	hourly: ['shortwave_radiation'],
+	hourly: [],
 	models: [],
 
 	timezone: 'UTC',
@@ -66,6 +66,7 @@ export const additionalVariables = [
 
 export const models = [
 	[
+		{ value: 'satellite_radiation_seamless', label: 'Automatic Selection' },
 		{ value: 'eumetsat_sarah3', label: 'eumetsat_sarah3' },
 		{ value: 'jma_jaxa_himawari', label: 'jma_jaxa_himawari' },
 		{ value: 'eumetsat_lsa_saf_msg', label: 'eumetsat_lsa_saf_msg' },
