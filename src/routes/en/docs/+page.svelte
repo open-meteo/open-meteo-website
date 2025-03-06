@@ -878,9 +878,9 @@
 			all weather variables are available. With the drop down <mark>Weather models</mark> (just below
 			the hourly variables), you can select and compare individual weather models.
 		</p>
-		<div class="overflow-auto">
+		<div class="overflow-auto -mx-6 md:mx-0">
 			<table
-				class="[&_tr]:border-border mt-2 w-full min-w-[1025px] caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:mx-0 mt-2 w-full min-w-[1025px] caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
