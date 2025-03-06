@@ -1772,68 +1772,70 @@
 			All pressure levels have valid times of the indicated hour (instant).
 		</p>
 
-		<table
-			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th scope="col">Variable</th>
-					<th scope="col">Unit</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">temperature_1000hPa<br />temperature_975hPa, ...</th>
-					<td>°C (°F)</td>
-					<td
-						>Air temperature at the specified pressure level. Air temperatures decrease linearly
-						with pressure.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">relative_humidity_1000hPa<br />relative_humidity_975hPa, ...</th>
-					<td>%</td>
-					<td>Relative humidity at the specified pressure level.</td>
-				</tr>
-				<tr>
-					<th scope="row">dew_point_1000hPa<br />dew_point_975hPa, ...</th>
-					<td>°C (°F)</td>
-					<td>Dew point temperature at the specified pressure level.</td>
-				</tr>
-				<tr>
-					<th scope="row">cloud_cover_1000hPa<br />cloud_cover_975hPa, ...</th>
-					<td>%</td>
-					<td
-						>Cloud cover at the specified pressure level. Cloud cover is approximated based on
-						relative humidity using <a
-							class="text-link underline"
-							href="https://www.ecmwf.int/sites/default/files/elibrary/2005/16958-parametrization-cloud-cover.pdf"
-							target="_blank">Sundqvist et al. (1989)</a
-						>. It may not match perfectly with low, mid and high cloud cover variables.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">wind_speed_1000hPa<br />wind_speed_975hPa, ...</th>
-					<td>km/h (mph, m/s, knots)</td>
-					<td>Wind speed at the specified pressure level.</td>
-				</tr>
-				<tr>
-					<th scope="row">wind_direction_1000hPa<br />wind_direction_975hPa, ...</th>
-					<td>°</td>
-					<td>Wind direction at the specified pressure level.</td>
-				</tr>
-				<tr>
-					<th scope="row">geopotential_height_1000hPa<br />geopotential_height_975hPa, ...</th>
-					<td>meter</td>
-					<td
-						>Geopotential height at the specified pressure level. This can be used to get the
-						correct altitude in meter above sea level of each pressure level. Be carefull not to
-						mistake it with altitude above ground.
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 lg:mx-0 md:ml-0 min-w-[1040px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">temperature_1000hPa<br />temperature_975hPa, ...</th>
+						<td>°C (°F)</td>
+						<td
+							>Air temperature at the specified pressure level. Air temperatures decrease linearly
+							with pressure.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">relative_humidity_1000hPa<br />relative_humidity_975hPa, ...</th>
+						<td>%</td>
+						<td>Relative humidity at the specified pressure level.</td>
+					</tr>
+					<tr>
+						<th scope="row">dew_point_1000hPa<br />dew_point_975hPa, ...</th>
+						<td>°C (°F)</td>
+						<td>Dew point temperature at the specified pressure level.</td>
+					</tr>
+					<tr>
+						<th scope="row">cloud_cover_1000hPa<br />cloud_cover_975hPa, ...</th>
+						<td>%</td>
+						<td
+							>Cloud cover at the specified pressure level. Cloud cover is approximated based on
+							relative humidity using <a
+								class="text-link underline"
+								href="https://www.ecmwf.int/sites/default/files/elibrary/2005/16958-parametrization-cloud-cover.pdf"
+								target="_blank">Sundqvist et al. (1989)</a
+							>. It may not match perfectly with low, mid and high cloud cover variables.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">wind_speed_1000hPa<br />wind_speed_975hPa, ...</th>
+						<td>km/h (mph, m/s, knots)</td>
+						<td>Wind speed at the specified pressure level.</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_direction_1000hPa<br />wind_direction_975hPa, ...</th>
+						<td>°</td>
+						<td>Wind direction at the specified pressure level.</td>
+					</tr>
+					<tr>
+						<th scope="row">geopotential_height_1000hPa<br />geopotential_height_975hPa, ...</th>
+						<td>meter</td>
+						<td
+							>Geopotential height at the specified pressure level. This can be used to get the
+							correct altitude in meter above sea level of each pressure level. Be carefull not to
+							mistake it with altitude above ground.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
@@ -1846,119 +1848,121 @@
 				>&daily=</mark
 			> accepts the following values:
 		</p>
-		<table
-			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th scope="col">Variable</th>
-					<th scope="col">Unit</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">temperature_2m_max<br />temperature_2m_min</th>
-					<td>°C (°F)</td>
-					<td>Maximum and minimum daily air temperature at 2 meters above ground</td>
-				</tr>
-				<tr>
-					<th scope="row">apparent_temperature_max<br />apparent_temperature_min</th>
-					<td>°C (°F)</td>
-					<td>Maximum and minimum daily apparent temperature</td>
-				</tr>
-				<tr>
-					<th scope="row">precipitation_sum</th>
-					<td>mm</td>
-					<td>Sum of daily precipitation (including rain, showers and snowfall)</td>
-				</tr>
-				<tr>
-					<th scope="row">rain_sum</th>
-					<td>mm</td>
-					<td>Sum of daily rain</td>
-				</tr>
-				<tr>
-					<th scope="row">showers_sum</th>
-					<td>mm</td>
-					<td>Sum of daily showers</td>
-				</tr>
-				<tr>
-					<th scope="row">snowfall_sum</th>
-					<td>cm</td>
-					<td>Sum of daily snowfall</td>
-				</tr>
-				<tr>
-					<th scope="row">precipitation_hours</th>
-					<td>hours</td>
-					<td>The number of hours with rain</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						>precipitation_probability_max<br />precipitation_probability_min<br
-						/>precipitation_probability_mean</th
-					>
-					<td>%</td>
-					<td>Probability of precipitation</td>
-				</tr>
-				<tr>
-					<th scope="row">weather_code</th>
-					<td>WMO code</td>
-					<td>The most severe weather condition on a given day</td>
-				</tr>
-				<tr>
-					<th scope="row">sunrise<br />sunset</th>
-					<td>iso8601</td>
-					<td>Sun rise and set times</td>
-				</tr>
-				<tr>
-					<th scope="row">sunshine_duration</th>
-					<td>seconds</td>
-					<td
-						>The number of seconds of sunshine per day is determined by calculating direct
-						normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine
-						duration will consistently be less than daylight duration due to dawn and dusk.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">daylight_duration</th>
-					<td>seconds</td>
-					<td>Number of seconds of daylight per day</td>
-				</tr>
-				<tr>
-					<th scope="row">wind_speed_10m_max<br />wind_gusts_10m_max</th>
-					<td>km/h (mph, m/s, knots)</td>
-					<td>Maximum wind speed and gusts on a day</td>
-				</tr>
-				<tr>
-					<th scope="row">wind_direction_10m_dominant</th>
-					<td>°</td>
-					<td>Dominant wind direction</td>
-				</tr>
-				<tr>
-					<th scope="row">shortwave_radiation_sum</th>
-					<td>MJ/m²</td>
-					<td>The sum of solar radiation on a given day in Megajoules</td>
-				</tr>
-				<tr>
-					<th scope="row">et0_fao_evapotranspiration</th>
-					<td>mm</td>
-					<td>Daily sum of ET₀ Reference Evapotranspiration of a well watered grass field</td>
-				</tr>
-				<tr>
-					<th scope="row">uv_index_max<br />uv_index_clear_sky_max</th>
-					<td>Index</td>
-					<td
-						>Daily maximum in UV Index starting from 0. <mark>uv_index_clear_sky_max</mark>
-						assumes cloud free conditions. Please follow the
-						<a
-							class="text-link underline"
-							href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index"
-							>official WMO guidelines</a
-						> for ultraviolet index.</td
-					>
-				</tr>
-			</tbody>
-		</table>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 lg:mx-0 md:ml-0 min-w-[1040px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">temperature_2m_max<br />temperature_2m_min</th>
+						<td>°C (°F)</td>
+						<td>Maximum and minimum daily air temperature at 2 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row">apparent_temperature_max<br />apparent_temperature_min</th>
+						<td>°C (°F)</td>
+						<td>Maximum and minimum daily apparent temperature</td>
+					</tr>
+					<tr>
+						<th scope="row">precipitation_sum</th>
+						<td>mm</td>
+						<td>Sum of daily precipitation (including rain, showers and snowfall)</td>
+					</tr>
+					<tr>
+						<th scope="row">rain_sum</th>
+						<td>mm</td>
+						<td>Sum of daily rain</td>
+					</tr>
+					<tr>
+						<th scope="row">showers_sum</th>
+						<td>mm</td>
+						<td>Sum of daily showers</td>
+					</tr>
+					<tr>
+						<th scope="row">snowfall_sum</th>
+						<td>cm</td>
+						<td>Sum of daily snowfall</td>
+					</tr>
+					<tr>
+						<th scope="row">precipitation_hours</th>
+						<td>hours</td>
+						<td>The number of hours with rain</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>precipitation_probability_max<br />precipitation_probability_min<br
+							/>precipitation_probability_mean</th
+						>
+						<td>%</td>
+						<td>Probability of precipitation</td>
+					</tr>
+					<tr>
+						<th scope="row">weather_code</th>
+						<td>WMO code</td>
+						<td>The most severe weather condition on a given day</td>
+					</tr>
+					<tr>
+						<th scope="row">sunrise<br />sunset</th>
+						<td>iso8601</td>
+						<td>Sun rise and set times</td>
+					</tr>
+					<tr>
+						<th scope="row">sunshine_duration</th>
+						<td>seconds</td>
+						<td
+							>The number of seconds of sunshine per day is determined by calculating direct
+							normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine
+							duration will consistently be less than daylight duration due to dawn and dusk.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">daylight_duration</th>
+						<td>seconds</td>
+						<td>Number of seconds of daylight per day</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_speed_10m_max<br />wind_gusts_10m_max</th>
+						<td>km/h (mph, m/s, knots)</td>
+						<td>Maximum wind speed and gusts on a day</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_direction_10m_dominant</th>
+						<td>°</td>
+						<td>Dominant wind direction</td>
+					</tr>
+					<tr>
+						<th scope="row">shortwave_radiation_sum</th>
+						<td>MJ/m²</td>
+						<td>The sum of solar radiation on a given day in Megajoules</td>
+					</tr>
+					<tr>
+						<th scope="row">et0_fao_evapotranspiration</th>
+						<td>mm</td>
+						<td>Daily sum of ET₀ Reference Evapotranspiration of a well watered grass field</td>
+					</tr>
+					<tr>
+						<th scope="row">uv_index_max<br />uv_index_clear_sky_max</th>
+						<td>Index</td>
+						<td
+							>Daily maximum in UV Index starting from 0. <mark>uv_index_clear_sky_max</mark>
+							assumes cloud free conditions. Please follow the
+							<a
+								class="text-link underline"
+								href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index"
+								>official WMO guidelines</a
+							> for ultraviolet index.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
@@ -1968,87 +1972,90 @@
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
 		<div class="code-numbered mt-2 md:mt-4"><WeatherForecastObject /></div>
-		<table
-			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th scope="col">Parameter</th>
-					<th scope="col">Format</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">latitude, longitude</th>
-					<td>Floating point</td>
-					<td
-						>WGS84 of the center of the weather grid-cell which was used to generate this forecast.
-						This coordinate might be a few kilometers away from the requested coordinate.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">elevation</th>
-					<td>Floating point</td>
-					<td
-						>The elevation from a 90 meter digital elevation model. This effects which grid-cell is
-						selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is used to
-						adapt weather conditions for this elevation. This elevation can also be controlled with
-						the query parameter <mark>elevation</mark>. If
-						<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the averge grid-cell
-						elevation is used.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">generationtime_ms</th>
-					<td>Floating point</td>
-					<td
-						>Generation time of the weather forecast in milliseconds. This is mainly used for
-						performance monitoring and improvements.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">utc_offset_seconds</th>
-					<td>Integer</td>
-					<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
-				</tr>
-				<tr>
-					<th scope="row">timezone<br />timezone_abbreviation</th>
-					<td>String</td>
-					<td
-						>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
-						<mark>CEST</mark>)</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">hourly</th>
-					<td>Object</td>
-					<td
-						>For each selected weather variable, data will be returned as a floating point array.
-						Additionally a
-						<mark>time</mark> array will be returned with ISO8601 timestamps.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">hourly_units</th>
-					<td>Object</td>
-					<td>For each selected weather variable, the unit will be listed here.</td>
-				</tr>
-				<tr>
-					<th scope="row">daily</th>
-					<td>Object</td>
-					<td
-						>For each selected daily weather variable, data will be returned as a floating point
-						array. Additionally a <mark>time</mark> array will be returned with ISO8601 timestamps.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">daily_units</th>
-					<td>Object</td>
-					<td>For each selected daily weather variable, the unit will be listed here.</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 lg:mx-0 md:ml-0 min-w-[1040px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">latitude, longitude</th>
+						<td>Floating point</td>
+						<td
+							>WGS84 of the center of the weather grid-cell which was used to generate this
+							forecast. This coordinate might be a few kilometers away from the requested
+							coordinate.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">elevation</th>
+						<td>Floating point</td>
+						<td
+							>The elevation from a 90 meter digital elevation model. This effects which grid-cell
+							is selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is
+							used to adapt weather conditions for this elevation. This elevation can also be
+							controlled with the query parameter <mark>elevation</mark>. If
+							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the averge grid-cell
+							elevation is used.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">generationtime_ms</th>
+						<td>Floating point</td>
+						<td
+							>Generation time of the weather forecast in milliseconds. This is mainly used for
+							performance monitoring and improvements.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">utc_offset_seconds</th>
+						<td>Integer</td>
+						<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
+					</tr>
+					<tr>
+						<th scope="row">timezone<br />timezone_abbreviation</th>
+						<td>String</td>
+						<td
+							>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
+							<mark>CEST</mark>)</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">hourly</th>
+						<td>Object</td>
+						<td
+							>For each selected weather variable, data will be returned as a floating point array.
+							Additionally a
+							<mark>time</mark> array will be returned with ISO8601 timestamps.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">hourly_units</th>
+						<td>Object</td>
+						<td>For each selected weather variable, the unit will be listed here.</td>
+					</tr>
+					<tr>
+						<th scope="row">daily</th>
+						<td>Object</td>
+						<td
+							>For each selected daily weather variable, data will be returned as a floating point
+							array. Additionally a <mark>time</mark> array will be returned with ISO8601 timestamps.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">daily_units</th>
+						<td>Object</td>
+						<td>For each selected daily weather variable, the unit will be listed here.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
@@ -2071,70 +2078,72 @@
 	</h2>
 	<div class="mt-3 md:mt-6">
 		<h3 class="text-xl md:text-2xl">WMO Weather interpretation codes (WW)</h3>
-		<table
-			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th scope="col">Code</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">0</th>
-					<td>Clear sky</td>
-				</tr>
-				<tr>
-					<th scope="row">1, 2, 3</th>
-					<td>Mainly clear, partly cloudy, and overcast</td>
-				</tr>
-				<tr>
-					<th scope="row">45, 48</th>
-					<td>Fog and depositing rime fog</td>
-				</tr>
-				<tr>
-					<th scope="row">51, 53, 55</th>
-					<td>Drizzle: Light, moderate, and dense intensity</td>
-				</tr>
-				<tr>
-					<th scope="row">56, 57</th>
-					<td>Freezing Drizzle: Light and dense intensity</td>
-				</tr>
-				<tr>
-					<th scope="row">61, 63, 65</th>
-					<td>Rain: Slight, moderate and heavy intensity</td>
-				</tr>
-				<tr>
-					<th scope="row">66, 67</th>
-					<td>Freezing Rain: Light and heavy intensity</td>
-				</tr>
-				<tr>
-					<th scope="row">71, 73, 75</th>
-					<td>Snow fall: Slight, moderate, and heavy intensity</td>
-				</tr>
-				<tr>
-					<th scope="row">77</th>
-					<td>Snow grains</td>
-				</tr>
-				<tr>
-					<th scope="row">80, 81, 82</th>
-					<td>Rain showers: Slight, moderate, and violent</td>
-				</tr>
-				<tr>
-					<th scope="row">85, 86</th>
-					<td>Snow showers slight and heavy</td>
-				</tr>
-				<tr>
-					<th scope="row">95 *</th>
-					<td>Thunderstorm: Slight or moderate</td>
-				</tr>
-				<tr>
-					<th scope="row">96, 99 *</th>
-					<td>Thunderstorm with slight and heavy hail</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 lg:mx-0 md:ml-0 min-w-[450px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Code</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">0</th>
+						<td>Clear sky</td>
+					</tr>
+					<tr>
+						<th scope="row">1, 2, 3</th>
+						<td>Mainly clear, partly cloudy, and overcast</td>
+					</tr>
+					<tr>
+						<th scope="row">45, 48</th>
+						<td>Fog and depositing rime fog</td>
+					</tr>
+					<tr>
+						<th scope="row">51, 53, 55</th>
+						<td>Drizzle: Light, moderate, and dense intensity</td>
+					</tr>
+					<tr>
+						<th scope="row">56, 57</th>
+						<td>Freezing Drizzle: Light and dense intensity</td>
+					</tr>
+					<tr>
+						<th scope="row">61, 63, 65</th>
+						<td>Rain: Slight, moderate and heavy intensity</td>
+					</tr>
+					<tr>
+						<th scope="row">66, 67</th>
+						<td>Freezing Rain: Light and heavy intensity</td>
+					</tr>
+					<tr>
+						<th scope="row">71, 73, 75</th>
+						<td>Snow fall: Slight, moderate, and heavy intensity</td>
+					</tr>
+					<tr>
+						<th scope="row">77</th>
+						<td>Snow grains</td>
+					</tr>
+					<tr>
+						<th scope="row">80, 81, 82</th>
+						<td>Rain showers: Slight, moderate, and violent</td>
+					</tr>
+					<tr>
+						<th scope="row">85, 86</th>
+						<td>Snow showers slight and heavy</td>
+					</tr>
+					<tr>
+						<th scope="row">95 *</th>
+						<td>Thunderstorm: Slight or moderate</td>
+					</tr>
+					<tr>
+						<th scope="row">96, 99 *</th>
+						<td>Thunderstorm with slight and heavy hail</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<p class="text-muted-foreground mt-2">
 			(*) Thunderstorm forecast with hail is only available in Central Europe
 		</p>

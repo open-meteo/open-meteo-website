@@ -609,7 +609,7 @@
 	<div class="text-muted-foreground">Preview:</div>
 
 	<ToggleGroup.Root type="single" bind:value={mode} class="justify-start gap-0">
-		<div class="border-border ml-2 flex rounded-lg border">
+		<div class="flex flex-wrap border-border ml-2 rounded-lg border">
 			<ToggleGroup.Item
 				value="chart"
 				class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
@@ -677,21 +677,22 @@
 					{/each}
 				{:else}
 					<div
-						class="border border-border rounded-lg"
 						transition:fade={{ duration: 300 }}
 						style={useStockChart ? 'height: 500px' : 'height: 400px'}
 					>
-						<div class="absolute top-0 flex h-full w-full items-center justify-center">
-							<Alert.Root class="border-border my-auto w-[unset] !pl-8">
+						<div
+							class="border-border border rounded-lg absolute top-0 flex h-full w-full px-6 items-center justify-center"
+						>
+							<Alert.Root class="border-border my-auto w-[unset] md:!pl-8">
 								<Alert.Description>
-									<div class="flex items-center justify-center gap-2">
+									<div class="flex items-center flex-col md:flex-row justify-center gap-2">
 										<div class="text-muted-foreground flex items-center">
 											<InfoCircle class="mr-2" />
 											Parameters have changed.
 										</div>
 
 										<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
-											><ArrowClockwise class="mr-2" />Reload Chart
+											><ArrowClockwise class="mr-1" />Reload Chart
 										</Button>
 									</div>
 								</Alert.Description>

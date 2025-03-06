@@ -25,7 +25,11 @@
 	<div class="flex items-center">
 		<div class="text-muted-foreground">Usage license:</div>
 		<div class="border-border ml-2 flex rounded-lg border">
-			<ToggleGroup.Root type="single" bind:value={licenseSelected} class="justify-start gap-0">
+			<ToggleGroup.Root
+				type="single"
+				bind:value={licenseSelected}
+				class="justify-start text-nowrap flex flex-wrap gap-0"
+			>
 				<ToggleGroup.Item
 					value="non_commercial"
 					class=" opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
