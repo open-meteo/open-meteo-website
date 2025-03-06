@@ -58,3 +58,10 @@ export const daily = [
 		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' }
 	]
 ];
+
+export const forecastDaysOptions = [
+	{ value: '45', label: '45 days' },
+	{ value: '92', label: '3 months (default)' },
+	{ value: '183', label: '6 months' },
+	{ value: '274', label: '9 months' }
+];

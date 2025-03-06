@@ -22,9 +22,9 @@
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
 
-	import { daily, six_hourly, defaultParameters } from './options';
+	import { daily, six_hourly, defaultParameters, forecastDaysOptions } from './options';
 
-	import { pastDaysOptions, forecastDaysOptions } from '../options';
+	import { pastDaysOptions } from '../options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -169,25 +169,43 @@
 		</div>
 	</div>
 
-	<!-- 6 HOURLY TODO -->
+	<!-- 6 HOURLY -->
 	<div class="mt-6 md:mt-12">
 		<h2 id="6_hourly_weather_variables" class="text-2xl md:text-3xl">6-Hourly Weather Variables</h2>
-		{#each six_hourly as group}
-			<div>
-				{#each group as e}
-					<div>
-						<input
-							type="checkbox"
-							value={e.name}
-							id="{e.name}_six_hourly"
-							name="six_hourly"
-							bind:group={$params.six_hourly}
-						/>
-						<label for="{e.name}_six_hourly">{e.label}</label>
-					</div>
-				{/each}
-			</div>
-		{/each}
+		<div
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+		>
+			{#each six_hourly as group}
+				<div class="">
+					{#each group as e}
+						<div class="group flex items-center">
+							<Checkbox
+								id="{e.value}_six_hourly"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								value={e.value}
+								checked={$params.six_hourly?.includes(e.value)}
+								aria-labelledby="{e.value}_six_hourly_label"
+								onCheckedChange={() => {
+									if ($params.six_hourly?.includes(e.value)) {
+										$params.six_hourly = $params.six_hourly.filter((item) => {
+											return item !== e.value;
+										});
+									} else {
+										$params.six_hourly.push(e.value);
+										$params.six_hourly = $params.six_hourly;
+									}
+								}}
+							/>
+							<Label
+								id="{e.value}_six_hourly_label"
+								for="{e.value}_six_hourly"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+							>
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
 	</div>
 
 	<!-- DAILY -->
@@ -223,16 +241,6 @@
 				{/each}
 			{/each}
 		</div>
-		{#if timezoneInvalid}
-			<div transition:slide>
-				<Alert.Root class="bg-warning text-warning-dark border-warning-foreground mt-2 md:mt-4">
-					<Alert.Description>
-						It is recommended to select a timezone for daily data. Per default the API will use
-						GMT+0.
-					</Alert.Description>
-				</Alert.Root>
-			</div>
-		{/if}
 	</div>
 
 	<!-- SETTINGS -->
