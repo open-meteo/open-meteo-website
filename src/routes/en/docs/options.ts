@@ -243,6 +243,11 @@ export const models = [
 		{ value: 'jma_gsm', label: 'JMA GSM' }
 	],
 	[
+		{ value: 'kma_seamless', label: 'KMA Seamless' },
+		{ value: 'kma_ldps', label: 'KMA LDPS' },
+		{ value: 'kma_gdps', label: 'KMA GDPS' }
+	],
+	[
 		{ value: 'icon_seamless', label: 'DWD ICON Seamless' },
 		{ value: 'icon_global', label: 'DWD ICON Global' },
 		{ value: 'icon_eu', label: 'DWD ICON EU' },
