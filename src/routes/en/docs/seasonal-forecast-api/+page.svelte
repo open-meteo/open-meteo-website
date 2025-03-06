@@ -33,14 +33,15 @@
 		daily: ['temperature_2m_max']
 	});
 
-	let timezoneInvalid = $derived(
-		$params.timezone == 'UTC' && ($params.daily ? $params.daily.length > 0 : false)
-	);
-
 	let forecastDays = $derived(
 		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
 	);
 	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
+
+	let begin_date = new Date('2022-06-08');
+
+	let last_date = new Date();
+	last_date.setDate(last_date.getDate() + 274);
 </script>
 
 <svelte:head>

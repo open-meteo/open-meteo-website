@@ -632,12 +632,12 @@
 					{/each}
 				</div>
 
-				<div class="text-muted-foreground mt-1 text-sm">
+				<small class="text-muted-foreground mt-1">
 					Note: You can further adjust the forecast time range for hourly weather variables using <mark
 						>&forecast_hours=</mark
 					>
 					and <mark>&past_hours=</mark> as shown below.
-				</div>
+				</small>
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
@@ -742,7 +742,7 @@
 				{/each}
 			{/each}
 		</div>
-		<div class="text-muted-foreground mt-1 text-sm">
+		<div class="text-muted-foreground mt-1">
 			Note: Current conditions are based on 15-minutely weather model data. Every weather variable
 			available in hourly data, is available as current condition as well.
 		</div>

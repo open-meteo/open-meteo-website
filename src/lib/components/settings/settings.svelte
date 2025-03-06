@@ -39,7 +39,7 @@
 </script>
 
 <h2 id="settings" class="text-2xl md:text-3xl">Settings</h2>
-<div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-6 md:flex-row md:gap-6 lg:grid-cols-4">
+<div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-4 md:flex-row md:gap-6 lg:grid-cols-4">
 	{#if visible.includes('temperature')}
 		<div class="relative">
 			<Select.Root name="temperature_unit" type="single" bind:value={params.temperature_unit}>
@@ -121,7 +121,8 @@
 			<Select.Root name="timeformat" type="single" bind:value={params.timeformat}>
 				<Select.Trigger
 					aria-label="Time format setting"
-					class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{timeFormat?.label}</Select.Trigger
+					class="h-12 w-full cursor-pointer pt-6 [&_svg]:mb-3 truncate"
+					>{timeFormat?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
 					{#each timeFormatOptions as tfo}

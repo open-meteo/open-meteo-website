@@ -144,7 +144,7 @@
 		><Search size={20} class="mr-1" /> {label}</Dialog.Trigger
 	>
 	<Dialog.Portal>
-		<Dialog.Overlay class="bg-black/5" duration={300} />
+		<Dialog.Overlay class="bg-black/5" />
 
 		<Dialog.Content
 			preventScroll={true}

@@ -651,70 +651,42 @@
 
 <div class="py-3">
 	{#if mode == 'chart'}
-		<div in:fade>
-			<div class="relative" style={useStockChart ? 'height: 500px' : 'height: 400px'}>
-				{#await results}
-					<div
-						class="bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center"
-						in:fade={{ delay: 400, duration: 400 }}
-						out:fade={{ duration: 300 }}
-					>
-						<LoaderCircle size={40} class="animate-spin" /><span class="hidden">Loading...</span>
-					</div>
-				{:then results}
-					{#if results}
-						{#each results.slice(0, 10) as chart}
-							<div transition:fade={{ duration: 300 }} class="absolute top-0 w-full">
-								<HighchartContainer
-									options={chart}
-									{useStockChart}
-									style={useStockChart ? 'height: 500px' : 'height: 400px'}
-								/>
-							</div>
-						{/each}
-					{:else}
-						<div
-							transition:fade={{ duration: 300 }}
-							style={useStockChart ? 'height: 500px' : 'height: 400px'}
-						>
-							<div class="absolute top-0 flex h-full w-full items-center justify-center">
-								<Alert.Root class="border-border my-auto w-[unset] !pl-8">
-									<Alert.Description>
-										<div class="flex items-center justify-center gap-2">
-											<div class="text-muted-foreground flex items-center">
-												<InfoCircle class="mr-2" />
-												Parameters have changed.
-											</div>
-
-											<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
-												><ArrowClockwise class="mr-2" />Reload Chart
-											</Button>
-										</div>
-									</Alert.Description>
-								</Alert.Root>
-							</div>
+		<div in:fade style={useStockChart ? 'min-height: 500px' : 'height: 400px'} class="relative">
+			{#await results}
+				<div
+					class="border border-border rounded-lg bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center"
+					in:fade={{ delay: 400, duration: 400 }}
+					out:fade={{ duration: 300 }}
+				>
+					<LoaderCircle size={40} class="animate-spin" /><span class="hidden">Loading...</span>
+				</div>
+			{:then results}
+				{#if results}
+					{#each results.slice(0, 10) as chart}
+						<div transition:fade={{ duration: 300 }} class="w-full">
+							<HighchartContainer
+								options={chart}
+								{useStockChart}
+								style={useStockChart ? 'height: 500px' : 'height: 400px'}
+							/>
 						</div>
-					{/if}
-				{:catch error}
+					{/each}
+				{:else}
 					<div
+						class="border border-border rounded-lg"
 						transition:fade={{ duration: 300 }}
-						class="bg-accent/25 absolute top-0 z-30 w-full"
 						style={useStockChart ? 'height: 500px' : 'height: 400px'}
 					>
-						<div class="flex h-full w-full items-center justify-center px-6 dark:brightness-150">
-							<Alert.Root variant="destructive" class="my-auto w-[unset] !pl-8">
+						<div class="absolute top-0 flex h-full w-full items-center justify-center">
+							<Alert.Root class="border-border my-auto w-[unset] !pl-8">
 								<Alert.Description>
 									<div class="flex items-center justify-center gap-2">
-										<div class="flex items-center">
-											<ExclamationTriangle class="mr-2" />
-											{JSON.parse(error.message).reason}
+										<div class="text-muted-foreground flex items-center">
+											<InfoCircle class="mr-2" />
+											Parameters have changed.
 										</div>
 
-										<Button
-											variant="outline"
-											type="submit"
-											class="border-red flex !flex-row"
-											onclick={reload}
+										<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
 											><ArrowClockwise class="mr-2" />Reload Chart
 										</Button>
 									</div>
@@ -722,48 +694,75 @@
 							</Alert.Root>
 						</div>
 					</div>
-				{/await}
-			</div>
-			<div class="mt-3 flex gap-3">
-				<Button
-					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					href={xlsxUrl}>Download XLSX</Button
-				>
-				<Button
-					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					href={csvUrl}>Download CSV</Button
-				>
-			</div>
-
-			<div class="mt-3 flex flex-col">
-				<div>
-					API URL
-					<small class="text-muted-foreground"
-						>(<a
-							id="api_url_link"
-							target="_blank"
-							class="text-link underline underline-offset-2"
-							href={previewUrl}>Open in new tab</a
-						> or copy this URL into your application)</small
-					>
-				</div>
-				{#if callWeight > 1}
-					<p class="mt-2">
-						Note: This API call is equivalent to <strong>{callWeight.toFixed(1)}</strong> calls because
-						of factors like long time intervals, the number of locations, variables, or models involved.
-					</p>
 				{/if}
-				<Input
-					class="mt-2"
-					type="text"
-					id="api_url"
-					readonly
-					aria-label="Copy to clipboard"
-					bind:value={previewUrl}
-				/>
+			{:catch error}
+				<div
+					transition:fade={{ duration: 300 }}
+					class="border border-border rounded-lg bg-accent/25 absolute top-0 z-30 w-full"
+					style={useStockChart ? 'height: 500px' : 'height: 400px'}
+				>
+					<div class="flex h-full w-full items-center justify-center px-6 dark:brightness-150">
+						<Alert.Root variant="destructive" class="my-auto w-[unset] !pl-8">
+							<Alert.Description>
+								<div class="flex items-center justify-center gap-2">
+									<div class="flex items-center">
+										<ExclamationTriangle class="mr-2" />
+										{JSON.parse(error.message).reason}
+									</div>
+
+									<Button
+										variant="outline"
+										type="submit"
+										class="border-red flex !flex-row"
+										onclick={reload}
+										><ArrowClockwise class="mr-2" />Reload Chart
+									</Button>
+								</div>
+							</Alert.Description>
+						</Alert.Root>
+					</div>
+				</div>
+			{/await}
+		</div>
+		<div class="mt-3 flex gap-3">
+			<Button
+				variant="outline"
+				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+				href={xlsxUrl}>Download XLSX</Button
+			>
+			<Button
+				variant="outline"
+				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+				href={csvUrl}>Download CSV</Button
+			>
+		</div>
+
+		<div class="mt-3 flex flex-col">
+			<div>
+				API URL
+				<small class="text-muted-foreground"
+					>(<a
+						id="api_url_link"
+						target="_blank"
+						class="text-link underline underline-offset-2"
+						href={previewUrl}>Open in new tab</a
+					> or copy this URL into your application)</small
+				>
 			</div>
+			{#if callWeight > 1}
+				<p class="mt-2">
+					Note: This API call is equivalent to <strong>{callWeight.toFixed(1)}</strong> calls because
+					of factors like long time intervals, the number of locations, variables, or models involved.
+				</p>
+			{/if}
+			<Input
+				class="mt-2"
+				type="text"
+				id="api_url"
+				readonly
+				aria-label="Copy to clipboard"
+				bind:value={previewUrl}
+			/>
 		</div>
 	{/if}
 	{#if mode == 'python'}

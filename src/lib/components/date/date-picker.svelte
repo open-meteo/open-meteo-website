@@ -79,15 +79,21 @@
 		<Popover.Trigger class="flex w-full cursor-pointer flex-col gap-6 sm:flex-row">
 			<div
 				bind:this={inputDiv}
-				class="border-border h-13 relative flex w-full rounded-md border px-3 pt-6 text-sm"
+				class="border-border h-13 relative flex w-full rounded-md border px-3 pt-6"
 			>
 				<CalendarIcon class="mr-1 mt-1 size-3" />
 
-				{#if start_date}
-					{start_date}
-				{:else}
-					<span class="text-muted-foreground"> Pick a start date </span>
-				{/if}
+				<Input
+					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0 {popoverOpen
+						? 'z-20'
+						: ''}"
+					type="text"
+					value={start_date}
+					placeholder="Pick an end date"
+					oninput={(e) => {
+						console.log(e);
+					}}
+				/>
 				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 					>Start date</Label
 				>
@@ -96,11 +102,13 @@
 					>
 				{/if}
 			</div>
-			<div class="border-border h-13 relative flex w-full rounded-md border px-3 pt-6 text-sm">
+			<div class="border-border h-13 relative flex w-full rounded-md border px-3 pt-6">
 				<CalendarIcon class="mr-1 mt-1 size-3" />
 
 				<Input
-					class="!ring-none foc m-0 -mt-2 h-[unset] border-none p-0 !outline-none"
+					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0   {popoverOpen
+						? 'z-20'
+						: ''}"
 					type="text"
 					value={end_date}
 					placeholder="Pick an end date"

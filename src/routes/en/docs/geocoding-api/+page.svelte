@@ -257,9 +257,7 @@
 		aria-label="Copy to clipboard"
 		value={apiUrl}
 	/>
-	<div class="text-muted-foreground mt-1 text-sm">
-		You can copy this API URL into your application
-	</div>
+	<div class="text-muted-foreground mt-1">You can copy this API URL into your application</div>
 </div>
 
 <!-- API DOCS -->

@@ -309,12 +309,12 @@
 					{/each}
 				</div>
 
-				<div class="text-muted-foreground mt-1 text-sm">
+				<small class="text-muted-foreground mt-1">
 					Note: You can further adjust the forecast time range for hourly weather variables using <mark
 						>&forecast_hours=</mark
 					>
 					and <mark>&past_hours=</mark> as shown below.
-				</div>
+				</small>
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative col-span-2">
 						<Select.Root
@@ -387,13 +387,12 @@
 						{/each}
 					</div>
 				{/each}
-				<div>
-					<div class="text-muted-foreground">
-						Note: Solar radiation is averaged over the past hour. Use
-						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-						please specify Tilt and Azimuth below.
-					</div>
-				</div>
+
+				<small class="text-muted-foreground mt-1">
+					Note: Solar radiation is averaged over the past hour. Use
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
+					please specify Tilt and Azimuth below.
+				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
 					<div class="relative">
