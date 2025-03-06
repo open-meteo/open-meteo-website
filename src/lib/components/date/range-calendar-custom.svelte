@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
-	import { fade, slide, scale } from 'svelte/transition';
+	import { scale } from 'svelte/transition';
 
 	import { pad } from '$lib/utils/meteo';
 
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Input } from '$lib/components/ui/input';
+	import { Button } from '$lib/components/ui/button';
 
 	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
 	import ChevronRight from 'lucide-svelte/icons/chevron-right';
@@ -111,7 +110,22 @@
 	class="border-border flex w-full flex-col items-stretch justify-between gap-3 overflow-auto border-b p-3 md:flex-row"
 >
 	<div class="flex w-full flex-col items-center gap-3">
-		<div class="text-sm font-bold">Start date</div>
+		<div class="flex gap-2 items-center justify-center">
+			<div class="font-bold text-nowrap">Start date</div>
+			<Input
+				class="!ring-0 border !ring-offset-0 !bg-transparent m-0 h-[unset]"
+				type="text"
+				placeholder={start_date}
+				oninput={(e) => {
+					if (
+						new Date(e.target.value) !== 'Invalid Date' &&
+						new Date(e.target.value).getFullYear() > 1940
+					) {
+						start_date = new Date(e.target.value).toISOString().split('T')[0];
+					}
+				}}
+			/>
+		</div>
 		<div class="flex w-full justify-between">
 			<Button variant="outline" class="px-3" onclick={decreaseStart}><ChevronLeft /></Button>
 			<Button
@@ -206,7 +220,22 @@
 	</div>
 	<div class="border-border border-r"></div>
 	<div class="flex w-full flex-col items-center gap-3">
-		<div class="text-sm font-bold">End date</div>
+		<div class="flex gap-2 items-center justify-center">
+			<div class="font-bold text-nowrap">End date</div>
+			<Input
+				class="!ring-0 border !ring-offset-0 !bg-transparent m-0 h-[unset]"
+				type="text"
+				placeholder={end_date}
+				oninput={(e) => {
+					if (
+						new Date(e.target.value) !== 'Invalid Date' &&
+						new Date(e.target.value).getFullYear() > 1940
+					) {
+						end_date = new Date(e.target.value).toISOString().split('T')[0];
+					}
+				}}
+			/>
+		</div>
 		<div class="flex w-full justify-between">
 			<Button variant="outline" class="px-3" onclick={decreaseEnd}><ChevronLeft /></Button>
 			<Button

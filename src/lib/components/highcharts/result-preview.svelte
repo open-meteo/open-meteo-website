@@ -651,7 +651,11 @@
 
 <div class="py-3">
 	{#if mode == 'chart'}
-		<div in:fade style={useStockChart ? 'min-height: 500px' : 'height: 400px'} class="relative">
+		<div
+			in:fade
+			style={useStockChart ? 'min-height: 500px' : 'height: 400px'}
+			class="-mx-6 relative md:mx-0"
+		>
 			{#await results}
 				<div
 					class="border border-border rounded-lg bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center"

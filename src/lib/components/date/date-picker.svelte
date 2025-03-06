@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 
 	import RangeCalendar from './range-calendar-custom.svelte';
 
@@ -79,7 +79,9 @@
 		<Popover.Trigger class="flex w-full cursor-pointer flex-col gap-6 sm:flex-row">
 			<div
 				bind:this={inputDiv}
-				class="border-border h-13 relative flex w-full rounded-md border px-3 pt-6"
+				class="border-border ring-offset-background h-13 relative flex w-full rounded-md border px-3 pt-6 {popoverOpen
+					? 'ring-2 ring-ring ring-offset-2'
+					: ''}"
 			>
 				<CalendarIcon class="mr-1 mt-1 size-3" />
 
@@ -88,21 +90,31 @@
 						? 'z-20'
 						: ''}"
 					type="text"
-					value={start_date}
+					bind:value={start_date}
 					placeholder="Pick an end date"
 					oninput={(e) => {
 						console.log(e);
+					}}
+					onclick={(e) => {
+						if (popoverOpen) {
+							e.stopPropagation();
+						}
 					}}
 				/>
 				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 					>Start date</Label
 				>
 				{#if start_date && new Date(start_date).getTime() < begin_date.getTime() - 24 * 60 * 60 * 1000}
-					<span in:fade class="top-13 absolute left-0 text-sm text-red-800">Start date invalid</span
+					<span transition:slide class="top-14 absolute left-0 text-sm text-red-800"
+						>Start date invalid</span
 					>
 				{/if}
 			</div>
-			<div class="border-border h-13 relative flex w-full rounded-md border px-3 pt-6">
+			<div
+				class="border-border ring-offset-background h-13 relative flex w-full rounded-md border px-3 pt-6 {popoverOpen
+					? 'ring-2 ring-ring ring-offset-2'
+					: ''}"
+			>
 				<CalendarIcon class="mr-1 mt-1 size-3" />
 
 				<Input
@@ -115,14 +127,21 @@
 					oninput={(e) => {
 						console.log(e);
 					}}
+					onclick={(e) => {
+						if (popoverOpen) {
+							e.stopPropagation();
+						}
+					}}
 				/>
 				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 					>End date</Label
 				>
 				{#if (end_date && new Date(end_date).getTime() < begin_date.getTime()) || (end_date && new Date(end_date).getTime() > last_date.getTime() + 24 * 60 * 60 * 1000)}
-					<span in:fade class="top-13 absolute left-0 text-sm text-red-800">End date invalid</span>
+					<span transition:slide class="top-14 absolute left-0 text-sm text-red-800"
+						>End date invalid</span
+					>
 				{:else if end_date && start_date && new Date(end_date).getTime() < new Date(start_date).getTime()}
-					<span in:fade class="top-13 absolute left-0 text-sm text-red-800"
+					<span transition:slide class="top-14 absolute left-0 text-sm text-red-800"
 						>End date before Start date</span
 					>
 				{/if}
@@ -132,7 +151,7 @@
 			onCloseAutoFocus={(e) => {
 				e.preventDefault();
 			}}
-			class="border-border mt-2 w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 md:mt-4"
+			class="border-border mt-2 w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 md:mt-5"
 			align="start"
 		>
 			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} />

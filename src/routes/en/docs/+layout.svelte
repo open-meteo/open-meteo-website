@@ -120,13 +120,14 @@
 							>
 								{#each link.children as l}
 									<li
-										class="rounded-md border p-1 pl-3 duration-300 {selectedPath.url === l.url
+										class="rounded-md border p-1 pl-3 py-2 overflow-hidden truncate duration-300 {selectedPath.url ===
+										l.url
 											? 'border-border'
 											: 'border-transparent'}"
 									>
 										<a
 											href={l.url}
-											class="my-1 flex items-center gap-1"
+											class="py-2"
 											onclick={() => {
 												if (l.url != selectedPath.url) {
 													mobileNavOpened = false;
