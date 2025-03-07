@@ -115,13 +115,13 @@ h4:target {
 	}
 }
 
-tbody a,
-p a {
+p a,
+tbody a {
 	@apply text-link underline underline-offset-2 duration-200;
 }
 
-tbody a:hover,
-p a:hover {
+p a:hover,
+tbody a:hover {
 	@apply brightness-125 dark:brightness-75;
 }
 
@@ -142,37 +142,6 @@ p:not(:last-child) {
 	@apply rounded-xl px-4 py-6;
 }
 
-.curl .shiki span > span {
-	transition: 200ms;
-}
-
-.curl:hover span > span {
-	filter: brightness(80%);
-}
-
-.dark .curl:hover span > span {
-	filter: brightness(120%);
-}
-
-div > .shiki {
-	overflow: auto;
-	padding-left: calc(var(--spacing) * 6);
-}
-
-.curl {
-	text-indent: -3rem;
-	padding-left: 2rem;
-}
-
-.curl .line::before {
-	content: '$';
-	width: 1rem;
-	margin-right: 1rem;
-	display: inline-block;
-	text-align: right;
-	color: rgba(115, 138, 148, 0.5);
-}
-
 .code-numbered .shiki {
 	padding-left: calc(var(--spacing) * 8);
 }
@@ -187,6 +156,52 @@ div > .shiki {
 	counter-increment: step;
 	width: 1rem;
 	margin-left: -1rem;
+	margin-right: 1rem;
+	display: inline-block;
+	text-align: right;
+	color: rgba(115, 138, 148, 0.5);
+}
+
+.curl .shiki span > span {
+	transition: 200ms;
+}
+
+.curl:hover span > span {
+	filter: brightness(80%);
+}
+
+.dark .curl:hover span > span {
+	filter: brightness(122%);
+}
+
+.curl {
+	/* text-indent: -2rem; */
+	padding-left: 0;
+}
+
+.curl .shiki {
+	padding-top: 0;
+	padding-bottom: 0;
+	background-color: transparent !important;
+}
+
+.curl .shiki code {
+	text-wrap: wrap;
+	display: -webkit-box;
+	word-break: break-word;
+	max-width: 630px;
+	max-height: 96px;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 4;
+	line-clamp: 4;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	background-color: transparent !important;
+}
+
+.curl .line::before {
+	content: '$';
+	width: 1rem;
 	margin-right: 1rem;
 	display: inline-block;
 	text-align: right;

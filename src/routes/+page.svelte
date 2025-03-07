@@ -69,11 +69,15 @@
 			</div>
 		</div>
 
-		<div class="overflow-hidden rounded-lg bg-[#FAFAFA] p-6 duration-200 dark:bg-[#212121]">
-			<ToggleGroup.Root type="single" bind:value={tabSelected} class="justify-start gap-0">
+		<div class="-mx-6 md:mx-0 rounded-lg bg-[#FAFAFA] p-6 duration-200 dark:bg-[#212121]">
+			<ToggleGroup.Root
+				type="single"
+				bind:value={tabSelected}
+				class="flex flex-col sm:flex-row md:flex-col lg:flex-row items-start justify-start gap-0"
+			>
 				<ToggleGroup.Item
 					value="weather-api"
-					class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
+					class="opacity-100! truncate min-h-12 cursor-pointer sm:rounded-e-none lg:min-h-[unset]"
 					aria-label="Toggle bold"
 					disabled={tabSelected === 'weather-api'}
 				>
@@ -81,7 +85,7 @@
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="last-10-days"
-					class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
+					class="opacity-100! truncate min-h-12 cursor-pointer sm:rounded-none lg:min-h-[unset]"
 					aria-label="Toggle italic"
 					disabled={tabSelected === 'last-10-days'}
 				>
@@ -89,92 +93,51 @@
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="historical-weather"
-					class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
+					class="opacity-100! truncate min-h-12 cursor-pointer sm:rounded-s-none lg:min-h-[unset]"
 					aria-label="Toggle strikethrough"
 					disabled={tabSelected === 'historical-weather'}
 				>
 					Historical data
 				</ToggleGroup.Item>
 			</ToggleGroup.Root>
-			<div class="relative min-h-[530px] lg:min-h-[475px]">
+			<div class="relative min-h-[530px] overflow-auto lg:min-h-[475px]">
 				{#if tabSelected === 'weather-api'}
-					<div in:fade class="group absolute w-full">
+					<div in:fade class="group w-full">
 						<Button
 							variant="ghost"
-							class="curl bg-transparent! mt-20 max-h-20 min-h-8 w-full p-0 lg:mt-12 [&_.shiki]:w-full [&_code]:w-full [&_code]:text-wrap [&_code]:break-words"
+							class="curl h-[96px] p-0 !bg-transparent mt-2 md:mt-4 [&_span]:bg-transparent!"
 							href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
 						>
 							<WeatherApiCurlBlock />
 						</Button>
-						<Button
-							variant="outline"
-							name="copy-code-to-clipboard"
-							aria-label="Copy to clipboard"
-							class="absolute right-0 top-2 z-10 opacity-0 duration-300 group-hover:opacity-100"
-							onclick={() => {
-								window.prompt(
-									'Copy to clipboard: Ctrl+C, Enter',
-									'curl https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m'
-								);
-							}}
-						>
-							<Clipboard size="22" strokeWidth={1} />
-						</Button>
-						<div class="code-numbered -ml-4 mt-10 lg:mt-2">
+						<div class="code-numbered -mx-4 md:mx-0 mt-4 md:mt-6 [&_.shiki]:pt-0!">
 							<WeatherApiCodeBlock />
 						</div>
 					</div>
 				{:else if tabSelected === 'last-10-days'}
-					<div in:fade class="group absolute w-full">
+					<div in:fade class="group w-full">
 						<Button
 							variant="ghost"
-							class="curl bg-transparent! mt-20 max-h-20 min-h-8 w-full p-0 lg:mt-12 [&_.shiki]:w-full [&_code]:w-full [&_code]:text-wrap [&_code]:break-words"
+							class="curl h-[96px] p-0 !bg-transparent mt-2 md:mt-4 [&_span]:bg-transparent!"
 							href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&past_days=10&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
 						>
 							<Last10DaysCurlBlock />
 						</Button>
-						<Button
-							variant="outline"
-							name="copy-code-to-clipboard"
-							aria-label="Copy to clipboard"
-							class="absolute right-0 top-2 z-10 opacity-0 duration-300 group-hover:opacity-100"
-							onclick={() => {
-								window.prompt(
-									'Copy to clipboard: Ctrl+C, Enter',
-									'curl "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&past_days=10&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"'
-								);
-							}}
-						>
-							<Clipboard size="22" strokeWidth={1} />
-						</Button>
-						<div class="code-numbered -ml-4 mt-10 lg:mt-2">
+						<div class="code-numbered -mx-4 md:mx-0 mt-4 md:mt-6 [&_.shiki]:pt-0!">
 							<Last10DaysCodeBlock />
 						</div>
 					</div>
 				{:else if tabSelected === 'historical-weather'}
-					<div in:fade class="group absolute w-full">
+					<div in:fade class="group w-full">
 						<Button
 							variant="ghost"
-							class="curl bg-transparent! mt-20 max-h-20 min-h-8 w-full text-ellipsis p-0 lg:mt-12 [&_.shiki]:w-full [&_code]:w-full [&_code]:text-wrap [&_code]:break-words"
+							class="curl h-[96px] p-0 !bg-transparent mt-2 md:mt-4 [&_span]:bg-transparent!"
 							href="https://archive-api.open-meteo.com/v1/era5?latitude=52.52&longitude=13.41&start_date=2021-01-01&end_date=2021-12-31&hourly=temperature_2m"
 						>
 							<HistoricalWeatherCurlBlock />
 						</Button>
-						<Button
-							variant="outline"
-							name="copy-code-to-clipboard"
-							aria-label="Copy to clipboard"
-							class="absolute right-0 top-2 z-10 opacity-0 duration-300 group-hover:opacity-100"
-							onclick={() => {
-								window.prompt(
-									'Copy to clipboard: Ctrl+C, Enter',
-									'curl "https://archive-api.open-meteo.com/v1/era5?latitude=52.52&longitude=13.41&start_date=2021-01-01&end_date=2021-12-31&hourly=temperature_2m"'
-								);
-							}}
-						>
-							<Clipboard size="22" strokeWidth={1} />
-						</Button>
-						<div class="code-numbered -ml-4 mt-10 lg:mt-2">
+
+						<div class="code-numbered -mx-4 md:mx-0 mt-4 md:mt-6 [&_.shiki]:pt-0!">
 							<HistoricalWeatherCodeBlock />
 						</div>
 					</div>
