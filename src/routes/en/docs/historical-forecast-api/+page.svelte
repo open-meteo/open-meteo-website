@@ -24,7 +24,7 @@
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import AccordionItem from '$lib/components/AccordionItem.svelte';
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
@@ -53,7 +53,6 @@
 	let d = new Date();
 	d.setDate(d.getDate() - 2);
 	let endDateDefault = d.toISOString().split('T')[0];
-	let endDate = $state(endDateDefault);
 	d.setDate(d.getDate() - 14);
 	let startDateDefault = d.toISOString().split('T')[0];
 

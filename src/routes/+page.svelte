@@ -4,7 +4,6 @@
 	import Key from 'lucide-svelte/icons/key-round';
 	import Watch from 'lucide-svelte/icons/watch';
 	import Archive from 'lucide-svelte/icons/archive';
-	import Clipboard from 'lucide-svelte/icons/clipboard';
 	import Lightbulb from 'lucide-svelte/icons/lightbulb';
 	import MapPinned from 'lucide-svelte/icons/map-pinned';
 
@@ -12,7 +11,8 @@
 
 	import Mailbox from '$lib/assets/icons/mailbox.svelte';
 
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Button } from '$lib/components/ui/button';
+
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
 	import WeatherApiCodeBlock from '$lib/components/code/home/weather-api.svx';

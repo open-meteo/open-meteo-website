@@ -27,11 +27,11 @@
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import AccordionItem from '$lib/components/AccordionItem.svelte';
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/PressureLevelsHelpTable.svelte';
+	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 
 	import MarineObject from '$lib/components/code/docs/marine-object.svx';
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
