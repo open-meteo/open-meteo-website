@@ -101,7 +101,6 @@
 
 	onMount(async () => {
 		var d = new Date();
-		endDate = d.toISOString().split('T')[0];
 		d.setDate(d.getDate() - 2);
 		if ($params.end_date == startDateDefault) {
 			$params.end_date = d.toISOString().split('T')[0];
@@ -141,8 +140,8 @@
 	<LocationSelection bind:params={$params} />
 
 	<!-- TIME -->
-	<div class="mt-6 flex flex-col gap-4 md:flex-row">
-		<div class="md:w-1/2">
+	<div class="mt-6 flex flex-col gap-4 lg:flex-row">
+		<div class="lg:w-1/2">
 			<DatePicker
 				bind:start_date={$params.start_date}
 				bind:end_date={$params.end_date}
@@ -150,7 +149,7 @@
 				{endDate}
 			/>
 		</div>
-		<div class="md:w-1/2">
+		<div class="lg:w-1/2">
 			<p>
 				You can access past weather data dating back to 1940. However, there is a 5-day delay in the
 				data. If you want information for the most recent days, you can use the <a

@@ -253,7 +253,7 @@
 				</div>
 			{/if}
 			{#if $params.time_mode === 'time_interval'}
-				<div in:fade class="flex flex-col gap-4 lg:flex-row">
+				<div in:fade class="flex flex-col gap-x-6 gap-y-3 lg:flex-row">
 					<div class="mb-3 lg:w-1/2">
 						<DatePicker
 							bind:start_date={$params.start_date}
@@ -878,9 +878,9 @@
 			hours. 15-minutely data is only available for a small number of weather variables and only in
 			Central Europe.
 		</p>
-		<div>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 lg:mx-0 md:ml-0 min-w-[940px] mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -929,13 +929,17 @@
 
 		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 			<figure class="w-full">
-				<img class="w-full" src="/images/models/dwd_icon-d2.webp" alt="ICON D2 Modal Area" />
+				<img
+					class="w-full rounded-lg"
+					src="/images/models/dwd_icon-d2.webp"
+					alt="ICON D2 Modal Area"
+				/>
 				<figcaption class="text-muted-foreground">ICON D2 Area. Source: Open-Meteo.</figcaption>
 			</figure>
 
 			<figure class="w-full">
 				<img
-					class="w-full"
+					class="w-full rounded-lg"
 					src="/images/models/dwd_icon-eu.webp"
 					alt="ICON EU Regional Model Area"
 				/>

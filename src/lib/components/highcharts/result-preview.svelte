@@ -653,7 +653,7 @@
 	{#if mode == 'chart'}
 		<div
 			in:fade
-			style={useStockChart ? 'min-height: 500px' : 'height: 400px'}
+			style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
 			class="-mx-6 relative md:mx-0"
 		>
 			{#await results}
@@ -678,7 +678,7 @@
 				{:else}
 					<div
 						transition:fade={{ duration: 300 }}
-						style={useStockChart ? 'height: 500px' : 'height: 400px'}
+						style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
 					>
 						<div
 							class="border-border border rounded-lg absolute top-0 flex h-full w-full px-6 items-center justify-center"

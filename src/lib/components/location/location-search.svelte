@@ -140,7 +140,7 @@
 			e.preventDefault();
 			dialogOpen = !dialogOpen;
 		}}
-		class="hover:bg-accent border-border flex h-12 cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
+		class="hover:bg-accent w-full border-border flex h-12 cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
 		><Search size={20} class="mr-1" /> {label}</Dialog.Trigger
 	>
 	<Dialog.Portal>

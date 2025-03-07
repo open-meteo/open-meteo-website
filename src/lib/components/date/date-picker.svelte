@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { slide } from 'svelte/transition';
+	import { onMount } from 'svelte';
 
-	import RangeCalendar from './range-calendar-custom.svelte';
+	import { slide } from 'svelte/transition';
 
 	import { browser } from '$app/environment';
 
@@ -12,7 +12,8 @@
 
 	import X from 'lucide-svelte/icons/x';
 	import CalendarIcon from 'lucide-svelte/icons/calendar';
-	import { onMount } from 'svelte';
+
+	import RangeCalendar from './range-calendar-custom.svelte';
 
 	interface Props {
 		start_date?: string;
@@ -76,10 +77,12 @@
 
 <div>
 	<Popover.Root bind:open={popoverOpen}>
-		<Popover.Trigger class="flex w-full cursor-pointer flex-col gap-6 sm:flex-row">
+		<Popover.Trigger
+			class="relative flex w-full cursor-pointer flex-col gap-x-6 gap-y-3 md:flex-row"
+		>
 			<div
 				bind:this={inputDiv}
-				class="border-border ring-offset-background h-13 relative flex w-full rounded-md border px-3 pt-6 {popoverOpen
+				class="relative border-border ring-offset-background h-13 flex w-full rounded-md border px-3 pt-6 {popoverOpen
 					? 'ring-2 ring-ring ring-offset-2'
 					: ''}"
 			>
@@ -104,12 +107,15 @@
 				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 					>Start date</Label
 				>
-				{#if start_date && new Date(start_date).getTime() < begin_date.getTime() - 24 * 60 * 60 * 1000}
-					<span transition:slide class="top-14 absolute left-0 text-sm text-red-800"
-						>Start date invalid</span
-					>
-				{/if}
 			</div>
+			{#if (start_date && new Date(start_date).getTime() < begin_date.getTime() - 24 * 60 * 60 * 1000) || (start_date && new Date(start_date).getTime() > last_date.getTime() + 24 * 60 * 60 * 1000)}
+				<div
+					transition:slide
+					class="md:absolute md:top-15 md:left-3 flex -my-1 text-sm text-red-800"
+				>
+					Start date invalid
+				</div>
+			{/if}
 			<div
 				class="border-border ring-offset-background h-13 relative flex w-full rounded-md border px-3 pt-6 {popoverOpen
 					? 'ring-2 ring-ring ring-offset-2'
@@ -136,16 +142,22 @@
 				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 					>End date</Label
 				>
-				{#if (end_date && new Date(end_date).getTime() < begin_date.getTime()) || (end_date && new Date(end_date).getTime() > last_date.getTime() + 24 * 60 * 60 * 1000)}
-					<span transition:slide class="top-14 absolute left-0 text-sm text-red-800"
-						>End date invalid</span
-					>
-				{:else if end_date && start_date && new Date(end_date).getTime() < new Date(start_date).getTime()}
-					<span transition:slide class="top-14 absolute left-0 text-sm text-red-800"
-						>End date before Start date</span
-					>
-				{/if}
 			</div>
+			{#if (end_date && new Date(end_date).getTime() < begin_date.getTime()) || (end_date && new Date(end_date).getTime() > last_date.getTime() + 24 * 60 * 60 * 1000)}
+				<div
+					transition:slide
+					class="flex md:absolute md:top-15 md:left-[calc(50%+1.5rem)] text-sm -my-1 text-red-800"
+				>
+					End date invalid
+				</div>
+			{:else if end_date && start_date && new Date(end_date).getTime() < new Date(start_date).getTime()}
+				<div
+					transition:slide
+					class="flex md:absolute md:top-15 md:left-[calc(50%+1.5rem)] text-sm -my-1 text-red-800"
+				>
+					End date before Start date
+				</div>
+			{/if}
 		</Popover.Trigger>
 		<Popover.Content
 			onCloseAutoFocus={(e) => {

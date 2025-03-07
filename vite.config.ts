@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import tailwindcss from '@tailwindcss/vite';
 import tailwindcssCleaner from 'vite-plugin-tailwindcss-cleaner';
+import svg from '@poppanator/sveltekit-svg';
 
 import rollupOptions from './rollup.config';
 
@@ -23,6 +24,8 @@ export default defineConfig({
 		tailwindcss(),
 		tailwindcssCleaner(),
 		sveltekit(),
+		svg(), // Options are optional
+
 		replaceChunckNames(),
 		visualizer({
 			filename: 'build-stats.json',

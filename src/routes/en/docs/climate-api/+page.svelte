@@ -78,8 +78,8 @@
 	<LocationSelection bind:params={$params} />
 
 	<!-- TIME -->
-	<div class="mt-6 flex flex-col gap-4 md:flex-row">
-		<div class="mb-3 md:w-1/2">
+	<div class="mt-6 flex flex-col gap-4 lg:flex-row">
+		<div class="mb-3 lg:w-1/2">
 			<DatePicker
 				bind:start_date={$params.start_date}
 				bind:end_date={$params.end_date}
@@ -87,7 +87,7 @@
 				{last_date}
 			/>
 		</div>
-		<div>
+		<div class="mb-3 lg:w-1/2">
 			<p>Past weather forecasts from 2022 onwards are available.</p>
 			<div class="flex flex-wrap items-center gap-2">
 				Quick:

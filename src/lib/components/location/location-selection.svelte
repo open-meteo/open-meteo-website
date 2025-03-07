@@ -13,10 +13,10 @@
 
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
-	import Locate from 'lucide-svelte/icons/locate';
 	import List from 'lucide-svelte/icons/list';
 	import Plus from 'lucide-svelte/icons/plus';
 	import Trash from 'lucide-svelte/icons/trash-2';
+	import Locate from 'lucide-svelte/icons/locate';
 
 	interface Props {
 		params: Parameters;
@@ -24,24 +24,32 @@
 
 	let { params = $bindable() }: Props = $props();
 
-	function locationCallback(event: CustomEvent<GeoLocation>, index: number) {
+	const locationCallback = (event: CustomEvent<GeoLocation>, index: number) => {
 		if (params.latitude && params.longitude) {
 			params.latitude[index] = Number(event.detail.latitude.toFixed(4));
 			params.longitude[index] = Number(event.detail.longitude.toFixed(4));
 		}
-	}
-	function addLocation() {
+		params.latitude = params.latitude;
+		params.longitude = params.longitude;
+	};
+
+	const addLocation = () => {
 		if (params.latitude && params.longitude) {
 			params.latitude.push(NaN);
 			params.longitude.push(NaN);
 		}
-	}
-	function removeLocation(index: number) {
+		params.latitude = params.latitude;
+		params.longitude = params.longitude;
+	};
+
+	const removeLocation = (index: number) => {
 		if (params.latitude && params.longitude) {
 			params.latitude = params.latitude.toSpliced(index, 1);
 			params.longitude = params.longitude.toSpliced(index, 1);
 		}
-	}
+		params.latitude = params.latitude;
+		params.longitude = params.longitude;
+	};
 
 	const timeZoneOptions = [
 		{ value: 'UTC', label: 'Not set (GMT+0)' },
@@ -182,25 +190,30 @@
 					</div>
 
 					<div class="flex gap-3 md:gap-6">
-						<LocationSearch
-							on:location={(event) => locationCallback(event, index)}
-							label="Search"
-						/>
-						{#if index == 0}
-							<Button
-								variant="outline"
-								class="h-12 px-5 pr-6"
-								onclick={addLocation}
-								title="Add coordinates"><Plus size={22} /></Button
-							>
-						{:else}
-							<Button
-								variant="outline"
-								class="h-12 px-5  pr-6"
-								onclick={() => removeLocation(index)}
-								title="Delete coordinates"><Trash size={20} /></Button
-							>
-						{/if}
+						<div class="md:w-2/3">
+							<LocationSearch
+								on:location={(event) => locationCallback(event, index)}
+								label="Search"
+							/>
+						</div>
+
+						<div class="md:w-1/3">
+							{#if index == 0}
+								<Button
+									variant="outline"
+									class="h-12 w-full px-5 pr-6"
+									onclick={addLocation}
+									title="Add coordinates"><Plus size={22} /></Button
+								>
+							{:else}
+								<Button
+									variant="outline"
+									class="h-12 w-full px-5 pr-6"
+									onclick={() => removeLocation(index)}
+									title="Delete coordinates"><Trash size={20} /></Button
+								>
+							{/if}
+						</div>
 					</div>
 				</div>
 			{/each}

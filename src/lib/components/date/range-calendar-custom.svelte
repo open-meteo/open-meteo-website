@@ -59,10 +59,19 @@
 	};
 
 	const monthList = monthsForLocale();
-	const yearList = [...Array(last_date.getFullYear() - 1940 + 1).keys()]
-		.map((y) => y + 1940)
-		.reverse();
-
+	const yearList = [
+		...Array(
+			last_date.getFullYear() -
+				(begin_date.getFullYear() > 1990
+					? begin_date.getFullYear() - 10
+					: begin_date.getFullYear()) +
+				1
+		).keys()
+	].map(
+		(y) =>
+			y +
+			(begin_date.getFullYear() > 1990 ? begin_date.getFullYear() - 10 : begin_date.getFullYear())
+	);
 	let startDates = $derived(getDatesInMonth(startDate.getFullYear(), startDate.getMonth() + 1));
 	let endDates = $derived(getDatesInMonth(endDate.getFullYear(), endDate.getMonth() + 1));
 
@@ -134,6 +143,11 @@
 				onclick={() => {
 					if (monthModeStart) {
 						yearModeStart = true;
+						setTimeout(() => {
+							document
+								.getElementById('start_year_' + new Date(start_date).getFullYear())
+								?.scrollIntoView({ behavior: 'instant', inline: 'end' });
+						}, 200);
 					}
 					monthModeStart = true;
 				}}>{startDate.getFullYear()} - {monthList[startDate.getMonth()]}</Button
@@ -142,9 +156,10 @@
 		</div>
 		<div class="flex max-h-[300px] justify-between overflow-y-auto">
 			{#if yearModeStart}
-				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
+				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-d grid-cols-4">
 					{#each yearList as year}
 						<Button
+							id="start_year_{year}"
 							class={startDate.getFullYear() === year ? 'bg-accent/75' : ''}
 							variant="ghost"
 							disabled={year < begin_date.getFullYear()}
@@ -244,6 +259,11 @@
 				onclick={() => {
 					if (monthModeEnd) {
 						yearModeEnd = true;
+						setTimeout(() => {
+							document
+								.getElementById('end_year_' + new Date(start_date).getFullYear())
+								?.scrollIntoView({ behavior: 'instant', inline: 'end' });
+						}, 200);
 					}
 					monthModeEnd = true;
 				}}>{endDate.getFullYear()} - {monthList[endDate.getMonth()]}</Button
@@ -252,9 +272,10 @@
 		</div>
 		<div class="flex max-h-[300px] justify-between overflow-y-auto">
 			{#if yearModeEnd}
-				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
+				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-cols-4">
 					{#each yearList as year}
 						<Button
+							id="end_year_{year}"
 							class={endDate.getFullYear() === year ? 'bg-accent/75' : ''}
 							variant="ghost"
 							disabled={year < begin_date.getFullYear()}
