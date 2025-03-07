@@ -145,7 +145,9 @@
 			</ul>
 		</nav>
 	</aside>
-	<div class="flex flex-1 flex-col p-6 pt-0 md:w-5/6 md:pl-3 md:pt-6">
+	<div
+		class="flex flex-1 flex-col p-6 pt-0 md:max-w-[calc(100%-230px)] lg:max-w-unset md:pl-3 md:pt-6"
+	>
 		{@render children?.()}
 	</div>
 </div>

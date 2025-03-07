@@ -339,44 +339,46 @@
 				title="Solar Radiation Variables"
 				count={countPreviousVariables(solarVariables, $params.hourly)}
 			>
-				<table class="w-full">
-					<tbody>
-						{#each solarVariables as e}
-							<tr class="border-border border-b">
-								<td>{e.label}</td>
-								{#each { length: 8 } as _, i}
-									<td class="py-1"
-										><div class="flex items-center justify-center px-2">
-											<Checkbox
-												id="{e.value}_hourly_previous_day{i}"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-												value={formatVariableName(e.value, i)}
-												checked={$params.hourly?.includes(formatVariableName(e.value, i))}
-												aria-labelledby="{e.value}_hourly_previous_day_label{i}"
-												onCheckedChange={() => {
-													if ($params.hourly?.includes(formatVariableName(e.value, i))) {
-														$params.hourly = $params.hourly.filter((item) => {
-															return item !== formatVariableName(e.value, i);
-														});
-													} else {
-														$params.hourly.push(formatVariableName(e.value, i));
-														$params.hourly = $params.hourly;
-													}
-												}}
-											/>
-											<Label
-												id="{e.value}_hourly_previous_day_label{i}"
-												for="{e.value}_hourly_previous_day{i}"
-												class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
-											>
-										</div></td
-									>
-								{/each}
-							</tr>
-						{/each}
-					</tbody>
-				</table>
-				<div class="  mb-3">
+				<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+					<table class="w-full mx-6 lg:mx-0 md:ml-0 min-w-[1020px]">
+						<tbody>
+							{#each solarVariables as e}
+								<tr class="border-border border-b">
+									<td>{e.label}</td>
+									{#each { length: 8 } as _, i}
+										<td class="py-1"
+											><div class="flex items-center justify-center px-2">
+												<Checkbox
+													id="{e.value}_hourly_previous_day{i}"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													value={formatVariableName(e.value, i)}
+													checked={$params.hourly?.includes(formatVariableName(e.value, i))}
+													aria-labelledby="{e.value}_hourly_previous_day_label{i}"
+													onCheckedChange={() => {
+														if ($params.hourly?.includes(formatVariableName(e.value, i))) {
+															$params.hourly = $params.hourly.filter((item) => {
+																return item !== formatVariableName(e.value, i);
+															});
+														} else {
+															$params.hourly.push(formatVariableName(e.value, i));
+															$params.hourly = $params.hourly;
+														}
+													}}
+												/>
+												<Label
+													id="{e.value}_hourly_previous_day_label{i}"
+													for="{e.value}_hourly_previous_day{i}"
+													class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
+												>
+											</div></td
+										>
+									{/each}
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
+				<div class="mb-3">
 					<small class="text-muted-foreground"
 						>Note: Solar radiation is averaged over the past hour. Use
 						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
@@ -436,43 +438,45 @@
 				title="Wind on 80, 120 and 180 meter"
 				count={countPreviousVariables(windVariables, $params.hourly)}
 			>
-				<table class="w-full">
-					<tbody>
-						{#each windVariables as e}
-							<tr class="border-border border-b">
-								<td>{e.label}</td>
-								{#each { length: 8 } as _, i}
-									<td class="py-1"
-										><div class="flex items-center justify-center px-2">
-											<Checkbox
-												id="{e.value}_hourly_previous_day{i}"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-												value={formatVariableName(e.value, i)}
-												checked={$params.hourly?.includes(formatVariableName(e.value, i))}
-												aria-labelledby="{e.value}_hourly_previous_day_label{i}"
-												onCheckedChange={() => {
-													if ($params.hourly?.includes(formatVariableName(e.value, i))) {
-														$params.hourly = $params.hourly.filter((item) => {
-															return item !== formatVariableName(e.value, i);
-														});
-													} else {
-														$params.hourly.push(formatVariableName(e.value, i));
-														$params.hourly = $params.hourly;
-													}
-												}}
-											/>
-											<Label
-												id="{e.value}_hourly_previous_day_label{i}"
-												for="{e.value}_hourly_previous_day{i}"
-												class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
-											>
-										</div></td
-									>
-								{/each}
-							</tr>
-						{/each}
-					</tbody>
-				</table>
+				<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+					<table class="w-full mx-6 lg:mx-0 md:ml-0 min-w-[1020px]">
+						<tbody>
+							{#each windVariables as e}
+								<tr class="border-border border-b">
+									<td>{e.label}</td>
+									{#each { length: 8 } as _, i}
+										<td class="py-1"
+											><div class="flex items-center justify-center px-2">
+												<Checkbox
+													id="{e.value}_hourly_previous_day{i}"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													value={formatVariableName(e.value, i)}
+													checked={$params.hourly?.includes(formatVariableName(e.value, i))}
+													aria-labelledby="{e.value}_hourly_previous_day_label{i}"
+													onCheckedChange={() => {
+														if ($params.hourly?.includes(formatVariableName(e.value, i))) {
+															$params.hourly = $params.hourly.filter((item) => {
+																return item !== formatVariableName(e.value, i);
+															});
+														} else {
+															$params.hourly.push(formatVariableName(e.value, i));
+															$params.hourly = $params.hourly;
+														}
+													}}
+												/>
+												<Label
+													id="{e.value}_hourly_previous_day_label{i}"
+													for="{e.value}_hourly_previous_day{i}"
+													class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
+												>
+											</div></td
+										>
+									{/each}
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
 			</AccordionItem>
 			<AccordionItem
 				id="models"

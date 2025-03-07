@@ -809,9 +809,9 @@
 			for any global location, though users can also manually specify the weather model. Open-Meteo utilizes
 			the following weather forecast models:
 		</p>
-		<div>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 w-full min-w-[1280px] caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
