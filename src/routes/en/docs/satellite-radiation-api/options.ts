@@ -73,3 +73,5 @@ export const models = [
 		{ value: 'eumetsat_lsa_saf_iodc', label: 'eumetsat_lsa_saf_iodc' }
 	]
 ];
+
+export const forecastDaysOptions = [{ value: '1', label: '1 day (default)' }];

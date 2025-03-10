@@ -14,6 +14,7 @@ export const defaultParameters = {
 	start_date: undefined,
 
 	domains: 'auto',
+
 	timeformat: 'iso8601',
 	past_hours: undefined,
 	cell_selection: undefined,

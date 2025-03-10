@@ -5,18 +5,16 @@ export const defaultParameters = {
 	hourly: [],
 	models: [],
 
+	timezone: 'UTC',
 	location_mode: 'location_search',
+	csv_coordinates: '',
 
 	time_mode: 'time_interval',
-
-	csv_coordinates: '',
 
 	temperature_unit: 'celsius',
 	wind_speed_unit: 'kmh',
 	precipitation_unit: 'mm',
 	timeformat: 'iso8601',
-
-	timezone: 'UTC',
 
 	temporal_resolution: '',
 	cell_selection: '',

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
+	import { fade, slide } from 'svelte/transition';
+
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { api_key_preferences } from '$lib/stores/settings';
 	import type { GeoLocation } from '$lib/stores/settings';
@@ -13,6 +15,9 @@
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+
+	import * as Select from '$lib/components/ui/select/index';
 
 	import * as Alert from '$lib/components/ui/alert';
 
@@ -99,8 +104,20 @@
 		<h2 id="elevation_search" class="text-2xl md:text-3xl">Select Coordinates or City</h2>
 		<div class="mt-3">
 			{#each $params.latitude as _, index}
-				<div class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
-					<div class="relative">
+				<div
+					transition:slide
+					class="grid gap-3 duration-300 sm:grid-cols-2 md:gap-6 md:gap-y-3 xl:grid-cols-4 {index <
+					$params.latitude.length - 1
+						? 'pb-6'
+						: ''}"
+				>
+					<div
+						class="relative flex flex-col gap-2 duration-200 {$params.latitude[index] < -90 ||
+						$params.latitude[index] > 90
+							? 'pb-6'
+							: ''}"
+					>
+						<!-- class:is-invalid={params.latitude[index] < -90 || params.latitude[index] > 90}-->
 						<Input
 							type="number"
 							class="h-12 pt-6"
@@ -113,11 +130,21 @@
 						/>
 						<Label
 							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="name">Latitude</Label
+							for="latitude">Latitude</Label
 						>
+						{#if $params.latitude[index] < -90 || $params.latitude[index] > 90}
+							<div class="absolute left-3 top-14 text-sm duration-300" transition:slide>
+								Latitude must be between -90 and 90
+							</div>
+						{/if}
 					</div>
-
-					<div class="relative">
+					<div
+						class="relative flex flex-col gap-2 duration-200 {$params.longitude[index] < -180 ||
+						$params.longitude[index] > 180
+							? 'pb-6'
+							: ''}"
+					>
+						<!-- class:is-invalid={params.longitude[index] < -180 || params.longitude[index] > 180}-->
 						<Input
 							type="number"
 							class="h-12 pt-6"
@@ -130,32 +157,41 @@
 						/>
 						<Label
 							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="name">Longitude</Label
+							for="longitude">Longitude</Label
 						>
+						{#if $params.longitude[index] < -180 || $params.longitude[index] > 180}
+							<div class="absolute left-3 top-14 text-sm" transition:slide>
+								Longitude must be between -180 and 180
+							</div>
+						{/if}
 					</div>
 
-					<div>
-						<LocationSearch on:location={(event) => locationCallback(event, index)} />
+					<div class="flex gap-3 md:gap-6">
+						<div class="md:w-2/3">
+							<LocationSearch
+								on:location={(event) => locationCallback(event, index)}
+								label="Search"
+							/>
+						</div>
+
+						<div class="md:w-1/3">
+							{#if index == 0}
+								<Button
+									variant="outline"
+									class="h-12 w-full px-5 pr-6"
+									onclick={addLocation}
+									title="Add coordinates"><Plus size={22} /></Button
+								>
+							{:else}
+								<Button
+									variant="outline"
+									class="h-12 w-full px-5 pr-6"
+									onclick={() => removeLocation(index)}
+									title="Delete coordinates"><Trash size={20} /></Button
+								>
+							{/if}
+						</div>
 					</div>
-					{#if index == 0}
-						<div>
-							<button
-								type="button"
-								class="btn btn-outline-secondary w-100 p-3"
-								onclick={addLocation}
-								title="Add coordinates"><Plus /></button
-							>
-						</div>
-					{:else}
-						<div class="col-md-1">
-							<button
-								type="button"
-								class="btn btn-outline-secondary w-100 p-3"
-								onclick={() => removeLocation(index)}
-								title="Delete coordinates"><Trash /></button
-							>
-						</div>
-					{/if}
 				</div>
 			{/each}
 		</div>
@@ -210,51 +246,53 @@
 			> with 90 meters resolution. The GLO-90 dataset is available worldwide with a free license.
 		</p>
 		<p>All URL parameters are listed below:</p>
-
-		<table
-			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th scope="col">Parameter</th>
-					<th scope="col">Format</th>
-					<th scope="col">Required</th>
-					<th scope="col">Default</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">latitude<br />longitude</th>
-					<td>Floating point array</td>
-					<td>Yes</td>
-					<td></td>
-					<td>
-						Geographical WGS84 coordinates of the location. Multiple coordinates can be comma <mark
-							>,</mark
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Required</th>
+						<th scope="col">Default</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">latitude<br />longitude</th>
+						<td>Floating point array</td>
+						<td>Yes</td>
+						<td></td>
+						<td>
+							Geographical WGS84 coordinates of the location. Multiple coordinates can be comma <mark
+								>,</mark
+							>
+							separated. Up to 100 coordinates can be requested at once. Example for
+							<a
+								href="https://api.open-meteo.com/v1/elevation?latitude=52.52,48.85&longitude=13.41,2.35"
+								target="_blank">multiple coordinates</a
+							>.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">apikey</th>
+						<td>String</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>Only required to commercial use to access reserved API resources for customers. The
+							server URL requires the prefix <mark>customer-</mark>. See
+							<a
+								href={'/en/pricing'}
+								title="Pricing information to use the weather API commercially">pricing</a
+							> for more information.</td
 						>
-						separated. Up to 100 coordinates can be requested at once. Example for
-						<a
-							href="https://api.open-meteo.com/v1/elevation?latitude=52.52,48.85&longitude=13.41,2.35"
-							target="_blank">multiple coordinates</a
-						>.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">apikey</th>
-					<td>String</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>Only required to commercial use to access reserved API resources for customers. The
-						server URL requires the prefix <mark>customer-</mark>. See
-						<a href={'/en/pricing'} title="Pricing information to use the weather API commercially"
-							>pricing</a
-						> for more information.</td
-					>
-				</tr>
-			</tbody>
-		</table>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 	<p class="text-muted-foreground">
 		Additional optional URL parameters will be added. For API stability, no required parameters will
@@ -270,7 +308,11 @@
 			On success a JSON object is returned with just one attribute <mark>elevation</mark>. It is
 			always an array, even if only one coordinate is requested.
 		</p>
-		<ElevationObject />
+		<div
+			class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+		>
+			<ElevationObject />
+		</div>
 	</div>
 </div>
 
@@ -282,22 +324,28 @@
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 			object is returned with a HTTP 400 status code.
 		</p>
-		<ElevationError />
+		<div
+			class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+		>
+			<ElevationError />
+		</div>
 	</div>
 </div>
 
 <!-- CITATION -->
 <div class="mt-6 md:mt-12">
 	<h2 id="citation" class="text-xl md:text-2xl">Citation & Acknowledgement</h2>
-	<div class="mt-2 md:mt-4">
-		<pre class="overflow-auto rounded-lg">
+	<div
+		class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+	>
+		<pre class="overflow-auto rounded-lg p-6">
 ESA - EUsers, who, in their research, use the Copernicus DEM, are requested to use the following DOI when citing the data source in their publications: 
 
 https://doi.org/10.5270/ESA-c5d3d65
 		</pre>
-		<p class="mt-3">
-			All users of Open-Meteo data must provide a clear attribution to the Copernicus program as
-			well as a reference to Open-Meteo.
-		</p>
 	</div>
+	<p class="mt-3">
+		All users of Open-Meteo data must provide a clear attribution to the Copernicus program as well
+		as a reference to Open-Meteo.
+	</p>
 </div>

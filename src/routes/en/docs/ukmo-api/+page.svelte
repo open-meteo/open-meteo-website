@@ -247,8 +247,8 @@
 				</div>
 			{/if}
 			{#if $params.time_mode === 'time_interval'}
-				<div in:fade class="flex flex-col gap-4 md:flex-row">
-					<div class="mb-3 md:w-1/2">
+				<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
+					<div class="mb-3 lg:w-1/2">
 						<DatePicker
 							bind:start_date={$params.start_date}
 							bind:end_date={$params.end_date}
@@ -256,7 +256,7 @@
 							{last_date}
 						/>
 					</div>
-					<div class="mb-3 md:w-1/2">
+					<div class="mb-3 lg:w-1/2">
 						<p>
 							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
 							of dates more easily. Archived forecasts come from a series of weather model runs over
@@ -390,7 +390,7 @@
 						</Select.Root>
 					</div>
 
-					<div class="relative col-span-2">
+					<div class="relative md:col-span-2">
 						<Select.Root
 							name="temporal_resolution"
 							type="single"
@@ -409,7 +409,7 @@
 							>
 						</Select.Root>
 					</div>
-					<div class="relative col-span-2">
+					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
 							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
@@ -775,7 +775,7 @@
 							id="{e.value}_current"
 							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 							value={e.value}
-							checked={$params.hcurrent?.includes(e.value)}
+							checked={$params.current?.includes(e.value)}
 							aria-labelledby="{e.value}_current_label"
 							onCheckedChange={() => {
 								if ($params.current?.includes(e.value)) {
@@ -834,48 +834,50 @@
 			Note: UKMO open-data has an additional delay of 4 hours. The forecast is therefore not as
 			accurate as it could be.
 		</p>
-		<table
-			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<caption class="text-muted-foreground mt-2 table-caption text-left"
-				>You can find the update timings in the <a
-					class="text-link undeline"
-					href={'/en/docs/model-updates'}>model updates documentation</a
-				>.</caption
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1025px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>
-			<thead>
-				<tr>
-					<th scope="col">Weather Model</th>
-					<th scope="col">Region</th>
-					<th scope="col">Spatial Resolution</th>
-					<th scope="col">Temporal Resolution</th>
-					<th scope="col">Forecast Length</th>
-					<th scope="col">Update frequency</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">UKMO Global</th>
-					<td>Global</td>
-					<td>0.09° (~10 km)</td>
-					<td
-						>Hourly<small class="text-muted-foreground"
-							>, 3-hourly after 54 hours, 6-hourly after 144 hours</small
-						></td
-					>
-					<td>7 days</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row">UKMO UKV</th>
-					<td>UK and Ireland</td>
-					<td>2 km</td>
-					<td>Hourly</td>
-					<td>2 days</td>
-					<td>Every hour</td>
-				</tr>
-			</tbody>
-		</table>
+				<caption class="text-muted-foreground mt-2 table-caption text-left"
+					>You can find the update timings in the <a
+						class="text-link undeline"
+						href={'/en/docs/model-updates'}>model updates documentation</a
+					>.</caption
+				>
+				<thead>
+					<tr>
+						<th scope="col">Weather Model</th>
+						<th scope="col">Region</th>
+						<th scope="col">Spatial Resolution</th>
+						<th scope="col">Temporal Resolution</th>
+						<th scope="col">Forecast Length</th>
+						<th scope="col">Update frequency</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">UKMO Global</th>
+						<td>Global</td>
+						<td>0.09° (~10 km)</td>
+						<td
+							>Hourly<small class="text-muted-foreground"
+								>, 3-hourly after 54 hours, 6-hourly after 144 hours</small
+							></td
+						>
+						<td>7 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row">UKMO UKV</th>
+						<td>UK and Ireland</td>
+						<td>2 km</td>
+						<td>Hourly</td>
+						<td>2 days</td>
+						<td>Every hour</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 
 	<figure class="mt-6">

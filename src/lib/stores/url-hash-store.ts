@@ -7,17 +7,37 @@ import { browser } from '$app/environment';
 import { isNumeric } from '$lib/utils/meteo';
 import type { Parameters } from '$lib/docs';
 
-export const urlHashes: Writable<Parameters> = writable({});
+function debounce(func, timeout = 100) {
+	let timer: NodeJS.Timeout;
+	return (...args) => {
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			func.apply(this, args);
+		}, timeout);
+	};
+}
 
 export const urlHashStore = (initialValues: Parameters) => {
+	const urlHashes: Writable<Parameters> = writable({});
+
 	const { subscribe, set } = urlHashes;
 
 	const defaultValues = JSON.parse(JSON.stringify(initialValues));
-
 	urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
+
+	function updateURL() {
+		goto(`?${page.url.searchParams.toString().replaceAll('%2C', ',')}`, {
+			noScroll: true,
+			keepFocus: true
+		});
+	}
+
+	const processURLParamsUpdate = debounce(() => updateURL());
 
 	const updateURLParams = (values: Parameters) => {
 		if (browser) {
+			let changedParams = false;
+
 			for (const [key, value] of Object.entries(values)) {
 				let defaultValue = defaultValues[key];
 
@@ -26,9 +46,11 @@ export const urlHashStore = (initialValues: Parameters) => {
 					if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
 						if (page.url.searchParams.has(key) && page.url.searchParams.get(key) !== value) {
 							page.url.searchParams.delete(key);
+							changedParams = true;
 						}
 					} else {
 						page.url.searchParams.set(key, value.join(','));
+						changedParams = true;
 					}
 				} else {
 					let val: number | string = value;
@@ -38,23 +60,26 @@ export const urlHashStore = (initialValues: Parameters) => {
 					if (isNumeric(value)) {
 						val = Number(value);
 					}
+
 					if (val != defaultValue) {
 						page.url.searchParams.set(key, String(val));
+						changedParams = true;
 					} else {
 						if (page.url.searchParams.has(key) && page.url.searchParams.get(key) !== val) {
 							page.url.searchParams.delete(key);
+							changedParams = true;
 						}
 					}
 				}
 				if (page.url.searchParams.has(key) && page.url.searchParams.get(key) === '') {
 					page.url.searchParams.delete(key);
+					changedParams = true;
 				}
 			}
 
-			goto(`?${page.url.searchParams.toString().replaceAll('%2C', ',')}`, {
-				noScroll: true,
-				keepFocus: true
-			});
+			if (changedParams) {
+				processURLParamsUpdate();
+			}
 		}
 	};
 
@@ -94,9 +119,6 @@ export const urlHashStore = (initialValues: Parameters) => {
 
 	return {
 		set,
-		reset: () => {
-			urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
-		},
 		subscribe
 	};
 };

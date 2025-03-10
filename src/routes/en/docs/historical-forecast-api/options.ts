@@ -1,20 +1,25 @@
 export const defaultParameters = {
-	minutely_15: [],
-	hourly: [],
 	daily: [],
+	hourly: [],
+	models: [],
+	minutely_15: [],
+
+	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: undefined,
-	temperature_unit: 'celsius',
-	wind_speed_unit: 'kmh',
-	precipitation_unit: 'mm',
-	timeformat: 'iso8601',
-	timezone: 'UTC',
+
 	time_mode: 'time_interval',
+
+	cell_selection: undefined,
 	temporal_resolution: undefined,
+
 	tilt: '0',
 	azimuth: '0',
-	models: [],
-	cell_selection: undefined
+
+	timeformat: 'iso8601',
+	wind_speed_unit: 'kmh',
+	temperature_unit: 'celsius',
+	precipitation_unit: 'mm'
 };
 
 export const pressureVariables = [

@@ -6,6 +6,7 @@
 
 	import {
 		lengthOptions,
+		domainOptions,
 		windSpeedOptions,
 		timeFormatOptions,
 		temperatureOptions,
@@ -32,6 +33,7 @@
 	let precipitationUnit = $derived(
 		precipitationOptions.find((po) => String(po.value) == params.precipitation_unit)
 	);
+	let domain = $derived(domainOptions.find((doo) => String(doo.value) == params.domains));
 	let timeFormat = $derived(
 		timeFormatOptions.find((tfo) => String(tfo.value) == params.timeformat)
 	);
@@ -111,6 +113,26 @@
 				</Select.Content>
 				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 					>Precipitation Unit</Label
+				>
+			</Select.Root>
+		</div>
+	{/if}
+
+	{#if visible.includes('domains')}
+		<div class="relative">
+			<Select.Root name="domains" type="single" bind:value={params.domains}>
+				<Select.Trigger
+					aria-label="Domains setting"
+					class="h-12 w-full cursor-pointer pt-6 [&_svg]:mb-3 truncate"
+					>{domain?.label}</Select.Trigger
+				>
+				<Select.Content preventScroll={false} class="border-border">
+					{#each domainOptions as doo}
+						<Select.Item value={doo.value}>{doo.label}</Select.Item>
+					{/each}
+				</Select.Content>
+				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					>Domain</Label
 				>
 			</Select.Root>
 		</div>

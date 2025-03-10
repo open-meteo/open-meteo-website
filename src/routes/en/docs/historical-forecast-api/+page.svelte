@@ -135,18 +135,6 @@
 			accordionValues.push('minutely_15');
 		}
 	});
-
-	onMount(async () => {
-		var d = new Date();
-		d.setDate(d.getDate() - 1);
-		if ($params.end_date == startDateDefault) {
-			$params.end_date = d.toISOString().split('T')[0];
-		}
-		d.setDate(d.getDate() - 14);
-		if ($params.start_date == startDateDefault) {
-			$params.start_date = d.toISOString().split('T')[0];
-		}
-	});
 </script>
 
 <svelte:head>
@@ -344,7 +332,7 @@
 						</Select.Root>
 					</div>
 
-					<div class="relative col-span-2">
+					<div class="relative md:col-span-2">
 						<Select.Root
 							name="temporal_resolution"
 							type="single"
@@ -363,7 +351,7 @@
 							>
 						</Select.Root>
 					</div>
-					<div class="relative col-span-2">
+					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
 							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger

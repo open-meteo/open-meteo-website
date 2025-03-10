@@ -37,3 +37,9 @@ export const lengthOptions = [
 	{ value: 'metric', label: 'Metric' },
 	{ value: 'imperial', label: 'Imperial' }
 ];
+
+export const domainOptions = [
+	{ value: 'auto', label: 'Global + European' },
+	{ value: 'cams_global', label: 'Global (40km)' },
+	{ value: 'cams_europe', label: 'European (11km)' }
+];

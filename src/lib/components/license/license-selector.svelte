@@ -80,7 +80,7 @@
 						for="apikey">API Key</Label
 					>
 				</div>
-				<div class="col-span-2">
+				<div class="md:col-span-2">
 					<Alert.Root class="border-border">
 						<Alert.Description>
 							See <a class="text-link underline" href={'/en/pricing'}>Pricing</a> for more details.{#if requires_professional_plan}
@@ -104,7 +104,7 @@
 						for="apikey">Server URL</Label
 					>
 				</div>
-				<div class="col-span-2">
+				<div class="md:col-span-2">
 					<Alert.Root class="border-border">
 						<Alert.Description>
 							See <a class="text-link underline" href="https://github.com/open-meteo/open-meteo"

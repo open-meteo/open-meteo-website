@@ -66,6 +66,7 @@
 				},
 				{
 					root: null,
+					rootMargin: '150px',
 					threshold: 0
 				}
 			);
@@ -95,14 +96,6 @@
 					type="text"
 					bind:value={start_date}
 					placeholder="Pick an end date"
-					oninput={(e) => {
-						console.log(e);
-					}}
-					onclick={(e) => {
-						if (popoverOpen) {
-							e.stopPropagation();
-						}
-					}}
 				/>
 				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 					>Start date</Label
@@ -130,14 +123,6 @@
 					type="text"
 					value={end_date}
 					placeholder="Pick an end date"
-					oninput={(e) => {
-						console.log(e);
-					}}
-					onclick={(e) => {
-						if (popoverOpen) {
-							e.stopPropagation();
-						}
-					}}
 				/>
 				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 					>End date</Label

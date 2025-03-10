@@ -205,8 +205,8 @@
 				</div>
 			{/if}
 			{#if $params.time_mode === 'time_interval'}
-				<div in:fade class="flex flex-col gap-4 md:flex-row">
-					<div class="mb-3 md:w-1/2">
+				<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
+					<div class="mb-3 lg:w-1/2">
 						<DatePicker
 							bind:start_date={$params.start_date}
 							bind:end_date={$params.end_date}
@@ -214,7 +214,7 @@
 							{last_date}
 						/>
 					</div>
-					<div class="mb-3 md:w-1/2">
+					<div class="mb-3 lg:w-1/2">
 						<p>
 							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
 							of dates more easily. Archived forecasts come from a series of weather model runs over
@@ -329,9 +329,9 @@
 					</p>
 				</div>
 				<div>
-					<div>
+					<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 						<table
-							class="[&_tr]:border-border w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+							class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[740px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 							id="airquality_table"
 						>
 							<caption class="text-muted-foreground mt-2 table-caption text-left"
@@ -469,9 +469,9 @@
 					</p>
 				</div>
 				<div>
-					<div>
+					<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 						<table
-							class="[&_tr]:border-border w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+							class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[10 54-10040px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 							id="airquality_table_us"
 						>
 							<thead>
@@ -670,7 +670,7 @@
 						</Select.Root>
 					</div>
 
-					<div class="relative col-span-2">
+					<div class="relative md:col-span-2">
 						<Select.Root
 							name="temporal_resolution"
 							type="single"
@@ -689,7 +689,7 @@
 							>
 						</Select.Root>
 					</div>
-					<div class="relative col-span-2">
+					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
 							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
@@ -720,7 +720,7 @@
 							id="{e.value}_current"
 							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 							value={e.value}
-							checked={$params.hcurrent?.includes(e.value)}
+							checked={$params.current?.includes(e.value)}
 							aria-labelledby="{e.value}_current_label"
 							onCheckedChange={() => {
 								if ($params.current?.includes(e.value)) {
@@ -750,7 +750,7 @@
 
 	<!-- SETTINGS -->
 	<div class="mt-6 md:mt-12">
-		<Settings bind:params={$params} />
+		<Settings bind:params={$params} visible={['domains', 'timeformat']} />
 	</div>
 
 	<!-- LICENSE -->
@@ -777,81 +777,82 @@
 			CAMS global atmospheric composition forecasts. The European and global domain are not coupled
 			and may show different forecasts.
 		</p>
-
-		<table
-			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<caption class="text-muted-foreground mt-2 table-caption text-left"
-				>You can find the update timings in the <a
-					class="text-link underline"
-					href={'/en/docs/model-updates'}>model updates documentation</a
-				>.</caption
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>
-			<thead>
-				<tr>
-					<th scope="col">Data Set</th>
-					<th scope="col">Region</th>
-					<th scope="col">Spatial Resolution</th>
-					<th scope="col">Temporal Resolution</th>
-					<th scope="col">Data Availability</th>
-					<th scope="col">Update frequency</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row"
-						><a
-							href="https://ads.atmosphere.copernicus.eu/datasets/cams-europe-air-quality-forecasts?tab=overview"
-							>CAMS European Air Quality Forecast</a
-						>
-					</th>
-					<td>Europe</td>
-					<td>0.1° (~11 km)</td>
-					<td>1-Hourly</td>
-					<td>October 2023 onwards</td>
-					<td>Every 24 hours, 4 days forecast</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						><a
-							href="https://ads.atmosphere.copernicus.eu/datasets/cams-europe-air-quality-reanalyses?tab=overview"
-							>CAMS European Air Quality Reanalysis
-						</a>
-					</th>
-					<td>Europe</td>
-					<td>0.1° (~11 km)</td>
-					<td>Hourly</td>
-					<td>2013 onwards</td>
-					<td>-</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						><a
-							href="https://ads.atmosphere.copernicus.eu/datasets/cams-global-atmospheric-composition-forecasts?tab=overview"
-							>CAMS global atmospheric composition forecasts</a
-						>
-					</th>
-					<td>Global</td>
-					<td>0.25° (~25 km)</td>
-					<td>3-Hourly</td>
-					<td>August 2022 onwards </td>
-					<td>Every 12 hours, 5 days forecast</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						><a
-							href="https://ads.atmosphere.copernicus.eu/datasets/cams-global-greenhouse-gas-forecasts?tab=overview"
-							>CAMS Global Greenhouse Gas Forecast</a
-						>
-					</th>
-					<td>Global</td>
-					<td>0.1° (~11 km)</td>
-					<td>3-Hourly</td>
-					<td>November 2024 onwards</td>
-					<td>Every 24 hours, 5 days forecast</td>
-				</tr>
-			</tbody>
-		</table>
+				<caption class="text-muted-foreground mt-2 table-caption text-left"
+					>You can find the update timings in the <a
+						class="text-link underline"
+						href={'/en/docs/model-updates'}>model updates documentation</a
+					>.</caption
+				>
+				<thead>
+					<tr>
+						<th scope="col">Data Set</th>
+						<th scope="col">Region</th>
+						<th scope="col">Spatial Resolution</th>
+						<th scope="col">Temporal Resolution</th>
+						<th scope="col">Data Availability</th>
+						<th scope="col">Update frequency</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row"
+							><a
+								href="https://ads.atmosphere.copernicus.eu/datasets/cams-europe-air-quality-forecasts?tab=overview"
+								>CAMS European Air Quality Forecast</a
+							>
+						</th>
+						<td>Europe</td>
+						<td>0.1° (~11 km)</td>
+						<td>1-Hourly</td>
+						<td>October 2023 onwards</td>
+						<td>Every 24 hours, 4 days forecast</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a
+								href="https://ads.atmosphere.copernicus.eu/datasets/cams-europe-air-quality-reanalyses?tab=overview"
+								>CAMS European Air Quality Reanalysis
+							</a>
+						</th>
+						<td>Europe</td>
+						<td>0.1° (~11 km)</td>
+						<td>Hourly</td>
+						<td>2013 onwards</td>
+						<td>-</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a
+								href="https://ads.atmosphere.copernicus.eu/datasets/cams-global-atmospheric-composition-forecasts?tab=overview"
+								>CAMS global atmospheric composition forecasts</a
+							>
+						</th>
+						<td>Global</td>
+						<td>0.25° (~25 km)</td>
+						<td>3-Hourly</td>
+						<td>August 2022 onwards </td>
+						<td>Every 12 hours, 5 days forecast</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a
+								href="https://ads.atmosphere.copernicus.eu/datasets/cams-global-greenhouse-gas-forecasts?tab=overview"
+								>CAMS Global Greenhouse Gas Forecast</a
+							>
+						</th>
+						<td>Global</td>
+						<td>0.1° (~11 km)</td>
+						<td>3-Hourly</td>
+						<td>November 2024 onwards</td>
+						<td>Every 24 hours, 5 days forecast</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
@@ -865,168 +866,173 @@
 			0:00 today.
 		</p>
 		<p>All URL parameters are listed below:</p>
-		<table
-			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th scope="col">Parameter</th>
-					<th scope="col">Format</th>
-					<th scope="col">Required</th>
-					<th scope="col">Default</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">latitude, longitude</th>
-					<td>Floating point</td>
-					<td>Yes</td>
-					<td></td>
-					<td
-						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
-						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
-						for multiple locations the JSON output changes to a list of structures. CSV and XLSX
-						formats add a column <mark>location_id</mark>.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">hourly</th>
-					<td>String array</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>A list of weather variables which should be returned. Values can be comma separated, or
-						multiple
-						<mark>&hourly=</mark> parameter in the URL can be used.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">current</th>
-					<td>String array</td>
-					<td>No</td>
-					<td></td>
-					<td>A list of variables to get current conditions.</td>
-				</tr>
-				<tr>
-					<th scope="row">domains</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>auto</mark></td>
-					<td
-						>Automatically combine both domains <mark>auto</mark> or specifically select the
-						European
-						<mark>cams_europe</mark> or global domain <mark>cams_global</mark>.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">timeformat</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>iso8601</mark></td>
-					<td
-						>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX epoch
-						time in seconds. Please note that all timestamp are in GMT+0! For daily values with unix
-						timestamps, please apply
-						<mark>utc_offset_seconds</mark> again to get the correct date.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">timezone</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>GMT</mark></td>
-					<td
-						>If <mark>timezone</mark> is set, all timestamps are returned as local-time and data is
-						returned starting at 00:00 local-time. Any time zone name from the
-						<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank"
-							>time zone database</a
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Required</th>
+						<th scope="col">Default</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">latitude, longitude</th>
+						<td>Floating point</td>
+						<td>Yes</td>
+						<td></td>
+						<td
+							>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
+							separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return
+							data for multiple locations the JSON output changes to a list of structures. CSV and
+							XLSX formats add a column <mark>location_id</mark>.</td
 						>
-						is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
-						resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
-						can be specified.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">past_days</th>
-					<td>Integer (0-92)</td>
-					<td>No</td>
-					<td><mark>0</mark></td>
-					<td
-						>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">forecast_days</th>
-					<td>Integer (0-7)</td>
-					<td>No</td>
-					<td><mark>5</mark></td>
-					<td>Per default, 5 days are returned. Up to 7 days of forecast are possible.</td>
-				</tr>
-				<tr>
-					<th scope="row">forecast_hours<br />past_hours</th>
-					<td>Integer (&gt;0)</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>Similar to forecast_days, the number of timesteps of hourly data can controlled.
-						Instead of using the current day as a reference, the current hour is used.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">start_date<br />end_date</th>
-					<td>String (yyyy-mm-dd)</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
-						<mark>2022-06-30</mark>).
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">start_hour<br />end_hour</th>
-					<td>String (yyyy-mm-ddThh:mm)</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>The time interval to get weather data for hourly data. Time must be specified as an
-						ISO8601 date (e.g.
-						<mark>2022-06-30T12:00</mark>).
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">cell_selection</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>nearest</mark></td>
-					<td
-						>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
-						suitable grid-cell on land with
-						<a
-							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
-							title="Elevation based grid-cell selection explained"
-							>similar elevation to the requested coordinates using a 90-meter digital elevation
-							model</a
-						>.
-						<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
-						grid-cell.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">apikey</th>
-					<td>String</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>Only required to commercial use to access reserved API resources for customers. The
-						server URL requires the prefix <mark>customer-</mark>. See
-						<a href={'/en/pricing'} title="Pricing information to use the weather API commercially"
-							>pricing</a
-						> for more information.</td
-					>
-				</tr>
-			</tbody>
-		</table>
+					</tr>
+					<tr>
+						<th scope="row">hourly</th>
+						<td>String array</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>A list of weather variables which should be returned. Values can be comma separated,
+							or multiple
+							<mark>&hourly=</mark> parameter in the URL can be used.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">current</th>
+						<td>String array</td>
+						<td>No</td>
+						<td></td>
+						<td>A list of variables to get current conditions.</td>
+					</tr>
+					<tr>
+						<th scope="row">domains</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>auto</mark></td>
+						<td
+							>Automatically combine both domains <mark>auto</mark> or specifically select the
+							European
+							<mark>cams_europe</mark> or global domain <mark>cams_global</mark>.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">timeformat</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>iso8601</mark></td>
+						<td
+							>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX
+							epoch time in seconds. Please note that all timestamp are in GMT+0! For daily values
+							with unix timestamps, please apply
+							<mark>utc_offset_seconds</mark> again to get the correct date.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">timezone</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>GMT</mark></td>
+						<td
+							>If <mark>timezone</mark> is set, all timestamps are returned as local-time and data
+							is returned starting at 00:00 local-time. Any time zone name from the
+							<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank"
+								>time zone database</a
+							>
+							is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
+							resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
+							can be specified.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">past_days</th>
+						<td>Integer (0-92)</td>
+						<td>No</td>
+						<td><mark>0</mark></td>
+						<td
+							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also
+							returned.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">forecast_days</th>
+						<td>Integer (0-7)</td>
+						<td>No</td>
+						<td><mark>5</mark></td>
+						<td>Per default, 5 days are returned. Up to 7 days of forecast are possible.</td>
+					</tr>
+					<tr>
+						<th scope="row">forecast_hours<br />past_hours</th>
+						<td>Integer (&gt;0)</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>Similar to forecast_days, the number of timesteps of hourly data can controlled.
+							Instead of using the current day as a reference, the current hour is used.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">start_date<br />end_date</th>
+						<td>String (yyyy-mm-dd)</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>The time interval to get weather data. A day must be specified as an ISO8601 date
+							(e.g.
+							<mark>2022-06-30</mark>).
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">start_hour<br />end_hour</th>
+						<td>String (yyyy-mm-ddThh:mm)</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>The time interval to get weather data for hourly data. Time must be specified as an
+							ISO8601 date (e.g.
+							<mark>2022-06-30T12:00</mark>).
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">cell_selection</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>nearest</mark></td>
+						<td
+							>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
+							suitable grid-cell on land with
+							<a
+								href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
+								title="Elevation based grid-cell selection explained"
+								>similar elevation to the requested coordinates using a 90-meter digital elevation
+								model</a
+							>.
+							<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
+							grid-cell.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">apikey</th>
+						<td>String</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>Only required to commercial use to access reserved API resources for customers. The
+							server URL requires the prefix <mark>customer-</mark>. See
+							<a
+								href={'/en/pricing'}
+								title="Pricing information to use the weather API commercially">pricing</a
+							> for more information.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<p class="text-muted-foreground mt-2">
 			Additional optional URL parameters will be added. For API stability, no required parameters
 			will be added in the future!
@@ -1043,117 +1049,121 @@
 			as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
 			from the preceding hour as an average or sum.
 		</p>
-		<table
-			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th scope="col">Variable</th>
-					<th scope="col">Valid time</th>
-					<th scope="col">Unit</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">pm10<br />pm2_5</th>
-					<td>Instant</td>
-					<td>μg/m³</td>
-					<td
-						>Particulate matter with diameter smaller than 10 µm (PM<sub>10</sub>) and smaller than
-						2.5 µm (PM<sub>2.5</sub>) close to surface (10 meter above ground)</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">carbon_monoxide<br />nitrogen_dioxide<br />sulphur_dioxide<br />ozone</th>
-					<td>Instant</td>
-					<td>μg/m³</td>
-					<td>Atmospheric gases close to surface (10 meter above ground)</td>
-				</tr>
-				<tr>
-					<th scope="row">carbon_dioxide</th>
-					<td>Instant</td>
-					<td>ppm</td>
-					<td>CO2 close to surface (10 meter above ground)</td>
-				</tr>
-				<tr>
-					<th scope="row">ammonia</th>
-					<td>Instant</td>
-					<td>μg/m³</td>
-					<td>Ammonia concentration. Only available for Europe.</td>
-				</tr>
-				<tr>
-					<th scope="row">aerosol_optical_depth</th>
-					<td>Instant</td>
-					<td>Dimensionless</td>
-					<td>Aerosol optical depth at 550 nm of the entire atmosphere to indicate haze.</td>
-				</tr>
-				<tr>
-					<th scope="row">methane</th>
-					<td>Instant</td>
-					<td>μg/m³</td>
-					<td>Methane close to surface (10 meter above ground)</td>
-				</tr>
-				<tr>
-					<th scope="row">dust</th>
-					<td>Instant</td>
-					<td>μg/m³</td>
-					<td>Saharan dust particles close to surface level (10 meter above ground).</td>
-				</tr>
-				<tr>
-					<th scope="row">uv_index<br />uv_index_clear_sky</th>
-					<td>Instant</td>
-					<td>Index</td>
-					<td
-						>UV index considering clouds and clear sky. See <a
-							href="https://confluence.ecmwf.int/display/CUSF/CAMS+global+UV+index"
-							target="_blank">ECMWF UV Index recommendation</a
-						> for more information</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">
-						alder_pollen<br />birch_pollen<br />grass_pollen<br />mugwort_pollen<br
-						/>olive_pollen<br />ragweed_pollen
-					</th>
-					<td>Instant</td>
-					<td>Grains/m³</td>
-					<td
-						>Pollen for various plants. Only available in Europe as provided by CAMS European Air
-						Quality forecast.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">
-						european_aqi<br />european_aqi_pm2_5<br />european_aqi_pm10<br
-						/>european_aqi_nitrogen_dioxide<br />european_aqi_ozone<br
-						/>european_aqi_sulphur_dioxide
-					</th>
-					<td>Instant</td>
-					<td>European AQI</td>
-					<td
-						>European Air Quality Index (AQI) calculated for different particulate matter and gases
-						individually. The consolidated <mark>european_aqi</mark> returns the maximum of all individual
-						indices. Ranges from 0-20 (good), 20-40 (fair), 40-60 (moderate), 60-80 (poor), 80-100 (very
-						poor) and exceeds 100 for extremely poor conditions.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">
-						us_aqi<br />us_aqi_pm2_5<br />us_aqi_pm10<br />us_aqi_nitrogen_dioxide<br
-						/>us_aqi_ozone<br />us_aqi_sulphur_dioxide<br />us_aqi_carbon_monoxide
-					</th>
-					<td>Instant</td>
-					<td>U.S. AQI</td>
-					<td
-						>United States Air Quality Index (AQI) calculated for different particulate matter and
-						gases individually. The consolidated <mark>us_aqi</mark> returns the maximum of all individual
-						indices. Ranges from 0-50 (good), 51-100 (moderate), 101-150 (unhealthy for sensitive groups),
-						151-200 (unhealthy), 201-300 (very unhealthy) and 301-500 (hazardous).</td
-					>
-				</tr>
-			</tbody>
-		</table>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Valid time</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">pm10<br />pm2_5</th>
+						<td>Instant</td>
+						<td>μg/m³</td>
+						<td
+							>Particulate matter with diameter smaller than 10 µm (PM<sub>10</sub>) and smaller
+							than 2.5 µm (PM<sub>2.5</sub>) close to surface (10 meter above ground)</td
+						>
+					</tr>
+					<tr>
+						<th scope="row"
+							>carbon_monoxide<br />nitrogen_dioxide<br />sulphur_dioxide<br />ozone</th
+						>
+						<td>Instant</td>
+						<td>μg/m³</td>
+						<td>Atmospheric gases close to surface (10 meter above ground)</td>
+					</tr>
+					<tr>
+						<th scope="row">carbon_dioxide</th>
+						<td>Instant</td>
+						<td>ppm</td>
+						<td>CO2 close to surface (10 meter above ground)</td>
+					</tr>
+					<tr>
+						<th scope="row">ammonia</th>
+						<td>Instant</td>
+						<td>μg/m³</td>
+						<td>Ammonia concentration. Only available for Europe.</td>
+					</tr>
+					<tr>
+						<th scope="row">aerosol_optical_depth</th>
+						<td>Instant</td>
+						<td>Dimensionless</td>
+						<td>Aerosol optical depth at 550 nm of the entire atmosphere to indicate haze.</td>
+					</tr>
+					<tr>
+						<th scope="row">methane</th>
+						<td>Instant</td>
+						<td>μg/m³</td>
+						<td>Methane close to surface (10 meter above ground)</td>
+					</tr>
+					<tr>
+						<th scope="row">dust</th>
+						<td>Instant</td>
+						<td>μg/m³</td>
+						<td>Saharan dust particles close to surface level (10 meter above ground).</td>
+					</tr>
+					<tr>
+						<th scope="row">uv_index<br />uv_index_clear_sky</th>
+						<td>Instant</td>
+						<td>Index</td>
+						<td
+							>UV index considering clouds and clear sky. See <a
+								href="https://confluence.ecmwf.int/display/CUSF/CAMS+global+UV+index"
+								target="_blank">ECMWF UV Index recommendation</a
+							> for more information</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">
+							alder_pollen<br />birch_pollen<br />grass_pollen<br />mugwort_pollen<br
+							/>olive_pollen<br />ragweed_pollen
+						</th>
+						<td>Instant</td>
+						<td>Grains/m³</td>
+						<td
+							>Pollen for various plants. Only available in Europe as provided by CAMS European Air
+							Quality forecast.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							european_aqi<br />european_aqi_pm2_5<br />european_aqi_pm10<br
+							/>european_aqi_nitrogen_dioxide<br />european_aqi_ozone<br
+							/>european_aqi_sulphur_dioxide
+						</th>
+						<td>Instant</td>
+						<td>European AQI</td>
+						<td
+							>European Air Quality Index (AQI) calculated for different particulate matter and
+							gases individually. The consolidated <mark>european_aqi</mark> returns the maximum of all
+							individual indices. Ranges from 0-20 (good), 20-40 (fair), 40-60 (moderate), 60-80 (poor),
+							80-100 (very poor) and exceeds 100 for extremely poor conditions.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">
+							us_aqi<br />us_aqi_pm2_5<br />us_aqi_pm10<br />us_aqi_nitrogen_dioxide<br
+							/>us_aqi_ozone<br />us_aqi_sulphur_dioxide<br />us_aqi_carbon_monoxide
+						</th>
+						<td>Instant</td>
+						<td>U.S. AQI</td>
+						<td
+							>United States Air Quality Index (AQI) calculated for different particulate matter and
+							gases individually. The consolidated <mark>us_aqi</mark> returns the maximum of all individual
+							indices. Ranges from 0-50 (good), 51-100 (moderate), 101-150 (unhealthy for sensitive groups),
+							151-200 (unhealthy), 201-300 (very unhealthy) and 301-500 (hazardous).</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
@@ -1162,63 +1172,70 @@
 	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
-		<div class="code-numbered mt-2 md:mt-4"><AirQualityObject /></div>
-		<table
-			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		<div
+			class="code-numbered overflow-auto bg-[#FAFAFA] rounded-lg dark:bg-[#212121] -mx-6 md:ml-0 lg:mx-0 mt-2 md:mt-4"
 		>
-			<thead>
-				<tr>
-					<th scope="col">Parameter</th>
-					<th scope="col">Format</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">latitude, longitude</th>
-					<td>Floating point</td>
-					<td
-						>WGS84 of the center of the weather grid-cell which was used to generate this forecast.
-						This coordinate might be a few kilometers away from the requested coordinate.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">generationtime_ms</th>
-					<td>Floating point</td>
-					<td
-						>Generation time of the weather forecast in milliseconds. This is mainly used for
-						performance monitoring and improvements.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">utc_offset_seconds</th>
-					<td>Integer</td>
-					<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
-				</tr>
-				<tr>
-					<th scope="row">timezone<br />timezone_abbreviation</th>
-					<td>String</td>
-					<td
-						>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
-						<mark>CEST</mark>)</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">hourly</th>
-					<td>Object</td>
-					<td
-						>For each selected weather variable, data will be returned as a floating point array.
-						Additionally a
-						<mark>time</mark> array will be returned with ISO8601 timestamps.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">hourly_units</th>
-					<td>Object</td>
-					<td>For each selected weather variable, the unit will be listed here.</td>
-				</tr>
-			</tbody>
-		</table>
+			<AirQualityObject />
+		</div>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">latitude, longitude</th>
+						<td>Floating point</td>
+						<td
+							>WGS84 of the center of the weather grid-cell which was used to generate this
+							forecast. This coordinate might be a few kilometers away from the requested
+							coordinate.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">generationtime_ms</th>
+						<td>Floating point</td>
+						<td
+							>Generation time of the weather forecast in milliseconds. This is mainly used for
+							performance monitoring and improvements.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">utc_offset_seconds</th>
+						<td>Integer</td>
+						<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
+					</tr>
+					<tr>
+						<th scope="row">timezone<br />timezone_abbreviation</th>
+						<td>String</td>
+						<td
+							>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
+							<mark>CEST</mark>)</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">hourly</th>
+						<td>Object</td>
+						<td
+							>For each selected weather variable, data will be returned as a floating point array.
+							Additionally a
+							<mark>time</mark> array will be returned with ISO8601 timestamps.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">hourly_units</th>
+						<td>Object</td>
+						<td>For each selected weather variable, the unit will be listed here.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
@@ -1230,7 +1247,11 @@
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 			object is returned with a HTTP 400 status code.
 		</p>
-		<div class="mt-2 md:mt-4"><WeatherForecastError /></div>
+		<div
+			class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+		>
+			<WeatherForecastError />
+		</div>
 	</div>
 </div>
 

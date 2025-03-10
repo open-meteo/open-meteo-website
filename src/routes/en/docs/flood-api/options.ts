@@ -2,6 +2,7 @@ export const defaultParameters = {
 	daily: [],
 	models: [],
 
+	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: undefined,
 

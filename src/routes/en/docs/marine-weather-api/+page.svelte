@@ -3,19 +3,13 @@
 
 	import { fade, slide } from 'svelte/transition';
 
-	import {
-		countVariables,
-		sliceIntoChunks,
-		countPressureVariables,
-		altitudeAboveSeaLevelMeters
-	} from '$lib/utils/meteo';
+	import { countVariables } from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import Clock from 'lucide-svelte/icons/clock';
 	import Calendar from 'lucide-svelte/icons/calendar-cog';
 
-	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
@@ -23,7 +17,6 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -31,7 +24,6 @@
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 
 	import MarineObject from '$lib/components/code/docs/marine-object.svx';
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
@@ -229,8 +221,8 @@
 				</div>
 			{/if}
 			{#if $params.time_mode === 'time_interval'}
-				<div in:fade class="flex flex-col gap-4 md:flex-row">
-					<div class="mb-3 md:w-1/2">
+				<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
+					<div class="mb-3 lg:w-1/2">
 						<DatePicker
 							bind:start_date={$params.start_date}
 							bind:end_date={$params.end_date}
@@ -238,7 +230,7 @@
 							{last_date}
 						/>
 					</div>
-					<div class="mb-3 md:w-1/2">
+					<div class="mb-3 lg:w-1/2">
 						<p>
 							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
 							of dates more easily. Archived forecasts come from a series of weather model runs over
@@ -379,7 +371,7 @@
 						</Select.Root>
 					</div>
 
-					<div class="relative col-span-2">
+					<div class="relative md:col-span-2">
 						<Select.Root
 							name="temporal_resolution"
 							type="single"
@@ -398,7 +390,7 @@
 							>
 						</Select.Root>
 					</div>
-					<div class="relative col-span-2">
+					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
 							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
@@ -597,7 +589,38 @@
 	<!-- CURRENT -->
 	<div class="mt-6 md:mt-12">
 		<h2 id="current_conditions" class="text-2xl md:text-3xl">Current Conditions</h2>
-
+		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+			{#each hourly as group}
+				<div>
+					{#each group as e}
+						<div class="group flex items-center">
+							<Checkbox
+								id="{e.value}_current"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								value={e.value}
+								checked={$params.current?.includes(e.value)}
+								aria-labelledby="{e.value}_current_label"
+								onCheckedChange={() => {
+									if ($params.current?.includes(e.value)) {
+										$params.current = $params.current.filter((item) => {
+											return item !== e.value;
+										});
+									} else {
+										$params.current.push(e.value);
+										$params.current = $params.current;
+									}
+								}}
+							/>
+							<Label
+								id="{e.value}_current_label"
+								for="{e.value}_current"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+							>
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
 		<div class="text-muted-foreground mt-1">
 			Note: Current conditions are based on 15-minutely weather model data. Every weather variable
 			available in hourly data, is available as current condition as well.
@@ -630,143 +653,146 @@
 	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
 	<div class="mt-2 md:mt-4">
 		<p>The Marine API combines wave models from different sources.</p>
-
-		<table
-			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<caption class="text-muted-foreground mt-2 table-caption text-left"
-				>You can find the update timings in the <a
-					class="text-link underline"
-					href={'/en/docs/model-updates'}>model updates documentation</a
-				>.</caption
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1240px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>
-			<thead>
-				<tr>
-					<th scope="col">Data Set</th>
-					<th scope="col">Region</th>
-					<th scope="col"></th>
-					<th scope="col">Spatial Resolution</th>
-					<th scope="col">Temporal Resolution</th>
-					<th scope="col">Data Availability</th>
-					<th scope="col">Update frequency</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row"
-						><a
-							href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_WAV_001_027/description"
-							>MeteoFrance MFWAM</a
+				<caption class="text-muted-foreground mt-2 table-caption text-left"
+					>You can find the update timings in the <a
+						class="text-link underline"
+						href={'/en/docs/model-updates'}>model updates documentation</a
+					>.</caption
+				>
+				<thead>
+					<tr>
+						<th scope="col">Data Set</th>
+						<th scope="col">Region</th>
+						<th scope="col"></th>
+						<th scope="col">Spatial Resolution</th>
+						<th scope="col">Temporal Resolution</th>
+						<th scope="col">Data Availability</th>
+						<th scope="col">Update frequency</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row"
+							><a
+								href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_WAV_001_027/description"
+								>MeteoFrance MFWAM</a
+							>
+						</th>
+						<td>Global</td>
+						<td
+							><a
+								href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=0&center=-23.399717243797422%2C42.59188729714914&zoom=10.52284658362573&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9XQVZfMDAxXzAyNy9jbWVtc19tb2RfZ2xvX3dhdl9hbmZjXzAuMDgzZGVnX1BUM0gtaV8yMDIzMTEvVkhNMCIsInpJbmRleCI6MCwiaXNFeHBsb3JpbmciOnRydWUsImxvZ1NjYWxlIjpmYWxzZX1d&basemap=dark"
+								target="_blank"
+								title="Visualize as map">Map</a
+							></td
 						>
-					</th>
-					<td>Global</td>
-					<td
-						><a
-							href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=0&center=-23.399717243797422%2C42.59188729714914&zoom=10.52284658362573&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9XQVZfMDAxXzAyNy9jbWVtc19tb2RfZ2xvX3dhdl9hbmZjXzAuMDgzZGVnX1BUM0gtaV8yMDIzMTEvVkhNMCIsInpJbmRleCI6MCwiaXNFeHBsb3JpbmciOnRydWUsImxvZ1NjYWxlIjpmYWxzZX1d&basemap=dark"
-							target="_blank"
-							title="Visualize as map">Map</a
-						></td
-					>
-					<td>0.08° (~8 km)</td>
-					<td>3-Hourly</td>
-					<td>October 2021 with 10 day forecast</td>
-					<td>Every 12 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						><a
-							href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_PHY_001_024/services"
-							>MeteoFrance SMOC Currents, Tides & SST</a
+						<td>0.08° (~8 km)</td>
+						<td>3-Hourly</td>
+						<td>October 2021 with 10 day forecast</td>
+						<td>Every 12 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a
+								href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_PHY_001_024/services"
+								>MeteoFrance SMOC Currents, Tides & SST</a
+							>
+						</th>
+						<td>Global</td>
+						<td
+							><a
+								href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=-0.49402499198913574&center=-12.433872193277338%2C42.88370285999325&zoom=11.872305323411199&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9QSFlfMDAxXzAyNC9jbWVtc19tb2RfZ2xvX3BoeV9hbmZjX21lcmdlZC11dl9QVDFILWlfMjAyMjExL3VvIiwiekluZGV4IjowLCJpc0V4cGxvcmluZyI6dHJ1ZSwibG9nU2NhbGUiOmZhbHNlfV0%3D&basemap=dark"
+								target="_blank"
+								title="Visualize as map">Map</a
+							></td
 						>
-					</th>
-					<td>Global</td>
-					<td
-						><a
-							href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=-0.49402499198913574&center=-12.433872193277338%2C42.88370285999325&zoom=11.872305323411199&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9QSFlfMDAxXzAyNC9jbWVtc19tb2RfZ2xvX3BoeV9hbmZjX21lcmdlZC11dl9QVDFILWlfMjAyMjExL3VvIiwiekluZGV4IjowLCJpc0V4cGxvcmluZyI6dHJ1ZSwibG9nU2NhbGUiOmZhbHNlfV0%3D&basemap=dark"
-							target="_blank"
-							title="Visualize as map">Map</a
-						></td
-					>
-					<td>0.08° (~8 km)</td>
-					<td>Hourly</td>
-					<td>January 2022 with 10 day forecast</td>
-					<td>Every 24 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						><a href="https://www.ecmwf.int/en/elibrary/79883-wave-model">ECMWF WAM</a>
-					</th>
-					<td>Global</td>
-					<td></td>
-					<td>0.25° (~25 km)</td>
-					<td>3-Hourly</td>
-					<td>March 2024 with 10 day forecast</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						><a href="https://polar.ncep.noaa.gov/waves/index.php">NCEP GFS Wave</a>
-					</th>
-					<td>Global</td>
-					<td></td>
-					<td>0.25° (~25 km)</td>
-					<td>Hourly</td>
-					<td>June 2024 with 16 day forecast</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						><a href="https://polar.ncep.noaa.gov/waves/index.php">NCEP GFS Wave</a>
-					</th>
-					<td>Latitude 52.5°N - 15°S</td>
-					<td></td>
-					<td>0.16° (~16 km)</td>
-					<td>Hourly</td>
-					<td>October 2024 with 16 day forecast</td>
-					<td>Every 6 hours</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						><a href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
-							>DWD EWAM</a
-						>
-					</th>
-					<td>Europe</td>
-					<td></td>
-					<td>0.05° (~5 km)</td>
-					<td>Hourly</td>
-					<td>August 2022 with 8 day forecast</td>
-					<td>Twice daily</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						><a href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
-							>DWD GWAM</a
-						>
-					</th>
-					<td>Global</td>
-					<td></td>
-					<td>0.25° (~25 km)</td>
-					<td>Hourly</td>
-					<td>August 2022 with 4 day forecast</td>
-					<td>Twice daily</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						><a
-							href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview"
-							>ERA5-Ocean</a
-						>
-					</th>
-					<td>Global</td>
-					<td></td>
-					<td>0.5° (~50 km)</td>
-					<td>Hourly</td>
-					<td>1940 to present</td>
-					<td>Daily with 5 days delay</td>
-				</tr>
-			</tbody>
-		</table>
+						<td>0.08° (~8 km)</td>
+						<td>Hourly</td>
+						<td>January 2022 with 10 day forecast</td>
+						<td>Every 24 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.ecmwf.int/en/elibrary/79883-wave-model">ECMWF WAM</a>
+						</th>
+						<td>Global</td>
+						<td></td>
+						<td>0.25° (~25 km)</td>
+						<td>3-Hourly</td>
+						<td>March 2024 with 10 day forecast</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://polar.ncep.noaa.gov/waves/index.php">NCEP GFS Wave</a>
+						</th>
+						<td>Global</td>
+						<td></td>
+						<td>0.25° (~25 km)</td>
+						<td>Hourly</td>
+						<td>June 2024 with 16 day forecast</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://polar.ncep.noaa.gov/waves/index.php">NCEP GFS Wave</a>
+						</th>
+						<td>Latitude 52.5°N - 15°S</td>
+						<td></td>
+						<td>0.16° (~16 km)</td>
+						<td>Hourly</td>
+						<td>October 2024 with 16 day forecast</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a
+								href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
+								>DWD EWAM</a
+							>
+						</th>
+						<td>Europe</td>
+						<td></td>
+						<td>0.05° (~5 km)</td>
+						<td>Hourly</td>
+						<td>August 2022 with 8 day forecast</td>
+						<td>Twice daily</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a
+								href="https://www.dwd.de/EN/specialusers/shipping/seegangsvorhersagesystem_en.html"
+								>DWD GWAM</a
+							>
+						</th>
+						<td>Global</td>
+						<td></td>
+						<td>0.25° (~25 km)</td>
+						<td>Hourly</td>
+						<td>August 2022 with 4 day forecast</td>
+						<td>Twice daily</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a
+								href="https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels?tab=overview"
+								>ERA5-Ocean</a
+							>
+						</th>
+						<td>Global</td>
+						<td></td>
+						<td>0.5° (~50 km)</td>
+						<td>Hourly</td>
+						<td>1940 to present</td>
+						<td>Daily with 5 days delay</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
@@ -779,175 +805,180 @@
 			and responds with a JSON hourly marine weather forecast for 7 days. Time always starts at 0:00
 			today. All URL parameters are listed below:
 		</p>
-		<table
-			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th scope="col">Parameter</th>
-					<th scope="col">Format</th>
-					<th scope="col">Required</th>
-					<th scope="col">Default</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">latitude, longitude</th>
-					<td>Floating point</td>
-					<td>Yes</td>
-					<td></td>
-					<td
-						>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
-						separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return data
-						for multiple locations the JSON output changes to a list of structures. CSV and XLSX
-						formats add a column <mark>location_id</mark>.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">hourly</th>
-					<td>String array</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>A list of weather variables which should be returned. Values can be comma separated, or
-						multiple
-						<mark>&hourly=</mark> parameter in the URL can be used.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">daily</th>
-					<td>String array</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>A list of daily weather variable aggregations which should be returned. Values can be
-						comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
-						daily weather variables are specified, parameter <mark>timezone</mark> is required.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">current</th>
-					<td>String array</td>
-					<td>No</td>
-					<td></td>
-					<td>A list of variables to get current conditions.</td>
-				</tr>
-				<tr>
-					<th scope="row">timeformat</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>iso8601</mark></td>
-					<td
-						>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX epoch
-						time in seconds. Please note that all timestamp are in GMT+0! For daily values with unix
-						timestamps, please apply
-						<mark>utc_offset_seconds</mark> again to get the correct date.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">timezone</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>GMT</mark></td>
-					<td
-						>If <mark>timezone</mark> is set, all timestamps are returned as local-time and data is
-						returned starting at 00:00 local-time. Any time zone name from the
-						<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank"
-							>time zone database</a
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1240px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Required</th>
+						<th scope="col">Default</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">latitude, longitude</th>
+						<td>Floating point</td>
+						<td>Yes</td>
+						<td></td>
+						<td
+							>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
+							separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return
+							data for multiple locations the JSON output changes to a list of structures. CSV and
+							XLSX formats add a column <mark>location_id</mark>.</td
 						>
-						is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
-						resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
-						can be specified.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">past_days</th>
-					<td>Integer (0-92)</td>
-					<td>No</td>
-					<td><mark>0</mark></td>
-					<td
-						>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">forecast_days</th>
-					<td>Integer (0-8)</td>
-					<td>No</td>
-					<td><mark>5</mark></td>
-					<td>Per default, 7 days are returned. Up to 8 days of forecast are possible.</td>
-				</tr>
-				<tr>
-					<th scope="row">forecast_hours<br />past_hours</th>
-					<td>Integer (&gt;0)</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>Similar to forecast_days, the number of timesteps of hourly data can controlled.
-						Instead of using the current day as a reference, the current hour is used.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">start_date<br />end_date</th>
-					<td>String (yyyy-mm-dd)</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>The time interval to get weather data. A day must be specified as an ISO8601 date (e.g.
-						<mark>2022-06-30</mark>).
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">start_hour<br />end_hour</th>
-					<td>String (yyyy-mm-ddThh:mm)</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>The time interval to get weather data for hourly data. Time must be specified as an
-						ISO8601 date (e.g.
-						<mark>2022-06-30T12:00</mark>).
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">length_unit</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>metric</mark></td>
-					<td>Options <mark>metric</mark> and <mark>imperial</mark></td>
-				</tr>
-				<tr>
-					<th scope="row">cell_selection</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>sea</mark></td>
-					<td
-						>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
-						suitable grid-cell on land with
-						<a
-							href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
-							title="Elevation based grid-cell selection explained"
-							>similar elevation to the requested coordinates using a 90-meter digital elevation
-							model</a
-						>.
-						<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
-						grid-cell.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">apikey</th>
-					<td>String</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>Only required to commercial use to access reserved API resources for customers. The
-						server URL requires the prefix <mark>customer-</mark>. See
-						<a href={'/en/pricing'} title="Pricing information to use the weather API commercially"
-							>pricing</a
-						> for more information.</td
-					>
-				</tr>
-			</tbody>
-		</table>
+					</tr>
+					<tr>
+						<th scope="row">hourly</th>
+						<td>String array</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>A list of weather variables which should be returned. Values can be comma separated,
+							or multiple
+							<mark>&hourly=</mark> parameter in the URL can be used.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">daily</th>
+						<td>String array</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>A list of daily weather variable aggregations which should be returned. Values can be
+							comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
+							daily weather variables are specified, parameter <mark>timezone</mark> is required.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">current</th>
+						<td>String array</td>
+						<td>No</td>
+						<td></td>
+						<td>A list of variables to get current conditions.</td>
+					</tr>
+					<tr>
+						<th scope="row">timeformat</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>iso8601</mark></td>
+						<td
+							>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX
+							epoch time in seconds. Please note that all timestamp are in GMT+0! For daily values
+							with unix timestamps, please apply
+							<mark>utc_offset_seconds</mark> again to get the correct date.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">timezone</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>GMT</mark></td>
+						<td
+							>If <mark>timezone</mark> is set, all timestamps are returned as local-time and data
+							is returned starting at 00:00 local-time. Any time zone name from the
+							<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank"
+								>time zone database</a
+							>
+							is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
+							resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
+							can be specified.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">past_days</th>
+						<td>Integer (0-92)</td>
+						<td>No</td>
+						<td><mark>0</mark></td>
+						<td
+							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also
+							returned.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">forecast_days</th>
+						<td>Integer (0-8)</td>
+						<td>No</td>
+						<td><mark>5</mark></td>
+						<td>Per default, 7 days are returned. Up to 8 days of forecast are possible.</td>
+					</tr>
+					<tr>
+						<th scope="row">forecast_hours<br />past_hours</th>
+						<td>Integer (&gt;0)</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>Similar to forecast_days, the number of timesteps of hourly data can controlled.
+							Instead of using the current day as a reference, the current hour is used.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">start_date<br />end_date</th>
+						<td>String (yyyy-mm-dd)</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>The time interval to get weather data. A day must be specified as an ISO8601 date
+							(e.g.
+							<mark>2022-06-30</mark>).
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">start_hour<br />end_hour</th>
+						<td>String (yyyy-mm-ddThh:mm)</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>The time interval to get weather data for hourly data. Time must be specified as an
+							ISO8601 date (e.g.
+							<mark>2022-06-30T12:00</mark>).
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">length_unit</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>metric</mark></td>
+						<td>Options <mark>metric</mark> and <mark>imperial</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">cell_selection</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>sea</mark></td>
+						<td
+							>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
+							suitable grid-cell on land with
+							<a
+								href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
+								title="Elevation based grid-cell selection explained"
+								>similar elevation to the requested coordinates using a 90-meter digital elevation
+								model</a
+							>.
+							<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
+							grid-cell.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">apikey</th>
+						<td>String</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>Only required to commercial use to access reserved API resources for customers. The
+							server URL requires the prefix <mark>customer-</mark>. See
+							<a
+								href={'/en/pricing'}
+								title="Pricing information to use the weather API commercially">pricing</a
+							> for more information.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 	<p>
 		Additional optional URL parameters will be added. For API stability, no required parameters will
@@ -964,91 +995,93 @@
 			as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
 			from the preceding hour as an average or sum.
 		</p>
-		<table
-			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th scope="col">Variable</th>
-					<th scope="col">Valid time</th>
-					<th scope="col">Unit</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">wave_height<br />wind_wave_height<br />swell_wave_height</th>
-					<td>Instant</td>
-					<td>Meter</td>
-					<td
-						>Wave height of significant mean, wind and swell waves. Wave directions are always
-						reported as the direction the waves come from. 0° = From north towards south; 90° = From
-						east</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">wave_direction<br />wind_wave_direction<br />swell_wave_direction</th>
-					<td>Instant</td>
-					<td>°</td>
-					<td>Mean direction of mean, wind and swell waves</td>
-				</tr>
-				<tr>
-					<th scope="row">wave_period<br />wind_wave_period<br />swell_wave_period</th>
-					<td>Instant</td>
-					<td>Seconds</td>
-					<td>Period between mean, wind and swell waves.</td>
-				</tr>
-				<tr>
-					<th scope="row">wind_wave_peak_period<br />swell_wave_peak_period</th>
-					<td>Instant</td>
-					<td>Seconds</td>
-					<td>Peak period between wind and swell waves.</td>
-				</tr>
-				<tr>
-					<th scope="row">ocean_current_velocity</th>
-					<td>Instant</td>
-					<td>km/h (mph, m/s, knots)</td>
-					<td>Velocity of ocean current considering Eulerian, Waves and Tides.</td>
-				</tr>
-				<tr>
-					<th scope="row">ocean_current_direction</th>
-					<td>Instant</td>
-					<td>°</td>
-					<td
-						>Direction following the flow of the current. E.g. where the current is heading towards.
-						0° = Going north; 90° = Towards east.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">sea_surface_temperature</th>
-					<td>Instant</td>
-					<td>Celsius</td>
-					<td>The sea surface temperature close to the water surface</td>
-				</tr>
-				<tr>
-					<th scope="row">sea_level_height_msl</th>
-					<td>Instant</td>
-					<td>metre</td>
-					<td
-						>The sea level height accounts for ocean tides, the inverted barometer effect, sea
-						surface height, global mean steric variation, and global mean mass volume variation. The
-						reference (datum) height is the global mean sea level, not the lowest astronomical tide.
-						Accuracy is limited in coastal areas—while it can be reasonably accurate near
-						unobstructed coasts, it may be completely unreliable further inland. This data is not
-						suitable for coastal navigation.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">invert_barometer_height</th>
-					<td>Instant</td>
-					<td>metre</td>
-					<td
-						>Invert barometer effect is the height low and high pressure systems effect the sea
-						level height. This is already considered in <mark>sea_level_height_msl</mark></td
-					>
-				</tr>
-			</tbody>
-		</table>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1240px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Valid time</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">wave_height<br />wind_wave_height<br />swell_wave_height</th>
+						<td>Instant</td>
+						<td>Meter</td>
+						<td
+							>Wave height of significant mean, wind and swell waves. Wave directions are always
+							reported as the direction the waves come from. 0° = From north towards south; 90° =
+							From east</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">wave_direction<br />wind_wave_direction<br />swell_wave_direction</th>
+						<td>Instant</td>
+						<td>°</td>
+						<td>Mean direction of mean, wind and swell waves</td>
+					</tr>
+					<tr>
+						<th scope="row">wave_period<br />wind_wave_period<br />swell_wave_period</th>
+						<td>Instant</td>
+						<td>Seconds</td>
+						<td>Period between mean, wind and swell waves.</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_wave_peak_period<br />swell_wave_peak_period</th>
+						<td>Instant</td>
+						<td>Seconds</td>
+						<td>Peak period between wind and swell waves.</td>
+					</tr>
+					<tr>
+						<th scope="row">ocean_current_velocity</th>
+						<td>Instant</td>
+						<td>km/h (mph, m/s, knots)</td>
+						<td>Velocity of ocean current considering Eulerian, Waves and Tides.</td>
+					</tr>
+					<tr>
+						<th scope="row">ocean_current_direction</th>
+						<td>Instant</td>
+						<td>°</td>
+						<td
+							>Direction following the flow of the current. E.g. where the current is heading
+							towards. 0° = Going north; 90° = Towards east.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">sea_surface_temperature</th>
+						<td>Instant</td>
+						<td>Celsius</td>
+						<td>The sea surface temperature close to the water surface</td>
+					</tr>
+					<tr>
+						<th scope="row">sea_level_height_msl</th>
+						<td>Instant</td>
+						<td>metre</td>
+						<td
+							>The sea level height accounts for ocean tides, the inverted barometer effect, sea
+							surface height, global mean steric variation, and global mean mass volume variation.
+							The reference (datum) height is the global mean sea level, not the lowest astronomical
+							tide. Accuracy is limited in coastal areas—while it can be reasonably accurate near
+							unobstructed coasts, it may be completely unreliable further inland. This data is not
+							suitable for coastal navigation.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">invert_barometer_height</th>
+						<td>Instant</td>
+						<td>metre</td>
+						<td
+							>Invert barometer effect is the height low and high pressure systems effect the sea
+							level height. This is already considered in <mark>sea_level_height_msl</mark></td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
@@ -1061,42 +1094,46 @@
 				>&daily=</mark
 			> accepts the following values:
 		</p>
-		<table
-			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th scope="col">Variable</th>
-					<th scope="col">Unit</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">wave_height_max<br />wind_wave_height_max<br />swell_wave_height_max</th>
-					<td>Meter</td>
-					<td>Maximum wave height on a given day for mean, wind and swell waves</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						>wave_direction_dominant<br />wind_wave_direction_dominant<br
-						/>swell_wave_direction_dominant
-					</th>
-					<td>°</td>
-					<td>Dominant wave direction of mean, wind and swell waves</td>
-				</tr>
-				<tr>
-					<th scope="row">wave_period_max<br />wind_wave_period_max<br />swell_wave_period_max</th>
-					<td>Seconds</td>
-					<td>Maximum wave period of mean, wind and swell</td>
-				</tr>
-				<tr>
-					<th scope="row">wind_wave_peak_period_max<br />swell_wave_peak_period_max</th>
-					<td>Seconds</td>
-					<td>Maximum peak period between wind and swell waves.</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[840px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">wave_height_max<br />wind_wave_height_max<br />swell_wave_height_max</th
+						>
+						<td>Meter</td>
+						<td>Maximum wave height on a given day for mean, wind and swell waves</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>wave_direction_dominant<br />wind_wave_direction_dominant<br
+							/>swell_wave_direction_dominant
+						</th>
+						<td>°</td>
+						<td>Dominant wave direction of mean, wind and swell waves</td>
+					</tr>
+					<tr>
+						<th scope="row">wave_period_max<br />wind_wave_period_max<br />swell_wave_period_max</th
+						>
+						<td>Seconds</td>
+						<td>Maximum wave period of mean, wind and swell</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_wave_peak_period_max<br />swell_wave_peak_period_max</th>
+						<td>Seconds</td>
+						<td>Maximum peak period between wind and swell waves.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
@@ -1105,76 +1142,83 @@
 	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
-		<div class="code-numbered mt-2 md:mt-4"><MarineObject /></div>
-		<table
-			class="[&_tr]:border-border mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		<div
+			class="code-numbered overflow-auto bg-[#FAFAFA] rounded-lg dark:bg-[#212121] -mx-6 md:ml-0 lg:mx-0 mt-2 md:mt-4"
 		>
-			<thead>
-				<tr>
-					<th scope="col">Parameter</th>
-					<th scope="col">Format</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">latitude, longitude</th>
-					<td>Floating point</td>
-					<td
-						>WGS84 of the center of the weather grid-cell which was used to generate this forecast.
-						This coordinate might be a few kilometers away from the requested coordinate.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">generationtime_ms</th>
-					<td>Floating point</td>
-					<td
-						>Generation time of the weather forecast in milliseconds. This is mainly used for
-						performance monitoring and improvements.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">utc_offset_seconds</th>
-					<td>Integer</td>
-					<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
-				</tr>
-				<tr>
-					<th scope="row">timezone<br />timezone_abbreviation</th>
-					<td>String</td>
-					<td
-						>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
-						<mark>CEST</mark>)</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">hourly</th>
-					<td>Object</td>
-					<td
-						>For each selected weather variable, data will be returned as a floating point array.
-						Additionally a
-						<mark>time</mark> array will be returned with ISO8601 timestamps.
-					</td>
-				</tr>
-				<tr>
-					<th scope="row">hourly_units</th>
-					<td>Object</td>
-					<td>For each selected weather variable, the unit will be listed here.</td>
-				</tr>
-				<tr>
-					<th scope="row">daily</th>
-					<td>Object</td>
-					<td
-						>For each selected daily weather variable, data will be returned as a floating point
-						array. Additionally a <mark>time</mark> array will be returned with ISO8601 timestamps.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">daily_units</th>
-					<td>Object</td>
-					<td>For each selected daily weather variable, the unit will be listed here.</td>
-				</tr>
-			</tbody>
-		</table>
+			<MarineObject />
+		</div>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">latitude, longitude</th>
+						<td>Floating point</td>
+						<td
+							>WGS84 of the center of the weather grid-cell which was used to generate this
+							forecast. This coordinate might be a few kilometers away from the requested
+							coordinate.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">generationtime_ms</th>
+						<td>Floating point</td>
+						<td
+							>Generation time of the weather forecast in milliseconds. This is mainly used for
+							performance monitoring and improvements.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">utc_offset_seconds</th>
+						<td>Integer</td>
+						<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
+					</tr>
+					<tr>
+						<th scope="row">timezone<br />timezone_abbreviation</th>
+						<td>String</td>
+						<td
+							>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
+							<mark>CEST</mark>)</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">hourly</th>
+						<td>Object</td>
+						<td
+							>For each selected weather variable, data will be returned as a floating point array.
+							Additionally a
+							<mark>time</mark> array will be returned with ISO8601 timestamps.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">hourly_units</th>
+						<td>Object</td>
+						<td>For each selected weather variable, the unit will be listed here.</td>
+					</tr>
+					<tr>
+						<th scope="row">daily</th>
+						<td>Object</td>
+						<td
+							>For each selected daily weather variable, data will be returned as a floating point
+							array. Additionally a <mark>time</mark> array will be returned with ISO8601 timestamps.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">daily_units</th>
+						<td>Object</td>
+						<td>For each selected daily weather variable, the unit will be listed here.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 
@@ -1186,7 +1230,11 @@
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 			object is returned with a HTTP 400 status code.
 		</p>
-		<div class="mt-2 md:mt-4"><WeatherForecastError /></div>
+		<div
+			class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+		>
+			<WeatherForecastError />
+		</div>
 	</div>
 </div>
 

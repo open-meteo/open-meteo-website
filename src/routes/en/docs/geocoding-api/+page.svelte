@@ -10,15 +10,9 @@
 
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select/index';
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-
-	import SuperDebug from 'sveltekit-superforms';
 
 	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
 	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';
@@ -166,71 +160,73 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<h2 id="results" class="mb-6 text-2xl md:text-3xl">Preview and API URL</h2>
+	<h2 id="results" class="mb-2 text-2xl md:text-3xl">Preview and API URL</h2>
 
 	<div class="relative min-h-[580px]">
 		{#await results}
 			<div
-				class="bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center"
-				in:fade={{ duration: 300 }}
+				class="bg-accent/25 border border-border rounded-lg absolute top-0 z-30 flex h-full w-full items-center justify-center"
+				in:fade={{ duration: 200, delay: 300 }}
 				out:fade={{ duration: 100 }}
 			>
 				<LoaderCircle size={40} class="animate-spin" /><span class="hidden">Loading...</span>
 			</div>
 		{:then results}
-			<table
-				class="w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-			>
-				<thead>
-					<tr>
-						<th></th>
-						<th>Name</th>
-						<th>Latitude</th>
-						<th>Longitude</th>
-						<th>Elevation</th>
-						<th>Population</th>
-						<th>Admin1</th>
-						<th>Admin2</th>
-						<th>Admin3</th>
-						<th>Admin4</th>
-						<th>Feature code</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#if (results.results || []).length == 0}
+			<div transition:fade={{ duration: 200 }} class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+				<table
+					class="w-full mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				>
+					<thead>
 						<tr>
-							<td colspan="11" class="mt-3 text-center"><strong>No locations found</strong></td>
-							<td colspan="11" class="mt-3 text-center">No locations found</td>
+							<th></th>
+							<th>Name</th>
+							<th>Latitude</th>
+							<th>Longitude</th>
+							<th>Elevation</th>
+							<th>Population</th>
+							<th>Admin1</th>
+							<th>Admin2</th>
+							<th>Admin3</th>
+							<th>Admin4</th>
+							<th>Feature code</th>
 						</tr>
-					{:else}
-						{#each results.results as location}
-							<tr>
-								<td class="min-w-[40px] p-1"
-									><img
-										height="32"
-										width="32"
-										src="/images/country-flags/{(
-											location.country_code || 'united_nations'
-										).toLowerCase()}.svg"
-										title={location.country || ''}
-										alt={location.country || ''}
-									/></td
-								>
-								<td>{location.name}</td>
-								<td>{location.latitude}</td>
-								<td>{location.longitude}</td>
-								<td>{location.elevation || ''}</td>
-								<td>{location.population || ''}</td>
-								<td>{location.admin1 || ''}</td>
-								<td>{location.admin2 || ''}</td>
-								<td>{location.admin3 || ''}</td>
-								<td>{location.admin4 || ''}</td>
-								<td>{location.feature_code || ''}</td>
-							</tr>
-						{/each}
-					{/if}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{#if results.results && results.results.length > 0}
+							{#each results.results as location}
+								<tr>
+									<td class="min-w-[40px] p-1"
+										><img
+											height="32"
+											width="32"
+											src="/images/country-flags/{(
+												location.country_code || 'united_nations'
+											).toLowerCase()}.svg"
+											title={location.country || ''}
+											alt={location.country || ''}
+										/></td
+									>
+									<td>{location.name}</td>
+									<td>{location.latitude}</td>
+									<td>{location.longitude}</td>
+									<td>{location.elevation || ''}</td>
+									<td>{location.population || ''}</td>
+									<td>{location.admin1 || ''}</td>
+									<td>{location.admin2 || ''}</td>
+									<td>{location.admin3 || ''}</td>
+									<td>{location.admin4 || ''}</td>
+									<td>{location.feature_code || ''}</td>
+								</tr>
+							{/each}
+						{/if}
+					</tbody>
+				</table>
+				{#if (results.results || []).length == 0}
+					<div class="flex justify-center items-center mt-3 text-center">
+						<strong>No locations found</strong>
+					</div>
+				{/if}
+			</div>
 		{:catch error}
 			<div class="alert alert-danger" role="alert">
 				{error.message}
@@ -268,77 +264,81 @@
 			The API endpoint <mark>https://geocoding-api.open-meteo.com/v1/search</mark> accepts a search term
 			and returns a list of matching locations. URL parameters are listed below:
 		</p>
-		<table
-			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th scope="col">Parameter</th>
-					<th scope="col">Format</th>
-					<th scope="col">Required</th>
-					<th scope="col">Default</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">name</th>
-					<td>String</td>
-					<td>Yes</td>
-					<td></td>
-					<td
-						>String to search for. An empty string or only 1 character will return an empty result.
-						2 characters will only match exact matching locations. 3 and more characters will
-						perform fuzzy matching. The search string can be a location name or a postal code.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">count</th>
-					<td>Integer</td>
-					<td>No</td>
-					<td><mark>10</mark></td>
-					<td>The number of search results to return. Up to 100 results can be retrieved.</td>
-				</tr>
-				<tr>
-					<th scope="row">format</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>json</mark></td>
-					<td
-						>By default, results are returned as JSON. Alternatively, <mark>protobuf</mark> is
-						supported for more efficient encoding and transfer. The .proto file to decode the
-						protobuf message is available in the
-						<a
-							href="https://github.com/open-meteo/geocoding-api/blob/main/Sources/App/api.proto"
-							target="_blank">geocoding GitHub repository</a
-						>.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">language</th>
-					<td>String</td>
-					<td>No</td>
-					<td><mark>en</mark></td>
-					<td
-						>Return translated results, if available, otherwise return english or the native
-						location name. Lower-cased.</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">apikey</th>
-					<td>String</td>
-					<td>No</td>
-					<td></td>
-					<td
-						>Only required to commercial use to access reserved API resources for customers. The
-						server URL requires the prefix <mark>customer-</mark>. See
-						<a href={'/en/pricing'} title="Pricing information to use the weather API commercially"
-							>pricing</a
-						> for more information.</td
-					>
-				</tr>
-			</tbody>
-		</table>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Required</th>
+						<th scope="col">Default</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">name</th>
+						<td>String</td>
+						<td>Yes</td>
+						<td></td>
+						<td
+							>String to search for. An empty string or only 1 character will return an empty
+							result. 2 characters will only match exact matching locations. 3 and more characters
+							will perform fuzzy matching. The search string can be a location name or a postal
+							code.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">count</th>
+						<td>Integer</td>
+						<td>No</td>
+						<td><mark>10</mark></td>
+						<td>The number of search results to return. Up to 100 results can be retrieved.</td>
+					</tr>
+					<tr>
+						<th scope="row">format</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>json</mark></td>
+						<td
+							>By default, results are returned as JSON. Alternatively, <mark>protobuf</mark> is
+							supported for more efficient encoding and transfer. The .proto file to decode the
+							protobuf message is available in the
+							<a
+								href="https://github.com/open-meteo/geocoding-api/blob/main/Sources/App/api.proto"
+								target="_blank">geocoding GitHub repository</a
+							>.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">language</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>en</mark></td>
+						<td
+							>Return translated results, if available, otherwise return english or the native
+							location name. Lower-cased.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">apikey</th>
+						<td>String</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>Only required to commercial use to access reserved API resources for customers. The
+							server URL requires the prefix <mark>customer-</mark>. See
+							<a
+								href={'/en/pricing'}
+								title="Pricing information to use the weather API commercially">pricing</a
+							> for more information.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 	<p class="text-muted-foreground mt-2">
 		Additional optional URL parameters will be added. For API stability, no required parameters will
@@ -355,109 +355,114 @@
 				>admin4</mark
 			> will be missing if no fourth administrative level is available.
 		</p>
-		<GeocodingObject />
-		<table
-			class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+		<div
+			class="code-numbered overflow-auto bg-[#FAFAFA] rounded-lg dark:bg-[#212121] -mx-6 md:ml-0 lg:mx-0 mt-2 md:mt-4"
 		>
-			<thead>
-				<tr>
-					<th scope="col">Parameter</th>
-					<th scope="col">Format</th>
-					<th scope="col">Description</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">id</th>
-					<td>Integer</td>
-					<td>Unique ID for this location</td>
-				</tr>
-				<tr>
-					<th scope="row">name</th>
-					<td>String</td>
-					<td
-						>Location name. Localized following the <mark>&language=</mark> parameter, if possible</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">latitude, longitude</th>
-					<td>Floating point</td>
-					<td>Geographical WGS84 coordinates of this location</td>
-				</tr>
-				<tr>
-					<th scope="row">elevation</th>
-					<td>Floating point</td>
-					<td>Elevation above mean sea level of this location</td>
-				</tr>
-				<tr>
-					<th scope="row">timezone</th>
-					<td>String</td>
-					<td
-						>Time zone using <a
-							href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
-							target="_blank">time zone database</a
-						> definitions</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">feature_code</th>
-					<td>String</td>
-					<td
-						>Type of this location. Following the <a
-							href="https://www.geonames.org/export/codes.html"
-							target="_new">GeoNames feature_code definition</a
-						></td
-					>
-				</tr>
-				<tr>
-					<th scope="row">country_code</th>
-					<td>String</td>
-					<td
-						>2-Character FIPS <a
-							href="https://en.wikipedia.org/wiki/List_of_FIPS_country_codes"
-							target="_new">country code</a
-						>. E.g. <mark>DE</mark> for Germany</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">country</th>
-					<td>String</td>
-					<td
-						>Country name. Localized following the <mark>&language=</mark> parameter, if possible</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">country_id</th>
-					<td>Integer</td>
-					<td>Unique ID for this country</td>
-				</tr>
-				<tr>
-					<th scope="row">population</th>
-					<td>Integer</td>
-					<td>Number of inhabitants</td>
-				</tr>
-				<tr>
-					<th scope="row">postcodes</th>
-					<td>String array</td>
-					<td>List of postcodes for this location</td>
-				</tr>
-				<tr>
-					<th scope="row">admin1, admin2, admin3, admin4</th>
-					<td>String</td>
-					<td
-						>Name of hierarchical administrative areas this location resides in. Admin1 is the first
-						administrative level. Admin2 the second administrative level. Localized following the <mark
-							>&language=</mark
-						> parameter, if possible</td
-					>
-				</tr>
-				<tr>
-					<th scope="row">admin1_id, admin2_id, admin3_id, admin4_id</th>
-					<td>Integer</td>
-					<td>Unique IDs for the administrative areas</td>
-				</tr>
-			</tbody>
-		</table>
+			<GeocodingObject />
+		</div>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">id</th>
+						<td>Integer</td>
+						<td>Unique ID for this location</td>
+					</tr>
+					<tr>
+						<th scope="row">name</th>
+						<td>String</td>
+						<td
+							>Location name. Localized following the <mark>&language=</mark> parameter, if possible</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">latitude, longitude</th>
+						<td>Floating point</td>
+						<td>Geographical WGS84 coordinates of this location</td>
+					</tr>
+					<tr>
+						<th scope="row">elevation</th>
+						<td>Floating point</td>
+						<td>Elevation above mean sea level of this location</td>
+					</tr>
+					<tr>
+						<th scope="row">timezone</th>
+						<td>String</td>
+						<td
+							>Time zone using <a
+								href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
+								target="_blank">time zone database</a
+							> definitions</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">feature_code</th>
+						<td>String</td>
+						<td
+							>Type of this location. Following the <a
+								href="https://www.geonames.org/export/codes.html"
+								target="_new">GeoNames feature_code definition</a
+							></td
+						>
+					</tr>
+					<tr>
+						<th scope="row">country_code</th>
+						<td>String</td>
+						<td
+							>2-Character FIPS <a
+								href="https://en.wikipedia.org/wiki/List_of_FIPS_country_codes"
+								target="_new">country code</a
+							>. E.g. <mark>DE</mark> for Germany</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">country</th>
+						<td>String</td>
+						<td
+							>Country name. Localized following the <mark>&language=</mark> parameter, if possible</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">country_id</th>
+						<td>Integer</td>
+						<td>Unique ID for this country</td>
+					</tr>
+					<tr>
+						<th scope="row">population</th>
+						<td>Integer</td>
+						<td>Number of inhabitants</td>
+					</tr>
+					<tr>
+						<th scope="row">postcodes</th>
+						<td>String array</td>
+						<td>List of postcodes for this location</td>
+					</tr>
+					<tr>
+						<th scope="row">admin1, admin2, admin3, admin4</th>
+						<td>String</td>
+						<td
+							>Name of hierarchical administrative areas this location resides in. Admin1 is the
+							first administrative level. Admin2 the second administrative level. Localized
+							following the <mark>&language=</mark> parameter, if possible</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">admin1_id, admin2_id, admin3_id, admin4_id</th>
+						<td>Integer</td>
+						<td>Unique IDs for the administrative areas</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<div class="text-muted-foreground mt-2">
 			*Note: All IDs can be can be resolved via the API endpoint
 			<a
@@ -477,7 +482,11 @@
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
 			object is returned with a HTTP 400 status code.
 		</p>
-		<GeocodingError />
+		<div
+			class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+		>
+			<GeocodingError />
+		</div>
 	</div>
 </div>
 

@@ -11,6 +11,6 @@
 
 <LabelPrimitive.Root
 	bind:ref
-	class={cn('peer-disabled:cursor-not-allowed peer-disabled:opacity-70', className)}
+	class={cn('truncate peer-disabled:cursor-not-allowed peer-disabled:opacity-70', className)}
 	{...restProps}
 />

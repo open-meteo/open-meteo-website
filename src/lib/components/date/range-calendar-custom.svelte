@@ -154,7 +154,7 @@
 			>
 			<Button variant="outline" class="px-3" onclick={increaseStart}><ChevronRight /></Button>
 		</div>
-		<div class="flex max-h-[300px] justify-between overflow-y-auto">
+		<div class="flex min-h-[180px] max-h-[300px] justify-between overflow-y-auto">
 			{#if yearModeStart}
 				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-d grid-cols-4">
 					{#each yearList as year}
@@ -270,7 +270,7 @@
 			>
 			<Button variant="outline" class="px-3" onclick={increaseEnd}><ChevronRight /></Button>
 		</div>
-		<div class="flex max-h-[300px] justify-between overflow-y-auto">
+		<div class="flex min-h-[180px] max-h-[300px] justify-between overflow-y-auto">
 			{#if yearModeEnd}
 				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-cols-4">
 					{#each yearList as year}

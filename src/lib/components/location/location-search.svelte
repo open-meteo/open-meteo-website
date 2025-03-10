@@ -14,6 +14,8 @@
 	import Cursor from 'lucide-svelte/icons/mouse-pointer-2';
 	import Search from 'lucide-svelte/icons/search';
 
+	import SuperDebug from 'sveltekit-superforms';
+
 	export let label: string = 'Search Locations...';
 
 	interface ResultSet {
@@ -178,20 +180,23 @@
 						</Alert.Root>
 					</div>
 				{:then results}
-					{#if results.results && results.results.length == 0}
+					{#if results.results && results.results.length === 0}
 						{#if searchQuery.length < 2}
-							{#if $last_visited.length == 0 && $favorites.length == 0}
-								<Alert.Root class="border-border my-auto w-[unset]">
+							{#if $last_visited.length === 0 && $favorites.length === 0}
+								<Alert.Root class="border-border mt-4 my-auto w-[unset]">
 									<Alert.Description>Start typing to search for locations</Alert.Description>
 								</Alert.Root>
 							{/if}
 							{#if $favorites.length > 0}
 								<h6 class="text-muted-foreground mb-4 mt-4 text-xl">Favorites</h6>
 								<div class="border-border rounded-lg border">
-									{#each $favorites as location}
+									{#each $favorites as location, i}
 										<Button
 											variant="outline"
-											class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2"
+											class="not-last:border-b flex h-[unset] rounded-none w-full justify-between px-3 py-2 {i ===
+											0
+												? 'rounded-t-md'
+												: ''} {i === $favorites.length - 1 ? 'rounded-b-md' : ''}"
 											onclick={() => selectLocation(location)}
 										>
 											<div class="pointer-events-none flex flex-col gap-1">
@@ -245,10 +250,13 @@
 							{#if $last_visited.length > 0}
 								<h6 class="text-muted-foreground mb-4 mt-4 text-xl">Recent Locations</h6>
 								<div class="border-border rounded-lg border">
-									{#each $last_visited as location}
+									{#each $last_visited as location, i}
 										<Button
 											variant="outline"
-											class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2"
+											class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2 {i ===
+											0
+												? 'rounded-t-md'
+												: ''} {i === $last_visited.length - 1 ? 'rounded-b-md' : ''}"
 											onclick={() => selectLocation(location)}
 										>
 											<div class="pointer-events-none flex flex-col gap-1">
@@ -310,17 +318,26 @@
 								</div>
 							{/if}
 						{:else}
-							<div class="list-group mt-4">
-								<li class="list-group-item"><span>No locations found</span></li>
-							</div>
+							<Alert.Root class="border-border !mt-4 my-auto w-[unset]">
+								<Alert.Description>No locations found</Alert.Description>
+							</Alert.Root>
 						{/if}
+					{:else if !results.results}
+						<Alert.Root class="border-border !mt-4 my-auto w-[unset]">
+							<Alert.Description>No locations found</Alert.Description>
+						</Alert.Root>
 					{:else}
 						<div class="list-group mt-4">
 							<div class="border-border rounded-lg border">
-								{#each results.results || [] as location}
+								{#each results.results || [] as location, i}
 									<Button
 										variant="outline"
-										class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2"
+										class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2 {i ===
+										0
+											? 'rounded-t-md'
+											: ''} {results.results && i === results.results.length - 1
+											? 'rounded-b-md'
+											: ''}"
 										onclick={() => selectLocation(location)}
 									>
 										<div class="pointer-events-none flex flex-col gap-1">
@@ -373,7 +390,7 @@
 						</div>
 					{/if}
 				{:catch error}
-					<Alert.Root variant="destructive" class="my-auto w-[unset]">
+					<Alert.Root variant="destructive" class="my-auto mt-4 w-[unset]">
 						<Alert.Description>{error.message}</Alert.Description>
 					</Alert.Root>
 				{/await}

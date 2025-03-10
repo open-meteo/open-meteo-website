@@ -3,12 +3,7 @@
 
 	import { fade, slide } from 'svelte/transition';
 
-	import {
-		countVariables,
-		sliceIntoChunks,
-		countPressureVariables,
-		altitudeAboveSeaLevelMeters
-	} from '$lib/utils/meteo';
+	import { countVariables } from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -23,7 +18,6 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -31,19 +25,22 @@
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 
-	import { daily, hourly, models, defaultParameters, additionalVariables } from './options';
+	import {
+		daily,
+		hourly,
+		models,
+		defaultParameters,
+		additionalVariables,
+		forecastDaysOptions
+	} from './options';
 
 	import {
 		pastDaysOptions,
 		pastHoursOptions,
-		forecastDaysOptions,
 		forecastHoursOptions,
-		pastMinutely15Options,
 		gridCellSelectionOptions,
-		temporalResolutionOptions,
-		forecastMinutely15Options
+		temporalResolutionOptions
 	} from '../options';
 
 	const params = urlHashStore({
@@ -91,6 +88,12 @@
 			accordionValues.push('models');
 		}
 	});
+
+	let begin_date = new Date();
+	begin_date.setMonth(begin_date.getMonth() - 3);
+
+	let last_date = new Date();
+	last_date.setDate(last_date.getDate());
 </script>
 
 {'' +
@@ -203,8 +206,8 @@ TODO:
 				</div>
 			{/if}
 			{#if $params.time_mode === 'time_interval'}
-				<div in:fade class="flex flex-col gap-4 md:flex-row">
-					<div class="mb-3 md:w-1/2">
+				<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
+					<div class="mb-3 lg:w-1/2">
 						<DatePicker
 							bind:start_date={$params.start_date}
 							bind:end_date={$params.end_date}
@@ -212,7 +215,7 @@ TODO:
 							{last_date}
 						/>
 					</div>
-					<div class="mb-3 md:w-1/2">
+					<div class="mb-3 lg:w-1/2">
 						<p>
 							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
 							of dates more easily. Archived forecasts come from a series of weather model runs over
@@ -397,7 +400,7 @@ TODO:
 						</Select.Root>
 					</div>
 
-					<div class="relative col-span-2">
+					<div class="relative md:col-span-2">
 						<Select.Root
 							name="temporal_resolution"
 							type="single"
@@ -416,7 +419,7 @@ TODO:
 							>
 						</Select.Root>
 					</div>
-					<div class="relative col-span-2">
+					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
 							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
@@ -549,9 +552,9 @@ TODO:
 <!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
 	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
-	<div class="mt-2 md:mt-4">
+	<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 		<table
-			class="[&_tr]:border-border mx-6 md:mx-0 mt-2 w-full min-w-[1025px] caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>

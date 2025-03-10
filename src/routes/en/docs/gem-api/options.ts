@@ -1,14 +1,17 @@
 export const defaultParameters = {
-	current: [],
-	hourly: [],
 	daily: [],
+	hourly: [],
+	models: [],
+	current: [],
+
+	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: '',
+
 	temperature_unit: 'celsius',
 	wind_speed_unit: 'kmh',
 	precipitation_unit: 'mm',
 	timeformat: 'iso8601',
-	timezone: 'UTC',
 	past_days: '0',
 	past_hours: '',
 	forecast_days: '7',
@@ -19,7 +22,6 @@ export const defaultParameters = {
 	tilt: '0',
 	azimuth: '0',
 	time_mode: 'forecast_days',
-	models: [],
 	cell_selection: ''
 };
 
