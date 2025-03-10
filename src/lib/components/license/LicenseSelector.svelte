@@ -67,7 +67,7 @@
 				<div class="col-md-12">
 					<div class=" alert alert-info" role="alert">
 						Only for <strong>non-commercial use</strong> and less than 10.000 daily API calls. See
-						<a href="/en/terms">Terms</a> for more details.
+						<a class="text-link underline" href="/en/terms">Terms</a> for more details.
 					</div>
 				</div>
 			</div>
@@ -97,7 +97,7 @@
 					</div>
 					<div class="col-md-9">
 						<div class="alert alert-info" role="alert">
-							See <a href="/en/pricing">Pricing</a> for more details.{#if requires_professional_plan}
+							See <a class="text-link underline" href="/en/pricing">Pricing</a> for more details.{#if requires_professional_plan}
 								This API requires the <mark>Professional</mark> subscription.{/if}
 						</div>
 					</div>
@@ -128,8 +128,9 @@
 					</div>
 					<div class="col-md-9">
 						<div class="alert alert-info" role="alert">
-							See <a href="https://github.com/open-meteo/open-meteo">GitHub</a> for more instructions.
-							Make sure your node supports HTTPS.
+							See <a class="text-link underline" href="https://github.com/open-meteo/open-meteo"
+								>GitHub</a
+							> for more instructions. Make sure your node supports HTTPS.
 						</div>
 					</div>
 				</div>

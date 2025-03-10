@@ -1,9 +1,15 @@
 import type { LayoutLoad } from './$types';
 
-export const load = (() => {
+export const load: LayoutLoad = async () => {
 	return {
-		title: 'Weather Forecast API',
-		subtitle: 'Seamless integration of high-resolution weather models with up 16 days forecast',
-		hero: '/images/partly_cloudy.webp'
+		heroTitle: 'Weather Forecast API',
+		heroDescription:
+			'Seamless integration of high-resolution weather models with up 16 days forecast',
+		heroImage: '/images/partly_cloudy.webp',
+		heroHeight: 400,
+		heroPrimaryButtonPath: null,
+		heroPrimaryButtonText: null,
+		heroSecondaryButtonPath: null,
+		heroSecondaryButtonText: null
 	};
-}) satisfies LayoutLoad;
+};

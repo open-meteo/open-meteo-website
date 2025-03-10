@@ -1,0 +1,17 @@
+```json
+{
+    "latitude": 59.9,
+    "longitude": 10.75,
+    "generationtime_ms": 0.0627040863037109,
+    "utc_offset_seconds": 0,
+    "timezone": "GMT",
+    "timezone_abbreviation": "GMT",
+    "daily_units": {
+        "river_discharge": "m³/s"
+    },
+    "daily": {
+        "time": ["2025-03-03", "2025-03-04", "2025-03-05", ...],
+        "river_discharge": [8.04, 8.75, 8.93, ...]
+    }
+}
+```
