@@ -2,9 +2,9 @@ import type { LayoutLoad } from './$types';
 
 export const load = (() => {
 	return {
-		title: 'UK Met Office API',
-		subtitle:
+		heroTitle: 'UK Met Office API',
+		heroDescription:
 			"Weather forecasts from the United Kingdom's national weather and climate service UKMO",
-		hero: '/images/scotland.webp'
+		heroImage: '/images/scotland.webp'
 	};
 }) satisfies LayoutLoad;
