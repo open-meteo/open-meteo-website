@@ -1,0 +1,16 @@
+```json
+{
+    "latitude": 52.52,
+    "longitude": 13.419,
+    "generationtime_ms": 2.2119,
+    "timezone": "Europe/Berlin",
+    "timezone_abbreviation": "CEST",
+    "daily": {
+        "time": ["2022-07-01", "2022-07-01", "2022-07-01", ...],
+        "temperature_2m_max": [13, 12.7, 12.7, 12.5, 12.5, 12.8, ...]
+    },
+    "daily_units": {
+        "temperature_2m": "°C"
+    },
+}
+```

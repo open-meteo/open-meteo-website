@@ -1,25 +1,52 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	import { fade, slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/utils/url-hash-store';
-	import { countVariables } from '$lib/utils/meteo';
+	import { countVariables, countPreviousVariables } from '$lib/utils/meteo';
 
-	import StartEndDate from '$lib/components/date-selector/StartEndDate.svelte';
-	import AccordionItem from '$lib/components/accordion/AccordionItem.svelte';
-	import ResultPreview from '$lib/components/highcharts/ResultPreview.svelte';
-	import LicenseSelector from '$lib/components/license/LicenseSelector.svelte';
-	import LocationSelection from '$lib/components/location/LocationSelection.svelte';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import CalendarEvent from 'svelte-bootstrap-icons/lib/CalendarEvent.svelte';
-	import Clock from 'svelte-bootstrap-icons/lib/Clock.svelte';
+	import Clock from 'lucide-svelte/icons/clock';
+	import Calendar from 'lucide-svelte/icons/calendar-cog';
 
-	import { models, previousDay, windVariables, solarVariables, defaultParameters } from './options';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select';
+	import * as Accordion from '$lib/components/ui/accordion';
+
+	import Settings from '$lib/components/settings/settings.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+
+	import {
+		models,
+		previousDay,
+		windVariables,
+		solarVariables,
+		pastDaysOptions,
+		defaultParameters
+	} from './options';
+
+	import {
+		forecastDaysOptions,
+		gridCellSelectionOptions,
+		temporalResolutionOptions
+	} from '../options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
+
 		...defaultParameters,
-		past_days: '7',
+
 		hourly: [
 			'temperature_2m',
 			'temperature_2m_previous_day1',
@@ -36,6 +63,57 @@
 		}
 		return `${variable}_previous_day${previous_day}`;
 	}
+
+	let forecastDays = $derived(
+		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
+	);
+
+	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
+
+	// Additional variable settings
+	let cellSelection = $derived(
+		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
+	);
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
+	);
+
+	let accordionValues: string[] = $state([]);
+	onMount(() => {
+		if (
+			((temporalResolution ? temporalResolution.value : false) ||
+				(cellSelection ? cellSelection.value : false)) &&
+			!accordionValues.includes('additional-variables')
+		) {
+			accordionValues.push('additional-variables');
+		}
+
+		if (
+			(countPreviousVariables(solarVariables, $params.hourly, true).active ||
+				($params.tilt ? $params.tilt > 0 : false) ||
+				($params.azimuth ? $params.azimuth > 0 : false)) &&
+			!accordionValues.includes('solar-variables')
+		) {
+			accordionValues.push('solar-variables');
+		}
+
+		if (
+			countPreviousVariables(windVariables, $params.hourly, true).active &&
+			!accordionValues.includes('wind-variables')
+		) {
+			accordionValues.push('wind-variables');
+		}
+
+		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
+			accordionValues.push('models');
+		}
+	});
+
+	let begin_date = new Date();
+	begin_date.setMonth(begin_date.getMonth() - 3);
+
+	let last_date = new Date();
+	last_date.setDate(last_date.getDate() + 16);
 </script>
 
 <svelte:head>
@@ -43,160 +121,167 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/previous-runs-api" />
 </svelte:head>
 
-<div class="alert alert-primary" role="alert">
-	Read the announcement for the Previous Day API and how you can use to it calculate model accuracy
-	in the <a href="https://openmeteo.substack.com/p/weather-forecasts-from-previous-model-runs"
-		>Open-Meteo blog post</a
-	>.
-</div>
+<Alert.Root class="border-border mb-4">
+	<Alert.Description>
+		Read the announcement for the Previous Day API and how you can use to it calculate model
+		accuracy in the <a
+			class="text-link underline"
+			href="https://openmeteo.substack.com/p/weather-forecasts-from-previous-model-runs"
+			>Open-Meteo blog post</a
+		>.
+	</Alert.Description>
+</Alert.Root>
 
 <form method="get" action="https://historical-forecast-api.open-meteo.com/v1/forecast">
+	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
-	<div class="row py-3 px-0">
-		<div>
-			<ul class="nav nav-underline" id="pills-tab" role="tablist">
-				<li class="nav-item" role="presentation" style="width: 70px;">
-					<span class="nav-link disabled" aria-disabled="true">Time:</span>
-				</li>
-				<li class="nav-item" role="presentation">
-					<button
-						class="nav-link"
-						class:active={$params.time_mode == 'forecast_days'}
-						id="pills-forecast_days-tab"
-						type="button"
-						role="tab"
-						aria-controls="pills-forecast_days"
-						aria-selected="true"
-						onclick={() => ($params.time_mode = 'forecast_days')}
-						><Clock class="mb-1 me-1" /> Forecast Length</button
-					>
-				</li>
-				<li class="nav-item" role="presentation">
-					<button
-						class="nav-link"
-						class:active={$params.time_mode == 'time_interval'}
-						id="pills-time_interval-tab"
-						type="button"
-						role="tab"
-						aria-controls="pills-time_interval"
-						onclick={() => ($params.time_mode = 'time_interval')}
-						aria-selected="true"><CalendarEvent class="mb-1 me-1" /> Time Interval</button
-					>
-				</li>
-			</ul>
-		</div>
-		<div class="tab-content py-3" id="pills-tabContent">
-			{#if $params.time_mode == 'forecast_days'}
-				<div
-					class="tab-pane active"
-					in:fade
-					id="pills-forecast_days"
-					role="tabpanel"
-					aria-labelledby="pills-forecast_days-tab"
-					tabindex="0"
+	<!-- TIME -->
+	<div class="mt-6">
+		<div class="mt-3 flex items-center gap-2">
+			<div class="text-muted-foreground">Time:</div>
+
+			<div class="border-border flex rounded-md border">
+				<Button
+					variant="ghost"
+					class="rounded-e-none !opacity-100 {$params.time_mode === 'forecast_days'
+						? 'bg-accent cursor-not-allowed'
+						: ''}"
+					disabled={$params.time_mode === 'forecast_days'}
+					onclick={() => {
+						$params.time_mode = 'forecast_days';
+						$params.start_date = '';
+						$params.end_date = '';
+					}}
 				>
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-floating mb-3">
-								<select
-									class="form-select"
-									name="forecast_days"
-									id="forecast_days"
-									aria-label="Forecast days"
-									bind:value={$params.forecast_days}
+					<Clock size={20} />Forecast Length
+				</Button>
+				<Button
+					variant="ghost"
+					class="rounded-md rounded-s-none !opacity-100 duration-300 {$params.time_mode ===
+					'time_interval'
+						? 'bg-accent'
+						: ''}"
+					disabled={$params.time_mode === 'time_interval'}
+					onclick={() => {
+						$params.time_mode = 'time_interval';
+					}}
+				>
+					<Calendar size={20} />Time Interval
+				</Button>
+			</div>
+		</div>
+
+		<div class="mt-3 md:mt-4">
+			{#if $params.time_mode === 'forecast_days'}
+				<div in:fade class="grid gap-3 md:gap-6 lg:grid-cols-2">
+					<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
+						<div class="relative">
+							<Select.Root name="forecast_days" type="single" bind:value={$params.forecast_days}>
+								<Select.Trigger
+									aria-label="Forecast days input"
+									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+									>{forecastDays?.label}</Select.Trigger
 								>
-									<option value="1">1 day</option>
-									<option value="3">3 days</option>
-									<option value="7">7 days (default)</option>
-									<option value="14">14 days</option>
-									<option value="16">16 days</option>
-								</select>
-								<label for="forecast_days">Forecast days</label>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-floating mb-3">
-								<select
-									class="form-select"
-									name="past_days"
-									id="past_days"
-									aria-label="Past days"
-									bind:value={$params.past_days}
+								<Select.Content preventScroll={false} class="border-border">
+									{#each forecastDaysOptions as fdo}
+										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
+									{/each}
+								</Select.Content>
+								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+									>Forecast days</Label
 								>
-									<option value="0">0 (default)</option>
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="5">5</option>
-									<option value="7">1 week</option>
-									<option value="14">2 weeks</option>
-									<option value="31">1 month</option>
-									<option value="61">2 months</option>
-									<option value="92">3 months</option>
-								</select>
-								<label for="past_days">Past days</label>
-							</div>
+							</Select.Root>
 						</div>
-						<div class="col-md-6">
-							<p>
-								By default, we provide forecasts for 7 days, but you can access forecasts for up to
-								16 days. If you're interested in past weather data, you can use the <mark
-									>Past Days</mark
+						<div class="relative">
+							<Select.Root name="past_days" type="single" bind:value={$params.past_days}>
+								<Select.Trigger
+									aria-label="Past days input"
+									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
 								>
-								feature to access archived forecasts.
-							</p>
+								<Select.Content preventScroll={false} class="border-border">
+									{#each pastDaysOptions as pdo}
+										<Select.Item class="cursor-pointer" value={pdo.value}>{pdo.label}</Select.Item>
+									{/each}
+								</Select.Content>
+								<Label
+									class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>
+									Past days</Label
+								>
+							</Select.Root>
 						</div>
+					</div>
+
+					<div class="">
+						<p>
+							By default, we provide forecasts for 7 days, but you can access forecasts for up to 16
+							days. If you're interested in past weather data, you can use the <mark>Past Days</mark
+							>
+							feature to access archived forecasts.
+						</p>
 					</div>
 				</div>
 			{/if}
-			{#if $params.time_mode == 'time_interval'}
-				<div
-					class="tab-pane active"
-					in:fade
-					id="pills-time_interval"
-					role="tabpanel"
-					aria-labelledby="pills-time_interval-tab"
-					tabindex="0"
-				>
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<StartEndDate bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
-						</div>
-						<div class="col-md-6">
-							<p>
-								The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
-								of dates more easily. Archived forecasts come from a series of weather model runs over
-								time.
-							</p>
-						</div>
+			{#if $params.time_mode === 'time_interval'}
+				<div in:fade class="flex flex-col gap-4 lg:flex-row">
+					<div class="mb-3 lg:w-1/2">
+						<DatePicker
+							bind:start_date={$params.start_date}
+							bind:end_date={$params.end_date}
+							{begin_date}
+							{last_date}
+						/>
+					</div>
+					<div class="mb-3 lg:w-1/2">
+						<p>
+							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
+							of dates more easily. Archived forecasts come from a series of weather model runs over
+							time. You can access forecasts for up to 3 months and continuously archived in the
+							<a href={'/en/docs/historical-forecast-api'}>Historical Forecast API</a>. You can also
+							check out our
+							<a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, which provides
+							data going all the way back to 1940.
+						</p>
 					</div>
 				</div>
 			{/if}
 		</div>
 	</div>
 
-	<div class="row py-3 px-0">
-		<h2>Hourly Weather Variables</h2>
-		<div class="table-responsive">
-			<table class="table table-sm">
+	<!-- HOURLY -->
+	<div class="mt-6 md:mt-12">
+		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
+		<div class="mt-2 overflow-auto md:mt-4">
+			<table class="w-full">
 				<tbody>
 					{#each previousDay as e}
-						<tr>
-							<td>{e.label}</td>
+						<tr class="border-border border-b">
+							<td class="text-nowrap">{e.label}</td>
 							{#each { length: 8 } as _, i}
-								<td
-									><div class="form-check">
-										<input
-											class="form-check-input"
-											type="checkbox"
-											value={formatVariableName(e.name, i)}
-											id="{e.name}_hourly_previous_day{i}"
-											name="hourly"
-											bind:group={$params.hourly}
+								<td class="py-1"
+									><div class="flex items-center justify-center px-2">
+										<Checkbox
+											id="{e.value}_hourly_previous_day{i}"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											value={formatVariableName(e.value, i)}
+											checked={$params.hourly?.includes(formatVariableName(e.value, i))}
+											aria-labelledby="{e.value}_hourly_previous_day_label{i}"
+											onCheckedChange={() => {
+												if ($params.hourly?.includes(formatVariableName(e.value, i))) {
+													$params.hourly = $params.hourly.filter((item) => {
+														return item !== formatVariableName(e.value, i);
+													});
+												} else {
+													$params.hourly.push(formatVariableName(e.value, i));
+													$params.hourly = $params.hourly;
+												}
+											}}
 										/>
-										<label class="form-check-label" for="{e.name}_hourly_previous_day{i}"
-											>Day {i}</label
+										<Label
+											id="{e.value}_hourly_previous_day_label{i}"
+											for="{e.value}_hourly_previous_day{i}"
+											class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
 										>
 									</div></td
 								>
@@ -208,63 +293,82 @@
 		</div>
 	</div>
 
-	<div class="row py-3 px-0">
-		<div class="accordion" id="accordionVariables">
+	<!-- ADDITIONAL VARIABLES -->
+	<div class="mt-6">
+		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem id="additional-variables" title="Additional Options">
-				<div class="col-md-6">
-					<div class="form-floating mb-6">
-						<select
-							class="form-select"
+				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
+					<div class="relative md:col-span-2">
+						<Select.Root
 							name="temporal_resolution"
-							id="temporal_resolution"
-							aria-label="Temporal Resolution For Hourly Data"
+							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<option value="">1 Hourly</option>
-							<option value="hourly_3">3 Hourly</option>
-							<option value="hourly_6">6 Hourly</option>
-							<option value="native">Native Model Resolution</option>
-						</select>
-						<label for="temporal_resolution">Temporal Resolution For Hourly Data</label>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{temporalResolution?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each temporalResolutionOptions as tro}
+									<Select.Item value={tro.value}>{tro.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Temporal Resolution For Hourly Data</Label
+							>
+						</Select.Root>
 					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-floating mb-6">
-						<select
-							class="form-select"
-							name="cell_selection"
-							id="cell_selection"
-							aria-label="Grid Cell Selection"
-							bind:value={$params.cell_selection}
-						>
-							<option value="">Terrain Optimized, Prefers Land</option>
-							<option value="sea">Prefer Sea</option>
-							<option value="nearest">Nearest</option>
-						</select>
-						<label for="cell_selection">Grid Cell Selection</label>
+					<div class="relative md:col-span-2">
+						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{cellSelection?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each gridCellSelectionOptions as gcso}
+									<Select.Item value={gcso.value}>{gcso.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Grid Cell Selection</Label
+							>
+						</Select.Root>
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem id="solar" title="Solar Radiation Variables">
-				<div class="table-responsive">
-					<table class="table table-sm">
+			<AccordionItem
+				id="solar-variables"
+				title="Solar Radiation Variables"
+				count={countPreviousVariables(solarVariables, $params.hourly)}
+			>
+				<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+					<table class="w-full mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1020px]">
 						<tbody>
 							{#each solarVariables as e}
-								<tr>
+								<tr class="border-border border-b">
 									<td>{e.label}</td>
 									{#each { length: 8 } as _, i}
-										<td
-											><div class="form-check">
-												<input
-													class="form-check-input"
-													type="checkbox"
-													value={formatVariableName(e.name, i)}
-													id="{e.name}_hourly_previous_day{i}"
-													name="hourly"
-													bind:group={$params.hourly}
+										<td class="py-1"
+											><div class="flex items-center justify-center px-2">
+												<Checkbox
+													id="{e.value}_hourly_previous_day{i}"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													value={formatVariableName(e.value, i)}
+													checked={$params.hourly?.includes(formatVariableName(e.value, i))}
+													aria-labelledby="{e.value}_hourly_previous_day_label{i}"
+													onCheckedChange={() => {
+														if ($params.hourly?.includes(formatVariableName(e.value, i))) {
+															$params.hourly = $params.hourly.filter((item) => {
+																return item !== formatVariableName(e.value, i);
+															});
+														} else {
+															$params.hourly.push(formatVariableName(e.value, i));
+															$params.hourly = $params.hourly;
+														}
+													}}
 												/>
-												<label class="form-check-label" for="{e.name}_hourly_previous_day{i}"
-													>Day {i}</label
+												<Label
+													id="{e.value}_hourly_previous_day_label{i}"
+													for="{e.value}_hourly_previous_day{i}"
+													class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
 												>
 											</div></td
 										>
@@ -274,38 +378,42 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="col-md-12 mb-3">
-					<small class="text-muted"
+				<div class="mb-3">
+					<small class="text-muted-foreground"
 						>Note: Solar radiation is averaged over the past hour. Use
 						<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
 						please specify Tilt and Azimuth below.</small
 					>
 				</div>
-				<div class="col-md-3">
-					<div class="form-floating">
-						<input
-							type="number"
-							class="form-control"
-							class:is-invalid={$params.tilt < 0 || $params.tilt > 90}
-							name="tilt"
+				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
+					<div class="relative">
+						<Input
 							id="tilt"
+							type="number"
+							class="h-12 cursor-pointer pt-6 {$params.tilt < 0 || $params.tilt > 90
+								? 'text-red'
+								: ''}"
+							name="tilt"
 							step="1"
 							min="0"
 							max="90"
 							bind:value={$params.tilt}
 						/>
-						<label for="tilt">Panel Tilt (0° horizontal)</label>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="tilt">Panel Tilt (0° horizontal)</Label
+						>
 						{#if $params.tilt < 0 || $params.tilt > 90}
 							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="form-floating">
-						<input
+
+					<div class="relative">
+						<Input
 							type="number"
-							class="form-control"
-							class:is-invalid={$params.azimuth < -180 || $params.azimuth > 180}
+							class="h-12 cursor-pointer pt-6 {$params.azimuth < -90 || $params.azimuth > 90
+								? 'text-red'
+								: ''}"
 							name="azimuth"
 							id="azimuth"
 							step="1"
@@ -313,8 +421,11 @@
 							max="90"
 							bind:value={$params.azimuth}
 						/>
-						<label for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</label>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</Label
+						>
+						{#if Number($params.azimuth) < -90 || Number($params.azimuth) > 90}
 							<div class="invalid-tooltip" transition:slide>
 								Azimuth must be between -90° (east) and 90° (west)
 							</div>
@@ -322,26 +433,41 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem id="wind_upper" title="Wind on 80, 120 and 180 metre">
-				<div class="table-responsive">
-					<table class="table table-sm">
+			<AccordionItem
+				id="wind-variables"
+				title="Wind on 80, 120 and 180 meter"
+				count={countPreviousVariables(windVariables, $params.hourly)}
+			>
+				<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+					<table class="w-full mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1020px]">
 						<tbody>
 							{#each windVariables as e}
-								<tr>
+								<tr class="border-border border-b">
 									<td>{e.label}</td>
 									{#each { length: 8 } as _, i}
-										<td
-											><div class="form-check">
-												<input
-													class="form-check-input"
-													type="checkbox"
-													value={formatVariableName(e.name, i)}
-													id="{e.name}_hourly_previous_day{i}"
-													name="hourly"
-													bind:group={$params.hourly}
+										<td class="py-1"
+											><div class="flex items-center justify-center px-2">
+												<Checkbox
+													id="{e.value}_hourly_previous_day{i}"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													value={formatVariableName(e.value, i)}
+													checked={$params.hourly?.includes(formatVariableName(e.value, i))}
+													aria-labelledby="{e.value}_hourly_previous_day_label{i}"
+													onCheckedChange={() => {
+														if ($params.hourly?.includes(formatVariableName(e.value, i))) {
+															$params.hourly = $params.hourly.filter((item) => {
+																return item !== formatVariableName(e.value, i);
+															});
+														} else {
+															$params.hourly.push(formatVariableName(e.value, i));
+															$params.hourly = $params.hourly;
+														}
+													}}
 												/>
-												<label class="form-check-label" for="{e.name}_hourly_previous_day{i}"
-													>Day {i}</label
+												<Label
+													id="{e.value}_hourly_previous_day_label{i}"
+													for="{e.value}_hourly_previous_day{i}"
+													class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
 												>
 											</div></td
 										>
@@ -357,108 +483,69 @@
 				title="Weather models"
 				count={countVariables(models, $params.models)}
 			>
-				{#each models as group}
-					<div class="col-md-4 mb-3">
-						{#each group as e}
-							<div class="form-check">
-								<input
-									class="form-check-input"
-									type="checkbox"
-									value={e.name}
-									id="{e.name}_model"
-									name="models"
-									bind:group={$params.models}
-								/>
-								<label class="form-check-label" for="{e.name}_model">{e.label}</label>
-							</div>
-						{/each}
-					</div>
-				{/each}
-				<div class="col-md-12">
-					<small class="text-muted"
+				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+					{#each models as group}
+						<div class="mb-3">
+							{#each group as e}
+								<div class="group flex items-center">
+									<Checkbox
+										id="{e.value}_model"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.models?.includes(e.value)}
+										aria-labelledby="{e.value}_label"
+										onCheckedChange={() => {
+											if ($params.models?.includes(e.value)) {
+												$params.models = $params.models.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.models.push(e.value);
+												$params.models = $params.models;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_model_label"
+										for="{e.value}_model"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
+				<div>
+					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
 						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
 						a seamless prediction.</small
 					>
 				</div>
 			</AccordionItem>
-		</div>
+		</Accordion.Root>
 	</div>
 
-	<div class="row py-3 px-0">
-		<h2>Settings</h2>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					name="temperature_unit"
-					id="temperature_unit"
-					aria-label="Temperature Unit"
-					bind:value={$params.temperature_unit}
-				>
-					<option value="celsius">Celsius °C</option>
-					<option value="fahrenheit">Fahrenheit °F</option>
-				</select>
-				<label for="temperature_unit">Temperature Unit</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					name="wind_speed_unit"
-					id="wind_speed_unit"
-					aria-label="Windspeed Unit"
-					bind:value={$params.wind_speed_unit}
-				>
-					<option value="kmh">Km/h</option>
-					<option value="ms">m/s</option>
-					<option value="mph">Mph</option>
-					<option value="kn">Knots</option>
-				</select>
-				<label for="wind_speed_unit">Wind Speed Unit</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					name="precipitation_unit"
-					id="precipitation_unit"
-					aria-label="Precipitation Unit"
-					bind:value={$params.precipitation_unit}
-				>
-					<option value="mm">Millimeter</option>
-					<option value="inch">Inch</option>
-				</select>
-				<label for="precipitation_unit">Precipitation Unit</label>
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="form-floating mb-3">
-				<select
-					class="form-select"
-					name="timeformat"
-					id="timeformat"
-					aria-label="Timeformat"
-					bind:value={$params.timeformat}
-				>
-					<option value="iso8601">ISO 8601 (e.g. 2022-12-31)</option>
-					<option value="unixtime">Unix timestamp</option>
-				</select>
-				<label for="timeformat">Timeformat</label>
-			</div>
-		</div>
+	<!-- SETTINGS -->
+	<div class="mt-6 md:mt-12">
+		<Settings bind:params={$params} />
 	</div>
 
-	<LicenseSelector requires_professional_plan={true} />
+	<!-- LISENCE -->
+	<div class="mt-3 md:mt-6">
+		<LicenseSelector requires_professional_plan={true} />
+	</div>
 </form>
 
-<ResultPreview {params} {defaultParameters} type="previous-runs" useStockChart={true} />
+<!-- RESULT -->
+<div class="mt-6 md:mt-12">
+	<ResultPreview {params} {defaultParameters} type="previous-runs" useStockChart={true} />
+</div>
 
-<div class="col-12 py-5">
-	<h2 id="documentation">API Documentation</h2>
-	<div class="col-md-12 mb-3">
+<!-- API DOCS -->
+<div class="mt-6 md:mt-12">
+	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<div class="mt-2 md:mt-4">
 		<p>
 			Weather models constantly churn out updates, each predicting the future at different lead
 			times. Think of Day 0 as latest forecast close to measurements, Day 1 as a glimpse 24 hours
@@ -481,7 +568,7 @@
 		<p>
 			<strong>Weather Models Sources:</strong> The Previous Runs API uses the same models as
 			available in the general weather forecast API. Please refer to the
-			<a href="/en/docs">Forecast API documentation</a> for a list of all weather models and weather
+			<a href={'/en/docs'}>Forecast API documentation</a> for a list of all weather models and weather
 			variables.
 		</p>
 		<p>

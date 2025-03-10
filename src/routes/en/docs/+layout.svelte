@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { dev } from '$app/environment';
+	import { afterNavigate } from '$app/navigation';
+
+	import Button from '$lib/components/ui/button/button.svelte';
+	import Chevrons from 'lucide-svelte/icons/chevrons-up-down';
 
 	interface Props {
 		children?: import('svelte').Snippet;
@@ -40,100 +44,109 @@
 	];
 	if (dev) {
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
+		links.push({ title: 'Satellite Radiation API', url: '/en/docs/satellite-radiation-api' });
 	}
+
+	let selectedPath = $derived.by(() => {
+		for (const link of links) {
+			if (link.children) {
+				for (const l of link.children) {
+					if (page.url.pathname.includes(l.url) || page.url.pathname.includes(l.url + '/')) {
+						return l;
+					}
+				}
+			}
+			if (page.url.pathname === link.url || page.url.pathname === link.url + '/') {
+				return link;
+			}
+		}
+		return {};
+	});
+
+	let mobileNavOpened = $state(false);
+
+	afterNavigate((e) => {
+		if (!e.from || e.from.route.id !== e.to.route.id) {
+			setTimeout(() => {
+				window.scrollTo(0, 0);
+			}, 100);
+		}
+	});
 </script>
 
-<svelte:head>
-	<link rel="preload" fetchpriority="high" as="image" href={page.data.hero} type="image/webp" />
-</svelte:head>
+<div class="mb-12 flex flex-col md:mb-24 md:flex-row">
+	<aside class="w-full md:w-1/6 md:min-w-[230px] md:max-w-[400px]">
+		<nav class="sticky top-0 flex flex-col p-6 pb-3 md:pb-6 md:pr-3">
+			<Button
+				variant="outline"
+				class="flex justify-start p-3 md:hidden"
+				onclick={() => {
+					mobileNavOpened = !mobileNavOpened;
+				}}
+			>
+				<Chevrons class="mr-2" /><b>{selectedPath.title}</b>
+			</Button>
 
-<div
-	class="px-4 py-5 text-center text-white hero-banner"
-	style="background-image: url('{page.data.hero}');"
->
-	<svg
-		style="filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));"
-		xmlns="http://www.w3.org/2000/svg"
-		width="96"
-		height="96"
-		fill="currentColor"
-		class="bi bi-gear-wide-connected mb-5"
-		viewBox="0 0 16 16"
-	>
-		<path
-			d="M7.068.727c.243-.97 1.62-.97 1.864 0l.071.286a.96.96 0 0 0 1.622.434l.205-.211c.695-.719 1.888-.03 1.613.931l-.08.284a.96.96 0 0 0 1.187 1.187l.283-.081c.96-.275 1.65.918.931 1.613l-.211.205a.96.96 0 0 0 .434 1.622l.286.071c.97.243.97 1.62 0 1.864l-.286.071a.96.96 0 0 0-.434 1.622l.211.205c.719.695.03 1.888-.931 1.613l-.284-.08a.96.96 0 0 0-1.187 1.187l.081.283c.275.96-.918 1.65-1.613.931l-.205-.211a.96.96 0 0 0-1.622.434l-.071.286c-.243.97-1.62.97-1.864 0l-.071-.286a.96.96 0 0 0-1.622-.434l-.205.211c-.695.719-1.888.03-1.613-.931l.08-.284a.96.96 0 0 0-1.186-1.187l-.284.081c-.96.275-1.65-.918-.931-1.613l.211-.205a.96.96 0 0 0-.434-1.622l-.286-.071c-.97-.243-.97-1.62 0-1.864l.286-.071a.96.96 0 0 0 .434-1.622l-.211-.205c-.719-.695-.03-1.888.931-1.613l.284.08a.96.96 0 0 0 1.187-1.186l-.081-.284c-.275-.96.918-1.65 1.613-.931l.205.211a.96.96 0 0 0 1.622-.434l.071-.286zM12.973 8.5H8.25l-2.834 3.779A4.998 4.998 0 0 0 12.973 8.5zm0-1a4.998 4.998 0 0 0-7.557-3.779l2.834 3.78h4.723zM5.048 3.967c-.03.021-.058.043-.087.065l.087-.065zm-.431.355A4.984 4.984 0 0 0 3.002 8c0 1.455.622 2.765 1.615 3.678L7.375 8 4.617 4.322zm.344 7.646.087.065-.087-.065z"
-		/>
-	</svg>
-	<h1 class="display-5 hero-shadow">{page.data.title}</h1>
-	<div class="col-lg-6 mx-auto">
-		<p class="lead mb-4 hero-shadow">{page.data.subtitle}</p>
-	</div>
-</div>
+			<ul
+				class={`list-unstyled overflow-hidden duration-500 ${mobileNavOpened ? 'mt-2 max-h-[968px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
+			>
+				{#each links as link}
+					<li
+						class="my-[0.125rem] rounded-md border py-2 pl-3 pr-2 duration-300 {selectedPath.title ===
+						link.title
+							? 'border-border'
+							: 'border-transparent'}"
+					>
+						<a
+							class="flex items-center gap-1"
+							href={link.url}
+							onclick={() => {
+								if (link.url != selectedPath.url) {
+									mobileNavOpened = false;
+								}
+							}}
+						>
+							{link.title}</a
+						>
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-3 col-lg-2">
-			<div class="my-3 d-md-none">
-				<button
-					class="btn btn-outline-secondary dropdown-toggle collapsed"
-					type="button"
-					data-bs-toggle="collapse"
-					data-bs-target="#sidebarMenu"
-					aria-expanded="false"
-					aria-controls="sidebarMenu"
-				>
-					Available APIs
-				</button>
-			</div>
-			<nav id="sidebarMenu" class="sticky-top d-md-block collapse py-2 py-md-3 py-lg-4">
-				<ul class="list-unstyled">
-					{#each links as link}
-						<li>
-							<a
-								class="btn btn-hover"
-								href={link.url}
-								class:active={page.url.pathname == link.url || page.url.pathname === link.url + '/'}
-								>{link.title}</a
+						{#if link.children}
+							<ul
+								class={`list-unstyled ml-3 overflow-auto duration-500 ${
+									selectedPath.url === link.url ||
+									link.children.some((l) => l.url === selectedPath.url)
+										? 'mb-2 mt-2 max-h-[700px]'
+										: 'max-h-0'
+								}`}
 							>
-							{#if link.children && (page.url.pathname === link.url || page.url.pathname === link.url + '/' || link.children.some((l) => l.url === page.url.pathname || page.url.pathname === l.url + '/'))}
-								<ul class="list-unstyled ms-3 mb-4 mt-1">
-									{#each link.children as l}
-										<li>
-											<a
-												href={l.url}
-												class="btn btn-hover py-1 px-2"
-												class:active={page.url.pathname === l.url + '/' ||
-													page.url.pathname === l.url}>{l.title}</a
-											>
-										</li>
-									{/each}
-								</ul>
-							{/if}
-						</li>
-					{/each}
-				</ul>
-			</nav>
-		</div>
-		<main class="col-md-9 col-lg-10 p-2 p-md-3 p-lg-4">
-			{@render children?.()}
-		</main>
+								{#each link.children as l}
+									<li
+										class="rounded-md border p-1 pl-3 py-1 overflow-hidden truncate duration-300 {selectedPath.url ===
+										l.url
+											? 'border-border'
+											: 'border-transparent'}"
+									>
+										<a
+											href={l.url}
+											onclick={() => {
+												if (l.url != selectedPath.url) {
+													mobileNavOpened = false;
+												}
+											}}
+										>
+											{l.title}</a
+										>
+									</li>
+								{/each}
+							</ul>
+						{/if}
+					</li>
+				{/each}
+			</ul>
+		</nav>
+	</aside>
+	<div
+		class="flex flex-1 flex-col p-6 pt-0 md:max-w-[calc(100%-230px)] lg:max-w-unset md:pl-3 md:pt-6"
+	>
+		{@render children?.()}
 	</div>
 </div>
-
-<style>
-	/*.btn-hover:hover {
-		background-color: #aab1b7;
-	}
-
-	.btn-hover.active {
-		background-color: #d2e7f4;
-	}*/
-	.hero-banner {
-		background-size: cover;
-		background-position: center;
-		height: 400px;
-	}
-	.hero-shadow {
-		text-shadow: 3px 3px 2px rgba(0, 0, 0, 0.7);
-	}
-</style>

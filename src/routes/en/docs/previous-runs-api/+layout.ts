@@ -2,8 +2,8 @@ import type { LayoutLoad } from './$types';
 
 export const load = (() => {
 	return {
-		title: 'Previous Model Runs API',
-		subtitle: 'Weather Forecasts from Previous Days to Compare Run-To-Run Performance',
-		hero: '/images/clouds.webp'
+		heroTitle: 'Previous Model Runs API',
+		heroDescription: 'Weather Forecasts from Previous Days to Compare Run-To-Run Performance',
+		heroImage: '/images/clouds.webp'
 	};
 }) satisfies LayoutLoad;
