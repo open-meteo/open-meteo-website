@@ -1,6 +1,6 @@
 import type { LayoutLoad } from './$types';
 
-import Rain from '$lib/assets/icons/rain.svg';
+import Rain from '$lib/assets/icons/rain.svg?raw&inline';
 
 export const load = (() => {
 	return {

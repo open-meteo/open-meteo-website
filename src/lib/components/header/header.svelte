@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import Logo from '$lib/assets/icons/sun.svg';
+	import Logo from '$lib/assets/icons/sun.svg?raw&inline';
 
-	import Menu from 'lucide-svelte/icons/menu';
-	import Cross from 'lucide-svelte/icons/x';
+	import Menu from 'lucide-static/icons/menu.svg?raw&inline';
+	import Cross from 'lucide-static/icons/x.svg?raw&inline';
 
-	import X from 'simple-icons/icons/x.svg?raw';
-	import Github from 'simple-icons/icons/github.svg?raw';
+	import X from 'simple-icons/icons/x.svg?raw&inline';
+	import Github from 'simple-icons/icons/github.svg?raw&inline';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Toggle from '$lib/components/ui/toggle/toggle.svelte';
@@ -40,11 +40,11 @@
 		>
 			{#if !toggleMenu}
 				<div class="absolute [&_svg]:h-5 [&_svg]:w-5" transition:fade={{ duration: 150 }}>
-					<Menu />
+					{@html Menu}
 				</div>
 			{:else}
 				<div class="absolute [&_svg]:h-5 [&_svg]:w-5" transition:fade={{ duration: 150 }}>
-					<Cross />
+					{@html Cross}
 				</div>
 			{/if}
 		</Toggle>

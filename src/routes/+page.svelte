@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import Key from 'lucide-static/icons/key-round.svg';
-	import Watch from 'lucide-static/icons/watch.svg';
-	import Archive from 'lucide-static/icons/archive.svg';
-	import Mailbox from 'lucide-static/icons/mailbox.svg';
-
-	import Lightbulb from 'lucide-static/icons/lightbulb.svg';
-	import MapPinned from 'lucide-static/icons/map-pinned.svg';
+	import Key from 'lucide-static/icons/key-round.svg?raw&inline';
+	import Watch from 'lucide-static/icons/watch.svg?raw&inline';
+	import Archive from 'lucide-static/icons/archive.svg?raw&inline';
+	import Mailbox from 'lucide-static/icons/mailbox.svg?raw&inline';
+	import Lightbulb from 'lucide-static/icons/lightbulb.svg?raw&inline';
+	import MapPinned from 'lucide-static/icons/map-pinned.svg?raw&inline';
 
 	import Github from 'simple-icons/icons/github.svg?raw';
 

@@ -35,6 +35,8 @@
 		"prettier": "^3.5.0",
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.11",
+		"rollup-plugin-inline-svg": "^3.0.3",
+		"rollup-plugin-svg": "^2.0.0",
 		"svelte": "^5.23.0",
 		"svelte-check": "^4.1.4",
 		"sveltekit-superforms": "^2.24.0",
