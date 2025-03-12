@@ -3,13 +3,14 @@
 	import Gauge from 'lucide-svelte/icons/gauge';
 	import Watch from 'lucide-svelte/icons/watch';
 	import Waves from 'lucide-svelte/icons/waves';
+
+	import Mailbox from 'lucide-static/icons/mailbox.svg';
+
 	import Archive from 'lucide-svelte/icons/archive';
 	import Lightbulb from 'lucide-svelte/icons/lightbulb';
 	import FileCheck from 'lucide-svelte/icons/file-check';
 	import MapPinned from 'lucide-svelte/icons/map-pinned';
 	import MountainSnow from 'lucide-svelte/icons/mountain-snow';
-
-	import Mailbox from '$lib/assets/icons/mailbox.svelte';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 </script>
@@ -421,8 +422,10 @@
 	</div>
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center">
-		<Mailbox width="72" height="72" shadow={false} />
-		<h2 class="my-4 text-4xl font-bold" id="contact">Next steps</h2>
+		<div class="[&_svg]:h-20 [&_svg]:w-20 [&_svg]:stroke-[1.2]">
+			{@html Mailbox}
+		</div>
+		<h2 class="mb-4 text-4xl font-bold" id="contact">Next steps</h2>
 		<div class="text-center">
 			<p class="lead mb-4">
 				Our <a href="/en/docs">documentation</a> provides a good start to help you integrate weather

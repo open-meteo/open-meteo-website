@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import Logo from '$lib/assets/icons/sun.svelte';
+	import Logo from '$lib/assets/icons/sun.svg';
 
 	import Menu from 'lucide-svelte/icons/menu';
 	import Cross from 'lucide-svelte/icons/x';
@@ -26,7 +26,9 @@
 			class="-ml-3 flex gap-2 px-3 text-lg hover:bg-transparent [&_svg]:h-6 [&_svg]:w-6"
 			href={'/'}
 		>
-			<Logo width="28" height="28" />
+			<div class="[&_svg]:h-7 [&_svg]:w-7">
+				{@html Logo}
+			</div>
 			Open-meteo
 		</Button>
 		<Toggle

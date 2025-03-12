@@ -13,10 +13,10 @@
 
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
-	import List from 'lucide-svelte/icons/list';
-	import Plus from 'lucide-svelte/icons/plus';
-	import Trash from 'lucide-svelte/icons/trash-2';
-	import Locate from 'lucide-svelte/icons/locate';
+	import List from 'lucide-static/icons/list.svg';
+	import Plus from 'lucide-static/icons/plus.svg';
+	import Trash from 'lucide-static/icons/trash-2.svg';
+	import Locate from 'lucide-static/icons/locate.svg';
 
 	interface Props {
 		params: Parameters;
@@ -90,7 +90,10 @@
 				params.location_mode = 'location_search';
 			}}
 		>
-			<Locate size={20} />Coordinates
+			<div class="[&_svg]:h-5 [&_svg]:w-5">
+				{@html Locate}
+			</div>
+			Coordinates
 		</Button>
 		<Button
 			variant="ghost"
@@ -102,7 +105,10 @@
 				params.location_mode = 'csv_coordinates';
 			}}
 		>
-			<List size={20} />List
+			<div class="[&_svg]:h-5 [&_svg]:w-5">
+				{@html List}
+			</div>
+			List
 		</Button>
 	</div>
 </div>
@@ -203,14 +209,20 @@
 									variant="outline"
 									class="h-12 w-full px-5 pr-6"
 									onclick={addLocation}
-									title="Add coordinates"><Plus size={22} /></Button
+									title="Add coordinates"
+									><div class="[&_svg]:h-5 [&_svg]:w-5">
+										{@html Plus}
+									</div></Button
 								>
 							{:else}
 								<Button
 									variant="outline"
 									class="h-12 w-full px-5 pr-6"
 									onclick={() => removeLocation(index)}
-									title="Delete coordinates"><Trash size={20} /></Button
+									title="Delete coordinates"
+									><div class="[&_svg]:h-5 [&_svg]:w-5">
+										{@html Trash}
+									</div></Button
 								>
 							{/if}
 						</div>

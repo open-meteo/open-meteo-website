@@ -4,7 +4,7 @@ export const trailingSlash = 'never';
 
 import type { LayoutLoad } from './$types';
 
-import Sun from '$lib/assets/icons/sun.svelte';
+import Sun from '$lib/assets/icons/sun.svg';
 
 export const load: LayoutLoad = async (event) => {
 	const { pathname } = event.url;

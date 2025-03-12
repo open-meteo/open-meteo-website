@@ -1,10 +1,13 @@
 import type { LayoutLoad } from './$types';
 
+import Logo from '$lib/assets/icons/rain.svg';
+
 export const load: LayoutLoad = async (event) => {
 	const { pathname } = event.url;
 
 	return {
 		pathname,
+		Logo,
 		heroImage: '/images/features_background.webp',
 		heroHeight: 600,
 		heroTitle: '404: Page Not Found',

@@ -3,18 +3,17 @@
 
 	import { favorites, last_visited, type GeoLocation } from '$lib/stores/settings';
 
-	import Button from '../ui/button/button.svelte';
+	import { Input } from '$lib/components/ui/input';
+	import { Button } from '$lib/components/ui/button';
+
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Dialog from '$lib/components/ui/dialog/index.js';
+	import * as Dialog from '$lib/components/ui/dialog';
 
-	import Map from 'lucide-svelte/icons/map';
-	import Star from 'lucide-svelte/icons/star';
-	import Trash from 'lucide-svelte/icons/trash-2';
-	import Input from '../ui/input/input.svelte';
-	import Cursor from 'lucide-svelte/icons/mouse-pointer-2';
-	import Search from 'lucide-svelte/icons/search';
-
-	import SuperDebug from 'sveltekit-superforms';
+	import Map from 'lucide-static/icons/map.svg';
+	import Star from 'lucide-static/icons/star.svg';
+	import Trash from 'lucide-static/icons/trash-2.svg';
+	import Cursor from 'lucide-static/icons/mouse-pointer-2.svg';
+	import Search from 'lucide-static/icons/search.svg';
 
 	export let label: string = 'Search Locations...';
 
@@ -143,7 +142,10 @@
 			dialogOpen = !dialogOpen;
 		}}
 		class="hover:bg-accent w-full border-border flex h-12 cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
-		><Search size={20} class="mr-1" /> {label}</Dialog.Trigger
+		><div class="mr-1 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.2]">
+			{@html Search}
+		</div>
+		{label}</Dialog.Trigger
 	>
 	<Dialog.Portal>
 		<Dialog.Overlay class="bg-black/5" />
@@ -170,7 +172,10 @@
 						class=""
 						title="Detect Location via GPS"
 						onclick={() => (searchQuery = 'GPS')}
-						><Cursor class="pointer-events-none" size={20} strokeWidth={1.2} /></Button
+					>
+						<div class="pointer-events-none [&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.2]">
+							{@html Cursor}
+						</div></Button
 					>
 				</div>
 				{#await results}
@@ -228,7 +233,10 @@
 														e.stopPropagation();
 														deleteFavorite(location);
 													}}
-													title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
+													title="Delete"
+													><div class="[&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.2]">
+														{@html Trash}
+													</div></Button
 												>
 												<Button
 													variant="ghost"
@@ -240,7 +248,9 @@
 														e.stopPropagation();
 													}}
 												>
-													<Map size={20} strokeWidth={1.2} />
+													<div class="[&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.2]">
+														{@html Map}
+													</div>
 												</Button>
 											</div>
 										</Button>
@@ -289,8 +299,12 @@
 														e.stopPropagation();
 														saveFavorite(location);
 													}}
-													title="Save"><Star size={20} strokeWidth={1.2} /></Button
+													title="Save"
 												>
+													<div class="[&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.2]">
+														{@html Star}
+													</div>
+												</Button>
 												<Button
 													variant="ghost"
 													class="px-3 duration-200 hover:brightness-[140%]"
@@ -298,8 +312,12 @@
 														e.stopPropagation();
 														deleteRecent(location);
 													}}
-													title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
+													title="Delete"
 												>
+													<div class="[&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.2]">
+														{@html Trash}
+													</div>
+												</Button>
 												<Button
 													variant="ghost"
 													class="px-3 duration-200 hover:brightness-[140%]"
@@ -310,7 +328,9 @@
 														e.stopPropagation();
 													}}
 												>
-													<Map size={20} strokeWidth={1.2} />
+													<div class="[&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.2]">
+														{@html Map}
+													</div>
 												</Button>
 											</div>
 										</Button>
@@ -369,8 +389,12 @@
 													e.stopPropagation();
 													saveFavorite(location);
 												}}
-												title="Save"><Star size={20} strokeWidth={1.2} /></Button
+												title="Save"
 											>
+												<div class="[&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.2]">
+													{@html Star}
+												</div>
+											</Button>
 											<Button
 												variant="ghost"
 												class="px-3 duration-200 hover:brightness-[140%]"
@@ -381,7 +405,9 @@
 													e.stopPropagation();
 												}}
 											>
-												<Map size={20} strokeWidth={1.2} />
+												<div class="[&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.2]">
+													{@html Map}
+												</div>
 											</Button>
 										</div>
 									</Button>

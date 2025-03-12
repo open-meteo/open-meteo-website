@@ -11,7 +11,7 @@
 	import MapPinned from 'lucide-svelte/icons/map-pinned';
 	import MountainSnow from 'lucide-svelte/icons/mountain-snow';
 
-	import Sun from '$lib/assets/icons/sun.svelte';
+	import Sun from '$lib/assets/icons/sun.svg';
 </script>
 
 <svelte:head>
@@ -284,7 +284,9 @@
 	</div>
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center md:mx-auto md:w-2/3">
-		<Sun width="92" height="92" shadow={false} />
+		<div class="[&_svg]:h-22 [&_svg]:w-22 [&_svg]:stroke-[1.6]">
+			{@html Sun}
+		</div>
 		<h2 class="my-4 text-4xl font-light" id="contact">
 			Unlock the Power of Open-Source Weather Data!
 		</h2>

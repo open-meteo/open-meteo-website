@@ -3,7 +3,7 @@
 
 	import { page } from '$app/state';
 
-	import Logo from '$lib/assets/icons/rain.svelte';
+	import Logo from '$lib/assets/icons/rain.svg';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 </script>
@@ -26,7 +26,9 @@
         "
 	></div>
 	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">
-		<Logo width="96" height="96" shadow={true} />
+		<div class="[&_svg]:h-24 [&_svg]:w-24 [&_svg]:drop-shadow-logo">
+			{@html Logo}
+		</div>
 		<h1 class="text-shadow text-3xl font-light shadow-[rgba(0,0,0,0.7)] md:text-5xl">
 			Error {page.status}
 		</h1>

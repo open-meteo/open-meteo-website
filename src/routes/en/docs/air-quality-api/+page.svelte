@@ -7,8 +7,8 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import Clock from 'lucide-svelte/icons/clock';
-	import Calendar from 'lucide-svelte/icons/calendar-cog';
+	import Clock from 'lucide-static/icons/clock.svg';
+	import Calendar from 'lucide-static/icons/calendar-cog.svg';
 
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
@@ -135,7 +135,10 @@
 						$params.end_date = '';
 					}}
 				>
-					<Clock size={20} />Forecast Length
+					<div class="[&_svg]:h-5 [&_svg]:w-5">
+						{@html Clock}
+					</div>
+					Forecast Length
 				</Button>
 				<Button
 					variant="ghost"
@@ -148,7 +151,10 @@
 						$params.time_mode = 'time_interval';
 					}}
 				>
-					<Calendar size={20} />Time Interval
+					<div class="[&_svg]:h-5 [&_svg]:w-5">
+						{@html Calendar}
+					</div>
+					Time Interval
 				</Button>
 			</div>
 		</div>
