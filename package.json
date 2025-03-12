@@ -53,6 +53,7 @@
 		"@tailwindcss/vite": "^4.0.0",
 		"autoprefixer": "^10.4.20",
 		"highcharts": "12.1.2",
+		"lucide-static": "^0.479.0",
 		"openmeteo": "^1.1.4",
 		"prism-themes": "^1.9.0",
 		"rollup-plugin-visualizer": "^5.14.0",
@@ -60,7 +61,8 @@
 		"simple-icons": "^14.10.0",
 		"svelte-persisted-store": "^0.12.0",
 		"typescript-eslint": "^8.26.0",
-		"vite-plugin-tailwindcss-cleaner": "^1.1.0"
+		"vite-plugin-tailwindcss-cleaner": "^1.1.0",
+		"vite-svg-loader": "^5.1.0"
 	},
 	"release": {
 		"branches": [

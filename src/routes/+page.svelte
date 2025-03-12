@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import Key from 'lucide-svelte/icons/key-round';
+	// import Key from 'lucide-svelte/icons/key-round';
+	import Key from 'lucide-static/icons/key-round.svg';
+
 	import Watch from 'lucide-svelte/icons/watch';
 	import Archive from 'lucide-svelte/icons/archive';
 	import Lightbulb from 'lucide-svelte/icons/lightbulb';
@@ -282,7 +284,9 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<Key size="30" strokeWidth={1.6} />
+						<div class="[&_svg]:h-7 [&_svg]:w-7 [&_svg]:stroke-[1.6]">
+							{@html Key}
+						</div>
 					</div>
 
 					<h3 class="pl-3 text-2xl">Free API</h3>
