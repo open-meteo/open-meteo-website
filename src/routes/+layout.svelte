@@ -4,8 +4,8 @@
 	import { page } from '$app/state';
 
 	import Hero from '$lib/components/hero/hero.svelte';
-	import Header from '$lib/components/header/header.svelte?inline';
-	import Footer from '$lib/components/footer/footer.svelte?inline';
+	import Header from '$lib/components/header/header.svelte';
+	import Footer from '$lib/components/footer/footer.svelte';
 
 	import UpdateNotification from '$lib/components/update/update-notification.svelte';
 
