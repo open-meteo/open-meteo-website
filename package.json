@@ -35,8 +35,6 @@
 		"prettier": "^3.5.0",
 		"prettier-plugin-svelte": "^3.3.3",
 		"prettier-plugin-tailwindcss": "^0.6.11",
-		"rollup-plugin-inline-svg": "^3.0.3",
-		"rollup-plugin-svg": "^2.0.0",
 		"svelte": "^5.23.0",
 		"svelte-check": "^4.1.4",
 		"sveltekit-superforms": "^2.24.0",
@@ -63,8 +61,7 @@
 		"simple-icons": "^14.10.0",
 		"svelte-persisted-store": "^0.12.0",
 		"typescript-eslint": "^8.26.0",
-		"vite-plugin-tailwindcss-cleaner": "^1.1.0",
-		"vite-svg-loader": "^5.1.0"
+		"vite-plugin-tailwindcss-cleaner": "^1.1.0"
 	},
 	"release": {
 		"branches": [
