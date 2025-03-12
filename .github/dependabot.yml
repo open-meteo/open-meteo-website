@@ -55,7 +55,6 @@ updates:
       shadcn:
         patterns:
           - 'zod'
-          - 'lucide'
           - 'simple-icons'
           - 'lucide-svelte'
       tailwind:
