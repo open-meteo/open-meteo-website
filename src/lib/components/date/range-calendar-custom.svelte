@@ -6,8 +6,8 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Button } from '$lib/components/ui/button';
 
-	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
-	import ChevronRight from 'lucide-svelte/icons/chevron-right';
+	import ChevronLeft from 'lucide-static/icons/chevron-left.svg?raw&inline';
+	import ChevronRight from 'lucide-static/icons/chevron-right.svg?raw&inline';
 
 	interface Props {
 		start_date?: string;
@@ -136,7 +136,11 @@
 			/>
 		</div>
 		<div class="flex w-full justify-between">
-			<Button variant="outline" class="px-3" onclick={decreaseStart}><ChevronLeft /></Button>
+			<Button variant="outline" class="px-3" onclick={decreaseStart}
+				><div class="[&_svg]:h-4 [&_svg]:w-4">
+					{@html ChevronLeft}
+				</div>
+			</Button>
 			<Button
 				variant="ghost"
 				class="px-6 py-4"
@@ -152,7 +156,11 @@
 					monthModeStart = true;
 				}}>{startDate.getFullYear()} - {monthList[startDate.getMonth()]}</Button
 			>
-			<Button variant="outline" class="px-3" onclick={increaseStart}><ChevronRight /></Button>
+			<Button variant="outline" class="px-3" onclick={increaseStart}
+				><div class="[&_svg]:h-4 [&_svg]:w-4">
+					{@html ChevronRight}
+				</div></Button
+			>
 		</div>
 		<div class="flex min-h-[180px] max-h-[300px] justify-between overflow-y-auto">
 			{#if yearModeStart}
@@ -252,7 +260,11 @@
 			/>
 		</div>
 		<div class="flex w-full justify-between">
-			<Button variant="outline" class="px-3" onclick={decreaseEnd}><ChevronLeft /></Button>
+			<Button variant="outline" class="px-3" onclick={decreaseEnd}
+				><div class="[&_svg]:h-4 [&_svg]:w-4">
+					{@html ChevronLeft}
+				</div></Button
+			>
 			<Button
 				variant="ghost"
 				class="px-6 py-4"
@@ -268,7 +280,11 @@
 					monthModeEnd = true;
 				}}>{endDate.getFullYear()} - {monthList[endDate.getMonth()]}</Button
 			>
-			<Button variant="outline" class="px-3" onclick={increaseEnd}><ChevronRight /></Button>
+			<Button variant="outline" class="px-3" onclick={increaseEnd}
+				><div class="[&_svg]:h-4 [&_svg]:w-4">
+					{@html ChevronRight}
+				</div></Button
+			>
 		</div>
 		<div class="flex min-h-[180px] max-h-[300px] justify-between overflow-y-auto">
 			{#if yearModeEnd}

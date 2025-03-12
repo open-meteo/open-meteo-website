@@ -10,8 +10,8 @@
 
 	import * as Popover from '$lib/components/ui/popover/index.js';
 
-	import X from 'lucide-svelte/icons/x';
-	import CalendarIcon from 'lucide-svelte/icons/calendar';
+	import X from 'lucide-static/icons/x.svg?raw&inline';
+	import CalendarIcon from 'lucide-static/icons/calendar.svg?raw&inline';
 
 	import RangeCalendar from './range-calendar-custom.svelte';
 
@@ -87,8 +87,9 @@
 					? 'ring-2 ring-ring ring-offset-2'
 					: ''}"
 			>
-				<CalendarIcon class="mr-1 mt-1 size-3" />
-
+				<div class="[&_svg]:h-4 [&_svg]:w-4 mr-1">
+					{@html CalendarIcon}
+				</div>
 				<Input
 					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0 {popoverOpen
 						? 'z-20'
@@ -114,8 +115,9 @@
 					? 'ring-2 ring-ring ring-offset-2'
 					: ''}"
 			>
-				<CalendarIcon class="mr-1 mt-1 size-3" />
-
+				<div class="[&_svg]:h-4 [&_svg]:w-4 mr-1">
+					{@html CalendarIcon}
+				</div>
 				<Input
 					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0   {popoverOpen
 						? 'z-20'
@@ -154,7 +156,11 @@
 			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} />
 			<Popover.Close
 				class="ring-offset-background focus:ring-ring absolute right-4 top-6 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none md:top-8"
-				><X size={16} /><span class="sr-only">Close</span></Popover.Close
+			>
+				<div class="[&_svg]:h-4 [&_svg]:w-4">
+					{@html X}
+				</div>
+				<span class="sr-only">Close</span></Popover.Close
 			>
 		</Popover.Content>
 	</Popover.Root>

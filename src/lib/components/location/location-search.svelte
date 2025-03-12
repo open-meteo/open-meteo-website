@@ -9,11 +9,11 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Dialog from '$lib/components/ui/dialog';
 
-	import Map from 'lucide-static/icons/map.svg';
-	import Star from 'lucide-static/icons/star.svg';
-	import Trash from 'lucide-static/icons/trash-2.svg';
-	import Cursor from 'lucide-static/icons/mouse-pointer-2.svg';
-	import Search from 'lucide-static/icons/search.svg';
+	import Map from 'lucide-static/icons/map.svg?raw&inline';
+	import Star from 'lucide-static/icons/star.svg?raw&inline';
+	import Trash from 'lucide-static/icons/trash-2.svg?raw&inline';
+	import Cursor from 'lucide-static/icons/mouse-pointer-2.svg?raw&inline';
+	import Search from 'lucide-static/icons/search.svg?raw&inline';
 
 	export let label: string = 'Search Locations...';
 
@@ -142,7 +142,7 @@
 			dialogOpen = !dialogOpen;
 		}}
 		class="hover:bg-accent w-full border-border flex h-12 cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
-		><div class="mr-1 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.2]">
+		><div class="mr-1 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.5]">
 			{@html Search}
 		</div>
 		{label}</Dialog.Trigger

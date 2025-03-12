@@ -1,23 +1,21 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { fade, slide } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
-	import { api_key_preferences } from '$lib/stores/settings';
-	import type { GeoLocation } from '$lib/stores/settings';
+
+	import { api_key_preferences, type GeoLocation } from '$lib/stores/settings';
 
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
-	import Plus from 'lucide-svelte/icons/plus';
-	import Trash from 'lucide-svelte/icons/trash-2';
+	import Plus from 'lucide-static/icons/plus.svg?raw&inline';
+	import Trash from 'lucide-static/icons/trash-2.svg?raw&inline';
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
-
-	import * as Select from '$lib/components/ui/select/index';
 
 	import * as Alert from '$lib/components/ui/alert';
 
@@ -180,14 +178,16 @@
 									variant="outline"
 									class="h-12 w-full px-5 pr-6"
 									onclick={addLocation}
-									title="Add coordinates"><Plus size={22} /></Button
+									title="Add coordinates"
 								>
+									{@html Plus}
+								</Button>
 							{:else}
 								<Button
 									variant="outline"
 									class="h-12 w-full px-5 pr-6"
 									onclick={() => removeLocation(index)}
-									title="Delete coordinates"><Trash size={20} /></Button
+									title="Delete coordinates">{@html Trash}</Button
 								>
 							{/if}
 						</div>

@@ -10,10 +10,10 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
-	import InfoCircle from 'lucide-svelte/icons/info';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	import ArrowClockwise from 'lucide-svelte/icons/refresh-cw';
-	import ExclamationTriangle from 'lucide-svelte/icons/triangle-alert';
+	import InfoCircle from 'lucide-static/icons/info.svg?raw&inline';
+	import LoaderCircle from 'lucide-static/icons/loader-circle.svg?raw&inline';
+	import ArrowClockwise from 'lucide-static/icons/refresh-cw.svg?raw&inline';
+	import ExclamationTriangle from 'lucide-static/icons/triangle-alert.svg?raw&inline';
 
 	import type { Writable } from 'svelte/store';
 	import type { Parameters } from '$lib/docs';
@@ -662,7 +662,10 @@
 					in:fade={{ delay: 400, duration: 400 }}
 					out:fade={{ duration: 300 }}
 				>
-					<LoaderCircle size={40} class="animate-spin" /><span class="hidden">Loading...</span>
+					<div class="[&_svg]:animate-spin [&_svg]:h-10 [&_svg]:w-10 [&_svg]:stroke-[1.6]">
+						{@html LoaderCircle}
+					</div>
+					<span class="hidden">Loading...</span>
 				</div>
 			{:then results}
 				{#if results}
@@ -687,12 +690,17 @@
 								<Alert.Description>
 									<div class="flex items-center flex-col md:flex-row justify-center gap-2">
 										<div class="text-muted-foreground flex items-center">
-											<InfoCircle class="mr-2" />
+											<div class="mr-2 [&_svg]:h-7 [&_svg]:w-7 [&_svg]:stroke-[1.6]">
+												{@html InfoCircle}
+											</div>
 											Parameters have changed.
 										</div>
 
 										<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
-											><ArrowClockwise class="mr-1" />Reload Chart
+											><div class="[&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.6]">
+												{@html ArrowClockwise}
+											</div>
+											Reload Chart
 										</Button>
 									</div>
 								</Alert.Description>
@@ -711,7 +719,9 @@
 							<Alert.Description>
 								<div class="flex items-center justify-center gap-2">
 									<div class="flex items-center">
-										<ExclamationTriangle class="mr-2" />
+										<div class="[&_svg]:h-6 [&_svg]:w-6 [&_svg]:stroke-[1.6]">
+											{@html ExclamationTriangle}
+										</div>
 										{JSON.parse(error.message).reason}
 									</div>
 
@@ -720,7 +730,10 @@
 										type="submit"
 										class="border-red flex !flex-row"
 										onclick={reload}
-										><ArrowClockwise class="mr-2" />Reload Chart
+										><div class="[&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.6]">
+											{@html ArrowClockwise}
+										</div>
+										Reload Chart
 									</Button>
 								</div>
 							</Alert.Description>

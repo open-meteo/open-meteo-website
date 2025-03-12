@@ -3,8 +3,9 @@
 	import { dev } from '$app/environment';
 	import { afterNavigate } from '$app/navigation';
 
-	import Button from '$lib/components/ui/button/button.svelte';
-	import Chevrons from 'lucide-svelte/icons/chevrons-up-down';
+	import { Button } from '$lib/components/ui/button';
+
+	import Chevrons from 'lucide-static/icons/chevrons-up-down.svg?raw&inline';
 
 	interface Props {
 		children?: import('svelte').Snippet;
@@ -84,7 +85,10 @@
 					mobileNavOpened = !mobileNavOpened;
 				}}
 			>
-				<Chevrons class="mr-2" /><b>{selectedPath.title}</b>
+				<div class="[&_svg]:h-5 [&_svg]:w-5">
+					{@html Chevrons}
+				</div>
+				<b>{selectedPath.title}</b>
 			</Button>
 
 			<ul
