@@ -58,8 +58,6 @@
 
 	onMount(() => {
 		if (browser) {
-			console.log(window.innerWidth);
-
 			var observer = new IntersectionObserver(
 				() => {
 					if (popoverOpen) {
