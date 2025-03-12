@@ -7,20 +7,15 @@
 		id: string;
 		title: string;
 		count?: any;
+		last?: boolean;
 
 		children?: import('svelte').Snippet;
 	}
 
-	let {
-		id,
-		title,
-		count = { active: 0, total: 0 },
-
-		children
-	}: Props = $props();
+	let { id, title, count = { active: 0, total: 0 }, last = false, children }: Props = $props();
 </script>
 
-<Accordion.Item class="border-border border-b" value={id}>
+<Accordion.Item class="border-border {last ? 'border-none' : ''}" value={id}>
 	<Accordion.Trigger
 		class="underline-offset-3 border-border [[data-state=open]]:bg-accent [[data-state=open]]:border-b flex cursor-pointer px-4"
 	>

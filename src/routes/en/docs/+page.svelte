@@ -641,6 +641,7 @@
 			<AccordionItem
 				id="minutely_15"
 				title="15-Minutely Weather Variables"
+				last={true}
 				count={{
 					active:
 						countVariables(solarVariables, $params.minutely_15).active +
