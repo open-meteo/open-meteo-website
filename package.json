@@ -29,7 +29,7 @@
 		"eslint-plugin-svelte": "^3.1.0",
 		"formsnap": "^1.0.1",
 		"globals": "^16.0.0",
-		"lucide-svelte": "^0.471.0",
+		"lucide-svelte": "^0.479.0",
 		"mdsvex": "^0.12.3",
 		"mode-watcher": "^0.5.1",
 		"prettier": "^3.5.0",
