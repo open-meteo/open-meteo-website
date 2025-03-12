@@ -155,7 +155,7 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<div class="[&_svg]:h-8 [&_svg]:w-8 [&_svg]:stroke-[1.3]">
+						<div class="[&_svg]:h-9 [&_svg]:w-9 [&_svg]:stroke-[1.3]">
 							{@html MapPinned}
 						</div>
 					</div>
@@ -287,7 +287,7 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<div class="[&_svg]:h-7 [&_svg]:w-7 [&_svg]:stroke-[1.6]">
+						<div class="[&_svg]:h-8 [&_svg]:w-8 [&_svg]:stroke-[1.6]">
 							{@html Key}
 						</div>
 					</div>

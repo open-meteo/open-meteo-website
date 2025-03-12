@@ -1,17 +1,17 @@
 <script lang="ts">
 	import { mode } from 'mode-watcher';
 
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import * as Alert from '$lib/components/ui/alert';
 
-	import Zap from 'lucide-svelte/icons/zap';
-	import Watch from 'lucide-svelte/icons/watch';
-	import Waves from 'lucide-svelte/icons/waves';
-	import Archive from 'lucide-svelte/icons/archive';
-	import MapPinned from 'lucide-svelte/icons/map-pinned';
-	import MountainSnow from 'lucide-svelte/icons/mountain-snow';
+	import Zap from 'lucide-static/icons/zap.svg?raw&inline';
+	import Watch from 'lucide-static/icons/watch.svg?raw&inline';
+	import Waves from 'lucide-static/icons/waves.svg?raw&inline';
+	import Archive from 'lucide-static/icons/archive.svg?raw&inline';
+	import MapPinned from 'lucide-static/icons/map-pinned.svg?raw&inline';
+	import MountainSnow from 'lucide-static/icons/mountain-snow.svg?raw&inline';
 
-	import Sun from '$lib/assets/icons/sun.svg';
+	import Sun from '$lib/assets/icons/sun.svg?raw&inline';
 </script>
 
 <svelte:head>
@@ -48,7 +48,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<MapPinned size="36" strokeWidth={1.2} />
+					<div class="[&_svg]:h-7 [&_svg]:w-7 [&_svg]:stroke-[1.2]">
+						{@html MapPinned}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Local And Global Models</h3>
@@ -73,7 +75,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Zap size="32" strokeWidth={1.1} />
+					<div class="[&_svg]:h-6 [&_svg]:w-6 [&_svg]:stroke-[1.2]">
+						{@html Zap}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Commercial Use License</h3>
@@ -98,7 +102,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Watch size="36" strokeWidth={1.2} />
+					<div class="[&_svg]:h-7 [&_svg]:w-7 [&_svg]:stroke-[1.2]">
+						{@html Watch}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Large API Call Volume</h3>
@@ -125,7 +131,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Archive size="34" strokeWidth={1.3} />
+					<div class="[&_svg]:h-7 [&_svg]:w-7 [&_svg]:stroke-[1.3]">
+						{@html Archive}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Excellent Uptime, Low Latency</h3>
@@ -148,7 +156,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Waves size="34" strokeWidth={1.4} />
+					<div class="[&_svg]:h-7 [&_svg]:w-7 [&_svg]:stroke-[1.4]">
+						{@html Waves}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Flexible Payment Options</h3>
@@ -171,7 +181,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<MountainSnow size="34" strokeWidth={1.3} />
+					<div class="[&_svg]:h-7 [&_svg]:w-7 [&_svg]:stroke-[1.3]">
+						{@html MountainSnow}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Transparent Pricing, Flexible Cancellation</h3>

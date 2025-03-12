@@ -12,7 +12,7 @@
 	import Label from '$lib/components/ui/label/label.svelte';
 	import * as Select from '$lib/components/ui/select/index';
 
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
+	import LoaderCircle from 'lucide-static/icons/loader-circle.svg?raw&inline';
 
 	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
 	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';
@@ -169,7 +169,10 @@
 				in:fade={{ duration: 200, delay: 300 }}
 				out:fade={{ duration: 100 }}
 			>
-				<LoaderCircle size={40} class="animate-spin" /><span class="hidden">Loading...</span>
+				<div class="[&_svg]:animate-spin [&_svg]:h-10 [&_svg]:w-10">
+					{@html LoaderCircle}
+				</div>
+				<span class="hidden">Loading...</span>
 			</div>
 		{:then results}
 			<div transition:fade={{ duration: 200 }} class="overflow-auto -mx-6 md:ml-0 lg:mx-0">

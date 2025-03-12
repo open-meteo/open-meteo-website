@@ -29,9 +29,5 @@ export default defineConfig({
 			filename: 'build-stats.json',
 			template: 'raw-data'
 		})
-	],
-
-	build: {
-		assetsInlineLimit: Number.MAX_SAFE_INTEGER
-	}
+	]
 });

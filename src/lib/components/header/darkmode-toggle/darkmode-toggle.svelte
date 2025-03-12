@@ -3,9 +3,9 @@
 
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 
-	import Sun from 'lucide-svelte/icons/sun';
-	import Moon from 'lucide-svelte/icons/moon';
-	import Eclipse from 'lucide-svelte/icons/eclipse';
+	import Sun from 'lucide-static/icons/sun.svg?raw&inline';
+	import Moon from 'lucide-static/icons/moon.svg?raw&inline';
+	import Eclipse from 'lucide-static/icons/eclipse.svg?raw&inline';
 </script>
 
 <DropdownMenu.Root>
@@ -15,20 +15,33 @@
 	>
 		<span id="darkmode_toggle_label" class="md:hidden">Toggle theme</span>
 		{#if $mode === 'dark'}
-			<Moon size={22} strokeWidth={1.5} />
+			<div class="[&_svg]:h-6 [&_svg]:w-6 [&_svg]:stroke-[1.5]">
+				{@html Moon}
+			</div>
 		{:else}
-			<Sun size={22} strokeWidth={1.5} />
+			<div class="[&_svg]:h-6 [&_svg]:w-6 [&_svg]:stroke-[1.5]">
+				{@html Sun}
+			</div>
 		{/if}
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content preventScroll={false} align="end" class="border-border p-0">
 		<DropdownMenu.Item class="cursor-pointer px-3 py-2" onclick={() => setMode('light')}>
-			<Sun class="mr-2" strokeWidth={1.2} />Light
+			<div class="mr-1 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.4]">
+				{@html Sun}
+			</div>
+			Light
 		</DropdownMenu.Item>
 		<DropdownMenu.Item class="cursor-pointer px-3 py-2" onclick={() => setMode('dark')}
-			><Moon size={22} class="mr-2" strokeWidth={1.2} />Dark</DropdownMenu.Item
+			><div class="mr-1 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.4]">
+				{@html Moon}
+			</div>
+			Dark</DropdownMenu.Item
 		>
 		<DropdownMenu.Item class="cursor-pointer px-3 py-2" onclick={() => resetMode()}
-			><Eclipse size={22} class="mr-2" strokeWidth={1.2} />System</DropdownMenu.Item
+			><div class="mr-1 [&_svg]:h-5 [&_svg]:w-5 [&_svg]:stroke-[1.4]">
+				{@html Eclipse}
+			</div>
+			System</DropdownMenu.Item
 		>
 	</DropdownMenu.Content>
 </DropdownMenu.Root>
