@@ -66,7 +66,7 @@
 				},
 				{
 					root: null,
-					rootMargin: '150px',
+					rootMargin: window.innerWidth > 768 ? '100px' : '500px',
 					threshold: 0
 				}
 			);

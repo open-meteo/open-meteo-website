@@ -2,16 +2,8 @@
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import { api_key_preferences } from '$lib/stores/settings';
 
-	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
-	import { Button } from '$lib/components/ui/button';
 	import { Switch } from '$lib/components/ui/switch';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select';
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	async function fetchMeta(model: String, type: String, api_key_preferences: any) {
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
@@ -69,6 +61,7 @@
 			is_really_late: isReallyLate
 		};
 	}
+
 	function getData(api_key_preferences: any) {
 		let forecastModels = [
 			{
@@ -565,6 +558,7 @@
 			//{ name: 'Flood API', providers: floodModels },
 		];
 	}
+
 	let showGlobalModels = $state(true);
 	let showEuropeanModels = $state(true);
 	let showNorthAmericanModels = $state(true);
@@ -605,6 +599,7 @@
 
 <div>
 	<h2 id="model_updates" class="text-2xl md:text-3xl">Model Updates</h2>
+
 	<div class="mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-2 lg:gap-x-6">
 		<p>
 			This page offers a brief overview of all models integrated into Open-Meteo. These models are
@@ -635,6 +630,7 @@
 			>. Commercial clients can contact us directly via email.
 		</p>
 	</div>
+
 	<div class="mt-3">
 		<p>
 			The free and commercial API services of Open-Meteo operate on different servers, leading to
@@ -645,16 +641,17 @@
 			<LicenseSelector />
 		</div>
 	</div>
+
 	<div class="mt-6">
 		<div class="flex items-center gap-2">
 			<Switch id="global_models" name="globalWeatherModels" bind:checked={showGlobalModels} />
-			<Label for="global_models" class="mb-[2px] cursor-pointer text-xl"
+			<Label for="global_models" class="mb-[2px] cursor-pointer text-lg"
 				>Global Weather Models</Label
 			>
 		</div>
 		<div class="flex items-center gap-2">
 			<Switch id="european_models" name="europeanModels" bind:checked={showEuropeanModels} />
-			<Label for="european_models" class="mb-[2px]  cursor-pointer text-xl"
+			<Label for="european_models" class="mb-[2px]  cursor-pointer text-lg"
 				>Local European Models</Label
 			>
 			<img
@@ -670,7 +667,7 @@
 				name="northAmericanModel"
 				bind:checked={showNorthAmericanModels}
 			/>
-			<Label for="north_american_models" class="mb-[2px] cursor-pointer text-xl"
+			<Label for="north_american_models" class="mb-[2px] cursor-pointer text-lg"
 				>Local North American Models</Label
 			>
 			<img height="26" width="26" src="/images/country-flags/us.svg" alt="us" />
@@ -678,7 +675,7 @@
 		</div>
 		<div class="flex items-center gap-2">
 			<Switch id="asian_models" name="asianModels" bind:checked={showAsianModels} />
-			<Label for="asian_models" class="mb-[2px] cursor-pointer text-xl">Local Asian Models</Label>
+			<Label for="asian_models" class="mb-[2px] cursor-pointer text-lg">Local Asian Models</Label>
 			<img height="26" width="26" src="/images/country-flags/jp.svg" alt="jp" />
 		</div>
 	</div>
@@ -686,9 +683,9 @@
 		<div class="mt-6">
 			<h2 class="text-2xl md:text-3xl">{section.name}</h2>
 
-			<div>
+			<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 				<table
-					class="[&_tr]:border-border mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+					class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 				>
 					<thead>
 						<tr>
@@ -783,7 +780,7 @@
 					such as 3600 seconds for a model that updates every hour.
 				</li>
 			</ul>
-			<p>
+			<p class="mt-2">
 				Additional attributes, such as spatial resolution, area, grid systems, and more, will be
 				added in the future.
 			</p>
