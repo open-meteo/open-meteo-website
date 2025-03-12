@@ -1,10 +1,13 @@
 import { writable, type Writable } from 'svelte/store';
 
 import { page } from '$app/state';
+
 import { goto } from '$app/navigation';
+
 import { browser } from '$app/environment';
 
 import { isNumeric } from '$lib/utils/meteo';
+
 import type { Parameters } from '$lib/docs';
 
 function debounce(func, timeout = 100) {
