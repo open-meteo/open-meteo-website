@@ -227,6 +227,41 @@ TODO:
 							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range of
 							dates more easily. Depending on the satellite data source, data from 1983 onwards is available.
 						</p>
+						<div class="flex flex-wrap items-center gap-2">
+							Quick:
+							<Button
+								variant="outline"
+								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+								onclick={(e) => {
+									$params.start_date = '2022-01-01';
+									$params.end_date = '2022-12-31';
+								}}>2022</Button
+							>
+							<Button
+								variant="outline"
+								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+								onclick={(e) => {
+									$params.start_date = '2023-01-01';
+									$params.end_date = '2023-12-31';
+								}}>2023</Button
+							>
+							<Button
+								variant="outline"
+								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+								onclick={(e) => {
+									$params.start_date = '2024-01-01';
+									$params.end_date = '2024-12-31';
+								}}>2024</Button
+							>
+							<Button
+								variant="outline"
+								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+								onclick={(e) => {
+									$params.start_date = '2025-01-01';
+									$params.end_date = (new Date()).toISOString().split('T')[0];
+								}}>2025</Button
+							>
+						</div>
 					</div>
 				</div>
 			{/if}
@@ -584,6 +619,7 @@ TODO:
 		model_default="satellite_radiation_seamless"
 		type="satellite"
 		action="archive"
+		useStockChart={true}
 	/>
 </div>
 
