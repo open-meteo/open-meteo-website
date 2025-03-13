@@ -6,8 +6,8 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Button } from '$lib/components/ui/button';
 
-	import ChevronLeft from 'lucide-static/icons/chevron-left.svg?raw&inline';
-	import ChevronRight from 'lucide-static/icons/chevron-right.svg?raw&inline';
+	import ChevronLeft from 'lucide-static/icons/chevron-left.svg?raw';
+	import ChevronRight from 'lucide-static/icons/chevron-right.svg?raw';
 
 	interface Props {
 		start_date?: string;

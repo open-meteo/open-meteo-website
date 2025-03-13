@@ -3,9 +3,9 @@
 
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 
-	import Sun from 'lucide-static/icons/sun.svg?raw&inline';
-	import Moon from 'lucide-static/icons/moon.svg?raw&inline';
-	import Eclipse from 'lucide-static/icons/eclipse.svg?raw&inline';
+	import Sun from 'lucide-static/icons/sun.svg?raw';
+	import Moon from 'lucide-static/icons/moon.svg?raw';
+	import Eclipse from 'lucide-static/icons/eclipse.svg?raw';
 </script>
 
 <DropdownMenu.Root>

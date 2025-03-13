@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import Logo from '$lib/assets/icons/sun.svg?raw&inline';
+	import Logo from '$lib/assets/icons/sun.svg?raw';
 
-	import Menu from 'lucide-static/icons/menu.svg?raw&inline';
-	import Cross from 'lucide-static/icons/x.svg?raw&inline';
+	import Menu from 'lucide-static/icons/menu.svg?raw';
+	import Cross from 'lucide-static/icons/x.svg?raw';
 
-	import X from 'simple-icons/icons/x.svg?raw&inline';
-	import Github from 'simple-icons/icons/github.svg?raw&inline';
+	import X from 'simple-icons/icons/x.svg?raw';
+	import Github from 'simple-icons/icons/github.svg?raw';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Toggle from '$lib/components/ui/toggle/toggle.svelte';

@@ -4,14 +4,14 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Alert from '$lib/components/ui/alert';
 
-	import Zap from 'lucide-static/icons/zap.svg?raw&inline';
-	import Watch from 'lucide-static/icons/watch.svg?raw&inline';
-	import Waves from 'lucide-static/icons/waves.svg?raw&inline';
-	import Archive from 'lucide-static/icons/archive.svg?raw&inline';
-	import MapPinned from 'lucide-static/icons/map-pinned.svg?raw&inline';
-	import MountainSnow from 'lucide-static/icons/mountain-snow.svg?raw&inline';
+	import Zap from 'lucide-static/icons/zap.svg?raw';
+	import Watch from 'lucide-static/icons/watch.svg?raw';
+	import Waves from 'lucide-static/icons/waves.svg?raw';
+	import Archive from 'lucide-static/icons/archive.svg?raw';
+	import MapPinned from 'lucide-static/icons/map-pinned.svg?raw';
+	import MountainSnow from 'lucide-static/icons/mountain-snow.svg?raw';
 
-	import Sun from '$lib/assets/icons/sun.svg?raw&inline';
+	import Sun from '$lib/assets/icons/sun.svg?raw';
 </script>
 
 <svelte:head>

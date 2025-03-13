@@ -1,6 +1,6 @@
 import type { LayoutLoad } from './$types';
 
-import Cog from '$lib/assets/icons/cog.svg?raw&inline';
+import Cog from '$lib/assets/icons/cog.svg?raw';
 
 export const load: LayoutLoad = async () => {
 	return {

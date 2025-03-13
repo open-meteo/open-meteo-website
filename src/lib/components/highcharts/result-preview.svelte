@@ -10,10 +10,10 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
-	import InfoCircle from 'lucide-static/icons/info.svg?raw&inline';
-	import LoaderCircle from 'lucide-static/icons/loader-circle.svg?raw&inline';
-	import ArrowClockwise from 'lucide-static/icons/refresh-cw.svg?raw&inline';
-	import ExclamationTriangle from 'lucide-static/icons/triangle-alert.svg?raw&inline';
+	import InfoCircle from 'lucide-static/icons/info.svg?raw';
+	import LoaderCircle from 'lucide-static/icons/loader-circle.svg?raw';
+	import ArrowClockwise from 'lucide-static/icons/refresh-cw.svg?raw';
+	import ExclamationTriangle from 'lucide-static/icons/triangle-alert.svg?raw';
 
 	import type { Writable } from 'svelte/store';
 	import type { Parameters } from '$lib/docs';

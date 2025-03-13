@@ -1,6 +1,6 @@
 import type { LayoutLoad } from './$types';
 
-import Logo from '$lib/assets/icons/rain.svg?raw&inline';
+import Logo from '$lib/assets/icons/rain.svg?raw';
 
 export const load: LayoutLoad = async (event) => {
 	const { pathname } = event.url;

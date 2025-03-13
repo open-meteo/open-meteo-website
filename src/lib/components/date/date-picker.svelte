@@ -10,8 +10,8 @@
 
 	import * as Popover from '$lib/components/ui/popover/index.js';
 
-	import X from 'lucide-static/icons/x.svg?raw&inline';
-	import CalendarIcon from 'lucide-static/icons/calendar.svg?raw&inline';
+	import X from 'lucide-static/icons/x.svg?raw';
+	import CalendarIcon from 'lucide-static/icons/calendar.svg?raw';
 
 	import RangeCalendar from './range-calendar-custom.svelte';
 

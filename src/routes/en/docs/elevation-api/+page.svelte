@@ -10,8 +10,8 @@
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
-	import Plus from 'lucide-static/icons/plus.svg?raw&inline';
-	import Trash from 'lucide-static/icons/trash-2.svg?raw&inline';
+	import Plus from 'lucide-static/icons/plus.svg?raw';
+	import Trash from 'lucide-static/icons/trash-2.svg?raw';
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';

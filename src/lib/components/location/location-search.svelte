@@ -9,11 +9,11 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Dialog from '$lib/components/ui/dialog';
 
-	import Map from 'lucide-static/icons/map.svg?raw&inline';
-	import Star from 'lucide-static/icons/star.svg?raw&inline';
-	import Trash from 'lucide-static/icons/trash-2.svg?raw&inline';
-	import Cursor from 'lucide-static/icons/mouse-pointer-2.svg?raw&inline';
-	import Search from 'lucide-static/icons/search.svg?raw&inline';
+	import Map from 'lucide-static/icons/map.svg?raw';
+	import Star from 'lucide-static/icons/star.svg?raw';
+	import Trash from 'lucide-static/icons/trash-2.svg?raw';
+	import Cursor from 'lucide-static/icons/mouse-pointer-2.svg?raw';
+	import Search from 'lucide-static/icons/search.svg?raw';
 
 	export let label: string = 'Search Locations...';
 

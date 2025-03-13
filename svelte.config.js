@@ -45,10 +45,8 @@ const config = {
 		},
 		output: {
 			preloadStrategy: 'modulepreload',
-			bundleStrategy: 'split'
+			bundleStrategy: 'inline'
 		}
-
-		// inlineStyleThreshold: 10000 // crashes > 40000
 	}
 };
 

@@ -13,10 +13,10 @@
 
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
-	import List from 'lucide-static/icons/list.svg?raw&inline';
-	import Plus from 'lucide-static/icons/plus.svg?raw&inline';
-	import Trash from 'lucide-static/icons/trash-2.svg?raw&inline';
-	import Locate from 'lucide-static/icons/locate.svg?raw&inline';
+	import List from 'lucide-static/icons/list.svg?raw';
+	import Plus from 'lucide-static/icons/plus.svg?raw';
+	import Trash from 'lucide-static/icons/trash-2.svg?raw';
+	import Locate from 'lucide-static/icons/locate.svg?raw';
 
 	interface Props {
 		params: Parameters;

@@ -5,7 +5,7 @@
 
 	import { Button } from '$lib/components/ui/button';
 
-	import Chevrons from 'lucide-static/icons/chevrons-up-down.svg?raw&inline';
+	import Chevrons from 'lucide-static/icons/chevrons-up-down.svg?raw';
 
 	interface Props {
 		children?: import('svelte').Snippet;

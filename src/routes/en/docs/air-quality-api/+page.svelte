@@ -7,8 +7,8 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import Clock from 'lucide-static/icons/clock.svg?raw&inline';
-	import Calendar from 'lucide-static/icons/calendar-cog.svg?raw&inline';
+	import Clock from 'lucide-static/icons/clock.svg?raw';
+	import Calendar from 'lucide-static/icons/calendar-cog.svg?raw';
 
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';

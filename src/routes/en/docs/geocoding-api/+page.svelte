@@ -12,7 +12,7 @@
 	import Label from '$lib/components/ui/label/label.svelte';
 	import * as Select from '$lib/components/ui/select/index';
 
-	import LoaderCircle from 'lucide-static/icons/loader-circle.svg?raw&inline';
+	import LoaderCircle from 'lucide-static/icons/loader-circle.svg?raw';
 
 	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
 	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';

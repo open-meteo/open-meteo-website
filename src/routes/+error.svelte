@@ -3,7 +3,7 @@
 
 	import { page } from '$app/state';
 
-	import Logo from '$lib/assets/icons/rain.svg?raw&inline';
+	import Logo from '$lib/assets/icons/rain.svg?raw';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 </script>

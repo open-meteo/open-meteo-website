@@ -3,7 +3,7 @@
 
 	import { updated } from '$app/state';
 
-	import Cross from 'lucide-static/icons/x.svg?raw&inline';
+	import Cross from 'lucide-static/icons/x.svg?raw';
 
 	import Button from '../ui/button/button.svelte';
 
