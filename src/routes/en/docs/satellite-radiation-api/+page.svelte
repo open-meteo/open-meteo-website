@@ -40,7 +40,8 @@
 		pastHoursOptions,
 		forecastHoursOptions,
 		gridCellSelectionOptions,
-		temporalResolutionOptions
+		temporalResolutionOptions,
+		models as weatherModels
 	} from '../options';
 
 	const params = urlHashStore({
@@ -113,6 +114,13 @@ TODO:
 	<title>Satellite Radiation API 🛰️☀️ | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/satellite-radiation-api" />
 </svelte:head>
+
+<Alert.Root class="border-border mb-4">
+	<Alert.Description>
+		Solar radiation data from NASA GOES satellites has not been integrated yet, so data is currently
+		unavailable for North America.
+	</Alert.Description>
+</Alert.Root>
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<!-- LOCATION -->
@@ -203,10 +211,9 @@ TODO:
 
 					<div class="">
 						<p>
-							By default, we provide forecasts for 7 days, but you can access forecasts for up to 16
-							days. If you're interested in past weather data, you can use the <mark>Past Days</mark
-							>
-							feature to access archived forecasts.
+							By default, solar radiation for the current day is returned. If you're interested in
+							past satellite data, you can use the <mark>Past Days</mark>
+							feature to access archived data.
 						</p>
 					</div>
 				</div>
@@ -223,14 +230,44 @@ TODO:
 					</div>
 					<div class="mb-3 lg:w-1/2">
 						<p>
-							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
-							of dates more easily. Archived forecasts come from a series of weather model runs over
-							time. You can access forecasts for up to 3 months and continuously archived in the
-							<a href={'/en/docs/historical-forecast-api'}>Historical Forecast API</a>. You can also
-							check out our
-							<a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, which provides
-							data going all the way back to 1940.
+							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range of
+							dates more easily. Depending on the satellite data source, data from 1983 onwards is available.
 						</p>
+						<div class="flex flex-wrap items-center gap-2">
+							Quick:
+							<Button
+								variant="outline"
+								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+								onclick={(e) => {
+									$params.start_date = '2022-01-01';
+									$params.end_date = '2022-12-31';
+								}}>2022</Button
+							>
+							<Button
+								variant="outline"
+								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+								onclick={(e) => {
+									$params.start_date = '2023-01-01';
+									$params.end_date = '2023-12-31';
+								}}>2023</Button
+							>
+							<Button
+								variant="outline"
+								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+								onclick={(e) => {
+									$params.start_date = '2024-01-01';
+									$params.end_date = '2024-12-31';
+								}}>2024</Button
+							>
+							<Button
+								variant="outline"
+								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+								onclick={(e) => {
+									$params.start_date = '2025-01-01';
+									$params.end_date = (new Date()).toISOString().split('T')[0];
+								}}>2025</Button
+							>
+						</div>
 					</div>
 				</div>
 			{/if}
@@ -444,11 +481,47 @@ TODO:
 			</AccordionItem>
 			<AccordionItem
 				id="models"
-				title="Weather models"
-				count={countVariables(models, $params.models)}
+				title="Satellite Data Sources"
+				count={countVariables(models.concat(weatherModels), $params.models)}
 			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+				<div class="mt-2">
 					{#each models as group}
+						<div class="mb-12">
+							{#each group as e}
+								<div class="group flex items-center">
+									<Checkbox
+										id="{e.value}_model"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.models?.includes(e.value)}
+										aria-labelledby="{e.value}_label"
+										onCheckedChange={() => {
+											if ($params.models?.includes(e.value)) {
+												$params.models = $params.models.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.models.push(e.value);
+												$params.models = $params.models;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_model_label"
+										for="{e.value}_model"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
+				<p>
+					You can also compare solar radiation directly with weather models by selecting a model
+					below
+				</p>
+				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+					{#each weatherModels as group}
 						<div class="mb-3">
 							{#each group as e}
 								<div class="group flex items-center">
@@ -552,6 +625,7 @@ TODO:
 		model_default="satellite_radiation_seamless"
 		type="satellite"
 		action="archive"
+		useStockChart={true}
 	/>
 </div>
 
@@ -571,6 +645,7 @@ TODO:
 					<th scope="col">Temporal Resolution</th>
 					<th scope="col">Update frequency</th>
 					<th scope="col">Delay</th>
+					<th scope="col">Archive since</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -585,7 +660,8 @@ TODO:
 					<td>0.05° (~ 5km)</td>
 					<td>15 minutely</td>
 					<td>Every Hour</td>
-					<td>1 Hour</td>
+					<td>2 Hours</td>
+					<td>2025</td>
 				</tr>
 				<tr>
 					<td>IODC</td>
@@ -594,6 +670,7 @@ TODO:
 					<td>15 minutely</td>
 					<td>Every Hour</td>
 					<td>2 Hours</td>
+					<td>2025</td>
 				</tr>
 				<tr>
 					<th scope="row"
@@ -608,6 +685,7 @@ TODO:
 					<td>30 minutely</td>
 					<td>Every Hour</td>
 					<td>2 Days</td>
+					<td>1983</td>
 				</tr>
 				<tr>
 					<th scope="row"
@@ -620,9 +698,45 @@ TODO:
 					<td>10 minutely</td>
 					<td>Every 10 minutes</td>
 					<td>20 Minutes</td>
+					<td>2022</td>
+				</tr>
+				<tr>
+					<th scope="row" rowspan="2">NASA (not yet available)</th>
+					<td>GOES-East</td>
+					<td>North & South America</td>
+					<td>0.05° (~ 5km)</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+				</tr>
+				<tr>
+					<td>GOES-West</td>
+					<td>Pacific Ocean & Alaska</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
+					<td>N/A</td>
 				</tr>
 			</tbody>
 		</table>
+	</div>
+
+	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
+		<figure>
+			<img
+				src="/images/models/geostationary-satellites.webp"
+				class="rounded-lg"
+				alt="Geostationary satellites for solar radiation"
+			/>
+			<figcaption class="text-muted-foreground">
+				Geostationary satellites for solar radiation. Source: <a
+					href="https://www.earthdata.nasa.gov/news/blog/geostationary-active-fire-detection-data-firms"
+					>NASA</a
+				>.
+			</figcaption>
+		</figure>
 	</div>
 </div>
 
@@ -631,9 +745,9 @@ TODO:
 	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
 	<div class="mt-2 md:mt-4">
 		<p>
-			For a detailed list of all available weather variables please refer to the general <a
-				href="/en/docs">Weather Forecast API</a
-			>. Only notable remarks are listed below
+			The Satellite Radiation API integrate solar radiation data from various satellite datasets
+			into a single consistent endpoint. Different geostationary satellites are used to provide
+			global coverage.
 		</p>
 		<ul class="list-disc ml-6">
 			<li>
@@ -652,6 +766,99 @@ TODO:
 				comparability with data sources like weather models, OpenMeteo corrects for these scan time
 				differences and derives backward-averaged values.
 			</li>
+			<li>
+				<strong>Different temporal resolutions:</strong> Data is available in 10, 15 or 30–minutely steps.
+				For compatibility, the API returns 1–hourly data. If you want to access the underlying time resolution,
+				make sure to set "Temporal resolution for hourly data" to "native".
+			</li>
 		</ul>
+	</div>
+</div>
+
+<!-- API DOCS - HOURLY -->
+<div class="mt-6 md:mt-12">
+	<h3 id="hourly_parameter_definition" class="text-xl md:text-2xl">Hourly Parameter Definition</h3>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The parameter <mark>&hourly=</mark> accepts the following values. All data is provided in W/m².
+			Solar radiation parameters are available as either instantaneous values or backward averages over
+			the past hour. If you select 10/15/30-minute data, the backward averages will use the same 10/15/30-minute
+			intervals.
+		</p>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1060px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Valid time</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">shortwave_radiation</th>
+						<td>Preceding hour mean</td>
+						<td
+							>Shortwave solar radiation as average of the preceding hour. This is equal to the
+							total global horizontal irradiation. This is equal the sum of direct and diffuse
+							radiation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">diffuse_radiation</th>
+						<td>Preceding hour mean</td>
+						<td>Diffuse solar radiation as average of the preceding hour</td>
+					</tr>
+					<tr>
+						<th scope="row">direct_radiation</th>
+						<td>Preceding hour mean</td>
+						<td>Direct solar radiation as average of the preceding hour on the horizontal plane.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">direct_normal_irradiance</th>
+						<td>Preceding hour mean</td>
+						<td
+							>Direct solar radiation as average of the preceding hour on the normal plane
+							(perpendicular to the sun). Often denoted DNI.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">global_tilted_irradiance</th>
+						<td>Preceding hour mean</td>
+						<td
+							>Total radiation received on a tilted pane as average of the preceding hour. The
+							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
+							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
+							Azimuth should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to
+							"nan", the calculation assumes a horizontal tracker. If tilt is set to "nan", it is
+							assumed that the panel has a vertical tracker. If both are set to "nan", a bi-axial
+							tracker is assumed.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">terrestrial_radiation</th>
+						<td>Preceding hour mean</td>
+						<td
+							>The solar radiation at the top of the atmosphere, unaffected by clouds or aerosols.
+							It is purely calculated using the solar position factor multiplied by the solar
+							constant of 1367.7 W/m². This differs from clear sky radiation, which accounts for
+							aerosols but not clouds.</td
+						>
+					</tr><tr>
+						<th scope="row">*_instant</th>
+						<td>Instant</td>
+						<td
+							>All solar radiation parameters can be converted to instantaneous values by
+							integrating the solar zenith angle. Instantaneous values are useful for comparing data
+							with local measurements. However, for energy calculations or comparisons with
+							numerical weather models, backward-averaged data is recommended.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>

@@ -39,13 +39,13 @@
 		{ title: 'Climate Change', url: '/en/docs/climate-api' },
 		{ title: 'Marine Forecast', url: '/en/docs/marine-weather-api' },
 		{ title: 'Air Quality', url: '/en/docs/air-quality-api' },
+		{ title: 'Satellite Radiation', url: '/en/docs/satellite-radiation-api' },
 		{ title: 'Geocoding', url: '/en/docs/geocoding-api' },
 		{ title: 'Elevation', url: '/en/docs/elevation-api' },
 		{ title: 'Flood', url: '/en/docs/flood-api' }
 	];
 	if (dev) {
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
-		links.push({ title: 'Satellite Radiation API', url: '/en/docs/satellite-radiation-api' });
 	}
 
 	let selectedPath = $derived.by(() => {
