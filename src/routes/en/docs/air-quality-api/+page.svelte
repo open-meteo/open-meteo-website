@@ -597,6 +597,7 @@
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
+				last={true}
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
 				<div class="grid md:grid-cols-2">

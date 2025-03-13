@@ -7,7 +7,7 @@ updates:
       time: '13:00'
     open-pull-requests-limit: 10
     reviewers:
-      - patrick.zippenfenig
+      - vincvdwal
     allow:
       - dependency-type: direct
     ignore:
@@ -19,22 +19,50 @@ updates:
       semantic:
         patterns:
           - 'semantic-release'
+
           - '@semantic/*'
           - '@semantic-release/*'
       svelte:
         patterns:
-          - '@sveltejs/*'
-          - 'svelte-*'
-          - 'svelte'
           - 'vite'
+          - 'svelte'
+
+          - 'vite-*'
+          - 'rollup*'
+          - 'svelte-*'
+          - '@sveltejs/*'
+
+          - 'mdsvex'
+          - 'mode-watcher'
+          - 'sveltekit-superforms'
       eslint:
         patterns:
-          - '@typescript-eslint/*'
-          - 'eslint-*'
           - 'eslint'
-          - 'sass'
-          - 'typescript'
           - 'prettier'
+          - 'typescript'
+
+          - 'eslint-*'
+          - 'prettier-*'
+          - '@typescript-eslint/*'
+
+          - '@eslint/compat'
+      shiki:
+        patterns:
+          - 'shiki'
+          - 'prismjs'
+          - 'prism-themes'
+          - '@shikijs*'
+      shadcn:
+        patterns:
+          - 'zod'
+          - 'simple-icons'
+          - 'lucide-svelte'
+      tailwind:
+        patterns:
+          - 'tailwindcss'
+
+          - 'tailwind-*'
+          - '@tailwindcss*'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
