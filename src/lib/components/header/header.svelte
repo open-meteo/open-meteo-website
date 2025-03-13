@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import Logo from '$lib/assets/icons/sun.svelte';
+	import Logo from '$lib/assets/icons/sun.svg?raw';
 
-	import Menu from 'lucide-svelte/icons/menu';
-	import Cross from 'lucide-svelte/icons/x';
+	import Menu from 'lucide-static/icons/menu.svg?raw';
+	import Cross from 'lucide-static/icons/x.svg?raw';
 
 	import X from 'simple-icons/icons/x.svg?raw';
 	import Github from 'simple-icons/icons/github.svg?raw';
@@ -26,7 +26,9 @@
 			class="-ml-3 flex gap-2 px-3 text-lg hover:bg-transparent [&_svg]:h-6 [&_svg]:w-6"
 			href={'/'}
 		>
-			<Logo width="28" height="28" />
+			<div class="[&_svg]:h-7 [&_svg]:w-7">
+				{@html Logo}
+			</div>
 			Open-meteo
 		</Button>
 		<Toggle
@@ -38,11 +40,11 @@
 		>
 			{#if !toggleMenu}
 				<div class="absolute [&_svg]:h-5 [&_svg]:w-5" transition:fade={{ duration: 150 }}>
-					<Menu />
+					{@html Menu}
 				</div>
 			{:else}
 				<div class="absolute [&_svg]:h-5 [&_svg]:w-5" transition:fade={{ duration: 150 }}>
-					<Cross />
+					{@html Cross}
 				</div>
 			{/if}
 		</Toggle>

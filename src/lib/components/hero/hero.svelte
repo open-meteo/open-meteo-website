@@ -45,7 +45,9 @@
         "
 	></div>
 	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">
-		<Logo width="96" height="96" shadow={true} />
+		<div class="[&_svg]:h-24 [&_svg]:w-24 [&_svg]:drop-shadow-logo">
+			{@html Logo}
+		</div>
 		<h1
 			class="text-center text-3xl font-light [text-shadow:_3px_3px_2px_rgba(0,0,0,.7)] md:text-5xl"
 		>

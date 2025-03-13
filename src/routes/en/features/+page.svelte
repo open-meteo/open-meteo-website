@@ -1,17 +1,16 @@
 <script lang="ts">
-	import Zap from 'lucide-svelte/icons/zap';
-	import Gauge from 'lucide-svelte/icons/gauge';
-	import Watch from 'lucide-svelte/icons/watch';
-	import Waves from 'lucide-svelte/icons/waves';
-	import Archive from 'lucide-svelte/icons/archive';
-	import Lightbulb from 'lucide-svelte/icons/lightbulb';
-	import FileCheck from 'lucide-svelte/icons/file-check';
-	import MapPinned from 'lucide-svelte/icons/map-pinned';
-	import MountainSnow from 'lucide-svelte/icons/mountain-snow';
+	import Zap from 'lucide-static/icons/zap.svg?raw';
+	import Gauge from 'lucide-static/icons/gauge.svg?raw';
+	import Watch from 'lucide-static/icons/watch.svg?raw';
+	import Waves from 'lucide-static/icons/waves.svg?raw';
+	import Mailbox from 'lucide-static/icons/mailbox.svg?raw';
+	import Archive from 'lucide-static/icons/archive.svg?raw';
+	import Lightbulb from 'lucide-static/icons/lightbulb.svg?raw';
+	import FileCheck from 'lucide-static/icons/file-check.svg?raw';
+	import MapPinned from 'lucide-static/icons/map-pinned.svg?raw';
+	import MountainSnow from 'lucide-static/icons/mountain-snow.svg?raw';
 
-	import Mailbox from '$lib/assets/icons/mailbox.svelte';
-
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Button } from '$lib/components/ui/button';
 </script>
 
 <svelte:head>
@@ -33,7 +32,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<MapPinned size="36" strokeWidth={1.2} />
+					<div class="[&_svg]:h-9 [&_svg]:w-9 [&_svg]:stroke-[1.3]">
+						{@html MapPinned}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Local And Global Models</h3>
@@ -57,7 +58,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Zap size="36" strokeWidth={1.2} />
+					<div class="[&_svg]:h-9 [&_svg]:w-9 [&_svg]:stroke-[1.2]">
+						{@html Zap}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">High Resolution</h3>
@@ -84,7 +87,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Watch size="36" strokeWidth={1.2} />
+					<div class="[&_svg]:h-9 [&_svg]:w-9 [&_svg]:stroke-[1.2]">
+						{@html Watch}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Hourly Updates</h3>
@@ -109,7 +114,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Archive size="34" strokeWidth={1.3} />
+					<div class="[&_svg]:h-9 [&_svg]:w-9 [&_svg]:stroke-[1.3]">
+						{@html Archive}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">80 Years Historical Data</h3>
@@ -135,7 +142,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Waves size="34" strokeWidth={1.4} />
+					<div class="[&_svg]:h-9 [&_svg]:w-9 [&_svg]:stroke-[1.4]">
+						{@html Waves}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Specialised Forecasts</h3>
@@ -160,7 +169,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<MountainSnow size="34" strokeWidth={1.3} />
+					<div class="[&_svg]:h-9 [&_svg]:w-9 [&_svg]:stroke-[1.3]">
+						{@html MountainSnow}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Geocoding, Elevation, Timezones</h3>
@@ -353,7 +364,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Gauge size="34" strokeWidth={1.4} />
+					<div class="[&_svg]:h-9 [&_svg]:w-9 [&_svg]:stroke-[1.4]">
+						{@html Gauge}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Lightning Fast APIs</h3>
@@ -378,7 +391,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Lightbulb size="34" strokeWidth={1.4} />
+					<div class="[&_svg]:h-9 [&_svg]:w-9 [&_svg]:stroke-[1.4]">
+						{@html Lightbulb}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">User-Friendly APIs</h3>
@@ -402,7 +417,9 @@
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<FileCheck size="34" strokeWidth={1.2} />
+					<div class="[&_svg]:h-9 [&_svg]:w-9 [&_svg]:stroke-[1.2]">
+						{@html FileCheck}
+					</div>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Reliable APIs</h3>
@@ -421,8 +438,10 @@
 	</div>
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center">
-		<Mailbox width="72" height="72" shadow={false} />
-		<h2 class="my-4 text-4xl font-bold" id="contact">Next steps</h2>
+		<div class="[&_svg]:h-20 [&_svg]:w-20 [&_svg]:stroke-[1.2]">
+			{@html Mailbox}
+		</div>
+		<h2 class="mb-4 text-4xl font-bold" id="contact">Next steps</h2>
 		<div class="text-center">
 			<p class="lead mb-4">
 				Our <a href="/en/docs">documentation</a> provides a good start to help you integrate weather

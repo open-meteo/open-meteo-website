@@ -22,6 +22,7 @@ updates:
 
           - '@semantic/*'
           - '@semantic-release/*'
+
       svelte:
         patterns:
           - 'vite'
@@ -33,8 +34,10 @@ updates:
           - '@sveltejs/*'
 
           - 'mdsvex'
+          - 'form-snap'
           - 'mode-watcher'
           - 'sveltekit-superforms'
+
       eslint:
         patterns:
           - 'eslint'
@@ -46,23 +49,28 @@ updates:
           - '@typescript-eslint/*'
 
           - '@eslint/compat'
+
       shiki:
         patterns:
           - 'shiki'
           - 'prismjs'
           - 'prism-themes'
           - '@shikijs*'
+
       shadcn:
         patterns:
           - 'zod'
           - 'simple-icons'
           - 'lucide-svelte'
+          - 'lucide-static'
+
       tailwind:
         patterns:
           - 'tailwindcss'
 
           - 'tailwind-*'
           - '@tailwindcss*'
+
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:

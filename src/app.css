@@ -89,6 +89,10 @@
 	}
 }
 
+@theme {
+	--drop-shadow-logo: 3px 3px 2px rgba(0, 0, 0, 0.7);
+}
+
 html {
 	overflow-y: overlay;
 	scroll-behavior: smooth;

@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import Key from 'lucide-svelte/icons/key-round';
-	import Watch from 'lucide-svelte/icons/watch';
-	import Archive from 'lucide-svelte/icons/archive';
-	import Lightbulb from 'lucide-svelte/icons/lightbulb';
-	import MapPinned from 'lucide-svelte/icons/map-pinned';
+	import Key from 'lucide-static/icons/key-round.svg?raw';
+	import Watch from 'lucide-static/icons/watch.svg?raw';
+	import Archive from 'lucide-static/icons/archive.svg?raw';
+	import Mailbox from 'lucide-static/icons/mailbox.svg?raw';
+	import Lightbulb from 'lucide-static/icons/lightbulb.svg?raw';
+	import MapPinned from 'lucide-static/icons/map-pinned.svg?raw';
 
 	import Github from 'simple-icons/icons/github.svg?raw';
-
-	import Mailbox from '$lib/assets/icons/mailbox.svelte';
 
 	import { Button } from '$lib/components/ui/button';
 
@@ -156,7 +155,9 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<MapPinned size="32" strokeWidth={1.3} />
+						<div class="[&_svg]:h-9 [&_svg]:w-9 [&_svg]:stroke-[1.3]">
+							{@html MapPinned}
+						</div>
 					</div>
 
 					<h3 class="pl-3 text-2xl">High Resolution</h3>
@@ -185,7 +186,9 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<Watch size="36" strokeWidth={1.2} />
+						<div class="[&_svg]:h-9 [&_svg]:w-9 [&_svg]:stroke-[1.2]">
+							{@html Watch}
+						</div>
 					</div>
 
 					<h3 class="pl-3 text-2xl">Rapid Updates</h3>
@@ -211,7 +214,9 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<Archive size="32" strokeWidth={1.4} />
+						<div class="[&_svg]:h-8 [&_svg]:w-8 [&_svg]:stroke-[1.4]">
+							{@html Archive}
+						</div>
 					</div>
 
 					<h3 class="pl-3 text-2xl">80 Years Historical Data</h3>
@@ -282,7 +287,9 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<Key size="30" strokeWidth={1.6} />
+						<div class="[&_svg]:h-8 [&_svg]:w-8 [&_svg]:stroke-[1.6]">
+							{@html Key}
+						</div>
 					</div>
 
 					<h3 class="pl-3 text-2xl">Free API</h3>
@@ -313,7 +320,9 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<Lightbulb size="33" strokeWidth={1.6} />
+						<div class="[&_svg]:h-8 [&_svg]:w-8 [&_svg]:stroke-[1.6]">
+							{@html Lightbulb}
+						</div>
 					</div>
 
 					<h3 class="pl-3 text-2xl">Easy to Use</h3>
@@ -337,8 +346,11 @@
 	</div>
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center">
-		<Mailbox width="72" height="72" shadow={false} />
-		<h2 class="mb-4 mt-2 text-4xl font-bold" id="contact">Stay up to date!</h2>
+		<div class="[&_svg]:h-20 [&_svg]:w-20 [&_svg]:stroke-[1.2]">
+			{@html Mailbox}
+		</div>
+
+		<h2 class="mb-4 text-4xl font-bold" id="contact">Stay up to date!</h2>
 		<div class="text-center">
 			<p>
 				We're constantly evolving and expanding. We're dedicated to providing you with the <a
