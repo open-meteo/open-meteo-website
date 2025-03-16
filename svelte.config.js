@@ -45,7 +45,7 @@ const config = {
 		},
 		output: {
 			preloadStrategy: 'modulepreload',
-			bundleStrategy: 'inline'
+			bundleStrategy: 'split'
 		}
 	}
 };
