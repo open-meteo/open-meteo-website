@@ -535,9 +535,9 @@
 										class="min-h-12 cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
 										0
 											? 'rounded-t-md'
-											: ''} {i === pressureVariables.length - 1 ? 'rounded-b-md' : ''}"
-										disabled={pressureVariablesTab === variable.value}
-										onclick={() => (pressureVariablesTab = variable.value)}
+											: ''} {i === heightVariables.length - 1 ? 'rounded-b-md' : ''}"
+										disabled={heightVariablesTab === variable.value}
+										onclick={() => (heightVariablesTab = variable.value)}
 										>{variable.label}
 									</ToggleGroup.Item>
 								{/each}
