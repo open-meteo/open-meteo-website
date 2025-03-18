@@ -1,15 +1,14 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import Key from 'lucide-svelte/icons/key-round';
-	import Watch from 'lucide-svelte/icons/watch';
-	import Archive from 'lucide-svelte/icons/archive';
-	import Lightbulb from 'lucide-svelte/icons/lightbulb';
-	import MapPinned from 'lucide-svelte/icons/map-pinned';
+	import Key from 'lucide-static/icons/key-round.svg?component';
+	import Watch from 'lucide-static/icons/watch.svg?component';
+	import Archive from 'lucide-static/icons/archive.svg?component';
+	import Mailbox from 'lucide-static/icons/mailbox.svg?component';
+	import Lightbulb from 'lucide-static/icons/lightbulb.svg?component';
+	import MapPinned from 'lucide-static/icons/map-pinned.svg?component';
 
-	import Github from 'simple-icons/icons/github.svg?raw';
-
-	import Mailbox from '$lib/assets/icons/mailbox.svelte';
+	import Github from 'simple-icons/icons/github.svg?component';
 
 	import { Button } from '$lib/components/ui/button';
 
@@ -156,7 +155,9 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<MapPinned size="32" strokeWidth={1.3} />
+						<div class="absolute flex h-9 w-9 items-center justify-center">
+							<MapPinned width="32" height="32" viewBox="0 0 24 24" stroke-width={1.3} />
+						</div>
 					</div>
 
 					<h3 class="pl-3 text-2xl">High Resolution</h3>
@@ -185,7 +186,9 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<Watch size="36" strokeWidth={1.2} />
+						<div class="absolute flex h-9 w-9 items-center justify-center">
+							<Watch width="36" height="36" viewBox="0 0 24 24" stroke-width={1.2} />
+						</div>
 					</div>
 
 					<h3 class="pl-3 text-2xl">Rapid Updates</h3>
@@ -211,7 +214,9 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<Archive size="32" strokeWidth={1.4} />
+						<div class="absolute flex h-9 w-9 items-center justify-center">
+							<Archive width="32" height="32" viewBox="0 0 24 24" stroke-width={1.4} />
+						</div>
 					</div>
 
 					<h3 class="pl-3 text-2xl">80 Years Historical Data</h3>
@@ -244,7 +249,17 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<div class="absolute h-8 w-8 fill-white">{@html Github}</div>
+
+						<div class="absolute flex h-9 w-9 items-center justify-center">
+							<Github
+								stroke="currentColor"
+								fill="currentColor"
+								width="34"
+								height="34"
+								viewBox="0 0 24 24"
+								stroke-width={0}
+							/>
+						</div>
 					</div>
 
 					<h3 class="pl-3 text-2xl">Open-Source</h3>
@@ -282,7 +297,9 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<Key size="30" strokeWidth={1.6} />
+						<div class="absolute flex h-9 w-9 items-center justify-center">
+							<Key width="30" height="30" viewBox="0 0 24 24" stroke-width={1.6} />
+						</div>
 					</div>
 
 					<h3 class="pl-3 text-2xl">Free API</h3>
@@ -313,7 +330,9 @@
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
-						<Lightbulb size="33" strokeWidth={1.6} />
+						<div class="absolute flex h-9 w-9 items-center justify-center">
+							<Lightbulb width="33" height="33" viewBox="0 0 24 24" stroke-width={1.6} />
+						</div>
 					</div>
 
 					<h3 class="pl-3 text-2xl">Easy to Use</h3>
@@ -337,8 +356,10 @@
 	</div>
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center">
-		<Mailbox width="72" height="72" shadow={false} />
-		<h2 class="mb-4 mt-2 text-4xl font-bold" id="contact">Stay up to date!</h2>
+		<div class="flex h-22 w-22 items-center justify-center">
+			<Mailbox width="88" height="88" viewBox="0 0 24 24" stroke-width={1.3} />
+		</div>
+		<h2 class="mb-4 text-4xl font-bold" id="contact">Stay up to date!</h2>
 		<div class="text-center">
 			<p>
 				We're constantly evolving and expanding. We're dedicated to providing you with the <a

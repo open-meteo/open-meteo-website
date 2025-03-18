@@ -1,6 +1,6 @@
 import type { LayoutLoad } from './$types';
 
-import Snow from '$lib/assets/icons/snow.svelte';
+import Snow from '$lib/assets/icons/snow.svg?component';
 
 export const load = (() => {
 	return {

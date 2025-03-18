@@ -11,7 +11,7 @@
 	import MapPinned from 'lucide-svelte/icons/map-pinned';
 	import MountainSnow from 'lucide-svelte/icons/mountain-snow';
 
-	import Sun from '$lib/assets/icons/sun.svelte';
+	import Sun from '$lib/assets/icons/sun.svg?component';
 </script>
 
 <svelte:head>

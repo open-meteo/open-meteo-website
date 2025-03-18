@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import Logo from '$lib/assets/icons/sun.svelte';
+	import Logo from '$lib/assets/icons/sun.svg?component';
 
 	import Menu from 'lucide-svelte/icons/menu';
 	import Cross from 'lucide-svelte/icons/x';
