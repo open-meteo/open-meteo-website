@@ -7,8 +7,8 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import Clock from 'lucide-svelte/icons/clock';
-	import Calendar from 'lucide-svelte/icons/calendar-cog';
+	import Clock from 'lucide-static/icons/clock.svg?component';
+	import Calendar from 'lucide-static/icons/calendar-cog.svg?component';
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -258,7 +258,7 @@ TODO:
 								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 								onclick={(e) => {
 									$params.start_date = '2025-01-01';
-									$params.end_date = (new Date()).toISOString().split('T')[0];
+									$params.end_date = new Date().toISOString().split('T')[0];
 								}}>2025</Button
 							>
 						</div>

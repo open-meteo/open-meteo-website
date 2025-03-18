@@ -7,8 +7,8 @@
 
 	import { countVariables } from '$lib/utils/meteo';
 
-	import Clock from 'lucide-svelte/icons/clock';
-	import Calendar from 'lucide-svelte/icons/calendar-cog';
+	import Clock from 'lucide-static/icons/clock.svg?component';
+	import Calendar from 'lucide-static/icons/calendar-cog.svg?component';
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';

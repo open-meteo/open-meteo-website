@@ -1,10 +1,12 @@
-import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+
+import { sveltekit } from '@sveltejs/kit/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
+
 import tailwindcss from '@tailwindcss/vite';
 import tailwindcssCleaner from 'vite-plugin-tailwindcss-cleaner';
 
-import rollupOptions from './rollup.config';
+import svg from '@poppanator/sveltekit-svg'
 
 function replaceChunckNames() {
 	return {
@@ -23,14 +25,11 @@ export default defineConfig({
 		tailwindcss(),
 		tailwindcssCleaner(),
 		sveltekit(),
+		svg(),
 		replaceChunckNames(),
 		visualizer({
 			filename: 'build-stats.json',
 			template: 'raw-data'
 		})
 	],
-
-	build: {
-		rollupOptions: rollupOptions
-	}
 });

@@ -12,8 +12,8 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import Clock from 'lucide-svelte/icons/clock';
-	import Calendar from 'lucide-svelte/icons/calendar-cog';
+	import Clock from 'lucide-static/icons/clock.svg?component';
+	import Calendar from 'lucide-static/icons/calendar-cog.svg?component';
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -179,7 +179,10 @@
 						$params.time_mode = 'time_interval';
 					}}
 				>
-					<Calendar size={20} />Time Interval
+					<div class="w-5 h-5 [&_svg]:h-5! [&_svg]:w-5!">
+						<Calendar class="" />
+					</div>
+					Time Interval
 				</Button>
 			</div>
 		</div>
