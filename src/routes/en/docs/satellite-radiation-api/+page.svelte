@@ -90,8 +90,7 @@
 		}
 	});
 
-	let begin_date = new Date();
-	begin_date.setMonth(begin_date.getMonth() - 3);
+	let begin_date = new Date('1983-01-01');
 
 	let last_date = new Date();
 	last_date.setDate(last_date.getDate());
@@ -258,7 +257,7 @@ TODO:
 								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 								onclick={(e) => {
 									$params.start_date = '2025-01-01';
-									$params.end_date = (new Date()).toISOString().split('T')[0];
+									$params.end_date = new Date().toISOString().split('T')[0];
 								}}>2025</Button
 							>
 						</div>

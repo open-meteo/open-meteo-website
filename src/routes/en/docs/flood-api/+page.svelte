@@ -50,8 +50,7 @@
 		}
 	});
 
-	let begin_date = new Date();
-	begin_date.setMonth(begin_date.getMonth() - 3);
+	let begin_date = new Date('1984-01-01');
 
 	let last_date = new Date();
 	last_date.setDate(last_date.getDate() + 183);
