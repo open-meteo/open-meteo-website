@@ -187,7 +187,7 @@ export const additionalDaily = [
 	{ value: 'cape_min', label: 'Minimum CAPE' },
 	{ value: 'cloud_cover_max', label: 'Maximum Cloud cover' },
 	{ value: 'cloud_cover_mean', label: 'Mean Cloud cover' },
-	{ value: 'cloud_cover_min', label: 'Minimum XXX' },
+	{ value: 'cloud_cover_min', label: 'Minimum Cloud cover' },
 	{ value: 'dew_point_2m_max', label: 'Maximum Dewpoint (2 m)' },
 	{ value: 'dew_point_2m_mean', label: 'Mean Dewpoint (2 m)' },
 	{ value: 'dew_point_2m_min', label: 'Minimum Dewpoint (2 m)' },
