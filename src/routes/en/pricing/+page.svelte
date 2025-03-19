@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { mode } from 'mode-watcher';
 
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Button } from '$lib/components/ui/button';
+
 	import * as Alert from '$lib/components/ui/alert';
 
-	import Zap from 'lucide-svelte/icons/zap';
-	import Watch from 'lucide-svelte/icons/watch';
-	import Waves from 'lucide-svelte/icons/waves';
-	import Archive from 'lucide-svelte/icons/archive';
-	import MapPinned from 'lucide-svelte/icons/map-pinned';
-	import MountainSnow from 'lucide-svelte/icons/mountain-snow';
+	import Zap from 'lucide-static/icons/zap.svg?component';
+	import Watch from 'lucide-static/icons/watch.svg?component';
+	import Waves from 'lucide-static/icons/waves.svg?component';
+	import Archive from 'lucide-static/icons/archive.svg?component';
+	import MapPinned from 'lucide-static/icons/map-pinned.svg?component';
+	import MountainSnow from 'lucide-static/icons/mountain-snow.svg?component';
 
 	import Sun from '$lib/assets/icons/sun.svg?component';
 </script>
@@ -43,12 +44,12 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<MapPinned size="36" strokeWidth={1.2} />
+					<MapPinned width="32" height="32" viewBox="0 0 24 24" stroke-width="1.3" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Local And Global Models</h3>
@@ -68,12 +69,12 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Zap size="32" strokeWidth={1.1} />
+					<Zap width="32" height="32" viewBox="0 0 24 24" stroke-width="1.2" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Commercial Use License</h3>
@@ -93,12 +94,12 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Watch size="36" strokeWidth={1.2} />
+					<Watch width="36" height="36" viewBox="0 0 24 24" stroke-width="1.2" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Large API Call Volume</h3>
@@ -120,12 +121,12 @@
 		<div class="feature col">
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Archive size="34" strokeWidth={1.3} />
+					<Archive width="34" height="34" viewBox="0 0 24 24" stroke-width="1.3" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Excellent Uptime, Low Latency</h3>
@@ -143,12 +144,12 @@
 		<div class="feature col">
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Waves size="34" strokeWidth={1.4} />
+					<Waves width="34" height="34" viewBox="0 0 24 24" stroke-width="1.4" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Flexible Payment Options</h3>
@@ -166,12 +167,12 @@
 		<div class="feature col">
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<MountainSnow size="34" strokeWidth={1.3} />
+					<MountainSnow width="34" height="34" viewBox="0 0 24 24" stroke-width="1.3" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Transparent Pricing, Flexible Cancellation</h3>
@@ -284,7 +285,7 @@
 	</div>
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center md:mx-auto md:w-2/3">
-		<Sun width="92" height="92" shadow={false} />
+		<Sun width="92" height="92" />
 		<h2 class="my-4 text-4xl font-light" id="contact">
 			Unlock the Power of Open-Source Weather Data!
 		</h2>

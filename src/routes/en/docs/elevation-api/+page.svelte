@@ -10,8 +10,8 @@
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
-	import Plus from 'lucide-svelte/icons/plus';
-	import Trash from 'lucide-svelte/icons/trash-2';
+	import Plus from 'lucide-static/icons/plus.svg?component';
+	import Trash from 'lucide-static/icons/trash-2.svg?component';
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -180,14 +180,16 @@
 									variant="outline"
 									class="h-12 w-full px-5 pr-6"
 									onclick={addLocation}
-									title="Add coordinates"><Plus size={22} /></Button
+									title="Add coordinates"
+									><Plus width="22" height="22" viewBox="0 0 24 24" /></Button
 								>
 							{:else}
 								<Button
 									variant="outline"
 									class="h-12 w-full px-5 pr-6"
 									onclick={() => removeLocation(index)}
-									title="Delete coordinates"><Trash size={20} /></Button
+									title="Delete coordinates"
+									><Trash width="20" height="20" viewBox="0 0 24 24" /></Button
 								>
 							{/if}
 						</div>
@@ -339,7 +341,7 @@
 		class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
 	>
 		<pre class="overflow-auto rounded-lg p-6">
-ESA - EUsers, who, in their research, use the Copernicus DEM, are requested to use the following DOI when citing the data source in their publications: 
+ESA - EUsers, who, in their research, use the Copernicus DEM, are requested to use the following DOI when citing the data source in their publications:
 
 https://doi.org/10.5270/ESA-c5d3d65
 		</pre>

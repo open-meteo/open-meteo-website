@@ -3,11 +3,11 @@
 
 	import Logo from '$lib/assets/icons/sun.svg?component';
 
-	import Menu from 'lucide-svelte/icons/menu';
-	import Cross from 'lucide-svelte/icons/x';
+	import Menu from 'lucide-static/icons/menu.svg?component';
+	import Cross from 'lucide-static/icons/x.svg?component';
 
-	import X from 'simple-icons/icons/x.svg?raw';
-	import Github from 'simple-icons/icons/github.svg?raw';
+	import X from 'simple-icons/icons/x.svg?component';
+	import Github from 'simple-icons/icons/github.svg?component';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Toggle from '$lib/components/ui/toggle/toggle.svelte';
@@ -24,7 +24,7 @@
 		<Button
 			variant="ghost"
 			class="-ml-3 flex gap-2 px-3 text-lg hover:bg-transparent [&_svg]:h-6 [&_svg]:w-6"
-			href={'/'}
+			href="/"
 		>
 			<Logo width="28" height="28" />
 			Open-meteo
@@ -38,11 +38,11 @@
 		>
 			{#if !toggleMenu}
 				<div class="absolute [&_svg]:h-5 [&_svg]:w-5" transition:fade={{ duration: 150 }}>
-					<Menu />
+					<Menu width="28" height="28" viewBox="0 0 24 24" stroke-width="1.8" />
 				</div>
 			{:else}
 				<div class="absolute [&_svg]:h-5 [&_svg]:w-5" transition:fade={{ duration: 150 }}>
-					<Cross />
+					<Cross width="28" height="28" viewBox="0 0 24 24" stroke-width="1.8" />
 				</div>
 			{/if}
 		</Toggle>
@@ -59,7 +59,7 @@
 					variant="ghost"
 					class="grow-text mr-auto flex-col gap-0 px-3 {pathname === '/' ? 'font-bold' : ''}"
 					data-text="Home"
-					href={'/'}
+					href="/"
 					onclick={() => (toggleMenu = false)}>Home</Button
 				>
 				<Button
@@ -68,7 +68,7 @@
 						? 'font-bold'
 						: ''}"
 					data-text="Features"
-					href={'/en/features'}
+					href="/en/features"
 					onclick={() => (toggleMenu = false)}>Features</Button
 				>
 				<Button
@@ -77,7 +77,7 @@
 						? 'font-bold'
 						: ''}"
 					data-text="Pricing"
-					href={'/en/pricing'}
+					href="/en/pricing"
 					onclick={() => (toggleMenu = false)}>Pricing</Button
 				>
 				<Button
@@ -86,7 +86,7 @@
 						? 'font-bold'
 						: ''}"
 					data-text="API Docs"
-					href={'/en/docs'}
+					href="/en/docs"
 					onclick={() => (toggleMenu = false)}>API Docs</Button
 				>
 				<hr class="border-border mb-4 ml-3 mt-2" />
@@ -98,7 +98,7 @@
 					aria-label="Github link"
 					class="relative flex w-10 items-center gap-0"
 					><div class="flex dark:fill-white [&_svg]:h-6 [&_svg]:w-6">
-						{@html Github}
+						<Github />
 					</div></Button
 				><Button
 					variant="ghost"
@@ -106,12 +106,11 @@
 					aria-label="X link"
 					class="relative flex w-10 items-center gap-0"
 					><div class="absolute dark:fill-white [&_svg]:h-5 [&_svg]:w-5">
-						{@html X}
+						<X />
 					</div></Button
 				>
 				<div class="border-border mx-2 hidden border-l md:flex"></div>
 				<div class="ml-auto flex gap-1">
-					<!-- <LocaleToggle {pathname} /> -->
 					<div class="relative"><DarkmodeToggle /></div>
 				</div>
 			</div>

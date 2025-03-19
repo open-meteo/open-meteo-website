@@ -6,8 +6,8 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Button } from '$lib/components/ui/button';
 
-	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
-	import ChevronRight from 'lucide-svelte/icons/chevron-right';
+	import ChevronLeft from 'lucide-static/icons/chevron-left.svg?component';
+	import ChevronRight from 'lucide-static/icons/chevron-right.svg?component';
 
 	interface Props {
 		start_date?: string;
@@ -136,7 +136,9 @@
 			/>
 		</div>
 		<div class="flex w-full justify-between">
-			<Button variant="outline" class="px-3" onclick={decreaseStart}><ChevronLeft /></Button>
+			<Button variant="outline" class="px-3" onclick={decreaseStart}
+				><ChevronLeft viewBox="0 0 24 24" /></Button
+			>
 			<Button
 				variant="ghost"
 				class="px-6 py-4"
@@ -152,7 +154,9 @@
 					monthModeStart = true;
 				}}>{startDate.getFullYear()} - {monthList[startDate.getMonth()]}</Button
 			>
-			<Button variant="outline" class="px-3" onclick={increaseStart}><ChevronRight /></Button>
+			<Button variant="outline" class="px-3" onclick={increaseStart}
+				><ChevronRight viewBox="0 0 24 24" /></Button
+			>
 		</div>
 		<div class="flex min-h-[180px] max-h-[300px] justify-between overflow-y-auto">
 			{#if yearModeStart}
@@ -201,7 +205,7 @@
 				>
 					{#each startDates as date}
 						<Button
-							class="duration-200 hover:rounded-md 
+							class="duration-200 hover:rounded-md
 								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? 'font-bold' : ''}
 								{date.getTime() > startDate.getTime() && date.getTime() < endDate.getTime()
 								? 'bg-accent/50 rounded-none'
@@ -238,7 +242,7 @@
 		<div class="flex gap-2 items-center justify-center">
 			<div class="font-bold text-nowrap">End date</div>
 			<Input
-				class="!ring-0 border !ring-offset-0 !bg-transparent m-0 h-[unset]"
+				class="!ring-0 border !ring-offset-0 !bg-transparent m-0 h-[unset] md:mr-8"
 				type="text"
 				placeholder={end_date}
 				oninput={(e) => {
@@ -252,7 +256,9 @@
 			/>
 		</div>
 		<div class="flex w-full justify-between">
-			<Button variant="outline" class="px-3" onclick={decreaseEnd}><ChevronLeft /></Button>
+			<Button variant="outline" class="px-3" onclick={decreaseEnd}
+				><ChevronLeft viewBox="0 0 24 24" /></Button
+			>
 			<Button
 				variant="ghost"
 				class="px-6 py-4"
@@ -268,7 +274,9 @@
 					monthModeEnd = true;
 				}}>{endDate.getFullYear()} - {monthList[endDate.getMonth()]}</Button
 			>
-			<Button variant="outline" class="px-3" onclick={increaseEnd}><ChevronRight /></Button>
+			<Button variant="outline" class="px-3" onclick={increaseEnd}
+				><ChevronRight viewBox="0 0 24 24" /></Button
+			>
 		</div>
 		<div class="flex min-h-[180px] max-h-[300px] justify-between overflow-y-auto">
 			{#if yearModeEnd}

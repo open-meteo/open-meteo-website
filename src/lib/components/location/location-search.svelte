@@ -3,18 +3,17 @@
 
 	import { favorites, last_visited, type GeoLocation } from '$lib/stores/settings';
 
-	import Button from '../ui/button/button.svelte';
+	import { Input } from '$lib/components/ui/input';
+	import { Button } from '$lib/components/ui/button';
+
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 
-	import Map from 'lucide-svelte/icons/map';
-	import Star from 'lucide-svelte/icons/star';
-	import Trash from 'lucide-svelte/icons/trash-2';
-	import Input from '../ui/input/input.svelte';
-	import Cursor from 'lucide-svelte/icons/mouse-pointer-2';
-	import Search from 'lucide-svelte/icons/search';
-
-	import SuperDebug from 'sveltekit-superforms';
+	import Map from 'lucide-static/icons/map.svg?component';
+	import Star from 'lucide-static/icons/star.svg?component';
+	import Trash from 'lucide-static/icons/trash-2.svg?component';
+	import Cursor from 'lucide-static/icons/mouse-pointer-2.svg?component';
+	import Search from 'lucide-static/icons/search.svg?component';
 
 	export let label: string = 'Search Locations...';
 
@@ -143,7 +142,7 @@
 			dialogOpen = !dialogOpen;
 		}}
 		class="hover:bg-accent w-full border-border flex h-12 cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
-		><Search size={20} class="mr-1" /> {label}</Dialog.Trigger
+		><Search width="19" height="19" class="mr-1" viewBox="0 0 24 24" /> {label}</Dialog.Trigger
 	>
 	<Dialog.Portal>
 		<Dialog.Overlay class="bg-black/5" />
@@ -170,7 +169,12 @@
 						class=""
 						title="Detect Location via GPS"
 						onclick={() => (searchQuery = 'GPS')}
-						><Cursor class="pointer-events-none" size={20} strokeWidth={1.2} /></Button
+						><Cursor
+							class="pointer-events-none"
+							width="20"
+							height="20"
+							viewBox="0 0 24 24"
+						/></Button
 					>
 				</div>
 				{#await results}
@@ -228,7 +232,13 @@
 														e.stopPropagation();
 														deleteFavorite(location);
 													}}
-													title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
+													title="Delete"
+													><Trash
+														width="20"
+														height="20"
+														viewBox="0 0 24 24"
+														stroke-width="1.2"
+													/></Button
 												>
 												<Button
 													variant="ghost"
@@ -240,7 +250,7 @@
 														e.stopPropagation();
 													}}
 												>
-													<Map size={20} strokeWidth={1.2} />
+													<Map width="20" height="20" viewBox="0 0 24 24" stroke-width="1.2" />
 												</Button>
 											</div>
 										</Button>
@@ -289,7 +299,13 @@
 														e.stopPropagation();
 														saveFavorite(location);
 													}}
-													title="Save"><Star size={20} strokeWidth={1.2} /></Button
+													title="Save"
+													><Star
+														width="20"
+														height="20"
+														viewBox="0 0 24 24"
+														stroke-width="1.2"
+													/></Button
 												>
 												<Button
 													variant="ghost"
@@ -298,7 +314,13 @@
 														e.stopPropagation();
 														deleteRecent(location);
 													}}
-													title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
+													title="Delete"
+													><Trash
+														width="20"
+														height="20"
+														viewBox="0 0 24 24"
+														stroke-width="1.2"
+													/></Button
 												>
 												<Button
 													variant="ghost"
@@ -310,7 +332,13 @@
 														e.stopPropagation();
 													}}
 												>
-													<Map size={20} strokeWidth={1.2} />
+													<Map
+														size={20}
+														width="20"
+														height="20"
+														viewBox="0 0 24 24"
+														stroke-width="1.2"
+													/>
 												</Button>
 											</div>
 										</Button>
@@ -369,7 +397,13 @@
 													e.stopPropagation();
 													saveFavorite(location);
 												}}
-												title="Save"><Star size={20} strokeWidth={1.2} /></Button
+												title="Save"
+												><Star
+													width="20"
+													height="20"
+													viewBox="0 0 24 24"
+													stroke-width="1.2"
+												/></Button
 											>
 											<Button
 												variant="ghost"
@@ -381,7 +415,7 @@
 													e.stopPropagation();
 												}}
 											>
-												<Map size={20} strokeWidth={1.2} />
+												<Map width="20" height="20" viewBox="0 0 24 24" stroke-width="1.2" />
 											</Button>
 										</div>
 									</Button>

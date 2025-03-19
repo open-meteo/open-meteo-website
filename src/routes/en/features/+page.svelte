@@ -1,16 +1,16 @@
 <script lang="ts">
-	import Zap from 'lucide-svelte/icons/zap';
-	import Gauge from 'lucide-svelte/icons/gauge';
-	import Watch from 'lucide-svelte/icons/watch';
-	import Waves from 'lucide-svelte/icons/waves';
-	import Archive from 'lucide-svelte/icons/archive';
-	import Mailbox from 'lucide-static/icons/mailbox.svg?component';
-	import Lightbulb from 'lucide-svelte/icons/lightbulb';
-	import FileCheck from 'lucide-svelte/icons/file-check';
-	import MapPinned from 'lucide-svelte/icons/map-pinned';
-	import MountainSnow from 'lucide-svelte/icons/mountain-snow';
+	import { Button } from '$lib/components/ui/button';
 
-	import Button from '$lib/components/ui/button/button.svelte';
+	import Zap from 'lucide-static/icons/zap.svg?component';
+	import Gauge from 'lucide-static/icons/gauge.svg?component';
+	import Watch from 'lucide-static/icons/watch.svg?component';
+	import Waves from 'lucide-static/icons/waves.svg?component';
+	import Archive from 'lucide-static/icons/archive.svg?component';
+	import Mailbox from 'lucide-static/icons/mailbox.svg?component';
+	import Lightbulb from 'lucide-static/icons/lightbulb.svg?component';
+	import FileCheck from 'lucide-static/icons/file-check.svg?component';
+	import MapPinned from 'lucide-static/icons/map-pinned.svg?component';
+	import MountainSnow from 'lucide-static/icons/mountain-snow.svg?component';
 </script>
 
 <svelte:head>
@@ -27,12 +27,12 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<MapPinned size="36" strokeWidth={1.2} />
+					<MapPinned width="32" height="32" viewBox="0 0 24 24" stroke-width="1.2" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Local And Global Models</h3>
@@ -51,12 +51,12 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Zap size="36" strokeWidth={1.2} />
+					<Zap width="32" height="32" viewBox="0 0 24 24" stroke-width="1.2" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">High Resolution</h3>
@@ -78,12 +78,12 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Watch size="36" strokeWidth={1.2} />
+					<Watch width="36" height="36" viewBox="0 0 24 24" stroke-width="1.2" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Hourly Updates</h3>
@@ -103,12 +103,12 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Archive size="34" strokeWidth={1.3} />
+					<Archive width="34" height="34" viewBox="0 0 24 24" stroke-width="1.3" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">80 Years Historical Data</h3>
@@ -129,12 +129,12 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Waves size="34" strokeWidth={1.4} />
+					<Waves width="34" height="34" viewBox="0 0 24 24" stroke-width="1.4" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Specialised Forecasts</h3>
@@ -154,12 +154,12 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<MountainSnow size="34" strokeWidth={1.3} />
+					<MountainSnow width="34" height="34" viewBox="0 0 24 24" stroke-width="1.3" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Geocoding, Elevation, Timezones</h3>
@@ -197,7 +197,7 @@
 					<h4 class="mb-3 text-xl font-light">Your Go-To Solution for Weather Forecasts!</h4>
 					<p>
 						Experience the simplicity and power of our <a
-							href={'/en/docs'}
+							href="/en/docs"
 							title="Weather Forecast API Documentation">Forecast API</a
 						>, designed to provide you with accurate weather forecasts for up to 14 days. Gain
 						access to a comprehensive set of weather variables, such as temperature, wind, clouds,
@@ -347,12 +347,12 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Gauge size="34" strokeWidth={1.4} />
+					<Gauge width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Lightning Fast APIs</h3>
@@ -372,12 +372,12 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Lightbulb size="34" strokeWidth={1.4} />
+					<Lightbulb width="32" height="32" viewBox="0 0 24 24" stroke-width="1.4" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">User-Friendly APIs</h3>
@@ -396,12 +396,12 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 md:h-14 md:min-w-14 items-center justify-center rounded-xl text-white"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<FileCheck size="34" strokeWidth={1.2} />
+					<FileCheck width="32" height="32" viewBox="0 0 24 24" stroke-width="1.4" />
 				</div>
 
 				<h3 class="pl-3 text-2xl">Reliable APIs</h3>
@@ -421,7 +421,7 @@
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center">
 		<div class="flex h-22 w-22 items-center justify-center">
-			<Mailbox width="88" height="88" viewBox="0 0 24 24" stroke-width={1.3} />
+			<Mailbox width="88" height="88" viewBox="0 0 24 24" stroke-width="1.3" />
 		</div>
 		<h2 class="mb-4 text-4xl font-bold" id="contact">Next steps</h2>
 		<div class="text-center">

@@ -62,9 +62,9 @@
 				<Button
 					variant="default"
 					class="bg-linear-to-t dark:bg-linear-to-b bg-primary from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
-					href={'/en/features'}>See features</Button
+					href="/en/features">See features</Button
 				>
-				<Button variant="outline" href={'/en/docs'}>Read the docs</Button>
+				<Button variant="outline" href="/en/docs">Read the docs</Button>
 			</div>
 		</div>
 
@@ -150,13 +150,13 @@
 			<div>
 				<div class="mb-3 flex items-center">
 					<div
-						class="bg-primary relative flex h-12 w-12 items-center justify-center rounded-xl text-white md:h-14 md:w-14"
+						class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 					>
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<div class="absolute flex h-9 w-9 items-center justify-center">
-							<MapPinned width="32" height="32" viewBox="0 0 24 24" stroke-width={1.3} />
+							<MapPinned width="32" height="32" viewBox="0 0 24 24" stroke-width="1.3" />
 						</div>
 					</div>
 
@@ -181,13 +181,13 @@
 			<div>
 				<div class="mb-3 flex items-center">
 					<div
-						class="bg-primary relative flex h-12 w-12 items-center justify-center rounded-xl text-white md:h-14 md:w-14"
+						class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 					>
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<div class="absolute flex h-9 w-9 items-center justify-center">
-							<Watch width="36" height="36" viewBox="0 0 24 24" stroke-width={1.2} />
+							<Watch width="36" height="36" viewBox="0 0 24 24" stroke-width="1.2" />
 						</div>
 					</div>
 
@@ -209,13 +209,13 @@
 			<div>
 				<div class="mb-3 flex items-center">
 					<div
-						class="bg-primary relative flex h-12 w-12 items-center justify-center rounded-xl text-white md:h-14 md:w-14"
+						class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 					>
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<div class="absolute flex h-9 w-9 items-center justify-center">
-							<Archive width="32" height="32" viewBox="0 0 24 24" stroke-width={1.4} />
+							<Archive width="32" height="32" viewBox="0 0 24 24" stroke-width="1.4" />
 						</div>
 					</div>
 
@@ -244,7 +244,7 @@
 			<div>
 				<div class="mb-3 flex items-center">
 					<div
-						class="bg-primary relative flex h-12 w-12 items-center justify-center rounded-xl text-white md:h-14 md:w-14"
+						class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 					>
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
@@ -257,7 +257,7 @@
 								width="34"
 								height="34"
 								viewBox="0 0 24 24"
-								stroke-width={0}
+								stroke-width="0"
 							/>
 						</div>
 					</div>
@@ -292,13 +292,13 @@
 			<div>
 				<div class="mb-3 flex items-center">
 					<div
-						class="bg-primary relative flex h-12 w-12 items-center justify-center rounded-xl text-white md:h-14 md:w-14"
+						class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 					>
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<div class="absolute flex h-9 w-9 items-center justify-center">
-							<Key width="30" height="30" viewBox="0 0 24 24" stroke-width={1.6} />
+							<Key width="30" height="30" viewBox="0 0 24 24" stroke-width="1.6" />
 						</div>
 					</div>
 
@@ -325,13 +325,13 @@
 			<div>
 				<div class="mb-3 flex items-center">
 					<div
-						class="bg-primary relative flex h-12 w-12 items-center justify-center rounded-xl text-white md:h-14 md:w-14"
+						class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 					>
 						<div
 							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<div class="absolute flex h-9 w-9 items-center justify-center">
-							<Lightbulb width="33" height="33" viewBox="0 0 24 24" stroke-width={1.6} />
+							<Lightbulb width="33" height="33" viewBox="0 0 24 24" stroke-width="1.6" />
 						</div>
 					</div>
 
@@ -357,7 +357,7 @@
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center">
 		<div class="flex h-22 w-22 items-center justify-center">
-			<Mailbox width="88" height="88" viewBox="0 0 24 24" stroke-width={1.3} />
+			<Mailbox width="88" height="88" viewBox="0 0 24 24" stroke-width="1.3" />
 		</div>
 		<h2 class="mb-4 text-4xl font-bold" id="contact">Stay up to date!</h2>
 		<div class="text-center">

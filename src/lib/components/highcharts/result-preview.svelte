@@ -10,10 +10,10 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
-	import InfoCircle from 'lucide-svelte/icons/info';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	import ArrowClockwise from 'lucide-svelte/icons/refresh-cw';
-	import ExclamationTriangle from 'lucide-svelte/icons/triangle-alert';
+	import InfoCircle from 'lucide-static/icons/info.svg?component';
+	import LoaderCircle from 'lucide-static/icons/loader-circle.svg?component';
+	import ArrowClockwise from 'lucide-static/icons/refresh-cw.svg?component';
+	import ExclamationTriangle from 'lucide-static/icons/triangle-alert.svg?component';
 
 	import type { Writable } from 'svelte/store';
 	import type { Parameters } from '$lib/docs';
@@ -659,10 +659,12 @@
 			{#await results}
 				<div
 					class="border border-border rounded-lg bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center"
-					in:fade={{ delay: 400, duration: 400 }}
+					in:fade={{ delay: 300, duration: 400 }}
 					out:fade={{ duration: 300 }}
 				>
-					<LoaderCircle size={40} class="animate-spin" /><span class="hidden">Loading...</span>
+					<LoaderCircle width="40" height="40" class="animate-spin" viewBox="0 0 24 24" /><span
+						class="hidden">Loading...</span
+					>
 				</div>
 			{:then results}
 				{#if results}
@@ -687,12 +689,12 @@
 								<Alert.Description>
 									<div class="flex items-center flex-col md:flex-row justify-center gap-2">
 										<div class="text-muted-foreground flex items-center">
-											<InfoCircle class="mr-2" />
+											<InfoCircle class="mr-2" viewBox="0 0 24 24" />
 											Parameters have changed.
 										</div>
 
 										<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
-											><ArrowClockwise class="mr-1" />Reload Chart
+											><ArrowClockwise class="mr-1" viewBox="0 0 24 24" />Reload Chart
 										</Button>
 									</div>
 								</Alert.Description>
@@ -711,7 +713,7 @@
 							<Alert.Description>
 								<div class="flex items-center justify-center gap-2">
 									<div class="flex items-center">
-										<ExclamationTriangle class="mr-2" />
+										<ExclamationTriangle class="mr-2" viewBox="0 0 24 24" />
 										{JSON.parse(error.message).reason}
 									</div>
 
@@ -720,7 +722,7 @@
 										type="submit"
 										class="border-red flex !flex-row"
 										onclick={reload}
-										><ArrowClockwise class="mr-2" />Reload Chart
+										><ArrowClockwise class="mr-2" viewBox="0 0 24 24" />Reload Chart
 									</Button>
 								</div>
 							</Alert.Description>
@@ -1092,7 +1094,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 						> fetchWeatherApi <span class="token punctuation">&rbrace;</span> <span
 							class="token keyword">from</span
 						> <span class="token string">'openmeteo'</span><span class="token punctuation">;</span>
-	
+
 <span class="token keyword">const</span> params <span class="token operator">=</span
 						> {@html formatPrism(parsedParams)}<span class="token punctuation">;</span>
 <span class="token keyword">const</span> url <span class="token operator">=</span> <span
