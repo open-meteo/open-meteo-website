@@ -330,7 +330,7 @@
 				<div>
 					<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 						<table
-							class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[740px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+							class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[740px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 							id="airquality_table"
 						>
 							<caption class="text-muted-foreground mt-2 table-caption text-left"
@@ -470,7 +470,7 @@
 				<div>
 					<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 						<table
-							class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[10 54-10040px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+							class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[10 54-10040px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 							id="airquality_table_us"
 						>
 							<thead>
@@ -779,7 +779,7 @@
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -868,7 +868,7 @@
 		<p>All URL parameters are listed below:</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1051,7 +1051,7 @@
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1179,7 +1179,7 @@
 		</div>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

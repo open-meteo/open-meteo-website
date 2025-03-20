@@ -248,7 +248,7 @@
 		<p>All URL parameters are listed below:</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -339,7 +339,7 @@
 		class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
 	>
 		<pre class="overflow-auto rounded-lg p-6">
-ESA - EUsers, who, in their research, use the Copernicus DEM, are requested to use the following DOI when citing the data source in their publications: 
+ESA - EUsers, who, in their research, use the Copernicus DEM, are requested to use the following DOI when citing the data source in their publications:
 
 https://doi.org/10.5270/ESA-c5d3d65
 		</pre>
