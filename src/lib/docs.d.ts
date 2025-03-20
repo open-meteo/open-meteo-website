@@ -39,4 +39,6 @@ export interface Parameters {
 	count?: string;
 	format?: string;
 	language?: string;
+
+	countryCode?: string;
 }
