@@ -43,7 +43,15 @@
 	});
 
 	//const paramsDefault = { ...params };
-	let apiUrl = $derived(`${action}${new URLSearchParams($params)}`);
+	let apiUrl = $state('');
+	$effect(() => {
+		let urlParams = JSON.parse(JSON.stringify($params));
+		if (!urlParams.countryCode) {
+			delete urlParams.countryCode;
+		}
+		apiUrl = `${action}${new URLSearchParams(urlParams)}`;
+	});
+
 	let debounceTimeout: number | undefined = undefined;
 
 	onDestroy(() => {

@@ -40,7 +40,7 @@ export const countryCodes = [
 	{ value: 'AU', label: 'Australia' },
 	//{ value: 'AW', label: 'Aruba' },
 	//{ value: 'AX', label: 'Åland' },
-	//{ value: 'AZ', label: 'Azerbaijan' },
+	{ value: 'AZ', label: 'Azerbaijan' },
 	//{ value: 'BA', label: 'Bosnia and Herzegovina' },
 	//{ value: 'BB', label: 'Barbados' },
 	//{ value: 'BD', label: 'Bangladesh' },
