@@ -202,7 +202,7 @@ TODO:
 						</div>
 					</div>
 
-					<div class="">
+					<div>
 						<p>
 							By default, solar radiation for the current day is returned. If you're interested in
 							past satellite data, you can use the <mark>Past Days</mark>
@@ -274,7 +274,7 @@ TODO:
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
 			{#each hourly as group}
-				<div class="">
+				<div>
 					{#each group as e}
 						<div class="group flex items-center">
 							<Checkbox
