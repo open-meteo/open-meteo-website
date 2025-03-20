@@ -358,6 +358,15 @@
 							> for more information.</td
 						>
 					</tr>
+					<tr>
+						<th scope="row">countryCode</th>
+						<td>String</td>
+						<td>No</td>
+						<td></td>
+						<td
+							><mark>ISO-3166 alpha2</mark> country code, in which results have to be inside of.</td
+						></tr
+					>
 				</tbody>
 			</table>
 		</div>
