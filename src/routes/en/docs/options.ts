@@ -158,6 +158,9 @@ export const daily = [
 		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
 		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
 		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
+		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' }
+	],
+	[
 		{ value: 'sunrise', label: 'Sunrise' },
 		{ value: 'sunset', label: 'Sunset' },
 		{ value: 'daylight_duration', label: 'Daylight Duration' },
@@ -166,17 +169,18 @@ export const daily = [
 		{ value: 'uv_index_clear_sky_max', label: 'UV Index Clear Sky' }
 	],
 	[
-		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
-		{ value: 'rain_sum', label: 'Rain Sum' },
-		{ value: 'showers_sum', label: 'Showers Sum' },
-		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
-		{ value: 'precipitation_probability_max', label: 'Precipitation Probability Max' },
 		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
 		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
 		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
-		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
-		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+		{ value: 'rain_sum', label: 'Rain Sum' },
+		{ value: 'showers_sum', label: 'Showers Sum' }
+	],
+	[
+		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
+		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
+		{ value: 'precipitation_probability_max', label: 'Precipitation Probability Max' }
 	]
 ];
 

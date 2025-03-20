@@ -223,7 +223,7 @@
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
 			{#each hourly as group}
-				<div class="">
+				<div>
 					{#each group as e}
 						<div class="group flex items-center">
 							<Checkbox
