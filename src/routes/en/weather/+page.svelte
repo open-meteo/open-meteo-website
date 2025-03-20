@@ -1,20 +1,22 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
+	import { fade } from 'svelte/transition';
+
 	import { fetchWeatherApi } from 'openmeteo';
 
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import { storedLocation, model, themeIsDark, type GeoLocation } from '$lib/stores/settings';
+
+	import { range } from '$lib/utils/meteo';
+
+	import { Label } from '$lib/components/ui/label';
+
+	import * as Select from '$lib/components/ui/select';
+
+	import Settings from '$lib/components/settings/settings.svelte';
 	import LocationSearch from '$lib/components/location/location-search.svelte';
-
-	import {
-		defaultLocation,
-		storedLocation,
-		units,
-		model,
-		themeIsDark,
-		type GeoLocation
-	} from '$lib/stores/settings';
-	import { convertUnit, getWeatherCode, range } from '$lib/utils/meteo';
-
-	import { onDestroy, onMount } from 'svelte';
-	import { fade, scale } from 'svelte/transition';
 
 	import colorScale from './utils/color-scale';
 	import weatherCodes from './utils/weather-codes';
@@ -27,21 +29,23 @@
 	import cloudCover from './canvas/cloud-cover';
 	import precip from './canvas/precip';
 
+	import { defaultParameters, models } from './options';
+
+	const params = urlHashStore({
+		latitude: [$storedLocation.latitude],
+		longitude: [$storedLocation.longitude],
+		models: 'best_match',
+		...defaultParameters
+	});
+
 	let location = $state($storedLocation);
 	storedLocation.subscribe((value) => {
 		location = value;
 	});
+
 	let weatherModel = $state($model);
 	model.subscribe((value) => {
 		weatherModel = value;
-	});
-	let temperature = $state($units.temperature);
-	let windSpeed = $state($units.windSpeed);
-	let precipitation = $state($units.precipitation);
-	units.subscribe((value) => {
-		temperature = value.temperature;
-		windSpeed = value.windSpeed;
-		precipitation = value.precipitation;
 	});
 
 	let diffTemp: number = $state();
@@ -57,24 +61,24 @@
 
 	let weather = $derived(
 		(async (location: GeoLocation) => {
-			const params = {
+			const reqParams = {
 				latitude: location.latitude,
 				longitude: location.longitude,
 				elevation: location.elevation,
 				// timezone: location.timezone, ???
-				models: weatherModel,
+				models: [$params.models],
 				hourly:
 					'precipitation,precipitation_probability,temperature_2m,weather_code,windspeed_10m,winddirection_10m,cloud_cover,relative_humidity_2m,cape',
 				daily:
 					'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant',
 				forecast_days: 6,
 				past_days: 1,
-				temperature_unit: temperature ? temperature : 'celsius',
-				wind_speed_unit: windSpeed ? windSpeed : 'kmh',
-				precipitation_unit: precipitation ? precipitation : 'mm'
+				temperature_unit: $params.temperature_unit,
+				wind_speed_unit: $params.wind_speed_unit,
+				precipitation_unit: $params.precipitation_unit
 			};
 			const url = 'https://api.open-meteo.com/v1/forecast';
-			const responses = await fetchWeatherApi(url, params);
+			const responses = await fetchWeatherApi(url, reqParams);
 			const response = responses[0];
 			const utcOffsetSeconds = response.utcOffsetSeconds();
 			const daily = response.daily()!;
@@ -291,27 +295,8 @@
 		};
 	});
 
-	const changeUnits = (unit: string, value: string) => {
-		if (unit === 'temperature') {
-			units.set({
-				temperature: value,
-				windSpeed: windSpeed,
-				precipitation: precipitation
-			});
-		} else if (unit === 'windSpeed') {
-			units.set({
-				temperature: temperature,
-				windSpeed: value,
-				precipitation: precipitation
-			});
-		} else if (unit === 'precipitation') {
-			units.set({
-				temperature: temperature,
-				windSpeed: windSpeed,
-				precipitation: value
-			});
-		}
-	};
+	let modelSelected = $derived(models.find((mo) => String(mo.value) === $params.models));
+	// let modelSelectedValue = $derived($params.models[0]);
 </script>
 
 <svelte:head>
@@ -320,254 +305,39 @@
 	<meta name="description" content="segseg" />
 </svelte:head>
 
-<div class="pb-5">
-	<div class="row">
-		<div class="col-md-3 mb-3">
-			<LocationSearch
-				class="p-0"
-				style="height: 40px"
-				on:location={(event) => storedLocation.set(event.detail)}
-				label="Search Location"
-			/>
-		</div>
-		<div class="col-md-2 mb-3">
-			<input
-				type="radio"
-				class="btn-check"
-				name="temperatureUnit"
-				id="celsius"
-				value="celsius"
-				onclick={(event) => {
-					changeUnits('temperature', event.target?.value);
-				}}
-				bind:group={temperature}
-			/>
-			<label class="btn" for="celsius">°C</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="temperatureUnit"
-				id="fahrenheit"
-				value="fahrenheit"
-				onclick={(event) => {
-					changeUnits('temperature', event.target?.value);
-				}}
-				bind:group={temperature}
-			/>
-			<label class="btn" for="fahrenheit">°F</label>
-		</div>
-		<div class="col-md-4 mb-3">
-			<input
-				type="radio"
-				class="btn-check"
-				name="windSpeedUnit"
-				id="kmh"
-				value="kmh"
-				onclick={(event) => {
-					changeUnits('windSpeed', event.target?.value);
-				}}
-				bind:group={windSpeed}
-			/>
-			<label class="btn" for="kmh">km/h</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="windSpeedUnit"
-				id="ms"
-				value="ms"
-				onclick={(event) => {
-					changeUnits('windSpeed', event.target?.value);
-				}}
-				bind:group={windSpeed}
-			/>
-			<label class="btn" for="ms">m/s</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="windSpeedUnit"
-				id="mph"
-				value="mph"
-				onclick={(event) => {
-					changeUnits('windSpeed', event.target?.value);
-				}}
-				bind:group={windSpeed}
-			/>
-			<label class="btn" for="mph">mph</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="windSpeedUnit"
-				id="kn"
-				value="kn"
-				onclick={(event) => {
-					changeUnits('windSpeed', event.target?.value);
-				}}
-				bind:group={windSpeed}
-			/>
-			<label class="btn" for="kn">knots</label>
-		</div>
-		<div class="col-md-2 mb-3">
-			<input
-				type="radio"
-				class="btn-check"
-				name="precipitation"
-				id="mm"
-				value="mm"
-				onclick={(event) => {
-					changeUnits('precipitation', event.target?.value);
-				}}
-				bind:group={precipitation}
-			/>
-			<label class="btn" for="mm">mm</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="precipitation"
-				id="inch"
-				value="inch"
-				onclick={(event) => {
-					changeUnits('precipitation', event.target?.value);
-				}}
-				bind:group={precipitation}
-			/>
-			<label class="btn" for="inch">Inches</label>
-		</div>
-		<div class="col-md-12 mb-3">
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="best_match"
-				value="best_match"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="best_match">Best Match</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="icon_seamless"
-				value="icon_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="icon_seamless">DWD</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="gfs_seamless"
-				value="gfs_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="gfs_seamless">NOAA (GFS)</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="meteofrance_seamless"
-				value="meteofrance_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="meteofrance_seamless">Météo-France</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="ecmwf_ifs04"
-				value="ecmwf_ifs04"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="ecmwf_ifs04">ECMWF</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="jma_seamless"
-				value="jma_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="jma_seamless">JMA</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="gem_seamless"
-				value="gem_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="gem_seamless">GEM</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="arpae_cosmo_seamless"
-				value="arpae_cosmo_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="arpae_cosmo_seamless">COSMO</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="metno_seamless"
-				value="metno_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="metno_seamless">MET No</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="knmi_seamless"
-				value="knmi_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="knmi_seamless">KNMI</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="dmi_seamless"
-				value="dmi_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="dmi_seamless">DMI</label>
-		</div>
+<div>
+	<div class="w-1/2 mb-6">
+		<LocationSearch
+			style="height: 40px"
+			on:location={(event) => storedLocation.set(event.detail)}
+			label="Search Location"
+		/>
 	</div>
 
+	<div class="mt-6 md:mt-12">
+		<Settings bind:params={$params} />
+	</div>
+	<div class="mt-6 md:mt-12">
+		<div class="relative">
+			<Select.Root name="model_selection" type="single" bind:value={$params.models}>
+				<Select.Trigger
+					aria-label="Forecast days input"
+					class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{modelSelected?.label}</Select.Trigger
+				>
+				<Select.Content preventScroll={false} class="border-border">
+					{#each models as mo}
+						<Select.Item class="cursor-pointer" value={mo.value}>{mo.label}</Select.Item>
+					{/each}
+				</Select.Content>
+				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					>Weather model</Label
+				>
+			</Select.Root>
+		</div>
+	</div>
+</div>
+
+<div class="mt-6 md:mt-12">
 	<div class="weather-content" style="min-height: 50vh">
 		<div
 			in:fade
