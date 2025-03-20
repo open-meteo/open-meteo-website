@@ -67,6 +67,8 @@
 
 	let mobileNavOpened = $state(false);
 
+	// Fix for backwards compatibilty with the old url-params store
+	// which used the hash ('#') for cache busting, now replaced with '?'
 	let hashOnLoad = '';
 	beforeNavigate((e) => {
 		if (browser) {
