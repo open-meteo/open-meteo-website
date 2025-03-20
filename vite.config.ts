@@ -6,7 +6,9 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import tailwindcss from '@tailwindcss/vite';
 import tailwindcssCleaner from 'vite-plugin-tailwindcss-cleaner';
 
-import svg from '@poppanator/sveltekit-svg'
+import svg from '@poppanator/sveltekit-svg';
+
+import rollupOptions from './rollup.config';
 
 function replaceChunckNames() {
 	return {
@@ -32,4 +34,7 @@ export default defineConfig({
 			template: 'raw-data'
 		})
 	],
+	build: {
+		rollupOptions: rollupOptions
+	}
 });

@@ -8,7 +8,7 @@
 		"build": "svelte-kit sync && vite build -l info",
 		"staging": "NODE_ENV=development vite build --mode development",
 		"rename_index_files": "node scripts/rename_to_index_html.js",
-		"preview": "vite preview --host",
+		"preview": "vite preview  --host",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",

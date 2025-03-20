@@ -27,7 +27,7 @@ const mdsvexOptions = {
 const config = {
 	extensions: ['.svelte', '.svx', '.md'],
 	preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
-
+	compilerOptions: { modernAst: true },
 	kit: {
 		adapter: adapter({
 			pages: 'build',
