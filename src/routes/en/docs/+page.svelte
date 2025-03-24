@@ -881,7 +881,7 @@
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -1023,7 +1023,7 @@
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 min-w-[1260px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 min-w-[1260px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1266,7 +1266,7 @@
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1060px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1060px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1563,7 +1563,7 @@
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 min-w-[840px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 min-w-[840px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1775,7 +1775,7 @@
 
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1851,7 +1851,7 @@
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1979,7 +1979,7 @@
 		</div>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -2089,7 +2089,7 @@
 		<h3 class="text-xl md:text-2xl">WMO Weather interpretation codes (WW)</h3>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[450px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[450px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

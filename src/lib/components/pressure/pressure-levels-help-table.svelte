@@ -4,7 +4,7 @@
 </script>
 
 <div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
-	<!-- 
+	<!--
 	min-w-[2700px] 44 levels: GFS,
 	min-w-[1900px] 30 levels: GEM, CMA
 	min-w-[1250px] 19 levels: Weather forecast, DWD,
@@ -17,7 +17,7 @@
 				? '1900px'
 				: levels.length > 15
 					? '1250px'
-					: '780px'}] w-full text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+					: '780px'}] w-full text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 	>
 		<tbody>
 			<tr>
