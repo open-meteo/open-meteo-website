@@ -97,7 +97,7 @@
 </script>
 
 {'' +
-	/* 
+	/*
 TODO:
 - consider switch between archive and realtime endpoints -> Archive data requires large amounts of storage (>4TB)
 - future option for satellite corrected weather forecasts? Data needs to be on the same node
@@ -627,7 +627,7 @@ TODO:
 	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
 	<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 		<table
-			class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -780,7 +780,7 @@ TODO:
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1060px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1060px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
