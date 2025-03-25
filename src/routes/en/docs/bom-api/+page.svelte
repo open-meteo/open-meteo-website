@@ -486,34 +486,38 @@
 	<!-- DAILY -->
 	<div class="mt-6 md:mt-12">
 		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2>
-		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+		<div
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+		>
 			{#each daily as group}
-				{#each group as e}
-					<div class="group flex items-center">
-						<Checkbox
-							id="{e.value}_daily"
-							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-							value={e.value}
-							checked={$params.daily?.includes(e.value)}
-							aria-labelledby="{e.value}_daily_label"
-							onCheckedChange={() => {
-								if ($params.daily?.includes(e.value)) {
-									$params.daily = $params.daily.filter((item) => {
-										return item !== e.value;
-									});
-								} else {
-									$params.daily.push(e.value);
-									$params.daily = $params.daily;
-								}
-							}}
-						/>
-						<Label
-							id="{e.value}_daily_label"
-							for="{e.value}_daily"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-						>
-					</div>
-				{/each}
+				<div>
+					{#each group as e}
+						<div class="group flex items-center">
+							<Checkbox
+								id="{e.value}_daily"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								value={e.value}
+								checked={$params.daily?.includes(e.value)}
+								aria-labelledby="{e.value}_daily_label"
+								onCheckedChange={() => {
+									if ($params.daily?.includes(e.value)) {
+										$params.daily = $params.daily.filter((item) => {
+											return item !== e.value;
+										});
+									} else {
+										$params.daily.push(e.value);
+										$params.daily = $params.daily;
+									}
+								}}
+							/>
+							<Label
+								id="{e.value}_daily_label"
+								for="{e.value}_daily"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+							>
+						</div>
+					{/each}
+				</div>
 			{/each}
 		</div>
 		{#if timezoneInvalid}

@@ -231,7 +231,7 @@ export const additionalDaily = [
 		{ value: 'wet_bulb_temperature_2m_mean', label: 'Mean Wet Bulb Temperature (2 m)' },
 		{ value: 'wet_bulb_temperature_2m_max', label: 'Maximum Wet Bulb Temperature (2 m)' },
 		{ value: 'wet_bulb_temperature_2m_min', label: 'Minimum Wet Bulb Temperature (2 m)' },
-		{ value: 'vapor_pressure_deficit_max', label: 'Maximum Vapour Pressure Deficit' }
+		{ value: 'vapour_pressure_deficit_max', label: 'Maximum Vapour Pressure Deficit' }
 	]
 
 	// available, but duplicate of correct syntax:
@@ -248,7 +248,7 @@ export const additionalDaily = [
 	// { value: 'windspeed_10m_max', label: 'Maximum Wind Speed (10 m)' },
 	// { value: 'windspeed_10m_mean', label: 'Mean Wind Speed (10 m)' },
 	// { value: 'windspeed_10m_min', label: 'Minimum Wind Speed (10 m)' },
-	// { value: 'vapour_pressure_deficit_max', label: 'Maximum Vapour Pressure Deficit' },
+	// { value: 'vapor_pressure_deficit_max', label: 'Maximum Vapor Pressure Deficit' },
 
 	// soil parameters, not available on all models
 	// 	{ value: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
