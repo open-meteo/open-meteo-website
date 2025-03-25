@@ -21,7 +21,7 @@
 	});
 </script>
 
-<div class="">
+<div>
 	<div class="flex items-center">
 		<div class="text-muted-foreground">Usage license:</div>
 		<div class="border-border ml-2 flex rounded-lg border">

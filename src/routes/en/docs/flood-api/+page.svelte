@@ -146,7 +146,7 @@
 						</div>
 					</div>
 
-					<div class="">
+					<div>
 						<p>
 							By default, we provide forecasts for 7 days, but you can access forecasts for up to 16
 							days. If you're interested in past weather data, you can use the <mark>Past Days</mark

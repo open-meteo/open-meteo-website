@@ -52,7 +52,7 @@
 	</h5>
 </div>
 
-<div class="">
+<div>
 	<div class="row container-fluid">
 		<div class="col-md-3 col-lg-2">
 			<div class="my-3 d-md-none">

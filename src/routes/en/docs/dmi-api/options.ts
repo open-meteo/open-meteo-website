@@ -63,11 +63,11 @@ export const hourly = [
 		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 		{ value: 'wind_direction_150m', label: 'Wind Direction (150 m)' },
 		{ value: 'wind_direction_250m', label: 'Wind Direction (250 m)' },
-		{ value: 'wind_direction_350m', label: 'Wind Direction (350 m)' },
-		{ value: 'wind_direction_450m', label: 'Wind Direction (450 m)' },
-		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
+		{ value: 'wind_direction_350m', label: 'Wind Direction (350 m)' }
 	],
 	[
+		{ value: 'wind_direction_450m', label: 'Wind Direction (450 m)' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 		{ value: 'surface_temperature', label: 'Surface Temperature' },
 		{ value: 'temperature_50m', label: 'Temperature (50 m)' },
 		{ value: 'temperature_100m', label: 'Temperature (100 m)' },
@@ -82,7 +82,9 @@ export const daily = [
 		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
 		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
 		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
-		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
+		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' }
+	],
+	[
 		{ value: 'sunrise', label: 'Sunrise' },
 		{ value: 'sunset', label: 'Sunset' },
 		{ value: 'daylight_duration', label: 'Daylight Duration' },
@@ -95,7 +97,9 @@ export const daily = [
 		{ value: 'rain_sum', label: 'Rain Sum' },
 		{ value: 'showers_sum', label: 'Showers Sum' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' }
+	],
+	[
 		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
 		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
 		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },

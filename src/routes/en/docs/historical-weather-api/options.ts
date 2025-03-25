@@ -77,12 +77,14 @@ if (dev) {
 export const daily = [
 	[
 		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
 		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
 		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
-		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
-		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
 		{ value: 'apparent_temperature_mean', label: 'Mean Apparent Temperature (2 m)' },
+		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
+		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' }
+	],
+	[
 		{ value: 'sunrise', label: 'Sunrise' },
 		{ value: 'sunset', label: 'Sunset' },
 		{ value: 'daylight_duration', label: 'Daylight Duration' },
@@ -92,7 +94,9 @@ export const daily = [
 		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' }
+	],
+	[
 		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
 		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
 		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
@@ -148,7 +152,7 @@ export const additionalDaily = [
 		{ value: 'wet_bulb_temperature_2m_mean', label: 'Mean Wet Bulb Temperature (2 m)' },
 		{ value: 'wet_bulb_temperature_2m_max', label: 'Maximum Wet Bulb Temperature (2 m)' },
 		{ value: 'wet_bulb_temperature_2m_min', label: 'Minimum Wet Bulb Temperature (2 m)' },
-		{ value: 'vapor_pressure_deficit_max', label: 'Maximum Vapour Pressure Deficit' },
+		{ value: 'vapour_pressure_deficit_max', label: 'Maximum Vapour Pressure Deficit' },
 		{ value: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
 		{ value: 'soil_moisture_0_to_10cm_mean', label: 'Mean Soil Moisture (0-10 cm)' },
 		{ value: 'soil_moisture_0_to_7cm_mean', label: 'Mean Soil Moisture (0-7 cm)' },
@@ -160,17 +164,6 @@ export const additionalDaily = [
 		{ value: 'soil_temperature_7_to_28cm_mean', label: 'Mean Soil Temperature (7-28 cm)' }
 	]
 ];
-
-if (dev) {
-	daily.push([
-		{ value: 'soil_temperature_0_to_100cm_mean', label: 'Mean Soil Temperature (0-100 cm)' },
-		{ value: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
-		{ value: 'soil_moisture_index_0_to_100cm_mean', label: 'Mean Soil Moisture Index (0-100 cm)' },
-		{ value: 'growing_degree_days_base_0_limit_50', label: 'Growing Degree Days Base 0 Limit 50' },
-		{ value: 'leaf_wetness_probability_mean', label: 'Mean Leaf Wetness Probability' },
-		{ value: 'vapour_pressure_deficit_max', label: 'Vapour Pressure Deficit Max' }
-	]);
-}
 
 export const additionalVariables = [
 	[
