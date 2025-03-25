@@ -143,28 +143,17 @@ export const additionalDaily = [
 		{ value: 'wind_gusts_10m_mean', label: 'Mean Wind Gusts (10 m)' },
 		{ value: 'wind_speed_10m_mean', label: 'Mean Wind Speed (10 m)' },
 		{ value: 'wind_gusts_10m_min', label: 'Minimum Wind Gusts (10 m)' },
-		{ value: 'wind_speed_10m_min', label: 'Minimum Wind Speed (10 m)' },
-		{ value: 'wet_bulb_temperature_2m_mean', label: 'Mean Wet Bulb Temperature (2 m)' },
-		{ value: 'wet_bulb_temperature_2m_max', label: 'Maximum Wet Bulb Temperature (2 m)' },
-		{ value: 'wet_bulb_temperature_2m_min', label: 'Minimum Wet Bulb Temperature (2 m)' }
+		{ value: 'wind_speed_10m_min', label: 'Minimum Wind Speed (10 m)' }
 	],
 	[
+		{ value: 'wet_bulb_temperature_2m_mean', label: 'Mean Wet Bulb Temperature (2 m)' },
+		{ value: 'wet_bulb_temperature_2m_max', label: 'Maximum Wet Bulb Temperature (2 m)' },
+		{ value: 'wet_bulb_temperature_2m_min', label: 'Minimum Wet Bulb Temperature (2 m)' },
 		{ value: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
 		{ value: 'soil_moisture_0_to_10cm_mean', label: 'Mean Soil Moisture (0-10 cm)' },
 		{ value: 'soil_moisture_0_to_7cm_mean', label: 'Mean Soil Moisture (0-7 cm)' },
 		{ value: 'soil_moisture_28_to_100cm_mean', label: 'Mean Soil Moisture (28-100 cm)' },
 		{ value: 'soil_moisture_7_to_28cm_mean', label: 'Mean Soil Moisture (7-28 cm)' },
-		{ value: 'soil_moisture_index_0_to_100cm_mean', label: 'Mean Soil Moisture Index (0-100 cm)' },
-		{ value: 'soil_moisture_index_0_to_7cm_mean', label: 'Mean Soil Moisture Index (0-7 cm)' },
-		{
-			value: 'soil_moisture_index_100_to_255cm_mean',
-			label: 'Mean Soil Moisture Index (100-255 cm)'
-		},
-		{
-			value: 'soil_moisture_index_28_to_100cm_mean',
-			label: 'Mean Soil Moisture Index (28-100 cm)'
-		},
-		{ value: 'soil_moisture_index_7_to_28cm_mean', label: 'Mean Soil Moisture Index (7-28 cm)' },
 		{ value: 'soil_temperature_0_to_100cm_mean', label: 'Mean Soil Temperature (0-100 cm)' },
 		{ value: 'soil_temperature_0_to_7cm_mean', label: 'Mean Soil Temperature (0-7 cm)' },
 		{ value: 'soil_temperature_28_to_100cm_mean', label: 'Mean Soil Temperature (28-100 cm)' },
