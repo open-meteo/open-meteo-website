@@ -54,17 +54,19 @@ export const hourly = [
 	[
 		{ value: 'weather_code', label: 'Weather code' },
 		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
-		{ value: 'surface_pressure', label: 'Surface Pressure' },
+		{ value: 'surface_pressure', label: 'Surface Pressure' }
+	],
+	[
 		{ value: 'cloud_cover', label: 'Cloud cover Total' },
 		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
 		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud cover High' },
-		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
+		{ value: 'cloud_cover_high', label: 'Cloud cover High' }
 	],
 	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' }
+		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 	]
 ];
 
@@ -100,17 +102,21 @@ export const daily = [
 		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
 		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
 		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
-		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
+		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' }
+	],
+	[
 		{ value: 'sunrise', label: 'Sunrise' },
 		{ value: 'sunset', label: 'Sunset' },
 		{ value: 'daylight_duration', label: 'Daylight Duration' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
 	],
 	[
-		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
+		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' }
+	],
+	[
 		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
 		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
 		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
