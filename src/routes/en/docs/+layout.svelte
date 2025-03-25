@@ -234,7 +234,6 @@
 												: 'font-normal'}"
 										>
 											<a
-												href={`#${anchor.id}`}
 												onclick={() => {
 													goto(`#${anchor.id}`);
 													scrollToAnchor = true;
