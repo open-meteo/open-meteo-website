@@ -1,17 +1,17 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	import { fade } from 'svelte/transition';
 
 	import { page } from '$app/state';
 
 	import { browser, dev } from '$app/environment';
 
-	import { beforeNavigate, afterNavigate } from '$app/navigation';
+	import { goto, beforeNavigate, afterNavigate } from '$app/navigation';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 
 	import Chevrons from 'lucide-svelte/icons/chevrons-up-down';
+	import ChevronRight from 'lucide-svelte/icons/chevron-right';
+
 	import ArrowLeftToLine from 'lucide-svelte/icons/arrow-left-to-line';
 	import ArrowRightFromLine from 'lucide-svelte/icons/arrow-right-to-line';
 
@@ -42,7 +42,24 @@
 				{ title: 'DMI Denmark', url: '/en/docs/dmi-api' }
 			]
 		},
-		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
+		{
+			title: 'Historical Weather',
+			url: '/en/docs/historical-weather-api',
+			anchors: [
+				{ id: 'location_and_time', name: 'Location and Time' },
+				{ id: 'hourly_weather_variables', name: 'Hourly Weather Variables' },
+				{ id: 'daily_weather_variables', name: 'Daily Weather Variables' },
+				{ id: 'settings', name: 'Settings' },
+				{ id: 'api_response', name: 'API Response' },
+				{ id: 'data_sources', name: 'Data Sources' },
+				{ id: 'api_documentation', name: 'API Documentation' },
+				{ id: 'hourly_parameter_definition', name: 'Hourly Parameter Definition' },
+				{ id: 'daily_parameter_definition', name: 'Daily Parameter Definition' },
+				{ id: 'json_return_object', name: 'JSON Return Object' },
+				{ id: 'errors', name: 'Errors' },
+				{ id: 'citation', name: 'Citation & Acknowledgement' }
+			]
+		},
 		{ title: 'Ensemble Models', url: '/en/docs/ensemble-api' },
 		{ title: 'Climate Change', url: '/en/docs/climate-api' },
 		{ title: 'Marine Forecast', url: '/en/docs/marine-weather-api' },
@@ -92,25 +109,50 @@
 		}
 	});
 
+	let activeAnchor: null | string = $state(null);
+	let scrollToAnchor: boolean = $state(false);
+
 	afterNavigate((e) => {
-		if (!e.from || e.from.route.id !== e.to.route.id) {
+		if ((!e.from || e.from.route.id !== e.to.route.id) && !window.location.hash) {
 			setTimeout(() => {
 				window.scrollTo(0, 0);
 			}, 75);
 		}
-	});
 
-	onMount(() => {
 		if (browser) {
 			const headingElements = document.querySelectorAll('h2, h3, h4');
+			const headingDistanceList = [];
 			for (const heading of headingElements) {
 				if (heading.id) {
+					headingDistanceList.push(heading.getBoundingClientRect().y);
 					heading.addEventListener('click', () => {
 						goto(`#${heading.id}`);
 						focus(heading);
 					});
 				}
 			}
+
+			activeAnchor = window.location.hash.replace('#', '');
+			setTimeout(() => {
+				window.addEventListener('scroll', (e) => {
+					if (!scrollToAnchor) {
+						for (let [i, dist] of headingDistanceList.entries()) {
+							if (dist > window.scrollY + 50) {
+								if (i === 0) {
+									if (activeAnchor != headingElements[0].id) {
+										activeAnchor = headingElements[0].id;
+									}
+								} else {
+									if (activeAnchor != headingElements[i - 1].id) {
+										activeAnchor = headingElements[i - 1].id;
+									}
+								}
+								break;
+							}
+						}
+					}
+				});
+			}, 500);
 		}
 	});
 </script>
@@ -142,7 +184,7 @@
 			<nav
 				in:fade={{ duration: 150, delay: 200 }}
 				out:fade={{ duration: 50 }}
-				class="sticky duration-100 top-0 flex flex-col p-6 pb-3 md:pb-6 md:pr-3}"
+				class="sticky duration-100 top-0 flex flex-col p-6 pl-1 pb-3 md:pb-6 md:pr-3}"
 			>
 				<Button
 					variant="outline"
@@ -159,22 +201,51 @@
 				>
 					{#each links as link}
 						<li
-							class="my-[0.125rem] rounded-md border py-2 pl-3 pr-2 duration-300 {selectedPath.title ===
+							class="my-[0.125rem] rounded-md py-2 pl-3 pr-2 duration-300 {selectedPath.title ===
 							link.title
-								? 'border-border'
-								: 'border-transparent'}"
+								? 'font-bold'
+								: ''}"
 						>
 							<a
-								class="flex items-center gap-1"
+								class="flex items-center gap-[2px]"
 								href={link.url}
 								onclick={() => {
-									if (link.url != selectedPath.url) {
+									if (link.url != selectedPath.url && !link.children) {
 										mobileNavOpened = false;
 									}
 								}}
 							>
+								<ChevronRight
+									size="16"
+									strokeWidth={selectedPath.url === link.url ? '2.5' : '1.5'}
+									class="duration-300 {selectedPath.url === link.url ? 'rotate-90' : ''}"
+								/>
 								{link.title}</a
 							>
+							{#if link.anchors}
+								<ul
+									class="overflow-auto duration-500 ml-3 {selectedPath.url === link.url
+										? 'mb-2 mt-1 max-h-[400px]'
+										: 'max-h-0'}"
+								>
+									{#each link.anchors as anchor}<li
+											class="mt-1 text-sm {anchor.id === activeAnchor
+												? 'font-bold'
+												: 'font-normal'}"
+										>
+											<a
+												href={`#${anchor.id}`}
+												onclick={() => {
+													goto(`#${anchor.id}`);
+													scrollToAnchor = true;
+													setTimeout(() => {
+														scrollToAnchor = false;
+													}, 550);
+												}}>{anchor.name}</a
+											>
+										</li>{/each}
+								</ul>
+							{/if}
 
 							{#if link.children}
 								<ul
@@ -187,12 +258,13 @@
 								>
 									{#each link.children as l}
 										<li
-											class="rounded-md border p-1 pl-3 py-1 overflow-hidden truncate duration-300 {selectedPath.url ===
+											class="rounded-md p-1 pl-3 py-1 overflow-hidden truncate duration-300 {selectedPath.url ===
 											l.url
-												? 'border-border'
-												: 'border-transparent'}"
+												? 'font-bold'
+												: 'font-normal'}"
 										>
 											<a
+												class="flex items-center gap-[2px]"
 												href={l.url}
 												onclick={() => {
 													if (l.url != selectedPath.url) {

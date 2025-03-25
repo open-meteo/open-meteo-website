@@ -3,6 +3,7 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
+	import Link from 'lucide-svelte/icons/link';
 	import Clock from 'lucide-svelte/icons/clock';
 	import Calendar from 'lucide-svelte/icons/calendar-cog';
 
