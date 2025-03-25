@@ -52,11 +52,13 @@ export const hourly = [
 export const daily = [
 	[
 		{ value: 'sunrise', label: 'Sunrise' },
-		{ value: 'sunset', label: 'Sunset' },
-		{ value: 'daylight_duration', label: 'Daylight Duration' },
-		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
+		{ value: 'sunset', label: 'Sunset' }
 	],
-	[{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' }]
+	[
+		{ value: 'daylight_duration', label: 'Daylight Duration' },
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
+		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' }
+	]
 ];
 
 export const additionalVariables = [
@@ -67,11 +69,23 @@ export const additionalVariables = [
 export const models = [
 	[
 		{ value: 'satellite_radiation_seamless', label: 'Automatic Selection' },
-		{ value: 'eumetsat_lsa_saf_msg', label: 'EUMETSAT MSG (Europe, Africa, South America, 15-minutely, since 2025, 2 hours delay)' },
-		{ value: 'eumetsat_lsa_saf_iodc', label: 'EUMETSAT IODC (Europe, Africa, India, 15-minutely, since 2025, 2 hours delay)' },
-		{ value: 'eumetsat_sarah3', label: 'EUMETSAT Sarah3 (Europe, Africa, 30-minutely, since 1983, 1 day delay)' },
-		{ value: 'jma_jaxa_himawari', label: 'JMA JAXA Himawari (India, Asia, Australia, New Zealand, 10-minutely, since 2023, 20 minutes delay)' }
-
+		{
+			value: 'eumetsat_lsa_saf_msg',
+			label: 'EUMETSAT MSG (Europe, Africa, South America, 15-minutely, since 2025, 2 hours delay)'
+		},
+		{
+			value: 'eumetsat_lsa_saf_iodc',
+			label: 'EUMETSAT IODC (Europe, Africa, India, 15-minutely, since 2025, 2 hours delay)'
+		},
+		{
+			value: 'eumetsat_sarah3',
+			label: 'EUMETSAT Sarah3 (Europe, Africa, 30-minutely, since 1983, 1 day delay)'
+		},
+		{
+			value: 'jma_jaxa_himawari',
+			label:
+				'JMA JAXA Himawari (India, Asia, Australia, New Zealand, 10-minutely, since 2023, 20 minutes delay)'
+		}
 	]
 ];
 
