@@ -1906,12 +1906,15 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">temperature_2m_max<br />temperature_2m_min</th>
+						<th scope="row">temperature_2m_max<br />temperature_2m_mean<br />temperature_2m_min</th>
 						<td>°C (°F)</td>
 						<td>Maximum and minimum daily air temperature at 2 meters above ground</td>
 					</tr>
 					<tr>
-						<th scope="row">apparent_temperature_max<br />apparent_temperature_min</th>
+						<th scope="row"
+							>apparent_temperature_max<br />apparent_temperature_mean<br
+							/>apparent_temperature_min</th
+						>
 						<td>°C (°F)</td>
 						<td>Maximum and minimum daily apparent temperature</td>
 					</tr>
@@ -1942,8 +1945,8 @@
 					</tr>
 					<tr>
 						<th scope="row"
-							>precipitation_probability_max<br />precipitation_probability_min<br
-							/>precipitation_probability_mean</th
+							>precipitation_probability_max<br />precipitation_probability_mean<br
+							/>precipitation_probability_min</th
 						>
 						<td>%</td>
 						<td>Probability of precipitation</td>
@@ -2004,6 +2007,22 @@
 								>official WMO guidelines</a
 							> for ultraviolet index.</td
 						>
+					</tr>
+					<tr>
+						<th scope="row">cape_max<br />cape_mean<br />cape_min</th>
+						<td>J/kg</td>
+						<td
+							>Convective available potential energy. See <a
+								class="text-link underline"
+								href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
+								target="_blank">Wikipedia</a
+							>.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">cloud_cover_max<br />cloud_cover_mean<br />cloud_cover_min</th>
+						<td>%</td>
+						<td>Total cloud cover as an area fraction</td>
 					</tr>
 				</tbody>
 			</table>
