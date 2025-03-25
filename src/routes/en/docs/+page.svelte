@@ -817,31 +817,37 @@
 				title="Additional Daily Variables"
 				count={countVariables(additionalDaily, $params.daily)}
 			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each additionalDaily as e}
-						<div class="group flex items-center">
-							<Checkbox
-								id="{e.value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								value={e.value}
-								checked={$params.daily?.includes(e.value)}
-								aria-labelledby="{e.value}_daily_label"
-								onCheckedChange={() => {
-									if ($params.daily?.includes(e.value)) {
-										$params.daily = $params.daily.filter((item) => {
-											return item !== e.value;
-										});
-									} else {
-										$params.daily.push(e.value);
-										$params.daily = $params.daily;
-									}
-								}}
-							/>
-							<Label
-								id="{e.value}_daily_label"
-								for="{e.value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-							>
+				<div
+					class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+				>
+					{#each additionalDaily as group}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center">
+									<Checkbox
+										id="{e.value}_daily"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.daily?.includes(e.value)}
+										aria-labelledby="{e.value}_daily_label"
+										onCheckedChange={() => {
+											if ($params.daily?.includes(e.value)) {
+												$params.daily = $params.daily.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.daily.push(e.value);
+												$params.daily = $params.daily;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_daily_label"
+										for="{e.value}_daily"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
 						</div>
 					{/each}
 				</div>
