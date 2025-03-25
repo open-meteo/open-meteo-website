@@ -203,7 +203,7 @@
 						</div>
 					</div>
 
-					<div class="">
+					<div>
 						<p>
 							By default, we provide forecasts for 7 days, but you can access forecasts for up to 16
 							days. If you're interested in past weather data, you can use the <mark>Past Days</mark
@@ -246,7 +246,7 @@
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
 			{#each hourly as group}
-				<div class="">
+				<div>
 					{#each group as e}
 						<div class="group flex items-center">
 							<Checkbox
@@ -534,34 +534,38 @@
 	<!-- CURRENT -->
 	<div class="mt-6 md:mt-12">
 		<h2 id="current_weather" class="text-2xl md:text-3xl">Current Weather</h2>
-		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+		<div
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+		>
 			{#each current as group}
-				{#each group as e}
-					<div class="group flex items-center">
-						<Checkbox
-							id="{e.value}_current"
-							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-							value={e.value}
-							checked={$params.current?.includes(e.value)}
-							aria-labelledby="{e.value}_current_label"
-							onCheckedChange={() => {
-								if ($params.current?.includes(e.value)) {
-									$params.current = $params.current.filter((item) => {
-										return item !== e.value;
-									});
-								} else {
-									$params.current.push(e.value);
-									$params.current = $params.current;
-								}
-							}}
-						/>
-						<Label
-							id="{e.value}_current_label"
-							for="{e.value}_current"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-						>
-					</div>
-				{/each}
+				<div>
+					{#each group as e}
+						<div class="group flex items-center">
+							<Checkbox
+								id="{e.value}_current"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								value={e.value}
+								checked={$params.current?.includes(e.value)}
+								aria-labelledby="{e.value}_current_label"
+								onCheckedChange={() => {
+									if ($params.current?.includes(e.value)) {
+										$params.current = $params.current.filter((item) => {
+											return item !== e.value;
+										});
+									} else {
+										$params.current.push(e.value);
+										$params.current = $params.current;
+									}
+								}}
+							/>
+							<Label
+								id="{e.value}_current_label"
+								for="{e.value}_current"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+							>
+						</div>
+					{/each}
+				</div>
 			{/each}
 		</div>
 		<div class="text-muted-foreground mt-1">
@@ -603,7 +607,7 @@
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[800px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[800px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -662,7 +666,7 @@
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1240px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1240px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -875,7 +879,7 @@
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1240px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1240px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1069,7 +1073,7 @@
 		</div>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

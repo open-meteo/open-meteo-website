@@ -5,13 +5,9 @@
 
 	import { page } from '$app/state';
 
-	import { browser } from '$app/environment';
+	import { browser, dev } from '$app/environment';
 
-	import { goto } from '$app/navigation';
-
-	import { dev } from '$app/environment';
-
-	import { afterNavigate } from '$app/navigation';
+	import { beforeNavigate, afterNavigate } from '$app/navigation';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 
@@ -51,6 +47,7 @@
 		{ title: 'Climate Change', url: '/en/docs/climate-api' },
 		{ title: 'Marine Forecast', url: '/en/docs/marine-weather-api' },
 		{ title: 'Air Quality', url: '/en/docs/air-quality-api' },
+		{ title: 'Satellite Radiation', url: '/en/docs/satellite-radiation-api' },
 		{ title: 'Geocoding', url: '/en/docs/geocoding-api' },
 		{ title: 'Elevation', url: '/en/docs/elevation-api' },
 		{ title: 'Flood', url: '/en/docs/flood-api' }
@@ -58,7 +55,6 @@
 
 	if (dev) {
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
-		links.push({ title: 'Satellite Radiation API', url: '/en/docs/satellite-radiation-api' });
 	}
 
 	let selectedPath = $derived.by(() => {
@@ -80,11 +76,27 @@
 	let collapsed = $state(false);
 	let mobileNavOpened = $state(false);
 
+	// Fix for backwards compatibilty with the old url-params store
+	// which used the hash ('#') for cache busting, now replaced with '?'
+	let hashOnLoad = '';
+	beforeNavigate((e) => {
+		if (browser) {
+			hashOnLoad = window.location.hash;
+			if (hashOnLoad && hashOnLoad.includes('=')) {
+				e.to.url.search = hashOnLoad.replace('#', '');
+				hashOnLoad = '';
+				setTimeout(() => {
+					window.location.reload();
+				}, 100);
+			}
+		}
+	});
+
 	afterNavigate((e) => {
 		if (!e.from || e.from.route.id !== e.to.route.id) {
 			setTimeout(() => {
 				window.scrollTo(0, 0);
-			}, 100);
+			}, 75);
 		}
 	});
 
