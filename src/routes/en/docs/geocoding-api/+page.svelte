@@ -17,13 +17,14 @@
 	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
 	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';
 
-	import { countOptions, formatOptions, languageOptions } from './options';
+	import { countOptions, formatOptions, countryCodes, languageOptions } from './options';
 
 	const params = urlHashStore({
 		name: 'Berlin',
 		count: '10',
 		language: 'en',
-		format: 'json'
+		format: 'json',
+		countryCode: ''
 	});
 
 	//const params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
@@ -42,7 +43,15 @@
 	});
 
 	//const paramsDefault = { ...params };
-	let apiUrl = $derived(`${action}${new URLSearchParams($params)}`);
+	let apiUrl = $state('');
+	$effect(() => {
+		let urlParams = JSON.parse(JSON.stringify($params));
+		if (!urlParams.countryCode) {
+			delete urlParams.countryCode;
+		}
+		apiUrl = `${action}${new URLSearchParams(urlParams)}`;
+	});
+
 	let debounceTimeout: number | undefined = undefined;
 
 	onDestroy(() => {
@@ -52,7 +61,10 @@
 	// Fetch is automatically called after `params` changes due to reactive assignment
 	let results = $derived(
 		(async () => {
-			let urlParams = $params;
+			let urlParams = JSON.parse(JSON.stringify($params));
+			if (!urlParams.countryCode) {
+				delete urlParams.countryCode;
+			}
 
 			if (debounceTimeout) {
 				clearTimeout(debounceTimeout);
@@ -78,6 +90,8 @@
 	const format = $derived(formatOptions.find((fo) => fo.value == $params.format));
 
 	const language = $derived(languageOptions.find((lo) => lo.value == $params.language));
+
+	const countryCode = $derived(countryCodes.find((cc) => cc.value == $params.countryCode));
 </script>
 
 <svelte:head>
@@ -94,7 +108,7 @@
 	}}
 >
 	<h2 id="geocoding_search" class="text-2xl md:text-3xl">Search for cities or postal code</h2>
-	<div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 md:mt-4 lg:grid-cols-4">
+	<div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 md:mt-4 lg:grid-cols-5">
 		<div class="relative">
 			<Input type="text" class="h-12 pt-6" name="name" id="name" bind:value={$params.name} />
 			<Label
@@ -150,6 +164,22 @@
 				>
 			</Select.Root>
 		</div>
+
+		<div class="relative">
+			<Select.Root name="format" type="single" bind:value={$params.countryCode}>
+				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>{countryCode?.label}</Select.Trigger
+				>
+				<Select.Content preventScroll={false} class="border-border">
+					{#each countryCodes as cc}
+						<Select.Item class="cursor-pointer" value={cc.value}>{cc.label}</Select.Item>
+					{/each}
+				</Select.Content>
+				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					>Country Code</Label
+				>
+			</Select.Root>
+		</div>
 	</div>
 
 	<!-- LICENSE -->
@@ -174,7 +204,7 @@
 		{:then results}
 			<div transition:fade={{ duration: 200 }} class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 				<table
-					class="w-full mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+					class="w-full mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 				>
 					<thead>
 						<tr>
@@ -266,7 +296,7 @@
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -336,6 +366,15 @@
 							> for more information.</td
 						>
 					</tr>
+					<tr>
+						<th scope="row">countryCode</th>
+						<td>String</td>
+						<td>No</td>
+						<td></td>
+						<td
+							><mark>ISO-3166 alpha2</mark> country code, in which results have to be inside of.</td
+						></tr
+					>
 				</tbody>
 			</table>
 		</div>
@@ -362,7 +401,7 @@
 		</div>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
