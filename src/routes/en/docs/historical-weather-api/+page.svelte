@@ -6,6 +6,8 @@
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { countVariables } from '$lib/utils/meteo';
 
+	import Link from 'lucide-svelte/icons/link';
+
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
@@ -219,7 +221,11 @@
 
 	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
+		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl cursor-pointer flex group">
+			Hourly Weather Variables<span class="hidden group-hover:flex rotate-90 ml-[2px] mt-[9px]"
+				><Link size={16} /></span
+			>
+		</h2>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>

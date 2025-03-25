@@ -14,6 +14,7 @@
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
 	import List from 'lucide-svelte/icons/list';
+	import Link from 'lucide-svelte/icons/link';
 	import Plus from 'lucide-svelte/icons/plus';
 	import Trash from 'lucide-svelte/icons/trash-2';
 	import Locate from 'lucide-svelte/icons/locate';
@@ -75,7 +76,10 @@
 	let timeZone = $derived(timeZoneOptions.find((tzo) => String(tzo.value) == params.timezone));
 </script>
 
-<h2 id="location_and_time" class="text-2xl md:text-3xl">Location and Time</h2>
+<h2 id="location_and_time" class="cursor-pointer flex text-2xl md:text-3xl group">
+	Location and Time
+	<span class="hidden group-hover:flex rotate-90 ml-[2px] mt-[9px]"><Link size={16} /></span>
+</h2>
 <div class="mt-3 flex items-center gap-2">
 	<div class="text-muted-foreground">Location:</div>
 
