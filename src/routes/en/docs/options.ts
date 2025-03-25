@@ -232,9 +232,9 @@ export const additionalDaily = [
 
 	// available, but duplicate of correct syntax:
 	//{ value: 'weathercode', label: 'XXX' },
-	// { value: 'cloudcover_max', label: 'Maximum Cloud cover' }, ?
-	// { value: 'cloudcover_mean', label: 'Mean Cloud cover' }, ?
-	// { value: 'cloudcover_min', label: 'Minimum Cloud cover' }, ?
+	// { value: 'cloudcover_max', label: 'Maximum Cloud cover' },
+	// { value: 'cloudcover_mean', label: 'Mean Cloud cover' },
+	// { value: 'cloudcover_min', label: 'Minimum Cloud cover' },
 	// { value: 'dewpoint_2m_max', label: 'Maximum Dewpoint (2 m)' },
 	// { value: 'dewpoint_2m_mean', label: 'Mean Dewpoint (2 m)' },
 	// { value: 'dewpoint_2m_min', label: 'Minimum Dewpoint (2 m)' },

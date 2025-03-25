@@ -1895,7 +1895,7 @@
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 min-w-[1040px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1906,7 +1906,10 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">temperature_2m_max<br />temperature_2m_mean<br />temperature_2m_min</th>
+						<th scope="row"
+							>temperature_2m_max<br /><span class="additional">temperature_2m_mean</span><br
+							/>temperature_2m_min</th
+						>
 						<td>°C (°F)</td>
 						<td>Maximum and minimum daily air temperature at 2 meters above ground</td>
 					</tr>
@@ -2008,7 +2011,8 @@
 							> for ultraviolet index.</td
 						>
 					</tr>
-					<tr>
+					<!-- Additional variables, leave out for now -->
+					<!-- <tr>
 						<th scope="row">cape_max<br />cape_mean<br />cape_min</th>
 						<td>J/kg</td>
 						<td
@@ -2023,7 +2027,7 @@
 						<th scope="row">cloud_cover_max<br />cloud_cover_mean<br />cloud_cover_min</th>
 						<td>%</td>
 						<td>Total cloud cover as an area fraction</td>
-					</tr>
+					</tr> -->
 				</tbody>
 			</table>
 		</div>
