@@ -36,8 +36,9 @@ export const hourly = [
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
-		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
+		{ value: 'precipitation', label: 'Precipitation (rain + snow + showers)' },
 		{ value: 'rain', label: 'Rain' },
+		{ value: 'showers', label: 'Showers' },
 		{ value: 'snowfall', label: 'Snowfall' },
 	],
 	[
@@ -73,6 +74,7 @@ export const current = [
 	[
 		{ value: 'precipitation', label: 'Precipitation' },
 		{ value: 'rain', label: 'Rain' },
+		{ value: 'showers', label: 'Showers' },
 		{ value: 'snowfall', label: 'Snowfall' }
 	],
 	[
