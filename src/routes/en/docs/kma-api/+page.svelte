@@ -3,7 +3,7 @@
 
 	import { fade, slide } from 'svelte/transition';
 
-	import { countVariables	} from '$lib/utils/meteo';
+	import { countVariables } from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -634,12 +634,10 @@
 	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
 	<div class="mt-2 md:mt-4">
 		<p>
-			This API uses global KMA GDPS 10 km weather forecasts and combines them with
-			high-resolution LDPS 1.5 km model for the North and South Korea. Information about KMA
-			weather models is available <a
-				href="https://www.kma.go.kr/eng/biz/forecast_02.jsp"
-				target="_blank">here</a
-			>. For GDPS Global, values are interpolated from 3-hourly to 1-hourly time-steps.
+			This API uses global KMA GDPS 10 km weather forecasts and combines them with high-resolution
+			LDPS 1.5 km model for the North and South Korea. Information about KMA weather models is
+			available <a href="https://www.kma.go.kr/eng/biz/forecast_02.jsp" target="_blank">here</a>.
+			For GDPS Global, values are interpolated from 3-hourly to 1-hourly time-steps.
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
@@ -666,9 +664,7 @@
 						<th scope="row">KMA GDPS</th>
 						<td>Global</td>
 						<td>0.13° (~12 km)</td>
-						<td
-							>3-Hourly</td
-						>
+						<td>3-Hourly</td>
 						<td>12 days</td>
 						<td>Every 6 hours</td>
 					</tr>
@@ -678,7 +674,7 @@
 						<td>1.5 km</td>
 						<td>Hourly</td>
 						<td>2 days</td>
-						<td>Every 6 hour</td>
+						<td>Every 6 hours</td>
 					</tr>
 				</tbody>
 			</table>
@@ -709,9 +705,14 @@
 				separation models.
 			</li>
 			<li>
-				<strong>Cloud Cover (2m):</strong> KMA provides cloud cover at 2 metre above ground
-				which can be interpreted as fog. This is remarkable, because only very weather models are capable
-				of modeling low level cloud cover and fog with a good degree of accuracy.
+				<strong>Cloud Cover (2m):</strong> KMA provides cloud cover at 2 metre above ground which can
+				be interpreted as fog. This is remarkable, because only very weather models are capable of modeling
+				low level cloud cover and fog with a good degree of accuracy.
+			</li>
+			<li>
+				<strong>Showers:</strong>Showers are only computed in the global GDPS model. Since LDPS is a
+				convection-resolving model, it incorporates showers within the regular rain parameter,
+				resulting in a constant value of 0 for the showers variable in LDPS.
 			</li>
 		</ul>
 	</div>
