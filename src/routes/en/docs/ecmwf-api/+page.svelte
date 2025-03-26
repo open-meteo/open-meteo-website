@@ -688,32 +688,8 @@
 							></th
 						>
 						<td>Global</td>
-						<td>0.4° (~44 km)</td>
-						<td>3-Hourly</td>
-						<td>15 days</td>
-						<td>Every 6 hours</td>
-					</tr>
-					<tr>
-						<th scope="row"
-							><a href="https://www.ecmwf.int/en/forecasts/datasets/open-data" target="_blank"
-								>IFS</a
-							></th
-						>
-						<td>Global</td>
 						<td>0.25° (~25 km)</td>
 						<td>3-Hourly</td>
-						<td>15 days</td>
-						<td>Every 6 hours</td>
-					</tr>
-					<tr>
-						<th scope="row"
-							><a href="https://www.ecmwf.int/en/forecasts/datasets/open-data" target="_blank"
-								>AIFS</a
-							></th
-						>
-						<td>Global</td>
-						<td>0.25° (~28 km)</td>
-						<td>6-Hourly</td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
 					</tr>
