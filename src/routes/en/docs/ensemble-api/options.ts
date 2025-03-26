@@ -253,7 +253,6 @@ export const available_variables = {
 	gfs_seamless: gfs05_variables,
 	gfs025: gfs025_variables,
 	gfs05: gfs05_variables,
-	ecmwf_ifs04: ecmwf_variables,
 	ecmwf_ifs025: ecmwf_variables,
 	ukmo_global_ensemble_20km: ukmo_variables,
 	gem_global: gem_global_variables,
@@ -351,7 +350,6 @@ export const models = [
 		{ value: 'gfs05', label: 'GFS Ensemble 0.5' }
 	],
 	[
-		{ value: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4° Ensemble' },
 		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' }
 	],
 	[

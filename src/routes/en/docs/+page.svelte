@@ -993,6 +993,14 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
+						<th scope="row"><a href="/en/docs/kma-api">KMA</a></th>
+						<td>KMA Korea</td>
+						<td>Korea</td>
+						<td>1.5 - 13 km</td>
+						<td>12 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
 						<th scope="row"><a href="/en/docs/jma-api">MSM & GSM</a></th>
 						<td>JMA</td>
 						<td>Japan</td>

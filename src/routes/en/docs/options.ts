@@ -310,9 +310,7 @@ export const solarVariables = [
 export const models = [
 	[
 		{ value: 'best_match', label: 'Best match' },
-		{ value: 'ecmwf_ifs04', label: 'ECMWF IFS 0.4°' },
 		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
-		{ value: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25°' },
 		{ value: 'ecmwf_aifs025_single', label: 'ECMWF AIFS 0.25° Single' },
 		{ value: 'cma_grapes_global', label: 'CMA GRAPES Global' },
 		{ value: 'bom_access_global', label: 'BOM ACCESS Global' }

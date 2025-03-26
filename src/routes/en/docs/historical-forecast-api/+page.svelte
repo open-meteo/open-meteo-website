@@ -977,14 +977,6 @@
 						<td>2024-02-03</td>
 					</tr>
 					<tr>
-						<td>AIFS 0.25°</td>
-						<td>Global</td>
-						<td>0.25° (~25 km)</td>
-						<td>6-Hourly</td>
-						<td>Every 6 hours</td>
-						<td>2024-03-13</td>
-					</tr>
-					<tr>
 						<td>AIFS 0.25° Single</td>
 						<td>Global</td>
 						<td>0.25° (~25 km)</td>
