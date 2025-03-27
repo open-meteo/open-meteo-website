@@ -1,10 +1,10 @@
 import type { LayoutLoad } from './$types';
 
-import Sun from '$lib/assets/icons/sun.svelte';
+import Cog from '$lib/assets/icons/cog.svelte';
 
 export const load = (() => {
 	return {
-		Logo: Sun,
+		Logo: Cog,
 		heroImage: '/images/cirrus.webp',
 		heroHeight: 300,
 		heroTitle: 'API Calls Calculator',
