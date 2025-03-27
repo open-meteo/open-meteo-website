@@ -11,7 +11,7 @@
 
 	import { storedLocation, model, themeIsDark, type GeoLocation } from '$lib/stores/settings';
 
-	import { range } from '$lib/utils/meteo';
+	import { pad, range } from '$lib/utils/meteo';
 
 	import { Label } from '$lib/components/ui/label';
 
@@ -58,6 +58,7 @@
 
 	const today = new Date();
 	let selectedDay = $state(new Date());
+	let selectedDayIndex = $state(1);
 
 	let entries = $state(0);
 
@@ -148,8 +149,8 @@
 					weather_code: daily.variables(0)!,
 					temperature_2m_max: daily.variables(1)!,
 					temperature_2m_min: daily.variables(2)!,
-					sunrise: daily.variables(3)!.valuesInt64()!,
-					sunset: daily.variables(4)!.valuesInt64()!,
+					sunrise: daily.variables(3)!,
+					sunset: daily.variables(4)!,
 					precipitation_sum: daily.variables(5)!,
 					windspeed_10m_max: daily.variables(6)!,
 					windgusts_10m_max: daily.variables(7)!,
@@ -226,7 +227,7 @@
 	let tableCells;
 	let manualScrolling = false;
 
-	const switchDay = (date: Date) => {
+	const switchDay = (date: Date, index: number) => {
 		manualScrolling = true;
 		selectedDay = date;
 
@@ -245,6 +246,7 @@
 			},
 			{ once: true }
 		);
+		selectedDayIndex = index;
 	};
 
 	onMount(() => {
@@ -325,7 +327,7 @@
 								? 'bg-accent'
 								: ''}"
 							onclick={() => {
-								switchDay(time);
+								switchDay(time, index);
 							}}
 						>
 							<div class="weather-week-date">
@@ -380,18 +382,18 @@
 		</div>
 		<div
 			bind:this={scrollDiv}
-			style=" height: {234 + entries * 27}px;  scrollbar-width: none;"
-			class="relative w-ful -mx-5 md:-ml-[110px] overflow-x-scroll"
+			style=" height: {218 + entries * 27.5}px; "
+			class="relative w-ful -mx-5 md:-ml-[110px] overflow-x-scroll overflow-y-hidden"
 		>
 			<canvas
 				bind:this={canvasElement}
 				id="weather_week_canvas"
 				class="border border-border"
-				style="margin-top: 25px;margin-left: 110px; width: 5000px; height: 200px; "
+				style="margin-top: 24px; margin-left: 110px; width: 5000px; height: 200px; "
 				height="500px"
 				width="10000px"
 			></canvas>
-			<table in:fade class="absolute bottom-[21px] border-b border-border">
+			<table in:fade class="absolute bottom-0 border-b border-border">
 				<caption style="display:none"> Weather Week {location.name} </caption>
 				<tbody>
 					{#await weather then weather}
@@ -410,7 +412,7 @@
 										: ''}"
 									data-date={weather.hourlyTime[index].getDate()}
 									data-time={weather.hourlyTime[index].getHours() + ':00'}
-									style="font-size: 11px;position: absolute; bottom: {190 +
+									style="font-size: 11px; position: absolute; bottom: {188 +
 										27 * entries}px; left:{111 +
 										(5000 / weather.entriesLength) * index}px; min-width: {5000 /
 										weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
@@ -428,26 +430,21 @@
 								>Icons</th
 							>
 							{#each weather.indexes as index}
+								{@const now =
+									weather.hourlyTime[index].getDate() === today.getDate() &&
+									weather.hourlyTime[index].getHours() === today.getHours()}
 								<td
-									class={weather.hourlyTime[index].getDate() === today.getDate() &&
-									weather.hourlyTime[index].getHours() === today.getHours()
-										? 'now'
-										: ''}
 									style="position: absolute; bottom: {27.5 * entries -
-										21 +
+										24 +
 										0.8 * 200 -
-										0.55 *
+										0.54 *
 											200 *
-											((maxTemp -
-												((weather.entries[0].values[index - 1] ??
-													weather.entries[0].values[index]) +
-													weather.entries[0].values[index]) /
-													2) /
-												diffTemp)}px; left:{116 +
+											((maxTemp - weather.entries[0].values[index]) / diffTemp)}px; left:{116 +
 										(5000 / weather.entriesLength) * index}px; min-width: {5000 /
 										weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
-									><svg class="fill-foreground" width="20px" height="20px">
+									><svg class="fill-foreground {now ? 'scale-125' : ''}" width="20px" height="20px">
 										<use
+											class="stroke-2"
 											xlink:href="/images/weather-icons/wi-{weather.hourlyTime[index].getHours() >
 												6 && weather.hourlyTime[index].getHours() < 21
 												? 'day'
@@ -475,12 +472,9 @@
 											? 'now'
 											: ''}
 										style="position: absolute; bottom: {27.5 * entries -
-											48 +
+											49 +
 											0.8 * 200 -
-											0.57 *
-												200 *
-												((maxTemp - ((weather.entries[0].values[index - 1] ?? temp) + temp) / 2) /
-													diffTemp)}px; left:{111 +
+											0.55 * 200 * ((maxTemp - temp) / diffTemp)}px; left:{111 +
 											(5000 / weather.entriesLength) * index}px; min-width: {5000 /
 											weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
 										>{temp.toFixed(0)}</td
@@ -569,7 +563,23 @@
 			</table>
 		</div>
 	</div>
-
+	{#await weather then weather}
+		{@const sunrise = new Date(Number(weather.daily.sunrise.valuesInt64(selectedDayIndex)) * 1000)}
+		{@const sunset = new Date(Number(weather.daily.sunset.valuesInt64(selectedDayIndex)) * 1000)}
+		<div class="mt-6">
+			<div class="flex gap-1 items-center">
+				<svg class="fill-foreground" width="28px" height="28px">
+					<use class="stroke-2" xlink:href="/images/weather-icons/wi-sunrise.svg#Layer_1"></use>
+				</svg>Sunrise: {pad(sunrise.getHours())}:{pad(sunrise.getMinutes())}
+			</div>
+			<div class="flex gap-1 items-center">
+				<svg class="fill-foreground" width="28px" height="28px">
+					<use class="stroke-2" xlink:href="/images/weather-icons/wi-sunset.svg#Layer_1"></use>
+				</svg>
+				Sunset: {pad(sunset.getHours())}:{pad(sunset.getMinutes())}
+			</div>
+		</div>
+	{/await}
 	<div>
 		<div class="mt-6 md:mt-12 flex gap-6">
 			<div class="relative w-1/2">
@@ -612,9 +622,5 @@
 	td {
 		text-align: center;
 		font-size: 13px;
-	}
-
-	.now svg {
-		transform: scale(1.2);
 	}
 </style>
