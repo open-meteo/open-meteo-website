@@ -165,11 +165,6 @@
 				url: '/en/docs/ecmwf-api',
 				models: [
 					{
-						name: 'AIFS 0.25°',
-						area: [],
-						meta: fetchMeta('ecmwf_aifs025', 'forecast', api_key_preferences)
-					},
-					{
 						name: 'AIFS 0.25° Single',
 						area: [],
 						meta: fetchMeta('ecmwf_aifs025_single', 'forecast', api_key_preferences)
@@ -318,6 +313,22 @@
 						name: 'UKMO UKV',
 						area: ['gb'],
 						meta: fetchMeta('ukmo_uk_deterministic_2km', 'forecast', api_key_preferences)
+					}
+				]
+			},
+			{
+				provider: 'KMA Korea',
+				url: '/en/docs/kma-api',
+				models: [
+					{
+						name: 'KMA GDPS 0.13°',
+						area: [],
+						meta: fetchMeta('kma_gdps', 'forecast', api_key_preferences)
+					},
+					{
+						name: 'KMA LDPS 1.5km',
+						area: ['kr'],
+						meta: fetchMeta('kma_ldps', 'forecast', api_key_preferences)
 					}
 				]
 			}
@@ -576,7 +587,7 @@
 						models: e.models.filter((e) => {
 							let isNorthAmerica = e.area.includes('ca') || e.area.includes('us');
 							let isGlobal = e.area.length == 0;
-							let isAsian = e.area.includes('jp');
+							let isAsian = e.area.includes('jp') || e.area.includes('kr');
 							let isEuropean = !isGlobal && !isNorthAmerica && !isAsian;
 							return (
 								(showGlobalModels && isGlobal) ||
@@ -685,7 +696,7 @@
 
 			<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 				<table
-					class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+					class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 				>
 					<thead>
 						<tr>
