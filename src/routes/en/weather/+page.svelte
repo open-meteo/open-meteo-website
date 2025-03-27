@@ -3,6 +3,8 @@
 
 	import { fade } from 'svelte/transition';
 
+	import { mode } from 'mode-watcher';
+
 	import { fetchWeatherApi } from 'openmeteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -161,7 +163,7 @@
 						values: hourly
 							.variables(2)
 							?.valuesArray()
-							?.map((t) => t.toFixed(0))
+							?.map((t) => t.toFixed(1))
 					},
 					{
 						id: 1,
@@ -316,7 +318,7 @@
 			{#await weather then weather}
 				{#each weather.daily.time as time, index}
 					{@const selected = time.getDate() === selectedDay.getDate()}
-					{#if weather.daily.temperature_2m_max.values(index).toFixed(1) !== 'NaN'}
+					{#if !isNaN(weather.daily.temperature_2m_max.values(index).toFixed(1))}
 						<button
 							style="transition: 300ms; min-width: 13%; {selected ? 'transform: scale(1.025)' : ''}"
 							class="cursor-pointer items-center flex flex-row md:flex-col justify-between md:justify-center rounded-xl pt-md-4 pb-md-3 gap-md-1 px-3 {selected
@@ -330,7 +332,7 @@
 								<b>{time.getDate()} - {time.getMonth() + 1}</b>
 							</div>
 
-							<div class={selected ? 'fw-bold' : ''}>
+							<div class={selected ? 'font-bold' : ''}>
 								{time.toLocaleDateString('en-GB', { weekday: 'long' })}
 							</div>
 
@@ -344,13 +346,13 @@
 								</svg>
 							</div>
 							<div
-								class="d-flex p-1 justify-content-center weather-temp-max rounded"
+								class="flex p-1 justify-center weather-temp-max rounded min-w-[70px]"
 								style={`background-color: ${colorScale[weather.daily.temperature_2m_max.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_max.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 							>
 								{weather.daily.temperature_2m_max.values(index).toFixed(1)} °C
 							</div>
 							<div
-								class="d-flex p-1 justify-content-center weather-temp-min rounded"
+								class="mt-2 flex p-1 justify-center weather-temp-min rounded min-w-[70px]"
 								style={`background: ${colorScale[weather.daily.temperature_2m_min.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_min.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 							>
 								{weather.daily.temperature_2m_min.values(index).toFixed(1)} °C
@@ -362,7 +364,7 @@
 				<p style="color: red">{error.message}</p>
 			{/await}
 		</div>
-		<div>
+		<div class="">
 			<h3 class="text-xl font-bold">
 				{selectedDay.toLocaleDateString('en-GB', { weekday: 'long' })}
 				<small>
@@ -378,10 +380,8 @@
 		</div>
 		<div
 			bind:this={scrollDiv}
-			style="position:relative; height: {234 +
-				entries *
-					27}px; margin-left:-110px;  overflow-x: scroll; overflow-y: hidden; scrollbar-width: none;"
-			class="weather-canvas-container w-full"
+			style=" height: {234 + entries * 27}px;  scrollbar-width: none;"
+			class="relative w-ful -mx-5 md:-ml-[110px] overflow-x-scroll"
 		>
 			<canvas
 				bind:this={canvasElement}
@@ -391,7 +391,7 @@
 				height="500px"
 				width="10000px"
 			></canvas>
-			<table in:fade class="absolute bottom-2 border-b border-border">
+			<table in:fade class="absolute bottom-[21px] border-b border-border">
 				<caption style="display:none"> Weather Week {location.name} </caption>
 				<tbody>
 					{#await weather then weather}
@@ -410,7 +410,7 @@
 										: ''}"
 									data-date={weather.hourlyTime[index].getDate()}
 									data-time={weather.hourlyTime[index].getHours() + ':00'}
-									style="font-size: 11px;position: absolute; bottom: {200 +
+									style="font-size: 11px;position: absolute; bottom: {190 +
 										27 * entries}px; left:{111 +
 										(5000 / weather.entriesLength) * index}px; min-width: {5000 /
 										weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
@@ -434,11 +434,16 @@
 										? 'now'
 										: ''}
 									style="position: absolute; bottom: {27.5 * entries -
-										10 +
+										21 +
 										0.8 * 200 -
 										0.55 *
 											200 *
-											((maxTemp - weather.entries[0].values[index]) / diffTemp)}px; left:{111 +
+											((maxTemp -
+												((weather.entries[0].values[index - 1] ??
+													weather.entries[0].values[index]) +
+													weather.entries[0].values[index]) /
+													2) /
+												diffTemp)}px; left:{116 +
 										(5000 / weather.entriesLength) * index}px; min-width: {5000 /
 										weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
 									><svg class="fill-foreground" width="20px" height="20px">
@@ -470,12 +475,15 @@
 											? 'now'
 											: ''}
 										style="position: absolute; bottom: {27.5 * entries -
-											42 +
+											48 +
 											0.8 * 200 -
-											0.55 * 200 * ((maxTemp - temp) / diffTemp)}px; left:{111 +
+											0.57 *
+												200 *
+												((maxTemp - ((weather.entries[0].values[index - 1] ?? temp) + temp) / 2) /
+													diffTemp)}px; left:{111 +
 											(5000 / weather.entriesLength) * index}px; min-width: {5000 /
 											weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
-										>{temp}</td
+										>{temp.toFixed(0)}</td
 									>
 								{/if}
 							{/each}
@@ -510,14 +518,17 @@
 													')'
 												: ''};
 											{entry.name === 'precipitation_probability'
-												? 'color: ' + (weather.entries[2].values[index] > 50 ? 'white' : 'black')
+												? 'color: ' +
+													(weather.entries[2].values[index] > 50
+														? 'white'
+														: 'hsl(var(--foreground)')
 												: ''};
 											{entry.name === 'relative_humidity_2m'
 												? 'background: rgba(0, 240, 240,' +
 													weather.entries[4].values[index] ** 3.8 / 10 ** 8.2 +
 													')'
 												: ''};"
-											>{entry.name === 'precipitation'
+											>{entry.name === 'precipitation' || entry.name === 'temperature_2m'
 												? entry.values[index].toFixed(1)
 												: entry.values[index]}</td
 										>
