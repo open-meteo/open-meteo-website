@@ -132,7 +132,7 @@
 
 				// create canvas
 				daylight(ctx, config, hourlyTime);
-				raster(ctx, config, hourlyTime, today);
+				raster(ctx, config, hourlyTime, today, canvasElement);
 				tempGradient(ctx, config, hourlyTemps);
 				cloudCover(ctx, config, hourlyCloudCover, canvasElement);
 				precip(ctx, config, hourlyPrecip, canvasElement);
@@ -305,95 +305,65 @@
 	<meta name="description" content="segseg" />
 </svelte:head>
 
-<div>
-	<div class="w-1/2 mb-6">
-		<LocationSearch
-			style="height: 40px"
-			on:location={(event) => storedLocation.set(event.detail)}
-			label="Search Location"
-		/>
-	</div>
-
-	<div class="mt-6 md:mt-12">
-		<Settings bind:params={$params} />
-	</div>
-	<div class="mt-6 md:mt-12">
-		<div class="relative">
-			<Select.Root name="model_selection" type="single" bind:value={$params.models}>
-				<Select.Trigger
-					aria-label="Forecast days input"
-					class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{modelSelected?.label}</Select.Trigger
-				>
-				<Select.Content preventScroll={false} class="border-border">
-					{#each models as mo}
-						<Select.Item class="cursor-pointer" value={mo.value}>{mo.label}</Select.Item>
-					{/each}
-				</Select.Content>
-				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-					>Weather model</Label
-				>
-			</Select.Root>
-		</div>
-	</div>
-</div>
-
-<div class="mt-6 md:mt-12">
+<div class="">
 	<div class="weather-content" style="min-height: 50vh">
 		<div
 			in:fade
 			out:fade
 			style="min-height: 256px"
-			class="weather-week d-flex flex-column flex-md-row gap-md-2 mb-4"
+			class="weather-week flex flex-col md:flex-row gap-md-2 mb-4"
 		>
 			{#await weather then weather}
 				{#each weather.daily.time as time, index}
 					{@const selected = time.getDate() === selectedDay.getDate()}
-					<button
-						style="transition: 300ms; min-width: 13%; {selected ? 'transform: scale(1.025)' : ''}"
-						class="weather-week-item pointer-cursor align-items-center d-flex flex-row flex-md-column justify-content-between justify-md-content-center rounded pt-md-4 pb-md-3 gap-md-1 px-3 {selected
-							? 'bg-info-subtle'
-							: ''}"
-						onclick={() => {
-							switchDay(time);
-						}}
-					>
-						<div class="weather-week-date">
-							<b>{time.getDate()} - {time.getMonth() + 1}</b>
-						</div>
-
-						<div class={selected ? 'fw-bold' : ''}>
-							{time.toLocaleDateString('en-GB', { weekday: 'long' })}
-						</div>
-
-						<div class="weather-week-icon pe-none py-2">
-							<svg style="fill: var(--bs-body-color)" width="60px" height="60px">
-								<use
-									xlink:href="/images/weather-icons/wi-day-{weatherCodes[
-										weather.daily.weather_code.values(index)
-									]}.svg#Layer_1"
-								></use>
-							</svg>
-						</div>
-						<div
-							class="d-flex p-1 justify-content-center weather-temp-max rounded"
-							style={`background-color: ${colorScale[weather.daily.temperature_2m_max.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_max.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+					{#if weather.daily.temperature_2m_max.values(index).toFixed(1) !== 'NaN'}
+						<button
+							style="transition: 300ms; min-width: 13%; {selected ? 'transform: scale(1.025)' : ''}"
+							class="cursor-pointer items-center flex flex-row md:flex-col justify-between md:justify-center rounded-xl pt-md-4 pb-md-3 gap-md-1 px-3 {selected
+								? 'bg-accent'
+								: ''}"
+							onclick={() => {
+								switchDay(time);
+							}}
 						>
-							{weather.daily.temperature_2m_max.values(index).toFixed(1)} °C
-						</div>
-						<div
-							class="d-flex p-1 justify-content-center weather-temp-min rounded"
-							style={`background: ${colorScale[weather.daily.temperature_2m_min.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_min.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
-						>
-							{weather.daily.temperature_2m_min.values(index).toFixed(1)} °C
-						</div>
-					</button>
+							<div class="weather-week-date">
+								<b>{time.getDate()} - {time.getMonth() + 1}</b>
+							</div>
+
+							<div class={selected ? 'fw-bold' : ''}>
+								{time.toLocaleDateString('en-GB', { weekday: 'long' })}
+							</div>
+
+							<div class="weather-week-icon pe-none py-2">
+								<svg class="fill-foreground" width="60px" height="60px">
+									<use
+										xlink:href="/images/weather-icons/wi-day-{weatherCodes[
+											weather.daily.weather_code.values(index)
+										]}.svg#Layer_1"
+									></use>
+								</svg>
+							</div>
+							<div
+								class="d-flex p-1 justify-content-center weather-temp-max rounded"
+								style={`background-color: ${colorScale[weather.daily.temperature_2m_max.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_max.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+							>
+								{weather.daily.temperature_2m_max.values(index).toFixed(1)} °C
+							</div>
+							<div
+								class="d-flex p-1 justify-content-center weather-temp-min rounded"
+								style={`background: ${colorScale[weather.daily.temperature_2m_min.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_min.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+							>
+								{weather.daily.temperature_2m_min.values(index).toFixed(1)} °C
+							</div>
+						</button>
+					{/if}
 				{/each}
 			{:catch error}
 				<p style="color: red">{error.message}</p>
 			{/await}
 		</div>
 		<div>
-			<h3>
+			<h3 class="text-xl font-bold">
 				{selectedDay.toLocaleDateString('en-GB', { weekday: 'long' })}
 				<small>
 					{selectedDay.getDate() === new Date(today.getTime() - 24 * 60 * 60 * 1000).getDate()
@@ -416,11 +386,12 @@
 			<canvas
 				bind:this={canvasElement}
 				id="weather_week_canvas"
-				style="margin-top: 25px;margin-left: 110px; width: 5000px; height: 200px; border:1px solid #d3d3d3;"
+				class="border border-border"
+				style="margin-top: 25px;margin-left: 110px; width: 5000px; height: 200px; "
 				height="500px"
 				width="10000px"
 			></canvas>
-			<table in:fade style="position: absolute; bottom: 10px; border-bottom:1px solid #d3d3d3;">
+			<table in:fade class="absolute bottom-2 border-b border-border">
 				<caption style="display:none"> Weather Week {location.name} </caption>
 				<tbody>
 					{#await weather then weather}
@@ -470,7 +441,7 @@
 											((maxTemp - weather.entries[0].values[index]) / diffTemp)}px; left:{111 +
 										(5000 / weather.entriesLength) * index}px; min-width: {5000 /
 										weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
-									><svg style="fill: var(--bs-body-color)" width="20px" height="20px">
+									><svg class="fill-foreground" width="20px" height="20px">
 										<use
 											xlink:href="/images/weather-icons/wi-{weather.hourlyTime[index].getHours() >
 												6 && weather.hourlyTime[index].getHours() < 21
@@ -510,22 +481,23 @@
 							{/each}
 						</tr>
 						{#each weather.entries as entry}
-							<tr style="border-top:1px solid #d3d3d3;">
+							<tr class="border-t border-border">
 								<th
 									scope="row"
-									style="padding-left: 4px;  background: var(--bs-body-bg); left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
+									class="bg-background text-left"
+									style="left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 									>{entry.title}</th
 								>
 
 								{#each weather.indexes as index}
 									{#if !isNaN(entry.values[index])}
 										<td
-											class={weather.hourlyTime[index].getDate() === today.getDate() &&
-											weather.hourlyTime[index].getHours() === today.getHours()
+											class="border-r border-border {weather.hourlyTime[index].getDate() ===
+												today.getDate() && weather.hourlyTime[index].getHours() === today.getHours()
 												? 'now'
-												: ''}
-											style="border-right:1px solid #d3d3d3; min-width: {5000 /
-												weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;
+												: ''}"
+											style="min-width: {5000 / weather.entriesLength}px; max-width: {5000 /
+												weather.entriesLength}px;
 											{entry.name === 'temperature_2m'
 												? 'background: ' + colorScale[weather.entries[0].values[index].toFixed()]
 												: ''};
@@ -555,23 +527,25 @@
 						{/each}
 						{#if winddir}
 							<!-- winddir -->
-							<tr style="border-top:1px solid #d3d3d3;">
+							<tr class="border-t border-border">
 								<th
 									scope="row"
-									style="z-index: 20; padding-left: 4px;  background: var(--bs-body-bg); left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
+									class="bg-background text-left"
+									style="z-index: 20; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 									>Wind Dir.</th
 								>
 								{#each weather.indexes as index}
 									{#if !isNaN(weather.windDirections[index])}
 										<td
-											class={weather.hourlyTime[index].getDate() === today.getDate() &&
-											weather.hourlyTime[index].getHours() === today.getHours()
+											class="border-r border-border {weather.hourlyTime[index].getDate() ===
+												today.getDate() && weather.hourlyTime[index].getHours() === today.getHours()
 												? 'now'
-												: ''}
-											style="border-right:1px solid #d3d3d3; transform: rotate({weather
-												.windDirections[index]}deg);min-width: {5000 /
-												weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
-											><svg style="fill: var(--bs-body-color)" width="25px" height="25px">
+												: ''}"
+											style="transform: rotate({weather.windDirections[
+												index
+											]}deg);min-width: {5000 / weather.entriesLength}px; max-width: {5000 /
+												weather.entriesLength}px;"
+											><svg class="fill-foreground" width="25px" height="25px">
 												<use xlink:href="/images/weather-icons/wi-direction-down.svg#Layer_1"></use>
 											</svg></td
 										>
@@ -584,16 +558,42 @@
 			</table>
 		</div>
 	</div>
+
+	<div>
+		<div class="mt-6 md:mt-12 flex gap-6">
+			<div class="relative w-1/2">
+				<Select.Root name="model_selection" type="single" bind:value={$params.models}>
+					<Select.Trigger
+						aria-label="Forecast days input"
+						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{modelSelected?.label}</Select.Trigger
+					>
+					<Select.Content preventScroll={false} class="border-border">
+						{#each models as mo}
+							<Select.Item class="cursor-pointer" value={mo.value}>{mo.label}</Select.Item>
+						{/each}
+					</Select.Content>
+					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+						>Weather model</Label
+					>
+				</Select.Root>
+			</div>
+			<div class="relative w-1/2">
+				<LocationSearch
+					style="height: 40px"
+					on:location={(event) => storedLocation.set(event.detail)}
+					label="Search Location"
+				/>
+			</div>
+		</div>
+	</div>
+	<div class="mt-6 md:mt-12">
+		<Settings bind:params={$params} />
+	</div>
+
+	<div class="w-1/2 mb-6 mt-6"></div>
 </div>
 
 <style>
-	@media screen and (max-width: 768px) {
-		.weather-canvas-container {
-			margin-right: -2rem;
-			/* transform: scaleY(0.9); */
-		}
-	}
-
 	.now {
 		font-weight: bold;
 	}
@@ -604,6 +604,6 @@
 	}
 
 	.now svg {
-		transform: scale(1.35);
+		transform: scale(1.2);
 	}
 </style>
