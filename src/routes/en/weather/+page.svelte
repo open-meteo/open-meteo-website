@@ -5,6 +5,8 @@
 
 	import { mode } from 'mode-watcher';
 
+	import { debounce } from '$lib/utils/meteo';
+
 	import { fetchWeatherApi } from 'openmeteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -20,10 +22,8 @@
 	import Settings from '$lib/components/settings/settings.svelte';
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
-	import colorScale from './utils/color-scale';
+	import { getColor } from './utils/colors';
 	import weatherCodes from './utils/weather-codes';
-
-	import throttle from './utils/throttle';
 
 	import daylight from './canvas/daylight';
 	import raster from './canvas/raster';
@@ -136,7 +136,7 @@
 				// create canvas
 				daylight(ctx, config, hourlyTime);
 				raster(ctx, config, hourlyTime, today, canvasElement);
-				tempGradient(ctx, config, hourlyTemps);
+				tempGradient(ctx, config, hourlyTemps, $params.temperature_unit);
 				cloudCover(ctx, config, hourlyCloudCover, canvasElement);
 				precip(ctx, config, hourlyPrecip, canvasElement);
 			}
@@ -252,7 +252,7 @@
 	onMount(() => {
 		scrollDiv.addEventListener(
 			'scroll',
-			throttle(() => {
+			debounce(() => {
 				if (!manualScrolling) {
 					tableCells = document.querySelectorAll('td.time');
 					for (let tableCell of tableCells) {
@@ -268,6 +268,7 @@
 				}
 			}, 80)
 		);
+		console.log(getColor(5));
 
 		setTimeout(() => {
 			tableCells = document.querySelectorAll('td.time');
@@ -301,6 +302,7 @@
 
 	let modelSelected = $derived(models.find((mo) => String(mo.value) === $params.models));
 	// let modelSelectedValue = $derived($params.models[0]);
+	//
 </script>
 
 <svelte:head>
@@ -334,7 +336,7 @@
 								<b>{time.getDate()} - {time.getMonth() + 1}</b>
 							</div>
 
-							<div class={selected ? 'font-bold' : ''}>
+							<div class="min-w-[90px] pl-1 text-left {selected ? 'font-bold' : ''}">
 								{time.toLocaleDateString('en-GB', { weekday: 'long' })}
 							</div>
 
@@ -349,15 +351,17 @@
 							</div>
 							<div
 								class="flex p-1 justify-center weather-temp-max rounded min-w-[70px]"
-								style={`background-color: ${colorScale[weather.daily.temperature_2m_max.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_max.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+								style={`background-color: ${getColor(weather.daily.temperature_2m_max.values(index).toFixed(0), $params.temperature_unit)}; color: ${weather.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? -13 : 7) || weather.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 							>
-								{weather.daily.temperature_2m_max.values(index).toFixed(1)} °C
+								{weather.daily.temperature_2m_max.values(index).toFixed(1)}
+								{$params.temperature_unit === 'celsius' ? '°C' : '°F'}
 							</div>
 							<div
-								class="mt-2 flex p-1 justify-center weather-temp-min rounded min-w-[70px]"
-								style={`background: ${colorScale[weather.daily.temperature_2m_min.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_min.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+								class="md:mt-2 flex p-1 justify-center weather-temp-min rounded min-w-[70px]"
+								style={`background: ${getColor(weather.daily.temperature_2m_min.values(index).toFixed(0), $params.temperature_unit)}; color: ${weather.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? -13 : 7) || weather.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 							>
-								{weather.daily.temperature_2m_min.values(index).toFixed(1)} °C
+								{weather.daily.temperature_2m_min.values(index).toFixed(1)}
+								{$params.temperature_unit === 'celsius' ? '°C' : '°F'}
 							</div>
 						</button>
 					{/if}
@@ -366,7 +370,7 @@
 				<p style="color: red">{error.message}</p>
 			{/await}
 		</div>
-		<div class="">
+		<div class="ml-22 md:ml-0">
 			<h3 class="text-xl font-bold">
 				{selectedDay.toLocaleDateString('en-GB', { weekday: 'long' })}
 				<small>
@@ -501,10 +505,20 @@
 											style="min-width: {5000 / weather.entriesLength}px; max-width: {5000 /
 												weather.entriesLength}px;
 											{entry.name === 'temperature_2m'
-												? 'background: ' + colorScale[weather.entries[0].values[index].toFixed()]
+												? 'background: ' +
+													getColor(
+														weather.entries[0].values[index].toFixed(0),
+														$params.temperature_unit
+													)
 												: ''};
 											{entry.name === 'temperature_2m'
-												? 'color: ' + (weather.entries[0].values[index] > 30 ? 'white' : 'black')
+												? 'color: ' +
+													(weather.entries[0].values[index] <
+														($params.temperature_unit === 'celsius' ? -13 : 7) ||
+													weather.entries[0].values[index] >=
+														($params.temperature_unit === 'celsius' ? 40 : 104)
+														? 'white'
+														: 'black')
 												: ''};
 											{entry.name === 'precipitation_probability'
 												? 'background: rgba(0, 0, 230,' +
@@ -611,7 +625,33 @@
 		<Settings bind:params={$params} />
 	</div>
 
-	<div class="w-1/2 mb-6 mt-6"></div>
+	<div class="mb-6 mt-6">
+		<h2 class="text-2xl md:text-3xl">Color scale example</h2>
+		<div class="mt-3 md:mt-6 grid grid-cols-4">
+			{#if $params.temperature_unit == 'celsius'}
+				{#each [...Array(101).keys()].map((i) => -40 + i) as temp}
+					<div
+						class="flex p-1 justify-center weather-temp-max rounded min-w-[70px]"
+						style={`background-color: ${getColor(temp, $params.temperature_unit)}; color: ${temp <= ($params.temperature_unit === 'celsius' ? -13 : 7) || temp >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+					>
+						{temp} °C <br />
+						{getColor(temp, $params.temperature_unit)}
+					</div>
+				{/each}
+			{:else}
+				{#each [...Array(91).keys()].map((i) => -40 + i * 2) as temp}
+					<div
+						class="flex p-1 justify-center weather-temp-max rounded min-w-[70px]"
+						style={`background-color: ${getColor(temp, $params.temperature_unit)}; color: ${temp <= ($params.temperature_unit === 'celsius' ? -13 : 7) || temp >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+					>
+						{temp}
+						{$params.temperature_unit === 'celsius' ? '°C' : '°F'}<br />
+						{getColor(temp, $params.temperature_unit)}
+					</div>
+				{/each}
+			{/if}
+		</div>
+	</div>
 </div>
 
 <style>
