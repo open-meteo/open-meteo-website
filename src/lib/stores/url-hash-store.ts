@@ -6,19 +6,9 @@ import { goto } from '$app/navigation';
 
 import { browser } from '$app/environment';
 
-import { isNumeric } from '$lib/utils/meteo';
+import { debounce, isNumeric } from '$lib/utils/meteo';
 
 import type { Parameters } from '$lib/docs';
-
-function debounce(func, timeout = 100) {
-	let timer: NodeJS.Timeout;
-	return (...args) => {
-		clearTimeout(timer);
-		timer = setTimeout(() => {
-			func.apply(this, args);
-		}, timeout);
-	};
-}
 
 export const urlHashStore = (initialValues: Parameters) => {
 	const urlHashes: Writable<Parameters> = writable({});

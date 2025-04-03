@@ -2,7 +2,7 @@ export default (
 	ctx: CanvasRenderingContext2D | null | undefined,
 	config: ConfigInterface,
 	series: Float32Array | null | undefined,
-	canvasElement: HTMLCanvasElement
+	canvasElement: HTMLCanvasElement | null
 ): void => {
 	if (ctx && series) {
 		ctx.beginPath();
@@ -72,8 +72,7 @@ export default (
 
 		ctx.closePath();
 		//to fill the space in the shape
-		ctx.fillStyle =
-			getComputedStyle(canvasElement).getPropertyValue('--bs-dark-border-subtle') + '66';
+		ctx.fillStyle = `hsla(${getComputedStyle(canvasElement).getPropertyValue('--muted-foreground').split(' ').join(',')}, 0.5)`;
 		ctx.fill();
 	}
 };

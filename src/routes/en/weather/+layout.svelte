@@ -2,6 +2,10 @@
 	import { page } from '$app/state';
 	import { dev } from '$app/environment';
 	import { storedLocation, type GeoLocation } from '$lib/stores/settings';
+
+	import Button from '$lib/components/ui/button/button.svelte';
+	import Chevrons from 'lucide-svelte/icons/chevrons-up-down';
+
 	interface Props {
 		children?: import('svelte').Snippet;
 	}
@@ -14,90 +18,104 @@
 			url: '/en/weather',
 			children: [
 				{ title: 'Week Prediction', url: '/en/weather' }
-				// { title: 'Model Comparison?', url: '/en/weather/comparison' },
-				// { title: 'Fourteen Day?', url: '/en/weather/14' }
+				//{ title: 'Model Comparison?', url: '/en/weather/comparison' },
+				//{ title: 'Fourteen Day?', url: '/en/weather/14' }
 			]
 		}
 	];
+
+	let selectedPath = $derived.by(() => {
+		for (const link of links) {
+			if (link.children) {
+				for (const l of link.children) {
+					if (page.url.pathname.includes(l.url) || page.url.pathname.includes(l.url + '/')) {
+						return l;
+					}
+				}
+			}
+			if (page.url.pathname === link.url || page.url.pathname === link.url + '/') {
+				return link;
+			}
+		}
+		return {};
+	});
+
+	let mobileNavOpened = $state(false);
 </script>
 
-<div
-	class="px-4 py-5 text-center text-white items-center flex flex-col"
-	style="
-            background-image: url('/images/features_background.webp');
-            background-size: cover;
-            background-position: center;
-            height: 300px;
-          "
->
-	<svg
-		style="filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));"
-		xmlns="http://www.w3.org/2000/svg"
-		width="96"
-		height="96"
-		fill="currentColor"
-		class="bi bi-cloud-rain mb-4"
-		viewBox="0 0 16 16"
-	>
-		<path
-			d="M4.158 12.025a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 0 1-.948-.316l1-3a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-.5 1.5a.5.5 0 0 1-.948-.316l.5-1.5a.5.5 0 0 1 .632-.317zm3 0a.5.5 0 0 1 .316.633l-1 3a.5.5 0 1 1-.948-.316l1-3a.5.5 0 0 1 .632-.317zm.247-6.998a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 11H13a3 3 0 0 0 .405-5.973zM8.5 2a4 4 0 0 1 3.976 3.555.5.5 0 0 0 .5.445H13a2 2 0 0 1 0 4H3.5a2.5 2.5 0 1 1 .605-4.926.5.5 0 0 0 .596-.329A4.002 4.002 0 0 1 8.5 2z"
-		/>
-	</svg>
-	<h1 class="display-5" style="text-shadow: 3px 3px 2px rgba(0, 0, 0, .7);">
-		Weather {$storedLocation.name}
-	</h1>
-	<h5>
-		{#if $storedLocation.admin1}{$storedLocation.admin1},{/if}
-		{$storedLocation.country}
-	</h5>
-</div>
+<div class="mb-12 flex flex-col md:mb-24 md:flex-row">
+	<aside class="w-full md:w-1/6 md:min-w-[230px] md:max-w-[400px]">
+		<nav class="sticky top-0 flex flex-col p-6 pb-3 md:pb-6 md:pr-3">
+			<Button
+				variant="outline"
+				class="flex justify-start p-3 md:hidden"
+				onclick={() => {
+					mobileNavOpened = !mobileNavOpened;
+				}}
+			>
+				<Chevrons class="mr-2" /><b>{selectedPath.title}</b>
+			</Button>
 
-<div>
-	<div class="row container-fluid">
-		<div class="col-md-3 col-lg-2">
-			<div class="my-3 d-md-none">
-				<button
-					class="btn btn-outline-secondary dropdown-toggle collapsed"
-					type="button"
-					data-bs-toggle="collapse"
-					data-bs-target="#sidebarMenu"
-					aria-expanded="false"
-					aria-controls="sidebarMenu"
-				>
-					Weather Pages
-				</button>
-			</div>
-			<nav id="sidebarMenu" class="sticky-top d-md-block collapse py-2 py-md-3 py-lg-4">
-				<ul class="list-unstyled">
-					{#each links as link}
-						<li>
-							<a
-								class="btn btn-hover"
-								href={link.url}
-								class:active={page.url.pathname == link.url || page.url.pathname === link.url + '/'}
-								>{link.title}</a
+			<ul
+				class={`list-unstyled overflow-hidden duration-500 ${mobileNavOpened ? 'mt-2 max-h-[968px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
+			>
+				{#each links as link}
+					<li
+						class="my-[0.125rem] rounded-md border py-2 pl-3 pr-2 duration-300 {selectedPath.title ===
+						link.title
+							? 'border-border'
+							: 'border-transparent'}"
+					>
+						<a
+							class="flex items-center gap-1"
+							href={link.url}
+							onclick={() => {
+								if (link.url != selectedPath.url) {
+									mobileNavOpened = false;
+								}
+							}}
+						>
+							{link.title}</a
+						>
+
+						{#if link.children}
+							<ul
+								class={`list-unstyled ml-3 overflow-auto duration-500 ${
+									selectedPath.url === link.url ||
+									link.children.some((l) => l.url === selectedPath.url)
+										? 'mb-2 mt-2 max-h-[700px]'
+										: 'max-h-0'
+								}`}
 							>
-							{#if link.children && (page.url.pathname === link.url || page.url.pathname === link.url + '/' || link.children.some((l) => l.url === page.url.pathname || page.url.pathname === l.url + '/'))}
-								<ul class="list-unstyled ms-3 mb-4 mt-1">
-									{#each link.children as l}
-										<li>
-											<a
-												href={l.url}
-												class="btn btn-hover py-1 px-2"
-												class:active={page.url.pathname === l.url + '/' ||
-													page.url.pathname === l.url}>{l.title}</a
-											>
-										</li>
-									{/each}
-								</ul>
-							{/if}
-						</li>
-					{/each}
-				</ul>
-			</nav>
-		</div>
-		<main class="col-md-9 col-lg-10 p-2 p-md-3 p-lg-4">
-			{@render children?.()}
-		</main>
+								{#each link.children as l}
+									<li
+										class="rounded-md border p-1 pl-3 py-1 overflow-hidden truncate duration-300 {selectedPath.url ===
+										l.url
+											? 'border-border'
+											: 'border-transparent'}"
+									>
+										<a
+											href={l.url}
+											onclick={() => {
+												if (l.url != selectedPath.url) {
+													mobileNavOpened = false;
+												}
+											}}
+										>
+											{l.title}</a
+										>
+									</li>
+								{/each}
+							</ul>
+						{/if}
+					</li>
+				{/each}
+			</ul>
+		</nav>
+	</aside>
+	<div
+		class="flex flex-1 flex-col p-6 pt-0 md:max-w-[calc(100%-230px)] lg:max-w-unset md:pl-3 md:pt-6"
+	>
+		{@render children?.()}
 	</div>
 </div>

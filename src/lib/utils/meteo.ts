@@ -4,6 +4,16 @@ export const pad = (n: string | number) => {
 	return ('0' + n).slice(-2);
 };
 
+export function debounce(func, timeout = 100) {
+	let timer: NodeJS.Timeout;
+	return (...args) => {
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			func.apply(this, args);
+		}, timeout);
+	};
+}
+
 export const isNumeric = (num: string | number) =>
 	(typeof num === 'number' || (typeof num === 'string' && num.trim() !== '')) &&
 	!isNaN(num as number);
