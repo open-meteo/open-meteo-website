@@ -1,29 +1,17 @@
-import rgbToHex from '../utils/rgb-to-hex';
-import colorScale from '../utils/color-scale';
+import { getColor, rgbToHex } from '../utils/colors';
 
 export default (
 	ctx: CanvasRenderingContext2D | null | undefined,
 	config: ConfigInterface,
-	series: Float32Array | null | undefined
+	series: Float32Array | null | undefined,
+	unit = 'celsius'
 ): void => {
 	if (ctx && series) {
 		const tempGradientFill = ctx.createLinearGradient(0, 0, 0, config.maxY);
-		tempGradientFill.addColorStop(
-			0,
-			'#' + rgbToHex(colorScale[Number(config.maxTemp.toFixed(0))]) + '5c'
-		);
-		tempGradientFill.addColorStop(
-			0.25,
-			'#' + rgbToHex(colorScale[Number(config.maxTemp.toFixed(0))]) + '5c'
-		);
-		tempGradientFill.addColorStop(
-			0.85,
-			'#' + rgbToHex(colorScale[Number(config.minTemp.toFixed(0))]) + '06'
-		);
-		tempGradientFill.addColorStop(
-			1,
-			'#' + rgbToHex(colorScale[Number(config.minTemp.toFixed(0))]) + '00'
-		);
+		tempGradientFill.addColorStop(0, getColor(config.maxTemp.toFixed(0), unit) + '5c');
+		tempGradientFill.addColorStop(0.25, getColor(config.maxTemp.toFixed(0), unit) + '5c');
+		tempGradientFill.addColorStop(0.85, getColor(config.minTemp.toFixed(0), unit) + '06');
+		tempGradientFill.addColorStop(1, getColor(config.minTemp.toFixed(0), unit) + '00');
 
 		ctx.beginPath();
 		ctx.moveTo(
