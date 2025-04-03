@@ -1,7 +1,10 @@
 import type { LayoutLoad } from './$types';
 
+import Cog from '$lib/assets/icons/cog.svelte';
+
 export const load: LayoutLoad = async () => {
 	return {
+		Logo: Cog,
 		heroTitle: 'Weather Forecast API',
 		heroDescription:
 			'Seamless integration of high-resolution weather models with up 16 days forecast',
