@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { dev } from '$app/environment';
-	import { afterNavigate } from '$app/navigation';
+
+	import { browser, dev } from '$app/environment';
+
+	import { beforeNavigate, afterNavigate } from '$app/navigation';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Chevrons from 'lucide-svelte/icons/chevrons-up-down';
@@ -24,6 +26,7 @@
 				{ title: 'Météo-France', url: '/en/docs/meteofrance-api' },
 				{ title: 'ECMWF', url: '/en/docs/ecmwf-api' },
 				{ title: 'UK Met Office', url: '/en/docs/ukmo-api' },
+				{ title: 'KMA Korea', url: '/en/docs/kma-api' },
 				{ title: 'JMA Japan', url: '/en/docs/jma-api' },
 				{ title: 'MET Norway', url: '/en/docs/metno-api' },
 				{ title: 'GEM Canada', url: '/en/docs/gem-api' },
@@ -65,11 +68,27 @@
 
 	let mobileNavOpened = $state(false);
 
+	// Fix for backwards compatibilty with the old url-params store
+	// which used the hash ('#') for cache busting, now replaced with '?'
+	let hashOnLoad = '';
+	beforeNavigate((e) => {
+		if (browser) {
+			hashOnLoad = window.location.hash;
+			if (hashOnLoad && hashOnLoad.includes('=')) {
+				e.to.url.search = hashOnLoad.replace('#', '');
+				hashOnLoad = '';
+				setTimeout(() => {
+					window.location.reload();
+				}, 100);
+			}
+		}
+	});
+
 	afterNavigate((e) => {
 		if (!e.from || e.from.route.id !== e.to.route.id) {
 			setTimeout(() => {
 				window.scrollTo(0, 0);
-			}, 100);
+			}, 75);
 		}
 	});
 </script>
