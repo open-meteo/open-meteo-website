@@ -63,9 +63,9 @@
 				<Button
 					variant="default"
 					class="bg-linear-to-t dark:bg-linear-to-b bg-primary from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
-					href={'/en/features'}>See features</Button
+					href="/en/features">See features</Button
 				>
-				<Button variant="outline" href={'/en/docs'}>Read the docs</Button>
+				<Button variant="outline" href="/en/docs">Read the docs</Button>
 			</div>
 		</div>
 
@@ -100,7 +100,7 @@
 					Historical data
 				</ToggleGroup.Item>
 			</ToggleGroup.Root>
-			<div class="relative min-h-[530px] overflow-auto lg:min-h-[475px]">
+			<div class="relative min-h-[530px] overflow-auto lg:min-h-[495px]">
 				{#if tabSelected === 'weather-api'}
 					<div in:fade class="group w-full">
 						<Button
