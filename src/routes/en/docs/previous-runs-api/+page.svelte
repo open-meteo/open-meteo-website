@@ -109,8 +109,7 @@
 		}
 	});
 
-	let begin_date = new Date();
-	begin_date.setMonth(begin_date.getMonth() - 3);
+	let begin_date = new Date('2021-04-01');
 
 	let last_date = new Date();
 	last_date.setDate(last_date.getDate() + 16);
@@ -540,6 +539,15 @@
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
 	<ResultPreview {params} {defaultParameters} type="previous-runs" useStockChart={true} />
+</div>
+
+<div class="mt-6 md:mt-12">
+	<h2 id="api_documentation" class="text-2xl md:text-3xl">Data Availability</h2>
+	<div class="mt-2 md:mt-4">
+		<p>
+			We began collecting past model run data in January 2024, with most weather models offering data from this point onward. Some models were added later in 2024 and 2025, providing data from a later start date. For GFS, data has been integrated from April 2021 onward, but only for 2m temperature.
+		</p>
+	</div>
 </div>
 
 <!-- API DOCS -->
