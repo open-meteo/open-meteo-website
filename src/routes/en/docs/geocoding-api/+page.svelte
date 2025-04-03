@@ -372,7 +372,10 @@
 						<td>No</td>
 						<td></td>
 						<td
-							><mark>ISO-3166 alpha2</mark> country code, in which results have to be inside of.</td
+							><mark>ISO-3166-1 alpha2</mark>
+							<a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" target="_blank"
+								>country code</a
+							>, which the results will be filtered for.</td
 						></tr
 					>
 				</tbody>
@@ -457,9 +460,9 @@
 						<th scope="row">country_code</th>
 						<td>String</td>
 						<td
-							>2-Character FIPS <a
-								href="https://en.wikipedia.org/wiki/List_of_FIPS_country_codes"
-								target="_new">country code</a
+							>2-Character <mark>ISO-3166-1 alpha2</mark>
+							<a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" target="_blank"
+								>country code</a
 							>. E.g. <mark>DE</mark> for Germany</td
 						>
 					</tr>
