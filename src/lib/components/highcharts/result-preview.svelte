@@ -1182,14 +1182,14 @@ current <span class="token operator">=</span> response<span class="token punctua
 <span class="token keyword">const</span> weatherData <span class="token operator">=</span> <span
 							class="token punctuation">&lbrace;</span
 						>
-{#if 'current' in $params && $params.current.length > 0}
-							{'\t'}current<span class="token operator">:</span> <span class="token punctuation"
-								>&lbrace;</span
-							>
-{'\t'}{'\t'}time<span class="token operator">:</span> <span class="token keyword"
-								>new</span
-							> <span class="token class-name">Date</span><span class="token punctuation">(</span
-							><span class="token punctuation">(</span><span class="token function">Number</span
+{#if 'current' in $params && $params.current.length > 0}{'\t'}current<span class="token operator"
+								>:</span
+							> <span class="token punctuation">&lbrace;</span>
+{'\t'}{'\t'}time<span
+								class="token operator">:</span
+							> <span class="token keyword">new</span> <span class="token class-name">Date</span
+							><span class="token punctuation">(</span><span class="token punctuation">(</span><span
+								class="token function">Number</span
 							><span class="token punctuation">(</span>current<span class="token punctuation"
 								>.</span
 							><span class="token function">time</span><span class="token punctuation">(</span><span
@@ -1210,30 +1210,30 @@ current <span class="token operator">=</span> response<span class="token punctua
 								><span class="token punctuation">)</span><span class="token punctuation">,</span
 								>{/each}
 	<span class="token punctuation">&rbrace;</span><span
-								class="token punctuation">,</span
-							>{/if}{#each sectionsArrayWithData as section}
-							{'\t'}{camelCase(section)}<span class="token operator">:</span> <span
-								class="token punctuation">&lbrace;</span
-							>
-{'\t'}{'\t'}time<span class="token operator">:</span> <span class="token function"
-								>range</span
-							><span class="token punctuation">(</span><span class="token function">Number</span
-							><span class="token punctuation">(</span>{camelCase(section)}<span
-								class="token punctuation">.</span
-							><span class="token function">time</span><span class="token punctuation">(</span><span
-								class="token punctuation">)</span
-							><span class="token punctuation">)</span><span class="token punctuation">,</span
-							> <span class="token function">Number</span><span class="token punctuation">(</span
+								class="token punctuation">,<br /></span
+							>{/if}{#each sectionsArrayWithData as section}{'\t'}{camelCase(section)}<span
+								class="token operator">:</span
+							> <span class="token punctuation">&lbrace;</span>
+{'\t'}{'\t'}time<span
+								class="token operator">:</span
+							> <span class="token function">range</span><span class="token punctuation">(</span
+							><span class="token function">Number</span><span class="token punctuation">(</span
 							>{camelCase(section)}<span class="token punctuation">.</span><span
-								class="token function">timeEnd</span
+								class="token function">time</span
 							><span class="token punctuation">(</span><span class="token punctuation">)</span><span
 								class="token punctuation">)</span
-							><span class="token punctuation">,</span> {camelCase(section)}<span
+							><span class="token punctuation">,</span> <span class="token function">Number</span
+							><span class="token punctuation">(</span>{camelCase(section)}<span
 								class="token punctuation">.</span
-							><span class="token function">interval</span><span class="token punctuation">(</span
+							><span class="token function">timeEnd</span><span class="token punctuation">(</span
 							><span class="token punctuation">)</span><span class="token punctuation">)</span><span
-								class="token punctuation">.</span
-							><span class="token function">map</span><span class="token punctuation">(</span
+								class="token punctuation">,</span
+							> {camelCase(section)}<span class="token punctuation">.</span><span
+								class="token function">interval</span
+							><span class="token punctuation">(</span><span class="token punctuation">)</span><span
+								class="token punctuation">)</span
+							><span class="token punctuation">.</span><span class="token function">map</span><span
+								class="token punctuation">(</span
 							>
 {'\t'}{'\t'}{'\t'}<span class="token punctuation">(</span>t<span
 								class="token punctuation">)</span
