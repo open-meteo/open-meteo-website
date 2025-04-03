@@ -1,25 +1,29 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
+	import { fade } from 'svelte/transition';
+
+	import { mode } from 'mode-watcher';
+
+	import { debounce } from '$lib/utils/meteo';
+
 	import { fetchWeatherApi } from 'openmeteo';
 
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import { storedLocation, model, themeIsDark, type GeoLocation } from '$lib/stores/settings';
+
+	import { pad, range } from '$lib/utils/meteo';
+
+	import { Label } from '$lib/components/ui/label';
+
+	import * as Select from '$lib/components/ui/select';
+
+	import Settings from '$lib/components/settings/settings.svelte';
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
-	import {
-		defaultLocation,
-		storedLocation,
-		units,
-		model,
-		themeIsDark,
-		type GeoLocation
-	} from '$lib/stores/settings';
-	import { convertUnit, getWeatherCode, range } from '$lib/utils/meteo';
-
-	import { onDestroy, onMount } from 'svelte';
-	import { fade, scale } from 'svelte/transition';
-
-	import colorScale from './utils/color-scale';
+	import { getColor } from './utils/colors';
 	import weatherCodes from './utils/weather-codes';
-
-	import throttle from './utils/throttle';
 
 	import daylight from './canvas/daylight';
 	import raster from './canvas/raster';
@@ -27,21 +31,23 @@
 	import cloudCover from './canvas/cloud-cover';
 	import precip from './canvas/precip';
 
+	import { defaultParameters, models } from './options';
+
+	const params = urlHashStore({
+		latitude: [$storedLocation.latitude],
+		longitude: [$storedLocation.longitude],
+		models: 'best_match',
+		...defaultParameters
+	});
+
 	let location = $state($storedLocation);
 	storedLocation.subscribe((value) => {
 		location = value;
 	});
+
 	let weatherModel = $state($model);
 	model.subscribe((value) => {
 		weatherModel = value;
-	});
-	let temperature = $state($units.temperature);
-	let windSpeed = $state($units.windSpeed);
-	let precipitation = $state($units.precipitation);
-	units.subscribe((value) => {
-		temperature = value.temperature;
-		windSpeed = value.windSpeed;
-		precipitation = value.precipitation;
 	});
 
 	let diffTemp: number = $state();
@@ -52,29 +58,30 @@
 
 	const today = new Date();
 	let selectedDay = $state(new Date());
+	let selectedDayIndex = $state(1);
 
 	let entries = $state(0);
 
 	let weather = $derived(
 		(async (location: GeoLocation) => {
-			const params = {
+			const reqParams = {
 				latitude: location.latitude,
 				longitude: location.longitude,
 				elevation: location.elevation,
 				// timezone: location.timezone, ???
-				models: weatherModel,
+				models: [$params.models],
 				hourly:
 					'precipitation,precipitation_probability,temperature_2m,weather_code,windspeed_10m,winddirection_10m,cloud_cover,relative_humidity_2m,cape',
 				daily:
 					'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant',
 				forecast_days: 6,
 				past_days: 1,
-				temperature_unit: temperature ? temperature : 'celsius',
-				wind_speed_unit: windSpeed ? windSpeed : 'kmh',
-				precipitation_unit: precipitation ? precipitation : 'mm'
+				temperature_unit: $params.temperature_unit,
+				wind_speed_unit: $params.wind_speed_unit,
+				precipitation_unit: $params.precipitation_unit
 			};
 			const url = 'https://api.open-meteo.com/v1/forecast';
-			const responses = await fetchWeatherApi(url, params);
+			const responses = await fetchWeatherApi(url, reqParams);
 			const response = responses[0];
 			const utcOffsetSeconds = response.utcOffsetSeconds();
 			const daily = response.daily()!;
@@ -128,8 +135,8 @@
 
 				// create canvas
 				daylight(ctx, config, hourlyTime);
-				raster(ctx, config, hourlyTime, today);
-				tempGradient(ctx, config, hourlyTemps);
+				raster(ctx, config, hourlyTime, today, canvasElement);
+				tempGradient(ctx, config, hourlyTemps, $params.temperature_unit);
 				cloudCover(ctx, config, hourlyCloudCover, canvasElement);
 				precip(ctx, config, hourlyPrecip, canvasElement);
 			}
@@ -142,8 +149,8 @@
 					weather_code: daily.variables(0)!,
 					temperature_2m_max: daily.variables(1)!,
 					temperature_2m_min: daily.variables(2)!,
-					sunrise: daily.variables(3)!.valuesInt64()!,
-					sunset: daily.variables(4)!.valuesInt64()!,
+					sunrise: daily.variables(3)!,
+					sunset: daily.variables(4)!,
 					precipitation_sum: daily.variables(5)!,
 					windspeed_10m_max: daily.variables(6)!,
 					windgusts_10m_max: daily.variables(7)!,
@@ -157,7 +164,7 @@
 						values: hourly
 							.variables(2)
 							?.valuesArray()
-							?.map((t) => t.toFixed(0))
+							?.map((t) => t.toFixed(1))
 					},
 					{
 						id: 1,
@@ -220,7 +227,7 @@
 	let tableCells;
 	let manualScrolling = false;
 
-	const switchDay = (date: Date) => {
+	const switchDay = (date: Date, index: number) => {
 		manualScrolling = true;
 		selectedDay = date;
 
@@ -239,12 +246,13 @@
 			},
 			{ once: true }
 		);
+		selectedDayIndex = index;
 	};
 
 	onMount(() => {
 		scrollDiv.addEventListener(
 			'scroll',
-			throttle(() => {
+			debounce(() => {
 				if (!manualScrolling) {
 					tableCells = document.querySelectorAll('td.time');
 					for (let tableCell of tableCells) {
@@ -260,6 +268,7 @@
 				}
 			}, 80)
 		);
+		console.log(getColor(5));
 
 		setTimeout(() => {
 			tableCells = document.querySelectorAll('td.time');
@@ -291,27 +300,9 @@
 		};
 	});
 
-	const changeUnits = (unit: string, value: string) => {
-		if (unit === 'temperature') {
-			units.set({
-				temperature: value,
-				windSpeed: windSpeed,
-				precipitation: precipitation
-			});
-		} else if (unit === 'windSpeed') {
-			units.set({
-				temperature: temperature,
-				windSpeed: value,
-				precipitation: precipitation
-			});
-		} else if (unit === 'precipitation') {
-			units.set({
-				temperature: temperature,
-				windSpeed: windSpeed,
-				precipitation: value
-			});
-		}
-	};
+	let modelSelected = $derived(models.find((mo) => String(mo.value) === $params.models));
+	// let modelSelectedValue = $derived($params.models[0]);
+	//
 </script>
 
 <svelte:head>
@@ -320,310 +311,67 @@
 	<meta name="description" content="segseg" />
 </svelte:head>
 
-<div class="pb-5">
-	<div class="row">
-		<div class="col-md-3 mb-3">
-			<LocationSearch
-				class="p-0"
-				style="height: 40px"
-				on:location={(event) => storedLocation.set(event.detail)}
-				label="Search Location"
-			/>
-		</div>
-		<div class="col-md-2 mb-3">
-			<input
-				type="radio"
-				class="btn-check"
-				name="temperatureUnit"
-				id="celsius"
-				value="celsius"
-				onclick={(event) => {
-					changeUnits('temperature', event.target?.value);
-				}}
-				bind:group={temperature}
-			/>
-			<label class="btn" for="celsius">°C</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="temperatureUnit"
-				id="fahrenheit"
-				value="fahrenheit"
-				onclick={(event) => {
-					changeUnits('temperature', event.target?.value);
-				}}
-				bind:group={temperature}
-			/>
-			<label class="btn" for="fahrenheit">°F</label>
-		</div>
-		<div class="col-md-4 mb-3">
-			<input
-				type="radio"
-				class="btn-check"
-				name="windSpeedUnit"
-				id="kmh"
-				value="kmh"
-				onclick={(event) => {
-					changeUnits('windSpeed', event.target?.value);
-				}}
-				bind:group={windSpeed}
-			/>
-			<label class="btn" for="kmh">km/h</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="windSpeedUnit"
-				id="ms"
-				value="ms"
-				onclick={(event) => {
-					changeUnits('windSpeed', event.target?.value);
-				}}
-				bind:group={windSpeed}
-			/>
-			<label class="btn" for="ms">m/s</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="windSpeedUnit"
-				id="mph"
-				value="mph"
-				onclick={(event) => {
-					changeUnits('windSpeed', event.target?.value);
-				}}
-				bind:group={windSpeed}
-			/>
-			<label class="btn" for="mph">mph</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="windSpeedUnit"
-				id="kn"
-				value="kn"
-				onclick={(event) => {
-					changeUnits('windSpeed', event.target?.value);
-				}}
-				bind:group={windSpeed}
-			/>
-			<label class="btn" for="kn">knots</label>
-		</div>
-		<div class="col-md-2 mb-3">
-			<input
-				type="radio"
-				class="btn-check"
-				name="precipitation"
-				id="mm"
-				value="mm"
-				onclick={(event) => {
-					changeUnits('precipitation', event.target?.value);
-				}}
-				bind:group={precipitation}
-			/>
-			<label class="btn" for="mm">mm</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="precipitation"
-				id="inch"
-				value="inch"
-				onclick={(event) => {
-					changeUnits('precipitation', event.target?.value);
-				}}
-				bind:group={precipitation}
-			/>
-			<label class="btn" for="inch">Inches</label>
-		</div>
-		<div class="col-md-12 mb-3">
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="best_match"
-				value="best_match"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="best_match">Best Match</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="icon_seamless"
-				value="icon_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="icon_seamless">DWD</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="gfs_seamless"
-				value="gfs_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="gfs_seamless">NOAA (GFS)</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="meteofrance_seamless"
-				value="meteofrance_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="meteofrance_seamless">Météo-France</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="ecmwf_ifs04"
-				value="ecmwf_ifs04"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="ecmwf_ifs04">ECMWF</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="jma_seamless"
-				value="jma_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="jma_seamless">JMA</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="gem_seamless"
-				value="gem_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="gem_seamless">GEM</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="arpae_cosmo_seamless"
-				value="arpae_cosmo_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="arpae_cosmo_seamless">COSMO</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="metno_seamless"
-				value="metno_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="metno_seamless">MET No</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="knmi_seamless"
-				value="knmi_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="knmi_seamless">KNMI</label>
-			<input
-				type="radio"
-				class="btn-check"
-				name="weatherModel"
-				id="dmi_seamless"
-				value="dmi_seamless"
-				onclick={(event) => {
-					model.set(event.target?.value);
-				}}
-				bind:group={weatherModel}
-			/>
-			<label class="btn" for="dmi_seamless">DMI</label>
-		</div>
-	</div>
-
+<div class="">
 	<div class="weather-content" style="min-height: 50vh">
 		<div
 			in:fade
 			out:fade
 			style="min-height: 256px"
-			class="weather-week d-flex flex-column flex-md-row gap-md-2 mb-4"
+			class="weather-week flex flex-col md:flex-row gap-md-2 mb-4"
 		>
 			{#await weather then weather}
 				{#each weather.daily.time as time, index}
 					{@const selected = time.getDate() === selectedDay.getDate()}
-					<button
-						style="transition: 300ms; min-width: 13%; {selected ? 'transform: scale(1.025)' : ''}"
-						class="weather-week-item pointer-cursor align-items-center d-flex flex-row flex-md-column justify-content-between justify-md-content-center rounded pt-md-4 pb-md-3 gap-md-1 px-3 {selected
-							? 'bg-info-subtle'
-							: ''}"
-						onclick={() => {
-							switchDay(time);
-						}}
-					>
-						<div class="weather-week-date">
-							<b>{time.getDate()} - {time.getMonth() + 1}</b>
-						</div>
-
-						<div class={selected ? 'fw-bold' : ''}>
-							{time.toLocaleDateString('en-GB', { weekday: 'long' })}
-						</div>
-
-						<div class="weather-week-icon pe-none py-2">
-							<svg style="fill: var(--bs-body-color)" width="60px" height="60px">
-								<use
-									xlink:href="/images/weather-icons/wi-day-{weatherCodes[
-										weather.daily.weather_code.values(index)
-									]}.svg#Layer_1"
-								></use>
-							</svg>
-						</div>
-						<div
-							class="d-flex p-1 justify-content-center weather-temp-max rounded"
-							style={`background-color: ${colorScale[weather.daily.temperature_2m_max.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_max.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+					{#if !isNaN(weather.daily.temperature_2m_max.values(index).toFixed(1))}
+						<button
+							style="transition: 300ms; min-width: 13%; {selected ? 'transform: scale(1.025)' : ''}"
+							class="cursor-pointer items-center flex flex-row md:flex-col justify-between md:justify-center rounded-xl pt-md-4 pb-md-3 gap-md-1 px-3 {selected
+								? 'bg-accent'
+								: ''}"
+							onclick={() => {
+								switchDay(time, index);
+							}}
 						>
-							{weather.daily.temperature_2m_max.values(index).toFixed(1)} °C
-						</div>
-						<div
-							class="d-flex p-1 justify-content-center weather-temp-min rounded"
-							style={`background: ${colorScale[weather.daily.temperature_2m_min.values(index).toFixed(0)]}; color: ${weather.daily.temperature_2m_min.values(index) > 30 ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
-						>
-							{weather.daily.temperature_2m_min.values(index).toFixed(1)} °C
-						</div>
-					</button>
+							<div class="weather-week-date">
+								<b>{time.getDate()} - {time.getMonth() + 1}</b>
+							</div>
+
+							<div class="min-w-[90px] pl-1 text-left {selected ? 'font-bold' : ''}">
+								{time.toLocaleDateString('en-GB', { weekday: 'long' })}
+							</div>
+
+							<div class="weather-week-icon pe-none py-2">
+								<svg class="fill-foreground" width="60px" height="60px">
+									<use
+										xlink:href="/images/weather-icons/wi-day-{weatherCodes[
+											weather.daily.weather_code.values(index)
+										]}.svg#Layer_1"
+									></use>
+								</svg>
+							</div>
+							<div
+								class="flex p-1 justify-center weather-temp-max rounded min-w-[70px]"
+								style={`background-color: ${getColor(weather.daily.temperature_2m_max.values(index).toFixed(0), $params.temperature_unit)}; color: ${weather.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? -13 : 7) || weather.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+							>
+								{weather.daily.temperature_2m_max.values(index).toFixed(1)}
+								{$params.temperature_unit === 'celsius' ? '°C' : '°F'}
+							</div>
+							<div
+								class="md:mt-2 flex p-1 justify-center weather-temp-min rounded min-w-[70px]"
+								style={`background: ${getColor(weather.daily.temperature_2m_min.values(index).toFixed(0), $params.temperature_unit)}; color: ${weather.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? -13 : 7) || weather.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+							>
+								{weather.daily.temperature_2m_min.values(index).toFixed(1)}
+								{$params.temperature_unit === 'celsius' ? '°C' : '°F'}
+							</div>
+						</button>
+					{/if}
 				{/each}
 			{:catch error}
 				<p style="color: red">{error.message}</p>
 			{/await}
 		</div>
-		<div>
-			<h3>
+		<div class="ml-22 md:ml-0">
+			<h3 class="text-xl font-bold">
 				{selectedDay.toLocaleDateString('en-GB', { weekday: 'long' })}
 				<small>
 					{selectedDay.getDate() === new Date(today.getTime() - 24 * 60 * 60 * 1000).getDate()
@@ -638,19 +386,18 @@
 		</div>
 		<div
 			bind:this={scrollDiv}
-			style="position:relative; height: {234 +
-				entries *
-					27}px; margin-left:-110px;  overflow-x: scroll; overflow-y: hidden; scrollbar-width: none;"
-			class="weather-canvas-container w-full"
+			style=" height: {218 + entries * 27.5}px; "
+			class="relative w-ful -mx-5 md:-ml-[110px] overflow-x-scroll overflow-y-hidden"
 		>
 			<canvas
 				bind:this={canvasElement}
 				id="weather_week_canvas"
-				style="margin-top: 25px;margin-left: 110px; width: 5000px; height: 200px; border:1px solid #d3d3d3;"
+				class="border border-border"
+				style="margin-top: 24px; margin-left: 110px; width: 5000px; height: 200px; "
 				height="500px"
 				width="10000px"
 			></canvas>
-			<table in:fade style="position: absolute; bottom: 10px; border-bottom:1px solid #d3d3d3;">
+			<table in:fade class="absolute bottom-0 border-b border-border">
 				<caption style="display:none"> Weather Week {location.name} </caption>
 				<tbody>
 					{#await weather then weather}
@@ -669,7 +416,7 @@
 										: ''}"
 									data-date={weather.hourlyTime[index].getDate()}
 									data-time={weather.hourlyTime[index].getHours() + ':00'}
-									style="font-size: 11px;position: absolute; bottom: {200 +
+									style="font-size: 11px; position: absolute; bottom: {188 +
 										27 * entries}px; left:{111 +
 										(5000 / weather.entriesLength) * index}px; min-width: {5000 /
 										weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
@@ -687,21 +434,21 @@
 								>Icons</th
 							>
 							{#each weather.indexes as index}
+								{@const now =
+									weather.hourlyTime[index].getDate() === today.getDate() &&
+									weather.hourlyTime[index].getHours() === today.getHours()}
 								<td
-									class={weather.hourlyTime[index].getDate() === today.getDate() &&
-									weather.hourlyTime[index].getHours() === today.getHours()
-										? 'now'
-										: ''}
 									style="position: absolute; bottom: {27.5 * entries -
-										10 +
+										24 +
 										0.8 * 200 -
-										0.55 *
+										0.54 *
 											200 *
-											((maxTemp - weather.entries[0].values[index]) / diffTemp)}px; left:{111 +
+											((maxTemp - weather.entries[0].values[index]) / diffTemp)}px; left:{116 +
 										(5000 / weather.entriesLength) * index}px; min-width: {5000 /
 										weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
-									><svg style="fill: var(--bs-body-color)" width="20px" height="20px">
+									><svg class="fill-foreground {now ? 'scale-125' : ''}" width="20px" height="20px">
 										<use
+											class="stroke-2"
 											xlink:href="/images/weather-icons/wi-{weather.hourlyTime[index].getHours() >
 												6 && weather.hourlyTime[index].getHours() < 21
 												? 'day'
@@ -729,38 +476,49 @@
 											? 'now'
 											: ''}
 										style="position: absolute; bottom: {27.5 * entries -
-											42 +
+											49 +
 											0.8 * 200 -
 											0.55 * 200 * ((maxTemp - temp) / diffTemp)}px; left:{111 +
 											(5000 / weather.entriesLength) * index}px; min-width: {5000 /
 											weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
-										>{temp}</td
+										>{temp.toFixed(0)}</td
 									>
 								{/if}
 							{/each}
 						</tr>
 						{#each weather.entries as entry}
-							<tr style="border-top:1px solid #d3d3d3;">
+							<tr class="border-t border-border">
 								<th
 									scope="row"
-									style="padding-left: 4px;  background: var(--bs-body-bg); left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
+									class="bg-background text-left"
+									style="left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 									>{entry.title}</th
 								>
 
 								{#each weather.indexes as index}
 									{#if !isNaN(entry.values[index])}
 										<td
-											class={weather.hourlyTime[index].getDate() === today.getDate() &&
-											weather.hourlyTime[index].getHours() === today.getHours()
+											class="border-r border-border {weather.hourlyTime[index].getDate() ===
+												today.getDate() && weather.hourlyTime[index].getHours() === today.getHours()
 												? 'now'
-												: ''}
-											style="border-right:1px solid #d3d3d3; min-width: {5000 /
-												weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;
+												: ''}"
+											style="min-width: {5000 / weather.entriesLength}px; max-width: {5000 /
+												weather.entriesLength}px;
 											{entry.name === 'temperature_2m'
-												? 'background: ' + colorScale[weather.entries[0].values[index].toFixed()]
+												? 'background: ' +
+													getColor(
+														weather.entries[0].values[index].toFixed(0),
+														$params.temperature_unit
+													)
 												: ''};
 											{entry.name === 'temperature_2m'
-												? 'color: ' + (weather.entries[0].values[index] > 30 ? 'white' : 'black')
+												? 'color: ' +
+													(weather.entries[0].values[index] <
+														($params.temperature_unit === 'celsius' ? -13 : 7) ||
+													weather.entries[0].values[index] >=
+														($params.temperature_unit === 'celsius' ? 40 : 104)
+														? 'white'
+														: 'black')
 												: ''};
 											{entry.name === 'precipitation_probability'
 												? 'background: rgba(0, 0, 230,' +
@@ -768,14 +526,17 @@
 													')'
 												: ''};
 											{entry.name === 'precipitation_probability'
-												? 'color: ' + (weather.entries[2].values[index] > 50 ? 'white' : 'black')
+												? 'color: ' +
+													(weather.entries[2].values[index] > 50
+														? 'white'
+														: 'hsl(var(--foreground)')
 												: ''};
 											{entry.name === 'relative_humidity_2m'
 												? 'background: rgba(0, 240, 240,' +
 													weather.entries[4].values[index] ** 3.8 / 10 ** 8.2 +
 													')'
 												: ''};"
-											>{entry.name === 'precipitation'
+											>{entry.name === 'precipitation' || entry.name === 'temperature_2m'
 												? entry.values[index].toFixed(1)
 												: entry.values[index]}</td
 										>
@@ -785,23 +546,25 @@
 						{/each}
 						{#if winddir}
 							<!-- winddir -->
-							<tr style="border-top:1px solid #d3d3d3;">
+							<tr class="border-t border-border">
 								<th
 									scope="row"
-									style="z-index: 20; padding-left: 4px;  background: var(--bs-body-bg); left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
+									class="bg-background text-left"
+									style="z-index: 20; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 									>Wind Dir.</th
 								>
 								{#each weather.indexes as index}
 									{#if !isNaN(weather.windDirections[index])}
 										<td
-											class={weather.hourlyTime[index].getDate() === today.getDate() &&
-											weather.hourlyTime[index].getHours() === today.getHours()
+											class="border-r border-border {weather.hourlyTime[index].getDate() ===
+												today.getDate() && weather.hourlyTime[index].getHours() === today.getHours()
 												? 'now'
-												: ''}
-											style="border-right:1px solid #d3d3d3; transform: rotate({weather
-												.windDirections[index]}deg);min-width: {5000 /
-												weather.entriesLength}px; max-width: {5000 / weather.entriesLength}px;"
-											><svg style="fill: var(--bs-body-color)" width="25px" height="25px">
+												: ''}"
+											style="transform: rotate({weather.windDirections[
+												index
+											]}deg);min-width: {5000 / weather.entriesLength}px; max-width: {5000 /
+												weather.entriesLength}px;"
+											><svg class="fill-foreground" width="25px" height="25px">
 												<use xlink:href="/images/weather-icons/wi-direction-down.svg#Layer_1"></use>
 											</svg></td
 										>
@@ -814,16 +577,84 @@
 			</table>
 		</div>
 	</div>
+	{#await weather then weather}
+		{@const sunrise = new Date(Number(weather.daily.sunrise.valuesInt64(selectedDayIndex)) * 1000)}
+		{@const sunset = new Date(Number(weather.daily.sunset.valuesInt64(selectedDayIndex)) * 1000)}
+		<div class="mt-6">
+			<div class="flex gap-1 items-center">
+				<svg class="fill-foreground" width="28px" height="28px">
+					<use class="stroke-2" xlink:href="/images/weather-icons/wi-sunrise.svg#Layer_1"></use>
+				</svg>Sunrise: {pad(sunrise.getHours())}:{pad(sunrise.getMinutes())}
+			</div>
+			<div class="flex gap-1 items-center">
+				<svg class="fill-foreground" width="28px" height="28px">
+					<use class="stroke-2" xlink:href="/images/weather-icons/wi-sunset.svg#Layer_1"></use>
+				</svg>
+				Sunset: {pad(sunset.getHours())}:{pad(sunset.getMinutes())}
+			</div>
+		</div>
+	{/await}
+	<div>
+		<div class="mt-6 md:mt-12 flex gap-6">
+			<div class="relative w-1/2">
+				<Select.Root name="model_selection" type="single" bind:value={$params.models}>
+					<Select.Trigger
+						aria-label="Forecast days input"
+						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{modelSelected?.label}</Select.Trigger
+					>
+					<Select.Content preventScroll={false} class="border-border">
+						{#each models as mo}
+							<Select.Item class="cursor-pointer" value={mo.value}>{mo.label}</Select.Item>
+						{/each}
+					</Select.Content>
+					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+						>Weather model</Label
+					>
+				</Select.Root>
+			</div>
+			<div class="relative w-1/2">
+				<LocationSearch
+					style="height: 40px"
+					on:location={(event) => storedLocation.set(event.detail)}
+					label="Search Location"
+				/>
+			</div>
+		</div>
+	</div>
+	<div class="mt-6 md:mt-12">
+		<Settings bind:params={$params} />
+	</div>
+
+	<div class="mb-6 mt-6">
+		<h2 class="text-2xl md:text-3xl">Color scale example</h2>
+		<div class="mt-3 md:mt-6 grid grid-cols-4">
+			{#if $params.temperature_unit == 'celsius'}
+				{#each [...Array(101).keys()].map((i) => -40 + i) as temp}
+					<div
+						class="flex p-1 justify-center weather-temp-max rounded min-w-[70px]"
+						style={`background-color: ${getColor(temp, $params.temperature_unit)}; color: ${temp <= ($params.temperature_unit === 'celsius' ? -13 : 7) || temp >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+					>
+						{temp} °C <br />
+						{getColor(temp, $params.temperature_unit)}
+					</div>
+				{/each}
+			{:else}
+				{#each [...Array(91).keys()].map((i) => -40 + i * 2) as temp}
+					<div
+						class="flex p-1 justify-center weather-temp-max rounded min-w-[70px]"
+						style={`background-color: ${getColor(temp, $params.temperature_unit)}; color: ${temp <= ($params.temperature_unit === 'celsius' ? -13 : 7) || temp >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+					>
+						{temp}
+						{$params.temperature_unit === 'celsius' ? '°C' : '°F'}<br />
+						{getColor(temp, $params.temperature_unit)}
+					</div>
+				{/each}
+			{/if}
+		</div>
+	</div>
 </div>
 
 <style>
-	@media screen and (max-width: 768px) {
-		.weather-canvas-container {
-			margin-right: -2rem;
-			/* transform: scaleY(0.9); */
-		}
-	}
-
 	.now {
 		font-weight: bold;
 	}
@@ -831,9 +662,5 @@
 	td {
 		text-align: center;
 		font-size: 13px;
-	}
-
-	.now svg {
-		transform: scale(1.35);
 	}
 </style>
