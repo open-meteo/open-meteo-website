@@ -629,7 +629,7 @@
 				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
 				disabled={mode === 'typescript'}
 			>
-				Typescript
+				TypeScript
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="swift"
@@ -1070,7 +1070,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 	{/if}
 	<!-- TYPESCRIPT -->
 	{#if mode == 'typescript'}
-		<div in:fade id="pills-typescript" aria-labelledby="pills-typescript-tab">
+		<div in:fade>
 			<div>
 				<p>
 					The preview code applies all parameters above automatically and structures weather data
@@ -1254,7 +1254,10 @@ current <span class="token operator">=</span> response<span class="token punctua
 									>(</span
 								><span class="token number">{index}</span><span class="token punctuation">)</span
 								><span class="token operator">!</span><span class="token punctuation">.</span><span
-									class="token function">valuesArray</span
+									class="token function"
+									>{variable === 'sunrise' || variable === 'sunset'
+										? 'valuesInt64'
+										: 'valuesArray'}</span
 								><span class="token punctuation">(</span><span class="token punctuation">)</span
 								><span class="token operator">!</span><span class="token punctuation">,</span
 								>{/each}
@@ -1307,7 +1310,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 	{/if}
 	<!-- SWIFT -->
 	{#if mode == 'swift'}
-		<div in:fade id="pills-swift" aria-labelledby="pills-swift-tab">
+		<div in:fade>
 			<div>
 				<p>
 					The preview code applies all parameters above automatically and structures weather data
@@ -1501,7 +1504,7 @@ dateFormatter<span class="token punctuation">.</span>dateFormat <span class="tok
 	{/if}
 	<!-- OTHER -->
 	{#if mode == 'other'}
-		<div in:fade id="pills-other" aria-labelledby="pills-other-tab">
+		<div in:fade>
 			<div>
 				<p>
 					Support for additional programming languages in our integrations may be available in the
