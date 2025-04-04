@@ -1310,7 +1310,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 	{/if}
 	<!-- SWIFT -->
 	{#if mode == 'swift'}
-		<div in:fade id="pills-swift" aria-labelledby="pills-swift-tab">
+		<div in:fade>
 			<div>
 				<p>
 					The preview code applies all parameters above automatically and structures weather data
@@ -1504,7 +1504,7 @@ dateFormatter<span class="token punctuation">.</span>dateFormat <span class="tok
 	{/if}
 	<!-- OTHER -->
 	{#if mode == 'other'}
-		<div in:fade id="pills-other" aria-labelledby="pills-other-tab">
+		<div in:fade>
 			<div>
 				<p>
 					Support for additional programming languages in our integrations may be available in the
