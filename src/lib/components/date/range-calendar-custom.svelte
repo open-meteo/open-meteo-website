@@ -6,9 +6,6 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Button } from '$lib/components/ui/button';
 
-	import ChevronLeft from 'lucide-svelte/icons/chevron-left';
-	import ChevronRight from 'lucide-svelte/icons/chevron-right';
-
 	interface Props {
 		start_date?: string;
 		end_date?: string;
@@ -136,7 +133,22 @@
 			/>
 		</div>
 		<div class="flex w-full justify-between">
-			<Button variant="outline" class="px-3" onclick={decreaseStart}><ChevronLeft /></Button>
+			<Button variant="outline" class="px-3" onclick={decreaseStart}
+				><svg
+					class="lucide lucide-chevron-left"
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="m15 18-6-6 6-6" />
+				</svg></Button
+			>
 			<Button
 				variant="ghost"
 				class="px-6 py-4"
@@ -152,7 +164,22 @@
 					monthModeStart = true;
 				}}>{startDate.getFullYear()} - {monthList[startDate.getMonth()]}</Button
 			>
-			<Button variant="outline" class="px-3" onclick={increaseStart}><ChevronRight /></Button>
+			<Button variant="outline" class="px-3" onclick={increaseStart}>
+				<svg
+					class="lucide lucide-chevron-right"
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="m9 18 6-6-6-6" />
+				</svg>
+			</Button>
 		</div>
 		<div class="flex min-h-[180px] max-h-[300px] justify-between overflow-y-auto">
 			{#if yearModeStart}
@@ -201,7 +228,7 @@
 				>
 					{#each startDates as date}
 						<Button
-							class="duration-200 hover:rounded-md 
+							class="duration-200 hover:rounded-md
 								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? 'font-bold' : ''}
 								{date.getTime() > startDate.getTime() && date.getTime() < endDate.getTime()
 								? 'bg-accent/50 rounded-none'
@@ -252,7 +279,22 @@
 			/>
 		</div>
 		<div class="flex w-full justify-between">
-			<Button variant="outline" class="px-3" onclick={decreaseEnd}><ChevronLeft /></Button>
+			<Button variant="outline" class="px-3" onclick={decreaseEnd}
+				><svg
+					class="lucide lucide-chevron-left"
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="m15 18-6-6 6-6" />
+				</svg>
+			</Button>
 			<Button
 				variant="ghost"
 				class="px-6 py-4"
@@ -268,7 +310,22 @@
 					monthModeEnd = true;
 				}}>{endDate.getFullYear()} - {monthList[endDate.getMonth()]}</Button
 			>
-			<Button variant="outline" class="px-3" onclick={increaseEnd}><ChevronRight /></Button>
+			<Button variant="outline" class="px-3" onclick={increaseEnd}>
+				<svg
+					class="lucide lucide-chevron-right"
+					xmlns="http://www.w3.org/2000/svg"
+					width="24"
+					height="24"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="m9 18 6-6-6-6" />
+				</svg>
+			</Button>
 		</div>
 		<div class="flex min-h-[180px] max-h-[300px] justify-between overflow-y-auto">
 			{#if yearModeEnd}
