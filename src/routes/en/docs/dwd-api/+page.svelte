@@ -500,7 +500,7 @@
 					<div class="relative">
 						<Input
 							type="number"
-							class="h-12 cursor-pointer pt-6 {$params.azimuth < -90 || $params.azimuth > 90
+							class="h-12 cursor-pointer pt-6 {$params.azimuth < -180 || $params.azimuth > 180
 								? 'text-red'
 								: ''}"
 							name="azimuth"
@@ -512,11 +512,11 @@
 						/>
 						<Label
 							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</Label
+							for="azimuth">Panel Azimuth (0° S, -180° E, 180° W)</Label
 						>
-						{#if Number($params.azimuth) < -90 || Number($params.azimuth) > 90}
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
-								Azimuth must be between -90° (east) and 90° (west)
+								Azimuth must be between -180° (east) and 180° (west)
 							</div>
 						{/if}
 					</div>
