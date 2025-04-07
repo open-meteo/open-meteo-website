@@ -482,8 +482,8 @@
 							name="azimuth"
 							id="azimuth"
 							step="1"
-							min="-90"
-							max="90"
+							min="-180"
+							max="180"
 							bind:value={$params.azimuth}
 						/>
 						<Label
