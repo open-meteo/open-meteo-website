@@ -31,6 +31,8 @@
 		useStockChart?: boolean;
 	}
 
+	const int64Variables = ['sunrise', 'sunset'];
+
 	let {
 		params,
 		type = 'forecast',
@@ -981,24 +983,26 @@ current <span class="token operator">=</span> response<span class="token punctua
 									><span class="token number">{index}</span><span class="token punctuation"
 									></span><span class="token punctuation">)</span><span class="token punctuation"
 										>.</span
-									>ValuesAsNumpy<span class="token punctuation">(</span><span
-										class="token punctuation">)</span
-									>{'\n'}{/each}{/if}
-{section}_data <span class="token operator">=</span> <span
-								class="token punctuation">&lbrace;</span
-							><span class="token string">"date"</span><span class="token punctuation">:</span
-							> pd<span class="token punctuation">.</span>date_range<span class="token punctuation"
+									>{int64Variables.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}<span
+										class="token punctuation">(</span
+									><span class="token punctuation">)</span>{'\n'}{/each}{/if}
+{section}_data <span
+								class="token operator">=</span
+							> <span class="token punctuation">&lbrace;</span><span class="token string"
+								>"date"</span
+							><span class="token punctuation">:</span> pd<span class="token punctuation">.</span
+							>date_range<span class="token punctuation">(</span>
+{'\t'}start <span
+								class="token operator">=</span
+							> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation"
 								>(</span
-							>
-{'\t'}start <span class="token operator">=</span> pd<span class="token punctuation"
-								>.</span
-							>to_datetime<span class="token punctuation">(</span>{section}<span
-								class="token punctuation">.</span
-							>Time<span class="token punctuation">(</span><span class="token punctuation">)</span
-							><span class="token punctuation">,</span> unit <span class="token operator">=</span
-							> <span class="token string">"s"</span><span class="token punctuation">,</span
-							> utc <span class="token operator">=</span> <span class="token number">True</span
+							>{section}<span class="token punctuation">.</span>Time<span class="token punctuation"
+								>(</span
 							><span class="token punctuation">)</span><span class="token punctuation">,</span
+							> unit <span class="token operator">=</span> <span class="token string">"s"</span
+							><span class="token punctuation">,</span> utc <span class="token operator">=</span
+							> <span class="token number">True</span><span class="token punctuation">)</span><span
+								class="token punctuation">,</span
 							>
 {'\t'}end <span class="token operator">=</span> pd<span class="token punctuation"
 								>.</span
