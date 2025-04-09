@@ -960,7 +960,7 @@
 						<td>2022-11-13</td>
 					</tr>
 					<tr>
-						<th scope="row" rowspan="4">ECMWF</th>
+						<th scope="row" rowspan="3">ECMWF</th>
 						<td>IFS 0.4°</td>
 						<td>Global</td>
 						<td>0.4° (~44 km)</td>
