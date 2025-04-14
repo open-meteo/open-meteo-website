@@ -275,7 +275,7 @@ export const additionalVariables = [
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
 		{
-			name: 'total_column_integrated_water_vapour',
+			value: 'total_column_integrated_water_vapour',
 			label: 'Total Column Integrated Water Vapour'
 		}
 	],
