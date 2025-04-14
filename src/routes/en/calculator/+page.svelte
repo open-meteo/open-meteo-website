@@ -11,14 +11,15 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
-
-	import { Textarea } from '$lib/components/ui/textarea';
+	import { Checkbox } from '$lib/components/ui/checkbox';
 
 	import * as Select from '$lib/components/ui/select';
 
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 
 	import { pastDaysOptions, defaultParameters, forecastDaysOptions } from './options';
+
+	import { models } from '../docs/options';
 
 	let model_default = '';
 	let type = 'forecast';
@@ -272,11 +273,9 @@
 	);
 	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
-	let begin_date = new Date();
-	begin_date.setMonth(begin_date.getMonth() - 3);
-
-	let last_date = new Date();
-	last_date.setDate(last_date.getDate() + 10);
+	var d = new Date();
+	d.setDate(d.getDate() - 2);
+	let endDateDefault = d.toISOString().split('T')[0];
 </script>
 
 <svelte:head>
@@ -286,165 +285,236 @@
 </svelte:head>
 
 <div class="container my-6 lg:my-12">
-	<h2 id="location_and_time" class="mb-3 text-2xl md:text-3xl">API URL</h2>
-
-	<Textarea
-		bind:value={url}
-		onchange={() => {
-			parseUrl();
-		}}
-	/>
-
-	<div class="my-3 text-xl">
-		Current call will cost
-		<strong> {callWeight.toFixed(1)}</strong> API
-		{callWeight === 1 ? 'call' : 'calls'}
-	</div>
-	<!-- TIME -->
 	<div class="mt-6">
-		<div class="mt-3 flex items-center gap-2">
-			<div class="text-muted-foreground">Time:</div>
+		<h2 id="location_and_time" class="mb-3 text-2xl md:text-3xl">API URL</h2>
+		<div class="mt-3 flex items-center gap-2 text-xl">
+			Current call will cost
+			<strong> {callWeight.toFixed(1)}</strong> API
+			{callWeight === 1 ? 'call' : 'calls'}
+		</div>
+	</div>
 
-			<div class="border-border flex rounded-md border">
-				<Button
-					variant="ghost"
-					class="rounded-e-none !opacity-100 {$params.time_mode === 'forecast_days'
-						? 'bg-accent cursor-not-allowed'
-						: ''}"
-					disabled={$params.time_mode === 'forecast_days'}
-					onclick={() => {
-						$params.time_mode = 'forecast_days';
-						$params.start_date = '';
-						$params.end_date = '';
-					}}
-				>
-					<Clock size={20} />Forecast Length
-				</Button>
-				<Button
-					variant="ghost"
-					class="rounded-md rounded-s-none !opacity-100 duration-300 {$params.time_mode ===
-					'time_interval'
-						? 'bg-accent'
-						: ''}"
-					disabled={$params.time_mode === 'time_interval'}
-					onclick={() => {
-						$params.time_mode = 'time_interval';
-					}}
-				>
-					<Calendar size={20} />Time Interval
-				</Button>
+	<div class="mt-6">
+		<h2 id="location_and_time" class="text-2xl md:text-3xl">Location and Time</h2>
+		<div class="mt-3 md:mt-6 flex items-center gap-2">
+			<div class="text-muted-foreground">Location:</div>
+			<Button
+				variant="outline"
+				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+				onclick={() => {
+					$params.latitude = [52.52];
+					$params.longitude = [13.41];
+				}}>1 location</Button
+			>
+			<Button
+				variant="outline"
+				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+				onclick={() => {
+					$params.latitude = [52.52, 52.52];
+					$params.longitude = [13.41, 13.41];
+				}}>2 locations</Button
+			>
+			<Button
+				variant="outline"
+				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+				onclick={() => {
+					$params.latitude = [52.52, 52.52, 52.52, 52.52, 52.52];
+					$params.longitude = [13.41, 13.41, 13.41, 13.41, 13.41];
+				}}>5 locations</Button
+			>
+			<Button
+				variant="outline"
+				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+				onclick={() => {
+					$params.latitude = [52.52, 52.52, 52.52, 52.52, 52.52, 52.52, 52.52, 52.52, 52.52, 52.52];
+					$params.longitude = [
+						13.41, 13.41, 13.41, 13.41, 13.41, 13.41, 13.41, 13.41, 13.41, 13.41
+					];
+				}}>10 locations</Button
+			>
+		</div>
+		<!-- TIME -->
+		<div class="mt-6">
+			<div class="mt-3 flex items-center gap-2">
+				<div class="text-muted-foreground">Time:</div>
+
+				<div class="border-border flex rounded-md border">
+					<Button
+						variant="ghost"
+						class="rounded-e-none !opacity-100 {$params.time_mode === 'forecast_days'
+							? 'bg-accent cursor-not-allowed'
+							: ''}"
+						disabled={$params.time_mode === 'forecast_days'}
+						onclick={() => {
+							$params.time_mode = 'forecast_days';
+							$params.start_date = '';
+							$params.end_date = '';
+						}}
+					>
+						<Clock size={20} />Forecast Length
+					</Button>
+					<Button
+						variant="ghost"
+						class="rounded-md rounded-s-none !opacity-100 duration-300 {$params.time_mode ===
+						'time_interval'
+							? 'bg-accent'
+							: ''}"
+						disabled={$params.time_mode === 'time_interval'}
+						onclick={() => {
+							$params.time_mode = 'time_interval';
+						}}
+					>
+						<Calendar size={20} />Time Interval
+					</Button>
+				</div>
+			</div>
+
+			<div class="mt-3 md:mt-4">
+				{#if $params.time_mode === 'forecast_days'}
+					<div in:fade class="grid gap-3 md:gap-6 lg:grid-cols-2">
+						<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
+							<div class="relative">
+								<Select.Root name="forecast_days" type="single" bind:value={$params.forecast_days}>
+									<Select.Trigger
+										aria-label="Forecast days input"
+										class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+										>{forecastDays?.label}</Select.Trigger
+									>
+									<Select.Content preventScroll={false} class="border-border">
+										{#each forecastDaysOptions as fdo}
+											<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item
+											>
+										{/each}
+									</Select.Content>
+									<Label
+										class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+										>Forecast days</Label
+									>
+								</Select.Root>
+							</div>
+							<div class="relative">
+								<Select.Root name="past_days" type="single" bind:value={$params.past_days}>
+									<Select.Trigger
+										aria-label="Past days input"
+										class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
+									>
+									<Select.Content preventScroll={false} class="border-border">
+										{#each pastDaysOptions as pdo}
+											<Select.Item class="cursor-pointer" value={pdo.value}>{pdo.label}</Select.Item
+											>
+										{/each}
+									</Select.Content>
+									<Label
+										class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+									>
+										Past days</Label
+									>
+								</Select.Root>
+							</div>
+						</div>
+
+						<div>
+							<p>
+								By default, we provide forecasts for 7 days, but you can access forecasts for up to
+								16 days. If you're interested in past weather data, you can use the <mark
+									>Past Days</mark
+								>
+								feature to access archived forecasts.
+							</p>
+						</div>
+					</div>
+				{/if}
+				{#if $params.time_mode === 'time_interval'}
+					<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
+						<div class="mb-3 lg:w-1/2">
+							<DatePicker bind:start_date={$params.start_date} bind:end_date={$params.end_date} />
+							<div class="mt-3 md:mt-6">
+								Quick:
+								<Button
+									variant="outline"
+									class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+									onclick={(e) => {
+										$params.start_date = '2024-01-01';
+										$params.end_date = '2024-12-31';
+									}}>Last year</Button
+								>
+								<Button
+									variant="outline"
+									class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+									onclick={(e) => {
+										$params.start_date = '2023-01-01';
+										$params.end_date = '2024-12-31';
+									}}>Last 2 years</Button
+								>
+								<Button
+									variant="outline"
+									class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+									onclick={(e) => {
+										$params.start_date = '2019-01-01';
+										$params.end_date = '2024-12-31';
+									}}>5 years</Button
+								>
+								<Button
+									variant="outline"
+									class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+									onclick={(e) => {
+										$params.start_date = '2025-01-01';
+										$params.end_date = endDateDefault;
+									}}>2025</Button
+								>
+							</div>
+						</div>
+						<div class="mb-3 lg:w-1/2">
+							<p>
+								The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a
+								range of dates more easily. Archived forecasts come from a series of weather model
+								runs over time. You can access forecasts for up to 3 months and continuously
+								archived in the
+								<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>. You can also
+								check out our
+								<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
+								data going all the way back to 1940.
+							</p>
+						</div>
+					</div>
+				{/if}
 			</div>
 		</div>
-
-		<div class="mt-3 md:mt-4">
-			{#if $params.time_mode === 'forecast_days'}
-				<div in:fade class="grid gap-3 md:gap-6 lg:grid-cols-2">
-					<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
-						<div class="relative">
-							<Select.Root name="forecast_days" type="single" bind:value={$params.forecast_days}>
-								<Select.Trigger
-									aria-label="Forecast days input"
-									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-									>{forecastDays?.label}</Select.Trigger
-								>
-								<Select.Content preventScroll={false} class="border-border">
-									{#each forecastDaysOptions as fdo}
-										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
-									{/each}
-								</Select.Content>
-								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-									>Forecast days</Label
-								>
-							</Select.Root>
-						</div>
-						<div class="relative">
-							<Select.Root name="past_days" type="single" bind:value={$params.past_days}>
-								<Select.Trigger
-									aria-label="Past days input"
-									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
-								>
-								<Select.Content preventScroll={false} class="border-border">
-									{#each pastDaysOptions as pdo}
-										<Select.Item class="cursor-pointer" value={pdo.value}>{pdo.label}</Select.Item>
-									{/each}
-								</Select.Content>
-								<Label
-									class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-								>
-									Past days</Label
-								>
-							</Select.Root>
-						</div>
-					</div>
-
-					<div>
-						<p>
-							By default, we provide forecasts for 7 days, but you can access forecasts for up to 16
-							days. If you're interested in past weather data, you can use the <mark>Past Days</mark
+	</div>
+	<!-- MODELS -->
+	<div class="mt-6">
+		<h2 id="models" class="text-2xl md:text-3xl">Models</h2>
+		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+			{#each models as group}
+				<div class="mb-3">
+					{#each group as e}
+						<div class="group flex items-center">
+							<Checkbox
+								id="{e.value}_model"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								value={e.value}
+								checked={$params.models?.includes(e.value)}
+								aria-labelledby="{e.value}_label"
+								onCheckedChange={() => {
+									if ($params.models?.includes(e.value)) {
+										$params.models = $params.models.filter((item) => {
+											return item !== e.value;
+										});
+									} else {
+										$params.models.push(e.value);
+										$params.models = $params.models;
+									}
+								}}
+							/>
+							<Label
+								id="{e.value}_model_label"
+								for="{e.value}_model"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
 							>
-							feature to access archived forecasts.
-						</p>
-					</div>
+						</div>
+					{/each}
 				</div>
-			{/if}
-			{#if $params.time_mode === 'time_interval'}
-				<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
-					<div class="mb-3 lg:w-1/2">
-						<DatePicker
-							bind:start_date={$params.start_date}
-							bind:end_date={$params.end_date}
-							{begin_date}
-							{last_date}
-						/>
-						<div class="mt-3 md:mt-6">
-							Quick:
-							<Button
-								variant="outline"
-								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-								onclick={(e) => {
-									$params.start_date = '2022-01-01';
-									$params.end_date = '2022-12-31';
-								}}>Last year</Button
-							>
-							<Button
-								variant="outline"
-								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-								onclick={(e) => {
-									$params.start_date = '2023-01-01';
-									$params.end_date = '2023-12-31';
-								}}>Last 2 years</Button
-							>
-							<Button
-								variant="outline"
-								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-								onclick={(e) => {
-									$params.start_date = '2024-01-01';
-									$params.end_date = '2024-12-31';
-								}}>5 years</Button
-							>
-							<Button
-								variant="outline"
-								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-								onclick={(e) => {
-									$params.start_date = '2025-01-01';
-									$params.end_date = endDateDefault;
-								}}>2025</Button
-							>
-						</div>
-					</div>
-					<div class="mb-3 lg:w-1/2">
-						<p>
-							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
-							of dates more easily. Archived forecasts come from a series of weather model runs over
-							time. You can access forecasts for up to 3 months and continuously archived in the
-							<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>. You can also
-							check out our
-							<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
-							data going all the way back to 1940.
-						</p>
-					</div>
-				</div>
-			{/if}
+			{/each}
 		</div>
 	</div>
 </div>
