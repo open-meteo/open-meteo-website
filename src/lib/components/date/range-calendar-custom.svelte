@@ -49,7 +49,7 @@
 
 	const getDatesInMonth = (year: number, month: number): Date[] => {
 		let result: Date[] = [];
-		for (let day = 1; day <= 31; day++) {
+		for (let day = 1; day <= 32; day++) {
 			const date = new Date(year, month - 1, day, parseInt(now.getTimezoneOffset() / 60));
 			if (date.getFullYear() === year && date.getMonth() === month - 1) {
 				result.push(date);
@@ -201,7 +201,7 @@
 				>
 					{#each startDates as date}
 						<Button
-							class="duration-200 hover:rounded-md 
+							class="duration-200 hover:rounded-md
 								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? 'font-bold' : ''}
 								{date.getTime() > startDate.getTime() && date.getTime() < endDate.getTime()
 								? 'bg-accent/50 rounded-none'
