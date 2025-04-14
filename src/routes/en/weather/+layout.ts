@@ -1,13 +1,15 @@
 import type { LayoutLoad } from './$types';
 
-import Cog from '$lib/assets/icons/cog.svelte';
+import { get } from 'svelte/store';
+
+import { storedLocation } from '$lib/stores/settings';
+
+const location = get(storedLocation);
 
 export const load: LayoutLoad = async () => {
 	return {
-		Logo: Cog,
-		heroTitle: 'Weather Forecast API',
-		heroDescription:
-			'Seamless integration of high-resolution weather models with up 16 days forecast',
+		heroTitle: `Weather ${location.name}`,
+		heroDescription: location.admin1 ?? '' + ' ' + location.country,
 		heroImage: '/images/partly_cloudy.webp',
 		heroHeight: 400,
 		heroPrimaryButtonPath: null,

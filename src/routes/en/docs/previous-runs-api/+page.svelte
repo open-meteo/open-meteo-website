@@ -109,8 +109,7 @@
 		}
 	});
 
-	let begin_date = new Date();
-	begin_date.setMonth(begin_date.getMonth() - 3);
+	let begin_date = new Date('2021-04-01');
 
 	let last_date = new Date();
 	last_date.setDate(last_date.getDate() + 16);
@@ -411,23 +410,23 @@
 					<div class="relative">
 						<Input
 							type="number"
-							class="h-12 cursor-pointer pt-6 {$params.azimuth < -90 || $params.azimuth > 90
+							class="h-12 cursor-pointer pt-6 {$params.azimuth < -180 || $params.azimuth > 180
 								? 'text-red'
 								: ''}"
 							name="azimuth"
 							id="azimuth"
 							step="1"
-							min="-90"
-							max="90"
+							min="-180"
+							max="180"
 							bind:value={$params.azimuth}
 						/>
 						<Label
 							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</Label
+							for="azimuth">Panel Azimuth (0° S, -180° E, 180° W)</Label
 						>
-						{#if Number($params.azimuth) < -90 || Number($params.azimuth) > 90}
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
-								Azimuth must be between -90° (east) and 90° (west)
+								Azimuth must be between -180° (east) and 180° (west)
 							</div>
 						{/if}
 					</div>
@@ -540,6 +539,18 @@
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
 	<ResultPreview {params} {defaultParameters} type="previous-runs" useStockChart={true} />
+</div>
+
+<div class="mt-6 md:mt-12">
+	<h2 id="api_documentation" class="text-2xl md:text-3xl">Data Availability</h2>
+	<div class="mt-2 md:mt-4">
+		<p>
+			We began collecting past model run data in January 2024, with most weather models offering
+			data from this point onward. Some models were added later in 2024 and 2025, providing data
+			from a later start date. For GFS, data has been integrated from April 2021 onward, but only
+			for 2m temperature.
+		</p>
+	</div>
 </div>
 
 <!-- API DOCS -->
