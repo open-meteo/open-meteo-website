@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 
+	import { countVariables } from '$lib/utils/meteo';
+
 	import { api_key_preferences } from '$lib/stores/settings';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -17,9 +19,11 @@
 
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 
+	import SuperDebug from 'sveltekit-superforms';
+
 	import { pastDaysOptions, defaultParameters, forecastDaysOptions } from './options';
 
-	import { models } from '../docs/options';
+	import { models, hourly } from '../docs/options';
 
 	let model_default = '';
 	let type = 'forecast';
@@ -45,6 +49,12 @@
 			}
 		})($api_key_preferences)
 	);
+
+	let modelCount = $derived(countVariables(models, $params.models));
+	let varCount = $derived({
+		active: countVariables(hourly, $params.hourly).active,
+		total: countVariables(hourly, $params.hourly).total
+	});
 
 	const getUrl = (server: string, params: any) => {
 		return `${server}?${new URLSearchParams({ ...params, ...params })}`.replaceAll('%2C', ',');
@@ -286,7 +296,7 @@
 
 <div class="container my-6 lg:my-12">
 	<div class="mt-6">
-		<h2 id="location_and_time" class="mb-3 text-2xl md:text-3xl">API URL</h2>
+		<h2 id="location_and_time" class="mb-3 text-2xl md:text-3xl">API Calls</h2>
 		<div class="mt-3 flex items-center gap-2 text-xl">
 			Current call will cost
 			<strong> {callWeight.toFixed(1)}</strong> API
@@ -483,8 +493,73 @@
 	</div>
 	<!-- MODELS -->
 	<div class="mt-6">
-		<h2 id="models" class="text-2xl md:text-3xl">Models</h2>
-		<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+		<div class="flex items-center">
+			<h2 id="models" class="text-2xl md:text-3xl">Models</h2>
+			{#if modelCount.active > 0}
+				<div transition:fade={{ duration: 200 }} class="relative">
+					<div
+						class="bg-secondary border-foreground/25 ml-2 rounded-full border-2 px-3 py-1 text-sm no-underline"
+					>
+						{modelCount.active}{#if modelCount.total > 0}&nbsp;/&nbsp;{modelCount.total}{/if}
+					</div>
+				</div>
+			{/if}
+		</div>
+		<div class="mt-3 md:mt-6 flex items-center gap-2">
+			<div class="text-muted-foreground">Quick:</div>
+			<Button
+				variant="outline"
+				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+				onclick={() => {
+					$params.models = ['best_match'];
+				}}>1 model</Button
+			>
+			<Button
+				variant="outline"
+				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+				onclick={() => {
+					$params.models = [
+						'ecmwf_ifs025',
+						'ecmwf_aifs025_single',
+						'cma_grapes_global',
+						'bom_access_global',
+						'icon_seamless'
+					];
+				}}>5 models</Button
+			>
+			<Button
+				variant="outline"
+				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+				onclick={() => {
+					$params.models = [
+						'ecmwf_ifs025',
+						'ecmwf_aifs025_single',
+						'cma_grapes_global',
+						'bom_access_global',
+						'icon_seamless',
+						'icon_global',
+						'icon_eu',
+						'icon_d2',
+						'metno_seamless',
+						'metno_nordic'
+					];
+				}}>10 models</Button
+			>
+			<Button
+				variant="outline"
+				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+				onclick={() => {
+					$params.models = [
+						'ecmwf_ifs025',
+						'ecmwf_aifs025_single',
+						'cma_grapes_global',
+						'bom_access_global',
+						'icon_seamless'
+					];
+				}}>20 models</Button
+			>
+		</div>
+		<div class="mt-3 md:mt-6 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 			{#each models as group}
 				<div class="mb-3">
 					{#each group as e}
@@ -515,6 +590,112 @@
 					{/each}
 				</div>
 			{/each}
+		</div>
+	</div>
+	<!-- Variables -->
+	<div class="mt-6">
+		<div class="">
+			<div class="flex items-center">
+				<h2 id="variables" class="text-2xl md:text-3xl">Variables</h2>
+				{#if varCount.active > 0}
+					<div transition:fade={{ duration: 200 }} class="relative">
+						<div
+							class="bg-secondary border-foreground/25 ml-2 rounded-full border-2 px-3 py-1 text-sm no-underline"
+						>
+							{varCount.active}{#if varCount.total > 0}&nbsp;/&nbsp;{varCount.total}{/if}
+						</div>
+					</div>
+				{/if}
+			</div>
+			<div class="mt-3 md:mt-6 flex items-center gap-2">
+				<div class="text-muted-foreground">Quick:</div>
+				<Button
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					onclick={() => {
+						$params.hourly = ['temperature_2m'];
+					}}>1 hourly var.</Button
+				>
+				<Button
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					onclick={() => {
+						$params.hourly = [
+							'temperature_2m',
+							'relative_humidity_2m',
+							'dew_point_2m',
+							'apparent_temperature',
+							'precipitation_probability',
+							'precipitation',
+							'rain',
+							'showers',
+							'snowfall',
+							'snow_depth'
+						];
+					}}>10 hourly vars.</Button
+				>
+				<Button
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					onclick={() => {
+						$params.hourly = [
+							'temperature_2m',
+							'relative_humidity_2m',
+							'dew_point_2m',
+							'apparent_temperature',
+							'precipitation_probability',
+							'precipitation',
+							'rain',
+							'showers',
+							'snowfall',
+							'snow_depth',
+							'weather_code'
+						];
+					}}>50 hourly vars.</Button
+				>
+			</div>
+			<div class="">
+				<!-- HOURLY -->
+				<div class="mt-3 md:mt-6">
+					<h3 id="hourly_weather_variables" class="text-xl md:text-2xl">
+						Hourly Weather Variables
+					</h3>
+					<div
+						class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+					>
+						{#each hourly as group}
+							<div>
+								{#each group as e}
+									<div class="group flex items-center">
+										<Checkbox
+											id="{e.value}_hourly"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											value={e.value}
+											checked={$params.hourly?.includes(e.value)}
+											aria-labelledby="{e.value}_label"
+											onCheckedChange={() => {
+												if ($params.hourly?.includes(e.value)) {
+													$params.hourly = $params.hourly.filter((item) => {
+														return item !== e.value;
+													});
+												} else {
+													$params.hourly.push(e.value);
+													$params.hourly = $params.hourly;
+												}
+											}}
+										/>
+										<Label
+											id="{e.value}_label"
+											for="{e.value}_hourly"
+											class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+										>
+									</div>
+								{/each}
+							</div>
+						{/each}
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

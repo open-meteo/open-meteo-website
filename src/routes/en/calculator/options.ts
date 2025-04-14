@@ -1,7 +1,7 @@
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
-	models: [],
+	models: ['best_match'],
 	current: [],
 	minutely_15: [],
 
