@@ -238,7 +238,7 @@
 			{#each hourly as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -282,7 +282,7 @@
 				{#each aqi_european as group}
 					<div>
 						{#each group as e}
-							<div class="group flex items-center">
+							<div class="group flex items-center" title={e.label}>
 								<Checkbox
 									id="{e.value}_hourly"
 									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -416,7 +416,7 @@
 				{#each aqi_united_states as group}
 					<div>
 						{#each group as e}
-							<div class="group flex items-center">
+							<div class="group flex items-center" title={e.label}>
 								<Checkbox
 									id="{e.value}_hourly"
 									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -603,7 +603,7 @@
 					{#each additionalVariables as group}
 						<div>
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -718,7 +718,7 @@
 			{#each current as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_current"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"

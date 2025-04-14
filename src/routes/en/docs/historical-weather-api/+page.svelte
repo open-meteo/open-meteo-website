@@ -226,7 +226,7 @@
 			{#each hourly as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -268,7 +268,7 @@
 					{#each additionalVariables as group}
 						<div>
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -348,7 +348,7 @@
 				{#each solarVariables as group}
 					<div class="grid md:grid-cols-2">
 						{#each group as e}
-							<div class="group flex items-center">
+							<div class="group flex items-center" title={e.label}>
 								<Checkbox
 									id="{e.value}_hourly"
 									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -439,7 +439,7 @@
 					{#each ensembleSpreadVariables as group}
 						<div class="col-md-6">
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -483,7 +483,7 @@
 					{#each models as group}
 						<div class="mb-3">
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_model"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -531,7 +531,7 @@
 			{#each daily as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_daily"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -582,7 +582,7 @@
 					{#each additionalDaily as group}
 						<div>
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_daily"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
