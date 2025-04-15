@@ -94,7 +94,9 @@ export const minutely_15 = [
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
-		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
+		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' }
+	],
+	[
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'snowfall', label: 'Snowfall' },
 		{ value: 'snowfall_height', label: 'Snowfall Height' },
@@ -106,7 +108,9 @@ export const minutely_15 = [
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
+		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' }
+	],
+	[
 		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 		{ value: 'visibility', label: 'Visibility' },
 		{ value: 'cape', label: 'CAPE' },

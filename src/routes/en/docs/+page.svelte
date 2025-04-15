@@ -656,63 +656,67 @@
 			>
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 					{#each minutely_15 as group}
-						{#each group as e}
-							<div class="group flex items-center" title={e.label}>
-								<Checkbox
-									id="{e.value}_minutely_15"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value="{e.value}_minutely_15"
-									checked={$params.minutely_15?.includes(e.value)}
-									aria-labelledby="{e.value}_minutely_15_label"
-									onCheckedChange={() => {
-										if ($params.minutely_15?.includes(e.value)) {
-											$params.minutely_15 = $params.minutely_15.filter((item) => {
-												return item !== e.value;
-											});
-										} else {
-											$params.minutely_15.push(e.value);
-											$params.minutely_15 = $params.minutely_15;
-										}
-									}}
-								/>
-								<Label
-									id="{e.value}_minutely_15_label"
-									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-								>
-							</div>
-						{/each}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center" title={e.label}>
+									<Checkbox
+										id="{e.value}_minutely_15"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value="{e.value}_minutely_15"
+										checked={$params.minutely_15?.includes(e.value)}
+										aria-labelledby="{e.value}_minutely_15_label"
+										onCheckedChange={() => {
+											if ($params.minutely_15?.includes(e.value)) {
+												$params.minutely_15 = $params.minutely_15.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.minutely_15.push(e.value);
+												$params.minutely_15 = $params.minutely_15;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_minutely_15_label"
+										for="{e.value}_minutely_15"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
 					{/each}
 				</div>
 
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 					{#each solarVariables as group}
-						{#each group as e}
-							<div class="group flex items-center" title={e.label}>
-								<Checkbox
-									id="{e.value}_minutely_15"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value="{e.value}_minutely_15"
-									checked={$params.minutely_15?.includes(e.value)}
-									aria-labelledby="{e.value}_minutely_15_label"
-									onCheckedChange={() => {
-										if ($params.minutely_15?.includes(e.value)) {
-											$params.minutely_15 = $params.minutely_15.filter((item) => {
-												return item !== e.value;
-											});
-										} else {
-											$params.minutely_15.push(e.value);
-											$params.minutely_15 = $params.minutely_15;
-										}
-									}}
-								/>
-								<Label
-									id="{e.value}_minutely_15_label"
-									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-								>
-							</div>
-						{/each}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center" title={e.label}>
+									<Checkbox
+										id="{e.value}_minutely_15"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value="{e.value}_minutely_15"
+										checked={$params.minutely_15?.includes(e.value)}
+										aria-labelledby="{e.value}_minutely_15_label"
+										onCheckedChange={() => {
+											if ($params.minutely_15?.includes(e.value)) {
+												$params.minutely_15 = $params.minutely_15.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.minutely_15.push(e.value);
+												$params.minutely_15 = $params.minutely_15;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_minutely_15_label"
+										for="{e.value}_minutely_15"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
 					{/each}
 				</div>
 
