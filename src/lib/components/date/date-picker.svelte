@@ -167,7 +167,7 @@
 				</div>
 			{/if}
 		</button>
-		<Popover.Trigger></Popover.Trigger>
+		<Popover.Trigger class="h-0 w-0"></Popover.Trigger>
 		<Popover.Content
 			onCloseAutoFocus={(e) => {
 				e.preventDefault();
@@ -178,7 +178,7 @@
 				}
 			}}
 			trapFocus={false}
-			class="border-border mt-2 w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 md:mt-5"
+			class="border-border w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 md:mt-5"
 			align="start"
 		>
 			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} />
