@@ -178,7 +178,7 @@
 				}
 			}}
 			trapFocus={false}
-			class="border-border w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 md:mt-5"
+			class="border-border w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 "
 			align="start"
 		>
 			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} />
