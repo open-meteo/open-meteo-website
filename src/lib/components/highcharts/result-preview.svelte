@@ -1221,7 +1221,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 								><span class="token punctuation">(</span><span>{section}</span><span
 									class="token punctuation">.</span
 								><span class="token function">timeEnd</span><span class="token punctuation"
-									>()) </span><span class="token punctuation">-</span><span
+									>()) </span><span class="token operator">-</span><span
 									class="token function"> Number</span
 								><span class="token punctuation">(</span><span>{section}</span><span
 									class="token punctuation">.</span
@@ -1239,15 +1239,15 @@ current <span class="token operator">=</span> response<span class="token punctua
 								><span class="token punctuation">)</span><span> =&gt;</span><span
 									class="token keyword"> new</span
 								><span class="token class-name"> Date</span><span class="token punctuation">((</span
-								><span class="token function">Number</span><span>({section}</span><span
+								><span class="token function">Number</span><span class="token punctuation">(</span
+								><span>{section}</span><span class="token punctuation">.</span><span
+									class="token function">time</span
+								><span class="token punctuation">()) </span><span class="token operator">+</span
+								><span> i </span><span class="token operator">*</span><span> {section}</span><span
 									class="token punctuation">.</span
-								><span class="token function">time</span><span class="token punctuation"
-									>()) </span><span class="token operator">+</span><span> i </span><span
-									class="token operator">*</span
-								><span> {section}</span><span class="token punctuation">.</span><span
-									class="token function">interval</span
-								><span class="token punctuation">() </span><span class="token operator">+</span
-								><span> utcOffsetSeconds) </span><span class="token operator">*</span><span
+								><span class="token function">interval</span><span class="token punctuation"
+									>() </span><span class="token operator">+</span><span> utcOffsetSeconds</span
+								><span class="token punctuation">) </span><span class="token operator">*</span><span
 									class="token number"> 1000</span
 								><span class="token punctuation">)</span></span
 							><br /><span class="token punctuation">		)</span><span class="token punctuation">,</span
@@ -1271,11 +1271,12 @@ current <span class="token operator">=</span> response<span class="token punctua
 											class="token keyword"> new</span
 										><span class="token class-name"> Date</span><span class="token punctuation"
 											>((</span
-										><span class="token function">Number</span><span>({variable}</span><span
-											class="token punctuation">.</span
-										><span class="token function">valuesInt64</span><span class="token punctuation"
-											>(i))</span
-										><span class="token operator">+</span><span> utcOffsetSeconds) </span><span
+										><span class="token function">Number</span><span class="token punctuation"
+											>(</span
+										><span>{variable}</span><span class="token punctuation">.</span><span
+											class="token function">valuesInt64</span
+										><span class="token punctuation">(i))</span><span class="token operator">+</span
+										><span> utcOffsetSeconds</span><span class="token punctuation">) </span><span
 											class="token operator">*</span
 										><span class="token number"> 1000</span><span class="token punctuation">)</span
 										></span
