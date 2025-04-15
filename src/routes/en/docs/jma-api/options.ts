@@ -147,8 +147,8 @@ export const solarVariables = [
 		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
 		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
 		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' },
-		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' }
+		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' },
+		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 	]
 ];
 
