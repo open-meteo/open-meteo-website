@@ -187,6 +187,157 @@
 		</div>
 	</div>
 
+	<div class="mt-6 md:mt-12 overflow-auto overflow-y-hidden -mx-6 md:ml-0 lg:mx-0">
+		<table
+			class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+		>
+			<thead>
+				<tr>
+					<th scope="col" style="width: 20%"> </th>
+					<th scope="col" style="width: 20%">Non-commercial</th>
+					<th scope="col" style="width: 20%">API Standard</th>
+					<th scope="col" style="width: 20%">API Professional</th>
+					<th scope="col" style="width: 20%">API Enterprise</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row">Commercial use</th>
+					<td>&#x274c;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705; </td>
+					<td>&#x2705; </td>
+				</tr>
+				<tr>
+					<th scope="row">Minutely Limit</th>
+					<td>&#x26a0;&#xfe0f; 600 calls / min</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+				</tr>
+				<tr>
+					<th scope="row">Hourly Limit</th>
+					<td>&#x26a0;&#xfe0f; 5000 calls / hour</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+				</tr>
+				<tr>
+					<th scope="row">Daily Limit</th>
+					<td>&#x26a0;&#xfe0f; 10.000 calls / day</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+				</tr>
+				<tr>
+					<th scope="row">Monthly Limit</th>
+					<td>&#x26a0;&#xfe0f; 300.000 calls / month</td>
+					<td>&#x26a0;&#xfe0f; 1M calls / month</td>
+					<td>&#x26a0;&#xfe0f; 5M calls / month</td>
+					<td>&#x2705; >50M calls / month</td>
+				</tr>
+				<!-- <tr>
+					<th scope="row">Concurrency</th>
+					<td>&#x26a0;&#xfe0f; 5 max.</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+				</tr> -->
+				<tr>
+					<th scope="row">Air Quality API</th>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">Marine API </th>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">Flood API</th>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">Elevation API</th>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">Geocoding API</th>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">Historical Weather API</th>
+					<td>&#x2705;</td>
+					<td>&#x274c;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">Climate Weather API</th>
+					<td>&#x2705;</td>
+					<td>&#x274c;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">Ensemble Weather API</th>
+					<td>&#x2705;</td>
+					<td>&#x274c;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">Historical Forecast API</th>
+					<td>&#x2705;</td>
+					<td>&#x274c;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">Previous Model Runs API</th>
+					<td>&#x2705;</td>
+					<td>&#x274c;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">Support</th>
+					<td>&#x274c;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705; </td>
+					<td>&#x2705; </td>
+				</tr>
+				<tr>
+					<th scope="row">Priority support</th>
+					<td>&#x274c;</td>
+					<td>&#x274c;</td>
+					<td>&#x274c; </td>
+					<td>&#x2705; </td>
+				</tr>
+				<tr>
+					<th scope="row">Custom Solutions</th>
+					<td>&#x274c;</td>
+					<td>&#x274c;</td>
+					<td>&#x274c; </td>
+					<td>&#x2705; </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
 	<div class="mt-12 md:mt-24" id="faq">
 		<h2 id="faq" class="text-center text-5xl font-light">Frequently Asked Questions</h2>
 
