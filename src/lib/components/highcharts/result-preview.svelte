@@ -1328,7 +1328,12 @@ current <span class="token operator">=</span> response<span class="token punctua
 									section
 								)}<span class="token punctuation">.</span>{camelCase(variable)}<span
 									class="token punctuation">[</span
-								>i<span class="token punctuation">]</span>{/each}
+								>i<span class="token punctuation">]</span
+								>{#if variable === 'sunrise' || variable === 'sunset'}<span
+										class="token punctuation">.</span
+									><span class="token function">toISOString</span><span class="token punctuation"
+										>(</span
+									><span class="token punctuation">)</span>{/if}{/each}
 {'\t'}<span
 								class="token punctuation">)</span
 							><span class="token punctuation">;</span>

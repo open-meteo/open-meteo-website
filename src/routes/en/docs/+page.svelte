@@ -36,8 +36,6 @@
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
 
-	import Temp from '$lib/components/code/docs/temp.svx';
-
 	import {
 		daily,
 		hourly,
@@ -157,7 +155,6 @@
 </svelte:head>
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
-	<Temp />
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
