@@ -29,7 +29,6 @@ export const defaultParameters = {
 	precipitation_unit: 'mm'
 };
 
-
 export const hourly = [
 	[
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
@@ -39,7 +38,7 @@ export const hourly = [
 		{ value: 'precipitation', label: 'Precipitation (rain + snow + showers)' },
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'showers', label: 'Showers' },
-		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'snowfall', label: 'Snowfall' }
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
@@ -146,8 +145,8 @@ export const solarVariables = [
 		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
 		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
 		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
-		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
+		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' },
+		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' }
 	]
 ];
 
