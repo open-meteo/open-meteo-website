@@ -119,22 +119,6 @@
 	class="border-border flex w-full flex-col items-stretch justify-between gap-3 overflow-auto border-b p-3 md:flex-row"
 >
 	<div class="flex w-full flex-col items-center gap-3">
-		<div class="flex gap-2 items-center justify-center">
-			<div class="font-bold text-nowrap">Start date</div>
-			<Input
-				class="!ring-0 border !ring-offset-0 !bg-transparent m-0 h-[unset]"
-				type="text"
-				placeholder={start_date}
-				oninput={(e) => {
-					if (
-						new Date(e.target.value) !== 'Invalid Date' &&
-						new Date(e.target.value).getFullYear() > 1940
-					) {
-						start_date = new Date(e.target.value).toISOString().split('T')[0];
-					}
-				}}
-			/>
-		</div>
 		<div class="flex w-full justify-between">
 			<Button variant="outline" class="px-3" onclick={decreaseStart}><ChevronLeft /></Button>
 			<Button
@@ -154,7 +138,7 @@
 			>
 			<Button variant="outline" class="px-3" onclick={increaseStart}><ChevronRight /></Button>
 		</div>
-		<div class="flex min-h-[180px] max-h-[300px] justify-between overflow-y-auto">
+		<div class="flex min-h-[180px] max-h-[300px] min-w-[340px] justify-center overflow-y-auto">
 			{#if yearModeStart}
 				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-d grid-cols-4">
 					{#each yearList as year}
@@ -193,64 +177,50 @@
 				</div>
 			{:else}
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
-				<div
-					in:scale={{ start: 0.8, duration: 300 }}
-					class="grid grid-cols-5"
-					aria-roledescription="Date picker window"
-					onmouseleave={() => (selectEndNext = false)}
-				>
-					{#each startDates as date}
-						<Button
-							class="duration-200 hover:rounded-md
+				<div class="min-h-[280px]">
+					<div
+						in:scale={{ start: 0.8, duration: 300 }}
+						class="grid grid-cols-5"
+						aria-roledescription="Date picker window"
+						onmouseleave={() => (selectEndNext = false)}
+					>
+						{#each startDates as date}
+							<Button
+								class="duration-200 hover:rounded-md
 								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? 'font-bold' : ''}
 								{date.getTime() > startDate.getTime() && date.getTime() < endDate.getTime()
-								? 'bg-accent/50 rounded-none'
-								: ''}
+									? 'bg-accent/50 rounded-none'
+									: ''}
 								{date.toISOString().split('T')[0] === startDate.toISOString().split('T')[0]
-								? 'bg-accent rounded-e-none rounded-s-md'
-								: ''} {date.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]
-								? 'bg-accent rounded-e-md rounded-s-none'
-								: ''}"
-							variant="ghost"
-							disabled={date.getTime() < begin_date.getTime() - 11 * 60 * 60 * 1000 ||
-								date.getTime() > last_date.getTime() + 11 * 60 * 60 * 1000}
-							onclick={() => {
-								if (selectEndNext) {
-									let newDate = new Date(startDate);
-									newDate.setDate(date.getDate());
-									updateEndDate(newDate);
-									selectEndNext = false;
-								} else {
-									let newDate = new Date(startDate);
-									newDate.setDate(date.getDate());
-									updateStartDate(newDate);
-									selectEndNext = true;
-								}
-							}}>{date.getDate()}</Button
-						>
-					{/each}
+									? 'bg-accent rounded-e-none rounded-s-md'
+									: ''} {date.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]
+									? 'bg-accent rounded-e-md rounded-s-none'
+									: ''}"
+								variant="ghost"
+								disabled={date.getTime() < begin_date.getTime() - 11 * 60 * 60 * 1000 ||
+									date.getTime() > last_date.getTime() + 11 * 60 * 60 * 1000}
+								onclick={() => {
+									if (selectEndNext) {
+										let newDate = new Date(startDate);
+										newDate.setDate(date.getDate());
+										updateEndDate(newDate);
+										selectEndNext = false;
+									} else {
+										let newDate = new Date(startDate);
+										newDate.setDate(date.getDate());
+										updateStartDate(newDate);
+										selectEndNext = true;
+									}
+								}}>{date.getDate()}</Button
+							>
+						{/each}
+					</div>
 				</div>
 			{/if}
 		</div>
 	</div>
 	<div class="border-border border-r"></div>
 	<div class="flex w-full flex-col items-center gap-3">
-		<div class="flex gap-2 items-center justify-center">
-			<div class="font-bold text-nowrap">End date</div>
-			<Input
-				class="!ring-0 border !ring-offset-0 !bg-transparent m-0 h-[unset]"
-				type="text"
-				placeholder={end_date}
-				oninput={(e) => {
-					if (
-						new Date(e.target.value) !== 'Invalid Date' &&
-						new Date(e.target.value).getFullYear() > 1940
-					) {
-						end_date = new Date(e.target.value).toISOString().split('T')[0];
-					}
-				}}
-			/>
-		</div>
 		<div class="flex w-full justify-between">
 			<Button variant="outline" class="px-3" onclick={decreaseEnd}><ChevronLeft /></Button>
 			<Button
@@ -268,9 +238,9 @@
 					monthModeEnd = true;
 				}}>{endDate.getFullYear()} - {monthList[endDate.getMonth()]}</Button
 			>
-			<Button variant="outline" class="px-3" onclick={increaseEnd}><ChevronRight /></Button>
+			<Button variant="outline" class="px-3 mr-8" onclick={increaseEnd}><ChevronRight /></Button>
 		</div>
-		<div class="flex min-h-[180px] max-h-[300px] justify-between overflow-y-auto">
+		<div class="flex min-h-[180px] max-h-[300px] min-w-[340px] justify-center overflow-y-auto">
 			{#if yearModeEnd}
 				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-cols-4">
 					{#each yearList as year}
@@ -308,28 +278,30 @@
 					{/each}
 				</div>
 			{:else}
-				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
-					{#each endDates as date}
-						<Button
-							class="duration-200 hover:rounded-md
+				<div class="min-h-[280px]">
+					<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
+						{#each endDates as date}
+							<Button
+								class="duration-200 hover:rounded-md
 								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? ' font-bold' : ''}
 								{date.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]
-								? 'bg-accent rounded-s-none'
-								: ''} {date.getTime() < endDate.getTime() && date.getTime() > startDate.getTime()
-								? 'bg-accent/50 rounded-none'
-								: ''} {date.toISOString().split('T')[0] === startDate.toISOString().split('T')[0]
-								? 'bg-accent rounded-e-none rounded-s-md'
-								: ''}"
-							variant="ghost"
-							disabled={date.getTime() < begin_date.getTime() - 11 * 60 * 60 * 1000 ||
-								date.getTime() > last_date.getTime() + 11 * 60 * 60 * 1000}
-							onclick={() => {
-								let newDate = new Date(endDate);
-								newDate.setDate(date.getDate());
-								updateEndDate(newDate);
-							}}>{date.getDate()}</Button
-						>
-					{/each}
+									? 'bg-accent rounded-s-none'
+									: ''} {date.getTime() < endDate.getTime() && date.getTime() > startDate.getTime()
+									? 'bg-accent/50 rounded-none'
+									: ''} {date.toISOString().split('T')[0] === startDate.toISOString().split('T')[0]
+									? 'bg-accent rounded-e-none rounded-s-md'
+									: ''}"
+								variant="ghost"
+								disabled={date.getTime() < begin_date.getTime() - 11 * 60 * 60 * 1000 ||
+									date.getTime() > last_date.getTime() + 11 * 60 * 60 * 1000}
+								onclick={() => {
+									let newDate = new Date(endDate);
+									newDate.setDate(date.getDate());
+									updateEndDate(newDate);
+								}}>{date.getDate()}</Button
+							>
+						{/each}
+					</div>
 				</div>
 			{/if}
 		</div>
