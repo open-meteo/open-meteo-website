@@ -217,7 +217,7 @@
 				</tr>
 				<tr>
 					<th scope="row">Hourly Limit</th>
-					<td>&#x26a0;&#xfe0f; 5000 calls / hour</td>
+					<td>&#x26a0;&#xfe0f; 5.000 calls / hour</td>
 					<td>&#x2705; Unlimited</td>
 					<td>&#x2705; Unlimited</td>
 					<td>&#x2705; Unlimited</td>
