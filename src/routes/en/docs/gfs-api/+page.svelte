@@ -1743,7 +1743,7 @@
 						<td
 							>Total radiation received on a tilted pane as average of the preceding hour. The
 							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
-							tilt and azimuth parameter. Tilt ranges from 0° to 180° and is typically around 45°.
+							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
 							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
 							is set to "nan", the calculation assumes a horizontal tracker. If tilt is set to
 							"nan", it is assumed that the panel has a vertical tracker. If both are set to "nan",
@@ -2002,7 +2002,7 @@
 						<td
 							>Total radiation received on a tilted pane as average of the preceding 15 minutes. The
 							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
-							tilt and azimuth parameter. Tilt ranges from 0° to 180° and is typically around 45°.
+							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
 							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
 							is set to "nan", the calculation assumes a horizontal tracker. If tilt is set to
 							"nan", it is assumed that the panel has a vertical tracker. If both are set to "nan",
