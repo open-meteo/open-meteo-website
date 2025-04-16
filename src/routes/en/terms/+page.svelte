@@ -173,6 +173,66 @@
 		contact us at <a href="mailto:info@open-meteo.com">info@open-meteo.com</a>.
 	</p>
 
+	<div class="overflow-auto overflow-y-hidden -mx-6 md:ml-0 lg:mx-0">
+		<table
+			class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+		>
+			<thead>
+				<tr>
+					<th scope="col" style="width: 20%"> </th>
+					<th scope="col" style="width: 20%">Free / Open-Access</th>
+					<th scope="col" style="width: 20%">API Standard</th>
+					<th scope="col" style="width: 20%">API Professional</th>
+					<th scope="col" style="width: 20%">API Enterprise</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row">Commercial use</th>
+					<td>&#x274c;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705; </td>
+					<td>&#x2705; </td>
+				</tr>
+				<tr>
+					<th scope="row">Minutely Limit</th>
+					<td>&#x26a0;&#xfe0f; 600 calls / min</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+				</tr>
+				<tr>
+					<th scope="row">Hourly Limit</th>
+					<td>&#x26a0;&#xfe0f; 5.000 calls / hour</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+				</tr>
+				<tr>
+					<th scope="row">Daily Limit</th>
+					<td>&#x26a0;&#xfe0f; 10.000 calls / day</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+				</tr>
+				<tr>
+					<th scope="row">Monthly Limit</th>
+					<td>&#x26a0;&#xfe0f; 300.000 calls / month</td>
+					<td>&#x26a0;&#xfe0f; 1M calls / month</td>
+					<td>&#x26a0;&#xfe0f; 5M calls / month</td>
+					<td>&#x2705; >50M calls / month</td>
+				</tr>
+				<!-- <tr>
+					<th scope="row">Concurrency</th>
+					<td>&#x26a0;&#xfe0f; 5 max.</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+				</tr> -->
+			</tbody>
+		</table>
+	</div>
+
 	<h2 id="privacy" class="mb-3 mt-6 text-3xl font-light lg:mb-5 lg:mt-12 lg:text-5xl">Privacy</h2>
 	<p>
 		By using our service, you consent to the terms of our privacy policy and agree that we may
