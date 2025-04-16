@@ -321,14 +321,14 @@
 					<td>&#x2705; </td>
 				</tr>
 				<tr>
-					<th scope="row">Priority support</th>
+					<th scope="row">Custom Solutions</th>
 					<td>&#x274c;</td>
 					<td>&#x274c;</td>
 					<td>&#x274c; </td>
 					<td>&#x2705; </td>
 				</tr>
 				<tr>
-					<th scope="row">Custom Solutions</th>
+					<th scope="row">Priority Support</th>
 					<td>&#x274c;</td>
 					<td>&#x274c;</td>
 					<td>&#x274c; </td>
