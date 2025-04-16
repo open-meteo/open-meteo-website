@@ -1016,7 +1016,10 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">wave_height<br />wind_wave_height<br />swell_wave_height</th>
+						<th scope="row"
+							>wave_height<br />wind_wave_height<br />swell_wave_height<br
+							/>secondary_swell_wave_height</th
+						>
 						<td>Instant</td>
 						<td>Meter</td>
 						<td
@@ -1026,13 +1029,19 @@
 						>
 					</tr>
 					<tr>
-						<th scope="row">wave_direction<br />wind_wave_direction<br />swell_wave_direction</th>
+						<th scope="row"
+							>wave_direction<br />wind_wave_direction<br />swell_wave_direction<br
+							/>secondary_swell_wave_direction</th
+						>
 						<td>Instant</td>
 						<td>°</td>
 						<td>Mean direction of mean, wind and swell waves</td>
 					</tr>
 					<tr>
-						<th scope="row">wave_period<br />wind_wave_period<br />swell_wave_period</th>
+						<th scope="row"
+							>wave_period<br />wind_wave_period<br />swell_wave_period<br
+							/>secondary_swell_wave_period</th
+						>
 						<td>Instant</td>
 						<td>Seconds</td>
 						<td>Period between mean, wind and swell waves.</td>
