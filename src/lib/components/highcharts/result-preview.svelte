@@ -1275,7 +1275,8 @@ current <span class="token operator">=</span> response<span class="token punctua
 											>(</span
 										><span>{variable}</span><span class="token punctuation">.</span><span
 											class="token function">valuesInt64</span
-										><span class="token punctuation">(i))</span><span class="token operator">+</span
+										><span class="token punctuation">(i))</span><span
+											class="token operator"> +</span
 										><span> utcOffsetSeconds</span><span class="token punctuation">) </span><span
 											class="token operator">*</span
 										><span class="token number"> 1000</span><span class="token punctuation">)</span
@@ -1436,7 +1437,8 @@ targets: [
 								>{#each $params[section] as variable}{'\n\t'}{'\t'}<span class="token keyword"
 										>let</span
 									> {camelCase(variable)}<span class="token punctuation">:</span> <span
-										class="token class-name">Float</span
+										class="token class-name"
+										>{int64Variables.includes(variable) ? 'Int64' : 'Float'}</span
 									>{/each}{:else}<br />{'\t'}{'\t'}<span class="token keyword">let</span> time<span
 									class="token punctuation">:</span
 								> <span class="token punctuation">[</span><span class="token class-name">Date</span
@@ -1444,7 +1446,7 @@ targets: [
 									/>{'\t'}{'\t'}<span class="token keyword">let</span> {camelCase(variable)}<span
 										class="token punctuation">:</span
 									> <span class="token punctuation">[</span><span class="token class-name"
-										>Float</span
+										>{int64Variables.includes(variable) ? 'Int64' : 'Float'}</span
 									><span class="token punctuation">]</span>{/each}{/if}
 {'\t'}<span
 								class="token punctuation">&rbrace;</span
@@ -1481,14 +1483,16 @@ targets: [
 									><span class="token punctuation">(</span>at<span class="token punctuation">:</span
 									> <span class="token number">{index}</span><span class="token punctuation">)</span
 									><span class="token operator">!</span><span class="token punctuation">.</span
-									>value{/each}
-{'\t'}<span class="token punctuation">)</span>{:else}<br
-								/>{'\t'}{'\t'}time<span class="token punctuation">:</span> {camelCase(section)}<span
-									class="token punctuation">.</span
-								><span class="token function">getDateTime</span><span class="token punctuation"
-									>(</span
-								>offset<span class="token punctuation">:</span> utcOffsetSeconds<span
+									>{int64Variables.includes(variable) ? 'valueInt64' : 'value'}{/each}
+{'\t'}<span
 									class="token punctuation">)</span
+								>{:else}<br />{'\t'}{'\t'}time<span class="token punctuation">:</span> {camelCase(
+									section
+								)}<span class="token punctuation">.</span><span class="token function"
+									>getDateTime</span
+								><span class="token punctuation">(</span>offset<span class="token punctuation"
+									>:</span
+								> utcOffsetSeconds<span class="token punctuation">)</span
 								>{#each $params[section] as variable, index}<span class="token punctuation">,</span
 									>{'\n\t'}{'\t'}{camelCase(variable)}<span class="token punctuation">:</span
 									> {camelCase(section)}<span class="token punctuation">.</span><span
@@ -1496,8 +1500,10 @@ targets: [
 									><span class="token punctuation">(</span>at<span class="token punctuation">:</span
 									> <span class="token number">{index}</span><span class="token punctuation">)</span
 									><span class="token operator">!</span><span class="token punctuation">.</span
-									>values{/each}
-{'\t'}<span class="token punctuation">)</span>{/if}{/each}
+									>{int64Variables.includes(variable) ? 'valuesInt64' : 'values'}{/each}
+{'\t'}<span
+									class="token punctuation">)</span
+								>{/if}{/each}
 <span class="token punctuation">)</span>
 
 <span class="token comment">/// Timezone `.gmt` is deliberately used. </span>
