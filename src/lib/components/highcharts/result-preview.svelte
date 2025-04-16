@@ -786,12 +786,12 @@
 					> documentation.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4">
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
 pip install openmeteo-requests
 pip install requests-cache retry-requests numpy pandas</pre>
 
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4"><code
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
 						><span class="token keyword">import</span> openmeteo_requests
 {#if sdk_type == 'ensemble_api'}
 							<span class="token keyword">from</span> openmeteo_sdk.Variable <span
@@ -1083,15 +1083,15 @@ current <span class="token operator">=</span> response<span class="token punctua
 					>.
 				</p>
 				<p>
-					Caveats: The code generator does not handle sunrise and sunset correctly. It is supposed
-					to be ".valuesInt64" instead of ".values". For the ensemble API, multiple members per
-					variable are not correctly decoded. You will have to loop over `variables`.
+					Caveats: For the ensemble API, multiple members per variable are not correctly decoded.
+					You will have to loop over `variables`.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4"><code>npm install openmeteo</code
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
+						>npm install openmeteo</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4">
+				<pre class="my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
 <code
 						><span class="token keyword">import</span> <span class="token punctuation"
 							>&lbrace;</span
@@ -1357,14 +1357,12 @@ current <span class="token operator">=</span> response<span class="token punctua
 					>.
 				</p>
 				<p>
-					Caveats: The code generator does not handle sunrise and sunset correctly. It is supposed
-					to be [Int64] instead of [Float] and ".valuesInt64" instead of ".values". For the ensemble
-					API, multiple members per variable are not correctly decoded. You will have to loop over
-					'variables'.
+					Caveats: For the ensemble API, multiple members per variable are not correctly decoded.
+					You will have to loop over 'variables'.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<p class="my-3">Add OpenMeteoSdk as a dependency to your Package.swift</p>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4"><code
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
 						>dependencies: [
 {'\t'}.package(url: "https://github.com/open-meteo/sdk.git", from: "1.5.0")
 ],
@@ -1375,7 +1373,7 @@ targets: [
 ]</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4">
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
 <code class="language-swift"
 						><span class="token keyword">import</span> <span class="token class-name"
 							>OpenMeteoSdk</span
