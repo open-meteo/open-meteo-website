@@ -196,8 +196,6 @@
 				return 31;
 			case 'gfs025':
 				return 31;
-			case 'gfs025':
-				return 31;
 			case 'ecmwf_ifs025':
 				return 51;
 			case 'gem_global':
