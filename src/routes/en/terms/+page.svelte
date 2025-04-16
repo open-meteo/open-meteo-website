@@ -180,7 +180,7 @@
 			<thead>
 				<tr>
 					<th scope="col" style="width: 20%"> </th>
-					<th scope="col" style="width: 20%">Non-commercial</th>
+					<th scope="col" style="width: 20%">Free / Open-Access</th>
 					<th scope="col" style="width: 20%">API Standard</th>
 					<th scope="col" style="width: 20%">API Professional</th>
 					<th scope="col" style="width: 20%">API Enterprise</th>
