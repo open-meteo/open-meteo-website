@@ -786,12 +786,12 @@
 					> documentation.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4">
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
 pip install openmeteo-requests
 pip install requests-cache retry-requests numpy pandas</pre>
 
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4"><code
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
 						><span class="token keyword">import</span> openmeteo_requests
 {#if sdk_type == 'ensemble_api'}
 							<span class="token keyword">from</span> openmeteo_sdk.Variable <span
@@ -1083,15 +1083,15 @@ current <span class="token operator">=</span> response<span class="token punctua
 					>.
 				</p>
 				<p>
-					Caveats: The code generator does not handle sunrise and sunset correctly. It is supposed
-					to be ".valuesInt64" instead of ".values". For the ensemble API, multiple members per
-					variable are not correctly decoded. You will have to loop over `variables`.
+					Caveats: For the ensemble API, multiple members per variable are not correctly decoded.
+					You will have to loop over `variables`.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4"><code>npm install openmeteo</code
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
+						>npm install openmeteo</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4">
+				<pre class="my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
 <code
 						><span class="token keyword">import</span> <span class="token punctuation"
 							>&lbrace;</span
@@ -1275,7 +1275,8 @@ current <span class="token operator">=</span> response<span class="token punctua
 											>(</span
 										><span>{variable}</span><span class="token punctuation">.</span><span
 											class="token function">valuesInt64</span
-										><span class="token punctuation">(i))</span><span class="token operator">+</span
+										><span class="token punctuation">(i))</span><span
+											class="token operator"> +</span
 										><span> utcOffsetSeconds</span><span class="token punctuation">) </span><span
 											class="token operator">*</span
 										><span class="token number"> 1000</span><span class="token punctuation">)</span
@@ -1356,14 +1357,12 @@ current <span class="token operator">=</span> response<span class="token punctua
 					>.
 				</p>
 				<p>
-					Caveats: The code generator does not handle sunrise and sunset correctly. It is supposed
-					to be [Int64] instead of [Float] and ".valuesInt64" instead of ".values". For the ensemble
-					API, multiple members per variable are not correctly decoded. You will have to loop over
-					'variables'.
+					Caveats: For the ensemble API, multiple members per variable are not correctly decoded.
+					You will have to loop over 'variables'.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<p class="my-3">Add OpenMeteoSdk as a dependency to your Package.swift</p>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4"><code
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
 						>dependencies: [
 {'\t'}.package(url: "https://github.com/open-meteo/sdk.git", from: "1.5.0")
 ],
@@ -1374,7 +1373,7 @@ targets: [
 ]</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4">
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
 <code class="language-swift"
 						><span class="token keyword">import</span> <span class="token class-name"
 							>OpenMeteoSdk</span
@@ -1436,7 +1435,8 @@ targets: [
 								>{#each $params[section] as variable}{'\n\t'}{'\t'}<span class="token keyword"
 										>let</span
 									> {camelCase(variable)}<span class="token punctuation">:</span> <span
-										class="token class-name">Float</span
+										class="token class-name"
+										>{int64Variables.includes(variable) ? 'Int64' : 'Float'}</span
 									>{/each}{:else}<br />{'\t'}{'\t'}<span class="token keyword">let</span> time<span
 									class="token punctuation">:</span
 								> <span class="token punctuation">[</span><span class="token class-name">Date</span
@@ -1444,7 +1444,7 @@ targets: [
 									/>{'\t'}{'\t'}<span class="token keyword">let</span> {camelCase(variable)}<span
 										class="token punctuation">:</span
 									> <span class="token punctuation">[</span><span class="token class-name"
-										>Float</span
+										>{int64Variables.includes(variable) ? 'Int64' : 'Float'}</span
 									><span class="token punctuation">]</span>{/each}{/if}
 {'\t'}<span
 								class="token punctuation">&rbrace;</span
@@ -1481,14 +1481,16 @@ targets: [
 									><span class="token punctuation">(</span>at<span class="token punctuation">:</span
 									> <span class="token number">{index}</span><span class="token punctuation">)</span
 									><span class="token operator">!</span><span class="token punctuation">.</span
-									>value{/each}
-{'\t'}<span class="token punctuation">)</span>{:else}<br
-								/>{'\t'}{'\t'}time<span class="token punctuation">:</span> {camelCase(section)}<span
-									class="token punctuation">.</span
-								><span class="token function">getDateTime</span><span class="token punctuation"
-									>(</span
-								>offset<span class="token punctuation">:</span> utcOffsetSeconds<span
+									>{int64Variables.includes(variable) ? 'valueInt64' : 'value'}{/each}
+{'\t'}<span
 									class="token punctuation">)</span
+								>{:else}<br />{'\t'}{'\t'}time<span class="token punctuation">:</span> {camelCase(
+									section
+								)}<span class="token punctuation">.</span><span class="token function"
+									>getDateTime</span
+								><span class="token punctuation">(</span>offset<span class="token punctuation"
+									>:</span
+								> utcOffsetSeconds<span class="token punctuation">)</span
 								>{#each $params[section] as variable, index}<span class="token punctuation">,</span
 									>{'\n\t'}{'\t'}{camelCase(variable)}<span class="token punctuation">:</span
 									> {camelCase(section)}<span class="token punctuation">.</span><span
@@ -1496,8 +1498,10 @@ targets: [
 									><span class="token punctuation">(</span>at<span class="token punctuation">:</span
 									> <span class="token number">{index}</span><span class="token punctuation">)</span
 									><span class="token operator">!</span><span class="token punctuation">.</span
-									>values{/each}
-{'\t'}<span class="token punctuation">)</span>{/if}{/each}
+									>{int64Variables.includes(variable) ? 'valuesInt64' : 'values'}{/each}
+{'\t'}<span
+									class="token punctuation">)</span
+								>{/if}{/each}
 <span class="token punctuation">)</span>
 
 <span class="token comment">/// Timezone `.gmt` is deliberately used. </span>
