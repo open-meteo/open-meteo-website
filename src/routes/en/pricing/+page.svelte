@@ -194,7 +194,7 @@
 			<thead>
 				<tr>
 					<th scope="col" style="width: 20%"> </th>
-					<th scope="col" style="width: 20%">Non-commercial</th>
+					<th scope="col" style="width: 20%">Free / Open-Access</th>
 					<th scope="col" style="width: 20%">API Standard</th>
 					<th scope="col" style="width: 20%">API Professional</th>
 					<th scope="col" style="width: 20%">API Enterprise</th>
@@ -251,7 +251,7 @@
 					<td>&#x2705;</td>
 				</tr>
 				<tr>
-					<th scope="row">Marine API </th>
+					<th scope="row">Elevation API</th>
 					<td>&#x2705;</td>
 					<td>&#x2705;</td>
 					<td>&#x2705;</td>
@@ -265,13 +265,6 @@
 					<td>&#x2705;</td>
 				</tr>
 				<tr>
-					<th scope="row">Elevation API</th>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-				</tr>
-				<tr>
 					<th scope="row">Geocoding API</th>
 					<td>&#x2705;</td>
 					<td>&#x2705;</td>
@@ -279,7 +272,14 @@
 					<td>&#x2705;</td>
 				</tr>
 				<tr>
-					<th scope="row">Historical Weather API</th>
+					<th scope="row">Marine API </th>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">Solar Radiation API</th>
 					<td>&#x2705;</td>
 					<td>&#x274c;</td>
 					<td>&#x2705;</td>
@@ -300,6 +300,13 @@
 					<td>&#x2705;</td>
 				</tr>
 				<tr>
+					<th scope="row">Historical Weather API</th>
+					<td>&#x2705;</td>
+					<td>&#x274c;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
 					<th scope="row">Historical Forecast API</th>
 					<td>&#x2705;</td>
 					<td>&#x274c;</td>
@@ -312,13 +319,6 @@
 					<td>&#x274c;</td>
 					<td>&#x2705;</td>
 					<td>&#x2705;</td>
-				</tr>
-				<tr>
-					<th scope="row">Support</th>
-					<td>&#x274c;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705; </td>
-					<td>&#x2705; </td>
 				</tr>
 				<tr>
 					<th scope="row">Custom Solutions</th>
