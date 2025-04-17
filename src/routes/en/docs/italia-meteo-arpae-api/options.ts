@@ -11,7 +11,7 @@ export const defaultParameters = {
 
 	time_mode: 'forecast_days',
 	past_days: '0',
-	forecast_days: '7',
+	forecast_days: '3',
 
 	end_date: undefined,
 	start_date: undefined,
@@ -204,12 +204,7 @@ export const solarVariables = [
 ];
 
 export const models = [
-	[
-		{ value: 'icon_seamless', label: 'DWD ICON Seamless' },
-		{ value: 'icon_global', label: 'DWD ICON Global' },
-		{ value: 'icon_eu', label: 'DWD ICON EU' },
-		{ value: 'icon_d2', label: 'DWD ICON D2' }
-	]
+	[{ value: 'italia_meteo_arpae_icon_2i', label: 'ItaliaMeteo ARPAE ICON-2i' }]
 ];
 
 export const forecastDaysOptions = [
