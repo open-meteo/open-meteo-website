@@ -61,8 +61,8 @@
 	} from '../options';
 
 	const params = urlHashStore({
-		latitude: [52.52],
-		longitude: [13.41],
+		latitude: [41.89],
+		longitude: [12.51],
 		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
@@ -146,13 +146,13 @@
 </script>
 
 <svelte:head>
-	<title>DWD ICON API | Open-Meteo.com</title>
+	<title>ItaliaMeteo ARPAE ICON-2i | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/dwd-api" />
 </svelte:head>
 
 <Alert.Root class="border-border mb-4">
 	<Alert.Description>
-		This API offers access to the renowned ICON weather models from the German Weather service DWD,
+		This API offers access to the renowned ICON weather models from the ItaliaMeteo Service,
 		delivering 15-minutely data for short-term forecasts in central Europe and 11 km resolution
 		global forecasts. The ICON model is a preferred choice in <a
 			class="text-link underline"
@@ -603,7 +603,8 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<AccordionItem
+			<!-- More models will be added later -->
+			<!-- <AccordionItem
 				id="models"
 				title="Weather models"
 				count={countVariables(models, $params.models)}
@@ -647,7 +648,7 @@
 						a seamless prediction.</small
 					>
 				</div>
-			</AccordionItem>
+			</AccordionItem> -->
 			<AccordionItem
 				id="minutely_15"
 				title="15-Minutely Weather Variables"
@@ -876,14 +877,14 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview {params} {defaultParameters} model_default="icon_seamless" />
+	<ResultPreview {params} {defaultParameters} model_default="italia_meteo_arpae_icon_2i" />
 </div>
 
 <!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
 	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
 	<div class="mt-2 md:mt-4">
-		<p>
+		<!-- <p>
 			This API uses global DWD ICON weather forecast and combines them with high-resolution ICON
 			Europe and Central Europe forecasts. Information about DWD wearther models is available <a
 				href="https://www.dwd.de/EN/ourservices/nwp_forecast_data/nwp_forecast_data.html"
@@ -891,10 +892,10 @@
 			>. For ICON Global and Europe, values are interpolated from 3-hourly to 1-hourly after 78
 			hours. 15-minutely data is only available for a small number of weather variables and only in
 			Central Europe.
-		</p>
+		</p> -->
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -913,7 +914,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
+					<!-- <tr>
 						<th scope="row">ICON Global</th>
 						<td>Global</td>
 						<td>0.1° (~11 km)</td>
@@ -928,10 +929,10 @@
 						<td>Hourly<small class="text-muted-foreground">, 3-hourly after 78 hours</small></td>
 						<td>5 days</td>
 						<td>Every 3 hours</td>
-					</tr>
+					</tr> -->
 					<tr>
-						<th scope="row">ICON D2</th>
-						<td>Central Europe</td>
+						<th scope="row">ICON 2i</th>
+						<td>South Europe</td>
 						<td>0.02° (~2 km)</td>
 						<td>15-Minutely</td>
 						<td>2 days</td>
@@ -945,21 +946,10 @@
 			<figure class="w-full">
 				<img
 					class="w-full rounded-lg"
-					src="/images/models/dwd_icon-d2.webp"
-					alt="ICON D2 Modal Area"
+					src="/images/models/italiameteo_icon-2i.webp"
+					alt="ICON 2i Modal Area"
 				/>
-				<figcaption class="text-muted-foreground">ICON D2 Area. Source: Open-Meteo.</figcaption>
-			</figure>
-
-			<figure class="w-full">
-				<img
-					class="w-full rounded-lg"
-					src="/images/models/dwd_icon-eu.webp"
-					alt="ICON EU Regional Model Area"
-				/>
-				<figcaption class="text-muted-foreground">
-					ICON EU Regional Model Area. Source: Open-Meteo.
-				</figcaption>
+				<figcaption class="text-muted-foreground">ICON 2i Area. Source: Open-Meteo.</figcaption>
 			</figure>
 		</div>
 	</div>
@@ -970,9 +960,9 @@
 	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
 	<div class="mt-2 md:mt-4">
 		<p>
-			The API endpoint <mark>/v1/dwd-icon</mark> accepts a geographical coordinate, a list of weather
-			variables and responds with a JSON hourly weather forecast for 7 days. Time always starts at 0:00
-			today and contains 168 hours. All URL parameters are listed below:
+			The API endpoint <mark>/v1/italia-meteo-arpae-api</mark> accepts a geographical coordinate, a list
+			of weather variables and responds with a JSON hourly weather forecast for 7 days. Time always starts
+			at 0:00 today and contains 168 hours. All URL parameters are listed below:
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
