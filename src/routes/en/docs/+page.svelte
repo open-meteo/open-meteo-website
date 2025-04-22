@@ -1063,12 +1063,12 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row">COSMO 2I & 5M</th>
-						<td>AM ARPAE ARPAP</td>
+						<th scope="row"><a href="/en/docs/italia-meteo-arpae-api">ARPAE</a></th>
+						<td>ItaliaMeteo</td>
 						<td>Italy</td>
 						<td>2 km</td>
 						<td>3 days</td>
-						<td>Every 3 hours</td>
+						<td>Every 12 hours</td>
 					</tr>
 				</tbody>
 			</table>
