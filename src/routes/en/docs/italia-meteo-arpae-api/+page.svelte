@@ -147,7 +147,7 @@
 
 <svelte:head>
 	<title>ItaliaMeteo ARPAE ICON-2i | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/dwd-api" />
+	<link rel="canonical" href="https://open-meteo.com/en/docs/italia-meteo-arpae-api" />
 </svelte:head>
 
 <Alert.Root class="border-border mb-4">
@@ -161,7 +161,7 @@
 	</Alert.Description>
 </Alert.Root>
 
-<form method="get" action="https://api.open-meteo.com/v1/dwd-icon">
+<form method="get" action="https://api.open-meteo.com/v1/italia-meteo-arpae-api">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
