@@ -64,6 +64,6 @@
 	bind:this={node}
 	{style}
 	class={clazz}
-	class:highcharts-dark={$mode === 'dark'}
-	class:highcharts-light={$mode !== 'dark'}
+	class:highcharts-dark={mode.current === 'dark'}
+	class:highcharts-light={mode.current !== 'dark'}
 ></div>
