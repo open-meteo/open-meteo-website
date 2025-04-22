@@ -26,7 +26,7 @@
 <div class="container mb-12 mt-4">
 	<div id="plans" class="-mx-6 min-h-[668px] lg:mx-0">
 		<script async src="https://js.stripe.com/v3/pricing-table.js"></script>
-		{#if $mode === 'dark'}
+		{#if mode.current === 'dark'}
 			<stripe-pricing-table
 				pricing-table-id="prctbl_1NL5gcLNZMSyEuRUSx6dv3vF"
 				publishable-key="pk_live_51MJeWDLNZMSyEuRU9z4cAidPizoNKshAoYEoTCcD6f94ShOpnqwpShwYfgpPMfISmiXFLNWWM8u769epiIwaMeV900ZFxKd8rR"
