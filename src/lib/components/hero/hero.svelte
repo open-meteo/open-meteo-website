@@ -41,7 +41,7 @@
           background-size: cover;
           background-position: center;
           height: {heroHeight}px;
-		  {$mode === 'dark' ? 'opacity: 0.6;' : ''}
+		  {mode.current === 'dark' ? 'opacity: 0.6;' : ''}
         "
 	></div>
 	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">
