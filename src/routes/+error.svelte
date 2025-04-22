@@ -21,9 +21,7 @@
           background-size: cover;
           background-position: center;
           height: 500px;
-		  		  {$mode === 'dark' ? 'opacity: 0.75;' : ''}
-
-        "
+		  		  {mode.current === 'dark' ? 'opacity: 0.75;' : ''}"
 	></div>
 	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">
 		<Logo width="96" height="96" shadow={true} />
