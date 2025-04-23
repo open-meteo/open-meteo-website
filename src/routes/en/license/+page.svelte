@@ -124,6 +124,14 @@
 				>)
 			</li>
 			<li>
+				Atmospheric forecasts from <a
+					href="https://www.agenziaitaliameteo.it/en/homepage-en/"
+					title="ItaliaMeteo-ARPAE">ItaliaMeteo-ARPAE</a
+				>
+				(<a href="https://creativecommons.org/licenses/by/4.0/" title="DMI License">CC-BY License</a
+				>)
+			</li>
+			<li>
 				Wave forecasts from <a
 					href="https://www.metoffice.gov.uk/"
 					title="Copernicus Marine Service">Copernicus Marine Service</a
