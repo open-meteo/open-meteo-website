@@ -976,19 +976,19 @@
 						<td>Total cloud cover as an area fraction</td>
 					</tr>
 					<tr>
-						<th scope="row">wind_speed_10m<br />wind_speed_80m<br />wind_speed_120m</th>
+						<th scope="row">wind_speed_10m<br />wind_speed_80m<br />wind_speed_100m<br /><br />wind_speed_120m</th>
 						<td>Instant</td>
 						<td>km/h (mph, m/s, knots)</td>
 						<td
-							>Wind speed at 10, 80 or 120 meters above ground. Wind speed on 10 meters is the
+							>Wind speed at 10, 80, 100 or 120 meters above ground. Wind speed on 10 meters is the
 							standard level.</td
 						>
 					</tr>
 					<tr>
-						<th scope="row">wind_direction_10m<br />wind_direction_80m<br />wind_direction_120m</th>
+						<th scope="row">wind_direction_10m<br />wind_direction_80m<br />wind_direction_100m<br />wind_direction_120m</th>
 						<td>Instant</td>
 						<td>°</td>
-						<td>Wind direction at 10, 80 or 120 meters above ground</td>
+						<td>Wind direction at 10, 80, 100 or 120 meters above ground</td>
 					</tr>
 					<tr>
 						<th scope="row">wind_gusts_10m</th>
