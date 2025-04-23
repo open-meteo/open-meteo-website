@@ -16,12 +16,6 @@ updates:
     commit-message:
       prefix: 'fix: '
     groups:
-      semantic:
-        patterns:
-          - 'semantic-release'
-
-          - '@semantic/*'
-          - '@semantic-release/*'
       svelte:
         patterns:
           - 'vite'

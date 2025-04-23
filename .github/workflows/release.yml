@@ -35,7 +35,10 @@ jobs:
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
       - run: npm run build
-      - run: npm run rename_index_files
+      #- run: npm run rename_index_files
+      - name: Install semantic-release
+        run: |
+          npm install --no-save semantic-release conventional-changelog-conventionalcommits
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
