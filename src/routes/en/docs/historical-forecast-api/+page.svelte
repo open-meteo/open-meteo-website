@@ -33,7 +33,6 @@
 		daily,
 		hourly,
 		levels,
-		models,
 		minutely_15,
 		solarVariables,
 		additionalDaily,
@@ -48,7 +47,8 @@
 		pastMinutely15Options,
 		gridCellSelectionOptions,
 		temporalResolutionOptions,
-		forecastMinutely15Options
+		forecastMinutely15Options,
+		models
 	} from '../options';
 
 	let d = new Date();
@@ -1077,29 +1077,13 @@
 						<td>2024-01-18</td>
 					</tr>
 					<tr>
-						<th scope="row" rowspan="3">COSMO 2I & 5M AM ARPAE ARPAP Italy</th>
-						<td>COSMO 5M</td>
-						<td>Europe</td>
-						<td>5 km</td>
+						<th scope="row">ItaliaMeteo ItaliaMeteo-ARPAE</th>
+						<td>ICON 2I</td>
+						<td>Southern Europe</td>
+						<td>2 km</td>
 						<td>1-Hourly</td>
 						<td>Every 12 hours</td>
-						<td>2024-02-01</td>
-					</tr>
-					<tr>
-						<td>COSMO 2I</td>
-						<td>Italy</td>
-						<td>2.2 km</td>
-						<td>1-Hourly</td>
-						<td>Every 12 hours</td>
-						<td>2024-02-01</td>
-					</tr>
-					<tr>
-						<td>COSMO 2I RUC</td>
-						<td>Italy</td>
-						<td>2.2 km</td>
-						<td>1-Hourly</td>
-						<td>Every 3 hours</td>
-						<td>2024-02-01</td>
+						<td>2025-04-13</td>
 					</tr>
 					<tr>
 						<th scope="row">DMI</th>
