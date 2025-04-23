@@ -65,11 +65,11 @@
 	function getData(api_key_preferences: any) {
 		let forecastModels = [
 			{
-				provider: 'ARPAE',
+				provider: 'ItaliaMeteo ARPAE',
 				url: '/en/docs/italia-meteo-arpae-api',
 				models: [
 					{
-						name: 'ICON 2i',
+						name: 'ICON 2I',
 						area: ['it'],
 						meta: fetchMeta('italia_meteo_arpae_icon_2i', 'forecast', api_key_preferences)
 					}
