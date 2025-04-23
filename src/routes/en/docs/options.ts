@@ -355,7 +355,7 @@ export const models = [
 		{ value: 'meteofrance_arome_france', label: 'Météo-France AROME France' },
 		{ value: 'meteofrance_arome_france_hd', label: 'Météo-France AROME France HD' }
 	],
-	[{ value: 'italia_meteo_arpae_icon_2i', label: 'ARPAE ICON 2i' }],
+	[{ value: 'italia_meteo_arpae_icon_2i', label: 'ItaliaMeteo ARPAE ICON 2I' }],
 	[
 		{ value: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
 		{ value: 'metno_nordic', label: 'MET Norway Nordic' }
