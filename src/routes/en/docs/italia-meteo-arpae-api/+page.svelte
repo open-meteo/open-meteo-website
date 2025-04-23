@@ -128,18 +128,8 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/italia-meteo-arpae-api" />
 </svelte:head>
 
-<Alert.Root class="border-border mb-4">
-	<Alert.Description>
-		This API offers access to the ICON weather models from the ItaliaMeteo Service,
-		delivering 1-hourly data for short-term forecasts in southern Europe and 2 km resolution
-		global forecasts. The ICON model is a preferred choice in <a
-			class="text-link underline"
-			href={'/en/docs'}>generic weather forecast API</a
-		> if no other high resolution weather models are available.
-	</Alert.Description>
-</Alert.Root>
 
-<form method="get" action="https://api.open-meteo.com/v1/italia-meteo-arpae-api">
+<form method="get" action="https://api.open-meteo.com/v1/foreacast">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
