@@ -27,7 +27,6 @@
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import {
-		models,
 		previousDay,
 		windVariables,
 		solarVariables,
@@ -38,7 +37,8 @@
 	import {
 		forecastDaysOptions,
 		gridCellSelectionOptions,
-		temporalResolutionOptions
+		temporalResolutionOptions,
+		models
 	} from '../options';
 
 	const params = urlHashStore({
