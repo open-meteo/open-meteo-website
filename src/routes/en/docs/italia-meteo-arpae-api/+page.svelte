@@ -740,15 +740,9 @@
 <div class="mt-6 md:mt-12">
 	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
 	<div class="mt-2 md:mt-4">
-		<!-- <p>
-			This API uses global DWD ICON weather forecast and combines them with high-resolution ICON
-			Europe and Central Europe forecasts. Information about DWD wearther models is available <a
-				href="https://www.dwd.de/EN/ourservices/nwp_forecast_data/nwp_forecast_data.html"
-				target="_blank">here</a
-			>. For ICON Global and Europe, values are interpolated from 3-hourly to 1-hourly after 78
-			hours. 15-minutely data is only available for a small number of weather variables and only in
-			Central Europe.
-		</p> -->
+		<p>
+			This API provides access to the ICON-2I model from ItaliaMeteo-ARPAE.
+		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
 				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
