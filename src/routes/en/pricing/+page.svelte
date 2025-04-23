@@ -244,81 +244,25 @@
 					<td>&#x2705; Unlimited</td>
 				</tr> -->
 				<tr>
-					<th scope="row">Air Quality API</th>
+					<th scope="row">Air Quality API<br/>Elevation API<br/>Flood API<br/>Geocoding API<br/>Marine API</th>
 					<td>&#x2705;</td>
 					<td>&#x2705;</td>
 					<td>&#x2705;</td>
 					<td>&#x2705;</td>
 				</tr>
 				<tr>
-					<th scope="row">Elevation API</th>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-				</tr>
-				<tr>
-					<th scope="row">Flood API</th>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-				</tr>
-				<tr>
-					<th scope="row">Geocoding API</th>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-				</tr>
-				<tr>
-					<th scope="row">Marine API </th>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-				</tr>
-				<tr>
-					<th scope="row">Solar Radiation API</th>
+					<th scope="row">Satellite Radiation API<br/>Climate API<br/>Ensemble Weather API<br/>Historical Weather API<br/>Historical Forecast API<br/>Previous Model Runs API</th>
 					<td>&#x2705;</td>
 					<td>&#x274c;</td>
 					<td>&#x2705;</td>
 					<td>&#x2705;</td>
 				</tr>
 				<tr>
-					<th scope="row">Climate Weather API</th>
-					<td>&#x2705;</td>
+					<th scope="row">Reserved Servers With Higher Reliability</th>
 					<td>&#x274c;</td>
 					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-				</tr>
-				<tr>
-					<th scope="row">Ensemble Weather API</th>
-					<td>&#x2705;</td>
-					<td>&#x274c;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-				</tr>
-				<tr>
-					<th scope="row">Historical Weather API</th>
-					<td>&#x2705;</td>
-					<td>&#x274c;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-				</tr>
-				<tr>
-					<th scope="row">Historical Forecast API</th>
-					<td>&#x2705;</td>
-					<td>&#x274c;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-				</tr>
-				<tr>
-					<th scope="row">Previous Model Runs API</th>
-					<td>&#x2705;</td>
-					<td>&#x274c;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
+					<td>&#x2705; </td>
+					<td>&#x2705; </td>
 				</tr>
 				<tr>
 					<th scope="row">Custom Solutions</th>
