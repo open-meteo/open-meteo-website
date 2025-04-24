@@ -1157,7 +1157,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 								class="token punctuation">(</span
 							><span class="token punctuation">)</span><span class="token operator">!</span><span
 								class="token punctuation">;</span
-							>{'\n'}{/each}{#if $params.daily.includes('sunrise') || $params.daily.includes('sunset')}{#if $params.daily.includes('sunrise')}{'\n'}<span
+							>{'\n'}{/each}{#if $params.daily && ($params.daily.includes('sunrise') || $params.daily.includes('sunset'))}{#if $params.daily.includes('sunrise')}{'\n'}<span
 									class="token keyword">const</span
 								> sunrise <span class="token operator">=</span> daily<span class="token punctuation"
 									>.</span
