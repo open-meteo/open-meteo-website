@@ -157,7 +157,7 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-clock mt-[1px] mr-[2px]"
+						class="lucide lucide-clock mr-[2px]"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"

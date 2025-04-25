@@ -96,14 +96,14 @@
 					: ''}"
 			>
 				<svg
-					class="lucide lucide-calendar mr-[3px] mt-[1px]"
+					class="lucide lucide-calendar mr-1 mt-[1px]"
 					xmlns="http://www.w3.org/2000/svg"
-					width="15"
-					height="15"
+					width="16"
+					height="16"
 					viewBox="0 0 24 24"
 					fill="none"
 					stroke="currentColor"
-					stroke-width="2"
+					stroke-width="1.65"
 					stroke-linecap="round"
 					stroke-linejoin="round"
 				>
@@ -145,14 +145,14 @@
 					: ''}"
 			>
 				<svg
-					class="lucide lucide-calendar mr-[3px] mt-[1px]"
+					class="lucide lucide-calendar mr-1 mt-[1px]"
 					xmlns="http://www.w3.org/2000/svg"
-					width="15"
-					height="15"
+					width="16"
+					height="16"
 					viewBox="0 0 24 24"
 					fill="none"
 					stroke="currentColor"
-					stroke-width="2"
+					stroke-width="1.65"
 					stroke-linecap="round"
 					stroke-linejoin="round"
 				>
