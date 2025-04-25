@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fade, slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 
 	import { countVariables } from '$lib/utils/meteo';
 
@@ -19,11 +19,9 @@
 
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 
-	import SuperDebug from 'sveltekit-superforms';
-
 	import { pastDaysOptions, defaultParameters, forecastDaysOptions } from './options';
 
-	import { models, hourly } from '../docs/options';
+	import { models, hourly, daily, minutely_15, additionalDaily } from '../docs/options';
 
 	let model_default = '';
 	let type = 'forecast';
@@ -286,6 +284,19 @@
 	var d = new Date();
 	d.setDate(d.getDate() - 2);
 	let endDateDefault = d.toISOString().split('T')[0];
+
+	let variablesInput = $state(5);
+	let timeLengthInput = $state('7');
+	let modelsInput = $state(1);
+	let locationsInput = $state(1);
+
+	let flatModels = models.flat();
+	let variablesFlat = [
+		...hourly.flat()
+		// ...daily.flat(),
+		// ...additionalDaily.flat(),
+		// ...minutely_15.flat()
+	];
 </script>
 
 <svelte:head>
@@ -305,6 +316,92 @@
 	</div>
 
 	<div class="mt-6">
+		<h2 class="text-3xl md:text-4xl">Easy version</h2>
+		<div class="mt-3 flex flex-col gap-3 max-w-1/4">
+			<div class="flex items-center gap-3">
+				Variables
+				<Input
+					type="number"
+					defaultValue="5"
+					step="1"
+					min="1"
+					max={variablesFlat.length - 1}
+					bind:value={variablesInput}
+					onchange={(e) => {
+						const numVars = e.target.value;
+						$params.hourly = [];
+						const tempArray = [];
+						for (let i = 0; i <= numVars; i++) {
+							console.log(i);
+							tempArray.push(variablesFlat[i].value);
+						}
+						$params.hourly = tempArray;
+					}}
+				/>
+			</div>
+			<div class="flex items-center gap-3 text-nowrap">
+				Time length
+				<Select.Root name="forecast_days" type="single" bind:value={$params.forecast_days}>
+					<Select.Trigger aria-label="Forecast days input" class=" h-10 cursor-pointer"
+						>{forecastDays?.label}</Select.Trigger
+					>
+					<Select.Content preventScroll={false} class="border-border">
+						{#each forecastDaysOptions as fdo}
+							<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
+						{/each}
+					</Select.Content>
+				</Select.Root>
+			</div>
+			<div class="flex items-center gap-3">
+				Models
+				<Input
+					type="number"
+					defaultValue="1"
+					step="1"
+					min="1"
+					max={flatModels.length - 1}
+					bind:value={modelsInput}
+					onchange={(e) => {
+						const numModels = e.target.value;
+						$params.models = [];
+						const tempArray = [];
+						for (let i = 1; i <= numModels; i++) {
+							console.log(i);
+							tempArray.push(flatModels[i].value);
+						}
+						$params.models = tempArray;
+					}}
+				/>
+			</div>
+			<div class="flex items-center gap-3">
+				Locations
+				<Input
+					type="number"
+					defaultValue="1"
+					step="1"
+					min="1"
+					bind:value={locationsInput}
+					onchange={(e) => {
+						const numLocs = e.target.value;
+						$params.latitude = [];
+						$params.longitude = [];
+						const tempLatArray = [];
+						const tempLonArray = [];
+
+						for (let i = 1; i <= numLocs; i++) {
+							tempLatArray.push(52.5 + Number(Math.random() * 10 - 5).toFixed(2));
+							tempLonArray.push(13.4 + Number(Math.random() * 10 - 5).toFixed(2));
+						}
+						$params.latitude = tempLatArray;
+						$params.longitude = tempLonArray;
+					}}
+				/>
+			</div>
+		</div>
+	</div>
+
+	<div class="mt-6">
+		<h2 class="text-3xl md:text-4xl mb-4">Elaborate version</h2>
 		<h2 id="location_and_time" class="text-2xl md:text-3xl">Location and Time</h2>
 		<div class="mt-3 md:mt-6 flex items-center gap-2">
 			<div class="text-muted-foreground">Location:</div>
