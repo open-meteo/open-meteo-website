@@ -389,8 +389,8 @@
 						const tempLonArray = [];
 
 						for (let i = 1; i <= numLocs; i++) {
-							tempLatArray.push(52.5 + Number(Math.random() * 10 - 5).toFixed(2));
-							tempLonArray.push(13.4 + Number(Math.random() * 10 - 5).toFixed(2));
+							tempLatArray.push(Number(52.5 + Math.random() * 10 - 5).toFixed(2));
+							tempLonArray.push(Number(13.4 + Math.random() * 10 - 5).toFixed(2));
 						}
 						$params.latitude = tempLatArray;
 						$params.longitude = tempLonArray;
