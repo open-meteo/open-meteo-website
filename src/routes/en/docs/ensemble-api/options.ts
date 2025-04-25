@@ -120,6 +120,8 @@ export const gfs05_variables = [
 	'snow_depth',
 	'wind_speed_80m',
 	'wind_direction_80m',
+	'wind_speed_100m',
+	'wind_direction_100m',
 	'wind_speed_120m',
 	'wind_direction_120m',
 	'soil_temperature_10_to_40cm',
@@ -158,6 +160,8 @@ export const ecmwf_variables = [
 	'cloud_cover',
 	'wind_speed_10m',
 	'wind_direction_10m',
+	'wind_speed_100m',
+	'wind_direction_100m',
 	'surface_temperature',
 	'rain',
 	'soil_temperature_0_to_10cm',
@@ -282,9 +286,11 @@ export const hourly = [
 	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
+		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 		{ value: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
 		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
+		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 		{ value: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
 		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 		{ value: 'temperature_80m', label: 'Temperature (80 m)' },
@@ -333,7 +339,7 @@ export const solarVariables = [
 		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
 		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
 		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' }
+		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' }
 	]
 ];
 
@@ -349,9 +355,7 @@ export const models = [
 		{ value: 'gfs025', label: 'GFS Ensemble 0.25' },
 		{ value: 'gfs05', label: 'GFS Ensemble 0.5' }
 	],
-	[
-		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' }
-	],
+	[{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' }],
 	[
 		{ value: 'gem_global', label: 'GEM Global Ensemble' },
 		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' },

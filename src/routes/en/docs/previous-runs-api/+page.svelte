@@ -24,7 +24,6 @@
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import {
-		models,
 		previousDay,
 		windVariables,
 		solarVariables,
@@ -35,7 +34,8 @@
 	import {
 		forecastDaysOptions,
 		gridCellSelectionOptions,
-		temporalResolutionOptions
+		temporalResolutionOptions,
+		models
 	} from '../options';
 
 	const params = urlHashStore({
@@ -447,23 +447,23 @@
 					<div class="relative">
 						<Input
 							type="number"
-							class="h-12 cursor-pointer pt-6 {$params.azimuth < -90 || $params.azimuth > 90
+							class="h-12 cursor-pointer pt-6 {$params.azimuth < -180 || $params.azimuth > 180
 								? 'text-red'
 								: ''}"
 							name="azimuth"
 							id="azimuth"
 							step="1"
-							min="-90"
-							max="90"
+							min="-180"
+							max="180"
 							bind:value={$params.azimuth}
 						/>
 						<Label
 							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</Label
+							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
 						>
-						{#if Number($params.azimuth) < -90 || Number($params.azimuth) > 90}
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
-								Azimuth must be between -90° (east) and 90° (west)
+								Azimuth must be between -180° (north) and 180° (north)
 							</div>
 						{/if}
 					</div>
@@ -523,7 +523,7 @@
 					{#each models as group}
 						<div class="mb-3">
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_model"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"

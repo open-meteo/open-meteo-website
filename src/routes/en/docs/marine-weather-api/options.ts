@@ -28,20 +28,24 @@ export const hourly = [
 	[
 		{ value: 'wave_height', label: 'Wave Height' },
 		{ value: 'wave_direction', label: 'Wave Direction' },
-		{ value: 'wave_period', label: 'Wave Period' }
-	],
-	[
+		{ value: 'wave_period', label: 'Wave Period' },
 		{ value: 'wind_wave_height', label: 'Wind Wave Height' },
-		{ value: 'wind_wave_direction', label: 'Wind Wave Direction' },
-		{ value: 'wind_wave_period', label: 'Wind Wave Period' },
-		{ value: 'wind_wave_peak_period', label: 'Wind Wave Peak Period' }
+		{ value: 'wind_wave_direction', label: 'Wind Wave Direction' }
 	],
 	[
+		{ value: 'wind_wave_period', label: 'Wind Wave Period' },
+		{ value: 'wind_wave_peak_period', label: 'Wind Wave Peak Period' },
 		{ value: 'swell_wave_height', label: 'Swell Wave Height' },
 		{ value: 'swell_wave_direction', label: 'Swell Wave Direction' },
-		{ value: 'swell_wave_period', label: 'Swell Wave Period' },
-		{ value: 'swell_wave_peak_period', label: 'Swell Wave Peak Period' }
+		{ value: 'swell_wave_period', label: 'Swell Wave Period' }
 	],
+	[
+		{ value: 'swell_wave_peak_period', label: 'Swell Wave Peak Period' },
+		{ value: 'secondary_swell_wave_height', label: 'Secondary Swell Wave Height' },
+		{ value: 'secondary_swell_wave_period', label: 'Secondary Swell Wave Pediod' },
+		{ value: 'secondary_swell_wave_direction', label: 'Secondary Swell Wave Direction' }
+	],
+
 	[
 		{ value: 'ocean_current_velocity', label: 'Ocean Current Velocity' },
 		{ value: 'ocean_current_direction', label: 'Ocean Current Direction' },

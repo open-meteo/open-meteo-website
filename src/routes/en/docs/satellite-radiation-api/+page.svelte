@@ -313,7 +313,7 @@ TODO:
 			{#each hourly as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -371,23 +371,23 @@ TODO:
 			<div class="relative">
 				<Input
 					type="number"
-					class="h-12 cursor-pointer pt-6 {$params.azimuth < -90 || $params.azimuth > 90
+					class="h-12 cursor-pointer pt-6 {$params.azimuth < -180 || $params.azimuth > 180
 						? 'text-red'
 						: ''}"
 					name="azimuth"
 					id="azimuth"
 					step="1"
-					min="-90"
-					max="90"
+					min="-180"
+					max="180"
 					bind:value={$params.azimuth}
 				/>
 				<Label
 					class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-					for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</Label
+					for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
 				>
-				{#if Number($params.azimuth) < -90 || Number($params.azimuth) > 90}
+				{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 					<div class="invalid-tooltip" transition:slide>
-						Azimuth must be between -90° (east) and 90° (west)
+						Azimuth must be between -180° (north) and 180° (north)
 					</div>
 				{/if}
 			</div>
@@ -406,7 +406,7 @@ TODO:
 					{#each additionalVariables as group}
 						<div>
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -518,7 +518,7 @@ TODO:
 					{#each models as group}
 						<div class="mb-12">
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_model"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -554,7 +554,7 @@ TODO:
 					{#each weatherModels as group}
 						<div class="mb-3">
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_model"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -602,7 +602,7 @@ TODO:
 			{#each daily as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_daily"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -866,10 +866,10 @@ TODO:
 							>Total radiation received on a tilted pane as average of the preceding hour. The
 							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
 							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
-							Azimuth should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to
-							"nan", the calculation assumes a horizontal tracker. If tilt is set to "nan", it is
-							assumed that the panel has a vertical tracker. If both are set to "nan", a bi-axial
-							tracker is assumed.</td
+							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
+							is set to "nan", the calculation assumes a horizontal tracker. If tilt is set to
+							"nan", it is assumed that the panel has a vertical tracker. If both are set to "nan",
+							a bi-axial tracker is assumed.</td
 						>
 					</tr>
 					<tr>

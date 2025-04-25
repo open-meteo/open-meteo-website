@@ -14,7 +14,7 @@
 		aria-labelledby="darkmode_toggle_label"
 	>
 		<span id="darkmode_toggle_label" class="md:hidden">Toggle theme</span>
-		{#if $mode === 'dark'}
+		{#if mode.current === 'dark'}
 			<Moon size={22} strokeWidth={1.5} />
 		{:else}
 			<Sun size={22} strokeWidth={1.5} />

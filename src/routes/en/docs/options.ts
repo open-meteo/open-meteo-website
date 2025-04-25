@@ -130,7 +130,9 @@ export const minutely_15 = [
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
-		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
+		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' }
+	],
+	[
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'snowfall', label: 'Snowfall' },
 		{ value: 'snowfall_height', label: 'Snowfall Height' },
@@ -142,7 +144,9 @@ export const minutely_15 = [
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
+		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' }
+	],
+	[
 		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 		{ value: 'visibility', label: 'Visibility' },
 		{ value: 'cape', label: 'CAPE' },
@@ -275,7 +279,7 @@ export const additionalVariables = [
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
 		{
-			name: 'total_column_integrated_water_vapour',
+			value: 'total_column_integrated_water_vapour',
 			label: 'Total Column Integrated Water Vapour'
 		}
 	],
@@ -302,7 +306,7 @@ export const solarVariables = [
 		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
 		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
 		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
+		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' },
 		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 	]
 ];
@@ -351,11 +355,7 @@ export const models = [
 		{ value: 'meteofrance_arome_france', label: 'Météo-France AROME France' },
 		{ value: 'meteofrance_arome_france_hd', label: 'Météo-France AROME France HD' }
 	],
-	[
-		{ value: 'arpae_cosmo_seamless', label: 'ARPAE Seamless' },
-		{ value: 'arpae_cosmo_2i', label: 'ARPAE COSMO 2I' },
-		{ value: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
-	],
+	[{ value: 'italia_meteo_arpae_icon_2i', label: 'ItaliaMeteo ARPAE ICON 2I' }],
 	[
 		{ value: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
 		{ value: 'metno_nordic', label: 'MET Norway Nordic' }

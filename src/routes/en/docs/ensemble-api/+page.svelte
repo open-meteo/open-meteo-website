@@ -292,7 +292,7 @@
 			{#each models as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_models"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -331,7 +331,7 @@
 			{#each hourly as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -374,7 +374,7 @@
 					{#each additionalVariables as group}
 						<div>
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -486,7 +486,7 @@
 				{#each solarVariables as group}
 					<div class="grid md:grid-cols-2">
 						{#each group as e}
-							<div class="group flex items-center">
+							<div class="group flex items-center" title={e.label}>
 								<Checkbox
 									id="{e.value}_hourly"
 									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -547,23 +547,23 @@
 					<div class="relative">
 						<Input
 							type="number"
-							class="h-12 cursor-pointer pt-6 {$params.azimuth < -90 || $params.azimuth > 90
+							class="h-12 cursor-pointer pt-6 {$params.azimuth < -180 || $params.azimuth > 180
 								? 'text-red'
 								: ''}"
 							name="azimuth"
 							id="azimuth"
 							step="1"
-							min="-90"
-							max="90"
+							min="-180"
+							max="180"
 							bind:value={$params.azimuth}
 						/>
 						<Label
 							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</Label
+							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
 						>
-						{#if Number($params.azimuth) < -90 || Number($params.azimuth) > 90}
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
-								Azimuth must be between -90° (east) and 90° (west)
+								Azimuth must be between -180° (north) and 180° (north)
 							</div>
 						{/if}
 					</div>
@@ -1013,19 +1013,19 @@
 						<td>Total cloud cover as an area fraction</td>
 					</tr>
 					<tr>
-						<th scope="row">wind_speed_10m<br />wind_speed_80m<br />wind_speed_120m</th>
+						<th scope="row">wind_speed_10m<br />wind_speed_80m<br />wind_speed_100m<br /><br />wind_speed_120m</th>
 						<td>Instant</td>
 						<td>km/h (mph, m/s, knots)</td>
 						<td
-							>Wind speed at 10, 80 or 120 meters above ground. Wind speed on 10 meters is the
+							>Wind speed at 10, 80, 100 or 120 meters above ground. Wind speed on 10 meters is the
 							standard level.</td
 						>
 					</tr>
 					<tr>
-						<th scope="row">wind_direction_10m<br />wind_direction_80m<br />wind_direction_120m</th>
+						<th scope="row">wind_direction_10m<br />wind_direction_80m<br />wind_direction_100m<br />wind_direction_120m</th>
 						<td>Instant</td>
 						<td>°</td>
-						<td>Wind direction at 10, 80 or 120 meters above ground</td>
+						<td>Wind direction at 10, 80, 100 or 120 meters above ground</td>
 					</tr>
 					<tr>
 						<th scope="row">wind_gusts_10m</th>
@@ -1075,10 +1075,10 @@
 							>Total radiation received on a tilted pane as average of the preceding hour. The
 							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
 							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
-							Azimuth should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to
-							"nan", the calculation assumes a horizontal tracker. If tilt is set to "nan", it is
-							assumed that the panel has a vertical tracker. If both are set to "nan", a bi-axial
-							tracker is assumed.</td
+							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
+							is set to "nan", the calculation assumes a horizontal tracker. If tilt is set to
+							"nan", it is assumed that the panel has a vertical tracker. If both are set to "nan",
+							a bi-axial tracker is assumed.</td
 						>
 					</tr>
 					<tr>

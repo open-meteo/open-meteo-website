@@ -299,7 +299,7 @@
 			{#each hourly as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -341,7 +341,7 @@
 					{#each additionalVariables as group}
 						<div>
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -449,36 +449,38 @@
 				title="Solar Radiation Variables"
 				count={countVariables(solarVariables, $params.hourly)}
 			>
-				{#each solarVariables as group}
-					<div class="grid md:grid-cols-2">
-						{#each group as e}
-							<div class="group flex items-center">
-								<Checkbox
-									id="{e.value}_hourly"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value={e.value}
-									checked={$params.hourly?.includes(e.value)}
-									aria-labelledby="{e.value}_hourly_label"
-									onCheckedChange={() => {
-										if ($params.hourly?.includes(e.value)) {
-											$params.hourly = $params.hourly.filter((item) => {
-												return item !== e.value;
-											});
-										} else {
-											$params.hourly.push(e.value);
-											$params.hourly = $params.hourly;
-										}
-									}}
-								/>
-								<Label
-									id="{e.value}_hourly_label"
-									for="{e.value}_hourly"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-								>
-							</div>
-						{/each}
-					</div>
-				{/each}
+				<div class="grid md:grid-cols-2">
+					{#each solarVariables as group}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center" title={e.label}>
+									<Checkbox
+										id="{e.value}_hourly"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.hourly?.includes(e.value)}
+										aria-labelledby="{e.value}_hourly_label"
+										onCheckedChange={() => {
+											if ($params.hourly?.includes(e.value)) {
+												$params.hourly = $params.hourly.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.hourly.push(e.value);
+												$params.hourly = $params.hourly;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_hourly_label"
+										for="{e.value}_hourly"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
@@ -512,23 +514,23 @@
 					<div class="relative">
 						<Input
 							type="number"
-							class="h-12 cursor-pointer pt-6 {$params.azimuth < -90 || $params.azimuth > 90
+							class="h-12 cursor-pointer pt-6 {$params.azimuth < -180 || $params.azimuth > 180
 								? 'text-red'
 								: ''}"
 							name="azimuth"
 							id="azimuth"
 							step="1"
-							min="-90"
-							max="90"
+							min="-180"
+							max="180"
 							bind:value={$params.azimuth}
 						/>
 						<Label
 							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W)</Label
+							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
 						>
-						{#if Number($params.azimuth) < -90 || Number($params.azimuth) > 90}
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
-								Azimuth must be between -90° (east) and 90° (west)
+								Azimuth must be between -180° (north) and 180° (north)
 							</div>
 						{/if}
 					</div>
@@ -570,7 +572,7 @@
 									<div class="grid grid-cols-1 md:grid-cols-3">
 										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
 											{#each chunk as level}
-												<div class="group flex items-center">
+												<div class="group flex items-center" title={level.label}>
 													<Checkbox
 														id="{variable.value}_{level}hPa"
 														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -625,7 +627,7 @@
 			{#each daily as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_daily"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -1103,10 +1105,10 @@
 							>Total radiation received on a tilted pane as average of the preceding hour. The
 							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
 							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
-							Azimuth should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to
-							"nan", the calculation assumes a horizontal tracker. If tilt is set to "nan", it is
-							assumed that the panel has a vertical tracker. If both are set to "nan", a bi-axial
-							tracker is assumed.</td
+							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
+							is set to "nan", the calculation assumes a horizontal tracker. If tilt is set to
+							"nan", it is assumed that the panel has a vertical tracker. If both are set to "nan",
+							a bi-axial tracker is assumed.</td
 						>
 					</tr>
 					<tr>

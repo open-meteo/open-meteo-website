@@ -65,18 +65,13 @@
 	function getData(api_key_preferences: any) {
 		let forecastModels = [
 			{
-				provider: 'AM ARPAE ARPAP',
-				url: '',
+				provider: 'ItaliaMeteo ARPAE',
+				url: '/en/docs/italia-meteo-arpae-api',
 				models: [
 					{
-						name: 'COSMO 5m',
-						area: ['european_union'],
-						meta: fetchMeta('arpae_cosmo_5m', 'forecast', api_key_preferences)
-					},
-					{
-						name: 'COSMO 2i',
+						name: 'ICON 2I',
 						area: ['it'],
-						meta: fetchMeta('arpae_cosmo_2i', 'forecast', api_key_preferences)
+						meta: fetchMeta('italia_meteo_arpae_icon_2i', 'forecast', api_key_preferences)
 					}
 				]
 			},
@@ -189,6 +184,22 @@
 						name: 'MSM 0.05°',
 						area: ['jp'],
 						meta: fetchMeta('jma_msm', 'forecast', api_key_preferences)
+					}
+				]
+			},
+			{
+				provider: 'KMA Korea',
+				url: '/en/docs/kma-api',
+				models: [
+					{
+						name: 'KMA GDPS 0.13°',
+						area: [],
+						meta: fetchMeta('kma_gdps', 'forecast', api_key_preferences)
+					},
+					{
+						name: 'KMA LDPS 1.5km',
+						area: ['kr'],
+						meta: fetchMeta('kma_ldps', 'forecast', api_key_preferences)
 					}
 				]
 			},
@@ -313,22 +324,6 @@
 						name: 'UKMO UKV',
 						area: ['gb'],
 						meta: fetchMeta('ukmo_uk_deterministic_2km', 'forecast', api_key_preferences)
-					}
-				]
-			},
-			{
-				provider: 'KMA Korea',
-				url: '/en/docs/kma-api',
-				models: [
-					{
-						name: 'KMA GDPS 0.13°',
-						area: [],
-						meta: fetchMeta('kma_gdps', 'forecast', api_key_preferences)
-					},
-					{
-						name: 'KMA LDPS 1.5km',
-						area: ['kr'],
-						meta: fetchMeta('kma_ldps', 'forecast', api_key_preferences)
 					}
 				]
 			}

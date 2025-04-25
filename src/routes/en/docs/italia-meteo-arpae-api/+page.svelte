@@ -3,9 +3,17 @@
 
 	import { fade, slide } from 'svelte/transition';
 
-	import { countVariables } from '$lib/utils/meteo';
+	import {
+		countVariables,
+		sliceIntoChunks,
+		countPressureVariables,
+		altitudeAboveSeaLevelMeters
+	} from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import Clock from 'lucide-svelte/icons/clock';
+	import Calendar from 'lucide-svelte/icons/calendar-cog';
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -15,21 +23,24 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import {
 		daily,
 		hourly,
+		levels,
 		models,
 		current,
 		solarVariables,
 		defaultParameters,
+		pressureVariables,
 		additionalVariables,
 		forecastDaysOptions
 	} from './options';
@@ -43,8 +54,8 @@
 	} from '../options';
 
 	const params = urlHashStore({
-		latitude: [51.5085],
-		longitude: [-0.1257],
+		latitude: [41.89],
+		longitude: [12.51],
 		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
@@ -59,25 +70,26 @@
 	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
 	// Additional variable settings
-	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
 	let forecastHours = $derived(
 		forecastHoursOptions.find((fho) => String(fho.value) == $params.forecast_hours)
+	);
+	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
 	let cellSelection = $derived(
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
-	let temporalResolution = $derived(
-		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
-	);
+	let pressureVariablesTab = $state('temperature');
 
-	let accordionValues: string[] = $state([]);
+	let accordionValues = $state([]);
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				(pastHours ? pastHours.value : false) ||
-				(cellSelection ? cellSelection.value : false) ||
-				(forecastHours ? forecastHours.value : false) ||
-				(temporalResolution ? temporalResolution.value : false)) &&
+				forecastHours.value ||
+				pastHours.value ||
+				temporalResolution.value ||
+				cellSelection.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -85,11 +97,18 @@
 
 		if (
 			(countVariables(solarVariables, $params.hourly).active ||
-				($params.tilt ? $params.tilt > 0 : false) ||
-				($params.azimuth ? $params.azimuth > 0 : false)) &&
+				$params.tilt > 0 ||
+				$params.azimuth > 0) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
+		}
+
+		if (
+			countPressureVariables(pressureVariables, levels, $params.hourly).active &&
+			!accordionValues.includes('pressure-variables')
+		) {
+			accordionValues.push('pressure-variables');
 		}
 
 		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
@@ -101,17 +120,16 @@
 	begin_date.setMonth(begin_date.getMonth() - 3);
 
 	let last_date = new Date();
-	last_date.setDate(last_date.getDate() + 14);
+	last_date.setDate(last_date.getDate() + 8);
 </script>
 
 <svelte:head>
-	<title>UK Met Office API | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/kma-api" />
+	<title>ItaliaMeteo ARPAE ICON-2i | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/docs/italia-meteo-arpae-api" />
 </svelte:head>
 
-<div class="alert alert-warning" role="alert"></div>
 
-<form method="get" action="https://api.open-meteo.com/v1/forecast">
+<form method="get" action="https://api.open-meteo.com/v1/foreacast">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
@@ -123,8 +141,7 @@
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="rounded-e-none !opacity-100 gap-1 duration-300 {$params.time_mode ===
-					'forecast_days'
+					class="rounded-e-none !opacity-100 {$params.time_mode === 'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
 					disabled={$params.time_mode === 'forecast_days'}
@@ -134,25 +151,11 @@
 						$params.end_date = '';
 					}}
 				>
-					<svg
-						class="lucide lucide-clock mt-[1px]"
-						xmlns="http://www.w3.org/2000/svg"
-						width="20"
-						height="20"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<circle cx="12" cy="12" r="10" />
-						<polyline points="12 6 12 12 16 14" />
-					</svg>Forecast Length
+					<Clock size={20} />Forecast Length
 				</Button>
 				<Button
 					variant="ghost"
-					class="rounded-s-none !opacity-100 gap-1 duration-300  {$params.time_mode ===
+					class="rounded-md rounded-s-none !opacity-100 duration-300 {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -161,32 +164,7 @@
 						$params.time_mode = 'time_interval';
 					}}
 				>
-					<svg
-						class="lucide lucide-calendar-cog"
-						xmlns="http://www.w3.org/2000/svg"
-						width="20"
-						height="20"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<path d="m15.2 16.9-.9-.4" />
-						<path d="m15.2 19.1-.9.4" />
-						<path d="M16 2v4" />
-						<path d="m16.9 15.2-.4-.9" />
-						<path d="m16.9 20.8-.4.9" />
-						<path d="m19.5 14.3-.4.9" />
-						<path d="m19.5 21.7-.4-.9" />
-						<path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" />
-						<path d="m21.7 16.5-.9.4" />
-						<path d="m21.7 19.5-.9-.4" />
-						<path d="M3 10h18" />
-						<path d="M8 2v4" />
-						<circle cx="18" cy="18" r="3" />
-					</svg>Time Interval
+					<Calendar size={20} />Time Interval
 				</Button>
 			</div>
 		</div>
@@ -327,11 +305,11 @@
 										checked={$params.hourly?.includes(e.value)}
 										aria-labelledby="{e.value}_label"
 										onCheckedChange={() => {
-											if (e.value && $params.hourly?.includes(e.value)) {
+											if ($params.hourly?.includes(e.value)) {
 												$params.hourly = $params.hourly.filter((item) => {
 													return item !== e.value;
 												});
-											} else if (e.value && $params.hourly) {
+											} else {
 												$params.hourly.push(e.value);
 												$params.hourly = $params.hourly;
 											}
@@ -515,6 +493,86 @@
 				</div>
 			</AccordionItem>
 			<AccordionItem
+				id="pressure-levels"
+				title="Pressure Level Variables"
+				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
+			>
+				<div class="flex gap-3 md:gap-6">
+					<div class="md:min-w-[150px]">
+						<ToggleGroup.Root
+							type="single"
+							bind:value={pressureVariablesTab}
+							class="justify-start gap-0"
+						>
+							<div class="border-border flex flex-col rounded-lg border">
+								{#each pressureVariables as variable, i}
+									<ToggleGroup.Item
+										value={variable.value}
+										class="min-h-12 cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
+										0
+											? 'rounded-t-md'
+											: ''} {i === pressureVariables.length - 1 ? 'rounded-b-md' : ''}"
+										disabled={pressureVariablesTab === variable.value}
+										onclick={() => (pressureVariablesTab = variable.value)}
+										>{variable.label}
+									</ToggleGroup.Item>
+								{/each}
+							</div>
+						</ToggleGroup.Root>
+					</div>
+					<div>
+						{#each pressureVariables as variable}
+							{#if pressureVariablesTab === variable.value}
+								<div class="mb-3">{variable.label}</div>
+								<div>
+									<div class="grid grid-cols-1 md:grid-cols-3">
+										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
+											{#each chunk as level}
+												<div class="group flex items-center" title={level.label}>
+													<Checkbox
+														id="{variable.value}_{level}hPa"
+														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+														value="{variable.value}_{level}hPa"
+														checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
+														aria-labelledby="{variable.value}_{level}hPa"
+														onCheckedChange={() => {
+															if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
+																$params.hourly = $params.hourly.filter((item) => {
+																	return item !== `${variable.value}_${level}hPa`;
+																});
+															} else {
+																$params.hourly.push(`${variable.value}_${level}hPa`);
+																$params.hourly = $params.hourly;
+															}
+														}}
+													/>
+													<Label
+														for="{variable.value}_{level}hPa"
+														class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
+														>{level} hPa
+														<small class="text-muted-foreground"
+															>({altitudeAboveSeaLevelMeters(level)})</small
+														></Label
+													>
+												</div>
+											{/each}
+										{/each}
+									</div>
+								</div>
+							{/if}
+						{/each}
+						<div class="mt-3">
+							<small class="text-muted-foreground"
+								>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
+								(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above
+								sea level.</small
+							>
+						</div>
+					</div>
+				</div>
+			</AccordionItem>
+			<!-- More models will be added later -->
+			<!-- <AccordionItem
 				id="models"
 				title="Weather models"
 				count={countVariables(models, $params.models)}
@@ -558,7 +616,7 @@
 						a seamless prediction.</small
 					>
 				</div>
-			</AccordionItem>
+			</AccordionItem> -->
 		</Accordion.Root>
 	</div>
 
@@ -649,7 +707,7 @@
 			{/each}
 		</div>
 		<div class="text-muted-foreground mt-1">
-			Note: Current conditions are based on 1 or 3-hourly weather model data. Every weather variable
+			Note: Current conditions are based on 1 hourly weather model data. Every weather variable
 			available in hourly data, is available as current condition as well.
 		</div>
 	</div>
@@ -665,7 +723,7 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview {params} {defaultParameters} model_default="kma_seamless" />
+	<ResultPreview {params} {defaultParameters} model_default="italia_meteo_arpae_icon_2i" />
 </div>
 
 <!-- DATA SOURCES -->
@@ -673,18 +731,15 @@
 	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
 	<div class="mt-2 md:mt-4">
 		<p>
-			This API uses global KMA GDPS 10 km weather forecasts and combines them with high-resolution
-			LDPS 1.5 km model for the North and South Korea. Information about KMA weather models is
-			available <a href="https://www.kma.go.kr/eng/biz/forecast_02.jsp" target="_blank">here</a>.
-			For GDPS Global, values are interpolated from 3-hourly to 1-hourly time-steps.
+			This API provides access to the ICON-2I model from ItaliaMeteo-ARPAE.
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1025px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
-						class="text-link undeline"
+						class="text-link underline"
 						href={'/en/docs/model-updates'}>model updates documentation</a
 					>.</caption
 				>
@@ -700,32 +755,28 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">KMA GDPS</th>
-						<td>Global</td>
-						<td>0.13° (~12 km)</td>
-						<td>3-Hourly</td>
-						<td>12 days</td>
-						<td>Every 6 hours</td>
-					</tr>
-					<tr>
-						<th scope="row">KMA LDPS</th>
-						<td>South And North Korea</td>
-						<td>1.5 km</td>
-						<td>Hourly</td>
-						<td>2 days</td>
-						<td>Every 6 hours</td>
+						<th scope="row">ICON 2I</th>
+						<td>Southern Europe</td>
+						<td>0.02° (~2 km)</td>
+						<td>1-Hourly</td>
+						<td>3 days</td>
+						<td>Every 12 hours</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-	</div>
 
-	<figure class="mt-6">
-		<img src="/images/models/kma_ldps.webp" class="rounded-lg" alt="..." />
-		<figcaption class="text-muted-foreground">
-			KMA LDPS domain area at 1.5 km resolution. Source: Open-Meteo.
-		</figcaption>
-	</figure>
+		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+			<figure class="w-full">
+				<img
+					class="w-full rounded-lg"
+					src="/images/models/italiameteo_icon-2i.webp"
+					alt="ICON 2I Modal Area"
+				/>
+				<figcaption class="text-muted-foreground">ICON 2I Area. Source: Open-Meteo.</figcaption>
+			</figure>
+		</div>
+	</div>
 </div>
 
 <!-- API DOCS -->
@@ -735,24 +786,7 @@
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a
 				href={'/en/docs'}>Weather Forecast API</a
-			>. Only notable remarks are listed below
+			>.
 		</p>
-		<ul class="ml-6 list-disc">
-			<li>
-				<strong>Direct Solar Radiation:</strong> KMA provides direct solar radiation. Many other weather
-				models only provide global solar radiation and direct solar radiation must be calculated user
-				separation models.
-			</li>
-			<li>
-				<strong>Cloud Cover (2m):</strong> KMA provides cloud cover at 2 metre above ground which can
-				be interpreted as fog. This is remarkable, because only very weather models are capable of modeling
-				low level cloud cover and fog with a good degree of accuracy.
-			</li>
-			<li>
-				<strong>Showers:</strong>Showers are only computed in the global GDPS model. Since LDPS is a
-				convection-resolving model, it incorporates showers within the regular rain parameter,
-				resulting in a constant value of 0 for the showers variable in LDPS.
-			</li>
-		</ul>
 	</div>
 </div>

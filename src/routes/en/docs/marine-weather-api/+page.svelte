@@ -291,7 +291,7 @@
 			{#each hourly as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -340,7 +340,7 @@
 					{#each additionalVariables as group}
 						<div>
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -452,7 +452,7 @@
 					{#each models as group}
 						<div class="mb-3">
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_model"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -495,32 +495,34 @@
 			>
 				<div class="mt-2 grid">
 					{#each minutely_15 as group}
-						{#each group as e}
-							<div class="group flex items-center">
-								<Checkbox
-									id="{e.value}_minutely_15"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value="{e.value}_minutely_15"
-									checked={$params.minutely_15?.includes(e.value)}
-									aria-labelledby="{e.value}_minutely_15_label"
-									onCheckedChange={() => {
-										if ($params.minutely_15?.includes(e.value)) {
-											$params.minutely_15 = $params.minutely_15.filter((item) => {
-												return item !== e.value;
-											});
-										} else {
-											$params.minutely_15.push(e.value);
-											$params.minutely_15 = $params.minutely_15;
-										}
-									}}
-								/>
-								<Label
-									id="{e.value}_minutely_15_label"
-									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-								>
-							</div>
-						{/each}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center" title={e.label}>
+									<Checkbox
+										id="{e.value}_minutely_15"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value="{e.value}_minutely_15"
+										checked={$params.minutely_15?.includes(e.value)}
+										aria-labelledby="{e.value}_minutely_15_label"
+										onCheckedChange={() => {
+											if ($params.minutely_15?.includes(e.value)) {
+												$params.minutely_15 = $params.minutely_15.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.minutely_15.push(e.value);
+												$params.minutely_15 = $params.minutely_15;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_minutely_15_label"
+										for="{e.value}_minutely_15"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
 					{/each}
 				</div>
 
@@ -586,7 +588,7 @@
 			{#each daily as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_daily"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -635,7 +637,7 @@
 			{#each hourly as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_current"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -1051,7 +1053,10 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">wave_height<br />wind_wave_height<br />swell_wave_height</th>
+						<th scope="row"
+							>wave_height<br />wind_wave_height<br />swell_wave_height<br
+							/>secondary_swell_wave_height</th
+						>
 						<td>Instant</td>
 						<td>Meter</td>
 						<td
@@ -1061,13 +1066,19 @@
 						>
 					</tr>
 					<tr>
-						<th scope="row">wave_direction<br />wind_wave_direction<br />swell_wave_direction</th>
+						<th scope="row"
+							>wave_direction<br />wind_wave_direction<br />swell_wave_direction<br
+							/>secondary_swell_wave_direction</th
+						>
 						<td>Instant</td>
 						<td>°</td>
 						<td>Mean direction of mean, wind and swell waves</td>
 					</tr>
 					<tr>
-						<th scope="row">wave_period<br />wind_wave_period<br />swell_wave_period</th>
+						<th scope="row"
+							>wave_period<br />wind_wave_period<br />swell_wave_period<br
+							/>secondary_swell_wave_period</th
+						>
 						<td>Instant</td>
 						<td>Seconds</td>
 						<td>Period between mean, wind and swell waves.</td>

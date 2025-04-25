@@ -2,6 +2,8 @@ name: Build and Deploy
 
 on:
   workflow_dispatch:
+  schedule: 
+    - cron: "0 18 * * *"
 
 #on:
 #  push:
@@ -33,13 +35,16 @@ jobs:
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
       - run: npm run build
-      - run: npm run rename_index_files
+      #- run: npm run rename_index_files
+      - name: Install semantic-release
+        run: |
+          npm install --no-save semantic-release conventional-changelog-conventionalcommits
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
-      - name: Install LFTP
-        run: sudo apt update && sudo apt -qq -y install lftp
-      - name: Upload ftp
-        run: lftp storage.bunnycdn.com -u open-meteo,${{ secrets.ftp_password }} -e "set ftp:ssl-force false; set ssl:verify-certificate false; mirror --reverse -P 20 --continue --dereference -x ^\.git/$ build .; quit"
-      - run: "curl --request POST --url https://api.bunny.net/pullzone/1309127/purgeCache --header 'AccessKey: ${{ secrets.bunny_api_key }}' --header 'content-type: application/json'"
+      #- name: Install LFTP
+      #  run: sudo apt update && sudo apt -qq -y install lftp
+      #- name: Upload ftp
+      #  run: lftp storage.bunnycdn.com -u open-meteo,${{ secrets.ftp_password }} -e "set ftp:ssl-force false; set ssl:verify-certificate false; mirror --reverse -P 20 --continue --dereference -x ^\.git/$ build .; quit"
+      #- run: "curl --request POST --url https://api.bunny.net/pullzone/1309127/purgeCache --header 'AccessKey: ${{ secrets.bunny_api_key }}' --header 'content-type: application/json'"
