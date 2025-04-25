@@ -12,9 +12,6 @@
 
 	import * as Popover from '$lib/components/ui/popover/index.js';
 
-	import X from 'lucide-svelte/icons/x';
-	import CalendarIcon from 'lucide-svelte/icons/calendar';
-
 	import RangeCalendar from './range-calendar-custom.svelte';
 
 	interface Props {
@@ -98,7 +95,23 @@
 					? 'ring-2 ring-ring ring-offset-2'
 					: ''}"
 			>
-				<CalendarIcon class="mr-1 mt-1 size-3" />
+				<svg
+					class="lucide lucide-calendar mr-1 mt-[1px]"
+					xmlns="http://www.w3.org/2000/svg"
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.65"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="M8 2v4" />
+					<path d="M16 2v4" />
+					<rect width="18" height="18" x="3" y="4" rx="2" />
+					<path d="M3 10h18" />
+				</svg>
 
 				<Input
 					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0 "
@@ -131,7 +144,23 @@
 					? 'ring-2 ring-ring ring-offset-2'
 					: ''}"
 			>
-				<CalendarIcon class="mr-1 mt-1 size-3" />
+				<svg
+					class="lucide lucide-calendar mr-1 mt-[1px]"
+					xmlns="http://www.w3.org/2000/svg"
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.65"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="M8 2v4" />
+					<path d="M16 2v4" />
+					<rect width="18" height="18" x="3" y="4" rx="2" />
+					<path d="M3 10h18" />
+				</svg>
 
 				<Input
 					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0  "
@@ -184,7 +213,23 @@
 			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} />
 			<Popover.Close
 				class="ring-offset-background focus:ring-ring absolute right-4 top-6 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none md:top-8"
-				><X size={16} /><span class="sr-only">Close</span></Popover.Close
+			>
+				<svg
+					class="lucide lucide-x"
+					xmlns="http://www.w3.org/2000/svg"
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="M18 6 6 18" />
+					<path d="m6 6 12 12" />
+				</svg>
+				<span class="sr-only">Close</span></Popover.Close
 			>
 		</Popover.Content>
 	</Popover.Root>

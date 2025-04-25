@@ -12,9 +12,6 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import Clock from 'lucide-svelte/icons/clock';
-	import Calendar from 'lucide-svelte/icons/calendar-cog';
-
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
@@ -128,7 +125,6 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/italia-meteo-arpae-api" />
 </svelte:head>
 
-
 <form method="get" action="https://api.open-meteo.com/v1/foreacast">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
@@ -141,7 +137,8 @@
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="rounded-e-none !opacity-100 {$params.time_mode === 'forecast_days'
+					class="rounded-e-none !opacity-100 gap-1 duration-300 {$params.time_mode ===
+					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
 					disabled={$params.time_mode === 'forecast_days'}
@@ -151,11 +148,25 @@
 						$params.end_date = '';
 					}}
 				>
-					<Clock size={20} />Forecast Length
+					<svg
+						class="lucide lucide-clock mr-[2px]"
+						xmlns="http://www.w3.org/2000/svg"
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<circle cx="12" cy="12" r="10" />
+						<polyline points="12 6 12 12 16 14" />
+					</svg>Forecast Length
 				</Button>
 				<Button
 					variant="ghost"
-					class="rounded-md rounded-s-none !opacity-100 duration-300 {$params.time_mode ===
+					class="rounded-s-none !opacity-100 gap-1 duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -164,7 +175,32 @@
 						$params.time_mode = 'time_interval';
 					}}
 				>
-					<Calendar size={20} />Time Interval
+					<svg
+						class="lucide lucide-calendar-cog mr-[2px]"
+						xmlns="http://www.w3.org/2000/svg"
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="m15.2 16.9-.9-.4" />
+						<path d="m15.2 19.1-.9.4" />
+						<path d="M16 2v4" />
+						<path d="m16.9 15.2-.4-.9" />
+						<path d="m16.9 20.8-.4.9" />
+						<path d="m19.5 14.3-.4.9" />
+						<path d="m19.5 21.7-.4-.9" />
+						<path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" />
+						<path d="m21.7 16.5-.9.4" />
+						<path d="m21.7 19.5-.9-.4" />
+						<path d="M3 10h18" />
+						<path d="M8 2v4" />
+						<circle cx="18" cy="18" r="3" />
+					</svg>Time Interval
 				</Button>
 			</div>
 		</div>
@@ -730,9 +766,7 @@
 <div class="mt-6 md:mt-12">
 	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
 	<div class="mt-2 md:mt-4">
-		<p>
-			This API provides access to the ICON-2I model from ItaliaMeteo-ARPAE.
-		</p>
+		<p>This API provides access to the ICON-2I model from ItaliaMeteo-ARPAE.</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
 				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"

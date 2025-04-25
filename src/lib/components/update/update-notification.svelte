@@ -3,8 +3,6 @@
 
 	import { updated } from '$app/state';
 
-	import Cross from 'lucide-svelte/icons/x';
-
 	import Button from '../ui/button/button.svelte';
 
 	let updateNotificationClicked = $state(false);
@@ -32,7 +30,22 @@
 			><Button
 				variant="ghost"
 				class="text-foreground/50 hover:text-foreground absolute -top-1 right-0 rounded-md p-1 px-[0.4rem] opacity-0 transition-opacity focus:opacity-100 focus:outline-none focus:ring-1 group-hover:opacity-100 group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50 group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600"
-				onclick={() => (updateNotificationClicked = true)}><Cross size="18" /></Button
+				onclick={() => (updateNotificationClicked = true)}
+				><svg
+					class="lucide lucide-x"
+					xmlns="http://www.w3.org/2000/svg"
+					width="18"
+					height="18"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="M18 6 6 18" />
+					<path d="m6 6 12 12" />
+				</svg></Button
 			>
 		</div>
 	</div>
