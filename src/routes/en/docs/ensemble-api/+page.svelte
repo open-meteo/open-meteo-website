@@ -150,10 +150,10 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-clock mt-[1px]"
+						class="lucide lucide-clock mt-[1px] mr-[2px]"
 						xmlns="http://www.w3.org/2000/svg"
-						width="20"
-						height="20"
+						width="18"
+						height="18"
 						viewBox="0 0 24 24"
 						fill="none"
 						stroke="currentColor"
@@ -177,10 +177,10 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-calendar-cog"
+						class="lucide lucide-calendar-cog mr-[2px]"
 						xmlns="http://www.w3.org/2000/svg"
-						width="20"
-						height="20"
+						width="18"
+						height="18"
 						viewBox="0 0 24 24"
 						fill="none"
 						stroke="currentColor"
@@ -1013,7 +1013,10 @@
 						<td>Total cloud cover as an area fraction</td>
 					</tr>
 					<tr>
-						<th scope="row">wind_speed_10m<br />wind_speed_80m<br />wind_speed_100m<br /><br />wind_speed_120m</th>
+						<th scope="row"
+							>wind_speed_10m<br />wind_speed_80m<br />wind_speed_100m<br /><br
+							/>wind_speed_120m</th
+						>
 						<td>Instant</td>
 						<td>km/h (mph, m/s, knots)</td>
 						<td
@@ -1022,7 +1025,10 @@
 						>
 					</tr>
 					<tr>
-						<th scope="row">wind_direction_10m<br />wind_direction_80m<br />wind_direction_100m<br />wind_direction_120m</th>
+						<th scope="row"
+							>wind_direction_10m<br />wind_direction_80m<br />wind_direction_100m<br
+							/>wind_direction_120m</th
+						>
 						<td>Instant</td>
 						<td>°</td>
 						<td>Wind direction at 10, 80, 100 or 120 meters above ground</td>

@@ -175,10 +175,10 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-clock mt-[1px]"
+						class="lucide lucide-clock mt-[1px] mr-[2px]"
 						xmlns="http://www.w3.org/2000/svg"
-						width="20"
-						height="20"
+						width="18"
+						height="18"
 						viewBox="0 0 24 24"
 						fill="none"
 						stroke="currentColor"
@@ -202,10 +202,10 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-calendar-cog"
+						class="lucide lucide-calendar-cog mr-[2px]"
 						xmlns="http://www.w3.org/2000/svg"
-						width="20"
-						height="20"
+						width="18"
+						height="18"
 						viewBox="0 0 24 24"
 						fill="none"
 						stroke="currentColor"
