@@ -13,9 +13,6 @@
 
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
-	import Plus from 'lucide-svelte/icons/plus';
-	import Trash from 'lucide-svelte/icons/trash-2';
-
 	interface Props {
 		params: Parameters;
 	}
