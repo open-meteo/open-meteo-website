@@ -3,9 +3,6 @@
 
 	import Logo from '$lib/assets/icons/sun.svelte';
 
-	import Menu from 'lucide-svelte/icons/menu';
-	import Cross from 'lucide-svelte/icons/x';
-
 	import X from 'simple-icons/icons/x.svg?raw';
 	import Github from 'simple-icons/icons/github.svg?raw';
 
@@ -24,7 +21,7 @@
 		<Button
 			variant="ghost"
 			class="-ml-3 flex gap-2 px-3 text-lg hover:bg-transparent [&_svg]:h-6 [&_svg]:w-6"
-			href={'/'}
+			href="/"
 		>
 			<Logo width="28" height="28" />
 			Open-meteo
@@ -38,11 +35,40 @@
 		>
 			{#if !toggleMenu}
 				<div class="absolute [&_svg]:h-5 [&_svg]:w-5" transition:fade={{ duration: 150 }}>
-					<Menu />
+					<svg
+						class="lucide lucide-menu"
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<line x1="4" x2="20" y1="12" y2="12" />
+						<line x1="4" x2="20" y1="6" y2="6" />
+						<line x1="4" x2="20" y1="18" y2="18" />
+					</svg>
 				</div>
 			{:else}
 				<div class="absolute [&_svg]:h-5 [&_svg]:w-5" transition:fade={{ duration: 150 }}>
-					<Cross />
+					<svg
+						class="lucide lucide-x"
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="M18 6 6 18" />
+						<path d="m6 6 12 12" />
+					</svg>
 				</div>
 			{/if}
 		</Toggle>
@@ -59,7 +85,7 @@
 					variant="ghost"
 					class="grow-text mr-auto flex-col gap-0 px-3 {pathname === '/' ? 'font-bold' : ''}"
 					data-text="Home"
-					href={'/'}
+					href="/"
 					onclick={() => (toggleMenu = false)}>Home</Button
 				>
 				<Button
@@ -68,7 +94,7 @@
 						? 'font-bold'
 						: ''}"
 					data-text="Features"
-					href={'/en/features'}
+					href="/en/features"
 					onclick={() => (toggleMenu = false)}>Features</Button
 				>
 				<Button
@@ -77,7 +103,7 @@
 						? 'font-bold'
 						: ''}"
 					data-text="Pricing"
-					href={'/en/pricing'}
+					href="/en/pricing"
 					onclick={() => (toggleMenu = false)}>Pricing</Button
 				>
 				<Button
@@ -86,7 +112,7 @@
 						? 'font-bold'
 						: ''}"
 					data-text="API Docs"
-					href={'/en/docs'}
+					href="/en/docs"
 					onclick={() => (toggleMenu = false)}>API Docs</Button
 				>
 				<hr class="border-border mb-4 ml-3 mt-2" />

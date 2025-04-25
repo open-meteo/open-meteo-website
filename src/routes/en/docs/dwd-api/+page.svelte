@@ -12,9 +12,6 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import Clock from 'lucide-svelte/icons/clock';
-	import Calendar from 'lucide-svelte/icons/calendar-cog';
-
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
@@ -173,7 +170,8 @@
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="rounded-e-none !opacity-100 {$params.time_mode === 'forecast_days'
+					class="rounded-e-none !opacity-100 gap-1 duration-300 {$params.time_mode ===
+					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
 					disabled={$params.time_mode === 'forecast_days'}
@@ -183,11 +181,25 @@
 						$params.end_date = '';
 					}}
 				>
-					<Clock size={20} />Forecast Length
+					<svg
+						class="lucide lucide-clock mr-[2px]"
+						xmlns="http://www.w3.org/2000/svg"
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<circle cx="12" cy="12" r="10" />
+						<polyline points="12 6 12 12 16 14" />
+					</svg>Forecast Length
 				</Button>
 				<Button
 					variant="ghost"
-					class="rounded-md rounded-s-none !opacity-100 duration-300 {$params.time_mode ===
+					class="rounded-s-none !opacity-100 gap-1 duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -196,7 +208,32 @@
 						$params.time_mode = 'time_interval';
 					}}
 				>
-					<Calendar size={20} />Time Interval
+					<svg
+						class="lucide lucide-calendar-cog mr-[2px]"
+						xmlns="http://www.w3.org/2000/svg"
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="m15.2 16.9-.9-.4" />
+						<path d="m15.2 19.1-.9.4" />
+						<path d="M16 2v4" />
+						<path d="m16.9 15.2-.4-.9" />
+						<path d="m16.9 20.8-.4.9" />
+						<path d="m19.5 14.3-.4.9" />
+						<path d="m19.5 21.7-.4-.9" />
+						<path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" />
+						<path d="m21.7 16.5-.9.4" />
+						<path d="m21.7 19.5-.9-.4" />
+						<path d="M3 10h18" />
+						<path d="M8 2v4" />
+						<circle cx="18" cy="18" r="3" />
+					</svg>Time Interval
 				</Button>
 			</div>
 		</div>
@@ -287,7 +324,7 @@
 			{#each hourly as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -329,7 +366,7 @@
 					{#each additionalVariables as group}
 						<div>
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -437,36 +474,38 @@
 				title="Solar Radiation Variables"
 				count={countVariables(solarVariables, $params.hourly)}
 			>
-				{#each solarVariables as group}
-					<div class="grid md:grid-cols-2">
-						{#each group as e}
-							<div class="group flex items-center">
-								<Checkbox
-									id="{e.value}_hourly"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value={e.value}
-									checked={$params.hourly?.includes(e.value)}
-									aria-labelledby="{e.value}_hourly_label"
-									onCheckedChange={() => {
-										if ($params.hourly?.includes(e.value)) {
-											$params.hourly = $params.hourly.filter((item) => {
-												return item !== e.value;
-											});
-										} else {
-											$params.hourly.push(e.value);
-											$params.hourly = $params.hourly;
-										}
-									}}
-								/>
-								<Label
-									id="{e.value}_hourly_label"
-									for="{e.value}_hourly"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-								>
-							</div>
-						{/each}
-					</div>
-				{/each}
+				<div class="grid md:grid-cols-2">
+					{#each solarVariables as group}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center" title={e.label}>
+									<Checkbox
+										id="{e.value}_hourly"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.hourly?.includes(e.value)}
+										aria-labelledby="{e.value}_hourly_label"
+										onCheckedChange={() => {
+											if ($params.hourly?.includes(e.value)) {
+												$params.hourly = $params.hourly.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.hourly.push(e.value);
+												$params.hourly = $params.hourly;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_hourly_label"
+										for="{e.value}_hourly"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
@@ -512,11 +551,11 @@
 						/>
 						<Label
 							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="azimuth">Panel Azimuth (0° S, -180° E, 180° W)</Label
+							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
 						>
 						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
-								Azimuth must be between -180° (east) and 180° (west)
+								Azimuth must be between -180° (north) and 180° (north)
 							</div>
 						{/if}
 					</div>
@@ -558,7 +597,7 @@
 									<div class="grid grid-cols-1 md:grid-cols-3">
 										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
 											{#each chunk as level}
-												<div class="group flex items-center">
+												<div class="group flex items-center" title={level.label}>
 													<Checkbox
 														id="{variable.value}_{level}hPa"
 														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -610,7 +649,7 @@
 					{#each models as group}
 						<div class="mb-3">
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_model"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -654,63 +693,67 @@
 			>
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 					{#each minutely_15 as group}
-						{#each group as e}
-							<div class="group flex items-center">
-								<Checkbox
-									id="{e.value}_minutely_15"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value="{e.value}_minutely_15"
-									checked={$params.minutely_15?.includes(e.value)}
-									aria-labelledby="{e.value}_minutely_15_label"
-									onCheckedChange={() => {
-										if ($params.minutely_15?.includes(e.value)) {
-											$params.minutely_15 = $params.minutely_15.filter((item) => {
-												return item !== e.value;
-											});
-										} else {
-											$params.minutely_15.push(e.value);
-											$params.minutely_15 = $params.minutely_15;
-										}
-									}}
-								/>
-								<Label
-									id="{e.value}_minutely_15_label"
-									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-								>
-							</div>
-						{/each}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center" title={e.label}>
+									<Checkbox
+										id="{e.value}_minutely_15"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value="{e.value}_minutely_15"
+										checked={$params.minutely_15?.includes(e.value)}
+										aria-labelledby="{e.value}_minutely_15_label"
+										onCheckedChange={() => {
+											if ($params.minutely_15?.includes(e.value)) {
+												$params.minutely_15 = $params.minutely_15.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.minutely_15.push(e.value);
+												$params.minutely_15 = $params.minutely_15;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_minutely_15_label"
+										for="{e.value}_minutely_15"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
 					{/each}
 				</div>
 
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 					{#each solarVariables as group}
-						{#each group as e}
-							<div class="group flex items-center">
-								<Checkbox
-									id="{e.value}_minutely_15"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value="{e.value}_minutely_15"
-									checked={$params.minutely_15?.includes(e.value)}
-									aria-labelledby="{e.value}_minutely_15_label"
-									onCheckedChange={() => {
-										if ($params.minutely_15?.includes(e.value)) {
-											$params.minutely_15 = $params.minutely_15.filter((item) => {
-												return item !== e.value;
-											});
-										} else {
-											$params.minutely_15.push(e.value);
-											$params.minutely_15 = $params.minutely_15;
-										}
-									}}
-								/>
-								<Label
-									id="{e.value}_minutely_15_label"
-									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-								>
-							</div>
-						{/each}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center" title={e.label}>
+									<Checkbox
+										id="{e.value}_minutely_15"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value="{e.value}_minutely_15"
+										checked={$params.minutely_15?.includes(e.value)}
+										aria-labelledby="{e.value}_minutely_15_label"
+										onCheckedChange={() => {
+											if ($params.minutely_15?.includes(e.value)) {
+												$params.minutely_15 = $params.minutely_15.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.minutely_15.push(e.value);
+												$params.minutely_15 = $params.minutely_15;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_minutely_15_label"
+										for="{e.value}_minutely_15"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
 					{/each}
 				</div>
 
@@ -776,7 +819,7 @@
 			{#each daily as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_daily"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -825,7 +868,7 @@
 			{#each current as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_current"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -1339,10 +1382,10 @@
 							>Total radiation received on a tilted pane as average of the preceding hour. The
 							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
 							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
-							Azimuth should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to
-							"nan", the calculation assumes a horizontal tracker. If tilt is set to "nan", it is
-							assumed that the panel has a vertical tracker. If both are set to "nan", a bi-axial
-							tracker is assumed.</td
+							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
+							is set to "nan", the calculation assumes a horizontal tracker. If tilt is set to
+							"nan", it is assumed that the panel has a vertical tracker. If both are set to "nan",
+							a bi-axial tracker is assumed.</td
 						>
 					</tr>
 					<tr>
@@ -1567,10 +1610,10 @@
 							>Total radiation received on a tilted pane as average of the 15 minutes. The
 							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
 							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
-							Azimuth should be close to 0° (0° south, -90° east, 90° west). If azimuth is set to
-							"nan", the calculation assumes a horizontal tracker. If tilt is set to "nan", it is
-							assumed that the panel has a vertical tracker. If both are set to "nan", a bi-axial
-							tracker is assumed.</td
+							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
+							is set to "nan", the calculation assumes a horizontal tracker. If tilt is set to
+							"nan", it is assumed that the panel has a vertical tracker. If both are set to "nan",
+							a bi-axial tracker is assumed.</td
 						>
 					</tr>
 					<tr>

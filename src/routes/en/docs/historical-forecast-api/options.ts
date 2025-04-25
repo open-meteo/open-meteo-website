@@ -94,7 +94,9 @@ export const minutely_15 = [
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
-		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
+		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' }
+	],
+	[
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'snowfall', label: 'Snowfall' },
 		{ value: 'snowfall_height', label: 'Snowfall Height' },
@@ -106,7 +108,9 @@ export const minutely_15 = [
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
+		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' }
+	],
+	[
 		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 		{ value: 'visibility', label: 'Visibility' },
 		{ value: 'cape', label: 'CAPE' },
@@ -244,69 +248,7 @@ export const solarVariables = [
 		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
 		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
 		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI' },
+		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' },
 		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
-	]
-];
-
-export const models = [
-	[
-		{ value: 'best_match', label: 'Best match' },
-		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
-		{ value: 'ecmwf_aifs025_single', label: 'ECMWF AIFS 0.25° Single' },
-		{ value: 'cma_grapes_global', label: 'CMA GRAPES Global' },
-		{ value: 'bom_access_global', label: 'BOM ACCESS Global' }
-	],
-	[
-		{ value: 'gfs_seamless', label: 'NCEP GFS Seamless' },
-		{ value: 'gfs_global', label: 'NCEP GFS Global 0.11°/0.25°' },
-		{ value: 'gfs_hrrr', label: 'NCEP HRRR U.S. Conus' },
-		{ value: 'ncep_nbm_conus', label: 'NCEP NBM U.S. Conus' },
-		{ value: 'gfs_graphcast025', label: 'GFS GraphCast' }
-	],
-	[
-		{ value: 'jma_seamless', label: 'JMA Seamless' },
-		{ value: 'jma_msm', label: 'JMA MSM' },
-		{ value: 'jma_gsm', label: 'JMA GSM' }
-	],
-	[
-		{ value: 'icon_seamless', label: 'DWD ICON Seamless' },
-		{ value: 'icon_global', label: 'DWD ICON Global' },
-		{ value: 'icon_eu', label: 'DWD ICON EU' },
-		{ value: 'icon_d2', label: 'DWD ICON D2' }
-	],
-	[
-		{ value: 'gem_seamless', label: 'GEM Seamless' },
-		{ value: 'gem_global', label: 'GEM Global' },
-		{ value: 'gem_regional', label: 'GEM Regional' },
-		{ value: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' }
-	],
-	[
-		{ value: 'meteofrance_seamless', label: 'Météo-France Seamless' },
-		{ value: 'meteofrance_arpege_world', label: 'Météo-France ARPEGE World' },
-		{ value: 'meteofrance_arpege_europe', label: 'Météo-France ARPEGE Europe' },
-		{ value: 'meteofrance_arome_france', label: 'Météo-France AROME France' },
-		{ value: 'meteofrance_arome_france_hd', label: 'Météo-France AROME France HD' }
-	],
-	[
-		{ value: 'arpae_cosmo_seamless', label: 'ARPAE Seamless' },
-		{ value: 'arpae_cosmo_2i', label: 'ARPAE COSMO 2I' },
-		{ value: 'arpae_cosmo_5m', label: 'ARPAE COSMO 5M' }
-	],
-	[
-		{ value: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
-		{ value: 'metno_nordic', label: 'MET Norway Nordic' }
-	],
-	[
-		{ value: 'knmi_seamless', label: 'KNMI Seamless (with ECMWF)' },
-		{ value: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie Arome Europe' },
-		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
-		{ value: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
-		{ value: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' }
-	],
-	[
-		{ value: 'ukmo_seamless', label: 'UK Met Office Seamless' },
-		{ value: 'ukmo_global_deterministic_10km', label: 'UK Met Office Global 10km' },
-		{ value: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 	]
 ];

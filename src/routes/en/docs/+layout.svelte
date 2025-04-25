@@ -6,7 +6,6 @@
 	import { beforeNavigate, afterNavigate } from '$app/navigation';
 
 	import Button from '$lib/components/ui/button/button.svelte';
-	import Chevrons from 'lucide-svelte/icons/chevrons-up-down';
 
 	interface Props {
 		children?: import('svelte').Snippet;
@@ -33,7 +32,8 @@
 				{ title: 'BOM Australia', url: '/en/docs/bom-api' },
 				{ title: 'CMA China', url: '/en/docs/cma-api' },
 				{ title: 'KNMI Netherlands', url: '/en/docs/knmi-api' },
-				{ title: 'DMI Denmark', url: '/en/docs/dmi-api' }
+				{ title: 'DMI Denmark', url: '/en/docs/dmi-api' },
+				{ title: 'ItaliaMeteo', url: '/en/docs/italia-meteo-arpae-api' }
 			]
 		},
 		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
@@ -103,7 +103,22 @@
 					mobileNavOpened = !mobileNavOpened;
 				}}
 			>
-				<Chevrons class="mr-2" /><b>{selectedPath.title}</b>
+				<svg
+					class="lucide lucide-chevrons-up-down"
+					xmlns="http://www.w3.org/2000/svg"
+					width="20"
+					height="20"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="m7 15 5 5 5-5" />
+					<path d="m7 9 5-5 5 5" />
+				</svg>
+				<b>{selectedPath.title}</b>
 			</Button>
 
 			<ul

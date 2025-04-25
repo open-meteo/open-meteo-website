@@ -7,9 +7,6 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import Clock from 'lucide-svelte/icons/clock';
-	import Calendar from 'lucide-svelte/icons/calendar-cog';
-
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
@@ -140,7 +137,8 @@
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="rounded-e-none !opacity-100 {$params.time_mode === 'forecast_days'
+					class="rounded-e-none !opacity-100 gap-1 duration-300 {$params.time_mode ===
+					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
 					disabled={$params.time_mode === 'forecast_days'}
@@ -150,11 +148,25 @@
 						$params.end_date = '';
 					}}
 				>
-					<Clock size={20} />Forecast Length
+					<svg
+						class="lucide lucide-clock mr-[2px]"
+						xmlns="http://www.w3.org/2000/svg"
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<circle cx="12" cy="12" r="10" />
+						<polyline points="12 6 12 12 16 14" />
+					</svg>Forecast Length
 				</Button>
 				<Button
 					variant="ghost"
-					class="rounded-md rounded-s-none !opacity-100 duration-300 {$params.time_mode ===
+					class="rounded-s-none !opacity-100 gap-1 duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -163,7 +175,32 @@
 						$params.time_mode = 'time_interval';
 					}}
 				>
-					<Calendar size={20} />Time Interval
+					<svg
+						class="lucide lucide-calendar-cog mr-[2px]"
+						xmlns="http://www.w3.org/2000/svg"
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="m15.2 16.9-.9-.4" />
+						<path d="m15.2 19.1-.9.4" />
+						<path d="M16 2v4" />
+						<path d="m16.9 15.2-.4-.9" />
+						<path d="m16.9 20.8-.4.9" />
+						<path d="m19.5 14.3-.4.9" />
+						<path d="m19.5 21.7-.4-.9" />
+						<path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" />
+						<path d="m21.7 16.5-.9.4" />
+						<path d="m21.7 19.5-.9-.4" />
+						<path d="M3 10h18" />
+						<path d="M8 2v4" />
+						<circle cx="18" cy="18" r="3" />
+					</svg>Time Interval
 				</Button>
 			</div>
 		</div>
@@ -254,7 +291,7 @@
 			{#each hourly as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -303,7 +340,7 @@
 					{#each additionalVariables as group}
 						<div>
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -415,7 +452,7 @@
 					{#each models as group}
 						<div class="mb-3">
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_model"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -458,32 +495,34 @@
 			>
 				<div class="mt-2 grid">
 					{#each minutely_15 as group}
-						{#each group as e}
-							<div class="group flex items-center">
-								<Checkbox
-									id="{e.value}_minutely_15"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value="{e.value}_minutely_15"
-									checked={$params.minutely_15?.includes(e.value)}
-									aria-labelledby="{e.value}_minutely_15_label"
-									onCheckedChange={() => {
-										if ($params.minutely_15?.includes(e.value)) {
-											$params.minutely_15 = $params.minutely_15.filter((item) => {
-												return item !== e.value;
-											});
-										} else {
-											$params.minutely_15.push(e.value);
-											$params.minutely_15 = $params.minutely_15;
-										}
-									}}
-								/>
-								<Label
-									id="{e.value}_minutely_15_label"
-									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-								>
-							</div>
-						{/each}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center" title={e.label}>
+									<Checkbox
+										id="{e.value}_minutely_15"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value="{e.value}_minutely_15"
+										checked={$params.minutely_15?.includes(e.value)}
+										aria-labelledby="{e.value}_minutely_15_label"
+										onCheckedChange={() => {
+											if ($params.minutely_15?.includes(e.value)) {
+												$params.minutely_15 = $params.minutely_15.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.minutely_15.push(e.value);
+												$params.minutely_15 = $params.minutely_15;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_minutely_15_label"
+										for="{e.value}_minutely_15"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
 					{/each}
 				</div>
 
@@ -549,7 +588,7 @@
 			{#each daily as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_daily"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -598,7 +637,7 @@
 			{#each hourly as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_current"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -1014,7 +1053,10 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">wave_height<br />wind_wave_height<br />swell_wave_height</th>
+						<th scope="row"
+							>wave_height<br />wind_wave_height<br />swell_wave_height<br
+							/>secondary_swell_wave_height</th
+						>
 						<td>Instant</td>
 						<td>Meter</td>
 						<td
@@ -1024,13 +1066,19 @@
 						>
 					</tr>
 					<tr>
-						<th scope="row">wave_direction<br />wind_wave_direction<br />swell_wave_direction</th>
+						<th scope="row"
+							>wave_direction<br />wind_wave_direction<br />swell_wave_direction<br
+							/>secondary_swell_wave_direction</th
+						>
 						<td>Instant</td>
 						<td>°</td>
 						<td>Mean direction of mean, wind and swell waves</td>
 					</tr>
 					<tr>
-						<th scope="row">wave_period<br />wind_wave_period<br />swell_wave_period</th>
+						<th scope="row"
+							>wave_period<br />wind_wave_period<br />swell_wave_period<br
+							/>secondary_swell_wave_period</th
+						>
 						<td>Instant</td>
 						<td>Seconds</td>
 						<td>Period between mean, wind and swell waves.</td>

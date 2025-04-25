@@ -33,7 +33,6 @@
 		daily,
 		hourly,
 		levels,
-		models,
 		minutely_15,
 		solarVariables,
 		additionalDaily,
@@ -48,7 +47,8 @@
 		pastMinutely15Options,
 		gridCellSelectionOptions,
 		temporalResolutionOptions,
-		forecastMinutely15Options
+		forecastMinutely15Options,
+		models
 	} from '../options';
 
 	let d = new Date();
@@ -224,7 +224,7 @@
 			{#each hourly as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -266,7 +266,7 @@
 					{#each additionalVariables as group}
 						<div>
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -374,36 +374,38 @@
 				title="Solar Radiation Variables"
 				count={countVariables(solarVariables, $params.hourly)}
 			>
-				{#each solarVariables as group}
-					<div class="grid md:grid-cols-2">
-						{#each group as e}
-							<div class="group flex items-center">
-								<Checkbox
-									id="{e.value}_hourly"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value={e.value}
-									checked={$params.hourly?.includes(e.value)}
-									aria-labelledby="{e.value}_hourly_label"
-									onCheckedChange={() => {
-										if ($params.hourly?.includes(e.value)) {
-											$params.hourly = $params.hourly.filter((item) => {
-												return item !== e.value;
-											});
-										} else {
-											$params.hourly.push(e.value);
-											$params.hourly = $params.hourly;
-										}
-									}}
-								/>
-								<Label
-									id="{e.value}_hourly_label"
-									for="{e.value}_hourly"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-								>
-							</div>
-						{/each}
-					</div>
-				{/each}
+				<div class="grid md:grid-cols-2">
+					{#each solarVariables as group}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center" title={e.label}>
+									<Checkbox
+										id="{e.value}_hourly"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.hourly?.includes(e.value)}
+										aria-labelledby="{e.value}_hourly_label"
+										onCheckedChange={() => {
+											if ($params.hourly?.includes(e.value)) {
+												$params.hourly = $params.hourly.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.hourly.push(e.value);
+												$params.hourly = $params.hourly;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_hourly_label"
+										for="{e.value}_hourly"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
@@ -449,11 +451,11 @@
 						/>
 						<Label
 							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="azimuth">Panel Azimuth (0° S, -180° E, 180° W)</Label
+							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
 						>
 						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
 							<div class="invalid-tooltip" transition:slide>
-								Azimuth must be between -180° (east) and 180° (west)
+								Azimuth must be between -180° (north) and 180° (north)
 							</div>
 						{/if}
 					</div>
@@ -495,7 +497,7 @@
 									<div class="grid grid-cols-1 md:grid-cols-3">
 										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
 											{#each chunk as level}
-												<div class="group flex items-center">
+												<div class="group flex items-center" title={level.label}>
 													<Checkbox
 														id="{variable.value}_{level}hPa"
 														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -547,7 +549,7 @@
 					{#each models as group}
 						<div class="mb-3">
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_model"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -597,63 +599,67 @@
 			>
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 					{#each minutely_15 as group}
-						{#each group as e}
-							<div class="group flex items-center">
-								<Checkbox
-									id="{e.value}_minutely_15"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value="{e.value}_minutely_15"
-									checked={$params.minutely_15?.includes(e.value)}
-									aria-labelledby="{e.value}_minutely_15_label"
-									onCheckedChange={() => {
-										if ($params.minutely_15?.includes(e.value)) {
-											$params.minutely_15 = $params.minutely_15.filter((item) => {
-												return item !== e.value;
-											});
-										} else {
-											$params.minutely_15.push(e.value);
-											$params.minutely_15 = $params.minutely_15;
-										}
-									}}
-								/>
-								<Label
-									id="{e.value}_minutely_15_label"
-									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-								>
-							</div>
-						{/each}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center" title={e.label}>
+									<Checkbox
+										id="{e.value}_minutely_15"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value="{e.value}_minutely_15"
+										checked={$params.minutely_15?.includes(e.value)}
+										aria-labelledby="{e.value}_minutely_15_label"
+										onCheckedChange={() => {
+											if ($params.minutely_15?.includes(e.value)) {
+												$params.minutely_15 = $params.minutely_15.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.minutely_15.push(e.value);
+												$params.minutely_15 = $params.minutely_15;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_minutely_15_label"
+										for="{e.value}_minutely_15"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
 					{/each}
 				</div>
 
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 					{#each solarVariables as group}
-						{#each group as e}
-							<div class="group flex items-center">
-								<Checkbox
-									id="{e.value}_minutely_15"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value="{e.value}_minutely_15"
-									checked={$params.minutely_15?.includes(e.value)}
-									aria-labelledby="{e.value}_minutely_15_label"
-									onCheckedChange={() => {
-										if ($params.minutely_15?.includes(e.value)) {
-											$params.minutely_15 = $params.minutely_15.filter((item) => {
-												return item !== e.value;
-											});
-										} else {
-											$params.minutely_15.push(e.value);
-											$params.minutely_15 = $params.minutely_15;
-										}
-									}}
-								/>
-								<Label
-									id="{e.value}_minutely_15_label"
-									for="{e.value}_minutely_15"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-								>
-							</div>
-						{/each}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center" title={e.label}>
+									<Checkbox
+										id="{e.value}_minutely_15"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value="{e.value}_minutely_15"
+										checked={$params.minutely_15?.includes(e.value)}
+										aria-labelledby="{e.value}_minutely_15_label"
+										onCheckedChange={() => {
+											if ($params.minutely_15?.includes(e.value)) {
+												$params.minutely_15 = $params.minutely_15.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.minutely_15.push(e.value);
+												$params.minutely_15 = $params.minutely_15;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_minutely_15_label"
+										for="{e.value}_minutely_15"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
 					{/each}
 				</div>
 
@@ -719,7 +725,7 @@
 			{#each daily as group}
 				<div>
 					{#each group as e}
-						<div class="group flex items-center">
+						<div class="group flex items-center" title={e.label}>
 							<Checkbox
 								id="{e.value}_daily"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -770,7 +776,7 @@
 					{#each additionalDaily as group}
 						<div>
 							{#each group as e}
-								<div class="group flex items-center">
+								<div class="group flex items-center" title={e.label}>
 									<Checkbox
 										id="{e.value}_daily"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -1071,29 +1077,13 @@
 						<td>2024-01-18</td>
 					</tr>
 					<tr>
-						<th scope="row" rowspan="3">COSMO 2I & 5M AM ARPAE ARPAP Italy</th>
-						<td>COSMO 5M</td>
-						<td>Europe</td>
-						<td>5 km</td>
+						<th scope="row">ItaliaMeteo ItaliaMeteo-ARPAE</th>
+						<td>ICON 2I</td>
+						<td>Southern Europe</td>
+						<td>2 km</td>
 						<td>1-Hourly</td>
 						<td>Every 12 hours</td>
-						<td>2024-02-01</td>
-					</tr>
-					<tr>
-						<td>COSMO 2I</td>
-						<td>Italy</td>
-						<td>2.2 km</td>
-						<td>1-Hourly</td>
-						<td>Every 12 hours</td>
-						<td>2024-02-01</td>
-					</tr>
-					<tr>
-						<td>COSMO 2I RUC</td>
-						<td>Italy</td>
-						<td>2.2 km</td>
-						<td>1-Hourly</td>
-						<td>Every 3 hours</td>
-						<td>2024-02-01</td>
+						<td>2025-04-13</td>
 					</tr>
 					<tr>
 						<th scope="row">DMI</th>

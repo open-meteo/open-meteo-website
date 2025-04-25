@@ -3,18 +3,11 @@
 
 	import { favorites, last_visited, type GeoLocation } from '$lib/stores/settings';
 
-	import Button from '../ui/button/button.svelte';
-	import * as Alert from '$lib/components/ui/alert';
-	import * as Dialog from '$lib/components/ui/dialog/index.js';
+	import { Alert } from '$lib/components/ui/alert';
+	import { Input } from '$lib/components/ui/input';
+	import { Button } from '$lib/components/ui/button';
 
-	import Map from 'lucide-svelte/icons/map';
-	import Star from 'lucide-svelte/icons/star';
-	import Trash from 'lucide-svelte/icons/trash-2';
-	import Input from '../ui/input/input.svelte';
-	import Cursor from 'lucide-svelte/icons/mouse-pointer-2';
-	import Search from 'lucide-svelte/icons/search';
-
-	import SuperDebug from 'sveltekit-superforms';
+	import * as Dialog from '$lib/components/ui/dialog';
 
 	export let label: string = 'Search Locations...';
 
@@ -143,7 +136,22 @@
 			dialogOpen = !dialogOpen;
 		}}
 		class="hover:bg-accent w-full border-border flex h-12 cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
-		><Search size={20} class="mr-1" /> {label}</Dialog.Trigger
+		><svg
+			class="lucide lucide-search mr-[5px]"
+			xmlns="http://www.w3.org/2000/svg"
+			width="18"
+			height="18"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		>
+			<circle cx="11" cy="11" r="8" />
+			<path d="m21 21-4.3-4.3" />
+		</svg>
+		{label}</Dialog.Trigger
 	>
 	<Dialog.Portal>
 		<Dialog.Overlay class="bg-black/5" />
@@ -170,7 +178,22 @@
 						class=""
 						title="Detect Location via GPS"
 						onclick={() => (searchQuery = 'GPS')}
-						><Cursor class="pointer-events-none" size={20} strokeWidth={1.2} /></Button
+						><svg
+							class="lucide lucide-mouse-pointer-2"
+							xmlns="http://www.w3.org/2000/svg"
+							width="20"
+							height="20"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.5"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path
+								d="M4.037 4.688a.495.495 0 0 1 .651-.651l16 6.5a.5.5 0 0 1-.063.947l-6.124 1.58a2 2 0 0 0-1.438 1.435l-1.579 6.126a.5.5 0 0 1-.947.063z"
+							/>
+						</svg></Button
 					>
 				</div>
 				{#await results}
@@ -193,14 +216,14 @@
 									{#each $favorites as location, i}
 										<Button
 											variant="outline"
-											class="not-last:border-b flex h-[unset] rounded-none w-full justify-between px-3 py-2 {i ===
+											class="not-last:border-b flex h-[unset] gap-0 rounded-none w-full justify-between pl-3 pr-1 md:pr-2 py-2 {i ===
 											0
 												? 'rounded-t-md'
 												: ''} {i === $favorites.length - 1 ? 'rounded-b-md' : ''}"
 											onclick={() => selectLocation(location)}
 										>
-											<div class="pointer-events-none flex flex-col gap-1">
-												<div class="flex items-center gap-2 text-lg">
+											<div class="pointer-events-none flex flex-col gap-1 truncate">
+												<div class="flex items-center gap-2 text-lg truncate">
 													<img
 														height="24"
 														width="24"
@@ -213,7 +236,7 @@
 													{location.name}
 												</div>
 
-												<div class="text-muted-foreground text-left text-sm">
+												<div class="text-muted-foreground text-left text-sm truncate">
 													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
 													{location.longitude.toFixed(2)}°E{#if location.elevation}
 														{+' ' + location.elevation.toFixed(0)}m asl{/if})
@@ -223,16 +246,34 @@
 											<div class="-mr-1 flex justify-self-end">
 												<Button
 													variant="ghost"
-													class="px-3 duration-200 hover:brightness-[140%]"
+													class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
 													onclick={(e) => {
 														e.stopPropagation();
 														deleteFavorite(location);
 													}}
-													title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
+													title="Delete"
+													><svg
+														class="lucide lucide-trash-2"
+														xmlns="http://www.w3.org/2000/svg"
+														width="20"
+														height="20"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="1.2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<path d="M3 6h18" />
+														<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+														<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+														<line x1="10" x2="10" y1="11" y2="17" />
+														<line x1="14" x2="14" y1="11" y2="17" />
+													</svg></Button
 												>
 												<Button
 													variant="ghost"
-													class="px-3 duration-200 hover:brightness-[140%]"
+													class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
 													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 													target="_blank"
 													title="Show on map"
@@ -240,7 +281,24 @@
 														e.stopPropagation();
 													}}
 												>
-													<Map size={20} strokeWidth={1.2} />
+													<svg
+														class="lucide lucide-map"
+														xmlns="http://www.w3.org/2000/svg"
+														width="20"
+														height="20"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="1.2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<path
+															d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"
+														/>
+														<path d="M15 5.764v15" />
+														<path d="M9 3.236v15" />
+													</svg>
 												</Button>
 											</div>
 										</Button>
@@ -253,14 +311,14 @@
 									{#each $last_visited as location, i}
 										<Button
 											variant="outline"
-											class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2 {i ===
+											class="not-last:border-b flex h-[unset] w-full gap-0 justify-between rounded-none pl-3 pr-1 md:pr-2 py-2 {i ===
 											0
 												? 'rounded-t-md'
 												: ''} {i === $last_visited.length - 1 ? 'rounded-b-md' : ''}"
 											onclick={() => selectLocation(location)}
 										>
-											<div class="pointer-events-none flex flex-col gap-1">
-												<div class="flex items-center gap-2 text-lg">
+											<div class="pointer-events-none flex flex-col gap-1 truncate">
+												<div class="flex items-center gap-2 text-lg truncate">
 													<img
 														height="24"
 														width="24"
@@ -273,7 +331,7 @@
 													{location.name}
 												</div>
 
-												<div class="text-muted-foreground text-left text-sm">
+												<div class="text-muted-foreground text-left text-sm truncate">
 													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
 														2
 													)}°E{#if location.elevation}
@@ -284,25 +342,59 @@
 											<div class="-mr-1 flex justify-self-end">
 												<Button
 													variant="ghost"
-													class="px-3 duration-200 hover:brightness-[140%]"
+													class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
 													onclick={(e) => {
 														e.stopPropagation();
 														saveFavorite(location);
 													}}
-													title="Save"><Star size={20} strokeWidth={1.2} /></Button
-												>
+													title="Save"
+													><svg
+														class="lucide lucide-star"
+														xmlns="http://www.w3.org/2000/svg"
+														width="20"
+														height="20"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="1.2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<path
+															d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
+														/>
+													</svg>
+												</Button>
 												<Button
 													variant="ghost"
-													class="px-3 duration-200 hover:brightness-[140%]"
+													class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
 													onclick={(e) => {
 														e.stopPropagation();
 														deleteRecent(location);
 													}}
-													title="Delete"><Trash size={20} strokeWidth={1.2} /></Button
+													title="Delete"
+													><svg
+														class="lucide lucide-trash-2"
+														xmlns="http://www.w3.org/2000/svg"
+														width="20"
+														height="20"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="1.2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<path d="M3 6h18" />
+														<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+														<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+														<line x1="10" x2="10" y1="11" y2="17" />
+														<line x1="14" x2="14" y1="11" y2="17" />
+													</svg></Button
 												>
 												<Button
 													variant="ghost"
-													class="px-3 duration-200 hover:brightness-[140%]"
+													class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
 													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 													target="_blank"
 													title="Show on map"
@@ -310,7 +402,24 @@
 														e.stopPropagation();
 													}}
 												>
-													<Map size={20} strokeWidth={1.2} />
+													<svg
+														class="lucide lucide-map"
+														xmlns="http://www.w3.org/2000/svg"
+														width="20"
+														height="20"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="1.2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<path
+															d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"
+														/>
+														<path d="M15 5.764v15" />
+														<path d="M9 3.236v15" />
+													</svg>
 												</Button>
 											</div>
 										</Button>
@@ -332,7 +441,7 @@
 								{#each results.results || [] as location, i}
 									<Button
 										variant="outline"
-										class="not-last:border-b flex h-[unset] w-full justify-between rounded-none px-3 py-2 {i ===
+										class="not-last:border-b flex h-[unset] w-full justify-between gap-0 rounded-none pl-3 pr-1 md:pr-2 py-2 {i ===
 										0
 											? 'rounded-t-md'
 											: ''} {results.results && i === results.results.length - 1
@@ -340,8 +449,8 @@
 											: ''}"
 										onclick={() => selectLocation(location)}
 									>
-										<div class="pointer-events-none flex flex-col gap-1">
-											<div class="flex items-center gap-2 text-lg">
+										<div class="pointer-events-none flex flex-col gap-1 truncate">
+											<div class="flex items-center gap-2 text-lg truncate">
 												<img
 													height="24"
 													width="24"
@@ -354,7 +463,7 @@
 												{location.name}
 											</div>
 
-											<div class="text-muted-foreground text-left text-sm">
+											<div class="text-muted-foreground text-left text-sm truncate">
 												{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
 													2
 												)}°E{#if location.elevation}
@@ -364,16 +473,32 @@
 										<div class="-mr-1 flex justify-self-end">
 											<Button
 												variant="ghost"
-												class="px-3 duration-200 hover:brightness-[140%]"
+												class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
 												onclick={(e) => {
 													e.stopPropagation();
 													saveFavorite(location);
 												}}
-												title="Save"><Star size={20} strokeWidth={1.2} /></Button
-											>
+												title="Save"
+												><svg
+													class="lucide lucide-star"
+													xmlns="http://www.w3.org/2000/svg"
+													width="20"
+													height="20"
+													viewBox="0 0 24 24"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="1.2"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+												>
+													<path
+														d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
+													/>
+												</svg>
+											</Button>
 											<Button
 												variant="ghost"
-												class="px-3 duration-200 hover:brightness-[140%]"
+												class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
 												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 												target="_blank"
 												title="Show on map"
@@ -381,7 +506,24 @@
 													e.stopPropagation();
 												}}
 											>
-												<Map size={20} strokeWidth={1.2} />
+												<svg
+													class="lucide lucide-map"
+													xmlns="http://www.w3.org/2000/svg"
+													width="20"
+													height="20"
+													viewBox="0 0 24 24"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="1.2"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+												>
+													<path
+														d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"
+													/>
+													<path d="M15 5.764v15" />
+													<path d="M9 3.236v15" />
+												</svg>
 											</Button>
 										</div>
 									</Button>

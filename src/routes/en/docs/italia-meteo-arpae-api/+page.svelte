@@ -3,7 +3,12 @@
 
 	import { fade, slide } from 'svelte/transition';
 
-	import { countVariables } from '$lib/utils/meteo';
+	import {
+		countVariables,
+		sliceIntoChunks,
+		countPressureVariables,
+		altitudeAboveSeaLevelMeters
+	} from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -15,20 +20,24 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import {
 		daily,
 		hourly,
+		levels,
 		models,
+		current,
 		solarVariables,
 		defaultParameters,
+		pressureVariables,
 		additionalVariables,
 		forecastDaysOptions
 	} from './options';
@@ -42,8 +51,8 @@
 	} from '../options';
 
 	const params = urlHashStore({
-		latitude: [52.52],
-		longitude: [13.41],
+		latitude: [41.89],
+		longitude: [12.51],
 		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
@@ -58,25 +67,26 @@
 	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
 	// Additional variable settings
-	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
 	let forecastHours = $derived(
 		forecastHoursOptions.find((fho) => String(fho.value) == $params.forecast_hours)
+	);
+	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
 	let cellSelection = $derived(
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
-	let temporalResolution = $derived(
-		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
-	);
+	let pressureVariablesTab = $state('temperature');
 
-	let accordionValues: string[] = $state([]);
+	let accordionValues = $state([]);
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				(pastHours ? pastHours.value : false) ||
-				(cellSelection ? cellSelection.value : false) ||
-				(forecastHours ? forecastHours.value : false) ||
-				(temporalResolution ? temporalResolution.value : false)) &&
+				forecastHours.value ||
+				pastHours.value ||
+				temporalResolution.value ||
+				cellSelection.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -84,11 +94,18 @@
 
 		if (
 			(countVariables(solarVariables, $params.hourly).active ||
-				($params.tilt ? $params.tilt > 0 : false) ||
-				($params.azimuth ? $params.azimuth > 0 : false)) &&
+				$params.tilt > 0 ||
+				$params.azimuth > 0) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
+		}
+
+		if (
+			countPressureVariables(pressureVariables, levels, $params.hourly).active &&
+			!accordionValues.includes('pressure-variables')
+		) {
+			accordionValues.push('pressure-variables');
 		}
 
 		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
@@ -100,15 +117,15 @@
 	begin_date.setMonth(begin_date.getMonth() - 3);
 
 	let last_date = new Date();
-	last_date.setDate(last_date.getDate() + 10);
+	last_date.setDate(last_date.getDate() + 8);
 </script>
 
 <svelte:head>
-	<title>DMI Weather Model API | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/dmi-api" />
+	<title>ItaliaMeteo ARPAE ICON-2i | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/docs/italia-meteo-arpae-api" />
 </svelte:head>
 
-<form method="get" action="https://api.open-meteo.com/v1/dmi">
+<form method="get" action="https://api.open-meteo.com/v1/foreacast">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
@@ -324,11 +341,11 @@
 										checked={$params.hourly?.includes(e.value)}
 										aria-labelledby="{e.value}_label"
 										onCheckedChange={() => {
-											if (e.value && $params.hourly?.includes(e.value)) {
+											if ($params.hourly?.includes(e.value)) {
 												$params.hourly = $params.hourly.filter((item) => {
 													return item !== e.value;
 												});
-											} else if (e.value && $params.hourly) {
+											} else {
 												$params.hourly.push(e.value);
 												$params.hourly = $params.hourly;
 											}
@@ -511,8 +528,87 @@
 					</div>
 				</div>
 			</AccordionItem>
-
 			<AccordionItem
+				id="pressure-levels"
+				title="Pressure Level Variables"
+				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
+			>
+				<div class="flex gap-3 md:gap-6">
+					<div class="md:min-w-[150px]">
+						<ToggleGroup.Root
+							type="single"
+							bind:value={pressureVariablesTab}
+							class="justify-start gap-0"
+						>
+							<div class="border-border flex flex-col rounded-lg border">
+								{#each pressureVariables as variable, i}
+									<ToggleGroup.Item
+										value={variable.value}
+										class="min-h-12 cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
+										0
+											? 'rounded-t-md'
+											: ''} {i === pressureVariables.length - 1 ? 'rounded-b-md' : ''}"
+										disabled={pressureVariablesTab === variable.value}
+										onclick={() => (pressureVariablesTab = variable.value)}
+										>{variable.label}
+									</ToggleGroup.Item>
+								{/each}
+							</div>
+						</ToggleGroup.Root>
+					</div>
+					<div>
+						{#each pressureVariables as variable}
+							{#if pressureVariablesTab === variable.value}
+								<div class="mb-3">{variable.label}</div>
+								<div>
+									<div class="grid grid-cols-1 md:grid-cols-3">
+										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
+											{#each chunk as level}
+												<div class="group flex items-center" title={level.label}>
+													<Checkbox
+														id="{variable.value}_{level}hPa"
+														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+														value="{variable.value}_{level}hPa"
+														checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
+														aria-labelledby="{variable.value}_{level}hPa"
+														onCheckedChange={() => {
+															if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
+																$params.hourly = $params.hourly.filter((item) => {
+																	return item !== `${variable.value}_${level}hPa`;
+																});
+															} else {
+																$params.hourly.push(`${variable.value}_${level}hPa`);
+																$params.hourly = $params.hourly;
+															}
+														}}
+													/>
+													<Label
+														for="{variable.value}_{level}hPa"
+														class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
+														>{level} hPa
+														<small class="text-muted-foreground"
+															>({altitudeAboveSeaLevelMeters(level)})</small
+														></Label
+													>
+												</div>
+											{/each}
+										{/each}
+									</div>
+								</div>
+							{/if}
+						{/each}
+						<div class="mt-3">
+							<small class="text-muted-foreground"
+								>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
+								(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above
+								sea level.</small
+							>
+						</div>
+					</div>
+				</div>
+			</AccordionItem>
+			<!-- More models will be added later -->
+			<!-- <AccordionItem
 				id="models"
 				title="Weather models"
 				count={countVariables(models, $params.models)}
@@ -556,7 +652,7 @@
 						a seamless prediction.</small
 					>
 				</div>
-			</AccordionItem>
+			</AccordionItem> -->
 		</Accordion.Root>
 	</div>
 
@@ -609,6 +705,49 @@
 		{/if}
 	</div>
 
+	<!-- CURRENT -->
+	<div class="mt-6 md:mt-12">
+		<h2 id="current_weather" class="text-2xl md:text-3xl">Current Weather</h2>
+		<div
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+		>
+			{#each current as group}
+				<div>
+					{#each group as e}
+						<div class="group flex items-center" title={e.label}>
+							<Checkbox
+								id="{e.value}_current"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								value={e.value}
+								checked={$params.current?.includes(e.value)}
+								aria-labelledby="{e.value}_current_label"
+								onCheckedChange={() => {
+									if ($params.current?.includes(e.value)) {
+										$params.current = $params.current.filter((item) => {
+											return item !== e.value;
+										});
+									} else {
+										$params.current.push(e.value);
+										$params.current = $params.current;
+									}
+								}}
+							/>
+							<Label
+								id="{e.value}_current_label"
+								for="{e.value}_current"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+							>
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
+		<div class="text-muted-foreground mt-1">
+			Note: Current conditions are based on 1 hourly weather model data. Every weather variable
+			available in hourly data, is available as current condition as well.
+		</div>
+	</div>
+
 	<!-- SETTINGS -->
 	<div class="mt-6 md:mt-12">
 		<Settings bind:params={$params} />
@@ -620,25 +759,17 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview {params} {defaultParameters} model_default="dmi_seamless" />
+	<ResultPreview {params} {defaultParameters} model_default="italia_meteo_arpae_icon_2i" />
 </div>
 
 <!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
 	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
 	<div class="mt-2 md:mt-4">
-		<p>
-			DMI provides weather forecasts from the HARMONIE AROME model with ECMWF IFS initialization.
-			This is a collaboration of multiple European national weather services under the name "United
-			Weather Centres-West" (UWC-West). Forecasts for Europe use 2 km resolution and provide a large
-			range of weather variables. All data is updated every 3 hours and provides forecast for up to
-			2.5 days. After 2.5 days, Open-Meteo combines forecasts with the <a
-				href={'/en/docs/ecmwf-api'}>ECMWF IFS 0.25° model</a
-			> to provide up to 10 days of forecast.
-		</p>
+		<p>This API provides access to the ICON-2I model from ItaliaMeteo-ARPAE.</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1240px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -658,32 +789,27 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row"
-							><a
-								href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG"
-								target="_blank">DMI HARMONIE AROME DINI</a
-							></th
-						>
-						<td>Central & Northern Europe up to Iceland (green area below)</td>
-						<td>2 km</td>
-						<td>1-hourly</td>
-						<td>2.5 days</td>
-						<td>Every 3 hours</td>
+						<th scope="row">ICON 2I</th>
+						<td>Southern Europe</td>
+						<td>0.02° (~2 km)</td>
+						<td>1-Hourly</td>
+						<td>3 days</td>
+						<td>Every 12 hours</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-	</div>
-	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-		<figure>
-			<img src="/images/models/dmi_harmonie_dini-ig.webp" class="rounded-lg" alt="..." />
-			<figcaption class="text-muted-foreground">
-				DMI HARMONIE AROME DINI model area (green). Source: <a
-					href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG"
-					>DMI</a
-				>.
-			</figcaption>
-		</figure>
+
+		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+			<figure class="w-full">
+				<img
+					class="w-full rounded-lg"
+					src="/images/models/italiameteo_icon-2i.webp"
+					alt="ICON 2I Modal Area"
+				/>
+				<figcaption class="text-muted-foreground">ICON 2I Area. Source: Open-Meteo.</figcaption>
+			</figure>
+		</div>
 	</div>
 </div>
 
@@ -694,30 +820,7 @@
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a
 				href={'/en/docs'}>Weather Forecast API</a
-			>. Only notable remarks are listed below
+			>.
 		</p>
-		<ul class="ml-6 list-disc">
-			<li>
-				<strong>Direct Solar Radiation:</strong> DMI provides direct solar radiation. Many other weather
-				models only provide global solar radiation and direct solar radiation must be calculated user
-				separation models.
-			</li>
-			<li>
-				<strong>Direct Normalized Irradiance (DNI):</strong> Although DNI is available, it has not been
-				integrated. Open-Meteo uses solar position algorithms which calculate DNI from direct radiation
-				with (almost) the same results.
-			</li>
-			<li>
-				<strong>Wind Direction Correction:</strong> Wind direction has been calculated from U/V wind
-				component vectors. Special care has been taken to correct for the
-				<mark>Lambert Conformal Conic</mark> projection. Without this correction, wind directions have
-				an error of up to 15°.
-			</li>
-			<li>
-				<strong>Cloud Cover (2m):</strong> DMI provides cloud cover at 2 metre abouve ground which can
-				be interpreted as fog. This is remarkable, because only very weather models are capable of modeling
-				low level cloud cover and fog with a good degree of accuracy.
-			</li>
-		</ul>
 	</div>
 </div>

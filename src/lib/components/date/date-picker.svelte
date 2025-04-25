@@ -5,13 +5,12 @@
 
 	import { browser } from '$app/environment';
 
+	import { debounce } from '$lib/utils/meteo';
+
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';
 
 	import * as Popover from '$lib/components/ui/popover/index.js';
-
-	import X from 'lucide-svelte/icons/x';
-	import CalendarIcon from 'lucide-svelte/icons/calendar';
 
 	import RangeCalendar from './range-calendar-custom.svelte';
 
@@ -74,12 +73,21 @@
 			if (inputDiv) observer.observe(inputDiv);
 		}
 	});
+
+	let inputFields: HTMLElement | null = $state(null);
 </script>
 
 <div>
 	<Popover.Root bind:open={popoverOpen}>
-		<Popover.Trigger
+		<button
+			bind:this={inputFields}
 			class="relative flex w-full cursor-pointer flex-col gap-x-6 gap-y-3 md:flex-row"
+			onclick={(e) => {
+				e.preventDefault();
+				if (!popoverOpen) {
+					popoverOpen = true;
+				}
+			}}
 		>
 			<div
 				bind:this={inputDiv}
@@ -87,15 +95,37 @@
 					? 'ring-2 ring-ring ring-offset-2'
 					: ''}"
 			>
-				<CalendarIcon class="mr-1 mt-1 size-3" />
+				<svg
+					class="lucide lucide-calendar mr-1 mt-[1px]"
+					xmlns="http://www.w3.org/2000/svg"
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.65"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="M8 2v4" />
+					<path d="M16 2v4" />
+					<rect width="18" height="18" x="3" y="4" rx="2" />
+					<path d="M3 10h18" />
+				</svg>
 
 				<Input
-					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0 {popoverOpen
-						? 'z-20'
-						: ''}"
+					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0 "
 					type="text"
-					bind:value={start_date}
-					placeholder="Pick an end date"
+					value={start_date}
+					oninput={debounce((e) => {
+						if (
+							String(new Date(e.target.value) !== 'Invalid Date') &&
+							new Date(e.target.value).getFullYear() > 1940
+						) {
+							start_date = new Date(e.target.value).toISOString().split('T')[0];
+						}
+					}, 700)}
+					placeholder="Pick a start date"
 				/>
 				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 					>Start date</Label
@@ -114,14 +144,36 @@
 					? 'ring-2 ring-ring ring-offset-2'
 					: ''}"
 			>
-				<CalendarIcon class="mr-1 mt-1 size-3" />
+				<svg
+					class="lucide lucide-calendar mr-1 mt-[1px]"
+					xmlns="http://www.w3.org/2000/svg"
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.65"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="M8 2v4" />
+					<path d="M16 2v4" />
+					<rect width="18" height="18" x="3" y="4" rx="2" />
+					<path d="M3 10h18" />
+				</svg>
 
 				<Input
-					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0   {popoverOpen
-						? 'z-20'
-						: ''}"
+					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0  "
 					type="text"
 					value={end_date}
+					oninput={debounce((e) => {
+						if (
+							String(new Date(e.target.value) !== 'Invalid Date') &&
+							new Date(e.target.value).getFullYear() > 1940
+						) {
+							end_date = new Date(e.target.value).toISOString().split('T')[0];
+						}
+					}, 700)}
 					placeholder="Pick an end date"
 				/>
 				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
@@ -143,18 +195,41 @@
 					End date before Start date
 				</div>
 			{/if}
-		</Popover.Trigger>
+		</button>
+		<Popover.Trigger class="h-0 w-0"></Popover.Trigger>
 		<Popover.Content
 			onCloseAutoFocus={(e) => {
 				e.preventDefault();
 			}}
-			class="border-border mt-2 w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 md:mt-5"
+			onInteractOutside={(e) => {
+				if (inputFields.contains(e.target)) {
+					e.preventDefault();
+				}
+			}}
+			trapFocus={false}
+			class="border-border w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 "
 			align="start"
 		>
 			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} />
 			<Popover.Close
 				class="ring-offset-background focus:ring-ring absolute right-4 top-6 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none md:top-8"
-				><X size={16} /><span class="sr-only">Close</span></Popover.Close
+			>
+				<svg
+					class="lucide lucide-x"
+					xmlns="http://www.w3.org/2000/svg"
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path d="M18 6 6 18" />
+					<path d="m6 6 12 12" />
+				</svg>
+				<span class="sr-only">Close</span></Popover.Close
 			>
 		</Popover.Content>
 	</Popover.Root>

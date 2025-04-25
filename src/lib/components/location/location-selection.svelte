@@ -13,11 +13,6 @@
 
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
-	import List from 'lucide-svelte/icons/list';
-	import Plus from 'lucide-svelte/icons/plus';
-	import Trash from 'lucide-svelte/icons/trash-2';
-	import Locate from 'lucide-svelte/icons/locate';
-
 	interface Props {
 		params: Parameters;
 	}
@@ -82,7 +77,8 @@
 	<div class="border-border flex rounded-md border">
 		<Button
 			variant="ghost"
-			class="rounded-e-none !opacity-100 {params.location_mode === 'location_search'
+			class="rounded-e-none !opacity-100 gap-1 duration-300 {params.location_mode ===
+			'location_search'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={params.location_mode === 'location_search'}
@@ -90,11 +86,28 @@
 				params.location_mode = 'location_search';
 			}}
 		>
-			<Locate size={20} />Coordinates
+			<svg
+				class="lucide lucide-locate mr-[1px]"
+				xmlns="http://www.w3.org/2000/svg"
+				width="19"
+				height="19"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<line x1="2" x2="5" y1="12" y2="12" />
+				<line x1="19" x2="22" y1="12" y2="12" />
+				<line x1="12" x2="12" y1="2" y2="5" />
+				<line x1="12" x2="12" y1="19" y2="22" />
+				<circle cx="12" cy="12" r="7" />
+			</svg>Coordinates
 		</Button>
 		<Button
 			variant="ghost"
-			class="rounded-md rounded-s-none !opacity-100 duration-300 {params.location_mode ===
+			class="rounded-s-none !opacity-100 gap-1 duration-300  {params.location_mode ===
 			'csv_coordinates'
 				? 'bg-accent'
 				: ''}"
@@ -102,7 +115,25 @@
 				params.location_mode = 'csv_coordinates';
 			}}
 		>
-			<List size={20} />List
+			<svg
+				class="lucide lucide-list mr-[1px]"
+				xmlns="http://www.w3.org/2000/svg"
+				width="19"
+				height="19"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<path d="M3 12h.01" />
+				<path d="M3 18h.01" />
+				<path d="M3 6h.01" />
+				<path d="M8 12h13" />
+				<path d="M8 18h13" />
+				<path d="M8 6h13" />
+			</svg>List
 		</Button>
 	</div>
 </div>
@@ -201,16 +232,49 @@
 							{#if index == 0}
 								<Button
 									variant="outline"
-									class="h-12 w-full px-5 pr-6"
+									class="h-12 w-full px-5 pr-6 gap-1"
 									onclick={addLocation}
-									title="Add coordinates"><Plus size={22} /></Button
+									title="Add coordinates"
+									><svg
+										class="lucide lucide-plus"
+										xmlns="http://www.w3.org/2000/svg"
+										width="20"
+										height="20"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<path d="M5 12h14" />
+										<path d="M12 5v14" />
+									</svg></Button
 								>
 							{:else}
 								<Button
 									variant="outline"
 									class="h-12 w-full px-5 pr-6"
 									onclick={() => removeLocation(index)}
-									title="Delete coordinates"><Trash size={20} /></Button
+									title="Delete coordinates"
+									><svg
+										class="lucide lucide-trash-2"
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<path d="M3 6h18" />
+										<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+										<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+										<line x1="10" x2="10" y1="11" y2="17" />
+										<line x1="14" x2="14" y1="11" y2="17" />
+									</svg></Button
 								>
 							{/if}
 						</div>

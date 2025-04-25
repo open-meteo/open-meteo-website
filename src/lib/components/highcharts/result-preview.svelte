@@ -3,17 +3,14 @@
 	import { fade } from 'svelte/transition';
 
 	import { api_key_preferences } from '$lib/stores/settings';
+
 	import HighchartContainer from './highcharts-container.svelte';
 
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import * as Alert from '$lib/components/ui/alert';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
-	import InfoCircle from 'lucide-svelte/icons/info';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	import ArrowClockwise from 'lucide-svelte/icons/refresh-cw';
-	import ExclamationTriangle from 'lucide-svelte/icons/triangle-alert';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import type { Writable } from 'svelte/store';
 	import type { Parameters } from '$lib/docs';
@@ -193,8 +190,6 @@
 			case 'icon_d2':
 				return 20;
 			case 'gfs_seamless':
-				return 31;
-			case 'gfs025':
 				return 31;
 			case 'gfs025':
 				return 31;
@@ -631,7 +626,7 @@
 				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
 				disabled={mode === 'typescript'}
 			>
-				Typescript
+				TypeScript
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="swift"
@@ -665,7 +660,21 @@
 					in:fade={{ delay: 400, duration: 400 }}
 					out:fade={{ duration: 300 }}
 				>
-					<LoaderCircle size={40} class="animate-spin" /><span class="hidden">Loading...</span>
+					<svg
+						class="lucide lucide-loader-circle animate-spin"
+						xmlns="http://www.w3.org/2000/svg"
+						width="40"
+						height="40"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="M21 12a9 9 0 1 1-6.219-8.56" />
+					</svg>
+					<span class="hidden">Loading...</span>
 				</div>
 			{:then results}
 				{#if results}
@@ -690,12 +699,43 @@
 								<Alert.Description>
 									<div class="flex items-center flex-col md:flex-row justify-center gap-2">
 										<div class="text-muted-foreground flex items-center">
-											<InfoCircle class="mr-2" />
+											<svg
+												class="lucide lucide-info mr-2"
+												xmlns="http://www.w3.org/2000/svg"
+												width="24"
+												height="24"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											>
+												<circle cx="12" cy="12" r="10" />
+												<path d="M12 16v-4" />
+												<path d="M12 8h.01" />
+											</svg>
 											Parameters have changed.
 										</div>
 
 										<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
-											><ArrowClockwise class="mr-1" />Reload Chart
+											><svg
+												class="lucide lucide-refresh-cw mr-1"
+												xmlns="http://www.w3.org/2000/svg"
+												width="24"
+												height="24"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											>
+												<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+												<path d="M21 3v5h-5" />
+												<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+												<path d="M8 16H3v5" />
+											</svg>Reload Chart
 										</Button>
 									</div>
 								</Alert.Description>
@@ -714,7 +754,25 @@
 							<Alert.Description>
 								<div class="flex items-center justify-center gap-2">
 									<div class="flex items-center">
-										<ExclamationTriangle class="mr-2" />
+										<svg
+											class="lucide lucide-triangle-alert mr-2"
+											xmlns="http://www.w3.org/2000/svg"
+											width="24"
+											height="24"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										>
+											<path
+												d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+											/>
+											<path d="M12 9v4" />
+											<path d="M12 17h.01" />
+										</svg>
+
 										{JSON.parse(error.message).reason}
 									</div>
 
@@ -723,7 +781,23 @@
 										type="submit"
 										class="border-red flex !flex-row"
 										onclick={reload}
-										><ArrowClockwise class="mr-2" />Reload Chart
+										><svg
+											class="lucide lucide-refresh-cw mr-2"
+											xmlns="http://www.w3.org/2000/svg"
+											width="24"
+											height="24"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										>
+											<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+											<path d="M21 3v5h-5" />
+											<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+											<path d="M8 16H3v5" />
+										</svg>Reload Chart
 									</Button>
 								</div>
 							</Alert.Description>
@@ -786,12 +860,12 @@
 					> documentation.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4">
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
 pip install openmeteo-requests
 pip install requests-cache retry-requests numpy pandas</pre>
 
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4"><code
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
 						><span class="token keyword">import</span> openmeteo_requests
 {#if sdk_type == 'ensemble_api'}
 							<span class="token keyword">from</span> openmeteo_sdk.Variable <span
@@ -1074,7 +1148,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 	{/if}
 	<!-- TYPESCRIPT -->
 	{#if mode == 'typescript'}
-		<div in:fade id="pills-typescript" aria-labelledby="pills-typescript-tab">
+		<div in:fade>
 			<div>
 				<p>
 					The preview code applies all parameters above automatically and structures weather data
@@ -1083,15 +1157,15 @@ current <span class="token operator">=</span> response<span class="token punctua
 					>.
 				</p>
 				<p>
-					Caveats: The code generator does not handle sunrise and sunset correctly. It is supposed
-					to be ".valuesInt64" instead of ".values". For the ensemble API, multiple members per
-					variable are not correctly decoded. You will have to loop over `variables`.
+					Caveats: For the ensemble API, multiple members per variable are not correctly decoded.
+					You will have to loop over `variables`.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4"><code>npm install openmeteo</code
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
+						>npm install openmeteo</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4">
+				<pre class="my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
 <code
 						><span class="token keyword">import</span> <span class="token punctuation"
 							>&lbrace;</span
@@ -1111,27 +1185,6 @@ current <span class="token operator">=</span> response<span class="token punctua
 						>url<span class="token punctuation">,</span> params<span class="token punctuation"
 							>)</span
 						><span class="token punctuation">;</span>
-
-<span class="token comment">// Helper function to form time ranges</span>
-<span class="token keyword">const</span> <span class="token function-variable function">range</span
-						> <span class="token operator">=</span> <span class="token punctuation">(</span
-						>start<span class="token operator">:</span> <span class="token builtin">number</span
-						><span class="token punctuation">,</span> stop<span class="token operator">:</span
-						> <span class="token builtin">number</span><span class="token punctuation">,</span
-						> step<span class="token operator">:</span> <span class="token builtin">number</span
-						><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
-{'\t'}<span class="token builtin">Array</span><span class="token punctuation">.</span><span
-							class="token function">from</span
-						><span class="token punctuation">(</span><span class="token punctuation">&lbrace;</span
-						> length<span class="token operator">:</span> <span class="token punctuation">(</span
-						>stop <span class="token operator">-</span> start<span class="token punctuation">)</span
-						> <span class="token operator">/</span> step <span class="token punctuation"
-							>&rbrace;</span
-						><span class="token punctuation">,</span> <span class="token punctuation">(</span>_<span
-							class="token punctuation">,</span
-						> i<span class="token punctuation">)</span> <span class="token operator">=&gt;</span
-						> start <span class="token operator">+</span> i <span class="token operator">*</span
-						> step<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
 <span class="token comment"
 							>// Process first location. Add a for-loop for multiple locations or weather models</span
@@ -1180,8 +1233,25 @@ current <span class="token operator">=</span> response<span class="token punctua
 								class="token punctuation">(</span
 							><span class="token punctuation">)</span><span class="token operator">!</span><span
 								class="token punctuation">;</span
-							>{'\n'}{/each}
-<span class="token comment"
+							>{'\n'}{/each}{#if $params.daily && ($params.daily.includes('sunrise') || $params.daily.includes('sunset'))}{#if $params.daily.includes('sunrise')}{'\n'}<span
+									class="token keyword">const</span
+								> sunrise <span class="token operator">=</span> daily<span class="token punctuation"
+									>.</span
+								><span class="token function">variables</span><span class="token punctuation"
+									>(</span
+								><span class="token number">{$params.daily.indexOf('sunrise')}</span><span
+									class="token punctuation">)</span
+								><span class="token operator">!</span><span class="token punctuation">;</span
+								>{/if}{#if $params.daily.includes('sunset')}{'\n'}<span class="token keyword"
+									>const</span
+								> sunset <span class="token operator">=</span> daily<span class="token punctuation"
+									>.</span
+								><span class="token function">variables</span><span class="token punctuation"
+									>(</span
+								><span class="token number">{$params.daily.indexOf('sunset')}</span><span
+									class="token punctuation">)</span
+								><span class="token operator">!</span><span class="token punctuation">;</span
+								>{/if}<br />{/if}<br /><span class="token comment"
 							>// Note: The order of weather variables in the URL query and the indices below need to match!</span
 						>
 <span class="token keyword">const</span> weatherData <span class="token operator">=</span> <span
@@ -1218,50 +1288,86 @@ current <span class="token operator">=</span> response<span class="token punctua
 							>{/if}{#each sectionsArrayWithData as section}<br />{'\t'}{camelCase(section)}<span
 								class="token operator">:</span
 							> <span class="token punctuation">&lbrace;</span>
-{'\t'}{'\t'}time<span
-								class="token operator">:</span
-							> <span class="token function">range</span><span class="token punctuation">(</span
-							><span class="token function">Number</span><span class="token punctuation">(</span
-							>{camelCase(section)}<span class="token punctuation">.</span><span
-								class="token function">time</span
-							><span class="token punctuation">(</span><span class="token punctuation">)</span><span
-								class="token punctuation">)</span
-							><span class="token punctuation">,</span> <span class="token function">Number</span
-							><span class="token punctuation">(</span>{camelCase(section)}<span
-								class="token punctuation">.</span
-							><span class="token function">timeEnd</span><span class="token punctuation">(</span
-							><span class="token punctuation">)</span><span class="token punctuation">)</span><span
-								class="token punctuation">,</span
-							> {camelCase(section)}<span class="token punctuation">.</span><span
-								class="token function">interval</span
-							><span class="token punctuation">(</span><span class="token punctuation">)</span><span
-								class="token punctuation">)</span
-							><span class="token punctuation">.</span><span class="token function">map</span><span
-								class="token punctuation">(</span
-							>
-{'\t'}{'\t'}{'\t'}<span class="token punctuation">(</span>t<span
-								class="token punctuation">)</span
-							> <span class="token operator">=&gt;</span> <span class="token keyword">new</span
-							> <span class="token class-name">Date</span><span class="token punctuation">(</span
-							><span class="token punctuation">(</span>t <span class="token operator">+</span
-							> utcOffsetSeconds<span class="token punctuation">)</span> <span
-								class="token operator">*</span
-							> <span class="token number">1000</span><span class="token punctuation">)</span
-							>
-{'\t'}{'\t'}<span class="token punctuation">)</span><span class="token punctuation"
-								>,</span
-							>{#each $params[section] as variable, index}{'\n'}{'\t'}{'\t'}{camelCase(
-									variable
-								)}<span class="token operator">:</span> {camelCase(section)}<span
+{'\t'}{'\t'}<span class="line"
+								>time<span class="token operator">:</span><span class="token punctuation"> [</span
+								><span class="token operator">...</span><span class="token function">Array</span
+								><span class="token punctuation">((</span><span class="token function">Number</span
+								><span class="token punctuation">(</span><span>{section}</span><span
 									class="token punctuation">.</span
-								><span class="token function">variables</span><span class="token punctuation"
-									>(</span
-								><span class="token number">{index}</span><span class="token punctuation">)</span
-								><span class="token operator">!</span><span class="token punctuation">.</span><span
-									class="token function">valuesArray</span
-								><span class="token punctuation">(</span><span class="token punctuation">)</span
-								><span class="token operator">!</span><span class="token punctuation">,</span
-								>{/each}
+								><span class="token function">timeEnd</span><span class="token punctuation"
+									>()) </span><span class="token operator">-</span><span
+									class="token function"> Number</span
+								><span class="token punctuation">(</span><span>{section}</span><span
+									class="token punctuation">.</span
+								><span class="token function">time</span><span class="token punctuation"
+									>())) </span><span class="token operator">/</span><span> {section}</span><span
+									class="token punctuation">.</span
+								><span class="token function">interval</span><span class="token punctuation"
+									>())]</span
+								><span class="token punctuation">.</span><span class="token function">map</span
+								><span class="token punctuation">(</span></span
+							><br /><span class="line"
+								><span class="token punctuation">{'\t'}{'\t'}{'\t'}(</span><span
+									style="font-style:italic;">_</span
+								><span class="token punctuation">,</span><span style="font-style:italic"> i</span
+								><span class="token punctuation">)</span><span> =&gt;</span><span
+									class="token keyword"> new</span
+								><span class="token class-name"> Date</span><span class="token punctuation">((</span
+								><span class="token function">Number</span><span class="token punctuation">(</span
+								><span>{section}</span><span class="token punctuation">.</span><span
+									class="token function">time</span
+								><span class="token punctuation">()) </span><span class="token operator">+</span
+								><span> i </span><span class="token operator">*</span><span> {section}</span><span
+									class="token punctuation">.</span
+								><span class="token function">interval</span><span class="token punctuation"
+									>() </span><span class="token operator">+</span><span> utcOffsetSeconds</span
+								><span class="token punctuation">) </span><span class="token operator">*</span><span
+									class="token number"> 1000</span
+								><span class="token punctuation">)</span></span
+							><br /><span class="token punctuation">		)</span><span class="token punctuation">,</span
+							>{#each $params[section] as variable, index}{'\n'}{'\t'}{'\t'}{#if variable === 'sunrise' || variable === 'sunset'}<span
+										class="line"
+										>{variable}<span class="token operator">:</span><span
+											class="token punctuation"> [</span
+										><span class="token operator">...</span><span class="token function">Array</span
+										><span class="token punctuation">(</span><span>{variable}</span><span
+											class="token punctuation">.</span
+										><span class="token function">valuesInt64Length</span><span
+											class="token punctuation">())]</span
+										><span class="token punctuation">.</span><span class="token function">map</span
+										><span class="token punctuation">(</span></span
+									><br /><span class="line"
+										><span class="token punctuation">{'\t'}{'\t'}{'\t'}(</span><span
+											style="font-style:italic;">_</span
+										><span class="token punctuation">,</span><span
+											style="font-style:italic"> i</span
+										><span class="token punctuation">)</span><span> =&gt;</span><span
+											class="token keyword"> new</span
+										><span class="token class-name"> Date</span><span class="token punctuation"
+											>((</span
+										><span class="token function">Number</span><span class="token punctuation"
+											>(</span
+										><span>{variable}</span><span class="token punctuation">.</span><span
+											class="token function">valuesInt64</span
+										><span class="token punctuation">(i))</span><span
+											class="token operator"> +</span
+										><span> utcOffsetSeconds</span><span class="token punctuation">) </span><span
+											class="token operator">*</span
+										><span class="token number"> 1000</span><span class="token punctuation">)</span
+										></span
+									><br /><span class="token punctuation">		)</span><span class="token punctuation"
+										>,</span
+									>{:else}{camelCase(variable)}<span class="token operator">:</span> {camelCase(
+										section
+									)}<span class="token punctuation">.</span><span class="token function"
+										>variables</span
+									><span class="token punctuation">(</span><span class="token number">{index}</span
+									><span class="token punctuation">)</span><span class="token operator">!</span
+									><span class="token punctuation">.</span><span class="token function"
+										>valuesArray</span
+									><span class="token punctuation">(</span><span class="token punctuation">)</span
+									><span class="token operator">!</span><span class="token punctuation">,</span
+									>{/if}{/each}
 {'\t'}<span class="token punctuation">&rbrace;</span><span
 								class="token punctuation">,</span
 							>{/each}
@@ -1298,7 +1404,12 @@ current <span class="token operator">=</span> response<span class="token punctua
 									section
 								)}<span class="token punctuation">.</span>{camelCase(variable)}<span
 									class="token punctuation">[</span
-								>i<span class="token punctuation">]</span>{/each}
+								>i<span class="token punctuation">]</span
+								>{#if variable === 'sunrise' || variable === 'sunset'}<span
+										class="token punctuation">.</span
+									><span class="token function">toISOString</span><span class="token punctuation"
+										>(</span
+									><span class="token punctuation">)</span>{/if}{/each}
 {'\t'}<span
 								class="token punctuation">)</span
 							><span class="token punctuation">;</span>
@@ -1311,7 +1422,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 	{/if}
 	<!-- SWIFT -->
 	{#if mode == 'swift'}
-		<div in:fade id="pills-swift" aria-labelledby="pills-swift-tab">
+		<div in:fade>
 			<div>
 				<p>
 					The preview code applies all parameters above automatically and structures weather data
@@ -1320,14 +1431,12 @@ current <span class="token operator">=</span> response<span class="token punctua
 					>.
 				</p>
 				<p>
-					Caveats: The code generator does not handle sunrise and sunset correctly. It is supposed
-					to be [Int64] instead of [Float] and ".valuesInt64" instead of ".values". For the ensemble
-					API, multiple members per variable are not correctly decoded. You will have to loop over
-					'variables'.
+					Caveats: For the ensemble API, multiple members per variable are not correctly decoded.
+					You will have to loop over 'variables'.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<p class="my-3">Add OpenMeteoSdk as a dependency to your Package.swift</p>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4"><code
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
 						>dependencies: [
 {'\t'}.package(url: "https://github.com/open-meteo/sdk.git", from: "1.5.0")
 ],
@@ -1338,7 +1447,7 @@ targets: [
 ]</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4">
+				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
 <code class="language-swift"
 						><span class="token keyword">import</span> <span class="token class-name"
 							>OpenMeteoSdk</span
@@ -1400,7 +1509,8 @@ targets: [
 								>{#each $params[section] as variable}{'\n\t'}{'\t'}<span class="token keyword"
 										>let</span
 									> {camelCase(variable)}<span class="token punctuation">:</span> <span
-										class="token class-name">Float</span
+										class="token class-name"
+										>{int64Variables.includes(variable) ? 'Int64' : 'Float'}</span
 									>{/each}{:else}<br />{'\t'}{'\t'}<span class="token keyword">let</span> time<span
 									class="token punctuation">:</span
 								> <span class="token punctuation">[</span><span class="token class-name">Date</span
@@ -1408,7 +1518,7 @@ targets: [
 									/>{'\t'}{'\t'}<span class="token keyword">let</span> {camelCase(variable)}<span
 										class="token punctuation">:</span
 									> <span class="token punctuation">[</span><span class="token class-name"
-										>Float</span
+										>{int64Variables.includes(variable) ? 'Int64' : 'Float'}</span
 									><span class="token punctuation">]</span>{/each}{/if}
 {'\t'}<span
 								class="token punctuation">&rbrace;</span
@@ -1445,14 +1555,16 @@ targets: [
 									><span class="token punctuation">(</span>at<span class="token punctuation">:</span
 									> <span class="token number">{index}</span><span class="token punctuation">)</span
 									><span class="token operator">!</span><span class="token punctuation">.</span
-									>value{/each}
-{'\t'}<span class="token punctuation">)</span>{:else}<br
-								/>{'\t'}{'\t'}time<span class="token punctuation">:</span> {camelCase(section)}<span
-									class="token punctuation">.</span
-								><span class="token function">getDateTime</span><span class="token punctuation"
-									>(</span
-								>offset<span class="token punctuation">:</span> utcOffsetSeconds<span
+									>{int64Variables.includes(variable) ? 'valueInt64' : 'value'}{/each}
+{'\t'}<span
 									class="token punctuation">)</span
+								>{:else}<br />{'\t'}{'\t'}time<span class="token punctuation">:</span> {camelCase(
+									section
+								)}<span class="token punctuation">.</span><span class="token function"
+									>getDateTime</span
+								><span class="token punctuation">(</span>offset<span class="token punctuation"
+									>:</span
+								> utcOffsetSeconds<span class="token punctuation">)</span
 								>{#each $params[section] as variable, index}<span class="token punctuation">,</span
 									>{'\n\t'}{'\t'}{camelCase(variable)}<span class="token punctuation">:</span
 									> {camelCase(section)}<span class="token punctuation">.</span><span
@@ -1460,8 +1572,10 @@ targets: [
 									><span class="token punctuation">(</span>at<span class="token punctuation">:</span
 									> <span class="token number">{index}</span><span class="token punctuation">)</span
 									><span class="token operator">!</span><span class="token punctuation">.</span
-									>values{/each}
-{'\t'}<span class="token punctuation">)</span>{/if}{/each}
+									>{int64Variables.includes(variable) ? 'valuesInt64' : 'values'}{/each}
+{'\t'}<span
+									class="token punctuation">)</span
+								>{/if}{/each}
 <span class="token punctuation">)</span>
 
 <span class="token comment">/// Timezone `.gmt` is deliberately used. </span>
@@ -1505,7 +1619,7 @@ dateFormatter<span class="token punctuation">.</span>dateFormat <span class="tok
 	{/if}
 	<!-- OTHER -->
 	{#if mode == 'other'}
-		<div in:fade id="pills-other" aria-labelledby="pills-other-tab">
+		<div in:fade>
 			<div>
 				<p>
 					Support for additional programming languages in our integrations may be available in the
