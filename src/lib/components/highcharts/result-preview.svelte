@@ -3,17 +3,14 @@
 	import { fade } from 'svelte/transition';
 
 	import { api_key_preferences } from '$lib/stores/settings';
+
 	import HighchartContainer from './highcharts-container.svelte';
 
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import * as Alert from '$lib/components/ui/alert';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
-	import InfoCircle from 'lucide-svelte/icons/info';
-	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	import ArrowClockwise from 'lucide-svelte/icons/refresh-cw';
-	import ExclamationTriangle from 'lucide-svelte/icons/triangle-alert';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import type { Writable } from 'svelte/store';
 	import type { Parameters } from '$lib/docs';
@@ -663,7 +660,21 @@
 					in:fade={{ delay: 400, duration: 400 }}
 					out:fade={{ duration: 300 }}
 				>
-					<LoaderCircle size={40} class="animate-spin" /><span class="hidden">Loading...</span>
+					<svg
+						class="lucide lucide-loader-circle animate-spin"
+						xmlns="http://www.w3.org/2000/svg"
+						width="40"
+						height="40"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="M21 12a9 9 0 1 1-6.219-8.56" />
+					</svg>
+					<span class="hidden">Loading...</span>
 				</div>
 			{:then results}
 				{#if results}
@@ -688,12 +699,43 @@
 								<Alert.Description>
 									<div class="flex items-center flex-col md:flex-row justify-center gap-2">
 										<div class="text-muted-foreground flex items-center">
-											<InfoCircle class="mr-2" />
+											<svg
+												class="lucide lucide-info mr-2"
+												xmlns="http://www.w3.org/2000/svg"
+												width="24"
+												height="24"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											>
+												<circle cx="12" cy="12" r="10" />
+												<path d="M12 16v-4" />
+												<path d="M12 8h.01" />
+											</svg>
 											Parameters have changed.
 										</div>
 
 										<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
-											><ArrowClockwise class="mr-1" />Reload Chart
+											><svg
+												class="lucide lucide-refresh-cw mr-1"
+												xmlns="http://www.w3.org/2000/svg"
+												width="24"
+												height="24"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											>
+												<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+												<path d="M21 3v5h-5" />
+												<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+												<path d="M8 16H3v5" />
+											</svg>Reload Chart
 										</Button>
 									</div>
 								</Alert.Description>
@@ -712,7 +754,25 @@
 							<Alert.Description>
 								<div class="flex items-center justify-center gap-2">
 									<div class="flex items-center">
-										<ExclamationTriangle class="mr-2" />
+										<svg
+											class="lucide lucide-triangle-alert mr-2"
+											xmlns="http://www.w3.org/2000/svg"
+											width="24"
+											height="24"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										>
+											<path
+												d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+											/>
+											<path d="M12 9v4" />
+											<path d="M12 17h.01" />
+										</svg>
+
 										{JSON.parse(error.message).reason}
 									</div>
 
@@ -721,7 +781,23 @@
 										type="submit"
 										class="border-red flex !flex-row"
 										onclick={reload}
-										><ArrowClockwise class="mr-2" />Reload Chart
+										><svg
+											class="lucide lucide-refresh-cw mr-2"
+											xmlns="http://www.w3.org/2000/svg"
+											width="24"
+											height="24"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										>
+											<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+											<path d="M21 3v5h-5" />
+											<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+											<path d="M8 16H3v5" />
+										</svg>Reload Chart
 									</Button>
 								</div>
 							</Alert.Description>
