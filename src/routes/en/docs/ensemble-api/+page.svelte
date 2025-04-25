@@ -7,9 +7,6 @@
 
 	import { countVariables } from '$lib/utils/meteo';
 
-	import Clock from 'lucide-svelte/icons/clock';
-	import Calendar from 'lucide-svelte/icons/calendar-cog';
-
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
@@ -141,7 +138,8 @@
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="rounded-e-none !opacity-100 {$params.time_mode === 'forecast_days'
+					class="rounded-e-none !opacity-100 gap-1 duration-300 {$params.time_mode ===
+					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
 					disabled={$params.time_mode === 'forecast_days'}
@@ -151,11 +149,25 @@
 						$params.end_date = '';
 					}}
 				>
-					<Clock size={20} />Forecast Length
+					<svg
+						class="lucide lucide-clock mr-[2px]"
+						xmlns="http://www.w3.org/2000/svg"
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<circle cx="12" cy="12" r="10" />
+						<polyline points="12 6 12 12 16 14" />
+					</svg>Forecast Length
 				</Button>
 				<Button
 					variant="ghost"
-					class="rounded-md rounded-s-none !opacity-100 duration-300 {$params.time_mode ===
+					class="rounded-s-none !opacity-100 gap-1 duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -164,7 +176,32 @@
 						$params.time_mode = 'time_interval';
 					}}
 				>
-					<Calendar size={20} />Time Interval
+					<svg
+						class="lucide lucide-calendar-cog mr-[2px]"
+						xmlns="http://www.w3.org/2000/svg"
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="m15.2 16.9-.9-.4" />
+						<path d="m15.2 19.1-.9.4" />
+						<path d="M16 2v4" />
+						<path d="m16.9 15.2-.4-.9" />
+						<path d="m16.9 20.8-.4.9" />
+						<path d="m19.5 14.3-.4.9" />
+						<path d="m19.5 21.7-.4-.9" />
+						<path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" />
+						<path d="m21.7 16.5-.9.4" />
+						<path d="m21.7 19.5-.9-.4" />
+						<path d="M3 10h18" />
+						<path d="M8 2v4" />
+						<circle cx="18" cy="18" r="3" />
+					</svg>Time Interval
 				</Button>
 			</div>
 		</div>
@@ -976,7 +1013,10 @@
 						<td>Total cloud cover as an area fraction</td>
 					</tr>
 					<tr>
-						<th scope="row">wind_speed_10m<br />wind_speed_80m<br />wind_speed_100m<br /><br />wind_speed_120m</th>
+						<th scope="row"
+							>wind_speed_10m<br />wind_speed_80m<br />wind_speed_100m<br /><br
+							/>wind_speed_120m</th
+						>
 						<td>Instant</td>
 						<td>km/h (mph, m/s, knots)</td>
 						<td
@@ -985,7 +1025,10 @@
 						>
 					</tr>
 					<tr>
-						<th scope="row">wind_direction_10m<br />wind_direction_80m<br />wind_direction_100m<br />wind_direction_120m</th>
+						<th scope="row"
+							>wind_direction_10m<br />wind_direction_80m<br />wind_direction_100m<br
+							/>wind_direction_120m</th
+						>
 						<td>Instant</td>
 						<td>°</td>
 						<td>Wind direction at 10, 80, 100 or 120 meters above ground</td>

@@ -1,16 +1,4 @@
 <script lang="ts">
-	import Zap from 'lucide-svelte/icons/zap';
-	import Gauge from 'lucide-svelte/icons/gauge';
-	import Watch from 'lucide-svelte/icons/watch';
-	import Waves from 'lucide-svelte/icons/waves';
-	import Archive from 'lucide-svelte/icons/archive';
-	import Lightbulb from 'lucide-svelte/icons/lightbulb';
-	import FileCheck from 'lucide-svelte/icons/file-check';
-	import MapPinned from 'lucide-svelte/icons/map-pinned';
-	import MountainSnow from 'lucide-svelte/icons/mountain-snow';
-
-	import Mailbox from '$lib/assets/icons/mailbox.svelte';
-
 	import Button from '$lib/components/ui/button/button.svelte';
 </script>
 
@@ -28,12 +16,31 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<MapPinned size="36" strokeWidth={1.2} />
+					<svg
+						class="lucide lucide-map-pinned"
+						xmlns="http://www.w3.org/2000/svg"
+						width="34"
+						height="34"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.4"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path
+							d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
+						/>
+						<circle cx="12" cy="8" r="2" />
+						<path
+							d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
+						/>
+					</svg>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Local And Global Models</h3>
@@ -52,12 +59,27 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Zap size="36" strokeWidth={1.2} />
+					<svg
+						class="lucide lucide-zap"
+						xmlns="http://www.w3.org/2000/svg"
+						width="36"
+						height="36"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path
+							d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"
+						/>
+					</svg>
 				</div>
 
 				<h3 class="pl-3 text-2xl">High Resolution</h3>
@@ -79,12 +101,28 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Watch size="36" strokeWidth={1.2} />
+					<svg
+						class="lucide lucide-watch"
+						xmlns="http://www.w3.org/2000/svg"
+						width="36"
+						height="36"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<circle cx="12" cy="12" r="6" />
+						<polyline points="12 10 12 12 13 13" />
+						<path d="m16.13 7.66-.81-4.05a2 2 0 0 0-2-1.61h-2.68a2 2 0 0 0-2 1.61l-.78 4.05" />
+						<path d="m7.88 16.36.8 4a2 2 0 0 0 2 1.61h2.72a2 2 0 0 0 2-1.61l.81-4.05" />
+					</svg>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Hourly Updates</h3>
@@ -104,12 +142,27 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Archive size="34" strokeWidth={1.3} />
+					<svg
+						class="lucide lucide-archive"
+						xmlns="http://www.w3.org/2000/svg"
+						width="32"
+						height="32"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.4"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<rect width="20" height="5" x="2" y="3" rx="1" />
+						<path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8" />
+						<path d="M10 12h4" />
+					</svg>
 				</div>
 
 				<h3 class="pl-3 text-2xl">80 Years Historical Data</h3>
@@ -130,12 +183,33 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Waves size="34" strokeWidth={1.4} />
+					<svg
+						class="lucide lucide-waves"
+						xmlns="http://www.w3.org/2000/svg"
+						width="34"
+						height="34"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.4"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path
+							d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+						/>
+						<path
+							d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+						/>
+						<path
+							d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+						/>
+					</svg>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Specialised Forecasts</h3>
@@ -155,12 +229,26 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<MountainSnow size="34" strokeWidth={1.3} />
+					<svg
+						class="lucide lucide-mountain-snow"
+						xmlns="http://www.w3.org/2000/svg"
+						width="34"
+						height="34"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.3"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+						<path d="M4.14 15.08c2.62-1.57 5.24-1.43 7.86.42 2.74 1.94 5.49 2 8.23.19" />
+					</svg>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Geocoding, Elevation, Timezones</h3>
@@ -348,12 +436,26 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Gauge size="34" strokeWidth={1.4} />
+					<svg
+						class="lucide lucide-gauge"
+						xmlns="http://www.w3.org/2000/svg"
+						width="34"
+						height="34"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.4"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="m12 14 4-4" />
+						<path d="M3.34 19a10 10 0 1 1 17.32 0" />
+					</svg>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Lightning Fast APIs</h3>
@@ -373,12 +475,29 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<Lightbulb size="34" strokeWidth={1.4} />
+					<svg
+						class="lucide lucide-lightbulb"
+						xmlns="http://www.w3.org/2000/svg"
+						width="33"
+						height="33"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.6"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path
+							d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+						/>
+						<path d="M9 18h6" />
+						<path d="M10 22h4" />
+					</svg>
 				</div>
 
 				<h3 class="pl-3 text-2xl">User-Friendly APIs</h3>
@@ -397,12 +516,27 @@
 		<div>
 			<div class="mb-3 flex items-center">
 				<div
-					class="bg-primary relative flex h-14 w-14 items-center justify-center rounded-xl text-white"
+					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
 						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
 					></div>
-					<FileCheck size="34" strokeWidth={1.2} />
+					<svg
+						class="lucide lucide-file-check"
+						xmlns="http://www.w3.org/2000/svg"
+						width="34"
+						height="34"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+						<path d="M14 2v4a2 2 0 0 0 2 2h4" />
+						<path d="m9 15 2 2 4-4" />
+					</svg>
 				</div>
 
 				<h3 class="pl-3 text-2xl">Reliable APIs</h3>
@@ -421,8 +555,24 @@
 	</div>
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center">
-		<Mailbox width="72" height="72" shadow={false} />
-		<h2 class="my-4 text-4xl font-bold" id="contact">Next steps</h2>
+		<svg
+			class="lucide lucide-mailbox"
+			xmlns="http://www.w3.org/2000/svg"
+			width="72"
+			height="72"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="1.35"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		>
+			<path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9.5C2 7 4 5 6.5 5H18c2.2 0 4 1.8 4 4v8Z" />
+			<polyline points="15,9 18,9 18,11" />
+			<path d="M6.5 5C9 5 11 7 11 9.5V17a2 2 0 0 1-2 2" />
+			<line x1="6" x2="7" y1="10" y2="10" />
+		</svg>
+		<h2 class="mb-4 text-4xl font-bold" id="contact">Next steps</h2>
 		<div class="text-center">
 			<p class="lead mb-4">
 				Our <a href="/en/docs">documentation</a> provides a good start to help you integrate weather
