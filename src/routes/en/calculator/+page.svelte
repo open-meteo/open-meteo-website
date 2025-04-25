@@ -286,7 +286,6 @@
 	let endDateDefault = d.toISOString().split('T')[0];
 
 	let variablesInput = $state(5);
-	let timeLengthInput = $state('7');
 	let modelsInput = $state(1);
 	let locationsInput = $state(1);
 
@@ -409,6 +408,7 @@
 				variant="outline"
 				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 				onclick={() => {
+					locationsInput = 1;
 					$params.latitude = [52.52];
 					$params.longitude = [13.41];
 				}}>1 location</Button
@@ -417,6 +417,7 @@
 				variant="outline"
 				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 				onclick={() => {
+					locationsInput = 2;
 					$params.latitude = [52.52, 52.52];
 					$params.longitude = [13.41, 13.41];
 				}}>2 locations</Button
@@ -425,6 +426,7 @@
 				variant="outline"
 				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 				onclick={() => {
+					locationsInput = 5;
 					$params.latitude = [52.52, 52.52, 52.52, 52.52, 52.52];
 					$params.longitude = [13.41, 13.41, 13.41, 13.41, 13.41];
 				}}>5 locations</Button
@@ -433,6 +435,7 @@
 				variant="outline"
 				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 				onclick={() => {
+					locationsInput = 10;
 					$params.latitude = [52.52, 52.52, 52.52, 52.52, 52.52, 52.52, 52.52, 52.52, 52.52, 52.52];
 					$params.longitude = [
 						13.41, 13.41, 13.41, 13.41, 13.41, 13.41, 13.41, 13.41, 13.41, 13.41
@@ -608,6 +611,7 @@
 				variant="outline"
 				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 				onclick={() => {
+					modelsInput = 1;
 					$params.models = ['best_match'];
 				}}>1 model</Button
 			>
@@ -615,6 +619,7 @@
 				variant="outline"
 				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 				onclick={() => {
+					modelsInput = 5;
 					$params.models = [
 						'ecmwf_ifs025',
 						'ecmwf_aifs025_single',
@@ -628,6 +633,7 @@
 				variant="outline"
 				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 				onclick={() => {
+					modelsInput = 10;
 					$params.models = [
 						'ecmwf_ifs025',
 						'ecmwf_aifs025_single',
@@ -646,6 +652,7 @@
 				variant="outline"
 				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 				onclick={() => {
+					modelsInput = 20;
 					$params.models = [
 						'ecmwf_ifs025',
 						'ecmwf_aifs025_single',
@@ -710,6 +717,7 @@
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 					onclick={() => {
+						variablesInput = 1;
 						$params.hourly = ['temperature_2m'];
 					}}>1 hourly var.</Button
 				>
@@ -717,6 +725,7 @@
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 					onclick={() => {
+						variablesInput = 10;
 						$params.hourly = [
 							'temperature_2m',
 							'relative_humidity_2m',
@@ -735,6 +744,7 @@
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
 					onclick={() => {
+						variablesInput = 50;
 						$params.hourly = [
 							'temperature_2m',
 							'relative_humidity_2m',
