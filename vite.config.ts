@@ -36,7 +36,6 @@ export default defineConfig({
 			template: 'raw-data'
 		})
 	],
-	base: '',
 	build: {
 		rollupOptions: rollupOptions
 	}
