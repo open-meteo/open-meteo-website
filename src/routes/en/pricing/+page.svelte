@@ -453,8 +453,8 @@
 				</p>
 				<p>
 					To calculate the number of API calls accurately, fractional counts are used. For example,
-					2 weeks of data using 15 weather variables count as 1.5 API calls, while 4 weeks of
-					weather data count as 3.0 API calls.
+					a request for 2 weeks of data with 15 weather variables will be calculated as 1.5 API
+					calls, while 4 weeks of data equals 3.0 API calls.
 				</p>
 				<p>
 					This distinction is crucial for developing future features such as APIs for multiple
