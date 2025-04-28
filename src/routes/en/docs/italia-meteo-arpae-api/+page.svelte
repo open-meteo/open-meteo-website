@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
+	// import modalAreaImage from './italiameteo_icon-2i_original.png?enhanced';
+	import modalAreaImage from '/static/images/models/italiameteo_icon-2i_original.png?enhanced';
+
 	import { fade, slide } from 'svelte/transition';
 
 	import {
@@ -802,11 +805,17 @@
 
 		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 			<figure class="w-full">
-				<img
+				<enhanced:img
+					class="w-full rounded-lg"
+					src="/static/images/models/italiameteo_icon-2i_original.png"
+					alt="ICON 2I Modal Area"
+				/>
+
+				<!-- <img
 					class="w-full rounded-lg"
 					src="/images/models/italiameteo_icon-2i.webp"
 					alt="ICON 2I Modal Area"
-				/>
+				/> -->
 				<figcaption class="text-muted-foreground">ICON 2I Area. Source: Open-Meteo.</figcaption>
 			</figure>
 		</div>

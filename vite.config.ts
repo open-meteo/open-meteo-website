@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 
 import { sveltekit } from '@sveltejs/kit/vite';
+import { enhancedImages } from '@sveltejs/enhanced-img';
 import { visualizer } from 'rollup-plugin-visualizer';
 
 import tailwindcssCleaner from 'vite-plugin-tailwindcss-cleaner';
@@ -26,6 +27,7 @@ export default defineConfig({
 	plugins: [
 		tailwindcss(),
 		tailwindcssCleaner(),
+		enhancedImages(),
 		sveltekit(),
 		svg(),
 		replaceChunckNames(),
@@ -34,7 +36,7 @@ export default defineConfig({
 			template: 'raw-data'
 		})
 	],
-
+	base: '',
 	build: {
 		rollupOptions: rollupOptions
 	}
