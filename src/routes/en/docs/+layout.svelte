@@ -96,7 +96,7 @@
 			for (const heading of headingElements) {
 				if (heading.id) {
 					heading.addEventListener('click', () => {
-						goto(`#${heading.id}`);
+						window.location.hash = `#${heading.id}`;
 						focus(heading);
 					});
 				}
