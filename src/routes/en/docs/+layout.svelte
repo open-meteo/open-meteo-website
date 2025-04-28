@@ -68,9 +68,6 @@
 
 	let mobileNavOpened = $state(false);
 
-	let activeAnchor: null | string = $state(null);
-	let scrollToAnchor: boolean = $state(false);
-
 	// Fix for backwards compatibilty with the old url-params store
 	// which used the hash ('#') for cache busting, now replaced with '?'
 	let hashOnLoad = '';
@@ -96,37 +93,14 @@
 
 		if (browser) {
 			const headingElements = document.querySelectorAll('h2, h3, h4');
-			const headingDistanceList = [];
 			for (const heading of headingElements) {
 				if (heading.id) {
-					headingDistanceList.push(heading.getBoundingClientRect().y);
 					heading.addEventListener('click', () => {
 						goto(`#${heading.id}`);
 						focus(heading);
 					});
 				}
 			}
-			activeAnchor = window.location.hash.replace('#', '');
-			setTimeout(() => {
-				window.addEventListener('scroll', (e) => {
-					if (!scrollToAnchor) {
-						for (let [i, dist] of headingDistanceList.entries()) {
-							if (dist > window.scrollY + 50) {
-								if (i === 0) {
-									if (activeAnchor != headingElements[0].id) {
-										activeAnchor = headingElements[0].id;
-									}
-								} else {
-									if (activeAnchor != headingElements[i - 1].id) {
-										activeAnchor = headingElements[i - 1].id;
-									}
-								}
-								break;
-							}
-						}
-					}
-				});
-			}, 500);
 		}
 	});
 </script>
