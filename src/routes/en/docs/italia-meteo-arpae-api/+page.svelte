@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	// import modalAreaImage from './italiameteo_icon-2i_original.png?enhanced';
-	import modalAreaImage from '/static/images/models/italiameteo_icon-2i_original.png?enhanced';
-
 	import { fade, slide } from 'svelte/transition';
 
 	import {
