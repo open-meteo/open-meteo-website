@@ -107,11 +107,16 @@ h4 {
 	transition: 300ms;
 }
 
-h2:target,
+.docs-content h2,
+.docs-content h3 {
+	cursor: pointer;
+}
+
+/* h2:target,
 h3:target,
 h4:target {
 	text-decoration: underline;
-}
+} */
 
 @layer base {
 	body {

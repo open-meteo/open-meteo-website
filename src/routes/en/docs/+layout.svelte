@@ -3,7 +3,7 @@
 
 	import { browser, dev } from '$app/environment';
 
-	import { beforeNavigate, afterNavigate } from '$app/navigation';
+	import { goto, beforeNavigate, afterNavigate } from '$app/navigation';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 
@@ -68,6 +68,9 @@
 
 	let mobileNavOpened = $state(false);
 
+	let activeAnchor: null | string = $state(null);
+	let scrollToAnchor: boolean = $state(false);
+
 	// Fix for backwards compatibilty with the old url-params store
 	// which used the hash ('#') for cache busting, now replaced with '?'
 	let hashOnLoad = '';
@@ -85,10 +88,45 @@
 	});
 
 	afterNavigate((e) => {
-		if (!e.from || e.from.route.id !== e.to.route.id) {
+		if ((!e.from || e.from.route.id !== e.to.route.id) && !window.location.hash) {
 			setTimeout(() => {
 				window.scrollTo(0, 0);
 			}, 75);
+		}
+
+		if (browser) {
+			const headingElements = document.querySelectorAll('h2, h3, h4');
+			const headingDistanceList = [];
+			for (const heading of headingElements) {
+				if (heading.id) {
+					headingDistanceList.push(heading.getBoundingClientRect().y);
+					heading.addEventListener('click', () => {
+						goto(`#${heading.id}`);
+						focus(heading);
+					});
+				}
+			}
+			activeAnchor = window.location.hash.replace('#', '');
+			setTimeout(() => {
+				window.addEventListener('scroll', (e) => {
+					if (!scrollToAnchor) {
+						for (let [i, dist] of headingDistanceList.entries()) {
+							if (dist > window.scrollY + 50) {
+								if (i === 0) {
+									if (activeAnchor != headingElements[0].id) {
+										activeAnchor = headingElements[0].id;
+									}
+								} else {
+									if (activeAnchor != headingElements[i - 1].id) {
+										activeAnchor = headingElements[i - 1].id;
+									}
+								}
+								break;
+							}
+						}
+					}
+				});
+			}, 500);
 		}
 	});
 </script>
@@ -179,7 +217,7 @@
 		</nav>
 	</aside>
 	<div
-		class="flex flex-1 flex-col p-6 pt-0 md:max-w-[calc(100%-230px)] lg:max-w-unset md:pl-3 md:pt-6"
+		class="docs-content flex flex-1 flex-col p-6 pt-0 md:max-w-[calc(100%-230px)] lg:max-w-unset md:pl-3 md:pt-6"
 	>
 		{@render children?.()}
 	</div>
