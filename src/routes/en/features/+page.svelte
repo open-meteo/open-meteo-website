@@ -270,9 +270,13 @@
 		</div>
 	</div>
 
-	<div class="mt-16" id="available-apis">
-		<h2 id="available_apis" class="mb-5 text-center text-5xl font-light">Available APIs</h2>
-		<p class="text-center">
+	<div class="mt-16">
+		<a href="#available_apis">
+			<h2 id="available_apis" class="clickable mb-5 text-center text-3xl md:text-5xl font-light">
+				Available APIs
+			</h2>
+		</a>
+		<p class="text-center text-lg font-light">
 			Open-Meteo offers a diverse range of APIs that go beyond traditional weather forecasting.
 			Explore a world of possibilities with our APIs for past weather data, ocean data, air quality,
 			ensemble forecasts, climate forecasts based on IPCC predictions, and even floods. Whatever
@@ -286,7 +290,7 @@
 					<h4 class="mb-3 text-xl font-light">Your Go-To Solution for Weather Forecasts!</h4>
 					<p>
 						Experience the simplicity and power of our <a
-							href={'/en/docs'}
+							href="/en/docs"
 							title="Weather Forecast API Documentation">Forecast API</a
 						>, designed to provide you with accurate weather forecasts for up to 14 days. Gain
 						access to a comprehensive set of weather variables, such as temperature, wind, clouds,
@@ -572,9 +576,9 @@
 			<path d="M6.5 5C9 5 11 7 11 9.5V17a2 2 0 0 1-2 2" />
 			<line x1="6" x2="7" y1="10" y2="10" />
 		</svg>
-		<h2 class="mb-4 text-4xl font-bold" id="contact">Next steps</h2>
+		<h2 class="mb-4 text-3xl md:text-5xl font-bold" id="contact">Next steps</h2>
 		<div class="text-center">
-			<p class="lead mb-4">
+			<p class="text-lg font-light mb-4">
 				Our <a href="/en/docs">documentation</a> provides a good start to help you integrate weather
 				forecast into you application. For commercial applications, we recommend exploring our
 				<a href="/en/pricing" title="API Subscription Plans">API subscriptions</a>. Should you
@@ -586,7 +590,7 @@
 				every step of the way.
 			</p>
 			<div class="mt-4 flex justify-center gap-4">
-				<Button href={'/en/pricing'} title="Newsletter Sign-Up">API Pricing</Button>
+				<Button href="/en/pricing" title="Newsletter Sign-Up">API Pricing</Button>
 				<Button variant="outline" href="mailto:info@open-meteo.com">Email us</Button>
 			</div>
 		</div>

@@ -107,11 +107,56 @@ h4 {
 	transition: 300ms;
 }
 
-h2:target,
+h2.clickable,
+.docs-content h2,
+.docs-content h3 {
+	cursor: pointer;
+	position: relative;
+}
+
+h2.clickable:hover::after,
+.docs-content h2:hover::after,
+.docs-content h3:hover::after {
+	content: '';
+	position: absolute;
+	margin-left: 6px;
+	margin-top: 12px;
+	width: 18px;
+	height: 18px;
+	background: url(/images/logos/link.svg);
+	background-size: 18px 18px;
+	transform: rotate(0.25turn);
+}
+
+.accordion-item h2:hover::after {
+	content: unset;
+}
+
+.docs-content h3:hover::after {
+	width: 16px;
+	height: 16px;
+	background-size: 16px 16px;
+	margin-top: 10px;
+}
+
+.dark h2.clickable:hover::after {
+	width: 22px;
+	height: 22px;
+	background-size: 22px 22px;
+	margin-top: 22px;
+}
+
+.dark h2.clickable:hover::after,
+.dark .docs-content h2:hover::after,
+.dark .docs-content h3:hover::after {
+	filter: invert(1);
+}
+
+/* h2:target,
 h3:target,
 h4:target {
 	text-decoration: underline;
-}
+} */
 
 @layer base {
 	body {

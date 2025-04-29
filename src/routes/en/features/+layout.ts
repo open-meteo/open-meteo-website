@@ -9,7 +9,7 @@ export const load = (() => {
 		heroHeight: 500,
 		heroTitle: 'Features',
 		heroDescription: 'Simple JSON APIs. Global coverage. Up to 1 km resolution. Get started today!',
-		heroPrimaryButtonPath: '#available-apis',
+		heroPrimaryButtonPath: '#available_apis',
 		heroPrimaryButtonText: 'Available APIs',
 		heroSecondaryButtonPath: '/en/pricing',
 		heroSecondaryButtonText: 'Pricing'

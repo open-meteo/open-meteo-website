@@ -113,7 +113,9 @@
 
 	<!-- DAILY -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2>
+		<a href="#daily_weather_variables"
+			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
+		>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -217,7 +219,7 @@
 
 <!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
-	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
+	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			This API utilizes regional downscaled climate models with up to 20 kilometer resolution from
@@ -470,7 +472,9 @@
 
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
-	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<a href="#api_documentation"
+		><h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The API endpoint <mark>/v1/climate</mark> allows users to retrieve climate weather data from multiple
@@ -617,9 +621,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>
@@ -635,7 +638,11 @@
 
 <!-- API DOCS - DAILY -->
 <div class="mt-6 md:mt-12">
-	<h3 id="daily_parameter_definition" class="text-xl md:text-2xl">Daily Parameter Definition</h3>
+	<a href="#daily_parameter_definition"
+		><h3 id="daily_parameter_definition" class="text-xl md:text-2xl">
+			Daily Parameter Definition
+		</h3></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The climate data in this API is presented as daily aggregations. Multiple weather variables
@@ -775,7 +782,9 @@
 
 <!-- API DOCS - JSON -->
 <div class="mt-6 md:mt-12">
-	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<a href="#json_return_object"
+		><h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
 		<div
@@ -846,7 +855,7 @@
 
 <!-- API DOCS - ERRORS -->
 <div class="mt-6 md:mt-12">
-	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<a href="#errors"><h3 id="errors" class="text-xl md:text-2xl">Errors</h3></a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
@@ -862,7 +871,9 @@
 
 <!-- CITATION -->
 <div class="mt-6 md:mt-12">
-	<h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2>
+	<a href="#citation"
+		><h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2></a
+	>
 	<div class="mt-3 md:mt-6">
 		<p>
 			CMIP6 model data is licensed under a Creative Commons Attribution 4.0 International License (<a

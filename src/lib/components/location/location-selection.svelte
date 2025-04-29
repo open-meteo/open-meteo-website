@@ -70,7 +70,9 @@
 	let timeZone = $derived(timeZoneOptions.find((tzo) => String(tzo.value) == params.timezone));
 </script>
 
-<h2 id="location_and_time" class="text-2xl md:text-3xl">Location and Time</h2>
+<a href="#location_and_time"
+	><h2 id="location_and_time" class="text-2xl md:text-3xl">Location and Time</h2></a
+>
 <div class="mt-3 flex items-center gap-2">
 	<div class="text-muted-foreground">Location:</div>
 
