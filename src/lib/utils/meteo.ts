@@ -204,3 +204,5 @@ export function getWeatherCode(code: number | null): string {
 	}
 	return 'unknown code';
 }
+
+export const calculateApiCalls = ($params) => {};

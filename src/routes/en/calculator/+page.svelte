@@ -164,40 +164,6 @@
 		})($params, $api_key_preferences)
 	);
 
-	const defaultValues = JSON.parse(
-		JSON.stringify({
-			latitude: [52.52],
-			longitude: [13.41],
-			...defaultParameters,
-			hourly: ['temperature_2m', 'wind_speed_10m', 'cloud_cover']
-		})
-	);
-	const parseUrl = () => {
-		const [, splitUrlParams] = url.split('?');
-		const searchParams = new URLSearchParams(splitUrlParams);
-		console.log(searchParams);
-		for (const [key, value] of searchParams.entries()) {
-			let defaultValue = defaultValues[key];
-
-			if (defaultValue && defaultValue.constructor === Array) {
-				if (JSON.stringify(defaultValue) !== JSON.stringify(value)) {
-					$params[key] = value.split(/,|%2C/);
-				}
-			} else {
-				let val: number | string = value;
-				if (isNumeric(defaultValue)) {
-					defaultValue = Number(defaultValue);
-				}
-				if (isNumeric(value)) {
-					val = Number(value);
-				}
-				if (defaultValue !== val) {
-					$params[key] = val;
-				}
-			}
-		}
-	};
-
 	/// Adjusted call weight
 	let callWeight = $derived(
 		(($params) => {
