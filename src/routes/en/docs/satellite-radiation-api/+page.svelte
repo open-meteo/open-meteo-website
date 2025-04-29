@@ -667,7 +667,7 @@ TODO:
 
 <!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
-	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
+	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 		<table
 			class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
@@ -778,7 +778,9 @@ TODO:
 
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
-	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<a href="#api_documentation"
+		><h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The Satellite Radiation API integrate solar radiation data from various satellite datasets
@@ -813,7 +815,11 @@ TODO:
 
 <!-- API DOCS - HOURLY -->
 <div class="mt-6 md:mt-12">
-	<h3 id="hourly_parameter_definition" class="text-xl md:text-2xl">Hourly Parameter Definition</h3>
+	<a href="#hourly_parameter_definition"
+		><h3 id="hourly_parameter_definition" class="text-xl md:text-2xl">
+			Hourly Parameter Definition
+		</h3></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The parameter <mark>&hourly=</mark> accepts the following values. All data is provided in W/m².

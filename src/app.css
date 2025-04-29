@@ -126,6 +126,13 @@ h4 {
 	transform: rotate(0.25turn);
 }
 
+.docs-content h3:hover::after {
+	width: 16px;
+	height: 16px;
+	background-size: 16px 16px;
+	margin-top: 10px;
+}
+
 .dark .docs-content h2:hover::after,
 .dark .docs-content h3:hover::after {
 	filter: invert(1);

@@ -300,7 +300,9 @@
 
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
-	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<a href="#api_documentation"
+		><h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The API endpoint <mark>https://geocoding-api.open-meteo.com/v1/search</mark> accepts a search term
@@ -402,7 +404,9 @@
 
 <!-- API DOCS - JSON -->
 <div class="mt-6 md:mt-12">
-	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<a href="#json_return_object"
+		><h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			On success a JSON object will be returned. Empty fields are not returned. E.g. <mark
@@ -530,7 +534,7 @@
 
 <!-- API DOCS - ERRORS -->
 <div class="mt-6 md:mt-12">
-	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<a href="#errors"><h3 id="errors" class="text-xl md:text-2xl">Errors</h3></a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error

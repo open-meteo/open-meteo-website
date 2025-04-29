@@ -40,7 +40,7 @@
 	let lengthUnit = $derived(lengthOptions.find((lo) => String(lo.value) == params.length_unit));
 </script>
 
-<h2 id="settings" class="text-2xl md:text-3xl">Settings</h2>
+<a href="#settings"> <h2 id="settings" class="text-2xl md:text-3xl">Settings</h2></a>
 <div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 md:mt-4 md:flex-row md:gap-6 lg:grid-cols-4">
 	{#if visible.includes('temperature')}
 		<div class="relative">
