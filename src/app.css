@@ -128,6 +128,10 @@ h2.clickable:hover::after,
 	transform: rotate(0.25turn);
 }
 
+.accordion-item h2:hover::after {
+	content: unset;
+}
+
 .docs-content h3:hover::after {
 	width: 16px;
 	height: 16px;

@@ -1140,7 +1140,7 @@
 		<ul class="ml-6 list-disc">
 			<li>
 				<strong
-					><a class="text-link underline" href={'/en/docs/historical-weather-api'}
+					><a class="text-link underline" href="/en/docs/historical-weather-api"
 						>Historical Weather API:</a
 					></strong
 				> This dataset is based on reanalysis weather models, particularly ERA5. It offers data from
@@ -1150,7 +1150,7 @@
 			</li>
 			<li>
 				<strong
-					><a class="text-link underline" href={'/en/docs/historical-forecast-api'}
+					><a class="text-link underline" href="/en/docs/historical-forecast-api"
 						>Historical Forecast API:</a
 					></strong
 				> This dataset is constructed by continuously assembling weather forecasts, concatenating the
@@ -1161,7 +1161,7 @@
 			</li>
 			<li>
 				<strong
-					><a class="text-link underline" href={'/en/docs/previous-runs-api'}>Previous Runs API</a
+					><a class="text-link underline" href="/en/docs/previous-runs-api">Previous Runs API</a
 					></strong
 				>: Similar to the Historical Forecast API, this dataset archives high-resolution weather
 				models but includes data with a lead time offset of 1, 2, 3, 4, or more days. This makes it

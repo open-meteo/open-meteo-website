@@ -583,7 +583,9 @@
 </div>
 
 <div class="mt-6 md:mt-12">
-	<h2 id="api_documentation" class="text-2xl md:text-3xl">Data Availability</h2>
+	<a href="#data_availability">
+		<h2 id="data_availability" class="text-2xl md:text-3xl">Data Availability</h2>
+	</a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			We began collecting past model run data in January 2024, with most weather models offering

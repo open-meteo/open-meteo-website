@@ -222,7 +222,7 @@
 	<!-- DAILY -->
 	<div class="mt-6 md:mt-12">
 		<a href="#daily_weather_variables"
-			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
+			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Flood Variables</h2></a
 		>
 		<div class="mt-2">
 			{#each daily as group}
@@ -565,9 +565,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>

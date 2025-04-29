@@ -967,9 +967,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>

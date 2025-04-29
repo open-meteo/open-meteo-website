@@ -98,7 +98,9 @@
 	onchange={() => submitForm()}
 >
 	<div>
-		<h2 id="elevation_search" class="text-2xl md:text-3xl">Select Coordinates or City</h2>
+		<a href="#elevation_search">
+			<h2 id="elevation_search" class="text-2xl md:text-3xl">Select Coordinates or City</h2>
+		</a>
 		<div class="mt-3">
 			{#each $params.latitude as _, index}
 				<div
@@ -235,8 +237,9 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<h2 id="results" class="mb-6 text-2xl md:text-3xl">Preview and API URL</h2>
-
+	<a href="#api_response">
+		<h2 id="api_response" class="mb-6 text-2xl md:text-3xl">Preview and API URL</h2>
+	</a>
 	<div class="border-border mb-3 w-full rounded-md border px-2 py-3">{response}</div>
 
 	<div>
@@ -316,9 +319,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>
@@ -368,7 +370,9 @@
 
 <!-- CITATION -->
 <div class="mt-6 md:mt-12">
-	<h2 id="citation" class="text-xl md:text-2xl">Citation & Acknowledgement</h2>
+	<a href="#citation"
+		><h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2></a
+	>
 	<div
 		class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
 	>

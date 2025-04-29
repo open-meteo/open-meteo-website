@@ -1250,9 +1250,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>
@@ -1264,7 +1263,9 @@
 
 <!-- API DOCS - VARIABLE AVAILABILITY -->
 <div class="mt-6 md:mt-12">
-	<h3 id="variable_availability" class="text-xl md:text-2xl">Variable Per Model Availability</h3>
+	<a href="#variable_availability">
+		<h3 id="variable_availability" class="text-xl md:text-2xl">Variable Per Model Availability</h3>
+	</a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			Various weather variables and levels may be available for each NOAA NCEP model. Certain

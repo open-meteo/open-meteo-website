@@ -285,7 +285,9 @@
 
 	<!-- ENSEMBLE -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="ensemble_models" class="text-2xl md:text-3xl">Ensemble Models</h2>
+		<a href="#ensemble_models">
+			<h2 id="ensemble_models" class="text-2xl md:text-3xl">Ensemble Models</h2>
+		</a>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -937,9 +939,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>

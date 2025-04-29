@@ -83,7 +83,7 @@
 				<div class="md:col-span-2">
 					<Alert.Root class="border-border">
 						<Alert.Description>
-							See <a class="text-link underline" href={'/en/pricing'}>Pricing</a> for more details.{#if requires_professional_plan}
+							See <a class="text-link underline" href="/en/pricing">Pricing</a> for more details.{#if requires_professional_plan}
 								This API requires the <mark>Professional</mark> subscription.{/if}
 						</Alert.Description>
 					</Alert.Root>

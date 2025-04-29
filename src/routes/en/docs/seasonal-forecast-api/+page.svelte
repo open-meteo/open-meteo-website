@@ -209,7 +209,11 @@
 
 	<!-- 6 HOURLY -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="6_hourly_weather_variables" class="text-2xl md:text-3xl">6-Hourly Weather Variables</h2>
+		<a href="#6_hourly_weather_variables">
+			<h2 id="6_hourly_weather_variables" class="text-2xl md:text-3xl">
+				6-Hourly Weather Variables
+			</h2>
+		</a>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -455,9 +459,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>
@@ -473,9 +476,12 @@
 
 <!-- API DOCS - 6 HOURLY -->
 <div class="mt-6 md:mt-12">
-	<h3 id="6_hourly_parameter_definition" class="text-xl md:text-2xl">
-		6-Hourly Parameter Definition
-	</h3>
+	<a href="#6_hourly_parameter_definition">
+		<h3 id="6_hourly_parameter_definition" class="text-xl md:text-2xl">
+			6-Hourly Parameter Definition
+		</h3>
+	</a>
+
 	<div class="mt-2 md:mt-4">
 		<p>
 			The parameter <mark>&hourly=</mark> accepts the following values. Most weather variables are given

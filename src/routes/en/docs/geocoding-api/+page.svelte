@@ -105,7 +105,9 @@
 		e.preventDefault();
 	}}
 >
-	<h2 id="geocoding_search" class="text-2xl md:text-3xl">Search for cities or postal code</h2>
+	<a href="#geocoding_search">
+		<h2 id="geocoding_search" class="text-2xl md:text-3xl">Search for cities or postal code</h2>
+	</a>
 	<div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 md:mt-4 lg:grid-cols-5">
 		<div class="relative">
 			<Input type="text" class="h-12 pt-6" name="name" id="name" bind:value={$params.name} />
@@ -188,7 +190,9 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<h2 id="results" class="mb-2 text-2xl md:text-3xl">Preview and API URL</h2>
+	<a href="#api_response">
+		<h2 id="api_response" class="mb-2 text-2xl md:text-3xl">Preview and API URL</h2>
+	</a>
 
 	<div class="relative min-h-[580px]">
 		{#await results}
@@ -374,9 +378,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>
@@ -550,7 +553,9 @@
 
 <!-- ATTRIBUTION -->
 <div class="mt-6 md:mt-12">
-	<h3 id="attribution" class="text-xl md:text-2xl">Attribution</h3>
+	<a href="#attribution">
+		<h2 id="attribution" class="text-2xl md:text-3xl">Attribution</h2>
+	</a>
 	<div class="mt-2 md:mt-4">
 		<ul class="ml-6 list-disc">
 			<li>

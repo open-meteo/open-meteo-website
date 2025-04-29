@@ -7,7 +7,7 @@
 					<a class="text-secondary-foreground" href={'/en/features'}>Features</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/pricing'}>Pricing</a>
+					<a class="text-secondary-foreground" href="/en/pricing">Pricing</a>
 				</li>
 				<li class="mb-1">
 					<a class="text-secondary-foreground" href={'/en/about'}>About us &amp; Contact</a>

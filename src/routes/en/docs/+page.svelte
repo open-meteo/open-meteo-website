@@ -1353,7 +1353,7 @@
 							server URL requires the prefix <mark>customer-</mark>. See
 							<a
 								class="text-link underline"
-								href={'/en/pricing'}
+								href="/en/pricing"
 								title="Pricing information to use the weather API commercially">pricing</a
 							> for more information.</td
 						>

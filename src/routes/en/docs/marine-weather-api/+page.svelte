@@ -284,7 +284,9 @@
 
 	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Marine Variables</h2>
+		<a href="#hourly_weather_variables">
+			<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Marine Variables</h2>
+		</a>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -581,7 +583,9 @@
 
 	<!-- DAILY -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Marine Variables</h2>
+		<a href="#daily_weather_variables">
+			<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Marine Variables</h2>
+		</a>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -630,7 +634,9 @@
 
 	<!-- CURRENT -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="current_conditions" class="text-2xl md:text-3xl">Current Conditions</h2>
+		<a href="#current_weather">
+			<h2 id="current_weather" class="text-2xl md:text-3xl">Current Conditions</h2>
+		</a>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -1016,9 +1022,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>
