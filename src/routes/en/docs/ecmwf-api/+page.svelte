@@ -293,7 +293,11 @@
 
 	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
+		<a href="#hourly_weather_variables"
+			><h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">
+				Hourly Weather Variables
+			</h2></a
+		>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -680,7 +684,7 @@
 
 <!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
-	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
+	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			This API uses <a href="https://www.ecmwf.int/en/forecasts/datasets/open-data"
@@ -752,7 +756,9 @@
 
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
-	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<a href="#api_documentation"
+		><h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The API endpoint <mark>/v1/ecmwf</mark> accepts a geographical coordinate, a list of weather variables
@@ -896,9 +902,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>
@@ -914,7 +919,11 @@
 
 <!-- API DOCS - HOURLY -->
 <div class="mt-6 md:mt-12">
-	<h3 id="hourly_parameter_definition" class="text-xl md:text-2xl">Hourly Parameter Definition</h3>
+	<a href="#hourly_parameter_definition"
+		><h3 id="hourly_parameter_definition" class="text-xl md:text-2xl">
+			Hourly Parameter Definition
+		</h3></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The parameter <mark>&hourly=</mark> accepts the following values. Most weather variables are given
@@ -1183,7 +1192,9 @@
 
 <!-- API DOCS - JSON -->
 <div class="mt-6 md:mt-12">
-	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<a href="#json_return_object"
+		><h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
 		<div
@@ -1280,7 +1291,7 @@
 
 <!-- API DOCS - ERRORS -->
 <div class="mt-6 md:mt-12">
-	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<a href="#errors"><h3 id="errors" class="text-xl md:text-2xl">Errors</h3></a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
@@ -1296,9 +1307,11 @@
 
 <!-- WEATHER VARIABLES -->
 <div class="mt-6 md:mt-12">
-	<h2 id="weather_variable_documentation" class="text-2xl md:text-3xl">
-		Weather variable documentation
-	</h2>
+	<a href="#weather_variable_documentation"
+		><h2 id="weather_variable_documentation" class="text-2xl md:text-3xl">
+			Weather variable documentation
+		</h2></a
+	>
 	<div class="mt-3 md:mt-6">
 		<h3 class="text-xl md:text-2xl">WMO Weather interpretation codes (WW)</h3>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">

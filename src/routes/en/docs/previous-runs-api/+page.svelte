@@ -287,7 +287,11 @@
 
 	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
+		<a href="#hourly_weather_variables"
+			><h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">
+				Hourly Weather Variables
+			</h2></a
+		>
 		<div class="mt-2 overflow-auto md:mt-4">
 			<table class="w-full">
 				<tbody>
@@ -579,7 +583,9 @@
 </div>
 
 <div class="mt-6 md:mt-12">
-	<h2 id="api_documentation" class="text-2xl md:text-3xl">Data Availability</h2>
+	<a href="#data_availability">
+		<h2 id="data_availability" class="text-2xl md:text-3xl">Data Availability</h2>
+	</a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			We began collecting past model run data in January 2024, with most weather models offering
@@ -592,7 +598,9 @@
 
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
-	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<a href="#api_documentation"
+		><h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			Weather models constantly churn out updates, each predicting the future at different lead

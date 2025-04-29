@@ -19,7 +19,7 @@ export const urlHashStore = (initialValues: Parameters) => {
 	urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
 
 	function updateURL() {
-		goto(`?${page.url.searchParams.toString().replaceAll('%2C', ',')}`, {
+		goto(`?${page.url.searchParams.toString().replaceAll('%2C', ',')}${page.url.hash ?? ''}`, {
 			noScroll: true,
 			keepFocus: true
 		});

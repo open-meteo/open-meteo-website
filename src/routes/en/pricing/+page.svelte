@@ -329,13 +329,6 @@
 					<td>&#x26a0;&#xfe0f; 5M calls / month</td>
 					<td>&#x2705; >50M calls / month</td>
 				</tr>
-				<!-- <tr>
-					<th scope="row">Concurrency</th>
-					<td>&#x26a0;&#xfe0f; 5 max.</td>
-					<td>&#x2705; Unlimited</td>
-					<td>&#x2705; Unlimited</td>
-					<td>&#x2705; Unlimited</td>
-				</tr> -->
 				<tr>
 					<th scope="row"
 						>Air Quality API<br />Elevation API<br />Flood API<br />Geocoding API<br />Marine API</th
@@ -380,9 +373,12 @@
 		</table>
 	</div>
 
-	<div class="mt-12 md:mt-24" id="faq">
-		<h2 id="faq" class="text-center text-5xl font-light">Frequently Asked Questions</h2>
-
+	<div class="mt-12 md:mt-24">
+		<a href="#faq">
+			<h2 id="faq" class="clickable text-center text-3xl md:text-5xl font-light">
+				Frequently Asked Questions
+			</h2>
+		</a>
 		<div class="mt-6 grid gap-x-2 gap-y-6 md:mt-12 md:grid-cols-2">
 			<div>
 				<h4 class="mb-3 text-2xl">How does the subscription process work?</h4>
@@ -479,11 +475,11 @@
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center md:mx-auto md:w-2/3">
 		<Sun width="92" height="92" shadow={false} />
-		<h2 class="my-4 text-4xl font-light" id="contact">
+		<h2 class="my-4 text-3xl md:text-5xl font-light text-center" id="contact">
 			Unlock the Power of Open-Source Weather Data!
 		</h2>
 		<div class="text-center">
-			<p>
+			<p class="text-lg font-light">
 				Subscribe to our open-source API service and be a part of a thriving community that promotes
 				development, innovation, and collaboration. By joining us, you contribute to the ongoing
 				maintenance and enhancement of our service, ensuring its availability for everyone.
