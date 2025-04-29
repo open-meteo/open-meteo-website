@@ -812,7 +812,9 @@
 
 	<!-- DAILY -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2>
+		<a href="#daily_weather_variables"
+			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
+		>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -904,7 +906,9 @@
 
 	<!-- CURRENT -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="current_weather" class="text-2xl md:text-3xl">Current Weather</h2>
+		<a href="#current_weather"
+			><h2 id="current_weather" class="text-2xl md:text-3xl">Current Weather</h2></a
+		>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>

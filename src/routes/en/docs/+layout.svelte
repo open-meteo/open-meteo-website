@@ -3,7 +3,7 @@
 
 	import { browser, dev } from '$app/environment';
 
-	import { goto, beforeNavigate, afterNavigate } from '$app/navigation';
+	import { beforeNavigate, afterNavigate } from '$app/navigation';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 
@@ -79,7 +79,7 @@
 				hashOnLoad = '';
 				setTimeout(() => {
 					window.location.reload();
-				}, 100);
+				}, 75);
 			}
 		}
 	});
@@ -89,18 +89,6 @@
 			setTimeout(() => {
 				window.scrollTo(0, 0);
 			}, 75);
-		}
-
-		if (browser) {
-			const headingElements = document.querySelectorAll('h2, h3, h4');
-			for (const heading of headingElements) {
-				if (heading.id) {
-					heading.addEventListener('click', () => {
-						window.location.hash = `#${heading.id}`;
-						focus(heading);
-					});
-				}
-			}
 		}
 	});
 </script>
