@@ -447,13 +447,14 @@
 				<p>
 					Typically, one API call corresponds to one HTTP API request. However, if you select 200
 					weather variables simultaneously and make extensive use of the API, the number of API
-					calls can increase. Therefore, API queries that involve more than 10 weather variables or
-					more than 7 days of data are considered more than just one API call.
+					calls can increase. Requests for data covering more than 10 weather variables or extending
+					over a period of more than 2 weeks for a single location are considered multiple API
+					calls.
 				</p>
 				<p>
 					To calculate the number of API calls accurately, fractional counts are used. For example,
-					15 weather variables count as 1.5 API calls, while 4 weeks of weather data count as 3.0
-					API calls.
+					a request for 2 weeks of data with 15 weather variables will be calculated as 1.5 API
+					calls, while 4 weeks of data equals 3.0 API calls.
 				</p>
 				<p>
 					This distinction is crucial for developing future features such as APIs for multiple
