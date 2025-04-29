@@ -1190,8 +1190,8 @@
 </div>
 
 <div class="mt-6 md:mt-12">
-	<a href="#api_parameter">
-		<h2 id="api_parameter" class="text-2xl md:text-3xl">API Parameter</h2>
+	<a href="#api_endpoint">
+		<h2 id="api_endpoint" class="text-2xl md:text-3xl">API Endpoint</h2>
 	</a>
 	<div class="mt-2 md:mt-4">
 		<p>
