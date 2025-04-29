@@ -217,7 +217,11 @@
 
 	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
+		<a href="#hourly_weather_variables"
+			><h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">
+				Hourly Weather Variables
+			</h2></a
+		>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -718,7 +722,9 @@
 
 	<!-- DAILY -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2>
+		<a href="#daily_weather_variables"
+			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
+		>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -824,7 +830,7 @@
 
 <!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
-	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
+	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The weather data precisely aligns with the weather forecast API, created by continuously
@@ -1118,7 +1124,11 @@
 </div>
 
 <div class="mt-6 md:mt-12">
-	<h2 class="text-2xl md:text-3xl">Which Historical Weather Data to Use?</h2>
+	<a href="#which_historical_weather_data_to_use">
+		<h2 id="which_historical_weather_data_to_use" class="text-2xl md:text-3xl">
+			Which Historical Weather Data to Use?
+		</h2></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			Open-Meteo provides various datasets for historical weather data: the Historical Weather API
@@ -1130,7 +1140,7 @@
 		<ul class="ml-6 list-disc">
 			<li>
 				<strong
-					><a class="text-link underline" href={'/en/docs/historical-weather-api'}
+					><a class="text-link underline" href="/en/docs/historical-weather-api"
 						>Historical Weather API:</a
 					></strong
 				> This dataset is based on reanalysis weather models, particularly ERA5. It offers data from
@@ -1140,7 +1150,7 @@
 			</li>
 			<li>
 				<strong
-					><a class="text-link underline" href={'/en/docs/historical-forecast-api'}
+					><a class="text-link underline" href="/en/docs/historical-forecast-api"
 						>Historical Forecast API:</a
 					></strong
 				> This dataset is constructed by continuously assembling weather forecasts, concatenating the
@@ -1151,7 +1161,7 @@
 			</li>
 			<li>
 				<strong
-					><a class="text-link underline" href={'/en/docs/previous-runs-api'}>Previous Runs API</a
+					><a class="text-link underline" href="/en/docs/previous-runs-api">Previous Runs API</a
 					></strong
 				>: Similar to the Historical Forecast API, this dataset archives high-resolution weather
 				models but includes data with a lead time offset of 1, 2, 3, 4, or more days. This makes it
@@ -1180,7 +1190,9 @@
 </div>
 
 <div class="mt-6 md:mt-12">
-	<h2 class="text-2xl md:text-3xl">API Parameter</h2>
+	<a href="#api_endpoint">
+		<h2 id="api_endpoint" class="text-2xl md:text-3xl">API Endpoint</h2>
+	</a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			As the API is identical to the Forecast API, please refer to the Weather Forecast API

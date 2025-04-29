@@ -31,10 +31,10 @@
 <div class="container mt-8 lg:mt-16">
 	<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 		<div>
-			<h2 class="mb-3 text-3xl font-light md:mb-5 lg:text-5xl">
+			<h2 class="mb-3 text-3xl font-light md:mb-5 md:text-5xl">
 				Accurate Weather Forecasts for Any Location
 			</h2>
-			<p>
+			<p class="text-lg font-light">
 				Open-Meteo partners with national weather services to bring you open data with high
 				resolution, ranging from 1 to 11 kilometers. Our powerful APIs intelligently select the most
 				suitable weather models for your specific location, ensuring accurate and reliable
@@ -429,9 +429,9 @@
 			<path d="M6.5 5C9 5 11 7 11 9.5V17a2 2 0 0 1-2 2" />
 			<line x1="6" x2="7" y1="10" y2="10" />
 		</svg>
-		<h2 class="mb-4 text-4xl font-bold" id="contact">Stay up to date!</h2>
+		<h2 class="mb-4 text-3xl md:text-5xl font-bold" id="contact">Stay up to date!</h2>
 		<div class="text-center">
-			<p>
+			<p class="text-lg font-light">
 				We're constantly evolving and expanding. We're dedicated to providing you with the <a
 					href="/en/features"
 					title="All Features of the Weather API">latest features</a
@@ -447,7 +447,7 @@
 					href="https://openmeteo.substack.com/subscribe?utm_source=landingpage&simple=true&next=https%3A%2F%2Fopenmeteo.substack.com%2F"
 					title="Newsletter Sign-Up">Subscribe to the Newsletter</Button
 				>
-				<Button variant="outline" href={'/en/features#available-apis'} title="APIs & Features"
+				<Button variant="outline" href="/en/features#available_apis" title="APIs & Features"
 					>Available APIs</Button
 				>
 			</div>

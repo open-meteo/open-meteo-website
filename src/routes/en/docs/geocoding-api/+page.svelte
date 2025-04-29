@@ -105,7 +105,9 @@
 		e.preventDefault();
 	}}
 >
-	<h2 id="geocoding_search" class="text-2xl md:text-3xl">Search for cities or postal code</h2>
+	<a href="#geocoding_search">
+		<h2 id="geocoding_search" class="text-2xl md:text-3xl">Search for cities or postal code</h2>
+	</a>
 	<div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-6 md:mt-4 lg:grid-cols-5">
 		<div class="relative">
 			<Input type="text" class="h-12 pt-6" name="name" id="name" bind:value={$params.name} />
@@ -188,7 +190,9 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<h2 id="results" class="mb-2 text-2xl md:text-3xl">Preview and API URL</h2>
+	<a href="#api_response">
+		<h2 id="api_response" class="mb-2 text-2xl md:text-3xl">Preview and API URL</h2>
+	</a>
 
 	<div class="relative min-h-[580px]">
 		{#await results}
@@ -300,7 +304,9 @@
 
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
-	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<a href="#api_documentation"
+		><h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The API endpoint <mark>https://geocoding-api.open-meteo.com/v1/search</mark> accepts a search term
@@ -372,9 +378,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>
@@ -402,7 +407,9 @@
 
 <!-- API DOCS - JSON -->
 <div class="mt-6 md:mt-12">
-	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<a href="#json_return_object"
+		><h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			On success a JSON object will be returned. Empty fields are not returned. E.g. <mark
@@ -530,7 +537,7 @@
 
 <!-- API DOCS - ERRORS -->
 <div class="mt-6 md:mt-12">
-	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<a href="#errors"><h3 id="errors" class="text-xl md:text-2xl">Errors</h3></a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
@@ -546,7 +553,9 @@
 
 <!-- ATTRIBUTION -->
 <div class="mt-6 md:mt-12">
-	<h3 id="attribution" class="text-xl md:text-2xl">Attribution</h3>
+	<a href="#attribution">
+		<h2 id="attribution" class="text-2xl md:text-3xl">Attribution</h2>
+	</a>
 	<div class="mt-2 md:mt-4">
 		<ul class="ml-6 list-disc">
 			<li>
