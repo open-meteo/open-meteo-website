@@ -1466,7 +1466,9 @@
 
 <!-- CITATION -->
 <div class="mt-6 md:mt-12">
-	<h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2>
+	<a href="#citation"
+		><h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2></a
+	>
 	<div class="mt-3 md:mt-6">
 		<p>
 			We encourage researchers in the field of meteorology and related disciplines to cite

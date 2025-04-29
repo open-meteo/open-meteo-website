@@ -107,12 +107,14 @@ h4 {
 	transition: 300ms;
 }
 
+h2.clickable,
 .docs-content h2,
 .docs-content h3 {
 	cursor: pointer;
 	position: relative;
 }
 
+h2.clickable:hover::after,
 .docs-content h2:hover::after,
 .docs-content h3:hover::after {
 	content: '';
@@ -133,6 +135,14 @@ h4 {
 	margin-top: 10px;
 }
 
+.dark h2.clickable:hover::after {
+	width: 22px;
+	height: 22px;
+	background-size: 22px 22px;
+	margin-top: 22px;
+}
+
+.dark h2.clickable:hover::after,
 .dark .docs-content h2:hover::after,
 .dark .docs-content h3:hover::after {
 	filter: invert(1);

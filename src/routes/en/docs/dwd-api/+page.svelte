@@ -2025,9 +2025,11 @@
 
 <!-- WEATHER VARIABLES -->
 <div class="mt-6 md:mt-12">
-	<h2 id="weather_variable_documentation" class="text-2xl md:text-3xl">
-		Weather variable documentation
-	</h2>
+	<a href="#weather_variable_documentation"
+		><h2 id="weather_variable_documentation" class="text-2xl md:text-3xl">
+			Weather variable documentation
+		</h2></a
+	>
 	<div class="mt-3 md:mt-6">
 		<h3 class="text-xl md:text-2xl">WMO Weather interpretation codes (WW)</h3>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">

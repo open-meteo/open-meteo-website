@@ -12,7 +12,11 @@
 
 <div class="container my-6 lg:my-12">
 	<div>
-		<h2 id="terms" class="mb-3 text-3xl font-light lg:mb-5 lg:text-5xl">Terms of Use</h2>
+		<a href="#terms">
+			<h2 id="terms" class="clickable mb-3 text-3xl font-light lg:mb-5 md:text-5xl">
+				Terms of Use
+			</h2>
+		</a>
 		<p>
 			Open-Meteo assumes no responsibility for any inaccuracies or omissions in the data, their
 			availability, or any losses or damages resulting from their usage. The accuracy and
@@ -23,9 +27,7 @@
 		</p>
 		<div class="my-3 grid gap-6 md:my-6 md:grid-cols-2 md:gap-12">
 			<div class="[&_p]:mt-3">
-				<h3 id="non_commercial_use" class="mb-3 text-xl font-light lg:text-2xl">
-					Non-Commercial Use
-				</h3>
+				<h3 id="non_commercial_use" class="mb-3 text-xl lg:text-2xl">Non-Commercial Use</h3>
 				<p>By using the Free API for non-commercial use you agree to following terms:</p>
 				<ul class="ml-6 list-disc">
 					<li>Less than 10'000 API calls per day, 5'000 per hour and 600 per minute.</li>
@@ -67,17 +69,17 @@
 				<p>
 					If you plan to use our service for commercial purposes or require additional API calls, we
 					kindly request you to consider subscribing to our API plans as explained in detail on the <a
-						href={'/en/pricing'}
+						href="/en/pricing"
 						title="Pricing information to use the weather API commercially">pricing</a
 					> page. Your subscription helps support the continuous development, maintenance, and support
 					of Open-Meteo.
 				</p>
 			</div>
 			<div class="[&_p]:mt-3">
-				<h3 id="api_subcription" class="mb-3 text-xl font-light lg:text-2xl">API Subscription</h3>
+				<h3 id="api_subcription" class="mb-3 text-xl lg:text-2xl">API Subscription</h3>
 				<p>
 					When using the <a
-						href={'/en/pricing'}
+						href="/en/pricing"
 						title="Pricing information to use the weather API commercially">paid API subscription</a
 					>, you agree to the following terms:
 				</p>
@@ -114,7 +116,7 @@
 						The data obtained through the API is provided under the terms of the CC-BY 4.0 license,
 						as specified in the <a
 							class="text-link underline"
-							href={'/en/license'}
+							href="/en/license"
 							title="Open-Meteo further license details">license conditions</a
 						>.
 					</li>
@@ -222,18 +224,15 @@
 					<td>&#x26a0;&#xfe0f; 5M calls / month</td>
 					<td>&#x2705; >50M calls / month</td>
 				</tr>
-				<!-- <tr>
-					<th scope="row">Concurrency</th>
-					<td>&#x26a0;&#xfe0f; 5 max.</td>
-					<td>&#x2705; Unlimited</td>
-					<td>&#x2705; Unlimited</td>
-					<td>&#x2705; Unlimited</td>
-				</tr> -->
 			</tbody>
 		</table>
 	</div>
 
-	<h2 id="privacy" class="mb-3 mt-6 text-3xl font-light lg:mb-5 lg:mt-12 lg:text-5xl">Privacy</h2>
+	<a href="#privacy">
+		<h2 id="privacy" class="clickable mb-3 mt-6 text-3xl font-light lg:mb-5 lg:mt-12 md:text-5xl">
+			Privacy
+		</h2>
+	</a>
 	<p>
 		By using our service, you consent to the terms of our privacy policy and agree that we may
 		collect non-personal information as outlined below. If you have any questions or concerns about
@@ -241,7 +240,7 @@
 	</p>
 	<div class="my-3 grid gap-6 md:my-6 md:grid-cols-2 md:gap-12">
 		<div>
-			<h3 class="mb-3 text-xl font-light lg:text-2xl">Website of Open-Meteo.com</h3>
+			<h3 class="mb-3 text-xl lg:text-2xl">Website of Open-Meteo.com</h3>
 			<p>
 				The Open-Meteo.com website does not collect any data from our users, including personal
 				information, usage statistics, or any other data that could be used to identify you. We do
@@ -255,7 +254,7 @@
 			</p>
 		</div>
 		<div>
-			<h3 class="mb-3 text-xl font-light lg:text-2xl">Blog and Newsletter</h3>
+			<h3 class="mb-3 text-xl lg:text-2xl">Blog and Newsletter</h3>
 			<p>
 				When you sign up for our newsletter, we collect your email address. We use a secure
 				third-party email marketing platform <a
@@ -267,7 +266,7 @@
 			</p>
 		</div>
 		<div>
-			<h3 class="mb-3 text-xl font-light lg:text-2xl">Free Non-Commercial API Service</h3>
+			<h3 class="mb-3 text-xl lg:text-2xl">Free Non-Commercial API Service</h3>
 			<p>
 				We may collect non-personal information, such as IP addresses, for technical reasons such as
 				server maintenance or prevent misuse, but this information is not linked to user identities
@@ -280,7 +279,7 @@
 			</p>
 		</div>
 		<div>
-			<h3 class="mb-3 text-xl font-light lg:text-2xl">Subscription to Paid API Services</h3>
+			<h3 class="mb-3 text-xl lg:text-2xl">Subscription to Paid API Services</h3>
 			<p>
 				When you sign up for our paid API service and make payments through Stripe, we may collect
 				the following information:
@@ -337,7 +336,7 @@
 		>.
 	</p>
 
-	<h2 id="operated_by" class="mb-3 mt-6 text-3xl font-light lg:mb-5 lg:mt-12 lg:text-5xl">
+	<h2 id="operated_by" class="mb-3 mt-6 text-3xl font-light lg:mb-5 lg:mt-12 md:text-5xl">
 		Open-Meteo is operated by
 	</h2>
 	<p>

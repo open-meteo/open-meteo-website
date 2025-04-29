@@ -1124,7 +1124,11 @@
 </div>
 
 <div class="mt-6 md:mt-12">
-	<h2 class="text-2xl md:text-3xl">Which Historical Weather Data to Use?</h2>
+	<a href="#which_historical_weather_data_to_use">
+		<h2 id="which_historical_weather_data_to_use" class="text-2xl md:text-3xl">
+			Which Historical Weather Data to Use?
+		</h2></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			Open-Meteo provides various datasets for historical weather data: the Historical Weather API
@@ -1186,7 +1190,9 @@
 </div>
 
 <div class="mt-6 md:mt-12">
-	<h2 class="text-2xl md:text-3xl">API Parameter</h2>
+	<a href="#api_parameter">
+		<h2 id="api_parameter" class="text-2xl md:text-3xl">API Parameter</h2>
+	</a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			As the API is identical to the Forecast API, please refer to the Weather Forecast API

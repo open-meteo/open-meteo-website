@@ -268,7 +268,11 @@
 
 	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Air Quality Variables</h2>
+		<a href="#hourly_weather_variables">
+			<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">
+				Hourly Air Quality Variables
+			</h2>
+		</a>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -748,7 +752,9 @@
 
 	<!-- CURRENT -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="current_weather" class="text-2xl md:text-3xl">Current Conditions</h2>
+		<a href="#current_weather">
+			<h2 id="current_weather" class="text-2xl md:text-3xl">Current Conditions</h2>
+		</a>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -1306,7 +1312,9 @@
 
 <!-- CITATION -->
 <div class="mt-6 md:mt-12">
-	<h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2>
+	<a href="#citation"
+		><h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2></a
+	>
 	<div class="mt-3 md:mt-6">
 		<p>
 			METEO FRANCE, Institut national de l'environnement industriel et des risques (Ineris), Aarhus
