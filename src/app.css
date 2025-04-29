@@ -110,6 +110,25 @@ h4 {
 .docs-content h2,
 .docs-content h3 {
 	cursor: pointer;
+	position: relative;
+}
+
+.docs-content h2:hover::after,
+.docs-content h3:hover::after {
+	content: '';
+	position: absolute;
+	margin-left: 6px;
+	margin-top: 12px;
+	width: 18px;
+	height: 18px;
+	background: url(/images/logos/link.svg);
+	background-size: 18px 18px;
+	transform: rotate(0.25turn);
+}
+
+.dark .docs-content h2:hover::after,
+.dark .docs-content h3:hover::after {
+	filter: invert(1);
 }
 
 /* h2:target,
