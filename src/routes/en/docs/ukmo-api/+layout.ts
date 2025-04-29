@@ -5,6 +5,6 @@ export const load = (() => {
 		heroTitle: 'UK Met Office API',
 		heroDescription:
 			"Weather forecasts from the United Kingdom's national weather and climate service UKMO",
-		heroImage: '/images/scotland.webp'
+		heroImage: '/images/scotland'
 	};
 }) satisfies LayoutLoad;

@@ -4,6 +4,6 @@ export const load = (() => {
 	return {
 		heroTitle: 'Ensemble API',
 		heroDescription: 'Hundreds Of Weather Forecasts, Every time, Everywhere, All at Once',
-		heroImage: '/images/rocky_coast.webp'
+		heroImage: '/images/rocky_coast'
 	};
 }) satisfies LayoutLoad;

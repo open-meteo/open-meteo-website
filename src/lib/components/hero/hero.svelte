@@ -37,11 +37,12 @@
 	<div
 		class="absolute -z-10 h-full w-full duration-200"
 		style="
-          background-image: url('{heroImage}');
+          background-image: url('{mode.current === 'dark'
+			? heroImage + '_dark.webp'
+			: heroImage + '.webp'}');
           background-size: cover;
           background-position: center;
           height: {heroHeight}px;
-		  {mode.current === 'dark' ? 'opacity: 0.6;' : ''}
         "
 	></div>
 	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">

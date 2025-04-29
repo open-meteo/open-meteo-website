@@ -4,6 +4,6 @@ export const load = (() => {
 	return {
 		heroTitle: 'ECMWF Weather Forecast API',
 		heroDescription: 'Global High Frequency Forecasts at 0.25° resolution',
-		heroImage: '/images/mountains.webp'
+		heroImage: '/images/mountains'
 	};
 }) satisfies LayoutLoad;

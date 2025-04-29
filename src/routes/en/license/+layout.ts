@@ -5,7 +5,7 @@ import Rain from '$lib/assets/icons/rain.svelte';
 export const load = (() => {
 	return {
 		Logo: Rain,
-		heroImage: '/images/features_background.webp',
+		heroImage: '/images/features_background',
 		heroHeight: 300,
 		heroTitle: 'License',
 		heroDescription: null,

@@ -12,7 +12,7 @@ export const load: LayoutLoad = async (event) => {
 	return {
 		pathname,
 		Logo: Sun,
-		heroImage: '/images/convective_clouds.webp',
+		heroImage: '/images/convective_clouds',
 		heroHeight: 600,
 		heroTitle: 'Free Weather API',
 		heroDescription:

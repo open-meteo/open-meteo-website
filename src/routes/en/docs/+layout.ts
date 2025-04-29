@@ -8,7 +8,7 @@ export const load: LayoutLoad = async () => {
 		heroTitle: 'Weather Forecast API',
 		heroDescription:
 			'Seamless integration of high-resolution weather models with up 16 days forecast',
-		heroImage: '/images/partly_cloudy.webp',
+		heroImage: '/images/partly_cloudy',
 		heroHeight: 400,
 		heroPrimaryButtonPath: null,
 		heroPrimaryButtonText: null,

@@ -5,7 +5,7 @@ export const load: LayoutLoad = async (event) => {
 
 	return {
 		pathname,
-		heroImage: '/images/features_background.webp',
+		heroImage: '/images/features_background',
 		heroHeight: 600,
 		heroTitle: '404: Page Not Found',
 		heroDescription: 'Sorry, the page you are looking for does not exist.',

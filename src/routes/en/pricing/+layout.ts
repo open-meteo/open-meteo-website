@@ -5,7 +5,7 @@ import Snow from '$lib/assets/icons/snow.svelte';
 export const load = (() => {
 	return {
 		Logo: Snow,
-		heroImage: '/images/snowy.webp',
+		heroImage: '/images/snowy',
 		heroHeight: 500,
 		heroTitle: 'Pricing',
 		heroDescription: 'Commercial use license, support and dedicated API capacity',

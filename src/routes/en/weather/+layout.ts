@@ -10,7 +10,7 @@ export const load: LayoutLoad = async () => {
 	return {
 		heroTitle: `Weather ${location.name}`,
 		heroDescription: location.admin1 ?? '' + ' ' + location.country,
-		heroImage: '/images/partly_cloudy.webp',
+		heroImage: '/images/partly_cloudy',
 		heroHeight: 400,
 		heroPrimaryButtonPath: null,
 		heroPrimaryButtonText: null,
