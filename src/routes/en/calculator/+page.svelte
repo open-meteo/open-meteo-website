@@ -257,10 +257,10 @@
 
 	let flatModels = models.flat();
 	let variablesFlat = [
-		...hourly.flat()
-		// ...daily.flat(),
-		// ...additionalDaily.flat(),
-		// ...minutely_15.flat()
+		...hourly.flat(),
+		...daily.flat(),
+		...additionalDaily.flat(),
+		...minutely_15.flat()
 	];
 </script>
 
@@ -273,19 +273,20 @@
 <div class="container my-6 lg:my-12">
 	<div class="mt-6">
 		<h2 id="location_and_time" class="mb-3 text-2xl md:text-3xl">API Calls</h2>
-		<div class="mt-3 flex items-center gap-2 text-xl">
-			Current call will cost
-			<strong> {callWeight.toFixed(1)}</strong> API
-			{callWeight === 1 ? 'call' : 'calls'}
-		</div>
 	</div>
 
-	<div class="mt-6">
-		<h2 class="text-3xl md:text-4xl">Easy version</h2>
-		<div class="mt-3 flex flex-col gap-3 max-w-1/4">
-			<div class="flex items-center gap-3">
-				Variables
+	<div class="mt-6 max-w-1/2">
+		<div class="mt-3 flex items-center gap-2 text-xl">
+			<span>
+				A request with the parameters select below will cost
+				<strong> {callWeight.toFixed(1)}</strong> API
+				{callWeight === 1 ? 'call' : 'calls'}</span
+			>
+		</div>
+		<div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+			<div class="relative flex flex-col gap-2 duration-200">
 				<Input
+					class="h-12 pt-6"
 					type="number"
 					defaultValue="5"
 					step="1"
@@ -297,29 +298,35 @@
 						$params.hourly = [];
 						const tempArray = [];
 						for (let i = 0; i <= numVars; i++) {
-							console.log(i);
 							tempArray.push(variablesFlat[i].value);
 						}
 						$params.hourly = tempArray;
 					}}
 				/>
+				<Label
+					class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					for="longitude">Variables</Label
+				>
 			</div>
-			<div class="flex items-center gap-3 text-nowrap">
-				Time length
+			<div class="relative">
 				<Select.Root name="forecast_days" type="single" bind:value={$params.forecast_days}>
-					<Select.Trigger aria-label="Forecast days input" class=" h-10 cursor-pointer"
-						>{forecastDays?.label}</Select.Trigger
+					<Select.Trigger
+						aria-label="Forecast days input"
+						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{forecastDays?.label}</Select.Trigger
 					>
 					<Select.Content preventScroll={false} class="border-border">
 						{#each forecastDaysOptions as fdo}
 							<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
 						{/each}
 					</Select.Content>
+					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+						>Time length</Label
+					>
 				</Select.Root>
 			</div>
-			<div class="flex items-center gap-3">
-				Models
+			<div class="relative flex flex-col gap-2 duration-200">
 				<Input
+					class="h-12 pt-6"
 					type="number"
 					defaultValue="1"
 					step="1"
@@ -331,16 +338,19 @@
 						$params.models = [];
 						const tempArray = [];
 						for (let i = 1; i <= numModels; i++) {
-							console.log(i);
 							tempArray.push(flatModels[i].value);
 						}
 						$params.models = tempArray;
 					}}
 				/>
+				<Label
+					class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					for="longitude">Models</Label
+				>
 			</div>
-			<div class="flex items-center gap-3">
-				Locations
+			<div class="relative flex flex-col gap-2 duration-200">
 				<Input
+					class="h-12 pt-6"
 					type="number"
 					defaultValue="1"
 					step="1"
@@ -352,7 +362,6 @@
 						$params.longitude = [];
 						const tempLatArray = [];
 						const tempLonArray = [];
-
 						for (let i = 1; i <= numLocs; i++) {
 							tempLatArray.push(Number(52.5 + Math.random() * 10 - 5).toFixed(2));
 							tempLonArray.push(Number(13.4 + Math.random() * 10 - 5).toFixed(2));
@@ -361,6 +370,10 @@
 						$params.longitude = tempLonArray;
 					}}
 				/>
+				<Label
+					class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					for="longitude">Locations</Label
+				>
 			</div>
 		</div>
 	</div>
