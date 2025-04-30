@@ -1066,7 +1066,7 @@
 					<tr>
 						<th scope="row"
 							>wave_height<br />wind_wave_height<br />swell_wave_height<br
-							/>secondary_swell_wave_height</th
+							/>secondary_swell_wave_height<br />tertiary_swell_wave_height</th
 						>
 						<td>Instant</td>
 						<td>Meter</td>
@@ -1079,7 +1079,7 @@
 					<tr>
 						<th scope="row"
 							>wave_direction<br />wind_wave_direction<br />swell_wave_direction<br
-							/>secondary_swell_wave_direction</th
+							/>secondary_swell_wave_direction<br />tertiary_swell_wave_direction</th
 						>
 						<td>Instant</td>
 						<td>°</td>
@@ -1088,7 +1088,7 @@
 					<tr>
 						<th scope="row"
 							>wave_period<br />wind_wave_period<br />swell_wave_period<br
-							/>secondary_swell_wave_period</th
+							/>secondary_swell_wave_period<br />tertiary_swell_wave_period</th
 						>
 						<td>Instant</td>
 						<td>Seconds</td>
