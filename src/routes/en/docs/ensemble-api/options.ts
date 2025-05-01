@@ -168,7 +168,9 @@ export const ecmwf_variables = [
 	'temperature_500hPa',
 	'temperature_850hPa',
 	'geopotential_height_500hPa',
-	'geopotential_height_850hPa'
+	'geopotential_height_850hPa',
+	'et0_fao_evapotranspiration',
+	'shortwave_radiation'
 ];
 
 export const ukmo_variables = [
