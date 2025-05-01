@@ -800,7 +800,7 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<figure>
-			<img src="/images/models/knmi_harmonie.webp" class="rounded-lg" alt="..." />
+			<enhanced:img src="/static/images/models/knmi_harmonie.jpg" class="rounded-lg" alt="..." />
 			<figcaption class="text-muted-foreground">
 				KNMI HARMONIE AROME model area Europe (blue/red) and Netherlands nest (green). Source: <a
 					href="https://english.knmidata.nl/latest/newsletters/open-data-newsletter/2024/open-data-march-2024"
