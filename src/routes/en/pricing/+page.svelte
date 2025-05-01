@@ -490,6 +490,75 @@
 					This distinction is crucial for developing future features such as APIs for multiple
 					locations simultaneously.
 				</p>
+				<div class="flex items-center gap-2">
+					<span>
+						A request with the parameters selected below will cost
+						<strong> {callWeight.toFixed(1)}</strong> API
+						{callWeight === 1 ? 'call' : 'calls'}</span
+					>
+				</div>
+				<div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+					<div class="relative flex flex-col gap-2 duration-200">
+						<Input
+							class="h-12 pt-6"
+							type="number"
+							defaultValue="5"
+							step="1"
+							min="1"
+							max={variablesFlat.length - 1}
+							bind:value={variablesInput}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="longitude">Variables</Label
+						>
+					</div>
+					<div class="relative">
+						<Select.Root name="forecast_days" type="single" bind:value={timeInput}>
+							<Select.Trigger
+								aria-label="Forecast days input"
+								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{timeSelection?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each timeSelectionOptions as tso}
+									<Select.Item class="cursor-pointer" value={tso.value}>{tso.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Time length</Label
+							>
+						</Select.Root>
+					</div>
+					<div class="relative flex flex-col gap-2 duration-200">
+						<Input
+							class="h-12 pt-6"
+							type="number"
+							defaultValue="1"
+							step="1"
+							min="1"
+							max={flatModels.length - 1}
+							bind:value={modelsInput}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="longitude">Models</Label
+						>
+					</div>
+					<div class="relative flex flex-col gap-2 duration-200">
+						<Input
+							class="h-12 pt-6"
+							type="number"
+							defaultValue="1"
+							step="1"
+							min="1"
+							bind:value={locationsInput}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="longitude">Locations</Label
+						>
+					</div>
+				</div>
 			</div>
 
 			<div>
@@ -503,78 +572,6 @@
 					commercial purposes, attribution is a requirement under this license. For more
 					information, please refer to the <a href="/en/license">license page</a>.
 				</p>
-			</div>
-		</div>
-	</div>
-
-	<div class="mt-6 max-w-1/2">
-		<div class="mt-3 flex items-center gap-2">
-			<span>
-				A request with the parameters select below will cost
-				<strong> {callWeight.toFixed(1)}</strong> API
-				{callWeight === 1 ? 'call' : 'calls'}</span
-			>
-		</div>
-		<div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
-			<div class="relative flex flex-col gap-2 duration-200">
-				<Input
-					class="h-12 pt-6"
-					type="number"
-					defaultValue="5"
-					step="1"
-					min="1"
-					max={variablesFlat.length - 1}
-					bind:value={variablesInput}
-				/>
-				<Label
-					class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-					for="longitude">Variables</Label
-				>
-			</div>
-			<div class="relative">
-				<Select.Root name="forecast_days" type="single" bind:value={timeInput}>
-					<Select.Trigger
-						aria-label="Forecast days input"
-						class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{timeSelection?.label}</Select.Trigger
-					>
-					<Select.Content preventScroll={false} class="border-border">
-						{#each timeSelectionOptions as tso}
-							<Select.Item class="cursor-pointer" value={tso.value}>{tso.label}</Select.Item>
-						{/each}
-					</Select.Content>
-					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-						>Time length</Label
-					>
-				</Select.Root>
-			</div>
-			<div class="relative flex flex-col gap-2 duration-200">
-				<Input
-					class="h-12 pt-6"
-					type="number"
-					defaultValue="1"
-					step="1"
-					min="1"
-					max={flatModels.length - 1}
-					bind:value={modelsInput}
-				/>
-				<Label
-					class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-					for="longitude">Models</Label
-				>
-			</div>
-			<div class="relative flex flex-col gap-2 duration-200">
-				<Input
-					class="h-12 pt-6"
-					type="number"
-					defaultValue="1"
-					step="1"
-					min="1"
-					bind:value={locationsInput}
-				/>
-				<Label
-					class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-					for="longitude">Locations</Label
-				>
 			</div>
 		</div>
 	</div>
