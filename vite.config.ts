@@ -4,7 +4,6 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { enhancedImages } from '@sveltejs/enhanced-img';
 import { visualizer } from 'rollup-plugin-visualizer';
 
-import tailwindcssCleaner from 'vite-plugin-tailwindcss-cleaner';
 import tailwindcss from '@tailwindcss/vite';
 
 import svg from '@poppanator/sveltekit-svg';
@@ -26,7 +25,6 @@ function replaceChunckNames() {
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
-		tailwindcssCleaner(),
 		enhancedImages(),
 		sveltekit(),
 		svg(),
