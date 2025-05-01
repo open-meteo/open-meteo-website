@@ -5,7 +5,7 @@
 
 <div class="container my-6 grid gap-6 md:my-12 md:grid-cols-2 md:gap-12">
 	<div>
-		<h2 id="about" class="mb-3 text-3xl font-light lg:mb-5 lg:text-5xl">About</h2>
+		<h2 id="about" class="mb-3 text-3xl font-light lg:mb-5 md:text-5xl">About</h2>
 		<p class="text-accent-foreground text-xl font-light">
 			Open-Meteo is an open-source weather API and offers free access for non-commercial use. No API
 			key is required. You can use it immediately!
@@ -46,7 +46,7 @@
 		</p>
 	</div>
 	<div>
-		<h2 id="vision" class="mb-3 text-3xl font-light lg:mb-5 lg:text-5xl">Vision</h2>
+		<h2 id="vision" class="mb-3 text-3xl font-light lg:mb-5 md:text-5xl">Vision</h2>
 		<p>
 			At our core, we believe that weather information should be freely available to everyone.
 			That's why we built our weather API on open data - making it accessible to all without any
@@ -72,7 +72,7 @@
 		</p>
 	</div>
 	<div>
-		<h2 id="contact" class="mb-3 text-3xl font-light lg:mb-5 lg:text-5xl">Contact</h2>
+		<h2 id="contact" class="mb-3 text-3xl font-light lg:mb-5 md:text-5xl">Contact</h2>
 		<p>
 			We're thrilled that you're interested in contacting us! Whether you have a question, comment,
 			or just want to say hello, we're always here to listen and help.

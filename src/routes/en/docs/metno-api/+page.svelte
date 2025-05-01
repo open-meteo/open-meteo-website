@@ -278,7 +278,11 @@
 
 	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Weather Variables</h2>
+		<a href="#hourly_weather_variables"
+			><h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">
+				Hourly Weather Variables
+			</h2></a
+		>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -572,7 +576,9 @@
 
 	<!-- CURRENT -->
 	<div class="mt-6 md:mt-12">
-		<h2 id="current_weather" class="text-2xl md:text-3xl">Current Weather</h2>
+		<a href="#current_weather"
+			><h2 id="current_weather" class="text-2xl md:text-3xl">Current Weather</h2></a
+		>
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
@@ -629,7 +635,7 @@
 
 <!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
-	<h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2>
+	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			This API uses local weather models from the Norwegian Meteorological Institute. The <a
@@ -640,7 +646,7 @@
 			should be high.
 		</p>
 		<p>
-			Unfortunately, only 2.5 days of forecast are available. The Open-Meteo <a href={'/en/docs'}
+			Unfortunately, only 2.5 days of forecast are available. The Open-Meteo <a href="/en/docs"
 				>weather forecast API</a
 			> automatically uses MET Nordic in combination with larger scale models to offer a 7 days forecast.
 		</p>
@@ -651,7 +657,7 @@
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
 						class="text-link underline"
-						href={'/en/docs/model-updates'}>model updates documentation</a
+						href="/en/docs/model-updates">model updates documentation</a
 					>.</caption
 				>
 				<thead>
@@ -684,7 +690,7 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
 		<figure>
-			<img src="/images/models/metno_nordic.webp" class="rounded-lg" alt="..." />
+			<enhanced:img src="/static/images/models/metno_nordic.png" class="rounded-lg" alt="..." />
 			<figcaption class="text-muted-foreground">
 				MET Nordic model area (black). Source: <a
 					href="https://github.com/metno/NWPdocs/wiki/MEPS-dataset">Met Norway GitHub</a
@@ -696,7 +702,9 @@
 
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
-	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<a href="#api_documentation"
+		><h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The API endpoint <mark>/v1/metno</mark> accepts a geographical coordinate, a list of weather variables
@@ -891,9 +899,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>
@@ -909,7 +916,11 @@
 
 <!-- API DOCS - HOURLY -->
 <div class="mt-6 md:mt-12">
-	<h3 id="hourly_parameter_definition" class="text-xl md:text-2xl">Hourly Parameter Definition</h3>
+	<a href="#hourly_parameter_definition"
+		><h3 id="hourly_parameter_definition" class="text-xl md:text-2xl">
+			Hourly Parameter Definition
+		</h3></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The parameter <mark>&hourly=</mark> accepts the following values. Most weather variables are given
@@ -1102,7 +1113,9 @@
 
 <!-- API DOCS - JSON -->
 <div class="mt-6 md:mt-12">
-	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<a href="#json_return_object"
+		><h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
 		<div
@@ -1199,7 +1212,7 @@
 
 <!-- API DOCS - ERRORS -->
 <div class="mt-6 md:mt-12">
-	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<a href="#errors"><h3 id="errors" class="text-xl md:text-2xl">Errors</h3></a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error

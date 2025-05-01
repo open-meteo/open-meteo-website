@@ -98,7 +98,9 @@
 	onchange={() => submitForm()}
 >
 	<div>
-		<h2 id="elevation_search" class="text-2xl md:text-3xl">Select Coordinates or City</h2>
+		<a href="#elevation_search">
+			<h2 id="elevation_search" class="text-2xl md:text-3xl">Select Coordinates or City</h2>
+		</a>
 		<div class="mt-3">
 			{#each $params.latitude as _, index}
 				<div
@@ -235,8 +237,9 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<h2 id="results" class="mb-6 text-2xl md:text-3xl">Preview and API URL</h2>
-
+	<a href="#api_response">
+		<h2 id="api_response" class="mb-6 text-2xl md:text-3xl">Preview and API URL</h2>
+	</a>
 	<div class="border-border mb-3 w-full rounded-md border px-2 py-3">{response}</div>
 
 	<div>
@@ -263,7 +266,9 @@
 
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
-	<h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2>
+	<a href="#api_documentation"
+		><h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			The API endpoint <mark>/v1/elevation</mark> accepts one or multiple geographical coordinate and
@@ -314,9 +319,8 @@
 						<td
 							>Only required to commercial use to access reserved API resources for customers. The
 							server URL requires the prefix <mark>customer-</mark>. See
-							<a
-								href={'/en/pricing'}
-								title="Pricing information to use the weather API commercially">pricing</a
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
 							> for more information.</td
 						>
 					</tr>
@@ -332,7 +336,9 @@
 
 <!-- API DOCS - JSON -->
 <div class="mt-6 md:mt-12">
-	<h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3>
+	<a href="#json_return_object"
+		><h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3></a
+	>
 	<div class="mt-2 md:mt-4">
 		<p>
 			On success a JSON object is returned with just one attribute <mark>elevation</mark>. It is
@@ -348,7 +354,7 @@
 
 <!-- API DOCS - ERRORS -->
 <div class="mt-6 md:mt-12">
-	<h3 id="errors" class="text-xl md:text-2xl">Errors</h3>
+	<a href="#errors"><h3 id="errors" class="text-xl md:text-2xl">Errors</h3></a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
@@ -364,7 +370,9 @@
 
 <!-- CITATION -->
 <div class="mt-6 md:mt-12">
-	<h2 id="citation" class="text-xl md:text-2xl">Citation & Acknowledgement</h2>
+	<a href="#citation"
+		><h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2></a
+	>
 	<div
 		class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
 	>

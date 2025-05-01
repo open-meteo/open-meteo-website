@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	import { fade } from 'svelte/transition';
 
 	import { api_key_preferences } from '$lib/stores/settings';
@@ -14,7 +16,11 @@
 
 	let { requires_professional_plan = false }: Props = $props();
 
-	let licenseSelected = $state('non_commercial');
+	let licenseSelected = $state('');
+
+	onMount(() => {
+		licenseSelected = $api_key_preferences.use;
+	});
 
 	$effect(() => {
 		$api_key_preferences.use = licenseSelected;
@@ -60,7 +66,7 @@
 				<Alert.Root class="border-border">
 					<Alert.Description>
 						Only for <strong>non-commercial use</strong> and less than 10.000 daily API calls. See
-						<a class="text-link underline" href={'/en/terms'}>Terms</a> for more details.
+						<a class="text-link underline" href="/en/terms">Terms</a> for more details.
 					</Alert.Description>
 				</Alert.Root>
 			</div>
@@ -83,7 +89,7 @@
 				<div class="md:col-span-2">
 					<Alert.Root class="border-border">
 						<Alert.Description>
-							See <a class="text-link underline" href={'/en/pricing'}>Pricing</a> for more details.{#if requires_professional_plan}
+							See <a class="text-link underline" href="/en/pricing">Pricing</a> for more details.{#if requires_professional_plan}
 								This API requires the <mark>Professional</mark> subscription.{/if}
 						</Alert.Description>
 					</Alert.Root>

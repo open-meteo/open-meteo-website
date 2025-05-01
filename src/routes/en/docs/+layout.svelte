@@ -79,13 +79,13 @@
 				hashOnLoad = '';
 				setTimeout(() => {
 					window.location.reload();
-				}, 100);
+				}, 75);
 			}
 		}
 	});
 
 	afterNavigate((e) => {
-		if (!e.from || e.from.route.id !== e.to.route.id) {
+		if ((!e.from || e.from.route.id !== e.to.route.id) && !window.location.hash) {
 			setTimeout(() => {
 				window.scrollTo(0, 0);
 			}, 75);
@@ -179,7 +179,7 @@
 		</nav>
 	</aside>
 	<div
-		class="flex flex-1 flex-col p-6 pt-0 md:max-w-[calc(100%-230px)] lg:max-w-unset md:pl-3 md:pt-6"
+		class="docs-content flex flex-1 flex-col p-6 pt-0 md:max-w-[calc(100%-230px)] lg:max-w-unset md:pl-3 md:pt-6"
 	>
 		{@render children?.()}
 	</div>

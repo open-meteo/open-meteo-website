@@ -15,12 +15,12 @@
 	let { id, title, count = { active: 0, total: 0 }, last = false, children }: Props = $props();
 </script>
 
-<Accordion.Item class="border-border {last ? 'border-none' : ''}" value={id}>
+<Accordion.Item class="accordion-item border-border {last ? 'border-none' : ''}" value={id}>
 	<Accordion.Trigger
 		class="underline-offset-3 border-border [[data-state=open]]:bg-accent [[data-state=open]]:border-b flex cursor-pointer px-4"
 	>
 		<div class="flex">
-			<h2 id="heading-{id}">
+			<h2 id="heading-{id} after:content-none">
 				{title}
 			</h2>
 			{#if count.active > 0}
