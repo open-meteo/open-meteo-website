@@ -682,7 +682,11 @@
 	</div>
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<figure>
-			<img src="/images/models/dmi_harmonie_dini-ig.webp" class="rounded-lg" alt="..." />
+			<enhanced:img
+				src="/static/images/models/dmi_harmonie_dini-ig.jpg"
+				class="rounded-lg"
+				alt="..."
+			/>
 			<figcaption class="text-muted-foreground">
 				DMI HARMONIE AROME DINI model area (green). Source: <a
 					href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG"
