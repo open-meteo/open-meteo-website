@@ -56,7 +56,8 @@ export const hourly = [
 		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
 		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
 		{ value: 'cloud_cover_high', label: 'Cloud cover High' },
-		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
+		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
 	],
 	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
