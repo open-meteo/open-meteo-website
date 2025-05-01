@@ -5,10 +5,11 @@
 
 	import { api_key_preferences } from '$lib/stores/settings';
 
-	import Input from '../ui/input/input.svelte';
-	import Label from '$lib/components/ui/label/label.svelte';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+
 	import * as Alert from '$lib/components/ui/alert';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	interface Props {
 		requires_professional_plan?: boolean;
