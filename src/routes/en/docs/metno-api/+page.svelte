@@ -640,7 +640,7 @@
 			should be high.
 		</p>
 		<p>
-			Unfortunately, only 2.5 days of forecast are available. The Open-Meteo <a href={'/en/docs'}
+			Unfortunately, only 2.5 days of forecast are available. The Open-Meteo <a href="/en/docs"
 				>weather forecast API</a
 			> automatically uses MET Nordic in combination with larger scale models to offer a 7 days forecast.
 		</p>
@@ -651,7 +651,7 @@
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
 						class="text-link underline"
-						href={'/en/docs/model-updates'}>model updates documentation</a
+						href="/en/docs/model-updates">model updates documentation</a
 					>.</caption
 				>
 				<thead>
@@ -684,7 +684,7 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
 		<figure>
-			<img src="/images/models/metno_nordic.webp" class="rounded-lg" alt="..." />
+			<enhanced:img src="/static/images/models/metno_nordic.png" class="rounded-lg" alt="..." />
 			<figcaption class="text-muted-foreground">
 				MET Nordic model area (black). Source: <a
 					href="https://github.com/metno/NWPdocs/wiki/MEPS-dataset">Met Norway GitHub</a
