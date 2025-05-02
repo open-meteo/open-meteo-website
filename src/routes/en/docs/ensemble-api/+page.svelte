@@ -28,7 +28,7 @@
 		models,
 		solarVariables,
 		defaultParameters,
-		available_variables,
+		availableVariables,
 		additionalVariables,
 		forecastDaysOptions
 	} from './options';
@@ -90,19 +90,22 @@
 	});
 
 	function isAvailable(variable: String, models: String[]): Boolean {
+		// no model selected
 		if (models.length == 0) {
 			return true;
 		}
 		for (const model of models) {
-			if (!Object.hasOwn(available_variables, model)) {
+			if (!availableVariables[model]) {
 				continue;
 			}
-			if (available_variables[model].includes(variable)) {
+			if (availableVariables[model].includes(variable)) {
 				return true;
 			}
 		}
 		return false;
 	}
+
+	console.log(availableVariables);
 
 	let begin_date = new Date('2023-04-01');
 
@@ -499,7 +502,7 @@
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 										value={e.value}
 										checked={$params.hourly?.includes(e.value)}
-										disabled={!isAvailable(e.value, $params.models)}
+										disabled={!isAvailable('shortwave_radiation', $params.models)}
 										aria-labelledby="{e.value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(e.value)) {
