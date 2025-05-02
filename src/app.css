@@ -139,7 +139,7 @@ h2.clickable:hover::after,
 	margin-top: 10px;
 }
 
-.dark h2.clickable:hover::after {
+h2.clickable:hover::after {
 	width: 22px;
 	height: 22px;
 	background-size: 22px 22px;
@@ -152,11 +152,30 @@ h2.clickable:hover::after,
 	filter: invert(1);
 }
 
-/* h2:target,
-h3:target,
-h4:target {
-	text-decoration: underline;
-} */
+@media screen and (max-width: 768px) {
+	h2.clickable:hover::after,
+	.docs-content h2:hover::after,
+	.docs-content h3:hover::after {
+		width: 14px;
+		height: 14px;
+		background-size: 14px 14px;
+		margin-top: 12px;
+		margin-left: 4px;
+	}
+
+	.docs-content h3:hover::after {
+		width: 12px;
+		height: 12px;
+		background-size: 12px 12px;
+		margin-top: 11px;
+		margin-left: 3px;
+	}
+
+	h2.clickable:hover::after {
+		margin-left: 5px;
+		margin-top: 16px;
+	}
+}
 
 @layer base {
 	body {
