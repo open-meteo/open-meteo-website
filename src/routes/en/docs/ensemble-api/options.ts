@@ -251,7 +251,7 @@ export const bom_access_global_ensemble = [
 	'soil_moisture_100_to_200cm'
 ];
 
-export const available_variables = {
+export const availableVariables = {
 	icon_seamless: icon_d2_variables,
 	icon_global: icon_global_variables,
 	icon_eu: icon_eu_variables,

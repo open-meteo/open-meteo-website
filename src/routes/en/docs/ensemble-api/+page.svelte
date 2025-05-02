@@ -28,7 +28,7 @@
 		models,
 		solarVariables,
 		defaultParameters,
-		available_variables,
+		availableVariables,
 		additionalVariables,
 		forecastDaysOptions
 	} from './options';
@@ -90,14 +90,15 @@
 	});
 
 	function isAvailable(variable: String, models: String[]): Boolean {
+		// no model selected
 		if (models.length == 0) {
 			return true;
 		}
 		for (const model of models) {
-			if (!Object.hasOwn(available_variables, model)) {
+			if (!availableVariables[model]) {
 				continue;
 			}
-			if (available_variables[model].includes(variable)) {
+			if (availableVariables[model].includes(variable)) {
 				return true;
 			}
 		}
@@ -489,37 +490,39 @@
 				title="Solar Radiation Variables"
 				count={countVariables(solarVariables, $params.hourly)}
 			>
-				{#each solarVariables as group}
-					<div class="grid md:grid-cols-2">
-						{#each group as e}
-							<div class="group flex items-center" title={e.label}>
-								<Checkbox
-									id="{e.value}_hourly"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value={e.value}
-									checked={$params.hourly?.includes(e.value)}
-									disabled={!isAvailable(e.value, $params.models)}
-									aria-labelledby="{e.value}_hourly_label"
-									onCheckedChange={() => {
-										if ($params.hourly?.includes(e.value)) {
-											$params.hourly = $params.hourly.filter((item) => {
-												return item !== e.value;
-											});
-										} else {
-											$params.hourly.push(e.value);
-											$params.hourly = $params.hourly;
-										}
-									}}
-								/>
-								<Label
-									id="{e.value}_hourly_label"
-									for="{e.value}_hourly"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-								>
-							</div>
-						{/each}
-					</div>
-				{/each}
+				<div class="grid md:grid-cols-2">
+					{#each solarVariables as group}
+						<div>
+							{#each group as e}
+								<div class="group flex items-center" title={e.label}>
+									<Checkbox
+										id="{e.value}_hourly"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value={e.value}
+										checked={$params.hourly?.includes(e.value)}
+										disabled={!isAvailable('shortwave_radiation', $params.models)}
+										aria-labelledby="{e.value}_hourly_label"
+										onCheckedChange={() => {
+											if ($params.hourly?.includes(e.value)) {
+												$params.hourly = $params.hourly.filter((item) => {
+													return item !== e.value;
+												});
+											} else {
+												$params.hourly.push(e.value);
+												$params.hourly = $params.hourly;
+											}
+										}}
+									/>
+									<Label
+										id="{e.value}_hourly_label"
+										for="{e.value}_hourly"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
