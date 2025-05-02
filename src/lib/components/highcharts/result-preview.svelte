@@ -836,15 +836,14 @@ pip install requests-cache retry-requests numpy pandas</pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
 				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
 						><span class="token keyword">import</span> openmeteo_requests
-{#if sdk_type == 'ensemble_api'}
-							<span class="token keyword">from</span> openmeteo_sdk.Variable <span
-								class="token keyword">import</span
-							> Variable
-<span class="token keyword">from</span> openmeteo_sdk.Aggregation <span
-								class="token keyword">import</span
-							> Aggregation{/if}
-<span class="token keyword">import</span> requests_cache
+{#if sdk_type == 'ensemble_api'}<br /><span class="token keyword">from</span
+							> openmeteo_sdk.Variable <span class="token keyword">import</span> Variable
+<span
+								class="token keyword">from</span
+							> openmeteo_sdk.Aggregation <span class="token keyword">import</span> Aggregation<br
+							/>{/if}
 <span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
+<span class="token keyword">import</span> requests_cache
 <span class="token keyword">from</span> retry_requests <span class="token keyword">import</span
 						> retry
 
@@ -978,40 +977,38 @@ current <span class="token operator">=</span> response<span class="token punctua
 									><span class="token string">"</span></span
 								><span class="token punctuation">)</span><br
 								/>{/each}{/if}{#each sectionsArrayWithData as section}<br
-							/>{#if sdk_type == 'ensemble_api'}
-								<span class="token comment"># Process {section} data</span>
-{section} <span
-									class="token operator">=</span
-								> response<span class="token punctuation">.</span>{titleCase(section)}<span
+							/>{#if sdk_type == 'ensemble_api'}<span class="token comment"
+									># Process {section} data</span
+								>
+{section} <span class="token operator">=</span> response<span
+									class="token punctuation">.</span
+								>{titleCase(section)}<span class="token punctuation">(</span><span
+									class="token punctuation">)</span
+								>
+{section}_variables <span class="token operator">=</span> <span
+									class="token builtin">list</span
+								><span class="token punctuation">(</span><span class="token builtin">map</span><span
 									class="token punctuation">(</span
-								><span class="token punctuation">)</span>
-{section}_variables <span
-									class="token operator">=</span
-								> <span class="token builtin">list</span><span class="token punctuation">(</span
-								><span class="token builtin">map</span><span class="token punctuation">(</span><span
-									class="token keyword">lambda</span
-								> i<span class="token punctuation">:</span> {section}<span class="token punctuation"
-									>.</span
-								>Variables<span class="token punctuation">(</span>i<span class="token punctuation"
-									>)</span
-								><span class="token punctuation">,</span> <span class="token builtin">range</span
-								><span class="token punctuation">(</span><span class="token number">0</span><span
-									class="token punctuation">,</span
+								><span class="token keyword">lambda</span> i<span class="token punctuation">:</span
+								> {section}<span class="token punctuation">.</span>Variables<span
+									class="token punctuation">(</span
+								>i<span class="token punctuation">)</span><span class="token punctuation">,</span
+								> <span class="token builtin">range</span><span class="token punctuation">(</span
+								><span class="token number">0</span><span class="token punctuation">,</span
 								> {section}<span class="token punctuation">.</span>VariablesLength<span
 									class="token punctuation">(</span
 								><span class="token punctuation">)</span><span class="token punctuation">)</span
 								><span class="token punctuation">)</span><span class="token punctuation">)</span
 								>
-{#each $params[section] as variable}
-									{section}_{variable} <span class="token operator">=</span> <span
-										class="token builtin">filter</span
-									><span class="token punctuation">(</span><span class="token keyword">lambda</span
-									> x<span class="token punctuation">:</span> {@html formatPrismVariableSelector(
-										variable
-									)}<span class="token punctuation">,</span> {section}_variables<span
-										class="token punctuation">)</span
-									>{'\n'}
-								{/each}{:else}<span class="token comment"
+{#each $params[section] as variable}<span>{section}_{variable} </span><span
+										class="token operator">=</span
+									> <span class="token builtin">filter</span><span class="token punctuation">(</span
+									><span class="token keyword">lambda</span> x<span class="token punctuation"
+										>:</span
+									> {@html formatPrismVariableSelector(variable)}<span class="token punctuation"
+										>,</span
+									> {section}_variables<span class="token punctuation">)</span><br
+									/>{/each}{:else}<span class="token comment"
 									># Process {section} data. The order of variables needs to be the same as requested.</span
 								>
 {section} <span class="token operator">=</span> response<span
@@ -1072,9 +1069,9 @@ current <span class="token operator">=</span> response<span class="token punctua
 							>
 <span class="token punctuation">)</span><span class="token punctuation"
 								>&rbrace;</span
-							>{#if sdk_type == 'ensemble_api'}
-								<span class="token comment"># Process all members</span
-								>{#each $params[section] as variable}<span class="token keyword">for</span
+							>{#if sdk_type == 'ensemble_api'}<br /><br /><span class="token comment"
+									># Process all members</span
+								><br />{#each $params[section] as variable}<span class="token keyword">for</span
 									> variable <span class="token keyword">in</span> {section}_{variable}<span
 										class="token punctuation">:</span
 									>
@@ -1093,9 +1090,13 @@ current <span class="token operator">=</span> response<span class="token punctua
 											></span
 										><span class="token string">"</span></span
 									><span class="token punctuation">]</span> <span class="token operator">=</span
-									> variable<span class="token punctuation">.</span>ValuesAsNumpy<span
-										class="token punctuation">(</span
-									><span class="token punctuation">)</span>{'\n'}{/each}{:else}<br /><br
+									> variable<span class="token punctuation">.</span>{int64Variables.includes(
+										variable
+									)
+										? 'ValuesInt64AsNumpy'
+										: 'ValuesAsNumpy'}<span class="token punctuation">(</span><span
+										class="token punctuation">)</span
+									>{'\n'}{/each}{:else}<br /><br
 								/>{#each $params[section] as hourly}{section}_data<span class="token punctuation"
 										>[</span
 									><span class="token string-interpolation"
