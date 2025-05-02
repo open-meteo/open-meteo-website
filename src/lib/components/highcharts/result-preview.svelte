@@ -507,6 +507,11 @@
 				`x<span class="token punctuation">.</span>Altitude<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.altitude}</span>`
 			);
 		}
+		if (groups.pressure) {
+			results.push(
+				`x<span class="token punctuation">.</span>PressureLevel<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.pressure}</span>`
+			);
+		}
 		if (groups.depth) {
 			results.push(
 				`x<span class="token punctuation">.</span>Depth<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.depth}</span>`
