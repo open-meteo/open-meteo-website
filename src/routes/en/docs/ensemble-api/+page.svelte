@@ -105,8 +105,6 @@
 		return false;
 	}
 
-	console.log(availableVariables);
-
 	let begin_date = new Date('2023-04-01');
 
 	let last_date = new Date();
