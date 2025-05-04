@@ -728,7 +728,15 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row">UK Met Office</th>
+						<th scope="row" rowspan="2">UK Met Office</th>
+						<td>MOGREPS-UK</td>
+						<td>UK</td>
+						<td>2 km, 1-hourly</td>
+						<td>3</td>
+						<td>5 days</td>
+						<td>Every hour</td>
+					</tr>
+					<tr>
 						<td>MOGREPS-G</td>
 						<td>Global</td>
 						<td>20 km, 1-hourly</td>
