@@ -439,6 +439,22 @@
 						meta: fetchMeta('ncep_gefs05', 'ensemble', api_key_preferences)
 					}
 				]
+			},
+			{
+				provider: 'UK Met Office',
+				url: '/en/docs/ukmo-api',
+				models: [
+					{
+						name: 'UKMO UK Ensemble 2 km',
+						area: ['gb'],
+						meta: fetchMeta('UKMO ', 'ensemble', api_key_preferences)
+					},
+					{
+						name: 'UKMO Global Ensemble 20 km',
+						area: [],
+						meta: fetchMeta('ukmo_global_ensemble_20km', 'ensemble', api_key_preferences)
+					}
+				]
 			}
 		];
 
