@@ -321,13 +321,21 @@
 				</div>
 			{/each}
 		</div>
-		<p class="mb-3">
-			<small class="text-muted-foreground"
-				>Note: Tides and ocean currents are computed at 0.08° (~8 km) resolution using numerical
-				models. Accuracy at coastal areas is limited. This is not suitable for coastal navigation
-				and does not replace your nautical almanac. Use with caution!
-			</small>
-		</p>
+		<div class="mb-3">
+			<p>
+				<small class="text-muted-foreground"
+					>Note: Tides and ocean currents are computed at 0.08° (~8 km) resolution using numerical
+					models. Accuracy at coastal areas is limited. This is not suitable for coastal navigation
+					and does not replace your nautical almanac. Use with caution!
+				</small>
+			</p>
+			<p>
+				<small class="text-muted-foreground"
+					>Note: Secondary swell components are only available for some models. Tertiary components
+					are only available for the GFS wave models.
+				</small>
+			</p>
+		</div>
 	</div>
 
 	<!-- ADDITIONAL VARIABLES -->
