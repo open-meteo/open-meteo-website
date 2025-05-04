@@ -189,7 +189,8 @@ export const ukmo_variables = [
 	'wind_direction_10m',
 	'surface_temperature',
 	'visibility',
-	'cape'
+	'cape',
+	'shortwave_radiation'
 ];
 
 export const gem_global_variables = [
