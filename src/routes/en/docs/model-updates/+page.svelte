@@ -447,7 +447,7 @@
 					{
 						name: 'UKMO UK Ensemble 2 km',
 						area: ['gb'],
-						meta: fetchMeta('UKMO ', 'ensemble', api_key_preferences)
+						meta: fetchMeta('ukmo_uk_ensemble_2km', 'ensemble', api_key_preferences)
 					},
 					{
 						name: 'UKMO Global Ensemble 20 km',
