@@ -162,6 +162,7 @@ export const ecmwf_variables = [
 	'wind_direction_10m',
 	'wind_speed_100m',
 	'wind_direction_100m',
+	'wind_gusts_10m',
 	'surface_temperature',
 	'rain',
 	'soil_temperature_0_to_10cm',
@@ -177,6 +178,9 @@ export const ukmo_variables = [
 	'temperature_2m',
 	'rain',
 	'snowfall',
+	'snow_depth',
+	'precipitation',
+	'et0_fao_evapotranspiration',
 	'relative_humidity_2m',
 	'dew_point_2m',
 	'apparent_temperature',
@@ -187,6 +191,7 @@ export const ukmo_variables = [
 	'cloud_cover',
 	'wind_speed_10m',
 	'wind_direction_10m',
+	'wind_gusts_10m',
 	'surface_temperature',
 	'visibility',
 	'cape',
@@ -262,6 +267,7 @@ export const availableVariables = {
 	gfs05: gfs05_variables,
 	ecmwf_ifs025: ecmwf_variables,
 	ukmo_global_ensemble_20km: ukmo_variables,
+	ukmo_uk_ensemble_2km: ukmo_variables,
 	gem_global: gem_global_variables,
 	bom_access_global_ensemble: bom_access_global_ensemble
 };
@@ -358,11 +364,14 @@ export const models = [
 		{ value: 'gfs025', label: 'GFS Ensemble 0.25' },
 		{ value: 'gfs05', label: 'GFS Ensemble 0.5' }
 	],
-	[{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' }],
 	[
+		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' },
 		{ value: 'gem_global', label: 'GEM Global Ensemble' },
-		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' },
-		{ value: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' }
+		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
+	],
+	[
+		{ value: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' },
+		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' }
 	]
 ];
 
