@@ -969,7 +969,7 @@
 				separation models.
 			</li>
 			<li>
-				<strong>Wind Forecasts at 100m and above:</strong> Wind forecasts at different levels above ground
+				<strong>Wind, temperature and cloud forecasts on height levels 100m and above:</strong> Forecasts at different levels above ground
 				are only available for the 2 km UKV model.
 			</li>
 			<li>
