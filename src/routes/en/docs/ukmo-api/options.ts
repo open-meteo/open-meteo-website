@@ -46,7 +46,6 @@ export const levels = [
 
 export const heightVariables = [
 	{ value: 'temperature', label: 'Temperature' },
-	{ value: 'relative_humidity', label: 'Relative Humidity' },
 	{ value: 'cloud_cover', label: 'Cloud cover' },
 	{ value: 'wind_speed', label: 'Wind Speed' },
 	{ value: 'wind_direction', label: 'Wind Direction' }
