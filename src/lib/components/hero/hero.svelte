@@ -32,8 +32,8 @@
 	<link rel="preload" fetchpriority="high" as="image" href={heroImage} type="image/webp" />
 </svelte:head>
 
-<!-- max-h-[300px] min-h-[300px] max-h-[400px] min-h-[400px] max-h-[500px] min-h-[500px] max-h-[600px] min-h-[600px] -->
-<div class="max-h-[{heroHeight}px] min-h-[{heroHeight}px] relative flex items-center">
+<!-- h-[300px] h-[400px] h-[500px] h-[600px] -->
+<div class="h-[{heroHeight}px] relative flex items-center">
 	<div
 		class="hero-image absolute -z-10 h-full w-full"
 		style="
