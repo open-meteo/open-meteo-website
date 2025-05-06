@@ -33,7 +33,7 @@
 </svelte:head>
 
 <!-- max-h-[300px] min-h-[300px] max-h-[400px] min-h-[400px] max-h-[500px] min-h-[500px] max-h-[600px] min-h-[600px] -->
-<div class="max-h-[{heroHeight}px] min-h-[{heroHeight}px] relative flex items-center duration-200">
+<div class="max-h-[{heroHeight}px] min-h-[{heroHeight}px] relative flex items-center">
 	<div
 		class="hero-image absolute -z-10 h-full w-full"
 		style="
