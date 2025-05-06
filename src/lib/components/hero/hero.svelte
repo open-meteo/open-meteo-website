@@ -35,13 +35,12 @@
 <!-- max-h-[300px] min-h-[300px] max-h-[400px] min-h-[400px] max-h-[500px] min-h-[500px] max-h-[600px] min-h-[600px] -->
 <div class="max-h-[{heroHeight}px] min-h-[{heroHeight}px] relative flex items-center duration-200">
 	<div
-		class="absolute -z-10 h-full w-full duration-200"
+		class="hero-image absolute -z-10 h-full w-full"
 		style="
           background-image: url('{heroImage}');
           background-size: cover;
           background-position: center;
           height: {heroHeight}px;
-		  {mode.current === 'dark' ? 'opacity: 0.6;' : ''}
         "
 	></div>
 	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">
