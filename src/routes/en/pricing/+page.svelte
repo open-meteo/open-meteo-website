@@ -21,7 +21,7 @@
 
 	let timeSelection = $derived(timeSelectionOptions.find((fco) => fco.value == timeInput));
 
-	let flatModels = models.flat();
+	let modelsFlat = models.flat();
 	let variablesFlat = [
 		...hourly.flat(),
 		...daily.flat(),
@@ -490,7 +490,7 @@
 					This distinction is crucial for developing future features such as APIs for multiple
 					locations simultaneously.
 				</p>
-				<div class="flex items-center gap-2">
+				<div id="api-calls-calculator" class="flex items-center gap-2">
 					<span>
 						A request with the parameters selected below will cost
 						<strong> {callWeight.toFixed(1)}</strong> API
@@ -536,7 +536,7 @@
 							defaultValue="1"
 							step="1"
 							min="1"
-							max={flatModels.length - 1}
+							max={modelsFlat.length - 1}
 							bind:value={modelsInput}
 						/>
 						<Label
