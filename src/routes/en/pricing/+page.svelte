@@ -490,7 +490,7 @@
 					This distinction is crucial for developing future features such as APIs for multiple
 					locations simultaneously.
 				</p>
-				<div id="api-calls-calculator" class="flex items-center gap-2">
+				<div id="api-calls-cnalculator" class="flex items-center gap-2">
 					<span>
 						A request with the parameters selected below will cost
 						<strong> {callWeight.toFixed(1)}</strong> API
@@ -512,6 +512,11 @@
 							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 							for="longitude">Variables</Label
 						>
+						{#if variablesInput > variablesFlat.length - 1}
+							<span class="text-red-600"
+								>There is a maximum of {variablesFlat.length - 1} variables</span
+							>
+						{/if}
 					</div>
 					<div class="relative">
 						<Select.Root name="forecast_days" type="single" bind:value={timeInput}>
@@ -543,6 +548,10 @@
 							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 							for="longitude">Models</Label
 						>
+
+						{#if modelsInput > modelsFlat.length - 1}
+							<span class="text-red-600">There is a maximum of {modelsFlat.length - 1} models</span>
+						{/if}
 					</div>
 					<div class="relative flex flex-col gap-2 duration-200">
 						<Input
