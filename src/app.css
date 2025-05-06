@@ -299,3 +299,20 @@ figcaption {
 	pointer-events: none;
 	font-weight: bold;
 }
+
+.dark .hero-image {
+	opacity: 0.6;
+}
+
+.darkmode-icon-moon {
+	position: absolute;
+	visibility: hidden;
+}
+
+.dark .darkmode-icon-moon {
+	visibility: visible;
+}
+
+.dark .darkmode-icon-sun {
+	visibility: hidden;
+}
