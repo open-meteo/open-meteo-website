@@ -1,10 +1,44 @@
 <script lang="ts">
 	import { mode } from 'mode-watcher';
 
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+
 	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select';
 
 	import Sun from '$lib/assets/icons/sun.svelte';
+
+	import { timeSelectionOptions } from './options';
+
+	import { models, hourly, daily, minutely_15, additionalDaily } from '../docs/options';
+
+	let timeInput = $state('14');
+	let variablesInput = $state(10);
+	let modelsInput = $state(1);
+	let locationsInput = $state(1);
+
+	let timeSelection = $derived(timeSelectionOptions.find((fco) => fco.value == timeInput));
+
+	let modelsFlat = models.flat();
+	let variablesFlat = [
+		...hourly.flat(),
+		...daily.flat(),
+		...additionalDaily.flat(),
+		...minutely_15.flat()
+	];
+
+	let callWeight = $state(1.0);
+
+	$effect(() => {
+		/// Calculate adjusted weight
+		const nVariablesModels = Number(variablesInput) * Math.max(Number(modelsInput), 1.0);
+		const timeWeight = Number(timeInput) / 14.0;
+		const variablesWeight = nVariablesModels / 10.0;
+		const variableTimeWeight = Math.max(variablesWeight, timeWeight * variablesWeight);
+		callWeight = Math.max(1.0, variableTimeWeight) * Number(locationsInput);
+	});
 </script>
 
 <svelte:head>
@@ -456,6 +490,84 @@
 					This distinction is crucial for developing future features such as APIs for multiple
 					locations simultaneously.
 				</p>
+				<div id="api-calls-cnalculator" class="flex items-center gap-2">
+					<span>
+						A request with the parameters selected below will cost
+						<strong> {callWeight.toFixed(1)}</strong> API
+						{callWeight === 1 ? 'call' : 'calls'}</span
+					>
+				</div>
+				<div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+					<div class="relative flex flex-col gap-2 duration-200">
+						<Input
+							class="h-12 pt-6"
+							type="number"
+							defaultValue="5"
+							step="1"
+							min="1"
+							max={variablesFlat.length - 1}
+							bind:value={variablesInput}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="longitude">Variables</Label
+						>
+						{#if variablesInput > variablesFlat.length - 1}
+							<span class="text-red-600"
+								>There is a maximum of {variablesFlat.length - 1} variables</span
+							>
+						{/if}
+					</div>
+					<div class="relative">
+						<Select.Root name="forecast_days" type="single" bind:value={timeInput}>
+							<Select.Trigger
+								aria-label="Forecast days input"
+								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{timeSelection?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each timeSelectionOptions as tso}
+									<Select.Item class="cursor-pointer" value={tso.value}>{tso.label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								>Time length</Label
+							>
+						</Select.Root>
+					</div>
+					<div class="relative flex flex-col gap-2 duration-200">
+						<Input
+							class="h-12 pt-6"
+							type="number"
+							defaultValue="1"
+							step="1"
+							min="1"
+							max={modelsFlat.length - 1}
+							bind:value={modelsInput}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="longitude">Models</Label
+						>
+
+						{#if modelsInput > modelsFlat.length - 1}
+							<span class="text-red-600">There is a maximum of {modelsFlat.length - 1} models</span>
+						{/if}
+					</div>
+					<div class="relative flex flex-col gap-2 duration-200">
+						<Input
+							class="h-12 pt-6"
+							type="number"
+							defaultValue="1"
+							step="1"
+							min="1"
+							bind:value={locationsInput}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="longitude">Locations</Label
+						>
+					</div>
+				</div>
 			</div>
 
 			<div>
