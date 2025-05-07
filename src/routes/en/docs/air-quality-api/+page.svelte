@@ -45,6 +45,7 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
+		elevation: [74],
 		...defaultParameters,
 		hourly: ['pm10', 'pm2_5']
 	});

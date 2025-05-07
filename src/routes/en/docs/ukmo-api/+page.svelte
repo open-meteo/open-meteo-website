@@ -56,6 +56,7 @@
 	const params = urlHashStore({
 		latitude: [51.5085],
 		longitude: [-0.1257],
+		elevation: [25],
 		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
@@ -959,8 +960,8 @@
 				<strong>Solar radiation:</strong>UKMO supplies shortwave radiation as instantaneous values.
 				Open-Meteo transforms these into backward-averaged radiation to align with the definition
 				used by other weather models. However, in the global domain, data shifts to 6-hour
-				intervals, rendering instantaneous values useless at that temporal resolution. As a result, solar
-				radiation forecasts are only offered for a 2-day forecast horizon, where 1-hourly data
+				intervals, rendering instantaneous values useless at that temporal resolution. As a result,
+				solar radiation forecasts are only offered for a 2-day forecast horizon, where 1-hourly data
 				remains available.
 			</li>
 			<li>
@@ -969,8 +970,8 @@
 				separation models.
 			</li>
 			<li>
-				<strong>Wind, temperature and cloud forecasts on height levels 100m and above:</strong> Forecasts at different levels above ground
-				are only available for the 2 km UKV model.
+				<strong>Wind, temperature and cloud forecasts on height levels 100m and above:</strong> Forecasts
+				at different levels above ground are only available for the 2 km UKV model.
 			</li>
 			<li>
 				<strong>Cloud Cover (2m):</strong> UKMO UKV 2 km provides cloud cover at 2 metre above ground

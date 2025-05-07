@@ -41,9 +41,8 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-
+		elevation: [74],
 		...defaultParameters,
-
 		hourly: [
 			'temperature_2m',
 			'temperature_2m_previous_day1',

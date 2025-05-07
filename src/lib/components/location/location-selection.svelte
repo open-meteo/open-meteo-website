@@ -15,9 +15,10 @@
 
 	interface Props {
 		params: Parameters;
+		elevation: boolean;
 	}
 
-	let { params = $bindable() }: Props = $props();
+	let { params = $bindable(), elevation = true }: Props = $props();
 
 	const locationCallback = (event: CustomEvent<GeoLocation>, index: number) => {
 		if (params.latitude && params.longitude) {
@@ -206,20 +207,22 @@
 							</div>
 						{/if}
 					</div>
-					<div class="relative flex flex-col gap-2 duration-200">
-						<Input
-							type="number"
-							class="h-12 pt-6"
-							name="elevation"
-							id="elevation"
-							step="0.000001"
-							bind:value={params.elevation[index]}
-						/>
-						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="elevation">Elevation</Label
-						>
-					</div>
+					{#if elevation}
+						<div class="relative flex flex-col gap-2 duration-200">
+							<Input
+								type="number"
+								class="h-12 pt-6"
+								name="elevation"
+								id="elevation"
+								step="0.000001"
+								bind:value={params.elevation[index]}
+							/>
+							<Label
+								class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								for="elevation">Elevation</Label
+							>
+						</div>
+					{/if}
 					<div class="relative flex items-center">
 						<Select.Root name="timezone" type="single" bind:value={params.timezone}>
 							<Select.Trigger

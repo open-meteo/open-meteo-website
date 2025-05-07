@@ -48,6 +48,7 @@
 	const params = urlHashStore({
 		latitude: [54.544587],
 		longitude: [10.227487],
+		elevation: [0],
 		...defaultParameters,
 		hourly: ['wave_height'],
 		// move to options
@@ -127,7 +128,7 @@
 
 <form method="get" action="https://marine-api.open-meteo.com/v1/marine">
 	<!-- LOCATION -->
-	<LocationSelection bind:params={$params} />
+	<LocationSelection bind:params={$params} elevation={false} />
 
 	<!-- TIME -->
 	<div class="mt-6">
