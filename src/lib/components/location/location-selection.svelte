@@ -146,7 +146,7 @@
 			{#each params.latitude as _, index}
 				<div
 					transition:slide
-					class="grid gap-3 duration-300 sm:grid-cols-2 md:gap-6 md:gap-y-3 xl:grid-cols-4 {index <
+					class="grid gap-3 duration-300 sm:grid-cols-2 md:gap-6 md:gap-y-3 xl:grid-cols-6 {index <
 					params.latitude.length - 1
 						? 'pb-6'
 						: ''}"
@@ -157,7 +157,6 @@
 							? 'pb-6'
 							: ''}"
 					>
-						<!-- class:is-invalid={params.latitude[index] < -90 || params.latitude[index] > 90}-->
 						<Input
 							type="number"
 							class="h-12 pt-6"
@@ -184,7 +183,6 @@
 							? 'pb-6'
 							: ''}"
 					>
-						<!-- class:is-invalid={params.longitude[index] < -180 || params.longitude[index] > 180}-->
 						<Input
 							type="number"
 							class="h-12 pt-6"
@@ -205,6 +203,25 @@
 							</div>
 						{/if}
 					</div>
+					<!-- <div
+						class="relative flex flex-col gap-2 duration-200 {params.elevation[index] < -90 ||
+						params.elevation[index] > 90
+							? 'pb-6'
+							: ''}"
+					>
+						<Input
+							type="number"
+							class="h-12 pt-6"
+							name="elevation"
+							id="elevation"
+							step="0.000001"
+							bind:value={params.elevation[index]}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="elevation">Elevation</Label
+						>
+					</div> -->
 					<div class="relative flex items-center">
 						<Select.Root name="timezone" type="single" bind:value={params.timezone}>
 							<Select.Trigger
@@ -229,7 +246,8 @@
 								label="Search"
 							/>
 						</div>
-
+					</div>
+					<div>
 						<div class="md:w-1/3">
 							{#if index == 0}
 								<Button
