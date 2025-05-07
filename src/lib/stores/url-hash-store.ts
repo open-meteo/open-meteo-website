@@ -19,10 +19,15 @@ export const urlHashStore = (initialValues: Parameters) => {
 	urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
 
 	function updateURL() {
-		goto(`?${page.url.searchParams.toString().replaceAll('%2C', ',')}${page.url.hash ?? ''}`, {
-			noScroll: true,
-			keepFocus: true
-		});
+		const searchParams = page.url.searchParams.toString().replaceAll('%2C', ',');
+		const link = `?${searchParams}${page.url.hash ?? ''}`;
+		if (page.url.search !== window.location.search) {
+			console.log('goto', link);
+			goto(link, {
+				noScroll: true,
+				keepFocus: true
+			});
+		}
 	}
 
 	const processURLParamsUpdate = debounce(() => updateURL());
