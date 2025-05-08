@@ -214,7 +214,7 @@
 								class="h-12 pt-6"
 								name="elevation"
 								id="elevation"
-								step="0.000001"
+								step="1"
 								bind:value={params.elevation[index]}
 							/>
 							<Label
