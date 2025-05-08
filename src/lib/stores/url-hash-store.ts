@@ -22,7 +22,6 @@ export const urlHashStore = (initialValues: Parameters) => {
 		const searchParams = page.url.searchParams.toString().replaceAll('%2C', ',');
 		const link = `?${searchParams}${page.url.hash ?? ''}`;
 		if (page.url.search !== window.location.search) {
-			console.log('goto', link);
 			goto(link, {
 				noScroll: true,
 				keepFocus: true

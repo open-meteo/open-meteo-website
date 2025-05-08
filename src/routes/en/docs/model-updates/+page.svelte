@@ -620,7 +620,9 @@
 </svelte:head>
 
 <div>
-	<h2 id="model_updates" class="text-2xl md:text-3xl">Model Updates</h2>
+	<a href="#model_updates">
+		<h2 id="model_updates" class="text-2xl md:text-3xl">Model Updates</h2>
+	</a>
 
 	<div class="mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-2 lg:gap-x-6">
 		<p>
@@ -703,7 +705,11 @@
 	</div>
 	{#each sections as section}
 		<div class="mt-6">
-			<h2 class="text-2xl md:text-3xl">{section.name}</h2>
+			<a href={`#${section.name.toLowerCase().replaceAll(' ', '_')}`}>
+				<h2 id={section.name.toLowerCase().replaceAll(' ', '_')} class="text-2xl md:text-3xl">
+					{section.name}
+				</h2>
+			</a>
 
 			<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 				<table
@@ -768,7 +774,11 @@
 		</div>
 	{/each}
 	<div class="mt-6 md:mt-12">
-		<h2 class="text-2xl md:text-3xl">Metadata API Documentation</h2>
+		<a href="#metadata_api_documentation">
+			<h2 id="metadata_api_documentation" class="text-2xl md:text-3xl">
+				Metadata API Documentation
+			</h2>
+		</a>
 		<div class="mt-2 md:mt-4">
 			<p>
 				You can retrieve the update times for each individual model via the API. However, these
