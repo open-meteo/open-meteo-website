@@ -1,6 +1,7 @@
 export interface Parameters {
 	latitude?: Array<number>;
 	longitude?: Array<number>;
+	elevation?: Array<number>;
 
 	daily?: Array<string>;
 	hourly?: Array<string>;

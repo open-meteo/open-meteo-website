@@ -238,8 +238,8 @@
 
 												<div class="text-muted-foreground text-left text-sm truncate">
 													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
-													{location.longitude.toFixed(2)}°E{#if location.elevation}
-														{+' ' + location.elevation.toFixed(0)}m asl{/if})
+													{location.longitude.toFixed(2)}°E {#if location.elevation}
+														{location.elevation.toFixed(0)}m asl{/if})
 												</div>
 											</div>
 
@@ -334,8 +334,8 @@
 												<div class="text-muted-foreground text-left text-sm truncate">
 													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
 														2
-													)}°E{#if location.elevation}
-														{+' ' + location.elevation.toFixed(0)}m asl{/if})
+													)}°E {#if location.elevation}
+														{location.elevation.toFixed(0)}m asl{/if})
 												</div>
 											</div>
 
@@ -466,8 +466,8 @@
 											<div class="text-muted-foreground text-left text-sm truncate">
 												{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
 													2
-												)}°E{#if location.elevation}
-													{+' ' + location.elevation.toFixed(0)}m asl{/if})
+												)}°E {#if location.elevation}
+													{location.elevation.toFixed(0)}m asl{/if})
 											</div>
 										</div>
 										<div class="-mr-1 flex justify-self-end">

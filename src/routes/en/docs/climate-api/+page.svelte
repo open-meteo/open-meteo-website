@@ -27,6 +27,7 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
+		elevation: [74],
 		start_date: '1950-01-01',
 		end_date: '2050-12-31',
 		models: [

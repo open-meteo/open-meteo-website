@@ -15,14 +15,18 @@
 
 	interface Props {
 		params: Parameters;
+		elevation: boolean;
 	}
 
-	let { params = $bindable() }: Props = $props();
+	let { params = $bindable(), elevation = true }: Props = $props();
 
 	const locationCallback = (event: CustomEvent<GeoLocation>, index: number) => {
 		if (params.latitude && params.longitude) {
 			params.latitude[index] = Number(event.detail.latitude.toFixed(4));
 			params.longitude[index] = Number(event.detail.longitude.toFixed(4));
+			if (event.detail.elevation && params.elevation) {
+				params.elevation[index] = Number(event.detail.elevation.toFixed(0));
+			}
 		}
 		params.latitude = params.latitude;
 		params.longitude = params.longitude;
@@ -146,7 +150,7 @@
 			{#each params.latitude as _, index}
 				<div
 					transition:slide
-					class="grid gap-3 duration-300 sm:grid-cols-2 md:gap-6 md:gap-y-3 xl:grid-cols-4 {index <
+					class="grid gap-3 duration-300 sm:grid-cols-2 md:gap-6 md:gap-y-3 xl:grid-cols-6 {index <
 					params.latitude.length - 1
 						? 'pb-6'
 						: ''}"
@@ -157,7 +161,6 @@
 							? 'pb-6'
 							: ''}"
 					>
-						<!-- class:is-invalid={params.latitude[index] < -90 || params.latitude[index] > 90}-->
 						<Input
 							type="number"
 							class="h-12 pt-6"
@@ -184,7 +187,6 @@
 							? 'pb-6'
 							: ''}"
 					>
-						<!-- class:is-invalid={params.longitude[index] < -180 || params.longitude[index] > 180}-->
 						<Input
 							type="number"
 							class="h-12 pt-6"
@@ -205,6 +207,22 @@
 							</div>
 						{/if}
 					</div>
+					{#if elevation}
+						<div class="relative flex flex-col gap-2 duration-200">
+							<Input
+								type="number"
+								class="h-12 pt-6"
+								name="elevation"
+								id="elevation"
+								step="1"
+								bind:value={params.elevation[index]}
+							/>
+							<Label
+								class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								for="elevation">Elevation</Label
+							>
+						</div>
+					{/if}
 					<div class="relative flex items-center">
 						<Select.Root name="timezone" type="single" bind:value={params.timezone}>
 							<Select.Trigger
@@ -223,14 +241,15 @@
 					</div>
 
 					<div class="flex gap-3 md:gap-6">
-						<div class="md:w-2/3">
+						<div class="w-full">
 							<LocationSearch
 								on:location={(event) => locationCallback(event, index)}
 								label="Search"
 							/>
 						</div>
-
-						<div class="md:w-1/3">
+					</div>
+					<div>
+						<div>
 							{#if index == 0}
 								<Button
 									variant="outline"
@@ -262,8 +281,8 @@
 									><svg
 										class="lucide lucide-trash-2"
 										xmlns="http://www.w3.org/2000/svg"
-										width="24"
-										height="24"
+										width="19"
+										height="19"
 										viewBox="0 0 24 24"
 										fill="none"
 										stroke="currentColor"

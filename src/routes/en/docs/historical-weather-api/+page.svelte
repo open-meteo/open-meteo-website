@@ -50,6 +50,7 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
+		elevation: [74],
 		start_date: startDateDefault,
 		end_date: endDateDefault,
 		...defaultParameters,
