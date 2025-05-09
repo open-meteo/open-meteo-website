@@ -50,7 +50,10 @@ updates:
         patterns:
           - 'zod'
           - 'simple-icons'
+
+          - '@lucide/svelte'
           - 'lucide-svelte'
+          - 'lucide-static'
       tailwind:
         patterns:
           - 'tailwindcss'
