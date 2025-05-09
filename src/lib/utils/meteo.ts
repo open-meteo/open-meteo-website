@@ -1,6 +1,9 @@
 /// Generic helper functions
 
 export const pad = (n: string | number) => {
+	if (n === null || n === undefined) {
+		return '';
+	}
 	return ('0' + n).slice(-2);
 };
 
@@ -19,7 +22,7 @@ export const isNumeric = (num: string | number) =>
 	!isNaN(num as number);
 
 export const altitudeAboveSeaLevelMeters = (pressureLevelHpA: number): string => {
-	let altitude = (-1 / 2.25577) * 10e4 * (Math.pow(pressureLevelHpA / 1013.25, 1 / 5.25588) - 1);
+	const altitude = (-1 / 2.25577) * 10e4 * (Math.pow(pressureLevelHpA / 1013.25, 1 / 5.25588) - 1);
 	if (altitude <= 500) {
 		return `${Math.round(altitude / 10) * 10} m`;
 	}
@@ -205,4 +208,4 @@ export function getWeatherCode(code: number | null): string {
 	return 'unknown code';
 }
 
-export const calculateApiCalls = ($params) => {};
+export const calculateApiCallsWeight = ($params) => {};
