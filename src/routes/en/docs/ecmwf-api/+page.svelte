@@ -546,8 +546,8 @@
 				title="Pressure Level Variables"
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
-				<div class="flex gap-3 md:gap-6">
-					<div class="md:min-w-[150px]">
+				<div class="flex flex-col md:flex-row gap-3 md:gap-6">
+					<div class="w-full md:w-[227px]">
 						<ToggleGroup.Root
 							type="single"
 							bind:value={pressureVariablesTab}
@@ -557,67 +557,84 @@
 								{#each pressureVariables as variable, i}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
+										class="w-[225px] min-h-12 cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
 										0
 											? 'rounded-t-md'
 											: ''} {i === pressureVariables.length - 1 ? 'rounded-b-md' : ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
-										>{variable.label}
+										><div class="w-full text-left flex items-center justify-between gap-2">
+											{variable.label}
+											<span class="text-xs">
+												{levels.filter((level) =>
+													$params.hourly.includes(`${variable.value}_${level}hPa`)
+												).length
+													? '(' +
+														levels.filter((level) =>
+															$params.hourly.includes(`${variable.value}_${level}hPa`)
+														).length +
+														'/' +
+														levels.length +
+														')'
+													: ''}
+											</span>
+										</div>
 									</ToggleGroup.Item>
 								{/each}
 							</div>
 						</ToggleGroup.Root>
 					</div>
-					<div>
+					<div class="w-full">
 						{#each pressureVariables as variable}
 							{#if pressureVariablesTab === variable.value}
 								<div class="mb-3">{variable.label}</div>
 								<div>
-									<div class="grid grid-cols-1 md:grid-cols-3">
+									<div class="grid grid-cols-1 lg:grid-cols-3">
 										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
-											{#each chunk as level}
-												<div class="group flex items-center" title={level.label}>
-													<Checkbox
-														id="{variable.value}_{level}hPa"
-														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-														value="{variable.value}_{level}hPa"
-														checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
-														aria-labelledby="{variable.value}_{level}hPa"
-														onCheckedChange={() => {
-															if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-																$params.hourly = $params.hourly.filter((item) => {
-																	return item !== `${variable.value}_${level}hPa`;
-																});
-															} else {
-																$params.hourly.push(`${variable.value}_${level}hPa`);
-																$params.hourly = $params.hourly;
-															}
-														}}
-													/>
-													<Label
-														for="{variable.value}_{level}hPa"
-														class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
-														>{level} hPa
-														<small class="text-muted-foreground"
-															>({altitudeAboveSeaLevelMeters(level)})</small
-														></Label
-													>
-												</div>
-											{/each}
+											<div>
+												{#each chunk as level}
+													<div class="group flex items-center" title={level.label}>
+														<Checkbox
+															id="{variable.value}_{level}hPa"
+															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+															value="{variable.value}_{level}hPa"
+															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
+															aria-labelledby="{variable.value}_{level}hPa"
+															onCheckedChange={() => {
+																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
+																	$params.hourly = $params.hourly.filter((item) => {
+																		return item !== `${variable.value}_${level}hPa`;
+																	});
+																} else {
+																	$params.hourly.push(`${variable.value}_${level}hPa`);
+																	$params.hourly = $params.hourly;
+																}
+															}}
+														/>
+														<Label
+															for="{variable.value}_{level}hPa"
+															class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
+															>{level} hPa
+															<small class="text-muted-foreground"
+																>({altitudeAboveSeaLevelMeters(level)})</small
+															></Label
+														>
+													</div>
+												{/each}
+											</div>
 										{/each}
 									</div>
 								</div>
 							{/if}
 						{/each}
-						<div class="mt-3">
-							<small class="text-muted-foreground"
-								>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
-								(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above
-								sea level.</small
-							>
-						</div>
 					</div>
+				</div>
+				<div class="lg:ml-[249px] mt-3">
+					<small class="text-muted-foreground"
+						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
+						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
+						level.</small
+					>
 				</div>
 			</AccordionItem>
 			<AccordionItem
