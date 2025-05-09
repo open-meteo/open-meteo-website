@@ -1,6 +1,6 @@
 describe('template spec', () => {
 	it('passes', () => {
-		cy.visit('http://localhost:5173/en/docs');
+		cy.visit('http://localhost:4173/en/docs');
 
 		cy.get('#latitude').clear().type(55.2);
 		cy.url().should('include', 'latitude=55.2');
