@@ -59,6 +59,6 @@ export const defaultLocation: GeoLocation = {
 	admin4: 'Berlin'
 };
 
-export const storedLocation = persisted('stored-location', defaultLocation as GeoLocation);
+export const storedLocation = persisted('stored_location', defaultLocation as GeoLocation);
 export const last_visited = persisted('last_visited_locations', [] as GeoLocation[]);
 export const favorites = persisted('favorites', [] as GeoLocation[]);
