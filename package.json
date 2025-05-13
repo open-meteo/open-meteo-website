@@ -20,7 +20,7 @@
 		"@internationalized/date": "^3.8.0",
 		"@lucide/svelte": "^0.510.0",
 		"@sveltejs/adapter-static": "^3.0.8",
-		"@sveltejs/kit": "^2.20.0",
+		"@sveltejs/kit": "^2.21.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"bits-ui": "^1.4.3",
 		"clsx": "^2.1.1",
@@ -49,7 +49,7 @@
 	"dependencies": {
 		"@poppanator/sveltekit-svg": "^5.0.1",
 		"@shikijs/transformers": "^3.4.0",
-		"@sveltejs/enhanced-img": "^0.5.0",
+		"@sveltejs/enhanced-img": "^0.6.0",
 		"@tailwindcss/container-queries": "^0.1.1",
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.16",
