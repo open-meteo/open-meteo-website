@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 
+	import { get, writable } from 'svelte/store';
+
 	import { fade } from 'svelte/transition';
 
 	import { dev } from '$app/environment';
@@ -10,10 +12,12 @@
 	import { Label } from '$lib/components/ui/label';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
-	// import '$lib/components/highcharts/highcharts.css';
+	import Settings from '$lib/components/settings/settings.svelte';
+	import LocationSearch from '$lib/components/location/location-search.svelte';
 
 	import { hourly, models } from '../../docs/options';
-	import type { siSat1 } from 'simple-icons';
+
+	import { storedLocation } from '$lib/stores/settings';
 
 	let useStockChart = false;
 	let options: any;
@@ -21,6 +25,8 @@
 	let node: HTMLElement;
 	let chart: any;
 	let Highcharts = $state(null);
+
+	const location = get(storedLocation);
 
 	let variablesSelected = $state(['temperature_2m', 'rain']);
 	let modelsSelected = $state([
@@ -55,7 +61,7 @@
 
 			let plotBands: any = [];
 			const dataReq = await fetch(
-				`https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=${variablesSelected.join(',')}&models=${modelsSelected.join(',')}&timeformat=unixtime`
+				`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&hourly=${variablesSelected.join(',')}&models=${modelsSelected.join(',')}&timeformat=unixtime`
 			);
 			const data = await dataReq.json();
 
@@ -251,6 +257,21 @@
 			<path d="M21 12a9 9 0 1 1-6.219-8.56" />
 		</svg>
 		<span class="hidden">Loading...</span>
+	</div>
+</div>
+
+<div>
+	<div class="mt-6 md:mt-12 flex gap-6">
+		<div class="relative w-1/4">
+			<LocationSearch
+				style="height: 40px"
+				on:location={(event) => {
+					storedLocation.set(event.detail);
+					window.location.reload();
+				}}
+				label="Search Location"
+			/>
+		</div>
 	</div>
 </div>
 
