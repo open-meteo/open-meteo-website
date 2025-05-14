@@ -12,7 +12,8 @@
 
 	// import '$lib/components/highcharts/highcharts.css';
 
-	import { models } from '../../docs/options';
+	import { hourly, models } from '../../docs/options';
+	import type { siSat1 } from 'simple-icons';
 
 	let useStockChart = false;
 	let options: any;
@@ -21,8 +22,13 @@
 	let chart: any;
 	let Highcharts = $state(null);
 
-	let variablesSelected = $state(['temperature', 'rain']);
-	let modelsSelected = $state(['ecmwf_ifs025', 'icon_eu', 'gem_global']);
+	let variablesSelected = $state(['temperature_2m', 'rain']);
+	let modelsSelected = $state([
+		'meteofrance_seamless',
+		'ukmo_seamless',
+		'icon_seamless',
+		'gem_seamless'
+	]);
 	let count = $state(0);
 
 	onMount(async () => {
@@ -55,16 +61,30 @@
 
 			for (let variable of variablesSelected) {
 				const chartDiv = document.createElement('div');
+
 				let unit;
 
+				let hourly_starttime = (data.hourly.time[0] + data.utc_offset_seconds) * 1000;
+				let pointInterval = (data.hourly.time[1] - data.hourly.time[0]) * 1000;
+
 				const series = [];
+				let average = [];
+				let averageCount = [];
+
+				let variableCount = 0;
 				for (let [model, values] of Object.entries(data.hourly)) {
 					if (model === 'time') {
 						continue;
 					}
 					if (model.startsWith(variable)) {
-						let hourly_starttime = (data.hourly.time[0] + data.utc_offset_seconds) * 1000;
-						let pointInterval = (data.hourly.time[1] - data.hourly.time[0]) * 1000;
+						if (average && average.length === 0) {
+							average = [...values];
+						} else {
+							for (let [index, val] of values.entries()) {
+								let avVal = average[index];
+								average[index] = avVal + val;
+							}
+						}
 
 						unit = data.hourly_units[model];
 
@@ -74,15 +94,34 @@
 							type:
 								unit == 'mm' || unit == 'cm' || unit == 'inch' || unit == 'MJ/m²'
 									? 'column'
-									: 'line',
+									: 'spline',
 							tooltip: {
 								valueSuffix: ' ' + unit
 							},
 							pointStart: hourly_starttime,
 							pointInterval: pointInterval
 						});
+						variableCount++;
 					}
 				}
+
+				for (let [index, val] of average.entries()) {
+					average[index] = Math.round((val / variableCount) * 10) / 10;
+				}
+
+				series.push({
+					name: variable + '_average',
+					data: average,
+					dashStyle: 'ShortDashDot',
+					type:
+						unit == 'mm' || unit == 'cm' || unit == 'inch' || unit == 'MJ/m²' ? 'column' : 'spline',
+					tooltip: {
+						valueSuffix: ' ' + unit
+					},
+					lineWidth: 6,
+					pointStart: hourly_starttime,
+					pointInterval: pointInterval
+				});
 
 				new Highcharts.Chart(chartDiv, {
 					credits: {
@@ -101,9 +140,11 @@
 
 					subtitle: {
 						text:
-							`Compare <span class="font-bold">${variable}</span> in models: <span class="font-bold">` +
-							modelsSelected.join(', ') +
-							'</span>',
+							count === 0
+								? `Compare <span class="font-bold">${variablesSelected.join(', ')}</span> in models: <span class="font-bold">` +
+									modelsSelected.join(', ') +
+									'</span>'
+								: '',
 						align: 'left'
 					},
 
@@ -123,6 +164,23 @@
 							}
 						],
 						plotBands: plotBands
+					},
+
+					plotOptions: {
+						spline: {
+							lineWidth: 2,
+							states: {
+								hover: {
+									lineWidth: 3
+								}
+							},
+							marker: {
+								enabled: false
+							}
+						},
+						column: {
+							pointWidth: 5
+						}
 					},
 
 					legend: {
@@ -167,7 +225,12 @@
 	class="border border-border container-wrapper relative min-h-[{400 * variablesSelected.length +
 		2}px]"
 >
-	<div in:fade={{ duration: 300 }} out:fade={{ duration: 300 }} bind:this={node}></div>
+	<div
+		class="w-full"
+		in:fade={{ duration: 300 }}
+		out:fade={{ duration: 300 }}
+		bind:this={node}
+	></div>
 	<div
 		class="{count > 0
 			? 'opacity-0 pointer-events-none'
@@ -236,5 +299,60 @@
 				{/each}
 			</div>
 		{/each}
+	</div>
+
+	<!-- HOURLY -->
+	<div class="mt-6 md:mt-12">
+		<div class="flex">
+			<a href="#hourly_weather_variables"
+				><h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">
+					Hourly Weather Variables
+				</h2></a
+			>
+			{#if modelsSelected.length > 0}
+				<div transition:fade={{ duration: 200 }} class="relative mt-[5px]">
+					<div
+						class="bg-secondary border-foreground/25 absolute -top-1 ml-2 rounded-full border-2 px-3 py-1 text-sm no-underline"
+					>
+						{variablesSelected.length}&nbsp;/&nbsp;{hourly.flat().length}
+					</div>
+				</div>
+			{/if}
+		</div>
+
+		<div
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+		>
+			{#each hourly as group}
+				<div>
+					{#each group as e}
+						<div class="group flex items-center" title={e.label}>
+							<Checkbox
+								id="{e.value}_hourly"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								value={e.value}
+								checked={variablesSelected?.includes(e.value)}
+								aria-labelledby="{e.value}_label"
+								onCheckedChange={() => {
+									if (variablesSelected?.includes(e.value)) {
+										variablesSelected = variablesSelected.filter((item) => {
+											return item !== e.value;
+										});
+									} else {
+										variablesSelected.push(e.value);
+										variablesSelected = variablesSelected;
+									}
+								}}
+							/>
+							<Label
+								id="{e.value}_label"
+								for="{e.value}_hourly"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+							>
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
 	</div>
 </div>
