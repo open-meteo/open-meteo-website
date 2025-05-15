@@ -5,19 +5,26 @@
 
 	import { fade } from 'svelte/transition';
 
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
 	import { dev } from '$app/environment';
 
 	import { mode } from 'mode-watcher';
 
 	import { Label } from '$lib/components/ui/label';
+	import { Switch } from '$lib/components/ui/switch';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
+	import { defaultParameters } from './options';
+
 	import { hourly, models } from '../../docs/options';
 
 	import { storedLocation } from '$lib/stores/settings';
+
+	import './highcharts.css';
 
 	let useStockChart = false;
 	let options: any;
@@ -26,17 +33,26 @@
 	let chart: any;
 	let Highcharts = $state(null);
 
+	let showLegend = $state(false);
+	let averageOnly = $state(false);
+
 	const location = get(storedLocation);
 
-	let variablesSelected = $state(['temperature_2m', 'rain']);
-	let modelsSelected = $state([
-		'meteofrance_seamless',
-		'ukmo_seamless',
-		'icon_seamless',
-		'gem_seamless'
-	]);
-	let count = $state(0);
+	const params = urlHashStore({
+		latitude: [52.52],
+		longitude: [13.41],
+		...defaultParameters,
+		hourly: ['temperature_2m', 'rain', 'relative_humidity_2m'],
+		models: [
+			'ecmwf_ifs025',
+			'meteofrance_seamless',
+			'ukmo_seamless',
+			'icon_seamless',
+			'gem_seamless'
+		]
+	});
 
+	let count = $state(0);
 	onMount(async () => {
 		/// Highcharts needs to be loaded in `onMount` to work with prerendered SSG
 		Highcharts = (await import('highcharts')).default;
@@ -60,9 +76,11 @@
 			node.replaceChildren([]);
 
 			const dataReq = await fetch(
-				`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&hourly=${variablesSelected.join(',')}&models=${modelsSelected.join(',')}&timeformat=unixtime&daily=sunset,sunrise`
+				`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&hourly=${$params.hourly.join(',')}&models=${$params.models.join(',')}&timeformat=unixtime&daily=sunset,sunrise`
 			);
 			const data = await dataReq.json();
+
+			console.log(data);
 
 			let dailyFirstModelKey = Object.keys(data.daily)[1].split('_');
 			dailyFirstModelKey.shift();
@@ -85,7 +103,7 @@
 				});
 			}
 
-			for (let variable of variablesSelected) {
+			for (let variable of $params.hourly) {
 				const chartDiv = document.createElement('div');
 
 				let unit;
@@ -95,7 +113,6 @@
 
 				const series = [];
 				let average = [];
-				let averageCount = [];
 
 				let variableCount = 0;
 				for (let [model, values] of Object.entries(data.hourly)) {
@@ -114,19 +131,21 @@
 
 						unit = data.hourly_units[model];
 
-						series.push({
-							name: model,
-							data: values,
-							type:
-								unit == 'mm' || unit == 'cm' || unit == 'inch' || unit == 'MJ/m²'
-									? 'column'
-									: 'spline',
-							tooltip: {
-								valueSuffix: ' ' + unit
-							},
-							pointStart: hourly_starttime,
-							pointInterval: pointInterval
-						});
+						if (!averageOnly) {
+							series.push({
+								name: model,
+								data: values,
+								type:
+									unit == 'mm' || unit == 'cm' || unit == 'inch' || unit == 'MJ/m²'
+										? 'column'
+										: 'spline',
+								tooltip: {
+									valueSuffix: ' ' + unit
+								},
+								pointStart: hourly_starttime,
+								pointInterval: pointInterval
+							});
+						}
 						variableCount++;
 					}
 				}
@@ -152,13 +171,19 @@
 						}
 					},
 					pointStart: hourly_starttime,
-					pointInterval: pointInterval
+					pointInterval: pointInterval,
+					className: 'highcharts-average-series'
 				});
 
 				new Highcharts.Chart(chartDiv, {
 					credits: {
 						text: 'Open-Meteo.com',
 						href: 'http://open-meteo.com'
+					},
+
+					chart: {
+						height: showLegend ? '400px' : '300px',
+						styledMode: true
 					},
 
 					lang: {
@@ -173,8 +198,8 @@
 					subtitle: {
 						text:
 							count === 0
-								? `Compare <span class="font-bold">${variablesSelected.join(', ')}</span> in models: <span class="font-bold">` +
-									modelsSelected.join(', ') +
+								? `Compare <span class="font-bold">${$params.hourly.join(', ')}</span> in models: <span class="font-bold">` +
+									$params.models.join(', ') +
 									'</span>'
 								: '',
 						align: 'left'
@@ -216,6 +241,7 @@
 					},
 
 					legend: {
+						enabled: showLegend,
 						layout: 'horizontal',
 						align: 'center',
 						verticalAlign: 'bottom'
@@ -234,7 +260,7 @@
 					},
 
 					tooltip: {
-						shared: series.length <= 5,
+						shared: true,
 						animation: false
 					}
 				});
@@ -252,16 +278,14 @@
 	});
 </script>
 
-<!-- min-h-[402px] min-h-[802px] min-h-[1202px]  -->
-<div
-	class="border border-border container-wrapper relative min-h-[{400 * variablesSelected.length +
-		2}px]"
->
+<!-- min-h-[302px] min-h-[602px]  min-h-[902px] min-h-[1202px]  -->
+<div class="container-wrapper relative min-h-[{300 * $params.hourly.length + 2}px]">
 	<div
-		class="w-full"
 		in:fade={{ duration: 300 }}
 		out:fade={{ duration: 300 }}
 		bind:this={node}
+		class:highcharts-dark={mode.current === 'dark'}
+		class:highcharts-light={mode.current !== 'dark'}
 	></div>
 	<div
 		class="{count > 0
@@ -286,8 +310,8 @@
 	</div>
 </div>
 
-<div>
-	<div class="mt-6 md:mt-12 flex gap-6">
+<div class="">
+	<div class="items-center mt-6 md:mt-12 flex gap-6">
 		<div class="relative w-1/4">
 			<LocationSearch
 				style="height: 40px"
@@ -298,18 +322,40 @@
 				label="Search Location"
 			/>
 		</div>
+		<div class="flex gap-2">
+			<Switch
+				id="show_legend"
+				name="Show legend"
+				bind:checked={showLegend}
+				onCheckedChange={() => {
+					$params.hourly = $params.hourly;
+				}}
+			/>
+			<Label for="show_legend" class="mb-[2px]  cursor-pointer text-lg">Show legend</Label>
+		</div>
+		<div class="flex gap-2">
+			<Switch
+				id="average_only"
+				name="Average only"
+				bind:checked={averageOnly}
+				onCheckedChange={() => {
+					$params.hourly = $params.hourly;
+				}}
+			/>
+			<Label for="average_only" class="mb-[2px]  cursor-pointer text-lg">Average only</Label>
+		</div>
 	</div>
 </div>
 
 <div class="mt-4 md:mt-8">
 	<div class="flex">
 		<a href="#models"><h2 id="models" class="text-2xl md:text-3xl">Models</h2></a>
-		{#if modelsSelected.length > 0}
+		{#if $params.models.length > 0}
 			<div transition:fade={{ duration: 200 }} class="relative mt-[5px]">
 				<div
 					class="bg-secondary border-foreground/25 absolute -top-1 ml-2 rounded-full border-2 px-3 py-1 text-sm no-underline"
 				>
-					{modelsSelected.length}&nbsp;/&nbsp;{models.flat().length}
+					{$params.models.length}&nbsp;/&nbsp;{models.flat().length}
 				</div>
 			</div>
 		{/if}
@@ -324,16 +370,16 @@
 							id="{e.value}_model"
 							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 							value={e.value}
-							checked={modelsSelected?.includes(e.value)}
+							checked={$params.models?.includes(e.value)}
 							aria-labelledby="{e.value}_label"
 							onCheckedChange={() => {
-								if (modelsSelected?.includes(e.value)) {
-									modelsSelected = modelsSelected.filter((item) => {
+								if ($params.models?.includes(e.value)) {
+									$params.models = $params.models.filter((item) => {
 										return item !== e.value;
 									});
 								} else {
-									modelsSelected.push(e.value);
-									modelsSelected = modelsSelected;
+									$params.models.push(e.value);
+									$params.models = $params.models;
 								}
 							}}
 						/>
@@ -356,12 +402,12 @@
 					Hourly Weather Variables
 				</h2></a
 			>
-			{#if modelsSelected.length > 0}
+			{#if $params.hourly.length > 0}
 				<div transition:fade={{ duration: 200 }} class="relative mt-[5px]">
 					<div
 						class="bg-secondary border-foreground/25 absolute -top-1 ml-2 rounded-full border-2 px-3 py-1 text-sm no-underline"
 					>
-						{variablesSelected.length}&nbsp;/&nbsp;{hourly.flat().length}
+						{$params.hourly.length}&nbsp;/&nbsp;{hourly.flat().length}
 					</div>
 				</div>
 			{/if}
@@ -378,16 +424,16 @@
 								id="{e.value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 								value={e.value}
-								checked={variablesSelected?.includes(e.value)}
+								checked={$params.hourly?.includes(e.value)}
 								aria-labelledby="{e.value}_label"
 								onCheckedChange={() => {
-									if (variablesSelected?.includes(e.value)) {
-										variablesSelected = variablesSelected.filter((item) => {
+									if ($params.hourly?.includes(e.value)) {
+										$params.hourly = $params.hourly.filter((item) => {
 											return item !== e.value;
 										});
 									} else {
-										variablesSelected.push(e.value);
-										variablesSelected = variablesSelected;
+										$params.hourly.push(e.value);
+										$params.hourly = $params.hourly;
 									}
 								}}
 							/>
