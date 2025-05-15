@@ -112,7 +112,8 @@
 				let pointInterval = (data.hourly.time[1] - data.hourly.time[0]) * 1000;
 
 				const series = [];
-				let average = [];
+				let average = new Array(data.hourly.time.length).fill(0);
+				let averageCount = new Array(data.hourly.time.length).fill(0);
 
 				let variableCount = 0;
 				for (let [model, values] of Object.entries(data.hourly)) {
@@ -120,12 +121,11 @@
 						continue;
 					}
 					if (model.startsWith(variable)) {
-						if (average && average.length === 0) {
-							average = [...values];
-						} else {
-							for (let [index, val] of values.entries()) {
+						for (let [index, val] of values.entries()) {
+							if (!!val) {
 								let avVal = average[index];
 								average[index] = avVal + val;
+								averageCount[index]++;
 							}
 						}
 
@@ -151,8 +151,10 @@
 				}
 
 				for (let [index, val] of average.entries()) {
-					average[index] = Math.round((val / variableCount) * 10) / 10;
+					average[index] = Math.round((val / averageCount[index]) * 10) / 10;
 				}
+
+				console.log(averageCount);
 
 				series.push({
 					name: variable + '_average',
@@ -311,7 +313,7 @@
 </div>
 
 <div class="">
-	<div class="items-center mt-6 md:mt-12 flex gap-6">
+	<div class="flex-col md:flex-row items-center mt-6 md:mt-12 flex gap-6">
 		<div class="relative w-1/4">
 			<LocationSearch
 				style="height: 40px"
