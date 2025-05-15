@@ -59,11 +59,31 @@
 		if (Highcharts) {
 			node.replaceChildren([]);
 
-			let plotBands: any = [];
 			const dataReq = await fetch(
-				`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&hourly=${variablesSelected.join(',')}&models=${modelsSelected.join(',')}&timeformat=unixtime`
+				`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&hourly=${variablesSelected.join(',')}&models=${modelsSelected.join(',')}&timeformat=unixtime&daily=sunset,sunrise`
 			);
 			const data = await dataReq.json();
+
+			let dailyFirstModelKey = Object.keys(data.daily)[1].split('_');
+			dailyFirstModelKey.shift();
+			dailyFirstModelKey = dailyFirstModelKey.join('_');
+
+			let plotBands: any = [];
+			if (
+				'daily' in data &&
+				'sunrise_' + dailyFirstModelKey in data.daily &&
+				'sunset_' + dailyFirstModelKey in data.daily
+			) {
+				let rise = data.daily['sunrise_' + dailyFirstModelKey];
+				let set = data.daily['sunset_' + dailyFirstModelKey];
+				plotBands = rise.map(function (r, i) {
+					return {
+						color: 'rgba(255, 255, 194, 0.5)',
+						from: (r + data.utc_offset_seconds) * 1000,
+						to: (set[i] + data.utc_offset_seconds) * 1000
+					};
+				});
+			}
 
 			for (let variable of variablesSelected) {
 				const chartDiv = document.createElement('div');
@@ -119,12 +139,18 @@
 					name: variable + '_average',
 					data: average,
 					dashStyle: 'ShortDashDot',
+					color: '#5e5e5e',
 					type:
 						unit == 'mm' || unit == 'cm' || unit == 'inch' || unit == 'MJ/m²' ? 'column' : 'spline',
 					tooltip: {
 						valueSuffix: ' ' + unit
 					},
-					lineWidth: 6,
+					lineWidth: 4,
+					states: {
+						hover: {
+							lineWidth: 6
+						}
+					},
 					pointStart: hourly_starttime,
 					pointInterval: pointInterval
 				});
