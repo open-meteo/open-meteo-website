@@ -179,13 +179,15 @@
 
 				new Highcharts.Chart(chartDiv, {
 					credits: {
-						text: 'Open-Meteo.com',
+						text: count === $params.hourly.length - 1 ? 'Open-Meteo.com' : '',
 						href: 'http://open-meteo.com'
 					},
 
 					chart: {
 						height: showLegend ? '400px' : '300px',
-						styledMode: true
+						styledMode: true,
+						marginLeft: '50',
+						marginRight: 0
 					},
 
 					lang: {
@@ -281,7 +283,10 @@
 </script>
 
 <!-- min-h-[302px] min-h-[602px]  min-h-[902px] min-h-[1202px]  -->
-<div class="container-wrapper relative min-h-[{300 * $params.hourly.length + 2}px]">
+<div
+	class="-mx-6 relative md:mx-0 container-wrapper relative min-h-[{300 * $params.hourly.length +
+		2}px]"
+>
 	<div
 		in:fade={{ duration: 300 }}
 		out:fade={{ duration: 300 }}
