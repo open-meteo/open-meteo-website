@@ -165,7 +165,7 @@
 .highcharts-axis-labels {
 	fill: var(--highcharts-neutral-color-80);
 	cursor: default;
-	font-size: 0.5em;
+	font-size: 0.65em;
 }
 
 .highcharts-grid-line {
