@@ -80,8 +80,6 @@
 			);
 			const data = await dataReq.json();
 
-			console.log(data);
-
 			let dailyFirstModelKey = Object.keys(data.daily)[1].split('_');
 			dailyFirstModelKey.shift();
 			dailyFirstModelKey = dailyFirstModelKey.join('_');
@@ -153,8 +151,6 @@
 				for (let [index, val] of average.entries()) {
 					average[index] = Math.round((val / averageCount[index]) * 10) / 10;
 				}
-
-				console.log(averageCount);
 
 				series.push({
 					name: variable + '_average',
@@ -283,10 +279,7 @@
 </script>
 
 <!-- min-h-[302px] min-h-[602px]  min-h-[902px] min-h-[1202px]  -->
-<div
-	class="-mx-6 relative md:mx-0 container-wrapper relative min-h-[{300 * $params.hourly.length +
-		2}px]"
->
+<div class="-mx-6 md:mx-0 container-wrapper relative min-h-[{300 * $params.hourly.length + 2}px]">
 	<div
 		in:fade={{ duration: 300 }}
 		out:fade={{ duration: 300 }}

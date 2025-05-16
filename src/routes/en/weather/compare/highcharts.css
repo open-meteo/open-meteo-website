@@ -1156,3 +1156,17 @@ g.highcharts-series,
 	fill: rgb(200, 200, 200);
 	stroke: rgb(200, 200, 200);
 }
+
+.highcharts-spread-series {
+	fill: rgb(236, 190, 41);
+	stroke: rgb(236, 190, 41);
+}
+
+.highcharts-spread-series .highcharts-graph {
+	stroke-width: 2;
+}
+
+.highcharts-dark .highcharts-spread-series {
+	fill: rgb(201, 162, 35);
+	stroke: rgb(201, 162, 35);
+}

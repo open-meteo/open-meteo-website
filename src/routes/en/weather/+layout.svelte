@@ -18,7 +18,7 @@
 			children: [
 				{ title: 'Week Prediction', url: '/en/weather/week' },
 				{ title: 'Model Comparison', url: '/en/weather/compare' },
-				{ title: '14 day weather', url: '/en/weather/14-day' }
+				{ title: '14 Day Weather', url: '/en/weather/14-day' }
 			]
 		}
 	];
