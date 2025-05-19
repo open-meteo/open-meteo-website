@@ -107,13 +107,13 @@
 	}
 
 	function isDailyAvailable(variable: String, models: String[]): Boolean {
+		// remove last '_part' of variable, that they can be checked with the hourly variables
 		let variableSplit = variable.split("_")
 		if (['max', 'mean', 'min', 'sum', 'hours', 'dominant'].includes(variableSplit[variableSplit.length - 1])) {
 			variableSplit.pop()
 		}
 		let variableBase = variableSplit.join("_")
 
-		console.log(variableBase)
 		// no model selected
 		if (models.length == 0) {
 			return true;
@@ -1363,7 +1363,7 @@
 							/>temperature_2m_min</th
 						>
 						<td>°C (°F)</td>
-						<td>Maximum and minimum daily air temperature at 2 meters above ground</td>
+						<td>Maximum, mean and minimum daily air temperature at 2 meters above ground</td>
 					</tr>
 					<tr>
 						<th scope="row"
@@ -1371,12 +1371,17 @@
 							/>apparent_temperature_min</th
 						>
 						<td>°C (°F)</td>
-						<td>Maximum and minimum daily apparent temperature</td>
+						<td>Maximum, mean and minimum daily apparent temperature</td>
 					</tr>
 					<tr>
-						<th scope="row">precipitation_sum</th>
-						<td>mm</td>
-						<td>Sum of daily precipitation (including rain, showers and snowfall)</td>
+						<th scope="row">cloud_cover_max<br/>cloud_cover_mean<br/>cloud_cover_min</th>
+						<td>%</td>
+						<td>Maximum, mean and minimum cloud cover as an area fraction</td>
+					</tr>
+					<tr>
+						<th scope="row">relative_humidity_2m_max<br/>relative_humidity_2m_mean<br/>relative_humidity_2m_min</th>
+						<td>%</td>
+						<td>Maximum, mean and minimum relative humidity at 2 meters above ground</td>
 					</tr>
 					<tr>
 						<th scope="row">rain_sum</th>
@@ -1384,19 +1389,28 @@
 						<td>Sum of daily rain</td>
 					</tr>
 					<tr>
-						<th scope="row">showers_sum</th>
-						<td>mm</td>
-						<td>Sum of daily showers</td>
-					</tr>
-					<tr>
 						<th scope="row">snowfall_sum</th>
 						<td>cm</td>
 						<td>Sum of daily snowfall</td>
 					</tr>
 					<tr>
+						<th scope="row">precipitation_sum</th>
+						<td>mm</td>
+						<td>Sum of daily precipitation (including rain, showers and snowfall)</td>
+					</tr>
+					<tr>
 						<th scope="row">precipitation_hours</th>
 						<td>hours</td>
 						<td>The number of hours with rain</td>
+					</tr>
+					<tr>
+						<th scope="row">pressure_msl_max<br />pressure_msl_mean<br />pressure_msl_min<br />surface_pressure_max<br />surface_pressure_mean<br />surface_pressure_min</th>
+						<td>hPa</td>
+						<td
+							>Atmospheric air pressure reduced to mean sea level (msl) or pressure at surface.
+							Typically pressure on mean sea level is used in meteorology. Surface pressure gets
+							lower with increasing elevation.</td
+						>
 					</tr>
 					<tr>
 						<th scope="row">wind_speed_10m_max<br />wind_speed_10m_mean<br />wind_speed_10m_min<br />wind_gusts_10m_max<br />wind_gusts_10m_mean<br />wind_gusts_10m_min</th>
@@ -1409,28 +1423,31 @@
 						<td>Dominant wind direction</td>
 					</tr>
 					<tr>
+						<th scope="row">dew_point_2m_max<br/>dew_point_2m_mean<br/>dew_point_2m_min</th>
+						<td>°C (°F)</td>
+						<td>Dew point temperature at 2 meters above ground</td>
+					</tr>
+					<tr>
 						<th scope="row">shortwave_radiation_sum</th>
 						<td>MJ/m²</td>
 						<td>The sum of solar radiation on a given day in Megajoules</td>
+					</tr>
+					<tr>
+						<th scope="row">cape_max<br />cape_mean<br/> cape_min</th>
+						<td>J/kg</td>
+						<td
+							>Convective available potential energy. See <a
+								href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
+								target="_blank">Wikipedia</a
+							>.</td
+						>
 					</tr>
 					<tr>
 						<th scope="row">et0_fao_evapotranspiration</th>
 						<td>mm</td>
 						<td>Daily sum of ET₀ Reference Evapotranspiration of a well watered grass field</td>
 					</tr>
-					<tr>
-						<th scope="row">uv_index_max<br />uv_index_clear_sky_max</th>
-						<td>Index</td>
-						<td
-							>Daily maximum in UV Index starting from 0. <mark>uv_index_clear_sky_max</mark>
-							assumes cloud free conditions. Please follow the
-							<a
-								class="text-link underline"
-								href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index"
-								>official WMO guidelines</a
-							> for ultraviolet index.</td
-						>
-					</tr>
+
 				</tbody>
 			</table>
 		</div>
