@@ -106,6 +106,29 @@
 		return false;
 	}
 
+	function isDailyAvailable(variable: String, models: String[]): Boolean {
+		let variableSplit = variable.split("_")
+		if (['max', 'mean', 'min', 'sum', 'hours', 'dominant'].includes(variableSplit[variableSplit.length - 1])) {
+			variableSplit.pop()
+		}
+		let variableBase = variableSplit.join("_")
+
+		console.log(variableBase)
+		// no model selected
+		if (models.length == 0) {
+			return true;
+		}
+		for (const model of models) {
+			if (!availableVariables[model]) {
+				continue;
+			}
+			if (availableVariables[model].includes(variableBase)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	let begin_date = new Date('2023-04-01');
 
 	let last_date = new Date();
@@ -604,6 +627,7 @@
 								value={e.value}
 								checked={$params.daily?.includes(e.value)}
 								aria-labelledby="{e.value}_daily_label"
+								disabled={!isDailyAvailable(e.value, $params.models)}
 								onCheckedChange={() => {
 									if ($params.daily?.includes(e.value)) {
 										$params.daily = $params.daily.filter((item) => {
@@ -1300,6 +1324,111 @@
 						<td
 							>Average soil water content as volumetric mixing ratio at 0-10, 10-40, 40-100 and
 							100-200 cm depths.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- API DOCS - DAILY -->
+<div class="mt-6 md:mt-12">
+	<a href="#daily_parameter_definition"
+		><h3 id="daily_parameter_definition" class="text-xl md:text-2xl">
+			Daily Parameter Definition
+		</h3></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			Aggregations are a simple 24 hour aggregation from hourly values. The parameter <mark
+				>&daily=</mark
+			> accepts the following values:
+		</p>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 min-w-[1040px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row"
+							>temperature_2m_max<br /><span class="additional">temperature_2m_mean</span><br
+							/>temperature_2m_min</th
+						>
+						<td>°C (°F)</td>
+						<td>Maximum and minimum daily air temperature at 2 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>apparent_temperature_max<br />apparent_temperature_mean<br
+							/>apparent_temperature_min</th
+						>
+						<td>°C (°F)</td>
+						<td>Maximum and minimum daily apparent temperature</td>
+					</tr>
+					<tr>
+						<th scope="row">precipitation_sum</th>
+						<td>mm</td>
+						<td>Sum of daily precipitation (including rain, showers and snowfall)</td>
+					</tr>
+					<tr>
+						<th scope="row">rain_sum</th>
+						<td>mm</td>
+						<td>Sum of daily rain</td>
+					</tr>
+					<tr>
+						<th scope="row">showers_sum</th>
+						<td>mm</td>
+						<td>Sum of daily showers</td>
+					</tr>
+					<tr>
+						<th scope="row">snowfall_sum</th>
+						<td>cm</td>
+						<td>Sum of daily snowfall</td>
+					</tr>
+					<tr>
+						<th scope="row">precipitation_hours</th>
+						<td>hours</td>
+						<td>The number of hours with rain</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_speed_10m_max<br />wind_speed_10m_mean<br />wind_speed_10m_min<br />wind_gusts_10m_max<br />wind_gusts_10m_mean<br />wind_gusts_10m_min</th>
+						<td>km/h (mph, m/s, knots)</td>
+						<td>Maximum, mean and minimum wind speed and gusts on a day</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_direction_10m_dominant<br />wind_direction_100m_dominant</th>
+						<td>°</td>
+						<td>Dominant wind direction</td>
+					</tr>
+					<tr>
+						<th scope="row">shortwave_radiation_sum</th>
+						<td>MJ/m²</td>
+						<td>The sum of solar radiation on a given day in Megajoules</td>
+					</tr>
+					<tr>
+						<th scope="row">et0_fao_evapotranspiration</th>
+						<td>mm</td>
+						<td>Daily sum of ET₀ Reference Evapotranspiration of a well watered grass field</td>
+					</tr>
+					<tr>
+						<th scope="row">uv_index_max<br />uv_index_clear_sky_max</th>
+						<td>Index</td>
+						<td
+							>Daily maximum in UV Index starting from 0. <mark>uv_index_clear_sky_max</mark>
+							assumes cloud free conditions. Please follow the
+							<a
+								class="text-link underline"
+								href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index"
+								>official WMO guidelines</a
+							> for ultraviolet index.</td
 						>
 					</tr>
 				</tbody>
