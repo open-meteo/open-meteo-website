@@ -1,24 +1,31 @@
 export const defaultParameters = {
+	daily: [],
 	hourly: [],
+	models: [],
+
+	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: undefined,
-	temperature_unit: 'celsius',
-	wind_speed_unit: 'kmh',
-	precipitation_unit: 'mm',
-	timeformat: 'iso8601',
-	timezone: 'UTC',
+
+	time_mode: 'forecast_days',
 	past_days: '0',
-	past_hours: undefined,
 	forecast_days: '7',
+
+	end_date: undefined,
+	start_date: undefined,
+
+	past_hours: undefined,
+	cell_selection: undefined,
 	forecast_hours: undefined,
 	temporal_resolution: undefined,
-	start_date: undefined,
-	end_date: undefined,
+
 	tilt: '0',
 	azimuth: '0',
-	time_mode: 'forecast_days',
-	models: [],
-	cell_selection: undefined
+
+	timeformat: 'iso8601',
+	wind_speed_unit: 'kmh',
+	precipitation_unit: 'mm',
+	temperature_unit: 'celsius',
 };
 
 export const icon_global_variables = [
@@ -315,6 +322,59 @@ export const hourly = [
 		{ value: 'soil_moisture_10_to_40cm', label: 'Soil Moisture (10-40 cm)' },
 		{ value: 'soil_moisture_40_to_100cm', label: 'Soil Moisture (40-100 cm)' },
 		{ value: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-400 cm)' }
+	]
+];
+
+export const daily = [
+	[
+		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
+		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
+		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
+		{ value: 'apparent_temperature_mean', label: 'Mean Apparent Temperature' },
+		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature' },
+		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature' },
+		{ value: 'wind_speed_10m_mean', label: 'Mean Wind Speed (10 m)' },
+		{ value: 'wind_speed_10m_min', label: 'Minimum Wind Speed (10 m)' },
+		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
+		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
+	],
+	[
+		{ value: 'wind_gusts_10m_mean', label: 'Mean Wind Gusts (10 m)' },
+		{ value: 'wind_gusts_10m_min', label: 'Minimum Wind Gusts (10 m)' },
+		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
+		{ value: 'wind_speed_100m_mean', label: 'Mean Wind Speed (100 m)' },
+		{ value: 'wind_speed_100m_min', label: 'Minimum Wind Speed (100 m)' },
+		{ value: 'wind_speed_100m_max', label: 'Maximum Wind Speed (100 m)' },
+		{ value: 'wind_direction_100m_dominant', label: 'Dominant Wind Direction (100m)' },
+		{ value: 'cloud_cover_mean', label: 'Mean Cloud Cover' },
+		{ value: 'cloud_cover_min', label: 'Minimum Cloud Cover' },
+		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' },
+	],
+	[
+		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
+		{ value: 'rain_sum', label: 'Rain Sum' },
+		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
+		{ value: 'pressure_msl_mean', label: 'Mean Sealevel Pressure' },
+		{ value: 'pressure_msl_min', label: 'Minimum Sealevel Pressure' },
+		{ value: 'pressure_msl_max', label: 'Maximum Sealevel Pressure' },
+		{ value: 'surface_pressure_mean', label: 'Mean Surface Pressure' },
+		{ value: 'surface_pressure_min', label: 'Minimum Surface Pressure' },
+		{ value: 'surface_pressure_max', label: 'Maximum Surface Pressure' },
+
+	],
+	[
+		{ value: 'relative_humidity_2m_mean', label: 'Mean Relative Humidity (2 m)' },
+		{ value: 'relative_humidity_2m_min', label: 'Minimum Relative Humidity (2 m)' },
+		{ value: 'relative_humidity_2m_max', label: 'Maximum Relative Humidity (2 m)' },
+		{ value: 'cape_mean', label: 'Mean CAPE' },
+		{ value: 'cape_min', label: 'Minimum CAPE' },
+		{ value: 'cape_max', label: 'Maximum CAPE' },
+		{ value: 'dew_point_2m_mean', label: 'Mean Dewpoint (2 m)' },
+		{ value: 'dew_point_2m_min', label: 'Minimum Dewpoint (2 m)' },
+		{ value: 'dew_point_2m_max', label: 'Maximum Dewpoint (2 m)' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
 	]
 ];
 
