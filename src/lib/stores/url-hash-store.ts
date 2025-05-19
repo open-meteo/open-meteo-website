@@ -46,7 +46,12 @@ export const urlHashStore = (initialValues: Parameters) => {
 							changedParams = true;
 						}
 					} else {
-						page.url.searchParams.set(key, value.join(','));
+						let array = value
+						// remove empty string when array has more then 1 values
+						if (array.length > 1 && array.includes('')) {
+							array = value.filter((e)=>e !== '')
+						}
+						page.url.searchParams.set(key, array.join(','));
 						changedParams = true;
 					}
 				} else {
