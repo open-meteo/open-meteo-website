@@ -69,8 +69,10 @@ export const urlHashStore = (initialValues: Parameters) => {
 					}
 				}
 				if (page.url.searchParams.has(key) && page.url.searchParams.get(key) === '') {
-					page.url.searchParams.delete(key);
-					changedParams = true;
+					if (defaultValue === undefined || (defaultValue && Array === defaultValue.constructor && defaultValue.length === 0) || defaultValue === '0') {
+						page.url.searchParams.delete(key);
+						changedParams = true;
+					}
 				}
 			}
 
