@@ -191,7 +191,6 @@ export const daily = [
 export const additionalDaily = [
 	[
 		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
-		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
 		{ value: 'apparent_temperature_mean', label: 'Mean Apparent Temperature (2 m)' },
 		{ value: 'cape_mean', label: 'Mean CAPE' },
 		{ value: 'cape_max', label: 'Maximum CAPE' },
