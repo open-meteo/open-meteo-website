@@ -4,6 +4,8 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { mdsvex, escapeSvelte } from 'mdsvex';
 import { createHighlighter } from 'shiki';
 
+import cityNames from './city-names.json' with { type: "json" };
+
 const themes = {
 	dark: 'material-theme-darker',
 	light: 'material-theme-lighter'
@@ -24,6 +26,8 @@ const mdsvexOptions = {
 	}
 };
 
+const weatherRoutes = cityNames.map((city)=> '/en/weather/week/' + city)
+
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	extensions: ['.svelte', '.svx', '.md'],
@@ -37,8 +41,12 @@ const config = {
 			assets: 'build',
 			fallback: null,
 			precompress: false,
-			strict: true
+			strict: true,
 		}),
+		prerender: {
+			crawl: true,
+			entries: ['/', '/404', '/en/docs/seasonal-forecast-api', ...weatherRoutes],
+		},
 		paths: {
 			relative: false
 		},
