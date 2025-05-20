@@ -15,14 +15,14 @@
 		{
 			title: 'Weather Forecast',
 			url: '/en/weather',
-			children: [
-				{
-					title: 'Week Prediction',
-					url: `/en/weather/week/${$storedLocation.name}_${$storedLocation.id}`
-				}
-				//{ title: 'Model Comparison?', url: '/en/weather/comparison' },
-				//{ title: 'Fourteen Day?', url: '/en/weather/14' }
-			]
+			// children: [
+			// 	{
+			// 		title: 'Week Prediction',
+			// 		url: `/en/weather/week/${$storedLocation.name}_${$storedLocation.id}`
+			// 	}
+			// 	//{ title: 'Model Comparison?', url: '/en/weather/comparison' },
+			// 	//{ title: 'Fourteen Day?', url: '/en/weather/14' }
+			// ]
 		}
 	];
 

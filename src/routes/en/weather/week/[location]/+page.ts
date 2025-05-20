@@ -1,3 +1,5 @@
+export const prerender = true;
+
 import { error, redirect } from '@sveltejs/kit';
 
 import { storedLocation } from '$lib/stores/settings';
@@ -16,14 +18,14 @@ export const load = (async (event) => {
 	let location;
 
 	if (cityNames.includes(urlLocationName)) {
-		let cityFound = cities.find(
-			(city) => city['asciiname'].toLowerCase().replaceAll(' ', '_') === urlLocationName
-		);
-		const res = await event.fetch(
-			`https://geocoding-api.open-meteo.com/v1/get?id=${cityFound?.geonameid}`
+		location = cities.find(
+			(city) => city['route'] === urlLocationName
 		);
 
-		location = await res.json();
+		// const res = await event.fetch(
+		// 	`https://geocoding-api.open-meteo.com/v1/get?id=${cityFound?.geonameid}`
+		// );
+		// location = await res.json();
 	} else {
 		if (urlLocationId) {
 			const res = await event.fetch(
