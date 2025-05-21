@@ -5,7 +5,6 @@ import { enhancedImages } from '@sveltejs/enhanced-img';
 import { visualizer } from 'rollup-plugin-visualizer';
 
 import wasm from 'vite-plugin-wasm';
-import topLevelAwait from 'vite-plugin-top-level-await';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -33,7 +32,6 @@ export default defineConfig({
 		svg(),
 		replaceChunckNames(),
 		wasm(),
-		topLevelAwait(),
 		visualizer({
 			filename: 'build-stats.json',
 			template: 'raw-data'

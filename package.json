@@ -44,7 +44,6 @@
 		"tailwindcss": "^4.0.3",
 		"typescript": "^5.8.2",
 		"vite": "^6.3.0",
-		"vite-plugin-top-level-await": "^1.5.0",
 		"vite-plugin-wasm": "^3.4.1",
 		"zod": "^3.25.1"
 	},
