@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { OmFileReader, OmDataType, MemoryHttpBackend } from '@openmeteo/file-reader';
+
 	import { onMount, onDestroy } from 'svelte';
 	import mlp from 'maplibre-gl';
 	import 'maplibre-gl/dist/maplibre-gl.css';
@@ -8,8 +10,8 @@
 	let map;
 	let mapContainer: HTMLElement;
 
-	onMount(() => {
-		const initialState = { lng: 13.41, lat: 52.52, zoom: 9 };
+	onMount(async () => {
+		const initialState = { lng: 13.41, lat: 52.52, zoom: 3 };
 
 		map = new Map({
 			container: mapContainer,
@@ -17,6 +19,38 @@
 			center: [initialState.lng, initialState.lat],
 			zoom: initialState.zoom
 		});
+
+		// Create a reader with a file backend
+		const backend = new MemoryHttpBackend({
+			url: '/chunk_3996.om',
+			maxFileSize: 500 * 1024 * 1024, // 500 MB
+			//debug: true,
+			onProgress: (loaded, total) => {
+				const percent = Math.round((loaded / total) * 100);
+				console.log(`Downloaded: ${loaded} / ${total} bytes (${percent}%)`);
+			}
+		});
+		const reader = await OmFileReader.create(backend);
+		const dimensions = await reader.getDimensions();
+		console.log(reader, dimensions);
+
+		// Create ranges for each dimension
+		const ranges: Range[] = dimensions.map((dim, i) => {
+			if (i === 2) {
+				// Time dimension - select only current timestamp
+				return {
+					start: 0,
+					end: 1
+				};
+			} else {
+				// Other dimensions - select all
+				return { start: 0, end: dim };
+			}
+		});
+
+		// Read data for the specified dimensions
+		const data = await reader.read(OmDataType.FloatArray, ranges);
+		console.log(data);
 	});
 
 	onDestroy(() => {
