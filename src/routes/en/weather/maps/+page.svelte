@@ -1,20 +1,31 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 
+	import { fade, slide } from 'svelte/transition';
+
 	import { OmFileReader, OmDataType, MemoryHttpBackend } from '@openmeteo/file-reader';
 
 	import mlp from 'maplibre-gl';
 	import 'maplibre-gl/dist/maplibre-gl.css';
-	const { Map, Marker } = mlp;
+	const { Map, Marker, AttributionControl } = mlp;
 
 	import * as turf from '@turf/turf';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { defaultParameters } from '../../docs/options';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Select from '$lib/components/ui/select/index';
+
+	import { hourly, defaultParameters } from '../../docs/options';
 
 	let map;
 	let mapContainer: HTMLElement;
+
+	let markers = $state([]);
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -22,6 +33,14 @@
 		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
+
+	let backend = $state<MemoryHttpBackend | null>(null);
+	let reader = $state<OmFileReader | null>(null);
+	let errorMessage = $state<string>('');
+
+	let variable = $derived<string>($params.hourly[0]);
+
+	let timeUTC = $state();
 
 	const iconD2Bounds = [
 		[-3.94, 43.18],
@@ -48,60 +67,9 @@
 			container: mapContainer,
 			style: `https://maptiler.servert.nl/styles/basic-world/style.json`,
 			center: [initialState.lng, initialState.lat],
-			zoom: initialState.zoom
+			zoom: initialState.zoom,
+			attributionControl: false
 		});
-
-		// Create a reader with a file backend
-		const backend = new MemoryHttpBackend({
-			url: 'https://openmeteo.s3.amazonaws.com/data_spatial/dwd_icon_d2/2025/05/22/1200Z/temperature_2m.om',
-			maxFileSize: 500 * 1024 * 1024 // 2 GB
-			// debug: true,
-			// onProgress: (loaded, total) => {
-			// 	const percent = Math.round((loaded / total) * 100);
-			// 	console.log(`Downloaded: ${loaded} / ${total} bytes (${percent}%)`);
-			// }
-		});
-		const reader = await OmFileReader.create(backend);
-		const dimensions = reader.getDimensions();
-
-		// Create ranges for each dimension
-		const ranges: Range[] = dimensions.map((dim, i) => {
-			// if (i === 2) {
-			// 	// Time dimension - select only current timestamp
-			// 	return {
-			// 		start: 0,
-			// 		end: 1
-			// 	};
-			// } else {
-			// Other dimensions - select all
-			return { start: 0, end: dim };
-			//}
-		});
-		const data = await reader.read(OmDataType.FloatArray, ranges);
-
-		const coordinates = [];
-		for (let [i, _] of new Array(dimensions[0]).entries()) {
-			for (let [j, _] of new Array(dimensions[1]).entries()) {
-				coordinates.push([43.18 + i * 0.02, -3.94 + j * 0.02]);
-			}
-		}
-
-		const markers = [];
-		for (let [index, coordinate] of coordinates.entries()) {
-			if (index % 1000 === 0) {
-				const el = document.createElement('div');
-				el.className = 'marker';
-				el.style.width = `${14}px`;
-				el.style.height = `${14}px`;
-				el.innerHTML = `<span class="text-black">${data[index].toFixed(0)}</span>`;
-
-				if (!isNaN(data[index])) {
-					new Marker({ element: el })
-						.setLngLat({ lat: coordinate[0], lng: coordinate[1] })
-						.addTo(map);
-				}
-			}
-		}
 
 		var bboxIconD2 = turf.bboxPolygon([
 			iconD2Bounds[0][0],
@@ -124,9 +92,78 @@
 					'fill-opacity': 0.2
 				}
 			});
+
+			map.addControl(
+				new AttributionControl({
+					compact: true,
+					customAttribution: 'Open-Meteo'
+				})
+			);
 		});
 
-		console.log(iconD2Bounds);
+		loadOmFile();
+	});
+
+	const loadOmFile = async () => {
+		if (backend) {
+			backend = null;
+		}
+		if (reader) {
+			reader = null;
+		}
+
+		for (let marker of markers) {
+			marker.remove();
+		}
+		markers = [];
+
+		// Create a reader with a file backend
+		backend = new MemoryHttpBackend({
+			url: `https://openmeteo.s3.amazonaws.com/data_spatial/dwd_icon_d2/2025/05/22/1200Z/${variable}.om`,
+			maxFileSize: 500 * 1024 * 1024 // 2 GB
+		});
+		reader = await OmFileReader.create(backend).catch(({ message }) => {
+			if (message.includes('404')) {
+				errorMessage = 'File not found';
+			}
+			return;
+		});
+
+		const dimensions = reader.getDimensions();
+
+		// Create ranges for each dimension
+		const ranges: Range[] = dimensions.map((dim, i) => {
+			return { start: 0, end: dim };
+		});
+		const data = await reader.read(OmDataType.FloatArray, ranges);
+
+		const coordinates = [];
+		for (let [i, _] of new Array(dimensions[0]).entries()) {
+			for (let [j, _] of new Array(dimensions[1]).entries()) {
+				coordinates.push([43.18 + i * 0.02, -3.94 + j * 0.02]);
+			}
+		}
+
+		for (let [index, coordinate] of coordinates.entries()) {
+			if (index % 1000 === 0) {
+				const el = document.createElement('div');
+				el.className = 'marker';
+				el.style.width = `${14}px`;
+				el.style.height = `${14}px`;
+				el.innerHTML = `<span class="text-black">${data[index].toFixed(0)}</span>`;
+
+				if (!isNaN(data[index])) {
+					let marker = new Marker({ element: el })
+						.setLngLat({ lat: coordinate[0], lng: coordinate[1] })
+						.addTo(map);
+					markers.push(marker);
+				}
+			}
+		}
+	};
+
+	$effect(() => {
+		//loadOmFile();
 	});
 
 	onDestroy(() => {
@@ -140,8 +177,48 @@
 	<div class="map" bind:this={mapContainer}></div>
 </div>
 
+{#if errorMessage}
+	<div in:slide class="mt-3 md:mt-6">
+		<Alert.Root class="border-border my-auto w-[unset] md:!pl-8">
+			<Alert.Description>
+				<div class="flex items-center flex-col md:flex-row justify-center gap-2">
+					<div class="text-muted-foreground flex items-center">
+						{errorMessage}
+					</div>
+				</div>
+			</Alert.Description>
+		</Alert.Root>
+	</div>
+{/if}
+
 <div class="mt-3 md:mt-6">
-	<div>Time selection</div>
+	<!-- <div><h3 class="text-xl md:text-2xl">Variable selection</h3></div> -->
+	<div class="relative">
+		<Select.Root
+			name="timezone"
+			type="single"
+			onValueChange={(e) => {
+				$params.hourly = [e];
+				loadOmFile();
+			}}
+		>
+			<Select.Trigger aria-label="timezone selection" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+				>{hourly.flat().find((h) => $params.hourly[0] === h.value).label}</Select.Trigger
+			>
+			<Select.Content preventScroll={false} class="border-border">
+				{#each hourly.flat() as h}
+					<Select.Item value={h.value}>{h.label}</Select.Item>
+				{/each}
+			</Select.Content>
+			<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+				>Weather Variable</Label
+			>
+		</Select.Root>
+	</div>
+</div>
+
+<div class="mt-3 md:mt-6">
+	<div><h3 class="text-xl md:text-2xl">Time selection</h3></div>
 </div>
 
 <style>
