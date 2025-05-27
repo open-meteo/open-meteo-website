@@ -40,5 +40,7 @@ export interface Parameters {
 	format?: string;
 	language?: string;
 
+	time?: string;
+	domain?: string;
 	countryCode?: string;
 }

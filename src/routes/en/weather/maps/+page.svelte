@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 
-	import { fade, slide } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 
 	import { OmFileReader, OmDataType, MemoryHttpBackend } from '@openmeteo/file-reader';
 
@@ -20,7 +20,8 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select/index';
 
-	import { hourly, defaultParameters } from '../../docs/options';
+	import { hourly, domains, type Domain, defaultParameters } from './options';
+	import { pad } from '$lib/utils/meteo';
 
 	let map;
 	let mapContainer: HTMLElement;
@@ -28,40 +29,50 @@
 	let markers = $state([]);
 
 	const params = urlHashStore({
-		latitude: [52.52],
-		longitude: [13.41],
 		...defaultParameters,
-		hourly: ['temperature_2m']
+		hourly: ['temperature_2m'],
+		domain: 'dwd_icon_d2',
+		time: '2025_05_27_0900Z'
 	});
 
 	let backend = $state<MemoryHttpBackend | null>(null);
 	let reader = $state<OmFileReader | null>(null);
 	let errorMessage = $state<string>('');
 
-	let variable = $derived<string>($params.hourly[0]);
+	let domain = $derived<Domain | undefined>(domains.find((d) => d.value === $params.domain));
+	let variable = $derived(hourly.flat().find((h) => h.value === $params.hourly[0]));
 
-	let timeUTC = $state();
+	let now = new Date();
+	let timeSelected = $state<Date>(now);
+	$effect(() => {
+		let date = new Date();
+		let timeSplit = $params.time.split('_');
+		date.setUTCFullYear(timeSplit[0]);
+		date.setUTCMonth(timeSplit[1] - 1);
+		date.setUTCDate(timeSplit[2]);
+		date.setUTCHours(timeSplit[3][0] + timeSplit[3][1]);
+		date.setUTCMinutes(0);
+		date.setUTCSeconds(0);
 
-	const iconD2Bounds = [
-		[-3.94, 43.18],
-		[-3.94 + 0.02 * 1215, 43.18 + 0.02 * 746]
-	];
-	const iconD2Center = [
-		iconD2Bounds[0][0] + (iconD2Bounds[1][0] - iconD2Bounds[0][0]) / 2,
-		iconD2Bounds[0][1] + (iconD2Bounds[1][1] - iconD2Bounds[0][1]) / 2
-	];
+		timeSelected = date;
+	});
 
-	const iconEUBounds = [
-		[29.5, -23.5],
-		[29.5 + 0.0625 * 1377, -23.5 + 0.0625 * 746]
-	];
-	const iconGlobalBounds = [
-		[-90, -180],
-		[-90 + 0.125 * 2879, -180 + 0.125 * 1441]
-	];
+	const selectedBounds = $derived([
+		[domain.grid.lonMin, domain.grid.latMin],
+		[
+			domain.grid.lonMin + domain.grid.dx * domain.grid.nx,
+			domain.grid.latMin + domain.grid.dy * domain.grid.ny
+		]
+	]);
+	const selectedCenter = $derived([
+		selectedBounds[0][0] + (selectedBounds[1][0] - selectedBounds[0][0]) / 2,
+		selectedBounds[0][1] + (selectedBounds[1][1] - selectedBounds[0][1]) / 2
+	]);
+
+	const arraySize = $derived(domain.grid.nx * domain.grid.ny);
 
 	onMount(async () => {
-		const initialState = { lng: iconD2Center[0], lat: iconD2Center[1], zoom: 3.75 };
+		const initialState = { lng: selectedCenter[0], lat: selectedCenter[1], zoom: domain.grid.zoom };
 
 		map = new Map({
 			container: mapContainer,
@@ -71,38 +82,48 @@
 			attributionControl: false
 		});
 
-		var bboxIconD2 = turf.bboxPolygon([
-			iconD2Bounds[0][0],
-			iconD2Bounds[0][1],
-			iconD2Bounds[1][0],
-			iconD2Bounds[1][1]
-		]);
-
 		map.on('load', () => {
-			map.addSource('domain-areas', {
-				type: 'geojson',
-				data: bboxIconD2
-			});
-			map.addLayer({
-				id: 'domain-areas',
-				type: 'fill',
-				source: 'domain-areas',
-				paint: {
-					'fill-color': 'orange',
-					'fill-opacity': 0.2
-				}
-			});
-
 			map.addControl(
 				new AttributionControl({
 					compact: true,
-					customAttribution: 'Open-Meteo'
+					customAttribution: '<a href="https://open-meteo.com">© Open-Meteo</a>'
 				})
 			);
 		});
 
 		loadOmFile();
 	});
+
+	const createDomainBB = () => {
+		if (map.getLayer('domain-areas')) {
+			map.removeLayer('domain-areas');
+		}
+
+		if (map.getSource('domain-area')) {
+			map.removeSource('domain-area');
+		}
+
+		var bboxIconD2 = turf.bboxPolygon([
+			selectedBounds[0][0],
+			selectedBounds[0][1],
+			selectedBounds[1][0],
+			selectedBounds[1][1]
+		]);
+
+		map.addSource('domain-area', {
+			type: 'geojson',
+			data: bboxIconD2
+		});
+		map.addLayer({
+			id: 'domain-areas',
+			type: 'fill',
+			source: 'domain-area',
+			paint: {
+				'fill-color': 'orange',
+				'fill-opacity': 0.15
+			}
+		});
+	};
 
 	const loadOmFile = async () => {
 		if (backend) {
@@ -111,16 +132,17 @@
 		if (reader) {
 			reader = null;
 		}
-
 		for (let marker of markers) {
 			marker.remove();
 		}
 		markers = [];
 
+		let url = `https://openmeteo.s3.amazonaws.com/data_spatial/${domain.value}/${timeSelected.getUTCFullYear()}/${pad(timeSelected.getUTCMonth() + 1)}/${pad(timeSelected.getUTCDate())}/${pad(Math.ceil(timeSelected.getUTCHours() / 3.0) * 3)}00Z/${variable.value}.om`;
+
 		// Create a reader with a file backend
 		backend = new MemoryHttpBackend({
-			url: `https://openmeteo.s3.amazonaws.com/data_spatial/dwd_icon_d2/2025/05/22/1200Z/${variable}.om`,
-			maxFileSize: 500 * 1024 * 1024 // 2 GB
+			url: url,
+			maxFileSize: 500 * 1024 * 1024 // 500 MB
 		});
 		reader = await OmFileReader.create(backend).catch(({ message }) => {
 			if (message.includes('404')) {
@@ -140,37 +162,45 @@
 		const coordinates = [];
 		for (let [i, _] of new Array(dimensions[0]).entries()) {
 			for (let [j, _] of new Array(dimensions[1]).entries()) {
-				coordinates.push([43.18 + i * 0.02, -3.94 + j * 0.02]);
+				coordinates.push({
+					lng: domain.grid.lonMin + domain.grid.dx * j,
+					lat: domain.grid.latMin + domain.grid.dy * i
+				});
 			}
 		}
 
 		for (let [index, coordinate] of coordinates.entries()) {
-			if (index % 1000 === 0) {
+			if (index % Math.round(arraySize / 1200) === 0) {
 				const el = document.createElement('div');
 				el.className = 'marker';
 				el.style.width = `${14}px`;
 				el.style.height = `${14}px`;
-				el.innerHTML = `<span class="text-black">${data[index].toFixed(0)}</span>`;
+				el.innerHTML = `<span class="text-black font-xs">${data[index].toFixed(0)}</span>`;
 
 				if (!isNaN(data[index])) {
 					let marker = new Marker({ element: el })
-						.setLngLat({ lat: coordinate[0], lng: coordinate[1] })
+						.setLngLat({ lng: coordinate.lng, lat: coordinate.lat })
 						.addTo(map);
 					markers.push(marker);
 				}
 			}
 		}
-	};
 
-	$effect(() => {
-		//loadOmFile();
-	});
+		createDomainBB();
+	};
 
 	onDestroy(() => {
 		if (map) {
 			map.remove();
 		}
 	});
+
+	const setTimeToUrl = () => {
+		$params.time = `${timeSelected.getUTCFullYear()}_${pad(timeSelected.getUTCMonth() + 1)}_${pad(timeSelected.getUTCDate())}_${pad(Math.ceil(timeSelected.getUTCHours() / 3.0) * 3)}00Z`;
+		setTimeout(() => {
+			window.location.reload();
+		}, 150);
+	};
 </script>
 
 <div class="map-wrap">
@@ -192,17 +222,23 @@
 {/if}
 
 <div class="mt-3 md:mt-6">
-	<!-- <div><h3 class="text-xl md:text-2xl">Variable selection</h3></div> -->
-	<div class="relative">
+	<div><h3 class="text-xl md:text-2xl">Variable selection</h3></div>
+	<div class="mt-3 relative">
 		<Select.Root
-			name="timezone"
+			name="Weather variable"
 			type="single"
 			onValueChange={(e) => {
 				$params.hourly = [e];
-				loadOmFile();
+				// due to memory issue use window reload now, will be replaced by effect
+				setTimeout(() => {
+					window.location.reload();
+				}, 150);
+				// loadOmFile()
 			}}
 		>
-			<Select.Trigger aria-label="timezone selection" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+			<Select.Trigger
+				aria-label="Weather variable selection"
+				class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
 				>{hourly.flat().find((h) => $params.hourly[0] === h.value).label}</Select.Trigger
 			>
 			<Select.Content preventScroll={false} class="border-border">
@@ -218,7 +254,105 @@
 </div>
 
 <div class="mt-3 md:mt-6">
+	<div><h3 class="text-xl md:text-2xl">Model selection</h3></div>
+	<div class="mt-3 relative">
+		<Select.Root
+			name="Domain"
+			type="single"
+			onValueChange={(e) => {
+				$params.domain = e;
+				// due to memory issue use window reload now, will be replaced by effect
+				setTimeout(() => {
+					window.location.reload();
+				}, 150);
+				// loadOmFile()
+			}}
+		>
+			<Select.Trigger aria-label="Domain selection" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+				>{domain.label}</Select.Trigger
+			>
+			<Select.Content preventScroll={false} class="border-border">
+				{#each domains as d}
+					<Select.Item value={d.value}>{d.label}</Select.Item>
+				{/each}
+			</Select.Content>
+			<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+				>Domain</Label
+			>
+		</Select.Root>
+	</div>
+</div>
+
+<div class="mt-3 md:mt-6">
 	<div><h3 class="text-xl md:text-2xl">Time selection</h3></div>
+	<div class="flex gap-3 my-3 items-center">
+		<Button
+			variant="outline"
+			class="px-3"
+			onclick={() => {
+				timeSelected.setUTCHours(timeSelected.getUTCHours() - 3);
+				setTimeToUrl();
+			}}
+			><svg
+				class="lucide lucide-chevron-left"
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<path d="m15 18-6-6 6-6" />
+			</svg></Button
+		>
+		<div>
+			{`${pad(Math.ceil(timeSelected.getUTCHours() / 3.0) * 3)}:00Z`}
+		</div>
+
+		<Button
+			variant="outline"
+			class="px-3"
+			onclick={() => {
+				timeSelected.setUTCHours(timeSelected.getUTCHours() + 3);
+				setTimeToUrl();
+			}}
+			><svg
+				class="lucide lucide-chevron-right"
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<path d="m9 18 6-6-6-6" />
+			</svg>
+		</Button>
+	</div>
+	<div class="relative">
+		<Input
+			id="date_string"
+			type="text"
+			class="h-12 cursor-pointer pt-6 {$params.tilt < 0 || $params.tilt > 90 ? 'text-red' : ''}"
+			value={`${timeSelected.getUTCFullYear()}_${pad(timeSelected.getUTCMonth() + 1)}_${pad(timeSelected.getUTCDate())}_${pad(Math.ceil(timeSelected.getUTCHours() / 3.0) * 3)}00Z`}
+			onchange={(e) => {
+				$params.time = e.target.value;
+				setTimeout(() => {
+					window.location.reload();
+				}, 150);
+			}}
+		/>
+		<Label
+			class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+			for="date_string">Date string</Label
+		>
+	</div>
 </div>
 
 <style>
