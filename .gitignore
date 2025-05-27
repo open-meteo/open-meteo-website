@@ -12,3 +12,5 @@ vite.config.ts.timestamp-*
 yarn.lock
 build-stats.html
 build-stats.json
+
+/static/chunk_3996.om
