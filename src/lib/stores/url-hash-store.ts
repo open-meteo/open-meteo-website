@@ -46,7 +46,12 @@ export const urlHashStore = (initialValues: Parameters) => {
 							changedParams = true;
 						}
 					} else {
-						page.url.searchParams.set(key, value.join(','));
+						let array = value
+						// remove empty string when array has more then 1 values
+						if (array.length > 1 && array.includes('')) {
+							array = value.filter((e)=>e !== '')
+						}
+						page.url.searchParams.set(key, array.join(','));
 						changedParams = true;
 					}
 				} else {
@@ -69,8 +74,10 @@ export const urlHashStore = (initialValues: Parameters) => {
 					}
 				}
 				if (page.url.searchParams.has(key) && page.url.searchParams.get(key) === '') {
-					page.url.searchParams.delete(key);
-					changedParams = true;
+					if (defaultValue === undefined || (defaultValue && Array === defaultValue.constructor && defaultValue.length === 0) || defaultValue === '0') {
+						page.url.searchParams.delete(key);
+						changedParams = true;
+					}
 				}
 			}
 
