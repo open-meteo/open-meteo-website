@@ -10,6 +10,7 @@
 		end_date?: string;
 		begin_date?: Date;
 		last_date?: Date;
+		timezone?: string;
 	}
 
 	const now = new Date();
@@ -18,8 +19,11 @@
 		start_date = $bindable(''),
 		end_date = $bindable(''),
 		begin_date = new Date('1940-01-01'),
-		last_date = new Date(`${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`)
+		last_date = new Date(`${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`),
+		timezone = $bindable('UTC')
 	}: Props = $props();
+
+	console.log(timezone);
 
 	let startDate = $state(new Date(start_date));
 	let endDate = $state(new Date(end_date));
@@ -40,7 +44,7 @@
 
 	const monthsForLocale = (localeName = 'en-US', monthFormat = 'long') => {
 		const format = new Intl.DateTimeFormat(localeName, { month: monthFormat }).format;
-		return [...Array(12).keys()].map((m) => format(new Date(Date.UTC(now.getFullYear(), m % 12))));
+		return [...Array(12).keys()].map((m) => format(new Date(now.getUTCFullYear(), m % 12)));
 	};
 
 	const getDatesInMonth = (year: number, month: number): Date[] => {

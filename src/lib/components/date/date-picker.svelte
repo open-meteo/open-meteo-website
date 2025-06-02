@@ -19,6 +19,7 @@
 		end_date?: string;
 		begin_date?: Date;
 		last_date?: Date;
+		timezone?: string;
 	}
 
 	const now = new Date();
@@ -27,7 +28,8 @@
 		start_date = $bindable(),
 		end_date = $bindable(),
 		begin_date = new Date('1940-01-01'),
-		last_date = new Date(`${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`)
+		last_date = new Date(`${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`),
+		timezone = $bindable('UTC')
 	}: Props = $props();
 
 	$effect(() => {
@@ -210,7 +212,7 @@
 			class="border-border w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 "
 			align="start"
 		>
-			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} />
+			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} bind:timezone />
 			<Popover.Close
 				class="ring-offset-background focus:ring-ring absolute right-4 top-6 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none md:top-8"
 			>

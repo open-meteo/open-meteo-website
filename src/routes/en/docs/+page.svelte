@@ -290,6 +290,7 @@
 							bind:end_date={$params.end_date}
 							{begin_date}
 							{last_date}
+							bind:timezone={$params.timezone}
 						/>
 					</div>
 					<div class="mb-3 lg:w-1/2">
