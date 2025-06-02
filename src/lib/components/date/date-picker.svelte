@@ -19,7 +19,6 @@
 		end_date?: string;
 		begin_date?: Date;
 		last_date?: Date;
-		timezone?: string;
 	}
 
 	const now = new Date();
@@ -28,23 +27,22 @@
 		start_date = $bindable(),
 		end_date = $bindable(),
 		begin_date = new Date('1940-01-01'),
-		last_date = new Date(`${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`),
-		timezone = $bindable('UTC')
+		last_date = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`)
 	}: Props = $props();
 
 	$effect(() => {
 		if (!start_date) {
 			let startDate = new Date();
-			startDate.setDate(startDate.getDate() - 7);
+			startDate.setUTCDate(startDate.getUTCDate() - 7);
 
 			start_date = startDate.toISOString().split('T')[0];
 		}
 
 		if (!end_date) {
 			let endDate = new Date();
-			endDate.setDate(endDate.getDate() + 7);
+			endDate.setUTCDate(endDate.getUTCDate() + 7);
 			if (endDate.getTime() > last_date.getTime()) {
-				endDate.setDate(last_date.getDate());
+				endDate.setUTCDate(last_date.getUTCDate());
 			}
 			end_date = endDate.toISOString().split('T')[0];
 		}
@@ -122,7 +120,7 @@
 					oninput={debounce((e) => {
 						if (
 							String(new Date(e.target.value) !== 'Invalid Date') &&
-							new Date(e.target.value).getFullYear() > 1940
+							new Date(e.target.value).getUTCFullYear() > 1940
 						) {
 							start_date = new Date(e.target.value).toISOString().split('T')[0];
 						}
@@ -171,7 +169,7 @@
 					oninput={debounce((e) => {
 						if (
 							String(new Date(e.target.value) !== 'Invalid Date') &&
-							new Date(e.target.value).getFullYear() > 1940
+							new Date(e.target.value).getUTCFullYear() > 1940
 						) {
 							end_date = new Date(e.target.value).toISOString().split('T')[0];
 						}
@@ -212,7 +210,7 @@
 			class="border-border w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 "
 			align="start"
 		>
-			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} bind:timezone />
+			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} />
 			<Popover.Close
 				class="ring-offset-background focus:ring-ring absolute right-4 top-6 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none md:top-8"
 			>
