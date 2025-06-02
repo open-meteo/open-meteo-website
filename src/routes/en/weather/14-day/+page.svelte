@@ -43,7 +43,7 @@
 		longitude: [13.41],
 		...defaultParameters,
 		hourly: ['temperature_2m'],
-		models: ['ecmwf_ifs025', 'gfs_seamless', 'ecmwf_aifs025_single', 'kma_seamless']
+		models: ['gfs_seamless']
 	});
 
 	let count = $state(0);
@@ -71,23 +71,22 @@
 		if (Highcharts) {
 			node.replaceChildren([]);
 
+			const dataDaily = await fetch(
+				`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&timeformat=unixtime&daily=sunset,sunrise&forecast_days=14`
+			);
+			const wd = await dataDaily.json();
+
 			const dataReq = await fetch(
-				`https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&hourly=${$params.hourly.join(',')}&models=${$params.models.join(',')}&timeformat=unixtime&daily=sunset,sunrise&forecast_days=14`
+				`https://ensemble-api.open-meteo.com/v1/ensemble?latitude=${location.latitude}&longitude=${location.longitude}&hourly=${$params.hourly.join(',')}&models=${$params.models.join(',')}&timeformat=unixtime&forecast_days=14`
 			);
 			const data = await dataReq.json();
 
-			let dailyFirstModelKey = Object.keys(data.daily)[1].split('_');
-			dailyFirstModelKey.shift();
-			dailyFirstModelKey = dailyFirstModelKey.join('_');
+			console.log(data);
 
 			let plotBands: any = [];
-			if (
-				'daily' in data &&
-				'sunrise_' + dailyFirstModelKey in data.daily &&
-				'sunset_' + dailyFirstModelKey in data.daily
-			) {
-				let rise = data.daily['sunrise_' + dailyFirstModelKey];
-				let set = data.daily['sunset_' + dailyFirstModelKey];
+			if ('daily' in wd && 'sunrise' in wd.daily && 'sunset' in wd.daily) {
+				let rise = wd.daily.sunrise;
+				let set = wd.daily.sunset;
 				plotBands = rise.map(function (r, i) {
 					return {
 						color: 'rgba(255, 255, 194, 0.5)',
