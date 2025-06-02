@@ -676,8 +676,8 @@
 											<svg
 												class="lucide lucide-info mr-2"
 												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
+												width="20"
+												height="20"
 												viewBox="0 0 24 24"
 												fill="none"
 												stroke="currentColor"
@@ -694,10 +694,10 @@
 
 										<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
 											><svg
-												class="lucide lucide-refresh-cw mr-1"
+												class="lucide lucide-refresh-cw"
 												xmlns="http://www.w3.org/2000/svg"
-												width="24"
-												height="24"
+												width="20"
+												height="20"
 												viewBox="0 0 24 24"
 												fill="none"
 												stroke="currentColor"
@@ -729,10 +729,10 @@
 								<div class="flex items-center justify-center gap-2">
 									<div class="flex items-center">
 										<svg
-											class="lucide lucide-triangle-alert mr-2"
+											class="lucide lucide-triangle-alert mr-2 min-w-[20px]"
 											xmlns="http://www.w3.org/2000/svg"
-											width="24"
-											height="24"
+											width="20"
+											height="20"
 											viewBox="0 0 24 24"
 											fill="none"
 											stroke="currentColor"
@@ -756,10 +756,10 @@
 										class="border-red flex !flex-row"
 										onclick={reload}
 										><svg
-											class="lucide lucide-refresh-cw mr-2"
+											class="lucide lucide-refresh-cw"
 											xmlns="http://www.w3.org/2000/svg"
-											width="24"
-											height="24"
+											width="20"
+											height="20"
 											viewBox="0 0 24 24"
 											fill="none"
 											stroke="currentColor"

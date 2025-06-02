@@ -44,7 +44,7 @@
 
 	const monthsForLocale = (localeName = 'en-US', monthFormat = 'long') => {
 		const format = new Intl.DateTimeFormat(localeName, { month: monthFormat }).format;
-		return [...Array(12).keys()].map((m) => format(new Date(now.getUTCFullYear(), m % 12)));
+		return [...Array(12).keys()].map((m) => format(new Date(Date.UTC(now.getFullYear(), m % 12))));
 	};
 
 	const getDatesInMonth = (year: number, month: number): Date[] => {
