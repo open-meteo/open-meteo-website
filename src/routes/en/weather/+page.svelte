@@ -70,10 +70,16 @@
 				elevation: location.elevation,
 				// timezone: location.timezone, ???
 				models: [$params.models],
-				hourly:
-					'precipitation,precipitation_probability,temperature_2m,weather_code,windspeed_10m,winddirection_10m,cloud_cover,relative_humidity_2m,cape',
-				daily:
-					'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,windspeed_10m_max,windgusts_10m_max,winddirection_10m_dominant',
+				hourly: [
+					'precipitation',
+					'precipitation_probability',
+					'temperature_2m',
+					'weather_code',
+					'windspeed_10m',
+					'winddirection_10m',
+					'cloud_cover',
+					'relative_humidity_2m'
+				].join(','),
 				forecast_days: 6,
 				past_days: 1,
 				temperature_unit: $params.temperature_unit,
@@ -142,20 +148,6 @@
 			}
 
 			return {
-				daily: {
-					time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
-						(t) => new Date((t + utcOffsetSeconds) * 1000)
-					),
-					weather_code: daily.variables(0)!,
-					temperature_2m_max: daily.variables(1)!,
-					temperature_2m_min: daily.variables(2)!,
-					sunrise: daily.variables(3)!,
-					sunset: daily.variables(4)!,
-					precipitation_sum: daily.variables(5)!,
-					windspeed_10m_max: daily.variables(6)!,
-					windgusts_10m_max: daily.variables(7)!,
-					winddirection_10m_dominant: daily.variables(8)!
-				},
 				entries: [
 					{
 						id: 0,
@@ -193,15 +185,6 @@
 							?.valuesArray()
 							?.map((p) => p.toFixed(0))
 					},
-					// {
-					// 	id: 5,
-					// 	name: 'winddirection_10m',
-					// 	title: 'Wind Dir.',
-					// 	values: hourly
-					// 		.variables(5)
-					// 		?.valuesArray()
-					// 		?.map((p) => p.toFixed(0))
-					// },
 					{
 						id: 4,
 						name: 'relative_humidity_2m',
@@ -216,6 +199,58 @@
 				hourlyTime: hourlyTime,
 				windDirections: hourly.variables(5)?.valuesArray(),
 				indexes: indexes
+			};
+		})(location)
+	);
+
+	let weatherDaily = $derived(
+		(async (location: GeoLocation) => {
+			const reqParams = {
+				latitude: location.latitude,
+				longitude: location.longitude,
+				elevation: location.elevation,
+				// timezone: location.timezone, ???
+				models: [$params.models],
+				daily: [
+					'weather_code',
+					'temperature_2m_max',
+					'temperature_2m_min',
+					'sunrise',
+					'sunset',
+					'sunshine_duration',
+					'precipitation_sum',
+					'windspeed_10m_max',
+					'windgusts_10m_max',
+					'winddirection_10m_dominant'
+				].join(','),
+				forecast_days: 6,
+				past_days: 1,
+				temperature_unit: $params.temperature_unit,
+				wind_speed_unit: $params.wind_speed_unit,
+				precipitation_unit: $params.precipitation_unit
+			};
+			const url = 'https://api.open-meteo.com/v1/forecast';
+			const responses = await fetchWeatherApi(url, reqParams);
+			const response = responses[0];
+			const utcOffsetSeconds = response.utcOffsetSeconds();
+			const daily = response.daily()!;
+
+			return {
+				daily: {
+					time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
+						(t) => new Date((t + utcOffsetSeconds) * 1000)
+					),
+					weather_code: daily.variables(0)!,
+					temperature_2m_max: daily.variables(1)!,
+					temperature_2m_min: daily.variables(2)!,
+					sunrise: daily.variables(3)!,
+					sunset: daily.variables(4)!,
+					sunshine_duration: daily.variables(5)!,
+					precipitation_sum: daily.variables(6)!,
+					windspeed_10m_max: daily.variables(7)!,
+					windgusts_10m_max: daily.variables(8)!,
+					winddirection_10m_dominant: daily.variables(9)!
+				}
 			};
 		})(location)
 	);
@@ -268,7 +303,6 @@
 				}
 			}, 80)
 		);
-		console.log(getColor(5));
 
 		setTimeout(() => {
 			tableCells = document.querySelectorAll('td.time');
@@ -319,49 +353,87 @@
 			style="min-height: 256px"
 			class="weather-week flex flex-col md:flex-row gap-md-2 mb-4"
 		>
-			{#await weather then weather}
-				{#each weather.daily.time as time, index}
+			{#await weatherDaily then wd}
+				{#each wd.daily.time as time, index}
 					{@const selected = time.getDate() === selectedDay.getDate()}
-					{#if !isNaN(weather.daily.temperature_2m_max.values(index).toFixed(1))}
+					{#if !isNaN(wd.daily.temperature_2m_max.values(index).toFixed(1))}
 						<button
 							style="transition: 300ms; min-width: 13%; {selected ? 'transform: scale(1.025)' : ''}"
-							class="cursor-pointer items-center flex flex-row md:flex-col justify-between md:justify-center rounded-xl pt-md-4 pb-md-3 gap-md-1 px-3 {selected
-								? 'bg-accent'
-								: ''}"
+							class="cursor-pointer"
 							onclick={() => {
 								switchDay(time, index);
 							}}
 						>
-							<div class="weather-week-date">
-								<b>{time.getDate()} - {time.getMonth() + 1}</b>
-							</div>
-
-							<div class="min-w-[90px] pl-1 text-left {selected ? 'font-bold' : ''}">
-								{time.toLocaleDateString('en-GB', { weekday: 'long' })}
-							</div>
-
-							<div class="weather-week-icon pe-none py-2">
-								<svg class="fill-foreground" width="60px" height="60px">
-									<use
-										xlink:href="/images/weather-icons/wi-day-{weatherCodes[
-											weather.daily.weather_code.values(index)
-										]}.svg#Layer_1"
-									></use>
-								</svg>
-							</div>
 							<div
-								class="flex p-1 justify-center weather-temp-max rounded min-w-[70px]"
-								style={`background-color: ${getColor(weather.daily.temperature_2m_max.values(index).toFixed(0), $params.temperature_unit)}; color: ${weather.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? -13 : 7) || weather.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+								class="items-center flex flex-row md:flex-col justify-center md:justify-center rounded-xl p-1 md:p-3 gap-md-1 {selected
+									? 'bg-accent'
+									: ''}"
 							>
-								{weather.daily.temperature_2m_max.values(index).toFixed(1)}
-								{$params.temperature_unit === 'celsius' ? '°C' : '°F'}
-							</div>
-							<div
-								class="md:mt-2 flex p-1 justify-center weather-temp-min rounded min-w-[70px]"
-								style={`background: ${getColor(weather.daily.temperature_2m_min.values(index).toFixed(0), $params.temperature_unit)}; color: ${weather.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? -13 : 7) || weather.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
-							>
-								{weather.daily.temperature_2m_min.values(index).toFixed(1)}
-								{$params.temperature_unit === 'celsius' ? '°C' : '°F'}
+								<div class="weather-week-date">
+									<b>{time.getDate()} - {time.getMonth() + 1}</b>
+								</div>
+
+								<div
+									data-text={time.toLocaleDateString('en-GB', { weekday: 'long' })}
+									class="inline-flex relative grow-text flex-col mx-auto {selected
+										? 'font-bold'
+										: ''}"
+								>
+									{time.toLocaleDateString('en-GB', { weekday: 'long' })}
+								</div>
+
+								<div class="weather-week-icon pe-none py-2">
+									<svg class="fill-foreground" width="60px" height="60px">
+										<use
+											xlink:href="/images/weather-icons/wi-day-{weatherCodes[
+												wd.daily.weather_code.values(index)
+											]}.svg#Layer_1"
+										></use>
+									</svg>
+								</div>
+								<div
+									class="weather-temp-max flex p-1 justify-center rounded-t text-sm min-w-[65px]"
+									style={`background-color: ${getColor(wd.daily.temperature_2m_max.values(index).toFixed(0), $params.temperature_unit)}; color: ${wd.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? -13 : 7) || wd.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+								>
+									{wd.daily.temperature_2m_max.values(index).toFixed(1)}
+									{$params.temperature_unit === 'celsius' ? '°C' : '°F'}
+								</div>
+								<div
+									class="weather-temp-min flex p-1 justify-center rounded-b text-sm min-w-[65px]"
+									style={`background: ${getColor(wd.daily.temperature_2m_min.values(index).toFixed(0), $params.temperature_unit)}; color: ${wd.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? -13 : 7) || wd.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+								>
+									{wd.daily.temperature_2m_min.values(index).toFixed(1)}
+									{$params.temperature_unit === 'celsius' ? '°C' : '°F'}
+								</div>
+								<div class="flex items-center justify-center mt-2 gap-1">
+									<div class="relative h-6 w-6 flex justify-center items-center">
+										<div class="absolute">
+											<svg class="fill-foreground" width="26px" height="26px">
+												<use
+													class="stroke-2"
+													xlink:href="/images/weather-icons/wi-day-sunny.svg#Layer_1"
+												></use>
+											</svg>
+										</div>
+									</div>
+
+									{Number(wd.daily.sunshine_duration.values(index) / 3600).toFixed(0)}h
+								</div>
+								<div class="flex items-center justify-center mt-1">
+									<div class="relative h-6 w-6 flex justify-center items-center">
+										<div class="absolute">
+											<svg class="fill-foreground" width="28px" height="28px">
+												<use
+													class="stroke-2"
+													xlink:href="/images/weather-icons/wi-raindrop.svg#Layer_1"
+												></use>
+											</svg>
+										</div>
+									</div>
+									{Number(wd.daily.precipitation_sum.values(index)).toFixed(
+										1
+									)}{$params.precipitation_unit === 'mm' ? 'mm' : "'"}
+								</div>
 							</div>
 						</button>
 					{/if}
