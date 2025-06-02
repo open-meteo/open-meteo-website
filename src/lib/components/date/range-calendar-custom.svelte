@@ -18,7 +18,7 @@
 		start_date = $bindable(''),
 		end_date = $bindable(''),
 		begin_date = new Date('1940-01-01'),
-		last_date = new Date(`${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`)
+		last_date = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`)
 	}: Props = $props();
 
 	let startDate = $state(new Date(start_date));
@@ -40,14 +40,14 @@
 
 	const monthsForLocale = (localeName = 'en-US', monthFormat = 'long') => {
 		const format = new Intl.DateTimeFormat(localeName, { month: monthFormat }).format;
-		return [...Array(12).keys()].map((m) => format(new Date(Date.UTC(now.getFullYear(), m % 12))));
+		return [...Array(12).keys()].map((m) => format(new Date(now.getUTCFullYear(), m % 12)));
 	};
 
 	const getDatesInMonth = (year: number, month: number): Date[] => {
 		let result: Date[] = [];
 		for (let day = 1; day <= 32; day++) {
 			const date = new Date(year, month - 1, day, parseInt(now.getTimezoneOffset() / 60));
-			if (date.getFullYear() === year && date.getMonth() === month - 1) {
+			if (date.getUTCFullYear() === year && date.getUTCMonth() === month - 1) {
 				result.push(date);
 			}
 		}
@@ -57,19 +57,23 @@
 	const monthList = monthsForLocale();
 	const yearList = [
 		...Array(
-			last_date.getFullYear() -
-				(begin_date.getFullYear() > 1990
-					? begin_date.getFullYear() - 10
-					: begin_date.getFullYear()) +
+			last_date.getUTCFullYear() -
+				(begin_date.getUTCFullYear() > 1990
+					? begin_date.getUTCFullYear() - 10
+					: begin_date.getUTCFullYear()) +
 				1
 		).keys()
 	].map(
 		(y) =>
 			y +
-			(begin_date.getFullYear() > 1990 ? begin_date.getFullYear() - 10 : begin_date.getFullYear())
+			(begin_date.getUTCFullYear() > 1990
+				? begin_date.getUTCFullYear() - 10
+				: begin_date.getUTCFullYear())
 	);
-	let startDates = $derived(getDatesInMonth(startDate.getFullYear(), startDate.getMonth() + 1));
-	let endDates = $derived(getDatesInMonth(endDate.getFullYear(), endDate.getMonth() + 1));
+	let startDates = $derived(
+		getDatesInMonth(startDate.getUTCFullYear(), startDate.getUTCMonth() + 1)
+	);
+	let endDates = $derived(getDatesInMonth(endDate.getUTCFullYear(), endDate.getUTCMonth() + 1));
 
 	const updateStartDate = (newDate: Date) => {
 		start_date = newDate.toISOString().split('T')[0];
@@ -80,30 +84,30 @@
 
 	const decreaseStart = () => {
 		let newDate = new Date(startDate);
-		newDate.setMonth(newDate.getMonth() - 1);
+		newDate.setUTCMonth(newDate.getUTCMonth() - 1);
 		start_date = newDate.toISOString().split('T')[0];
 	};
 	const increaseStart = () => {
 		let newDate = new Date(startDate);
-		newDate.setMonth(newDate.getMonth() + 1);
+		newDate.setUTCMonth(newDate.getUTCMonth() + 1);
 		start_date = newDate.toISOString().split('T')[0];
 	};
 
 	const decreaseEnd = () => {
 		let newDate = new Date(endDate);
 		if (monthModeEnd) {
-			newDate.setFullYear(newDate.getFullYear() - 1);
+			newDate.setUTCFullYear(newDate.getUTCFullYear() - 1);
 		} else {
-			newDate.setMonth(newDate.getMonth() - 1);
+			newDate.setUTCMonth(newDate.getUTCMonth() - 1);
 		}
 		end_date = newDate.toISOString().split('T')[0];
 	};
 	const increaseEnd = () => {
 		let newDate = new Date(endDate);
 		if (monthModeEnd) {
-			newDate.setFullYear(newDate.getFullYear() + 1);
+			newDate.setUTCFullYear(newDate.getUTCFullYear() + 1);
 		} else {
-			newDate.setMonth(newDate.getMonth() + 1);
+			newDate.setUTCMonth(newDate.getUTCMonth() + 1);
 		}
 		end_date = newDate.toISOString().split('T')[0];
 	};
@@ -140,12 +144,12 @@
 						yearModeStart = true;
 						setTimeout(() => {
 							document
-								.getElementById('start_year_' + new Date(start_date).getFullYear())
+								.getElementById('start_year_' + new Date(start_date).getUTCFullYear())
 								?.scrollIntoView({ behavior: 'instant', inline: 'end' });
 						}, 200);
 					}
 					monthModeStart = true;
-				}}>{startDate.getFullYear()} - {monthList[startDate.getMonth()]}</Button
+				}}>{startDate.getUTCFullYear()} - {monthList[startDate.getUTCMonth()]}</Button
 			>
 			<Button variant="outline" class="px-3" onclick={increaseStart}
 				><svg
@@ -170,13 +174,13 @@
 					{#each yearList as year}
 						<Button
 							id="start_year_{year}"
-							class={startDate.getFullYear() === year ? 'bg-accent/75' : ''}
+							class={startDate.getUTCFullYear() === year ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={year < begin_date.getFullYear()}
+							disabled={year < begin_date.getUTCFullYear()}
 							onclick={() => {
 								yearModeStart = false;
 								let newDate = new Date(startDate);
-								newDate.setFullYear(year);
+								newDate.setUTCFullYear(year);
 								updateStartDate(newDate);
 							}}>{year}</Button
 						>
@@ -186,16 +190,16 @@
 				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-3 gap-1">
 					{#each monthsForLocale() as month, i}
 						<Button
-							class={monthList[startDate.getMonth()] === month ? 'bg-accent/75' : ''}
+							class={monthList[startDate.getUTCMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={new Date(`${startDate.getFullYear()}-${pad(i + 1)}-30`).getTime() <
+							disabled={new Date(`${startDate.getUTCFullYear()}-${pad(i + 1)}-30`).getTime() <
 								begin_date.getTime() ||
-								new Date(`${startDate.getFullYear()}-${pad(i + 1)}-01`).getTime() >
+								new Date(`${startDate.getUTCFullYear()}-${pad(i + 1)}-01`).getTime() >
 									last_date.getTime()}
 							onclick={() => {
 								monthModeStart = false;
 								let newDate = new Date(startDate);
-								newDate.setMonth(i);
+								newDate.setUTCMonth(i);
 								updateStartDate(newDate);
 							}}>{month}</Button
 						>
@@ -228,16 +232,16 @@
 								onclick={() => {
 									if (selectEndNext) {
 										let newDate = new Date(startDate);
-										newDate.setDate(date.getDate());
+										newDate.setUTCDate(date.getUTCDate());
 										updateEndDate(newDate);
 										selectEndNext = false;
 									} else {
 										let newDate = new Date(startDate);
-										newDate.setDate(date.getDate());
+										newDate.setUTCDate(date.getUTCDate());
 										updateStartDate(newDate);
 										selectEndNext = true;
 									}
-								}}>{date.getDate()}</Button
+								}}>{date.getUTCDate()}</Button
 							>
 						{/each}
 					</div>
@@ -272,12 +276,12 @@
 						yearModeEnd = true;
 						setTimeout(() => {
 							document
-								.getElementById('end_year_' + new Date(start_date).getFullYear())
+								.getElementById('end_year_' + new Date(start_date).getUTCFullYear())
 								?.scrollIntoView({ behavior: 'instant', inline: 'end' });
 						}, 200);
 					}
 					monthModeEnd = true;
-				}}>{endDate.getFullYear()} - {monthList[endDate.getMonth()]}</Button
+				}}>{endDate.getUTCFullYear()} - {monthList[endDate.getUTCMonth()]}</Button
 			>
 			<Button variant="outline" class="px-3 mr-8" onclick={increaseEnd}
 				><svg
@@ -302,13 +306,13 @@
 					{#each yearList as year}
 						<Button
 							id="end_year_{year}"
-							class={endDate.getFullYear() === year ? 'bg-accent/75' : ''}
+							class={endDate.getUTCFullYear() === year ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={year < begin_date.getFullYear()}
+							disabled={year < begin_date.getUTCFullYear()}
 							onclick={() => {
 								yearModeEnd = false;
 								let newDate = new Date(endDate);
-								newDate.setFullYear(year);
+								newDate.setUTCFullYear(year);
 								updateEndDate(newDate);
 							}}>{year}</Button
 						>
@@ -318,16 +322,16 @@
 				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-3 gap-1">
 					{#each monthsForLocale() as month, i}
 						<Button
-							class={monthList[endDate.getMonth()] === month ? 'bg-accent/75' : ''}
+							class={monthList[endDate.getUTCMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={new Date(`${endDate.getFullYear()}-${pad(i + 1)}-30`).getTime() <
+							disabled={new Date(`${endDate.getUTCFullYear()}-${pad(i + 1)}-30`).getTime() <
 								begin_date.getTime() ||
-								new Date(`${endDate.getFullYear()}-${pad(i + 1)}-01`).getTime() >
+								new Date(`${endDate.getUTCFullYear()}-${pad(i + 1)}-01`).getTime() >
 									last_date.getTime()}
 							onclick={() => {
 								monthModeEnd = false;
 								let newDate = new Date(endDate);
-								newDate.setMonth(i);
+								newDate.setUTCMonth(i);
 								updateEndDate(newDate);
 							}}>{month}</Button
 						>
@@ -352,9 +356,9 @@
 									date.getTime() > last_date.getTime() + 11 * 60 * 60 * 1000}
 								onclick={() => {
 									let newDate = new Date(endDate);
-									newDate.setDate(date.getDate());
+									newDate.setUTCDate(date.getUTCDate());
 									updateEndDate(newDate);
-								}}>{date.getDate()}</Button
+								}}>{date.getUTCDate()}</Button
 							>
 						{/each}
 					</div>
