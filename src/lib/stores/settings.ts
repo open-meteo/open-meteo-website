@@ -26,16 +26,16 @@ export interface GeoLocation {
 	feature_code: string;
 	country_code: string | undefined;
 	admin1_id: number | undefined;
-	admin3_id: number | undefined;
-	admin4_id: number | undefined;
+	admin3_id?: number | undefined;
+	admin4_id?: number | undefined;
 	timezone: string;
 	population: number | undefined;
 	postcodes: string[] | undefined;
 	country_id: number | undefined;
 	country: string | undefined;
 	admin1: string | undefined;
-	admin3: string | undefined;
-	admin4: string | undefined;
+	admin3?: string | undefined;
+	admin4?: string | undefined;
 }
 
 export const defaultLocation: GeoLocation = {
@@ -59,6 +59,6 @@ export const defaultLocation: GeoLocation = {
 	admin4: 'Berlin'
 };
 
-export const storedLocation = persisted('stored-location', defaultLocation as GeoLocation);
+export const storedLocation = persisted('stored_location', defaultLocation as GeoLocation);
 export const last_visited = persisted('last_visited_locations', [] as GeoLocation[]);
 export const favorites = persisted('favorites', [] as GeoLocation[]);

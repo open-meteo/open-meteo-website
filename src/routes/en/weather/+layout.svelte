@@ -1,9 +1,18 @@
 <script lang="ts">
+	import { get } from 'svelte/store';
+
 	import { page } from '$app/state';
+
 	import { dev } from '$app/environment';
+
 	import { storedLocation, type GeoLocation } from '$lib/stores/settings';
 
+	import { geoLocationNameToRoute } from '$lib/utils/meteo';
+
 	import Button from '$lib/components/ui/button/button.svelte';
+
+	let location = get(storedLocation);
+	const locationRoute = geoLocationNameToRoute(location.name);
 
 	interface Props {
 		children?: import('svelte').Snippet;
@@ -16,9 +25,18 @@
 			title: 'Weather Forecast',
 			url: '/en/weather',
 			children: [
-				{ title: 'Week Prediction', url: '/en/weather' }
-				//{ title: 'Model Comparison?', url: '/en/weather/comparison' },
-				//{ title: 'Fourteen Day?', url: '/en/weather/14' }
+				{
+					title: 'Week Prediction',
+					url:
+						'/en/weather/week/' +
+						(location.population
+							? location.population > 543000
+								? locationRoute
+								: locationRoute + '_' + location.id
+							: locationRoute + '_' + location.id)
+				},
+				{ title: 'Model Comparison', url: '/en/weather/compare' },
+				{ title: '14 Day Weather', url: '/en/weather/14-day' }
 			]
 		}
 	];

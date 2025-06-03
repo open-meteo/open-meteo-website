@@ -24,6 +24,7 @@
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import {
+		daily,
 		hourly,
 		models,
 		solarVariables,
@@ -105,10 +106,41 @@
 		return false;
 	}
 
+	function isDailyAvailable(variable: String, models: String[]): Boolean {
+		// remove last '_part' of variable, that they can be checked with the hourly variables
+		let variableSplit = variable.split('_');
+		if (
+			['max', 'mean', 'min', 'sum', 'hours', 'dominant'].includes(
+				variableSplit[variableSplit.length - 1]
+			)
+		) {
+			variableSplit.pop();
+		}
+		let variableBase = variableSplit.join('_');
+
+		// no model selected
+		if (models.length == 0) {
+			return true;
+		}
+		for (const model of models) {
+			if (!availableVariables[model]) {
+				continue;
+			}
+			if (availableVariables[model].includes(variableBase)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	let begin_date = new Date('2023-04-01');
 
 	let last_date = new Date();
 	last_date.setDate(last_date.getDate() + 35);
+
+	let timezoneInvalid = $derived(
+		$params.timezone == 'UTC' && ($params.daily ? $params.daily.length > 0 : false)
+	);
 </script>
 
 <svelte:head>
@@ -579,6 +611,58 @@
 				</div>
 			</AccordionItem>
 		</Accordion.Root>
+	</div>
+
+	<!-- DAILY -->
+	<div class="mt-6 md:mt-12">
+		<a href="#daily_weather_variables"
+			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
+		>
+		<div
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+		>
+			{#each daily as group}
+				<div>
+					{#each group as e}
+						<div class="group flex items-center" title={e.label}>
+							<Checkbox
+								id="{e.value}_daily"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								value={e.value}
+								checked={$params.daily?.includes(e.value)}
+								aria-labelledby="{e.value}_daily_label"
+								disabled={!isDailyAvailable(e.value, $params.models)}
+								onCheckedChange={() => {
+									if ($params.daily?.includes(e.value)) {
+										$params.daily = $params.daily.filter((item) => {
+											return item !== e.value;
+										});
+									} else {
+										$params.daily.push(e.value);
+										$params.daily = $params.daily;
+									}
+								}}
+							/>
+							<Label
+								id="{e.value}_daily_label"
+								for="{e.value}_daily"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+							>
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
+		{#if timezoneInvalid}
+			<div transition:slide>
+				<Alert.Root class="bg-warning text-warning-dark border-warning-foreground mt-2 md:mt-4">
+					<Alert.Description>
+						It is recommended to select a timezone for daily data. Per default the API will use
+						GMT+0.
+					</Alert.Description>
+				</Alert.Root>
+			</div>
+		{/if}
 	</div>
 
 	<!-- SETTINGS -->
@@ -1246,6 +1330,136 @@
 							>Average soil water content as volumetric mixing ratio at 0-10, 10-40, 40-100 and
 							100-200 cm depths.</td
 						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- API DOCS - DAILY -->
+<div class="mt-6 md:mt-12">
+	<a href="#daily_parameter_definition"
+		><h3 id="daily_parameter_definition" class="text-xl md:text-2xl">
+			Daily Parameter Definition
+		</h3></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			Aggregations are a simple 24 hour aggregation from hourly values. The parameter <mark
+				>&daily=</mark
+			> accepts the following values:
+		</p>
+		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 min-w-[1040px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row"
+							>temperature_2m_max<br /><span class="additional">temperature_2m_mean</span><br
+							/>temperature_2m_min</th
+						>
+						<td>°C (°F)</td>
+						<td>Maximum, mean and minimum daily air temperature at 2 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>apparent_temperature_max<br />apparent_temperature_mean<br
+							/>apparent_temperature_min</th
+						>
+						<td>°C (°F)</td>
+						<td>Maximum, mean and minimum daily apparent temperature</td>
+					</tr>
+					<tr>
+						<th scope="row">cloud_cover_max<br />cloud_cover_mean<br />cloud_cover_min</th>
+						<td>%</td>
+						<td>Maximum, mean and minimum cloud cover as an area fraction</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>relative_humidity_2m_max<br />relative_humidity_2m_mean<br
+							/>relative_humidity_2m_min</th
+						>
+						<td>%</td>
+						<td>Maximum, mean and minimum relative humidity at 2 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row">rain_sum</th>
+						<td>mm</td>
+						<td>Sum of daily rain</td>
+					</tr>
+					<tr>
+						<th scope="row">snowfall_sum</th>
+						<td>cm</td>
+						<td>Sum of daily snowfall</td>
+					</tr>
+					<tr>
+						<th scope="row">precipitation_sum</th>
+						<td>mm</td>
+						<td>Sum of daily precipitation (including rain, showers and snowfall)</td>
+					</tr>
+					<tr>
+						<th scope="row">precipitation_hours</th>
+						<td>hours</td>
+						<td>The number of hours with rain</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>pressure_msl_max<br />pressure_msl_mean<br />pressure_msl_min<br
+							/>surface_pressure_max<br />surface_pressure_mean<br />surface_pressure_min</th
+						>
+						<td>hPa</td>
+						<td
+							>Atmospheric air pressure reduced to mean sea level (msl) or pressure at surface.
+							Typically pressure on mean sea level is used in meteorology. Surface pressure gets
+							lower with increasing elevation.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row"
+							>wind_speed_10m_max<br />wind_speed_10m_mean<br />wind_speed_10m_min<br
+							/>wind_gusts_10m_max<br />wind_gusts_10m_mean<br />wind_gusts_10m_min</th
+						>
+						<td>km/h (mph, m/s, knots)</td>
+						<td>Maximum, mean and minimum wind speed and gusts on a day</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_direction_10m_dominant<br />wind_direction_100m_dominant</th>
+						<td>°</td>
+						<td>Dominant wind direction</td>
+					</tr>
+					<tr>
+						<th scope="row">dew_point_2m_max<br />dew_point_2m_mean<br />dew_point_2m_min</th>
+						<td>°C (°F)</td>
+						<td>Dew point temperature at 2 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row">shortwave_radiation_sum</th>
+						<td>MJ/m²</td>
+						<td>The sum of solar radiation on a given day in Megajoules</td>
+					</tr>
+					<tr>
+						<th scope="row">cape_max<br />cape_mean<br /> cape_min</th>
+						<td>J/kg</td>
+						<td
+							>Convective available potential energy. See <a
+								href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
+								target="_blank">Wikipedia</a
+							>.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">et0_fao_evapotranspiration</th>
+						<td>mm</td>
+						<td>Daily sum of ET₀ Reference Evapotranspiration of a well watered grass field</td>
 					</tr>
 				</tbody>
 			</table>

@@ -738,7 +738,7 @@ TODO:
 					<td>10 minutely</td>
 					<td>Every 10 minutes</td>
 					<td>20 Minutes</td>
-					<td>2022</td>
+					<td>2015</td>
 				</tr>
 				<tr>
 					<th scope="row" rowspan="2">NASA (not yet available)</th>
