@@ -26,13 +26,10 @@ const mdsvexOptions = {
 	}
 };
 
-let prerender = {};
-if (process.env.BUILD_WEATHER_PAGES) {
-	const weatherRoutes = cityNames.map((city) => '/en/weather/week/' + city);
-	prerender = {
-		crawl: true,
-		entries: ['/', '/404', '/en/docs/seasonal-forecast-api', '/en/weather/week', ...weatherRoutes]
-	};
+const weatherRoutes = cityNames.map((city) => '/en/weather/week/' + city);
+
+if (process.env.BUILD_WEATHER_PAGES && process._eventsCount == 5) {
+	console.log(`  Building ${weatherRoutes.length} weather pages`);
 }
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -50,7 +47,18 @@ const config = {
 			precompress: false,
 			strict: true
 		}),
-		prerender: prerender,
+		prerender: process.env.BUILD_WEATHER_PAGES
+			? {
+					crawl: true,
+					entries: [
+						'/',
+						'/404',
+						'/en/docs/seasonal-forecast-api',
+						'/en/weather/week',
+						...weatherRoutes
+					]
+				}
+			: {},
 		paths: {
 			relative: false
 		},
