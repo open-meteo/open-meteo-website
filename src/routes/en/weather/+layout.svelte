@@ -15,6 +15,7 @@
 		{
 			title: 'Weather Forecast',
 			url: '/en/weather',
+<<<<<<< HEAD
 			// children: [
 			// 	{
 			// 		title: 'Week Prediction',
@@ -23,6 +24,13 @@
 			// 	//{ title: 'Model Comparison?', url: '/en/weather/comparison' },
 			// 	//{ title: 'Fourteen Day?', url: '/en/weather/14' }
 			// ]
+=======
+			children: [
+				{ title: 'Week Prediction', url: '/en/weather/week' },
+				{ title: 'Model Comparison', url: '/en/weather/compare' },
+				{ title: '14 Day Weather', url: '/en/weather/14-day' }
+			]
+>>>>>>> main
 		}
 	];
 
