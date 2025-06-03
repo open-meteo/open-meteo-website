@@ -7,9 +7,12 @@
 
 	import { storedLocation, type GeoLocation } from '$lib/stores/settings';
 
+	import { geoLocationNameToRoute } from '$lib/utils/meteo';
+
 	import Button from '$lib/components/ui/button/button.svelte';
 
 	let location = get(storedLocation);
+	const locationRoute = geoLocationNameToRoute(location.name);
 
 	interface Props {
 		children?: import('svelte').Snippet;
@@ -28,9 +31,9 @@
 						'/en/weather/week/' +
 						(location.population
 							? location.population > 543000
-								? location.name.toLowerCase()
-								: location.name.toLowerCase() + '_' + location.id
-							: location.name.toLowerCase() + '_' + location.id)
+								? locationRoute
+								: locationRoute + '_' + location.id
+							: locationRoute + '_' + location.id)
 				},
 				{ title: 'Model Comparison', url: '/en/weather/compare' },
 				{ title: '14 Day Weather', url: '/en/weather/14-day' }

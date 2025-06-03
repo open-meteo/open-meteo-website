@@ -205,4 +205,7 @@ export function getWeatherCode(code: number | null): string {
 	return 'unknown code';
 }
 
-export const calculateApiCalls = ($params) => {};
+export const geoLocationNameToRoute = (name) => {
+	const lowerCase = name.toLowerCase().replaceAll(' ', '-');
+	return lowerCase.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+};
