@@ -6,6 +6,7 @@
 	"scripts": {
 		"dev": "svelte-kit sync && vite dev --host",
 		"build": "svelte-kit sync && vite build -l info",
+		"build-weather": "BUILD_WEATHER_PAGES=true svelte-kit sync && vite build -l info",
 		"staging": "NODE_ENV=development vite build --mode development",
 		"rename_index_files": "node scripts/rename_to_index_html.js",
 		"preview": "vite preview --host",

@@ -5,5 +5,5 @@
 </script>
 
 <h1>
-	{location ? location.asciiname  : 'hi'}, population: {location.population}
+	{location ? location.name : ''}, population: {location.population}
 </h1>
