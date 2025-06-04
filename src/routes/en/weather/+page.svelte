@@ -13,7 +13,7 @@
 
 	import { storedLocation, model, themeIsDark, type GeoLocation } from '$lib/stores/settings';
 
-	import { pad, range } from '$lib/utils/meteo';
+	import { pad } from '$lib/utils/meteo';
 
 	import { Label } from '$lib/components/ui/label';
 
@@ -95,11 +95,12 @@
 
 			weatherCodesHourly = hourly.variables(3)?.valuesArray();
 
-			const hourlyTime = range(
-				Number(hourly.time()),
-				Number(hourly.timeEnd()),
-				hourly.interval()
-			).map((t) => new Date((t + utcOffsetSeconds) * 1000));
+			let hourlyTime = [
+				...Array((Number(hourly.timeEnd()) - Number(hourly.time())) / hourly.interval())
+			].map(
+				(_, i) =>
+					new Date((Number(hourly.time()) + i * hourly.interval() + utcOffsetSeconds) * 1000)
+			);
 			const hourlyTemps = hourly.variables(2)?.valuesArray();
 			const hourlyCloudCover = hourly.variables(6)?.valuesArray();
 			const hourlyPrecip = hourly.variables(0)?.valuesArray();
@@ -237,8 +238,9 @@
 
 			return {
 				daily: {
-					time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
-						(t) => new Date((t + utcOffsetSeconds) * 1000)
+					time: [...Array((Number(daily.timeEnd()) - Number(daily.time())) / daily.interval())].map(
+						(_, i) =>
+							new Date((Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) * 1000)
 					),
 					weather_code: daily.variables(0)!,
 					temperature_2m_max: daily.variables(1)!,
@@ -649,9 +651,9 @@
 			</table>
 		</div>
 	</div>
-	{#await weather then weather}
-		{@const sunrise = new Date(Number(weather.daily.sunrise.valuesInt64(selectedDayIndex)) * 1000)}
-		{@const sunset = new Date(Number(weather.daily.sunset.valuesInt64(selectedDayIndex)) * 1000)}
+	{#await weatherDaily then wd}
+		{@const sunrise = new Date(Number(wd.daily.sunrise.valuesInt64(selectedDayIndex)) * 1000)}
+		{@const sunset = new Date(Number(wd.daily.sunset.valuesInt64(selectedDayIndex)) * 1000)}
 		<div class="mt-6">
 			<div class="flex gap-1 items-center">
 				<svg class="fill-foreground" width="28px" height="28px">

@@ -8,12 +8,13 @@
 		"build": "svelte-kit sync && vite build -l info",
 		"build-weather": "BUILD_WEATHER_PAGES=true svelte-kit sync && BUILD_WEATHER_PAGES=true vite build -l info",
 		"staging": "NODE_ENV=development vite build --mode development",
-		"rename_index_files": "node scripts/rename_to_index_html.js",
 		"preview": "vite preview --host",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
+		"test": "jest",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"format": "prettier --write .",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"rename_index_files": "node scripts/rename_to_index_html.js",
 		"update-components": "npx shadcn-svelte@latest add -y -o accordion alert button calendar checkbox dialog dropdown-menu input label popover range-calendar select separator sonner toggle toggle-group"
 	},
 	"devDependencies": {

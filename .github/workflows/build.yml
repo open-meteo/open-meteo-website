@@ -1,4 +1,4 @@
-name: Build
+name: Build & Test
 
 on:
   push:
@@ -15,14 +15,11 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      - run: npm ci
-      - run: npm run staging
-      - run: npm run rename_index_files
-      #- name: Install LFTP
-      #  run: sudo apt update && sudo apt -qq -y install lftp
-      #  if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-      #- name: Upload ftp
-      #  run: lftp storage.bunnycdn.com -u open-meteo-staging,${{ secrets.ftp_password_staging }} -e "set ftp:ssl-force false; set ssl:verify-certificate false; mirror --reverse --continue --dereference -x ^\.git/$ build .; quit"
-      #  if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
-      #- run: "curl --request POST --url https://api.bunny.net/pullzone/277769/purgeCache --header 'AccessKey: ${{ secrets.bunny_api_key }}' --header 'content-type: application/json'"
-      #  if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Run unit tests
+        run: npm run test
+      - name: Build
+        run: npm run build
+      - name: Rename index files
+        run: npm run rename_index_files

@@ -118,31 +118,6 @@ export const countHeightVariables = (
 	};
 };
 
-export const range = (start: number, stop: number, step: number) =>
-	Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
-
-export function convertUnit(value: number | null, unit: string): string {
-	if (value == null) {
-		return '-';
-	}
-	if (unit == 'mph') {
-		return (value * 0.621371).toFixed(1);
-	}
-	if (unit == 'kn') {
-		return (value * 0.539957).toFixed(1);
-	}
-	if (unit == 'kph') {
-		return value.toFixed(1);
-	}
-	if (unit == 'celsius') {
-		return value.toFixed(1);
-	}
-	if (unit == 'fahrenheit') {
-		return ((value * 9) / 5 + 32).toFixed(1);
-	}
-	return '-';
-}
-
 export function getWeatherCode(code: number | null): string {
 	if (code == null) {
 		return '-';
@@ -209,6 +184,6 @@ export function getWeatherCode(code: number | null): string {
 }
 
 export const geoLocationNameToRoute = (name) => {
-	const lowerCase = name.toLowerCase().replaceAll(' ', '-');
+	const lowerCase = name.toLowerCase().replaceAll(' ', '-').replaceAll("'", '-');
 	return lowerCase.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 };
