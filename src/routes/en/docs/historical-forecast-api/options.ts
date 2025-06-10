@@ -1,6 +1,15 @@
+const d = new Date();
+d.setDate(d.getDate() - 2);
+const endDateDefault = d.toISOString().split('T')[0];
+d.setDate(d.getDate() - 14);
+const startDateDefault = d.toISOString().split('T')[0];
+
 export const defaultParameters = {
+	latitude: [53.52],
+	longitude: [13.41],
+
 	daily: [],
-	hourly: [],
+	hourly: ['temperature_2m'],
 	models: [],
 	minutely_15: [],
 
@@ -19,7 +28,10 @@ export const defaultParameters = {
 	timeformat: 'iso8601',
 	wind_speed_unit: 'kmh',
 	temperature_unit: 'celsius',
-	precipitation_unit: 'mm'
+	precipitation_unit: 'mm',
+
+	start_date: startDateDefault,
+	end_date: endDateDefault
 };
 
 export const pressureVariables = [

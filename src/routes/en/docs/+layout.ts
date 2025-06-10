@@ -1,8 +1,31 @@
 import type { LayoutLoad } from './$types';
 
+import { defaultParameters } from './options';
+
 import Cog from '$lib/assets/icons/cog.svelte';
 
-export const load: LayoutLoad = async () => {
+type Entries<T> = {
+	[K in keyof T]: [K, T[K]];
+}[keyof T][];
+
+export const load: LayoutLoad = (event) => {
+	const urlParams = new URLSearchParams(event.url.searchParams);
+	const urlParsed = {
+		...defaultParameters
+	};
+
+	for (const [key, dP] of Object.entries(defaultParameters) as Entries<typeof defaultParameters>) {
+		const urlParam = urlParams.get(key);
+		if (urlParam && urlParam !== dP) {
+			if (dP && Array === dP.constructor) {
+				const urlParamSplit = urlParam.split(',');
+				urlParsed[key] = urlParamSplit;
+			} else {
+				urlParsed[key] = urlParam;
+			}
+		}
+	}
+
 	return {
 		Logo: Cog,
 		heroTitle: 'Weather Forecast API',
@@ -13,6 +36,7 @@ export const load: LayoutLoad = async () => {
 		heroPrimaryButtonPath: null,
 		heroPrimaryButtonText: null,
 		heroSecondaryButtonPath: null,
-		heroSecondaryButtonText: null
+		heroSecondaryButtonText: null,
+		urlParsed: urlParsed
 	};
 };
