@@ -51,12 +51,9 @@
 		forecastMinutely15Options
 	} from '../options';
 
-	const params = urlHashStore({
-		latitude: [52.52],
-		longitude: [13.41],
-		...defaultParameters,
-		hourly: ['temperature_2m']
-	});
+	const { data } = $props();
+	const urlParsed = data.urlParsed;
+	const params = urlHashStore(defaultParameters, urlParsed);
 
 	let timezoneInvalid = $derived(
 		$params.timezone == 'UTC' && ($params.daily ? $params.daily.length > 0 : false)
