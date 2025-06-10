@@ -1,3 +1,5 @@
+import { browser } from '$app/environment';
+
 import type { LayoutLoad } from './$types';
 
 import { defaultParameters } from './options';
@@ -9,19 +11,23 @@ type Entries<T> = {
 }[keyof T][];
 
 export const load: LayoutLoad = (event) => {
-	const urlParams = new URLSearchParams(event.url.searchParams);
 	const urlParsed = {
 		...defaultParameters
 	};
 
-	for (const [key, dP] of Object.entries(defaultParameters) as Entries<typeof defaultParameters>) {
-		const urlParam = urlParams.get(key);
-		if (urlParam && urlParam !== dP) {
-			if (dP && Array === dP.constructor) {
-				const urlParamSplit = urlParam.split(',');
-				urlParsed[key] = urlParamSplit;
-			} else {
-				urlParsed[key] = urlParam;
+	if (browser) {
+		const urlParams = new URLSearchParams(event.url.searchParams);
+		for (const [key, dP] of Object.entries(defaultParameters) as Entries<
+			typeof defaultParameters
+		>) {
+			const urlParam = urlParams.get(key);
+			if (urlParam && urlParam !== dP) {
+				if (dP && Array === dP.constructor) {
+					const urlParamSplit = urlParam.split(',');
+					urlParsed[key] = urlParamSplit;
+				} else {
+					urlParsed[key] = urlParam;
+				}
 			}
 		}
 	}

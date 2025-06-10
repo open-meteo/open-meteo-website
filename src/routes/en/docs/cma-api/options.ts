@@ -1,27 +1,34 @@
 export const defaultParameters = {
-	hourly: [],
+	latitude: [52.52],
+	longitude: [13.41],
+
 	daily: [],
+	hourly: ['temperature_2m'],
+	models: [],
+
+	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: undefined,
-	temperature_unit: 'celsius',
-	wind_speed_unit: 'kmh',
-	precipitation_unit: 'mm',
+
 	timeformat: 'iso8601',
-	timezone: 'UTC',
-	past_days: '0',
-	past_hours: undefined,
-	past_minutely_15: undefined,
-	forecast_days: '7',
-	forecast_hours: undefined,
-	forecast_minutely_15: undefined,
-	temporal_resolution: undefined,
+	wind_speed_unit: 'kmh',
+	temperature_unit: 'celsius',
+	precipitation_unit: 'mm',
+
 	start_date: undefined,
 	end_date: undefined,
+
+	time_mode: 'forecast_days',
+	past_days: '0',
+	forecast_days: '10',
+
 	tilt: '0',
 	azimuth: '0',
-	time_mode: 'forecast_days',
-	models: [],
-	cell_selection: undefined
+
+	past_hours: undefined,
+	forecast_hours: undefined,
+	cell_selection: undefined,
+	temporal_resolution: undefined
 };
 
 export const pressureVariables = [
