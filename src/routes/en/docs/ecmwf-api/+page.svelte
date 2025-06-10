@@ -51,9 +51,12 @@
 		temporalResolutionOptions
 	} from '../options';
 
-	const { data } = $props();
-	const urlParsed = data.urlParsed;
-	const params = urlHashStore(defaultParameters, urlParsed);
+	const params = urlHashStore({
+		latitude: [52.52],
+		longitude: [13.41],
+		...defaultParameters,
+		hourly: ['temperature_2m']
+	});
 
 	let forecastDays = $derived(
 		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
