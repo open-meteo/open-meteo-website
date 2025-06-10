@@ -10,13 +10,17 @@ import { debounce, isNumeric } from '$lib/utils/meteo';
 
 import type { Parameters } from '$lib/docs';
 
-export const urlHashStore = (initialValues: Parameters) => {
+export const urlHashStore = (initialValues: Parameters, urlParsed: Parameters = {}) => {
 	const urlHashes: Writable<Parameters> = writable({});
 
 	const { subscribe, set } = urlHashes;
 
 	const defaultValues = JSON.parse(JSON.stringify(initialValues));
-	urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
+	if (Object.keys(urlParsed).length > 0) {
+		urlHashes.set(JSON.parse(JSON.stringify(urlParsed)));
+	} else {
+		urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
+	}
 
 	function updateURL() {
 		const searchParams = page.url.searchParams.toString().replaceAll('%2C', ',');
@@ -46,10 +50,10 @@ export const urlHashStore = (initialValues: Parameters) => {
 							changedParams = true;
 						}
 					} else {
-						let array = value
+						let array = value;
 						// remove empty string when array has more then 1 values
 						if (array.length > 1 && array.includes('')) {
-							array = value.filter((e)=>e !== '')
+							array = value.filter((e) => e !== '');
 						}
 						page.url.searchParams.set(key, array.join(','));
 						changedParams = true;
@@ -74,7 +78,11 @@ export const urlHashStore = (initialValues: Parameters) => {
 					}
 				}
 				if (page.url.searchParams.has(key) && page.url.searchParams.get(key) === '') {
-					if (defaultValue === undefined || (defaultValue && Array === defaultValue.constructor && defaultValue.length === 0) || defaultValue === '0') {
+					if (
+						defaultValue === undefined ||
+						(defaultValue && Array === defaultValue.constructor && defaultValue.length === 0) ||
+						defaultValue === '0'
+					) {
 						page.url.searchParams.delete(key);
 						changedParams = true;
 					}

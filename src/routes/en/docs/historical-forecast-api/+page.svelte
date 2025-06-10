@@ -51,20 +51,9 @@
 		models
 	} from '../options';
 
-	let d = new Date();
-	d.setDate(d.getDate() - 2);
-	let endDateDefault = d.toISOString().split('T')[0];
-	d.setDate(d.getDate() - 14);
-	let startDateDefault = d.toISOString().split('T')[0];
-
-	const params = urlHashStore({
-		latitude: [52.52],
-		longitude: [13.41],
-		start_date: startDateDefault,
-		end_date: endDateDefault,
-		...defaultParameters,
-		hourly: ['temperature_2m']
-	});
+	const { data } = $props();
+	const urlParsed = data.urlParsed;
+	const params = urlHashStore(defaultParameters, urlParsed);
 
 	let pressureVariablesTab = $state('temperature');
 

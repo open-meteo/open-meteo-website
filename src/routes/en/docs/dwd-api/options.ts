@@ -1,4 +1,7 @@
 export const defaultParameters = {
+	latitude: [53.52],
+	longitude: [13.41],
+
 	daily: [],
 	hourly: [],
 	models: [],
