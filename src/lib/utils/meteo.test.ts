@@ -47,6 +47,10 @@ test('check isNumeric for a bigger number', () => {
 	expect(meteo.isNumeric(23598)).toBe(true);
 });
 
+test('check isNumeric for a biggest numbers', () => {
+	expect(meteo.isNumeric(1e21)).toBe(true);
+});
+
 test('check isNumeric for small number string', () => {
 	expect(meteo.isNumeric('3')).toBe(true);
 });
@@ -107,6 +111,28 @@ test('check altitudeAboveSeaLevelMeters with very big postive pressure', () => {
 
 test('check altitudeAboveSeaLevelMeters with undefined', () => {
 	expect(meteo.altitudeAboveSeaLevelMeters(undefined)).toBe('NaN km');
+});
+
+// --- getWeatherCode ---
+
+test('check getWeatherCode for 1', () => {
+	expect(meteo.getWeatherCode(1)).toBe('mainly clear');
+});
+
+test('check getWeatherCode for 82', () => {
+	expect(meteo.getWeatherCode(82)).toBe('heavy rain showers');
+});
+
+test('check getWeatherCode unknown weather code', () => {
+	expect(meteo.getWeatherCode(117)).toBe('unknown code');
+});
+
+test('check getWeatherCode for null', () => {
+	expect(meteo.getWeatherCode(null)).toBe('-');
+});
+
+test('check getWeatherCode for undefined', () => {
+	expect(meteo.getWeatherCode(undefined)).toBe('-');
 });
 
 // --- geoLocationNameToRoute ---

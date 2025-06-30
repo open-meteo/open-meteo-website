@@ -1,5 +1,4 @@
-/// Generic helper functions
-
+// Generic helper functions
 export const pad = (n: string | number) => {
 	if (n === null || n === undefined) {
 		return '';
@@ -118,10 +117,11 @@ export const countHeightVariables = (
 	};
 };
 
-export function getWeatherCode(code: number | null): string {
+export function getWeatherCode(code: number | null | string): string {
 	if (code == null) {
 		return '-';
 	}
+	code = Number(code);
 	switch (code) {
 		case 0:
 			return 'fair';
@@ -183,7 +183,7 @@ export function getWeatherCode(code: number | null): string {
 	return 'unknown code';
 }
 
-export const geoLocationNameToRoute = (name) => {
+export const geoLocationNameToRoute = (name: string) => {
 	const lowerCase = name.toLowerCase().replaceAll(' ', '-').replaceAll("'", '-');
 	return lowerCase.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 };
