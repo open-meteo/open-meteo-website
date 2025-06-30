@@ -1,6 +1,9 @@
 /// Generic helper functions
 
 export const pad = (n: string | number) => {
+	if (n === null || n === undefined) {
+		return '';
+	}
 	return ('0' + n).slice(-2);
 };
 
@@ -19,7 +22,7 @@ export const isNumeric = (num: string | number) =>
 	!isNaN(num as number);
 
 export const altitudeAboveSeaLevelMeters = (pressureLevelHpA: number): string => {
-	let altitude = (-1 / 2.25577) * 10e4 * (Math.pow(pressureLevelHpA / 1013.25, 1 / 5.25588) - 1);
+	const altitude = (-1 / 2.25577) * 10e4 * (Math.pow(pressureLevelHpA / 1013.25, 1 / 5.25588) - 1);
 	if (altitude <= 500) {
 		return `${Math.round(altitude / 10) * 10} m`;
 	}
@@ -115,31 +118,6 @@ export const countHeightVariables = (
 	};
 };
 
-export const range = (start: number, stop: number, step: number) =>
-	Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
-
-export function convertUnit(value: number | null, unit: string): string {
-	if (value == null) {
-		return '-';
-	}
-	if (unit == 'mph') {
-		return (value * 0.621371).toFixed(1);
-	}
-	if (unit == 'kn') {
-		return (value * 0.539957).toFixed(1);
-	}
-	if (unit == 'kph') {
-		return value.toFixed(1);
-	}
-	if (unit == 'celsius') {
-		return value.toFixed(1);
-	}
-	if (unit == 'fahrenheit') {
-		return ((value * 9) / 5 + 32).toFixed(1);
-	}
-	return '-';
-}
-
 export function getWeatherCode(code: number | null): string {
 	if (code == null) {
 		return '-';
@@ -206,6 +184,6 @@ export function getWeatherCode(code: number | null): string {
 }
 
 export const geoLocationNameToRoute = (name) => {
-	const lowerCase = name.toLowerCase().replaceAll(' ', '-');
+	const lowerCase = name.toLowerCase().replaceAll(' ', '-').replaceAll("'", '-');
 	return lowerCase.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 };
