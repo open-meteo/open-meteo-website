@@ -328,8 +328,10 @@ TODO:
 											return item !== e.value;
 										});
 									} else {
-										$params.hourly.push(e.value);
-										$params.hourly = $params.hourly;
+										if ($params.hourly) {
+											$params.hourly.push(e.value);
+											$params.hourly = $params.hourly;
+										}
 									}
 								}}
 							/>
@@ -354,7 +356,9 @@ TODO:
 				<Input
 					id="tilt"
 					type="number"
-					class="h-12 cursor-pointer pt-6 {$params.tilt < 0 || $params.tilt > 90 ? 'text-red' : ''}"
+					class="h-12 cursor-pointer pt-6 {Number($params.tilt) < 0 || Number($params.tilt) > 90
+						? 'text-red'
+						: ''}"
 					name="tilt"
 					step="1"
 					min="0"
@@ -365,7 +369,7 @@ TODO:
 					class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
 					for="tilt">Panel Tilt (0° horizontal)</Label
 				>
-				{#if $params.tilt < 0 || $params.tilt > 90}
+				{#if Number($params.tilt) < 0 || Number($params.tilt) > 90}
 					<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 				{/if}
 			</div>
@@ -373,7 +377,8 @@ TODO:
 			<div class="relative">
 				<Input
 					type="number"
-					class="h-12 cursor-pointer pt-6 {$params.azimuth < -180 || $params.azimuth > 180
+					class="h-12 cursor-pointer pt-6 {Number($params.azimuth) < -180 ||
+					Number($params.azimuth) > 180
 						? 'text-red'
 						: ''}"
 					name="azimuth"
@@ -533,8 +538,10 @@ TODO:
 													return item !== e.value;
 												});
 											} else {
-												$params.models.push(e.value);
-												$params.models = $params.models;
+												if ($params.models) {
+													$params.models.push(e.value);
+													$params.models = $params.models;
+												}
 											}
 										}}
 									/>
@@ -569,8 +576,10 @@ TODO:
 													return item !== e.value;
 												});
 											} else {
-												$params.models.push(e.value);
-												$params.models = $params.models;
+												if ($params.models) {
+													$params.models.push(e.value);
+													$params.models = $params.models;
+												}
 											}
 										}}
 									/>
@@ -621,8 +630,10 @@ TODO:
 											return item !== e.value;
 										});
 									} else {
-										$params.daily.push(e.value);
-										$params.daily = $params.daily;
+										if ($params.daily) {
+											$params.daily.push(e.value);
+											$params.daily = $params.daily;
+										}
 									}
 								}}
 							/>

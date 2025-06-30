@@ -8,12 +8,13 @@
 		"build": "svelte-kit sync && vite build -l info",
 		"build-weather": "BUILD_WEATHER_PAGES=true svelte-kit sync && BUILD_WEATHER_PAGES=true vite build -l info",
 		"staging": "NODE_ENV=development vite build --mode development",
-		"rename_index_files": "node scripts/rename_to_index_html.js",
 		"preview": "vite preview --host",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
+		"test": "vitest",
+		"format": "prettier --write .",
+		"rename_index_files": "node scripts/rename_to_index_html.js",
 		"update-components": "npx shadcn-svelte@latest add -y -o accordion alert button calendar checkbox dialog dropdown-menu input label popover range-calendar select separator sonner toggle toggle-group"
 	},
 	"devDependencies": {
@@ -26,6 +27,7 @@
 		"bits-ui": "^2.8.8",
 		"clsx": "^2.1.1",
 		"cookie": "^1.0.2",
+		"cypress": "^14.5.0",
 		"eslint": "^9.29.0",
 		"eslint-config-prettier": "^10.1.1",
 		"eslint-plugin-svelte": "^3.10.0",
@@ -45,6 +47,7 @@
 		"tailwindcss": "^4.0.3",
 		"typescript": "^5.8.2",
 		"vite": "^6.3.0",
+		"vitest": "^3.2.4",
 		"zod": "^3.25.1"
 	},
 	"dependencies": {

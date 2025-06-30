@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest';
 import * as meteo from './meteo';
 
 // --- pad ---

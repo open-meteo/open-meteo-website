@@ -16,11 +16,12 @@
 
 	import type { Writable } from 'svelte/store';
 	import type { Parameters } from '$lib/docs';
+	import type { UrlHashStore } from '$lib/stores/url-hash-store';
 
 	import './code-styles.css';
 
 	interface Props {
-		params: Writable<Parameters>;
+		params: UrlHashStore;
 		type?: String;
 		action?: String;
 		model_default?: String;
