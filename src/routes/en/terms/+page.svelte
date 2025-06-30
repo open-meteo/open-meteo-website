@@ -136,8 +136,11 @@
 						arising from or related to your use of our service.
 					</li>
 					<li>
-						Our total liability, if any, shall be limited to the amount you paid for the
-						subscription fee during the twelve months preceding the claim.
+						The most either you or we can be held responsible for is the total amount you paid for
+						your subscription in the 12 months before the issue came up. Neither of us will be
+						responsible for any indirect or unexpected damages, even if we were told they might
+						happen. This limit doesn’t apply if the problem was caused by serious misconduct, fraud,
+						or breaking the law.
 					</li>
 				</ul>
 				<p>Termination:</p>
