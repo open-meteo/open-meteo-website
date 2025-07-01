@@ -2,7 +2,9 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { getWeatherCode } from '$lib/utils/meteo';
+	import { titleCase, camelCase, objectDifference } from '$lib/utils';
+
+	import { getWeatherCode, membersPerModel } from '$lib/utils/meteo';
 
 	import { api_key_preferences } from '$lib/stores/settings';
 
@@ -43,25 +45,6 @@
 		defaultParameters,
 		useStockChart = false
 	}: Props = $props();
-
-	// Only considers keys of the first object. Ignores nulls and empty strings
-	function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
-		const diff: Partial<T> = {};
-		for (const key in a) {
-			if (a[key] && a[key] != '' && a[key] !== b[key]) {
-				diff[key] = a[key];
-			}
-		}
-		return diff;
-	}
-
-	/// `temperature_2m` to `Temperature2m`
-	const titleCase = (s: string) =>
-		s
-			.replace(/^[-_]*(.)/, (_, c) => c.toUpperCase())
-			.replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
-
-	const camelCase = (s: string) => s.replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
 
 	/// Parsed params that resolved CSV fields
 	let parsedParams = $derived(
@@ -161,7 +144,7 @@
 	);
 
 	const getUrl = (server: string, params: any) => {
-		return `${server}?${new URLSearchParams({ ...params, ...params })}`.replaceAll('%2C', ',');
+		return `${server}?${new URLSearchParams({ ...params })}`.replaceAll('%2C', ',');
 	};
 
 	let previewUrl = $state('');
@@ -181,28 +164,6 @@
 			(v) => v in $params && $params[v].length > 0
 		)
 	);
-
-	const membersPerModel = (model: string): number => {
-		switch (model) {
-			case 'icon_seamless':
-				return 40;
-			case 'icon_global':
-				return 40;
-			case 'icon_eu':
-				return 40;
-			case 'icon_d2':
-				return 20;
-			case 'gfs_seamless':
-				return 31;
-			case 'gfs025':
-				return 31;
-			case 'ecmwf_ifs025':
-				return 51;
-			case 'gem_global':
-				return 21;
-		}
-		return 1;
-	};
 
 	/// Adjusted call weight
 	let callWeight = $derived(

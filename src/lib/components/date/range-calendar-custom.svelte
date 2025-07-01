@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { scale } from 'svelte/transition';
 
-	import { pad } from '$lib/utils/meteo';
+	import { pad } from '$lib/utils';
 
 	import { Button } from '$lib/components/ui/button';
 

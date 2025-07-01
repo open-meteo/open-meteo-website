@@ -3,17 +3,12 @@
 
 	import { fade } from 'svelte/transition';
 
-	import { mode } from 'mode-watcher';
-
-	import { debounce } from '$lib/utils/meteo';
-
 	import { fetchWeatherApi } from 'openmeteo';
 
+	import { pad, debounce } from '$lib/utils';
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import { storedLocation, model, themeIsDark, type GeoLocation } from '$lib/stores/settings';
-
-	import { pad } from '$lib/utils/meteo';
 
 	import { Label } from '$lib/components/ui/label';
 
@@ -50,11 +45,11 @@
 		weatherModel = value;
 	});
 
-	let diffTemp: number = $state();
-	let maxTemp: number = $state();
+	let diffTemp: number | undefined = $state();
+	let maxTemp: number | undefined = $state();
 
 	let weatherCodesHourly: Float32Array | null | undefined = $state();
-	let canvasElement: HTMLCanvasElement | null = $state();
+	let canvasElement: HTMLCanvasElement | null | undefined = $state();
 
 	const today = new Date();
 	let selectedDay = $state(new Date());

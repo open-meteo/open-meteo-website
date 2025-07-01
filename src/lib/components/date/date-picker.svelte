@@ -5,7 +5,7 @@
 
 	import { browser } from '$app/environment';
 
-	import { debounce } from '$lib/utils/meteo';
+	import { debounce } from '$lib/utils';
 
 	import { Label } from '$lib/components/ui/label';
 	import { Input } from '$lib/components/ui/input';

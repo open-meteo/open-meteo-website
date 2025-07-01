@@ -1,25 +1,3 @@
-// Generic helper functions
-export const pad = (n: string | number) => {
-	if (n === null || n === undefined) {
-		return '';
-	}
-	return ('0' + n).slice(-2);
-};
-
-export function debounce(func, timeout = 100) {
-	let timer: NodeJS.Timeout;
-	return (...args) => {
-		clearTimeout(timer);
-		timer = setTimeout(() => {
-			func.apply(this, args);
-		}, timeout);
-	};
-}
-
-export const isNumeric = (num: string | number) =>
-	(typeof num === 'number' || (typeof num === 'string' && num.trim() !== '')) &&
-	!isNaN(num as number);
-
 export const altitudeAboveSeaLevelMeters = (pressureLevelHpA: number): string => {
 	const altitude = (-1 / 2.25577) * 10e4 * (Math.pow(pressureLevelHpA / 1013.25, 1 / 5.25588) - 1);
 	if (altitude <= 500) {
@@ -32,15 +10,6 @@ export const altitudeAboveSeaLevelMeters = (pressureLevelHpA: number): string =>
 		return `${Math.round(altitude / 100) / 10} km`;
 	}
 	return `${Math.round(altitude / 1000)} km`;
-};
-
-export const sliceIntoChunks = (arr: Array<T>, chunkSize: number): Array<Array<T>> => {
-	const res = [];
-	for (let i = 0; i < arr.length; i += chunkSize) {
-		const chunk = arr.slice(i, i + chunkSize);
-		res.push(chunk);
-	}
-	return res;
 };
 
 export const countVariables = (
@@ -186,4 +155,26 @@ export function getWeatherCode(code: number | null | string): string {
 export const geoLocationNameToRoute = (name: string) => {
 	const lowerCase = name.toLowerCase().replaceAll(' ', '-').replaceAll("'", '-');
 	return lowerCase.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+};
+
+export const membersPerModel = (model: string): number => {
+	switch (model) {
+		case 'icon_seamless':
+			return 40;
+		case 'icon_global':
+			return 40;
+		case 'icon_eu':
+			return 40;
+		case 'icon_d2':
+			return 20;
+		case 'gfs_seamless':
+			return 31;
+		case 'gfs025':
+			return 31;
+		case 'ecmwf_ifs025':
+			return 51;
+		case 'gem_global':
+			return 21;
+	}
+	return 1;
 };

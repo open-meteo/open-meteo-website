@@ -6,7 +6,7 @@ import { goto } from '$app/navigation';
 
 import { browser } from '$app/environment';
 
-import { debounce, isNumeric } from '$lib/utils/meteo';
+import { debounce, isNumeric } from '$lib/utils';
 
 import type { Parameters } from '$lib/docs';
 
