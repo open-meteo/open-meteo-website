@@ -115,7 +115,7 @@
 					href="/en/docs"
 					onclick={() => (toggleMenu = false)}>API Docs</Button
 				>
-				<hr class="border-border mb-4 ml-3 mt-2" />
+				<hr class="border-border mt-2 mb-4 ml-3" />
 			</div>
 			<div class="flex gap-1 md:ml-auto md:flex-row md:justify-self-end">
 				<Button

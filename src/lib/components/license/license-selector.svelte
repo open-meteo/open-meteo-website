@@ -35,25 +35,25 @@
 			<ToggleGroup.Root
 				type="single"
 				bind:value={licenseSelected}
-				class="justify-start text-nowrap flex flex-wrap gap-0"
+				class="flex flex-wrap justify-start gap-0 text-nowrap"
 			>
 				<ToggleGroup.Item
 					value="non_commercial"
-					class=" opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
+					class=" min-h-12 cursor-pointer rounded-e-none opacity-100! lg:min-h-[unset]"
 					disabled={licenseSelected === 'non_commercial'}
 				>
 					Non-Commercial
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="commercial"
-					class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
+					class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
 					disabled={licenseSelected === 'commercial'}
 				>
 					Commercial
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="self_hosted"
-					class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
+					class="min-h-12 cursor-pointer rounded-s-none opacity-100! lg:min-h-[unset]"
 					disabled={licenseSelected === 'self_hosted'}
 				>
 					Self-Hosted
@@ -83,7 +83,7 @@
 						required
 					/>
 					<Label
-						class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+						class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 						for="apikey">API Key</Label
 					>
 				</div>
@@ -107,7 +107,7 @@
 						bind:value={$api_key_preferences.self_host_server}
 					/>
 					<Label
-						class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+						class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 						for="apikey">Server URL</Label
 					>
 				</div>

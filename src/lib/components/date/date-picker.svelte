@@ -91,12 +91,12 @@
 		>
 			<div
 				bind:this={inputDiv}
-				class="relative border-border ring-offset-background h-13 flex w-full rounded-md border px-3 pt-6 {popoverOpen
-					? 'ring-2 ring-ring ring-offset-2'
+				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen
+					? 'ring-ring ring-2 ring-offset-2'
 					: ''}"
 			>
 				<svg
-					class="lucide lucide-calendar mr-1 mt-[1px]"
+					class="lucide lucide-calendar mt-[1px] mr-1"
 					xmlns="http://www.w3.org/2000/svg"
 					width="16"
 					height="16"
@@ -114,7 +114,7 @@
 				</svg>
 
 				<Input
-					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0 "
+					class="m-0 -mt-2 h-[unset] border-none !bg-transparent p-0 !ring-0 !ring-offset-0 "
 					type="text"
 					value={start_date}
 					oninput={debounce((e) => {
@@ -127,25 +127,25 @@
 					}, 700)}
 					placeholder="Pick a start date"
 				/>
-				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Start date</Label
 				>
 			</div>
 			{#if (start_date && new Date(start_date).getTime() < begin_date.getTime() - 24 * 60 * 60 * 1000) || (start_date && new Date(start_date).getTime() > last_date.getTime() + 24 * 60 * 60 * 1000)}
 				<div
 					transition:slide
-					class="md:absolute md:top-15 md:left-3 flex -my-1 text-sm text-red-800"
+					class="-my-1 flex text-sm text-red-800 md:absolute md:top-15 md:left-3"
 				>
 					Start date invalid
 				</div>
 			{/if}
 			<div
-				class="border-border ring-offset-background h-13 relative flex w-full rounded-md border px-3 pt-6 {popoverOpen
-					? 'ring-2 ring-ring ring-offset-2'
+				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen
+					? 'ring-ring ring-2 ring-offset-2'
 					: ''}"
 			>
 				<svg
-					class="lucide lucide-calendar mr-1 mt-[1px]"
+					class="lucide lucide-calendar mt-[1px] mr-1"
 					xmlns="http://www.w3.org/2000/svg"
 					width="16"
 					height="16"
@@ -163,7 +163,7 @@
 				</svg>
 
 				<Input
-					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0  "
+					class="m-0 -mt-2 h-[unset] border-none !bg-transparent p-0 !ring-0 !ring-offset-0  "
 					type="text"
 					value={end_date}
 					oninput={debounce((e) => {
@@ -176,21 +176,21 @@
 					}, 700)}
 					placeholder="Pick an end date"
 				/>
-				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>End date</Label
 				>
 			</div>
 			{#if (end_date && new Date(end_date).getTime() < begin_date.getTime()) || (end_date && new Date(end_date).getTime() > last_date.getTime() + 24 * 60 * 60 * 1000)}
 				<div
 					transition:slide
-					class="flex md:absolute md:top-15 md:left-[calc(50%+1.5rem)] text-sm -my-1 text-red-800"
+					class="-my-1 flex text-sm text-red-800 md:absolute md:top-15 md:left-[calc(50%+1.5rem)]"
 				>
 					End date invalid
 				</div>
 			{:else if end_date && start_date && new Date(end_date).getTime() < new Date(start_date).getTime()}
 				<div
 					transition:slide
-					class="flex md:absolute md:top-15 md:left-[calc(50%+1.5rem)] text-sm -my-1 text-red-800"
+					class="-my-1 flex text-sm text-red-800 md:absolute md:top-15 md:left-[calc(50%+1.5rem)]"
 				>
 					End date before Start date
 				</div>
@@ -212,7 +212,7 @@
 		>
 			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} />
 			<Popover.Close
-				class="ring-offset-background focus:ring-ring absolute right-4 top-6 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none md:top-8"
+				class="ring-offset-background focus:ring-ring absolute top-6 right-4 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none md:top-8"
 			>
 				<svg
 					class="lucide lucide-x"

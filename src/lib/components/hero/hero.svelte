@@ -61,7 +61,7 @@
 					<Button
 						variant="default"
 						href={heroPrimaryButtonPath}
-						class="bg-linear-to-t dark:bg-linear-to-b bg-primary from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="bg-primary bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 						>{heroPrimaryButtonText}</Button
 					>
 					<Button

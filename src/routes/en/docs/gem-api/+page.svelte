@@ -152,7 +152,7 @@
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="rounded-e-none !opacity-100 gap-1 duration-300 {$params.time_mode ===
+					class="gap-1 rounded-e-none !opacity-100 duration-300 {$params.time_mode ===
 					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
@@ -181,7 +181,7 @@
 				</Button>
 				<Button
 					variant="ghost"
-					class="rounded-s-none !opacity-100 gap-1 duration-300  {$params.time_mode ===
+					class="gap-1 rounded-s-none !opacity-100 duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -236,7 +236,7 @@
 										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
 									{/each}
 								</Select.Content>
-								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 									>Forecast days</Label
 								>
 							</Select.Root>
@@ -253,7 +253,7 @@
 									{/each}
 								</Select.Content>
 								<Label
-									class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+									class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>
 									Past days</Label
 								>
@@ -398,7 +398,7 @@
 									<Select.Item value={fho.value}>{fho.label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Forecast Hours</Label
 							>
 						</Select.Root>
@@ -413,7 +413,7 @@
 									<Select.Item value={pho.value}>{pho.label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Past Hours</Label
 							>
 						</Select.Root>
@@ -433,7 +433,7 @@
 									<Select.Item value={tro.value}>{tro.label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Temporal Resolution For Hourly Data</Label
 							>
 						</Select.Root>
@@ -448,7 +448,7 @@
 									<Select.Item value={gcso.value}>{gcso.label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Grid Cell Selection</Label
 							>
 						</Select.Root>
@@ -514,7 +514,7 @@
 							bind:value={$params.tilt}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="tilt">Panel Tilt (0° horizontal)</Label
 						>
 						{#if $params.tilt < 0 || $params.tilt > 90}
@@ -536,7 +536,7 @@
 							bind:value={$params.azimuth}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
 						>
 						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
@@ -552,7 +552,7 @@
 				title="Pressure Level Variables"
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
-				<div class="flex flex-col md:flex-row gap-3 md:gap-6">
+				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
 					<div class="w-full md:w-[227px]">
 						<ToggleGroup.Root
 							type="single"
@@ -563,13 +563,13 @@
 								{#each pressureVariables as variable, i}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="w-[225px] min-h-12 cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
+										class="min-h-12 w-[225px] cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
 										0
 											? 'rounded-t-md'
 											: ''} {i === pressureVariables.length - 1 ? 'rounded-b-md' : ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
-										><div class="w-full text-left flex items-center justify-between gap-2">
+										><div class="flex w-full items-center justify-between gap-2 text-left">
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
@@ -635,7 +635,7 @@
 						{/each}
 					</div>
 				</div>
-				<div class="lg:ml-[249px] mt-3">
+				<div class="mt-3 lg:ml-[249px]">
 					<small class="text-muted-foreground"
 						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
@@ -812,9 +812,9 @@
 			> from the Canadian weather service. Global and regional weather models are combined into a seamless
 			prediction. For GEM Global, values are interpolated from 3-hourly to 1-hourly values.
 		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -900,9 +900,9 @@
 			and responds with a JSON hourly weather forecast for 7 days. Time always starts at 0:00 today and
 			contains 168 hours. All URL parameters are listed below:
 		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1240px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1123,9 +1123,9 @@
 			as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
 			from the preceding hour as an average or sum.
 		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1340px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1340px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1385,9 +1385,9 @@
 		<p class="text-muted-foreground mt-2">
 			All pressure levels have valid times of the indicated hour (instant).
 		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1469,9 +1469,9 @@
 				>&daily=</mark
 			> accepts the following values:
 		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1574,13 +1574,13 @@
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
 		<div
-			class="code-numbered overflow-auto bg-[#FAFAFA] rounded-lg dark:bg-[#212121] -mx-6 md:ml-0 lg:mx-0 mt-2 md:mt-4"
+			class="code-numbered -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<WeatherForecastObject />
 		</div>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1674,7 +1674,7 @@
 			object is returned with a HTTP 400 status code.
 		</p>
 		<div
-			class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+			class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<WeatherForecastError />
 		</div>

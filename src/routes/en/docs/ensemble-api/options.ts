@@ -25,7 +25,7 @@ export const defaultParameters = {
 	timeformat: 'iso8601',
 	wind_speed_unit: 'kmh',
 	precipitation_unit: 'mm',
-	temperature_unit: 'celsius',
+	temperature_unit: 'celsius'
 };
 
 export const icon_global_variables = [
@@ -336,7 +336,7 @@ export const daily = [
 		{ value: 'wind_speed_10m_mean', label: 'Mean Wind Speed (10 m)' },
 		{ value: 'wind_speed_10m_min', label: 'Minimum Wind Speed (10 m)' },
 		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
+		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' }
 	],
 	[
 		{ value: 'wind_gusts_10m_mean', label: 'Mean Wind Gusts (10 m)' },
@@ -348,7 +348,7 @@ export const daily = [
 		{ value: 'wind_direction_100m_dominant', label: 'Dominant Wind Direction (100m)' },
 		{ value: 'cloud_cover_mean', label: 'Mean Cloud Cover' },
 		{ value: 'cloud_cover_min', label: 'Minimum Cloud Cover' },
-		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' },
+		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' }
 	],
 	[
 		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
@@ -360,8 +360,7 @@ export const daily = [
 		{ value: 'pressure_msl_max', label: 'Maximum Sealevel Pressure' },
 		{ value: 'surface_pressure_mean', label: 'Mean Surface Pressure' },
 		{ value: 'surface_pressure_min', label: 'Minimum Surface Pressure' },
-		{ value: 'surface_pressure_max', label: 'Maximum Surface Pressure' },
-
+		{ value: 'surface_pressure_max', label: 'Maximum Surface Pressure' }
 	],
 	[
 		{ value: 'relative_humidity_2m_mean', label: 'Mean Relative Humidity (2 m)' },
@@ -374,7 +373,7 @@ export const daily = [
 		{ value: 'dew_point_2m_min', label: 'Minimum Dewpoint (2 m)' },
 		{ value: 'dew_point_2m_max', label: 'Maximum Dewpoint (2 m)' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
+		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' }
 	]
 ];
 

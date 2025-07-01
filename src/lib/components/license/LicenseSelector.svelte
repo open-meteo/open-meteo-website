@@ -9,7 +9,7 @@
 	let { requires_professional_plan = false }: Props = $props();
 </script>
 
-<div class="row py-3 px-0">
+<div class="row px-0 py-3">
 	<div>
 		<ul class="nav nav-underline" role="tablist">
 			<li class="nav-item" role="presentation">
