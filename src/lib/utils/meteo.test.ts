@@ -36,7 +36,6 @@ test('check altitudeAboveSeaLevelMeters with undefined', () => {
 });
 
 // --- getWeatherCode ---
-
 test('check getWeatherCode for 1', () => {
 	expect(getWeatherCode(1)).toBe('mainly clear');
 });

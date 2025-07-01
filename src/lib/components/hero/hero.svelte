@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { mode } from 'mode-watcher';
-
 	import Button from '$lib/components/ui/button/button.svelte';
 
 	interface Props {
