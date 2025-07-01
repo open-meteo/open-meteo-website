@@ -271,8 +271,10 @@
 			const nVariables = nHourly + nDaily + nCurrent + nMinutely15;
 
 			/// Number of locations
-			const nLocations = params['latitude']?.length ?? 1.0;
-
+			let nLocations = 1;
+			if (Array == params['latitude'].constructor) {
+				nLocations = params['latitude']?.length ?? 1;
+			}
 			/// Calculate adjusted weight
 			const nVariablesModels = nVariables * Math.max(nModels, 1.0);
 			const timeWeight = nDays / 14.0;
