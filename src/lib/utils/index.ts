@@ -18,6 +18,7 @@ export function debounce(func, timeout = 100) {
 export const isNumeric = (num: string | number) =>
 	(typeof num === 'number' || (typeof num === 'string' && num.trim() !== '')) &&
 	!isNaN(num as number);
+
 // Only considers keys of the first object. Ignores nulls and empty strings
 export function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
 	const diff: Partial<T> = {};
