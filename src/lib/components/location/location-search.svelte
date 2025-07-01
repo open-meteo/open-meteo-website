@@ -3,10 +3,10 @@
 
 	import { favorites, last_visited, type GeoLocation } from '$lib/stores/settings';
 
-	import { Alert } from '$lib/components/ui/alert';
 	import { Input } from '$lib/components/ui/input';
 	import { Button } from '$lib/components/ui/button';
 
+	import * as Alert from '$lib/components/ui/alert';
 	import * as Dialog from '$lib/components/ui/dialog';
 
 	export let label: string = 'Search Locations...';
