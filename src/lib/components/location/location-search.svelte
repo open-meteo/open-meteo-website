@@ -3,10 +3,10 @@
 
 	import { favorites, last_visited, type GeoLocation } from '$lib/stores/settings';
 
-	import { Alert } from '$lib/components/ui/alert';
 	import { Input } from '$lib/components/ui/input';
 	import { Button } from '$lib/components/ui/button';
 
+	import * as Alert from '$lib/components/ui/alert';
 	import * as Dialog from '$lib/components/ui/dialog';
 
 	export let label: string = 'Search Locations...';
@@ -135,7 +135,7 @@
 			e.preventDefault();
 			dialogOpen = !dialogOpen;
 		}}
-		class="hover:bg-accent w-full border-border flex h-12 cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
+		class="hover:bg-accent border-border flex h-12 w-full cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
 		><svg
 			class="lucide lucide-search mr-[5px]"
 			xmlns="http://www.w3.org/2000/svg"
@@ -206,24 +206,24 @@
 					{#if results.results && results.results.length === 0}
 						{#if searchQuery.length < 2}
 							{#if $last_visited.length === 0 && $favorites.length === 0}
-								<Alert.Root class="border-border mt-4 my-auto w-[unset]">
+								<Alert.Root class="border-border my-auto mt-4 w-[unset]">
 									<Alert.Description>Start typing to search for locations</Alert.Description>
 								</Alert.Root>
 							{/if}
 							{#if $favorites.length > 0}
-								<h6 class="text-muted-foreground mb-4 mt-4 text-xl">Favorites</h6>
+								<h6 class="text-muted-foreground mt-4 mb-4 text-xl">Favorites</h6>
 								<div class="border-border rounded-lg border">
 									{#each $favorites as location, i}
 										<Button
 											variant="outline"
-											class="not-last:border-b flex h-[unset] gap-0 rounded-none w-full justify-between pl-3 pr-1 md:pr-2 py-2 {i ===
+											class="flex h-[unset] w-full justify-between gap-0 rounded-none py-2 pr-1 pl-3 not-last:border-b md:pr-2 {i ===
 											0
 												? 'rounded-t-md'
 												: ''} {i === $favorites.length - 1 ? 'rounded-b-md' : ''}"
 											onclick={() => selectLocation(location)}
 										>
 											<div class="pointer-events-none flex flex-col gap-1 truncate">
-												<div class="flex items-center gap-2 text-lg truncate">
+												<div class="flex items-center gap-2 truncate text-lg">
 													<img
 														height="24"
 														width="24"
@@ -236,7 +236,7 @@
 													{location.name}
 												</div>
 
-												<div class="text-muted-foreground text-left text-sm truncate">
+												<div class="text-muted-foreground truncate text-left text-sm">
 													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
 													{location.longitude.toFixed(2)}°E{#if location.elevation}
 														{+' ' + location.elevation.toFixed(0)}m asl{/if})
@@ -246,7 +246,7 @@
 											<div class="-mr-1 flex justify-self-end">
 												<Button
 													variant="ghost"
-													class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
+													class="px-2 duration-200 hover:brightness-[140%] md:px-3"
 													onclick={(e) => {
 														e.stopPropagation();
 														deleteFavorite(location);
@@ -273,7 +273,7 @@
 												>
 												<Button
 													variant="ghost"
-													class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
+													class="px-2 duration-200 hover:brightness-[140%] md:px-3"
 													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 													target="_blank"
 													title="Show on map"
@@ -306,19 +306,19 @@
 								</div>
 							{/if}
 							{#if $last_visited.length > 0}
-								<h6 class="text-muted-foreground mb-4 mt-4 text-xl">Recent Locations</h6>
+								<h6 class="text-muted-foreground mt-4 mb-4 text-xl">Recent Locations</h6>
 								<div class="border-border rounded-lg border">
 									{#each $last_visited as location, i}
 										<Button
 											variant="outline"
-											class="not-last:border-b flex h-[unset] w-full gap-0 justify-between rounded-none pl-3 pr-1 md:pr-2 py-2 {i ===
+											class="flex h-[unset] w-full justify-between gap-0 rounded-none py-2 pr-1 pl-3 not-last:border-b md:pr-2 {i ===
 											0
 												? 'rounded-t-md'
 												: ''} {i === $last_visited.length - 1 ? 'rounded-b-md' : ''}"
 											onclick={() => selectLocation(location)}
 										>
 											<div class="pointer-events-none flex flex-col gap-1 truncate">
-												<div class="flex items-center gap-2 text-lg truncate">
+												<div class="flex items-center gap-2 truncate text-lg">
 													<img
 														height="24"
 														width="24"
@@ -331,7 +331,7 @@
 													{location.name}
 												</div>
 
-												<div class="text-muted-foreground text-left text-sm truncate">
+												<div class="text-muted-foreground truncate text-left text-sm">
 													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
 														2
 													)}°E{#if location.elevation}
@@ -342,7 +342,7 @@
 											<div class="-mr-1 flex justify-self-end">
 												<Button
 													variant="ghost"
-													class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
+													class="px-2 duration-200 hover:brightness-[140%] md:px-3"
 													onclick={(e) => {
 														e.stopPropagation();
 														saveFavorite(location);
@@ -367,7 +367,7 @@
 												</Button>
 												<Button
 													variant="ghost"
-													class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
+													class="px-2 duration-200 hover:brightness-[140%] md:px-3"
 													onclick={(e) => {
 														e.stopPropagation();
 														deleteRecent(location);
@@ -394,7 +394,7 @@
 												>
 												<Button
 													variant="ghost"
-													class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
+													class="px-2 duration-200 hover:brightness-[140%] md:px-3"
 													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 													target="_blank"
 													title="Show on map"
@@ -427,12 +427,12 @@
 								</div>
 							{/if}
 						{:else}
-							<Alert.Root class="border-border !mt-4 my-auto w-[unset]">
+							<Alert.Root class="border-border my-auto !mt-4 w-[unset]">
 								<Alert.Description>No locations found</Alert.Description>
 							</Alert.Root>
 						{/if}
 					{:else if !results.results}
-						<Alert.Root class="border-border !mt-4 my-auto w-[unset]">
+						<Alert.Root class="border-border my-auto !mt-4 w-[unset]">
 							<Alert.Description>No locations found</Alert.Description>
 						</Alert.Root>
 					{:else}
@@ -441,7 +441,7 @@
 								{#each results.results || [] as location, i}
 									<Button
 										variant="outline"
-										class="not-last:border-b flex h-[unset] w-full justify-between gap-0 rounded-none pl-3 pr-1 md:pr-2 py-2 {i ===
+										class="flex h-[unset] w-full justify-between gap-0 rounded-none py-2 pr-1 pl-3 not-last:border-b md:pr-2 {i ===
 										0
 											? 'rounded-t-md'
 											: ''} {results.results && i === results.results.length - 1
@@ -450,7 +450,7 @@
 										onclick={() => selectLocation(location)}
 									>
 										<div class="pointer-events-none flex flex-col gap-1 truncate">
-											<div class="flex items-center gap-2 text-lg truncate">
+											<div class="flex items-center gap-2 truncate text-lg">
 												<img
 													height="24"
 													width="24"
@@ -463,7 +463,7 @@
 												{location.name}
 											</div>
 
-											<div class="text-muted-foreground text-left text-sm truncate">
+											<div class="text-muted-foreground truncate text-left text-sm">
 												{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
 													2
 												)}°E{#if location.elevation}
@@ -473,7 +473,7 @@
 										<div class="-mr-1 flex justify-self-end">
 											<Button
 												variant="ghost"
-												class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
+												class="px-2 duration-200 hover:brightness-[140%] md:px-3"
 												onclick={(e) => {
 													e.stopPropagation();
 													saveFavorite(location);
@@ -498,7 +498,7 @@
 											</Button>
 											<Button
 												variant="ghost"
-												class="px-2 md:px-3 duration-200 hover:brightness-[140%]"
+												class="px-2 duration-200 hover:brightness-[140%] md:px-3"
 												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 												target="_blank"
 												title="Show on map"
