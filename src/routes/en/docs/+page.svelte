@@ -62,6 +62,8 @@
 		hourly: ['temperature_2m']
 	});
 
+	console.log($params.latitude);
+
 	let timezoneInvalid = $derived(
 		$params.timezone == 'UTC' && ($params.daily ? $params.daily.length > 0 : false)
 	);
@@ -133,6 +135,8 @@
 		) {
 			accordionValues.push('minutely_15');
 		}
+
+		console.log($params.latitude);
 	});
 
 	let begin_date = new Date();
