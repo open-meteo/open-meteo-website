@@ -213,7 +213,7 @@
 							{/if}
 							{#if $favorites.length > 0}
 								<h6 class="text-muted-foreground mt-4 mb-4 text-xl">Favorites</h6>
-								<div class="border-border rounded-lg border">
+								<div id="location_search_favorites" class="border-border rounded-lg border">
 									{#each $favorites as location, i}
 										<Button
 											variant="outline"
@@ -308,7 +308,7 @@
 							{/if}
 							{#if $last_visited.length > 0}
 								<h6 class="text-muted-foreground mt-4 mb-4 text-xl">Recent Locations</h6>
-								<div class="border-border rounded-lg border">
+								<div id="location_search_last_visited" class="border-border rounded-lg border">
 									{#each $last_visited as location, i}
 										<Button
 											variant="outline"
@@ -438,7 +438,7 @@
 						</Alert.Root>
 					{:else}
 						<div class="list-group mt-4">
-							<div class="border-border rounded-lg border">
+							<div id="location_search_results" class="border-border rounded-lg border">
 								{#each results.results || [] as location, i}
 									<Button
 										variant="outline"
