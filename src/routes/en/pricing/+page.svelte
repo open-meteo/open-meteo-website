@@ -50,7 +50,7 @@
 	/>
 </svelte:head>
 
-<div class="container mb-12 mt-4">
+<div class="container mt-4 mb-12">
 	<div id="plans" class="-mx-6 min-h-[668px] lg:mx-0">
 		<script async src="https://js.stripe.com/v3/pricing-table.js"></script>
 		{#if mode.current === 'dark'}
@@ -73,7 +73,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-map-pinned"
@@ -117,7 +117,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-zap"
@@ -157,7 +157,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-watch"
@@ -200,7 +200,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-archive"
@@ -238,7 +238,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-waves"
@@ -282,7 +282,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-mountain-snow"
@@ -314,9 +314,9 @@
 		</div>
 	</div>
 
-	<div class="mt-6 md:mt-12 overflow-auto overflow-y-hidden -mx-6 md:ml-0 lg:mx-0">
+	<div class="-mx-6 mt-6 overflow-auto overflow-y-hidden md:mt-12 md:ml-0 lg:mx-0">
 		<table
-			class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -409,7 +409,7 @@
 
 	<div class="mt-12 md:mt-24">
 		<a href="#faq">
-			<h2 id="faq" class="clickable text-center text-3xl md:text-5xl font-light">
+			<h2 id="faq" class="clickable text-center text-3xl font-light md:text-5xl">
 				Frequently Asked Questions
 			</h2>
 		</a>
@@ -497,7 +497,7 @@
 						{callWeight === 1 ? 'call' : 'calls'}</span
 					>
 				</div>
-				<div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+				<div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
 					<div class="relative flex flex-col gap-2 duration-200">
 						<Input
 							class="h-12 pt-6"
@@ -509,7 +509,7 @@
 							bind:value={variablesInput}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="longitude">Variables</Label
 						>
 						{#if variablesInput > variablesFlat.length - 1}
@@ -529,7 +529,7 @@
 									<Select.Item class="cursor-pointer" value={tso.value}>{tso.label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Time length</Label
 							>
 						</Select.Root>
@@ -545,7 +545,7 @@
 							bind:value={modelsInput}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="longitude">Models</Label
 						>
 
@@ -563,7 +563,7 @@
 							bind:value={locationsInput}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="longitude">Locations</Label
 						>
 					</div>
@@ -587,7 +587,7 @@
 
 	<div class="my-12 mb-24 flex flex-col items-center justify-center md:mx-auto md:w-2/3">
 		<Sun width="92" height="92" shadow={false} />
-		<h2 class="my-4 text-3xl md:text-5xl font-light text-center" id="contact">
+		<h2 class="my-4 text-center text-3xl font-light md:text-5xl" id="contact">
 			Unlock the Power of Open-Source Weather Data!
 		</h2>
 		<div class="text-center">

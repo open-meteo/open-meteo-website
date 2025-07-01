@@ -130,7 +130,7 @@ TODO:
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="rounded-e-none !opacity-100 gap-1 duration-300 {$params.time_mode ===
+					class="gap-1 rounded-e-none !opacity-100 duration-300 {$params.time_mode ===
 					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
@@ -159,7 +159,7 @@ TODO:
 				</Button>
 				<Button
 					variant="ghost"
-					class="rounded-s-none !opacity-100 gap-1 duration-300  {$params.time_mode ===
+					class="gap-1 rounded-s-none !opacity-100 duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -214,7 +214,7 @@ TODO:
 										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
 									{/each}
 								</Select.Content>
-								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 									>Forecast days</Label
 								>
 							</Select.Root>
@@ -231,7 +231,7 @@ TODO:
 									{/each}
 								</Select.Content>
 								<Label
-									class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+									class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>
 									Past days</Label
 								>
@@ -328,8 +328,10 @@ TODO:
 											return item !== e.value;
 										});
 									} else {
-										$params.hourly.push(e.value);
-										$params.hourly = $params.hourly;
+										if ($params.hourly) {
+											$params.hourly.push(e.value);
+											$params.hourly = $params.hourly;
+										}
 									}
 								}}
 							/>
@@ -354,7 +356,9 @@ TODO:
 				<Input
 					id="tilt"
 					type="number"
-					class="h-12 cursor-pointer pt-6 {$params.tilt < 0 || $params.tilt > 90 ? 'text-red' : ''}"
+					class="h-12 cursor-pointer pt-6 {Number($params.tilt) < 0 || Number($params.tilt) > 90
+						? 'text-red'
+						: ''}"
 					name="tilt"
 					step="1"
 					min="0"
@@ -362,10 +366,10 @@ TODO:
 					bind:value={$params.tilt}
 				/>
 				<Label
-					class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					for="tilt">Panel Tilt (0° horizontal)</Label
 				>
-				{#if $params.tilt < 0 || $params.tilt > 90}
+				{#if Number($params.tilt) < 0 || Number($params.tilt) > 90}
 					<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 				{/if}
 			</div>
@@ -373,7 +377,8 @@ TODO:
 			<div class="relative">
 				<Input
 					type="number"
-					class="h-12 cursor-pointer pt-6 {$params.azimuth < -180 || $params.azimuth > 180
+					class="h-12 cursor-pointer pt-6 {Number($params.azimuth) < -180 ||
+					Number($params.azimuth) > 180
 						? 'text-red'
 						: ''}"
 					name="azimuth"
@@ -384,7 +389,7 @@ TODO:
 					bind:value={$params.azimuth}
 				/>
 				<Label
-					class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
 				>
 				{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
@@ -454,7 +459,7 @@ TODO:
 									<Select.Item value={fho.value}>{fho.label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Forecast Hours</Label
 							>
 						</Select.Root>
@@ -469,7 +474,7 @@ TODO:
 									<Select.Item value={pho.value}>{pho.label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Past Hours</Label
 							>
 						</Select.Root>
@@ -489,7 +494,7 @@ TODO:
 									<Select.Item value={tro.value}>{tro.label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Temporal Resolution For Hourly Data</Label
 							>
 						</Select.Root>
@@ -504,7 +509,7 @@ TODO:
 									<Select.Item value={gcso.value}>{gcso.label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Grid Cell Selection</Label
 							>
 						</Select.Root>
@@ -533,8 +538,10 @@ TODO:
 													return item !== e.value;
 												});
 											} else {
-												$params.models.push(e.value);
-												$params.models = $params.models;
+												if ($params.models) {
+													$params.models.push(e.value);
+													$params.models = $params.models;
+												}
 											}
 										}}
 									/>
@@ -569,8 +576,10 @@ TODO:
 													return item !== e.value;
 												});
 											} else {
-												$params.models.push(e.value);
-												$params.models = $params.models;
+												if ($params.models) {
+													$params.models.push(e.value);
+													$params.models = $params.models;
+												}
 											}
 										}}
 									/>
@@ -621,8 +630,10 @@ TODO:
 											return item !== e.value;
 										});
 									} else {
-										$params.daily.push(e.value);
-										$params.daily = $params.daily;
+										if ($params.daily) {
+											$params.daily.push(e.value);
+											$params.daily = $params.daily;
+										}
 									}
 								}}
 							/>
@@ -672,9 +683,9 @@ TODO:
 <!-- DATA SOURCES -->
 <div class="mt-6 md:mt-12">
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
-	<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 		<table
-			class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mx-6 mt-2 min-w-[1040px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -791,7 +802,7 @@ TODO:
 			into a single consistent endpoint. Different geostationary satellites are used to provide
 			global coverage.
 		</p>
-		<ul class="list-disc ml-6">
+		<ul class="ml-6 list-disc">
 			<li>
 				<strong>Himawari direct and diffuse radiation</strong> JMA JAXA provides only shortwave
 				radiation data and does not offer direct or diffuse solar radiation. Open-Meteo applies the
@@ -831,9 +842,9 @@ TODO:
 			the past hour. If you select 10/15/30-minute data, the backward averages will use the same 10/15/30-minute
 			intervals.
 		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1060px] mt-2 w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1060px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

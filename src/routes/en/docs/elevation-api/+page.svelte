@@ -128,11 +128,11 @@
 							bind:value={$params.latitude[index]}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="latitude">Latitude</Label
 						>
 						{#if $params.latitude[index] < -90 || $params.latitude[index] > 90}
-							<div class="absolute left-3 top-14 text-sm duration-300" transition:slide>
+							<div class="absolute top-14 left-3 text-sm duration-300" transition:slide>
 								Latitude must be between -90 and 90
 							</div>
 						{/if}
@@ -155,11 +155,11 @@
 							bind:value={$params.longitude[index]}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="longitude">Longitude</Label
 						>
 						{#if $params.longitude[index] < -180 || $params.longitude[index] > 180}
-							<div class="absolute left-3 top-14 text-sm" transition:slide>
+							<div class="absolute top-14 left-3 text-sm" transition:slide>
 								Longitude must be between -180 and 180
 							</div>
 						{/if}
@@ -281,9 +281,9 @@
 			> with 90 meters resolution. The GLO-90 dataset is available worldwide with a free license.
 		</p>
 		<p>All URL parameters are listed below:</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1140px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -345,7 +345,7 @@
 			always an array, even if only one coordinate is requested.
 		</p>
 		<div
-			class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+			class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<ElevationObject />
 		</div>
@@ -361,7 +361,7 @@
 			object is returned with a HTTP 400 status code.
 		</p>
 		<div
-			class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+			class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<ElevationError />
 		</div>
@@ -374,7 +374,7 @@
 		><h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2></a
 	>
 	<div
-		class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+		class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 	>
 		<pre class="overflow-auto rounded-lg p-6">
 ESA - EUsers, who, in their research, use the Copernicus DEM, are requested to use the following DOI when citing the data source in their publications:

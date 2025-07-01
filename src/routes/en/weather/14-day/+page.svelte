@@ -286,7 +286,7 @@
 </script>
 
 <!-- min-h-[302px] min-h-[602px]  min-h-[902px] min-h-[1202px]  -->
-<div class="-mx-6 md:mx-0 container-wrapper relative min-h-[{300 * $params.hourly.length + 2}px]">
+<div class="container-wrapper relative -mx-6 md:mx-0 min-h-[{300 * $params.hourly.length + 2}px]">
 	<div
 		in:fade={{ duration: 300 }}
 		out:fade={{ duration: 300 }}
@@ -296,8 +296,8 @@
 	></div>
 	<div
 		class="{count > 0
-			? 'opacity-0 pointer-events-none'
-			: 'opacity-100'} rounded-lg bg-accent/100 absolute top-0 z-30 flex h-full w-full items-center justify-center"
+			? 'pointer-events-none opacity-0'
+			: 'opacity-100'} bg-accent/100 absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg"
 	>
 		<svg
 			class="lucide lucide-loader-circle animate-spin"
@@ -318,7 +318,7 @@
 </div>
 
 <div class="">
-	<div class="flex-col md:flex-row items-center mt-6 md:mt-12 flex gap-6">
+	<div class="mt-6 flex flex-col items-center gap-6 md:mt-12 md:flex-row">
 		<div class="relative w-1/4">
 			<LocationSearch
 				style="height: 40px"

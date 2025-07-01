@@ -112,7 +112,7 @@
 		<div class="relative">
 			<Input type="text" class="h-12 pt-6" name="name" id="name" bind:value={$params.name} />
 			<Label
-				class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+				class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 				for="name">Name</Label
 			>
 		</div>
@@ -127,7 +127,7 @@
 						<Select.Item class="cursor-pointer" value={lo.value}>{lo.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Language</Label
 				>
 			</Select.Root>
@@ -143,7 +143,7 @@
 						<Select.Item class="cursor-pointer" value={co.value}>{co.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Number of Results</Label
 				>
 			</Select.Root>
@@ -159,7 +159,7 @@
 						<Select.Item class="cursor-pointer" value={fo.value}>{fo.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Format</Label
 				>
 			</Select.Root>
@@ -175,7 +175,7 @@
 						<Select.Item class="cursor-pointer" value={cc.value}>{cc.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Country Code</Label
 				>
 			</Select.Root>
@@ -197,7 +197,7 @@
 	<div class="relative min-h-[580px]">
 		{#await results}
 			<div
-				class="bg-accent/25 border border-border rounded-lg absolute top-0 z-30 flex h-full w-full items-center justify-center"
+				class="bg-accent/25 border-border absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg border"
 				in:fade={{ duration: 200, delay: 300 }}
 				out:fade={{ duration: 100 }}
 			>
@@ -218,9 +218,9 @@
 				<span class="hidden">Loading...</span>
 			</div>
 		{:then results}
-			<div transition:fade={{ duration: 200 }} class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<div transition:fade={{ duration: 200 }} class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 				<table
-					class="w-full mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+					class="mx-6 mt-2 w-full min-w-[1140px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 				>
 					<thead>
 						<tr>
@@ -268,7 +268,7 @@
 					</tbody>
 				</table>
 				{#if (results.results || []).length == 0}
-					<div class="flex justify-center items-center mt-3 text-center">
+					<div class="mt-3 flex items-center justify-center text-center">
 						<strong>No locations found</strong>
 					</div>
 				{/if}
@@ -312,9 +312,9 @@
 			The API endpoint <mark>https://geocoding-api.open-meteo.com/v1/search</mark> accepts a search term
 			and returns a list of matching locations. URL parameters are listed below:
 		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -417,13 +417,13 @@
 			> will be missing if no fourth administrative level is available.
 		</p>
 		<div
-			class="code-numbered overflow-auto bg-[#FAFAFA] rounded-lg dark:bg-[#212121] -mx-6 md:ml-0 lg:mx-0 mt-2 md:mt-4"
+			class="code-numbered -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<GeocodingObject />
 		</div>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -544,7 +544,7 @@
 			object is returned with a HTTP 400 status code.
 		</p>
 		<div
-			class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+			class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<GeocodingError />
 		</div>

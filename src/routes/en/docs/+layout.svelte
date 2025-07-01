@@ -94,8 +94,8 @@
 </script>
 
 <div class="mb-12 flex flex-col md:mb-24 md:flex-row">
-	<aside class="w-full md:w-1/6 md:min-w-[230px] md:max-w-[400px]">
-		<nav class="sticky top-0 flex flex-col p-6 pb-3 md:pb-6 md:pr-3">
+	<aside class="w-full md:w-1/6 md:max-w-[400px] md:min-w-[230px]">
+		<nav class="sticky top-0 flex flex-col p-6 pb-3 md:pr-3 md:pb-6">
 			<Button
 				variant="outline"
 				class="flex justify-start p-3 md:hidden"
@@ -126,7 +126,7 @@
 			>
 				{#each links as link}
 					<li
-						class="my-[0.125rem] rounded-md border py-2 pl-3 pr-2 duration-300 {selectedPath.title ===
+						class="my-[0.125rem] rounded-md border py-2 pr-2 pl-3 duration-300 {selectedPath.title ===
 						link.title
 							? 'border-border'
 							: 'border-transparent'}"
@@ -148,13 +148,13 @@
 								class={`list-unstyled ml-3 overflow-auto duration-500 ${
 									selectedPath.url === link.url ||
 									link.children.some((l) => l.url === selectedPath.url)
-										? 'mb-2 mt-2 max-h-[700px]'
+										? 'mt-2 mb-2 max-h-[700px]'
 										: 'max-h-0'
 								}`}
 							>
 								{#each link.children as l}
 									<li
-										class="rounded-md border p-1 pl-3 py-1 overflow-hidden truncate duration-300 {selectedPath.url ===
+										class="truncate overflow-hidden rounded-md border p-1 py-1 pl-3 duration-300 {selectedPath.url ===
 										l.url
 											? 'border-border'
 											: 'border-transparent'}"
@@ -179,7 +179,7 @@
 		</nav>
 	</aside>
 	<div
-		class="docs-content flex flex-1 flex-col p-6 pt-0 md:max-w-[calc(100%-230px)] lg:max-w-unset md:pl-3 md:pt-6"
+		class="docs-content lg:max-w-unset flex flex-1 flex-col p-6 pt-0 md:max-w-[calc(100%-230px)] md:pt-6 md:pl-3"
 	>
 		{@render children?.()}
 	</div>

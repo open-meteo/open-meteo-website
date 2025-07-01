@@ -19,7 +19,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-map-pinned"
@@ -62,7 +62,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-zap"
@@ -104,7 +104,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-watch"
@@ -145,7 +145,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-archive"
@@ -186,7 +186,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-waves"
@@ -232,7 +232,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-mountain-snow"
@@ -272,7 +272,7 @@
 
 	<div class="mt-16">
 		<a href="#available_apis">
-			<h2 id="available_apis" class="clickable mb-5 text-center text-3xl md:text-5xl font-light">
+			<h2 id="available_apis" class="clickable mb-5 text-center text-3xl font-light md:text-5xl">
 				Available APIs
 			</h2>
 		</a>
@@ -443,7 +443,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-gauge"
@@ -482,7 +482,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-lightbulb"
@@ -523,7 +523,7 @@
 					class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 				>
 					<div
-						class="bg-linear-to-t dark:bg-linear-to-b absolute h-14 w-14 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
 						class="lucide lucide-file-check"
@@ -576,9 +576,9 @@
 			<path d="M6.5 5C9 5 11 7 11 9.5V17a2 2 0 0 1-2 2" />
 			<line x1="6" x2="7" y1="10" y2="10" />
 		</svg>
-		<h2 class="mb-4 text-3xl md:text-5xl font-bold" id="contact">Next steps</h2>
+		<h2 class="mb-4 text-3xl font-bold md:text-5xl" id="contact">Next steps</h2>
 		<div class="text-center">
-			<p class="text-lg font-light mb-4">
+			<p class="mb-4 text-lg font-light">
 				Our <a href="/en/docs">documentation</a> provides a good start to help you integrate weather
 				forecast into you application. For commercial applications, we recommend exploring our
 				<a href="/en/pricing" title="API Subscription Plans">API subscriptions</a>. Should you

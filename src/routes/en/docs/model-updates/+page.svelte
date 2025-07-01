@@ -711,9 +711,9 @@
 				</h2>
 			</a>
 
-			<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+			<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 				<table
-					class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1140px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+					class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1140px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 				>
 					<thead>
 						<tr>
