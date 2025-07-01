@@ -24,7 +24,7 @@
 			href="/"
 		>
 			<Logo width="28" height="28" />
-			Open-meteo
+			Open-Meteo
 		</Button>
 		<Toggle
 			name="mobile-menu"
