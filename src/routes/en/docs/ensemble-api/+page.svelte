@@ -778,17 +778,17 @@
 					</tr>
 					<tr>
 						<th scope="row" rowspan="2">ECMWF</th>
-						<td>IFS 0.4°</td>
+						<td>IFS 0.25°</td>
 						<td>Global</td>
-						<td>44 km, 3-hourly</td>
+						<td>25 km, 3-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<td>IFS 0.25°</td>
+						<td>AIFS 0.25°</td>
 						<td>Global</td>
-						<td>25 km, 3-hourly</td>
+						<td>25 km, 6-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
