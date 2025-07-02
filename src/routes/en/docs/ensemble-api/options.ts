@@ -273,6 +273,7 @@ export const availableVariables = {
 	gfs025: gfs025_variables,
 	gfs05: gfs05_variables,
 	ecmwf_ifs025: ecmwf_variables,
+	ecmwf_aifs025: ecmwf_variables,
 	ukmo_global_ensemble_20km: ukmo_variables,
 	ukmo_uk_ensemble_2km: ukmo_variables,
 	gem_global: gem_global_variables,
@@ -426,6 +427,7 @@ export const models = [
 	],
 	[
 		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' },
+		{ value: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25° Ensemble' },
 		{ value: 'gem_global', label: 'GEM Global Ensemble' },
 		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
 	],
