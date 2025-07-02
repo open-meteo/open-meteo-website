@@ -279,7 +279,7 @@
 </script>
 
 <!-- min-h-[302px] min-h-[602px]  min-h-[902px] min-h-[1202px]  -->
-<div class="-mx-6 md:mx-0 container-wrapper relative min-h-[{300 * $params.hourly.length + 2}px]">
+<div class="container-wrapper relative -mx-6 md:mx-0 min-h-[{300 * $params.hourly.length + 2}px]">
 	<div
 		in:fade={{ duration: 300 }}
 		out:fade={{ duration: 300 }}
@@ -289,8 +289,8 @@
 	></div>
 	<div
 		class="{count > 0
-			? 'opacity-0 pointer-events-none'
-			: 'opacity-100'} rounded-lg bg-accent/100 absolute top-0 z-30 flex h-full w-full items-center justify-center"
+			? 'pointer-events-none opacity-0'
+			: 'opacity-100'} bg-accent/100 absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg"
 	>
 		<svg
 			class="lucide lucide-loader-circle animate-spin"
@@ -311,7 +311,7 @@
 </div>
 
 <div class="">
-	<div class="flex-col md:flex-row items-center mt-6 md:mt-12 flex gap-6">
+	<div class="mt-6 flex flex-col items-center gap-6 md:mt-12 md:flex-row">
 		<div class="relative w-1/4">
 			<LocationSearch
 				style="height: 40px"
@@ -416,31 +416,31 @@
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
-			{#each hourly as group}
+			{#each hourly as group, i (i)}
 				<div>
-					{#each group as e}
-						<div class="group flex items-center" title={e.label}>
+					{#each group as { value, label } (value)}
+						<div class="group flex items-center" title={label}>
 							<Checkbox
-								id="{e.value}_hourly"
+								id="{value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								value={e.value}
-								checked={$params.hourly?.includes(e.value)}
-								aria-labelledby="{e.value}_label"
+								{value}
+								checked={$params.hourly?.includes(value)}
+								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
-									if ($params.hourly?.includes(e.value)) {
+									if ($params.hourly?.includes(value)) {
 										$params.hourly = $params.hourly.filter((item) => {
-											return item !== e.value;
+											return item !== value;
 										});
 									} else {
-										$params.hourly.push(e.value);
+										$params.hourly.push(value);
 										$params.hourly = $params.hourly;
 									}
 								}}
 							/>
 							<Label
-								id="{e.value}_label"
-								for="{e.value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+								id="{value}_label"
+								for="{value}_hourly"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 							>
 						</div>
 					{/each}
