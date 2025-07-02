@@ -16,8 +16,8 @@
 		"format": "prettier --write .",
 		"rename_index_files": "node scripts/rename_to_index_html.js",
 		"update-components": "npx shadcn-svelte@latest add -y -o accordion alert button calendar checkbox dialog dropdown-menu input label popover range-calendar select separator sonner toggle toggle-group",
-		"cy:open": "npx cypress open",
-		"cy:run": "npx cypress run",
+		"cy:open": "CYPRESS_BASE_URL=http://localhost:5173 npx cypress open ",
+		"cy:run": "CYPRESS_BASE_URL=http://localhost:5173 npx cypress run",
 		"cypress": "start-server-and-test dev http://localhost:5173 cy:open",
 		"cypress:run": "start-server-and-test dev http://localhost:5173 cy:run"
 	},

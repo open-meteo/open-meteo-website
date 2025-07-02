@@ -13,8 +13,8 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           build: npm run build
-          start: npm run dev
-      - name: Upload screenshots
+          start: npm run preview
+      - name: Upload Screenshots & Videos
         uses: actions/upload-artifact@v4
         if: failure()
         with:
