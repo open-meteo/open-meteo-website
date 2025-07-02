@@ -38,6 +38,7 @@
 				class="flex flex-wrap justify-start gap-0 text-nowrap"
 			>
 				<ToggleGroup.Item
+					id="non_commercial"
 					value="non_commercial"
 					class=" min-h-12 cursor-pointer rounded-e-none opacity-100! lg:min-h-[unset]"
 					disabled={licenseSelected === 'non_commercial'}
@@ -45,6 +46,7 @@
 					Non-Commercial
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
+					id="commercial"
 					value="commercial"
 					class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
 					disabled={licenseSelected === 'commercial'}
@@ -52,6 +54,7 @@
 					Commercial
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
+					id="self_hosted"
 					value="self_hosted"
 					class="min-h-12 cursor-pointer rounded-s-none opacity-100! lg:min-h-[unset]"
 					disabled={licenseSelected === 'self_hosted'}
@@ -75,10 +78,10 @@
 			<div in:fade class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6">
 				<div class="relative flex">
 					<Input
-						class="h-13 pt-6"
-						type="text"
-						name="apikey"
 						id="apikey"
+						name="apikey"
+						type="text"
+						class="h-13 pt-6"
 						bind:value={$api_key_preferences.apikey}
 						required
 					/>
@@ -100,10 +103,10 @@
 			<div in:fade class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6">
 				<div class="relative flex">
 					<Input
-						class="h-13 pt-6"
-						type="text"
-						name="self_host_server"
 						id="self_host_server"
+						name="self_host_server"
+						type="text"
+						class="h-13 pt-6"
 						bind:value={$api_key_preferences.self_host_server}
 					/>
 					<Label
