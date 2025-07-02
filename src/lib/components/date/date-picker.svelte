@@ -114,6 +114,7 @@
 				</svg>
 
 				<Input
+					id="start_date_input"
 					class="m-0 -mt-2 h-[unset] border-none !bg-transparent p-0 !ring-0 !ring-offset-0 "
 					type="text"
 					value={start_date}
@@ -163,6 +164,7 @@
 				</svg>
 
 				<Input
+					id="end_date_input"
 					class="m-0 -mt-2 h-[unset] border-none !bg-transparent p-0 !ring-0 !ring-offset-0  "
 					type="text"
 					value={end_date}

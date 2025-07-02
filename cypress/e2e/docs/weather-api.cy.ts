@@ -1,6 +1,7 @@
 describe('template spec', () => {
-	it('passes', () => {
-		cy.visit('http://localhost:4173/en/docs');
+	it('should reflect new url data after altering some variables by clicking form elements', () => {
+		cy.visit('/en/docs');
+		cy.wait(500);
 
 		cy.get('#latitude').clear().type(55.2);
 		cy.url().should('include', 'latitude=55.2');
