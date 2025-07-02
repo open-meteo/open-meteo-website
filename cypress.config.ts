@@ -25,6 +25,11 @@ export default defineConfig({
 		},
 		specPattern: 'src/**/*.{cy,unit}.{js,jsx,ts,tsx}'
 	},
+	env: {
+		browserPermissions: {
+			geolocation: 'allow'
+		}
+	},
 	e2e: {
 		baseUrl: 'http://localhost:4173',
 		supportFile: false,

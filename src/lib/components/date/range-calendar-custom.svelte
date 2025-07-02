@@ -209,6 +209,7 @@
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div class="min-h-[280px]">
 					<div
+						id="start_date_days"
 						in:scale={{ start: 0.8, duration: 300 }}
 						class="grid grid-cols-5"
 						aria-roledescription="Date picker window"

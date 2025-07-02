@@ -1,4 +1,4 @@
-describe('template spec', () => {
+describe('LocationSearch', () => {
 	it('should change lat & lon when clicked on searched result', () => {
 		cy.visit('/en/docs');
 		cy.wait(1000);
@@ -32,5 +32,10 @@ describe('template spec', () => {
 			.within(() => {
 				cy.get('button:first-of-type').click();
 			});
+
+		// check gps
+		cy.get('#location_search_gps').click();
+		cy.wait(400);
+		cy.get('#location_search_results').children().should('have.length', 1);
 	});
 });

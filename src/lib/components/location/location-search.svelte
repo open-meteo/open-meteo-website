@@ -175,8 +175,8 @@
 						bind:value={searchQuery}
 					/>
 					<Button
+						id="location_search_gps"
 						variant="outline"
-						class=""
 						title="Detect Location via GPS"
 						onclick={() => (searchQuery = 'GPS')}
 						><svg
