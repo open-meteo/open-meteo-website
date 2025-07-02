@@ -4,7 +4,7 @@
 
 This repository contains the [open-meteo.com](https://open-meteo.com/) website. The weather API code can be found in [this](https://github.com/open-meteo/open-meteo) repository.
 
-The website is build using SvelteKit, Shadcn and Highcharts. It can be run locally using `npm`. It's entirely static and hosted on a CDN afterwards.
+The website is build using SvelteKit, Shadcn and Highcharts. It can be run locally using `npm`. The build is produces is entirely static and hosted on a CDN afterwards.
 
 ## Developing
 

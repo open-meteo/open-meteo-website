@@ -1,4 +1,4 @@
-import { expect, test, vi } from 'vitest';
+import { expect, test } from 'vitest';
 import { get } from 'svelte/store';
 
 import { urlHashStore } from './url-hash-store';
@@ -12,12 +12,13 @@ const paramsStore = urlHashStore({
 	hourly: ['temperature_2m']
 });
 
-let params = get(paramsStore);
+const params = get(paramsStore);
+let checkParams = get(paramsStore);
 
 test('check urlHashStore with hourly variable', () => {
 	if (params['hourly']) params['hourly'].push('wind_10m');
 	paramsStore.set(params);
 
-	let checkParams = get(paramsStore);
+	checkParams = get(paramsStore);
 	expect(checkParams.hourly).toStrictEqual(['temperature_2m', 'wind_10m']);
 });

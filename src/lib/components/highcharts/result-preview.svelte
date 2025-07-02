@@ -3,7 +3,6 @@
 	import { fade } from 'svelte/transition';
 
 	import { titleCase, camelCase, objectDifference } from '$lib/utils';
-
 	import { getWeatherCode, membersPerModel } from '$lib/utils/meteo';
 
 	import { api_key_preferences } from '$lib/stores/settings';
@@ -16,7 +15,6 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
-	import type { Writable } from 'svelte/store';
 	import type { Parameters } from '$lib/docs';
 	import type { UrlHashStore } from '$lib/stores/url-hash-store';
 
@@ -24,12 +22,12 @@
 
 	interface Props {
 		params: UrlHashStore;
-		type?: String;
-		action?: String;
-		model_default?: String;
-		sdk_type?: String;
-		sdk_cache?: Number;
-		defaultParameters: any;
+		type?: string;
+		action?: string;
+		model_default?: string;
+		sdk_type?: string;
+		sdk_cache?: number;
+		defaultParameters: Parameters;
 		useStockChart?: boolean;
 	}
 

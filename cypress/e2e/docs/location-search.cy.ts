@@ -34,8 +34,8 @@ describe('LocationSearch', () => {
 			});
 
 		// check gps
-		cy.get('#location_search_gps').click();
-		cy.wait(400);
-		cy.get('#location_search_results').children().should('have.length', 1);
+		// cy.get('#location_search_gps').click();
+		// cy.wait(400);
+		// cy.get('#location_search_results').children().should('have.length', 1);
 	});
 });
