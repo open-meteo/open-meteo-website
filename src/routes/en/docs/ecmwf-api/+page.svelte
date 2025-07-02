@@ -124,13 +124,17 @@
 
 <Alert.Root class="border-border mb-4">
 	<Alert.Description>
-		The API uses open-data ECMWF weather forecasts from the IFS weather model with a resolution of 9
-		km. However, the open-data access is restricted to a resolution of 25 km and 3-hourly values,
-		although the model still provides excellent accuracy for large scale weather patterns. For more
+		This API features only deterministic IFS and AIFS forecast models with 25 km resolution and 3 or 6-hourly timesteps. For more
 		detailed local forecasts, we recommend using the <a
 			class="text-link underline"
 			href={'/en/docs'}>generic weather forecast API</a
-		>, which combines weather models up to 1 km resolution seamlessly.
+		>, which combines weather models up to 1 km resolution seamlessly.<br/> ECMWF ensemble models are available through the <a
+			class="text-link underline"
+			href={'/en/docs/ensemble-api'}>Ensemble API</a>, ECMWF WAM wave forecasts through the <a
+			class="text-link underline"
+			href={'/en/docs/marine-weather-api'}>Marine Forecast API</a> and the 9 km HRES IFS model is archived with a 48 hour delay in the <a
+			class="text-link underline"
+			href={'/en/docs/marine-weather-api'}>Historical Weather API</a>. 
 	</Alert.Description>
 </Alert.Root>
 
