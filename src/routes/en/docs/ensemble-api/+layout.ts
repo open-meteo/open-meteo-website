@@ -3,7 +3,7 @@ import type { LayoutLoad } from './$types';
 export const load = (() => {
 	return {
 		heroTitle: 'Ensemble API',
-		heroDescription: 'Hundreds Of Weather Forecasts, Every time, Everywhere, All at Once',
+		heroDescription: 'Perturbed Weather Forecasts from Hundreds of Members',
 		heroImage: '/images/rocky_coast.webp'
 	};
 }) satisfies LayoutLoad;
