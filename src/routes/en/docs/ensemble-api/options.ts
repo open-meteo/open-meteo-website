@@ -277,7 +277,9 @@ export const availableVariables = {
 	ukmo_global_ensemble_20km: ukmo_variables,
 	ukmo_uk_ensemble_2km: ukmo_variables,
 	gem_global: gem_global_variables,
-	bom_access_global_ensemble: bom_access_global_ensemble
+	bom_access_global_ensemble: bom_access_global_ensemble,
+	meteoswiss_icon_ch1: icon_global_variables,
+	meteoswiss_icon_ch2: icon_global_variables
 };
 
 export const hourly = [
@@ -434,6 +436,10 @@ export const models = [
 	[
 		{ value: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' },
 		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' }
+	],
+	[
+		{ value: 'meteoswiss_icon_ch1', label: 'MeteoSwiss ICON CH1' },
+		{ value: 'meteoswiss_icon_ch2', label: 'MeteoSwiss ICON CH2' }
 	]
 ];
 
