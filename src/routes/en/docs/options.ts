@@ -372,7 +372,7 @@ export const models = [
 		{ value: 'ukmo_uk_deterministic_2km', label: 'UK Met Office UK 2km' }
 	],
 	[
-		{ value: 'meteoswiss_seamless', label: 'MeteoSwiss ICON Seamless' },
+		{ value: 'meteoswiss_icon_seamless', label: 'MeteoSwiss ICON Seamless' },
 		{ value: 'meteoswiss_icon_ch1', label: 'MeteoSwiss ICON CH1' },
 		{ value: 'meteoswiss_icon_ch2', label: 'MeteoSwiss ICON CH2' },
 	],
