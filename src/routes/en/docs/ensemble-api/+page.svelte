@@ -799,7 +799,7 @@
 						<td>Global</td>
 						<td>25 km, 3-hourly</td>
 						<td>21</td>
-						<td>16 days (32 days every thursday)</td>
+						<td>16 days (39 days every Mo+Thu)</td>
 						<td>Every 12 hours</td>
 					</tr>
 					<tr>
