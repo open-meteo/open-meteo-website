@@ -297,16 +297,16 @@
 				<tbody>
 					{#each previousDay as e}
 						<tr class="border-border border-b">
-							<td class="text-nowrap">{e.label}</td>
+							<td class="text-nowrap">{label}</td>
 							{#each { length: 8 } as _, i}
 								<td class="py-1"
 									><div class="flex items-center justify-center px-2">
 										<Checkbox
-											id="{e.value}_hourly_previous_day{i}"
+											id="{value}_hourly_previous_day{i}"
 											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 											value={formatVariableName(e.value, i)}
 											checked={$params.hourly?.includes(formatVariableName(e.value, i))}
-											aria-labelledby="{e.value}_hourly_previous_day_label{i}"
+											aria-labelledby="{value}_hourly_previous_day_label{i}"
 											onCheckedChange={() => {
 												if ($params.hourly?.includes(formatVariableName(e.value, i))) {
 													$params.hourly = $params.hourly.filter((item) => {
@@ -319,8 +319,8 @@
 											}}
 										/>
 										<Label
-											id="{e.value}_hourly_previous_day_label{i}"
-											for="{e.value}_hourly_previous_day{i}"
+											id="{value}_hourly_previous_day_label{i}"
+											for="{value}_hourly_previous_day{i}"
 											class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
 										>
 									</div></td
@@ -348,7 +348,7 @@
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each temporalResolutionOptions as { value, label } (label)}
+								{#each temporalResolutionOptions as { value, label } (value)}
 									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
@@ -363,8 +363,8 @@
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each gridCellSelectionOptions as gcso}
-									<Select.Item value={gcso.value}>{gcso.label}</Select.Item>
+								{#each gridCellSelectionOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
@@ -384,16 +384,16 @@
 						<tbody>
 							{#each solarVariables as e}
 								<tr class="border-border border-b">
-									<td>{e.label}</td>
+									<td>{label}</td>
 									{#each { length: 8 } as _, i}
 										<td class="py-1"
 											><div class="flex items-center justify-center px-2">
 												<Checkbox
-													id="{e.value}_hourly_previous_day{i}"
+													id="{value}_hourly_previous_day{i}"
 													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 													value={formatVariableName(e.value, i)}
 													checked={$params.hourly?.includes(formatVariableName(e.value, i))}
-													aria-labelledby="{e.value}_hourly_previous_day_label{i}"
+													aria-labelledby="{value}_hourly_previous_day_label{i}"
 													onCheckedChange={() => {
 														if ($params.hourly?.includes(formatVariableName(e.value, i))) {
 															$params.hourly = $params.hourly.filter((item) => {
@@ -406,8 +406,8 @@
 													}}
 												/>
 												<Label
-													id="{e.value}_hourly_previous_day_label{i}"
-													for="{e.value}_hourly_previous_day{i}"
+													id="{value}_hourly_previous_day_label{i}"
+													for="{value}_hourly_previous_day{i}"
 													class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
 												>
 											</div></td
@@ -430,7 +430,7 @@
 						<Input
 							id="tilt"
 							type="number"
-							class="h-12 cursor-pointer pt-6 {$params.tilt < 0 || $params.tilt > 90
+							class="h-12 cursor-pointer pt-6 {Number($params.tilt) < 0 || Number($params.tilt) > 90
 								? 'text-red'
 								: ''}"
 							name="tilt"
@@ -443,7 +443,7 @@
 							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="tilt">Panel Tilt (0° horizontal)</Label
 						>
-						{#if $params.tilt < 0 || $params.tilt > 90}
+						{#if Number($params.tilt) < 0 || Number($params.tilt) > 90}
 							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
@@ -451,7 +451,8 @@
 					<div class="relative">
 						<Input
 							type="number"
-							class="h-12 cursor-pointer pt-6 {$params.azimuth < -180 || $params.azimuth > 180
+							class="h-12 cursor-pointer pt-6 {Number($params.azimuth) < -180 ||
+							Number($params.azimuth) > 180
 								? 'text-red'
 								: ''}"
 							name="azimuth"
@@ -483,16 +484,16 @@
 						<tbody>
 							{#each windVariables as e}
 								<tr class="border-border border-b">
-									<td>{e.label}</td>
+									<td>{label}</td>
 									{#each { length: 8 } as _, i}
 										<td class="py-1"
 											><div class="flex items-center justify-center px-2">
 												<Checkbox
-													id="{e.value}_hourly_previous_day{i}"
+													id="{value}_hourly_previous_day{i}"
 													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 													value={formatVariableName(e.value, i)}
 													checked={$params.hourly?.includes(formatVariableName(e.value, i))}
-													aria-labelledby="{e.value}_hourly_previous_day_label{i}"
+													aria-labelledby="{value}_hourly_previous_day_label{i}"
 													onCheckedChange={() => {
 														if ($params.hourly?.includes(formatVariableName(e.value, i))) {
 															$params.hourly = $params.hourly.filter((item) => {
@@ -505,8 +506,8 @@
 													}}
 												/>
 												<Label
-													id="{e.value}_hourly_previous_day_label{i}"
-													for="{e.value}_hourly_previous_day{i}"
+													id="{value}_hourly_previous_day_label{i}"
+													for="{value}_hourly_previous_day{i}"
 													class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
 												>
 											</div></td
@@ -524,31 +525,31 @@
 				count={countVariables(models, $params.models)}
 			>
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each models as group}
+					{#each models as group, i (i)}
 						<div class="mb-3">
-							{#each group as e}
-								<div class="group flex items-center" title={e.label}>
+							{#each group as { value, label } (value)}
+								<div class="group flex items-center" title={label}>
 									<Checkbox
-										id="{e.value}_model"
+										id="{value}_model"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value={e.value}
-										checked={$params.models?.includes(e.value)}
-										aria-labelledby="{e.value}_label"
+										{value}
+										checked={$params.models?.includes(value)}
+										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
-											if ($params.models?.includes(e.value)) {
+											if ($params.models?.includes(value)) {
 												$params.models = $params.models.filter((item) => {
-													return item !== e.value;
+													return item !== value;
 												});
 											} else {
-												$params.models.push(e.value);
+												$params.models.push(value);
 												$params.models = $params.models;
 											}
 										}}
 									/>
 									<Label
-										id="{e.value}_model_label"
-										for="{e.value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+										id="{value}_model_label"
+										for="{value}_model"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 									>
 								</div>
 							{/each}

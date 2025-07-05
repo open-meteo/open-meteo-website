@@ -391,7 +391,7 @@
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each forecastHoursOptions as { value, label } (label)}
+								{#each forecastHoursOptions as { value, label } (value)}
 									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
@@ -406,7 +406,7 @@
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each pastHoursOptions as { value, label } (label)}
+								{#each pastHoursOptions as { value, label } (value)}
 									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
@@ -426,7 +426,7 @@
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each temporalResolutionOptions as { value, label } (label)}
+								{#each temporalResolutionOptions as { value, label } (value)}
 									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
@@ -441,8 +441,8 @@
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each gridCellSelectionOptions as gcso}
-									<Select.Item value={gcso.value}>{gcso.label}</Select.Item>
+								{#each gridCellSelectionOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
@@ -458,31 +458,31 @@
 				count={countVariables(solarVariables, $params.hourly)}
 			>
 				<div class="grid md:grid-cols-2">
-					{#each solarVariables as group}
+					{#each solarVariables as group, i (i)}
 						<div>
-							{#each group as e}
-								<div class="group flex items-center" title={e.label}>
+							{#each group as { value, label } (value)}
+								<div class="group flex items-center" title={label}>
 									<Checkbox
-										id="{e.value}_hourly"
+										id="{value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value={e.value}
-										checked={$params.hourly?.includes(e.value)}
-										aria-labelledby="{e.value}_hourly_label"
+										{value}
+										checked={$params.hourly?.includes(value)}
+										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
-											if ($params.hourly?.includes(e.value)) {
+											if ($params.hourly?.includes(value)) {
 												$params.hourly = $params.hourly.filter((item) => {
-													return item !== e.value;
+													return item !== value;
 												});
 											} else {
-												$params.hourly.push(e.value);
+												$params.hourly.push(value);
 												$params.hourly = $params.hourly;
 											}
 										}}
 									/>
 									<Label
-										id="{e.value}_hourly_label"
-										for="{e.value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+										id="{value}_hourly_label"
+										for="{value}_hourly"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -501,7 +501,7 @@
 						<Input
 							id="tilt"
 							type="number"
-							class="h-12 cursor-pointer pt-6 {$params.tilt < 0 || $params.tilt > 90
+							class="h-12 cursor-pointer pt-6 {Number($params.tilt) < 0 || Number($params.tilt) > 90
 								? 'text-red'
 								: ''}"
 							name="tilt"
@@ -514,7 +514,7 @@
 							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="tilt">Panel Tilt (0° horizontal)</Label
 						>
-						{#if $params.tilt < 0 || $params.tilt > 90}
+						{#if Number($params.tilt) < 0 || Number($params.tilt) > 90}
 							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
@@ -522,7 +522,8 @@
 					<div class="relative">
 						<Input
 							type="number"
-							class="h-12 cursor-pointer pt-6 {$params.azimuth < -180 || $params.azimuth > 180
+							class="h-12 cursor-pointer pt-6 {Number($params.azimuth) < -180 ||
+							Number($params.azimuth) > 180
 								? 'text-red'
 								: ''}"
 							name="azimuth"
@@ -588,7 +589,7 @@
 						</ToggleGroup.Root>
 					</div>
 					<div class="w-full">
-						{#each pressureVariables as variable}
+						{#each pressureVariables as variable, i (i)}
 							{#if pressureVariablesTab === variable.value}
 								<div class="mb-3">{variable.label}</div>
 								<div>
@@ -646,31 +647,31 @@
 				count={countVariables(models, $params.models)}
 			>
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each models as group}
+					{#each models as group, i (i)}
 						<div class="mb-3">
-							{#each group as e}
-								<div class="group flex items-center" title={e.label}>
+							{#each group as { value, label } (value)}
+								<div class="group flex items-center" title={label}>
 									<Checkbox
-										id="{e.value}_model"
+										id="{value}_model"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value={e.value}
-										checked={$params.models?.includes(e.value)}
-										aria-labelledby="{e.value}_label"
+										{value}
+										checked={$params.models?.includes(value)}
+										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
-											if ($params.models?.includes(e.value)) {
+											if ($params.models?.includes(value)) {
 												$params.models = $params.models.filter((item) => {
-													return item !== e.value;
+													return item !== value;
 												});
 											} else {
-												$params.models.push(e.value);
+												$params.models.push(value);
 												$params.models = $params.models;
 											}
 										}}
 									/>
 									<Label
-										id="{e.value}_model_label"
-										for="{e.value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+										id="{value}_model_label"
+										for="{value}_model"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -696,31 +697,31 @@
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
-			{#each daily as group}
+			{#each daily as group, i (i)}
 				<div>
-					{#each group as e}
-						<div class="group flex items-center" title={e.label}>
+					{#each group as { value, label } (value)}
+						<div class="group flex items-center" title={label}>
 							<Checkbox
-								id="{e.value}_daily"
+								id="{value}_daily"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								value={e.value}
-								checked={$params.daily?.includes(e.value)}
-								aria-labelledby="{e.value}_daily_label"
+								{value}
+								checked={$params.daily?.includes(value)}
+								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
-									if ($params.daily?.includes(e.value)) {
+									if ($params.daily?.includes(value)) {
 										$params.daily = $params.daily.filter((item) => {
-											return item !== e.value;
+											return item !== value;
 										});
 									} else {
-										$params.daily.push(e.value);
+										$params.daily.push(value);
 										$params.daily = $params.daily;
 									}
 								}}
 							/>
 							<Label
-								id="{e.value}_daily_label"
-								for="{e.value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+								id="{value}_daily_label"
+								for="{value}_daily"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -747,31 +748,31 @@
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
-			{#each current as group}
+			{#each current as group, i (i)}
 				<div>
-					{#each group as e}
-						<div class="group flex items-center" title={e.label}>
+					{#each group as { value, label } (value)}
+						<div class="group flex items-center" title={label}>
 							<Checkbox
-								id="{e.value}_current"
+								id="{value}_current"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								value={e.value}
-								checked={$params.current?.includes(e.value)}
-								aria-labelledby="{e.value}_current_label"
+								{value}
+								checked={$params.current?.includes(value)}
+								aria-labelledby="{value}_current_label"
 								onCheckedChange={() => {
-									if ($params.current?.includes(e.value)) {
+									if ($params.current?.includes(value)) {
 										$params.current = $params.current.filter((item) => {
-											return item !== e.value;
+											return item !== value;
 										});
 									} else {
-										$params.current.push(e.value);
+										$params.current.push(value);
 										$params.current = $params.current;
 									}
 								}}
 							/>
 							<Label
-								id="{e.value}_current_label"
-								for="{e.value}_current"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+								id="{value}_current_label"
+								for="{value}_current"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 							>
 						</div>
 					{/each}

@@ -362,31 +362,31 @@
 	</div>
 
 	<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-		{#each models as group}
+		{#each models as group, i (i)}
 			<div class="mb-3">
-				{#each group as e}
-					<div class="group flex items-center" title={e.label}>
+				{#each group as { value, label } (value)}
+					<div class="group flex items-center" title={label}>
 						<Checkbox
-							id="{e.value}_model"
+							id="{value}_model"
 							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-							value={e.value}
-							checked={$params.models?.includes(e.value)}
-							aria-labelledby="{e.value}_label"
+							{value}
+							checked={$params.models?.includes(value)}
+							aria-labelledby="{value}_label"
 							onCheckedChange={() => {
-								if ($params.models?.includes(e.value)) {
+								if ($params.models?.includes(value)) {
 									$params.models = $params.models.filter((item) => {
 										return item !== e.value;
 									});
 								} else {
-									$params.models.push(e.value);
+									$params.models.push(value);
 									$params.models = $params.models;
 								}
 							}}
 						/>
 						<Label
-							id="{e.value}_model_label"
-							for="{e.value}_model"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+							id="{value}_model_label"
+							for="{value}_model"
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 						>
 					</div>
 				{/each}

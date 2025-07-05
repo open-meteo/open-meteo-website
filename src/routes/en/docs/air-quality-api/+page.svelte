@@ -278,28 +278,28 @@
 		>
 			{#each hourly as group}
 				<div>
-					{#each group as e}
-						<div class="group flex items-center" title={e.label}>
+					{#each group as { value, label } (value)}
+						<div class="group flex items-center" title={label}>
 							<Checkbox
-								id="{e.value}_hourly"
+								id="{value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								value={e.value}
-								checked={$params.hourly?.includes(e.value)}
-								aria-labelledby="{e.value}_label"
+								{value}
+								checked={$params.hourly?.includes(value)}
+								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(e.value)) {
 										$params.hourly = $params.hourly.filter((item) => {
 											return item !== e.value;
 										});
 									} else {
-										$params.hourly.push(e.value);
+										$params.hourly.push(value);
 										$params.hourly = $params.hourly;
 									}
 								}}
 							/>
 							<Label
-								id="{e.value}_label"
-								for="{e.value}_hourly"
+								id="{value}_label"
+								for="{value}_hourly"
 								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html e.label}</Label
 							>
 						</div>
@@ -322,28 +322,28 @@
 			>
 				{#each aqi_european as group}
 					<div>
-						{#each group as e}
-							<div class="group flex items-center" title={e.label}>
+						{#each group as { value, label } (value)}
+							<div class="group flex items-center" title={label}>
 								<Checkbox
-									id="{e.value}_hourly"
+									id="{value}_hourly"
 									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value={e.value}
-									checked={$params.hourly?.includes(e.value)}
-									aria-labelledby="{e.value}_label"
+									{value}
+									checked={$params.hourly?.includes(value)}
+									aria-labelledby="{value}_label"
 									onCheckedChange={() => {
 										if ($params.hourly?.includes(e.value)) {
 											$params.hourly = $params.hourly.filter((item) => {
 												return item !== e.value;
 											});
 										} else {
-											$params.hourly.push(e.value);
+											$params.hourly.push(value);
 											$params.hourly = $params.hourly;
 										}
 									}}
 								/>
 								<Label
-									id="{e.value}_label"
-									for="{e.value}_hourly"
+									id="{value}_label"
+									for="{value}_hourly"
 									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html e.label}</Label
 								>
 							</div>
@@ -456,28 +456,28 @@
 			>
 				{#each aqi_united_states as group}
 					<div>
-						{#each group as e}
-							<div class="group flex items-center" title={e.label}>
+						{#each group as { value, label } (value)}
+							<div class="group flex items-center" title={label}>
 								<Checkbox
-									id="{e.value}_hourly"
+									id="{value}_hourly"
 									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									value={e.value}
-									checked={$params.hourly?.includes(e.value)}
-									aria-labelledby="{e.value}_label"
+									{value}
+									checked={$params.hourly?.includes(value)}
+									aria-labelledby="{value}_label"
 									onCheckedChange={() => {
 										if ($params.hourly?.includes(e.value)) {
 											$params.hourly = $params.hourly.filter((item) => {
 												return item !== e.value;
 											});
 										} else {
-											$params.hourly.push(e.value);
+											$params.hourly.push(value);
 											$params.hourly = $params.hourly;
 										}
 									}}
 								/>
 								<Label
-									id="{e.value}_label"
-									for="{e.value}_hourly"
+									id="{value}_label"
+									for="{value}_hourly"
 									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html e.label}</Label
 								>
 							</div>
@@ -643,28 +643,28 @@
 				<div class="grid md:grid-cols-2">
 					{#each additionalVariables as group}
 						<div>
-							{#each group as e}
-								<div class="group flex items-center" title={e.label}>
+							{#each group as { value, label } (value)}
+								<div class="group flex items-center" title={label}>
 									<Checkbox
-										id="{e.value}_hourly"
+										id="{value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value={e.value}
-										checked={$params.hourly?.includes(e.value)}
-										aria-labelledby="{e.value}_label"
+										{value}
+										checked={$params.hourly?.includes(value)}
+										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if (e.value && $params.hourly?.includes(e.value)) {
 												$params.hourly = $params.hourly.filter((item) => {
-													return item !== e.value;
+													return item !== value;
 												});
 											} else if (e.value && $params.hourly) {
-												$params.hourly.push(e.value);
+												$params.hourly.push(value);
 												$params.hourly = $params.hourly;
 											}
 										}}
 									/>
 									<Label
-										id="{e.value}_label"
-										for="{e.value}_hourly"
+										id="{value}_label"
+										for="{value}_hourly"
 										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html e.label}</Label
 									>
 								</div>
@@ -686,7 +686,7 @@
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each forecastHoursOptions as { value, label } (label)}
+								{#each forecastHoursOptions as { value, label } (value)}
 									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
@@ -701,7 +701,7 @@
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each pastHoursOptions as { value, label } (label)}
+								{#each pastHoursOptions as { value, label } (value)}
 									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
@@ -721,7 +721,7 @@
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each temporalResolutionOptions as { value, label } (label)}
+								{#each temporalResolutionOptions as { value, label } (value)}
 									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
@@ -736,8 +736,8 @@
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each gridCellSelectionOptions as gcso}
-									<Select.Item value={gcso.value}>{gcso.label}</Select.Item>
+								{#each gridCellSelectionOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
@@ -758,30 +758,30 @@
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
-			{#each current as group}
+			{#each current as group, i (i)}
 				<div>
-					{#each group as e}
-						<div class="group flex items-center" title={e.label}>
+					{#each group as { value, label } (value)}
+						<div class="group flex items-center" title={label}>
 							<Checkbox
-								id="{e.value}_current"
+								id="{value}_current"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								value={e.value}
-								checked={$params.current?.includes(e.value)}
-								aria-labelledby="{e.value}_current_label"
+								{value}
+								checked={$params.current?.includes(value)}
+								aria-labelledby="{value}_current_label"
 								onCheckedChange={() => {
-									if ($params.current?.includes(e.value)) {
+									if ($params.current?.includes(value)) {
 										$params.current = $params.current.filter((item) => {
-											return item !== e.value;
+											return item !== value;
 										});
 									} else {
-										$params.current.push(e.value);
+										$params.current.push(value);
 										$params.current = $params.current;
 									}
 								}}
 							/>
 							<Label
-								id="{e.value}_current_label"
-								for="{e.value}_current"
+								id="{value}_current_label"
+								for="{value}_current"
 								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html e.label}</Label
 							>
 						</div>
