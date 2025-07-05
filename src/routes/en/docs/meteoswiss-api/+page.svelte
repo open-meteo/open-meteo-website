@@ -39,7 +39,6 @@
 		levels,
 		models,
 		current,
-		minutely_15,
 		solarVariables,
 		defaultParameters,
 		pressureVariables,
@@ -51,10 +50,8 @@
 		pastDaysOptions,
 		pastHoursOptions,
 		forecastHoursOptions,
-		pastMinutely15Options,
 		gridCellSelectionOptions,
-		temporalResolutionOptions,
-		forecastMinutely15Options
+		temporalResolutionOptions
 	} from '../options';
 
 	const params = urlHashStore({
@@ -83,12 +80,6 @@
 	);
 	let cellSelection = $derived(
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
-	);
-	let forecastMinutely15 = $derived(
-		forecastMinutely15Options.find((fmo) => String(fmo.value) == $params.forecast_minutely_15)
-	);
-	let pastMinutely15 = $derived(
-		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
 	);
 	let pressureVariablesTab = $state('temperature');
 
@@ -123,15 +114,6 @@
 
 		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
 			accordionValues.push('models');
-		}
-
-		if (
-			(countVariables(solarVariables, $params.minutely_15).active ||
-				forecastMinutely15.value ||
-				pastMinutely15.value) &&
-			!accordionValues.includes('minutely_15')
-		) {
-			accordionValues.push('minutely_15');
 		}
 	});
 
@@ -706,128 +688,6 @@
 					>
 				</div>
 			</AccordionItem>
-			<AccordionItem
-				id="minutely_15"
-				title="15-Minutely Weather Variables"
-				count={countVariables(solarVariables, $params.minutely_15) +
-					countVariables(minutely_15, $params.minutely_15)}
-			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each minutely_15 as group}
-						<div>
-							{#each group as e}
-								<div class="group flex items-center" title={e.label}>
-									<Checkbox
-										id="{e.value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value="{e.value}_minutely_15"
-										checked={$params.minutely_15?.includes(e.value)}
-										aria-labelledby="{e.value}_minutely_15_label"
-										onCheckedChange={() => {
-											if ($params.minutely_15?.includes(e.value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
-													return item !== e.value;
-												});
-											} else {
-												$params.minutely_15.push(e.value);
-												$params.minutely_15 = $params.minutely_15;
-											}
-										}}
-									/>
-									<Label
-										id="{e.value}_minutely_15_label"
-										for="{e.value}_minutely_15"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each solarVariables as group}
-						<div>
-							{#each group as e}
-								<div class="group flex items-center" title={e.label}>
-									<Checkbox
-										id="{e.value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value="{e.value}_minutely_15"
-										checked={$params.minutely_15?.includes(e.value)}
-										aria-labelledby="{e.value}_minutely_15_label"
-										onCheckedChange={() => {
-											if ($params.minutely_15?.includes(e.value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
-													return item !== e.value;
-												});
-											} else {
-												$params.minutely_15.push(e.value);
-												$params.minutely_15 = $params.minutely_15;
-											}
-										}}
-									/>
-									<Label
-										id="{e.value}_minutely_15_label"
-										for="{e.value}_minutely_15"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-
-				<div>
-					<small class="text-muted-foreground"
-						>Note: Only available in Central Europe and North America. Other regions use
-						interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
-						<mark>instant</mark> for radiation at the indicated time.</small
-					>
-				</div>
-				<div>
-					<small class="text-muted-foreground"
-						>Note: You can further adjust the forecast time range for 15-minutely weather variables
-						using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
-					</small>
-				</div>
-				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
-					<div class="relative">
-						<Select.Root
-							name="cell_selection"
-							type="single"
-							bind:value={$params.forecast_minutely_15}
-						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{forecastMinutely15?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each forecastMinutely15Options as fmo}
-									<Select.Item value={fmo.value}>{fmo.label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-								>Forecast Minutely 15</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative">
-						<Select.Root name="cell_selection" type="single" bind:value={$params.past_minutely_15}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{pastMinutely15?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each pastMinutely15Options as pmo}
-									<Select.Item value={pmo.value}>{pmo.label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-								>Past Minutely 15</Label
-							>
-						</Select.Root>
-					</div>
-				</div>
-			</AccordionItem>
 		</Accordion.Root>
 	</div>
 
@@ -921,10 +781,10 @@
 				</div>
 			{/each}
 		</div>
-		<div class="text-muted-foreground mt-1">
+		<!-- <div class="text-muted-foreground mt-1">
 			Note: Current conditions are based on 15-minutely weather model data. Every weather variable
 			available in hourly data, is available as current condition as well.
-		</div>
+		</div> -->
 	</div>
 
 	<!-- SETTINGS -->
@@ -1085,17 +945,6 @@
 						</td>
 					</tr>
 					<tr>
-						<th scope="row">minutely_15</th>
-						<td>String array</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>A list of weather variables which should be returned. Values can be comma separated,
-							or multiple
-							<mark>&minutely_15=</mark> parameter in the URL can be used.
-						</td>
-					</tr>
-					<tr>
 						<th scope="row">daily</th>
 						<td>String array</td>
 						<td>No</td>
@@ -1185,16 +1034,13 @@
 						<td>Per default, only 7 days are returned. Up to 10 days of forecast are possible.</td>
 					</tr>
 					<tr>
-						<th scope="row"
-							>forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th
-						>
+						<th scope="row">forecast_hours<br />past_hours<br /></th>
 						<td>Integer (&gt;0)</td>
 						<td>No</td>
 						<td></td>
 						<td
-							>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can
-							controlled. Instead of using the current day as a reference, the current hour or the
-							current 15-minute time-step is used.
+							>Similar to forecast_days, the number of timesteps of hourly data can controlled.
+							Instead of using the current day as a reference, the current hour time-step is used.
 						</td>
 					</tr>
 					<tr>
@@ -1209,14 +1055,13 @@
 						</td>
 					</tr>
 					<tr>
-						<th scope="row">start_hour<br />end_hour<br />start_minutely_15<br />end_minutely_15</th
-						>
+						<th scope="row">start_hour<br />end_hour</th>
 						<td>String (yyyy-mm-ddThh:mm)</td>
 						<td>No</td>
 						<td></td>
 						<td
-							>The time interval to get weather data for hourly or 15 minutely data. Time must be
-							specified as an ISO8601 date (e.g.
+							>The time interval to get weather data for hourly data. Time must be specified as an
+							ISO8601 date (e.g.
 							<mark>2022-06-30T12:00</mark>).
 						</td>
 					</tr>
@@ -1567,156 +1412,6 @@
 						<td>Instant</td>
 						<td>meters</td>
 						<td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-</div>
-
-<!-- API DOCS - 15 MIN -->
-<div class="mt-6 md:mt-12">
-	<a href="#15_minutely_parameter_definition"
-		><h3 id="15_minutely_parameter_definition" class="text-xl md:text-2xl">
-			15-Minutely Parameter Definition
-		</h3></a
-	>
-	<div class="mt-2 md:mt-4">
-		<p>
-			The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
-			on the ICON-D2 model which is only available in Central Europe. If 15-minutely data is requested
-			for locations outside Central Europe, data is interpolated from 1-hourly to 15-minutely.
-		</p>
-		<p>
-			15-minutely data can be requested for other weather variables that are available for hourly
-			data, but will use interpolation.
-		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] mt-6 w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<thead>
-					<tr>
-						<th scope="col">Variable</th>
-						<th scope="col">Valid time</th>
-						<th scope="col">Unit</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">shortwave_radiation</th>
-						<td>Preceding 15 minutes mean</td>
-						<td>W/m²</td>
-						<td
-							>Shortwave solar radiation as average of the preceding 15 minutes. This is equal to
-							the total global horizontal irradiation
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">direct_radiation<br />direct_normal_irradiance</th>
-						<td>Preceding 15 minutes mean</td>
-						<td>W/m²</td>
-						<td
-							>Direct solar radiation as average of the preceding 15 minutes on the horizontal plane
-							and the normal plane (perpendicular to the sun)</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">diffuse_radiation</th>
-						<td>Preceding 15 minutes mean</td>
-						<td>W/m²</td>
-						<td>Diffuse solar radiation as average of the preceding 15 minutes</td>
-					</tr>
-					<tr>
-						<th scope="row">global_tilted_irradiance</th>
-						<td>Preceding 15 minutes mean</td>
-						<td>W/m²</td>
-						<td
-							>Total radiation received on a tilted pane as average of the 15 minutes. The
-							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
-							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
-							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
-							is set to "nan", the calculation assumes a horizontal tracker. If tilt is set to
-							"nan", it is assumed that the panel has a vertical tracker. If both are set to "nan",
-							a bi-axial tracker is assumed.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">sunshine_duration</th>
-						<td>Preceding 15 minutes sum</td>
-						<td>Seconds</td>
-						<td
-							>Number of seconds of sunshine of the preceding 15-minutes per hour calculated by
-							direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">lightning_potential</th>
-						<td>Instant</td>
-						<td>J/kg</td>
-						<td
-							>The Lightning Potential Index after <a
-								href="https://adgeo.copernicus.org/articles/23/11/2010/adgeo-23-11-2010.pdf"
-								>Lynn and Yair (2010)</a
-							>. It is calculated as a vertical integral of the squared updraft velocity weighted by
-							a function that essentially contains the graupel concentration</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">precipitation</th>
-						<td>Preceding 15 minutes sum</td>
-						<td>mm (inch)</td>
-						<td>Total precipitation (rain, showers, snow) sum of the preceding 15 minutes</td>
-					</tr>
-					<tr>
-						<th scope="row">snowfall</th>
-						<td>Preceding 15 minutes sum</td>
-						<td>cm (inch)</td>
-						<td
-							>Snowfall amount of the preceding 15 minutes in centimeters. For the water equivalent
-							in millimeter, divide by 7. E.g. 7 cm snow = 10 mm precipitation water equivalent</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">rain</th>
-						<td>Preceding 15 minutes sum</td>
-						<td>mm (inch)</td>
-						<td>Rain from large scale weather systems of the preceding 15 minutes in millimeter</td>
-					</tr>
-					<tr>
-						<th scope="row">showers</th>
-						<td>Preceding 15 minutes sum</td>
-						<td>mm (inch)</td>
-						<td
-							>Showers from convective precipitation in millimeters from the preceding 15 minutes</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">snowfall_height</th>
-						<td>Instant</td>
-						<td>meters</td>
-						<td
-							>Height of snowfall limit above mean sea level. It is defined as the height where the
-							wet bulb temperature first exceeds 1.3◦C.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">freezing_level_height</th>
-						<td>Instant</td>
-						<td>meters</td>
-						<td>Altitude above sea level of the 0°C level</td>
-					</tr>
-					<tr>
-						<th scope="row">cape</th>
-						<td>Instant</td>
-						<td>J/kg</td>
-						<td
-							>Convective available potential energy. See <a
-								href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
-								target="_blank">Wikipedia</a
-							>.</td
-						>
 					</tr>
 				</tbody>
 			</table>

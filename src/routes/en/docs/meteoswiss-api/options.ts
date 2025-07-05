@@ -120,22 +120,6 @@ export const current = [
 	]
 ];
 
-export const minutely_15 = [
-	[
-		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
-		{ value: 'rain', label: 'Rain' },
-		{ value: 'snowfall', label: 'Snowfall' },
-		{ value: 'snowfall_height', label: 'Snowfall Height' },
-		{ value: 'freezing_level_height', label: 'Freezing Level Height' }
-	],
-	[
-		{ value: 'cape', label: 'CAPE' },
-		{ value: 'lightning_potential', label: 'Lightning Potential Index LPI' },
-		{ value: 'is_day', label: 'Is Day or Night' },
-		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
-	]
-];
-
 export const daily = [
 	[
 		{ value: 'weather_code', label: 'Weather code' },
