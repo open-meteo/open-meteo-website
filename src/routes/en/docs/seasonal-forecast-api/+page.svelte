@@ -232,7 +232,7 @@
 										$params.six_hourly = $params.six_hourly.filter((item) => {
 											return item !== value;
 										});
-									} else {
+									} else if ($params.six_hourly) {
 										$params.six_hourly.push(value);
 										$params.six_hourly = $params.six_hourly;
 									}
