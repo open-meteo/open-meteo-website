@@ -1005,22 +1005,22 @@
 
 		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 			<figure class="w-full">
-				<img
+				<enhanced:img
 					class="w-full rounded-lg"
-					src="/images/models/dwd_icon-d2.webp"
-					alt="ICON D2 Modal Area"
+					src="/static/images/models/meteoswiss_icon_ch1.png"
+					alt="ICON CH1 Modal Area"
 				/>
-				<figcaption class="text-muted-foreground">ICON D2 Area. Source: Open-Meteo.</figcaption>
+				<figcaption class="text-muted-foreground">ICON CH1 Area. Source: Open-Meteo.</figcaption>
 			</figure>
 
 			<figure class="w-full">
-				<img
+				<enhanced:img
 					class="w-full rounded-lg"
-					src="/images/models/dwd_icon-eu.webp"
-					alt="ICON EU Regional Model Area"
+					src="/static/images/models/meteoswiss_icon_ch2.png"
+					alt="ICON CH2 Regional Model Area"
 				/>
 				<figcaption class="text-muted-foreground">
-					ICON EU Regional Model Area. Source: Open-Meteo.
+					ICON CH2 Regional Model Area. Source: Open-Meteo.
 				</figcaption>
 			</figure>
 		</div>
