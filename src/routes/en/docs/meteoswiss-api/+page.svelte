@@ -143,22 +143,22 @@
 </script>
 
 <svelte:head>
-	<title>DWD ICON API | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/dwd-api" />
+	<title>MeteoSwiss ICON API | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/docs/meteoswiss-api" />
 </svelte:head>
 
 <Alert.Root class="border-border mb-4">
 	<Alert.Description>
-		This API offers access to the renowned ICON weather models from the German Weather service DWD,
-		delivering 15-minutely data for short-term forecasts in central Europe and 11 km resolution
-		global forecasts. The ICON model is a preferred choice in <a
+		This API offers access to the renowned ICON weather models from the Swiss Weather service
+		MeteoSwiss, <!-- delivering 15-minutely data for short-term forecasts in central Europe and 11 km
+		resolution global forecasts. The ICON model is a preferred choice in <a
 			class="text-link underline"
-			href={'/en/docs'}>generic weather forecast API</a
-		> if no other high resolution weather models are available.
+			href="/en/docs">generic weather forecast API</a
+		> if no other high resolution weather models are available. -->
 	</Alert.Description>
 </Alert.Root>
 
-<form method="get" action="https://api.open-meteo.com/v1/dwd-icon">
+<form method="get" action="https://api.open-meteo.com/v1/meteoswiss-icon">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
@@ -946,13 +946,13 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			This API uses global DWD ICON weather forecast and combines them with high-resolution ICON
-			Europe and Central Europe forecasts. Information about DWD wearther models is available <a
+			This API uses global MeteoSwiss ICON weather forecast and combines them with high-resolution
+			<!-- ICON Europe and Central Europe forecasts. Information about MeteoSwiss wearther models is available <a
 				href="https://www.dwd.de/EN/ourservices/nwp_forecast_data/nwp_forecast_data.html"
 				target="_blank">here</a
 			>. For ICON Global and Europe, values are interpolated from 3-hourly to 1-hourly after 78
 			hours. 15-minutely data is only available for a small number of weather variables and only in
-			Central Europe.
+			Central Europe. -->
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
@@ -976,28 +976,20 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">ICON Global</th>
-						<td>Global</td>
-						<td>0.1° (~11 km)</td>
-						<td>Hourly<small class="text-muted-foreground">, 3-hourly after 78 hours</small></td>
-						<td>7.5 days</td>
-						<td>Every 6 hours</td>
-					</tr>
-					<tr>
-						<th scope="row">ICON Europe</th>
-						<td>Europe</td>
-						<td>0.0625° (~7 km)</td>
-						<td>Hourly<small class="text-muted-foreground">, 3-hourly after 78 hours</small></td>
-						<td>5 days</td>
+						<th scope="row">ICON CH1</th>
+						<td>Central Europe</td>
+						<td>0.01° (~1 km)</td>
+						<td>Hourly</td>
+						<td>1 day</td>
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row">ICON D2</th>
+						<th scope="row">ICON CH2</th>
 						<td>Central Europe</td>
 						<td>0.02° (~2 km)</td>
-						<td>15-Minutely</td>
-						<td>2 days</td>
-						<td>Every 3 hours</td>
+						<td>Hourly</td>
+						<td>4 days</td>
+						<td>Every 6 hours</td>
 					</tr>
 				</tbody>
 			</table>
@@ -1010,7 +1002,9 @@
 					src="/static/images/models/meteoswiss_icon_ch1.png"
 					alt="ICON CH1 Modal Area"
 				/>
-				<figcaption class="text-muted-foreground">ICON CH1 Area. Source: Open-Meteo.</figcaption>
+				<figcaption class="text-muted-foreground">
+					ICON CH1 Model Area. Source: Open-Meteo.
+				</figcaption>
 			</figure>
 
 			<figure class="w-full">
@@ -1020,7 +1014,7 @@
 					alt="ICON CH2 Regional Model Area"
 				/>
 				<figcaption class="text-muted-foreground">
-					ICON CH2 Regional Model Area. Source: Open-Meteo.
+					ICON CH2 Model Area. Source: Open-Meteo.
 				</figcaption>
 			</figure>
 		</div>
@@ -1034,9 +1028,9 @@
 	>
 	<div class="mt-2 md:mt-4">
 		<p>
-			The API endpoint <mark>/v1/dwd-icon</mark> accepts a geographical coordinate, a list of weather
-			variables and responds with a JSON hourly weather forecast for 7 days. Time always starts at 0:00
-			today and contains 168 hours. All URL parameters are listed below:
+			The API endpoint <mark>/v1/meteoswiss-icon</mark> accepts a geographical coordinate, a list of
+			weather variables and responds with a JSON hourly weather forecast for 7 days. Time always starts
+			at 0:00 today and contains 168 hours. All URL parameters are listed below:
 		</p>
 		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
 			<table
