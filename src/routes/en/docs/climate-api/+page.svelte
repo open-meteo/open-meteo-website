@@ -119,31 +119,31 @@
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
-			{#each daily as group}
+			{#each daily as group, i (i)}
 				<div>
-					{#each group as e}
-						<div class="group flex items-center" title={e.label}>
+					{#each group as { value, label } (value)}
+						<div class="group flex items-center" title={label}>
 							<Checkbox
-								id="{e.value}_daily"
+								id="{value}_daily"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								value={e.value}
-								checked={$params.daily?.includes(e.value)}
-								aria-labelledby="{e.value}_daily_label"
+								{value}
+								checked={$params.daily?.includes(value)}
+								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
-									if ($params.daily?.includes(e.value)) {
+									if ($params.daily?.includes(value)) {
 										$params.daily = $params.daily.filter((item) => {
-											return item !== e.value;
+											return item !== value;
 										});
-									} else {
-										$params.daily.push(e.value);
+									} else if ($params.daily) {
+										$params.daily.push(value);
 										$params.daily = $params.daily;
 									}
 								}}
 							/>
 							<Label
-								id="{e.value}_daily_label"
-								for="{e.value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+								id="{value}_daily_label"
+								for="{value}_daily"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -161,31 +161,31 @@
 				count={countVariables(models, $params.models)}
 			>
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each models as group}
+					{#each models as group, i (i)}
 						<div class="mb-3">
-							{#each group as e}
-								<div class="group flex items-center" title={e.label}>
+							{#each group as { value, label } (value)}
+								<div class="group flex items-center" title={label}>
 									<Checkbox
-										id="{e.value}_model"
+										id="{value}_model"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value={e.value}
-										checked={$params.models?.includes(e.value)}
-										aria-labelledby="{e.value}_label"
+										{value}
+										checked={$params.models?.includes(value)}
+										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
-											if ($params.models?.includes(e.value)) {
+											if ($params.models?.includes(value)) {
 												$params.models = $params.models.filter((item) => {
-													return item !== e.value;
+													return item !== value;
 												});
-											} else {
-												$params.models.push(e.value);
+											} else if ($params.models) {
+												$params.models.push(value);
 												$params.models = $params.models;
 											}
 										}}
 									/>
 									<Label
-										id="{e.value}_model_label"
-										for="{e.value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+										id="{value}_model_label"
+										for="{value}_model"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -233,7 +233,7 @@
 			vulnerable regions to climate change impacts or assessing the impact of climate change on
 			specific sectors, such as agriculture or public health. The reference point used is ERA5-Land,
 			which is accessible through the <a
-				href={'/en/docs/historical-weather-api'}
+				href="/en/docs/historical-weather-api"
 				title="Historical Weather Information via API">Historical Weather API</a
 			>.
 		</p>
