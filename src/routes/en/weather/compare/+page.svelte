@@ -431,7 +431,7 @@
 										$params.hourly = $params.hourly.filter((item) => {
 											return item !== value;
 										});
-									} else {
+									} else if ($params.hourly) {
 										$params.hourly.push(value);
 										$params.hourly = $params.hourly;
 									}

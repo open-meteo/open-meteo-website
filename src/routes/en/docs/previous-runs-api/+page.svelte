@@ -86,16 +86,16 @@
 		}
 
 		if (
-			(countPreviousVariables(solarVariables, $params.hourly, true).active ||
-				($params.tilt ? $params.tilt > 0 : false) ||
-				($params.azimuth ? $params.azimuth > 0 : false)) &&
+			(countPreviousVariables(solarVariables, $params.hourly).active ||
+				($params.tilt ? Number($params.tilt) > 0 : false) ||
+				($params.azimuth ? Number($params.azimuth) > 0 : false)) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
 		}
 
 		if (
-			countPreviousVariables(windVariables, $params.hourly, true).active &&
+			countPreviousVariables(windVariables, $params.hourly).active &&
 			!accordionValues.includes('wind-variables')
 		) {
 			accordionValues.push('wind-variables');
@@ -220,8 +220,8 @@
 									>{forecastDays?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
-									{#each forecastDaysOptions as fdo}
-										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
+									{#each forecastDaysOptions as { value, label } (value)}
+										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
@@ -236,8 +236,8 @@
 									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
-									{#each pastDaysOptions as pdo}
-										<Select.Item class="cursor-pointer" value={pdo.value}>{pdo.label}</Select.Item>
+									{#each pastDaysOptions as { value, label } (value)}
+										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label
@@ -274,9 +274,9 @@
 							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
 							of dates more easily. Archived forecasts come from a series of weather model runs over
 							time. You can access forecasts for up to 3 months and continuously archived in the
-							<a href={'/en/docs/historical-forecast-api'}>Historical Forecast API</a>. You can also
+							<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>. You can also
 							check out our
-							<a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, which provides
+							<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
 							data going all the way back to 1940.
 						</p>
 					</div>
@@ -295,32 +295,32 @@
 		<div class="mt-2 overflow-auto md:mt-4">
 			<table class="w-full">
 				<tbody>
-					{#each previousDay as e}
+					{#each previousDay as pd, j (j)}
 						<tr class="border-border border-b">
-							<td class="text-nowrap">{label}</td>
-							{#each { length: 8 } as _, i}
+							<td class="text-nowrap">{pd.label}</td>
+							{#each { length: 8 } as _, i (i)}
 								<td class="py-1"
 									><div class="flex items-center justify-center px-2">
 										<Checkbox
-											id="{value}_hourly_previous_day{i}"
+											id="{pd.value}_hourly_previous_day{i}"
 											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-											value={formatVariableName(e.value, i)}
-											checked={$params.hourly?.includes(formatVariableName(e.value, i))}
-											aria-labelledby="{value}_hourly_previous_day_label{i}"
+											value={formatVariableName(pd.value, i)}
+											checked={$params.hourly?.includes(formatVariableName(pd.value, i))}
+											aria-labelledby="{pd.value}_hourly_previous_day_label{i}"
 											onCheckedChange={() => {
-												if ($params.hourly?.includes(formatVariableName(e.value, i))) {
+												if ($params.hourly?.includes(formatVariableName(pd.value, i))) {
 													$params.hourly = $params.hourly.filter((item) => {
-														return item !== formatVariableName(e.value, i);
+														return item !== formatVariableName(pd.value, i);
 													});
-												} else {
-													$params.hourly.push(formatVariableName(e.value, i));
+												} else if ($params.hourly) {
+													$params.hourly.push(formatVariableName(pd.value, i));
 													$params.hourly = $params.hourly;
 												}
 											}}
 										/>
 										<Label
-											id="{value}_hourly_previous_day_label{i}"
-											for="{value}_hourly_previous_day{i}"
+											id="{pd.value}_hourly_previous_day_label{i}"
+											for="{pd.value}_hourly_previous_day{i}"
 											class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
 										>
 									</div></td
@@ -382,32 +382,32 @@
 				<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 					<table class="mx-6 mt-2 w-full min-w-[1020px] md:ml-0 lg:mx-0">
 						<tbody>
-							{#each solarVariables as e}
+							{#each solarVariables as sv, j (j)}
 								<tr class="border-border border-b">
-									<td>{label}</td>
-									{#each { length: 8 } as _, i}
+									<td>{sv.label}</td>
+									{#each { length: 8 } as _, i (i)}
 										<td class="py-1"
 											><div class="flex items-center justify-center px-2">
 												<Checkbox
-													id="{value}_hourly_previous_day{i}"
+													id="{sv.value}_hourly_previous_day{i}"
 													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-													value={formatVariableName(e.value, i)}
-													checked={$params.hourly?.includes(formatVariableName(e.value, i))}
-													aria-labelledby="{value}_hourly_previous_day_label{i}"
+													value={formatVariableName(sv.value, i)}
+													checked={$params.hourly?.includes(formatVariableName(sv.value, i))}
+													aria-labelledby="{sv.value}_hourly_previous_day_label{i}"
 													onCheckedChange={() => {
-														if ($params.hourly?.includes(formatVariableName(e.value, i))) {
+														if ($params.hourly?.includes(formatVariableName(sv.value, i))) {
 															$params.hourly = $params.hourly.filter((item) => {
-																return item !== formatVariableName(e.value, i);
+																return item !== formatVariableName(sv.value, i);
 															});
-														} else {
-															$params.hourly.push(formatVariableName(e.value, i));
+														} else if ($params.hourly) {
+															$params.hourly.push(formatVariableName(sv.value, i));
 															$params.hourly = $params.hourly;
 														}
 													}}
 												/>
 												<Label
-													id="{value}_hourly_previous_day_label{i}"
-													for="{value}_hourly_previous_day{i}"
+													id="{sv.value}_hourly_previous_day_label{i}"
+													for="{sv.value}_hourly_previous_day{i}"
 													class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
 												>
 											</div></td
@@ -482,32 +482,32 @@
 				<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 					<table class="mx-6 mt-2 w-full min-w-[1020px] md:ml-0 lg:mx-0">
 						<tbody>
-							{#each windVariables as e}
+							{#each windVariables as wv, j (j)}
 								<tr class="border-border border-b">
-									<td>{label}</td>
-									{#each { length: 8 } as _, i}
+									<td>{wv.label}</td>
+									{#each { length: 8 } as _, i (i)}
 										<td class="py-1"
 											><div class="flex items-center justify-center px-2">
 												<Checkbox
-													id="{value}_hourly_previous_day{i}"
+													id="{wv.value}_hourly_previous_day{i}"
 													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-													value={formatVariableName(e.value, i)}
-													checked={$params.hourly?.includes(formatVariableName(e.value, i))}
-													aria-labelledby="{value}_hourly_previous_day_label{i}"
+													value={formatVariableName(wv.value, i)}
+													checked={$params.hourly?.includes(formatVariableName(wv.value, i))}
+													aria-labelledby="{wv.value}_hourly_previous_day_label{i}"
 													onCheckedChange={() => {
-														if ($params.hourly?.includes(formatVariableName(e.value, i))) {
+														if ($params.hourly?.includes(formatVariableName(wv.value, i))) {
 															$params.hourly = $params.hourly.filter((item) => {
-																return item !== formatVariableName(e.value, i);
+																return item !== formatVariableName(wv.value, i);
 															});
-														} else {
-															$params.hourly.push(formatVariableName(e.value, i));
+														} else if ($params.hourly) {
+															$params.hourly.push(formatVariableName(wv.value, i));
 															$params.hourly = $params.hourly;
 														}
 													}}
 												/>
 												<Label
-													id="{value}_hourly_previous_day_label{i}"
-													for="{value}_hourly_previous_day{i}"
+													id="{wv.value}_hourly_previous_day_label{i}"
+													for="{wv.value}_hourly_previous_day{i}"
 													class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
 												>
 											</div></td
@@ -540,7 +540,7 @@
 												$params.models = $params.models.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.models) {
 												$params.models.push(value);
 												$params.models = $params.models;
 											}
@@ -625,7 +625,7 @@
 		<p>
 			<strong>Weather Models Sources:</strong> The Previous Runs API uses the same models as
 			available in the general weather forecast API. Please refer to the
-			<a href={'/en/docs'}>Forecast API documentation</a> for a list of all weather models and weather
+			<a href="/en/docs">Forecast API documentation</a> for a list of all weather models and weather
 			variables.
 		</p>
 		<p>

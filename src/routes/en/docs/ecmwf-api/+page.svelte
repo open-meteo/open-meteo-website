@@ -91,8 +91,8 @@
 
 		if (
 			(countVariables(solarVariables, $params.hourly).active ||
-				($params.tilt ? $params.tilt > 0 : false) ||
-				($params.azimuth ? $params.azimuth > 0 : false)) &&
+				($params.tilt ? Number($params.tilt) > 0 : false) ||
+				($params.azimuth ? Number($params.azimuth) > 0 : false)) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
@@ -230,8 +230,8 @@
 									>{forecastDays?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
-									{#each forecastDaysOptions as fdo}
-										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
+									{#each forecastDaysOptions as { value, label } (value)}
+										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
@@ -246,8 +246,8 @@
 									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
-									{#each pastDaysOptions as pdo}
-										<Select.Item class="cursor-pointer" value={pdo.value}>{pdo.label}</Select.Item>
+									{#each pastDaysOptions as { value, label } (value)}
+										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label
@@ -284,9 +284,9 @@
 							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
 							of dates more easily. Archived forecasts come from a series of weather model runs over
 							time. You can access forecasts for up to 3 months and continuously archived in the
-							<a href={'/en/docs/historical-forecast-api'}>Historical Forecast API</a>. You can also
+							<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>. You can also
 							check out our
-							<a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, which provides
+							<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
 							data going all the way back to 1940.
 						</p>
 					</div>
@@ -320,7 +320,7 @@
 										$params.hourly = $params.hourly.filter((item) => {
 											return item !== value;
 										});
-									} else {
+									} else if ($params.hourly) {
 										$params.hourly.push(value);
 										$params.hourly = $params.hourly;
 									}
@@ -347,7 +347,7 @@
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
 				<div class="grid md:grid-cols-2">
-					{#each additionalVariables as group}
+					{#each additionalVariables as group, i (i)}
 						<div>
 							{#each group as { value, label } (value)}
 								<div class="group flex items-center" title={label}>
@@ -362,7 +362,7 @@
 												$params.hourly = $params.hourly.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.hourly) {
 												$params.hourly.push(value);
 												$params.hourly = $params.hourly;
 											}
@@ -474,7 +474,7 @@
 												$params.hourly = $params.hourly.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.hourly) {
 												$params.hourly.push(value);
 												$params.hourly = $params.hourly;
 											}
@@ -663,7 +663,7 @@
 												$params.models = $params.models.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.models) {
 												$params.models.push(value);
 												$params.models = $params.models;
 											}
@@ -732,7 +732,7 @@
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
 						class="text-link underline"
-						href={'/en/docs/model-updates'}>model updates documentation</a
+						href="/en/docs/model-updates">model updates documentation</a
 					>.</caption
 				>
 				<thead>

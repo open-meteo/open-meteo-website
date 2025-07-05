@@ -154,8 +154,8 @@
 									>{forecastDays?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
-									{#each forecastDaysOptions as fdo}
-										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
+									{#each forecastDaysOptions as { value, label } (value)}
+										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
@@ -170,8 +170,8 @@
 									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
-									{#each pastDaysOptions as pdo}
-										<Select.Item class="cursor-pointer" value={pdo.value}>{pdo.label}</Select.Item>
+									{#each pastDaysOptions as { value, label } (value)}
+										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label
@@ -208,9 +208,9 @@
 							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
 							of dates more easily. Archived forecasts come from a series of weather model runs over
 							time. You can access forecasts for up to 3 months and continuously archived in the
-							<a href={'/en/docs/historical-forecast-api'}>Historical Forecast API</a>. You can also
+							<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>. You can also
 							check out our
-							<a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, which provides
+							<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
 							data going all the way back to 1940.
 						</p>
 					</div>
@@ -248,7 +248,7 @@
 						<Label
 							id="{value}_daily_label"
 							for="{value}_daily"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html e.label}</Label
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html label}</Label
 						>
 					</div>
 				{/each}
@@ -294,7 +294,7 @@
 												$params.models = $params.models.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.models) {
 												$params.models.push(value);
 												$params.models = $params.models;
 											}

@@ -134,7 +134,7 @@
 										$params.daily = $params.daily.filter((item) => {
 											return item !== value;
 										});
-									} else {
+									} else if ($params.daily) {
 										$params.daily.push(value);
 										$params.daily = $params.daily;
 									}
@@ -176,7 +176,7 @@
 												$params.models = $params.models.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.models) {
 												$params.models.push(value);
 												$params.models = $params.models;
 											}
@@ -233,7 +233,7 @@
 			vulnerable regions to climate change impacts or assessing the impact of climate change on
 			specific sectors, such as agriculture or public health. The reference point used is ERA5-Land,
 			which is accessible through the <a
-				href={'/en/docs/historical-weather-api'}
+				href="/en/docs/historical-weather-api"
 				title="Historical Weather Information via API">Historical Weather API</a
 			>.
 		</p>

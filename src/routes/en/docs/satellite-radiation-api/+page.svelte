@@ -210,8 +210,8 @@ TODO:
 									>{forecastDays?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
-									{#each forecastDaysOptions as fdo}
-										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
+									{#each forecastDaysOptions as { value, label } (value)}
+										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
@@ -226,8 +226,8 @@ TODO:
 									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
-									{#each pastDaysOptions as pdo}
-										<Select.Item class="cursor-pointer" value={pdo.value}>{pdo.label}</Select.Item>
+									{#each pastDaysOptions as { value, label } (value)}
+										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label
@@ -268,7 +268,7 @@ TODO:
 							<Button
 								variant="outline"
 								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-								onclick={(e) => {
+								onclick={() => {
 									$params.start_date = '2022-01-01';
 									$params.end_date = '2022-12-31';
 								}}>2022</Button
@@ -276,7 +276,7 @@ TODO:
 							<Button
 								variant="outline"
 								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-								onclick={(e) => {
+								onclick={() => {
 									$params.start_date = '2023-01-01';
 									$params.end_date = '2023-12-31';
 								}}>2023</Button
@@ -284,7 +284,7 @@ TODO:
 							<Button
 								variant="outline"
 								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-								onclick={(e) => {
+								onclick={() => {
 									$params.start_date = '2024-01-01';
 									$params.end_date = '2024-12-31';
 								}}>2024</Button
@@ -292,7 +292,7 @@ TODO:
 							<Button
 								variant="outline"
 								class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-								onclick={(e) => {
+								onclick={() => {
 									$params.start_date = '2025-01-01';
 									$params.end_date = new Date().toISOString().split('T')[0];
 								}}>2025</Button
@@ -327,7 +327,7 @@ TODO:
 										$params.hourly = $params.hourly.filter((item) => {
 											return item !== value;
 										});
-									} else {
+									} else if ($params.hourly) {
 										$params.hourly.push(value);
 										$params.hourly = $params.hourly;
 									}
@@ -535,7 +535,7 @@ TODO:
 												$params.models = $params.models.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.models) {
 												$params.models.push(value);
 												$params.models = $params.models;
 											}
@@ -556,7 +556,7 @@ TODO:
 					below
 				</p>
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each weatherModels as group}
+					{#each weatherModels as group, i (i)}
 						<div class="mb-3">
 							{#each group as { value, label } (value)}
 								<div class="group flex items-center" title={label}>
@@ -571,7 +571,7 @@ TODO:
 												$params.models = $params.models.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.models) {
 												$params.models.push(value);
 												$params.models = $params.models;
 											}
@@ -623,7 +623,7 @@ TODO:
 										$params.daily = $params.daily.filter((item) => {
 											return item !== value;
 										});
-									} else {
+									} else if ($params.daily) {
 										$params.daily.push(value);
 										$params.daily = $params.daily;
 									}

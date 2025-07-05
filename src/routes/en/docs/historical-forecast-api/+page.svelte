@@ -107,8 +107,8 @@
 
 		if (
 			(countVariables(solarVariables, $params.hourly).active ||
-				($params.tilt ? $params.tilt > 0 : false) ||
-				($params.azimuth ? $params.azimuth > 0 : false)) &&
+				($params.tilt ? Number($params.tilt) > 0 : false) ||
+				($params.azimuth ? Number($params.azimuth) > 0 : false)) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
@@ -240,7 +240,7 @@
 										$params.hourly = $params.hourly.filter((item) => {
 											return item !== value;
 										});
-									} else {
+									} else if ($params.hourly) {
 										$params.hourly.push(value);
 										$params.hourly = $params.hourly;
 									}
@@ -267,7 +267,7 @@
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
 				<div class="grid md:grid-cols-2">
-					{#each additionalVariables as group}
+					{#each additionalVariables as group, i (i)}
 						<div>
 							{#each group as { value, label } (value)}
 								<div class="group flex items-center" title={label}>
@@ -282,7 +282,7 @@
 												$params.hourly = $params.hourly.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.hourly) {
 												$params.hourly.push(value);
 												$params.hourly = $params.hourly;
 											}
@@ -394,7 +394,7 @@
 												$params.hourly = $params.hourly.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.hourly) {
 												$params.hourly.push(value);
 												$params.hourly = $params.hourly;
 											}
@@ -583,7 +583,7 @@
 												$params.models = $params.models.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.models) {
 												$params.models.push(value);
 												$params.models = $params.models;
 											}
@@ -620,7 +620,7 @@
 				}}
 			>
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each minutely_15 as group}
+					{#each minutely_15 as group, i (i)}
 						<div>
 							{#each group as { value, label } (value)}
 								<div class="group flex items-center" title={label}>
@@ -635,7 +635,7 @@
 												$params.minutely_15 = $params.minutely_15.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.minutely_15) {
 												$params.minutely_15.push(value);
 												$params.minutely_15 = $params.minutely_15;
 											}
@@ -668,7 +668,7 @@
 												$params.minutely_15 = $params.minutely_15.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.minutely_15) {
 												$params.minutely_15.push(value);
 												$params.minutely_15 = $params.minutely_15;
 											}
@@ -761,7 +761,7 @@
 										$params.daily = $params.daily.filter((item) => {
 											return item !== value;
 										});
-									} else {
+									} else if ($params.daily) {
 										$params.daily.push(value);
 										$params.daily = $params.daily;
 									}
@@ -812,7 +812,7 @@
 												$params.daily = $params.daily.filter((item) => {
 													return item !== value;
 												});
-											} else {
+											} else if ($params.daily) {
 												$params.daily.push(value);
 												$params.daily = $params.daily;
 											}
