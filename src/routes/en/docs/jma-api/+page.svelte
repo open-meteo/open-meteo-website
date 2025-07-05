@@ -596,7 +596,7 @@
 									<div class="grid grid-cols-1 lg:grid-cols-2">
 										{#each sliceIntoChunks(levels, levels.length / 2 + 1) as chunk}
 											<div>
-												{#each chunk as level}
+												{#each chunk as level, k (k)}
 													<div class="group flex items-center" title={level.label}>
 														<Checkbox
 															id="{variable.value}_{level}hPa"
@@ -609,7 +609,7 @@
 																	$params.hourly = $params.hourly.filter((item) => {
 																		return item !== `${variable.value}_${level}hPa`;
 																	});
-																} else {
+																} else if ($params.hourly) {
 																	$params.hourly.push(`${variable.value}_${level}hPa`);
 																	$params.hourly = $params.hourly;
 																}
