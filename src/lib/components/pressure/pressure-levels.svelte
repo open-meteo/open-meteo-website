@@ -42,12 +42,12 @@
 		<div class="accordion-body">
 			<div class="   ">
 				<div class="nav flex-column me-3">
-					{#each pressureVariables as variable, i}
+					{#each pressureVariables as variable, i (i)}
 						<Button>{variable.label}</Button>
 					{/each}
 				</div>
 				<div>
-					{#each pressureVariables as variable, i}
+					{#each pressureVariables as variable, i (i)}
 						<div
 							class:active={i === 0}
 							class:show={i === 0}
@@ -55,9 +55,9 @@
 							aria-labelledby="v-pills-{variable.name}-tab"
 						>
 							<div>
-								{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
+								{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
 									<div>
-										{#each chunk as level}
+										{#each chunk as level, k (k)}
 											<div>
 												<input
 													type="checkbox"

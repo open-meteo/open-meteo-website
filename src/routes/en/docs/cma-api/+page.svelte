@@ -96,8 +96,8 @@
 
 		if (
 			(countVariables(solarVariables, $params.hourly).active ||
-				($params.tilt ? $params.tilt > 0 : false) ||
-				($params.azimuth ? $params.azimuth > 0 : false)) &&
+				($params.tilt ? Number($params.tilt) > 0 : false) ||
+				($params.azimuth ? Number($params.azimuth) > 0 : false)) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
@@ -145,7 +145,7 @@
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="rounded-e-none !opacity-100 gap-1 duration-300 {$params.time_mode ===
+					class="gap-1 rounded-e-none !opacity-100 duration-300 {$params.time_mode ===
 					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
@@ -174,7 +174,7 @@
 				</Button>
 				<Button
 					variant="ghost"
-					class="rounded-s-none !opacity-100 gap-1 duration-300  {$params.time_mode ===
+					class="gap-1 rounded-s-none !opacity-100 duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -225,11 +225,11 @@
 									>{forecastDays?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
-									{#each forecastDaysOptions as fdo}
-										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
+									{#each forecastDaysOptions as { value, label } (value)}
+										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
-								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 									>Forecast days</Label
 								>
 							</Select.Root>
@@ -241,12 +241,12 @@
 									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
-									{#each pastDaysOptions as pdo}
-										<Select.Item class="cursor-pointer" value={pdo.value}>{pdo.label}</Select.Item>
+									{#each pastDaysOptions as { value, label } (value)}
+										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label
-									class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+									class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>
 									Past days</Label
 								>
@@ -279,9 +279,9 @@
 							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
 							of dates more easily. Archived forecasts come from a series of weather model runs over
 							time. You can access forecasts for up to 3 months and continuously archived in the
-							<a href={'/en/docs/historical-forecast-api'}>Historical Forecast API</a>. You can also
+							<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>. You can also
 							check out our
-							<a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, which provides
+							<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
 							data going all the way back to 1940.
 						</p>
 					</div>
@@ -300,31 +300,31 @@
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
-			{#each hourly as group}
+			{#each hourly as group, i (i)}
 				<div>
-					{#each group as e}
-						<div class="group flex items-center" title={e.label}>
+					{#each group as { value, label } (value)}
+						<div class="group flex items-center" title={label}>
 							<Checkbox
-								id="{e.value}_hourly"
+								id="{value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								value={e.value}
-								checked={$params.hourly?.includes(e.value)}
-								aria-labelledby="{e.value}_label"
+								{value}
+								checked={$params.hourly?.includes(value)}
+								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
-									if ($params.hourly?.includes(e.value)) {
+									if ($params.hourly?.includes(value)) {
 										$params.hourly = $params.hourly.filter((item) => {
-											return item !== e.value;
+											return item !== value;
 										});
-									} else {
-										$params.hourly.push(e.value);
+									} else if ($params.hourly) {
+										$params.hourly.push(value);
 										$params.hourly = $params.hourly;
 									}
 								}}
 							/>
 							<Label
-								id="{e.value}_label"
-								for="{e.value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+								id="{value}_label"
+								for="{value}_hourly"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -342,31 +342,31 @@
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
 				<div class="grid md:grid-cols-2">
-					{#each additionalVariables as group}
+					{#each additionalVariables as group, i (i)}
 						<div>
-							{#each group as e}
-								<div class="group flex items-center" title={e.label}>
+							{#each group as { value, label } (value)}
+								<div class="group flex items-center" title={label}>
 									<Checkbox
-										id="{e.value}_hourly"
+										id="{value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value={e.value}
-										checked={$params.hourly?.includes(e.value)}
-										aria-labelledby="{e.value}_label"
+										{value}
+										checked={$params.hourly?.includes(value)}
+										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
-											if (e.value && $params.hourly?.includes(e.value)) {
+											if (value && $params.hourly?.includes(value)) {
 												$params.hourly = $params.hourly.filter((item) => {
-													return item !== e.value;
+													return item !== value;
 												});
-											} else if (e.value && $params.hourly) {
-												$params.hourly.push(e.value);
+											} else if (value && $params.hourly) {
+												$params.hourly.push(value);
 												$params.hourly = $params.hourly;
 											}
 										}}
 									/>
 									<Label
-										id="{e.value}_label"
-										for="{e.value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+										id="{value}_label"
+										for="{value}_hourly"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -387,11 +387,11 @@
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each forecastHoursOptions as fho}
-									<Select.Item value={fho.value}>{fho.label}</Select.Item>
+								{#each forecastHoursOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Forecast Hours</Label
 							>
 						</Select.Root>
@@ -402,11 +402,11 @@
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each pastHoursOptions as pho}
-									<Select.Item value={pho.value}>{pho.label}</Select.Item>
+								{#each pastHoursOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Past Hours</Label
 							>
 						</Select.Root>
@@ -422,11 +422,11 @@
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each temporalResolutionOptions as tro}
-									<Select.Item value={tro.value}>{tro.label}</Select.Item>
+								{#each temporalResolutionOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Temporal Resolution For Hourly Data</Label
 							>
 						</Select.Root>
@@ -437,11 +437,11 @@
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each gridCellSelectionOptions as gcso}
-									<Select.Item value={gcso.value}>{gcso.label}</Select.Item>
+								{#each gridCellSelectionOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Grid Cell Selection</Label
 							>
 						</Select.Root>
@@ -454,31 +454,31 @@
 				count={countVariables(solarVariables, $params.hourly)}
 			>
 				<div class="grid md:grid-cols-2">
-					{#each solarVariables as group}
+					{#each solarVariables as group, i (i)}
 						<div>
-							{#each group as e}
-								<div class="group flex items-center" title={e.label}>
+							{#each group as { value, label } (value)}
+								<div class="group flex items-center" title={label}>
 									<Checkbox
-										id="{e.value}_hourly"
+										id="{value}_hourly"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value={e.value}
-										checked={$params.hourly?.includes(e.value)}
-										aria-labelledby="{e.value}_hourly_label"
+										{value}
+										checked={$params.hourly?.includes(value)}
+										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
-											if ($params.hourly?.includes(e.value)) {
+											if ($params.hourly?.includes(value)) {
 												$params.hourly = $params.hourly.filter((item) => {
-													return item !== e.value;
+													return item !== value;
 												});
-											} else {
-												$params.hourly.push(e.value);
+											} else if ($params.hourly) {
+												$params.hourly.push(value);
 												$params.hourly = $params.hourly;
 											}
 										}}
 									/>
 									<Label
-										id="{e.value}_hourly_label"
-										for="{e.value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+										id="{value}_hourly_label"
+										for="{value}_hourly"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -497,7 +497,7 @@
 						<Input
 							id="tilt"
 							type="number"
-							class="h-12 cursor-pointer pt-6 {$params.tilt < 0 || $params.tilt > 90
+							class="h-12 cursor-pointer pt-6 {Number($params.tilt) < 0 || Number($params.tilt) > 90
 								? 'text-red'
 								: ''}"
 							name="tilt"
@@ -507,10 +507,10 @@
 							bind:value={$params.tilt}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="tilt">Panel Tilt (0° horizontal)</Label
 						>
-						{#if $params.tilt < 0 || $params.tilt > 90}
+						{#if Number($params.tilt) < 0 || Number($params.tilt) > 90}
 							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
 						{/if}
 					</div>
@@ -518,7 +518,8 @@
 					<div class="relative">
 						<Input
 							type="number"
-							class="h-12 cursor-pointer pt-6 {$params.azimuth < -180 || $params.azimuth > 180
+							class="h-12 cursor-pointer pt-6 {Number($params.azimuth) < -180 ||
+							Number($params.azimuth) > 180
 								? 'text-red'
 								: ''}"
 							name="azimuth"
@@ -529,7 +530,7 @@
 							bind:value={$params.azimuth}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
 						>
 						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
@@ -545,7 +546,7 @@
 				title="Pressure Level Variables"
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
-				<div class="flex flex-col md:flex-row gap-3 md:gap-6">
+				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
 					<div class="w-full md:w-[227px]">
 						<ToggleGroup.Root
 							type="single"
@@ -556,13 +557,13 @@
 								{#each pressureVariables as variable, i}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="w-[225px] min-h-12 cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
+										class="min-h-12 w-[225px] cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
 										0
 											? 'rounded-t-md'
 											: ''} {i === pressureVariables.length - 1 ? 'rounded-b-md' : ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
-										><div class="w-full text-left flex items-center justify-between gap-2">
+										><div class="flex w-full items-center justify-between gap-2 text-left">
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
@@ -584,14 +585,14 @@
 						</ToggleGroup.Root>
 					</div>
 					<div class="w-full">
-						{#each pressureVariables as variable}
+						{#each pressureVariables as variable, i (i)}
 							{#if pressureVariablesTab === variable.value}
 								<div class="mb-3">{variable.label}</div>
 								<div>
 									<div class="grid grid-cols-1 lg:grid-cols-3">
-										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk}
+										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
 											<div>
-												{#each chunk as level}
+												{#each chunk as level, k (k)}
 													<div class="group flex items-center" title={level.label}>
 														<Checkbox
 															id="{variable.value}_{level}hPa"
@@ -604,7 +605,7 @@
 																	$params.hourly = $params.hourly.filter((item) => {
 																		return item !== `${variable.value}_${level}hPa`;
 																	});
-																} else {
+																} else if ($params.hourly) {
 																	$params.hourly.push(`${variable.value}_${level}hPa`);
 																	$params.hourly = $params.hourly;
 																}
@@ -628,7 +629,7 @@
 						{/each}
 					</div>
 				</div>
-				<div class="lg:ml-[249px] mt-3">
+				<div class="mt-3 lg:ml-[249px]">
 					<small class="text-muted-foreground"
 						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
@@ -647,31 +648,31 @@
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
-			{#each daily as group}
+			{#each daily as group, i (i)}
 				<div>
-					{#each group as e}
-						<div class="group flex items-center" title={e.label}>
+					{#each group as { value, label } (value)}
+						<div class="group flex items-center" title={label}>
 							<Checkbox
-								id="{e.value}_daily"
+								id="{value}_daily"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								value={e.value}
-								checked={$params.daily?.includes(e.value)}
-								aria-labelledby="{e.value}_daily_label"
+								{value}
+								checked={$params.daily?.includes(value)}
+								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
-									if ($params.daily?.includes(e.value)) {
+									if ($params.daily?.includes(value)) {
 										$params.daily = $params.daily.filter((item) => {
-											return item !== e.value;
+											return item !== value;
 										});
-									} else {
-										$params.daily.push(e.value);
+									} else if ($params.daily) {
+										$params.daily.push(value);
 										$params.daily = $params.daily;
 									}
 								}}
 							/>
 							<Label
-								id="{e.value}_daily_label"
-								for="{e.value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+								id="{value}_daily_label"
+								for="{value}_daily"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -714,14 +715,14 @@
 			data in 3-hour intervals, offering forecasts for up to 10 days. The model runs four times
 			daily at 0:00, 6:00, 12:00, and 18:00 UTC.
 		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[840px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[840px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
 						class="text-link underline"
-						href={'/en/docs/model-updates'}>model updates documentation</a
+						href="/en/docs/model-updates">model updates documentation</a
 					>.</caption
 				>
 				<thead>
@@ -767,9 +768,9 @@
 			<mark>&forecast_days=16</mark> is set, up to 10 days of forecast can be returned. All URL parameters
 			are listed below:
 		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1240px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -984,9 +985,9 @@
 			as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
 			from the preceding hour as an average or sum.
 		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1240px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1286,9 +1287,9 @@
 		<p class="text-muted-foreground mt-2">
 			All pressure levels have valid times of the indicated hour (instant).
 		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1364,9 +1365,9 @@
 				>&daily=</mark
 			> accepts the following values:
 		</p>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1454,13 +1455,13 @@
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
 		<div
-			class="code-numbered overflow-auto bg-[#FAFAFA] rounded-lg dark:bg-[#212121] -mx-6 md:ml-0 lg:mx-0 mt-2 md:mt-4"
+			class="code-numbered -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<WeatherForecastObject />
 		</div>
-		<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[940px] w-full caption-bottom text-left md:mt-4 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1554,7 +1555,7 @@
 			object is returned with a HTTP 400 status code.
 		</p>
 		<div
-			class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+			class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<WeatherForecastError />
 		</div>
