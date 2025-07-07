@@ -375,9 +375,9 @@
 							onCheckedChange={() => {
 								if ($params.models?.includes(value)) {
 									$params.models = $params.models.filter((item) => {
-										return item !== e.value;
+										return item !== value;
 									});
-								} else {
+								} else if ($params.models) {
 									$params.models.push(value);
 									$params.models = $params.models;
 								}

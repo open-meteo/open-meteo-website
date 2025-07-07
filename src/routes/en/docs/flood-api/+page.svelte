@@ -237,9 +237,9 @@
 							onCheckedChange={() => {
 								if ($params.daily?.includes(value)) {
 									$params.daily = $params.daily.filter((item) => {
-										return item !== e.value;
+										return item !== value;
 									});
-								} else {
+								} else if ($params.daily) {
 									$params.daily.push(value);
 									$params.daily = $params.daily;
 								}
