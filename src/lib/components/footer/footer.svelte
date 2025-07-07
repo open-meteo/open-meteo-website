@@ -27,7 +27,7 @@
 					<a class="text-secondary-foreground" href={'/en/docs'}>Weather Forecast API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/historical-weather-api'}
+					<a class="text-secondary-foreground" href="/en/docs/historical-weather-api"
 						>Historical Weather API</a
 					>
 				</li>
@@ -120,7 +120,7 @@
 					>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/model-updates'}
+					<a class="text-secondary-foreground" href="/en/docs/model-updates"
 						>Model Updates Overview</a
 					>
 				</li>

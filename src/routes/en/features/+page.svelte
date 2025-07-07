@@ -168,7 +168,7 @@
 				<h3 class="pl-3 text-2xl">80 Years Historical Data</h3>
 			</div>
 			<p>
-				With our <a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, you have
+				With our <a href="/en/docs/historical-weather-api">Historical Weather API</a>, you have
 				access to over 80 years of hourly weather data, covering any location on earth, all at a
 				10-kilometer resolution. This extensive dataset allows you to delve into the past and
 				analyze historical weather patterns.

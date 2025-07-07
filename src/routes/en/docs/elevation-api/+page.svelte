@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { fade, slide } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { api_key_preferences } from '$lib/stores/settings';
@@ -13,8 +13,6 @@
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
-
-	import * as Select from '$lib/components/ui/select/index';
 
 	import * as Alert from '$lib/components/ui/alert';
 
