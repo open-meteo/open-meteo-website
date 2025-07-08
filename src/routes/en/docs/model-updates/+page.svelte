@@ -421,6 +421,11 @@
 						name: 'IFS 0.25° Ensemble',
 						area: [],
 						meta: fetchMeta('ecmwf_ifs025_ensemble', 'ensemble', api_key_preferences)
+					},
+					{
+						name: 'AIFS 0.25° Ensemble',
+						area: [],
+						meta: fetchMeta('ecmwf_aifs025_ensemble', 'ensemble', api_key_preferences)
 					}
 				]
 			},

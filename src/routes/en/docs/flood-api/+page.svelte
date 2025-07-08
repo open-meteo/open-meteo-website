@@ -154,8 +154,8 @@
 									>{forecastDays?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
-									{#each forecastDaysOptions as fdo}
-										<Select.Item class="cursor-pointer" value={fdo.value}>{fdo.label}</Select.Item>
+									{#each forecastDaysOptions as { value, label } (value)}
+										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
@@ -170,8 +170,8 @@
 									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
-									{#each pastDaysOptions as pdo}
-										<Select.Item class="cursor-pointer" value={pdo.value}>{pdo.label}</Select.Item>
+									{#each pastDaysOptions as { value, label } (value)}
+										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
 								<Label
@@ -208,9 +208,9 @@
 							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
 							of dates more easily. Archived forecasts come from a series of weather model runs over
 							time. You can access forecasts for up to 3 months and continuously archived in the
-							<a href={'/en/docs/historical-forecast-api'}>Historical Forecast API</a>. You can also
+							<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>. You can also
 							check out our
-							<a href={'/en/docs/historical-weather-api'}>Historical Weather API</a>, which provides
+							<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
 							data going all the way back to 1940.
 						</p>
 					</div>
@@ -225,30 +225,30 @@
 			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Flood Variables</h2></a
 		>
 		<div class="mt-2">
-			{#each daily as group}
-				{#each group as e}
-					<div class="group flex items-center" title={e.label}>
+			{#each daily as group, i (i)}
+				{#each group as { value, label } (value)}
+					<div class="group flex items-center" title={label}>
 						<Checkbox
-							id="{e.value}_daily"
+							id="{value}_daily"
 							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-							value={e.value}
-							checked={$params.daily?.includes(e.value)}
-							aria-labelledby="{e.value}_daily_label"
+							{value}
+							checked={$params.daily?.includes(value)}
+							aria-labelledby="{value}_daily_label"
 							onCheckedChange={() => {
-								if ($params.daily?.includes(e.value)) {
+								if ($params.daily?.includes(value)) {
 									$params.daily = $params.daily.filter((item) => {
-										return item !== e.value;
+										return item !== value;
 									});
-								} else {
-									$params.daily.push(e.value);
+								} else if ($params.daily) {
+									$params.daily.push(value);
 									$params.daily = $params.daily;
 								}
 							}}
 						/>
 						<Label
-							id="{e.value}_daily_label"
-							for="{e.value}_daily"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html e.label}</Label
+							id="{value}_daily_label"
+							for="{value}_daily"
+							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html label}</Label
 						>
 					</div>
 				{/each}
@@ -279,31 +279,31 @@
 				count={countVariables(models, $params.models)}
 			>
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each models as group}
+					{#each models as group, i (i)}
 						<div class="mb-3">
-							{#each group as e}
-								<div class="group flex items-center" title={e.label}>
+							{#each group as { value, label } (value)}
+								<div class="group flex items-center" title={label}>
 									<Checkbox
-										id="{e.value}_model"
+										id="{value}_model"
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value={e.value}
-										checked={$params.models?.includes(e.value)}
-										aria-labelledby="{e.value}_label"
+										{value}
+										checked={$params.models?.includes(value)}
+										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
-											if ($params.models?.includes(e.value)) {
+											if ($params.models?.includes(value)) {
 												$params.models = $params.models.filter((item) => {
-													return item !== e.value;
+													return item !== value;
 												});
-											} else {
-												$params.models.push(e.value);
+											} else if ($params.models) {
+												$params.models.push(value);
 												$params.models = $params.models;
 											}
 										}}
 									/>
 									<Label
-										id="{e.value}_model_label"
-										for="{e.value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{e.label}</Label
+										id="{value}_model_label"
+										for="{value}_model"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 									>
 								</div>
 							{/each}
