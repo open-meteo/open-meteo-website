@@ -90,7 +90,7 @@
 		}
 	});
 
-	function isAvailable(variable: String, models: String[]): Boolean {
+	function isAvailable(variable: string, models: string[]): boolean {
 		// no model selected
 		if (models.length == 0) {
 			return true;
@@ -106,7 +106,7 @@
 		return false;
 	}
 
-	function isDailyAvailable(variable: String, models: String[]): Boolean {
+	function isDailyAvailable(variable: string, models: string[]): boolean {
 		// remove last '_part' of variable, that they can be checked with the hourly variables
 		let variableSplit = variable.split('_');
 		if (
