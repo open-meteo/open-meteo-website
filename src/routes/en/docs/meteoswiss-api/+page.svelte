@@ -3,12 +3,7 @@
 
 	import { fade, slide } from 'svelte/transition';
 
-	import {
-		countVariables,
-		sliceIntoChunks,
-		countPressureVariables,
-		altitudeAboveSeaLevelMeters
-	} from '$lib/utils/meteo';
+	import { countVariables, countPressureVariables } from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -20,7 +15,6 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -28,7 +22,6 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
@@ -36,12 +29,10 @@
 	import {
 		daily,
 		hourly,
-		levels,
 		models,
 		current,
 		solarVariables,
 		defaultParameters,
-		pressureVariables,
 		additionalVariables,
 		forecastDaysOptions
 	} from './options';
@@ -81,7 +72,6 @@
 	let cellSelection = $derived(
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
-	let pressureVariablesTab = $state('temperature');
 
 	let accordionValues = $state([]);
 	onMount(() => {
@@ -103,13 +93,6 @@
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
-		}
-
-		if (
-			countPressureVariables(pressureVariables, levels, $params.hourly).active &&
-			!accordionValues.includes('pressure-variables')
-		) {
-			accordionValues.push('pressure-variables');
 		}
 
 		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
@@ -933,8 +916,8 @@
 						<th scope="row">forecast_days</th>
 						<td>Integer (0-10)</td>
 						<td>No</td>
-						<td><mark>7</mark></td>
-						<td>Per default, only 7 days are returned. Up to 10 days of forecast are possible.</td>
+						<td><mark>3</mark></td>
+						<td>Per default, only 3 days are returned. Up to 10 days of forecast are possible.</td>
 					</tr>
 					<tr>
 						<th scope="row">forecast_hours<br />past_hours<br /></th>
@@ -1024,7 +1007,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 mt-6 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-6 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1097,9 +1080,7 @@
 						<td>High level clouds from 8 km altitude</td>
 					</tr>
 					<tr>
-						<th scope="row"
-							>wind_speed_10m<br />wind_speed_80m<br />wind_speed_120m<br />wind_speed_180m</th
-						>
+						<th scope="row">wind_speed_10m</th>
 						<td>Instant</td>
 						<td>km/h (mph, m/s, knots)</td>
 						<td
@@ -1108,10 +1089,7 @@
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"
-							>wind_direction_10m<br />wind_direction_80m<br />wind_direction_120m<br
-							/>wind_direction_180m</th
-						>
+						<th scope="row">wind_direction_10m</th>
 						<td>Instant</td>
 						<td>°</td>
 						<td>Wind direction at 10, 80, 120 or 180 meters above ground</td>
@@ -1274,30 +1252,6 @@
 						<td>Instant</td>
 						<td>meters</td>
 						<td>Altitude above sea level of the 0°C level</td>
-					</tr>
-					<tr>
-						<th scope="row">
-							soil_temperature_0cm<br />soil_temperature_6cm<br />soil_temperature_18cm<br
-							/>soil_temperature_54cm</th
-						>
-						<td>Instant</td>
-						<td>°C (°F)</td>
-						<td
-							>Temperature in the soil at 0, 6, 18 and 54 cm depths. 0 cm is the surface temperature
-							on land or water surface temperature on water.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">
-							soil_moisture_0_to_1cm<br />soil_moisture_1_to_3cm<br />soil_moisture_3_to_9cm<br
-							/>soil_moisture_9_to_27cm<br />soil_moisture_27_to_81cm
-						</th>
-						<td>Instant</td>
-						<td>m³/m³</td>
-						<td
-							>Average soil water content as volumetric mixing ratio at 0-1, 1-3, 3-9, 9-27 and
-							27-81 cm depths.</td
-						>
 					</tr>
 					<tr>
 						<th scope="row">cape</th>

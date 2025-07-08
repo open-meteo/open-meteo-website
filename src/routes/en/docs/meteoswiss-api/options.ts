@@ -11,7 +11,7 @@ export const defaultParameters = {
 
 	time_mode: 'forecast_days',
 	past_days: '0',
-	forecast_days: '7',
+	forecast_days: '3',
 
 	end_date: undefined,
 	start_date: undefined,
@@ -29,18 +29,6 @@ export const defaultParameters = {
 	temperature_unit: 'celsius',
 	precipitation_unit: 'mm'
 };
-
-export const pressureVariables = [
-	{ value: 'temperature', label: 'Temperature' },
-	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud cover' },
-	{ value: 'wind_speed', label: 'Wind Speed' },
-	{ value: 'wind_direction', label: 'Wind Direction' },
-	{ value: 'geopotential_height', label: 'Geopotential Height' }
-];
-export const levels = [
-	30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000
-].reverse();
 
 export const hourly = [
 	[
@@ -179,8 +167,8 @@ export const models = [
 
 export const forecastDaysOptions = [
 	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days' },
+	{ value: '3', label: '3 days (default)' },
 	{ value: '5', label: '5 days' },
-	{ value: '7', label: '7 days (default)' },
+	{ value: '7', label: '7 days' },
 	{ value: '8', label: '8 days' }
 ];
