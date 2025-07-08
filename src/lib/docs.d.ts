@@ -6,6 +6,7 @@ export interface Parameters {
 	hourly?: Array<string>;
 	models?: Array<string>;
 	current?: Array<string>;
+	six_hourly?: Array<string>;
 	minutely_15?: Array<string>;
 
 	timezone?: string;

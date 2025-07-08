@@ -19,7 +19,7 @@ export const isNumeric = (num: string | number) =>
 	!isNaN(num as number);
 
 export const altitudeAboveSeaLevelMeters = (pressureLevelHpA: number): string => {
-	let altitude = (-1 / 2.25577) * 10e4 * (Math.pow(pressureLevelHpA / 1013.25, 1 / 5.25588) - 1);
+	const altitude = (-1 / 2.25577) * 10e4 * (Math.pow(pressureLevelHpA / 1013.25, 1 / 5.25588) - 1);
 	if (altitude <= 500) {
 		return `${Math.round(altitude / 10) * 10} m`;
 	}
@@ -55,15 +55,17 @@ export const countVariables = (
 
 export const countPreviousVariables = (
 	variables: { value: string; label: string }[][],
-	params: string[]
+	params: string[] | undefined
 ) => {
 	const flattenedVariables = variables.flat().map((v) => v.value);
 
 	let active = 0;
-	for (const p of params) {
-		for (const fV of flattenedVariables) {
-			if (p.startsWith(fV)) {
-				active += 1;
+	if (params) {
+		for (const p of params) {
+			for (const fV of flattenedVariables) {
+				if (p.startsWith(fV)) {
+					active += 1;
+				}
 			}
 		}
 	}
@@ -77,14 +79,14 @@ export const countPreviousVariables = (
 export const countPressureVariables = (
 	variables: { value: string; label: string }[],
 	levels: number[],
-	params: string[]
+	params: string[] | undefined
 ) => {
 	const flattenedVariables = variables.flat().map((v) => v.value);
 
 	let active = 0;
 	for (const level of levels) {
 		for (const fV of flattenedVariables) {
-			if (params.includes(`${fV}_${level}hPa`)) {
+			if (params && params.includes(`${fV}_${level}hPa`)) {
 				active += 1;
 			}
 		}
@@ -99,7 +101,7 @@ export const countPressureVariables = (
 export const countHeightVariables = (
 	variables: { value: string; label: string }[],
 	levels: number[],
-	params: string[]
+	params: string[] | undefined
 ) => {
 	return {
 		total: variables.length * levels.length,
