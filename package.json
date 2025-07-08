@@ -64,6 +64,6 @@
 		"shiki": "^3.7.0",
 		"simple-icons": "^15.5.0",
 		"svelte-persisted-store": "^0.12.0",
-		"typescript-eslint": "^8.35.0"
+		"typescript-eslint": "^8.36.0"
 	}
 }
