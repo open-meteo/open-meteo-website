@@ -49,48 +49,30 @@ export const hourly = [
 		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
 		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
-		{ value: 'rain', label: 'Rain' },
-		{ value: 'showers', label: 'Showers' },
-		{ value: 'snowfall', label: 'Snowfall' },
-		{ value: 'snow_depth', label: 'Snow Depth' }
+		{ value: 'rain', label: 'Rain' }
 	],
 	[
-		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
-		{ value: 'surface_pressure', label: 'Surface Pressure' },
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
-		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
-		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud cover High' },
-		{ value: 'visibility', label: 'Visibility' },
+		{ value: 'showers', label: 'Showers' },
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'snow_depth', label: 'Snow Depth' },
 		{ value: 'evapotranspiration', label: 'Evapotranspiration' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 	],
 	[
-		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-		{ value: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
-		{ value: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
-		{ value: 'wind_speed_180m', label: 'Wind Speed (180 m)' },
-		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
-		{ value: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
-		{ value: 'wind_direction_180m', label: 'Wind Direction (180 m)' },
-		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-		{ value: 'temperature_80m', label: 'Temperature (80 m)' },
-		{ value: 'temperature_120m', label: 'Temperature (120 m)' },
-		{ value: 'temperature_180m', label: 'Temperature (180 m)' }
+		{ value: 'visibility', label: 'Visibility' },
+		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'cloud_cover', label: 'Cloud cover Total' },
+		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
+		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
+		{ value: 'cloud_cover_high', label: 'Cloud cover High' }
 	],
 	[
-		{ value: 'soil_temperature_0cm', label: 'Soil Temperature (0 cm)' },
-		{ value: 'soil_temperature_6cm', label: 'Soil Temperature (6 cm)' },
-		{ value: 'soil_temperature_18cm', label: 'Soil Temperature (18 cm)' },
-		{ value: 'soil_temperature_54cm', label: 'Soil Temperature (54 cm)' },
-		{ value: 'soil_moisture_0_to_1cm', label: 'Soil Moisture (0-1 cm)' },
-		{ value: 'soil_moisture_1_to_3cm', label: 'Soil Moisture (1-3 cm)' },
-		{ value: 'soil_moisture_3_to_9cm', label: 'Soil Moisture (3-9 cm)' },
-		{ value: 'soil_moisture_9_to_27cm', label: 'Soil Moisture (9-27 cm)' },
-		{ value: 'soil_moisture_27_to_81cm', label: 'Soil Moisture (27-81 cm)' }
+		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'surface_pressure', label: 'Surface Pressure' },
+		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 	]
 ];
 

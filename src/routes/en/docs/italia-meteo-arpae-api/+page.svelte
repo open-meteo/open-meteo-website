@@ -546,7 +546,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
@@ -581,8 +581,8 @@
 							{#if pressureVariablesTab === variable.value}
 								<div class="mb-3">{variable.label}</div>
 								<div class="grid grid-cols-1">
-									{#each levels as level}
-										<div class="group flex items-center" title={level.label}>
+									{#each levels as level, j (j)}
+										<div class="group flex items-center" title={level}>
 											<Checkbox
 												id="{variable.value}_{level}hPa"
 												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -623,52 +623,6 @@
 					>
 				</div>
 			</AccordionItem>
-			<!-- More models will be added later -->
-			<!-- <AccordionItem
-				id="models"
-				title="Weather models"
-				count={countVariables(models, $params.models)}
-			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each models as group, i (i)}
-						<div class="mb-3">
-							{#each group as { value, label } (value) }
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value={value}
-										checked={$params.models?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_model_label"
-										for="{value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-				<div>
-					<small class="text-muted-foreground"
-						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
-					>
-				</div>
-			</AccordionItem> -->
 		</Accordion.Root>
 	</div>
 
@@ -833,7 +787,9 @@
 					src="/images/models/italiameteo_icon-2i.webp"
 					alt="ICON 2I Modal Area"
 				/> -->
-				<figcaption class="text-muted-foreground">ICON 2I Area. Source: Open-Meteo.</figcaption>
+				<figcaption class="text-muted-foreground">
+					ICON 2I Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				</figcaption>
 			</figure>
 		</div>
 	</div>

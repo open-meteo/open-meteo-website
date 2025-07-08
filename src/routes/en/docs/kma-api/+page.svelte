@@ -732,7 +732,9 @@
 	<figure class="mt-6">
 		<img src="/images/models/kma_ldps.webp" class="rounded-lg" alt="..." />
 		<figcaption class="text-muted-foreground">
-			KMA LDPS domain area at 1.5 km resolution. Source: Open-Meteo.
+			KMA LDPS domain area at 1.5 km resolution. Source: <a href="https://open-meteo.com/"
+				>Open-Meteo</a
+			>.
 		</figcaption>
 	</figure>
 </div>

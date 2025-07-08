@@ -1069,14 +1069,16 @@
 		<figure class="w-full">
 			<img src="/images/models/meteofrance_arome.webp" class="rounded-lg" alt="..." />
 			<figcaption class="text-muted-foreground">
-				MeteoFrance AROME & AROME HD Model Area. Source: Open-Meteo.
+				MeteoFrance AROME & AROME HD Model Area. Source: <a href="https://open-meteo.com/"
+					>Open-Meteo</a
+				>.
 			</figcaption>
 		</figure>
 
 		<figure class="w-full">
 			<img src="/images/models/meteofrance_arpege_europe.webp" class="rounded-lg" alt="..." />
 			<figcaption class="text-muted-foreground">
-				MeteoFrance ARPEGE Model Area. Source: Open-Meteo.
+				MeteoFrance ARPEGE Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 			</figcaption>
 		</figure>
 	</div>

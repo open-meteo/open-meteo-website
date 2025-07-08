@@ -1033,7 +1033,9 @@
 					class="rounded-lg"
 					alt="HRRR U.S.Conus Model Area"
 				/>
-				<figcaption>HRRR U.S.Conus Model Area. Source: Open-Meteo.</figcaption>
+				<figcaption>
+					HRRR U.S.Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				</figcaption>
 			</figure>
 
 			<figure>
@@ -1042,7 +1044,9 @@
 					class="rounded-lg"
 					alt="NBM U.S. Conus Model Area"
 				/>
-				<figcaption>NBM U.S. Conus Model Area. Source: Open-Meteo.</figcaption>
+				<figcaption>
+					NBM U.S. Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				</figcaption>
 			</figure>
 		</div>
 	</div>
