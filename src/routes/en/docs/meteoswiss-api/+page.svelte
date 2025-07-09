@@ -3,12 +3,7 @@
 
 	import { fade, slide } from 'svelte/transition';
 
-	import {
-		countVariables,
-		sliceIntoChunks,
-		countPressureVariables,
-		altitudeAboveSeaLevelMeters
-	} from '$lib/utils/meteo';
+	import { countVariables, countPressureVariables } from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -20,15 +15,13 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
@@ -36,13 +29,10 @@
 	import {
 		daily,
 		hourly,
-		levels,
 		models,
 		current,
-		minutely_15,
 		solarVariables,
 		defaultParameters,
-		pressureVariables,
 		additionalVariables,
 		forecastDaysOptions
 	} from './options';
@@ -51,15 +41,13 @@
 		pastDaysOptions,
 		pastHoursOptions,
 		forecastHoursOptions,
-		pastMinutely15Options,
 		gridCellSelectionOptions,
-		forecastMinutely15Options,
 		temporalResolutionOptions
 	} from '../options';
 
 	const params = urlHashStore({
-		latitude: [52.52],
-		longitude: [13.41],
+		latitude: [47.37],
+		longitude: [8.55],
 		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
@@ -84,13 +72,6 @@
 	let cellSelection = $derived(
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
-	let forecastMinutely15 = $derived(
-		forecastMinutely15Options.find((fmo) => String(fmo.value) == $params.forecast_minutely_15)
-	);
-	let pastMinutely15 = $derived(
-		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
-	);
-	let pressureVariablesTab = $state('temperature');
 
 	let accordionValues = $state([]);
 	onMount(() => {
@@ -107,31 +88,15 @@
 
 		if (
 			(countVariables(solarVariables, $params.hourly).active ||
-				Number($params.tilt) > 0 ||
-				Number($params.azimuth) > 0) &&
+				$params.tilt > 0 ||
+				$params.azimuth > 0) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
 		}
 
-		if (
-			countPressureVariables(pressureVariables, levels, $params.hourly).active &&
-			!accordionValues.includes('pressure-variables')
-		) {
-			accordionValues.push('pressure-variables');
-		}
-
 		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
 			accordionValues.push('models');
-		}
-
-		if (
-			(countVariables(solarVariables, $params.minutely_15).active ||
-				forecastMinutely15.value ||
-				pastMinutely15.value) &&
-			!accordionValues.includes('minutely_15')
-		) {
-			accordionValues.push('minutely_15');
 		}
 	});
 
@@ -139,26 +104,26 @@
 	begin_date.setMonth(begin_date.getMonth() - 3);
 
 	let last_date = new Date();
-	last_date.setDate(last_date.getDate() + 14);
+	last_date.setDate(last_date.getDate() + 8);
 </script>
 
 <svelte:head>
-	<title>Météo-France API | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/meteofrance-api" />
+	<title>MeteoSwiss ICON API | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/docs/meteoswiss-api" />
 </svelte:head>
 
 <Alert.Root class="border-border mb-4">
 	<Alert.Description>
-		The API leverages Météo-France's AROME and ARPEGE weather models, tailored for Central Europe
-		and specifically France. With updates for AROME every hour, nowcast is provided for Central
-		Europe. However, the maximum forecast range is 4 days. For broader use cases, the <a
+		This API offers access to the renowned ICON weather models from the Swiss Weather service
+		MeteoSwiss, <!-- delivering 15-minutely data for short-term forecasts in central Europe and 11 km
+		resolution global forecasts. The ICON model is a preferred choice in <a
 			class="text-link underline"
-			href={'/en/docs'}>Weather Forecast API</a
-		> is recommended, utilizing multiple local weather models for forecasts up to 16 days.
+			href="/en/docs">generic weather forecast API</a
+		> if no other high resolution weather models are available. -->
 	</Alert.Description>
 </Alert.Root>
 
-<form method="get" action="https://api.open-meteo.com/v1/meteofrance">
+<form method="get" action="https://api.open-meteo.com/v1/dwd-icon">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
@@ -567,102 +532,6 @@
 				</div>
 			</AccordionItem>
 			<AccordionItem
-				id="pressure-levels"
-				title="Pressure Level Variables"
-				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
-			>
-				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-[227px]">
-						<ToggleGroup.Root
-							type="single"
-							bind:value={pressureVariablesTab}
-							class="justify-start gap-0"
-						>
-							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
-									<ToggleGroup.Item
-										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
-										0
-											? 'rounded-t-md'
-											: ''} {i === pressureVariables.length - 1 ? 'rounded-b-md' : ''}"
-										disabled={pressureVariablesTab === variable.value}
-										onclick={() => (pressureVariablesTab = variable.value)}
-										><div class="flex w-full items-center justify-between gap-2 text-left">
-											{variable.label}
-											<span class="text-xs">
-												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
-												).length
-													? '(' +
-														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
-														).length +
-														'/' +
-														levels.length +
-														')'
-													: ''}
-											</span>
-										</div>
-									</ToggleGroup.Item>
-								{/each}
-							</div>
-						</ToggleGroup.Root>
-					</div>
-					<div class="w-full">
-						{#each pressureVariables as variable, i (i)}
-							{#if pressureVariablesTab === variable.value}
-								<div class="mb-3">{variable.label}</div>
-								<div>
-									<div class="grid grid-cols-1 lg:grid-cols-3">
-										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
-											<div>
-												{#each chunk as level, k (k)}
-													<div class="group flex items-center" title={level.label}>
-														<Checkbox
-															id="{variable.value}_{level}hPa"
-															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-															value="{variable.value}_{level}hPa"
-															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
-															aria-labelledby="{variable.value}_{level}hPa"
-															onCheckedChange={() => {
-																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-																	$params.hourly = $params.hourly.filter((item) => {
-																		return item !== `${variable.value}_${level}hPa`;
-																	});
-																} else if ($params.hourly) {
-																	$params.hourly.push(`${variable.value}_${level}hPa`);
-																	$params.hourly = $params.hourly;
-																}
-															}}
-														/>
-														<Label
-															for="{variable.value}_{level}hPa"
-															class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
-															>{level} hPa
-															<small class="text-muted-foreground"
-																>({altitudeAboveSeaLevelMeters(level)})</small
-															></Label
-														>
-													</div>
-												{/each}
-											</div>
-										{/each}
-									</div>
-								</div>
-							{/if}
-						{/each}
-					</div>
-				</div>
-				<div class="mt-3 lg:ml-[249px]">
-					<small class="text-muted-foreground"
-						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
-						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
-						level.</small
-					>
-				</div>
-			</AccordionItem>
-			<AccordionItem
 				id="models"
 				title="Weather models"
 				count={countVariables(models, $params.models)}
@@ -705,128 +574,6 @@
 						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
 						a seamless prediction.</small
 					>
-				</div>
-			</AccordionItem>
-			<AccordionItem
-				id="minutely_15"
-				title="15-Minutely Weather Variables"
-				count={countVariables(solarVariables, $params.minutely_15) +
-					countVariables(minutely_15, $params.minutely_15)}
-			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each minutely_15 as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value="{value}_minutely_15"
-										checked={$params.minutely_15?.includes(value)}
-										aria-labelledby="{value}_minutely_15_label"
-										onCheckedChange={() => {
-											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.minutely_15) {
-												$params.minutely_15.push(value);
-												$params.minutely_15 = $params.minutely_15;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_minutely_15_label"
-										for="{value}_minutely_15"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each solarVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value="{value}_minutely_15"
-										checked={$params.minutely_15?.includes(value)}
-										aria-labelledby="{value}_minutely_15_label"
-										onCheckedChange={() => {
-											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.minutely_15) {
-												$params.minutely_15.push(value);
-												$params.minutely_15 = $params.minutely_15;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_minutely_15_label"
-										for="{value}_minutely_15"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-
-				<div>
-					<small class="text-muted-foreground"
-						>Note: Only available in Central Europe and North America. Other regions use
-						interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
-						<mark>instant</mark> for radiation at the indicated time.</small
-					>
-				</div>
-				<div>
-					<small class="text-muted-foreground"
-						>Note: You can further adjust the forecast time range for 15-minutely weather variables
-						using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
-					</small>
-				</div>
-				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
-					<div class="relative">
-						<Select.Root
-							name="cell_selection"
-							type="single"
-							bind:value={$params.forecast_minutely_15}
-						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{forecastMinutely15?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each forecastMinutely15Options as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Forecast Minutely 15</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative">
-						<Select.Root name="cell_selection" type="single" bind:value={$params.past_minutely_15}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{pastMinutely15?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each pastMinutely15Options as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Past Minutely 15</Label
-							>
-						</Select.Root>
-					</div>
 				</div>
 			</AccordionItem>
 		</Accordion.Root>
@@ -923,7 +670,7 @@
 			{/each}
 		</div>
 		<div class="text-muted-foreground mt-1">
-			Note: Current conditions are based on 15-minutely weather model data. Every weather variable
+			Note: Current conditions are based on 1 hourly weather model data. Every weather variable
 			available in hourly data, is available as current condition as well.
 		</div>
 	</div>
@@ -939,7 +686,7 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview {params} {defaultParameters} model_default="meteofrance_seamless" />
+	<ResultPreview {params} {defaultParameters} model_default="meteoswiss_icon_ch1" />
 </div>
 
 <!-- DATA SOURCES -->
@@ -947,14 +694,15 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			This API uses global Météo-France ARPEGE weather forecast and combines them with
-			high-resolution AROME forecasts. AROME is a 1.5 km high resolution model covering France and
-			neighboring areas. For other locations, only ARPEGE is used. For ARPEGE, values are
-			interpolated from 3 or 6-hourly to 1-hourly values after 72 or 96 hours respectively.
+			This API uses MeteoSwiss high-resolution ICON Central Europe forecasts. Information about
+			MeteoSwiss weather models is available <a
+				href="https://www.meteoswiss.admin.ch/weather/warning-and-forecasting-systems/icon-forecasting-systems.html"
+				target="_blank">here</a
+			>.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[900px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 mt-6 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -974,113 +722,48 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row"
-							><a href="https://www.umr-cnrm.fr/spip.php?article121&lang=en" target="_blank"
-								>ARPEGE World</a
-							></th
-						>
-						<td>Global</td>
-						<td>0.25° (~25 km)</td>
-						<td>Hourly<small class="text-muted-foreground">, 3-hourly after 2 days</small></td>
-						<td>4 days</td>
-						<td>Every 6 hours</td>
-					</tr>
-					<tr>
-						<th scope="row"
-							><a href="https://www.umr-cnrm.fr/spip.php?article121&lang=en" target="_blank"
-								>ARPEGE Europe</a
-							></th
-						>
-						<td>Europe</td>
-						<td>0.1° (~11 km)</td>
-						<td>Hourly<small class="text-muted-foreground"></small></td>
-						<td>4 days</td>
-						<td>Every 6 hours</td>
-					</tr>
-					<tr>
-						<th scope="row"
-							><a href="https://www.umr-cnrm.fr/spip.php?article121&lang=en" target="_blank"
-								>ARPEGE Europe Probabilities</a
-							></th
-						>
-						<td>Europe</td>
-						<td>0.1° (~11 km)</td>
-						<td>3-Hourly<small class="text-muted-foreground"></small></td>
-						<td>4 days</td>
-						<td>Every 12 hours</td>
-					</tr>
-					<tr>
-						<th scope="row"
-							><a href="https://www.umr-cnrm.fr/spip.php?article120" target="_blank">AROME France</a
-							></th
-						>
-						<td>France</td>
-						<td>0.025° (~2.5 km)</td>
+						<th scope="row">ICON CH1</th>
+						<td>Central Europe</td>
+						<td>0.01° (~1 km)</td>
 						<td>Hourly</td>
-						<td>2 days</td>
+						<td>1 day</td>
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"
-							><a href="https://www.umr-cnrm.fr/spip.php?article120/" target="_blank"
-								>AROME France HD</a
-							> <small class="text-muted-foreground">(*)</small></th
-						>
-						<td>France</td>
-						<td>0.01° (~1.5 km)</td>
+						<th scope="row">ICON CH2</th>
+						<td>Central Europe</td>
+						<td>0.02° (~2 km)</td>
 						<td>Hourly</td>
-						<td>2 days</td>
-						<td>Every 3 hours</td>
-					</tr>
-					<tr>
-						<th scope="row"
-							><a href="https://www.umr-cnrm.fr/spip.php?article120" target="_blank"
-								>AROME France 15 minutely</a
-							></th
-						>
-						<td>France</td>
-						<td>0.025° (~2.5 km)</td>
-						<td>Hourly</td>
-						<td>6 hours</td>
-						<td>Every hour</td>
-					</tr>
-					<tr>
-						<th scope="row"
-							><a href="https://www.umr-cnrm.fr/spip.php?article120/" target="_blank"
-								>AROME France HD 15 minutely</a
-							> <small class="text-muted-foreground">(*)</small></th
-						>
-						<td>France</td>
-						<td>0.01° (~1.5 km)</td>
-						<td>Hourly</td>
-						<td>6 hours</td>
-						<td>Every hour</td>
+						<td>4 days</td>
+						<td>Every 6 hours</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<small class="text-muted-foreground"
-			>* AROME France HD has the same model area, but at higher resolution with a smaller selection
-			of weather variables.</small
-		>
-	</div>
 
-	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-		<figure class="w-full">
-			<img src="/images/models/meteofrance_arome.webp" class="rounded-lg" alt="..." />
-			<figcaption class="text-muted-foreground">
-				MeteoFrance AROME & AROME HD Model Area. Source: <a href="https://open-meteo.com/"
-					>Open-Meteo</a
-				>.
-			</figcaption>
-		</figure>
+		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+			<figure class="w-full">
+				<enhanced:img
+					class="w-full rounded-lg"
+					src="/static/images/models/meteoswiss_icon_ch1.png"
+					alt="ICON CH1 Modal Area"
+				/>
+				<figcaption class="text-muted-foreground">
+					ICON CH1 Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				</figcaption>
+			</figure>
 
-		<figure class="w-full">
-			<img src="/images/models/meteofrance_arpege_europe.webp" class="rounded-lg" alt="..." />
-			<figcaption class="text-muted-foreground">
-				MeteoFrance ARPEGE Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
-			</figcaption>
-		</figure>
+			<figure class="w-full">
+				<enhanced:img
+					class="w-full rounded-lg"
+					src="/static/images/models/meteoswiss_icon_ch2.png"
+					alt="ICON CH2 Regional Model Area"
+				/>
+				<figcaption class="text-muted-foreground">
+					ICON CH2 Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				</figcaption>
+			</figure>
+		</div>
 	</div>
 </div>
 
@@ -1091,13 +774,13 @@
 	>
 	<div class="mt-2 md:mt-4">
 		<p>
-			The API endpoint <mark>/v1/meteofrance</mark> accepts a geographical coordinate, a list of weather
-			variables and responds with a JSON hourly weather forecast for 4 days. Time always starts at 0:00
-			today and contains 168 hours. All URL parameters are listed below:
+			The API endpoint <mark>/v1/meteoswiss-icon</mark> accepts a geographical coordinate, a list of
+			weather variables and responds with a JSON hourly weather forecast for 7 days. Time always starts
+			at 0:00 today and contains 168 hours. All URL parameters are listed below:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 mt-6 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1221,26 +904,29 @@
 					</tr>
 					<tr>
 						<th scope="row">past_days</th>
-						<td>Integer</td>
+						<td>Integer (0-92)</td>
 						<td>No</td>
 						<td><mark>0</mark></td>
-						<td>If <mark>past_days</mark> is set, past weather data can be returned.</td>
+						<td
+							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also
+							returned.</td
+						>
 					</tr>
 					<tr>
 						<th scope="row">forecast_days</th>
-						<td>Integer (0-4)</td>
+						<td>Integer (0-10)</td>
 						<td>No</td>
-						<td><mark>4</mark></td>
-						<td>Per default, 4 days are returned. Up to 4 days of forecast are possible.</td>
+						<td><mark>3</mark></td>
+						<td>Per default, only 3 days are returned. Up to 10 days of forecast are possible.</td>
 					</tr>
 					<tr>
-						<th scope="row">forecast_hours<br />past_hours</th>
+						<th scope="row">forecast_hours<br />past_hours<br /></th>
 						<td>Integer (&gt;0)</td>
 						<td>No</td>
 						<td></td>
 						<td
 							>Similar to forecast_days, the number of timesteps of hourly data can controlled.
-							Instead of using the current day as a reference, the current hour is used.
+							Instead of using the current day as a reference, the current hour time-step is used.
 						</td>
 					</tr>
 					<tr>
@@ -1263,16 +949,6 @@
 							>The time interval to get weather data for hourly data. Time must be specified as an
 							ISO8601 date (e.g.
 							<mark>2022-06-30T12:00</mark>).
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">models</th>
-						<td>String array</td>
-						<td>No</td>
-						<td><mark>auto</mark></td>
-						<td
-							>Manually select one or more weather models. Per default, the best suitable weather
-							models will be combined.
 						</td>
 					</tr>
 					<tr>
@@ -1309,11 +985,11 @@
 				</tbody>
 			</table>
 		</div>
+		<p class="text-muted-foreground mt-2">
+			Additional optional URL parameters will be added. For API stability, no required parameters
+			will be added in the future!
+		</p>
 	</div>
-	<p class="text-muted-foreground">
-		Additional optional URL parameters will be added. For API stability, no required parameters will
-		be added in the future!
-	</p>
 </div>
 
 <!-- API DOCS - HOURLY -->
@@ -1331,7 +1007,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-6 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1343,17 +1019,10 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row"
-							>temperature_2m<br />temperature_20m<br />temperature_50m<br />temperature_100m<br
-							/>temperature_150m<br />temperature_200m</th
-						>
+						<th scope="row">temperature_2m</th>
 						<td>Instant</td>
 						<td>°C (°F)</td>
-						<td
-							>Air temperature at 2 meters above ground (standard level) and upper air levels 20,
-							50, 100, 150 and 200 above ground. Upper air levels are not available in the AROME HD
-							model.</td
-						>
+						<td>Air temperature at 2 meters above ground</td>
 					</tr>
 					<tr>
 						<th scope="row">relative_humidity_2m</th>
@@ -1411,29 +1080,19 @@
 						<td>High level clouds from 8 km altitude</td>
 					</tr>
 					<tr>
-						<th scope="row"
-							>wind_speed_10m<br />wind_speed_20m<br />wind_speed_50m<br />wind_speed_100m<br
-							/>wind_speed_150m<br />wind_speed_200m</th
-						>
+						<th scope="row">wind_speed_10m</th>
 						<td>Instant</td>
 						<td>km/h (mph, m/s, knots)</td>
 						<td
-							>Wind speed at 10 meters above ground or upper air levels 20, 50, 100, 150 and 200
-							meter above ground. Wind speed on 10 meters is the standard level. Upper levels above
-							100 meter are not available in the AROME HD model.</td
-						>
+							>Wind speed at 10, 80, 120 or 180 meters above ground. Wind speed on 10 meters is the
+							standard level.
+						</td>
 					</tr>
 					<tr>
-						<th scope="row"
-							>wind_direction_10m<br />wind_direction_20m<br />wind_direction_50m<br
-							/>wind_direction_100m<br />wind_direction_150m<br />wind_direction_200m</th
-						>
+						<th scope="row">wind_direction_10m</th>
 						<td>Instant</td>
 						<td>°</td>
-						<td
-							>Wind direction at 10 meters above ground and upper air levels. Upper levels above 100
-							meter are not available in the AROME HD model.</td
-						>
+						<td>Wind direction at 10, 80, 120 or 180 meters above ground</td>
 					</tr>
 					<tr>
 						<th scope="row">wind_gusts_10m</th>
@@ -1456,25 +1115,14 @@
 						<td>W/m²</td>
 						<td
 							>Direct solar radiation as average of the preceding hour on the horizontal plane and
-							the normal plane (perpendicular to the sun). Météo-France does not offers diffuse and
-							direct radiation directly. It is approximated based on <a
-								href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
-								target="_blank">Razo, Müller Witwer</a
-							></td
+							the normal plane (perpendicular to the sun)</td
 						>
 					</tr>
 					<tr>
 						<th scope="row">diffuse_radiation</th>
 						<td>Preceding hour mean</td>
 						<td>W/m²</td>
-						<td
-							>Diffuse solar radiation as average of the preceding hour. HRRR offers diffuse
-							radiation directly. Météo-France does not offers diffuse and direct radiation
-							directly. It is approximated based on <a
-								href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
-								target="_blank">Razo, Müller Witwer</a
-							></td
-						>
+						<td>Diffuse solar radiation as average of the preceding hour</td>
 					</tr>
 					<tr>
 						<th scope="row">global_tilted_irradiance</th>
@@ -1509,6 +1157,34 @@
 						>
 					</tr>
 					<tr>
+						<th scope="row">lightning_potential</th>
+						<td>Instant</td>
+						<td>J/kg</td>
+						<td
+							>The Lightning Potential Index after <a
+								href="https://adgeo.copernicus.org/articles/23/11/2010/adgeo-23-11-2010.pdf"
+								>Lynn and Yair (2010)</a
+							>. It is calculated as a vertical integral of the squared updraft velocity weighted by
+							a function that essentially contains the graupel concentration</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">updraft</th>
+						<td>Instant</td>
+						<td>m/s</td>
+						<td>The maximum vertical updraft velocity within ground and 10 km altitude.</td>
+					</tr>
+					<tr>
+						<th scope="row">evapotranspiration</th>
+						<td>Preceding hour sum</td>
+						<td>mm (inch)</td>
+						<td
+							>Evapotranspration from land surface and plants that weather models assumes for this
+							location. Available soil water is considered. 1 mm evapotranspiration per hour equals
+							1 liter of water per spare meter.</td
+						>
+					</tr>
+					<tr>
 						<th scope="row">et0_fao_evapotranspiration</th>
 						<td>Preceding hour sum</td>
 						<td>mm (inch)</td>
@@ -1518,16 +1194,6 @@
 								target="_blank">FAO-56 Penman-Monteith equations</a
 							> ET₀ is calculated from temperature, wind speed, humidity and solar radiation. Unlimited
 							soil water is assumed. ET₀ is commonly used to estimate the required irrigation for plants.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">weather_code</th>
-						<td>Instant</td>
-						<td>WMO code</td>
-						<td
-							>Weather condition as a numeric code. Follow WMO weather interpretation codes. See
-							table below for details. Weather code is calculated from cloud cover analysis,
-							precipitation, snowfall, cape and gusts.</td
 						>
 					</tr>
 					<tr>
@@ -1546,6 +1212,48 @@
 						>
 					</tr>
 					<tr>
+						<th scope="row">rain</th>
+						<td>Preceding hour sum</td>
+						<td>mm (inch)</td>
+						<td>Rain from large scale weather systems of the preceding hour in millimeter</td>
+					</tr>
+					<tr>
+						<th scope="row">showers</th>
+						<td>Preceding hour sum</td>
+						<td>mm (inch)</td>
+						<td>Showers from convective precipitation in millimeters from the preceding hour</td>
+					</tr>
+					<tr>
+						<th scope="row">weather_code</th>
+						<td>Instant</td>
+						<td>WMO code</td>
+						<td
+							>Weather condition as a numeric code. Follow WMO weather interpretation codes. See
+							table below for details.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">snow_depth</th>
+						<td>Instant</td>
+						<td>meters</td>
+						<td>Snow depth on the ground</td>
+					</tr>
+					<tr>
+						<th scope="row">snowfall_height</th>
+						<td>Instant</td>
+						<td>meters</td>
+						<td
+							>Height of snowfall limit above mean sea level. It is defined as the height where the
+							wet bulb temperature first exceeds 1.3◦C.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">freezing_level_height</th>
+						<td>Instant</td>
+						<td>meters</td>
+						<td>Altitude above sea level of the 0°C level</td>
+					</tr>
+					<tr>
 						<th scope="row">cape</th>
 						<td>Instant</td>
 						<td>J/kg</td>
@@ -1556,94 +1264,11 @@
 							>.</td
 						>
 					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-</div>
-
-<!-- API DOCS - PRESSURE -->
-<div class="mt-6 md:mt-12">
-	<a href="#pressure_level_variables"
-		><h3 id="pressure_level_variables" class="text-xl md:text-2xl">Pressure Level Variables</h3></a
-	>
-	<div class="mt-2 md:mt-4">
-		<p>
-			Pressure level variables do not have fixed altitudes. Altitude varies with atmospheric
-			pressure. 1000 hPa is roughly between 60 and 160 meters above sea level. Estimated altitudes
-			are given below. Altitudes are in meters above sea level (not above ground). For precise
-			altitudes, <mark>geopotential_height</mark> can be used.
-		</p>
-
-		<PressureLevelsHelpTable {levels} />
-		<p class="text-muted-foreground">
-			All pressure levels have valid times of the indicated hour (instant).
-		</p>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<thead>
 					<tr>
-						<th scope="col">Variable</th>
-						<th scope="col">Unit</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">weather_code</th>
-						<td>WMO code</td>
-						<td>The most severe weather condition on a given day</td>
-					</tr>
-					<tr>
-						<th scope="row">temperature_1000hPa<br />temperature_975hPa, ...</th>
-						<td>°C (°F)</td>
-						<td
-							>Air temperature at the specified pressure level. Air temperatures decrease linearly
-							with pressure.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">relative_humidity_1000hPa<br />relative_humidity_975hPa, ...</th>
-						<td>%</td>
-						<td>Relative humidity at the specified pressure level.</td>
-					</tr>
-					<tr>
-						<th scope="row">dew_point_1000hPa<br />dew_point_975hPa, ...</th>
-						<td>°C (°F)</td>
-						<td>Dew point temperature at the specified pressure level.</td>
-					</tr>
-					<tr>
-						<th scope="row">cloud_cover_1000hPa<br />cloud_cover_975hPa, ...</th>
-						<td>%</td>
-						<td
-							>Cloud cover at the specified pressure level. ARPEGE Wold and Europe includes
-							parameterised cloud cover directly. AROME cloud cover is approximated based on
-							relative humidity using <a
-								href="https://www.ecmwf.int/sites/default/files/elibrary/2005/16958-parametrization-cloud-cover.pdf"
-								target="_blank">Sundqvist et al. (1989)</a
-							>. It may not match perfectly with low, mid and high cloud cover variables.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">wind_speed_1000hPa<br />wind_speed_975hPa, ...</th>
-						<td>km/h (mph, m/s, knots)</td>
-						<td>Wind speed at the specified pressure level.</td>
-					</tr>
-					<tr>
-						<th scope="row">wind_direction_1000hPa<br />wind_direction_975hPa, ...</th>
-						<td>°</td>
-						<td>Wind direction at the specified pressure level.</td>
-					</tr>
-					<tr>
-						<th scope="row">geopotential_height_1000hPa<br />geopotential_height_975hPa, ...</th>
-						<td>meter</td>
-						<td
-							>Geopotential height at the specified pressure level. This can be used to get the
-							correct altitude in meter above sea level of each pressure level. Be carefull not to
-							mistake it with altitude above ground.
-						</td>
+						<th scope="row">visibility</th>
+						<td>Instant</td>
+						<td>meters</td>
+						<td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
 					</tr>
 				</tbody>
 			</table>
@@ -1666,7 +1291,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1692,6 +1317,16 @@
 						<td>Sum of daily precipitation (including rain, showers and snowfall)</td>
 					</tr>
 					<tr>
+						<th scope="row">rain_sum</th>
+						<td>mm</td>
+						<td>Sum of daily rain</td>
+					</tr>
+					<tr>
+						<th scope="row">showers_sum</th>
+						<td>mm</td>
+						<td>Sum of daily showers</td>
+					</tr>
+					<tr>
 						<th scope="row">snowfall_sum</th>
 						<td>cm</td>
 						<td>Sum of daily snowfall</td>
@@ -1700,6 +1335,11 @@
 						<th scope="row">precipitation_hours</th>
 						<td>hours</td>
 						<td>The number of hours with rain</td>
+					</tr>
+					<tr>
+						<th scope="row">weather_code</th>
+						<td>WMO code</td>
+						<td>The most severe weather condition on a given day</td>
 					</tr>
 					<tr>
 						<th scope="row">sunrise<br />sunset</th>
@@ -1858,5 +1498,86 @@
 		>
 			<WeatherForecastError />
 		</div>
+	</div>
+</div>
+
+<!-- WEATHER VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#weather_variable_documentation"
+		><h2 id="weather_variable_documentation" class="text-2xl md:text-3xl">
+			Weather variable documentation
+		</h2></a
+	>
+	<div class="mt-3 md:mt-6">
+		<h3 class="text-xl md:text-2xl">WMO Weather interpretation codes (WW)</h3>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 mt-2 min-w-[450px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Code</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">0</th>
+						<td>Clear sky</td>
+					</tr>
+					<tr>
+						<th scope="row">1, 2, 3</th>
+						<td>Mainly clear, partly cloudy, and overcast</td>
+					</tr>
+					<tr>
+						<th scope="row">45, 48</th>
+						<td>Fog and depositing rime fog</td>
+					</tr>
+					<tr>
+						<th scope="row">51, 53, 55</th>
+						<td>Drizzle: Light, moderate, and dense intensity</td>
+					</tr>
+					<tr>
+						<th scope="row">56, 57</th>
+						<td>Freezing Drizzle: Light and dense intensity</td>
+					</tr>
+					<tr>
+						<th scope="row">61, 63, 65</th>
+						<td>Rain: Slight, moderate and heavy intensity</td>
+					</tr>
+					<tr>
+						<th scope="row">66, 67</th>
+						<td>Freezing Rain: Light and heavy intensity</td>
+					</tr>
+					<tr>
+						<th scope="row">71, 73, 75</th>
+						<td>Snow fall: Slight, moderate, and heavy intensity</td>
+					</tr>
+					<tr>
+						<th scope="row">77</th>
+						<td>Snow grains</td>
+					</tr>
+					<tr>
+						<th scope="row">80, 81, 82</th>
+						<td>Rain showers: Slight, moderate, and violent</td>
+					</tr>
+					<tr>
+						<th scope="row">85, 86</th>
+						<td>Snow showers slight and heavy</td>
+					</tr>
+					<tr>
+						<th scope="row">95 *</th>
+						<td>Thunderstorm: Slight or moderate</td>
+					</tr>
+					<tr>
+						<th scope="row">96, 99 *</th>
+						<td>Thunderstorm with slight and heavy hail</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			(*) Thunderstorm forecast with hail is only available in Central Europe
+		</p>
 	</div>
 </div>

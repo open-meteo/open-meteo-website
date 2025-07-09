@@ -579,7 +579,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (variable)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
@@ -954,7 +954,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			This API uses global DWD ICON weather forecast and combines them with high-resolution ICON
-			Europe and Central Europe forecasts. Information about DWD wearther models is available <a
+			Europe and Central Europe forecasts. Information about DWD weather models is available <a
 				href="https://www.dwd.de/EN/ourservices/nwp_forecast_data/nwp_forecast_data.html"
 				target="_blank">here</a
 			>. For ICON Global and Europe, values are interpolated from 3-hourly to 1-hourly after 78
@@ -1017,7 +1017,9 @@
 					src="/images/models/dwd_icon-d2.webp"
 					alt="ICON D2 Modal Area"
 				/>
-				<figcaption class="text-muted-foreground">ICON D2 Area. Source: Open-Meteo.</figcaption>
+				<figcaption class="text-muted-foreground">
+					ICON D2 Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				</figcaption>
 			</figure>
 
 			<figure class="w-full">
@@ -1027,7 +1029,7 @@
 					alt="ICON EU Regional Model Area"
 				/>
 				<figcaption class="text-muted-foreground">
-					ICON EU Regional Model Area. Source: Open-Meteo.
+					ICON EU Regional Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 				</figcaption>
 			</figure>
 		</div>
