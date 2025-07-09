@@ -20,7 +20,7 @@ describe('DatePicker', () => {
 		const startDateInput = () => cy.get('#start_date_input');
 		const endDateInput = () => cy.get('#end_date_input');
 
-		cy.visit('/en/docs?time_mode=time_interval&start_date=2025-06-25&end_date=2025-07-09');
+		cy.visit('/en/docs?time_mode=time_interval');
 		cy.wait(1000);
 
 		startDateInput().click().invoke('val').should('contain', start_date);

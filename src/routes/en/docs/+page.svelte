@@ -141,6 +141,8 @@
 
 	let last_date = new Date();
 	last_date.setDate(last_date.getDate() + 16);
+
+	console.log(sliceIntoChunks(levels, levels.length / 3 + 1));
 </script>
 
 <svelte:head>
