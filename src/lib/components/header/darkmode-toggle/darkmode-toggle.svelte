@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { resetMode, setMode, mode } from 'mode-watcher';
+	import { resetMode, setMode } from 'mode-watcher';
 
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 </script>
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger
+		id="darkmode_toggle"
 		class="border-border hover:bg-accent flex h-10 cursor-pointer items-center justify-center gap-2 rounded-md px-3 md:w-10  md:p-0 [&_svg]:h-6 [&_svg]:w-6"
 		aria-labelledby="darkmode_toggle_label"
 	>
@@ -50,7 +51,11 @@
 		</div>
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content preventScroll={false} align="end" class="border-border p-0">
-		<DropdownMenu.Item class="cursor-pointer px-3 py-2" onclick={() => setMode('light')}>
+		<DropdownMenu.Item
+			id="darkmode_toggle_light"
+			class="cursor-pointer px-3 py-2"
+			onclick={() => setMode('light')}
+		>
 			<svg
 				class="lucide lucide-sun mr-2"
 				xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +79,10 @@
 				<path d="m19.07 4.93-1.41 1.41" />
 			</svg>Light
 		</DropdownMenu.Item>
-		<DropdownMenu.Item class="cursor-pointer px-3 py-2" onclick={() => setMode('dark')}
+		<DropdownMenu.Item
+			id="darkmode_toggle_dark"
+			class="cursor-pointer px-3 py-2"
+			onclick={() => setMode('dark')}
 			><svg
 				class="lucide lucide-moon mr-2"
 				xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +98,10 @@
 				<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
 			</svg>Dark</DropdownMenu.Item
 		>
-		<DropdownMenu.Item class="cursor-pointer px-3 py-2" onclick={() => resetMode()}
+		<DropdownMenu.Item
+			id="darkmode_toggle_system"
+			class="cursor-pointer px-3 py-2"
+			onclick={() => resetMode()}
 			><svg
 				class="lucide lucide-eclipse mr-2"
 				xmlns="http://www.w3.org/2000/svg"

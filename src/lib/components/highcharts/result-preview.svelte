@@ -2,7 +2,8 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { getWeatherCode } from '$lib/utils/meteo';
+	import { titleCase, camelCase, objectDifference } from '$lib/utils';
+	import { getWeatherCode, membersPerModel } from '$lib/utils/meteo';
 
 	import { api_key_preferences } from '$lib/stores/settings';
 
@@ -14,19 +15,19 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
-	import type { Writable } from 'svelte/store';
 	import type { Parameters } from '$lib/docs';
+	import type { UrlHashStore } from '$lib/stores/url-hash-store';
 
 	import './code-styles.css';
 
 	interface Props {
-		params: Writable<Parameters>;
-		type?: String;
-		action?: String;
-		model_default?: String;
-		sdk_type?: String;
-		sdk_cache?: Number;
-		defaultParameters: any;
+		params: UrlHashStore;
+		type?: string;
+		action?: string;
+		model_default?: string;
+		sdk_type?: string;
+		sdk_cache?: number;
+		defaultParameters: Parameters;
 		useStockChart?: boolean;
 	}
 
@@ -42,25 +43,6 @@
 		defaultParameters,
 		useStockChart = false
 	}: Props = $props();
-
-	// Only considers keys of the first object. Ignores nulls and empty strings
-	function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
-		const diff: Partial<T> = {};
-		for (const key in a) {
-			if (a[key] && a[key] != '' && a[key] !== b[key]) {
-				diff[key] = a[key];
-			}
-		}
-		return diff;
-	}
-
-	/// `temperature_2m` to `Temperature2m`
-	const titleCase = (s: string) =>
-		s
-			.replace(/^[-_]*(.)/, (_, c) => c.toUpperCase())
-			.replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
-
-	const camelCase = (s: string) => s.replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
 
 	/// Parsed params that resolved CSV fields
 	let parsedParams = $derived(
@@ -160,7 +142,7 @@
 	);
 
 	const getUrl = (server: string, params: any) => {
-		return `${server}?${new URLSearchParams({ ...params, ...params })}`.replaceAll('%2C', ',');
+		return `${server}?${new URLSearchParams({ ...params })}`.replaceAll('%2C', ',');
 	};
 
 	let previewUrl = $state('');
@@ -180,28 +162,6 @@
 			(v) => v in $params && $params[v].length > 0
 		)
 	);
-
-	const membersPerModel = (model: string): number => {
-		switch (model) {
-			case 'icon_seamless':
-				return 40;
-			case 'icon_global':
-				return 40;
-			case 'icon_eu':
-				return 40;
-			case 'icon_d2':
-				return 20;
-			case 'gfs_seamless':
-				return 31;
-			case 'gfs025':
-				return 31;
-			case 'ecmwf_ifs025':
-				return 51;
-			case 'gem_global':
-				return 21;
-		}
-		return 1;
-	};
 
 	/// Adjusted call weight
 	let callWeight = $derived(
@@ -582,38 +542,38 @@
 	<div class="text-muted-foreground">Preview:</div>
 
 	<ToggleGroup.Root type="single" bind:value={mode} class="justify-start gap-0">
-		<div class="flex flex-wrap border-border ml-2 rounded-lg border">
+		<div class="border-border ml-2 flex flex-wrap rounded-lg border">
 			<ToggleGroup.Item
 				value="chart"
-				class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-e-none opacity-100! lg:min-h-[unset]"
 				disabled={mode === 'chart'}
 			>
 				Chart & URL
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="python"
-				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
 				disabled={mode === 'python'}
 			>
 				Python
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="typescript"
-				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
 				disabled={mode === 'typescript'}
 			>
 				TypeScript
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="swift"
-				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
 				disabled={mode === 'swift'}
 			>
 				Swift
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="other"
-				class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-s-none opacity-100! lg:min-h-[unset]"
 				disabled={mode === 'other'}
 			>
 				Other
@@ -628,11 +588,11 @@
 		<div
 			in:fade
 			style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
-			class="-mx-6 relative md:mx-0"
+			class="relative -mx-6 md:mx-0"
 		>
 			{#await results}
 				<div
-					class="border border-border rounded-lg bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center"
+					class="border-border bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg border"
 					in:fade={{ delay: 400, duration: 400 }}
 					out:fade={{ duration: 300 }}
 				>
@@ -669,11 +629,11 @@
 						style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
 					>
 						<div
-							class="border-border border rounded-lg absolute top-0 flex h-full w-full px-6 items-center justify-center"
+							class="border-border absolute top-0 flex h-full w-full items-center justify-center rounded-lg border px-6"
 						>
 							<Alert.Root class="border-border my-auto w-[unset] md:!pl-8">
 								<Alert.Description>
-									<div class="flex items-center flex-col md:flex-row justify-center gap-2">
+									<div class="flex flex-col items-center justify-center gap-2 md:flex-row">
 										<div class="text-muted-foreground flex items-center">
 											<svg
 												class="lucide lucide-info mr-2"
@@ -722,7 +682,7 @@
 			{:catch error}
 				<div
 					transition:fade={{ duration: 300 }}
-					class="border border-border rounded-lg bg-accent/25 absolute top-0 z-30 w-full"
+					class="border-border bg-accent/25 absolute top-0 z-30 w-full rounded-lg border"
 					style={useStockChart ? 'height: 500px' : 'height: 400px'}
 				>
 					<div class="flex h-full w-full items-center justify-center px-6 dark:brightness-150">
@@ -836,12 +796,12 @@
 					> documentation.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
 pip install openmeteo-requests
 pip install requests-cache retry-requests numpy pandas</pre>
 
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0"><code
 						><span class="token keyword">import</span> openmeteo_requests
 {#if sdk_type == 'ensemble_api'}<br /><span class="token keyword">from</span
 							> openmeteo_sdk.Variable <span class="token keyword">import</span> Variable
@@ -1138,11 +1098,11 @@ current <span class="token operator">=</span> response<span class="token punctua
 					You will have to loop over `variables`.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0"><code
 						>npm install openmeteo</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class="my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
+				<pre class="-mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
 <code
 						><span class="token keyword">import</span> <span class="token punctuation"
 							>&lbrace;</span
@@ -1413,7 +1373,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<p class="my-3">Add OpenMeteoSdk as a dependency to your Package.swift</p>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0"><code
 						>dependencies: [
 {'\t'}.package(url: "https://github.com/open-meteo/sdk.git", from: "1.5.0")
 ],
@@ -1424,7 +1384,7 @@ targets: [
 ]</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
 <code class="language-swift"
 						><span class="token keyword">import</span> <span class="token class-name"
 							>OpenMeteoSdk</span

@@ -3,7 +3,7 @@
 	export let levels: number[];
 </script>
 
-<div class="overflow-auto -mx-6 md:ml-0 lg:mx-0">
+<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 	<!--
 	min-w-[2700px] 44 levels: GFS,
 	min-w-[1900px] 30 levels: GEM, CMA
@@ -11,7 +11,7 @@
 	min-w-[780px] 11 levels: JMA,
 	-->
 	<table
-		class="caption-bottom mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[{levels.length > 40
+		class="mx-6 mt-2 caption-bottom md:ml-0 lg:mx-0 min-w-[{levels.length > 40
 			? '2700px'
 			: levels.length > 25
 				? '1900px'

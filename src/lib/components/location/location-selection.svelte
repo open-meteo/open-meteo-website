@@ -79,7 +79,7 @@
 	<div class="border-border flex rounded-md border">
 		<Button
 			variant="ghost"
-			class="rounded-e-none !opacity-100 gap-1 duration-300 {params.location_mode ===
+			class="gap-1 rounded-e-none !opacity-100 duration-300 {params.location_mode ===
 			'location_search'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
@@ -109,7 +109,7 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="rounded-s-none !opacity-100 gap-1 duration-300  {params.location_mode ===
+			class="gap-1 rounded-s-none !opacity-100 duration-300  {params.location_mode ===
 			'csv_coordinates'
 				? 'bg-accent'
 				: ''}"
@@ -169,11 +169,11 @@
 							bind:value={params.latitude[index]}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="latitude">Latitude</Label
 						>
 						{#if params.latitude[index] < -90 || params.latitude[index] > 90}
-							<div class="absolute left-3 top-14 text-sm duration-300" transition:slide>
+							<div class="absolute top-14 left-3 text-sm duration-300" transition:slide>
 								Latitude must be between -90 and 90
 							</div>
 						{/if}
@@ -196,11 +196,11 @@
 							bind:value={params.longitude[index]}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="longitude">Longitude</Label
 						>
 						{#if params.longitude[index] < -180 || params.longitude[index] > 180}
-							<div class="absolute left-3 top-14 text-sm" transition:slide>
+							<div class="absolute top-14 left-3 text-sm" transition:slide>
 								Longitude must be between -180 and 180
 							</div>
 						{/if}
@@ -216,7 +216,7 @@
 									<Select.Item value={timezone.value}>{timezone.label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Timezone</Label
 							>
 						</Select.Root>
@@ -234,7 +234,7 @@
 							{#if index == 0}
 								<Button
 									variant="outline"
-									class="h-12 w-full px-5 pr-6 gap-1"
+									class="h-12 w-full gap-1 px-5 pr-6"
 									onclick={addLocation}
 									title="Add coordinates"
 									><svg

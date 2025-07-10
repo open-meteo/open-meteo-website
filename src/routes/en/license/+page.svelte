@@ -19,7 +19,7 @@
 
 <div class="container my-6 grid grid-cols-1 gap-6 md:my-12 md:grid-cols-2 md:gap-12">
 	<div>
-		<h2 class="mb-3 text-3xl font-light lg:mb-5 md:text-5xl">Data Sources</h2>
+		<h2 class="mb-3 text-3xl font-light md:text-5xl lg:mb-5">Data Sources</h2>
 		<p>Open-Meteo utilizes open-data from various national weather service including:</p>
 		<ul class="[&_a]:text-link ml-6 list-disc [&_a]:underline [&_li]:py-1">
 			<li>
@@ -176,7 +176,7 @@
 		</ul>
 	</div>
 	<div>
-		<h2 id="license" class="mb-3 text-3xl font-light lg:mb-5 md:text-5xl">License</h2>
+		<h2 id="license" class="mb-3 text-3xl font-light md:text-5xl lg:mb-5">License</h2>
 		<h3 class="mb-3 text-xl font-light">
 			API data are offered under <a
 				href="https://creativecommons.org/licenses/by/4.0/"
@@ -196,11 +196,11 @@
 		<p>You must include a link next to any location, Open-Meteo data are displayed like:</p>
 		<p class="overflow-auto"></p>
 		<div
-			class="mt-2 md:mt-4 bg-[#FAFAFA] rounded-lg dark:bg-[#212121] overflow-auto -mx-6 md:ml-0 lg:mx-0"
+			class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<Attribution />
 		</div>
-		<h3 class="mb-3 mt-6 text-xl font-light">Open-Meteo is open-source</h3>
+		<h3 class="mt-6 mb-3 text-xl font-light">Open-Meteo is open-source</h3>
 		<p>
 			Source code is available on <a href="https://github.com/open-meteo/open-meteo" target="_blank"
 				>GitHub</a
@@ -212,7 +212,7 @@
 		</p>
 	</div>
 	<div class="md:col-span-2">
-		<h2 id="citation" class="mb-3 text-3xl font-light lg:mb-5 md:text-5xl">Citation</h2>
+		<h2 id="citation" class="mb-3 text-3xl font-light md:text-5xl lg:mb-5">Citation</h2>
 		<p>
 			We encourage researchers in the field of meteorology and related disciplines to cite
 			Open-Meteo in their work. By acknowledging Open-Meteo as the source of weather data and
@@ -230,28 +230,28 @@
 				<div class="border-border ml-2 flex rounded-lg border">
 					<ToggleGroup.Item
 						value="apa"
-						class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset] "
+						class="min-h-12 cursor-pointer rounded-e-none opacity-100! lg:min-h-[unset] "
 						disabled={citation === 'apa'}
 					>
 						APA
 					</ToggleGroup.Item>
 					<ToggleGroup.Item
 						value="mla"
-						class=" opacity-100! min-h-12 cursor-pointer rounded-none duration-300 lg:min-h-[unset] "
+						class=" min-h-12 cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'mla'}
 					>
 						MLA
 					</ToggleGroup.Item>
 					<ToggleGroup.Item
 						value="harvard"
-						class=" opacity-100! min-h-12 cursor-pointer rounded-none duration-300 lg:min-h-[unset] "
+						class=" min-h-12 cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'harvard'}
 					>
 						Harvard
 					</ToggleGroup.Item>
 					<ToggleGroup.Item
 						value="bibtex"
-						class=" opacity-100! min-h-12 cursor-pointer rounded-md rounded-s-none duration-300 lg:min-h-[unset] "
+						class=" min-h-12 cursor-pointer rounded-md rounded-s-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'bibtex'}
 					>
 						BibTex
