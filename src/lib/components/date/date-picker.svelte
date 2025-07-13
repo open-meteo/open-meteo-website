@@ -117,12 +117,14 @@
 					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0 "
 					type="text"
 					value={start_date}
-					oninput={debounce((e) => {
+					oninput={debounce((e: InputEvent) => {
+						let target = e.target as HTMLInputElement;
 						if (
-							String(new Date(e.target.value) !== 'Invalid Date') &&
-							new Date(e.target.value).getUTCFullYear() > 1940
+							target &&
+							String(new Date(target.value)) !== 'Invalid Date' &&
+							new Date(target.value).getUTCFullYear() > 1940
 						) {
-							start_date = new Date(e.target.value).toISOString().split('T')[0];
+							start_date = new Date(target.value).toISOString().split('T')[0];
 						}
 					}, 700)}
 					placeholder="Pick a start date"
@@ -166,12 +168,14 @@
 					class="!ring-0 !ring-offset-0 !bg-transparent m-0 -mt-2 h-[unset] border-none p-0  "
 					type="text"
 					value={end_date}
-					oninput={debounce((e) => {
+					oninput={debounce((e: InputEvent) => {
+						let target = e.target as HTMLInputElement;
 						if (
-							String(new Date(e.target.value) !== 'Invalid Date') &&
-							new Date(e.target.value).getUTCFullYear() > 1940
+							target &&
+							String(new Date(target.value)) !== 'Invalid Date' &&
+							new Date(target.value).getUTCFullYear() > 1940
 						) {
-							end_date = new Date(e.target.value).toISOString().split('T')[0];
+							end_date = new Date(target.value).toISOString().split('T')[0];
 						}
 					}, 700)}
 					placeholder="Pick an end date"
@@ -202,7 +206,7 @@
 				e.preventDefault();
 			}}
 			onInteractOutside={(e) => {
-				if (inputFields.contains(e.target)) {
+				if (inputFields && inputFields.contains(e.target as HTMLInputElement)) {
 					e.preventDefault();
 				}
 			}}
