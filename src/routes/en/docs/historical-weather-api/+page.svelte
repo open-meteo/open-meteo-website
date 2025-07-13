@@ -44,8 +44,6 @@
 	let endDateDefault = d.toISOString().split('T')[0];
 	d.setDate(d.getDate() - 14);
 	let startDateDefault = d.toISOString().split('T')[0];
-	let startDate = '1940-01-01';
-	let endDate = $state('');
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -102,6 +100,11 @@
 
 	// Citation
 	let citation = $state('apa');
+
+	let begin_date = new Date('1940-01-01');
+
+	let last_date = new Date();
+	last_date.setDate(last_date.getDate() - 1);
 </script>
 
 <svelte:head>
@@ -134,15 +137,15 @@
 			<DatePicker
 				bind:start_date={$params.start_date}
 				bind:end_date={$params.end_date}
-				{startDate}
-				{endDate}
+				{begin_date}
+				{last_date}
 			/>
 		</div>
 		<div class="lg:w-1/2">
 			<p>
 				You can access past weather data dating back to 1940. However, there is a 5-day delay in the
 				data. If you want information for the most recent days, you can use the <a
-					href={'/en/docs'}
+					href="/en/docs"
 					title="Weather forecast API">forecast API</a
 				>
 				and adjust the <mark>Past Days</mark> setting.
