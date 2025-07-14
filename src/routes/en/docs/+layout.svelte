@@ -107,7 +107,7 @@
 <div class="mb-12 flex flex-col md:mb-24 md:flex-row">
 	<aside class="w-full md:w-1/6 md:max-w-[400px] md:min-w-[230px]">
 		<nav
-			class="sticky top-0 flex max-h-[100vh] flex-col overflow-hidden p-6 pb-3 md:overflow-auto md:pr-3 md:pb-3"
+			class="sticky top-0 mb-3 flex max-h-[100vh] flex-col overflow-hidden p-6 pb-0 md:mb-0 md:overflow-auto md:pr-3 md:pb-3"
 		>
 			<Button
 				variant="outline"
@@ -135,7 +135,7 @@
 			</Button>
 
 			<ul
-				class={`list-unstyled overflow-hidden duration-500 ${mobileNavOpened ? 'mt-2 max-h-[968px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
+				class={`list-unstyled duration-500 ${mobileNavOpened ? 'mt-2 max-h-[968px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
 			>
 				{#each links as link, i (i)}
 					<li
