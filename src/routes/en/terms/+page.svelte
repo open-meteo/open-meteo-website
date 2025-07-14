@@ -13,7 +13,7 @@
 <div class="container my-6 lg:my-12">
 	<div>
 		<a href="#terms">
-			<h2 id="terms" class="clickable mb-3 text-3xl font-light lg:mb-5 md:text-5xl">
+			<h2 id="terms" class="clickable mb-3 text-3xl font-light md:text-5xl lg:mb-5">
 				Terms of Use
 			</h2>
 		</a>
@@ -178,9 +178,9 @@
 		contact us at <a href="mailto:info@open-meteo.com">info@open-meteo.com</a>.
 	</p>
 
-	<div class="overflow-auto overflow-y-hidden -mx-6 md:ml-0 lg:mx-0">
+	<div class="-mx-6 overflow-auto overflow-y-hidden md:ml-0 lg:mx-0">
 		<table
-			class="[&_tr]:border-border mx-6 md:ml-0 lg:mx-0 mt-2 min-w-[1040px] w-full caption-bottom text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -232,7 +232,7 @@
 	</div>
 
 	<a href="#privacy">
-		<h2 id="privacy" class="clickable mb-3 mt-6 text-3xl font-light lg:mb-5 lg:mt-12 md:text-5xl">
+		<h2 id="privacy" class="clickable mt-6 mb-3 text-3xl font-light md:text-5xl lg:mt-12 lg:mb-5">
 			Privacy
 		</h2>
 	</a>
@@ -339,7 +339,7 @@
 		>.
 	</p>
 
-	<h2 id="operated_by" class="mb-3 mt-6 text-3xl font-light lg:mb-5 lg:mt-12 md:text-5xl">
+	<h2 id="operated_by" class="mt-6 mb-3 text-3xl font-light md:text-5xl lg:mt-12 lg:mb-5">
 		Open-Meteo is operated by
 	</h2>
 	<p>

@@ -31,7 +31,7 @@
 
 	let node: HTMLElement;
 	let chart: any;
-	let Highcharts = $state(null);
+	let Highcharts = $state();
 
 	let showLegend = $state(false);
 	let averageOnly = $state(false);

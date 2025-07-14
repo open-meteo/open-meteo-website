@@ -1,4 +1,4 @@
-import { pad } from '$lib/utils/meteo';
+import { pad } from '$lib/utils';
 
 // Settings
 export const temperatureOptions = [
