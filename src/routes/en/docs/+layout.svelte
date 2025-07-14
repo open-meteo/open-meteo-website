@@ -50,7 +50,16 @@
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
 	}
 
-	let selectedPath = $derived.by(() => {
+	interface Path {
+		title: string;
+		url: string;
+		children?: {
+			title: string;
+			url: string;
+		};
+	}
+
+	let selectedPath: Path = $derived.by(() => {
 		for (const link of links) {
 			if (link.children) {
 				for (const l of link.children) {
@@ -63,7 +72,7 @@
 				return link;
 			}
 		}
-		return {};
+		return { title: '', url: '' };
 	});
 
 	let mobileNavOpened = $state(false);
@@ -75,17 +84,19 @@
 		if (browser) {
 			hashOnLoad = window.location.hash;
 			if (hashOnLoad && hashOnLoad.includes('=')) {
-				e.to.url.search = hashOnLoad.replace('#', '');
-				hashOnLoad = '';
-				setTimeout(() => {
-					window.location.reload();
-				}, 75);
+				if (e.to) {
+					e.to.url.search = hashOnLoad.replace('#', '');
+					hashOnLoad = '';
+					setTimeout(() => {
+						window.location.reload();
+					}, 75);
+				}
 			}
 		}
 	});
 
 	afterNavigate((e) => {
-		if ((!e.from || e.from.route.id !== e.to.route.id) && !window.location.hash) {
+		if (e.to && (!e.from || e.from.route.id !== e.to.route.id) && !window.location.hash) {
 			setTimeout(() => {
 				window.scrollTo(0, 0);
 			}, 75);
@@ -94,8 +105,10 @@
 </script>
 
 <div class="mb-12 flex flex-col md:mb-24 md:flex-row">
-	<aside class=" w-full md:w-1/6 md:max-w-[400px] md:min-w-[230px]">
-		<nav class="sticky top-0 flex max-h-[100vh] flex-col overflow-auto p-6 pb-3 md:pr-3 md:pb-3">
+	<aside class="w-full md:w-1/6 md:max-w-[400px] md:min-w-[230px]">
+		<nav
+			class="sticky top-0 flex max-h-[100vh] flex-col overflow-hidden p-6 pb-3 md:overflow-auto md:pr-3 md:pb-3"
+		>
 			<Button
 				variant="outline"
 				class="flex justify-start p-3 md:hidden"
@@ -122,14 +135,15 @@
 			</Button>
 
 			<ul
-				class={`list-unstyled duration-500 ${mobileNavOpened ? 'mt-2 max-h-[968px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
+				class={`list-unstyled overflow-hidden duration-500 ${mobileNavOpened ? 'mt-2 max-h-[968px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
 			>
-				{#each links as link}
+				{#each links as link, i (i)}
 					<li
 						class="my-[0.125rem] rounded-md border py-2 pr-2 pl-3 duration-300 {selectedPath.title ===
 						link.title
 							? 'border-border'
-							: 'border-transparent'} {link.children && selectedPath.title === link.title
+							: 'border-transparent'} {link.children &&
+						(selectedPath.url === link.url || link.children.some((l) => l.url === selectedPath.url))
 							? 'mb-3 pt-4'
 							: ''}"
 					>
@@ -154,7 +168,7 @@
 										: 'max-h-0'
 								}`}
 							>
-								{#each link.children as l}
+								{#each link.children as l, j (j)}
 									<li
 										class="truncate overflow-hidden rounded-md border p-[5px] pl-3 duration-300 {selectedPath.url ===
 										l.url
