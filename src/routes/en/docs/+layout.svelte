@@ -94,8 +94,8 @@
 </script>
 
 <div class="mb-12 flex flex-col md:mb-24 md:flex-row">
-	<aside class="w-full md:w-1/6 md:max-w-[400px] md:min-w-[230px]">
-		<nav class="sticky top-0 flex flex-col p-6 pb-3 md:pr-3 md:pb-6">
+	<aside class=" w-full md:w-1/6 md:max-w-[400px] md:min-w-[230px]">
+		<nav class="sticky top-0 flex max-h-[100vh] flex-col overflow-auto p-6 pb-3 md:pr-3 md:pb-3">
 			<Button
 				variant="outline"
 				class="flex justify-start p-3 md:hidden"
@@ -122,14 +122,16 @@
 			</Button>
 
 			<ul
-				class={`list-unstyled overflow-hidden duration-500 ${mobileNavOpened ? 'mt-2 max-h-[968px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
+				class={`list-unstyled duration-500 ${mobileNavOpened ? 'mt-2 max-h-[968px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
 			>
 				{#each links as link}
 					<li
 						class="my-[0.125rem] rounded-md border py-2 pr-2 pl-3 duration-300 {selectedPath.title ===
 						link.title
 							? 'border-border'
-							: 'border-transparent'}"
+							: 'border-transparent'} {link.children && selectedPath.title === link.title
+							? 'mb-3 pt-4'
+							: ''}"
 					>
 						<a
 							class="flex items-center gap-1"
@@ -148,13 +150,13 @@
 								class={`list-unstyled ml-3 overflow-auto duration-500 ${
 									selectedPath.url === link.url ||
 									link.children.some((l) => l.url === selectedPath.url)
-										? 'mt-2 mb-2 max-h-[700px]'
+										? 'mt-2 mb-1 max-h-[700px]'
 										: 'max-h-0'
 								}`}
 							>
 								{#each link.children as l}
 									<li
-										class="truncate overflow-hidden rounded-md border p-1 py-1 pl-3 duration-300 {selectedPath.url ===
+										class="truncate overflow-hidden rounded-md border p-[5px] pl-3 duration-300 {selectedPath.url ===
 										l.url
 											? 'border-border'
 											: 'border-transparent'}"
