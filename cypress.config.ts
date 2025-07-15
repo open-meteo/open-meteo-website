@@ -31,12 +31,12 @@ export default defineConfig({
 	// 	}
 	// },
 	e2e: {
-		baseUrl: 'http://localhost:4173',
-		supportFile: false,
-		setupNodeEvents(on, config) {
-			// implement node event listeners here
-		},
+		baseUrl: 'http://localhost:4173/en/docs/',
 		video: true,
-		videoCompression: 32
+		videoCompression: 32,
+		specPattern: [
+			'cypress/e2e/**/*.{cy,unit}.{js,jsx,ts,tsx}',
+			'src/routes/en/docs/**/*.{cy,unit}.{js,jsx,ts,tsx}'
+		]
 	}
 });

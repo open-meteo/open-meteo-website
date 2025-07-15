@@ -351,7 +351,7 @@
 			class="weather-week gap-md-2 mb-4 flex flex-col md:flex-row"
 		>
 			{#await weatherDaily then wd}
-				{#each wd.daily.time as time, index}
+				{#each wd.daily.time as time, index (index)}
 					{@const selected = time.getDate() === selectedDay.getDate()}
 					{#if !isNaN(wd.daily.temperature_2m_max.values(index).toFixed(1))}
 						<button
@@ -390,14 +390,14 @@
 								</div>
 								<div
 									class="weather-temp-max flex min-w-[65px] justify-center rounded-t p-1 text-sm"
-									style={`background-color: ${getColor(wd.daily.temperature_2m_max.values(index).toFixed(0), $params.temperature_unit)}; color: ${wd.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? -13 : 7) || wd.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+									style={`background-color: ${getColor(wd.daily.temperature_2m_max.values(index).toFixed(0), $params.temperature_unit)}; color: ${wd.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? 4 : 7) || wd.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 30 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 								>
 									{wd.daily.temperature_2m_max.values(index).toFixed(1)}
 									{$params.temperature_unit === 'celsius' ? '°C' : '°F'}
 								</div>
 								<div
 									class="weather-temp-min flex min-w-[65px] justify-center rounded-b p-1 text-sm"
-									style={`background: ${getColor(wd.daily.temperature_2m_min.values(index).toFixed(0), $params.temperature_unit)}; color: ${wd.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? -13 : 7) || wd.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+									style={`background: ${getColor(wd.daily.temperature_2m_min.values(index).toFixed(0), $params.temperature_unit)}; color: ${wd.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? 4 : 7) || wd.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 30 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 								>
 									{wd.daily.temperature_2m_min.values(index).toFixed(1)}
 									{$params.temperature_unit === 'celsius' ? '°C' : '°F'}
@@ -477,7 +477,7 @@
 								style="color: transparent; padding-left: 4px;  background: transparent; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 								>Time</th
 							>
-							{#each weather.indexes as index}
+							{#each weather.indexes as index, j (j)}
 								<td
 									class="time {weather.hourlyTime[index].getDate() === today.getDate() &&
 									weather.hourlyTime[index].getHours() === today.getHours()
@@ -502,7 +502,7 @@
 								style="color: transparent; padding-left: 4px;  background: transparent; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 								>Icons</th
 							>
-							{#each weather.indexes as index}
+							{#each weather.indexes as index, j (j)}
 								{@const now =
 									weather.hourlyTime[index].getDate() === today.getDate() &&
 									weather.hourlyTime[index].getHours() === today.getHours()}
@@ -535,7 +535,7 @@
 								style="color: transparent; padding-left: 4px;  background: transparent; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 								>Temp graph</th
 							>
-							{#each weather.indexes as index}
+							{#each weather.indexes as index, j (j)}
 								{@const temp = weather.entries[0].values[index]}
 
 								{#if !isNaN(temp)}
@@ -555,7 +555,7 @@
 								{/if}
 							{/each}
 						</tr>
-						{#each weather.entries as entry}
+						{#each weather.entries as entry, i (i)}
 							<tr class="border-border border-t">
 								<th
 									scope="row"
@@ -564,7 +564,7 @@
 									>{entry.title}</th
 								>
 
-								{#each weather.indexes as index}
+								{#each weather.indexes as index, j (j)}
 									{#if !isNaN(entry.values[index])}
 										<td
 											class="border-border border-r {weather.hourlyTime[index].getDate() ===
@@ -622,7 +622,7 @@
 									style="z-index: 20; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 									>Wind Dir.</th
 								>
-								{#each weather.indexes as index}
+								{#each weather.indexes as index, j (j)}
 									{#if !isNaN(weather.windDirections[index])}
 										<td
 											class="border-border border-r {weather.hourlyTime[index].getDate() ===
@@ -701,7 +701,7 @@
 				{#each [...Array(101).keys()].map((i) => -40 + i) as temp}
 					<div
 						class="weather-temp-max flex min-w-[70px] justify-center rounded p-1"
-						style={`background-color: ${getColor(temp, $params.temperature_unit)}; color: ${temp <= ($params.temperature_unit === 'celsius' ? -13 : 7) || temp >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+						style={`background-color: ${getColor(temp, $params.temperature_unit)}; color: ${temp <= ($params.temperature_unit === 'celsius' ? 4 : 7) || temp >= ($params.temperature_unit === 'celsius' ? 30 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 					>
 						{temp} °C <br />
 						{getColor(temp, $params.temperature_unit)}
@@ -711,7 +711,7 @@
 				{#each [...Array(91).keys()].map((i) => -40 + i * 2) as temp}
 					<div
 						class="weather-temp-max flex min-w-[70px] justify-center rounded p-1"
-						style={`background-color: ${getColor(temp, $params.temperature_unit)}; color: ${temp <= ($params.temperature_unit === 'celsius' ? -13 : 7) || temp >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+						style={`background-color: ${getColor(temp, $params.temperature_unit)}; color: ${temp <= ($params.temperature_unit === 'celsius' ? 4 : 7) || temp >= ($params.temperature_unit === 'celsius' ? 30 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 					>
 						{temp}
 						{$params.temperature_unit === 'celsius' ? '°C' : '°F'}<br />
@@ -731,5 +731,15 @@
 	td {
 		text-align: center;
 		font-size: 13px;
+	}
+
+	.weather-week-icon {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: #0061a5;
+		margin: 5px 0;
+		border-radius: 5px;
 	}
 </style>

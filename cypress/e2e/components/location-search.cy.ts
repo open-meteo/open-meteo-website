@@ -1,6 +1,6 @@
 describe('LocationSearch', () => {
 	it('should change lat & lon when clicked on searched result', () => {
-		cy.visit('/en/docs');
+		cy.visit('/');
 		cy.wait(1000);
 
 		cy.get('#location_search').click();
