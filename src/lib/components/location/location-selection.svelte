@@ -89,6 +89,12 @@
 	const setBoundingBox = () => {
 		params.bounding_box = `${boundingBoxSouth},${boundingBoxEast},${boundingBoxNorth},${boundingBoxWest}`;
 	};
+
+	let locationMode: Parameters['location_mode'] = $state('location_search');
+
+	onMount(() => {
+		locationMode = params.location_mode;
+	});
 </script>
 
 <a href="#location_and_time"
@@ -100,13 +106,14 @@
 	<div class="border-border flex rounded-md border">
 		<ToggleGroup.Root
 			type="single"
-			bind:value={params.location_mode}
+			bind:value={locationMode}
+			onValueChange={() => (params.location_mode = locationMode)}
 			class="justify-start text-nowrap flex flex-wrap gap-0"
 		>
 			<ToggleGroup.Item
 				value="location_search"
 				class=" opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
-				disabled={params.location_mode === 'location_search'}
+				disabled={locationMode === 'location_search'}
 				onclick={() => {
 					params.bounding_box = '';
 					params.csv_coordinates = '';
@@ -134,7 +141,7 @@
 			<ToggleGroup.Item
 				value="csv_coordinates"
 				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
-				disabled={params.location_mode === 'csv_coordinates'}
+				disabled={locationMode === 'csv_coordinates'}
 				onclick={() => {
 					params.bounding_box = '';
 				}}
@@ -162,7 +169,7 @@
 			<ToggleGroup.Item
 				value="bounding_box"
 				class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
-				disabled={params.location_mode === 'bounding_box'}
+				disabled={locationMode === 'bounding_box'}
 				onclick={() => {
 					params.csv_coordinates = '';
 					setBoundingBox();

@@ -22,10 +22,6 @@
 	onMount(() => {
 		licenseSelected = $api_key_preferences.use;
 	});
-
-	$effect(() => {
-		$api_key_preferences.use = licenseSelected;
-	});
 </script>
 
 <div>
@@ -35,6 +31,7 @@
 			<ToggleGroup.Root
 				type="single"
 				bind:value={licenseSelected}
+				onValueChange={() => ($api_key_preferences.use = licenseSelected)}
 				class="justify-start text-nowrap flex flex-wrap gap-0"
 			>
 				<ToggleGroup.Item
