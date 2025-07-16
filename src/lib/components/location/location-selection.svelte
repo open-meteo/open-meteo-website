@@ -89,12 +89,6 @@
 	const setBoundingBox = () => {
 		params.bounding_box = `${boundingBoxSouth},${boundingBoxEast},${boundingBoxNorth},${boundingBoxWest}`;
 	};
-
-	// $effect(() => {
-	// 	if (params.location_mode !== 'bounding_box') {
-	// 		params.bounding_box = '';
-	// 	}
-	// });
 </script>
 
 <a href="#location_and_time"
