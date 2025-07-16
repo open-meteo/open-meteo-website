@@ -22,9 +22,6 @@
 
 	let { params = $bindable() }: Props = $props();
 
-	const defaultLat = params.latitude;
-	const defaultLon = params.longitude;
-
 	const locationCallback = (event: CustomEvent<GeoLocation>, index: number) => {
 		if (params.latitude && params.longitude) {
 			params.latitude[index] = Number(event.detail.latitude.toFixed(4));
@@ -145,8 +142,6 @@
 				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
 				disabled={params.location_mode === 'csv_coordinates'}
 				onclick={() => {
-					params.latitude = defaultLat;
-					params.longitude = defaultLon;
 					params.bounding_box = '';
 				}}
 			>
@@ -175,8 +170,6 @@
 				class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
 				disabled={params.location_mode === 'bounding_box'}
 				onclick={() => {
-					params.latitude = defaultLat;
-					params.longitude = defaultLon;
 					params.csv_coordinates = '';
 					setBoundingBox();
 				}}
@@ -208,146 +201,148 @@
 <div class="mt-3 md:mt-4">
 	{#if params.location_mode == 'location_search'}
 		<div class="flex flex-col" in:fade>
-			{#each params.latitude as _, index (index)}
-				<div
-					transition:slide
-					class="grid gap-3 duration-300 sm:grid-cols-2 md:gap-6 md:gap-y-3 xl:grid-cols-4 {index <
-					params.latitude.length - 1
-						? 'pb-6'
-						: ''}"
-				>
+			{#if params.latitude && params.longitude}
+				{#each params.latitude as _, index (index)}
 					<div
-						class="relative flex flex-col gap-2 duration-200 {params.latitude[index] < -90 ||
-						params.latitude[index] > 90
+						transition:slide
+						class="grid gap-3 duration-300 sm:grid-cols-2 md:gap-6 md:gap-y-3 xl:grid-cols-4 {index <
+						params.latitude.length - 1
 							? 'pb-6'
 							: ''}"
 					>
-						<!-- class:is-invalid={params.latitude[index] < -90 || params.latitude[index] > 90}-->
-						<Input
-							type="number"
-							class="h-12 pt-6"
-							name="latitude"
-							id="latitude"
-							step="0.000001"
-							min="-90"
-							max="90"
-							bind:value={params.latitude[index]}
-						/>
-						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="latitude">Latitude</Label
+						<div
+							class="relative flex flex-col gap-2 duration-200 {params.latitude[index] < -90 ||
+							params.latitude[index] > 90
+								? 'pb-6'
+								: ''}"
 						>
-						{#if params.latitude[index] < -90 || params.latitude[index] > 90}
-							<div class="absolute left-3 top-14 text-sm duration-300" transition:slide>
-								Latitude must be between -90 and 90
-							</div>
-						{/if}
-					</div>
-					<div
-						class="relative flex flex-col gap-2 duration-200 {params.longitude[index] < -180 ||
-						params.longitude[index] > 180
-							? 'pb-6'
-							: ''}"
-					>
-						<!-- class:is-invalid={params.longitude[index] < -180 || params.longitude[index] > 180}-->
-						<Input
-							type="number"
-							class="h-12 pt-6"
-							name="longitude"
-							id="longitude"
-							step="0.000001"
-							min="-180"
-							max="180"
-							bind:value={params.longitude[index]}
-						/>
-						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="longitude">Longitude</Label
-						>
-						{#if params.longitude[index] < -180 || params.longitude[index] > 180}
-							<div class="absolute left-3 top-14 text-sm" transition:slide>
-								Longitude must be between -180 and 180
-							</div>
-						{/if}
-					</div>
-					<div class="relative flex items-center">
-						<Select.Root name="timezone" type="single" bind:value={params.timezone}>
-							<Select.Trigger
-								aria-label="timezone selection"
-								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{timeZone?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each timeZoneOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-								>Timezone</Label
-							>
-						</Select.Root>
-					</div>
-
-					<div class="flex gap-3 md:gap-6">
-						<div class="md:w-2/3">
-							<LocationSearch
-								on:location={(event) => locationCallback(event, index)}
-								label="Search"
+							<!-- class:is-invalid={params.latitude[index] < -90 || params.latitude[index] > 90}-->
+							<Input
+								type="number"
+								class="h-12 pt-6"
+								name="latitude"
+								id="latitude"
+								step="0.000001"
+								min="-90"
+								max="90"
+								bind:value={params.latitude[index]}
 							/>
-						</div>
-
-						<div class="md:w-1/3">
-							{#if index == 0}
-								<Button
-									variant="outline"
-									class="h-12 w-full px-5 pr-6 gap-1"
-									onclick={addLocation}
-									title="Add coordinates"
-									><svg
-										class="lucide lucide-plus"
-										xmlns="http://www.w3.org/2000/svg"
-										width="20"
-										height="20"
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-									>
-										<path d="M5 12h14" />
-										<path d="M12 5v14" />
-									</svg></Button
-								>
-							{:else}
-								<Button
-									variant="outline"
-									class="h-12 w-full px-5 pr-6"
-									onclick={() => removeLocation(index)}
-									title="Delete coordinates"
-									><svg
-										class="lucide lucide-trash-2"
-										xmlns="http://www.w3.org/2000/svg"
-										width="24"
-										height="24"
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-									>
-										<path d="M3 6h18" />
-										<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-										<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-										<line x1="10" x2="10" y1="11" y2="17" />
-										<line x1="14" x2="14" y1="11" y2="17" />
-									</svg></Button
-								>
+							<Label
+								class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								for="latitude">Latitude</Label
+							>
+							{#if params.latitude[index] < -90 || params.latitude[index] > 90}
+								<div class="absolute left-3 top-14 text-sm duration-300" transition:slide>
+									Latitude must be between -90 and 90
+								</div>
 							{/if}
 						</div>
+						<div
+							class="relative flex flex-col gap-2 duration-200 {params.longitude[index] < -180 ||
+							params.longitude[index] > 180
+								? 'pb-6'
+								: ''}"
+						>
+							<!-- class:is-invalid={params.longitude[index] < -180 || params.longitude[index] > 180}-->
+							<Input
+								type="number"
+								class="h-12 pt-6"
+								name="longitude"
+								id="longitude"
+								step="0.000001"
+								min="-180"
+								max="180"
+								bind:value={params.longitude[index]}
+							/>
+							<Label
+								class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								for="longitude">Longitude</Label
+							>
+							{#if params.longitude[index] < -180 || params.longitude[index] > 180}
+								<div class="absolute left-3 top-14 text-sm" transition:slide>
+									Longitude must be between -180 and 180
+								</div>
+							{/if}
+						</div>
+						<div class="relative flex items-center">
+							<Select.Root name="timezone" type="single" bind:value={params.timezone}>
+								<Select.Trigger
+									aria-label="timezone selection"
+									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{timeZone?.label}</Select.Trigger
+								>
+								<Select.Content preventScroll={false} class="border-border">
+									{#each timeZoneOptions as { value, label } (value)}
+										<Select.Item {value}>{label}</Select.Item>
+									{/each}
+								</Select.Content>
+								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+									>Timezone</Label
+								>
+							</Select.Root>
+						</div>
+
+						<div class="flex gap-3 md:gap-6">
+							<div class="md:w-2/3">
+								<LocationSearch
+									on:location={(event) => locationCallback(event, index)}
+									label="Search"
+								/>
+							</div>
+
+							<div class="md:w-1/3">
+								{#if index == 0}
+									<Button
+										variant="outline"
+										class="h-12 w-full px-5 pr-6 gap-1"
+										onclick={addLocation}
+										title="Add coordinates"
+										><svg
+											class="lucide lucide-plus"
+											xmlns="http://www.w3.org/2000/svg"
+											width="20"
+											height="20"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										>
+											<path d="M5 12h14" />
+											<path d="M12 5v14" />
+										</svg></Button
+									>
+								{:else}
+									<Button
+										variant="outline"
+										class="h-12 w-full px-5 pr-6"
+										onclick={() => removeLocation(index)}
+										title="Delete coordinates"
+										><svg
+											class="lucide lucide-trash-2"
+											xmlns="http://www.w3.org/2000/svg"
+											width="24"
+											height="24"
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										>
+											<path d="M3 6h18" />
+											<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+											<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+											<line x1="10" x2="10" y1="11" y2="17" />
+											<line x1="14" x2="14" y1="11" y2="17" />
+										</svg></Button
+									>
+								{/if}
+							</div>
+						</div>
 					</div>
-				</div>
-			{/each}
+				{/each}
+			{/if}
 		</div>
 	{/if}
 	{#if params.location_mode == 'csv_coordinates'}
