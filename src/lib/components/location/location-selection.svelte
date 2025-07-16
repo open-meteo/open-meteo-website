@@ -116,7 +116,6 @@
 				disabled={locationMode === 'location_search'}
 				onclick={() => {
 					params.bounding_box = '';
-					params.csv_coordinates = '';
 				}}
 			>
 				<svg
@@ -171,7 +170,6 @@
 				class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
 				disabled={locationMode === 'bounding_box'}
 				onclick={() => {
-					params.csv_coordinates = '';
 					setBoundingBox();
 				}}
 			>
@@ -452,13 +450,14 @@
 			<div class="md:w-1/2">
 				<p>
 					Selects all grid-cells within the specified box, however, the right and top edge will be
-					excluded. E.g. A latitude-range of 40°.. 45° would not include any grid-points on the 45°
-					edge. This is important to make multiple API calls to get combine larger areas. The
-					following API call can then get data from 45°.. 50° latitude.
+					excluded. E.g. A latitude-range of 40°.. &#60;45° would not include any grid-points on the
+					45° edge. This is important to make multiple API calls to get combine larger areas. The
+					following API call can then get data from 45°.. &#60;50° latitude.
 				</p>
-				<p>
-					Format <code>&bounding_box=47,-85,47.5,-84.5</code> (latitude1, longitude1, latitude2, longitude2).
-				</p>
+				<p>Format used:</p>
+				<pre class="my-2 overflow-auto rounded-lg">&bounding_box=47,-85,47.5,-84.5				 </pre>
+
+				<p>using (latitude1, longitude1, latitude2, longitude2) or (south, east, north, west).</p>
 			</div>
 		</div>
 	{/if}
