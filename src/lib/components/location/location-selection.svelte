@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	import { fade, slide } from 'svelte/transition';
 
 	import { Input } from '$lib/components/ui/input';
@@ -68,6 +70,24 @@
 	];
 
 	let timeZone = $derived(timeZoneOptions.find((tzo) => String(tzo.value) == params.timezone));
+
+	let boundingBoxSouth = $state(-90);
+	let boundingBoxEast = $state(-180);
+	let boundingBoxNorth = $state(90);
+	let boundingBoxWest = $state(180);
+
+	onMount(() => {
+		if (params.bounding_box) {
+			boundingBoxSouth = Number(params.bounding_box.split(',')[0]);
+			boundingBoxEast = Number(params.bounding_box.split(',')[1]);
+			boundingBoxNorth = Number(params.bounding_box.split(',')[2]);
+			boundingBoxWest = Number(params.bounding_box.split(',')[3]);
+		}
+	});
+
+	const setBoundingBox = () => {
+		params.bounding_box = `${boundingBoxSouth},${boundingBoxEast},${boundingBoxNorth},${boundingBoxWest}`;
+	};
 </script>
 
 <a href="#location_and_time"
@@ -109,7 +129,7 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="rounded-s-none !opacity-100 gap-1 duration-300  {params.location_mode ===
+			class="rounded-none !opacity-100 gap-1 duration-300  {params.location_mode ===
 			'csv_coordinates'
 				? 'bg-accent'
 				: ''}"
@@ -137,13 +157,49 @@
 				<path d="M8 6h13" />
 			</svg>List
 		</Button>
+		<Button
+			variant="ghost"
+			class="rounded-s-none !opacity-100 gap-1 duration-300  {params.location_mode ===
+			'bounding_box'
+				? 'bg-accent'
+				: ''}"
+			onclick={() => {
+				params.location_mode = 'bounding_box';
+				params.bounding_box = [
+					boundingBoxSouth,
+					boundingBoxEast,
+					boundingBoxNorth,
+					boundingBoxWest
+				];
+			}}
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="20"
+				height="20"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				class="lucide lucide-square-dashed-icon lucide-square-dashed mr-[1px]"
+				><path d="M5 3a2 2 0 0 0-2 2" /><path d="M19 3a2 2 0 0 1 2 2" /><path
+					d="M21 19a2 2 0 0 1-2 2"
+				/><path d="M5 21a2 2 0 0 1-2-2" /><path d="M9 3h1" /><path d="M9 21h1" /><path
+					d="M14 3h1"
+				/><path d="M14 21h1" /><path d="M3 9v1" /><path d="M21 9v1" /><path d="M3 14v1" /><path
+					d="M21 14v1"
+				/></svg
+			>Bounding box
+		</Button>
 	</div>
 </div>
 
 <div class="mt-3 md:mt-4">
 	{#if params.location_mode == 'location_search'}
 		<div class="flex flex-col" in:fade>
-			{#each params.latitude as _, index}
+			{#each params.latitude as _, index (index)}
 				<div
 					transition:slide
 					class="grid gap-3 duration-300 sm:grid-cols-2 md:gap-6 md:gap-y-3 xl:grid-cols-4 {index <
@@ -212,8 +268,8 @@
 								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{timeZone?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each timeZoneOptions as timezone}
-									<Select.Item value={timezone.value}>{timezone.label}</Select.Item>
+								{#each timeZoneOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
@@ -306,6 +362,98 @@
 51.5085,-0.1257,,auto
 52.52,13.41,,Europe/Berlin,2021-01-01,2021-01-31</pre>
 				</div>
+			</div>
+		</div>
+	{/if}
+	{#if params.location_mode == 'bounding_box'}
+		<div class="flex flex-col gap-3 md:gap-6 md:flex-row">
+			<div class="flex flex-col md:w-1/2 gap-3">
+				<div class="flex md:justify-center">
+					<div class="w-full md:w-1/2 relative flex flex-col gap-2 duration-200">
+						<Input
+							type="number"
+							class="h-12 pt-6"
+							name="bounding box latitude north"
+							id="bb_latitude_north"
+							step="0.00001"
+							min="-90"
+							max="90"
+							bind:value={boundingBoxNorth}
+							oninput={setBoundingBox}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="bb_latitude_north">Latitude North</Label
+						>
+					</div>
+				</div>
+
+				<div class="flex flex-col md:flex-row gap-3 md:gap-6 md:my-3">
+					<div class="md:w-1/2 relative flex flex-col gap-2 duration-200">
+						<Input
+							type="number"
+							class="h-12 pt-6"
+							name="longitude"
+							id="bb_longitude_east"
+							step="0.000001"
+							min="-180"
+							max="180"
+							bind:value={boundingBoxEast}
+							oninput={setBoundingBox}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="bb_longitude_east">Longitude East</Label
+						>
+					</div>
+					<div class="md:w-1/2 relative flex flex-col gap-2 duration-200">
+						<Input
+							type="number"
+							class="h-12 pt-6"
+							name="longitude"
+							id="bb_longitude_west"
+							step="0.000001"
+							min="-180"
+							max="180"
+							bind:value={boundingBoxWest}
+							oninput={setBoundingBox}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="bb_longitude_west">Longitude West</Label
+						>
+					</div>
+				</div>
+				<div class="flex justify-center">
+					<div class="w-full md:w-1/2 relative flex flex-col gap-2 duration-200">
+						<Input
+							type="number"
+							class="h-12 pt-6"
+							name="bounding box latitude south"
+							id="bb_latitude_south"
+							step="0.000001"
+							min="-90"
+							max="90"
+							bind:value={boundingBoxSouth}
+							oninput={setBoundingBox}
+						/>
+						<Label
+							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							for="bb_latitude_south">Latitude South</Label
+						>
+					</div>
+				</div>
+			</div>
+			<div class="md:w-1/2">
+				<p>
+					Selects all grid-cells within the specified box, however, the right and top edge will be
+					excluded. E.g. A latitude-range of 40°.. 45° would not include any grid-points on the 45°
+					edge. This is important to make multiple API calls to get combine larger areas. The
+					following API call can then get data from 45°.. 50° latitude.
+				</p>
+				<p>
+					Format <code>&bounding_box=47,-85,47.5,-84.5</code> (latitude1, longitude1, latitude2, longitude2).
+				</p>
 			</div>
 		</div>
 	{/if}
