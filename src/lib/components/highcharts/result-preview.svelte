@@ -887,7 +887,14 @@ responses <span class="token operator">=</span> openmeteo<span class="token punc
 						> params<span class="token operator">=</span>params<span class="token punctuation"
 							>)</span
 						>
-
+{#if $params.latitude.length > 1}
+	<span class="token comment"
+								># Process {$params.latitude.length} locations.</span
+							>
+	response <span class="token operator">=</span> responses<span class="token punctuation">[</span
+													><span class="token number">0</span><span class="token punctuation">]</span>
+{:else}
+<div class="[&_span]:before:content-[&#x09;]">
 <span class="token comment"
 							># Process first location. Add a for-loop for multiple locations or weather models</span
 						>
@@ -1119,6 +1126,8 @@ current <span class="token operator">=</span> response<span class="token punctua
 							>
 <span class="token keyword">print</span><span class="token punctuation">(</span
 							>{section}_dataframe<span class="token punctuation">)</span>{`\n`}{/each}
+</div>
+{/if}
 </code></pre>
 			</div>
 		</div>
