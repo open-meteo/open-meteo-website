@@ -567,12 +567,12 @@
 					{
 						name: 'GloFAS v4 Forecast',
 						area: [],
-						meta: fetchMeta('glofas_seasonal_v4', 'flood', api_key_preferences)
+						meta: fetchMeta('glofas_forecast_v4', 'flood', api_key_preferences)
 					},
 					{
 						name: 'GloFAS v4 Seasonal Forecast',
 						area: [],
-						meta: fetchMeta('glofas_forecast_v4', 'flood', api_key_preferences)
+						meta: fetchMeta('glofas_seasonal_v4', 'flood', api_key_preferences)
 					}
 				]
 			}
