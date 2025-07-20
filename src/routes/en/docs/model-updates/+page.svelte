@@ -559,30 +559,32 @@
 			}
 		];
 
-		/*let floodModels = [
+		let floodModels = [
 			{
 				provider: 'GloFAS',
 				url: '/en/docs/flood-api',
 				models: [
 					{
 						name: 'GloFAS v4 Forecast',
+						area: [],
 						meta: fetchMeta('glofas_seasonal_v4', 'flood', api_key_preferences)
 					},
 					{
 						name: 'GloFAS v4 Seasonal Forecast',
+						area: [],
 						meta: fetchMeta('glofas_forecast_v4', 'flood', api_key_preferences)
 					}
 				]
 			}
-		];*/
+		];
 
 		return [
 			{ name: 'Forecast API', providers: forecastModels },
 			{ name: 'Historical Weather API', providers: historicalModels },
 			{ name: 'Ensemble API', providers: ensembleModels },
 			{ name: 'Air Quality API', providers: airQualityModels },
-			{ name: 'Marine API', providers: marineModels }
-			//{ name: 'Flood API', providers: floodModels },
+			{ name: 'Marine API', providers: marineModels },
+			{ name: 'Flood API', providers: floodModels },
 		];
 	}
 
