@@ -607,23 +607,23 @@ openmeteo = openmeteo_requests.Client(session = retry_session)`;
 # The order of variables in hourly or daily is important to assign them correctly below
 url = "https://api.open-meteo.com/v1/forecast"
 params = {
-			"latitude": ${parsedParams.latitude.constructor === Array ? '[' + parsedParams.latitude.join(', ') + ']' : parsedParams.latitude},
-			"longitude": ${parsedParams.longitude.constructor === Array ? '[' + parsedParams.longitude.join(', ') + ']' : parsedParams.longitude},`;
+	"latitude": ${parsedParams.latitude.constructor === Array ? '[' + parsedParams.latitude.join(', ') + ']' : parsedParams.latitude},
+	"longitude": ${parsedParams.longitude.constructor === Array ? '[' + parsedParams.longitude.join(', ') + ']' : parsedParams.longitude},`;
 		if (parsedParams.daily) {
 			cs += `
-			"daily": ${parsedParams.daily.constructor === Array ? '[' + '"' + parsedParams.daily.join(', ') + '"' + ']' : '"' + parsedParams.daily + '"'},`;
+	"daily": ${parsedParams.daily.constructor === Array ? '[' + '"' + parsedParams.daily.join('", "') + '"' + ']' : '"' + parsedParams.daily + '"'},`;
 		}
 		if (parsedParams.hourly) {
 			cs += `
-			"hourly": ${parsedParams.hourly.constructor === Array ? '[' + '"' + parsedParams.hourly.join(', ') + '"' + ']' : '"' + parsedParams.hourly + '"'},`;
+	"hourly": ${parsedParams.hourly.constructor === Array ? '[' + '"' + parsedParams.hourly.join('", "') + '"' + ']' : '"' + parsedParams.hourly + '"'},`;
 		}
 		if (parsedParams.models) {
 			cs += `
-			"models": ${parsedParams.models.constructor === Array ? '[' + '"' + parsedParams.models.join(', ') + '"' + ']' : '"' + parsedParams.models + '"'},`;
+	"models": ${parsedParams.models.constructor === Array ? '[' + '"' + parsedParams.models.join('", "') + '"' + ']' : '"' + parsedParams.models + '"'},`;
 		}
 		if (parsedParams.current) {
 			cs += `
-			"current": ${parsedParams.current.constructor === Array ? '[' + '"' + parsedParams.current.join(', ') + '"' + ']' : '"' + parsedParams.current + '"'},`;
+	"current": ${parsedParams.current.constructor === Array ? '[' + '"' + parsedParams.current.join('", "') + '"' + ']' : '"' + parsedParams.current + '"'},`;
 		}
 		cs += `
 }
