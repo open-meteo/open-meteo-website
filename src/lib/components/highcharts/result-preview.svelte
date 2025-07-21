@@ -999,6 +999,8 @@ print(daily_dataframe)`;
 	<!-- PYTHON -->
 	{#if previewMode == 'python'}
 		<div in:fade>
+			<div>{codeLineLength}</div>
+
 			<p>
 				The sample code automatically applies all the parameters selected above. It includes caching
 				and the conversion to Pandas DataFrames. The use of DataFrames is entirely optional. You can
@@ -1013,12 +1015,12 @@ pip install requests-cache retry-requests numpy pandas</pre>
 
 			<h4 class="text-xl md:text-2xl">Usage</h4>
 
-			<div class="relative" style={'min-height: ' + (codeLineLength * 24.75 + 32) + 'px;'}>
+			<div class="relative" style={'min-height: ' + (codeLineLength * 24 + 48) + 'px;'}>
 				{#await codePreview}
 					<div
 						in:fade={{ duration: 50 }}
 						out:fade={{ duration: 20 }}
-						class="absolute top-0 md:my-4 overflow-auto rounded-lg"
+						class="absolute top-0 mt-2 md:mt-4 overflow-auto rounded-lg"
 					>
 						<pre
 							class="shiki material-theme-lighter"
@@ -1029,7 +1031,7 @@ pip install requests-cache retry-requests numpy pandas</pre>
 				{:then codePreviewParsed}
 					<div
 						transition:fade={{ duration: 50 }}
-						class="absolute w-full top-0 my-2 md:my-4 overflow-auto rounded-lg"
+						class="absolute w-full top-0 mt-2 md:mt-4 overflow-auto rounded-lg"
 					>
 						{@html codePreviewParsed}
 					</div>
