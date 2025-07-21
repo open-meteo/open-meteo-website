@@ -6,6 +6,7 @@
 	import { Button } from '$lib/components/ui/button';
 
 	import * as Select from '$lib/components/ui/select/index';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import { type Parameters } from '$lib/docs';
 
@@ -68,6 +69,18 @@
 	];
 
 	let timeZone = $derived(timeZoneOptions.find((tzo) => String(tzo.value) == params.timezone));
+
+	let csvExample = $state('lat_lon');
+
+	const csvExampleOptions = [
+		{ value: 'lat_lon', label: 'Setting multiple latitudes & longitudes' },
+		{ value: 'elevation', label: 'Setting an elevation to 2500m' },
+		{ value: 'timezone', label: 'Setting a timezone' },
+		{ value: 'time_period', label: 'Setting a time period between 2025-01 and 2025-02' },
+		{ value: 'all_above', label: 'Setting all of the above' }
+	];
+
+	let csvExampleSet = $derived(csvExampleOptions.find((ceo) => ceo.value === csvExample));
 </script>
 
 <a href="#location_and_time"
@@ -292,54 +305,60 @@
 					<textarea
 						class="border-border w-full rounded-md border p-4 md:mb-4"
 						bind:value={params.csv_coordinates}
-						rows="5"
+						rows="14"
 					></textarea>
 				</div>
 				<div class="md:w-1/2">
 					<p>
-						When using 'CSV coordinates' location mode, you can specify multiple locations. Each location should be listed on a new line, with its latitude and longitude separated by a comma. You can also optionally include elevation, timezone, and time period for each location. However, latitude and longitude are the only required parameters. Format used:
+						When using location list mode, you can specify multiple locations in one field. Each
+						location should be listed on a new line, with its latitude and longitude separated by a
+						comma. You can also optionally include elevation, timezone, and time period for each
+						location. However, latitude and longitude are the only required parameters. Format used:
 					</p>
 					<pre
 						class="my-2 overflow-auto rounded-lg md:my-4">latitude,longitude,elevation,timezone,start_date,end_date</pre>
-				</div>
-
-			</div>
-			<div class="mt-1 md:mt-0 flex flex-col lg:flex-row gap-y-3 lg:flex-wrap">
-				<div class="lg:w-1/2 xl:w-1/4 lg:pr-3">
-					<p class="text-nowrap overflow-hidden text-ellipsis">Example with latitude and longitude:</p>
-					<div class="">
-						<pre class="overflow-auto rounded-lg md:mt-4">52.52,13.41
+					<div class="relative">
+						<Select.Root name="forecast_days" type="single" bind:value={csvExample}>
+							<Select.Trigger
+								aria-label="Forecast days input"
+								class="h-12 cursor-pointer rounded-b-none pt-6 [&_svg]:mb-3"
+								>{csvExampleSet.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each csvExampleOptions as { value, label } (value)}
+									<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								>Examples</Label
+							>
+						</Select.Root>
+					</div>
+					{#if csvExample === 'lat_lon'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">52.52,13.41
 50.12,8.68
 53.55,9.99
-</pre>
-					</div>
-				</div>
-				<div class="lg:w-1/2 xl:w-1/4 lg:px-3">
-					<p class="text-nowrap overflow-hidden text-ellipsis">Example setting an elevation to 2500m:</p>
-					<div class="">
-						<pre class="overflow-auto rounded-lg md:mt-4">
+</pre>{:else if csvExample === 'elevation'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
 52.52,13.41,2500
 50.12,8.68,2500
 53.55,9.99,2500</pre>
-					</div>
-				</div>
-				<div class="lg:w-1/2 xl:w-1/4 lg:px-3">
-					<p class="text-nowrap overflow-hidden text-ellipsis">Example with setting a timezone:</p>
-					<div class="">
-						<pre class="overflow-auto rounded-lg md:mt-4">
+					{:else if csvExample === 'timezone'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
 52.52,13.41,,Europe/Berlin
 50.12,8.68,,Europe/Berlin
 53.55,9.99,,Europe/Berlin</pre>
-					</div>
-				</div>
-				<div class="lg:w-1/2 xl:w-1/4 lg:pl-3">
-					<p class="text-nowrap overflow-hidden text-ellipsis">Example setting a time period between 2021-01 and 2021-02</p>
-					<div class="">
-						<pre class="overflow-auto rounded-lg md:mt-4">
+					{:else if csvExample === 'time_period'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
 52.52,13.41,,,2021-01-01,2021-01-31
 50.12,8.68,,,2021-01-01,2021-01-31
 53.55,9.99,,,2021-01-01,2021-01-31</pre>
-					</div>
+					{:else if csvExample === 'all_above'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+52.52,13.41,2500,Europe/Berlin,2021-01-01,2021-01-31
+50.12,8.68,2500,Europe/Berlin,2021-01-01,2021-01-31
+53.55,9.99,2500,Europe/Berlin,2021-01-01,2021-01-31</pre>
+					{/if}
 				</div>
 			</div>
 		</div>
