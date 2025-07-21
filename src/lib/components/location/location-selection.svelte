@@ -297,9 +297,7 @@
 				</div>
 				<div class="md:w-1/2">
 					<p>
-						You can provide multiple coordinates. One per line and separated by commas. For each
-						location, you can also set a time period if needed. Only latitude and longitude are
-						required. Format used:
+						When using 'CSV coordinates' location mode, you can specify multiple locations. Each location should be listed on a new line, with its latitude and longitude separated by a comma. You can also optionally include elevation, timezone, and time period for each location. However, latitude and longitude are the only required parameters. Format used:
 					</p>
 					<pre
 						class="my-2 overflow-auto rounded-lg md:my-4">latitude, longitude, elevation, timezone, start_date, end_date</pre>
