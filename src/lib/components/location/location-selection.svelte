@@ -287,10 +287,10 @@
 	{/if}
 	{#if params.location_mode == 'csv_coordinates'}
 		<div in:fade>
-			<div class="flex flex-col gap-6 md:flex-row">
+			<div class="flex flex-col gap-3 md:gap-6 md:flex-row">
 				<div class="md:w-1/2">
 					<textarea
-						class="border-border w-full rounded-md border p-4"
+						class="border-border w-full rounded-md border p-4 md:mb-4"
 						bind:value={params.csv_coordinates}
 						rows="5"
 					></textarea>
@@ -301,11 +301,45 @@
 					</p>
 					<pre
 						class="my-2 overflow-auto rounded-lg md:my-4">latitude, longitude, elevation, timezone, start_date, end_date</pre>
-					<p>Examples:</p>
+				</div>
 
-					<pre class="mt-2 overflow-auto rounded-lg md:mt-4">52.52,13.41
-51.5085,-0.1257,,auto
-52.52,13.41,,Europe/Berlin,2021-01-01,2021-01-31</pre>
+			</div>
+			<div class="mt-1 md:mt-0 flex flex-col lg:flex-row gap-y-3 lg:flex-wrap">
+				<div class="lg:w-1/2 xl:w-1/4 lg:pr-3">
+					<p class="text-nowrap overflow-hidden text-ellipsis">Example with latitude and longitude:</p>
+					<div class="">
+						<pre class="overflow-auto rounded-lg md:mt-4">52.52,13.41
+50.12,8.68
+53.55,9.99
+</pre>
+					</div>
+				</div>
+				<div class="lg:w-1/2 xl:w-1/4 lg:px-3">
+					<p class="text-nowrap overflow-hidden text-ellipsis">Example setting an elevation to 2500m:</p>
+					<div class="">
+						<pre class="overflow-auto rounded-lg md:mt-4">
+52.52,13.41,2500
+50.12,8.68,2500
+53.55,9.99,2500</pre>
+					</div>
+				</div>
+				<div class="lg:w-1/2 xl:w-1/4 lg:px-3">
+					<p class="text-nowrap overflow-hidden text-ellipsis">Example with setting a timezone:</p>
+					<div class="">
+						<pre class="overflow-auto rounded-lg md:mt-4">
+52.52,13.41,,Europe/Berlin
+50.12,8.68,,Europe/Berlin
+53.55,9.99,,Europe/Berlin</pre>
+					</div>
+				</div>
+				<div class="lg:w-1/2 xl:w-1/4 lg:pl-3">
+					<p class="text-nowrap overflow-hidden text-ellipsis">Example setting a time period between 2021-01 and 2021-02</p>
+					<div class="">
+						<pre class="overflow-auto rounded-lg md:mt-4">
+52.52,13.41,,,2021-01-01,2021-01-31
+50.12,8.68,,,2021-01-01,2021-01-31
+53.55,9.99,,,2021-01-01,2021-01-31</pre>
+					</div>
 				</div>
 			</div>
 		</div>
