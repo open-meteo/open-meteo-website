@@ -465,9 +465,9 @@
 
 	async function preview() {
 		if (
-			'latitude' in parsedParams &&
+			('latitude' in parsedParams &&
 			Array.isArray(parsedParams.latitude) &&
-			parsedParams.latitude.length > 5
+			parsedParams.latitude.length > 5) || $params.location_mode === 'bounding_box'
 		) {
 			throw new Error('Can not preview more than 5 locations');
 		}
@@ -572,6 +572,24 @@
 	}
 
 	let mode = $state('chart');
+
+	const processMultipleLocations = $derived.by(()=>{
+		if ($params.latitude && $params.latitude.length > 1) {
+			return true
+		} else {
+			return false
+		}
+	})
+
+	const p = $derived(processMultipleLocations)
+
+	const numberOfLocations = $derived.by(()=>{
+		if ($params.latitude && $params.latitude.length > 1) {
+			return $params.latitude.length
+		} else {
+			return 0
+		}
+	})
 </script>
 
 <a href="#api_response">
@@ -887,22 +905,21 @@ responses <span class="token operator">=</span> openmeteo<span class="token punc
 						> params<span class="token operator">=</span>params<span class="token punctuation"
 							>)</span
 						>
-{#if $params.latitude.length > 1}
-	<span class="token comment"
-								># Process {$params.latitude.length} locations.</span
-							>
-	response <span class="token operator">=</span> responses<span class="token punctuation">[</span
-													><span class="token number">0</span><span class="token punctuation">]</span>
-{:else}
-<div class="[&_span]:before:content-[&#x09;]">
+{#if processMultipleLocations }
+<span class="token comment"
+							># Process {numberOfLocations} locations</span
+						>
+<span class="token keyword">for</span
+	> response <span class="token keyword">in</span> responses<span
+		class="token punctuation">:</span>{:else}
 <span class="token comment"
 							># Process first location. Add a for-loop for multiple locations or weather models</span
 						>
 response <span class="token operator">=</span> responses<span class="token punctuation">[</span
-						><span class="token number">0</span><span class="token punctuation">]</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span
+						><span class="token number">0</span><span class="token punctuation">]</span>{/if}
+{@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span><span
 							class="token string-interpolation"
-							><span class="token string">f"Coordinates </span><span class="token interpolation"
+							><span class="token string">f"{p ? '\\n' : ''}Coordinates </span><span class="token interpolation"
 								><span class="token punctuation">&lbrace;</span>response<span
 									class="token punctuation">.</span
 								>Latitude<span class="token punctuation">(</span><span class="token punctuation"
@@ -916,7 +933,7 @@ response <span class="token operator">=</span> responses<span class="token punct
 								><span class="token punctuation">&rbrace;</span></span
 							><span class="token string">°E"</span></span
 						><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span
+{@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span><span
 							class="token string-interpolation"
 							><span class="token string">f"Elevation </span><span class="token interpolation"
 								><span class="token punctuation">&lbrace;</span>response<span
@@ -926,7 +943,7 @@ response <span class="token operator">=</span> responses<span class="token punct
 								><span class="token punctuation">&rbrace;</span></span
 							><span class="token string"> m asl"</span></span
 						><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span
+{@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span><span
 							class="token string-interpolation"
 							><span class="token string">f"Timezone </span><span class="token interpolation"
 								><span class="token punctuation">&lbrace;</span>response<span
@@ -942,7 +959,7 @@ response <span class="token operator">=</span> responses<span class="token punct
 								><span class="token punctuation">&rbrace;</span></span
 							><span class="token string">"</span></span
 						><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span
+{@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span><span
 							class="token string-interpolation"
 							><span class="token string">f"Timezone difference to GMT+0 </span><span
 								class="token interpolation"
@@ -953,15 +970,15 @@ response <span class="token operator">=</span> responses<span class="token punct
 								><span class="token punctuation">&rbrace;</span></span
 							><span class="token string"> s"</span></span
 						><span class="token punctuation">)</span>
-{#if 'current' in $params && $params.current.length > 0}<br /><span class="token comment"
+{#if 'current' in $params && $params.current.length > 0}<br />{@html p ? '\t' : ''}<span class="token comment"
 								># Current values. The order of variables needs to be the same as requested.</span
 							>
-current <span class="token operator">=</span> response<span class="token punctuation"
+{@html p ? '\t' : ''}current <span class="token operator">=</span> response<span class="token punctuation"
 								>.</span
 							>Current<span class="token punctuation">(</span><span class="token punctuation"
 								>)</span
 							>
-{#each $params['current'] as variable, index}current_{variable} <span
+{#each $params['current'] as variable, index}{@html p ? '\t' : ''}current_{variable}<span
 									class="token operator">=</span
 								> current<span class="token punctuation">.</span>Variables<span
 									class="token punctuation">(</span
@@ -969,7 +986,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 								><span class="token punctuation">.</span>Value<span class="token punctuation"
 									>(</span
 								><span class="token punctuation">)</span>{'\n'}{/each}
-<span class="token keyword"
+{@html p ? '\t' : ''}<span class="token keyword"
 								>print</span
 							><span class="token punctuation">(</span><span class="token string-interpolation"
 								><span class="token string">f"Current time </span><span class="token interpolation"
@@ -980,7 +997,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 									><span class="token punctuation">&rbrace;</span></span
 								><span class="token string">"</span></span
 							><span class="token punctuation">)</span>
-{#each $params.current as current}<span
+{#each $params.current as current}{@html p ? '\t' : ''}<span
 									class="token keyword">print</span
 								><span class="token punctuation">(</span><span class="token string-interpolation"
 									><span class="token string">f"Current {current} </span><span
@@ -992,14 +1009,14 @@ current <span class="token operator">=</span> response<span class="token punctua
 								><span class="token punctuation">)</span><br
 								/>{/each}{/if}{#each sectionsArrayWithData as section}<br
 							/>{#if sdk_type == 'ensemble_api'}<span class="token comment"
-									># Process {section} data</span
+									>{@html p ? '\t' : ''}# Process {section} data</span
 								>
-{section} <span class="token operator">=</span> response<span
+{@html p ? '\t' : ''}{section} <span class="token operator">=</span> response<span
 									class="token punctuation">.</span
 								>{titleCase(section)}<span class="token punctuation">(</span><span
 									class="token punctuation">)</span
 								>
-{section}_variables <span class="token operator">=</span> <span
+{@html p ? '\t' : ''}{section}_variables <span class="token operator">=</span> <span
 									class="token builtin">list</span
 								><span class="token punctuation">(</span><span class="token builtin">map</span><span
 									class="token punctuation">(</span
@@ -1014,7 +1031,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 								><span class="token punctuation">)</span><span class="token punctuation">)</span
 								><span class="token punctuation">)</span><span class="token punctuation">)</span
 								>
-{#each $params[section] as variable}<span>{section}_{variable} </span><span
+{#each $params[section] as variable}{@html p ? '\t' : ''}<span>{section}_{variable} </span><span
 										class="token operator">=</span
 									> <span class="token builtin">filter</span><span class="token punctuation">(</span
 									><span class="token keyword">lambda</span> x<span class="token punctuation"
@@ -1023,14 +1040,14 @@ current <span class="token operator">=</span> response<span class="token punctua
 										>,</span
 									> {section}_variables<span class="token punctuation">)</span><br
 									/>{/each}{:else}<span class="token comment"
-									># Process {section} data. The order of variables needs to be the same as requested.</span
+									>{@html p ? '\t' : ''}# Process {section} data. The order of variables needs to be the same as requested.</span
 								>
-{section} <span class="token operator">=</span> response<span
+{@html p ? '\t' : ''}{section} <span class="token operator">=</span> response<span
 									class="token punctuation">.</span
 								>{titleCase(section)}<span class="token punctuation">(</span><span
 									class="token punctuation">)</span
 								>
-{#each $params[section] as variable, index}{section}_{variable} <span
+{#each $params[section] as variable, index}{@html p ? '\t' : ''}{section}_{variable} <span
 										class="token operator">=</span
 									> {section}<span class="token punctuation">.</span>Variables<span
 										class="token punctuation">(</span
@@ -1040,13 +1057,13 @@ current <span class="token operator">=</span> response<span class="token punctua
 									>{int64Variables.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}<span
 										class="token punctuation">(</span
 									><span class="token punctuation">)</span>{'\n'}{/each}{/if}
-{section}_data <span
+{@html p ? '\t' : ''}{section}_data <span
 								class="token operator">=</span
 							> <span class="token punctuation">&lbrace;</span><span class="token string"
 								>"date"</span
 							><span class="token punctuation">:</span> pd<span class="token punctuation">.</span
 							>date_range<span class="token punctuation">(</span>
-{'\t'}start <span
+{@html p ? '\t' : ''}{'\t'}start <span
 								class="token operator">=</span
 							> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation"
 								>(</span
@@ -1058,7 +1075,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 							> <span class="token number">True</span><span class="token punctuation">)</span><span
 								class="token punctuation">,</span
 							>
-{'\t'}end <span class="token operator">=</span> pd<span class="token punctuation"
+{@html p ? '\t' : ''}{'\t'}end <span class="token operator">=</span> pd<span class="token punctuation"
 								>.</span
 							>to_datetime<span class="token punctuation">(</span>{section}<span
 								class="token punctuation">.</span
@@ -1069,7 +1086,7 @@ current <span class="token operator">=</span> response<span class="token punctua
 							> utc <span class="token operator">=</span> <span class="token number">True</span
 							><span class="token punctuation">)</span><span class="token punctuation">,</span
 							>
-{'\t'}freq <span class="token operator">=</span> pd<span class="token punctuation"
+{@html p ? '\t' : ''}{'\t'}freq <span class="token operator">=</span> pd<span class="token punctuation"
 								>.</span
 							>Timedelta<span class="token punctuation">(</span>seconds <span class="token operator"
 								>=</span
@@ -1078,23 +1095,23 @@ current <span class="token operator">=</span> response<span class="token punctua
 							><span class="token punctuation">)</span><span class="token punctuation">)</span><span
 								class="token punctuation">,</span
 							>
-{'\t'}inclusive <span class="token operator">=</span> <span class="token string"
+{@html p ? '\t' : ''}{'\t'}inclusive <span class="token operator">=</span> <span class="token string"
 								>"left"</span
 							>
-<span class="token punctuation">)</span><span class="token punctuation"
+{@html p ? '\t' : ''}<span class="token punctuation">)</span><span class="token punctuation"
 								>&rbrace;</span
 							>{#if sdk_type == 'ensemble_api'}<br /><br /><span class="token comment"
-									># Process all members</span
-								><br />{#each $params[section] as variable}<span class="token keyword">for</span
+									>{@html p ? '\t' : ''}# Process all members</span
+								><br />{#each $params[section] as variable}{@html p ? '\t' : ''}<span class="token keyword">for</span
 									> variable <span class="token keyword">in</span> {section}_{variable}<span
 										class="token punctuation">:</span
 									>
-{'\t'}member <span class="token operator">=</span> variable<span
+{@html p ? '\t' : ''}{'\t'}member <span class="token operator">=</span> variable<span
 										class="token punctuation">.</span
 									>EnsembleMember<span class="token punctuation">(</span><span
 										class="token punctuation">)</span
 									><span class="token punctuation"></span>
-{'\t'}{section}_data<span
+{@html p ? '\t' : ''}{'\t'}{section}_data<span
 										class="token punctuation">[</span
 									><span class="token string-interpolation"
 										><span class="token string">f"{variable}_member</span><span
@@ -1111,23 +1128,21 @@ current <span class="token operator">=</span> response<span class="token punctua
 										: 'ValuesAsNumpy'}<span class="token punctuation">(</span><span
 										class="token punctuation">)</span
 									>{'\n'}{/each}{:else}<br /><br
-								/>{#each $params[section] as hourly}{section}_data<span class="token punctuation"
+								/>{#each $params[section] as hourly}{@html p ? '\t' : ''}{section}_data<span class="token punctuation"
 										>[</span
 									><span class="token string-interpolation"
 										><span class="token string">"{hourly}"</span></span
 									><span class="token punctuation">]</span> <span class="token operator">=</span
 									> {section}_{hourly}<br />{/each}{/if}
-{section}_dataframe <span
+{@html p ? '\t' : ''}{section}_dataframe <span
 								class="token operator">=</span
 							> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation"
 								>(</span
 							>data <span class="token operator">=</span> {section}_data<span
 								class="token punctuation">)</span
 							>
-<span class="token keyword">print</span><span class="token punctuation">(</span
+{@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span
 							>{section}_dataframe<span class="token punctuation">)</span>{`\n`}{/each}
-</div>
-{/if}
 </code></pre>
 			</div>
 		</div>

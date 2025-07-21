@@ -449,14 +449,9 @@
 			</div>
 			<div class="md:w-1/2">
 				<p>
-					Selects all grid-cells within the specified box, however, the right and top edge will be
-					excluded. E.g. A latitude-range of 40°.. &#60;45° would not include any grid-points on the
-					45° edge. This is important to make multiple API calls to get combine larger areas. The
-					following API call can then get data from 45°.. &#60;50° latitude.
+					Using bounding box will select grid cells within a specified area, excluding the top and right boundaries. For example, a latitude range of 40°...&#60;45° will not include any grid points on the 45° line. This exclusion is necessary to allow for combining data from multiple API calls when processing larger areas. For instance, a subsequent API call could request data from 45°...&#60;50° latitude. Format used:
 				</p>
-				<p>Format used:</p>
-				<pre class="my-2 overflow-auto rounded-lg">&bounding_box=47,-85,47.5,-84.5				 </pre>
-
+				<pre class="my-2 overflow-auto rounded-lg">&bounding_box=47,-85,47.5,-84.5</pre>
 				<p>using (latitude1, longitude1, latitude2, longitude2) or (south, east, north, west).</p>
 			</div>
 		</div>
