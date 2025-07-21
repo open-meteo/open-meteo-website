@@ -39,9 +39,7 @@ export const pressureVariables = [
 	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
 ];
-export const levels = [
-	250, 500, 700, 850, 925, 1000
-].reverse();
+export const levels = [250, 500, 700, 850, 925, 1000].reverse();
 
 export const hourly = [
 	[
@@ -71,7 +69,7 @@ export const hourly = [
 	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 	],
 	[
 		{ value: 'soil_temperature_0cm', label: 'Soil Temperature (0 cm)' },

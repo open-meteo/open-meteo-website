@@ -3,17 +3,12 @@
 
 	import { fade } from 'svelte/transition';
 
-	import { mode } from 'mode-watcher';
-
-	import { debounce } from '$lib/utils/meteo';
-
 	import { fetchWeatherApi } from 'openmeteo';
 
+	import { pad, debounce } from '$lib/utils';
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import { storedLocation, model, themeIsDark, type GeoLocation } from '$lib/stores/settings';
-
-	import { pad, range } from '$lib/utils/meteo';
 
 	import { Label } from '$lib/components/ui/label';
 
@@ -50,11 +45,11 @@
 		weatherModel = value;
 	});
 
-	let diffTemp: number = $state();
-	let maxTemp: number = $state();
+	let diffTemp: number | undefined = $state();
+	let maxTemp: number | undefined = $state();
 
 	let weatherCodesHourly: Float32Array | null | undefined = $state();
-	let canvasElement: HTMLCanvasElement | null = $state();
+	let canvasElement: HTMLCanvasElement | null | undefined = $state();
 
 	const today = new Date();
 	let selectedDay = $state(new Date());
@@ -95,11 +90,12 @@
 
 			weatherCodesHourly = hourly.variables(3)?.valuesArray();
 
-			const hourlyTime = range(
-				Number(hourly.time()),
-				Number(hourly.timeEnd()),
-				hourly.interval()
-			).map((t) => new Date((t + utcOffsetSeconds) * 1000));
+			let hourlyTime = [
+				...Array((Number(hourly.timeEnd()) - Number(hourly.time())) / hourly.interval())
+			].map(
+				(_, i) =>
+					new Date((Number(hourly.time()) + i * hourly.interval() + utcOffsetSeconds) * 1000)
+			);
 			const hourlyTemps = hourly.variables(2)?.valuesArray();
 			const hourlyCloudCover = hourly.variables(6)?.valuesArray();
 			const hourlyPrecip = hourly.variables(0)?.valuesArray();
@@ -237,8 +233,9 @@
 
 			return {
 				daily: {
-					time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
-						(t) => new Date((t + utcOffsetSeconds) * 1000)
+					time: [...Array((Number(daily.timeEnd()) - Number(daily.time())) / daily.interval())].map(
+						(_, i) =>
+							new Date((Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) * 1000)
 					),
 					weather_code: daily.variables(0)!,
 					temperature_2m_max: daily.variables(1)!,
@@ -351,10 +348,10 @@
 			in:fade
 			out:fade
 			style="min-height: 256px"
-			class="weather-week flex flex-col md:flex-row gap-md-2 mb-4"
+			class="weather-week gap-md-2 mb-4 flex flex-col md:flex-row"
 		>
 			{#await weatherDaily then wd}
-				{#each wd.daily.time as time, index}
+				{#each wd.daily.time as time, index (index)}
 					{@const selected = time.getDate() === selectedDay.getDate()}
 					{#if !isNaN(wd.daily.temperature_2m_max.values(index).toFixed(1))}
 						<button
@@ -365,7 +362,7 @@
 							}}
 						>
 							<div
-								class="items-center flex flex-row md:flex-col justify-center md:justify-center rounded-xl p-1 md:p-3 gap-md-1 {selected
+								class="gap-md-1 flex flex-row items-center justify-center rounded-xl p-1 md:flex-col md:justify-center md:p-3 {selected
 									? 'bg-accent'
 									: ''}"
 							>
@@ -375,7 +372,7 @@
 
 								<div
 									data-text={time.toLocaleDateString('en-GB', { weekday: 'long' })}
-									class="inline-flex relative grow-text flex-col mx-auto {selected
+									class="grow-text relative mx-auto inline-flex flex-col {selected
 										? 'font-bold'
 										: ''}"
 								>
@@ -392,21 +389,21 @@
 									</svg>
 								</div>
 								<div
-									class="weather-temp-max flex p-1 justify-center rounded-t text-sm min-w-[65px]"
-									style={`background-color: ${getColor(wd.daily.temperature_2m_max.values(index).toFixed(0), $params.temperature_unit)}; color: ${wd.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? -13 : 7) || wd.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+									class="weather-temp-max flex min-w-[65px] justify-center rounded-t p-1 text-sm"
+									style={`background-color: ${getColor(wd.daily.temperature_2m_max.values(index).toFixed(0), $params.temperature_unit)}; color: ${wd.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? 4 : 7) || wd.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 30 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 								>
 									{wd.daily.temperature_2m_max.values(index).toFixed(1)}
 									{$params.temperature_unit === 'celsius' ? '°C' : '°F'}
 								</div>
 								<div
-									class="weather-temp-min flex p-1 justify-center rounded-b text-sm min-w-[65px]"
-									style={`background: ${getColor(wd.daily.temperature_2m_min.values(index).toFixed(0), $params.temperature_unit)}; color: ${wd.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? -13 : 7) || wd.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+									class="weather-temp-min flex min-w-[65px] justify-center rounded-b p-1 text-sm"
+									style={`background: ${getColor(wd.daily.temperature_2m_min.values(index).toFixed(0), $params.temperature_unit)}; color: ${wd.daily.temperature_2m_min.values(index) < ($params.temperature_unit === 'celsius' ? 4 : 7) || wd.daily.temperature_2m_min.values(index) >= ($params.temperature_unit === 'celsius' ? 30 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 								>
 									{wd.daily.temperature_2m_min.values(index).toFixed(1)}
 									{$params.temperature_unit === 'celsius' ? '°C' : '°F'}
 								</div>
-								<div class="flex items-center justify-center mt-2 gap-1">
-									<div class="relative h-6 w-6 flex justify-center items-center">
+								<div class="mt-2 flex items-center justify-center gap-1">
+									<div class="relative flex h-6 w-6 items-center justify-center">
 										<div class="absolute">
 											<svg class="fill-foreground" width="26px" height="26px">
 												<use
@@ -419,8 +416,8 @@
 
 									{Number(wd.daily.sunshine_duration.values(index) / 3600).toFixed(0)}h
 								</div>
-								<div class="flex items-center justify-center mt-1">
-									<div class="relative h-6 w-6 flex justify-center items-center">
+								<div class="mt-1 flex items-center justify-center">
+									<div class="relative flex h-6 w-6 items-center justify-center">
 										<div class="absolute">
 											<svg class="fill-foreground" width="28px" height="28px">
 												<use
@@ -459,17 +456,17 @@
 		<div
 			bind:this={scrollDiv}
 			style=" height: {218 + entries * 27.5}px; "
-			class="relative w-ful -mx-5 md:-ml-[110px] overflow-x-scroll overflow-y-hidden"
+			class="w-ful relative -mx-5 overflow-x-scroll overflow-y-hidden md:-ml-[110px]"
 		>
 			<canvas
 				bind:this={canvasElement}
 				id="weather_week_canvas"
-				class="border border-border"
+				class="border-border border"
 				style="margin-top: 24px; margin-left: 110px; width: 5000px; height: 200px; "
 				height="500px"
 				width="10000px"
 			></canvas>
-			<table in:fade class="absolute bottom-0 border-b border-border">
+			<table in:fade class="border-border absolute bottom-0 border-b">
 				<caption style="display:none"> Weather Week {location.name} </caption>
 				<tbody>
 					{#await weather then weather}
@@ -480,7 +477,7 @@
 								style="color: transparent; padding-left: 4px;  background: transparent; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 								>Time</th
 							>
-							{#each weather.indexes as index}
+							{#each weather.indexes as index, j (j)}
 								<td
 									class="time {weather.hourlyTime[index].getDate() === today.getDate() &&
 									weather.hourlyTime[index].getHours() === today.getHours()
@@ -505,7 +502,7 @@
 								style="color: transparent; padding-left: 4px;  background: transparent; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 								>Icons</th
 							>
-							{#each weather.indexes as index}
+							{#each weather.indexes as index, j (j)}
 								{@const now =
 									weather.hourlyTime[index].getDate() === today.getDate() &&
 									weather.hourlyTime[index].getHours() === today.getHours()}
@@ -538,7 +535,7 @@
 								style="color: transparent; padding-left: 4px;  background: transparent; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 								>Temp graph</th
 							>
-							{#each weather.indexes as index}
+							{#each weather.indexes as index, j (j)}
 								{@const temp = weather.entries[0].values[index]}
 
 								{#if !isNaN(temp)}
@@ -558,8 +555,8 @@
 								{/if}
 							{/each}
 						</tr>
-						{#each weather.entries as entry}
-							<tr class="border-t border-border">
+						{#each weather.entries as entry, i (i)}
+							<tr class="border-border border-t">
 								<th
 									scope="row"
 									class="bg-background text-left"
@@ -567,10 +564,10 @@
 									>{entry.title}</th
 								>
 
-								{#each weather.indexes as index}
+								{#each weather.indexes as index, j (j)}
 									{#if !isNaN(entry.values[index])}
 										<td
-											class="border-r border-border {weather.hourlyTime[index].getDate() ===
+											class="border-border border-r {weather.hourlyTime[index].getDate() ===
 												today.getDate() && weather.hourlyTime[index].getHours() === today.getHours()
 												? 'now'
 												: ''}"
@@ -618,17 +615,17 @@
 						{/each}
 						{#if winddir}
 							<!-- winddir -->
-							<tr class="border-t border-border">
+							<tr class="border-border border-t">
 								<th
 									scope="row"
 									class="bg-background text-left"
 									style="z-index: 20; left: 0px; min-width: 110px; max-width: 110px; position: sticky;"
 									>Wind Dir.</th
 								>
-								{#each weather.indexes as index}
+								{#each weather.indexes as index, j (j)}
 									{#if !isNaN(weather.windDirections[index])}
 										<td
-											class="border-r border-border {weather.hourlyTime[index].getDate() ===
+											class="border-border border-r {weather.hourlyTime[index].getDate() ===
 												today.getDate() && weather.hourlyTime[index].getHours() === today.getHours()
 												? 'now'
 												: ''}"
@@ -649,16 +646,16 @@
 			</table>
 		</div>
 	</div>
-	{#await weather then weather}
-		{@const sunrise = new Date(Number(weather.daily.sunrise.valuesInt64(selectedDayIndex)) * 1000)}
-		{@const sunset = new Date(Number(weather.daily.sunset.valuesInt64(selectedDayIndex)) * 1000)}
+	{#await weatherDaily then wd}
+		{@const sunrise = new Date(Number(wd.daily.sunrise.valuesInt64(selectedDayIndex)) * 1000)}
+		{@const sunset = new Date(Number(wd.daily.sunset.valuesInt64(selectedDayIndex)) * 1000)}
 		<div class="mt-6">
-			<div class="flex gap-1 items-center">
+			<div class="flex items-center gap-1">
 				<svg class="fill-foreground" width="28px" height="28px">
 					<use class="stroke-2" xlink:href="/images/weather-icons/wi-sunrise.svg#Layer_1"></use>
 				</svg>Sunrise: {pad(sunrise.getHours())}:{pad(sunrise.getMinutes())}
 			</div>
-			<div class="flex gap-1 items-center">
+			<div class="flex items-center gap-1">
 				<svg class="fill-foreground" width="28px" height="28px">
 					<use class="stroke-2" xlink:href="/images/weather-icons/wi-sunset.svg#Layer_1"></use>
 				</svg>
@@ -667,7 +664,7 @@
 		</div>
 	{/await}
 	<div>
-		<div class="mt-6 md:mt-12 flex gap-6">
+		<div class="mt-6 flex gap-6 md:mt-12">
 			<div class="relative w-1/2">
 				<Select.Root name="model_selection" type="single" bind:value={$params.models}>
 					<Select.Trigger
@@ -679,7 +676,7 @@
 							<Select.Item class="cursor-pointer" value={mo.value}>{mo.label}</Select.Item>
 						{/each}
 					</Select.Content>
-					<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+					<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 						>Weather model</Label
 					>
 				</Select.Root>
@@ -697,14 +694,14 @@
 		<Settings bind:params={$params} />
 	</div>
 
-	<div class="mb-6 mt-6">
+	<div class="mt-6 mb-6">
 		<h2 class="text-2xl md:text-3xl">Color scale example</h2>
-		<div class="mt-3 md:mt-6 grid grid-cols-4">
+		<div class="mt-3 grid grid-cols-4 md:mt-6">
 			{#if $params.temperature_unit == 'celsius'}
 				{#each [...Array(101).keys()].map((i) => -40 + i) as temp}
 					<div
-						class="flex p-1 justify-center weather-temp-max rounded min-w-[70px]"
-						style={`background-color: ${getColor(temp, $params.temperature_unit)}; color: ${temp <= ($params.temperature_unit === 'celsius' ? -13 : 7) || temp >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+						class="weather-temp-max flex min-w-[70px] justify-center rounded p-1"
+						style={`background-color: ${getColor(temp, $params.temperature_unit)}; color: ${temp <= ($params.temperature_unit === 'celsius' ? 4 : 7) || temp >= ($params.temperature_unit === 'celsius' ? 30 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 					>
 						{temp} °C <br />
 						{getColor(temp, $params.temperature_unit)}
@@ -713,8 +710,8 @@
 			{:else}
 				{#each [...Array(91).keys()].map((i) => -40 + i * 2) as temp}
 					<div
-						class="flex p-1 justify-center weather-temp-max rounded min-w-[70px]"
-						style={`background-color: ${getColor(temp, $params.temperature_unit)}; color: ${temp <= ($params.temperature_unit === 'celsius' ? -13 : 7) || temp >= ($params.temperature_unit === 'celsius' ? 40 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
+						class="weather-temp-max flex min-w-[70px] justify-center rounded p-1"
+						style={`background-color: ${getColor(temp, $params.temperature_unit)}; color: ${temp <= ($params.temperature_unit === 'celsius' ? 4 : 7) || temp >= ($params.temperature_unit === 'celsius' ? 30 : 104) ? 'white' : 'black'}; ${$themeIsDark ? 'filter: opacity(0.85)' : ''}`}
 					>
 						{temp}
 						{$params.temperature_unit === 'celsius' ? '°C' : '°F'}<br />
@@ -734,5 +731,15 @@
 	td {
 		text-align: center;
 		font-size: 13px;
+	}
+
+	.weather-week-icon {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: #0061a5;
+		margin: 5px 0;
+		border-radius: 5px;
 	}
 </style>
