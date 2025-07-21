@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { scale } from 'svelte/transition';
 
-	import { pad } from '$lib/utils/meteo';
+	import { pad } from '$lib/utils';
 
 	import { Button } from '$lib/components/ui/button';
 
@@ -168,9 +168,9 @@
 				</svg>
 			</Button>
 		</div>
-		<div class="flex min-h-[180px] max-h-[300px] min-w-[340px] justify-center overflow-y-auto">
+		<div class="flex max-h-[300px] min-h-[180px] min-w-[340px] justify-center overflow-y-auto">
 			{#if yearModeStart}
-				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-d grid-cols-4">
+				<div in:scale={{ start: 0.8, duration: 200 }} class="grid-d grid grid-cols-4">
 					{#each yearList as year}
 						<Button
 							id="start_year_{year}"
@@ -209,6 +209,7 @@
 				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div class="min-h-[280px]">
 					<div
+						id="start_date_days"
 						in:scale={{ start: 0.8, duration: 300 }}
 						class="grid grid-cols-5"
 						aria-roledescription="Date picker window"
@@ -222,9 +223,9 @@
 									? 'bg-accent/50 rounded-none'
 									: ''}
 								{date.toISOString().split('T')[0] === startDate.toISOString().split('T')[0]
-									? 'bg-accent rounded-e-none rounded-s-md'
+									? 'bg-accent rounded-s-md rounded-e-none'
 									: ''} {date.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]
-									? 'bg-accent rounded-e-md rounded-s-none'
+									? 'bg-accent rounded-s-none rounded-e-md'
 									: ''}"
 								variant="ghost"
 								disabled={date.getTime() < begin_date.getTime() - 11 * 60 * 60 * 1000 ||
@@ -283,7 +284,7 @@
 					monthModeEnd = true;
 				}}>{endDate.getUTCFullYear()} - {monthList[endDate.getUTCMonth()]}</Button
 			>
-			<Button variant="outline" class="px-3 mr-8" onclick={increaseEnd}
+			<Button variant="outline" class="mr-8 px-3" onclick={increaseEnd}
 				><svg
 					class="lucide lucide-chevron-right"
 					xmlns="http://www.w3.org/2000/svg"
@@ -300,7 +301,7 @@
 				</svg>
 			</Button>
 		</div>
-		<div class="flex min-h-[180px] max-h-[300px] min-w-[340px] justify-center overflow-y-auto">
+		<div class="flex max-h-[300px] min-h-[180px] min-w-[340px] justify-center overflow-y-auto">
 			{#if yearModeEnd}
 				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-cols-4">
 					{#each yearList as year}
@@ -349,7 +350,7 @@
 									: ''} {date.getTime() < endDate.getTime() && date.getTime() > startDate.getTime()
 									? 'bg-accent/50 rounded-none'
 									: ''} {date.toISOString().split('T')[0] === startDate.toISOString().split('T')[0]
-									? 'bg-accent rounded-e-none rounded-s-md'
+									? 'bg-accent rounded-s-md rounded-e-none'
 									: ''}"
 								variant="ghost"
 								disabled={date.getTime() < begin_date.getTime() - 11 * 60 * 60 * 1000 ||

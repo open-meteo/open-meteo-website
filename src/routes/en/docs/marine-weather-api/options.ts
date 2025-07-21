@@ -55,7 +55,7 @@ export const hourly = [
 		},
 		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature SST' },
 		{ value: 'ocean_current_velocity', label: 'Ocean Current Velocity' },
-		{ value: 'ocean_current_direction', label: 'Ocean Current Direction' },
+		{ value: 'ocean_current_direction', label: 'Ocean Current Direction' }
 	]
 ];
 

@@ -17,7 +17,7 @@
 
 <Accordion.Item class="accordion-item border-border {last ? 'border-none' : ''}" value={id}>
 	<Accordion.Trigger
-		class="underline-offset-3 border-border [[data-state=open]]:bg-accent [[data-state=open]]:border-b flex cursor-pointer px-4"
+		class="border-border [[data-state=open]]:bg-accent flex cursor-pointer px-4 underline-offset-3 [[data-state=open]]:border-b"
 	>
 		<div class="flex">
 			<h2 id="heading-{id} after:content-none">
