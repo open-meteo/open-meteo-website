@@ -9,7 +9,7 @@
 {#if updated.current && !updateNotificationClicked}
 	<div
 		transition:fade={{ duration: 250 }}
-		class="position-fixed bottom-0 end-0 p-4 rounded m-4 mb-8 bg-light-subtle shadow-lg"
+		class="position-fixed bg-light-subtle end-0 bottom-0 m-4 mb-8 rounded p-4 shadow-lg"
 	>
 		<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
 			<div class="toast-header d-flex align-items-center justify-content-center">

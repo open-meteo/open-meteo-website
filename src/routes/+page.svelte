@@ -54,22 +54,22 @@
 			<div class="mt-4 flex gap-4">
 				<Button
 					variant="default"
-					class="bg-linear-to-t dark:bg-linear-to-b bg-primary from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+					class="bg-primary bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					href="/en/features">See features</Button
 				>
 				<Button variant="outline" href="/en/docs">Read the docs</Button>
 			</div>
 		</div>
 
-		<div class="-mx-6 md:mx-0 rounded-lg bg-[#FAFAFA] p-6 duration-200 dark:bg-[#212121]">
+		<div class="-mx-6 rounded-lg bg-[#FAFAFA] p-6 duration-200 md:mx-0 dark:bg-[#212121]">
 			<ToggleGroup.Root
 				type="single"
 				bind:value={tabSelected}
-				class="flex flex-col sm:flex-row md:flex-col lg:flex-row items-start justify-start gap-0"
+				class="flex flex-col items-start justify-start gap-0 sm:flex-row md:flex-col lg:flex-row"
 			>
 				<ToggleGroup.Item
 					value="weather-api"
-					class="opacity-100! truncate min-h-12 cursor-pointer sm:rounded-e-none lg:min-h-[unset]"
+					class="min-h-12 cursor-pointer truncate opacity-100! sm:rounded-e-none lg:min-h-[unset]"
 					aria-label="Toggle bold"
 					disabled={tabSelected === 'weather-api'}
 				>
@@ -77,7 +77,7 @@
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="last-10-days"
-					class="opacity-100! truncate min-h-12 cursor-pointer sm:rounded-none lg:min-h-[unset]"
+					class="min-h-12 cursor-pointer truncate opacity-100! sm:rounded-none lg:min-h-[unset]"
 					aria-label="Toggle italic"
 					disabled={tabSelected === 'last-10-days'}
 				>
@@ -85,7 +85,7 @@
 				</ToggleGroup.Item>
 				<ToggleGroup.Item
 					value="historical-weather"
-					class="opacity-100! truncate min-h-12 cursor-pointer sm:rounded-s-none lg:min-h-[unset]"
+					class="min-h-12 cursor-pointer truncate opacity-100! sm:rounded-s-none lg:min-h-[unset]"
 					aria-label="Toggle strikethrough"
 					disabled={tabSelected === 'historical-weather'}
 				>
@@ -97,12 +97,12 @@
 					<div in:fade class="group w-full">
 						<Button
 							variant="ghost"
-							class="curl h-[96px] p-0 !bg-transparent mt-2 md:mt-4 [&_span]:bg-transparent!"
+							class="curl mt-2 h-[96px] !bg-transparent p-0 md:mt-4 [&_span]:bg-transparent!"
 							href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
 						>
 							<WeatherApiCurlBlock />
 						</Button>
-						<div class="code-numbered -mx-4 md:mx-0 mt-4 md:mt-6 [&_.shiki]:pt-0!">
+						<div class="code-numbered -mx-4 mt-4 md:mx-0 md:mt-6 [&_.shiki]:pt-0!">
 							<WeatherApiCodeBlock />
 						</div>
 					</div>
@@ -110,12 +110,12 @@
 					<div in:fade class="group w-full">
 						<Button
 							variant="ghost"
-							class="curl h-[96px] p-0 !bg-transparent mt-2 md:mt-4 [&_span]:bg-transparent!"
+							class="curl mt-2 h-[96px] !bg-transparent p-0 md:mt-4 [&_span]:bg-transparent!"
 							href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&past_days=10&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
 						>
 							<Last10DaysCurlBlock />
 						</Button>
-						<div class="code-numbered -mx-4 md:mx-0 mt-4 md:mt-6 [&_.shiki]:pt-0!">
+						<div class="code-numbered -mx-4 mt-4 md:mx-0 md:mt-6 [&_.shiki]:pt-0!">
 							<Last10DaysCodeBlock />
 						</div>
 					</div>
@@ -123,13 +123,13 @@
 					<div in:fade class="group w-full">
 						<Button
 							variant="ghost"
-							class="curl h-[96px] p-0 !bg-transparent mt-2 md:mt-4 [&_span]:bg-transparent!"
+							class="curl mt-2 h-[96px] !bg-transparent p-0 md:mt-4 [&_span]:bg-transparent!"
 							href="https://archive-api.open-meteo.com/v1/era5?latitude=52.52&longitude=13.41&start_date=2021-01-01&end_date=2021-12-31&hourly=temperature_2m"
 						>
 							<HistoricalWeatherCurlBlock />
 						</Button>
 
-						<div class="code-numbered -mx-4 md:mx-0 mt-4 md:mt-6 [&_.shiki]:pt-0!">
+						<div class="code-numbered -mx-4 mt-4 md:mx-0 md:mt-6 [&_.shiki]:pt-0!">
 							<HistoricalWeatherCodeBlock />
 						</div>
 					</div>
@@ -146,7 +146,7 @@
 						class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 					>
 						<div
-							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
+							class="absolute h-12 w-12 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<svg
 							class="lucide lucide-map-pinned"
@@ -194,7 +194,7 @@
 						class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 					>
 						<div
-							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
+							class="absolute h-12 w-12 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<svg
 							class="lucide lucide-watch"
@@ -236,7 +236,7 @@
 						class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 					>
 						<div
-							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
+							class="absolute h-12 w-12 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<svg
 							class="lucide lucide-archive"
@@ -284,7 +284,7 @@
 						class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 					>
 						<div
-							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
+							class="absolute h-12 w-12 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<div class="absolute h-8 w-8 fill-white">{@html Github}</div>
 					</div>
@@ -322,7 +322,7 @@
 						class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 					>
 						<div
-							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
+							class="absolute h-12 w-12 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<svg
 							class="lucide lucide-key-round"
@@ -369,7 +369,7 @@
 						class="bg-primary relative flex h-12 min-w-12 items-center justify-center rounded-xl text-white md:h-14 md:min-w-14"
 					>
 						<div
-							class="bg-linear-to-t dark:bg-linear-to-b absolute h-12 w-12 rounded-lg from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:to-[rgba(0,0,0,0.2)]"
+							class="absolute h-12 w-12 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] md:h-14 md:w-14 dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 						></div>
 						<svg
 							class="lucide lucide-lightbulb"
@@ -429,7 +429,7 @@
 			<path d="M6.5 5C9 5 11 7 11 9.5V17a2 2 0 0 1-2 2" />
 			<line x1="6" x2="7" y1="10" y2="10" />
 		</svg>
-		<h2 class="mb-4 text-3xl md:text-5xl font-bold" id="contact">Stay up to date!</h2>
+		<h2 class="mb-4 text-3xl font-bold md:text-5xl" id="contact">Stay up to date!</h2>
 		<div class="text-center">
 			<p class="text-lg font-light">
 				We're constantly evolving and expanding. We're dedicated to providing you with the <a
@@ -443,7 +443,7 @@
 			</p>
 			<div class="mt-4 flex justify-center gap-4">
 				<Button
-					class="bg-linear-to-t dark:bg-linear-to-b bg-primary from-transparent to-[rgba(255,255,255,0.2)] dark:to-[rgba(0,0,0,0.2)]"
+					class="bg-primary bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					href="https://openmeteo.substack.com/subscribe?utm_source=landingpage&simple=true&next=https%3A%2F%2Fopenmeteo.substack.com%2F"
 					title="Newsletter Sign-Up">Subscribe to the Newsletter</Button
 				>
