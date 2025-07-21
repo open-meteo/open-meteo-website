@@ -3,9 +3,9 @@
 
 	import { fade, slide } from 'svelte/transition';
 
+	import { sliceIntoChunks } from '$lib/utils';
 	import {
 		countVariables,
-		sliceIntoChunks,
 		countPressureVariables,
 		altitudeAboveSeaLevelMeters
 	} from '$lib/utils/meteo';
