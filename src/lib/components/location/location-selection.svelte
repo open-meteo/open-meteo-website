@@ -298,10 +298,13 @@
 				<div class="md:w-1/2">
 					<p>
 						You can provide multiple coordinates. One per line and separated by commas. For each
-						location, you can also set a time period if needed. Format: latitude, longitude,
-						elevation, timezone, start_date, end_date. Only latitude and longitude are required.
-						Examples:
+						location, you can also set a time period if needed. Only latitude and longitude are
+						required. Format used:
 					</p>
+					<pre
+						class="my-2 overflow-auto rounded-lg md:my-4">latitude, longitude, elevation, timezone, start_date, end_date</pre>
+					<p>Examples:</p>
+
 					<pre class="mt-2 overflow-auto rounded-lg md:mt-4">52.52,13.41
 51.5085,-0.1257,,auto
 52.52,13.41,,Europe/Berlin,2021-01-01,2021-01-31</pre>
