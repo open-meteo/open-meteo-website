@@ -574,7 +574,11 @@
 	let mode = $state('chart');
 
 	const processMultipleLocations = $derived.by(()=>{
-		if ($params.latitude && $params.latitude.length > 1) {
+		if (parsedParams.latitude && parsedParams.latitude.length > 1) {
+			return true
+		} else if (parsedParams.models && parsedParams.models.length > 1) {
+			return true
+		} else if ($params.location_mode === 'bounding_box') {
 			return true
 		} else {
 			return false
@@ -584,8 +588,18 @@
 	const p = $derived(processMultipleLocations)
 
 	const numberOfLocations = $derived.by(()=>{
-		if ($params.latitude && $params.latitude.length > 1) {
-			return $params.latitude.length
+		if (parsedParams.latitude && parsedParams.latitude.length > 1) {
+			return parsedParams.latitude.length
+		} else if ($params.location_mode === 'bounding_box') {
+			return 'bounding box'
+		} else {
+			return 0
+		}
+	})
+
+	const numberOfModels = $derived.by(()=>{
+		if (parsedParams.models && parsedParams.models.constructor === Array && parsedParams.models.length > 1) {
+			return parsedParams.models.length
 		} else {
 			return 0
 		}
@@ -907,7 +921,7 @@ responses <span class="token operator">=</span> openmeteo<span class="token punc
 						>
 {#if processMultipleLocations }
 <span class="token comment"
-							># Process {numberOfLocations} locations</span
+	># Process {numberOfLocations ? `${numberOfLocations} locations`: '1 location'} {numberOfModels ? `and ${numberOfModels} models` : ''}</span
 						>
 <span class="token keyword">for</span
 	> response <span class="token keyword">in</span> responses<span
@@ -941,7 +955,7 @@ response <span class="token operator">=</span> responses<span class="token punct
 								>Elevation<span class="token punctuation">(</span><span class="token punctuation"
 									>)</span
 								><span class="token punctuation">&rbrace;</span></span
-							><span class="token string"> m asl"</span></span
+							><span class="token string">m asl"</span></span
 						><span class="token punctuation">)</span>
 {@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span><span
 							class="token string-interpolation"
@@ -968,9 +982,19 @@ response <span class="token operator">=</span> responses<span class="token punct
 								>UtcOffsetSeconds<span class="token punctuation">(</span><span
 									class="token punctuation">)</span
 								><span class="token punctuation">&rbrace;</span></span
-							><span class="token string"> s"</span></span
+							><span class="token string">s"</span></span
 						><span class="token punctuation">)</span>
-{#if 'current' in $params && $params.current.length > 0}<br />{@html p ? '\t' : ''}<span class="token comment"
+{#if numberOfModels}{@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span><span
+							class="token string-interpolation"
+							><span class="token string">f"Model Nº </span><span
+								class="token interpolation"
+								><span class="token punctuation">&lbrace;</span>response<span
+									class="token punctuation">.</span
+								>Model<span class="token punctuation">(</span><span
+									class="token punctuation">)</span
+								><span class="token punctuation">&rbrace;</span></span
+							><span class="token string">"</span></span
+						><span class="token punctuation">)</span><br/>{/if}{#if 'current' in $params && $params.current.length > 0}<br />{@html p ? '\t' : ''}<span class="token comment"
 								># Current values. The order of variables needs to be the same as requested.</span
 							>
 {@html p ? '\t' : ''}current <span class="token operator">=</span> response<span class="token punctuation"
