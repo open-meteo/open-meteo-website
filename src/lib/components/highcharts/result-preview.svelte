@@ -22,7 +22,6 @@
 	import './code-styles.css';
 
 	import { codeToHtml } from 'shiki';
-	import Page from '../../../routes/en/docs/historical-weather-api/+page.svelte';
 
 	interface Props {
 		params: Writable<Parameters>;
