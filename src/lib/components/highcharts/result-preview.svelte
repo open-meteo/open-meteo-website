@@ -586,7 +586,8 @@
 			numberOfLocations,
 			numberOfModels,
 			server,
-			int64Variables
+			int64Variables,
+			sdk_type
 		)
 	);
 
@@ -1028,7 +1029,7 @@ pip install requests-cache retry-requests numpy pandas</pre>
 								><span class="token punctuation">(</span></span
 							><br /><span class="line"
 								><span class="token punctuation">{'\t'}{'\t'}{'\t'}(</span><span
-									style="font-style:italic;">_</span
+									style="font-style:italic">_</span
 								><span class="token punctuation">,</span><span style="font-style:italic"> i</span
 								><span class="token punctuation">)</span><span> =&gt;</span><span
 									class="token keyword"> new</span
@@ -1058,7 +1059,7 @@ pip install requests-cache retry-requests numpy pandas</pre>
 										><span class="token punctuation">(</span></span
 									><br /><span class="line"
 										><span class="token punctuation">{'\t'}{'\t'}{'\t'}(</span><span
-											style="font-style:italic;">_</span
+											style="font-style:italic">_</span
 										><span class="token punctuation">,</span><span
 											style="font-style:italic"> i</span
 										><span class="token punctuation">)</span><span> =&gt;</span><span
