@@ -455,55 +455,6 @@
 		return [jsonToChart(json, tEnd)];
 	}
 
-	function formatPrismVariableSelector(variable: string) {
-		const regex =
-			/(?<variable>[a-z_]+)_(((?<altitude>[0-9]+)m)|((?<pressure>[0-9]+)hPa)|((?<depth>[0-9]+)cm)|((?<depth_from>[0-9]+)_to_(?<depth_to>[0-9]+)cm))_?(?<aggregation>max|min|mean|p[0-9]{2}|dominant)?/;
-		const matches = regex.exec(variable);
-		if (matches == null || matches.groups == null) {
-			return `x<span class="token punctuation">.</span>Variable<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Variable<span class="token punctuation">.</span>${variable}`;
-		}
-		const groups = matches.groups;
-		let results = [
-			`x<span class="token punctuation">.</span>Variable<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Variable<span class="token punctuation">.</span>${groups.variable}`
-		];
-		if (groups.altitude) {
-			results.push(
-				`x<span class="token punctuation">.</span>Altitude<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.altitude}</span>`
-			);
-		}
-		if (groups.pressure) {
-			results.push(
-				`x<span class="token punctuation">.</span>PressureLevel<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.pressure}</span>`
-			);
-		}
-		if (groups.depth) {
-			results.push(
-				`x<span class="token punctuation">.</span>Depth<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.depth}</span>`
-			);
-		}
-		if (groups.depth_from) {
-			results.push(
-				`x<span class="token punctuation">.</span>Depth<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.depth_from}</span>`
-			);
-			results.push(
-				`x<span class="token punctuation">.</span>DepthTo<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">${groups.depth_to}</span>`
-			);
-		}
-		if (groups.aggregation) {
-			let aggregation = groups.aggregation;
-			if (aggregation == 'max') {
-				aggregation = 'maximum';
-			}
-			if (aggregation == 'min') {
-				aggregation = 'minimum';
-			}
-			results.push(
-				`x<span class="token punctuation">.</span>Aggregation<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> Aggregation<span class="token punctuation">.</span><span class="token number">${aggregation}</span>`
-			);
-		}
-		return results.join(` <span class="token keyword">and</span> `);
-	}
-
 	function reload() {
 		results = preview();
 	}
@@ -844,7 +795,6 @@
 		</div>
 	{/if}
 	<!-- PYTHON -->
-
 	{#if mode == 'python'}
 		<div in:fade>
 			<div>

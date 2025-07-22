@@ -1,4 +1,6 @@
 export interface Parameters {
+	[index: string];
+
 	latitude?: Array<number>;
 	longitude?: Array<number>;
 

@@ -11,12 +11,7 @@ export const pythonCodeExample = (
 	sdk_type: string
 ) => {
 	const p = processMultipleLocations;
-	const daily = parsedParams.daily;
-	const hourly = parsedParams.hourly;
-	const models = parsedParams.models;
 	const current = parsedParams.current;
-	const latitude = parsedParams.latitude;
-	const longitude = parsedParams.longitude;
 
 	let c = `<pre class="shiki css-variables" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)" tabindex="0"><code><span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> openmeteo_requests</span></span>`;
 	if (sdk_type === 'ensemble_api') {
@@ -40,26 +35,31 @@ export const pythonCodeExample = (
 <span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># The order of variables in hourly or daily is important to assign them correctly below</span></span>
 <span class="line"><span style="color:var(--code-preview-foreground)">url </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)"> "</span>${server}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span>
 <span class="line"><span style="color:var(--code-preview-foreground)">params </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation-mark)"> {</span></span>`;
-	if (latitude && longitude) {
-		c += `
-<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>latitude<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${latitude.constructor === Array ? '<span style="color:var(--code-preview-token-bracket)">[</span>' + latitude.join('<span style="color:var(--code-preview-token-punctuation-mark)">, </span>') + '<span style="color:var(--code-preview-token-bracket)">]</span>' : latitude}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>
-<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>longitude<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${longitude.constructor === Array ? '<span style="color:var(--code-preview-token-bracket)">[</span>' + longitude.join('<span style="color:var(--code-preview-token-punctuation-mark)">, </span>') + '<span style="color:var(--code-preview-token-bracket)">]</span>' : longitude}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
-	}
-	if (daily) {
-		c += `
-<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>daily<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span> ${daily.constructor === Array ? '<span style="color:var(--code-preview-token-bracket)">[<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">' + daily.join('</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-punctuation-mark)">, <span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">') + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-bracket)">]</span>' : '<span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">' + daily + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span>'}<span style="color:var(--code-preview-token-punctuation-mark)">,</span>`;
-	}
-	if (hourly) {
-		c += `
-<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>hourly<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span> ${hourly.constructor === Array ? '<span style="color:var(--code-preview-token-bracket)">[<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">' + hourly.join('</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-punctuation-mark)">, <span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">') + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-bracket)">]</span>' : '<span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">' + hourly + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span>'}<span style="color:var(--code-preview-token-punctuation-mark)">,</span>`;
-	}
-	if (models) {
-		c += `
-<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>models<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span> ${models.constructor === Array ? '<span style="color:var(--code-preview-token-bracket)">[<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">' + models.join('</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-punctuation-mark)">, <span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">') + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-bracket)">]</span>' : '<span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">' + models + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span>'}<span style="color:var(--code-preview-token-punctuation-mark)">,</span>`;
-	}
-	if (current) {
-		c += `
-<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>current<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span> ${current.constructor === Array ? '<span style="color:var(--code-preview-token-bracket)">[<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">' + current.join('</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-punctuation-mark)">, <span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">') + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-bracket)">]</span>' : '<span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">' + current + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span>'}<span style="color:var(--code-preview-token-punctuation-mark)">,</span>`;
+	for (const [key, param] of Object.entries(parsedParams)) {
+		console.log(param, typeof param);
+		if (param.constructor === Array) {
+			if (typeof param[0] === 'string') {
+				c += `
+<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>${key}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span> ${'<span style="color:var(--code-preview-token-bracket)">[<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">' + param.join('</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-punctuation-mark)">, <span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">') + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-bracket)">]</span>'}<span style="color:var(--code-preview-token-punctuation-mark)">,</span>`;
+			} else {
+				c += `
+<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>${key}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${'<span style="color:var(--code-preview-token-bracket)">[</span>' + param.join('<span style="color:var(--code-preview-token-punctuation-mark)">, </span>') + '<span style="color:var(--code-preview-token-bracket)">]</span>'}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
+			}
+		} else if (typeof param == 'object') {
+			// const e = Object.entries(v)
+			// 	.map(
+			// 		([k, v]) =>
+			// 			`\n\t<span class="token string">"${k}"</span><span class="token punctuation">:</span> ${formatPrism(v)}`
+			// 	)
+			// 	.join(`<span class="token punctuation">,</span>`);
+			// return `<span class="token punctuation">&lbrace;</span>${e}\n<span class="token punctuation">&rbrace;</span>`;
+		} else if (typeof param == 'string') {
+			c += `
+<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>${key}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${'<span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">' + param + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span>'}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
+		} else {
+			c += `
+<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>${key}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${param}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
+		}
 	}
 	c += `
 <span class="line"><span style="color:var(--code-preview-token-punctuation-mark)">}</span></span>
@@ -118,7 +118,7 @@ ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-f
 	}
 
 	for (const section of ['hourly', 'daily']) {
-		const sect = parsedParams[section] as Parameters['hourly'] | Parameters['daily'] | string;
+		const sect = parsedParams[section];
 		if (sect) {
 			c += `
 ${p ? '\t' : ''}<span class="line"></span>
