@@ -18,7 +18,14 @@ export const pythonCodeExample = (
 	const latitude = parsedParams.latitude;
 	const longitude = parsedParams.longitude;
 
-	let c = `<pre class="shiki css-variables" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)" tabindex="0"><code><span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> openmeteo_requests</span></span>
+	let c = `<pre class="shiki css-variables" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)" tabindex="0"><code><span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> openmeteo_requests</span></span>`;
+	if (sdk_type === 'ensemble_api') {
+		c += `
+<span class="line"></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">from</span><span style="color:var(--code-preview-foreground)"> openmeteo_sdk.Variable </span><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> Variable</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">from</span><span style="color:var(--code-preview-foreground)"> openmeteo_sdk.Aggregation </span><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> Aggregation</span></span>`;
+	}
+	c += `
 <span class="line"></span>
 <span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> pandas </span><span style="color:var(--code-preview-token-keyword);font-style:italic">as</span><span style="color:var(--code-preview-foreground)"> pd</span></span>
 <span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> requests_cache</span></span>
@@ -118,6 +125,68 @@ ${p ? '\t' : ''}<span class="line"></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process ${section} data. The order of variables needs to be the same as requested.</span></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> response</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">${capitalizeFirstLetter(section)}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
 			if (sdk_type == 'ensemble_api') {
+				c += `
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_variables </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> list</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-function)">map</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-accent)">lambda</span><span style="color:var(--code-preview-token-parameter);font-style:italic"> i</span><span style="color:var(--code-preview-token-punctuation)">: ${section}.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-punctuation-mark)">(<span style="color:var(--code-preview-foreground)">i</span>), </span><span style="color:var(--code-preview-token-function)">range</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-constant)">0</span><span style="color:var(--code-preview-token-punctuation)">, ${section}.</span><span style="color:var(--code-preview-token-function)">VariablesLength</span><span style="color:var(--code-preview-token-punctuation-mark)">())))</span></span>`;
+				if (sect.constructor === Array) {
+					for (const variable of sect) {
+						c += `
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_${variable} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-function)"> filter</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-accent)">lambda</span><span style="color:var(--code-preview-token-parameter);font-style:italic"> x</span><span style="color:var(--code-preview-token-punctuation)">: `;
+						const regex =
+							/(?<variable>[a-z_]+)_(((?<altitude>[0-9]+)m)|((?<pressure>[0-9]+)hPa)|((?<depth>[0-9]+)cm)|((?<depth_from>[0-9]+)_to_(?<depth_to>[0-9]+)cm))_?(?<aggregation>max|min|mean|p[0-9]{2}|dominant)?/;
+						const matches = regex.exec(variable);
+						if (matches == null || matches.groups == null) {
+							c += `x.</span><span style="color:var(--code-preview-token-function)">Variable</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-punctuation)"> Variable.${variable}</span>`;
+						} else {
+							const groups = matches.groups;
+							const results = [
+								`x.</span><span style="color:var(--code-preview-token-function)">Variable</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-punctuation)"> Variable.${groups.variable}</span>`
+							];
+							if (groups.altitude) {
+								results.push(
+									`<span style="color:var(--code-preview-token-punctuation)">x.</span><span style="color:var(--code-preview-token-function)">Altitude</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> ${groups.altitude}</span>`
+								);
+							}
+							if (groups.pressure) {
+								results.push(
+									`<span style="color:var(--code-preview-token-punctuation)">x.</span><span style="color:var(--code-preview-token-function)">PressureLevel</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> ${groups.pressure}</span>`
+								);
+							}
+							if (groups.depth) {
+								results.push(
+									`<span style="color:var(--code-preview-token-punctuation)">x.</span><span style="color:var(--code-preview-token-function)">Depth</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> ${groups.depth}</span>`
+								);
+							}
+							if (groups.depth_from) {
+								results.push(
+									`<span style="color:var(--code-preview-token-punctuation)">x.</span><span style="color:var(--code-preview-token-function)">Depth</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> ${groups.depth_from}</span>`
+								);
+								results.push(
+									`<span style="color:var(--code-preview-token-punctuation)">x.</span><span style="color:var(--code-preview-token-function)">DepthTo</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> ${groups.depth_to}</span>`
+								);
+							}
+							if (groups.aggregation) {
+								let aggregation = groups.aggregation;
+								if (aggregation == 'max') {
+									aggregation = 'maximum';
+								}
+								if (aggregation == 'min') {
+									aggregation = 'minimum';
+								}
+								results.push(
+									`<span style="color:var(--code-preview-token-punctuation)">x.</span><span style="color:var(--code-preview-token-function)">Aggregation</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> Aggregation<span style="color:var(--code-preview-token-punctuation)">.</span>${aggregation}</span>`
+								);
+							}
+							c += results.join(
+								` <span style="color:var(--code-preview-token-keyword);font-style:italic">and</span> `
+							);
+						}
+
+						c += `<span style="color:var(--code-preview-token-punctuation)">, ${section}_variables)</span></span>`;
+					}
+				} else if (typeof sect === 'string') {
+					c += `
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_${sect} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-function)"> filter</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-accent)">lambda</span><span style="color:var(--code-preview-token-parameter);font-style:italic"> x</span><span style="color:var(--code-preview-token-punctuation)">: x.</span><span style="color:var(--code-preview-token-function)">Variable</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-punctuation)"> Variable.temperature </span><span style="color:var(--code-preview-token-keyword);font-style:italic">and</span><span style="color:var(--code-preview-token-punctuation)"> x.</span><span style="color:var(--code-preview-token-function)">Altitude</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> 2</span><span style="color:var(--code-preview-token-punctuation)">, ${section}_variables)</span></span>	`;
+				}
 			} else {
 				if (sect.constructor === Array) {
 					for (const [ind, variable] of sect.entries()) {
@@ -145,14 +214,14 @@ ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-c
 					for (const variable of sect) {
 						c += `
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">for</span><span style="color:var(--code-preview-foreground)"> variable </span><span style="color:var(--code-preview-token-keyword);font-style:italic">in</span><span style="color:var(--code-preview-foreground)"> ${section}_${variable}</span><span style="color:var(--code-preview-token-punctuation)">:</span></span>
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	member </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">EnsembleMember</span><span style="color:var(--code-preview-token-punctuation)">()</span></span>
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	${section}_data</span><span style="color:var(--code-preview-token-punctuation)">[</span><span style="color:var(--code-preview-token-keyword)">f</span><span style="color:var(--code-preview-token-string-expression)">"${variable}_member</span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-foreground)">member</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-string-expression)">"</span><span style="color:var(--code-preview-token-punctuation)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">${int64Variables.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-punctuation)">()</span></span>`;
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	member </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">EnsembleMember</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span></span>
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	${section}_data</span><span style="color:var(--code-preview-token-punctuation)">[</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-string-expression)">"${variable}_member</span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-foreground)">member</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-string-expression)">"</span><span style="color:var(--code-preview-token-punctuation)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">${int64Variables.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span></span>`;
 					}
 				} else if (typeof sect === 'string') {
 					c += `
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">for</span><span style="color:var(--code-preview-foreground)"> variable </span><span style="color:var(--code-preview-token-keyword);font-style:italic">in</span><span style="color:var(--code-preview-foreground)"> ${section}_${sect}</span><span style="color:var(--code-preview-token-punctuation)">:</span></span>
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	member </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">EnsembleMember</span><span style="color:var(--code-preview-token-punctuation)">()</span></span>
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	${section}_data</span><span style="color:var(--code-preview-token-punctuation)">[</span><span style="color:var(--code-preview-token-keyword)">f</span><span style="color:var(--code-preview-token-string-expression)">"${sect}_member</span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-foreground)">member</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-string-expression)">"</span><span style="color:var(--code-preview-token-punctuation)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">${int64Variables.includes(sect) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-punctuation)">()</span></span>`;
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	member </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">EnsembleMember</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span></span>
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	${section}_data</span><span style="color:var(--code-preview-token-punctuation)">[</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-string-expression)">"${sect}_member</span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-foreground)">member</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-string-expression)">"</span><span style="color:var(--code-preview-token-punctuation)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">${int64Variables.includes(sect) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span></span>`;
 				}
 			} else {
 				if (sect.constructor === Array) {
@@ -173,10 +242,6 @@ ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-f
 	}
 
 	c += `
-<span class="line"><span style="color:var(--code-preview-foreground)">hourly_variables </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> list</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">map</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-accent)">lambda</span><span style="color:var(--code-preview-token-parameter)"> i</span><span style="color:var(--code-preview-token-punctuation)">: hourly.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-punctuation)">(i), </span><span style="color:var(--code-preview-token-function)">range</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-constant)">0</span><span style="color:var(--code-preview-token-punctuation)">, hourly.</span><span style="color:var(--code-preview-token-function)">VariablesLength</span><span style="color:var(--code-preview-token-punctuation)">())))</span></span>
-<span class="line"><span style="color:var(--code-preview-foreground)">hourly_temperature_2m </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-function)"> filter</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-accent)">lambda</span><span style="color:var(--code-preview-token-parameter)"> x</span><span style="color:var(--code-preview-token-punctuation)">: x.</span><span style="color:var(--code-preview-token-function)">Variable</span><span style="color:var(--code-preview-token-punctuation)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-punctuation)"> Variable.temperature </span><span style="color:var(--code-preview-token-keyword)">and</span><span style="color:var(--code-preview-token-punctuation)"> x.</span><span style="color:var(--code-preview-token-function)">Altitude</span><span style="color:var(--code-preview-token-punctuation)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> 2</span><span style="color:var(--code-preview-token-punctuation)">, hourly_variables)</span></span>
-<span class="line"><span style="color:var(--code-preview-foreground)">hourly_weather_code </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-function)"> filter</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-accent)">lambda</span><span style="color:var(--code-preview-token-parameter)"> x</span><span style="color:var(--code-preview-token-punctuation)">: x.</span><span style="color:var(--code-preview-token-function)">Variable</span><span style="color:var(--code-preview-token-punctuation)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-punctuation)"> Variable.weather_code, hourly_variables)</span></span>
-<span class="line"><span style="color:var(--code-preview-foreground)">hourly_shortwave_radiation </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-function)"> filter</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-accent)">lambda</span><span style="color:var(--code-preview-token-parameter)"> x</span><span style="color:var(--code-preview-token-punctuation)">: x.</span><span style="color:var(--code-preview-token-function)">Variable</span><span style="color:var(--code-preview-token-punctuation)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-punctuation)"> Variable.shortwave_radiation, hourly_variables)</span></span></code>
 ${p ? '\t' : ''}<span class="line"></span></pre>
 `;
 	return c;
