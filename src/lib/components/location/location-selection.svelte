@@ -330,7 +330,7 @@
 								{/each}
 							</Select.Content>
 							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Examples</Label
+								>Code examples</Label
 							>
 						</Select.Root>
 					</div>
