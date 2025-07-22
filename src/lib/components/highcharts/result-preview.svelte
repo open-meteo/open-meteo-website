@@ -21,7 +21,10 @@
 
 	import './code-styles.css';
 
-	import { codeToHtml } from 'shiki';
+	import { createHighlighter } from 'shiki';
+	import { createCssVariablesTheme } from 'shiki/core';
+
+	let highlighter;
 
 	interface Props {
 		params: Writable<Parameters>;
@@ -577,10 +580,23 @@
 
 	let previewMode = $state('chart');
 
+	const myTheme = createCssVariablesTheme({
+		name: 'css-variables',
+		variablePrefix: '--code-preview-',
+		variableDefaults: {},
+		fontStyle: true
+	});
+
 	async function processCode() {
-		return await codeToHtml(code, {
+		if (!highlighter) {
+			highlighter = await createHighlighter({
+				langs: ['python'],
+				themes: ['material-theme-lighter', 'material-theme-darker', myTheme] // register the theme
+			});
+		}
+		return await highlighter.codeToHtml(code, {
 			lang: 'python',
-			theme: mode.current === 'light' ? 'material-theme-lighter' : 'material-theme-darker'
+			theme: myTheme // mode.current === 'dark' ? 'material-theme-darker' : 'material-theme-lighter'
 		});
 	}
 
@@ -754,38 +770,38 @@ print(daily_dataframe)`;
 	<div class="text-muted-foreground">Preview:</div>
 
 	<ToggleGroup.Root type="single" bind:value={previewMode} class="justify-start gap-0">
-		<div class="flex flex-wrap border-border ml-2 rounded-lg border">
+		<div class="border-border ml-2 flex flex-wrap rounded-lg border">
 			<ToggleGroup.Item
 				value="chart"
-				class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-e-none opacity-100! lg:min-h-[unset]"
 				disabled={previewMode === 'chart'}
 			>
 				Chart & URL
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="python"
-				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
 				disabled={previewMode === 'python'}
 			>
 				Python
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="typescript"
-				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
 				disabled={previewMode === 'typescript'}
 			>
 				TypeScript
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="swift"
-				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
 				disabled={previewMode === 'swift'}
 			>
 				Swift
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="other"
-				class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-s-none opacity-100! lg:min-h-[unset]"
 				disabled={previewMode === 'other'}
 			>
 				Other
@@ -800,11 +816,11 @@ print(daily_dataframe)`;
 		<div
 			in:fade
 			style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
-			class="-mx-6 relative md:mx-0"
+			class="relative -mx-6 md:mx-0"
 		>
 			{#await results}
 				<div
-					class="border border-border rounded-lg bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center"
+					class="border-border bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg border"
 					in:fade={{ delay: 400, duration: 400 }}
 					out:fade={{ duration: 300 }}
 				>
@@ -841,11 +857,11 @@ print(daily_dataframe)`;
 						style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
 					>
 						<div
-							class="border-border border rounded-lg absolute top-0 flex h-full w-full px-6 items-center justify-center"
+							class="border-border absolute top-0 flex h-full w-full items-center justify-center rounded-lg border px-6"
 						>
 							<Alert.Root class="border-border my-auto w-[unset] md:!pl-8">
 								<Alert.Description>
-									<div class="flex items-center flex-col md:flex-row justify-center gap-2">
+									<div class="flex flex-col items-center justify-center gap-2 md:flex-row">
 										<div class="text-muted-foreground flex items-center">
 											<svg
 												class="lucide lucide-info mr-2"
@@ -894,7 +910,7 @@ print(daily_dataframe)`;
 			{:catch error}
 				<div
 					transition:fade={{ duration: 300 }}
-					class="border border-border rounded-lg bg-accent/25 absolute top-0 z-30 w-full"
+					class="border-border bg-accent/25 absolute top-0 z-30 w-full rounded-lg border"
 					style={useStockChart ? 'height: 500px' : 'height: 400px'}
 				>
 					<div class="flex h-full w-full items-center justify-center px-6 dark:brightness-150">
@@ -1008,7 +1024,7 @@ print(daily_dataframe)`;
 				> documentation.
 			</p>
 			<h4 class="text-xl md:text-2xl">Install</h4>
-			<pre class="my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
+			<pre class="-mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
 pip install openmeteo-requests
 pip install requests-cache retry-requests numpy pandas</pre>
 
@@ -1019,7 +1035,7 @@ pip install requests-cache retry-requests numpy pandas</pre>
 					<div
 						in:fade={{ duration: 50 }}
 						out:fade={{ duration: 20 }}
-						class="absolute top-0 mt-2 md:mt-4 overflow-auto rounded-lg"
+						class="absolute top-0 mt-2 overflow-auto rounded-lg md:mt-4"
 					>
 						<pre
 							class="shiki material-theme-lighter"
@@ -1030,7 +1046,7 @@ pip install requests-cache retry-requests numpy pandas</pre>
 				{:then codePreviewParsed}
 					<div
 						transition:fade={{ duration: 50 }}
-						class="absolute w-full top-0 mt-2 md:mt-4 overflow-auto rounded-lg"
+						class="absolute top-0 mt-2 w-full overflow-auto rounded-lg md:mt-4"
 					>
 						{@html codePreviewParsed}
 					</div>
@@ -1053,11 +1069,11 @@ pip install requests-cache retry-requests numpy pandas</pre>
 					You will have to loop over `variables`.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0"><code
 						>npm install openmeteo</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class="my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
+				<pre class="-mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
 <code
 						><span class="token keyword">import</span> <span class="token punctuation"
 							>&lbrace;</span
@@ -1328,7 +1344,7 @@ pip install requests-cache retry-requests numpy pandas</pre>
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<p class="my-3">Add OpenMeteoSdk as a dependency to your Package.swift</p>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0"><code
 						>dependencies: [
 {'\t'}.package(url: "https://github.com/open-meteo/sdk.git", from: "1.5.0")
 ],
@@ -1339,7 +1355,7 @@ targets: [
 ]</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
 <code class="language-swift"
 						><span class="token keyword">import</span> <span class="token class-name"
 							>OpenMeteoSdk</span
