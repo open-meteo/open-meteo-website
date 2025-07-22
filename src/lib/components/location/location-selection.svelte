@@ -6,6 +6,7 @@
 	import { Button } from '$lib/components/ui/button';
 
 	import * as Select from '$lib/components/ui/select/index';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import { type Parameters } from '$lib/docs';
 
@@ -68,6 +69,18 @@
 	];
 
 	let timeZone = $derived(timeZoneOptions.find((tzo) => String(tzo.value) == params.timezone));
+
+	let csvExample = $state('lat_lon');
+
+	const csvExampleOptions = [
+		{ value: 'lat_lon', label: 'Setting multiple latitudes & longitudes' },
+		{ value: 'elevation', label: 'Setting an elevation to 2500m' },
+		{ value: 'timezone', label: 'Setting a timezone' },
+		{ value: 'time_period', label: 'Setting a time period between 2025-01 and 2025-02' },
+		{ value: 'all_above', label: 'Setting all of the above' }
+	];
+
+	let csvExampleSet = $derived(csvExampleOptions.find((ceo) => ceo.value === csvExample));
 </script>
 
 <a href="#location_and_time"
@@ -287,24 +300,65 @@
 	{/if}
 	{#if params.location_mode == 'csv_coordinates'}
 		<div in:fade>
-			<div class="flex flex-col gap-6 md:flex-row">
+			<div class="flex flex-col gap-3 md:gap-6 md:flex-row">
 				<div class="md:w-1/2">
 					<textarea
-						class="border-border w-full rounded-md border p-4"
+						class="border-border w-full rounded-md border p-4 md:mb-4"
 						bind:value={params.csv_coordinates}
-						rows="5"
+						rows="14"
 					></textarea>
 				</div>
 				<div class="md:w-1/2">
 					<p>
-						You can provide multiple coordinates. One per line and separated by commas. For each
-						location, you can also set a time period if needed. Format: latitude, longitude,
-						elevation, timezone, start_date, end_date. Only latitude and longitude are required.
-						Examples:
+						When using location list mode, you can specify multiple locations in one field. Each
+						location should be listed on a new line, with its latitude and longitude separated by a
+						comma. You can also optionally include elevation, timezone, and time period for each
+						location. However, latitude and longitude are the only required parameters. Format used:
 					</p>
-					<pre class="mt-2 overflow-auto rounded-lg md:mt-4">52.52,13.41
-51.5085,-0.1257,,auto
-52.52,13.41,,Europe/Berlin,2021-01-01,2021-01-31</pre>
+					<pre
+						class="my-2 overflow-auto rounded-lg md:my-4">latitude,longitude,elevation,timezone,start_date,end_date</pre>
+					<div class="relative">
+						<Select.Root name="forecast_days" type="single" bind:value={csvExample}>
+							<Select.Trigger
+								aria-label="Forecast days input"
+								class="h-12 cursor-pointer rounded-b-none pt-6 [&_svg]:mb-3"
+								>{csvExampleSet.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each csvExampleOptions as { value, label } (value)}
+									<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								>Code examples</Label
+							>
+						</Select.Root>
+					</div>
+					{#if csvExample === 'lat_lon'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">52.52,13.41
+50.12,8.68
+53.55,9.99
+</pre>{:else if csvExample === 'elevation'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+52.52,13.41,2500
+50.12,8.68,2500
+53.55,9.99,2500</pre>
+					{:else if csvExample === 'timezone'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+52.52,13.41,,Europe/Berlin
+50.12,8.68,,Europe/Berlin
+53.55,9.99,,Europe/Berlin</pre>
+					{:else if csvExample === 'time_period'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+52.52,13.41,,,2021-01-01,2021-01-31
+50.12,8.68,,,2021-01-01,2021-01-31
+53.55,9.99,,,2021-01-01,2021-01-31</pre>
+					{:else if csvExample === 'all_above'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+52.52,13.41,2500,Europe/Berlin,2021-01-01,2021-01-31
+50.12,8.68,2500,Europe/Berlin,2021-01-01,2021-01-31
+53.55,9.99,2500,Europe/Berlin,2021-01-01,2021-01-31</pre>
+					{/if}
 				</div>
 			</div>
 		</div>

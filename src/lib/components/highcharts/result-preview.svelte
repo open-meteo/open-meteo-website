@@ -429,7 +429,7 @@
 			Array.isArray(parsedParams.latitude) &&
 			parsedParams.latitude.length > 5
 		) {
-			throw new Error('Can not preview more than 5 locations');
+			throw new Error('Cannot preview more than 5 locations')
 		}
 
 		// Always set format=json to fetch data
@@ -442,7 +442,8 @@
 		const result = await fetch(fetchUrl);
 
 		if (!result.ok) {
-			throw new Error(await result.text());
+			const reason = JSON.parse(await result.text())['reason']
+			throw new Error(reason);
 		}
 		const json = await result.json();
 		let tEnd = performance.now() - t0;
@@ -709,7 +710,7 @@
 											<path d="M12 17h.01" />
 										</svg>
 
-										{JSON.parse(error.message).reason}
+										{error.message}
 									</div>
 
 									<Button
