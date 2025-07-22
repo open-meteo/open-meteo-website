@@ -532,6 +532,80 @@
 	}
 
 	let mode = $state('chart');
+
+	let pythonCode = $derived(`
+<pre class="shiki material-theme-lighter" style="background-color:#FAFAFA;color:#90A4AE" tabindex="0"><code><span class="line"><span style="color:#39ADB5;font-style:italic">import</span><span style="color:#90A4AE"> openmeteo_requests</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#39ADB5;font-style:italic">import</span><span style="color:#90A4AE"> pandas </span><span style="color:#39ADB5;font-style:italic">as</span><span style="color:#90A4AE"> pd</span></span>
+<span class="line"><span style="color:#39ADB5;font-style:italic">import</span><span style="color:#90A4AE"> requests_cache</span></span>
+<span class="line"><span style="color:#39ADB5;font-style:italic">from</span><span style="color:#90A4AE"> retry_requests </span><span style="color:#39ADB5;font-style:italic">import</span><span style="color:#90A4AE"> retry</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic"># Setup the Open-Meteo API client with cache and retry on error</span></span>
+<span class="line"><span style="color:#90A4AE">cache_session </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> requests_cache</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">CachedSession</span><span style="color:#39ADB5">(</span><span style="color:#39ADB5">'</span><span style="color:#91B859">.cache</span><span style="color:#39ADB5">'</span><span style="color:#39ADB5">,</span><span style="color:#90A4AE;font-style:italic"> expire_after</span><span style="color:#39ADB5"> =</span><span style="color:#F76D47"> 3600</span><span style="color:#39ADB5">)</span></span>
+<span class="line"><span style="color:#90A4AE">retry_session </span><span style="color:#39ADB5">=</span><span style="color:#6182B8"> retry</span><span style="color:#39ADB5">(</span><span style="color:#6182B8">cache_session</span><span style="color:#39ADB5">,</span><span style="color:#90A4AE;font-style:italic"> retries</span><span style="color:#39ADB5"> =</span><span style="color:#F76D47"> 5</span><span style="color:#39ADB5">,</span><span style="color:#90A4AE;font-style:italic"> backoff_factor</span><span style="color:#39ADB5"> =</span><span style="color:#F76D47"> 0.2</span><span style="color:#39ADB5">)</span></span>
+<span class="line"><span style="color:#90A4AE">openmeteo </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> openmeteo_requests</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Client</span><span style="color:#39ADB5">(</span><span style="color:#90A4AE;font-style:italic">session</span><span style="color:#39ADB5"> =</span><span style="color:#6182B8"> retry_session</span><span style="color:#39ADB5">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic"># Make sure all required weather variables are listed here</span></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic"># The order of variables in hourly or daily is important to assign them correctly below</span></span>
+<span class="line"><span style="color:#90A4AE">url </span><span style="color:#39ADB5">=</span><span style="color:#39ADB5"> "</span><span style="color:#91B859">https://api.open-meteo.com/v1/forecast</span><span style="color:#39ADB5">"</span></span>
+<span class="line"><span style="color:#90A4AE">params </span><span style="color:#39ADB5">=</span><span style="color:#39ADB5"> {</span></span>
+<span class="line"><span style="color:#39ADB5">	"</span><span style="color:#91B859">latitude</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">:</span><span style="color:#F76D47"> ${parsedParams.latitude.constructor === Array ? '<span style="color:#39ADB5">[</span>' + parsedParams.latitude.join(', ') + '<span style="color:#39ADB5">]</span>' : parsedParams.latitude}</span><span style="color:#39ADB5">,</span></span>
+<span class="line"><span style="color:#39ADB5">	"</span><span style="color:#91B859">longitude</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">:</span><span style="color:#F76D47"> ${parsedParams.longitude.constructor === Array ? '<span style="color:#39ADB5">[</span>' + parsedParams.longitude.join(', ') + '<span style="color:#39ADB5">]</span>' : parsedParams.longitude}</span><span style="color:#39ADB5">,</span></span>
+<span class="line"><span style="color:#39ADB5">	"</span><span style="color:#91B859">daily</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">:</span><span style="color:#39ADB5"> [</span><span style="color:#39ADB5">"</span><span style="color:#91B859">weather_code</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">,</span><span style="color:#39ADB5"> "</span><span style="color:#91B859">sunrise</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">],</span></span>
+<span class="line"><span style="color:#39ADB5">	"</span><span style="color:#91B859">hourly</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">:</span><span style="color:#39ADB5"> "</span><span style="color:#91B859">temperature_2m</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">,</span></span>
+<span class="line"><span style="color:#39ADB5">	"</span><span style="color:#91B859">models</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">:</span><span style="color:#39ADB5"> "</span><span style="color:#91B859">best_match</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">,</span></span>
+<span class="line"><span style="color:#39ADB5">	"</span><span style="color:#91B859">current</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">:</span><span style="color:#39ADB5"> "</span><span style="color:#91B859">temperature_2m</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">,</span></span>
+<span class="line"><span style="color:#39ADB5">}</span></span>
+<span class="line"><span style="color:#90A4AE">responses </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> openmeteo</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">weather_api</span><span style="color:#39ADB5">(</span><span style="color:#6182B8">url</span><span style="color:#39ADB5">,</span><span style="color:#90A4AE;font-style:italic"> params</span><span style="color:#39ADB5">=</span><span style="color:#6182B8">params</span><span style="color:#39ADB5">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic"># Process first location. Add a for-loop for multiple locations or weather models</span></span>
+<span class="line"><span style="color:#90A4AE">response </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> responses</span><span style="color:#39ADB5">[</span><span style="color:#F76D47">0</span><span style="color:#39ADB5">]</span></span>
+<span class="line"><span style="color:#6182B8">print</span><span style="color:#39ADB5">(</span><span style="color:#9C3EDA">f</span><span style="color:#91B859">"Coordinates </span><span style="color:#F76D47">{</span><span style="color:#6182B8">response</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Latitude</span><span style="color:#39ADB5">()</span><span style="color:#F76D47">}</span><span style="color:#91B859">°N </span><span style="color:#F76D47">{</span><span style="color:#6182B8">response</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Longitude</span><span style="color:#39ADB5">()</span><span style="color:#F76D47">}</span><span style="color:#91B859">°E"</span><span style="color:#39ADB5">)</span></span>
+<span class="line"><span style="color:#6182B8">print</span><span style="color:#39ADB5">(</span><span style="color:#9C3EDA">f</span><span style="color:#91B859">"Elevation </span><span style="color:#F76D47">{</span><span style="color:#6182B8">response</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Elevation</span><span style="color:#39ADB5">()</span><span style="color:#F76D47">}</span><span style="color:#91B859"> m asl"</span><span style="color:#39ADB5">)</span></span>
+<span class="line"><span style="color:#6182B8">print</span><span style="color:#39ADB5">(</span><span style="color:#9C3EDA">f</span><span style="color:#91B859">"Timezone </span><span style="color:#F76D47">{</span><span style="color:#6182B8">response</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Timezone</span><span style="color:#39ADB5">()</span><span style="color:#F76D47">}{</span><span style="color:#6182B8">response</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">TimezoneAbbreviation</span><span style="color:#39ADB5">()</span><span style="color:#F76D47">}</span><span style="color:#91B859">"</span><span style="color:#39ADB5">)</span></span>
+<span class="line"><span style="color:#6182B8">print</span><span style="color:#39ADB5">(</span><span style="color:#9C3EDA">f</span><span style="color:#91B859">"Timezone difference to GMT+0 </span><span style="color:#F76D47">{</span><span style="color:#6182B8">response</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">UtcOffsetSeconds</span><span style="color:#39ADB5">()</span><span style="color:#F76D47">}</span><span style="color:#91B859"> s"</span><span style="color:#39ADB5">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic"># Current values. The order of variables needs to be the same as requested.</span></span>
+<span class="line"><span style="color:#90A4AE">current </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> response</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Current</span><span style="color:#39ADB5">()</span></span>
+<span class="line"><span style="color:#90A4AE">current_temperature_2m </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> current</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Variables</span><span style="color:#39ADB5">(</span><span style="color:#F76D47">0</span><span style="color:#39ADB5">).</span><span style="color:#6182B8">Value</span><span style="color:#39ADB5">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6182B8">print</span><span style="color:#39ADB5">(</span><span style="color:#9C3EDA">f</span><span style="color:#91B859">"Current time </span><span style="color:#F76D47">{</span><span style="color:#6182B8">current</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Time</span><span style="color:#39ADB5">()</span><span style="color:#F76D47">}</span><span style="color:#91B859">"</span><span style="color:#39ADB5">)</span></span>
+<span class="line"><span style="color:#6182B8">print</span><span style="color:#39ADB5">(</span><span style="color:#9C3EDA">f</span><span style="color:#91B859">"Current temperature_2m </span><span style="color:#F76D47">{</span><span style="color:#6182B8">current_temperature_2m</span><span style="color:#F76D47">}</span><span style="color:#91B859">"</span><span style="color:#39ADB5">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic"># Process hourly data. The order of variables needs to be the same as requested.</span></span>
+<span class="line"><span style="color:#90A4AE">hourly </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> response</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Hourly</span><span style="color:#39ADB5">()</span></span>
+<span class="line"><span style="color:#90A4AE">hourly_temperature_2m </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> hourly</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Variables</span><span style="color:#39ADB5">(</span><span style="color:#F76D47">0</span><span style="color:#39ADB5">).</span><span style="color:#6182B8">ValuesAsNumpy</span><span style="color:#39ADB5">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#90A4AE">hourly_data </span><span style="color:#39ADB5">=</span><span style="color:#39ADB5"> {</span><span style="color:#39ADB5">"</span><span style="color:#91B859">date</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">:</span><span style="color:#90A4AE"> pd</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">date_range</span><span style="color:#39ADB5">(</span></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic">	start</span><span style="color:#39ADB5"> =</span><span style="color:#6182B8"> pd</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">to_datetime</span><span style="color:#39ADB5">(</span><span style="color:#6182B8">hourly</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Time</span><span style="color:#39ADB5">(),</span><span style="color:#90A4AE;font-style:italic"> unit</span><span style="color:#39ADB5"> =</span><span style="color:#39ADB5"> "</span><span style="color:#91B859">s</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">,</span><span style="color:#90A4AE;font-style:italic"> utc</span><span style="color:#39ADB5"> =</span><span style="color:#39ADB5"> True),</span></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic">	end</span><span style="color:#39ADB5"> =</span><span style="color:#6182B8"> pd</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">to_datetime</span><span style="color:#39ADB5">(</span><span style="color:#6182B8">hourly</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">TimeEnd</span><span style="color:#39ADB5">(),</span><span style="color:#90A4AE;font-style:italic"> unit</span><span style="color:#39ADB5"> =</span><span style="color:#39ADB5"> "</span><span style="color:#91B859">s</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">,</span><span style="color:#90A4AE;font-style:italic"> utc</span><span style="color:#39ADB5"> =</span><span style="color:#39ADB5"> True),</span></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic">	freq</span><span style="color:#39ADB5"> =</span><span style="color:#6182B8"> pd</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Timedelta</span><span style="color:#39ADB5">(</span><span style="color:#90A4AE;font-style:italic">seconds</span><span style="color:#39ADB5"> =</span><span style="color:#6182B8"> hourly</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Interval</span><span style="color:#39ADB5">()),</span></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic">	inclusive</span><span style="color:#39ADB5"> =</span><span style="color:#39ADB5"> "</span><span style="color:#91B859">left</span><span style="color:#39ADB5">"</span></span>
+<span class="line"><span style="color:#39ADB5">)}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#90A4AE">hourly_data</span><span style="color:#39ADB5">[</span><span style="color:#39ADB5">"</span><span style="color:#91B859">temperature_2m</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">]</span><span style="color:#39ADB5"> =</span><span style="color:#90A4AE"> hourly_temperature_2m</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#90A4AE">hourly_dataframe </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> pd</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">DataFrame</span><span style="color:#39ADB5">(</span><span style="color:#90A4AE;font-style:italic">data</span><span style="color:#39ADB5"> =</span><span style="color:#6182B8"> hourly_data</span><span style="color:#39ADB5">)</span></span>
+<span class="line"><span style="color:#6182B8">print</span><span style="color:#39ADB5">(</span><span style="color:#6182B8">hourly_dataframe</span><span style="color:#39ADB5">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic"># Process daily data. The order of variables needs to be the same as requested.</span></span>
+<span class="line"><span style="color:#90A4AE">daily </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> response</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Daily</span><span style="color:#39ADB5">()</span></span>
+<span class="line"><span style="color:#90A4AE">daily_weather_code </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> daily</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Variables</span><span style="color:#39ADB5">(</span><span style="color:#F76D47">0</span><span style="color:#39ADB5">).</span><span style="color:#6182B8">ValuesAsNumpy</span><span style="color:#39ADB5">()</span></span>
+<span class="line"><span style="color:#90A4AE">daily_sunrise </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> daily</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Variables</span><span style="color:#39ADB5">(</span><span style="color:#F76D47">1</span><span style="color:#39ADB5">).</span><span style="color:#6182B8">ValuesInt64AsNumpy</span><span style="color:#39ADB5">()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#90A4AE">daily_data </span><span style="color:#39ADB5">=</span><span style="color:#39ADB5"> {</span><span style="color:#39ADB5">"</span><span style="color:#91B859">date</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">:</span><span style="color:#90A4AE"> pd</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">date_range</span><span style="color:#39ADB5">(</span></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic">	start</span><span style="color:#39ADB5"> =</span><span style="color:#6182B8"> pd</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">to_datetime</span><span style="color:#39ADB5">(</span><span style="color:#6182B8">daily</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Time</span><span style="color:#39ADB5">(),</span><span style="color:#90A4AE;font-style:italic"> unit</span><span style="color:#39ADB5"> =</span><span style="color:#39ADB5"> "</span><span style="color:#91B859">s</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">,</span><span style="color:#90A4AE;font-style:italic"> utc</span><span style="color:#39ADB5"> =</span><span style="color:#39ADB5"> True),</span></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic">	end</span><span style="color:#39ADB5"> =</span><span style="color:#6182B8"> pd</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">to_datetime</span><span style="color:#39ADB5">(</span><span style="color:#6182B8">daily</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">TimeEnd</span><span style="color:#39ADB5">(),</span><span style="color:#90A4AE;font-style:italic"> unit</span><span style="color:#39ADB5"> =</span><span style="color:#39ADB5"> "</span><span style="color:#91B859">s</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">,</span><span style="color:#90A4AE;font-style:italic"> utc</span><span style="color:#39ADB5"> =</span><span style="color:#39ADB5"> True),</span></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic">	freq</span><span style="color:#39ADB5"> =</span><span style="color:#6182B8"> pd</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Timedelta</span><span style="color:#39ADB5">(</span><span style="color:#90A4AE;font-style:italic">seconds</span><span style="color:#39ADB5"> =</span><span style="color:#6182B8"> daily</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">Interval</span><span style="color:#39ADB5">()),</span></span>
+<span class="line"><span style="color:#90A4AE;font-style:italic">	inclusive</span><span style="color:#39ADB5"> =</span><span style="color:#39ADB5"> "</span><span style="color:#91B859">left</span><span style="color:#39ADB5">"</span></span>
+<span class="line"><span style="color:#39ADB5">)}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#90A4AE">daily_data</span><span style="color:#39ADB5">[</span><span style="color:#39ADB5">"</span><span style="color:#91B859">weather_code</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">]</span><span style="color:#39ADB5"> =</span><span style="color:#90A4AE"> daily_weather_code</span></span>
+<span class="line"><span style="color:#90A4AE">daily_data</span><span style="color:#39ADB5">[</span><span style="color:#39ADB5">"</span><span style="color:#91B859">sunrise</span><span style="color:#39ADB5">"</span><span style="color:#39ADB5">]</span><span style="color:#39ADB5"> =</span><span style="color:#90A4AE"> daily_sunrise</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#90A4AE">daily_dataframe </span><span style="color:#39ADB5">=</span><span style="color:#90A4AE"> pd</span><span style="color:#39ADB5">.</span><span style="color:#6182B8">DataFrame</span><span style="color:#39ADB5">(</span><span style="color:#90A4AE;font-style:italic">data</span><span style="color:#39ADB5"> =</span><span style="color:#6182B8"> daily_data</span><span style="color:#39ADB5">)</span></span>
+<span class="line"><span style="color:#6182B8">print</span><span style="color:#39ADB5">(</span><span style="color:#6182B8">daily_dataframe</span><span style="color:#39ADB5">)</span></span></code>
+</pre>`);
 </script>
 
 <a href="#api_response">
@@ -801,285 +875,7 @@ pip install openmeteo-requests
 pip install requests-cache retry-requests numpy pandas</pre>
 
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0"><code
-						><span class="token keyword">import</span> openmeteo_requests
-{#if sdk_type == 'ensemble_api'}<br /><span class="token keyword">from</span
-							> openmeteo_sdk.Variable <span class="token keyword">import</span> Variable
-<span
-								class="token keyword">from</span
-							> openmeteo_sdk.Aggregation <span class="token keyword">import</span> Aggregation<br
-							/>{/if}
-<span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd
-<span class="token keyword">import</span> requests_cache
-<span class="token keyword">from</span> retry_requests <span class="token keyword">import</span
-						> retry
-
-<span class="token comment"># Setup the Open-Meteo API client with cache and retry on error</span>
-cache_session <span class="token operator">=</span> requests_cache<span class="token punctuation"
-							>.</span
-						>CachedSession<span class="token punctuation">(</span><span class="token string"
-							>'.cache'</span
-						><span class="token punctuation">,</span> expire_after <span class="token operator"
-							>=</span
-						> <span class="token number">{sdk_cache}</span><span class="token punctuation">)</span>
-retry_session <span class="token operator">=</span> retry<span class="token punctuation">(</span
-						>cache_session<span class="token punctuation">,</span> retries <span
-							class="token operator">=</span
-						> <span class="token number">5</span><span class="token punctuation">,</span
-						> backoff_factor <span class="token operator">=</span> <span class="token number"
-							>0.2</span
-						><span class="token punctuation">)</span>
-openmeteo <span class="token operator">=</span> openmeteo_requests<span class="token punctuation"
-							>.</span
-						>Client<span class="token punctuation">(</span>session <span class="token operator"
-							>=</span
-						> retry_session<span class="token punctuation">)</span>
-
-<span class="token comment"># Make sure all required weather variables are listed here</span>
-<span class="token comment"
-							># The order of variables in hourly or daily is important to assign them correctly below</span
-						>
-url <span class="token operator">=</span> <span class="token string">"{server}"</span>
-params <span class="token operator">=</span> {@html formatPrism(parsedParams)}
-responses <span class="token operator">=</span> openmeteo<span class="token punctuation">.</span
-						>weather_api<span class="token punctuation">(</span>url<span class="token punctuation"
-							>,</span
-						> params<span class="token operator">=</span>params<span class="token punctuation"
-							>)</span
-						>
-
-<span class="token comment"
-							># Process first location. Add a for-loop for multiple locations or weather models</span
-						>
-response <span class="token operator">=</span> responses<span class="token punctuation">[</span
-						><span class="token number">0</span><span class="token punctuation">]</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span
-							class="token string-interpolation"
-							><span class="token string">f"Coordinates </span><span class="token interpolation"
-								><span class="token punctuation">&lbrace;</span>response<span
-									class="token punctuation">.</span
-								>Latitude<span class="token punctuation">(</span><span class="token punctuation"
-									>)</span
-								><span class="token punctuation">&rbrace;</span></span
-							><span class="token string">°N </span><span class="token interpolation"
-								><span class="token punctuation">&lbrace;</span>response<span
-									class="token punctuation">.</span
-								>Longitude<span class="token punctuation">(</span><span class="token punctuation"
-									>)</span
-								><span class="token punctuation">&rbrace;</span></span
-							><span class="token string">°E"</span></span
-						><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span
-							class="token string-interpolation"
-							><span class="token string">f"Elevation </span><span class="token interpolation"
-								><span class="token punctuation">&lbrace;</span>response<span
-									class="token punctuation">.</span
-								>Elevation<span class="token punctuation">(</span><span class="token punctuation"
-									>)</span
-								><span class="token punctuation">&rbrace;</span></span
-							><span class="token string"> m asl"</span></span
-						><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span
-							class="token string-interpolation"
-							><span class="token string">f"Timezone </span><span class="token interpolation"
-								><span class="token punctuation">&lbrace;</span>response<span
-									class="token punctuation">.</span
-								>Timezone<span class="token punctuation">(</span><span class="token punctuation"
-									>)</span
-								><span class="token punctuation">&rbrace;</span></span
-							><span class="token string"></span><span class="token interpolation"
-								><span class="token punctuation">&lbrace;</span>response<span
-									class="token punctuation">.</span
-								>TimezoneAbbreviation<span class="token punctuation">(</span><span
-									class="token punctuation">)</span
-								><span class="token punctuation">&rbrace;</span></span
-							><span class="token string">"</span></span
-						><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span
-							class="token string-interpolation"
-							><span class="token string">f"Timezone difference to GMT+0 </span><span
-								class="token interpolation"
-								><span class="token punctuation">&lbrace;</span>response<span
-									class="token punctuation">.</span
-								>UtcOffsetSeconds<span class="token punctuation">(</span><span
-									class="token punctuation">)</span
-								><span class="token punctuation">&rbrace;</span></span
-							><span class="token string"> s"</span></span
-						><span class="token punctuation">)</span>
-{#if 'current' in $params && $params.current.length > 0}<br /><span class="token comment"
-								># Current values. The order of variables needs to be the same as requested.</span
-							>
-current <span class="token operator">=</span> response<span class="token punctuation"
-								>.</span
-							>Current<span class="token punctuation">(</span><span class="token punctuation"
-								>)</span
-							>
-{#each $params['current'] as variable, index}current_{variable} <span
-									class="token operator">=</span
-								> current<span class="token punctuation">.</span>Variables<span
-									class="token punctuation">(</span
-								><span class="token number">{index}</span><span class="token punctuation">)</span
-								><span class="token punctuation">.</span>Value<span class="token punctuation"
-									>(</span
-								><span class="token punctuation">)</span>{'\n'}{/each}
-<span class="token keyword"
-								>print</span
-							><span class="token punctuation">(</span><span class="token string-interpolation"
-								><span class="token string">f"Current time </span><span class="token interpolation"
-									><span class="token punctuation">&lbrace;</span>current<span
-										class="token punctuation">.</span
-									>Time<span class="token punctuation">(</span><span class="token punctuation"
-										>)</span
-									><span class="token punctuation">&rbrace;</span></span
-								><span class="token string">"</span></span
-							><span class="token punctuation">)</span>
-{#each $params.current as current}<span
-									class="token keyword">print</span
-								><span class="token punctuation">(</span><span class="token string-interpolation"
-									><span class="token string">f"Current {current} </span><span
-										class="token interpolation"
-										><span class="token punctuation">&lbrace;</span>current_{current}<span
-											class="token punctuation">&rbrace;</span
-										></span
-									><span class="token string">"</span></span
-								><span class="token punctuation">)</span><br
-								/>{/each}{/if}{#each sectionsArrayWithData as section}<br
-							/>{#if sdk_type == 'ensemble_api'}<span class="token comment"
-									># Process {section} data</span
-								>
-{section} <span class="token operator">=</span> response<span
-									class="token punctuation">.</span
-								>{titleCase(section)}<span class="token punctuation">(</span><span
-									class="token punctuation">)</span
-								>
-{section}_variables <span class="token operator">=</span> <span
-									class="token builtin">list</span
-								><span class="token punctuation">(</span><span class="token builtin">map</span><span
-									class="token punctuation">(</span
-								><span class="token keyword">lambda</span> i<span class="token punctuation">:</span
-								> {section}<span class="token punctuation">.</span>Variables<span
-									class="token punctuation">(</span
-								>i<span class="token punctuation">)</span><span class="token punctuation">,</span
-								> <span class="token builtin">range</span><span class="token punctuation">(</span
-								><span class="token number">0</span><span class="token punctuation">,</span
-								> {section}<span class="token punctuation">.</span>VariablesLength<span
-									class="token punctuation">(</span
-								><span class="token punctuation">)</span><span class="token punctuation">)</span
-								><span class="token punctuation">)</span><span class="token punctuation">)</span
-								>
-{#each $params[section] as variable}<span>{section}_{variable} </span><span
-										class="token operator">=</span
-									> <span class="token builtin">filter</span><span class="token punctuation">(</span
-									><span class="token keyword">lambda</span> x<span class="token punctuation"
-										>:</span
-									> {@html formatPrismVariableSelector(variable)}<span class="token punctuation"
-										>,</span
-									> {section}_variables<span class="token punctuation">)</span><br
-									/>{/each}{:else}<span class="token comment"
-									># Process {section} data. The order of variables needs to be the same as requested.</span
-								>
-{section} <span class="token operator">=</span> response<span
-									class="token punctuation">.</span
-								>{titleCase(section)}<span class="token punctuation">(</span><span
-									class="token punctuation">)</span
-								>
-{#each $params[section] as variable, index}{section}_{variable} <span
-										class="token operator">=</span
-									> {section}<span class="token punctuation">.</span>Variables<span
-										class="token punctuation">(</span
-									><span class="token number">{index}</span><span class="token punctuation"
-									></span><span class="token punctuation">)</span><span class="token punctuation"
-										>.</span
-									>{int64Variables.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}<span
-										class="token punctuation">(</span
-									><span class="token punctuation">)</span>{'\n'}{/each}{/if}
-{section}_data <span
-								class="token operator">=</span
-							> <span class="token punctuation">&lbrace;</span><span class="token string"
-								>"date"</span
-							><span class="token punctuation">:</span> pd<span class="token punctuation">.</span
-							>date_range<span class="token punctuation">(</span>
-{'\t'}start <span
-								class="token operator">=</span
-							> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation"
-								>(</span
-							>{section}<span class="token punctuation">.</span>Time<span class="token punctuation"
-								>(</span
-							><span class="token punctuation">)</span><span class="token punctuation">,</span
-							> unit <span class="token operator">=</span> <span class="token string">"s"</span
-							><span class="token punctuation">,</span> utc <span class="token operator">=</span
-							> <span class="token number">True</span><span class="token punctuation">)</span><span
-								class="token punctuation">,</span
-							>
-{'\t'}end <span class="token operator">=</span> pd<span class="token punctuation"
-								>.</span
-							>to_datetime<span class="token punctuation">(</span>{section}<span
-								class="token punctuation">.</span
-							>TimeEnd<span class="token punctuation">(</span><span class="token punctuation"
-								>)</span
-							><span class="token punctuation">,</span> unit <span class="token operator">=</span
-							> <span class="token string">"s"</span><span class="token punctuation">,</span
-							> utc <span class="token operator">=</span> <span class="token number">True</span
-							><span class="token punctuation">)</span><span class="token punctuation">,</span
-							>
-{'\t'}freq <span class="token operator">=</span> pd<span class="token punctuation"
-								>.</span
-							>Timedelta<span class="token punctuation">(</span>seconds <span class="token operator"
-								>=</span
-							> {section}<span class="token punctuation">.</span>Interval<span
-								class="token punctuation">(</span
-							><span class="token punctuation">)</span><span class="token punctuation">)</span><span
-								class="token punctuation">,</span
-							>
-{'\t'}inclusive <span class="token operator">=</span> <span class="token string"
-								>"left"</span
-							>
-<span class="token punctuation">)</span><span class="token punctuation"
-								>&rbrace;</span
-							>{#if sdk_type == 'ensemble_api'}<br /><br /><span class="token comment"
-									># Process all members</span
-								><br />{#each $params[section] as variable}<span class="token keyword">for</span
-									> variable <span class="token keyword">in</span> {section}_{variable}<span
-										class="token punctuation">:</span
-									>
-{'\t'}member <span class="token operator">=</span> variable<span
-										class="token punctuation">.</span
-									>EnsembleMember<span class="token punctuation">(</span><span
-										class="token punctuation">)</span
-									><span class="token punctuation"></span>
-{'\t'}{section}_data<span
-										class="token punctuation">[</span
-									><span class="token string-interpolation"
-										><span class="token string">f"{variable}_member</span><span
-											class="token interpolation"
-											><span class="token punctuation">&lbrace;</span>member<span
-												class="token punctuation">&rbrace;</span
-											></span
-										><span class="token string">"</span></span
-									><span class="token punctuation">]</span> <span class="token operator">=</span
-									> variable<span class="token punctuation">.</span>{int64Variables.includes(
-										variable
-									)
-										? 'ValuesInt64AsNumpy'
-										: 'ValuesAsNumpy'}<span class="token punctuation">(</span><span
-										class="token punctuation">)</span
-									>{'\n'}{/each}{:else}<br /><br
-								/>{#each $params[section] as hourly}{section}_data<span class="token punctuation"
-										>[</span
-									><span class="token string-interpolation"
-										><span class="token string">"{hourly}"</span></span
-									><span class="token punctuation">]</span> <span class="token operator">=</span
-									> {section}_{hourly}<br />{/each}{/if}
-{section}_dataframe <span
-								class="token operator">=</span
-							> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation"
-								>(</span
-							>data <span class="token operator">=</span> {section}_data<span
-								class="token punctuation">)</span
-							>
-<span class="token keyword">print</span><span class="token punctuation">(</span
-							>{section}_dataframe<span class="token punctuation">)</span>{`\n`}{/each}
-</code></pre>
+				{@html pythonCode}
 			</div>
 		</div>
 	{/if}
