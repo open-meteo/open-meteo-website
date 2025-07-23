@@ -2,8 +2,8 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { titleCase, camelCase, objectDifference } from '$lib/utils';
-	import { getWeatherCode, membersPerModel } from '$lib/utils/meteo';
+	import { objectDifference } from '$lib/utils';
+	import { membersPerModel } from '$lib/utils/meteo';
 
 	import { api_key_preferences } from '$lib/stores/settings';
 
@@ -34,8 +34,6 @@
 		defaultParameters: Parameters;
 		useStockChart?: boolean;
 	}
-
-	const int64Variables = ['sunrise', 'sunset'];
 
 	let {
 		params,
@@ -314,7 +312,7 @@
 		return `<span class="token string">"${v}"</span>`;
 	}
 
-	const processMultipleLocations = $derived.by(() => {
+	const multipleLocationsOrModels = $derived.by(() => {
 		if (
 			parsedParams.latitude &&
 			parsedParams.latitude.constructor === Array &&
@@ -363,11 +361,10 @@
 	let pythonCode = $derived.by(() =>
 		pythonCodeExample(
 			parsedParams,
-			processMultipleLocations,
+			multipleLocationsOrModels,
 			numberOfLocations,
 			numberOfModels,
 			server,
-			int64Variables,
 			sdk_type
 		)
 	);
@@ -375,11 +372,10 @@
 	let typescriptCode = $derived.by(() =>
 		typescriptCodeExample(
 			parsedParams,
-			processMultipleLocations,
+			multipleLocationsOrModels,
 			numberOfLocations,
 			numberOfModels,
 			server,
-			int64Variables,
 			sdk_type
 		)
 	);
@@ -387,11 +383,10 @@
 	let swiftCode = $derived.by(() =>
 		swiftCodeExample(
 			parsedParams,
-			processMultipleLocations,
+			multipleLocationsOrModels,
 			numberOfLocations,
 			numberOfModels,
 			server,
-			int64Variables,
 			sdk_type
 		)
 	);
@@ -660,10 +655,9 @@
 					> documentation.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
+				<pre class="shiki -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
 pip install openmeteo-requests
 pip install requests-cache retry-requests numpy pandas</pre>
-
 				<h4 class="text-xl md:text-2xl">Usage</h4>
 				<div class="mt-2 w-full overflow-auto rounded-lg md:mt-4">
 					{@html pythonCode}

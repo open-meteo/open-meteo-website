@@ -1,10 +1,14 @@
+import type { Parameters } from '$lib/docs';
+import { titleCase } from '$lib/utils';
+
+import { INT_64_VARIABLES } from '$lib/constants';
+
 export const swiftCodeExample = (
 	parsedParams: Parameters,
-	processMultipleLocations: boolean,
+	multipleLocationsOrModels: boolean,
 	numberOfLocations: number | string,
 	numberOfModels: number,
 	server: string,
-	int64Variables: string[],
 	sdk_type: string
 ) => {
 	let c = `

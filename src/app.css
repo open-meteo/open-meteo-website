@@ -227,18 +227,30 @@ p:not(:last-child) {
 	@apply mb-3;
 }
 
-pre {
+.shiki {
 	-moz-tab-size: 4;
 	-o-tab-size: 4;
 	tab-size: 4;
 	padding: 1rem 2rem;
-	background: #fafafa;
-	color: #90a4ae;
+	background: #fafafa !important;
+	color: #90a4ae !important;
 }
 
-.dark pre {
-	background: #212121;
-	color: #eeffff;
+.dark .shiki {
+	background: #212121 !important;
+	color: #eeffff !important;
+}
+
+.dark .shiki:not(.css-variables) span {
+	color: var(--shiki-dark) !important;
+	background-color: var(--shiki-dark-bg) !important;
+	font-style: var(--shiki-dark-font-style) !important;
+	font-weight: var(--shiki-dark-font-weight) !important;
+	text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+.shiki.css-variables {
+	padding: 2rem 2rem;
 }
 
 .code-numbered .shiki {
