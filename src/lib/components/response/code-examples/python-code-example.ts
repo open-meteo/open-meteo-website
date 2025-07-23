@@ -1,5 +1,5 @@
 import type { Parameters } from '$lib/docs';
-import { capitalizeFirstLetter } from '$lib/utils';
+import { titleCase } from '$lib/utils';
 
 export const pythonCodeExample = (
 	parsedParams: Parameters,
@@ -36,7 +36,6 @@ export const pythonCodeExample = (
 <span class="line"><span style="color:var(--code-preview-foreground)">url </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)"> "</span>${server}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span>
 <span class="line"><span style="color:var(--code-preview-foreground)">params </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation-mark)"> {</span></span>`;
 	for (const [key, param] of Object.entries(parsedParams)) {
-		console.log(param, typeof param);
 		if (param.constructor === Array) {
 			if (typeof param[0] === 'string') {
 				c += `
@@ -45,15 +44,9 @@ export const pythonCodeExample = (
 				c += `
 <span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>${key}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${'<span style="color:var(--code-preview-token-bracket)">[</span>' + param.join('<span style="color:var(--code-preview-token-punctuation-mark)">, </span>') + '<span style="color:var(--code-preview-token-bracket)">]</span>'}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
 			}
-		} else if (typeof param == 'object') {
-			// const e = Object.entries(v)
-			// 	.map(
-			// 		([k, v]) =>
-			// 			`\n\t<span class="token string">"${k}"</span><span class="token punctuation">:</span> ${formatPrism(v)}`
-			// 	)
-			// 	.join(`<span class="token punctuation">,</span>`);
-			// return `<span class="token punctuation">&lbrace;</span>${e}\n<span class="token punctuation">&rbrace;</span>`;
-		} else if (typeof param == 'string') {
+		} else if (typeof param === 'object') {
+			// ???
+		} else if (typeof param === 'string') {
 			c += `
 <span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>${key}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${'<span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">' + param + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span>'}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
 		} else {
@@ -117,13 +110,13 @@ ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-f
 		}
 	}
 
-	for (const section of ['hourly', 'daily']) {
+	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
 		const sect = parsedParams[section];
 		if (sect) {
 			c += `
 ${p ? '\t' : ''}<span class="line"></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process ${section} data. The order of variables needs to be the same as requested.</span></span>
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> response</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">${capitalizeFirstLetter(section)}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> response</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">${titleCase(section)}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
 			if (sdk_type == 'ensemble_api') {
 				c += `
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_variables </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> list</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-function)">map</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-accent)">lambda</span><span style="color:var(--code-preview-token-parameter);font-style:italic"> i</span><span style="color:var(--code-preview-token-punctuation)">: ${section}.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-punctuation-mark)">(<span style="color:var(--code-preview-foreground)">i</span>), </span><span style="color:var(--code-preview-token-function)">range</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-constant)">0</span><span style="color:var(--code-preview-token-punctuation)">, ${section}.</span><span style="color:var(--code-preview-token-function)">VariablesLength</span><span style="color:var(--code-preview-token-punctuation-mark)">())))</span></span>`;
@@ -237,7 +230,7 @@ ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foregro
 			c += `
 ${p ? '\t' : ''}<span class="line"></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_dataframe </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> pd</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">DataFrame</span><span style="color:var(--code-preview-token-bracket)">(<span style="color:var(--code-preview-foreground);font-style:italic">data</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation)"> ${section}_data<span style="color:var(--code-preview-token-bracket)">)</span></span></span>
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">("<span style="color:var(--code-preview-token-string-expression)">\\n${capitalizeFirstLetter(section)} data\\n</span>", <span style="color:var(--code-preview-token-function)">${section}_dataframe</span>)</span></span>`;
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">("<span style="color:var(--code-preview-token-string-expression)">\\n${titleCase(section)} data\\n</span>", <span style="color:var(--code-preview-token-function)">${section}_dataframe</span>)</span></span>`;
 		}
 	}
 
