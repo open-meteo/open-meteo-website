@@ -2,7 +2,8 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { getWeatherCode } from '$lib/utils/meteo';
+	import { titleCase, camelCase, objectDifference } from '$lib/utils';
+	import { getWeatherCode, membersPerModel } from '$lib/utils/meteo';
 
 	import { api_key_preferences } from '$lib/stores/settings';
 
@@ -14,8 +15,8 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
-	import type { Writable } from 'svelte/store';
 	import type { Parameters } from '$lib/docs';
+	import type { UrlHashStore } from '$lib/stores/url-hash-store';
 
 	import { mode } from 'mode-watcher';
 
@@ -31,13 +32,13 @@
 	let highlighter: Highlighter;
 
 	interface Props {
-		params: Writable<Parameters>;
-		type?: SelectContent;
+		params: UrlHashStore;
+		type?: string;
 		action?: string;
 		model_default?: string;
 		sdk_type?: string;
 		sdk_cache?: number;
-		defaultParameters: any;
+		defaultParameters: Parameters;
 		useStockChart?: boolean;
 	}
 
@@ -53,25 +54,6 @@
 		defaultParameters,
 		useStockChart = false
 	}: Props = $props();
-
-	// Only considers keys of the first object. Ignores nulls and empty strings
-	function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
-		const diff: Partial<T> = {};
-		for (const key in a) {
-			if (a[key] && a[key] != '' && a[key] !== b[key]) {
-				diff[key] = a[key];
-			}
-		}
-		return diff;
-	}
-
-	/// `temperature_2m` to `Temperature2m`
-	const titleCase = (s: string) =>
-		s
-			.replace(/^[-_]*(.)/, (_, c) => c.toUpperCase())
-			.replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
-
-	const camelCase = (s: string) => s.replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
 
 	/// Parsed params that resolved CSV fields
 	let parsedParams = $derived(
@@ -171,7 +153,7 @@
 	);
 
 	const getUrl = (server: string, params: any) => {
-		return `${server}?${new URLSearchParams({ ...params, ...params })}`.replaceAll('%2C', ',');
+		return `${server}?${new URLSearchParams({ ...params })}`.replaceAll('%2C', ',');
 	};
 
 	let previewUrl = $state('');
@@ -191,28 +173,6 @@
 			(v) => v in $params && $params[v].length > 0
 		)
 	);
-
-	const membersPerModel = (model: string): number => {
-		switch (model) {
-			case 'icon_seamless':
-				return 40;
-			case 'icon_global':
-				return 40;
-			case 'icon_eu':
-				return 40;
-			case 'icon_d2':
-				return 20;
-			case 'gfs_seamless':
-				return 31;
-			case 'gfs025':
-				return 31;
-			case 'ecmwf_ifs025':
-				return 51;
-			case 'gem_global':
-				return 21;
-		}
-		return 1;
-	};
 
 	/// Adjusted call weight
 	let callWeight = $derived(
@@ -480,7 +440,7 @@
 			Array.isArray(parsedParams.latitude) &&
 			parsedParams.latitude.length > 5
 		) {
-			throw new Error('Can not preview more than 5 locations');
+			throw new Error('Cannot preview more than 5 locations');
 		}
 
 		// Always set format=json to fetch data
@@ -493,7 +453,8 @@
 		const result = await fetch(fetchUrl);
 
 		if (!result.ok) {
-			throw new Error(await result.text());
+			const reason = JSON.parse(await result.text())['reason'];
+			throw new Error(reason);
 		}
 		const json = await result.json();
 		let tEnd = performance.now() - t0;
@@ -796,7 +757,7 @@
 											<path d="M12 17h.01" />
 										</svg>
 
-										{JSON.parse(error.message).reason}
+										{error.message}
 									</div>
 
 									<Button

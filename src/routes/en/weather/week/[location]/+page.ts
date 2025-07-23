@@ -4,6 +4,8 @@ import { error, redirect } from '@sveltejs/kit';
 
 import { storedLocation, type GeoLocation } from '$lib/stores/settings';
 
+import { geoLocationNameToRoute } from '$lib/utils/meteo';
+
 import type { PageLoad } from '$types';
 
 export const load = (async (event) => {
@@ -56,16 +58,16 @@ export const load = (async (event) => {
 			}
 		}
 
+		const locationRoute = geoLocationNameToRoute(location.name);
+
 		if (location.population && location.population > 543000) {
 			// 1000 biggest cities
-			if (event.url.pathname !== `/en/weather/week/${location.name.toLowerCase()}`) {
-				throw redirect(303, `/en/weather/week/${location.name.toLowerCase()}`);
+			if (event.url.pathname !== `/en/weather/week/${locationRoute}`) {
+				throw redirect(303, `/en/weather/week/${locationRoute}`);
 			}
 		} else {
-			if (
-				event.url.pathname !== `/en/weather/week/${location.name.toLowerCase() + '_' + location.id}`
-			) {
-				throw redirect(303, `/en/weather/week/${location.name.toLowerCase() + '_' + location.id}`);
+			if (event.url.pathname !== `/en/weather/week/${locationRoute + '_' + location.id}`) {
+				throw redirect(303, `/en/weather/week/${locationRoute + '_' + location.id}`);
 			}
 		}
 	}
