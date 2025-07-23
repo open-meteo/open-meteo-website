@@ -39,16 +39,10 @@ params = {`;
 	"${key}": [${'"' + param.join('", "') + '"'}],`;
 			} else {
 				c += `
-	"${key}": [${param.join('", "')}],`;
+	"${key}": [${param.join(', ')}],`;
 			}
 		} else if (typeof param == 'object') {
-			// const e = Object.entries(v)
-			// 	.map(
-			// 		([k, v]) =>
-			// 			`\n\t<span class="token string">"${k}"</span><span class="token punctuation">:</span> ${formatPrism(v)}`
-			// 	)
-			// 	.join(`<span class="token punctuation">,</span>`);
-			// return `<span class="token punctuation">&lbrace;</span>${e}\n<span class="token punctuation">&rbrace;</span>`;
+			/// ???
 		} else if (typeof param == 'string') {
 			c += `
 	"${key}": "${param}",`;

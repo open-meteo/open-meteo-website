@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
 	import { titleCase, camelCase, objectDifference } from '$lib/utils';
@@ -18,18 +18,13 @@
 	import type { Parameters } from '$lib/docs';
 	import type { UrlHashStore } from '$lib/stores/url-hash-store';
 
-	import { mode } from 'mode-watcher';
-
 	import './code-styles.css';
 
-	import { createHighlighter, type Highlighter } from 'shiki';
-	import { createCssVariablesTheme } from 'shiki/core';
+	import { highlightCode } from './highlighter';
 
 	import { tsCodeExample } from './typescript-code-example';
 	import { swiftCodeExample } from './swift-code-example';
 	import { pythonCodeExample } from './python-code-example';
-
-	let highlighter: Highlighter;
 
 	interface Props {
 		params: UrlHashStore;
@@ -152,26 +147,14 @@
 		})($api_key_preferences)
 	);
 
-	const getUrl = (server: string, params: any) => {
-		return `${server}?${new URLSearchParams({ ...params })}`.replaceAll('%2C', ',');
-	};
-
-	let previewUrl = $state('');
-	$effect(() => {
-		previewUrl = getUrl(server, parsedParams);
-	});
-	let xlsxUrl = $derived(getUrl(server, { ...parsedParams, format: 'xlsx' }));
-	let csvUrl = $derived(getUrl(server, { ...parsedParams, format: 'csv' }));
-
-	let sectionsWithData = $derived(
-		['current', 'minutely_15', 'hourly', 'daily', 'six_hourly'].filter(
-			(v) => v in $params && $params[v].length > 0
-		)
+	let csvUrl = $derived(
+		`${server}?${new URLSearchParams({ ...parsedParams, format: 'csv' })}`.replaceAll('%2C', ',')
 	);
-	let sectionsArrayWithData = $derived(
-		['minutely_15', 'hourly', 'daily', 'six_hourly'].filter(
-			(v) => v in $params && $params[v].length > 0
-		)
+	let xlsxUrl = $derived(
+		`${server}?${new URLSearchParams({ ...parsedParams, format: 'xlsx' })}`.replaceAll('%2C', ',')
+	);
+	let previewUrl = $derived(
+		`${server}?${new URLSearchParams(parsedParams)}`.replaceAll('%2C', ',')
 	);
 
 	/// Adjusted call weight
@@ -444,11 +427,11 @@
 		}
 
 		// Always set format=json to fetch data
-		const fetchUrl = getUrl(server, {
-			...parsedParams,
-			format: 'json',
-			timeformat: 'unixtime'
-		});
+		const fetchUrl =
+			`${server}?${new URLSearchParams({ ...parsedParams, format: 'json', timeformat: 'unixtime' })}`.replaceAll(
+				'%2C',
+				','
+			);
 		const t0 = performance.now();
 		const result = await fetch(fetchUrl);
 
@@ -475,25 +458,8 @@
 
 	let previewMode = $state('chart');
 
-	const myTheme = createCssVariablesTheme({
-		name: 'css-variables',
-		variablePrefix: '--code-preview-',
-		variableDefaults: {},
-		fontStyle: true
-	});
-
 	async function processCode(code: string, lang: string) {
-		if (!highlighter) {
-			highlighter = await createHighlighter({
-				langs: ['python', 'typescript', 'swift'],
-				themes: ['material-theme-lighter', 'material-theme-darker', myTheme] // register the theme
-			});
-		}
-		return highlighter.codeToHtml(code, {
-			lang: lang,
-			//theme: mode.current === 'dark' ? 'material-theme-darker' : 'material-theme-lighter'
-			theme: myTheme
-		});
+		return highlightCode(code, lang);
 	}
 	const processMultipleLocations = $derived.by(() => {
 		if (
@@ -578,7 +544,7 @@
 			sdk_type
 		)
 	);
-	const swiftCodePreview = $derived(processCode(swiftCode, 'typescript'));
+	const swiftCodePreview = $derived(processCode(swiftCode, 'swift'));
 	const swiftCodeLineLength = $derived(swiftCode.split(/\r\n|\r|\n/).length);
 </script>
 
