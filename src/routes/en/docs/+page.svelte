@@ -32,7 +32,7 @@
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
-	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
+	import { weatherForecastObject } from '$lib/components/code/docs/weather-forecast-object.ts';
 
 	import {
 		daily,
@@ -141,6 +141,8 @@
 
 	let last_date = new Date();
 	last_date.setDate(last_date.getDate() + 16);
+
+	let jsonReturnObject = $derived(weatherForecastObject($params));
 </script>
 
 <svelte:head>
@@ -2111,23 +2113,6 @@
 							> for ultraviolet index.</td
 						>
 					</tr>
-					<!-- Additional variables, leave out for now -->
-					<!-- <tr>
-						<th scope="row">cape_max<br />cape_mean<br />cape_min</th>
-						<td>J/kg</td>
-						<td
-							>Convective available potential energy. See <a
-								class="text-link underline"
-								href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
-								target="_blank">Wikipedia</a
-							>.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">cloud_cover_max<br />cloud_cover_mean<br />cloud_cover_min</th>
-						<td>%</td>
-						<td>Total cloud cover as an area fraction</td>
-					</tr> -->
 				</tbody>
 			</table>
 		</div>
@@ -2144,7 +2129,7 @@
 		<div
 			class="code-numbered -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
-			<WeatherForecastObject />
+			{@html jsonReturnObject}
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table

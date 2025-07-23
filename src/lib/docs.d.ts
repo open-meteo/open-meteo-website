@@ -45,3 +45,9 @@ export interface Parameters {
 
 	countryCode?: string;
 }
+
+export interface APIKeyPreferences {
+	use: string;
+	apikey: string;
+	self_host_server: string;
+}

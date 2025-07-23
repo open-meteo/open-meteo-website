@@ -102,7 +102,7 @@
 						>
 							<WeatherApiCurlBlock />
 						</Button>
-						<div class="code-numbered -mx-4 mt-4 md:mx-0 md:mt-6 [&_.shiki]:pt-0!">
+						<div class="code-numbered -mx-4 mt-4 md:mx-0 md:mt-6 [&_pre]:pt-0!">
 							<WeatherApiCodeBlock />
 						</div>
 					</div>
@@ -115,7 +115,7 @@
 						>
 							<Last10DaysCurlBlock />
 						</Button>
-						<div class="code-numbered -mx-4 mt-4 md:mx-0 md:mt-6 [&_.shiki]:pt-0!">
+						<div class="code-numbered -mx-4 mt-4 md:mx-0 md:mt-6 [&_pre]:pt-0!">
 							<Last10DaysCodeBlock />
 						</div>
 					</div>
@@ -129,7 +129,7 @@
 							<HistoricalWeatherCurlBlock />
 						</Button>
 
-						<div class="code-numbered -mx-4 mt-4 md:mx-0 md:mt-6 [&_.shiki]:pt-0!">
+						<div class="code-numbered -mx-4 mt-4 md:mx-0 md:mt-6 [&_pre]:pt-0!">
 							<HistoricalWeatherCodeBlock />
 						</div>
 					</div>

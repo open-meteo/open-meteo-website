@@ -4,17 +4,18 @@ import { titleCase } from '$lib/utils';
 import { INT_64_VARIABLES } from '$lib/constants';
 
 export const pythonCodeExample = (
-	parsedParams: Parameters,
+	params: Parameters,
 	multipleLocationsOrModels: boolean,
 	numberOfLocations: number | string,
 	numberOfModels: number,
 	server: string,
-	sdk_type: string
+	sdk_type: string,
+	sdk_cache: number
 ) => {
 	const p = multipleLocationsOrModels;
-	const current = parsedParams.current;
+	const current = params.current;
 
-	let c = `<pre class="shiki css-variables" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)" tabindex="0"><code><span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> openmeteo_requests</span></span>`;
+	let c = `<div class="code-numbered"><pre class="!py-6 !pl-10" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)" tabindex="0"><code><span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> openmeteo_requests</span></span>`;
 	if (sdk_type === 'ensemble_api') {
 		c += `
 <span class="line"></span>
@@ -28,7 +29,7 @@ export const pythonCodeExample = (
 <span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">from</span><span style="color:var(--code-preview-foreground)"> retry_requests </span><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> retry</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Setup the Open-Meteo API client with cache and retry on error</span></span>
-<span class="line"><span style="color:var(--code-preview-foreground)">cache_session </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> requests_cache</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">CachedSession</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">'</span>.cache<span style="color:var(--code-preview-token-punctuation-mark)">'</span></span><span style="color:var(--code-preview-token-punctuation-mark)">, </span><span style="font-style:italic">expire_after</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> 3600</span><span style="color:var(--code-preview-token-bracket)">)</span></span>
+<span class="line"><span style="color:var(--code-preview-foreground)">cache_session </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> requests_cache</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">CachedSession</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">'</span>.cache<span style="color:var(--code-preview-token-punctuation-mark)">'</span></span><span style="color:var(--code-preview-token-punctuation-mark)">, </span><span style="font-style:italic">expire_after</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> ${sdk_cache}</span><span style="color:var(--code-preview-token-bracket)">)</span></span>
 <span class="line"><span style="color:var(--code-preview-foreground)">retry_session </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-function)"> retry</span><span style="color:var(--code-preview-token-bracket)">(<span style="color:var(--code-preview-token-function)">cache_session</span>, </span><span style="font-style:italic">retries </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> 5</span><span style="font-style:italic">, backoff_factor </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> 0.2</span><span style="color:var(--code-preview-token-bracket)">)</span></span>
 <span class="line"><span style="color:var(--code-preview-foreground)">openmeteo </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> openmeteo_requests</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">Client</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="font-style:italic">session</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation)"> retry_session<span style="color:var(--code-preview-token-bracket)">)</span></span></span>
 <span class="line"></span>
@@ -36,7 +37,7 @@ export const pythonCodeExample = (
 <span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># The order of variables in hourly or daily is important to assign them correctly below</span></span>
 <span class="line"><span style="color:var(--code-preview-foreground)">url </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)"> "</span>${server}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span>
 <span class="line"><span style="color:var(--code-preview-foreground)">params </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation-mark)"> {</span></span>`;
-	for (const [key, param] of Object.entries(parsedParams)) {
+	for (const [key, param] of Object.entries(params)) {
 		if (param.constructor === Array) {
 			if (typeof param[0] === 'string') {
 				c += `
@@ -112,7 +113,7 @@ ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-f
 	}
 
 	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
-		const sect = parsedParams[section];
+		const sect = params[section];
 		if (sect) {
 			c += `
 ${p ? '\t' : ''}<span class="line"></span>
@@ -236,7 +237,7 @@ ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-f
 	}
 
 	c += `\
-${p ? '\t' : ''}<span class="line"></span></pre>
+${p ? '\t' : ''}<span class="line"></span></pre></div>
 `;
 	return c;
 };

@@ -13,7 +13,7 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
-	import type { Parameters } from '$lib/docs';
+	import type { APIKeyPreferences, Parameters } from '$lib/docs';
 	import type { UrlHashStore } from '$lib/stores/url-hash-store';
 
 	import HighchartContainer from './highcharts/highcharts-container.svelte';
@@ -48,7 +48,7 @@
 
 	/// Parsed params that resolved CSV fields
 	let parsedParams = $derived(
-		((p: any, api_key_preferences: any) => {
+		((p: Parameters, api_key_preferences: APIKeyPreferences) => {
 			const params = { ...p };
 			if ('time_mode' in params) {
 				if (params.time_mode == 'forecast_days') {
@@ -64,13 +64,13 @@
 			}
 			if ('location_mode' in params) {
 				if (params.location_mode == 'csv_coordinates' && params['csv_coordinates']) {
-					let lats: number[] = [];
-					let lons: number[] = [];
-					let elevation: number[] = [];
-					let timezone: string[] = [];
-					let start_date: string[] = [];
-					let end_date: string[] = [];
-					let csv: string = params['csv_coordinates'];
+					const lats: number[] = [];
+					const lons: number[] = [];
+					const elevation: number[] = [];
+					const timezone: string[] = [];
+					const start_date: string[] = [];
+					const end_date: string[] = [];
+					const csv: string = params['csv_coordinates'];
 					csv.split(/\r?\n/).forEach((row) => {
 						if (row.length < 4) {
 							return;
@@ -130,7 +130,7 @@
 	);
 
 	let server = $derived(
-		((api_key_preferences: any) => {
+		((api_key_preferences: APIKeyPreferences) => {
 			let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
 			switch (api_key_preferences.use) {
 				case 'commercial':
@@ -365,7 +365,8 @@
 			numberOfLocations,
 			numberOfModels,
 			server,
-			sdk_type
+			sdk_type,
+			sdk_cache
 		)
 	);
 
@@ -655,7 +656,7 @@
 					> documentation.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class="shiki -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
+				<pre class="-mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
 pip install openmeteo-requests
 pip install requests-cache retry-requests numpy pandas</pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
