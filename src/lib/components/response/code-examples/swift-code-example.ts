@@ -4,7 +4,7 @@ import { titleCase } from '$lib/utils';
 import { INT_64_VARIABLES } from '$lib/constants';
 
 export const swiftCodeExample = (
-	parsedParams: Parameters,
+	params: Parameters,
 	multipleLocationsOrModels: boolean,
 	numberOfLocations: number | string,
 	numberOfModels: number,

@@ -63,6 +63,22 @@
 		--code-preview-token-accent: #9c3eda;
 	}
 
+	.javascript {
+		--code-preview-token-variable: #90a4ae;
+		--code-preview-token-keyword-special: #39adb5;
+		--code-preview-token-bracket-special: #e53935;
+
+		--code-preview-token-comment: #bac8cf;
+		--code-preview-token-keyword: #9c3eda;
+		--code-preview-token-parameter: #90a4ae;
+		--code-preview-token-function: #6182b8;
+		--code-preview-token-string-expression: #91b859;
+		--code-preview-token-string-key: #e53935;
+		--code-preview-token-punctuation: #6182b8;
+		--code-preview-token-punctuation-mark: #39adb5;
+		--code-preview-token-accent: #9c3eda;
+	}
+
 	.dark {
 		--background: 222.2 84% 4.9%;
 		--foreground: 210 40% 98%;

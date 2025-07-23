@@ -676,10 +676,6 @@ pip install requests-cache retry-requests numpy pandas</pre>
 						href="https://www.npmjs.com/package/openmeteo">NPM</a
 					>.
 				</p>
-				<p>
-					Caveats: For the ensemble API, multiple members per variable are not correctly decoded.
-					You will have to loop over `variables`.
-				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0"><code
 						>npm install openmeteo</code
