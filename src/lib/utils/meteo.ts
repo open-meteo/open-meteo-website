@@ -211,3 +211,7 @@ export const geoLocationNameToRoute = (name) => {
 	const lowerCase = name.toLowerCase().replaceAll(' ', '-');
 	return lowerCase.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 };
+
+export const capitalizeFirstLetter = (str: string) => {
+	return String(str).charAt(0).toUpperCase() + String(str).slice(1);
+};
