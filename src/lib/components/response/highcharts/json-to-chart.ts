@@ -1,3 +1,5 @@
+import { getWeatherCode } from "$lib/utils/meteo";
+
 export function jsonToChart(data: any, downloadTime: number) {
 	let yAxis: any = [];
 

@@ -1,5 +1,5 @@
 import type { Parameters } from '$lib/docs';
-import { titleCase } from '$lib/utils';
+import { isNumeric, titleCase } from '$lib/utils';
 
 import { INT_64_VARIABLES } from '$lib/constants';
 
@@ -13,9 +13,8 @@ export const pythonCodeExample = (
 	sdk_cache: number
 ) => {
 	const p = multipleLocationsOrModels;
-	const current = params.current;
 
-	let c = `<div class="code-numbered"><pre class="!py-6 !pl-10" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)" tabindex="0"><code><span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> openmeteo_requests</span></span>`;
+	let c = `<div class=""><pre class="" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)" tabindex="0"><code><span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> openmeteo_requests</span></span>`;
 	if (sdk_type === 'ensemble_api') {
 		c += `
 <span class="line"></span>
@@ -39,7 +38,7 @@ export const pythonCodeExample = (
 <span class="line"><span style="color:var(--code-preview-foreground)">params </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation-mark)"> {</span></span>`;
 	for (const [key, param] of Object.entries(params)) {
 		if (param.constructor === Array) {
-			if (typeof param[0] === 'string') {
+			if (typeof param[0] === 'string' && !isNumeric(param[0])) {
 				c += `
 <span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>${key}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span> ${'<span style="color:var(--code-preview-token-bracket)">[<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">' + param.join('</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-punctuation-mark)">, <span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">') + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-bracket)">]</span>'}<span style="color:var(--code-preview-token-punctuation-mark)">,</span>`;
 			} else {
@@ -48,7 +47,7 @@ export const pythonCodeExample = (
 			}
 		} else if (typeof param === 'object') {
 			// ???
-		} else if (typeof param === 'string') {
+		} else if (typeof param === 'string' && !isNumeric(param)) {
 			c += `
 <span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>${key}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${'<span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">' + param + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span>'}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
 		} else {
@@ -84,40 +83,12 @@ ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-f
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">Model Nº </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">response.</span><span style="color:var(--code-preview-token-function)">Model</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
 	}
 
-	if (current) {
-		c += `
-${p ? '\t' : ''}<span class="line"></span>
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Current values. The order of variables needs to be the same as requested.</span></span>
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">current </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> response</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">Current</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
-		if (current.constructor === Array) {
-			for (const [ind, cur] of current.entries()) {
-				c += `
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">current_${cur} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> current</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-constant)">${ind}</span><span style="color:var(--code-preview-token-bracket)">).</span><span style="color:var(--code-preview-token-function)">Value</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
-			}
-		} else {
-			c += `
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">current_${current} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> current</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-constant)">0</span><span style="color:var(--code-preview-token-bracket)">).</span><span style="color:var(--code-preview-token-function)">Value</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
-		}
-		c += `
-${p ? '\t' : ''}<span class="line"></span>
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">\\nCurrent time </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">current.</span><span style="color:var(--code-preview-token-function)">Time</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)"></span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
-		if (current.constructor === Array) {
-			for (const cur of current) {
-				c += `
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">Current ${cur} </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">current_${cur}</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)"></span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
-			}
-		} else {
-			c += `
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">Current ${current} </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">current_${current}</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)"></span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
-		}
-	}
-
 	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
 		const sect = params[section];
 		if (sect) {
 			c += `
 ${p ? '\t' : ''}<span class="line"></span>
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process ${section} data. The order of variables needs to be the same as requested.</span></span>
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process ${titleCase(section)} data. The order of variables needs to be the same as requested.</span></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> response</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">${titleCase(section)}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
 			if (sdk_type == 'ensemble_api') {
 				c += `
@@ -186,14 +157,15 @@ ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foregro
 				if (sect.constructor === Array) {
 					for (const [ind, variable] of sect.entries()) {
 						c += `
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_${variable} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> ${section}</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-constant)">${ind}</span><span style="color:var(--code-preview-token-bracket)">).</span><span style="color:var(--code-preview-token-function)">${INT_64_VARIABLES.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_${variable} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> ${section}</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-constant)">${ind}</span><span style="color:var(--code-preview-token-bracket)">).</span><span style="color:var(--code-preview-token-function)">${section === 'current' ? 'Values' : INT_64_VARIABLES.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
 					}
 				} else if (typeof sect === 'string') {
 					c += `
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_${sect} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> ${section}</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-constant)">0</span><span style="color:var(--code-preview-token-bracket)">).</span><span style="color:var(--code-preview-token-function)">${INT_64_VARIABLES.includes(sect) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_${sect} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> ${section}</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-constant)">0</span><span style="color:var(--code-preview-token-bracket)">).</span><span style="color:var(--code-preview-token-function)">${section === 'current' ? 'Values' : INT_64_VARIABLES.includes(sect) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
 				}
 			}
-			c += `
+			if (section !== 'current') {
+				c += `
 ${p ? '\t' : ''}<span class="line"></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_data </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation-mark)"> {</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">date<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-foreground)"> pd</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">date_range</span><span style="color:var(--code-preview-token-bracket)">(</span></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground);font-style:italic">	start </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation)"> pd.</span><span style="color:var(--code-preview-token-function)">to_datetime</span><span style="color:var(--code-preview-token-bracket)">(<span style="color:var(--code-preview-token-function)">${section}</span>.</span><span style="color:var(--code-preview-token-function)">Time</span><span style="color:var(--code-preview-token-bracket)">(), <span style="color:var(--code-preview-foreground);font-style:italic">unit</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation-mark)"> "</span><span style="color:var(--code-preview-token-string-expression)">s</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">, <span style="color:var(--code-preview-foreground);font-style:italic">utc</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> True</span><span style="color:var(--code-preview-token-bracket)">),</span></span>
@@ -202,37 +174,57 @@ ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foregro
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground);font-style:italic">	inclusive </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation-mark)"> "</span><span style="color:var(--code-preview-token-string-expression)">left</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span></span></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-bracket)">)}</span></span>
 ${p ? '\t' : ''}<span class="line"></span>`;
-			if (sdk_type == 'ensemble_api') {
-				c += `
+			}
+
+			if (section !== 'current') {
+				if (sdk_type == 'ensemble_api') {
+					c += `
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process all members</span></span>`;
-				if (sect.constructor === Array) {
-					for (const variable of sect) {
-						c += `
+					if (sect.constructor === Array) {
+						for (const variable of sect) {
+							c += `
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">for</span><span style="color:var(--code-preview-foreground)"> variable </span><span style="color:var(--code-preview-token-keyword);font-style:italic">in</span><span style="color:var(--code-preview-foreground)"> ${section}_${variable}</span><span style="color:var(--code-preview-token-punctuation)">:</span></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	member </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">EnsembleMember</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	${section}_data</span><span style="color:var(--code-preview-token-punctuation)">[</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-string-expression)">"${variable}_member</span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-foreground)">member</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-string-expression)">"</span><span style="color:var(--code-preview-token-punctuation)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">${INT_64_VARIABLES.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span></span>`;
-					}
-				} else if (typeof sect === 'string') {
-					c += `
+						}
+					} else if (typeof sect === 'string') {
+						c += `
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">for</span><span style="color:var(--code-preview-foreground)"> variable </span><span style="color:var(--code-preview-token-keyword);font-style:italic">in</span><span style="color:var(--code-preview-foreground)"> ${section}_${sect}</span><span style="color:var(--code-preview-token-punctuation)">:</span></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	member </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">EnsembleMember</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	${section}_data</span><span style="color:var(--code-preview-token-punctuation)">[</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-string-expression)">"${sect}_member</span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-foreground)">member</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-string-expression)">"</span><span style="color:var(--code-preview-token-punctuation)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">${INT_64_VARIABLES.includes(sect) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span></span>`;
+					}
+				} else {
+					if (sect.constructor === Array) {
+						for (const variable of sect) {
+							c += `
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_data</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">${variable}"</span><span style="color:var(--code-preview-token-punctuation-mark)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> ${section}_${variable}</span></span>`;
+						}
+					} else {
+						c += `
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_data</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">${sect}"</span><span style="color:var(--code-preview-token-punctuation-mark)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> ${section}_${sect}</span></span>`;
+					}
 				}
-			} else {
+			}
+			if (section === 'current') {
+				// no dataframe
+				c += `
+${p ? '\t' : ''}<span class="line"></span>
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">\\nCurrent time </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">current.</span><span style="color:var(--code-preview-token-function)">Time</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)"></span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
 				if (sect.constructor === Array) {
 					for (const variable of sect) {
 						c += `
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_data</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">${variable}"</span><span style="color:var(--code-preview-token-punctuation-mark)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> ${section}_${variable}</span></span>`;
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">Current ${variable} </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">current_${variable}</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)"></span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
 					}
 				} else {
 					c += `
-${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_data</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">${sect}"</span><span style="color:var(--code-preview-token-punctuation-mark)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> ${section}_${sect}</span></span>`;
+${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">Current ${sect} </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">current_${sect}</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)"></span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
 				}
-			}
-			c += `
+			} else {
+				c += `
 ${p ? '\t' : ''}<span class="line"></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_dataframe </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> pd</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">DataFrame</span><span style="color:var(--code-preview-token-bracket)">(<span style="color:var(--code-preview-foreground);font-style:italic">data</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation)"> ${section}_data<span style="color:var(--code-preview-token-bracket)">)</span></span></span>
 ${p ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">("<span style="color:var(--code-preview-token-string-expression)">\\n${titleCase(section)} data\\n</span>", <span style="color:var(--code-preview-token-function)">${section}_dataframe</span>)</span></span>`;
+			}
 		}
 	}
 
