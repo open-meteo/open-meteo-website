@@ -103,16 +103,6 @@
 			}, 75);
 		}
 	});
-
-	$effect(() => {
-		const codeBlocks = document.querySelectorAll('pre');
-		console.log(codeBlocks);
-	});
-
-	// onMount(() => {
-	// 	const codeBlocks = document.querySelectorAll('pre');
-	// 	console.log(codeBlocks);
-	// });
 </script>
 
 <div class="mb-12 flex flex-col md:mb-24 md:flex-row">

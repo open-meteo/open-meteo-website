@@ -388,7 +388,8 @@
 			numberOfLocations,
 			numberOfModels,
 			server,
-			sdk_type
+			sdk_type,
+			previewUrl
 		)
 	);
 
@@ -475,7 +476,7 @@
 				</div>
 			{:then results}
 				{#if results}
-					{#each results.slice(0, 10) as chart}
+					{#each results.slice(0, 10) as chart, i (i)}
 						<div transition:fade={{ duration: 300 }} class="w-full">
 							<HighchartContainer
 								options={chart}
