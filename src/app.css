@@ -276,6 +276,14 @@ pre {
 	color: #eeffff !important;
 }
 
+.code-wrapper {
+	background: #fafafa;
+}
+
+.dark .code-wrapper {
+	background: #212121;
+}
+
 .code-numbered pre {
 	padding-left: calc(var(--spacing) * 8);
 }

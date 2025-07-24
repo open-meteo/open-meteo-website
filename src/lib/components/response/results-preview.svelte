@@ -660,7 +660,7 @@
 pip install openmeteo-requests
 pip install requests-cache retry-requests numpy pandas</pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<div class="mt-2 w-full overflow-auto rounded-lg md:mt-4">
+				<div class="code-wrapper mt-2 w-full overflow-auto rounded-lg md:mt-4">
 					{@html pythonCode}
 				</div>
 			</div>
@@ -681,7 +681,7 @@ pip install requests-cache retry-requests numpy pandas</pre>
 						>npm install openmeteo</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<div class="mt-2 w-full overflow-auto rounded-lg md:mt-4">
+				<div class="code-wrapper mt-2 w-full overflow-auto rounded-lg md:mt-4">
 					{@html typescriptCode}
 				</div>
 			</div>
@@ -714,7 +714,7 @@ targets: [
 ]</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<div class="mt-2 w-full overflow-auto rounded-lg md:mt-4">
+				<div class="code-wrapper mt-2 w-full overflow-auto rounded-lg md:mt-4">
 					{@html swiftCode}
 				</div>
 			</div>
