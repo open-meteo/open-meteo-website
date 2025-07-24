@@ -11,74 +11,83 @@ export const swiftCodeExample = (
 	server: string,
 	sdk_type: string
 ) => {
-	let c = `
-import OpenMeteoSdk
-/// Make sure the URL contains '&format=flatbuffers'
-let url = URL(string: "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=weather_code,sunrise&hourly=temperature_2m,weather_code&current=temperature_2m,precipitation&format=flatbuffers")!
-let responses = try await WeatherApiResponse.fetch(url: url)
-/// Process first location. Add a for-loop for multiple locations or weather models
-let response = responses[0]
-/// Attributes for timezone and location
-let utcOffsetSeconds = response.utcOffsetSeconds
-let timezone = response.timezone
-let timezoneAbbreviation = response.timezoneAbbreviation
-let latitude = response.latitude
-let longitude = response.longitude
-let current = response.current!
-let hourly = response.hourly!
-let daily = response.daily!
-struct WeatherData {
-	let current: Current
-	let hourly: Hourly
-	let daily: Daily
-	struct Current {
-		let time: Date
-		let temperature2m: Float
-		let precipitation: Float
-	}
-	struct Hourly {
-		let time: [Date]
-		let temperature2m: [Float]
-		let weatherCode: [Float]
-	}
-	struct Daily {
-		let time: [Date]
-		let weatherCode: [Float]
-		let sunrise: [Int64]
-	}
-}
-/// Note: The order of weather variables in the URL query and the 'at' indices below need to match!
-let data = WeatherData(
-	current: .init(
-		time: Date(timeIntervalSince1970: TimeInterval(current.time + Int64(utcOffsetSeconds))),
-		temperature2m: current.variables(at: 0)!.value,
-		precipitation: current.variables(at: 1)!.value
-	),
-	hourly: .init(
-		time: hourly.getDateTime(offset: utcOffsetSeconds),
-		temperature2m: hourly.variables(at: 0)!.values,
-		weatherCode: hourly.variables(at: 1)!.values
-	),
-	daily: .init(
-		time: daily.getDateTime(offset: utcOffsetSeconds),
-		weatherCode: daily.variables(at: 0)!.values,
-		sunrise: daily.variables(at: 1)!.valuesInt64
-	)
-)
-/// Timezone '.gmt' is deliberately used.
-/// By adding 'utcOffsetSeconds' before, local-time is inferred
-let dateFormatter = DateFormatter()
-dateFormatter.timeZone = .gmt
-dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-for (i, date) in data.hourly.time.enumerated() {
-	print(dateFormatter.string(from: date))
-	print(data.hourly.temperature2m[i])
-	print(data.hourly.weatherCode[i])
-}
-for (i, date) in data.daily.time.enumerated() {
-	print(dateFormatter.string(from: date))
-	print(data.daily.weatherCode[i])
-	print(data.daily.sunrise[i])
-}`;
+	let c = `<div><pre class="swift" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)" tabindex="0"><code><span class="line"></span><span class="line"><span style="color:var(--code-preview-token-keyword-special);font-style:italic;">import</span><span style="color:var(--code-preview-token-constant)"> OpenMeteoSdk</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic;">/// Make sure the URL contains '&amp;format=flatbuffers'</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> url </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-token-function)"> URL</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">string</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-string-expression)"> "https://api.open-meteo.com/v1/forecast?latitude=52.52&amp;longitude=13.41&amp;daily=weather_code,sunrise&amp;hourly=temperature_2m,weather_code&amp;current=temperature_2m,precipitation&amp;format=flatbuffers"</span><span style="color:var(--code-preview-token-punctuation)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> responses </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-token-keyword-special);font-style:italic;"> try</span><span style="color:var(--code-preview-token-keyword-special);font-style:italic;"> await</span><span style="color:var(--code-preview-foreground)"> WeatherApiResponse.</span><span style="color:var(--code-preview-token-function)">fetch</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">url</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> url</span><span style="color:var(--code-preview-token-punctuation)">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic;">/// Process first location. Add a for-loop for multiple locations or weather models</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> response </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> responses</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-constant)">0</span><span style="color:var(--code-preview-token-punctuation-mark)">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic;">/// Attributes for timezone and location</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> utcOffsetSeconds </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response.utcOffsetSeconds</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> timezone </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response.timezone</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> timezoneAbbreviation </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response.timezoneAbbreviation</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> latitude </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response.latitude</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> longitude </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response.longitude</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> current </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response.current</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> hourly </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response.hourly</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> daily </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response.daily</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--code-preview-token-accent)">struct</span><span style="color:var(--code-preview-token-constant)"> WeatherData</span><span style="color:var(--code-preview-foreground)"> {</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">	let</span><span style="color:var(--code-preview-foreground)"> current: Current</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">	let</span><span style="color:var(--code-preview-foreground)"> hourly: Hourly</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">	let</span><span style="color:var(--code-preview-foreground)"> daily: Daily</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--code-preview-token-accent)">	struct</span><span style="color:var(--code-preview-token-constant)"> Current</span><span style="color:var(--code-preview-foreground)"> {</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">		let</span><span style="color:var(--code-preview-foreground)"> time: Date</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">		let</span><span style="color:var(--code-preview-foreground)"> temperature2m: </span><span style="color:var(--code-preview-token-constant)">Float</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">		let</span><span style="color:var(--code-preview-foreground)"> precipitation: </span><span style="color:var(--code-preview-token-constant)">Float</span></span>
+<span class="line"><span style="color:var(--code-preview-foreground)">	}</span></span>
+<span class="line"><span style="color:var(--code-preview-token-accent)">	struct</span><span style="color:var(--code-preview-token-constant)"> Hourly</span><span style="color:var(--code-preview-foreground)"> {</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">		let</span><span style="color:var(--code-preview-foreground)"> time: [Date]</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">		let</span><span style="color:var(--code-preview-foreground)"> temperature2m: [</span><span style="color:var(--code-preview-token-constant)">Float</span><span style="color:var(--code-preview-token-punctuation-mark)">]</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">		let</span><span style="color:var(--code-preview-foreground)"> weatherCode: [</span><span style="color:var(--code-preview-token-constant)">Float</span><span style="color:var(--code-preview-token-punctuation-mark)">]</span></span>
+<span class="line"><span style="color:var(--code-preview-foreground)">	}</span></span>
+<span class="line"><span style="color:var(--code-preview-token-accent)">	struct</span><span style="color:var(--code-preview-token-constant)"> Daily</span><span style="color:var(--code-preview-foreground)"> {</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">		let</span><span style="color:var(--code-preview-foreground)"> time: [Date]</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">		let</span><span style="color:var(--code-preview-foreground)"> weatherCode: [</span><span style="color:var(--code-preview-token-constant)">Float</span><span style="color:var(--code-preview-token-punctuation-mark)">]</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">		let</span><span style="color:var(--code-preview-foreground)"> sunrise: [</span><span style="color:var(--code-preview-token-constant)">Int64</span><span style="color:var(--code-preview-token-punctuation-mark)">]</span></span>
+<span class="line"><span style="color:var(--code-preview-foreground)">	}</span></span>
+<span class="line"><span style="color:var(--code-preview-foreground)">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic;">/// Note: The order of weather variables in the URL query and the 'at' indices below need to match!</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> data </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-token-function)"> WeatherData</span><span style="color:var(--code-preview-token-punctuation)">(</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">	current</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> .</span><span style="color:var(--code-preview-token-accent)">init</span><span style="color:var(--code-preview-token-punctuation)">(</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">		time</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> Date</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">timeIntervalSince1970</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> TimeInterval</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">current.time </span><span style="color:var(--code-preview-token-keyword)">+</span><span style="color:var(--code-preview-token-constant)"> Int64</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">utcOffsetSeconds</span><span style="color:var(--code-preview-token-punctuation)">)))</span><span style="color:var(--code-preview-token-function)">,</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">		temperature2m</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> current.variables</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">at</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> 0</span><span style="color:var(--code-preview-token-punctuation)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-token-function)">.</span><span style="color:var(--code-preview-token-constant)">value</span><span style="color:var(--code-preview-token-function)">,</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">		precipitation</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> current.variables</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">at</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> 1</span><span style="color:var(--code-preview-token-punctuation)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-token-function)">.</span><span style="color:var(--code-preview-token-constant)">value</span></span>
+<span class="line"><span style="color:var(--code-preview-token-punctuation)">	)</span><span style="color:var(--code-preview-token-function)">,</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">	hourly</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> .</span><span style="color:var(--code-preview-token-accent)">init</span><span style="color:var(--code-preview-token-punctuation)">(</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">		time</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> hourly.getDateTime</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">offset</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> utcOffsetSeconds</span><span style="color:var(--code-preview-token-punctuation)">)</span><span style="color:var(--code-preview-token-function)">,</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">		temperature2m</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> hourly.variables</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">at</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> 0</span><span style="color:var(--code-preview-token-punctuation)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-token-function)">.</span><span style="color:var(--code-preview-token-constant)">values</span><span style="color:var(--code-preview-token-function)">,</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">		weatherCode</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> hourly.variables</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">at</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> 1</span><span style="color:var(--code-preview-token-punctuation)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-token-function)">.</span><span style="color:var(--code-preview-token-constant)">values</span></span>
+<span class="line"><span style="color:var(--code-preview-token-punctuation)">	)</span><span style="color:var(--code-preview-token-function)">,</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">	daily</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> .</span><span style="color:var(--code-preview-token-accent)">init</span><span style="color:var(--code-preview-token-punctuation)">(</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">		time</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> daily.getDateTime</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">offset</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> utcOffsetSeconds</span><span style="color:var(--code-preview-token-punctuation)">)</span><span style="color:var(--code-preview-token-function)">,</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">		weatherCode</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> daily.variables</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">at</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> 0</span><span style="color:var(--code-preview-token-punctuation)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-token-function)">.</span><span style="color:var(--code-preview-token-constant)">values</span><span style="color:var(--code-preview-token-function)">,</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">		sunrise</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> daily.variables</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">at</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> 1</span><span style="color:var(--code-preview-token-punctuation)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-token-function)">.valuesInt64</span></span>
+<span class="line"><span style="color:var(--code-preview-token-punctuation)">	)</span></span>
+<span class="line"><span style="color:var(--code-preview-token-punctuation)">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic;">/// Timezone '.gmt' is deliberately used.</span></span>
+<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic;">/// By adding 'utcOffsetSeconds' before, local-time is inferred</span></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> dateFormatter </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-token-function)"> DateFormatter</span><span style="color:var(--code-preview-token-punctuation)">()</span></span>
+<span class="line"><span style="color:var(--code-preview-foreground)">dateFormatter.timeZone </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> .gmt</span></span>
+<span class="line"><span style="color:var(--code-preview-foreground)">dateFormatter.dateFormat </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-token-string-expression)"> "yyyy-MM-dd HH:mm"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">for</span><span style="color:var(--code-preview-token-punctuation)"> (</span><span style="color:var(--code-preview-token-function)">i, date</span><span style="color:var(--code-preview-token-punctuation)">)</span><span style="color:var(--code-preview-token-keyword)"> in</span><span style="color:var(--code-preview-foreground)"> data.hourly.time.</span><span style="color:var(--code-preview-token-function)">enumerated</span><span style="color:var(--code-preview-token-punctuation)">()</span><span style="color:var(--code-preview-foreground)"> {</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">	print</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">dateFormatter.string</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">from</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> date</span><span style="color:var(--code-preview-token-punctuation)">))</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">	print</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">data.hourly.temperature2m</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-function)">i</span><span style="color:var(--code-preview-token-punctuation)">])</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">	print</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">data.hourly.weatherCode</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-function)">i</span><span style="color:var(--code-preview-token-punctuation)">])</span></span>
+<span class="line"><span style="color:var(--code-preview-foreground)">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:var(--code-preview-token-keyword)">for</span><span style="color:var(--code-preview-token-punctuation)"> (</span><span style="color:var(--code-preview-token-function)">i, date</span><span style="color:var(--code-preview-token-punctuation)">)</span><span style="color:var(--code-preview-token-keyword)"> in</span><span style="color:var(--code-preview-foreground)"> data.daily.time.</span><span style="color:var(--code-preview-token-function)">enumerated</span><span style="color:var(--code-preview-token-punctuation)">()</span><span style="color:var(--code-preview-foreground)"> {</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">	print</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">dateFormatter.string</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">from</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> date</span><span style="color:var(--code-preview-token-punctuation)">))</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">	print</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">data.daily.weatherCode</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-function)">i</span><span style="color:var(--code-preview-token-punctuation)">])</span></span>
+<span class="line"><span style="color:var(--code-preview-token-function)">	print</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">data.daily.sunrise</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-function)">i</span><span style="color:var(--code-preview-token-punctuation)">])</span></span>
+<span class="line"><span style="color:var(--code-preview-foreground)">}</span></span></code></pre></div>`;
 	return c;
 };
