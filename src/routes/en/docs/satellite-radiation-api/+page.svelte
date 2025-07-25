@@ -41,6 +41,15 @@
 		models as weatherModels
 	} from '../options';
 
+	weatherModels.push([
+		{ value: 'ecmwf_ifs', label: 'ECMWF IFS 9km HRES' },	
+		{ value: 'era5_seamless', label: 'ERA5-Seamless', caption: 'ERA5 & ERA5-Land combined' },
+		{ value: 'era5', label: 'ERA5', caption: '25 km, Global' },
+		{ value: 'era5_land', label: 'ERA5-Land', caption: '10 km, Global' },
+		{ value: 'era5_ensemble', label: 'ERA5-Ensemble', caption: '0.5° ~55km, Global' },
+		{ value: 'cerra', label: 'CERRA', caption: '5 km, Europe, 1985 to June 2021' }
+	])
+
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
