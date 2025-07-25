@@ -693,7 +693,7 @@
 		<figure>
 			<enhanced:img src="/static/images/models/metno_nordic.png" class="rounded-lg" alt="..." />
 			<figcaption class="text-muted-foreground">
-				MET Nordic model area (black). Source: <a
+				MET Nordic model area (marked in red). Source: <a
 					href="https://github.com/metno/NWPdocs/wiki/MEPS-dataset">Met Norway GitHub</a
 				>.
 			</figcaption>

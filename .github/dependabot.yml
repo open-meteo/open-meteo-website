@@ -3,11 +3,9 @@ updates:
   - package-ecosystem: npm
     directory: '/'
     schedule:
-      interval: daily
+      interval: weekly
       time: '13:00'
     open-pull-requests-limit: 10
-    reviewers:
-      - vincvdwal
     allow:
       - dependency-type: direct
     ignore:
@@ -63,7 +61,7 @@ updates:
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: daily
-      time: '13:00'
+      interval: weekly
+      time: '10:00'
     commit-message:
       prefix: 'fix: '
