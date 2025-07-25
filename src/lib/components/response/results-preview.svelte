@@ -293,47 +293,6 @@
 		reload();
 	});
 
-	/// Convert a given variable to syntax highlighted prism JS HTML
-	function formatPrism(v: any): String {
-		if (Array.isArray(v)) {
-			const e = v.map(formatPrism).join(`<span class="token punctuation">,</span> `);
-			return `<span class="token punctuation">[</span>${e}<span class="token punctuation">]</span>`;
-		}
-		if (typeof v == 'object') {
-			const e = Object.entries(v)
-				.map(
-					([k, v]) =>
-						`\n\t<span class="token string">"${k}"</span><span class="token punctuation">:</span> ${formatPrism(v)}`
-				)
-				.join(`<span class="token punctuation">,</span>`);
-			return `<span class="token punctuation">&lbrace;</span>${e}\n<span class="token punctuation">&rbrace;</span>`;
-		}
-		if (!isNaN(v)) {
-			return `<span class="token number">${v}</span>`;
-		}
-		return `<span class="token string">"${v}"</span>`;
-	}
-
-	const multipleLocationsOrModels = $derived.by(() => {
-		if (
-			parsedParams.latitude &&
-			parsedParams.latitude.constructor === Array &&
-			parsedParams.latitude.length > 1
-		) {
-			return true;
-		} else if (
-			parsedParams.models &&
-			parsedParams.models.constructor === Array &&
-			parsedParams.models.length > 1
-		) {
-			return true;
-		} else if ($params.location_mode === 'bounding_box') {
-			return true;
-		} else {
-			return false;
-		}
-	});
-
 	const numberOfLocations = $derived.by(() => {
 		if (
 			parsedParams.latitude &&
@@ -357,6 +316,16 @@
 			return parsedParams.models.length;
 		} else {
 			return 0;
+		}
+	});
+
+	const multipleLocationsOrModels = $derived.by(() => {
+		if (numberOfLocations) {
+			return true;
+		} else if (numberOfModels) {
+			return true;
+		} else {
+			return false;
 		}
 	});
 
@@ -428,13 +397,15 @@
 			>
 				TypeScript
 			</ToggleGroup.Item>
-			<ToggleGroup.Item
-				value="swift"
-				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
-				disabled={mode === 'swift'}
-			>
-				Swift
-			</ToggleGroup.Item>
+			{#if sdk_type !== 'ensemble_api'}
+				<ToggleGroup.Item
+					value="swift"
+					class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
+					disabled={mode === 'swift'}
+				>
+					Swift
+				</ToggleGroup.Item>
+			{/if}
 			<ToggleGroup.Item
 				value="other"
 				class="min-h-12 cursor-pointer rounded-s-none opacity-100! lg:min-h-[unset]"
