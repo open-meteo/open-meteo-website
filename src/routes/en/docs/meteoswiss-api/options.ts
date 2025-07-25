@@ -36,11 +36,10 @@ export const hourly = [
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
-		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
+		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
 		{ value: 'rain', label: 'Rain' }
 	],
 	[
-		{ value: 'showers', label: 'Showers' },
 		{ value: 'snowfall', label: 'Snowfall' },
 		{ value: 'snow_depth', label: 'Snow Depth' },
 		{ value: 'evapotranspiration', label: 'Evapotranspiration' },
@@ -48,7 +47,6 @@ export const hourly = [
 		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 	],
 	[
-		{ value: 'visibility', label: 'Visibility' },
 		{ value: 'weather_code', label: 'Weather code' },
 		{ value: 'cloud_cover', label: 'Cloud cover Total' },
 		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
@@ -124,16 +122,14 @@ export const daily = [
 export const additionalVariables = [
 	[
 		{ value: 'is_day', label: 'Is Day or Night' },
-		{ value: 'lightning_potential', label: 'Lightning Potential Index LPI (2)' },
-		{ value: 'updraft', label: 'Updraft (2)' },
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
-		{ value: 'convective_cloud_base', label: 'Convective Cloud Base' },
-		{ value: 'convective_cloud_top', label: 'Convective Cloud Top' }
+		{ value: 'cloud_base', label: 'Cloud Base' },
 	],
 	[
 		{ value: 'cape', label: 'CAPE' },
+		{ value: 'convective_inhibition', label: 'Convective Inhibition' },
 		{ value: 'freezing_level_height', label: 'Freezing Level Height' },
-		{ value: 'snowfall_height', label: 'Snowfall Height (1)' },
+		{ value: 'snowfall_height', label: 'Snowfall Height' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
 	]
 ];
@@ -167,8 +163,8 @@ export const models = [
 
 export const forecastDaysOptions = [
 	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days (default)' },
+	{ value: '3', label: '3 days' },
 	{ value: '5', label: '5 days' },
-	{ value: '7', label: '7 days' },
+	{ value: '7', label: '7 days (default)' },
 	{ value: '8', label: '8 days' }
 ];
