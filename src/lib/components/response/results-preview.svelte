@@ -24,6 +24,8 @@
 	import { pythonCodeExample } from './code-examples/python-code-example';
 	import { typescriptCodeExample } from './code-examples/typescript-code-example';
 
+	import { swiftInstallCode } from './installs/swift-install-code';
+
 	interface Props {
 		params: UrlHashStore;
 		type?: string;
@@ -657,9 +659,15 @@
 					> documentation.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class="-mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
+				<div
+					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0
+					dark:bg-[#212121]"
+				>
+					<pre>
 pip install openmeteo-requests
 pip install requests-cache retry-requests numpy pandas</pre>
+				</div>
+
 				<h4 class="text-xl md:text-2xl">Usage</h4>
 				<div class="code-wrapper mt-2 w-full overflow-auto rounded-lg md:mt-4">
 					{@html pythonCode}
@@ -678,11 +686,16 @@ pip install requests-cache retry-requests numpy pandas</pre>
 					>.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0"><code
-						>npm install openmeteo</code
-					></pre>
+				<div
+					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0
+					dark:bg-[#212121]"
+				>
+					<pre class=""><code>npm install openmeteo</code></pre>
+				</div>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<div class="code-wrapper mt-2 w-full overflow-auto rounded-lg md:mt-4">
+				<div
+					class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+				>
 					{@html typescriptCode}
 				</div>
 			</div>
@@ -704,18 +717,15 @@ pip install requests-cache retry-requests numpy pandas</pre>
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<p class="my-3">Add OpenMeteoSdk as a dependency to your Package.swift</p>
-				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0"><code
-						>dependencies: [
-{'\t'}.package(url: "https://github.com/open-meteo/sdk.git", from: "1.5.0")
-],
-targets: [
-{'\t'}.target(name: "MyApp", dependencies: [
-{'\t'}{'\t'}.product(name: "OpenMeteoSdk", package: "sdk"),
-{'\t'}])
-]</code
-					></pre>
+				<div
+					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+				>
+					{@html swiftInstallCode}
+				</div>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<div class="code-wrapper mt-2 w-full overflow-auto rounded-lg md:mt-4">
+				<div
+					class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+				>
 					{@html swiftCode}
 				</div>
 			</div>

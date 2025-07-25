@@ -266,7 +266,7 @@ pre {
 	-moz-tab-size: 4;
 	-o-tab-size: 4;
 	tab-size: 4;
-	padding: 1rem 2rem;
+	padding: 1rem 1.6rem;
 	background: #fafafa !important;
 	color: #90a4ae !important;
 }
@@ -274,14 +274,6 @@ pre {
 .dark pre {
 	background: #212121 !important;
 	color: #eeffff !important;
-}
-
-.code-wrapper {
-	background: #fafafa;
-}
-
-.dark .code-wrapper {
-	background: #212121;
 }
 
 .code-numbered pre {
