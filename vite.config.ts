@@ -28,7 +28,7 @@ export default defineConfig({
 		enhancedImages(),
 		sveltekit(),
 		svg(),
-		replaceChunckNames()
+		replaceChunckNames(),
 		visualizer({
 			filename: 'build-stats.json',
 			template: 'raw-data'
