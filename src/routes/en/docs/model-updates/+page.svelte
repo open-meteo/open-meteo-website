@@ -265,6 +265,22 @@
 				]
 			},
 			{
+				provider: 'MeteoSwiss',
+				url: '/en/docs/meteoswiss-api',
+				models: [
+					{
+						name: 'ICON CH1',
+						area: ['ch'],
+						meta: fetchMeta('meteoswiss_icon_ch1', 'forecast', api_key_preferences)
+					},
+					{
+						name: 'ICON CH2',
+						area: ['ch'],
+						meta: fetchMeta('meteoswiss_icon_ch2', 'forecast', api_key_preferences)
+					}
+				]
+			},
+			{
 				provider: 'MET Norway',
 				url: '/en/docs/metno-api',
 				models: [
@@ -442,6 +458,22 @@
 						name: 'GFS 0.5° Ensemble',
 						area: [],
 						meta: fetchMeta('ncep_gefs05', 'ensemble', api_key_preferences)
+					}
+				]
+			},
+			{
+				provider: 'MeteoSwiss',
+				url: '/en/docs/meteoswiss-api',
+				models: [
+					{
+						name: 'ICON CH1',
+						area: ['ch'],
+						meta: fetchMeta('meteoswiss_icon_ch1_ensemble', 'ensemble', api_key_preferences)
+					},
+					{
+						name: 'ICON CH2',
+						area: ['ch'],
+						meta: fetchMeta('meteoswiss_icon_ch2_ensemble', 'ensemble', api_key_preferences)
 					}
 				]
 			},

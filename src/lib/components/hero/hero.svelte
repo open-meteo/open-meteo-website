@@ -24,6 +24,16 @@
 		heroSecondaryButtonPath,
 		heroSecondaryButtonText
 	}: Props = $props();
+
+	// const heroImages = import.meta.glob(
+	// 	'/static/images/backgrounds/*.{avif,gif,heif,jpeg,jpg,png,tiff,webp,svg}',
+	// 	{
+	// 		eager: true,
+	// 		query: {
+	// 			enhanced: true
+	// 		}
+	// 	}
+	// );
 </script>
 
 <svelte:head>
@@ -41,6 +51,13 @@
           height: {heroHeight}px;
         "
 	></div>
+	<!-- <div class="hero-image absolute -z-10 h-full w-full overflow-hidden">
+		<enhanced:img
+			class="w-auto min-h-full object-cover object-center"
+			alt="Background image"
+			src={heroImages['/static' + heroImage].default}
+		></enhanced:img>
+	</div> -->
 	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">
 		<Logo width="96" height="96" shadow={true} />
 		<h1
