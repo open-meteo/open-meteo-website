@@ -2,7 +2,7 @@ import { defineConfig, type UserConfig } from 'vite';
 
 import { sveltekit } from '@sveltejs/kit/vite';
 import { enhancedImages } from '@sveltejs/enhanced-img';
-// import { visualizer } from 'rollup-plugin-visualizer';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -29,10 +29,10 @@ export default defineConfig({
 		sveltekit(),
 		svg(),
 		replaceChunckNames()
-		// visualizer({
-		// 	filename: 'build-stats.json',
-		// 	template: 'raw-data'
-		// })
+		visualizer({
+			filename: 'build-stats.json',
+			template: 'raw-data'
+		})
 	],
 	build: {
 		rollupOptions: rollupOptions
