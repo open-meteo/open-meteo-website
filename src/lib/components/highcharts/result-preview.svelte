@@ -425,11 +425,12 @@
 
 	async function preview() {
 		if (
-			'latitude' in parsedParams &&
-			Array.isArray(parsedParams.latitude) &&
-			parsedParams.latitude.length > 5
+			('latitude' in parsedParams &&
+				Array.isArray(parsedParams.latitude) &&
+				parsedParams.latitude.length > 5) ||
+			$params.location_mode === 'bounding_box'
 		) {
-			throw new Error('Cannot preview more than 5 locations')
+			throw new Error('Cannot preview more than 5 locations');
 		}
 
 		// Always set format=json to fetch data
@@ -442,7 +443,7 @@
 		const result = await fetch(fetchUrl);
 
 		if (!result.ok) {
-			const reason = JSON.parse(await result.text())['reason']
+			const reason = JSON.parse(await result.text())['reason'];
 			throw new Error(reason);
 		}
 		const json = await result.json();
@@ -687,7 +688,7 @@
 					style={useStockChart ? 'height: 500px' : 'height: 400px'}
 				>
 					<div class="flex h-full w-full items-center justify-center px-6 dark:brightness-150">
-						<Alert.Root variant="destructive" class="my-auto w-[unset] !pl-8">
+						<Alert.Root variant="destructive" class="my-auto w-[unset] !pl-6">
 							<Alert.Description>
 								<div class="flex items-center justify-center gap-2">
 									<div class="flex items-center">

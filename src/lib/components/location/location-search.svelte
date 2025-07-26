@@ -158,7 +158,6 @@
 		<Dialog.Overlay class="bg-black/5" />
 
 		<Dialog.Content
-			preventScroll={true}
 			class="border-border top-[10%] flex min-h-[400px] translate-y-0 flex-col sm:max-w-[600px]"
 		>
 			<Dialog.Header>
