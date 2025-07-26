@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type UserConfig } from 'vite';
 
 import { sveltekit } from '@sveltejs/kit/vite';
 import { enhancedImages } from '@sveltejs/enhanced-img';
@@ -14,7 +14,7 @@ function replaceChunckNames() {
 	return {
 		name: 'replace-chunk-names-plugin',
 		apply: 'build' as const,
-		config(config) {
+		config(config: UserConfig) {
 			config.build.rollupOptions.output.chunkFileNames =
 				config.build.rollupOptions.output.chunkFileNames.replace('[hash]', `[name].[hash].chunk`);
 			return config;

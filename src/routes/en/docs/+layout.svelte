@@ -50,7 +50,16 @@
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
 	}
 
-	let selectedPath = $derived.by(() => {
+	interface Path {
+		title: string;
+		url: string;
+		children?: {
+			title: string;
+			url: string;
+		};
+	}
+
+	let selectedPath: Path = $derived.by(() => {
 		for (const link of links) {
 			if (link.children) {
 				for (const l of link.children) {
@@ -63,7 +72,7 @@
 				return link;
 			}
 		}
-		return {};
+		return { title: '', url: '' };
 	});
 
 	let mobileNavOpened = $state(false);
@@ -75,17 +84,19 @@
 		if (browser) {
 			hashOnLoad = window.location.hash;
 			if (hashOnLoad && hashOnLoad.includes('=')) {
-				e.to.url.search = hashOnLoad.replace('#', '');
-				hashOnLoad = '';
-				setTimeout(() => {
-					window.location.reload();
-				}, 75);
+				if (e.to) {
+					e.to.url.search = hashOnLoad.replace('#', '');
+					hashOnLoad = '';
+					setTimeout(() => {
+						window.location.reload();
+					}, 75);
+				}
 			}
 		}
 	});
 
 	afterNavigate((e) => {
-		if ((!e.from || e.from.route.id !== e.to.route.id) && !window.location.hash) {
+		if (e.to && (!e.from || e.from.route.id !== e.to.route.id) && !window.location.hash) {
 			setTimeout(() => {
 				window.scrollTo(0, 0);
 			}, 75);
@@ -94,8 +105,10 @@
 </script>
 
 <div class="mb-12 flex flex-col md:mb-24 md:flex-row">
-	<aside class="w-full md:w-1/6 md:min-w-[230px] md:max-w-[400px]">
-		<nav class="sticky top-0 flex flex-col p-6 pb-3 md:pb-6 md:pr-3">
+	<aside class="w-full md:w-1/6 md:max-w-[400px] md:min-w-[230px]">
+		<nav
+			class="sticky top-0 mb-3 flex max-h-[100vh] flex-col overflow-hidden p-6 pb-0 md:mb-0 md:overflow-auto md:pr-3 md:pb-3"
+		>
 			<Button
 				variant="outline"
 				class="flex justify-start p-3 md:hidden"
@@ -122,14 +135,17 @@
 			</Button>
 
 			<ul
-				class={`list-unstyled overflow-hidden duration-500 ${mobileNavOpened ? 'mt-2 max-h-[968px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
+				class={`list-unstyled duration-500 ${mobileNavOpened ? 'mt-2 max-h-[968px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
 			>
-				{#each links as link}
+				{#each links as link, i (i)}
 					<li
-						class="my-[0.125rem] rounded-md border py-2 pl-3 pr-2 duration-300 {selectedPath.title ===
+						class="my-[0.125rem] rounded-md border py-2 pr-2 pl-3 duration-300 {selectedPath.title ===
 						link.title
 							? 'border-border'
-							: 'border-transparent'}"
+							: 'border-transparent'} {link.children &&
+						(selectedPath.url === link.url || link.children.some((l) => l.url === selectedPath.url))
+							? 'mb-3 pt-4'
+							: ''}"
 					>
 						<a
 							class="flex items-center gap-1"
@@ -148,13 +164,13 @@
 								class={`list-unstyled ml-3 overflow-auto duration-500 ${
 									selectedPath.url === link.url ||
 									link.children.some((l) => l.url === selectedPath.url)
-										? 'mb-2 mt-2 max-h-[700px]'
+										? 'mt-2 mb-1 max-h-[700px]'
 										: 'max-h-0'
 								}`}
 							>
-								{#each link.children as l}
+								{#each link.children as l, j (j)}
 									<li
-										class="rounded-md border p-1 pl-3 py-1 overflow-hidden truncate duration-300 {selectedPath.url ===
+										class="truncate overflow-hidden rounded-md border p-[5px] pl-3 duration-300 {selectedPath.url ===
 										l.url
 											? 'border-border'
 											: 'border-transparent'}"
@@ -179,7 +195,7 @@
 		</nav>
 	</aside>
 	<div
-		class="docs-content flex flex-1 flex-col p-6 pt-0 md:max-w-[calc(100%-230px)] lg:max-w-unset md:pl-3 md:pt-6"
+		class="docs-content lg:max-w-unset flex flex-1 flex-col p-6 pt-0 md:max-w-[calc(100%-230px)] md:pt-6 md:pl-3"
 	>
 		{@render children?.()}
 	</div>

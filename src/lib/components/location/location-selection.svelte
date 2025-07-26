@@ -7,6 +7,7 @@
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
 
+	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select/index';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
@@ -95,6 +96,34 @@
 	onMount(() => {
 		locationMode = params.location_mode;
 	});
+	let csvExample = $state('lat_lon');
+
+	const csvExampleOptions = [
+		{ value: 'lat_lon', label: 'Setting multiple latitudes & longitudes' },
+		{ value: 'elevation', label: 'Setting an elevation to 2500m' },
+		{ value: 'timezone', label: 'Setting a timezone' },
+		{ value: 'time_period', label: 'Setting a time period between 2025-01 and 2025-02' },
+		{ value: 'all_above', label: 'Setting all of the above' }
+	];
+
+	let csvExampleSet = $derived(csvExampleOptions.find((ceo) => ceo.value === csvExample));
+
+	const seamlessModelPresent = $derived.by(() => {
+		if (params.models) {
+			if (params.models.constructor === Array) {
+				for (const model of params.models) {
+					if (model.endsWith('_seamless')) {
+						return true;
+					}
+				}
+			} else if (typeof params.models === 'string') {
+				// params.models.endsWith('_seamless') {
+				// 	return true
+				// }
+			}
+		}
+	});
+	console.log(seamlessModelPresent);
 </script>
 
 <a href="#location_and_time"
@@ -346,24 +375,65 @@
 	{/if}
 	{#if params.location_mode == 'csv_coordinates'}
 		<div in:fade>
-			<div class="flex flex-col gap-6 md:flex-row">
+			<div class="flex flex-col gap-3 md:gap-6 md:flex-row">
 				<div class="md:w-1/2">
 					<textarea
-						class="border-border w-full rounded-md border p-4"
+						class="border-border w-full rounded-md border p-4 md:mb-4"
 						bind:value={params.csv_coordinates}
-						rows="5"
+						rows="13"
 					></textarea>
 				</div>
 				<div class="md:w-1/2">
 					<p>
-						You can provide multiple coordinates. One per line and separated by commas. For each
-						location, you can also set a time period if needed. Format: latitude, longitude,
-						elevation, timezone, start_date, end_date. Only latitude and longitude are required.
-						Examples:
+						When using location list mode, you can specify multiple locations in one field. Each
+						location should be listed on a new line, with its latitude and longitude separated by a
+						comma. You can also optionally include elevation, timezone, and time period for each
+						location. However, latitude and longitude are the only required parameters. Format used:
 					</p>
-					<pre class="mt-2 overflow-auto rounded-lg md:mt-4">52.52,13.41
-51.5085,-0.1257,,auto
-52.52,13.41,,Europe/Berlin,2021-01-01,2021-01-31</pre>
+					<pre
+						class="my-2 overflow-auto rounded-lg md:my-4">latitude,longitude,elevation,timezone,start_date,end_date</pre>
+					<div class="relative">
+						<Select.Root name="forecast_days" type="single" bind:value={csvExample}>
+							<Select.Trigger
+								aria-label="Forecast days input"
+								class="h-12 cursor-pointer rounded-b-none pt-6 [&_svg]:mb-3"
+								>{csvExampleSet.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each csvExampleOptions as { value, label } (value)}
+									<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								>Code examples</Label
+							>
+						</Select.Root>
+					</div>
+					{#if csvExample === 'lat_lon'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">52.52,13.41
+50.12,8.68
+53.55,9.99
+</pre>{:else if csvExample === 'elevation'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+52.52,13.41,2500
+50.12,8.68,2500
+53.55,9.99,2500</pre>
+					{:else if csvExample === 'timezone'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+52.52,13.41,,Europe/Berlin
+50.12,8.68,,Europe/Berlin
+53.55,9.99,,Europe/Berlin</pre>
+					{:else if csvExample === 'time_period'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+52.52,13.41,,,2021-01-01,2021-01-31
+50.12,8.68,,,2021-01-01,2021-01-31
+53.55,9.99,,,2021-01-01,2021-01-31</pre>
+					{:else if csvExample === 'all_above'}
+						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+52.52,13.41,2500,Europe/Berlin,2021-01-01,2021-01-31
+50.12,8.68,2500,Europe/Berlin,2021-01-01,2021-01-31
+53.55,9.99,2500,Europe/Berlin,2021-01-01,2021-01-31</pre>
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -449,11 +519,24 @@
 			</div>
 			<div class="md:w-1/2">
 				<p>
-					Using bounding box will select grid cells within a specified area, excluding the top and right boundaries. For example, a latitude range of 40°...&#60;45° will not include any grid points on the 45° line. This exclusion is necessary to allow for combining data from multiple API calls when processing larger areas. For instance, a subsequent API call could request data from 45°...&#60;50° latitude. Format used:
+					Using bounding box will select grid cells within a specified area, excluding the top and
+					right boundaries. For example, a latitude range of 40°...&#60;45° will not include any
+					grid points on the 45° line. This exclusion is necessary to allow for combining data from
+					multiple API calls when processing larger areas. For instance, a subsequent API call could
+					request data from 45°...&#60;50° latitude. Format used:
 				</p>
 				<pre class="my-2 overflow-auto rounded-lg">&bounding_box=47,-85,47.5,-84.5</pre>
 				<p>using (latitude1, longitude1, latitude2, longitude2) or (south, east, north, west).</p>
 			</div>
 		</div>
+		{#if seamlessModelPresent}
+			<div transition:slide>
+				<Alert.Root class="bg-warning text-warning-dark border-warning-foreground mt-2 md:mt-4">
+					<Alert.Description>
+						Bounding box location selection mode does not work with seamless models
+					</Alert.Description>
+				</Alert.Root>
+			</div>
+		{/if}
 	{/if}
 </div>
