@@ -158,7 +158,7 @@
 		<Dialog.Overlay class="bg-black/5" />
 
 		<Dialog.Content
-			class="border-border top-[10%] flex min-h-[400px] translate-y-0 flex-col sm:max-w-[600px]"
+			class="border-border top-[10%] flex max-h-[calc(100vh-10%)] min-h-[400px] translate-y-0 flex-col overflow-y-auto sm:max-w-[600px]"
 		>
 			<Dialog.Header>
 				<Dialog.Title>Search Locations</Dialog.Title>
