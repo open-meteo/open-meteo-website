@@ -257,9 +257,10 @@
 
 	async function preview() {
 		if (
-			'latitude' in parsedParams &&
-			Array.isArray(parsedParams.latitude) &&
-			parsedParams.latitude.length > 5
+			('latitude' in parsedParams &&
+				Array.isArray(parsedParams.latitude) &&
+				parsedParams.latitude.length > 5) ||
+			$params.location_mode === 'bounding_box'
 		) {
 			throw new Error('Can not preview more than 5 locations');
 		}

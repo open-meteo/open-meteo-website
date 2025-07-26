@@ -12,8 +12,9 @@ export interface Parameters {
 	minutely_15?: Array<string>;
 
 	timezone?: string;
-	location_mode?: string;
+	location_mode?: 'location_search' | 'csv_coordinates' | 'bounding_box';
 	csv_coordinates?: string;
+	bounding_box?: string;
 
 	time_mode?: string;
 	past_days?: string;
