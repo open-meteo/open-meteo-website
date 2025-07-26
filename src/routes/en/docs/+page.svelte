@@ -26,7 +26,7 @@
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
@@ -2111,23 +2111,6 @@
 							> for ultraviolet index.</td
 						>
 					</tr>
-					<!-- Additional variables, leave out for now -->
-					<!-- <tr>
-						<th scope="row">cape_max<br />cape_mean<br />cape_min</th>
-						<td>J/kg</td>
-						<td
-							>Convective available potential energy. See <a
-								class="text-link underline"
-								href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
-								target="_blank">Wikipedia</a
-							>.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">cloud_cover_max<br />cloud_cover_mean<br />cloud_cover_min</th>
-						<td>%</td>
-						<td>Total cloud cover as an area fraction</td>
-					</tr> -->
 				</tbody>
 			</table>
 		</div>
@@ -2142,7 +2125,7 @@
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
 		<div
-			class="code-numbered -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+			class="pregenerated-code code-numbered -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<WeatherForecastObject />
 		</div>
@@ -2242,7 +2225,7 @@
 			object is returned with a HTTP 400 status code.
 		</p>
 		<div
-			class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+			class="pregenerated-code -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<WeatherForecastError />
 		</div>
