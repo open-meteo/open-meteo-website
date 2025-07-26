@@ -688,7 +688,7 @@
 					style={useStockChart ? 'height: 500px' : 'height: 400px'}
 				>
 					<div class="flex h-full w-full items-center justify-center px-6 dark:brightness-150">
-						<Alert.Root variant="destructive" class="my-auto w-[unset] !pl-8">
+						<Alert.Root variant="destructive" class="my-auto w-[unset] !pl-6">
 							<Alert.Description>
 								<div class="flex items-center justify-center gap-2">
 									<div class="flex items-center">
