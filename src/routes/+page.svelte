@@ -92,7 +92,7 @@
 					Historical data
 				</ToggleGroup.Item>
 			</ToggleGroup.Root>
-			<div class="relative min-h-[530px] overflow-auto lg:min-h-[495px]">
+			<div class="pregenerated-code relative min-h-[530px] overflow-auto lg:min-h-[495px]">
 				{#if tabSelected === 'weather-api'}
 					<div in:fade class="group w-full">
 						<Button

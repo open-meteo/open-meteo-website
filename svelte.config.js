@@ -2,28 +2,25 @@ import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 import { mdsvex, escapeSvelte } from 'mdsvex';
-
 import { createHighlighter } from 'shiki';
-import { createCssVariablesTheme } from 'shiki/core';
 
 import cityNames from './src/routes/en/weather/locations/city-names10.json' with { type: 'json' };
 
-const cssVars = createCssVariablesTheme({
-	name: 'css-variables',
-	variablePrefix: '--code-preview-',
-	variableDefaults: {},
-	fontStyle: true
-});
+const themes = {
+	dark: 'material-theme-darker',
+	light: 'material-theme-lighter'
+};
 
 const highlighter = await createHighlighter({
-	themes: [cssVars],
+	themes: Object.values(themes),
 	langs: ['json', 'bash', 'python', 'typescript', 'swift', 'html']
 });
 
+/** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
 	highlight: {
 		highlighter: async (code, lang = 'text') => {
-			const html = escapeSvelte(highlighter.codeToHtml(code, { lang: lang, theme: cssVars }));
+			const html = escapeSvelte(highlighter.codeToHtml(code, { lang: lang, themes: themes }));
 			return `{@html \`${html}\` }`;
 		}
 	}
