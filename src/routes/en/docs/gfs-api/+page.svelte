@@ -147,7 +147,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/gfs-api" />
 </svelte:head>
 
-<Alert.Root class="border-border mb-4"
+<Alert.Root variant="info" class="mb-4"
 	><svg
 		xmlns="http://www.w3.org/2000/svg"
 		width="24"
