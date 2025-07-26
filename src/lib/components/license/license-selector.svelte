@@ -22,10 +22,6 @@
 	onMount(() => {
 		licenseSelected = $api_key_preferences.use;
 	});
-
-	$effect(() => {
-		$api_key_preferences.use = licenseSelected;
-	});
 </script>
 
 <div>
@@ -35,7 +31,8 @@
 			<ToggleGroup.Root
 				type="single"
 				bind:value={licenseSelected}
-				class="flex flex-wrap justify-start gap-0 text-nowrap"
+				onValueChange={() => ($api_key_preferences.use = licenseSelected)}
+				class="justify-start text-nowrap flex flex-wrap gap-0"
 			>
 				<ToggleGroup.Item
 					id="non_commercial"
@@ -67,10 +64,25 @@
 	<div class="relative mt-3 md:mt-6">
 		{#if licenseSelected === 'non_commercial'}
 			<div in:fade>
-				<Alert.Root class="border-border">
+				<Alert.Root variant="info">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-info-icon lucide-info"
+						><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
+					>
 					<Alert.Description>
-						Only for <strong>non-commercial use</strong> and less than 10.000 daily API calls. See
-						<a class="text-link underline" href="/en/terms">Terms</a> for more details.
+						<div>
+							Only for <strong>non-commercial use</strong> and less than 10.000 daily API calls. See
+							<a class="text-link underline" href="/en/terms">Terms</a> for more details.
+						</div>
 					</Alert.Description>
 				</Alert.Root>
 			</div>
@@ -81,7 +93,7 @@
 						id="apikey"
 						name="apikey"
 						type="text"
-						class="h-13 pt-6"
+						class="h-12 pt-6"
 						bind:value={$api_key_preferences.apikey}
 						required
 					/>
@@ -91,7 +103,20 @@
 					>
 				</div>
 				<div class="md:col-span-2">
-					<Alert.Root class="border-border">
+					<Alert.Root variant="info">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="lucide lucide-info-icon lucide-info"
+							><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
+						>
 						<Alert.Description>
 							See <a class="text-link underline" href="/en/pricing">Pricing</a> for more details.{#if requires_professional_plan}
 								This API requires the <mark>Professional</mark> subscription.{/if}
@@ -106,7 +131,7 @@
 						id="self_host_server"
 						name="self_host_server"
 						type="text"
-						class="h-13 pt-6"
+						class="h-12 pt-6"
 						bind:value={$api_key_preferences.self_host_server}
 					/>
 					<Label
@@ -115,11 +140,26 @@
 					>
 				</div>
 				<div class="md:col-span-2">
-					<Alert.Root class="border-border">
+					<Alert.Root variant="info">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="lucide lucide-info-icon lucide-info"
+							><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
+						>
 						<Alert.Description>
-							See <a class="text-link underline" href="https://github.com/open-meteo/open-meteo"
-								>GitHub</a
-							> for more instructions. Make sure your node supports HTTPS.
+							<div class="inline">
+								See <a class="text-link underline" href="https://github.com/open-meteo/open-meteo"
+									>GitHub</a
+								> for more instructions. Make sure your node supports HTTPS.
+							</div>
 						</Alert.Description>
 					</Alert.Root>
 				</div>
