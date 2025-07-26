@@ -2,7 +2,8 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { getWeatherCode } from '$lib/utils/meteo';
+	import { titleCase, camelCase, objectDifference } from '$lib/utils';
+	import { getWeatherCode, membersPerModel } from '$lib/utils/meteo';
 
 	import { api_key_preferences } from '$lib/stores/settings';
 
@@ -14,19 +15,19 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
-	import type { Writable } from 'svelte/store';
 	import type { Parameters } from '$lib/docs';
+	import type { UrlHashStore } from '$lib/stores/url-hash-store';
 
 	import './code-styles.css';
 
 	interface Props {
-		params: Writable<Parameters>;
-		type?: String;
-		action?: String;
-		model_default?: String;
-		sdk_type?: String;
-		sdk_cache?: Number;
-		defaultParameters: any;
+		params: UrlHashStore;
+		type?: string;
+		action?: string;
+		model_default?: string;
+		sdk_type?: string;
+		sdk_cache?: number;
+		defaultParameters: Parameters;
 		useStockChart?: boolean;
 	}
 
@@ -42,25 +43,6 @@
 		defaultParameters,
 		useStockChart = false
 	}: Props = $props();
-
-	// Only considers keys of the first object. Ignores nulls and empty strings
-	function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
-		const diff: Partial<T> = {};
-		for (const key in a) {
-			if (a[key] && a[key] != '' && a[key] !== b[key]) {
-				diff[key] = a[key];
-			}
-		}
-		return diff;
-	}
-
-	/// `temperature_2m` to `Temperature2m`
-	const titleCase = (s: string) =>
-		s
-			.replace(/^[-_]*(.)/, (_, c) => c.toUpperCase())
-			.replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
-
-	const camelCase = (s: string) => s.replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
 
 	/// Parsed params that resolved CSV fields
 	let parsedParams = $derived(
@@ -160,7 +142,7 @@
 	);
 
 	const getUrl = (server: string, params: any) => {
-		return `${server}?${new URLSearchParams({ ...params, ...params })}`.replaceAll('%2C', ',');
+		return `${server}?${new URLSearchParams({ ...params })}`.replaceAll('%2C', ',');
 	};
 
 	let previewUrl = $state('');
@@ -180,28 +162,6 @@
 			(v) => v in $params && $params[v].length > 0
 		)
 	);
-
-	const membersPerModel = (model: string): number => {
-		switch (model) {
-			case 'icon_seamless':
-				return 40;
-			case 'icon_global':
-				return 40;
-			case 'icon_eu':
-				return 40;
-			case 'icon_d2':
-				return 20;
-			case 'gfs_seamless':
-				return 31;
-			case 'gfs025':
-				return 31;
-			case 'ecmwf_ifs025':
-				return 51;
-			case 'gem_global':
-				return 21;
-		}
-		return 1;
-	};
 
 	/// Adjusted call weight
 	let callWeight = $derived(
@@ -466,10 +426,11 @@
 	async function preview() {
 		if (
 			('latitude' in parsedParams &&
-			Array.isArray(parsedParams.latitude) &&
-			parsedParams.latitude.length > 5) || $params.location_mode === 'bounding_box'
+				Array.isArray(parsedParams.latitude) &&
+				parsedParams.latitude.length > 5) ||
+			$params.location_mode === 'bounding_box'
 		) {
-			throw new Error('Can not preview more than 5 locations');
+			throw new Error('Cannot preview more than 5 locations');
 		}
 
 		// Always set format=json to fetch data
@@ -482,7 +443,8 @@
 		const result = await fetch(fetchUrl);
 
 		if (!result.ok) {
-			throw new Error(await result.text());
+			const reason = JSON.parse(await result.text())['reason'];
+			throw new Error(reason);
 		}
 		const json = await result.json();
 		let tEnd = performance.now() - t0;
@@ -572,38 +534,6 @@
 	}
 
 	let mode = $state('chart');
-
-	const processMultipleLocations = $derived.by(()=>{
-		if (parsedParams.latitude && parsedParams.latitude.length > 1) {
-			return true
-		} else if (parsedParams.models && parsedParams.models.length > 1) {
-			return true
-		} else if ($params.location_mode === 'bounding_box') {
-			return true
-		} else {
-			return false
-		}
-	})
-
-	const p = $derived(processMultipleLocations)
-
-	const numberOfLocations = $derived.by(()=>{
-		if (parsedParams.latitude && parsedParams.latitude.length > 1) {
-			return parsedParams.latitude.length
-		} else if ($params.location_mode === 'bounding_box') {
-			return 'bounding box'
-		} else {
-			return 0
-		}
-	})
-
-	const numberOfModels = $derived.by(()=>{
-		if (parsedParams.models && parsedParams.models.constructor === Array && parsedParams.models.length > 1) {
-			return parsedParams.models.length
-		} else {
-			return 0
-		}
-	})
 </script>
 
 <a href="#api_response">
@@ -614,38 +544,38 @@
 	<div class="text-muted-foreground">Preview:</div>
 
 	<ToggleGroup.Root type="single" bind:value={mode} class="justify-start gap-0">
-		<div class="flex flex-wrap border-border ml-2 rounded-lg border">
+		<div class="border-border ml-2 flex flex-wrap rounded-lg border">
 			<ToggleGroup.Item
 				value="chart"
-				class="opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-e-none opacity-100! lg:min-h-[unset]"
 				disabled={mode === 'chart'}
 			>
 				Chart & URL
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="python"
-				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
 				disabled={mode === 'python'}
 			>
 				Python
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="typescript"
-				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
 				disabled={mode === 'typescript'}
 			>
 				TypeScript
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="swift"
-				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
 				disabled={mode === 'swift'}
 			>
 				Swift
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="other"
-				class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-s-none opacity-100! lg:min-h-[unset]"
 				disabled={mode === 'other'}
 			>
 				Other
@@ -660,11 +590,11 @@
 		<div
 			in:fade
 			style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
-			class="-mx-6 relative md:mx-0"
+			class="relative -mx-6 md:mx-0"
 		>
 			{#await results}
 				<div
-					class="border border-border rounded-lg bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center"
+					class="border-border bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg border"
 					in:fade={{ delay: 400, duration: 400 }}
 					out:fade={{ duration: 300 }}
 				>
@@ -701,11 +631,11 @@
 						style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
 					>
 						<div
-							class="border-border border rounded-lg absolute top-0 flex h-full w-full px-6 items-center justify-center"
+							class="border-border absolute top-0 flex h-full w-full items-center justify-center rounded-lg border px-6"
 						>
 							<Alert.Root class="border-border my-auto w-[unset] md:!pl-8">
 								<Alert.Description>
-									<div class="flex items-center flex-col md:flex-row justify-center gap-2">
+									<div class="flex flex-col items-center justify-center gap-2 md:flex-row">
 										<div class="text-muted-foreground flex items-center">
 											<svg
 												class="lucide lucide-info mr-2"
@@ -754,7 +684,7 @@
 			{:catch error}
 				<div
 					transition:fade={{ duration: 300 }}
-					class="border border-border rounded-lg bg-accent/25 absolute top-0 z-30 w-full"
+					class="border-border bg-accent/25 absolute top-0 z-30 w-full rounded-lg border"
 					style={useStockChart ? 'height: 500px' : 'height: 400px'}
 				>
 					<div class="flex h-full w-full items-center justify-center px-6 dark:brightness-150">
@@ -781,7 +711,7 @@
 											<path d="M12 17h.01" />
 										</svg>
 
-										{JSON.parse(error.message).reason}
+										{error.message}
 									</div>
 
 									<Button
@@ -868,12 +798,12 @@
 					> documentation.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
 pip install openmeteo-requests
 pip install requests-cache retry-requests numpy pandas</pre>
 
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0"><code
 						><span class="token keyword">import</span> openmeteo_requests
 {#if sdk_type == 'ensemble_api'}<br /><span class="token keyword">from</span
 							> openmeteo_sdk.Variable <span class="token keyword">import</span> Variable
@@ -919,21 +849,15 @@ responses <span class="token operator">=</span> openmeteo<span class="token punc
 						> params<span class="token operator">=</span>params<span class="token punctuation"
 							>)</span
 						>
-{#if processMultipleLocations }
-<span class="token comment"
-	># Process {numberOfLocations ? `${numberOfLocations} locations`: '1 location'} {numberOfModels ? `and ${numberOfModels} models` : ''}</span
-						>
-<span class="token keyword">for</span
-	> response <span class="token keyword">in</span> responses<span
-		class="token punctuation">:</span>{:else}
+
 <span class="token comment"
 							># Process first location. Add a for-loop for multiple locations or weather models</span
 						>
 response <span class="token operator">=</span> responses<span class="token punctuation">[</span
-						><span class="token number">0</span><span class="token punctuation">]</span>{/if}
-{@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span><span
+						><span class="token number">0</span><span class="token punctuation">]</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span
 							class="token string-interpolation"
-							><span class="token string">f"{p ? '\\n' : ''}Coordinates </span><span class="token interpolation"
+							><span class="token string">f"Coordinates </span><span class="token interpolation"
 								><span class="token punctuation">&lbrace;</span>response<span
 									class="token punctuation">.</span
 								>Latitude<span class="token punctuation">(</span><span class="token punctuation"
@@ -947,7 +871,7 @@ response <span class="token operator">=</span> responses<span class="token punct
 								><span class="token punctuation">&rbrace;</span></span
 							><span class="token string">°E"</span></span
 						><span class="token punctuation">)</span>
-{@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span><span
+<span class="token keyword">print</span><span class="token punctuation">(</span><span
 							class="token string-interpolation"
 							><span class="token string">f"Elevation </span><span class="token interpolation"
 								><span class="token punctuation">&lbrace;</span>response<span
@@ -955,9 +879,9 @@ response <span class="token operator">=</span> responses<span class="token punct
 								>Elevation<span class="token punctuation">(</span><span class="token punctuation"
 									>)</span
 								><span class="token punctuation">&rbrace;</span></span
-							><span class="token string">m asl"</span></span
+							><span class="token string"> m asl"</span></span
 						><span class="token punctuation">)</span>
-{@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span><span
+<span class="token keyword">print</span><span class="token punctuation">(</span><span
 							class="token string-interpolation"
 							><span class="token string">f"Timezone </span><span class="token interpolation"
 								><span class="token punctuation">&lbrace;</span>response<span
@@ -973,7 +897,7 @@ response <span class="token operator">=</span> responses<span class="token punct
 								><span class="token punctuation">&rbrace;</span></span
 							><span class="token string">"</span></span
 						><span class="token punctuation">)</span>
-{@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span><span
+<span class="token keyword">print</span><span class="token punctuation">(</span><span
 							class="token string-interpolation"
 							><span class="token string">f"Timezone difference to GMT+0 </span><span
 								class="token interpolation"
@@ -982,27 +906,17 @@ response <span class="token operator">=</span> responses<span class="token punct
 								>UtcOffsetSeconds<span class="token punctuation">(</span><span
 									class="token punctuation">)</span
 								><span class="token punctuation">&rbrace;</span></span
-							><span class="token string">s"</span></span
+							><span class="token string"> s"</span></span
 						><span class="token punctuation">)</span>
-{#if numberOfModels}{@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span><span
-							class="token string-interpolation"
-							><span class="token string">f"Model Nº </span><span
-								class="token interpolation"
-								><span class="token punctuation">&lbrace;</span>response<span
-									class="token punctuation">.</span
-								>Model<span class="token punctuation">(</span><span
-									class="token punctuation">)</span
-								><span class="token punctuation">&rbrace;</span></span
-							><span class="token string">"</span></span
-						><span class="token punctuation">)</span><br/>{/if}{#if 'current' in $params && $params.current.length > 0}<br />{@html p ? '\t' : ''}<span class="token comment"
+{#if 'current' in $params && $params.current.length > 0}<br /><span class="token comment"
 								># Current values. The order of variables needs to be the same as requested.</span
 							>
-{@html p ? '\t' : ''}current <span class="token operator">=</span> response<span class="token punctuation"
+current <span class="token operator">=</span> response<span class="token punctuation"
 								>.</span
 							>Current<span class="token punctuation">(</span><span class="token punctuation"
 								>)</span
 							>
-{#each $params['current'] as variable, index}{@html p ? '\t' : ''}current_{variable}<span
+{#each $params['current'] as variable, index}current_{variable} <span
 									class="token operator">=</span
 								> current<span class="token punctuation">.</span>Variables<span
 									class="token punctuation">(</span
@@ -1010,7 +924,7 @@ response <span class="token operator">=</span> responses<span class="token punct
 								><span class="token punctuation">.</span>Value<span class="token punctuation"
 									>(</span
 								><span class="token punctuation">)</span>{'\n'}{/each}
-{@html p ? '\t' : ''}<span class="token keyword"
+<span class="token keyword"
 								>print</span
 							><span class="token punctuation">(</span><span class="token string-interpolation"
 								><span class="token string">f"Current time </span><span class="token interpolation"
@@ -1021,7 +935,7 @@ response <span class="token operator">=</span> responses<span class="token punct
 									><span class="token punctuation">&rbrace;</span></span
 								><span class="token string">"</span></span
 							><span class="token punctuation">)</span>
-{#each $params.current as current}{@html p ? '\t' : ''}<span
+{#each $params.current as current}<span
 									class="token keyword">print</span
 								><span class="token punctuation">(</span><span class="token string-interpolation"
 									><span class="token string">f"Current {current} </span><span
@@ -1033,14 +947,14 @@ response <span class="token operator">=</span> responses<span class="token punct
 								><span class="token punctuation">)</span><br
 								/>{/each}{/if}{#each sectionsArrayWithData as section}<br
 							/>{#if sdk_type == 'ensemble_api'}<span class="token comment"
-									>{@html p ? '\t' : ''}# Process {section} data</span
+									># Process {section} data</span
 								>
-{@html p ? '\t' : ''}{section} <span class="token operator">=</span> response<span
+{section} <span class="token operator">=</span> response<span
 									class="token punctuation">.</span
 								>{titleCase(section)}<span class="token punctuation">(</span><span
 									class="token punctuation">)</span
 								>
-{@html p ? '\t' : ''}{section}_variables <span class="token operator">=</span> <span
+{section}_variables <span class="token operator">=</span> <span
 									class="token builtin">list</span
 								><span class="token punctuation">(</span><span class="token builtin">map</span><span
 									class="token punctuation">(</span
@@ -1055,7 +969,7 @@ response <span class="token operator">=</span> responses<span class="token punct
 								><span class="token punctuation">)</span><span class="token punctuation">)</span
 								><span class="token punctuation">)</span><span class="token punctuation">)</span
 								>
-{#each $params[section] as variable}{@html p ? '\t' : ''}<span>{section}_{variable} </span><span
+{#each $params[section] as variable}<span>{section}_{variable} </span><span
 										class="token operator">=</span
 									> <span class="token builtin">filter</span><span class="token punctuation">(</span
 									><span class="token keyword">lambda</span> x<span class="token punctuation"
@@ -1064,14 +978,14 @@ response <span class="token operator">=</span> responses<span class="token punct
 										>,</span
 									> {section}_variables<span class="token punctuation">)</span><br
 									/>{/each}{:else}<span class="token comment"
-									>{@html p ? '\t' : ''}# Process {section} data. The order of variables needs to be the same as requested.</span
+									># Process {section} data. The order of variables needs to be the same as requested.</span
 								>
-{@html p ? '\t' : ''}{section} <span class="token operator">=</span> response<span
+{section} <span class="token operator">=</span> response<span
 									class="token punctuation">.</span
 								>{titleCase(section)}<span class="token punctuation">(</span><span
 									class="token punctuation">)</span
 								>
-{#each $params[section] as variable, index}{@html p ? '\t' : ''}{section}_{variable} <span
+{#each $params[section] as variable, index}{section}_{variable} <span
 										class="token operator">=</span
 									> {section}<span class="token punctuation">.</span>Variables<span
 										class="token punctuation">(</span
@@ -1081,13 +995,13 @@ response <span class="token operator">=</span> responses<span class="token punct
 									>{int64Variables.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}<span
 										class="token punctuation">(</span
 									><span class="token punctuation">)</span>{'\n'}{/each}{/if}
-{@html p ? '\t' : ''}{section}_data <span
+{section}_data <span
 								class="token operator">=</span
 							> <span class="token punctuation">&lbrace;</span><span class="token string"
 								>"date"</span
 							><span class="token punctuation">:</span> pd<span class="token punctuation">.</span
 							>date_range<span class="token punctuation">(</span>
-{@html p ? '\t' : ''}{'\t'}start <span
+{'\t'}start <span
 								class="token operator">=</span
 							> pd<span class="token punctuation">.</span>to_datetime<span class="token punctuation"
 								>(</span
@@ -1099,7 +1013,7 @@ response <span class="token operator">=</span> responses<span class="token punct
 							> <span class="token number">True</span><span class="token punctuation">)</span><span
 								class="token punctuation">,</span
 							>
-{@html p ? '\t' : ''}{'\t'}end <span class="token operator">=</span> pd<span class="token punctuation"
+{'\t'}end <span class="token operator">=</span> pd<span class="token punctuation"
 								>.</span
 							>to_datetime<span class="token punctuation">(</span>{section}<span
 								class="token punctuation">.</span
@@ -1110,7 +1024,7 @@ response <span class="token operator">=</span> responses<span class="token punct
 							> utc <span class="token operator">=</span> <span class="token number">True</span
 							><span class="token punctuation">)</span><span class="token punctuation">,</span
 							>
-{@html p ? '\t' : ''}{'\t'}freq <span class="token operator">=</span> pd<span class="token punctuation"
+{'\t'}freq <span class="token operator">=</span> pd<span class="token punctuation"
 								>.</span
 							>Timedelta<span class="token punctuation">(</span>seconds <span class="token operator"
 								>=</span
@@ -1119,23 +1033,23 @@ response <span class="token operator">=</span> responses<span class="token punct
 							><span class="token punctuation">)</span><span class="token punctuation">)</span><span
 								class="token punctuation">,</span
 							>
-{@html p ? '\t' : ''}{'\t'}inclusive <span class="token operator">=</span> <span class="token string"
+{'\t'}inclusive <span class="token operator">=</span> <span class="token string"
 								>"left"</span
 							>
-{@html p ? '\t' : ''}<span class="token punctuation">)</span><span class="token punctuation"
+<span class="token punctuation">)</span><span class="token punctuation"
 								>&rbrace;</span
 							>{#if sdk_type == 'ensemble_api'}<br /><br /><span class="token comment"
-									>{@html p ? '\t' : ''}# Process all members</span
-								><br />{#each $params[section] as variable}{@html p ? '\t' : ''}<span class="token keyword">for</span
+									># Process all members</span
+								><br />{#each $params[section] as variable}<span class="token keyword">for</span
 									> variable <span class="token keyword">in</span> {section}_{variable}<span
 										class="token punctuation">:</span
 									>
-{@html p ? '\t' : ''}{'\t'}member <span class="token operator">=</span> variable<span
+{'\t'}member <span class="token operator">=</span> variable<span
 										class="token punctuation">.</span
 									>EnsembleMember<span class="token punctuation">(</span><span
 										class="token punctuation">)</span
 									><span class="token punctuation"></span>
-{@html p ? '\t' : ''}{'\t'}{section}_data<span
+{'\t'}{section}_data<span
 										class="token punctuation">[</span
 									><span class="token string-interpolation"
 										><span class="token string">f"{variable}_member</span><span
@@ -1152,20 +1066,20 @@ response <span class="token operator">=</span> responses<span class="token punct
 										: 'ValuesAsNumpy'}<span class="token punctuation">(</span><span
 										class="token punctuation">)</span
 									>{'\n'}{/each}{:else}<br /><br
-								/>{#each $params[section] as hourly}{@html p ? '\t' : ''}{section}_data<span class="token punctuation"
+								/>{#each $params[section] as hourly}{section}_data<span class="token punctuation"
 										>[</span
 									><span class="token string-interpolation"
 										><span class="token string">"{hourly}"</span></span
 									><span class="token punctuation">]</span> <span class="token operator">=</span
 									> {section}_{hourly}<br />{/each}{/if}
-{@html p ? '\t' : ''}{section}_dataframe <span
+{section}_dataframe <span
 								class="token operator">=</span
 							> pd<span class="token punctuation">.</span>DataFrame<span class="token punctuation"
 								>(</span
 							>data <span class="token operator">=</span> {section}_data<span
 								class="token punctuation">)</span
 							>
-{@html p ? '\t' : ''}<span class="token keyword">print</span><span class="token punctuation">(</span
+<span class="token keyword">print</span><span class="token punctuation">(</span
 							>{section}_dataframe<span class="token punctuation">)</span>{`\n`}{/each}
 </code></pre>
 			</div>
@@ -1186,11 +1100,11 @@ response <span class="token operator">=</span> responses<span class="token punct
 					You will have to loop over `variables`.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0"><code
 						>npm install openmeteo</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class="my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
+				<pre class="-mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
 <code
 						><span class="token keyword">import</span> <span class="token punctuation"
 							>&lbrace;</span
@@ -1461,7 +1375,7 @@ response <span class="token operator">=</span> responses<span class="token punct
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<p class="my-3">Add OpenMeteoSdk as a dependency to your Package.swift</p>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0"><code
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0"><code
 						>dependencies: [
 {'\t'}.package(url: "https://github.com/open-meteo/sdk.git", from: "1.5.0")
 ],
@@ -1472,7 +1386,7 @@ targets: [
 ]</code
 					></pre>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<pre class=" my-2 overflow-auto rounded-lg py-2 md:my-4 -mx-6 md:ml-0 lg:mx-0">
+				<pre class=" -mx-6 my-2 overflow-auto rounded-lg py-2 md:my-4 md:ml-0 lg:mx-0">
 <code class="language-swift"
 						><span class="token keyword">import</span> <span class="token class-name"
 							>OpenMeteoSdk</span
