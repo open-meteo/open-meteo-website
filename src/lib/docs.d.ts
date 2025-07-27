@@ -1,4 +1,6 @@
 export interface Parameters {
+	[index: string];
+
 	latitude?: Array<number>;
 	longitude?: Array<number>;
 
@@ -43,4 +45,10 @@ export interface Parameters {
 	language?: string;
 
 	countryCode?: string;
+}
+
+export interface APIKeyPreferences {
+	use: string;
+	apikey: string;
+	self_host_server: string;
 }
