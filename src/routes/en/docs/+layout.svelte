@@ -6,6 +6,7 @@
 	import { beforeNavigate, afterNavigate } from '$app/navigation';
 
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { onMount } from 'svelte';
 
 	interface Props {
 		children?: import('svelte').Snippet;

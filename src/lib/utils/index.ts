@@ -3,6 +3,10 @@ export const titleCase = (s: string) =>
 
 export const camelCase = (s: string) => s.replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
 
+export const capitalizeFirstLetter = (str: string) => {
+	return String(str).charAt(0).toUpperCase() + String(str).slice(1);
+};
+
 export const isNumeric = (num: string | number) =>
 	(typeof num === 'number' || (typeof num === 'string' && num.trim() !== '')) &&
 	!isNaN(num as number);
