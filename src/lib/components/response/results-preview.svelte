@@ -25,6 +25,8 @@
 	import { typescriptCodeExample } from './code-examples/typescript-code-example';
 
 	import { swiftInstallCode } from './installs/swift-install-code';
+	import { pythonInstallCode } from './installs/python-install-code';
+	import { typescriptInstallCode } from './installs/typescript-install-code';
 
 	interface Props {
 		params: UrlHashStore;
@@ -632,12 +634,9 @@
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<div
-					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0
-					dark:bg-[#212121]"
+					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 				>
-					<pre>
-pip install openmeteo-requests
-pip install requests-cache retry-requests numpy pandas</pre>
+					{@html pythonInstallCode}
 				</div>
 
 				<h4 class="text-xl md:text-2xl">Usage</h4>
@@ -659,10 +658,9 @@ pip install requests-cache retry-requests numpy pandas</pre>
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<div
-					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0
-					dark:bg-[#212121]"
+					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 				>
-					<pre class=""><code>npm install openmeteo</code></pre>
+					{@html typescriptInstallCode}
 				</div>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
 				<div
@@ -682,10 +680,6 @@ pip install requests-cache retry-requests numpy pandas</pre>
 					into an easily usable object. More information and examples are available on <a
 						href="https://github.com/open-meteo/sdk/tree/main/swift">GitHub</a
 					>.
-				</p>
-				<p>
-					Caveats: For the ensemble API, multiple members per variable are not correctly decoded.
-					You will have to loop over 'variables'.
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<p class="my-3">Add OpenMeteoSdk as a dependency to your Package.swift</p>
