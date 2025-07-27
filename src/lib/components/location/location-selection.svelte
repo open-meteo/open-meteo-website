@@ -426,14 +426,14 @@
 53.55,9.99,,Europe/Berlin</pre>
 					{:else if csvExample === 'time_period'}
 						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
-52.52,13.41,,,2021-01-01,2021-01-31
-50.12,8.68,,,2021-01-01,2021-01-31
-53.55,9.99,,,2021-01-01,2021-01-31</pre>
+52.52,13.41,,,2025-01-01,2025-01-31
+50.12,8.68,,,2025-01-01,2025-01-31
+53.55,9.99,,,2025-01-01,2025-01-31</pre>
 					{:else if csvExample === 'all_above'}
 						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
-52.52,13.41,2500,Europe/Berlin,2021-01-01,2021-01-31
-50.12,8.68,2500,Europe/Berlin,2021-01-01,2021-01-31
-53.55,9.99,2500,Europe/Berlin,2021-01-01,2021-01-31</pre>
+52.52,13.41,2500,Europe/Berlin,2025-01-01,2025-01-31
+50.12,8.68,2500,Europe/Berlin,2025-01-01,2025-01-31
+53.55,9.99,2500,Europe/Berlin,2025-01-01,2025-01-31</pre>
 					{/if}
 				</div>
 			</div>
