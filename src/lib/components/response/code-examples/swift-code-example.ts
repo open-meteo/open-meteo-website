@@ -70,10 +70,30 @@ export const swiftCodeExample = (
 	c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic;">/// Attributes for timezone and location</span></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> latitude </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response<span style="color:var(--code-preview-token-punctuation-mark)">.</span>latitude</span></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> longitude </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response<span style="color:var(--code-preview-token-punctuation-mark)">.</span>longitude</span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> longitude </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response<span style="color:var(--code-preview-token-punctuation-mark)">.</span>longitude</span></span>`;
+	if (params.timezone) {
+		c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> timezone </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response<span style="color:var(--code-preview-token-punctuation-mark)">.</span>timezone</span></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> timezoneAbbreviation </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response<span style="color:var(--code-preview-token-punctuation-mark)">.</span>timezoneAbbreviation</span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> timezoneAbbreviation </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response<span style="color:var(--code-preview-token-punctuation-mark)">.</span>timezoneAbbreviation</span></span>`;
+	}
+	c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> utcOffsetSeconds </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-foreground)"> response<span style="color:var(--code-preview-token-punctuation-mark)">.</span>utcOffsetSeconds</span></span>
+${t ? '\t' : ''}<span class="line"></span>`;
+
+	c += `
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-foreground)">\\n</span>Coordinates: <span style="color:var(--code-preview-token-punctuation-mark)">\\(</span><span style="color:var(--code-preview-foreground)">latitude</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span>°N <span style="color:var(--code-preview-token-punctuation-mark)">\\(</span><span style="color:var(--code-preview-foreground)">longitude</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span>°E<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">)</span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">"</span>Elevation: <span style="color:var(--code-preview-token-punctuation-mark)">\\(</span><span style="color:var(--code-preview-foreground)">elevation</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span>m asl<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">)</span></span>`;
+	if (params.timezone) {
+		c += `
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">"</span>Timezone: <span style="color:var(--code-preview-token-punctuation-mark)">\\(</span><span style="color:var(--code-preview-foreground)">timezone</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span> <span style="color:var(--code-preview-token-punctuation-mark)">\\(</span><span style="color:var(--code-preview-foreground)">timezoneAbbreviation</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">)</span></span>`;
+	}
+	c += `
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">"</span>Timezone difference to GMT+0: <span style="color:var(--code-preview-token-punctuation-mark)">\\(</span><span style="color:var(--code-preview-foreground)">utcOffsetSeconds</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span>s<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">)</span></span>`;
+	if (numberOfModels) {
+		c += `
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">"</span>Model Nº: <span style="color:var(--code-preview-token-punctuation-mark)">\\(</span><span style="color:var(--code-preview-foreground)">response<span style="color:var(--code-preview-token-punctuation-mark)">.</span>model</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">)</span></span>`;
+	}
+	c += `
 ${t ? '\t' : ''}<span class="line"></span>`;
 
 	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
@@ -119,25 +139,38 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foregro
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">dateFormatter<span style="color:var(--code-preview-token-punctuation-mark)">.</span>dateFormat </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-token-string-expression)"> <span style="color:var(--code-preview-token-punctuation-mark)">"</span>yyyy-MM-dd HH:mm<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span></span>
 ${t ? '\t' : ''}<span class="line"></span>`;
 
-	for (const section of ['minutely_15', 'hourly', 'daily', 'six_hourly']) {
+	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
 		const sect = params[section];
 		if (sect) {
-			c += `
+			if (section === 'current') {
+				c += `
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">"</span>Current time: <span style="color:var(--code-preview-token-punctuation-mark)">\\(</span><span style="color:var(--code-preview-foreground)">data<span style="color:var(--code-preview-token-punctuation-mark)">.</span>current<span style="color:var(--code-preview-token-punctuation-mark)">.</span>time</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">)</span></span>`;
+				if (sect.constructor === Array) {
+					for (const [ind, variable] of sect.entries()) {
+						c += `
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">"</span>Current ${variable}: <span style="color:var(--code-preview-token-punctuation-mark)">\\(</span><span style="color:var(--code-preview-foreground)">data<span style="color:var(--code-preview-token-punctuation-mark)">.</span>current<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${variable}</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">)</span></span>`;
+					}
+				} else if (typeof sect === 'string') {
+					c += `
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">"</span>Current ${sect}: <span style="color:var(--code-preview-token-punctuation-mark)">\\(</span><span style="color:var(--code-preview-foreground)">data<span style="color:var(--code-preview-token-punctuation-mark)">.</span>current<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${sect}</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">)</span></span>`;
+				}
+			} else {
+				c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword-special);font-style:italic;">for</span><span style="color:var(--code-preview-token-punctuation-mark)"> (</span><span style="color:var(--code-preview-token-variable)">i, date</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span><span style="color:var(--code-preview-token-keyword-special);font-style:italic;"> in</span><span style="color:var(--code-preview-foreground)"> data<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${section}<span style="color:var(--code-preview-token-punctuation-mark)">.</span>time<span style="color:var(--code-preview-token-punctuation-mark)">.</span></span><span style="color:var(--code-preview-token-function)">enumerated</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span><span style="color:var(--code-preview-token-punctuation-mark)"> {</span></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">	print</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-variable)">dateFormatter<span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">string</span></span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-function)">from</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-variable)"> date</span><span style="color:var(--code-preview-token-punctuation-mark)">))</span></span>`;
-
-			if (sect.constructor === Array) {
-				for (const [ind, variable] of sect.entries()) {
-					c += `
+				if (sect.constructor === Array) {
+					for (const [ind, variable] of sect.entries()) {
+						c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">	print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-variable)">data<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${section}<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${variable}</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-variable)">i</span><span style="color:var(--code-preview-token-punctuation-mark)">])</span></span>`;
-				}
-			} else if (typeof sect === 'string') {
-				c += `
+					}
+				} else if (typeof sect === 'string') {
+					c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">	print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-variable)">data<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${section}<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${sect}</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-variable)">i</span><span style="color:var(--code-preview-token-punctuation-mark)">])</span></span>`;
-			}
+				}
 
-			c += `
+				c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-punctuation-mark)">}</span></span>`;
+			}
 		}
 	}
 

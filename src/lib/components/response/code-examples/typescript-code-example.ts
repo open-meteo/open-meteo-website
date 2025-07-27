@@ -103,7 +103,7 @@ ${t ? '\t' : ''}<span class="line"></span>`;
 		if (sect) {
 			c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> ${section}</span><span style="color:var(--code-preview-token-punctuation-mark)"> =</span><span style="color:var(--code-preview-token-variable)"> response</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${section}</span><span style="color:var(--code-preview-foreground)">()</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-foreground)"><span style="color:var(--code-preview-token-punctuation-mark)">;</span></span></span>`;
-			if (sdk_type === 'ensemble_api') {
+			if (sdk_type === 'ensemble_api' && section !== 'current') {
 				c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> ${section}Variables</span><span style="color:var(--code-preview-token-punctuation-mark)"> =</span><span style="color:var(--code-preview-foreground)"> [</span><span style="color:var(--code-preview-token-punctuation-mark)">...</span><span style="color:var(--code-preview-token-function)">Array</span><span style="color:var(--code-preview-foreground)">(</span><span style="color:var(--code-preview-token-variable)">${section}</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>variablesLength</span><span style="color:var(--code-preview-foreground)">())]</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>map</span><span style="color:var(--code-preview-foreground)">(<span style="color:var(--code-preview-token-punctuation-mark)">(</span>_</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span><span style="color:var(--code-preview-foreground);font-style:italic;"> i<span style="color:var(--code-preview-token-punctuation-mark)">)</span> </span><span style="color:var(--code-preview-token-punctuation-mark)">=&gt;</span></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-variable)">	${section}</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>variables</span><span style="color:var(--code-preview-foreground)">(i)</span><span style="color:var(--code-preview-token-punctuation)">,</span></span>
@@ -111,11 +111,117 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foregro
 				if (sect.constructor === Array) {
 					for (const [ind, variable] of sect.entries()) {
 						c += `
-${t ? '\t' : ''}<span class="line"><span class="line"><span class="line"><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section + '_' + variable)}</span><span style="color:var(--code-preview-token-punctuation-mark)"> =</span><span style="color:var(--code-preview-token-variable)"> ${section}</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>variables</span><span style="color:var(--code-preview-foreground)">(</span><span style="color:var(--code-preview-token-constant)">${ind}</span><span style="color:var(--code-preview-foreground)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${section === 'current' ? 'value' : 'valuesArray'}</span><span style="color:var(--code-preview-foreground)">()</span><span style="color:var(--code-preview-token-punctuation)">,</span></span>`;
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section + '_' + variable)}</span><span style="color:var(--code-preview-token-punctuation-mark)"> =</span><span style="color:var(--code-preview-token-variable)"> ${section}Variables</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>filter</span><span style="color:var(--code-preview-foreground)">(</span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	<span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="font-style:italic">v</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span> </span><span style="color:var(--code-preview-token-keyword)">=&gt; </span>`;
+						const regex =
+							/(?<variable>[a-z_]+)_(((?<altitude>[0-9]+)m)|((?<pressure>[0-9]+)hPa)|((?<depth>[0-9]+)cm)|((?<depth_from>[0-9]+)_to_(?<depth_to>[0-9]+)cm))_?(?<aggregation>max|min|mean|p[0-9]{2}|dominant)?/;
+						const matches = regex.exec(variable);
+						if (matches == null || matches.groups == null) {
+							c += `<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>variable</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-variable)"> Variable</span><span style="color:var(--code-preview-foreground)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${variable}</span>`;
+						} else {
+							const groups = matches.groups;
+							const results = [
+								`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>variable</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-variable)"> Variable</span><span style="color:var(--code-preview-foreground)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${groups.variable}</span>`
+							];
+							if (groups.altitude) {
+								results.push(
+									`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>altitude</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-constant)"> ${groups.altitude}</span>`
+								);
+							}
+							if (groups.pressure) {
+								results.push(
+									`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>pressureLevel</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-constant)"> ${groups.pressure}</span>`
+								);
+							}
+							if (groups.depth) {
+								results.push(
+									`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>depth</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-constant)"> ${groups.depth}</span>`
+								);
+							}
+							if (groups.depth_from) {
+								results.push(
+									`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>depth</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-constant)"> ${groups.depth}</span>`
+								);
+								results.push(
+									`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>depthTo</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-constant)"> ${groups.depth_to}</span>`
+								);
+							}
+							if (groups.aggregation) {
+								let aggregation = groups.aggregation;
+								if (aggregation == 'max') {
+									aggregation = 'maximum';
+								}
+								if (aggregation == 'min') {
+									aggregation = 'minimum';
+								}
+								results.push(
+									`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>aggregation</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-variable)"> Aggregation<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${aggregation}</span>`
+								);
+							}
+							c += results.join(
+								` <span style="color:var(--code-preview-token-punctuation-mark)">&amp;&amp;</span> `
+							);
+						}
+
+						c += `<span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
+						c += `
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">)<span style="color:var(--code-preview-token-punctuation-mark)">;</span></span></span>`;
 					}
 				} else if (typeof sect === 'string') {
 					c += `
-${t ? '\t' : ''}<span class="line"><span class="line"><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section + '_' + sect)}</span><span style="color:var(--code-preview-token-punctuation-mark)"> =</span><span style="color:var(--code-preview-token-variable)"> ${section}</span><span style="color:var(--code-preview-token-function)">.variables</span><span style="color:var(--code-preview-foreground)">(</span><span style="color:var(--code-preview-token-constant)">0</span><span style="color:var(--code-preview-foreground)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${section === 'current' ? 'value' : 'valuesArray'}</span><span style="color:var(--code-preview-foreground)">()</span><span style="color:var(--code-preview-token-punctuation)">,</span></span>`;
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section + '_' + sect)}</span><span style="color:var(--code-preview-token-punctuation-mark)"> =</span><span style="color:var(--code-preview-token-variable)"> ${section}Variables</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>filter</span><span style="color:var(--code-preview-foreground)">(</span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	<span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="font-style:italic">v</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span> </span><span style="color:var(--code-preview-token-keyword)">=&gt; </span>`;
+					const regex =
+						/(?<variable>[a-z_]+)_(((?<altitude>[0-9]+)m)|((?<pressure>[0-9]+)hPa)|((?<depth>[0-9]+)cm)|((?<depth_from>[0-9]+)_to_(?<depth_to>[0-9]+)cm))_?(?<aggregation>max|min|mean|p[0-9]{2}|dominant)?/;
+					const matches = regex.exec(sect);
+					if (matches == null || matches.groups == null) {
+						c += `<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>variable</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-variable)"> Variable</span><span style="color:var(--code-preview-foreground)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${sect}</span>`;
+					} else {
+						const groups = matches.groups;
+						const results = [
+							`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>variable</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-variable)"> Variable</span><span style="color:var(--code-preview-foreground)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${groups.variable}</span>`
+						];
+						if (groups.altitude) {
+							results.push(
+								`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>altitude</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-constant)"> ${groups.altitude}</span>`
+							);
+						}
+						if (groups.pressure) {
+							results.push(
+								`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>pressureLevel</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-constant)"> ${groups.pressure}</span>`
+							);
+						}
+						if (groups.depth) {
+							results.push(
+								`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>depth</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-constant)"> ${groups.depth}</span>`
+							);
+						}
+						if (groups.depth_from) {
+							results.push(
+								`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>depth</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-constant)"> ${groups.depth}</span>`
+							);
+							results.push(
+								`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>depthTo</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-constant)"> ${groups.depth_to}</span>`
+							);
+						}
+						if (groups.aggregation) {
+							let aggregation = groups.aggregation;
+							if (aggregation == 'max') {
+								aggregation = 'maximum';
+							}
+							if (aggregation == 'min') {
+								aggregation = 'minimum';
+							}
+							results.push(
+								`<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>aggregation</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-variable)"> Aggregation<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${aggregation}</span>`
+							);
+						}
+						c += results.join(
+							` <span style="color:var(--code-preview-token-punctuation-mark)">&amp;&amp;</span> `
+						);
+					}
+					c += `<span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">)<span style="color:var(--code-preview-token-punctuation-mark)">;</span></span></span>`;
 				}
 				c += `
 ${t ? '\t' : ''}<span class="line"></span>`;
@@ -203,6 +309,33 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-s
 	}
 	c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-string-key)"><span style="color:var(--code-preview-token-bracket)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">;</span></span></span>`;
+
+	if (sdk_type === 'ensemble_api') {
+		c += `
+${t ? '\t' : ''}<span class="line"></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic">// Process all members</span></span>`;
+
+		for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+			const sect = params[section];
+			if (sect) {
+				if (sect.constructor === Array) {
+					for (const [ind, variable] of sect.entries()) {
+						c += `
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword-special);font-style:italic;">for</span><span style="color:var(--code-preview-foreground)"> (</span><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> variable</span><span style="color:var(--code-preview-token-keyword-special)"> of</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section + '_' + variable)}) <span style="color:var(--code-preview-token-punctuation-mark)">{</span></span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">	const</span><span style="color:var(--code-preview-token-variable)"> member</span><span style="color:var(--code-preview-token-keyword)"> <span style="color:var(--code-preview-token-punctuation-mark)">=</span></span><span style="color:var(--code-preview-token-variable)"> variable</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>ensembleMember</span><span style="color:var(--code-preview-foreground)">()<span style="color:var(--code-preview-token-punctuation-mark)">;</span></span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-variable)">	weatherData</span><span style="color:var(--code-preview-foreground)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${section}[</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">\`</span>${variable}_member<span style="color:var(--code-preview-token-punctuation-mark)">\${</span><span style="color:var(--code-preview-foreground)">member</span><span style="color:var(--code-preview-token-punctuation-mark)">}\`</span></span><span style="color:var(--code-preview-foreground)">] </span><span style="color:var(--code-preview-token-punctuation-mark)">= </span><span style="color:var(--code-preview-foreground)">variable</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${INT_64_VARIABLES.includes(variable) ? 'valuesInt64Array' : 'valuesArray'}</span><span style="color:var(--code-preview-foreground)">()</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-token-punctuation-mark)">;</span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-punctuation-mark)">}</span></span>`;
+					}
+				} else if (typeof sect === 'string') {
+					c += `
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword-special);font-style:italic;">for</span><span style="color:var(--code-preview-foreground)"> (</span><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> variable</span><span style="color:var(--code-preview-token-keyword-special)"> of</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section + '_' + sect)}) <span style="color:var(--code-preview-token-punctuation-mark)">{</span></span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">	const</span><span style="color:var(--code-preview-token-variable)"> member</span><span style="color:var(--code-preview-token-keyword)"> <span style="color:var(--code-preview-token-punctuation-mark)">=</span></span><span style="color:var(--code-preview-token-variable)"> variable</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>ensembleMember</span><span style="color:var(--code-preview-foreground)">()<span style="color:var(--code-preview-token-punctuation-mark)">;</span></span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-variable)">	weatherData</span><span style="color:var(--code-preview-foreground)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${section}[</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">\`</span>${sect}_member<span style="color:var(--code-preview-token-punctuation-mark)">\${</span><span style="color:var(--code-preview-foreground)">member</span><span style="color:var(--code-preview-token-punctuation-mark)">}\`</span></span><span style="color:var(--code-preview-foreground)">] </span><span style="color:var(--code-preview-token-punctuation-mark)">= </span><span style="color:var(--code-preview-foreground)">variable</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${INT_64_VARIABLES.includes(sect) ? 'valuesInt64Array' : 'valuesArray'}</span><span style="color:var(--code-preview-foreground)">()</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-token-punctuation-mark)">;</span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-punctuation-mark)">}</span></span>`;
+				}
+			}
+		}
+	}
 
 	c += `
 ${t ? '\t' : ''}<span class="line"></span>

@@ -92,7 +92,7 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-f
 		if (sect) {
 			c += `
 ${t ? '\t' : ''}<span class="line"></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process ${titleCase(section)} data. The order of variables needs to be the same as requested.</span></span>
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process ${section} data. The order of variables needs to be the same as requested.</span></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> response</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">${titleCase(section)}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
 			if (sdk_type == 'ensemble_api') {
 				c += `
@@ -183,7 +183,7 @@ ${t ? '\t' : ''}<span class="line"></span>`;
 			if (section !== 'current') {
 				if (sdk_type == 'ensemble_api') {
 					c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process all members</span></span>`;
+${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process all ${section} members</span></span>`;
 					if (sect.constructor === Array) {
 						for (const variable of sect) {
 							c += `
