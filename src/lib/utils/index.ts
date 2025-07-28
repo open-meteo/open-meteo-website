@@ -32,8 +32,15 @@ export function debounce(func, timeout = 100) {
 export function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
 	const diff: Partial<T> = {};
 	for (const key in a) {
-		if (a[key] && a[key] != '' && a[key] !== b[key]) {
+		if (isNumeric(a[key])) {
+			if (isNumeric(b[key]) && Number(a[key]) === Number(b[key])) {
+				continue;
+			}
 			diff[key] = a[key];
+		} else {
+			if (a[key] && a[key] != '' && a[key] !== b[key]) {
+				diff[key] = a[key];
+			}
 		}
 	}
 	return diff;
