@@ -1,7 +1,6 @@
 <script lang="ts">
-	import type { WithElementRef } from 'bits-ui';
 	import type { HTMLAttributes } from 'svelte/elements';
-	import { cn } from '$lib/utils/ui.js';
+	import { cn, type WithElementRef } from '$lib/utils/ui.js';
 
 	let {
 		ref = $bindable(null),
@@ -11,6 +10,11 @@
 	}: WithElementRef<HTMLAttributes<HTMLDivElement>> = $props();
 </script>
 
-<div bind:this={ref} class={cn('', className)} {...restProps}>
+<div
+	bind:this={ref}
+	data-slot="alert-description"
+	class={cn('gap-1 [&_p]:leading-relaxed', className)}
+	{...restProps}
+>
 	{@render children?.()}
 </div>

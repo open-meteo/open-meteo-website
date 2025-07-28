@@ -1,6 +1,9 @@
 @import 'tailwindcss';
+/* @import 'tw-animate-css'; */
 
 @config '../tailwind.config.ts';
+
+@custom-variant dark (&:is(.dark *));
 
 @layer base {
 	:root {
@@ -46,6 +49,38 @@
 		--radius: 0.5rem;
 
 		--mark-color: 45 100% 90.27%;
+
+		--code-preview-foreground: #90a4ae;
+		--code-preview-background: #fafafa;
+		--code-preview-token-constant: #f76d47;
+		--code-preview-token-string: #000;
+		--code-preview-token-comment: #bac8cf;
+		--code-preview-token-keyword: #39adb5;
+		--code-preview-token-parameter: #90a4ae;
+		--code-preview-token-function: #6182b8;
+		--code-preview-token-string-expression: #91b859;
+		--code-preview-token-punctuation: #6182b8;
+		--code-preview-token-link: #000;
+		--code-preview-token-bracket: #39adb5;
+		--code-preview-token-punctuation-mark: #39adb5;
+		--code-preview-token-accent: #9c3eda;
+	}
+
+	.javascript {
+		--code-preview-token-variable: #90a4ae;
+		--code-preview-token-keyword-special: #39adb5;
+		--code-preview-token-bracket-special: #e53935;
+		--code-preview-token-keyword: #9c3eda;
+		--code-preview-token-string-key: #e53935;
+	}
+
+	.swift {
+		--code-preview-token-constant: #e2931d;
+		--code-preview-token-variable: #90a4ae;
+		--code-preview-token-keyword-special: #39adb5;
+		--code-preview-token-bracket-special: #e53935;
+		--code-preview-token-keyword: #f76d47;
+		--code-preview-token-string-key: #e53935;
 	}
 
 	.dark {
@@ -86,6 +121,39 @@
 		--ring: 212.7 26.8% 83.9%;
 
 		--mark-color: 45 94.66% 20.55%;
+
+		--code-preview-foreground: #eeffff;
+		--code-preview-background: #212121;
+		--code-preview-token-constant: #f78c6c;
+		--code-preview-token-string: #000;
+		--code-preview-token-comment: #888;
+		--code-preview-token-keyword: #89ddff;
+		--code-preview-token-parameter: #90a4ae;
+		--code-preview-token-function: #82aaff;
+		--code-preview-token-string-expression: #c3e88d;
+		--code-preview-token-punctuation: #82aaff;
+		--code-preview-token-link: #000;
+		--code-preview-token-bracket: #89ddff;
+		--code-preview-token-punctuation-mark: #89ddff;
+		--code-preview-token-accent: #c792ea;
+	}
+
+	.dark .javascript {
+		--code-preview-token-keyword: #c792ea;
+		--code-preview-token-function: #82aaff;
+
+		--code-preview-token-variable: #eeffff;
+		--code-preview-token-string-key: #f07178;
+		--code-preview-token-keyword-special: #89ddff;
+		--code-preview-token-bracket-special: #e53935;
+	}
+
+	.dark .swift {
+		--code-preview-token-constant: #ffcb6b;
+		--code-preview-token-keyword: #f78c6c;
+
+		--code-preview-token-variable: #eeffff;
+		--code-preview-token-keyword-special: #89ddff;
 	}
 }
 
@@ -93,7 +161,13 @@
 	--drop-shadow-logo: 3px 3px 2px rgba(0, 0, 0, 0.7);
 }
 
-html {
+@layer base {
+	body {
+		@apply bg-background text-foreground font-sans;
+	}
+}
+
+body {
 	overflow-y: overlay;
 	scroll-behavior: smooth;
 }
@@ -177,12 +251,6 @@ h2.clickable:hover::after {
 	}
 }
 
-@layer base {
-	body {
-		@apply bg-background text-foreground font-sans;
-	}
-}
-
 p a,
 tbody a {
 	@apply text-link underline underline-offset-2 duration-200;
@@ -197,8 +265,22 @@ p:not(:last-child) {
 	@apply mb-3;
 }
 
-.dark .shiki,
-.dark .shiki span {
+pre {
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+	padding: 1rem 1.6rem;
+	background: #fafafa !important;
+	color: #90a4ae !important;
+}
+
+.dark pre {
+	background: #212121 !important;
+	color: #eeffff !important;
+}
+
+.dark .pregenerated-code .shiki,
+.dark .pregenerated-code .shiki span {
 	color: var(--shiki-dark) !important;
 	background-color: var(--shiki-dark-bg) !important;
 	font-style: var(--shiki-dark-font-style) !important;
@@ -206,11 +288,7 @@ p:not(:last-child) {
 	text-decoration: var(--shiki-dark-text-decoration) !important;
 }
 
-.shiki {
-	@apply rounded-xl px-4 py-6;
-}
-
-.code-numbered .shiki {
+.code-numbered pre {
 	padding-left: calc(var(--spacing) * 8);
 }
 
@@ -230,7 +308,7 @@ p:not(:last-child) {
 	color: rgba(115, 138, 148, 0.5);
 }
 
-.curl .shiki span > span {
+.curl pre span > span {
 	transition: 200ms;
 }
 
@@ -247,13 +325,13 @@ p:not(:last-child) {
 	padding-left: 0;
 }
 
-.curl .shiki {
+.curl pre {
 	padding-top: 0;
 	padding-bottom: 0;
 	background-color: transparent !important;
 }
 
-.curl .shiki code {
+.curl pre code {
 	text-wrap: wrap;
 	display: -webkit-box;
 	word-break: break-word;

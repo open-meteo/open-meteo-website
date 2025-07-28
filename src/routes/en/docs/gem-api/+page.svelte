@@ -25,7 +25,7 @@
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
@@ -129,7 +129,20 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/gem-api" />
 </svelte:head>
 
-<Alert.Root class="border-border mb-4">
+<Alert.Root variant="info" class="mb-4">
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="24"
+		height="24"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="2"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		class="lucide lucide-info-icon lucide-info"
+		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
+	>
 	<Alert.Description>
 		The API utilizes GEM models from the Canadian Meteorological Center, optimized for North
 		America. However, updates every 6 hours may not reflect the latest weather developments. For
@@ -733,7 +746,7 @@
 		</div>
 		{#if timezoneInvalid}
 			<div transition:slide>
-				<Alert.Root class="bg-warning text-warning-dark border-warning-foreground mt-2 md:mt-4">
+				<Alert.Root variant="warning" class="mt-2 md:mt-4">
 					<Alert.Description>
 						It is recommended to select a timezone for daily data. Per default the API will use
 						GMT+0.
@@ -1577,7 +1590,7 @@
 	<div class="mt-2 md:mt-4">
 		<p class="">On success a JSON object will be returned.</p>
 		<div
-			class="code-numbered -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+			class="pregenerated-code code-numbered -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<WeatherForecastObject />
 		</div>
@@ -1677,7 +1690,7 @@
 			object is returned with a HTTP 400 status code.
 		</p>
 		<div
-			class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+			class="pregenerated-code -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 		>
 			<WeatherForecastError />
 		</div>

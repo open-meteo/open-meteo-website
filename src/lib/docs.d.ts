@@ -1,4 +1,6 @@
 export interface Parameters {
+	[index: string];
+
 	latitude?: Array<number>;
 	longitude?: Array<number>;
 
@@ -10,8 +12,9 @@ export interface Parameters {
 	minutely_15?: Array<string>;
 
 	timezone?: string;
-	location_mode?: string;
+	location_mode?: 'location_search' | 'csv_coordinates' | 'bounding_box';
 	csv_coordinates?: string;
+	bounding_box?: string;
 
 	time_mode?: string;
 	past_days?: string;
@@ -42,4 +45,10 @@ export interface Parameters {
 	language?: string;
 
 	countryCode?: string;
+}
+
+export interface APIKeyPreferences {
+	use: string;
+	apikey: string;
+	self_host_server: string;
 }

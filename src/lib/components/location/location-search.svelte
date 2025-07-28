@@ -16,7 +16,7 @@
 	}
 
 	const dispatch = createEventDispatcher();
-	let debounceTimeout: number | undefined;
+	let debounceTimeout: ReturnType<typeof setTimeout> | undefined;
 	let searchQuery = '';
 
 	onDestroy(() => {
@@ -158,8 +158,7 @@
 		<Dialog.Overlay class="bg-black/5" />
 
 		<Dialog.Content
-			preventScroll={true}
-			class="border-border top-[10%] flex min-h-[400px] translate-y-0 flex-col sm:max-w-[600px]"
+			class="border-border top-[10%] flex max-h-[calc(100vh-10%)] min-h-[400px] translate-y-0 flex-col overflow-y-auto sm:max-w-[600px]"
 		>
 			<Dialog.Header>
 				<Dialog.Title>Search Locations</Dialog.Title>
@@ -214,7 +213,7 @@
 							{#if $favorites.length > 0}
 								<h6 class="text-muted-foreground mt-4 mb-4 text-xl">Favorites</h6>
 								<div id="location_search_favorites" class="border-border rounded-lg border">
-									{#each $favorites as location, i}
+									{#each $favorites as location, i (i)}
 										<Button
 											variant="outline"
 											class="location-search-favorite flex h-[unset] w-full justify-between gap-0 rounded-none py-2 pr-1 pl-3 not-last:border-b md:pr-2 {i ===
@@ -239,8 +238,9 @@
 
 												<div class="text-muted-foreground truncate text-left text-sm">
 													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
-													{location.longitude.toFixed(2)}°E{#if location.elevation}
-														{+' ' + location.elevation.toFixed(0)}m asl{/if})
+													{location.longitude.toFixed(2)}°E{#if location.elevation}{' ' +
+															location.elevation.toFixed(0) +
+															'm asl'}{/if})
 												</div>
 											</div>
 
@@ -309,7 +309,7 @@
 							{#if $last_visited.length > 0}
 								<h6 class="text-muted-foreground mt-4 mb-4 text-xl">Recent Locations</h6>
 								<div id="location_search_last_visited" class="border-border rounded-lg border">
-									{#each $last_visited as location, i}
+									{#each $last_visited as location, i (i)}
 										<Button
 											variant="outline"
 											class="location-search-last-visited flex h-[unset] w-full justify-between gap-0 rounded-none py-2 pr-1 pl-3 not-last:border-b md:pr-2 {i ===
@@ -335,8 +335,9 @@
 												<div class="text-muted-foreground truncate text-left text-sm">
 													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
 														2
-													)}°E{#if location.elevation}
-														{+' ' + location.elevation.toFixed(0)}m asl{/if})
+													)}°E{#if location.elevation}{' ' +
+															location.elevation.toFixed(0) +
+															'm asl'}{/if})
 												</div>
 											</div>
 
@@ -439,7 +440,7 @@
 					{:else}
 						<div class="list-group mt-4">
 							<div id="location_search_results" class="border-border rounded-lg border">
-								{#each results.results || [] as location, i}
+								{#each results.results || [] as location, i (i)}
 									<Button
 										variant="outline"
 										class="location-search-result flex h-[unset] w-full justify-between gap-0 rounded-none py-2 pr-1 pl-3 not-last:border-b md:pr-2 {i ===
@@ -467,8 +468,9 @@
 											<div class="text-muted-foreground truncate text-left text-sm">
 												{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
 													2
-												)}°E{#if location.elevation}
-													{+' ' + location.elevation.toFixed(0)}m asl{/if})
+												)}°E{#if location.elevation}{' ' +
+														location.elevation.toFixed(0) +
+														'm asl'}{/if})
 											</div>
 										</div>
 										<div class="-mr-1 flex justify-self-end">

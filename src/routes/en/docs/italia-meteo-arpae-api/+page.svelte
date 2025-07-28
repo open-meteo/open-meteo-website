@@ -24,7 +24,7 @@
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import ResultPreview from '$lib/components/highcharts/result-preview.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
@@ -667,7 +667,7 @@
 		</div>
 		{#if timezoneInvalid}
 			<div transition:slide>
-				<Alert.Root class="bg-warning text-warning-dark border-warning-foreground mt-2 md:mt-4">
+				<Alert.Root variant="warning" class="mt-2 md:mt-4">
 					<Alert.Description>
 						It is recommended to select a timezone for daily data. Per default the API will use
 						GMT+0.
