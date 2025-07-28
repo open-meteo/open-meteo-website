@@ -157,17 +157,6 @@
 		`${server}?${new URLSearchParams(parsedParams)}`.replaceAll('%2C', ',')
 	);
 
-	let sectionsWithData = $derived(
-		['current', 'minutely_15', 'hourly', 'daily', 'six_hourly'].filter(
-			(v) => v in $params && $params[v].length > 0
-		)
-	);
-	let sectionsArrayWithData = $derived(
-		['minutely_15', 'hourly', 'daily', 'six_hourly'].filter(
-			(v) => v in $params && $params[v].length > 0
-		)
-	);
-
 	/// Adjusted call weight
 	let callWeight = $derived(
 		((params) => {
