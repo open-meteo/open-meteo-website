@@ -1162,6 +1162,7 @@
 						<td>Central Europe</td>
 						<td>2 km</td>
 						<td>1-Hourly</td>
+						<td>Every 6 hours</td>
 						<td>2025-07-29</td>
 					</tr>
 				</tbody>
