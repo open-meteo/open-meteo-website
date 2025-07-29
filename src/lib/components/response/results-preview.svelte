@@ -20,11 +20,15 @@
 
 	import { jsonToChart } from './highcharts/json-to-chart';
 
+	import { javaCodeExample } from './code-examples/java-code-example';
 	import { swiftCodeExample } from './code-examples/swift-code-example';
+	import { cSharpCodeExample } from './code-examples/c-sharp-code-example';
 	import { pythonCodeExample } from './code-examples/python-code-example';
 	import { typescriptCodeExample } from './code-examples/typescript-code-example';
 
+	import { javaInstallCode } from './installs/java-install-code';
 	import { swiftInstallCode } from './installs/swift-install-code';
+	import { cSharpInstallCode } from './installs/c-sharp-install-code';
 	import { pythonInstallCode } from './installs/python-install-code';
 	import { typescriptInstallCode } from './installs/typescript-install-code';
 
@@ -356,6 +360,30 @@
 		)
 	);
 
+	let javaCode = $derived.by(() =>
+		javaCodeExample(
+			parsedParams,
+			multipleLocationsOrModels,
+			numberOfLocations,
+			numberOfModels,
+			server,
+			sdk_type,
+			previewUrl
+		)
+	);
+
+	let cSharpCode = $derived.by(() =>
+		cSharpCodeExample(
+			parsedParams,
+			multipleLocationsOrModels,
+			numberOfLocations,
+			numberOfModels,
+			server,
+			sdk_type,
+			previewUrl
+		)
+	);
+
 	let mode = $state('chart');
 </script>
 
@@ -398,6 +426,20 @@
 					Swift
 				</ToggleGroup.Item>
 			{/if}
+			<ToggleGroup.Item
+				value="java"
+				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
+				disabled={mode === 'java'}
+			>
+				Java
+			</ToggleGroup.Item>
+			<ToggleGroup.Item
+				value="c_sharp"
+				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
+				disabled={mode === 'c_sharp'}
+			>
+				C#
+			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="other"
 				class="min-h-12 cursor-pointer rounded-s-none opacity-100! lg:min-h-[unset]"
@@ -684,6 +726,48 @@
 					class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 				>
 					{@html swiftCode}
+				</div>
+			</div>
+		</div>
+	{/if}
+	<!-- JAVA -->
+	{#if mode == 'java'}
+		<div in:fade>
+			<div>
+				<p>Java</p>
+				<h4 class="text-xl md:text-2xl">Install</h4>
+				<p class="my-3">?</p>
+				<div
+					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+				>
+					{@html javaInstallCode}
+				</div>
+				<h4 class="text-xl md:text-2xl">Usage</h4>
+				<div
+					class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+				>
+					{@html javaCode}
+				</div>
+			</div>
+		</div>
+	{/if}
+	<!-- C# -->
+	{#if mode == 'c_sharp'}
+		<div in:fade>
+			<div>
+				<p>C#</p>
+				<h4 class="text-xl md:text-2xl">Install</h4>
+				<p class="my-3">?</p>
+				<div
+					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+				>
+					{@html cSharpInstallCode}
+				</div>
+				<h4 class="text-xl md:text-2xl">Usage</h4>
+				<div
+					class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+				>
+					{@html cSharpCode}
 				</div>
 			</div>
 		</div>
