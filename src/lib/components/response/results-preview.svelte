@@ -629,7 +629,9 @@
 				</div>
 
 				<h4 class="text-xl md:text-2xl">Usage</h4>
-				<div class="code-wrapper mt-2 w-full overflow-auto rounded-lg md:mt-4">
+				<div
+					class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+				>
 					{@html pythonCode}
 				</div>
 			</div>
