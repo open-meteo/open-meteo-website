@@ -734,9 +734,21 @@
 	{#if mode == 'java'}
 		<div in:fade>
 			<div>
-				<p>Java</p>
+				<p>
+					The preview code applies all parameters above automatically and structures weather data
+					into an easily usable object. More information and examples are available on <a
+						href="https://github.com/open-meteo/sdk/tree/main/swift">GitHub</a
+					>.
+				</p>
+
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<p class="my-3">?</p>
+				<p class="my-3">
+					The Open-Meteo SDK ist available on Maven Central <a
+						aria-label="Package link Java"
+						href="https://central.sonatype.com/artifact/com.open-meteo/sdk">com.open-meteo/sdk</a
+					><br /><br />
+					<code>build.gradle.kts</code>
+				</p>
 				<div
 					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 				>
@@ -755,9 +767,19 @@
 	{#if mode == 'c_sharp'}
 		<div in:fade>
 			<div>
-				<p>C#</p>
+				<p>
+					The preview code applies all parameters above automatically and structures weather data
+					into an easily usable object. More information and examples are available on <a
+						href="https://github.com/open-meteo/sdk/tree/main/swift">GitHub</a
+					>.
+				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
-				<p class="my-3">?</p>
+				<p class="my-3">
+					The Open-Meteo SDK ist available on
+					<a aria-label="Package link C#" href="https://www.nuget.org/packages/openmeteo_sdk"
+						>nuget</a
+					>
+				</p>
 				<div
 					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 				>
