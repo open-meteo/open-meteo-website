@@ -136,7 +136,7 @@
 			</Button>
 
 			<ul
-				class={`list-unstyled duration-500 ${mobileNavOpened ? 'mt-2 max-h-[968px] md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
+				class={`list-unstyled duration-500 ${mobileNavOpened ? 'mt-2 max-h-[1400px] pb-3 md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
 			>
 				{#each links as link, i (i)}
 					<li
