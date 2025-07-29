@@ -761,6 +761,12 @@
 				borders to eliminate edge artifacts.
 			</li>
 			<li>
+				<strong>Precipitation:</strong> With the high spatial resolution of 1–2 km, the model captures
+				intense, convective showers. However, due to the highly localized nature of these events, actual
+				precipitation at a specific location may be over- or underestimated. Precipitation probability
+				is derived from all ensemble members to indicate the likelihood of precipitation occurring.
+			</li>
+			<li>
 				<strong>Direct Solar Radiation:</strong> The ICON models from MeteoSwiss include direct solar
 				radiation as a native output. In contrast, many other weather models only supply global radiation,
 				requiring users to estimate direct radiation via separation models.
@@ -781,7 +787,8 @@
 			</li>
 			<li>
 				<strong>CAPE and Convective Inhibition</strong> are calculated using mean-layer values, consistent
-				with other ICON domains.
+				with other ICON domains. Convective inhibition may be -1 indicating that the model could not
+				calculate convective inhibition.
 			</li>
 		</ul>
 	</div>
