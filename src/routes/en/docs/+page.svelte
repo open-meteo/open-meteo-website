@@ -1079,7 +1079,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/metno-api">ICON CH</a></th>
+						<th scope="row"><a href="/en/docs/meteoswiss-api">ICON CH</a></th>
 						<td>MeteoSwiss</td>
 						<td>Switzerland</td>
 						<td>1 - 2 km</td>
