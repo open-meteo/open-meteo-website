@@ -842,6 +842,23 @@
 						<td>8 days</td>
 						<td>Every 6 hours</td>
 					</tr>
+					<tr>
+						<th scope="row" rowspan="2">MeteoSwiss</th>
+						<td>ICON CH1</td>
+						<td>Central Europe</td>
+						<td>1 km, 1-hourly</td>
+						<td>11</td>
+						<td>33 hours</td>
+						<td>Every 3 hours</td>
+					</tr>
+					<tr>
+						<td>ICON CH2</td>
+						<td>Central Europe</td>
+						<td>2 km, 1-hourly</td>
+						<td>21</td>
+						<td>12 hours</td>
+						<td>Every 6 hours</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

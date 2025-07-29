@@ -1148,6 +1148,23 @@
 						<td>Every hour</td>
 						<td>2024-07-01</td>
 					</tr>
+					<tr>
+						<th scope="row" rowspan="2">MeteoSwiss</th>
+						<td>ICON CH1</td>
+						<td>Central Europe</td>
+						<td>1 km</td>
+						<td>1-Hourly</td>
+						<td>Every 3 hours</td>
+						<td>2025-07-29</td>
+					</tr>
+					<tr>
+						<td>ICON CH2</td>
+						<td>Central Europe</td>
+						<td>2 km</td>
+						<td>1-Hourly</td>
+						<td>Every 6 hours</td>
+						<td>2025-07-29</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

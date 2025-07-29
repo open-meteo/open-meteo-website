@@ -891,13 +891,15 @@
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<figure>
 			<img src="/images/models/gem_hrdps.webp" class="rounded-lg" alt="..." />
-			<figcaption class="text-muted-foreground">HRDPS Model Area. Source: Open-Meteo.</figcaption>
+			<figcaption class="text-muted-foreground">
+				HRDPS Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+			</figcaption>
 		</figure>
 
 		<figure>
 			<img src="/images/models/gem_rdps.webp" class="rounded-lg" alt="..." />
 			<figcaption class="text-muted-foreground">
-				RDPS Regional Model Area. Source: Open-Meteo.
+				RDPS Regional Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 			</figcaption>
 		</figure>
 	</div>
