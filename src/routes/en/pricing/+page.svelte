@@ -110,7 +110,7 @@
 				</tr>
 				<tr>
 					<th scope="row">Monthly Limit</th>
-					<td>&#x26a0;&#xfe0f; 300.000 calls / month</td>
+					<td>&#x274c;</td>
 					<td>&#x26a0;&#xfe0f; 1M calls / month</td>
 					<td>&#x26a0;&#xfe0f; 5M calls / month</td>
 					<td>&#x2705; >50M calls / month</td>
