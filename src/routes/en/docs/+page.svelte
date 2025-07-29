@@ -1079,12 +1079,44 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
+						<th scope="row"><a href="/en/docs/meteoswiss-api">ICON CH</a></th>
+						<td>MeteoSwiss</td>
+						<td>Switzerland</td>
+						<td>1 - 2 km</td>
+						<td>5 days</td>
+						<td>Every 3 hours</td>
+					</tr>
+					<tr>
 						<th scope="row"><a href="/en/docs/metno-api">MET Nordic</a></th>
 						<td>MET Norway</td>
 						<td>Norway</td>
 						<td>1 km</td>
 						<td>2.5 days</td>
 						<td>Every hour</td>
+					</tr>
+					<tr>
+						<th scope="row"><a href="/en/docs/gem-api">GEM</a></th>
+						<td>Canadian Weather Service</td>
+						<td>Canada</td>
+						<td>2.5 km</td>
+						<td>10 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"><a href="/en/docs/bom-api">ACCESS-G</a></th>
+						<td>Australian Bureau of Meteorology (BOM)</td>
+						<td>Australia</td>
+						<td>15 km</td>
+						<td>10 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"><a href="/en/docs/cma-api">GFS GRAPES</a></th>
+						<td>China Meteorological Administration (CMA)</td>
+						<td>China</td>
+						<td>15 km</td>
+						<td>10 days</td>
+						<td>Every 6 hours</td>
 					</tr>
 					<tr>
 						<th scope="row"><a href="/en/docs/knmi-api">HARMONIE</a></th>
@@ -1101,30 +1133,6 @@
 						<td>2 km</td>
 						<td>2.5 days</td>
 						<td>Every 3 hours</td>
-					</tr>
-					<tr>
-						<th scope="row"><a href="/en/docs/gem-api">GEM</a></th>
-						<td>Canadian Weather Service</td>
-						<td>Canada</td>
-						<td>2.5 km</td>
-						<td>10 days</td>
-						<td>Every 6 hours</td>
-					</tr>
-					<tr>
-						<th scope="row"><a href="/en/docs/cma-api">GFS GRAPES</a></th>
-						<td>China Meteorological Administration (CMA)</td>
-						<td>China</td>
-						<td>15 km</td>
-						<td>10 days</td>
-						<td>Every 6 hours</td>
-					</tr>
-					<tr>
-						<th scope="row"><a href="/en/docs/bom-api">ACCESS-G</a></th>
-						<td>Australian Bureau of Meteorology (BOM)</td>
-						<td>Australia</td>
-						<td>15 km</td>
-						<td>10 days</td>
-						<td>Every 6 hours</td>
 					</tr>
 					<tr>
 						<th scope="row"><a href="/en/docs/italia-meteo-arpae-api">ARPAE</a></th>

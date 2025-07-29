@@ -5,6 +5,6 @@ export const load = (() => {
 		heroTitle: 'Global Flood API',
 		heroDescription:
 			'Simulated river discharge at 5 km resolution from 1984 up to 7 months forecast',
-		heroImage: '/images/river.webp'
+		heroImage: '/images/backgrounds/river.webp'
 	};
 }) satisfies LayoutLoad;

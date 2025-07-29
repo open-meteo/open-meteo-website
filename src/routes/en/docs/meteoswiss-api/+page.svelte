@@ -18,8 +18,8 @@
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
@@ -43,8 +43,8 @@
 	} from '../options';
 
 	const params = urlHashStore({
-		latitude: [51.5085],
-		longitude: [-0.1257],
+		latitude: [47.37],
+		longitude: [8.55],
 		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
@@ -59,25 +59,25 @@
 	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
 	// Additional variable settings
-	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
 	let forecastHours = $derived(
 		forecastHoursOptions.find((fho) => String(fho.value) == $params.forecast_hours)
+	);
+	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
 	let cellSelection = $derived(
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
-	let temporalResolution = $derived(
-		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
-	);
 
-	let accordionValues: string[] = $state([]);
+	let accordionValues = $state([]);
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				(pastHours ? pastHours.value : false) ||
-				(cellSelection ? cellSelection.value : false) ||
-				(forecastHours ? forecastHours.value : false) ||
-				(temporalResolution ? temporalResolution.value : false)) &&
+				forecastHours.value ||
+				pastHours.value ||
+				temporalResolution.value ||
+				cellSelection.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -85,8 +85,8 @@
 
 		if (
 			(countVariables(solarVariables, $params.hourly).active ||
-				($params.tilt ? Number($params.tilt) > 0 : false) ||
-				($params.azimuth ? Number($params.azimuth) > 0 : false)) &&
+				$params.tilt > 0 ||
+				$params.azimuth > 0) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
@@ -101,17 +101,15 @@
 	begin_date.setMonth(begin_date.getMonth() - 3);
 
 	let last_date = new Date();
-	last_date.setDate(last_date.getDate() + 14);
+	last_date.setDate(last_date.getDate() + 8);
 </script>
 
 <svelte:head>
-	<title>UK Met Office API | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/kma-api" />
+	<title>MeteoSwiss ICON API | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/docs/meteoswiss-api" />
 </svelte:head>
 
-<div class="alert alert-warning" role="alert"></div>
-
-<form method="get" action="https://api.open-meteo.com/v1/forecast">
+<form method="get" action="https://api.open-meteo.com/v1/forecast?models=meteoswiss_icon_seamless">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
@@ -331,11 +329,11 @@
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
-											if (value && $params.hourly?.includes(value)) {
+											if ($params.hourly?.includes(value)) {
 												$params.hourly = $params.hourly.filter((item) => {
 													return item !== value;
 												});
-											} else if (value && $params.hourly) {
+											} else if ($params.hourly) {
 												$params.hourly.push(value);
 												$params.hourly = $params.hourly;
 											}
@@ -608,7 +606,7 @@
 		</div>
 		{#if timezoneInvalid}
 			<div transition:slide>
-				<Alert.Root variant="warning" class="mt-2 md:mt-4">
+				<Alert.Root class="bg-warning text-warning-dark border-warning-foreground mt-2 md:mt-4">
 					<Alert.Description>
 						It is recommended to select a timezone for daily data. Per default the API will use
 						GMT+0.
@@ -658,7 +656,7 @@
 			{/each}
 		</div>
 		<div class="text-muted-foreground mt-1">
-			Note: Current conditions are based on 1 or 3-hourly weather model data. Every weather variable
+			Note: Current conditions are based on 1 hourly weather model data. Every weather variable
 			available in hourly data, is available as current condition as well.
 		</div>
 	</div>
@@ -674,7 +672,7 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview {params} {defaultParameters} model_default="kma_seamless" />
+	<ResultPreview {params} {defaultParameters} model_default="meteoswiss_icon_ch1" />
 </div>
 
 <!-- DATA SOURCES -->
@@ -682,18 +680,19 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			This API uses global KMA GDPS 10 km weather forecasts and combines them with high-resolution
-			LDPS 1.5 km model for the North and South Korea. Information about KMA weather models is
-			available <a href="https://www.kma.go.kr/eng/biz/forecast_02.jsp" target="_blank">here</a>.
-			For GDPS Global, values are interpolated from 3-hourly to 1-hourly time-steps.
+			This API uses MeteoSwiss high-resolution ICON Central Europe forecasts. Information about
+			MeteoSwiss weather models is available <a
+				href="https://www.meteoswiss.admin.ch/weather/warning-and-forecasting-systems/icon-forecasting-systems.html"
+				target="_blank">here</a
+			>.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1025px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 mt-6 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
-						class="text-link undeline"
+						class="text-link underline"
 						href="/en/docs/model-updates">model updates documentation</a
 					>.</caption
 				>
@@ -709,34 +708,38 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">KMA GDPS</th>
-						<td>Global</td>
-						<td>0.13° (~12 km)</td>
-						<td>3-Hourly</td>
-						<td>12 days</td>
-						<td>Every 6 hours</td>
+						<th scope="row">ICON CH1</th>
+						<td>Central Europe</td>
+						<td>0.01° (~1 km)</td>
+						<td>Hourly</td>
+						<td>33 hours</td>
+						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row">KMA LDPS</th>
-						<td>South And North Korea</td>
-						<td>1.5 km</td>
+						<th scope="row">ICON CH2</th>
+						<td>Central Europe</td>
+						<td>0.02° (~2 km)</td>
 						<td>Hourly</td>
-						<td>2 days</td>
+						<td>120 hours</td>
 						<td>Every 6 hours</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-	</div>
 
-	<figure class="mt-6">
-		<img src="/images/models/kma_ldps.webp" class="rounded-lg" alt="..." />
-		<figcaption class="text-muted-foreground">
-			KMA LDPS domain area at 1.5 km resolution. Source: <a href="https://open-meteo.com/"
-				>Open-Meteo</a
-			>.
-		</figcaption>
-	</figure>
+		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+			<figure class="w-full">
+				<enhanced:img
+					class="w-full rounded-lg"
+					src="/static/images/models/meteoswiss_icon_ch1.png"
+					alt="ICON CH1 Modal Area"
+				/>
+				<figcaption class="text-muted-foreground">
+					ICON CH1 & CH2 Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				</figcaption>
+			</figure>
+		</div>
+	</div>
 </div>
 
 <!-- API DOCS -->
@@ -752,19 +755,40 @@
 		</p>
 		<ul class="ml-6 list-disc">
 			<li>
-				<strong>Direct Solar Radiation:</strong> KMA provides direct solar radiation. Many other weather
-				models only provide global solar radiation and direct solar radiation must be calculated user
-				separation models.
+				<strong>Grid and Projection:</strong> MeteoSwiss data is originally provided on an unstructured
+				icosahedral grid. To enable fast access and map rendering, Open-Meteo reprojects the data onto
+				a rotated lat/lon grid with similar resolution. The domain area is cropped by 20 km along the
+				borders to eliminate edge artifacts.
 			</li>
 			<li>
-				<strong>Cloud Cover (2m):</strong> KMA provides cloud cover at 2 metre above ground which can
-				be interpreted as fog. This is remarkable, because only very weather models are capable of modeling
-				low level cloud cover and fog with a good degree of accuracy.
+				<strong>Precipitation:</strong> With the high spatial resolution of 1–2 km, the model captures
+				intense, convective showers. However, due to the highly localized nature of these events, actual
+				precipitation at a specific location may be over- or underestimated. Precipitation probability
+				is derived from all ensemble members to indicate the likelihood of precipitation occurring.
 			</li>
 			<li>
-				<strong>Showers:</strong>Showers are only computed in the global GDPS model. Since LDPS is a
-				convection-resolving model, it incorporates showers within the regular rain parameter,
-				resulting in a constant value of 0 for the showers variable in LDPS.
+				<strong>Direct Solar Radiation:</strong> The ICON models from MeteoSwiss include direct solar
+				radiation as a native output. In contrast, many other weather models only supply global radiation,
+				requiring users to estimate direct radiation via separation models.
+			</li>
+			<li>
+				<strong>Wind, Temperature, and Cloud Forecasts at Heights of 100m and Above:</strong> Forecasts
+				at elevated height levels are not yet integrated. If this data is of interest to you, please
+				reach out to discuss possible integration.
+			</li>
+			<li>
+				<strong>Sunshine Duration</strong> is natively computed by the ICON model. For other weather
+				models, Open-Meteo derives sunshine duration using direct normal irradiance (DNI).
+			</li>
+			<li>
+				<strong>Snowfall and Freezing Level Height</strong> may show invalid values if the computed level
+				lies below ground. To address this, Open-Meteo adjusts these levels to extend below ground level
+				when necessary—similar to the handling in models like GFS.
+			</li>
+			<li>
+				<strong>CAPE and Convective Inhibition</strong> are calculated using mean-layer values, consistent
+				with other ICON domains. Convective inhibition may be -1 indicating that the model could not
+				calculate convective inhibition.
 			</li>
 		</ul>
 	</div>
