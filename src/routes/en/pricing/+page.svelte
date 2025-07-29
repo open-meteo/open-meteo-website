@@ -51,7 +51,7 @@
 </svelte:head>
 
 <div class="container mt-4 mb-12">
-	<div id="plans" class="-mx-6 min-h-[668px] lg:mx-0">
+	<div id="plans" class="-mx-6 min-h-[707px] lg:mx-0">
 		<script async src="https://js.stripe.com/v3/pricing-table.js"></script>
 		{#if mode.current === 'dark'}
 			<stripe-pricing-table
@@ -64,6 +64,99 @@
 				publishable-key="pk_live_51MJeWDLNZMSyEuRU9z4cAidPizoNKshAoYEoTCcD6f94ShOpnqwpShwYfgpPMfISmiXFLNWWM8u769epiIwaMeV900ZFxKd8rR"
 			></stripe-pricing-table>
 		{/if}
+	</div>
+
+	<div class="-mx-6 overflow-auto overflow-y-hidden md:ml-0 lg:mx-0">
+		<table
+			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+		>
+			<thead>
+				<tr>
+					<th scope="col" style="width: 20%"> </th>
+					<th scope="col" style="width: 20%">Free / Open-Access</th>
+					<th scope="col" style="width: 20%">API Standard</th>
+					<th scope="col" style="width: 20%">API Professional</th>
+					<th scope="col" style="width: 20%">API Enterprise</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="row">Commercial use</th>
+					<td>&#x274c;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705; </td>
+					<td>&#x2705; </td>
+				</tr>
+				<tr>
+					<th scope="row">Minutely Limit</th>
+					<td>&#x26a0;&#xfe0f; 600 calls / min</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+				</tr>
+				<tr>
+					<th scope="row">Hourly Limit</th>
+					<td>&#x26a0;&#xfe0f; 5.000 calls / hour</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+				</tr>
+				<tr>
+					<th scope="row">Daily Limit</th>
+					<td>&#x26a0;&#xfe0f; 10.000 calls / day</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+					<td>&#x2705; Unlimited</td>
+				</tr>
+				<tr>
+					<th scope="row">Monthly Limit</th>
+					<td>&#x26a0;&#xfe0f; 300.000 calls / month</td>
+					<td>&#x26a0;&#xfe0f; 1M calls / month</td>
+					<td>&#x26a0;&#xfe0f; 5M calls / month</td>
+					<td>&#x2705; >50M calls / month</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						>Air Quality API<br />Elevation API<br />Flood API<br />Geocoding API<br />Marine API</th
+					>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row"
+						>Satellite Radiation API<br />Climate API<br />Ensemble Weather API<br />Historical
+						Weather API<br />Historical Forecast API<br />Previous Model Runs API</th
+					>
+					<td>&#x2705;</td>
+					<td>&#x274c;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705;</td>
+				</tr>
+				<tr>
+					<th scope="row">Reserved Servers With Higher Reliability</th>
+					<td>&#x274c;</td>
+					<td>&#x2705;</td>
+					<td>&#x2705; </td>
+					<td>&#x2705; </td>
+				</tr>
+				<tr>
+					<th scope="row">Custom Solutions</th>
+					<td>&#x274c;</td>
+					<td>&#x274c;</td>
+					<td>&#x274c; </td>
+					<td>&#x2705; </td>
+				</tr>
+				<tr>
+					<th scope="row">Priority Support</th>
+					<td>&#x274c;</td>
+					<td>&#x274c;</td>
+					<td>&#x274c; </td>
+					<td>&#x2705; </td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 
 	<div class="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
@@ -312,99 +405,6 @@
 				>. We strive to provide you with complete control and flexibility over your subscription.
 			</p>
 		</div>
-	</div>
-
-	<div class="-mx-6 mt-6 overflow-auto overflow-y-hidden md:mt-12 md:ml-0 lg:mx-0">
-		<table
-			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-		>
-			<thead>
-				<tr>
-					<th scope="col" style="width: 20%"> </th>
-					<th scope="col" style="width: 20%">Free / Open-Access</th>
-					<th scope="col" style="width: 20%">API Standard</th>
-					<th scope="col" style="width: 20%">API Professional</th>
-					<th scope="col" style="width: 20%">API Enterprise</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">Commercial use</th>
-					<td>&#x274c;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705; </td>
-					<td>&#x2705; </td>
-				</tr>
-				<tr>
-					<th scope="row">Minutely Limit</th>
-					<td>&#x26a0;&#xfe0f; 600 calls / min</td>
-					<td>&#x2705; Unlimited</td>
-					<td>&#x2705; Unlimited</td>
-					<td>&#x2705; Unlimited</td>
-				</tr>
-				<tr>
-					<th scope="row">Hourly Limit</th>
-					<td>&#x26a0;&#xfe0f; 5.000 calls / hour</td>
-					<td>&#x2705; Unlimited</td>
-					<td>&#x2705; Unlimited</td>
-					<td>&#x2705; Unlimited</td>
-				</tr>
-				<tr>
-					<th scope="row">Daily Limit</th>
-					<td>&#x26a0;&#xfe0f; 10.000 calls / day</td>
-					<td>&#x2705; Unlimited</td>
-					<td>&#x2705; Unlimited</td>
-					<td>&#x2705; Unlimited</td>
-				</tr>
-				<tr>
-					<th scope="row">Monthly Limit</th>
-					<td>&#x26a0;&#xfe0f; 300.000 calls / month</td>
-					<td>&#x26a0;&#xfe0f; 1M calls / month</td>
-					<td>&#x26a0;&#xfe0f; 5M calls / month</td>
-					<td>&#x2705; >50M calls / month</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						>Air Quality API<br />Elevation API<br />Flood API<br />Geocoding API<br />Marine API</th
-					>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						>Satellite Radiation API<br />Climate API<br />Ensemble Weather API<br />Historical
-						Weather API<br />Historical Forecast API<br />Previous Model Runs API</th
-					>
-					<td>&#x2705;</td>
-					<td>&#x274c;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705;</td>
-				</tr>
-				<tr>
-					<th scope="row">Reserved Servers With Higher Reliability</th>
-					<td>&#x274c;</td>
-					<td>&#x2705;</td>
-					<td>&#x2705; </td>
-					<td>&#x2705; </td>
-				</tr>
-				<tr>
-					<th scope="row">Custom Solutions</th>
-					<td>&#x274c;</td>
-					<td>&#x274c;</td>
-					<td>&#x274c; </td>
-					<td>&#x2705; </td>
-				</tr>
-				<tr>
-					<th scope="row">Priority Support</th>
-					<td>&#x274c;</td>
-					<td>&#x274c;</td>
-					<td>&#x274c; </td>
-					<td>&#x2705; </td>
-				</tr>
-			</tbody>
-		</table>
 	</div>
 
 	<div class="mt-12 md:mt-24">
