@@ -1079,6 +1079,14 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
+						<th scope="row"><a href="/en/docs/metno-api">ICON CH</a></th>
+						<td>MeteoSwiss</td>
+						<td>Switzerland</td>
+						<td>1 - 2 km</td>
+						<td>5 days</td>
+						<td>Every 3 hours</td>
+					</tr>
+					<tr>
 						<th scope="row"><a href="/en/docs/metno-api">MET Nordic</a></th>
 						<td>MET Norway</td>
 						<td>Norway</td>
