@@ -118,6 +118,7 @@ export const gfs025_variables = [
 	'et0_fao_evapotranspiration',
 	'vapour_pressure_deficit',
 	'cape',
+	'convective_inhibition',
 	'rain',
 	'shortwave_radiation'
 ];
@@ -165,6 +166,9 @@ export const ecmwf_variables = [
 	'surface_pressure',
 	'pressure_msl',
 	'cloud_cover',
+	'cloud_cover_high',
+	'cloud_cover_mid',
+	'cloud_cover_low',
 	'wind_speed_10m',
 	'wind_direction_10m',
 	'wind_speed_100m',
@@ -178,7 +182,8 @@ export const ecmwf_variables = [
 	'geopotential_height_500hPa',
 	'geopotential_height_850hPa',
 	'et0_fao_evapotranspiration',
-	'shortwave_radiation'
+	'shortwave_radiation',
+	'cape'
 ];
 
 export const ukmo_variables = [
@@ -203,6 +208,13 @@ export const ukmo_variables = [
 	'visibility',
 	'cape',
 	'shortwave_radiation'
+];
+
+export const ukmo_2km_variables = [
+	...ukmo_variables,
+	'cloud_cover_high',
+	'cloud_cover_mid',
+	'cloud_cover_low',
 ];
 
 export const gem_global_variables = [
@@ -264,6 +276,37 @@ export const bom_access_global_ensemble = [
 	'soil_moisture_100_to_200cm'
 ];
 
+export const meteoswiss = [
+	'temperature_2m',
+	'surface_pressure',
+	'snow_depth',
+	'relative_humidity_2m',
+	'dew_point_2m',
+	'wind_speed_10m',
+	'wind_gusts_10m',
+	'wind_direction_10m',
+	'precipitation',
+	'snowfall',
+	'convective_inhibition',
+	'cape',
+	'cloud_cover',
+	'apparent_temperature',
+	'weather_code',
+	'pressure_msl',
+	'et0_fao_evapotranspiration',
+	'vapour_pressure_deficit',
+	'sunshine_duration',
+	'rain',
+	'shortwave_radiation',
+	'surface_temperature',
+	'cloud_base',
+	'cloud_cover_high',
+	'cloud_cover_mid',
+	'cloud_cover_low',
+	'freezing_level_height',
+	'snowfall_height'
+];
+
 export const availableVariables = {
 	icon_seamless: icon_d2_variables,
 	icon_global: icon_global_variables,
@@ -275,11 +318,11 @@ export const availableVariables = {
 	ecmwf_ifs025: ecmwf_variables,
 	ecmwf_aifs025: ecmwf_variables,
 	ukmo_global_ensemble_20km: ukmo_variables,
-	ukmo_uk_ensemble_2km: ukmo_variables,
+	ukmo_uk_ensemble_2km: ukmo_2km_variables,
 	gem_global: gem_global_variables,
 	bom_access_global_ensemble: bom_access_global_ensemble,
-	meteoswiss_icon_ch1: icon_global_variables,
-	meteoswiss_icon_ch2: icon_global_variables
+	meteoswiss_icon_ch1: meteoswiss,
+	meteoswiss_icon_ch2: meteoswiss
 };
 
 export const hourly = [
@@ -298,6 +341,9 @@ export const hourly = [
 		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' },
 		{ value: 'cloud_cover', label: 'Cloud cover Total' },
+		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
+		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
+		{ value: 'cloud_cover_high', label: 'Cloud cover High' },
 		{ value: 'visibility', label: 'Visibility' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
@@ -392,7 +438,9 @@ export const additionalVariables = [
 	],
 	[
 		{ value: 'cape', label: 'CAPE' },
+		{ value: 'convective_inhibition', label: 'Convective Inhibition (CIN)' },
 		{ value: 'freezing_level_height', label: 'Freezing Level Height' },
+		{ value: 'snowfall_height', label: 'Snowfall Height' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
 	]
 ];
