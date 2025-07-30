@@ -74,21 +74,21 @@
 	let timeZone = $derived(timeZoneOptions.find((tzo) => String(tzo.value) == params.timezone));
 
 	let boundingBoxSouth = $state(-90);
-	let boundingBoxEast = $state(-180);
+	let boundingBoxWest = $state(-180);
 	let boundingBoxNorth = $state(90);
-	let boundingBoxWest = $state(180);
+	let boundingBoxEast = $state(180);
 
 	onMount(() => {
 		if (params.bounding_box) {
 			boundingBoxSouth = Number(params.bounding_box.split(',')[0]);
-			boundingBoxEast = Number(params.bounding_box.split(',')[1]);
+			boundingBoxWest = Number(params.bounding_box.split(',')[1]);
 			boundingBoxNorth = Number(params.bounding_box.split(',')[2]);
-			boundingBoxWest = Number(params.bounding_box.split(',')[3]);
+			boundingBoxEast = Number(params.bounding_box.split(',')[3]);
 		}
 	});
 
 	const setBoundingBox = () => {
-		params.bounding_box = `${boundingBoxSouth},${boundingBoxEast},${boundingBoxNorth},${boundingBoxWest}`;
+		params.bounding_box = `${boundingBoxSouth},${boundingBoxWest},${boundingBoxNorth},${boundingBoxEast}`;
 	};
 
 	let locationMode: Parameters['location_mode'] = $state('location_search');
@@ -138,11 +138,11 @@
 			type="single"
 			bind:value={locationMode}
 			onValueChange={() => (params.location_mode = locationMode)}
-			class="justify-start text-nowrap flex flex-wrap gap-0"
+			class="flex flex-wrap justify-start gap-0 text-nowrap"
 		>
 			<ToggleGroup.Item
 				value="location_search"
-				class=" opacity-100! min-h-12 cursor-pointer rounded-e-none lg:min-h-[unset]"
+				class=" min-h-12 cursor-pointer rounded-e-none opacity-100! lg:min-h-[unset]"
 				disabled={locationMode === 'location_search'}
 				onclick={() => {
 					params.bounding_box = '';
@@ -169,7 +169,7 @@
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="csv_coordinates"
-				class="opacity-100! min-h-12 cursor-pointer rounded-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
 				disabled={locationMode === 'csv_coordinates'}
 				onclick={() => {
 					params.bounding_box = '';
@@ -197,7 +197,7 @@
 			</ToggleGroup.Item>
 			<ToggleGroup.Item
 				value="bounding_box"
-				class="opacity-100! min-h-12 cursor-pointer rounded-s-none lg:min-h-[unset]"
+				class="min-h-12 cursor-pointer rounded-s-none opacity-100! lg:min-h-[unset]"
 				disabled={locationMode === 'bounding_box'}
 				onclick={() => {
 					setBoundingBox();
@@ -257,11 +257,11 @@
 								bind:value={params.latitude[index]}
 							/>
 							<Label
-								class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								for="latitude">Latitude</Label
 							>
 							{#if params.latitude[index] < -90 || params.latitude[index] > 90}
-								<div class="absolute left-3 top-14 text-sm duration-300" transition:slide>
+								<div class="absolute top-14 left-3 text-sm duration-300" transition:slide>
 									Latitude must be between -90 and 90
 								</div>
 							{/if}
@@ -284,11 +284,11 @@
 								bind:value={params.longitude[index]}
 							/>
 							<Label
-								class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								for="longitude">Longitude</Label
 							>
 							{#if params.longitude[index] < -180 || params.longitude[index] > 180}
-								<div class="absolute left-3 top-14 text-sm" transition:slide>
+								<div class="absolute top-14 left-3 text-sm" transition:slide>
 									Longitude must be between -180 and 180
 								</div>
 							{/if}
@@ -304,7 +304,7 @@
 										<Select.Item {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
-								<Label class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 									>Timezone</Label
 								>
 							</Select.Root>
@@ -322,7 +322,7 @@
 								{#if index == 0}
 									<Button
 										variant="outline"
-										class="h-12 w-full px-5 pr-6 gap-1"
+										class="h-12 w-full gap-1 px-5 pr-6"
 										onclick={addLocation}
 										title="Add coordinates"
 										><svg
@@ -376,7 +376,7 @@
 	{/if}
 	{#if params.location_mode == 'csv_coordinates'}
 		<div in:fade>
-			<div class="flex flex-col gap-3 md:gap-6 md:flex-row">
+			<div class="flex flex-col gap-3 md:flex-row md:gap-6">
 				<div class="md:w-1/2">
 					<textarea
 						class="border-border w-full rounded-md border p-4 md:mb-4"
@@ -411,26 +411,26 @@
 						</Select.Root>
 					</div>
 					{#if csvExample === 'lat_lon'}
-						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">52.52,13.41
+						<pre class="border-border overflow-auto rounded-b-lg border border-t-0">52.52,13.41
 50.12,8.68
 53.55,9.99
 </pre>{:else if csvExample === 'elevation'}
-						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+						<pre class="border-border overflow-auto rounded-b-lg border border-t-0">
 52.52,13.41,2500
 50.12,8.68,2500
 53.55,9.99,2500</pre>
 					{:else if csvExample === 'timezone'}
-						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+						<pre class="border-border overflow-auto rounded-b-lg border border-t-0">
 52.52,13.41,,Europe/Berlin
 50.12,8.68,,Europe/Berlin
 53.55,9.99,,Europe/Berlin</pre>
 					{:else if csvExample === 'time_period'}
-						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+						<pre class="border-border overflow-auto rounded-b-lg border border-t-0">
 52.52,13.41,,,2025-01-01,2025-01-31
 50.12,8.68,,,2025-01-01,2025-01-31
 53.55,9.99,,,2025-01-01,2025-01-31</pre>
 					{:else if csvExample === 'all_above'}
-						<pre class="overflow-auto rounded-b-lg border-border border border-t-0">
+						<pre class="border-border overflow-auto rounded-b-lg border border-t-0">
 52.52,13.41,2500,Europe/Berlin,2025-01-01,2025-01-31
 50.12,8.68,2500,Europe/Berlin,2025-01-01,2025-01-31
 53.55,9.99,2500,Europe/Berlin,2025-01-01,2025-01-31</pre>
@@ -440,10 +440,10 @@
 		</div>
 	{/if}
 	{#if params.location_mode == 'bounding_box'}
-		<div class="flex flex-col gap-3 md:gap-6 md:flex-row">
-			<div class="flex flex-col md:w-1/2 gap-3">
+		<div class="flex flex-col gap-3 md:flex-row md:gap-6">
+			<div class="flex flex-col gap-3 md:w-1/2">
 				<div class="flex md:justify-center">
-					<div class="w-full md:w-1/2 relative flex flex-col gap-2 duration-200">
+					<div class="relative flex w-full flex-col gap-2 duration-200 md:w-1/2">
 						<Input
 							type="number"
 							class="h-12 pt-6"
@@ -456,31 +456,14 @@
 							oninput={setBoundingBox}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="bb_latitude_north">Latitude North</Label
 						>
 					</div>
 				</div>
 
-				<div class="flex flex-col md:flex-row gap-3 md:gap-6 md:my-3">
-					<div class="md:w-1/2 relative flex flex-col gap-2 duration-200">
-						<Input
-							type="number"
-							class="h-12 pt-6"
-							name="longitude"
-							id="bb_longitude_east"
-							step="0.000001"
-							min="-180"
-							max="180"
-							bind:value={boundingBoxEast}
-							oninput={setBoundingBox}
-						/>
-						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
-							for="bb_longitude_east">Longitude East</Label
-						>
-					</div>
-					<div class="md:w-1/2 relative flex flex-col gap-2 duration-200">
+				<div class="flex flex-col gap-3 md:my-3 md:flex-row md:gap-6">
+					<div class="relative flex flex-col gap-2 duration-200 md:w-1/2">
 						<Input
 							type="number"
 							class="h-12 pt-6"
@@ -493,13 +476,30 @@
 							oninput={setBoundingBox}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="bb_longitude_west">Longitude West</Label
+						>
+					</div>
+					<div class="relative flex flex-col gap-2 duration-200 md:w-1/2">
+						<Input
+							type="number"
+							class="h-12 pt-6"
+							name="longitude"
+							id="bb_longitude_east"
+							step="0.000001"
+							min="-180"
+							max="180"
+							bind:value={boundingBoxEast}
+							oninput={setBoundingBox}
+						/>
+						<Label
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+							for="bb_longitude_east">Longitude East</Label
 						>
 					</div>
 				</div>
 				<div class="flex justify-center">
-					<div class="w-full md:w-1/2 relative flex flex-col gap-2 duration-200">
+					<div class="relative flex w-full flex-col gap-2 duration-200 md:w-1/2">
 						<Input
 							type="number"
 							class="h-12 pt-6"
@@ -512,7 +512,7 @@
 							oninput={setBoundingBox}
 						/>
 						<Label
-							class="text-muted-foreground absolute left-2 top-[0.35rem] z-10 px-1 text-xs"
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="bb_latitude_south">Latitude South</Label
 						>
 					</div>
@@ -527,7 +527,7 @@
 					request data from 45°...&#60;50° latitude. Format used:
 				</p>
 				<pre class="my-2 overflow-auto rounded-lg">&bounding_box=47,-85,47.5,-84.5</pre>
-				<p>using (latitude1, longitude1, latitude2, longitude2) or (south, east, north, west).</p>
+				<p>using (latitude1, longitude1, latitude2, longitude2) or (south, west, north, east).</p>
 			</div>
 		</div>
 		<Alert.Root variant="info" class="mt-2 md:mt-4">
