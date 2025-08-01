@@ -567,11 +567,7 @@
 			>
 				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
 					<div class="w-full md:w-[227px]">
-						<ToggleGroup.Root
-							type="single"
-							bind:value={pressureVariablesTab}
-							class="justify-start gap-0"
-						>
+						<ToggleGroup.Root type="single" bind:value={pressureVariablesTab}>
 							<div class="border-border flex flex-col rounded-lg border">
 								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item

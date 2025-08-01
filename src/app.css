@@ -196,6 +196,7 @@
 	--color-ring: var(--ring);
 	--color-link: var(--link);
 	--color-border: var(--border);
+	--color-border-dark: var(--border-dark);
 }
 
 @layer base {
