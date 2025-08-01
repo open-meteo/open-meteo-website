@@ -19,157 +19,157 @@
 
 	--font-size-xxs: 11px;
 
-	--drop-shadow-logo: 3px 3px 2px rgba(0, 0, 0, 0.7);
+	--drop-shadow-logo: 3px 3px 2px oklch(0% 0 NaN / 0.7);
 
 	--text-underline-offset-3: 3px;
 }
 
 :root {
-	--background: hsl(0 0% 100%);
-	--foreground: hsl(222.2 84% 4.9%);
+	--background: oklch(100% 0 NaN);
+	--foreground: oklch(13.7% 0.036 258.5);
 
 	--muted: hsl(210 40% 96.1);
-	--muted-foreground: hsl(215.4 16.3% 46.9%);
+	--muted-foreground: oklch(55.5% 0.041 257.4);
 
-	--popover: hsl(0 0% 100%);
-	--popover-foreground: hsl(222.2 84% 4.9%);
+	--popover: oklch(100% 0 NaN);
+	--popover-foreground: oklch(13.7% 0.036 258.5);
 
-	--card: hsl(0 0% 100%);
-	--card-foreground: hsl(222.2 84% 4.9%);
+	--card: oklch(100% 0 NaN);
+	--card-foreground: oklch(13.7% 0.036 258.5);
 
-	--border: hsl(214.3 31.8% 91.4%);
-	--border-dark: hsl(0 0% 40%);
-	--input: hsl(214.3 31.8% 91.4%);
+	--border: oklch(92.9% 0.013 255.5);
+	--border-dark: oklch(51% 0 NaN);
+	--input: oklch(92.9% 0.013 255.5);
 
-	--primary: hsl(215.75 98.36% 52.16%);
-	--primary-foreground: hsl(210 40% 98%);
+	--primary: oklch(57.8% 0.228 260);
+	--primary-foreground: oklch(98.4% 0.003 247.9);
 
-	--secondary: hsl(210 40% 96.1%);
-	--secondary-foreground: hsl(222.2 47.4% 11.2%);
+	--secondary: oklch(96.8% 0.007 247.9);
+	--secondary-foreground: oklch(20.8% 0.04 265.7);
 
-	--accent: hsl(210 40% 96.1%);
-	--accent-foreground: hsl(222.2 47.4% 11.2%);
+	--accent: oklch(96.8% 0.007 247.9);
+	--accent-foreground: oklch(20.8% 0.04 265.7);
 
-	--grey: hsl(208.24 7.3% 45.69%);
-	--grey-foreground: hsl(210 40% 98%);
+	--grey: oklch(55.8% 0.017 244.9);
+	--grey-foreground: oklch(98.4% 0.003 247.9);
 
-	--destructive: hsl(0 72.2% 50.6%);
-	--destructive-foreground: hsl(210 40% 98%);
+	--destructive: oklch(57.7% 0.215 27.3);
+	--destructive-foreground: oklch(98.4% 0.003 247.9);
 
-	--warning: hsl(45 100% 90.27%);
-	--warning-dark: hsl(45 94.66% 20.55%);
-	--warning-foreground: hsl(45 100% 75.55%);
+	--warning: oklch(96.3% 0.05 91.8);
+	--warning-dark: oklch(43.5% 0.088 86.9);
+	--warning-foreground: oklch(91.3% 0.118 91.5);
 
-	--link: hsl(215.75 98.36% 52.16%);
+	--link: oklch(57.8% 0.228 260);
 
-	--ring: hsl(222.2 84% 4.9%);
+	--ring: oklch(13.7% 0.036 258.5);
 
 	--radius: 0.5rem;
 
-	--mark-color: hsl(45 100% 90.27%);
+	--mark-color: oklch(96.3% 0.05 91.8);
 
-	--code-preview-foreground: #90a4ae;
-	--code-preview-background: #fafafa;
-	--code-preview-token-constant: #f76d47;
-	--code-preview-token-string: #000;
-	--code-preview-token-comment: #bac8cf;
-	--code-preview-token-keyword: #39adb5;
-	--code-preview-token-parameter: #90a4ae;
-	--code-preview-token-function: #6182b8;
-	--code-preview-token-string-expression: #91b859;
-	--code-preview-token-punctuation: #6182b8;
-	--code-preview-token-link: #000;
-	--code-preview-token-bracket: #39adb5;
-	--code-preview-token-punctuation-mark: #39adb5;
-	--code-preview-token-accent: #9c3eda;
+	--code-preview-foreground: oklch(70.6% 0.027 229.3);
+	--code-preview-background: oklch(98.5% 0 NaN);
+	--code-preview-token-constant: oklch(69.7% 0.178 36.3);
+	--code-preview-token-string: oklch(0% 0 NaN);
+	--code-preview-token-comment: oklch(82.4% 0.018 229.1);
+	--code-preview-token-keyword: oklch(68.8% 0.101 201.7);
+	--code-preview-token-parameter: oklch(70.6% 0.027 229.3);
+	--code-preview-token-function: oklch(60.4% 0.091 260);
+	--code-preview-token-string-expression: oklch(73.3% 0.131 127.8);
+	--code-preview-token-punctuation: oklch(60.4% 0.091 260);
+	--code-preview-token-link: oklch(0% 0 NaN);
+	--code-preview-token-bracket: oklch(68.8% 0.101 201.7);
+	--code-preview-token-punctuation-mark: oklch(68.8% 0.101 201.7);
+	--code-preview-token-accent: oklch(56.7% 0.228 308.2);
 }
 
 .javascript {
-	--code-preview-token-variable: #90a4ae;
-	--code-preview-token-keyword-special: #39adb5;
-	--code-preview-token-bracket-special: #e53935;
-	--code-preview-token-keyword: #9c3eda;
-	--code-preview-token-string-key: #e53935;
+	--code-preview-token-variable: oklch(70.6% 0.027 229.3);
+	--code-preview-token-keyword-special: oklch(68.8% 0.101 201.7);
+	--code-preview-token-bracket-special: oklch(60.8% 0.209 27);
+	--code-preview-token-keyword: oklch(56.7% 0.228 308.2);
+	--code-preview-token-string-key: oklch(60.8% 0.209 27);
 }
 
 .swift {
-	--code-preview-token-constant: #e2931d;
-	--code-preview-token-variable: #90a4ae;
-	--code-preview-token-keyword-special: #39adb5;
-	--code-preview-token-bracket-special: #e53935;
-	--code-preview-token-keyword: #f76d47;
-	--code-preview-token-string-key: #e53935;
+	--code-preview-token-constant: oklch(72.7% 0.151 69.7);
+	--code-preview-token-variable: oklch(70.6% 0.027 229.3);
+	--code-preview-token-keyword-special: oklch(68.8% 0.101 201.7);
+	--code-preview-token-bracket-special: oklch(60.8% 0.209 27);
+	--code-preview-token-keyword: oklch(69.7% 0.178 36.3);
+	--code-preview-token-string-key: oklch(60.8% 0.209 27);
 }
 
 .dark {
-	--background: hsl(222.2 84% 4.9%);
-	--foreground: hsl(210 40% 98%);
+	--background: oklch(13.7% 0.036 258.5);
+	--foreground: oklch(98.4% 0.003 247.9);
 
-	--muted: hsl(217.2 32.6% 17.5%);
-	--muted-foreground: hsl(215 20.2% 65.1%);
+	--muted: oklch(28% 0.037 260);
+	--muted-foreground: oklch(71.1% 0.035 256.8);
 
-	--popover: hsl(222.2 84% 4.9%);
-	--popover-foreground: hsl(210 40% 98%);
+	--popover: oklch(13.7% 0.036 258.5);
+	--popover-foreground: oklch(98.4% 0.003 247.9);
 
-	--card: hsl(222.2 84% 4.9%);
-	--card-foreground: hsl(210 40% 98%);
+	--card: oklch(13.7% 0.036 258.5);
+	--card-foreground: oklch(98.4% 0.003 247.9);
 
-	--border: hsl(217.2 32.6% 17.5%);
-	--border-dark: hsl(0 0% 60%);
-	--input: hsl(217.2 32.6% 17.5%);
+	--border: oklch(28% 0.037 260);
+	--border-dark: oklch(68.3% 0 NaN);
+	--input: oklch(28% 0.037 260);
 
-	--secondary: hsl(217.2 32.6% 17.5%);
-	--secondary-foreground: hsl(210 40% 98%);
+	--secondary: oklch(28% 0.037 260);
+	--secondary-foreground: oklch(98.4% 0.003 247.9);
 
-	--accent: hsl(217.2 32.6% 17.5%);
-	--accent-foreground: hsl(210 40% 98%);
+	--accent: oklch(28% 0.037 260);
+	--accent-foreground: oklch(98.4% 0.003 247.9);
 
-	--grey: hsl(217.2 32.6% 17.5%);
-	--grey-foreground: hsl(210 40% 98%);
+	--grey: oklch(28% 0.037 260);
+	--grey-foreground: oklch(98.4% 0.003 247.9);
 
-	--destructive: hsl(0 62.8% 30.6%);
-	--destructive-foreground: hsl(210 40% 98%);
+	--destructive: oklch(39.6% 0.133 25.7);
+	--destructive-foreground: oklch(98.4% 0.003 247.9);
 
-	--warning: hsl(45 94.66% 10.27%);
-	--warning-dark: hsl(45 100% 70.82%);
-	--warning-foreground: hsl(45 94.66% 30.82%);
+	--warning: oklch(27.8% 0.055 89.6);
+	--warning-dark: oklch(89.8% 0.136 91);
+	--warning-foreground: oklch(57.9% 0.117 85.9);
 
-	--link: hsl(215.83 98.63% 71.37%);
+	--link: oklch(72.9% 0.14 258.1);
 
-	--ring: hsl(212.7 26.8% 83.9%);
+	--ring: oklch(86.9% 0.02 252.8);
 
-	--mark-color: hsl(45 94.66% 20.55%);
+	--mark-color: oklch(43.5% 0.088 86.9);
 
-	--code-preview-foreground: #eeffff;
-	--code-preview-background: #212121;
-	--code-preview-token-constant: #f78c6c;
-	--code-preview-token-string: #000;
-	--code-preview-token-comment: #888;
-	--code-preview-token-keyword: #89ddff;
-	--code-preview-token-parameter: #90a4ae;
-	--code-preview-token-function: #82aaff;
-	--code-preview-token-string-expression: #c3e88d;
-	--code-preview-token-punctuation: #82aaff;
-	--code-preview-token-link: #000;
-	--code-preview-token-bracket: #89ddff;
-	--code-preview-token-punctuation-mark: #89ddff;
-	--code-preview-token-accent: #c792ea;
+	--code-preview-foreground: oklch(98.8% 0.018 196.9);
+	--code-preview-background: oklch(24.8% 0 NaN);
+	--code-preview-token-constant: oklch(74.9% 0.138 37.5);
+	--code-preview-token-string: oklch(0% 0 NaN);
+	--code-preview-token-comment: oklch(62.7% 0 NaN);
+	--code-preview-token-keyword: oklch(85.6% 0.094 225.9);
+	--code-preview-token-parameter: oklch(70.6% 0.027 229.3);
+	--code-preview-token-function: oklch(74.4% 0.131 264.3);
+	--code-preview-token-string-expression: oklch(88.4% 0.124 126.8);
+	--code-preview-token-punctuation: oklch(74.4% 0.131 264.3);
+	--code-preview-token-link: oklch(0% 0 NaN);
+	--code-preview-token-bracket: oklch(85.6% 0.094 225.9);
+	--code-preview-token-punctuation-mark: oklch(85.6% 0.094 225.9);
+	--code-preview-token-accent: oklch(74.3% 0.135 311.1);
 }
 
 .dark .javascript {
-	--code-preview-token-keyword: #c792ea;
-	--code-preview-token-function: #82aaff;
-	--code-preview-token-variable: #eeffff;
-	--code-preview-token-string-key: #f07178;
-	--code-preview-token-keyword-special: #89ddff;
-	--code-preview-token-bracket-special: #e53935;
+	--code-preview-token-keyword: oklch(74.3% 0.135 311.1);
+	--code-preview-token-function: oklch(74.4% 0.131 264.3);
+	--code-preview-token-variable: oklch(98.8% 0.018 196.9);
+	--code-preview-token-string-key: oklch(70.1% 0.157 18.6);
+	--code-preview-token-keyword-special: oklch(85.6% 0.094 225.9);
+	--code-preview-token-bracket-special: oklch(60.8% 0.209 27);
 }
 
 .dark .swift {
-	--code-preview-token-constant: #ffcb6b;
-	--code-preview-token-keyword: #f78c6c;
-	--code-preview-token-variable: #eeffff;
-	--code-preview-token-keyword-special: #89ddff;
+	--code-preview-token-constant: oklch(86.9% 0.128 81.1);
+	--code-preview-token-keyword: oklch(74.9% 0.138 37.5);
+	--code-preview-token-variable: oklch(98.8% 0.018 196.9);
+	--code-preview-token-keyword-special: oklch(85.6% 0.094 225.9);
 }
 
 @theme inline {
@@ -325,13 +325,13 @@ pre {
 	-o-tab-size: 4;
 	tab-size: 4;
 	padding: 1rem 1.6rem;
-	background: #fafafa !important;
-	color: #90a4ae !important;
+	background: oklch(98.5% 0 NaN) !important;
+	color: oklch(70.6% 0.027 229.3) !important;
 }
 
 .dark pre {
-	background: #212121 !important;
-	color: #eeffff !important;
+	background: oklch(24.8% 0 NaN) !important;
+	color: oklch(98.8% 0.018 196.9) !important;
 }
 
 .dark .pregenerated-code .shiki,
@@ -360,7 +360,7 @@ pre {
 	margin-right: 1rem;
 	display: inline-block;
 	text-align: right;
-	color: rgba(115, 138, 148, 0.5);
+	color: oklch(61.9% 0.03 226 / 0.5);
 }
 
 .curl pre span > span {
@@ -406,7 +406,7 @@ pre {
 	margin-right: 1rem;
 	display: inline-block;
 	text-align: right;
-	color: rgba(115, 138, 148, 0.5);
+	color: oklch(61.9% 0.03 226 / 0.5);
 }
 
 mark,
