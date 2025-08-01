@@ -1,169 +1,224 @@
 @import 'tailwindcss';
-/* @import 'tw-animate-css'; */
+@import 'tw-animate-css';
 
-@config '../tailwind.config.ts';
+/*@config '../tailwind.config.ts';*/
 
 @custom-variant dark (&:is(.dark *));
 
-@layer base {
-	:root {
-		--background: 0 0% 100%;
-		--foreground: 222.2 84% 4.9%;
+@theme {
+	--breakpoint-xs: 420px;
+	--breakpoint-sm: 640px;
+	--breakpoint-md: 768px;
+	--breakpoint-lg: 1024px;
+	--breakpoint-xl: 1280px;
+	--breakpoint-2xl: 1536px;
 
-		--muted: 210 40% 96.1%;
-		--muted-foreground: 215.4 16.3% 46.9%;
+	--container-lg: 996px;
+	--container-xl: 1100px;
+	--container-2xl: 1400px;
 
-		--popover: 0 0% 100%;
-		--popover-foreground: 222.2 84% 4.9%;
+	--font-size-xxs: 11px;
 
-		--card: 0 0% 100%;
-		--card-foreground: 222.2 84% 4.9%;
+	--drop-shadow-logo: 3px 3px 2px rgba(0, 0, 0, 0.7);
 
-		--border: 214.3 31.8% 91.4%;
-		--border-dark: 0 0% 40%;
-		--input: 214.3 31.8% 91.4%;
-
-		--primary: 215.75 98.36% 52.16%;
-		--primary-foreground: 210 40% 98%;
-
-		--secondary: 210 40% 96.1%;
-		--secondary-foreground: 222.2 47.4% 11.2%;
-
-		--accent: 210 40% 96.1%;
-		--accent-foreground: 222.2 47.4% 11.2%;
-
-		--grey: 208.24 7.3% 45.69%;
-		--grey-foreground: 210 40% 98%;
-
-		--destructive: 0 72.2% 50.6%;
-		--destructive-foreground: 210 40% 98%;
-
-		--warning: 45 100% 90.27%;
-		--warning-dark: 45 94.66% 20.55%;
-		--warning-foreground: 45 100% 75.55%;
-
-		--link: 215.75 98.36% 52.16%;
-
-		--ring: 222.2 84% 4.9%;
-
-		--radius: 0.5rem;
-
-		--mark-color: 45 100% 90.27%;
-
-		--code-preview-foreground: #90a4ae;
-		--code-preview-background: #fafafa;
-		--code-preview-token-constant: #f76d47;
-		--code-preview-token-string: #000;
-		--code-preview-token-comment: #bac8cf;
-		--code-preview-token-keyword: #39adb5;
-		--code-preview-token-parameter: #90a4ae;
-		--code-preview-token-function: #6182b8;
-		--code-preview-token-string-expression: #91b859;
-		--code-preview-token-punctuation: #6182b8;
-		--code-preview-token-link: #000;
-		--code-preview-token-bracket: #39adb5;
-		--code-preview-token-punctuation-mark: #39adb5;
-		--code-preview-token-accent: #9c3eda;
-	}
-
-	.javascript {
-		--code-preview-token-variable: #90a4ae;
-		--code-preview-token-keyword-special: #39adb5;
-		--code-preview-token-bracket-special: #e53935;
-		--code-preview-token-keyword: #9c3eda;
-		--code-preview-token-string-key: #e53935;
-	}
-
-	.swift {
-		--code-preview-token-constant: #e2931d;
-		--code-preview-token-variable: #90a4ae;
-		--code-preview-token-keyword-special: #39adb5;
-		--code-preview-token-bracket-special: #e53935;
-		--code-preview-token-keyword: #f76d47;
-		--code-preview-token-string-key: #e53935;
-	}
-
-	.dark {
-		--background: 222.2 84% 4.9%;
-		--foreground: 210 40% 98%;
-
-		--muted: 217.2 32.6% 17.5%;
-		--muted-foreground: 215 20.2% 65.1%;
-
-		--popover: 222.2 84% 4.9%;
-		--popover-foreground: 210 40% 98%;
-
-		--card: 222.2 84% 4.9%;
-		--card-foreground: 210 40% 98%;
-
-		--border: 217.2 32.6% 17.5%;
-		--border-dark: 0 0% 60%;
-		--input: 217.2 32.6% 17.5%;
-
-		--secondary: 217.2 32.6% 17.5%;
-		--secondary-foreground: 210 40% 98%;
-
-		--accent: 217.2 32.6% 17.5%;
-		--accent-foreground: 210 40% 98%;
-
-		--grey: 217.2 32.6% 17.5%;
-		--grey-foreground: 210 40% 98%;
-
-		--destructive: 0 62.8% 30.6%;
-		--destructive-foreground: 210 40% 98%;
-
-		--warning: 45 94.66% 10.27%;
-		--warning-dark: 45 100% 70.82%;
-		--warning-foreground: 45 94.66% 30.82%;
-
-		--link: 215.83 98.63% 71.37%;
-
-		--ring: 212.7 26.8% 83.9%;
-
-		--mark-color: 45 94.66% 20.55%;
-
-		--code-preview-foreground: #eeffff;
-		--code-preview-background: #212121;
-		--code-preview-token-constant: #f78c6c;
-		--code-preview-token-string: #000;
-		--code-preview-token-comment: #888;
-		--code-preview-token-keyword: #89ddff;
-		--code-preview-token-parameter: #90a4ae;
-		--code-preview-token-function: #82aaff;
-		--code-preview-token-string-expression: #c3e88d;
-		--code-preview-token-punctuation: #82aaff;
-		--code-preview-token-link: #000;
-		--code-preview-token-bracket: #89ddff;
-		--code-preview-token-punctuation-mark: #89ddff;
-		--code-preview-token-accent: #c792ea;
-	}
-
-	.dark .javascript {
-		--code-preview-token-keyword: #c792ea;
-		--code-preview-token-function: #82aaff;
-
-		--code-preview-token-variable: #eeffff;
-		--code-preview-token-string-key: #f07178;
-		--code-preview-token-keyword-special: #89ddff;
-		--code-preview-token-bracket-special: #e53935;
-	}
-
-	.dark .swift {
-		--code-preview-token-constant: #ffcb6b;
-		--code-preview-token-keyword: #f78c6c;
-
-		--code-preview-token-variable: #eeffff;
-		--code-preview-token-keyword-special: #89ddff;
-	}
+	--text-underline-offset-3: 3px;
 }
 
-@theme {
-	--drop-shadow-logo: 3px 3px 2px rgba(0, 0, 0, 0.7);
+:root {
+	--background: hsl(0 0% 100%);
+	--foreground: hsl(222.2 84% 4.9%);
+
+	--muted: hsl(210 40% 96.1);
+	--muted-foreground: hsl(215.4 16.3% 46.9%);
+
+	--popover: hsl(0 0% 100%);
+	--popover-foreground: hsl(222.2 84% 4.9%);
+
+	--card: hsl(0 0% 100%);
+	--card-foreground: hsl(222.2 84% 4.9%);
+
+	--border: hsl(214.3 31.8% 91.4%);
+	--border-dark: hsl(0 0% 40%);
+	--input: hsl(214.3 31.8% 91.4%);
+
+	--primary: hsl(215.75 98.36% 52.16%);
+	--primary-foreground: hsl(210 40% 98%);
+
+	--secondary: hsl(210 40% 96.1%);
+	--secondary-foreground: hsl(222.2 47.4% 11.2%);
+
+	--accent: hsl(210 40% 96.1%);
+	--accent-foreground: hsl(222.2 47.4% 11.2%);
+
+	--grey: hsl(208.24 7.3% 45.69%);
+	--grey-foreground: hsl(210 40% 98%);
+
+	--destructive: hsl(0 72.2% 50.6%);
+	--destructive-foreground: hsl(210 40% 98%);
+
+	--warning: hsl(45 100% 90.27%);
+	--warning-dark: hsl(45 94.66% 20.55%);
+	--warning-foreground: hsl(45 100% 75.55%);
+
+	--link: hsl(215.75 98.36% 52.16%);
+
+	--ring: hsl(222.2 84% 4.9%);
+
+	--radius: 0.5rem;
+
+	--mark-color: hsl(45 100% 90.27%);
+
+	--code-preview-foreground: #90a4ae;
+	--code-preview-background: #fafafa;
+	--code-preview-token-constant: #f76d47;
+	--code-preview-token-string: #000;
+	--code-preview-token-comment: #bac8cf;
+	--code-preview-token-keyword: #39adb5;
+	--code-preview-token-parameter: #90a4ae;
+	--code-preview-token-function: #6182b8;
+	--code-preview-token-string-expression: #91b859;
+	--code-preview-token-punctuation: #6182b8;
+	--code-preview-token-link: #000;
+	--code-preview-token-bracket: #39adb5;
+	--code-preview-token-punctuation-mark: #39adb5;
+	--code-preview-token-accent: #9c3eda;
+}
+
+.javascript {
+	--code-preview-token-variable: #90a4ae;
+	--code-preview-token-keyword-special: #39adb5;
+	--code-preview-token-bracket-special: #e53935;
+	--code-preview-token-keyword: #9c3eda;
+	--code-preview-token-string-key: #e53935;
+}
+
+.swift {
+	--code-preview-token-constant: #e2931d;
+	--code-preview-token-variable: #90a4ae;
+	--code-preview-token-keyword-special: #39adb5;
+	--code-preview-token-bracket-special: #e53935;
+	--code-preview-token-keyword: #f76d47;
+	--code-preview-token-string-key: #e53935;
+}
+
+.dark {
+	--background: hsl(222.2 84% 4.9%);
+	--foreground: hsl(210 40% 98%);
+
+	--muted: hsl(217.2 32.6% 17.5%);
+	--muted-foreground: hsl(215 20.2% 65.1%);
+
+	--popover: hsl(222.2 84% 4.9%);
+	--popover-foreground: hsl(210 40% 98%);
+
+	--card: hsl(222.2 84% 4.9%);
+	--card-foreground: hsl(210 40% 98%);
+
+	--border: hsl(217.2 32.6% 17.5%);
+	--border-dark: hsl(0 0% 60%);
+	--input: hsl(217.2 32.6% 17.5%);
+
+	--secondary: hsl(217.2 32.6% 17.5%);
+	--secondary-foreground: hsl(210 40% 98%);
+
+	--accent: hsl(217.2 32.6% 17.5%);
+	--accent-foreground: hsl(210 40% 98%);
+
+	--grey: hsl(217.2 32.6% 17.5%);
+	--grey-foreground: hsl(210 40% 98%);
+
+	--destructive: hsl(0 62.8% 30.6%);
+	--destructive-foreground: hsl(210 40% 98%);
+
+	--warning: hsl(45 94.66% 10.27%);
+	--warning-dark: hsl(45 100% 70.82%);
+	--warning-foreground: hsl(45 94.66% 30.82%);
+
+	--link: hsl(215.83 98.63% 71.37%);
+
+	--ring: hsl(212.7 26.8% 83.9%);
+
+	--mark-color: hsl(45 94.66% 20.55%);
+
+	--code-preview-foreground: #eeffff;
+	--code-preview-background: #212121;
+	--code-preview-token-constant: #f78c6c;
+	--code-preview-token-string: #000;
+	--code-preview-token-comment: #888;
+	--code-preview-token-keyword: #89ddff;
+	--code-preview-token-parameter: #90a4ae;
+	--code-preview-token-function: #82aaff;
+	--code-preview-token-string-expression: #c3e88d;
+	--code-preview-token-punctuation: #82aaff;
+	--code-preview-token-link: #000;
+	--code-preview-token-bracket: #89ddff;
+	--code-preview-token-punctuation-mark: #89ddff;
+	--code-preview-token-accent: #c792ea;
+}
+
+.dark .javascript {
+	--code-preview-token-keyword: #c792ea;
+	--code-preview-token-function: #82aaff;
+	--code-preview-token-variable: #eeffff;
+	--code-preview-token-string-key: #f07178;
+	--code-preview-token-keyword-special: #89ddff;
+	--code-preview-token-bracket-special: #e53935;
+}
+
+.dark .swift {
+	--code-preview-token-constant: #ffcb6b;
+	--code-preview-token-keyword: #f78c6c;
+	--code-preview-token-variable: #eeffff;
+	--code-preview-token-keyword-special: #89ddff;
+}
+
+@theme inline {
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-link: var(--link);
+	--color-border: var(--border);
 }
 
 @layer base {
 	body {
 		@apply bg-background text-foreground font-sans;
+	}
+}
+
+@utility container {
+	margin-inline: auto;
+	padding-inline: 1.5rem;
+
+	@variant sm {
+		/*padding-inline: 20px;*/
+	}
+
+	@variant lg {
+		/*padding-inline: 80px;*/
+	}
+
+	@variant xl {
+		/*padding-inline: 120px;*/
 	}
 }
 
