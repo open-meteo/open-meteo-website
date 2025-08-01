@@ -6,13 +6,14 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-	--breakpoint-xs: 420px;
 	--breakpoint-sm: 640px;
 	--breakpoint-md: 768px;
 	--breakpoint-lg: 1024px;
 	--breakpoint-xl: 1280px;
 	--breakpoint-2xl: 1536px;
 
+	--container-sm: 1000px;
+	--container-md: 1000px;
 	--container-lg: 996px;
 	--container-xl: 1100px;
 	--container-2xl: 1400px;
@@ -209,16 +210,16 @@
 	margin-inline: auto;
 	padding-inline: 1.5rem;
 
-	@variant sm {
-		/*padding-inline: 20px;*/
-	}
-
 	@variant lg {
-		/*padding-inline: 80px;*/
+		padding-inline: 2rem;
 	}
 
 	@variant xl {
-		/*padding-inline: 120px;*/
+		padding-inline: 3rem;
+	}
+
+	@media screen and (max-width: 1024px) {
+		@apply max-w-none;
 	}
 }
 
