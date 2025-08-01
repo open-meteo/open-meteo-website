@@ -151,7 +151,7 @@
 					monthModeStart = true;
 				}}>{startDate.getUTCFullYear()} - {monthList[startDate.getUTCMonth()]}</Button
 			>
-			<Button variant="outline" class="px-3" onclick={increaseStart}
+			<Button variant="outline" class="mr-6 px-3 md:mr-0" onclick={increaseStart}
 				><svg
 					class="lucide lucide-chevron-right"
 					xmlns="http://www.w3.org/2000/svg"
@@ -284,7 +284,7 @@
 					monthModeEnd = true;
 				}}>{endDate.getUTCFullYear()} - {monthList[endDate.getUTCMonth()]}</Button
 			>
-			<Button variant="outline" class="mr-8 px-3" onclick={increaseEnd}
+			<Button variant="outline" class="px-3 md:mr-8" onclick={increaseEnd}
 				><svg
 					class="lucide lucide-chevron-right"
 					xmlns="http://www.w3.org/2000/svg"

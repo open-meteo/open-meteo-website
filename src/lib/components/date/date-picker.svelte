@@ -213,12 +213,12 @@
 				}
 			}}
 			trapFocus={false}
-			class="border-border w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 "
+			class="border-border relative w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 "
 			align="start"
 		>
 			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} />
 			<Popover.Close
-				class="ring-offset-background focus:ring-ring absolute top-6 right-4 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none md:top-8"
+				class="ring-offset-background focus:ring-ring absolute !top-3 right-3 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none md:top-8"
 			>
 				<svg
 					class="lucide lucide-x"
