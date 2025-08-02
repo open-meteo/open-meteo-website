@@ -8,8 +8,8 @@
 	interface Props {
 		start_date?: string;
 		end_date?: string;
-		begin_date?: Date;
-		last_date?: Date;
+		beginDate?: Date;
+		lastDate?: Date;
 	}
 
 	const now = new Date();
@@ -17,8 +17,8 @@
 	let {
 		start_date = $bindable(''),
 		end_date = $bindable(''),
-		begin_date = new Date('1940-01-01'),
-		last_date = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`)
+		beginDate = new Date('1940-01-01'),
+		lastDate = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`)
 	}: Props = $props();
 
 	let startDate = $state(new Date(start_date));
@@ -57,18 +57,18 @@
 	const monthList = monthsForLocale();
 	const yearList = [
 		...Array(
-			last_date.getUTCFullYear() -
-				(begin_date.getUTCFullYear() > 1990
-					? begin_date.getUTCFullYear() - 10
-					: begin_date.getUTCFullYear()) +
+			lastDate.getUTCFullYear() -
+				(beginDate.getUTCFullYear() > 1990
+					? beginDate.getUTCFullYear() - 10
+					: beginDate.getUTCFullYear()) +
 				1
 		).keys()
 	].map(
 		(y) =>
 			y +
-			(begin_date.getUTCFullYear() > 1990
-				? begin_date.getUTCFullYear() - 10
-				: begin_date.getUTCFullYear())
+			(beginDate.getUTCFullYear() > 1990
+				? beginDate.getUTCFullYear() - 10
+				: beginDate.getUTCFullYear())
 	);
 	let startDates = $derived(
 		getDatesInMonth(startDate.getUTCFullYear(), startDate.getUTCMonth() + 1)
@@ -176,7 +176,7 @@
 							id="start_year_{year}"
 							class={startDate.getUTCFullYear() === year ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={year < begin_date.getUTCFullYear()}
+							disabled={year < beginDate.getUTCFullYear()}
 							onclick={() => {
 								yearModeStart = false;
 								let newDate = new Date(startDate);
@@ -193,9 +193,9 @@
 							class={monthList[startDate.getUTCMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
 							disabled={new Date(`${startDate.getUTCFullYear()}-${pad(i + 1)}-30`).getTime() <
-								begin_date.getTime() ||
+								beginDate.getTime() ||
 								new Date(`${startDate.getUTCFullYear()}-${pad(i + 1)}-01`).getTime() >
-									last_date.getTime()}
+									lastDate.getTime()}
 							onclick={() => {
 								monthModeStart = false;
 								let newDate = new Date(startDate);
@@ -228,8 +228,8 @@
 									? 'bg-accent rounded-s-none rounded-e-md'
 									: ''}"
 								variant="ghost"
-								disabled={date.getTime() < begin_date.getTime() - 11 * 60 * 60 * 1000 ||
-									date.getTime() > last_date.getTime() + 11 * 60 * 60 * 1000}
+								disabled={date.getTime() < beginDate.getTime() - 11 * 60 * 60 * 1000 ||
+									date.getTime() > lastDate.getTime() + 11 * 60 * 60 * 1000}
 								onclick={() => {
 									if (selectEndNext) {
 										let newDate = new Date(startDate);
@@ -309,7 +309,7 @@
 							id="end_year_{year}"
 							class={endDate.getUTCFullYear() === year ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={year < begin_date.getUTCFullYear()}
+							disabled={year < beginDate.getUTCFullYear()}
 							onclick={() => {
 								yearModeEnd = false;
 								let newDate = new Date(endDate);
@@ -326,9 +326,9 @@
 							class={monthList[endDate.getUTCMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
 							disabled={new Date(`${endDate.getUTCFullYear()}-${pad(i + 1)}-30`).getTime() <
-								begin_date.getTime() ||
+								beginDate.getTime() ||
 								new Date(`${endDate.getUTCFullYear()}-${pad(i + 1)}-01`).getTime() >
-									last_date.getTime()}
+									lastDate.getTime()}
 							onclick={() => {
 								monthModeEnd = false;
 								let newDate = new Date(endDate);
@@ -353,8 +353,8 @@
 									? 'bg-accent rounded-s-md rounded-e-none'
 									: ''}"
 								variant="ghost"
-								disabled={date.getTime() < begin_date.getTime() - 11 * 60 * 60 * 1000 ||
-									date.getTime() > last_date.getTime() + 11 * 60 * 60 * 1000}
+								disabled={date.getTime() < beginDate.getTime() - 11 * 60 * 60 * 1000 ||
+									date.getTime() > lastDate.getTime() + 11 * 60 * 60 * 1000}
 								onclick={() => {
 									let newDate = new Date(endDate);
 									newDate.setUTCDate(date.getUTCDate());

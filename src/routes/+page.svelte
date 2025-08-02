@@ -5,8 +5,6 @@
 
 	import { Button } from '$lib/components/ui/button';
 
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
-
 	import WeatherApiCodeBlock from '$lib/components/code/home/weather-api.svx';
 	import WeatherApiCurlBlock from '$lib/components/code/home/weather-api-curl.svx';
 
@@ -62,36 +60,47 @@
 		</div>
 
 		<div class="-mx-6 rounded-lg bg-[#FAFAFA] p-6 duration-200 md:mx-0 dark:bg-[#212121]">
-			<ToggleGroup.Root
-				type="single"
-				bind:value={tabSelected}
-				class="flex flex-col items-start justify-start gap-0 sm:flex-row md:flex-col lg:flex-row"
-			>
-				<ToggleGroup.Item
-					value="weather-api"
-					class="min-h-12 cursor-pointer truncate opacity-100! sm:rounded-e-none lg:min-h-[unset]"
-					aria-label="Toggle bold"
+			<div class="border-border flex rounded-md border">
+				<Button
+					variant="ghost"
+					class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {tabSelected ===
+					'weather-api'
+						? 'bg-accent cursor-not-allowed'
+						: ''}"
 					disabled={tabSelected === 'weather-api'}
+					onclick={() => {
+						tabSelected = 'weather-api';
+					}}
 				>
 					Forecast & Current
-				</ToggleGroup.Item>
-				<ToggleGroup.Item
-					value="last-10-days"
-					class="min-h-12 cursor-pointer truncate opacity-100! sm:rounded-none lg:min-h-[unset]"
-					aria-label="Toggle italic"
+				</Button>
+				<Button
+					variant="ghost"
+					class="items-center gap-1 rounded-none !opacity-100 duration-300 {tabSelected ===
+					'last-10-days'
+						? 'bg-accent cursor-not-allowed'
+						: ''}"
 					disabled={tabSelected === 'last-10-days'}
+					onclick={() => {
+						tabSelected = 'last-10-days';
+					}}
 				>
-					Last 10 days
-				</ToggleGroup.Item>
-				<ToggleGroup.Item
-					value="historical-weather"
-					class="min-h-12 cursor-pointer truncate opacity-100! sm:rounded-s-none lg:min-h-[unset]"
-					aria-label="Toggle strikethrough"
+					Last 10 Days
+				</Button>
+				<Button
+					variant="ghost"
+					class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {tabSelected ===
+					'historical-weather'
+						? 'bg-accent cursor-not-allowed'
+						: ''}"
 					disabled={tabSelected === 'historical-weather'}
+					onclick={() => {
+						tabSelected = 'historical-weather';
+					}}
 				>
-					Historical data
-				</ToggleGroup.Item>
-			</ToggleGroup.Root>
+					Historical Data
+				</Button>
+			</div>
 			<div class="pregenerated-code relative min-h-[530px] overflow-auto lg:min-h-[495px]">
 				{#if tabSelected === 'weather-api'}
 					<div in:fade class="group w-full">

@@ -70,9 +70,9 @@
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 
-	let begin_date = new Date('2016-01-01');
-	let last_date = new Date();
-	last_date.setDate(last_date.getDate() - 2);
+	let beginDate = new Date('2016-01-01');
+	let lastDate = new Date();
+	lastDate.setDate(lastDate.getDate() - 2);
 
 	// Additional variable settings
 	let forecastHours = $derived(
@@ -184,8 +184,8 @@
 			<DatePicker
 				bind:start_date={$params.start_date}
 				bind:end_date={$params.end_date}
-				{begin_date}
-				{last_date}
+				{beginDate}
+				{lastDate}
 			/>
 		</div>
 		<div class="lg:w-1/2">
@@ -495,10 +495,12 @@
 								{#each pressureVariables as variable, i}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
+										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
 										0
-											? 'rounded-t-md'
-											: ''} {i === pressureVariables.length - 1 ? 'rounded-b-md' : ''}"
+											? 'rounded-t-md !rounded-b-none'
+											: ''} {i === pressureVariables.length - 1
+											? '!rounded-t-none rounded-b-md'
+											: ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
 										><div class="flex w-full items-center justify-between gap-2 text-left">

@@ -27,7 +27,7 @@
 	--background: oklch(100% 0 0);
 	--foreground: oklch(13.7% 0.036 258.5);
 
-	--muted: hsl(210 40% 96.1);
+	--muted: oklch(100%, 0%, 89.876%);
 	--muted-foreground: oklch(55.5% 0.041 257.4);
 
 	--popover: oklch(100% 0 0);
@@ -38,7 +38,6 @@
 
 	--border: oklch(92.9% 0.013 255.5);
 	--border-dark: oklch(51% 0 0);
-	--input: oklch(92.9% 0.013 255.5);
 
 	--primary: oklch(57.8% 0.228 260);
 	--primary-foreground: oklch(98.4% 0.003 247.9);
@@ -59,8 +58,8 @@
 	--warning-dark: oklch(43.5% 0.088 86.9);
 	--warning-foreground: oklch(91.3% 0.118 91.5);
 
+	--input: oklch(92.9% 0.013 255.5);
 	--link: oklch(57.8% 0.228 260);
-
 	--ring: oklch(13.7% 0.036 258.5);
 
 	--radius: 0.5rem;
@@ -115,7 +114,6 @@
 
 	--border: oklch(28% 0.037 260);
 	--border-dark: oklch(68.3% 0 0);
-	--input: oklch(28% 0.037 260);
 
 	--secondary: oklch(28% 0.037 260);
 	--secondary-foreground: oklch(98.4% 0.003 247.9);
@@ -133,8 +131,8 @@
 	--warning-dark: oklch(89.8% 0.136 91);
 	--warning-foreground: oklch(57.9% 0.117 85.9);
 
+	--input: oklch(28% 0.037 260);
 	--link: oklch(72.9% 0.14 258.1);
-
 	--ring: oklch(86.9% 0.02 252.8);
 
 	--mark-color: oklch(43.5% 0.088 86.9);
@@ -197,6 +195,13 @@
 	--color-link: var(--link);
 	--color-border: var(--border);
 	--color-border-dark: var(--border-dark);
+	--color-warning: var(--warning);
+	--color-warning-dark: var(--warning-dark);
+	--color-warning-foreground: var(--warning-foreground);
+	--color-desctructive: var(--desctructive);
+	--color-desctructive-foreground: var(--desctructive-foreground);
+	--color-warning-foreground: var(--warning-foreground);
+	--color-mark-color: var(--mark-color);
 }
 
 @layer base {
@@ -412,10 +417,9 @@ pre {
 mark,
 .mark {
 	margin-top: -0.1875em;
-
 	padding: 0.1875em;
-	color: hsl(var(--foreground));
-	background-color: hsl(var(--mark-color));
+	color: var(--foreground);
+	background-color: var(--mark-color);
 }
 
 figcaption {

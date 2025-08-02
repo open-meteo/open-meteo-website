@@ -5,11 +5,11 @@
 
 	import { api_key_preferences } from '$lib/stores/settings';
 
-	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
+	import { Input } from '$lib/components/ui/input';
+	import { Button } from '$lib/components/ui/button';
 
 	import * as Alert from '$lib/components/ui/alert';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	interface Props {
 		requires_professional_plan?: boolean;
@@ -25,40 +25,51 @@
 </script>
 
 <div>
-	<div class="flex items-center">
+	<div class="flex items-center gap-2">
 		<div class="text-muted-foreground">Usage license:</div>
-		<div class="border-border ml-2 flex rounded-lg border">
-			<ToggleGroup.Root
-				type="single"
-				bind:value={licenseSelected}
-				onValueChange={() => ($api_key_preferences.use = licenseSelected)}
-				class="justify-start text-nowrap flex flex-wrap gap-0"
+		<div class="border-border flex rounded-md border">
+			<Button
+				variant="ghost"
+				class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {licenseSelected ===
+				'non_commercial'
+					? 'bg-accent cursor-not-allowed'
+					: ''}"
+				disabled={licenseSelected === 'non_commercial'}
+				onclick={() => {
+					licenseSelected = 'non_commercial';
+					$api_key_preferences.use = licenseSelected;
+				}}
 			>
-				<ToggleGroup.Item
-					id="non_commercial"
-					value="non_commercial"
-					class=" min-h-12 cursor-pointer rounded-e-none opacity-100! lg:min-h-[unset]"
-					disabled={licenseSelected === 'non_commercial'}
-				>
-					Non-Commercial
-				</ToggleGroup.Item>
-				<ToggleGroup.Item
-					id="commercial"
-					value="commercial"
-					class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
-					disabled={licenseSelected === 'commercial'}
-				>
-					Commercial
-				</ToggleGroup.Item>
-				<ToggleGroup.Item
-					id="self_hosted"
-					value="self_hosted"
-					class="min-h-12 cursor-pointer rounded-s-none opacity-100! lg:min-h-[unset]"
-					disabled={licenseSelected === 'self_hosted'}
-				>
-					Self-Hosted
-				</ToggleGroup.Item>
-			</ToggleGroup.Root>
+				Non-Commercial
+			</Button>
+			<Button
+				variant="ghost"
+				class="items-center gap-1 rounded-none !opacity-100 duration-300 {licenseSelected ===
+				'commercial'
+					? 'bg-accent cursor-not-allowed'
+					: ''}"
+				disabled={licenseSelected === 'commercial'}
+				onclick={() => {
+					licenseSelected = 'commercial';
+					$api_key_preferences.use = licenseSelected;
+				}}
+			>
+				Commercial
+			</Button>
+			<Button
+				variant="ghost"
+				class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {licenseSelected ===
+				'self_hosted'
+					? 'bg-accent cursor-not-allowed'
+					: ''}"
+				disabled={licenseSelected === 'self_hosted'}
+				onclick={() => {
+					licenseSelected = 'self_hosted';
+					$api_key_preferences.use = licenseSelected;
+				}}
+			>
+				Self-Hosted
+			</Button>
 		</div>
 	</div>
 	<div class="relative mt-3 md:mt-6">
