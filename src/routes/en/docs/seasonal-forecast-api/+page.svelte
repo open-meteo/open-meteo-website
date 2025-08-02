@@ -35,10 +35,10 @@
 	);
 	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
-	let begin_date = new Date('2022-06-08');
+	let beginDate = new Date('2022-06-08');
 
-	let last_date = new Date();
-	last_date.setDate(last_date.getDate() + 274);
+	let lastDate = new Date();
+	lastDate.setDate(lastDate.getDate() + 274);
 </script>
 
 <svelte:head>
@@ -200,8 +200,8 @@
 						<DatePicker
 							bind:start_date={$params.start_date}
 							bind:end_date={$params.end_date}
-							{begin_date}
-							{last_date}
+							{beginDate}
+							{lastDate}
 						/>
 					</div>
 					<div class="mb-3 md:w-1/2">
