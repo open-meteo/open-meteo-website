@@ -60,47 +60,50 @@
 		</div>
 
 		<div class="-mx-6 rounded-lg bg-[#FAFAFA] p-6 duration-200 md:mx-0 dark:bg-[#212121]">
-			<div class="border-border flex rounded-md border">
-				<Button
-					variant="ghost"
-					class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {tabSelected ===
-					'weather-api'
-						? 'bg-accent cursor-not-allowed'
-						: ''}"
-					disabled={tabSelected === 'weather-api'}
-					onclick={() => {
-						tabSelected = 'weather-api';
-					}}
-				>
-					Forecast & Current
-				</Button>
-				<Button
-					variant="ghost"
-					class="items-center gap-1 rounded-none !opacity-100 duration-300 {tabSelected ===
-					'last-10-days'
-						? 'bg-accent cursor-not-allowed'
-						: ''}"
-					disabled={tabSelected === 'last-10-days'}
-					onclick={() => {
-						tabSelected = 'last-10-days';
-					}}
-				>
-					Last 10 Days
-				</Button>
-				<Button
-					variant="ghost"
-					class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {tabSelected ===
-					'historical-weather'
-						? 'bg-accent cursor-not-allowed'
-						: ''}"
-					disabled={tabSelected === 'historical-weather'}
-					onclick={() => {
-						tabSelected = 'historical-weather';
-					}}
-				>
-					Historical Data
-				</Button>
+			<div class="flex">
+				<div class="border-border flex flex-col rounded-md border lg:flex-row">
+					<Button
+						variant="ghost"
+						class="items-center gap-1 rounded-b-none !opacity-100 duration-300 lg:rounded-e-none lg:rounded-t {tabSelected ===
+						'weather-api'
+							? 'bg-accent cursor-not-allowed'
+							: ''}"
+						disabled={tabSelected === 'weather-api'}
+						onclick={() => {
+							tabSelected = 'weather-api';
+						}}
+					>
+						Forecast & Current
+					</Button>
+					<Button
+						variant="ghost"
+						class="items-center gap-1 rounded-none !opacity-100 duration-300 {tabSelected ===
+						'last-10-days'
+							? 'bg-accent cursor-not-allowed'
+							: ''}"
+						disabled={tabSelected === 'last-10-days'}
+						onclick={() => {
+							tabSelected = 'last-10-days';
+						}}
+					>
+						Last 10 Days
+					</Button>
+					<Button
+						variant="ghost"
+						class="items-center gap-1 rounded-t-none !opacity-100 duration-300 lg:rounded-s-none lg:rounded-e  {tabSelected ===
+						'historical-weather'
+							? 'bg-accent cursor-not-allowed'
+							: ''}"
+						disabled={tabSelected === 'historical-weather'}
+						onclick={() => {
+							tabSelected = 'historical-weather';
+						}}
+					>
+						Historical Data
+					</Button>
+				</div>
 			</div>
+
 			<div class="pregenerated-code relative min-h-[530px] overflow-auto lg:min-h-[495px]">
 				{#if tabSelected === 'weather-api'}
 					<div in:fade class="group w-full">
