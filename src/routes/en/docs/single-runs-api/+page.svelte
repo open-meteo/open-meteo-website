@@ -52,28 +52,25 @@
 		forecastDaysOptions
 	} from '../options';
 
-
-
 	let d = new Date();
-	d.setDate(d.getDate() - 2);
-	let endDateDefault = d.toISOString().split('T')[0];
-	d.setDate(d.getDate() - 14);
-	let startDateDefault = d.toISOString().split('T')[0];
+	d.setUTCDate(d.getUTCDate() - 1);
+	d.setUTCHours(0);
+	d.setUTCMinutes(0);
+	d.setUTCSeconds(0);
+	d.setUTCMilliseconds(0);
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		run: '2025-08-10T00:00',
-		forecast_days: 7,
+		run: d.toISOString().replace(':00.000', ''),
+		forecast_days: '7',
 		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
 
-
 	let forecastDays = $derived(
 		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
 	);
-
 
 	let pressureVariablesTab = $state('temperature');
 
@@ -150,10 +147,7 @@
 <svelte:head>
 	<title>Single Runs API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/single-runs-api" />
-	<meta
-		name="description"
-		content=""
-	/>
+	<meta name="description" content="" />
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4"
@@ -171,7 +165,8 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		WORK IN PROGRESS! This API allows access to individual weather model runs. Data is accessed from an archival storage which is significantly slower. WORK IN PROGRESS!
+		WORK IN PROGRESS! This API allows access to individual weather model runs. Data is accessed from
+		an archival storage which is significantly slower.
 	</Alert.Description>
 </Alert.Root>
 
@@ -180,40 +175,39 @@
 	<LocationSelection bind:params={$params} />
 
 	<!-- TIME -->
-	<div class="mt-6 flex flex-col gap-4 lg:flex-row">
-		<div class="mb-3 lg:w-1/2">
-			<div class="relative"> 
-			<Input
-				id="run"
-				type="text"
-				class="h-12 cursor-pointer pt-6"
-				name="run"
-				bind:value={$params.run}
-			/>
-			<Label
-				class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-				for="run">Run (Format yyyy-mm-ddThh:mm)</Label
-			>
-			</div>
+	<div class="mt-3 md:mt-6">
+		<div class="grid gap-3 md:gap-6 lg:grid-cols-2">
 			<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
-						<div class="relative">
-							<Select.Root name="forecast_days" type="single" bind:value={$params.forecast_days}>
-								<Select.Trigger
-									aria-label="Forecast days input"
-									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-									>{forecastDays?.label}</Select.Trigger
-								>
-								<Select.Content preventScroll={false} class="border-border">
-									{#each forecastDaysOptions as { value, label } (value)}
-										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
-									{/each}
-								</Select.Content>
-								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-									>Forecast days</Label
-								>
-							</Select.Root>
-						</div>
-						</div>
+				<div class="relative">
+					<Input
+						id="run"
+						type="text"
+						class="h-12 cursor-pointer pt-6"
+						name="run"
+						bind:value={$params.run}
+					/>
+					<Label
+						class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+						for="run">Run (yyyy-mm-ddThh:mm)</Label
+					>
+				</div>
+				<div class="relative">
+					<Select.Root name="forecast_days" type="single" bind:value={$params.forecast_days}>
+						<Select.Trigger
+							aria-label="Forecast days input"
+							class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{forecastDays?.label}</Select.Trigger
+						>
+						<Select.Content preventScroll={false} class="border-border">
+							{#each forecastDaysOptions as { value, label } (value)}
+								<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
+							{/each}
+						</Select.Content>
+						<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+							>Forecast days</Label
+						>
+					</Select.Root>
+				</div>
+			</div>
 		</div>
 	</div>
 
