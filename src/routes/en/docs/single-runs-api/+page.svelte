@@ -62,7 +62,7 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		run: d.toISOString().replace(':00.000', ''),
+		run: d.toISOString().replace(':00.000Z', ''),
 		forecast_days: '7',
 		...defaultParameters,
 		hourly: ['temperature_2m']
