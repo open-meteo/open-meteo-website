@@ -101,10 +101,10 @@
 	// Citation
 	let citation = $state('apa');
 
-	let begin_date = new Date('1940-01-01');
+	let beginDate = new Date('1940-01-01');
 
-	let last_date = new Date();
-	last_date.setDate(last_date.getDate() - 1);
+	let lastDate = new Date();
+	lastDate.setDate(lastDate.getDate() - 1);
 </script>
 
 <svelte:head>
@@ -150,8 +150,8 @@
 			<DatePicker
 				bind:start_date={$params.start_date}
 				bind:end_date={$params.end_date}
-				{begin_date}
-				{last_date}
+				{beginDate}
+				{lastDate}
 			/>
 		</div>
 		<div class="lg:w-1/2">
@@ -1496,33 +1496,33 @@
 		</p>
 
 		<div class="border-border mt-3 rounded-lg border p-6 md:mt-6">
-			<ToggleGroup.Root type="single" bind:value={citation} class="mb-3 justify-start gap-0">
+			<ToggleGroup.Root type="single" bind:value={citation} class="mb-3  justify-start gap-0">
 				<div class="text-muted-foreground">Citation:</div>
 				<div class="border-border ml-2 flex rounded-lg border">
 					<ToggleGroup.Item
 						value="apa"
-						class="min-h-12 cursor-pointer rounded-e-none opacity-100! lg:min-h-[unset] "
+						class="!h-10 cursor-pointer rounded-e-none py-2 opacity-100! lg:min-h-[unset] "
 						disabled={citation === 'apa'}
 					>
 						APA
 					</ToggleGroup.Item>
 					<ToggleGroup.Item
 						value="mla"
-						class=" min-h-12 cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
+						class="!h-10 cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'mla'}
 					>
 						MLA
 					</ToggleGroup.Item>
 					<ToggleGroup.Item
 						value="harvard"
-						class=" min-h-12 cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
+						class="!h-10 cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'harvard'}
 					>
 						Harvard
 					</ToggleGroup.Item>
 					<ToggleGroup.Item
 						value="bibtex"
-						class=" min-h-12 cursor-pointer rounded-md rounded-s-none opacity-100! duration-300 lg:min-h-[unset] "
+						class="!h-10 cursor-pointer rounded-md rounded-s-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'bibtex'}
 					>
 						BibTex
