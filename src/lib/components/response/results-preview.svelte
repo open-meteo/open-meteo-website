@@ -362,7 +362,7 @@
 	<h2 id="api_response" class="text-2xl md:text-3xl">API Response</h2>
 </a>
 
-<div class="mt-2 flex items-center gap-2 md:mt-4">
+<div class="mt-2 -mr-6 flex items-center gap-2 overflow-auto md:mt-4 md:mr-0">
 	<div class="text-muted-foreground">Preview:</div>
 
 	<div class="border-border flex rounded-md border">

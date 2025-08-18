@@ -25,8 +25,8 @@
 </script>
 
 <div>
-	<div class="flex items-center gap-2">
-		<div class="text-muted-foreground">Usage license:</div>
+	<div class="-mr-6 flex items-center gap-2 overflow-auto md:mr-0">
+		<div class="text-muted-foreground text-nowrap">Usage license:</div>
 		<div class="border-border flex rounded-md border">
 			<Button
 				variant="ghost"

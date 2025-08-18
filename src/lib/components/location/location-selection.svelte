@@ -130,7 +130,7 @@
 <a href="#location_and_time"
 	><h2 id="location_and_time" class="text-2xl md:text-3xl">Location and Time</h2></a
 >
-<div class="mt-3 flex items-center gap-2">
+<div class="mt-3 -mr-6 flex items-center gap-2 overflow-auto md:mr-0">
 	<div class="text-muted-foreground">Location:</div>
 
 	<div class="border-border flex rounded-md border">

@@ -33,7 +33,7 @@
 </script>
 
 <div class="mt-6">
-	<div class="mt-3 flex items-center gap-2">
+	<div class="mt-3 -mr-6 flex items-center gap-2 overflow-auto md:mr-0">
 		<div class="text-muted-foreground">Time:</div>
 
 		<div class="border-border flex rounded-md border">
