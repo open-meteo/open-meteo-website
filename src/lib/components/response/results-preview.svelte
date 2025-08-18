@@ -11,7 +11,6 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 
 	import * as Alert from '$lib/components/ui/alert';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import type { APIKeyPreferences, Parameters } from '$lib/docs';
 	import type { UrlHashStore } from '$lib/stores/url-hash-store';
@@ -363,50 +362,72 @@
 	<h2 id="api_response" class="text-2xl md:text-3xl">API Response</h2>
 </a>
 
-<div class="mt-2 flex items-center md:mt-4">
+<div class="mt-2 -mr-6 flex items-center gap-2 overflow-auto md:mt-4 md:mr-0">
 	<div class="text-muted-foreground">Preview:</div>
 
-	<ToggleGroup.Root type="single" bind:value={mode} class="justify-start gap-0">
-		<div class="border-border ml-2 flex flex-wrap rounded-lg border">
-			<ToggleGroup.Item
-				value="chart"
-				class="min-h-12 cursor-pointer rounded-e-none opacity-100! lg:min-h-[unset]"
-				disabled={mode === 'chart'}
-			>
-				Chart & URL
-			</ToggleGroup.Item>
-			<ToggleGroup.Item
-				value="python"
-				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
-				disabled={mode === 'python'}
-			>
-				Python
-			</ToggleGroup.Item>
-			<ToggleGroup.Item
-				value="typescript"
-				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
-				disabled={mode === 'typescript'}
-			>
-				TypeScript
-			</ToggleGroup.Item>
-			{#if sdk_type !== 'ensemble_api'}
-				<ToggleGroup.Item
-					value="swift"
-					class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
-					disabled={mode === 'swift'}
-				>
-					Swift
-				</ToggleGroup.Item>
-			{/if}
-			<ToggleGroup.Item
-				value="other"
-				class="min-h-12 cursor-pointer rounded-s-none opacity-100! lg:min-h-[unset]"
-				disabled={mode === 'other'}
-			>
-				Other
-			</ToggleGroup.Item>
-		</div>
-	</ToggleGroup.Root>
+	<div class="border-border flex rounded-md border">
+		<Button
+			variant="ghost"
+			class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {mode === 'chart'
+				? 'bg-accent cursor-not-allowed'
+				: ''}"
+			disabled={mode === 'chart'}
+			onclick={() => {
+				mode = 'chart';
+			}}
+		>
+			Chart & URL
+		</Button>
+
+		<Button
+			variant="ghost"
+			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'python'
+				? 'bg-accent cursor-not-allowed'
+				: ''}"
+			disabled={mode === 'python'}
+			onclick={() => {
+				mode = 'python';
+			}}
+		>
+			Python
+		</Button>
+		<Button
+			variant="ghost"
+			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'typescript'
+				? 'bg-accent cursor-not-allowed'
+				: ''}"
+			disabled={mode === 'typescript'}
+			onclick={() => {
+				mode = 'typescript';
+			}}
+		>
+			TypeScript
+		</Button>
+		<Button
+			variant="ghost"
+			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'swift'
+				? 'bg-accent cursor-not-allowed'
+				: ''}"
+			disabled={mode === 'swift'}
+			onclick={() => {
+				mode = 'swift';
+			}}
+		>
+			Swift
+		</Button>
+		<Button
+			variant="ghost"
+			class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {mode === 'other'
+				? 'bg-accent cursor-not-allowed'
+				: ''}"
+			disabled={mode === 'other'}
+			onclick={() => {
+				mode = 'other';
+			}}
+		>
+			Other
+		</Button>
+	</div>
 </div>
 
 <div class="py-3">

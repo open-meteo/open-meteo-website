@@ -14,10 +14,10 @@ export const altitudeAboveSeaLevelMeters = (pressureLevelHpA: number): string =>
 
 export const countVariables = (
 	variables: { value: string; label: string }[][],
-	params: string[] | undefined
+	param: string[] | string
 ) => {
 	const flattenedVariables = variables.flat().map((v) => v.value);
-	const overlap = params?.filter((p) => flattenedVariables.includes(p));
+	const overlap = param?.filter((p) => flattenedVariables.includes(p));
 	return {
 		total: flattenedVariables.length,
 		active: overlap?.length ?? 0
@@ -26,13 +26,13 @@ export const countVariables = (
 
 export const countPreviousVariables = (
 	variables: { value: string; label: string }[][],
-	params: string[] | undefined
+	param: string[] | string
 ) => {
 	const flattenedVariables = variables.flat().map((v) => v.value);
 
 	let active = 0;
-	if (params) {
-		for (const p of params) {
+	if (param) {
+		for (const p of param) {
 			for (const fV of flattenedVariables) {
 				if (p.startsWith(fV)) {
 					active += 1;
@@ -50,14 +50,14 @@ export const countPreviousVariables = (
 export const countPressureVariables = (
 	variables: { value: string; label: string }[],
 	levels: number[],
-	params: string[] | undefined
+	param: string[] | string
 ) => {
 	const flattenedVariables = variables.flat().map((v) => v.value);
 
 	let active = 0;
 	for (const level of levels) {
 		for (const fV of flattenedVariables) {
-			if (params && params.includes(`${fV}_${level}hPa`)) {
+			if (param && param.includes(`${fV}_${level}hPa`)) {
 				active += 1;
 			}
 		}
@@ -72,17 +72,14 @@ export const countPressureVariables = (
 export const countHeightVariables = (
 	variables: { value: string; label: string }[],
 	levels: number[],
-	params: string[] | undefined
+	param: string[] | string
 ) => {
 	return {
 		total: variables.length * levels.length,
 		active: variables.reduce(
 			(i, variable) =>
 				i +
-				levels.reduce(
-					(i, level) => i + (params.includes(`${variable.value}_${level}m`) ? 1 : 0),
-					0
-				),
+				levels.reduce((i, level) => i + (param.includes(`${variable.value}_${level}m`) ? 1 : 0), 0),
 			0
 		)
 	};

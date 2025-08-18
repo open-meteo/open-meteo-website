@@ -9,7 +9,6 @@
 
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select/index';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import { type Parameters } from '$lib/docs';
 
@@ -96,6 +95,7 @@
 	onMount(() => {
 		locationMode = params.location_mode;
 	});
+
 	let csvExample = $state('lat_lon');
 
 	const csvExampleOptions = [
@@ -130,100 +130,106 @@
 <a href="#location_and_time"
 	><h2 id="location_and_time" class="text-2xl md:text-3xl">Location and Time</h2></a
 >
-<div class="mt-3 flex items-center gap-2">
+<div class="mt-3 -mr-6 flex items-center gap-2 overflow-auto md:mr-0">
 	<div class="text-muted-foreground">Location:</div>
 
 	<div class="border-border flex rounded-md border">
-		<ToggleGroup.Root
-			type="single"
-			bind:value={locationMode}
-			onValueChange={() => (params.location_mode = locationMode)}
-			class="flex flex-wrap justify-start gap-0 text-nowrap"
+		<Button
+			variant="ghost"
+			class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {locationMode ===
+			'location_search'
+				? 'bg-accent cursor-not-allowed'
+				: ''}"
+			disabled={locationMode === 'location_search'}
+			onclick={() => {
+				locationMode = 'location_search';
+				params.location_mode = locationMode;
+			}}
 		>
-			<ToggleGroup.Item
-				value="location_search"
-				class=" min-h-12 cursor-pointer rounded-e-none opacity-100! lg:min-h-[unset]"
-				disabled={locationMode === 'location_search'}
-				onclick={() => {
-					params.bounding_box = '';
-				}}
+			<svg
+				class="lucide lucide-locate mr-[1px]"
+				xmlns="http://www.w3.org/2000/svg"
+				width="19"
+				height="19"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
 			>
-				<svg
-					class="lucide lucide-locate mr-[1px]"
-					xmlns="http://www.w3.org/2000/svg"
-					width="19"
-					height="19"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-				>
-					<line x1="2" x2="5" y1="12" y2="12" />
-					<line x1="19" x2="22" y1="12" y2="12" />
-					<line x1="12" x2="12" y1="2" y2="5" />
-					<line x1="12" x2="12" y1="19" y2="22" />
-					<circle cx="12" cy="12" r="7" />
-				</svg>Coordinates
-			</ToggleGroup.Item>
-			<ToggleGroup.Item
-				value="csv_coordinates"
-				class="min-h-12 cursor-pointer rounded-none opacity-100! lg:min-h-[unset]"
-				disabled={locationMode === 'csv_coordinates'}
-				onclick={() => {
-					params.bounding_box = '';
-				}}
+				<line x1="2" x2="5" y1="12" y2="12" />
+				<line x1="19" x2="22" y1="12" y2="12" />
+				<line x1="12" x2="12" y1="2" y2="5" />
+				<line x1="12" x2="12" y1="19" y2="22" />
+				<circle cx="12" cy="12" r="7" />
+			</svg>Coordinates
+		</Button>
+		<Button
+			variant="ghost"
+			class="items-center gap-1 rounded-none !opacity-100 duration-300 {locationMode ===
+			'csv_coordinates'
+				? 'bg-accent cursor-not-allowed'
+				: ''}"
+			disabled={locationMode === 'csv_coordinates'}
+			onclick={() => {
+				locationMode = 'csv_coordinates';
+				params.location_mode = locationMode;
+			}}
+		>
+			<svg
+				class="lucide lucide-list mr-[1px]"
+				xmlns="http://www.w3.org/2000/svg"
+				width="19"
+				height="19"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
 			>
-				<svg
-					class="lucide lucide-list mr-[1px]"
-					xmlns="http://www.w3.org/2000/svg"
-					width="19"
-					height="19"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-				>
-					<path d="M3 12h.01" />
-					<path d="M3 18h.01" />
-					<path d="M3 6h.01" />
-					<path d="M8 12h13" />
-					<path d="M8 18h13" />
-					<path d="M8 6h13" />
-				</svg>List
-			</ToggleGroup.Item>
-			<ToggleGroup.Item
-				value="bounding_box"
-				class="min-h-12 cursor-pointer rounded-s-none opacity-100! lg:min-h-[unset]"
-				disabled={locationMode === 'bounding_box'}
-				onclick={() => {
-					setBoundingBox();
-				}}
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="20"
-					height="20"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="lucide lucide-square-dashed-icon lucide-square-dashed mr-[1px]"
-					><path d="M5 3a2 2 0 0 0-2 2" /><path d="M19 3a2 2 0 0 1 2 2" /><path
-						d="M21 19a2 2 0 0 1-2 2"
-					/><path d="M5 21a2 2 0 0 1-2-2" /><path d="M9 3h1" /><path d="M9 21h1" /><path
-						d="M14 3h1"
-					/><path d="M14 21h1" /><path d="M3 9v1" /><path d="M21 9v1" /><path d="M3 14v1" /><path
-						d="M21 14v1"
-					/></svg
-				>Bounding box
-			</ToggleGroup.Item>
-		</ToggleGroup.Root>
+				<path d="M3 12h.01" />
+				<path d="M3 18h.01" />
+				<path d="M3 6h.01" />
+				<path d="M8 12h13" />
+				<path d="M8 18h13" />
+				<path d="M8 6h13" />
+			</svg>List
+		</Button>
+		<Button
+			variant="ghost"
+			class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {locationMode ===
+			'bounding_box'
+				? 'bg-accent cursor-not-allowed'
+				: ''}"
+			disabled={locationMode === 'bounding_box'}
+			onclick={() => {
+				locationMode = 'bounding_box';
+				params.location_mode = locationMode;
+				setBoundingBox();
+			}}
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="20"
+				height="20"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				class="lucide lucide-square-dashed-icon lucide-square-dashed mr-[1px]"
+				><path d="M5 3a2 2 0 0 0-2 2" /><path d="M19 3a2 2 0 0 1 2 2" /><path
+					d="M21 19a2 2 0 0 1-2 2"
+				/><path d="M5 21a2 2 0 0 1-2-2" /><path d="M9 3h1" /><path d="M9 21h1" /><path
+					d="M14 3h1"
+				/><path d="M14 21h1" /><path d="M3 9v1" /><path d="M21 9v1" /><path d="M3 14v1" /><path
+					d="M21 14v1"
+				/></svg
+			>Bounding box
+		</Button>
 	</div>
 </div>
 
