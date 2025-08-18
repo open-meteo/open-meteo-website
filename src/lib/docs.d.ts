@@ -1,15 +1,15 @@
 export interface Parameters {
 	[index: string];
 
-	latitude?: Array<number>;
-	longitude?: Array<number>;
+	latitude?: Array<number> | number;
+	longitude?: Array<number> | number;
 
-	daily?: Array<string>;
-	hourly?: Array<string>;
-	models?: Array<string>;
-	current?: Array<string>;
-	six_hourly?: Array<string>;
-	minutely_15?: Array<string>;
+	daily?: Array<string> | string;
+	hourly?: Array<string> | string;
+	models?: Array<string> | string;
+	current?: Array<string> | string;
+	six_hourly?: Array<string> | string;
+	minutely_15?: Array<string> | string;
 
 	timezone?: string;
 	location_mode?: 'location_search' | 'csv_coordinates' | 'bounding_box';

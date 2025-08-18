@@ -110,10 +110,10 @@
 		}
 	});
 
-	let begin_date = new Date('1940-01-01');
+	let beginDate = new Date('1940-01-01');
 
-	let last_date = new Date();
-	last_date.setDate(last_date.getDate() + 16);
+	let lastDate = new Date();
+	lastDate.setDate(lastDate.getDate() + 16);
 </script>
 
 <svelte:head>
@@ -262,8 +262,8 @@
 						<DatePicker
 							bind:start_date={$params.start_date}
 							bind:end_date={$params.end_date}
-							{begin_date}
-							{last_date}
+							{beginDate}
+							{lastDate}
 						/>
 					</div>
 					<div class="mb-3 lg:w-1/2">

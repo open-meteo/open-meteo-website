@@ -1,8 +1,8 @@
-const begin_date = new Date();
-begin_date.setMonth(begin_date.getMonth() - 3);
+const beginDate = new Date();
+beginDate.setMonth(beginDate.getMonth() - 3);
 
-const last_date = new Date();
-last_date.setDate(last_date.getDate() + 16);
+const lastDate = new Date();
+lastDate.setDate(lastDate.getDate() + 16);
 
 const startDate = new Date();
 startDate.setUTCDate(startDate.getUTCDate() - 7);
@@ -10,8 +10,8 @@ const start_date = startDate.toISOString().split('T')[0];
 
 const endDate = new Date();
 endDate.setUTCDate(endDate.getUTCDate() + 7);
-if (endDate.getTime() > last_date.getTime()) {
-	endDate.setUTCDate(last_date.getUTCDate());
+if (endDate.getTime() > lastDate.getTime()) {
+	endDate.setUTCDate(lastDate.getUTCDate());
 }
 let end_date = endDate.toISOString().split('T')[0];
 
