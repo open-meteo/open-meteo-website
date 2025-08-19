@@ -29,7 +29,7 @@
 		"@internationalized/date": "^3.8.2",
 		"@lucide/svelte": "^0.540.0",
 		"@sveltejs/adapter-static": "^3.0.8",
-		"@sveltejs/kit": "^2.30.1",
+		"@sveltejs/kit": "^2.31.1",
 		"@sveltejs/vite-plugin-svelte": "^6.1.0",
 		"bits-ui": "^2.9.2",
 		"clsx": "^2.1.1",
