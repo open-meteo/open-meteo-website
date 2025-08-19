@@ -123,9 +123,9 @@
 		/><path d="M12 17h.01" /></svg
 	>
 	<Alert.Description>
-		BOM is currently upgrading its key platforms and services. As a result, access to open data is
-		temporarily unavailable. We anticipate restoring access soon, allowing Australian citizens to
-		once again benefit from high-resolution forecasts.
+		BOM is currently upgrading its key platforms and services. During this process, open-data
+		delivery has been temporarily suspended. We look forward to BOM resuming open-data access soon
+		so that high-resolution forecasts are once again available to Australian citizens.
 	</Alert.Description>
 </Alert.Root>
 
