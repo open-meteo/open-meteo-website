@@ -17,8 +17,8 @@
 	interface Props {
 		start_date?: string;
 		end_date?: string;
-		begin_date?: Date;
-		last_date?: Date;
+		beginDate?: Date;
+		lastDate?: Date;
 	}
 
 	const now = new Date();
@@ -26,29 +26,29 @@
 	let {
 		start_date = $bindable(),
 		end_date = $bindable(),
-		begin_date = new Date('1940-01-01'),
-		last_date = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`)
+		beginDate = new Date('1940-01-01'),
+		lastDate = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`)
 	}: Props = $props();
 
 	$effect(() => {
 		if (!start_date) {
-			let startDate = new Date();
-			startDate.setUTCDate(startDate.getUTCDate() - 7);
+			let date = new Date();
+			date.setUTCDate(date.getUTCDate() - 7);
 
-			start_date = startDate.toISOString().split('T')[0];
+			start_date = date.toISOString().split('T')[0];
 		}
 
 		if (!end_date) {
-			let endDate = new Date();
-			endDate.setUTCDate(endDate.getUTCDate() + 7);
-			if (endDate.getTime() > last_date.getTime()) {
-				endDate.setUTCDate(last_date.getUTCDate());
+			let date = new Date();
+			date.setUTCDate(date.getUTCDate() + 7);
+			if (date.getTime() > date.getTime()) {
+				date.setUTCDate(date.getUTCDate());
 			}
-			end_date = endDate.toISOString().split('T')[0];
+			end_date = date.toISOString().split('T')[0];
 		}
 
-		if (!begin_date) {
-			begin_date = new Date('1940-01-01');
+		if (!beginDate) {
+			beginDate = new Date('1940-01-01');
 		}
 	});
 
@@ -134,7 +134,7 @@
 					>Start date</Label
 				>
 			</div>
-			{#if (start_date && new Date(start_date).getTime() < begin_date.getTime() - 24 * 60 * 60 * 1000) || (start_date && new Date(start_date).getTime() > last_date.getTime() + 24 * 60 * 60 * 1000)}
+			{#if (start_date && new Date(start_date).getTime() < beginDate.getTime() - 24 * 60 * 60 * 1000) || (start_date && new Date(start_date).getTime() > lastDate.getTime() + 24 * 60 * 60 * 1000)}
 				<div
 					transition:slide
 					class="-my-1 flex text-sm text-red-800 md:absolute md:top-15 md:left-3"
@@ -186,7 +186,7 @@
 					>End date</Label
 				>
 			</div>
-			{#if (end_date && new Date(end_date).getTime() < begin_date.getTime()) || (end_date && new Date(end_date).getTime() > last_date.getTime() + 24 * 60 * 60 * 1000)}
+			{#if (end_date && new Date(end_date).getTime() < beginDate.getTime()) || (end_date && new Date(end_date).getTime() > lastDate.getTime() + 24 * 60 * 60 * 1000)}
 				<div
 					transition:slide
 					class="-my-1 flex text-sm text-red-800 md:absolute md:top-15 md:left-[calc(50%+1.5rem)]"
@@ -213,12 +213,12 @@
 				}
 			}}
 			trapFocus={false}
-			class="border-border w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 "
+			class="border-border relative w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 "
 			align="start"
 		>
-			<RangeCalendar bind:start_date bind:end_date {begin_date} {last_date} />
+			<RangeCalendar bind:start_date bind:end_date {beginDate} {lastDate} />
 			<Popover.Close
-				class="ring-offset-background focus:ring-ring absolute top-6 right-4 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none md:top-8"
+				class="ring-offset-background focus:ring-ring absolute !top-3 right-3 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none md:top-8"
 			>
 				<svg
 					class="lucide lucide-x"
