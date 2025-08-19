@@ -536,7 +536,7 @@
 				</div>
 				<div>
 					<small class="text-muted-foreground"
-						>Note: The default <mark>Best Match</mark> combines ERA5 and ERA5-Land seamlessly. The
+						>Note: The default <mark>Best Match</mark> combines IFS HRES, ERA5 and ERA5-Land seamlessly. The
 						CERRA model will also be included in <mark>Best Match</mark> once real-time updates become
 						available.</small
 					>
