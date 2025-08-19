@@ -265,7 +265,8 @@
 		const result = await fetch(fetchUrl);
 
 		if (!result.ok) {
-			throw new Error(await result.text());
+			const reason = JSON.parse(await result.text())['reason'];
+			throw new Error(reason);
 		}
 		const json = await result.json();
 		let tEnd = performance.now() - t0;
@@ -557,7 +558,7 @@
 											<path d="M12 17h.01" />
 										</svg>
 
-										{JSON.parse(error.message).reason}
+										{error.message}
 									</div>
 
 									<Button
