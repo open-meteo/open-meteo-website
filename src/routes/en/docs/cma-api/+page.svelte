@@ -141,9 +141,9 @@
 		/><path d="M12 17h.01" /></svg
 	>
 	<Alert.Description>
-		Due to recent high demand, CMA’s open-data services are currently experiencing download issues.
-		We hope these issues are resolved soon so the open-data community can once again access CMA
-		weather forecasts.
+		Unfortunately, CMA’s open-data services have been heavily overloaded in recent weeks, making it
+		nearly impossible to download forecasts reliably. We hope these issues are resolved soon so the
+		open-data community can once again access CMA weather forecasts.
 	</Alert.Description>
 </Alert.Root>
 
