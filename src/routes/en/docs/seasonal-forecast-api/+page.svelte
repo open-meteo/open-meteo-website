@@ -60,7 +60,7 @@
 		class="lucide lucide-info-icon lucide-info"
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
-	<Alert.Description>Work in progress!</Alert.Description>
+	<Alert.Description>This an API prototype with ECMWF SEAS5 data at 36 km resolution with 51 members. The previous prototype with NCEP CFSv2 at 100 km resolution is available <a href="/en/docs/seasonal-forecast-cfsv2-api">here</a>.</Alert.Description>
 </Alert.Root>
 
 <form method="get" action="https://seasonal-api.open-meteo.com/v1/seasonal">
