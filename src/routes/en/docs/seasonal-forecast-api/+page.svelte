@@ -40,6 +40,7 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
+		temporal_resolution: "native",
 		...defaultParameters,
 		daily: ['temperature_2m_max']
 	});
@@ -520,8 +521,9 @@
 	<ResultPreview
 		{params}
 		{defaultParameters}
-		type="seasonal"
-		action="seasonal"
+		type="forecast"
+		model_default="ecmwf_seas5_seamless"
+		action="forecast"
 		sdk_type="ensemble_api"
 	/>
 </div>
