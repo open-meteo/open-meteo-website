@@ -19,13 +19,14 @@
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
 
-	import { daily, six_hourly, defaultParameters, forecastDaysOptions } from './options';
+	import { daily, hourly, defaultParameters, forecastDaysOptions } from './options';
 
 	import { pastDaysOptions } from '../options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
+		temporal_resolution: "native",
 		...defaultParameters,
 		daily: ['temperature_2m_max']
 	});
@@ -60,10 +61,10 @@
 		class="lucide lucide-info-icon lucide-info"
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
-	<Alert.Description>This an API prototype with ECMWF SEAS5 data at 36 km resolution with 51 members. The previous prototype with NCEP CFSv2 at 100 km resolution is available <a href="/en/docs/seasonal-forecast-cfsv2-api">here</a>.</Alert.Description>
+	<Alert.Description><p>This an API prototype with ECMWF SEAS5 data at 36 km resolution with 51 members. This data is not BIAS corrected. Monthly means and anomalies follow. The previous prototype with NCEP CFSv2 at 100 km resolution is available <a href="/en/docs/seasonal-forecast-cfsv2-api">here</a>.</p></Alert.Description>
 </Alert.Root>
 
-<form method="get" action="https://seasonal-api.open-meteo.com/v1/seasonal">
+<form method="get" action="https://seasonal-api.open-meteo.com/v1/forecast">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
@@ -230,30 +231,30 @@
 		<div
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
-			{#each six_hourly as group, i (i)}
+			{#each hourly as group, i (i)}
 				<div>
 					{#each group as { value, label } (value)}
 						<div class="group flex items-center" title={label}>
 							<Checkbox
-								id="{value}_six_hourly"
+								id="{value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 								{value}
-								checked={$params.six_hourly?.includes(value)}
-								aria-labelledby="{value}_six_hourly_label"
+								checked={$params.hourly?.includes(value)}
+								aria-labelledby="{value}_hourly_label"
 								onCheckedChange={() => {
-									if ($params.six_hourly?.includes(value)) {
-										$params.six_hourly = $params.six_hourly.filter((item) => {
+									if ($params.hourly?.includes(value)) {
+										$params.hourly = $params.hourly.filter((item) => {
 											return item !== value;
 										});
-									} else if ($params.six_hourly) {
-										$params.six_hourly.push(value);
-										$params.six_hourly = $params.six_hourly;
+									} else if ($params.hourly) {
+										$params.hourly.push(value);
+										$params.hourly = $params.hourly;
 									}
 								}}
 							/>
 							<Label
-								id="{value}_six_hourly_label"
-								for="{value}_six_hourly"
+								id="{value}_hourly_label"
+								for="{value}_hourly"
 								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 							>
 						</div>
@@ -318,8 +319,9 @@
 	<ResultPreview
 		{params}
 		{defaultParameters}
-		type="seasonal"
-		action="seasonal"
+		type="forecast"
+		model_default="ecmwf_seas5_seamless"
+		action="forecast"
 		sdk_type="ensemble_api"
 	/>
 </div>

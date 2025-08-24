@@ -1,6 +1,6 @@
 export const defaultParameters = {
 	daily: [],
-	six_hourly: [],
+	hourly: [],
 
 	timezone: 'UTC',
 	location_mode: 'location_search',
@@ -19,7 +19,7 @@ export const defaultParameters = {
 	precipitation_unit: 'mm'
 };
 
-export const six_hourly = [
+export const hourly = [
 	[
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
 		{ value: 'dew_point_2m', label: 'Dew Point (2 m)' },
@@ -34,7 +34,7 @@ export const six_hourly = [
 		{ value: 'precipitation', label: 'Total Precipitation' },
 		{ value: 'snowfall', label: 'Snowfall' },
 		{ value: 'rain', label: 'Rain' },
-		{ value: 'sea_surface_temperature', label: 'sea_surface_temperature' },
+		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' }
 	],
@@ -52,6 +52,7 @@ export const daily = [
 	[
 		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
 		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
+		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
 		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
 		{ value: 'sunshine_duration', label: 'Sunshine duration' }
 	],
@@ -66,11 +67,10 @@ export const daily = [
 		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
 		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm)' },
 		{ value: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm)' },
-
-		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
-		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
-		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Temperature (28-100 cm)' },
-		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Temperature (100-255 cm)' },
+		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
+		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)' },
+		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)' },
+		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)' },
 	]
 ];
 
