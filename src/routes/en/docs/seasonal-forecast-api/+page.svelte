@@ -40,7 +40,6 @@
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		temporal_resolution: "native",
 		...defaultParameters,
 		daily: ['temperature_2m_max']
 	});
