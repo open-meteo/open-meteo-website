@@ -35,6 +35,7 @@
 	} from './options';
 
 	import { pastDaysOptions } from '../options';
+	import { onMount } from 'svelte';
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -93,6 +94,11 @@
 
 	let lastDate = new Date();
 	lastDate.setDate(lastDate.getDate() + 274);
+
+	let accordionValues: string[] = $state([]);
+	onMount(() => {
+		(($params.temporal_resolution = 'hourly_6'), ($params.forecast_days = '183'));
+	});
 </script>
 
 <svelte:head>
