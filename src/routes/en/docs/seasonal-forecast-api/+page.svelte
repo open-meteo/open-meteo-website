@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -40,11 +42,16 @@
 		latitude: [52.52],
 		longitude: [13.41],
 		...defaultParameters,
-		daily: ['temperature_2m_max']
+		daily: ['temperature_2m_max'],
+		temporal_resolution: 'hourly_1'
 	});
 
-	$params.temporal_resolution = 'hourly_6';
-	$params.forecast_days = '183';
+	if ($params.forecast_days === '7') {
+		$params.forecast_days = '183';
+	}
+	if ($params.temporal_resolution === 'hourly_1') {
+		$params.temporal_resolution = 'hourly_6';
+	}
 
 	let forecastDays = $derived(
 		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
@@ -61,6 +68,34 @@
 	lastDate.setDate(lastDate.getDate() + 274);
 
 	let accordionValues: string[] = $state([]);
+
+	onMount(() => {
+		if (
+			$params.hourly && temporalResolution
+				? temporalResolution.value !== 'hourly_6'
+				: false && !accordionValues.includes('additional-variables')
+		) {
+			accordionValues.push('additional-variables');
+		}
+
+		if (
+			$params.hourly &&
+			(countVariables(solarVariables, $params.hourly).active ||
+				($params.tilt ? Number($params.tilt) > 0 : false) ||
+				($params.azimuth ? Number($params.azimuth) > 0 : false)) &&
+			!accordionValues.includes('solar-variables')
+		) {
+			accordionValues.push('solar-variables');
+		}
+
+		if (
+			$params.models &&
+			countVariables(models, $params.models).active &&
+			!accordionValues.includes('models')
+		) {
+			accordionValues.push('models');
+		}
+	});
 </script>
 
 <svelte:head>
