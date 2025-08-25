@@ -28,7 +28,7 @@
 	import { typescriptInstallCode } from './installs/typescript-install-code';
 
 	interface Props {
-		params: UrlHashStore;
+		params: Parameters;
 		type?: string;
 		action?: string;
 		model_default?: string;
