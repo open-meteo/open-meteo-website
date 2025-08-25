@@ -1,6 +1,7 @@
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
+	models: ['ecmwf_seas5_seamless'],
 
 	timezone: 'UTC',
 	location_mode: 'location_search',
@@ -8,7 +9,7 @@ export const defaultParameters = {
 
 	time_mode: 'forecast_days',
 	past_days: '0',
-	forecast_days: '92',
+	forecast_days: '7',
 
 	start_date: '',
 	end_date: '',
@@ -26,7 +27,7 @@ export const hourly = [
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' },
-		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
+		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' }
 	],
 	[
 		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
@@ -60,7 +61,7 @@ export const daily = [
 		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
 		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
+		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' }
 	],
 	[
 		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
@@ -70,13 +71,29 @@ export const daily = [
 		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
 		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)' },
 		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)' },
-		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)' },
+		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)' }
 	]
 ];
 
+export const models = [
+	[
+		{ value: 'ecmwf_seas5_seamless', label: 'ECMWF SEAS5' },
+		{ value: 'ecmwf_ifs_seas_seamless', label: 'ECMWF IFS SEAS' }
+	]
+];
+
+export const temporalResolutionOptions = [
+	{ value: '', label: '1 Hourly' },
+	{ value: 'hourly_3', label: '3 Hourly' },
+	{ value: 'hourly_6', label: '6 Hourly (default)' },
+	{ value: 'hourly_12', label: '12 Hourly' },
+	{ value: 'native', label: 'Native Model Resolution' }
+];
+
 export const forecastDaysOptions = [
+	{ value: '7', label: '7 days' },
 	{ value: '45', label: '45 days' },
-	{ value: '92', label: '3 months (default)' },
-	{ value: '183', label: '6 months' },
+	{ value: '92', label: '3 months' },
+	{ value: '183', label: '6 months (default)' },
 	{ value: '214', label: '7 months' }
 ];

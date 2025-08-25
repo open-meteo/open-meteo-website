@@ -3,30 +3,41 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
+	import { countVariables } from '$lib/utils/meteo';
+
 	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
 	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select';
+	import * as Accordion from '$lib/components/ui/accordion';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
 
-	import { daily, hourly, defaultParameters, forecastDaysOptions } from './options';
+	import {
+		daily,
+		hourly,
+		models,
+		defaultParameters,
+		forecastDaysOptions,
+		temporalResolutionOptions
+	} from './options';
 
 	import { pastDaysOptions } from '../options';
+	import { onMount } from 'svelte';
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		temporal_resolution: "native",
 		...defaultParameters,
 		daily: ['temperature_2m_max']
 	});
@@ -36,10 +47,19 @@
 	);
 	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
+	);
+
 	let beginDate = new Date('2022-06-08');
 
 	let lastDate = new Date();
 	lastDate.setDate(lastDate.getDate() + 274);
+
+	let accordionValues: string[] = $state([]);
+	onMount(() => {
+		(($params.temporal_resolution = 'hourly_6'), ($params.forecast_days = '183'));
+	});
 </script>
 
 <svelte:head>
@@ -61,7 +81,13 @@
 		class="lucide lucide-info-icon lucide-info"
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
-	<Alert.Description><p>This an API prototype with ECMWF SEAS5 data at 36 km resolution with 51 members. This data is not BIAS corrected. Monthly means and anomalies follow. The previous prototype with NCEP CFSv2 at 100 km resolution is available <a href="/en/docs/seasonal-forecast-cfsv2-api">here</a>.</p></Alert.Description>
+	<Alert.Description
+		><p>
+			This an API prototype with ECMWF SEAS5 data at 36 km resolution with 51 members. This data is
+			not BIAS corrected. Monthly means and anomalies follow. The previous prototype with NCEP CFSv2
+			at 100 km resolution is available <a href="/en/docs/seasonal-forecast-cfsv2-api">here</a>.
+		</p></Alert.Description
+	>
 </Alert.Root>
 
 <form method="get" action="https://seasonal-api.open-meteo.com/v1/forecast">
@@ -303,6 +329,78 @@
 				</div>
 			{/each}
 		</div>
+	</div>
+
+	<!-- ADDITIONAL VARIABLES -->
+	<div class="mt-6">
+		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+			<AccordionItem id="additional-variables" title="Additional Options">
+				<div class="relative md:col-span-2">
+					<Select.Root
+						name="temporal_resolution"
+						type="single"
+						bind:value={$params.temporal_resolution}
+					>
+						<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							>{temporalResolution?.label}</Select.Trigger
+						>
+						<Select.Content preventScroll={false} class="border-border">
+							{#each temporalResolutionOptions as { value, label } (value)}
+								<Select.Item {value}>{label}</Select.Item>
+							{/each}
+						</Select.Content>
+						<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+							>Temporal Resolution For Hourly Data</Label
+						>
+					</Select.Root>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="models"
+				title="Weather models"
+				count={countVariables(models, $params.models)}
+			>
+				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+					{#each models as group, i (i)}
+						<div class="mb-3">
+							{#each group as { value, label } (value)}
+								<div class="group flex items-center" title={label}>
+									<Checkbox
+										id="{value}_model"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										{value}
+										checked={$params.models?.includes(value)}
+										aria-labelledby="{value}_label"
+										onCheckedChange={() => {
+											if ($params.models?.includes(value)) {
+												$params.models = $params.models.filter((item) => {
+													return item !== value;
+												});
+											} else if ($params.models) {
+												$params.models.push(value);
+												$params.models = $params.models;
+											}
+										}}
+									/>
+									<Label
+										id="{value}_model_label"
+										for="{value}_model"
+										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
+				<div>
+					<small class="text-muted-foreground"
+						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
+						a seamless prediction.</small
+					>
+				</div>
+			</AccordionItem>
+		</Accordion.Root>
 	</div>
 
 	<!-- SETTINGS -->
