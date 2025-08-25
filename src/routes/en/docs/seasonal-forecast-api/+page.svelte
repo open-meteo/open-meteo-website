@@ -319,7 +319,7 @@
 	<ResultPreview
 		{params}
 		{defaultParameters}
-		type="forecast"
+		type="seasonal"
 		model_default="ecmwf_seas5_seamless"
 		action="forecast"
 		sdk_type="ensemble_api"
