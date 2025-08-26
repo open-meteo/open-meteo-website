@@ -34,7 +34,7 @@
 		"bits-ui": "^2.9.2",
 		"clsx": "^2.1.1",
 		"cookie": "^1.0.2",
-		"cypress": "^14.5.0",
+		"cypress": "^15.0.0",
 		"eslint": "^9.33.0",
 		"eslint-config-prettier": "^10.1.1",
 		"eslint-plugin-svelte": "^3.11.0",
