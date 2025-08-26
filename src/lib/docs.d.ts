@@ -52,3 +52,10 @@ export interface APIKeyPreferences {
 	apikey: string;
 	self_host_server: string;
 }
+
+export interface CheckboxOption {
+	value: string;
+	label: string;
+}
+
+export interface CheckboxOptions extends Array<Array<CheckboxOption>> {}

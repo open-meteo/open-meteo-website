@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { fade, slide } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 
 	import { sliceIntoChunks } from '$lib/utils';
 
@@ -15,20 +15,21 @@
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
-	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
-	import * as Alert from '$lib/components/ui/alert';
 	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
+	import Models from '$lib/components/variables/models.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import DailyVariables from '$lib/components/variables/daily-variables.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import HourlyVariables from '$lib/components/variables/hourly-variables.svelte';
+	import CurrentVariables from '$lib/components/variables/current-variables.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 
@@ -479,45 +480,7 @@
 				title="Weather models"
 				count={countVariables(models, $params.models)}
 			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each models as group, i (i)}
-						<div class="mb-3">
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.models?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_model_label"
-										for="{value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-				<div>
-					<small class="text-muted-foreground"
-						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
-					>
-				</div>
+				<Models bind:params={$params} {models} />
 			</AccordionItem>
 			<AccordionItem
 				id="minutely_15"
@@ -652,151 +615,16 @@
 	</div>
 
 	<!-- DAILY -->
-	<div class="mt-6 md:mt-12">
-		<a href="#daily_weather_variables"
-			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
-		>
-		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each daily as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.daily?.includes(value)}
-								aria-labelledby="{value}_daily_label"
-								onCheckedChange={() => {
-									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
-											return item !== value;
-										});
-									} else if ($params.daily) {
-										$params.daily.push(value);
-										$params.daily = $params.daily;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_daily_label"
-								for="{value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
-		{#if timezoneInvalid}
-			<div transition:slide>
-				<Alert.Root variant="warning" class="mt-2 md:mt-4">
-					<Alert.Description>
-						It is recommended to select a timezone for daily data. Per default the API will use
-						GMT+0.
-					</Alert.Description>
-				</Alert.Root>
-			</div>
-		{/if}
-
-		<Accordion.Root class="border-border mt-3 rounded-lg border md:mt-6">
-			<AccordionItem
-				id="additional-daily-variables"
-				title="Additional Daily Variables"
-				count={countVariables(additionalDaily, $params.daily)}
-			>
-				<div
-					class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-				>
-					{#each additionalDaily as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_daily"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.daily?.includes(value)}
-										aria-labelledby="{value}_daily_label"
-										onCheckedChange={() => {
-											if ($params.daily?.includes(value)) {
-												$params.daily = $params.daily.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.daily) {
-												$params.daily.push(value);
-												$params.daily = $params.daily;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_daily_label"
-										for="{value}_daily"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-			</AccordionItem>
-		</Accordion.Root>
-	</div>
+	<DailyVariables bind:params={$params} {daily} {additionalDaily} {timezoneInvalid} />
 
 	<!-- CURRENT -->
-	<div class="mt-6 md:mt-12">
-		<a href="#current_weather"
-			><h2 id="current_weather" class="text-2xl md:text-3xl">Current Weather</h2></a
-		>
-		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each current as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_current"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.current?.includes(value)}
-								aria-labelledby="{value}_current_label"
-								onCheckedChange={() => {
-									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item) => {
-											return item !== value;
-										});
-									} else if ($params.current) {
-										$params.current.push(value);
-										$params.current = $params.current;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_current_label"
-								for="{value}_current"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
-		<small class="text-muted-foreground mt-1">
-			Note: Current conditions are based on 15-minutely weather model data. Every weather variable
-			available in hourly data, is available as current condition as well.
-		</small>
-	</div>
+	<CurrentVariables bind:params={$params} {current} />
 
 	<!-- SETTINGS -->
-	<div class="mt-6 md:mt-12">
-		<Settings bind:params={$params} />
-	</div>
+	<Settings bind:params={$params} />
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
+	<LicenseSelector />
 </form>
 
 <!-- RESULT -->

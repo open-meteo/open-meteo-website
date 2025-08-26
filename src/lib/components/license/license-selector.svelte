@@ -24,7 +24,7 @@
 	});
 </script>
 
-<div>
+<div class="mt-3 md:mt-6">
 	<div class="-mr-6 flex items-center gap-2 overflow-auto md:mr-0">
 		<div class="text-muted-foreground text-nowrap">Usage license:</div>
 		<div class="border-border flex rounded-md border">
