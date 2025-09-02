@@ -931,7 +931,7 @@
 						<td>2022-11-24</td>
 					</tr>
 					<tr>
-						<th scope="row" rowspan="5">NOAA NCEP</th>
+						<th scope="row" rowspan="6">NOAA NCEP</th>
 						<td>GFS</td>
 						<td>Global</td>
 						<td>0.11° (~13 km)</td>
@@ -955,7 +955,7 @@
 						<td>Every hour</td>
 						<td>2018-01-01</td>
 					</tr>
-										<tr>
+					<tr>
 						<td>NAM</td>
 						<td>U.S. Conus</td>
 						<td>3 km</td>
