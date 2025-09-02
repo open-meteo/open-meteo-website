@@ -234,6 +234,7 @@ export const models = [
 		{ value: 'gfs_global', label: 'GFS Global 0.11°/0.25°' },
 		{ value: 'gfs_hrrr', label: 'HRRR Conus' },
 		{ value: 'ncep_nbm_conus', label: 'NBM Conus' },
+		{ value: 'ncep_nam_conus', label: 'NAM Conus' },
 		{ value: 'gfs_graphcast025', label: 'GFS GraphCast' }
 	]
 ];
