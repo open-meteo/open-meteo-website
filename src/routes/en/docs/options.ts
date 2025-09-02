@@ -323,6 +323,7 @@ export const models = [
 		{ value: 'gfs_global', label: 'NCEP GFS Global 0.11°/0.25°' },
 		{ value: 'gfs_hrrr', label: 'NCEP HRRR U.S. Conus' },
 		{ value: 'ncep_nbm_conus', label: 'NCEP NBM U.S. Conus' },
+		{ value: 'ncep_nam_conus', label: 'NCEP NAM U.S. Conus' },
 		{ value: 'gfs_graphcast025', label: 'GFS GraphCast' }
 	],
 	[
