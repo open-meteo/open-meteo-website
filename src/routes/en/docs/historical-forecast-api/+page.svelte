@@ -955,6 +955,14 @@
 						<td>Every hour</td>
 						<td>2018-01-01</td>
 					</tr>
+										<tr>
+						<td>NAM</td>
+						<td>U.S. Conus</td>
+						<td>3 km</td>
+						<td>1-Hourly</td>
+						<td>Every 6 hours</td>
+						<td>2025-09-01</td>
+					</tr>
 					<tr>
 						<td>NBM</td>
 						<td>U.S. Conus</td>
