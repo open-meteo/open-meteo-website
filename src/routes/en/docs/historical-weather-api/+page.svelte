@@ -536,9 +536,9 @@
 				</div>
 				<div>
 					<small class="text-muted-foreground"
-						>Note: The default <mark>Best Match</mark> combines IFS HRES, ERA5 and ERA5-Land seamlessly. The
-						CERRA model will also be included in <mark>Best Match</mark> once real-time updates become
-						available.</small
+						>Note: The default <mark>Best Match</mark> combines IFS HRES, ERA5 and ERA5-Land
+						seamlessly. The CERRA model will also be included in <mark>Best Match</mark> once real-time
+						updates become available.</small
 					>
 				</div>
 			</AccordionItem>
@@ -804,15 +804,109 @@
 			</tbody>
 		</table>
 	</div>
-	<p>
-		Different reanalysis models may include different sets of weather variables in their datasets.
-		For example, the ERA5 model includes all weather variables, while the ERA5-Land model only
-		includes surface variables such as temperature, humidity, soil temperature, and soil moisture.
-		The CERRA model includes most weather variables, but does not include soil temperature and
-		moisture. It is important to be aware of the specific variables that are included in a
-		particular reanalysis model in order to understand the limitations and potential biases of the
-		data.
+	<p class="mt-3 !mb-0">
+		Different reanalysis models may include different sets of weather variables. For instance, ERA5
+		offers a full range of variables but only at 0.25° resolution, whereas ERA5-Land focuses on
+		surface conditions like temperature, humidity, soil temperature, and soil moisture. CERRA covers
+		most variables but excludes soil temperature and moisture. IFS includes nearly all variables
+		except snow depth, while IFA Assimilation omits precipitation, snowfall, and solar radiation.
 	</p>
+	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+		<table
+			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+		>
+			<caption class="text-muted-foreground mt-2 table-caption text-left text-sm">
+				<p class="!mb-0">
+					<sup>1</sup> ERA5-Land is driven by atmospheric variables from ERA5 as its "forcing," meaning
+					it relies on the same data as ERA5.
+				</p>
+				<p>
+					<sup>2</sup> Only with model “ERA5-Seamless” merging temperature and humidity from ERA5-Land
+					with wind and solar radiation from ERA5.
+				</p></caption
+			>
+			<thead>
+				<tr>
+					<th scope="col">Variable</th>
+					<th scope="col">ERA5 0.25°</th>
+					<th scope="col">ERA5-Land 0.1°</th>
+					<th scope="col">CERRA</th>
+					<th scope="col">IFS 9-km</th>
+					<th scope="col">IFS 9-km Assimilation</th>
+				</tr>
+			</thead>
+			<tbody class="[&_a]:text-link [&_a]:underline [&_a]:underline-offset-3">
+				<tr>
+					<th scope="row" class="font-normal"
+						>Temperature, Relative Humidity, Dew-point, Vapour Pressure Deficit</th
+					>
+					<td>x</td>
+					<td>x</td>
+					<td>x</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row" class="font-normal">Soil Temperature & Moisture</th>
+					<td>x</td>
+					<td>x</td>
+					<td>-</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row" class="font-normal">Precipitation, Rain, Snowfall</th>
+					<td>x</td>
+					<td>-<sup class="text-muted-foreground ml-1">*1</sup></td>
+					<td>x</td>
+					<td>x</td>
+					<td>-</td>
+				</tr>
+				<tr>
+					<th scope="row" class="font-normal">Solar Radiation</th>
+					<td>x</td>
+					<td>-<sup class="text-muted-foreground ml-1">*1</sup></td>
+					<td>x</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row" class="font-normal">Snow Depth </th>
+					<td>-</td>
+					<td>x</td>
+					<td>x</td>
+					<td>-</td>
+					<td>-</td>
+				</tr>
+				<tr>
+					<th scope="row" class="font-normal">Wind Speed & Direction</th>
+					<td>x</td>
+					<td>-<sup class="text-muted-foreground ml-1">*1</sup></td>
+					<td>x</td>
+					<td>x</td>
+					<td>x</td>
+				</tr>
+				<tr>
+					<th scope="row" class="font-normal">Wind Gusts</th>
+					<td>-</td>
+					<td>x</td>
+					<td>x</td>
+					<td>x</td>
+					<td>-</td>
+				</tr>
+				<tr>
+					<th scope="row" class="font-normal"
+						>Apparent temperature, Reference Evapotranspiration (ET₀)</th
+					>
+					<td>-<sup class="text-muted-foreground ml-1">*2</sup></td>
+					<td>x</td>
+					<td>x</td>
+					<td>x</td>
+					<td>-</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <!-- API DOCS -->
