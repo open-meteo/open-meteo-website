@@ -928,6 +928,10 @@
 			<table
 				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
+				<caption class="text-muted-foreground mt-2 table-caption text-left"
+					>Additional optional URL parameters will be added. For API stability, no required
+					parameters will be added in the future.</caption
+				>
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>
@@ -1086,10 +1090,6 @@
 				</tbody>
 			</table>
 		</div>
-		<p class="text-muted-foreground">
-			Additional optional URL parameters will be added. For API stability, no required parameters
-			will be added in the future!
-		</p>
 	</div>
 </div>
 
