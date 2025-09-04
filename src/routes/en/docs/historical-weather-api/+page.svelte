@@ -896,9 +896,9 @@
 				</tr>
 				<tr>
 					<th scope="row" class="font-normal"
-						>Apparent temperature, Reference Evapotranspiration (ET₀)</th
+						>Apparent Temperature, Reference Evapotranspiration (ET₀)</th
 					>
-					<td>-<sup class="text-muted-foreground ml-1">*2</sup></td>
+					<td>x<sup class="text-muted-foreground ml-1">*2</sup></td>
 					<td>x</td>
 					<td>x</td>
 					<td>x</td>
