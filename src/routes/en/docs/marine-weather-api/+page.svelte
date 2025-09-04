@@ -1039,7 +1039,7 @@
 			</table>
 		</div>
 	</div>
-	<p>
+	<p class="text-muted-foreground mt-2">
 		Additional optional URL parameters will be added. For API stability, no required parameters will
 		be added in the future!
 	</p>
