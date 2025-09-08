@@ -147,7 +147,9 @@
 		forecasts through the
 		<a class="text-link underline" href={'/en/docs/marine-weather-api'}>Marine Forecast API</a>
 		and the 9 km HRES IFS model is archived with a 48 hour delay in the
-		<a class="text-link underline" href={'/en/docs/marine-weather-api'}>Historical Weather API</a>.
+		<a class="text-link underline" href={'/en/docs/historical-weather-api'}
+			>Historical Weather API</a
+		>.
 	</Alert.Description>
 </Alert.Root>
 
