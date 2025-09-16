@@ -1,32 +1,27 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { slide } from 'svelte/transition';
-
 	import { countVariables, countPressureVariables } from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
-
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import { Checkbox } from '$lib/components/ui/checkbox';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 
 	import Models from '$lib/components/variables/models.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
-	import DailyVariables from '$lib/components/variables/daily-variables.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
+
+	import DailyVariables from '$lib/components/variables/daily-variables.svelte';
 	import HourlyVariables from '$lib/components/variables/hourly-variables.svelte';
 	import CurrentVariables from '$lib/components/variables/current-variables.svelte';
 	import PressureVariables from '$lib/components/variables/pressure-variables.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import AdditionalVariables from '$lib/components/variables/additional-variables.svelte';
 	import FifteenMinutelyVariables from '$lib/components/variables/fifteen-minutely-variables.svelte';
-	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
@@ -52,6 +47,7 @@
 		temporalResolutionOptions,
 		forecastMinutely15Options
 	} from './options';
+	import SolarVariables from '$lib/components/variables/solar-variables.svelte';
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -65,6 +61,13 @@
 	);
 
 	// Additional variable settings
+
+	let forecastMinutely15 = $derived(
+		forecastMinutely15Options.find((fmo) => String(fmo.value) == $params.forecast_minutely_15)
+	);
+	let pastMinutely15 = $derived(
+		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
+	);
 	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
 	let forecastHours = $derived(
 		forecastHoursOptions.find((fho) => String(fho.value) == $params.forecast_hours)
@@ -74,12 +77,6 @@
 	);
 	let temporalResolution = $derived(
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
-	);
-	let forecastMinutely15 = $derived(
-		forecastMinutely15Options.find((fmo) => String(fmo.value) == $params.forecast_minutely_15)
-	);
-	let pastMinutely15 = $derived(
-		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
 	);
 
 	let accordionValues: string[] = $state([]);
@@ -158,10 +155,10 @@
 	<!-- TIME -->
 	<TimeSelector
 		bind:params={$params}
-		{forecastDaysOptions}
-		{pastDaysOptions}
-		{beginDate}
 		{lastDate}
+		{beginDate}
+		{pastDaysOptions}
+		{forecastDaysOptions}
 	/>
 
 	<!-- HOURLY -->
@@ -175,100 +172,25 @@
 				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				<AdditionalVariables bind:params={$params} {additionalVariables} />
+				<AdditionalVariables
+					bind:params={$params}
+					{pastHours}
+					{cellSelection}
+					{forecastHours}
+					{pastHoursOptions}
+					{additionalVariables}
+					{temporalResolution}
+					{forecastHoursOptions}
+					{gridCellSelectionOptions}
+					{temporalResolutionOptions}
+				/>
 			</AccordionItem>
 			<AccordionItem
 				id="solar-variables"
 				title="Solar Radiation Variables"
 				count={countVariables(solarVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each solarVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_hourly_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_hourly_label"
-										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-
-				<small class="text-muted-foreground mt-1">
-					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
-				</small>
-
-				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
-					<div class="relative">
-						<Input
-							id="tilt"
-							type="number"
-							class="h-12 cursor-pointer pt-6 {Number($params.tilt) < 0 || Number($params.tilt) > 90
-								? 'text-red'
-								: ''}"
-							name="tilt"
-							step="1"
-							min="0"
-							max="90"
-							bind:value={$params.tilt}
-						/>
-						<Label
-							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-							for="tilt">Panel Tilt (0° horizontal)</Label
-						>
-						{#if Number($params.tilt) < 0 || Number($params.tilt) > 90}
-							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
-						{/if}
-					</div>
-
-					<div class="relative">
-						<Input
-							type="number"
-							class="h-12 cursor-pointer pt-6 {Number($params.azimuth) < -180 ||
-							Number($params.azimuth) > 180
-								? 'text-red'
-								: ''}"
-							name="azimuth"
-							id="azimuth"
-							step="1"
-							min="-180"
-							max="180"
-							bind:value={$params.azimuth}
-						/>
-						<Label
-							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
-						>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
-							<div class="invalid-tooltip" transition:slide>
-								Azimuth must be between -180° (north) and 180° (north)
-							</div>
-						{/if}
-					</div>
-				</div>
+				<SolarVariables bind:params={$params} {solarVariables} />
 			</AccordionItem>
 			<AccordionItem
 				id="pressure-levels"
@@ -300,11 +222,11 @@
 				<FifteenMinutelyVariables
 					bind:params={$params}
 					{minutely_15}
-					{solarVariables}
-					{forecastMinutely15}
-					{forecastMinutely15Options}
 					{pastMinutely15}
+					{forecastMinutely15}
 					{pastMinutely15Options}
+					{forecastMinutely15Options}
+					{solarVariables}
 				/>
 			</AccordionItem>
 		</Accordion.Root>

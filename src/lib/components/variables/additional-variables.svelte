@@ -4,14 +4,33 @@
 
 	import * as Select from '$lib/components/ui/select';
 
-	import { type CheckboxOptions, type Parameters } from '$lib/docs';
+	import type { CheckboxOption, CheckboxOptions, Parameters } from '$lib/docs';
 
 	interface Props {
 		params: Parameters;
+		pastHours: CheckboxOption | undefined;
+		cellSelection: CheckboxOption | undefined;
+		forecastHours: CheckboxOption | undefined;
+		pastHoursOptions: CheckboxOption[];
 		additionalVariables: CheckboxOptions;
+		temporalResolution: CheckboxOption | undefined;
+		forecastHoursOptions: CheckboxOption[];
+		gridCellSelectionOptions: CheckboxOption[];
+		temporalResolutionOptions: CheckboxOption[];
 	}
 
-	let { params = $bindable(), additionalVariables }: Props = $props();
+	let {
+		params = $bindable(),
+		pastHours,
+		cellSelection,
+		forecastHours,
+		pastHoursOptions,
+		additionalVariables,
+		temporalResolution,
+		forecastHoursOptions,
+		gridCellSelectionOptions,
+		temporalResolutionOptions
+	}: Props = $props();
 </script>
 
 <div class="grid md:grid-cols-2">
@@ -53,7 +72,7 @@
 	and <mark>&past_hours=</mark> as shown below.
 </small>
 
-<!-- <div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
+<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 	<div class="relative">
 		<Select.Root name="forecast_hours" type="single" bind:value={params.forecast_hours}>
 			<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
@@ -115,4 +134,4 @@
 			>
 		</Select.Root>
 	</div>
-</div> -->
+</div>

@@ -11,7 +11,7 @@
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 
-	import { type CheckboxOptions, type Parameters } from '$lib/docs';
+	import type { CheckboxOptions, Parameters } from '$lib/docs';
 
 	interface Props {
 		params: Parameters;

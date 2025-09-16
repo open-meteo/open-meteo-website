@@ -116,11 +116,13 @@
 						return true;
 					}
 				}
-			} else if (typeof params.models === 'string') {
-				if (params.models.endsWith('_seamless')) {
-					return true;
-				}
 			}
+			// probably not needed, since it's always array
+			// else if (typeof params.models === 'string') {
+			// 	if (params.models.endsWith('_seamless')) {
+			// 		return true;
+			// 	}
+			// }
 		} else {
 			return false;
 		}
@@ -144,6 +146,7 @@
 			onclick={() => {
 				locationMode = 'location_search';
 				params.location_mode = locationMode;
+				params.bounding_box = '';
 			}}
 		>
 			<svg
@@ -175,6 +178,7 @@
 			onclick={() => {
 				locationMode = 'csv_coordinates';
 				params.location_mode = locationMode;
+				params.bounding_box = '';
 			}}
 		>
 			<svg
@@ -404,7 +408,7 @@
 							<Select.Trigger
 								aria-label="Forecast days input"
 								class="h-12 cursor-pointer rounded-b-none pt-6 [&_svg]:mb-3"
-								>{csvExampleSet.label}</Select.Trigger
+								>{csvExampleSet?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
 								{#each csvExampleOptions as { value, label } (value)}

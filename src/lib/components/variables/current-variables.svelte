@@ -2,7 +2,7 @@
 	import { Label } from '$lib/components/ui/label';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
-	import { type CheckboxOptions, type Parameters } from '$lib/docs';
+	import type { CheckboxOptions, Parameters } from '$lib/docs';
 
 	interface Props {
 		params: Parameters;

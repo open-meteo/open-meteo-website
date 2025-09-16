@@ -12,24 +12,25 @@
 
 	interface Props {
 		params: Parameters;
-		forecastDaysOptions: { value: string; label: string }[];
-		pastDaysOptions: { value: string; label: string }[];
-		beginDate?: Date;
 		lastDate?: Date;
+		beginDate?: Date;
+		pastDaysOptions: { value: string; label: string }[];
+		forecastDaysOptions: { value: string; label: string }[];
 	}
 
 	let {
 		params = $bindable(),
-		forecastDaysOptions,
-		pastDaysOptions,
+		lastDate,
 		beginDate,
-		lastDate
+		pastDaysOptions,
+		forecastDaysOptions
 	}: Props = $props();
+
+	let pastDays = $derived(pastDaysOptions?.find((pdo) => pdo.value == params.past_days));
 
 	let forecastDays = $derived(
 		forecastDaysOptions?.find((fco) => fco.value == params.forecast_days)
 	);
-	let pastDays = $derived(pastDaysOptions?.find((pdo) => pdo.value == params.past_days));
 </script>
 
 <div class="mt-6">

@@ -4,26 +4,28 @@
 
 	import * as Select from '$lib/components/ui/select';
 
-	import { type CheckboxOptions, type Parameters } from '$lib/docs';
+	import type { CheckboxOption, CheckboxOptions, Parameters } from '$lib/docs';
 
 	interface Props {
 		params: Parameters;
 		minutely_15: CheckboxOptions;
+		pastMinutely15: CheckboxOption | undefined;
+		forecastMinutely15: CheckboxOption | undefined;
+		pastMinutely15Options: CheckboxOption[];
+		forecastMinutely15Options: CheckboxOption[];
+
 		solarVariables?: CheckboxOptions;
-		forecastMinutely15;
-		forecastMinutely15Options;
-		pastMinutely15;
-		pastMinutely15Options;
 	}
 
 	let {
 		params = $bindable(),
 		minutely_15,
-		solarVariables,
-		forecastMinutely15,
-		forecastMinutely15Options,
 		pastMinutely15,
-		pastMinutely15Options
+		forecastMinutely15,
+		pastMinutely15Options,
+		forecastMinutely15Options,
+
+		solarVariables
 	}: Props = $props();
 </script>
 

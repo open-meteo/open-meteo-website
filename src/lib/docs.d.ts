@@ -3,8 +3,8 @@ export type LocationMode = 'location_search' | 'csv_coordinates' | 'bounding_box
 export interface Parameters {
 	[index: string];
 
-	latitude?: number[] | number;
-	longitude?: number[] | number;
+	latitude?: number[];
+	longitude?: number[];
 
 	daily?: string[];
 	hourly?: string[];
