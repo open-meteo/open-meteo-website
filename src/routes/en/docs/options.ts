@@ -1,3 +1,7 @@
+import type { LocationMode } from '$lib/docs';
+
+const location_mode: LocationMode = 'location_search';
+
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
@@ -6,7 +10,7 @@ export const defaultParameters = {
 	minutely_15: [],
 
 	timezone: 'UTC',
-	location_mode: 'location_search',
+	location_mode: location_mode,
 	csv_coordinates: undefined,
 
 	time_mode: 'forecast_days',
@@ -254,7 +258,7 @@ export const additionalDaily = [
 	// { value: 'vapor_pressure_deficit_max', label: 'Maximum Vapor Pressure Deficit' },
 
 	// soil parameters, not available on all models
-	// 	{ value: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
+	// { value: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
 	// { value: 'soil_moisture_0_to_10cm_mean', label: 'Mean Soil Moisture (0-10 cm)' },
 	// { value: 'soil_moisture_0_to_7cm_mean', label: 'Mean Soil Moisture (0-7 cm)' },
 	// { value: 'soil_moisture_28_to_100cm_mean', label: 'Mean Soil Moisture (28-100 cm)' },
@@ -374,8 +378,8 @@ export const models = [
 	[
 		{ value: 'meteoswiss_icon_seamless', label: 'MeteoSwiss ICON Seamless' },
 		{ value: 'meteoswiss_icon_ch1', label: 'MeteoSwiss ICON CH1' },
-		{ value: 'meteoswiss_icon_ch2', label: 'MeteoSwiss ICON CH2' },
-	],
+		{ value: 'meteoswiss_icon_ch2', label: 'MeteoSwiss ICON CH2' }
+	]
 ];
 
 export const forecastDaysOptions = [

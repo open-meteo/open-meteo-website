@@ -34,7 +34,7 @@
 			</p>
 			<div class="mt-2 flex gap-4">
 				<Button variant="default" href={'/'}>Home</Button>
-				<Button variant="outline-white" href={'/en/docs'}>API Documentation</Button>
+				<Button variant="outline" href={'/en/docs'}>API Documentation</Button>
 			</div>
 		</div>
 	</div>

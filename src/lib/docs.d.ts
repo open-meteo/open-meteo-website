@@ -1,18 +1,20 @@
+export type LocationMode = 'location_search' | 'csv_coordinates' | 'bounding_box';
+
 export interface Parameters {
 	[index: string];
 
-	latitude?: Array<number> | number;
-	longitude?: Array<number> | number;
+	latitude?: number[] | number;
+	longitude?: number[] | number;
 
-	daily?: Array<string> | string;
-	hourly?: Array<string> | string;
-	models?: Array<string> | string;
-	current?: Array<string> | string;
-	six_hourly?: Array<string> | string;
-	minutely_15?: Array<string> | string;
+	daily?: string[];
+	hourly?: string[];
+	models?: string[];
+	current?: string[];
+	six_hourly?: string[];
+	minutely_15?: string[];
 
 	timezone?: string;
-	location_mode?: 'location_search' | 'csv_coordinates' | 'bounding_box';
+	location_mode?: LocationMode;
 	csv_coordinates?: string;
 	bounding_box?: string;
 
