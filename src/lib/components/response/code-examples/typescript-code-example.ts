@@ -98,7 +98,7 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foregro
 ${t ? '\t' : ''}<span class="line"></span>`;
 
 	let int64Found = false;
-	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+	for (const section of ['current', 'minutely15', 'hourly', 'daily', 'sixHourly']) {
 		const sect = params[section];
 		if (sect) {
 			c += `
