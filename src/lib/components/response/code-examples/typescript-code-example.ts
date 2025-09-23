@@ -98,7 +98,7 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foregro
 ${t ? '\t' : ''}<span class="line"></span>`;
 
 	let int64Found = false;
-	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+	for (const section of ['current', 'minutely15', 'hourly', 'daily', 'sixHourly']) {
 		const sect = params[section];
 		if (sect) {
 			c += `
@@ -243,7 +243,7 @@ ${t ? '\t' : ''}<span class="line"></span>`;
 	if (int64Found) {
 		c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic;">// Define Int64 variables so they can be processed accordingly</span></span>`;
-		for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+		for (const section of ['current', 'minutely15', 'hourly', 'daily', 'sixHourly']) {
 			const sect = params[section];
 			if (sect && sect.constructor === Array) {
 				for (const [ind, variable] of sect.entries()) {
@@ -261,7 +261,7 @@ ${t ? '\t' : ''}<span class="line"></span>`;
 	c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic;">// Note: The order of weather variables in the URL query and the indices below need to match!</span></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> weatherData</span><span style="color:var(--code-preview-token-punctuation-mark)"> =</span><span style="color:var(--code-preview-foreground)"> <span style="color:var(--code-preview-token-bracket)">{</span></span></span>`;
-	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+	for (const section of ['current', 'minutely15', 'hourly', 'daily', 'sixHourly']) {
 		const sect = params[section];
 		if (sect) {
 			c += `
@@ -315,7 +315,7 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-s
 ${t ? '\t' : ''}<span class="line"></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic">// Process all members</span></span>`;
 
-		for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+		for (const section of ['current', 'minutely15', 'hourly', 'daily', 'sixHourly']) {
 			const sect = params[section];
 			if (sect) {
 				if (sect.constructor === Array) {
@@ -341,7 +341,7 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-p
 ${t ? '\t' : ''}<span class="line"></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic;">// 'weatherData' now contains a simple structure with arrays with datetime and weather data</span></span>`;
 
-	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+	for (const section of ['current', 'minutely15', 'hourly', 'daily', 'sixHourly']) {
 		const sect = params[section];
 		if (sect) {
 			if (section === 'current') {
