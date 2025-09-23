@@ -12,15 +12,10 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
 	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
 
 	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select';
 	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import Settings from '$lib/components/settings/settings.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -28,6 +23,14 @@
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
 	import LicenseSelector from '$lib/components/license/license-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+
+	import Models from '$lib/components/variables/models.svelte';
+	import DailyVariables from '$lib/components/variables/daily-variables.svelte';
+	import SolarVariables from '$lib/components/variables/solar-variables.svelte';
+	import HourlyVariables from '$lib/components/variables/hourly-variables.svelte';
+	import PressureVariables from '$lib/components/variables/pressure-variables.svelte';
+	import AdditionalVariables from '$lib/components/variables/additional-variables.svelte';
+	import FifteenMinutelyVariables from '$lib/components/variables/fifteen-minutely-variables.svelte';
 
 	import {
 		daily,
@@ -68,7 +71,9 @@
 
 	let pressureVariablesTab = $state('temperature');
 
-	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
+	let timezoneInvalid = $derived(
+		$params.timezone == 'UTC' && $params.daily && $params.daily.length > 0
+	);
 
 	let beginDate = new Date('2016-01-01');
 	let lastDate = new Date();
@@ -229,402 +234,58 @@
 	</div>
 
 	<!-- HOURLY -->
-	<div class="mt-6 md:mt-12">
-		<a href="#hourly_weather_variables"
-			><h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">
-				Hourly Weather Variables
-			</h2></a
-		>
-		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each hourly as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.hourly?.includes(value)}
-								aria-labelledby="{value}_label"
-								onCheckedChange={() => {
-									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
-											return item !== value;
-										});
-									} else if ($params.hourly) {
-										$params.hourly.push(value);
-										$params.hourly = $params.hourly;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_label"
-								for="{value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
-	</div>
+	<HourlyVariables bind:params={$params} {hourly} />
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each additionalVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_label"
-										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-
-				<small class="text-muted-foreground mt-1">
-					Note: You can further adjust the forecast time range for hourly weather variables using <mark
-						>&forecast_hours=</mark
-					>
-					and <mark>&past_hours=</mark> as shown below.
-				</small>
-				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
-					<div class="relative">
-						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{forecastHours?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each forecastHoursOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Forecast Hours</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative">
-						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{pastHours?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each pastHoursOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Past Hours</Label
-							>
-						</Select.Root>
-					</div>
-
-					<div class="relative md:col-span-2">
-						<Select.Root
-							name="temporal_resolution"
-							type="single"
-							bind:value={$params.temporal_resolution}
-						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{temporalResolution?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each temporalResolutionOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Temporal Resolution For Hourly Data</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative md:col-span-2">
-						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{cellSelection?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each gridCellSelectionOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Grid Cell Selection</Label
-							>
-						</Select.Root>
-					</div>
-				</div>
+				<AdditionalVariables
+					bind:params={$params}
+					{pastHours}
+					{cellSelection}
+					{forecastHours}
+					{pastHoursOptions}
+					{additionalVariables}
+					{temporalResolution}
+					{forecastHoursOptions}
+					{gridCellSelectionOptions}
+					{temporalResolutionOptions}
+				/>
 			</AccordionItem>
 			<AccordionItem
 				id="solar-variables"
 				title="Solar Radiation Variables"
 				count={countVariables(solarVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each solarVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_hourly_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_hourly_label"
-										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-
-				<small class="text-muted-foreground mt-1">
-					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
-				</small>
-
-				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
-					<div class="relative">
-						<Input
-							id="tilt"
-							type="number"
-							class="h-12 cursor-pointer pt-6 {Number($params.tilt) < 0 || Number($params.tilt) > 90
-								? 'text-red'
-								: ''}"
-							name="tilt"
-							step="1"
-							min="0"
-							max="90"
-							bind:value={$params.tilt}
-						/>
-						<Label
-							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-							for="tilt">Panel Tilt (0° horizontal)</Label
-						>
-						{#if Number($params.tilt) < 0 || Number($params.tilt) > 90}
-							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
-						{/if}
-					</div>
-
-					<div class="relative">
-						<Input
-							type="number"
-							class="h-12 cursor-pointer pt-6 {Number($params.azimuth) < -180 ||
-							Number($params.azimuth) > 180
-								? 'text-red'
-								: ''}"
-							name="azimuth"
-							id="azimuth"
-							step="1"
-							min="-180"
-							max="180"
-							bind:value={$params.azimuth}
-						/>
-						<Label
-							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
-						>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
-							<div class="invalid-tooltip" transition:slide>
-								Azimuth must be between -180° (north) and 180° (north)
-							</div>
-						{/if}
-					</div>
-				</div>
+				<SolarVariables bind:params={$params} {solarVariables} />
 			</AccordionItem>
 			<AccordionItem
 				id="pressure-levels"
 				title="Pressure Level Variables"
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
-				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-[227px]">
-						<ToggleGroup.Root
-							type="single"
-							bind:value={pressureVariablesTab}
-							class="justify-start gap-0"
-						>
-							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
-									<ToggleGroup.Item
-										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
-										0
-											? 'rounded-t-md !rounded-b-none'
-											: ''} {i === pressureVariables.length - 1
-											? '!rounded-t-none rounded-b-md'
-											: ''}"
-										disabled={pressureVariablesTab === variable.value}
-										onclick={() => (pressureVariablesTab = variable.value)}
-										><div class="flex w-full items-center justify-between gap-2 text-left">
-											{variable.label}
-											<span class="text-xs">
-												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
-												).length
-													? '(' +
-														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
-														).length +
-														'/' +
-														levels.length +
-														')'
-													: ''}
-											</span>
-										</div>
-									</ToggleGroup.Item>
-								{/each}
-							</div>
-						</ToggleGroup.Root>
-					</div>
-					<div class="w-full">
-						{#each pressureVariables as variable, i (i)}
-							{#if pressureVariablesTab === variable.value}
-								<div class="mb-3">{variable.label}</div>
-								<div>
-									<div class="grid grid-cols-1 lg:grid-cols-3">
-										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
-											<div>
-												{#each chunk as level, k (k)}
-													<div class="group flex items-center" title={level.label}>
-														<Checkbox
-															id="{variable.value}_{level}hPa"
-															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-															value="{variable.value}_{level}hPa"
-															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
-															aria-labelledby="{variable.value}_{level}hPa"
-															onCheckedChange={() => {
-																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-																	$params.hourly = $params.hourly.filter((item) => {
-																		return item !== `${variable.value}_${level}hPa`;
-																	});
-																} else if ($params.hourly) {
-																	$params.hourly.push(`${variable.value}_${level}hPa`);
-																	$params.hourly = $params.hourly;
-																}
-															}}
-														/>
-														<Label
-															for="{variable.value}_{level}hPa"
-															class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
-															>{level} hPa
-															<small class="text-muted-foreground"
-																>({altitudeAboveSeaLevelMeters(level)})</small
-															></Label
-														>
-													</div>
-												{/each}
-											</div>
-										{/each}
-									</div>
-								</div>
-							{/if}
-						{/each}
-					</div>
-				</div>
-				<div class="mt-3 lg:ml-[249px]">
-					<small class="text-muted-foreground"
-						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
-						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
-						level.</small
-					>
-				</div>
+				<PressureVariables bind:params={$params} {levels} {pressureVariables} />
 			</AccordionItem>
 			<AccordionItem
 				id="models"
 				title="Weather models"
 				count={countVariables(models, $params.models)}
 			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each models as group, i (i)}
-						<div class="mb-3">
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.models?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_model_label"
-										for="{value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-				<div>
-					<small class="text-muted-foreground"
-						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
-					>
-				</div>
+				<Models bind:params={$params} {models} />
 			</AccordionItem>
 			<AccordionItem
 				id="minutely_15"
 				title="15-Minutely Weather Variables"
+				last={true}
 				count={{
 					active:
 						countVariables(solarVariables, $params.minutely_15).active +
@@ -634,226 +295,27 @@
 						countVariables(minutely_15, $params.minutely_15).total
 				}}
 			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each minutely_15 as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value="{value}_minutely_15"
-										checked={$params.minutely_15?.includes(value)}
-										aria-labelledby="{value}_minutely_15_label"
-										onCheckedChange={() => {
-											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.minutely_15) {
-												$params.minutely_15.push(value);
-												$params.minutely_15 = $params.minutely_15;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_minutely_15_label"
-										for="{value}_minutely_15"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each solarVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value="{value}_minutely_15"
-										checked={$params.minutely_15?.includes(value)}
-										aria-labelledby="{value}_minutely_15_label"
-										onCheckedChange={() => {
-											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.minutely_15) {
-												$params.minutely_15.push(value);
-												$params.minutely_15 = $params.minutely_15;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_minutely_15_label"
-										for="{value}_minutely_15"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-
-				<div>
-					<small class="text-muted-foreground"
-						>Note: Only available in Central Europe and North America. Other regions use
-						interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
-						<mark>instant</mark> for radiation at the indicated time.</small
-					>
-				</div>
-				<div>
-					<small class="text-muted-foreground"
-						>Note: You can further adjust the forecast time range for 15-minutely weather variables
-						using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
-					</small>
-				</div>
-				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
-					<div class="relative">
-						<Select.Root
-							name="cell_selection"
-							type="single"
-							bind:value={$params.forecast_minutely_15}
-						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{forecastMinutely15?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each forecastMinutely15Options as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Forecast Minutely 15</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative">
-						<Select.Root name="cell_selection" type="single" bind:value={$params.past_minutely_15}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{pastMinutely15?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each pastMinutely15Options as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Past Minutely 15</Label
-							>
-						</Select.Root>
-					</div>
-				</div>
+				<FifteenMinutelyVariables
+					bind:params={$params}
+					{minutely_15}
+					{pastMinutely15}
+					{forecastMinutely15}
+					{pastMinutely15Options}
+					{forecastMinutely15Options}
+					{solarVariables}
+				/>
 			</AccordionItem>
 		</Accordion.Root>
 	</div>
 
 	<!-- DAILY -->
-	<div class="mt-6 md:mt-12">
-		<a href="#daily_weather_variables"
-			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
-		>
-		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each daily as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.daily?.includes(value)}
-								aria-labelledby="{value}_daily_label"
-								onCheckedChange={() => {
-									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
-											return item !== value;
-										});
-									} else if ($params.daily) {
-										$params.daily.push(value);
-										$params.daily = $params.daily;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_daily_label"
-								for="{value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
-		{#if timezoneInvalid}
-			<div transition:slide>
-				<Alert.Root variant="warning" class="mt-2 md:mt-4">
-					<Alert.Description>
-						It is recommended to select a timezone for daily data. Per default the API will use
-						GMT+0.
-					</Alert.Description>
-				</Alert.Root>
-			</div>
-		{/if}
-
-		<Accordion.Root class="border-border mt-3 rounded-lg border md:mt-6">
-			<AccordionItem
-				id="additional-daily-variables"
-				title="Additional Daily Variables"
-				count={countVariables(additionalDaily, $params.daily)}
-			>
-				<div
-					class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-				>
-					{#each additionalDaily as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_daily"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.daily?.includes(value)}
-										aria-labelledby="{value}_daily_label"
-										onCheckedChange={() => {
-											if ($params.daily?.includes(value)) {
-												$params.daily = $params.daily.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.daily) {
-												$params.daily.push(value);
-												$params.daily = $params.daily;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_daily_label"
-										for="{value}_daily"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
-			</AccordionItem>
-		</Accordion.Root>
-	</div>
+	<DailyVariables bind:params={$params} {daily} {additionalDaily} {timezoneInvalid} />
 
 	<!-- SETTINGS -->
-	<div class="mt-6 md:mt-12">
-		<Settings bind:params={$params} />
-	</div>
+	<Settings bind:params={$params} />
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
+	<LicenseSelector />
 </form>
 
 <!-- RESULTS -->

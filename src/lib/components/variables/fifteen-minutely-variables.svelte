@@ -54,7 +54,7 @@
 					<Label
 						id="{value}_minutely_15_label"
 						for="{value}_minutely_15"
-						class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+						class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 					>
 				</div>
 			{/each}
@@ -87,7 +87,7 @@
 						<Label
 							id="{value}_minutely_15_label"
 							for="{value}_minutely_15"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+							class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 						>
 					</div>
 				{/each}
@@ -96,15 +96,15 @@
 	</div>
 {/if}
 
-<div>
-	<small class="text-muted-foreground"
+<div class="text-muted-foreground mt-1">
+	<small
 		>Note: Only available in Central Europe and North America. Other regions use interpolated hourly
 		data. {#if solarVariables}Solar radiation is averaged over the 15 minutes. Use
 			<mark>instant</mark> for radiation at the indicated time.{/if}</small
 	>
 </div>
-<div>
-	<small class="text-muted-foreground"
+<div class="text-muted-foreground">
+	<small
 		>Note: You can further adjust the forecast time range for 15-minutely weather variables using <mark
 			>&forecast_minutely_15=</mark
 		>
@@ -112,7 +112,7 @@
 	</small>
 </div>
 
-<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
+<div class="mt-2 grid grid-cols-1 gap-2 md:mt-4 md:grid-cols-2 md:gap-4">
 	<div class="relative">
 		<Select.Root name="cell_selection" type="single" bind:value={params.forecast_minutely_15}>
 			<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"

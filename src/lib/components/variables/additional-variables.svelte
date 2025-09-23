@@ -58,21 +58,23 @@
 					<Label
 						id="{value}_label"
 						for="{value}_hourly"
-						class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+						class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 					>
 				</div>
 			{/each}
 		</div>
 	{/each}
 </div>
-<small class="text-muted-foreground mt-1">
-	Note: You can further adjust the forecast time range for hourly weather variables using <mark
-		>&forecast_hours=</mark
-	>
-	and <mark>&past_hours=</mark> as shown below.
-</small>
+<div class="text-muted-foreground mt-1">
+	<small>
+		Note: You can further adjust the forecast time range for hourly weather variables using <mark
+			>&forecast_hours=</mark
+		>
+		and <mark>&past_hours=</mark> as shown below.
+	</small>
+</div>
 
-<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
+<div class="mt-2 grid grid-cols-1 gap-2 md:mt-4 md:grid-cols-4 md:gap-4">
 	<div class="relative">
 		<Select.Root name="forecast_hours" type="single" bind:value={params.forecast_hours}>
 			<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"

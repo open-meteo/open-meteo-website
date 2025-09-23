@@ -40,7 +40,7 @@
 					<Label
 						id="{value}_hourly_label"
 						for="{value}_hourly"
-						class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+						class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 					>
 				</div>
 			{/each}
@@ -48,13 +48,15 @@
 	{/each}
 </div>
 
-<small class="text-muted-foreground mt-1">
-	Note: Solar radiation is averaged over the past hour. Use
-	<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please specify
-	Tilt and Azimuth below.
-</small>
+<div class="text-muted-foreground mt-1">
+	<small>
+		Note: Solar radiation is averaged over the past hour. Use
+		<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+		specify Tilt and Azimuth below.
+	</small>
+</div>
 
-<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
+<div class="mt-2 grid grid-cols-1 gap-2 md:mt-4 md:grid-cols-2 md:gap-4">
 	<div class="relative">
 		<Input
 			id="tilt"

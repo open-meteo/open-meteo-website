@@ -83,7 +83,7 @@
 										/>
 										<Label
 											for="{variable.value}_{level}hPa"
-											class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
+											class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
 											>{level} hPa
 											<small class="text-muted-foreground"
 												>({altitudeAboveSeaLevelMeters(level)})</small
@@ -99,8 +99,8 @@
 		{/each}
 	</div>
 </div>
-<div class="mt-3 lg:ml-[249px]">
-	<small class="text-muted-foreground"
+<div class="text-muted-foreground mt-1 lg:ml-[249px]">
+	<small
 		>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 		(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea level.</small
 	>

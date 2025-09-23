@@ -54,7 +54,7 @@
 						<Label
 							id="{value}_daily_label"
 							for="{value}_daily"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+							class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 						>
 					</div>
 				{/each}
@@ -72,7 +72,7 @@
 	{/if}
 
 	{#if additionalDaily}
-		<Accordion.Root class="border-border mt-3 rounded-lg border md:mt-6">
+		<Accordion.Root type="multiple" class="border-border mt-3 rounded-lg border md:mt-6">
 			<AccordionItem
 				id="additional-daily-variables"
 				title="Additional Daily Variables"
@@ -105,7 +105,7 @@
 									<Label
 										id="{value}_daily_label"
 										for="{value}_daily"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}

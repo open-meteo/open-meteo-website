@@ -38,15 +38,15 @@
 						<Label
 							id="{value}_model_label"
 							for="{value}_model"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+							class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 						>
 					</div>
 				{/each}
 			</div>
 		{/each}
 	</div>
-	<div>
-		<small class="text-muted-foreground"
+	<div class="text-muted-foreground -mt-2">
+		<small
 			>Note: The default <mark>Best Match</mark> provides the best forecast for any given location
 			worldwide. <mark>Seamless</mark> combines all models from a given provider into a seamless prediction.</small
 		>

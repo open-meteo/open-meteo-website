@@ -13,7 +13,7 @@ export const altitudeAboveSeaLevelMeters = (pressureLevelHpA: number): string =>
 };
 
 export const countVariables = (
-	variables: { value: string; label: string }[][],
+	variables: { value: string; label: string }[][] | { value: string; label: string }[],
 	param: string[] | undefined
 ) => {
 	const flattenedVariables = variables.flat().map((v) => v.value);
@@ -25,7 +25,7 @@ export const countVariables = (
 };
 
 export const countPreviousVariables = (
-	variables: { value: string; label: string }[][],
+	variables: { value: string; label: string }[][] | { value: string; label: string }[],
 	param: string[] | undefined
 ) => {
 	const flattenedVariables = variables.flat().map((v) => v.value);
@@ -48,7 +48,7 @@ export const countPreviousVariables = (
 };
 
 export const countPressureVariables = (
-	variables: { value: string; label: string }[],
+	variables: { value: string; label: string }[][] | { value: string; label: string }[],
 	levels: number[],
 	param: string[] | undefined
 ) => {
@@ -70,7 +70,7 @@ export const countPressureVariables = (
 };
 
 export const countHeightVariables = (
-	variables: { value: string; label: string }[],
+	variables: { value: string; label: string }[][] | { value: string; label: string }[],
 	levels: number[],
 	param: string[] | undefined
 ) => {

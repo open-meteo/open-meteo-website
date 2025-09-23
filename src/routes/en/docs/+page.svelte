@@ -7,7 +7,6 @@
 
 	import * as Accordion from '$lib/components/ui/accordion';
 
-	import Models from '$lib/components/variables/models.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
@@ -16,7 +15,9 @@
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 
+	import Models from '$lib/components/variables/models.svelte';
 	import DailyVariables from '$lib/components/variables/daily-variables.svelte';
+	import SolarVariables from '$lib/components/variables/solar-variables.svelte';
 	import HourlyVariables from '$lib/components/variables/hourly-variables.svelte';
 	import CurrentVariables from '$lib/components/variables/current-variables.svelte';
 	import PressureVariables from '$lib/components/variables/pressure-variables.svelte';
@@ -47,7 +48,6 @@
 		temporalResolutionOptions,
 		forecastMinutely15Options
 	} from './options';
-	import SolarVariables from '$lib/components/variables/solar-variables.svelte';
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -166,7 +166,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
