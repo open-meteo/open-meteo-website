@@ -1,3 +1,7 @@
+import type { LocationMode } from '$lib/docs';
+
+const location_mode: LocationMode = 'location_search';
+
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
@@ -5,7 +9,7 @@ export const defaultParameters = {
 	minutely_15: [],
 
 	timezone: 'UTC',
-	location_mode: 'location_search',
+	location_mode: location_mode,
 	csv_coordinates: undefined,
 
 	time_mode: 'time_interval',

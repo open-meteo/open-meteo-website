@@ -361,7 +361,7 @@
 							<Label
 								id="{value}_label"
 								for="{value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -372,7 +372,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -403,7 +407,7 @@
 									<Label
 										id="{value}_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -515,7 +519,7 @@
 									<Label
 										id="{value}_hourly_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -652,7 +656,7 @@
 														/>
 														<Label
 															for="{variable.value}_{level}hPa"
-															class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
+															class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
 															>{level} hPa
 															<small class="text-muted-foreground"
 																>({altitudeAboveSeaLevelMeters(level)})</small
@@ -706,7 +710,7 @@
 									<Label
 										id="{value}_model_label"
 										for="{value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -752,7 +756,7 @@
 									<Label
 										id="{value}_minutely_15_label"
 										for="{value}_minutely_15"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -785,7 +789,7 @@
 									<Label
 										id="{value}_minutely_15_label"
 										for="{value}_minutely_15"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -878,7 +882,7 @@
 							<Label
 								id="{value}_daily_label"
 								for="{value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -929,7 +933,7 @@
 							<Label
 								id="{value}_current_label"
 								for="{value}_current"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}

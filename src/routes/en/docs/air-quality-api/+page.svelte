@@ -300,7 +300,7 @@
 							<Label
 								id="{value}_label"
 								for="{value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
 							>
 						</div>
 					{/each}
@@ -314,7 +314,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="european_air_quality_index"
 				title="European Air Quality Index"
@@ -344,7 +348,7 @@
 								<Label
 									id="{value}_label"
 									for="{value}_hourly"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html label}</Label
+									class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
 								>
 							</div>
 						{/each}
@@ -478,7 +482,7 @@
 								<Label
 									id="{value}_label"
 									for="{value}_hourly"
-									class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html label}</Label
+									class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
 								>
 							</div>
 						{/each}
@@ -665,7 +669,7 @@
 									<Label
 										id="{value}_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
 									>
 								</div>
 							{/each}
@@ -782,7 +786,7 @@
 							<Label
 								id="{value}_current_label"
 								for="{value}_current"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{@html label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
 							>
 						</div>
 					{/each}
