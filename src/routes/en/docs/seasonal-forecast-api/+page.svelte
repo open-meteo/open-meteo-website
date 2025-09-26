@@ -402,7 +402,7 @@
 		{defaultParameters}
 		type="seasonal"
 		model_default="ecmwf_seas5_seamless"
-		action="forecast"
+		action="seas5"
 		sdk_type="ensemble_api"
 	/>
 </div>
