@@ -1025,6 +1025,16 @@
 						<td>11 days</td>
 						<td>Every hour</td>
 					</tr>
+										<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/nam/" target="_blank">NAM Conus</a></th
+						>
+						<td>U.S. Conus</td>
+						<td>3 km</td>
+						<td>Hourly</td>
+						<td>60 hours</td>
+						<td>Every 6 hours</td>
+					</tr>
 					<tr>
 						<th scope="row"
 							><a href="https://registry.opendata.aws/noaa-nws-graphcastgfs-pds/" target="_blank"
@@ -1049,7 +1059,7 @@
 					alt="HRRR U.S.Conus Model Area"
 				/>
 				<figcaption>
-					HRRR U.S.Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+					HRRR and NAM U.S.Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 				</figcaption>
 			</figure>
 

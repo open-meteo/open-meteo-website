@@ -324,6 +324,11 @@
 						name: 'HRRR Conus 15min',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_hrrr_conus_15min', 'forecast', api_key_preferences)
+					},
+					{
+						name: 'NAM Conus',
+						area: ['us', 'ca'],
+						meta: fetchMeta('ncep_nam_conus', 'forecast', api_key_preferences)
 					}
 				]
 			},
