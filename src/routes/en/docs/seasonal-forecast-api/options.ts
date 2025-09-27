@@ -1,6 +1,7 @@
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
+	monthly: [],
 	models: ['ecmwf_seas5_seamless'],
 
 	timezone: 'UTC',
@@ -29,7 +30,7 @@ export const hourly = [
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' },
 		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
-		{ value: 'weather_code', label: 'Weather Code' },
+		{ value: 'weather_code', label: 'Weather Code' }
 	],
 	[
 		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
@@ -41,8 +42,7 @@ export const hourly = [
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' }
 	],
-	[
-	]
+	[]
 ];
 
 export const daily = [
@@ -50,50 +50,50 @@ export const daily = [
 		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
 		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
 		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
-		{ value: 'apparent_temperature_max', label: 'apparent_temperature_max'},
-		{ value: 'apparent_temperature_min', label: 'apparent_temperature_min'},
-		{ value: 'apparent_temperature_mean', label: 'apparent_temperature_mean'},
-		{ value: 'relative_humidity_2m_max', label: 'relative_humidity_2m_max'},
-		{ value: 'relative_humidity_2m_min', label: 'relative_humidity_2m_min'},
-		{ value: 'relative_humidity_2m_mean', label: 'relative_humidity_2m_mean'},
-		{ value: 'dew_point_2m_max', label: 'dew_point_2m_max'},
-		{ value: 'dew_point_2m_min', label: 'dew_point_2m_min'},
-		{ value: 'dew_point_2m_mean', label: 'dew_point_2m_min'},
-		{ value: 'pressure_msl_max', label: 'pressure_msl_max'},
-		{ value: 'pressure_msl_min', label: 'pressure_msl_min'},
-		{ value: 'pressure_msl_mean', label: 'pressure_msl_mean'},
-		{ value: 'surface_pressure_max', label: 'surface_pressure_max'},
-		{ value: 'surface_pressure_min', label: 'surface_pressure_min'},
-		{ value: 'surface_pressure_mean', label: 'surface_pressure_mean'},
-		{ value: 'wet_bulb_temperature_2m_max', label: 'wet_bulb_temperature_2m_max'},
-		{ value: 'wet_bulb_temperature_2m_min', label: 'wet_bulb_temperature_2m_min'},
-		{ value: 'wet_bulb_temperature_2m_mean', label: 'wet_bulb_temperature_2m_mean'}
+		{ value: 'apparent_temperature_max', label: 'apparent_temperature_max' },
+		{ value: 'apparent_temperature_min', label: 'apparent_temperature_min' },
+		{ value: 'apparent_temperature_mean', label: 'apparent_temperature_mean' },
+		{ value: 'relative_humidity_2m_max', label: 'relative_humidity_2m_max' },
+		{ value: 'relative_humidity_2m_min', label: 'relative_humidity_2m_min' },
+		{ value: 'relative_humidity_2m_mean', label: 'relative_humidity_2m_mean' },
+		{ value: 'dew_point_2m_max', label: 'dew_point_2m_max' },
+		{ value: 'dew_point_2m_min', label: 'dew_point_2m_min' },
+		{ value: 'dew_point_2m_mean', label: 'dew_point_2m_min' },
+		{ value: 'pressure_msl_max', label: 'pressure_msl_max' },
+		{ value: 'pressure_msl_min', label: 'pressure_msl_min' },
+		{ value: 'pressure_msl_mean', label: 'pressure_msl_mean' },
+		{ value: 'surface_pressure_max', label: 'surface_pressure_max' },
+		{ value: 'surface_pressure_min', label: 'surface_pressure_min' },
+		{ value: 'surface_pressure_mean', label: 'surface_pressure_mean' },
+		{ value: 'wet_bulb_temperature_2m_max', label: 'wet_bulb_temperature_2m_max' },
+		{ value: 'wet_bulb_temperature_2m_min', label: 'wet_bulb_temperature_2m_min' },
+		{ value: 'wet_bulb_temperature_2m_mean', label: 'wet_bulb_temperature_2m_mean' }
 	],
 	[
 		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
-		{ value: 'snowfall_sum', label: 'snowfall_sum'},
-		{ value: 'snowfall_water_equivalent_sum', label: 'snowfall_water_equivalent_sum'},
-		{ value: 'et0_fao_evapotranspiration_sum', label: 'et0_fao_evapotranspiration_sum'},
-		{ value: 'vapour_pressure_deficit_max', label: 'vapour_pressure_deficit_max'},
+		{ value: 'snowfall_sum', label: 'snowfall_sum' },
+		{ value: 'snowfall_water_equivalent_sum', label: 'snowfall_water_equivalent_sum' },
+		{ value: 'et0_fao_evapotranspiration_sum', label: 'et0_fao_evapotranspiration_sum' },
+		{ value: 'vapour_pressure_deficit_max', label: 'vapour_pressure_deficit_max' },
 		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
-		{ value: 'cloud_cover_max', label: 'cloud_cover_max'},
-		{ value: 'cloud_cover_min', label: 'cloud_cover_min'},
-		{ value: 'cloud_cover_mean', label: 'cloud_cover_mean'},
-		{ value: 'sunrise', label: 'sunrise'},
-		{ value: 'sunset', label: 'sunset'},
-		{ value: 'daylight_duration', label: 'daylight_duration'},
+		{ value: 'cloud_cover_max', label: 'cloud_cover_max' },
+		{ value: 'cloud_cover_min', label: 'cloud_cover_min' },
+		{ value: 'cloud_cover_mean', label: 'cloud_cover_mean' },
+		{ value: 'sunrise', label: 'sunrise' },
+		{ value: 'sunset', label: 'sunset' },
+		{ value: 'daylight_duration', label: 'daylight_duration' },
 		{ value: 'sunshine_duration', label: 'Sunshine duration' },
-		{ value: 'weather_code', label: 'weather_code'},
+		{ value: 'weather_code', label: 'weather_code' },
 		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-		{ value: 'wind_speed_10m_min', label: 'wind_speed_10m_min'},
-		{ value: 'wind_speed_10m_mean', label: 'wind_speed_10m_mean'},
+		{ value: 'wind_speed_10m_min', label: 'wind_speed_10m_min' },
+		{ value: 'wind_speed_10m_mean', label: 'wind_speed_10m_mean' },
 		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' }
 	],
 	[
-		{ value: 'sea_surface_temperature_max', label: 'sea_surface_temperature_max'},
-		{ value: 'sea_surface_temperature_min', label: 'sea_surface_temperature_min'},
-		{ value: 'sea_surface_temperature_mean', label: 'sea_surface_temperature_mean'},
+		{ value: 'sea_surface_temperature_max', label: 'sea_surface_temperature_max' },
+		{ value: 'sea_surface_temperature_min', label: 'sea_surface_temperature_min' },
+		{ value: 'sea_surface_temperature_mean', label: 'sea_surface_temperature_mean' },
 		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
 		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
 		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm)' },
@@ -141,7 +141,10 @@ export const monthly = [
 		{ value: 'snow_depth_mean', label: 'snow_depth_mean' },
 		{ value: 'snowfall_mean', label: 'snowfall_mean' },
 		{ value: 'snowfall_water_equivalent_mean', label: 'snowfall_water_equivalent_mean' },
-		{ value: 'total_column_integrated_water_vapour_mean', label: 'total_column_integrated_water_vapour_mean' },
+		{
+			value: 'total_column_integrated_water_vapour_mean',
+			label: 'total_column_integrated_water_vapour_mean'
+		},
 		{ value: 'shortwave_radiation_mean', label: 'shortwave_radiation_mean' },
 		{ value: 'albedo_mean', label: 'albedo_mean' },
 		{ value: 'sunshine_duration_mean', label: 'sunshine_duration_mean' },
@@ -150,12 +153,15 @@ export const monthly = [
 		{ value: 'soil_temperature_7_to_28cm_mean', label: 'soil_temperature_7_to_28cm_mean' },
 		{ value: 'soil_temperature_28_to_100cm_mean', label: 'soil_temperature_28_to_100cm_mean' },
 		{ value: 'soil_temperature_100_to_255cm_mean', label: 'soil_temperature_100_to_255cm_mean' },
-		{ value: 'soil_temperature_100_to_255cm_anomaly', label: 'soil_temperature_100_to_255cm_anomaly' },
+		{
+			value: 'soil_temperature_100_to_255cm_anomaly',
+			label: 'soil_temperature_100_to_255cm_anomaly'
+		},
 		{ value: 'soil_moisture_0_to_7cm_mean', label: 'soil_moisture_0_to_7cm_mean' },
 		{ value: 'soil_moisture_7_to_28cm_mean', label: 'soil_moisture_7_to_28cm_mean' },
 		{ value: 'soil_moisture_28_to_100cm_mean', label: 'soil_moisture_28_to_100cm_mean' },
 		{ value: 'soil_moisture_100_to_255cm_mean', label: 'soil_moisture_100_to_255cm_mean' },
-		{ value: 'wind_speed_10m_mean', label: 'wind_speed_10m_mean' },
+		{ value: 'wind_speed_10m_mean', label: 'wind_speed_10m_mean' }
 	],
 	[
 		{ value: 'temperature_2m_anomaly', label: 'temperature_2m_anomaly' },
@@ -173,20 +179,26 @@ export const monthly = [
 		{ value: 'snow_depth_anomaly', label: 'snow_depth_anomaly' },
 		{ value: 'snowfall_anomaly', label: 'snowfall_anomaly' },
 		{ value: 'snowfall_water_equivalent_anomaly', label: 'snowfall_water_equivalent_anomaly' },
-		{ value: 'total_column_integrated_water_vapour_anomaly', label: 'total_column_integrated_water_vapour_anomaly' },
+		{
+			value: 'total_column_integrated_water_vapour_anomaly',
+			label: 'total_column_integrated_water_vapour_anomaly'
+		},
 		{ value: 'shortwave_radiation_anomaly', label: 'shortwave_radiation_anomaly' },
 		{ value: 'albedo_anomaly', label: 'albedo_anomaly' },
 		{ value: 'soil_temperature_0_to_7cm_anomaly', label: 'soil_temperature_0_to_7cm_anomaly' },
 		{ value: 'soil_temperature_7_to_28cm_anomaly', label: 'soil_temperature_7_to_28cm_anomaly' },
-		{ value: 'soil_temperature_28_to_100cm_anomaly', label: 'soil_temperature_28_to_100cm_anomaly' },
+		{
+			value: 'soil_temperature_28_to_100cm_anomaly',
+			label: 'soil_temperature_28_to_100cm_anomaly'
+		},
 		{ value: 'soil_moisture_0_to_7cm_anomaly', label: 'soil_moisture_0_to_7cm_anomaly' },
 		{ value: 'soil_moisture_7_to_28cm_anomaly', label: 'soil_moisture_7_to_28cm_anomaly' },
 		{ value: 'soil_moisture_28_to_100cm_anomaly', label: 'soil_moisture_28_to_100cm_anomaly' },
 		{ value: 'soil_moisture_100_to_255cm_anomaly', label: 'soil_moisture_100_to_255cm_anomaly' },
 		{ value: 'wind_speed_10m_anomaly', label: 'wind_speed_10m_anomaly' },
-		{ value: 'wind_gusts_10m_anomaly', label: 'wind_gusts_10m_anomaly' },
+		{ value: 'wind_gusts_10m_anomaly', label: 'wind_gusts_10m_anomaly' }
 	]
-]
+];
 
 export const models = [
 	[

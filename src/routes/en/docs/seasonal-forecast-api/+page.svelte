@@ -30,6 +30,7 @@
 		daily,
 		hourly,
 		models,
+		monthly,
 		solarVariables,
 		defaultParameters,
 		forecastDaysOptions,
@@ -214,6 +215,49 @@
 							<Label
 								id="{value}_daily_label"
 								for="{value}_daily"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+							>
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
+	</div>
+
+	<!-- Monthly -->
+	<div class="mt-6 md:mt-12">
+		<a href="#monthly_weather_variables"
+			><h2 id="monthly_weather_variables" class="text-2xl md:text-3xl">
+				Monthly Weather Variables
+			</h2></a
+		>
+		<div
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+		>
+			{#each monthly as group, i (i)}
+				<div>
+					{#each group as { value, label } (value)}
+						<div class="group flex items-center" title={label}>
+							<Checkbox
+								id="{value}_monthly"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								{value}
+								checked={$params.monthly?.includes(value)}
+								aria-labelledby="{value}_monthly_label"
+								onCheckedChange={() => {
+									if ($params.monthly?.includes(value)) {
+										$params.monthly = $params.monthly.filter((item) => {
+											return item !== value;
+										});
+									} else if ($params.monthly) {
+										$params.monthly.push(value);
+										$params.monthly = $params.monthly;
+									}
+								}}
+							/>
+							<Label
+								id="{value}_monthly_label"
+								for="{value}_monthly"
 								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 							>
 						</div>
