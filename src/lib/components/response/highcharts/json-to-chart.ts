@@ -1,10 +1,10 @@
-import { getWeatherCode } from "$lib/utils/meteo";
+import { getWeatherCode } from '$lib/utils/meteo';
 
 export function jsonToChart(data: any, downloadTime: number) {
 	let yAxis: any = [];
 
 	let series: any = [];
-	['hourly', 'six_hourly', 'three_hourly', 'daily', 'minutely_15'].forEach(
+	['minutely_15', 'hourly', 'three_hourly', 'six_hourly', 'daily', 'monthly'].forEach(
 		function (section, index) {
 			if (!(section in data)) {
 				return;
