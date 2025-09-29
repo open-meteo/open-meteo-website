@@ -143,6 +143,7 @@ export const monthly = [
 		{ value: 'runoff_mean', label: 'Runoff Mean' },
 		{ value: 'snow_density_mean', label: 'Snow Density Mean' },
 		{ value: 'snow_depth_mean', label: 'Snow Depth Mean' },
+		{ value: 'snow_depth_water_equivalent_mean', label: 'Snow Depth Mean (Water Equivalent)' },
 		{ value: 'snowfall_mean', label: 'Snowfall Mean' },
 		{ value: 'snowfall_water_equivalent_mean', label: 'Snowfall Water Equivalent Mean' },
 		{
@@ -164,6 +165,7 @@ export const monthly = [
 		{ value: 'runoff_anomaly', label: 'Runoff Anomaly' },
 		{ value: 'snow_density_anomaly', label: 'Snow Density Anomaly' },
 		{ value: 'snow_depth_anomaly', label: 'Snow Depth Anomaly' },
+		{ value: 'snow_depth_water_equivalent_anomaly', label: 'Snow Depth Anomaly (Water Equivalent)' },
 		{ value: 'snowfall_anomaly', label: 'Snowfall Anomaly' },
 		{ value: 'snowfall_water_equivalent_anomaly', label: 'Snowfall Water Equivalent Anomaly' },
 		{
