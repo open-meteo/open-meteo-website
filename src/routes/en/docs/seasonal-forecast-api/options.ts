@@ -168,7 +168,7 @@ export const monthly = [
 		{ value: 'snowfall_water_equivalent_anomaly', label: 'Snowfall Water Equivalent Anomaly' },
 		{
 			value: 'total_column_integrated_water_vapour_anomaly',
-			label: 'Total Column Integrated Water Vapour Mean Anomaly'
+			label: 'Total Column Integrated Water Vapour Anomaly'
 		},
 		{ value: 'shortwave_radiation_anomaly', label: 'Shortwave Radiation Anomaly' },
 		{ value: 'albedo_anomaly', label: 'Albedo Anomaly' }
@@ -178,7 +178,7 @@ export const monthly = [
 		{ value: 'sunshine_duration_anomaly', label: 'Sunshine Duration Anomaly' },
 		{ value: 'wind_speed_10m_mean', label: 'Wind Speed (10 m) Mean' },
 		{ value: 'wind_speed_10m_anomaly', label: 'Wind Speed (10 m) Anomaly' },
-		{ value: 'wind_gusts_10m_anomaly', label: 'Wind sGusts (10 m) Anomaly' },
+		{ value: 'wind_gusts_10m_anomaly', label: 'Wind Gusts (10 m) Anomaly' },
 		{ value: 'sea_surface_temperature_mean', label: 'Sea Surface Temperature Mean' },
 		{ value: 'sea_surface_temperature_anomaly', label: 'Sea Surface Temperature Anomaly' },
 		{ value: 'pressure_msl_mean', label: 'Sealevel Pressure Mean' },
