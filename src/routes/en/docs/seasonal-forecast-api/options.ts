@@ -61,7 +61,7 @@ export const daily = [
 		{ value: 'relative_humidity_2m_mean', label: 'Relative Humidity (2 m) Mean' },
 		{ value: 'dew_point_2m_max', label: 'Dew Point (2 m) Max' },
 		{ value: 'dew_point_2m_min', label: 'Dew Point (2 m) Min' },
-		{ value: 'dew_point_2m_mean', label: 'Dew Point (2 m) Min' },
+		{ value: 'dew_point_2m_mean', label: 'Dew Point (2 m) Mean' },
 		{ value: 'sunrise', label: 'Sunrise' },
 		{ value: 'sunset', label: 'Sunset' }
 	],
@@ -69,7 +69,7 @@ export const daily = [
 		{ value: 'weather_code', label: 'Weather code' },
 		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
-		{ value: 'snowfall_sum', label: 'Snowfall sum' },
+		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
 		{ value: 'snowfall_water_equivalent_sum', label: 'Snowfall Water Equivalent Sum' },
 		{ value: 'et0_fao_evapotranspiration_sum', label: 'Reference Evapotranspiration (ET₀) Sum' },
 		{ value: 'vapour_pressure_deficit_max', label: 'Vapour Pressure Deficit Max' },
