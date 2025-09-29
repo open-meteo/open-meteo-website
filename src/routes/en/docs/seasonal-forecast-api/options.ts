@@ -153,7 +153,7 @@ export const monthly = [
 		{ value: 'albedo_mean', label: 'Albedo Mean' }
 	],
 	[
-		{ value: 'temperature_2m_anomaly', label: 'temperature_2m_anomaly' },
+		{ value: 'temperature_2m_anomaly', label: 'Temperature (2 m) Anomaly' },
 		{ value: 'temperature_max24h_2m_anomaly', label: 'Temperature (2 m) Max 24h Anomaly' },
 		{ value: 'temperature_min24h_2m_anomaly', label: 'Temperature (2 m) Min 24h Anomaly' },
 		{ value: 'dew_point_2m_anomaly', label: 'Dew Point (2 m) Anomaly' },
