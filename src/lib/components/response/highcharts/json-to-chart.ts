@@ -1,76 +1,74 @@
+import { SECTIONS } from '$lib/constants';
 import { getWeatherCode } from '$lib/utils/meteo';
 
 export function jsonToChart(data: any, downloadTime: number) {
 	let yAxis: any = [];
 
 	let series: any = [];
-	['minutely_15', 'hourly', 'three_hourly', 'six_hourly', 'daily', 'monthly'].forEach(
-		function (section, index) {
-			if (!(section in data)) {
+	SECTIONS.forEach(function (section, index) {
+		if (!(section in data) || section === 'current') {
+			return;
+		}
+		Object.entries(data[section] || []).forEach(function (k) {
+			if (k[0] == 'time' || k[0] == 'sunrise' || k[0] == 'sunset') {
 				return;
 			}
-			Object.entries(data[section] || []).forEach(function (k) {
-				if (k[0] == 'time' || k[0] == 'sunrise' || k[0] == 'sunset') {
-					return;
+			let hourly_starttime = (data[section].time[0] + data.utc_offset_seconds) * 1000;
+			let pointInterval = (data[section].time[1] - data[section].time[0]) * 1000;
+			let unit = data[`${section}_units`][k[0]];
+			let axisId = null;
+			for (let i = 0; i < yAxis.length; i++) {
+				if (yAxis[i].title.text == unit) {
+					axisId = i;
 				}
-				let hourly_starttime = (data[section].time[0] + data.utc_offset_seconds) * 1000;
-				let pointInterval = (data[section].time[1] - data[section].time[0]) * 1000;
-				let unit = data[`${section}_units`][k[0]];
-				let axisId = null;
-				for (let i = 0; i < yAxis.length; i++) {
-					if (yAxis[i].title.text == unit) {
-						axisId = i;
-					}
+			}
+			if (axisId == null) {
+				yAxis.push({ title: { text: unit } });
+				axisId = yAxis.length - 1;
+			}
+			let ser = {
+				name: k[0],
+				data: k[1],
+				yAxis: axisId,
+				pointStart: hourly_starttime,
+				pointInterval: pointInterval,
+				type: unit == 'mm' || unit == 'cm' || unit == 'inch' || unit == 'MJ/m²' ? 'column' : 'line',
+				tooltip: {
+					valueSuffix: ' ' + unit
+				},
+				dataGrouping: {
+					groupPixelWidth: 8,
+					units: [
+						['minute', [1, 2, 5, 10, 15]],
+						['hour', [1]],
+						['day', [1]],
+						['week', [1]],
+						['month', [1, 3, 6]],
+						['year', null]
+					]
 				}
-				if (axisId == null) {
-					yAxis.push({ title: { text: unit } });
-					axisId = yAxis.length - 1;
-				}
-				let ser = {
-					name: k[0],
-					data: k[1],
-					yAxis: axisId,
-					pointStart: hourly_starttime,
-					pointInterval: pointInterval,
-					type:
-						unit == 'mm' || unit == 'cm' || unit == 'inch' || unit == 'MJ/m²' ? 'column' : 'line',
-					tooltip: {
-						valueSuffix: ' ' + unit
-					},
-					dataGrouping: {
-						groupPixelWidth: 8,
-						units: [
-							['minute', [1, 2, 5, 10, 15]],
-							['hour', [1]],
-							['day', [1]],
-							['week', [1]],
-							['month', [1, 3, 6]],
-							['year', null]
-						]
-					}
+			};
+
+			if (k[0] == 'weather_code') {
+				ser.tooltip.pointFormatter = function () {
+					let condition = getWeatherCode(this.y);
+					return (
+						'<span style="color:' +
+						this.series.color +
+						'">\u25CF</span> ' +
+						this.series.name +
+						': <b>' +
+						condition +
+						'</b> (' +
+						this.y +
+						' wmo)<br/>'
+					);
 				};
+			}
 
-				if (k[0] == 'weather_code') {
-					ser.tooltip.pointFormatter = function () {
-						let condition = getWeatherCode(this.y);
-						return (
-							'<span style="color:' +
-							this.series.color +
-							'">\u25CF</span> ' +
-							this.series.name +
-							': <b>' +
-							condition +
-							'</b> (' +
-							this.y +
-							' wmo)<br/>'
-						);
-					};
-				}
-
-				series.push(ser);
-			});
-		}
-	);
+			series.push(ser);
+		});
+	});
 
 	let plotBands: any = [];
 	if ('daily' in data && 'sunrise' in data.daily && 'sunset' in data.daily) {

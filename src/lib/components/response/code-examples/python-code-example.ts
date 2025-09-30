@@ -1,7 +1,7 @@
 import type { Parameters } from '$lib/docs';
 import { isNumeric, titleCase } from '$lib/utils';
 
-import { INT_64_VARIABLES } from '$lib/constants';
+import { INT_64_VARIABLES, SECTIONS } from '$lib/constants';
 
 export const pythonCodeExample = (
 	params: Parameters,
@@ -87,7 +87,7 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-f
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">Model Nº: </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">response.</span><span style="color:var(--code-preview-token-function)">Model</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
 	}
 
-	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+	for (const section of SECTIONS) {
 		const sect = params[section];
 		if (sect) {
 			c += `
