@@ -98,7 +98,7 @@ export const hourly = [
 
 export const models = [
 	[
-		{ value: 'ecmwf_ifs', label: 'ECMWF IFS HRES 9 km' },
+		{ value: 'ecmwf_ifs', label: 'ECMWF IFS HRES 9km' },
 		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
 		{ value: 'ecmwf_aifs025_single', label: 'ECMWF AIFS 0.25° Single' }
 	]
