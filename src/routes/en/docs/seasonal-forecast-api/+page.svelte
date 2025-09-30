@@ -448,8 +448,7 @@
 		{params}
 		{defaultParameters}
 		type="seasonal"
-		model_default="ecmwf_seas5_seamless"
-		action="seas5"
+		action="seasonal"
 		sdk_type="ensemble_api"
 	/>
 </div>
