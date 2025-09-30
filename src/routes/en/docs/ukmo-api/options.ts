@@ -32,7 +32,7 @@ export const defaultParameters = {
 export const pressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
 	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud cover' },
+	{ value: 'cloud_cover', label: 'Cloud Cover' },
 	{ value: 'wind_speed', label: 'Wind Speed' },
 	{ value: 'wind_direction', label: 'Wind Direction' },
 	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
@@ -46,7 +46,7 @@ export const levels = [
 
 export const heightVariables = [
 	{ value: 'temperature', label: 'Temperature' },
-	{ value: 'cloud_cover', label: 'Cloud cover' },
+	{ value: 'cloud_cover', label: 'Cloud Cover' },
 	{ value: 'wind_speed', label: 'Wind Speed' },
 	{ value: 'wind_direction', label: 'Wind Direction' }
 ];
@@ -71,15 +71,15 @@ export const hourly = [
 	[
 		{ value: 'weather_code', label: 'Weather code' },
 		{ value: 'visibility', label: 'Visibility' },
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' }
 	],
 	[
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
-		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
-		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud cover High' },
-		{ value: 'cloud_cover_2m', label: 'Cloud cover / Fog (2m)' }
+		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
+		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
+		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
+		{ value: 'cloud_cover_high', label: 'Cloud Cover High' },
+		{ value: 'cloud_cover_2m', label: 'Cloud Cover / Fog (2m)' }
 	],
 	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
@@ -105,8 +105,8 @@ export const current = [
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' }
 	],
 	[

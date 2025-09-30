@@ -42,9 +42,9 @@ export const previousDay = [
 	{ value: 'showers', label: 'Showers' },
 	{ value: 'snowfall', label: 'Snowfall' },
 	{ value: 'weather_code', label: 'Weather code' },
-	{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+	{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 	{ value: 'surface_pressure', label: 'Surface Pressure' },
-	{ value: 'cloud_cover', label: 'Cloud cover Total' },
+	{ value: 'cloud_cover', label: 'Cloud Cover Total' },
 	{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 	{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' }
 ];

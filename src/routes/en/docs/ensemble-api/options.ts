@@ -214,7 +214,7 @@ export const ukmo_2km_variables = [
 	...ukmo_variables,
 	'cloud_cover_high',
 	'cloud_cover_mid',
-	'cloud_cover_low',
+	'cloud_cover_low'
 ];
 
 export const gem_global_variables = [
@@ -338,12 +338,12 @@ export const hourly = [
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' },
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
-		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
-		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud cover High' },
+		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
+		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
+		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
+		{ value: 'cloud_cover_high', label: 'Cloud Cover High' },
 		{ value: 'visibility', label: 'Visibility' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
@@ -404,9 +404,9 @@ export const daily = [
 		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ value: 'pressure_msl_mean', label: 'Mean Sealevel Pressure' },
-		{ value: 'pressure_msl_min', label: 'Minimum Sealevel Pressure' },
-		{ value: 'pressure_msl_max', label: 'Maximum Sealevel Pressure' },
+		{ value: 'pressure_msl_mean', label: 'Mean Sea Level Pressure' },
+		{ value: 'pressure_msl_min', label: 'Minimum Sea Level Pressure' },
+		{ value: 'pressure_msl_max', label: 'Maximum Sea Level Pressure' },
 		{ value: 'surface_pressure_mean', label: 'Mean Surface Pressure' },
 		{ value: 'surface_pressure_min', label: 'Minimum Surface Pressure' },
 		{ value: 'surface_pressure_max', label: 'Maximum Surface Pressure' }
