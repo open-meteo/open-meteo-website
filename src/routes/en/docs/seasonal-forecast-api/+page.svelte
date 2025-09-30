@@ -398,7 +398,7 @@
 			</h2></a
 		>
 		<div
-			class="mt-2 grid grid-flow-row gap-x-8 gap-y-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+			class="mt-2 grid grid-flow-row gap-x-4 gap-y-4 md:grid-cols-1 md:gap-x-8 md:gap-y-8 lg:grid-cols-2 xl:grid-cols-3"
 		>
 			{#each monthly as group, i (i)}
 				<div>
