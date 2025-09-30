@@ -144,6 +144,7 @@ export const monthly = [
 		{ value: 'snow_density_mean', label: 'Snow Density Mean' },
 		{ value: 'snow_depth_mean', label: 'Snow Depth Mean' },
 		{ value: 'snow_depth_water_equivalent_mean', label: 'Snow Depth Mean (Water Equivalent)' },
+		{ value: 'sea_ice_cover_mean', label: 'Sea Ice Cover Mean' },
 		{ value: 'snowfall_mean', label: 'Snowfall Mean' },
 		{ value: 'snowfall_water_equivalent_mean', label: 'Snowfall Water Equivalent Mean' },
 		{
@@ -151,6 +152,10 @@ export const monthly = [
 			label: 'Total Column Integrated Water Vapour Mean'
 		},
 		{ value: 'shortwave_radiation_mean', label: 'Shortwave Radiation Mean' },
+		{ value: 'longwave_radiation_mean', label: 'Longwave Radiation Mean' },
+		{ value: 'latent_heat_flux_mean', label: 'Latent Heat Flux Mean' },
+		{ value: 'sensible_heat_flux_mean', label: 'Sensible Heat Flux Mean' },
+		{ value: 'evapotranspiration_mean', label: 'Evapotranspiration Mean' },
 		{ value: 'albedo_mean', label: 'Albedo Mean' }
 	],
 	[
@@ -166,6 +171,7 @@ export const monthly = [
 		{ value: 'snow_density_anomaly', label: 'Snow Density Anomaly' },
 		{ value: 'snow_depth_anomaly', label: 'Snow Depth Anomaly' },
 		{ value: 'snow_depth_water_equivalent_anomaly', label: 'Snow Depth Anomaly (Water Equivalent)' },
+		{ value: 'sea_ice_cover_anomaly', label: 'Sea Ice Cover Anomaly' },
 		{ value: 'snowfall_anomaly', label: 'Snowfall Anomaly' },
 		{ value: 'snowfall_water_equivalent_anomaly', label: 'Snowfall Water Equivalent Anomaly' },
 		{
@@ -173,6 +179,10 @@ export const monthly = [
 			label: 'Total Column Integrated Water Vapour Anomaly'
 		},
 		{ value: 'shortwave_radiation_anomaly', label: 'Shortwave Radiation Anomaly' },
+		{ value: 'longwave_radiation_anomaly', label: 'Longwave Radiation Anomaly' },
+		{ value: 'latent_heat_flux_anomaly', label: 'Latent Heat Flux Anomaly' },
+		{ value: 'sensible_heat_flux_anomaly', label: 'Sensible Heat Flux Anomaly' },
+		{ value: 'evapotranspiration_anomaly', label: 'Evapotranspiration Anomaly' },
 		{ value: 'albedo_anomaly', label: 'Albedo Anomaly' }
 	],
 	[
