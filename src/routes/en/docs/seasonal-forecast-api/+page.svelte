@@ -432,8 +432,7 @@
 										<Label
 											id="{value}_monthly_label"
 											for="{value}_monthly"
-											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]"
-											><span class="flex h-[1px] w-[1px] overflow-hidden">{labelBoth}</span> Mean</Label
+											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
 										>
 									</div>
 									<div class="group flex items-center" title={labelAn}>
@@ -458,8 +457,7 @@
 										<Label
 											id="{valueAn}_monthly_label"
 											for="{valueAn}_monthly"
-											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]"
-											><span class="flex h-[1px] w-[1px] overflow-hidden">{labelBoth}</span> Anomaly</Label
+											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
 										>
 									</div>
 								</div>
@@ -491,8 +489,7 @@
 								<Label
 									id="wind_gusts_10m_anomaly_monthly_label"
 									for="wind_gusts_10m_anomaly_monthly"
-									class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]"
-									><span class="flex h-[1px] w-[1px] overflow-hidden">Wind Gusts (10 m)</span> Anomaly</Label
+									class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
 								>
 							</div>
 						</div>
