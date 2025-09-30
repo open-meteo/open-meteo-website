@@ -43,8 +43,7 @@
 		latitude: [52.52],
 		longitude: [13.41],
 		...defaultParameters,
-		daily: ['temperature_2m_max'],
-		temporal_resolution: 'hourly_1'
+		daily: ['temperature_2m_max']
 	});
 
 	if ($params.forecast_days === '7') {
@@ -120,9 +119,10 @@
 	>
 	<Alert.Description
 		><p>
-			This an API prototype with ECMWF SEAS5 data at 36 km resolution with 51 members. This data is
-			not BIAS corrected. Monthly means and anomalies follow. The previous prototype with NCEP CFSv2
-			at 100 km resolution is available <a href="/en/docs/seasonal-forecast-cfsv2-api">here</a>.
+			This API delivers ECMWF SEAS5 data at a 36 km resolution with 51 ensemble members. The data
+			are not bias-corrected and may not accurately reflect local conditions. They should be
+			interpreted as area forecasts, giving an indication of whether the coming months are likely to
+			be warmer, colder, wetter, or drier than average.
 		</p></Alert.Description
 	>
 </Alert.Root>
@@ -174,90 +174,6 @@
 							<Label
 								id="{value}_hourly_label"
 								for="{value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
-	</div>
-
-	<!-- DAILY -->
-	<div class="mt-6 md:mt-12">
-		<a href="#daily_weather_variables"
-			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
-		>
-		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each daily as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.daily?.includes(value)}
-								aria-labelledby="{value}_daily_label"
-								onCheckedChange={() => {
-									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
-											return item !== value;
-										});
-									} else if ($params.daily) {
-										$params.daily.push(value);
-										$params.daily = $params.daily;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_daily_label"
-								for="{value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
-	</div>
-
-	<!-- Monthly -->
-	<div class="mt-6 md:mt-12">
-		<a href="#monthly_weather_variables"
-			><h2 id="monthly_weather_variables" class="text-2xl md:text-3xl">
-				Monthly Weather Variables
-			</h2></a
-		>
-		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each monthly as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_monthly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.monthly?.includes(value)}
-								aria-labelledby="{value}_monthly_label"
-								onCheckedChange={() => {
-									if ($params.monthly?.includes(value)) {
-										$params.monthly = $params.monthly.filter((item) => {
-											return item !== value;
-										});
-									} else if ($params.monthly) {
-										$params.monthly.push(value);
-										$params.monthly = $params.monthly;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_monthly_label"
-								for="{value}_monthly"
 								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 							>
 						</div>
@@ -386,6 +302,8 @@
 					</div>
 				</div>
 			</AccordionItem>
+			{'' +
+				/*
 			<AccordionItem id="models" title="Models" count={countVariables(models, $params.models)}>
 				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
 					{#each models as group, i (i)}
@@ -427,7 +345,92 @@
 					>
 				</div>
 			</AccordionItem>
+			*/ ''}
 		</Accordion.Root>
+	</div>
+
+	<!-- DAILY -->
+	<div class="mt-6 md:mt-12">
+		<a href="#daily_weather_variables"
+			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
+		>
+		<div
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+		>
+			{#each daily as group, i (i)}
+				<div>
+					{#each group as { value, label } (value)}
+						<div class="group flex items-center" title={label}>
+							<Checkbox
+								id="{value}_daily"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								{value}
+								checked={$params.daily?.includes(value)}
+								aria-labelledby="{value}_daily_label"
+								onCheckedChange={() => {
+									if ($params.daily?.includes(value)) {
+										$params.daily = $params.daily.filter((item) => {
+											return item !== value;
+										});
+									} else if ($params.daily) {
+										$params.daily.push(value);
+										$params.daily = $params.daily;
+									}
+								}}
+							/>
+							<Label
+								id="{value}_daily_label"
+								for="{value}_daily"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+							>
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
+	</div>
+
+	<!-- Monthly -->
+	<div class="mt-6 md:mt-12">
+		<a href="#monthly_weather_variables"
+			><h2 id="monthly_weather_variables" class="text-2xl md:text-3xl">
+				Monthly Weather Variables
+			</h2></a
+		>
+		<div
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+		>
+			{#each monthly as group, i (i)}
+				<div>
+					{#each group as { value, label } (value)}
+						<div class="group flex items-center" title={label}>
+							<Checkbox
+								id="{value}_monthly"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								{value}
+								checked={$params.monthly?.includes(value)}
+								aria-labelledby="{value}_monthly_label"
+								onCheckedChange={() => {
+									if ($params.monthly?.includes(value)) {
+										$params.monthly = $params.monthly.filter((item) => {
+											return item !== value;
+										});
+									} else if ($params.monthly) {
+										$params.monthly.push(value);
+										$params.monthly = $params.monthly;
+									}
+								}}
+							/>
+							<Label
+								id="{value}_monthly_label"
+								for="{value}_monthly"
+								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+							>
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
 	</div>
 
 	<!-- SETTINGS -->
@@ -527,6 +530,20 @@
 		</p>
 		<ul class="ml-6 list-disc">
 			<li>
+				<strong>6-hourly resolution:</strong> Forecast data is provided at a native 6-hour interval.
+				While it can be interpolated to 3-hourly or 1-hourly steps, this does not increase forecast accuracy.
+				However, using 1-hourly resolution may be practical for applications such as solar PV modeling.
+			</li>
+			<li>
+				<strong>Monthly anomalies</strong> are calculated by comparing forecast values against a
+				long-term model climatology (a baseline of past simulations from the same forecasting
+				system). ECMWF runs past forecasts (typically covering the last 20–30+ years) using the same
+				SEAS5 model configuration. These hindcasts build a model-consistent climatology. For each
+				forecast, the anomaly is obtained by subtracting the model climatology from the forecast
+				value:
+				<mark>Anomaly = Forecast - Model Climatology</mark>
+			</li>
+			<li>
 				<strong>Solar Radiation:</strong> SEAS5 only contains global solar radiation data and does
 				not offer direct or diffuse solar radiation. Open-Meteo applies the separation model from
 				<a
@@ -535,13 +552,8 @@
 				> to calculate direct radiation from shortwave solar radiation.
 			</li>
 			<li>
-				<strong>6-hourly resolution:</strong> Forecast data is provided at a native 6-hour interval.
-				While it can be interpolated to 3-hourly or 1-hourly steps, this does not increase forecast accuracy.
-				However, using 1-hourly resolution may be practical for applications such as solar PV modeling.
-			</li>
-			<li>
 				<strong>Bias correction:</strong> The dataset is currently provided without bias adjustment.
-				Future versions of the API will include bias-corrected outputs.
+				Future versions of the API will include bias-corrected and downscaled outputs.
 			</li>
 		</ul>
 	</div>

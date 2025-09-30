@@ -2,7 +2,9 @@ export const defaultParameters = {
 	daily: [],
 	hourly: [],
 	monthly: [],
-	models: ['ecmwf_seas5_seamless'],
+	models: [],
+
+	temporal_resolution: 'hourly_6',
 
 	timezone: 'UTC',
 	location_mode: 'location_search',
@@ -10,7 +12,7 @@ export const defaultParameters = {
 
 	time_mode: 'forecast_days',
 	past_days: '0',
-	forecast_days: '7',
+	forecast_days: '183',
 
 	start_date: '',
 	end_date: '',
