@@ -1,7 +1,7 @@
 import type { Parameters } from '$lib/docs';
 import { isNumeric, titleCase, camelCase } from '$lib/utils';
 
-import { INT_64_VARIABLES, SECTIONS } from '$lib/constants';
+import { INT_64_VARIABLES, SECTIONS, VARIABLE_REGEX } from '$lib/constants';
 
 export const typescriptCodeExample = (
 	params: Parameters,
@@ -110,13 +110,11 @@ ${t ? '\t' : ''}	<span style="color:var(--code-preview-token-punctuation-mark)">
 ${t ? '\t' : ''}	<span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-foreground)"><span style="color:var(--code-preview-token-punctuation-mark)">(</span>_</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span><span style="color:var(--code-preview-foreground);font-style:italic;"> i<span style="color:var(--code-preview-token-punctuation-mark)">)</span> </span><span style="color:var(--code-preview-token-punctuation-mark)">=&gt;</span></span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section)}</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>variables</span><span style="color:var(--code-preview-foreground)">(<span style="color:var(--code-preview-foreground);font-style:italic;">i</span>)</span><span style="color:var(--code-preview-token-punctuation)">,</span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">);</span></span>`;
 				if (sect.constructor === Array) {
-					for (const [ind, variable] of sect.entries()) {
+					for (const [_, variable] of sect.entries()) {
 						c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section + '_' + variable)}</span><span style="color:var(--code-preview-token-punctuation-mark)"> =</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section)}Variables</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>filter</span><span style="color:var(--code-preview-foreground)">(</span></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	<span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="font-style:italic">v</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span> </span><span style="color:var(--code-preview-token-keyword)">=&gt; </span>`;
-						const regex =
-							/(?<variable>[a-z_]+)_(((?<altitude>[0-9]+)m)|((?<pressure>[0-9]+)hPa)|((?<depth>[0-9]+)cm)|((?<depth_from>[0-9]+)_to_(?<depth_to>[0-9]+)cm))_?(?<aggregation>max|min|mean|p[0-9]{2}|dominant)?/;
-						const matches = regex.exec(variable);
+						const matches = VARIABLE_REGEX.exec(variable);
 						if (matches == null || matches.groups == null) {
 							c += `<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>variable</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-variable)"> Variable</span><span style="color:var(--code-preview-foreground)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${variable}</span>`;
 						} else {
@@ -172,9 +170,7 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foregro
 					c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section + '_' + sect)}</span><span style="color:var(--code-preview-token-punctuation-mark)"> =</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section)}Variables</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>filter</span><span style="color:var(--code-preview-foreground)">(</span></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	<span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="font-style:italic">v</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span> </span><span style="color:var(--code-preview-token-keyword)">=&gt; </span>`;
-					const regex =
-						/(?<variable>[a-z_]+)_(((?<altitude>[0-9]+)m)|((?<pressure>[0-9]+)hPa)|((?<depth>[0-9]+)cm)|((?<depth_from>[0-9]+)_to_(?<depth_to>[0-9]+)cm))_?(?<aggregation>max|min|mean|p[0-9]{2}|dominant)?/;
-					const matches = regex.exec(sect);
+					const matches = VARIABLE_REGEX.exec(sect);
 					if (matches == null || matches.groups == null) {
 						c += `<span style="color:var(--code-preview-token-variable)">v</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>variable</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">===</span><span style="color:var(--code-preview-token-variable)"> Variable</span><span style="color:var(--code-preview-foreground)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${sect}</span>`;
 					} else {
