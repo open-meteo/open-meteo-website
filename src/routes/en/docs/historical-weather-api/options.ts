@@ -36,12 +36,12 @@ export const hourly = [
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' },
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
-		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
-		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud cover High' },
+		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
+		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
+		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
+		{ value: 'cloud_cover_high', label: 'Cloud Cover High' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 	],
@@ -109,9 +109,9 @@ export const additionalDaily = [
 	[
 		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
 		{ value: 'apparent_temperature_mean', label: 'Mean Apparent Temperature (2 m)' },
-		{ value: 'cloud_cover_mean', label: 'Mean Cloud cover' },
-		{ value: 'cloud_cover_max', label: 'Maximum Cloud cover' },
-		{ value: 'cloud_cover_min', label: 'Minimum Cloud cover' },
+		{ value: 'cloud_cover_mean', label: 'Mean Cloud Cover' },
+		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' },
+		{ value: 'cloud_cover_min', label: 'Minimum Cloud Cover' },
 		{ value: 'dew_point_2m_mean', label: 'Mean Dewpoint (2 m)' },
 		{ value: 'dew_point_2m_max', label: 'Maximum Dewpoint (2 m)' },
 		{ value: 'dew_point_2m_min', label: 'Minimum Dewpoint (2 m)' }
@@ -122,9 +122,9 @@ export const additionalDaily = [
 		{ value: 'relative_humidity_2m_max', label: 'Maximum Relative Humidity (2 m)' },
 		{ value: 'relative_humidity_2m_min', label: 'Minimum Relative Humidity (2 m)' },
 		{ value: 'snowfall_water_equivalent_sum', label: 'Snowfall Water Equivalent Sum' },
-		{ value: 'pressure_msl_mean', label: 'Mean Sealevel Pressure' },
-		{ value: 'pressure_msl_max', label: 'Maximum Sealevel Pressure' },
-		{ value: 'pressure_msl_min', label: 'Minimum Sealevel Pressure' }
+		{ value: 'pressure_msl_mean', label: 'Mean Sea Level Pressure' },
+		{ value: 'pressure_msl_max', label: 'Maximum Sea Level Pressure' },
+		{ value: 'pressure_msl_min', label: 'Minimum Sea Level Pressure' }
 	],
 	[
 		{ value: 'surface_pressure_mean', label: 'Mean Surface Pressure' },
@@ -198,10 +198,10 @@ export const ensembleSpreadVariables = [
 		{ value: 'snowfall_spread', label: 'Snowfall' },
 		{ value: 'shortwave_radiation_spread', label: 'Shortwave Solar Radiation GHI' },
 		{ value: 'direct_radiation_spread', label: 'Direct Solar Radiation' },
-		{ value: 'pressure_msl_spread', label: 'Sealevel Pressure' },
-		{ value: 'cloud_cover_low_spread', label: 'Cloud cover Low' },
-		{ value: 'cloud_cover_mid_spread', label: 'Cloud cover Mid' },
-		{ value: 'cloud_cover_high_spread', label: 'Cloud cover High' }
+		{ value: 'pressure_msl_spread', label: 'Sea Level Pressure' },
+		{ value: 'cloud_cover_low_spread', label: 'Cloud Cover Low' },
+		{ value: 'cloud_cover_mid_spread', label: 'Cloud Cover Mid' },
+		{ value: 'cloud_cover_high_spread', label: 'Cloud Cover High' }
 	],
 	[
 		{ value: 'wind_speed_10m_spread', label: 'Wind Speed (10 m)' },
