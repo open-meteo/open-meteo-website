@@ -3,7 +3,7 @@ import type { LayoutLoad } from './$types';
 export const load = (() => {
 	return {
 		heroTitle: 'ECMWF Weather Forecast API',
-		heroDescription: 'Global High Frequency Forecasts at 0.25° resolution',
+		heroDescription: 'Full Resolution 1-hourly IFS HRES at 9 km',
 		heroImage: '/images/backgrounds/mountains.webp'
 	};
 }) satisfies LayoutLoad;
