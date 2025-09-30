@@ -404,18 +404,20 @@
 		>
 			TypeScript
 		</Button>
-		<Button
-			variant="ghost"
-			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'swift'
-				? 'bg-accent cursor-not-allowed'
-				: ''}"
-			disabled={mode === 'swift'}
-			onclick={() => {
-				mode = 'swift';
-			}}
-		>
-			Swift
-		</Button>
+		{#if sdk_type != 'ensemble_api'}
+			<Button
+				variant="ghost"
+				class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'swift'
+					? 'bg-accent cursor-not-allowed'
+					: ''}"
+				disabled={mode === 'swift'}
+				onclick={() => {
+					mode = 'swift';
+				}}
+			>
+				Swift
+			</Button>
+		{/if}
 		<Button
 			variant="ghost"
 			class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {mode === 'other'
