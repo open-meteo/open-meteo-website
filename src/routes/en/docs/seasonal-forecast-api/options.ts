@@ -151,14 +151,13 @@ export const monthly = [
 		{ value: 'runoff_mean', label: 'Runoff Mean' },
 		{ value: 'runoff_anomaly', label: 'Runoff Anomaly' },
 		{ value: 'evapotranspiration_mean', label: 'Evapotranspiration Mean' },
-		{ value: 'evapotranspiration_anomaly', label: 'Evapotranspiration Anomaly' },
+		{ value: 'evapotranspiration_anomaly', label: 'Evapotranspiration Anomaly' }
 	],
 	[
 		{ value: 'cloud_cover_mean', label: 'Cloud cover Mean' },
 		{ value: 'cloud_cover_anomaly', label: 'Cloud cover Anomaly' },
 		{ value: 'cloud_cover_low_mean', label: 'Cloud cover Low Mean' },
 		{ value: 'cloud_cover_low_anomaly', label: 'Cloud cover Low Anomaly' },
-
 		{ value: 'sunshine_duration_mean', label: 'Sunshine Duration Mean' },
 		{ value: 'sunshine_duration_anomaly', label: 'Sunshine Duration Anomaly' },
 		{
@@ -177,9 +176,8 @@ export const monthly = [
 		{ value: 'latent_heat_flux_anomaly', label: 'Latent Heat Flux Anomaly' },
 		{ value: 'sensible_heat_flux_mean', label: 'Sensible Heat Flux Mean' },
 		{ value: 'sensible_heat_flux_anomaly', label: 'Sensible Heat Flux Anomaly' },
-
 		{ value: 'albedo_mean', label: 'Albedo Mean' },
-		{ value: 'albedo_anomaly', label: 'Albedo Anomaly' },
+		{ value: 'albedo_anomaly', label: 'Albedo Anomaly' }
 	],
 	[
 		{ value: 'snow_density_mean', label: 'Snow Density Mean' },
@@ -187,27 +185,27 @@ export const monthly = [
 		{ value: 'snow_depth_mean', label: 'Snow Depth Mean' },
 		{ value: 'snow_depth_anomaly', label: 'Snow Depth Anomaly' },
 		{ value: 'snow_depth_water_equivalent_mean', label: 'Snow Depth (Water Equivalent) Mean' },
-		{ value: 'snow_depth_water_equivalent_anomaly', label: 'Snow Depth (Water Equivalent) Anomaly' },
+		{
+			value: 'snow_depth_water_equivalent_anomaly',
+			label: 'Snow Depth (Water Equivalent) Anomaly'
+		},
 		{ value: 'sea_ice_cover_mean', label: 'Sea Ice Cover Mean' },
 		{ value: 'sea_ice_cover_anomaly', label: 'Sea Ice Cover Anomaly' },
 		{ value: 'snowfall_mean', label: 'Snowfall Mean' },
 		{ value: 'snowfall_anomaly', label: 'Snowfall Anomaly' },
 		{ value: 'snowfall_water_equivalent_mean', label: 'Snowfall Water Equivalent Mean' },
 		{ value: 'snowfall_water_equivalent_anomaly', label: 'Snowfall Water Equivalent Anomaly' },
+		{ value: 'pressure_msl_mean', label: 'Sealevel Pressure Mean' },
+		{ value: 'pressure_msl_anomaly', label: 'Sealevel Pressure Anomaly' },
 		{ value: 'wind_speed_10m_mean', label: 'Wind Speed (10 m) Mean' },
 		{ value: 'wind_speed_10m_anomaly', label: 'Wind Speed (10 m) Anomaly' },
-		{ value: 'wind_gusts_10m_anomaly', label: 'Wind Gusts (10 m) Anomaly' },
-
-				{ value: 'pressure_msl_mean', label: 'Sealevel Pressure Mean' },
-		{ value: 'pressure_msl_anomaly', label: 'Sealevel Pressure Anomaly' },
+		{ value: 'wind_gusts_10m_anomaly', label: 'Wind Gusts (10 m) Anomaly' }
 	],
 	[
 		{ value: 'soil_temperature_0_to_7cm_mean', label: 'Soil Temperature (0-7 cm) Mean' },
 		{ value: 'soil_temperature_0_to_7cm_anomaly', label: 'Soil Temperature (0-7 cm) Anomaly' },
-
 		{ value: 'soil_temperature_7_to_28cm_mean', label: 'Soil Temperature (7-28 cm) Mean' },
 		{ value: 'soil_temperature_7_to_28cm_anomaly', label: 'Soil Temperature (7-28 cm) Anomaly' },
-
 		{ value: 'soil_temperature_28_to_100cm_mean', label: 'Soil Temperature (28-100 cm) Mean' },
 		{
 			value: 'soil_temperature_28_to_100cm_anomaly',
