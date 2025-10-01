@@ -137,19 +137,9 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		This API features only deterministic IFS and AIFS forecast models with 25 km resolution and 3 or
-		6-hourly timesteps. For more detailed local forecasts, we recommend using the <a
-			class="text-link underline"
-			href={'/en/docs'}>generic weather forecast API</a
-		>, which combines weather models up to 1 km resolution seamlessly.<br /><br /> ECMWF ensemble
-		models are available through the
-		<a class="text-link underline" href={'/en/docs/ensemble-api'}>Ensemble API</a>, ECMWF WAM wave
-		forecasts through the
-		<a class="text-link underline" href={'/en/docs/marine-weather-api'}>Marine Forecast API</a>
-		and the 9 km HRES IFS model is archived with a 48 hour delay in the
-		<a class="text-link underline" href={'/en/docs/historical-weather-api'}
-			>Historical Weather API</a
-		>.
+		ECMWF transitioned to open-data on 1st October 2025, and Open-Meteo is pleased to provide access
+		to the IFS forecasts at the full native 9 km resolution without any additional delay under
+		open-data CC-BY 4.0 license!
 	</Alert.Description>
 </Alert.Root>
 
@@ -718,7 +708,7 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview {params} {defaultParameters} model_default="ecmwf_ifs025" />
+	<ResultPreview {params} {defaultParameters} model_default="ecmwf_ifs" />
 </div>
 
 <!-- DATA SOURCES -->
@@ -726,22 +716,45 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			This API uses <a href="https://www.ecmwf.int/en/forecasts/datasets/open-data"
-				>open-data ECMWF Integrated Forecast System IFS</a
-			>. ECMWF IFS models run every 6 hours at 9 km resolution, but only 0.25° grid spacing (~25 km)
-			is available as open data with a limited number of weather variables at 3-hourly intervals.
+			This API provides access to both real-time IFS HRES 9 km forecasts and <a
+				href="https://www.ecmwf.int/en/forecasts/datasets/open-data"
+				>open-data ECMWF IFS and AIFS 0.25°</a
+			>. Different weather models may use different temporal resolutions. The Open-Meteo API
+			dynamically interpolates all data to a consistent 1-hourly time-series for up to 15 days.
 		</p>
+		<ul class="ml-6 list-disc">
+			<li>
+				The ECMWF IFS model runs every 6 hours at a 9 km resolution. Open-Meteo delivers the full
+				native 9 km IFS forecasts on the reduced Gaussian grid O1280, ensuring direct, original
+				ECMWF outputs at the highest resolution. The first 90 forecast hours use 1-hourly data,
+				switching to 3-hourly after 90 hours and 6 hourly after 144 hours.
+			</li>
+			<li>
+				The open-data IFS 0.25 updates every 6 hours, but only offers 0.25° resolution and 3- and
+				6-hourly data. The open-data distribution has an additional delay of 2 hours compared to the
+				real-time IFS dissemination.
+			</li>
+			<li>
+				AIFS is ECMWF’s artificial intelligence weather model, delivering improved performance
+				compared to GraphCast and other AI-based models. Currently, only 6-hourly time steps are
+				available. More details about AIFS can be found
+				<a href="https://www.ecmwf.int/en/about/media-centre/aifs-blog">here</a>. As ECMWF expands
+				its data offering, new AIFS products will also be integrated into this API.
+			</li>
+		</ul>
 		<p>
-			AIFS is an artificial intelligence weather model from ECMWF yielding better results as
-			GraphCast and other models. Unfortunately, only 6-hourly time-steps are available. You can
-			find more information about AIFS <a
-				href="https://www.ecmwf.int/en/about/media-centre/aifs-blog">here</a
-			>. As soon as ECWMF includes additional data, they will be made available in this API.
+			For higher-resolution local forecasts, we recommend the
+			<a class="text-link underline" href={'/en/docs'}>Generic Weather Forecast API</a>, which
+			integrates models down to 1 km resolution. ECMWF ensemble forecasts are available via the
+			<a class="text-link underline" href={'/en/docs/ensemble-api'}>Ensemble API</a>, ECMWF WAM wave
+			forecasts can be accessed through the
+			<a class="text-link underline" href={'/en/docs/marine-weather-api'}>Marine Forecast API</a>,
+			and HRES IFS data are archived in the
+			<a class="text-link underline" href={'/en/docs/historical-weather-api'}
+				>Historical Weather API</a
+			>.
 		</p>
-		<p>
-			For hourly and high-resolution data (up to 1 km) try our <a href={'/en/docs'}>forecast API</a>
-			which combines multiple models.
-		</p>
+
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
 				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[800px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
@@ -765,13 +778,25 @@
 				<tbody>
 					<tr>
 						<th scope="row"
+							><a href="https://www.ecmwf.int/en/forecasts/datasets/set-i" target="_blank"
+								>IFS HRES</a
+							></th
+						>
+						<td>Global</td>
+						<td>9 km (O1280 grid)</td>
+						<td>1-Hourly <small>(3-hourly after 90 hours, 6-hourly after 144 hours)</small></td>
+						<td>15 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
 							><a href="https://www.ecmwf.int/en/forecasts/datasets/open-data" target="_blank"
-								>IFS</a
+								>IFS 0.25 Open-Data</a
 							></th
 						>
 						<td>Global</td>
 						<td>0.25° (~25 km)</td>
-						<td>3-Hourly</td>
+						<td>3-Hourly <small>(6-hourly after 144 hours)</small></td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
 					</tr>
