@@ -869,7 +869,7 @@
 			The weather data precisely aligns with the weather forecast API, created by continuously
 			integrating weather forecast model data. Each update from the weather models' initial hours is
 			compiled into a seamless time series. This extensive dataset is ideal for training machine
-			learning models and combining them with forecast data to generate optimized predictions.
+			learning models and combining them with forecast data to generate optimised predictions.
 		</p>
 		<p>
 			Weather models are initialized using data from weather stations, satellites, radar, airplanes,

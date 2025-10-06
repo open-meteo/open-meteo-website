@@ -144,7 +144,7 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		The API is optimized for Japan, utilizing JMA global GSM and local MSM models. However, for most
+		The API is optimised for Japan, utilizing JMA global GSM and local MSM models. However, for most
 		use-cases, we recommend the <a class="text-link underline" href={'/en/docs'}
 			>generic Weather Forecast API</a
 		>.

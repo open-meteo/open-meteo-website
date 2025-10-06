@@ -144,7 +144,7 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		The API utilises GEM models from the Canadian Meteorological Center, optimized for North
+		The API utilises GEM models from the Canadian Meteorological Center, optimised for North
 		America. However, updates every 6 hours may not reflect the latest weather developments. For
 		accurate forecasts for any location worldwide, the <a
 			class="text-link underline"

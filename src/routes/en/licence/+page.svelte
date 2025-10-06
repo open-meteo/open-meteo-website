@@ -20,7 +20,7 @@
 <div class="container my-6 grid grid-cols-1 gap-6 md:my-12 md:grid-cols-2 md:gap-12">
 	<div>
 		<h2 class="mb-3 text-3xl font-light md:text-5xl lg:mb-5">Data Sources</h2>
-		<p>Open-Meteo utilises open-data from various national weather service including:</p>
+		<p>Open-Meteo utilises open-data from various national weather services including:</p>
 		<ul class="[&_a]:text-link ml-6 list-disc [&_a]:underline [&_li]:py-1">
 			<li>
 				Atmospheric, ensemble and wave forecasts from <a
@@ -91,7 +91,7 @@
 			<li>
 				Atmospheric forecasts from <a
 					href="http://www.bom.gov.au/"
-					title="Norwegian Meteorological Institute">Australian Bureau of Meteorology BOM</a
+					title="Australian Bureau of Meteorology">Australian Bureau of Meteorology BOM</a
 				>
 				(<a href="https://creativecommons.org/licenses/by/4.0/" title="BOM Licence">CC-BY Licence</a
 				>)
@@ -261,7 +261,7 @@
 						class=" min-h-12 cursor-pointer rounded-md rounded-s-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'bibtex'}
 					>
-						BibTex
+						BibTeX
 					</ToggleGroup.Item>
 				</div>
 			</ToggleGroup.Root>

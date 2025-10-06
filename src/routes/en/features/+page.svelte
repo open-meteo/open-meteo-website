@@ -7,7 +7,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/features" />
 	<meta
 		name="description"
-		content="Open-Meteo offers feature rich and simple JSON APIs with global coverage and up to 1 km resolution. Get started today and access the most accurate weather forecasts worldwide. Our APIs combine cutting-edge local and global models from renowned national weather services. Stay up-to-date with hourly updates and utilise 80 years of historical weather data. Experience specialized forecasts for solar radiation, winds, and more. Easily resolve city names to coordinates, retrieve accurate elevation data, and manage timezones seamlessly."
+		content="Open-Meteo offers feature-rich and simple JSON APIs with global coverage and up to 1 km resolution. Get started today and access the most accurate weather forecasts worldwide. Our APIs combine cutting-edge local and global models from renowned national weather services. Stay up-to-date with hourly updates and utilise 80 years of historical weather data. Experience specialised forecasts for solar radiation, winds, and more. Easily resolve city names to coordinates, retrieve accurate elevation data, and manage timezones seamlessly."
 	/>
 </svelte:head>
 
@@ -216,13 +216,13 @@
 			</div>
 			<p>
 				At Open-Meteo, we go beyond standard weather forecasts. In addition to providing predictions
-				for temperature, clouds, and rain, we offer detailed forecasts for a range of specialized
+				for temperature, clouds, and rain, we offer detailed forecasts for a range of specialised
 				factors. These include solar radiation, winds at higher altitude, transpiration, soil
 				moisture, soil temperature, waves, and air quality.
 			</p>
 			<p>
 				Whether you're planning a solar energy project, assessing wind conditions, or monitoring
-				environmental factors, our specialized forecasts have got you covered. Gain insights into
+				environmental factors, our specialised forecasts have got you covered. Gain insights into
 				specific aspects of the weather that matter most to you.
 			</p>
 		</div>
@@ -287,7 +287,7 @@
 			<div>
 				<div>
 					<h3 class="text-3xl font-bold">Forecast API</h3>
-					<h4 class="mb-3 text-xl font-light">Your Go-To Solution for Weather Forecasts!</h4>
+					<h4 class="mb-3 text-xl font-light">Your Go-to Solution for Weather Forecasts!</h4>
 					<p>
 						Experience the simplicity and power of our <a
 							href="/en/docs"
@@ -358,7 +358,7 @@
 					<p>
 						Unlock the raw power of up to 35 days of weather forecasts, provided in hourly
 						resolution. Our API offers an extensive selection of weather variables, including
-						specialized data like wind at 120-meter elevation and solar radiation, allowing you to
+						specialised data like wind at 120-meter elevation and solar radiation, allowing you to
 						estimate renewable energy production with precision.
 					</p>
 				</div>
@@ -466,7 +466,7 @@
 			</div>
 			<p>
 				Open-Meteo has designed its APIs to deliver lightning-fast performance and scalability.
-				Weather data is stored on high-speed NVMe disks in optimized time-series formats. API
+				Weather data is stored on high-speed NVMe disks in optimised time-series formats. API
 				requests typically have a response time of under 10 milliseconds.
 			</p>
 			<p>
@@ -580,7 +580,7 @@
 		<div class="text-center">
 			<p class="mb-4 text-lg font-light">
 				Our <a href="/en/docs">documentation</a> provides a good start to help you integrate weather
-				forecast into you application. For commercial applications, we recommend exploring our
+				forecast into your application. For commercial applications, we recommend exploring our
 				<a href="/en/pricing" title="API Subscription Plans">API subscriptions</a>. Should you
 				require any assistance, have suggestions for improvements, or need to report a bug, we
 				encourage you to reach out to us through our

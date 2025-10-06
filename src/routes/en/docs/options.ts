@@ -426,7 +426,7 @@ export const temporalResolutionOptions = [
 ];
 
 export const gridCellSelectionOptions = [
-	{ value: '', label: 'Terrain Optimized, Prefers Land' },
+	{ value: '', label: 'Terrain Optimised, Prefers Land' },
 	{ value: 'sea', label: 'Prefer Sea' },
 	{ value: 'nearest', label: 'Nearest' }
 ];
