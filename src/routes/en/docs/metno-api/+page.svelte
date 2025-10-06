@@ -40,10 +40,8 @@
 		pastDaysOptions,
 		pastHoursOptions,
 		forecastHoursOptions,
-		pastMinutely15Options,
 		gridCellSelectionOptions,
-		temporalResolutionOptions,
-		forecastMinutely15Options
+		temporalResolutionOptions
 	} from '../options';
 
 	const params = urlHashStore({

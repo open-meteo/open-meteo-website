@@ -49,7 +49,10 @@
 		{ title: 'Flood', url: '/en/docs/flood-api' }
 	];
 	if (dev) {
-		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
+		links.push(
+			{ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' },
+			{ title: 'OM Files', url: '/en/docs/om-files' }
+		);
 	}
 
 	interface Path {
