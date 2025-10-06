@@ -13,14 +13,14 @@
 	<link rel="canonical" href="https://open-meteo.com/en/license" />
 	<meta
 		name="description"
-		content="Open-Meteo utilizes open-data from various national weather services, providing accurate forecasts worldwide. The API data is offered under Attribution 4.0 International (CC BY 4.0) license. You are free to share and adapt the material, with appropriate credit. The source code is available on GitHub under the GNU Affero General Public License. Researchers are encouraged to cite Open-Meteo in their work, promoting transparency and collaboration in the scientific community. Join us in supporting open-source initiatives and fostering a culture of recognition."
+		content="Open-Meteo utilises open-data from various national weather services, providing accurate forecasts worldwide. The API data is offered under Attribution 4.0 International (CC BY 4.0) license. You are free to share and adapt the material, with appropriate credit. The source code is available on GitHub under the GNU Affero General Public License. Researchers are encouraged to cite Open-Meteo in their work, promoting transparency and collaboration in the scientific community. Join us in supporting open-source initiatives and fostering a culture of recognition."
 	/>
 </svelte:head>
 
 <div class="container my-6 grid grid-cols-1 gap-6 md:my-12 md:grid-cols-2 md:gap-12">
 	<div>
 		<h2 class="mb-3 text-3xl font-light md:text-5xl lg:mb-5">Data Sources</h2>
-		<p>Open-Meteo utilizes open-data from various national weather service including:</p>
+		<p>Open-Meteo utilises open-data from various national weather service including:</p>
 		<ul class="[&_a]:text-link ml-6 list-disc [&_a]:underline [&_li]:py-1">
 			<li>
 				Atmospheric, ensemble and wave forecasts from <a

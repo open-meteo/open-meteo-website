@@ -762,7 +762,7 @@
 			</li>
 			<li>
 				<strong>Precipitation:</strong> With the high spatial resolution of 1–2 km, the model captures
-				intense, convective showers. However, due to the highly localized nature of these events, actual
+				intense, convective showers. However, due to the highly localised nature of these events, actual
 				precipitation at a specific location may be over- or underestimated. Precipitation probability
 				is derived from all ensemble members to indicate the likelihood of precipitation occurring.
 			</li>

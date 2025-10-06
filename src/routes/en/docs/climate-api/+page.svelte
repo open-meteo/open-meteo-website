@@ -235,7 +235,7 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			This API utilizes regional downscaled climate models with up to 20 kilometer resolution from
+			This API utilises regional downscaled climate models with up to 20 kilometre resolution from
 			the <a href="https://hrcm.ceda.ac.uk/research/cmip6-highresmip/" title="CMIP6 HighResMIP"
 				>HighResMip working group</a
 			>, which are part of the IPCC CMIP6 project.
@@ -822,7 +822,7 @@
 						<td>Floating point</td>
 						<td
 							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometers away from the requested
+							forecast. This coordinate might be a few kilometres away from the requested
 							coordinate.</td
 						>
 					</tr>

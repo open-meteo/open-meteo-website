@@ -626,7 +626,7 @@
 			{ name: 'Ensemble API', providers: ensembleModels },
 			{ name: 'Air Quality API', providers: airQualityModels },
 			{ name: 'Marine API', providers: marineModels },
-			{ name: 'Flood API', providers: floodModels },
+			{ name: 'Flood API', providers: floodModels }
 		];
 	}
 
@@ -847,7 +847,7 @@
 				</li>
 				<li>
 					<strong>last_run_availability_time:</strong> The time when the data is actually accessible
-					on the API server. Important: Open-Meteo utilizes multiple redundant API servers, so there
+					on the API server. Important: Open-Meteo utilises multiple redundant API servers, so there
 					may be slight differences between them while the data is being copied. To ensure all API calls
 					use the most recent data, please wait 10 minutes after the availability time.
 				</li>

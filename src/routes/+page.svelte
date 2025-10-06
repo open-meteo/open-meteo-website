@@ -22,7 +22,7 @@
 	<link rel="canonical" href="https://open-meteo.com/" />
 	<meta
 		name="description"
-		content="Open-Source ☀️️️️️️️️️️️️️️️️️️️️️️️️️️️️️ Weather API with free access for non-commercial use. No API Key required ✅. Accurate weather forecasts for any location. Open-Meteo provides high-resolution open data ranging from 1 to 11 kilometers from national weather services. With a user-friendly JSON API, integrating weather data has never been easier. Experience the precision and convenience of Open-Meteo's Forecast API for reliable and comprehensive weather information worldwide."
+		content="Open-Source ☀️️️️️️️️️️️️️️️️️️️️️️️️️️️️️ Weather API with free access for non-commercial use. No API Key required ✅. Accurate weather forecasts for any location. Open-Meteo provides high-resolution open data ranging from 1 to 11 kilometres from national weather services. With a user-friendly JSON API, integrating weather data has never been easier. Experience the precision and convenience of Open-Meteo's Forecast API for reliable and comprehensive weather information worldwide."
 	/>
 </svelte:head>
 
@@ -34,7 +34,7 @@
 			</h2>
 			<p class="text-lg font-light">
 				Open-Meteo partners with national weather services to bring you open data with high
-				resolution, ranging from 1 to 11 kilometers. Our powerful APIs intelligently select the most
+				resolution, ranging from 1 to 11 kilometres. Our powerful APIs intelligently select the most
 				suitable weather models for your specific location, ensuring accurate and reliable
 				forecasts.
 			</p>
@@ -275,13 +275,13 @@
 					Explore the past with our comprehensive <a
 						href="/en/docs/historical-weather-api"
 						title="Historical weather data via API">Historical Weather API</a
-					>. With over 80 years of hourly weather data available at a 10 kilometer resolution, you
+					>. With over 80 years of hourly weather data available at a 10 kilometre resolution, you
 					can dive into the climate of any location. Behind the scenes, this extensive dataset,
 					comprising 50 TB of information, enables you to access temperature records spanning eight
 					decades in an instant.
 				</p>
 				<p>
-					Moreover, our 1 kilometer weather models continuously archive recent data, ensuring that
+					Moreover, our 1 kilometre weather models continuously archive recent data, ensuring that
 					you can seamlessly retrieve the latest forecasts alongside historical information from
 					previous weeks. This functionality opens up possibilities for training machine learning
 					applications and gaining valuable insights from the combination of present and past
@@ -407,7 +407,7 @@
 				</div>
 				<p>
 					We've designed our APIs to be incredibly user-friendly. They are based on the widely
-					adopted HTTP protocol and utilize the simplicity of JSON data format. All you need to get
+					adopted HTTP protocol and utilise the simplicity of JSON data format. All you need to get
 					started is a basic understanding of geographic coordinates, making HTTP requests, and
 					working with JSON data.
 				</p>

@@ -7,7 +7,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/features" />
 	<meta
 		name="description"
-		content="Open-Meteo offers feature rich and simple JSON APIs with global coverage and up to 1 km resolution. Get started today and access the most accurate weather forecasts worldwide. Our APIs combine cutting-edge local and global models from renowned national weather services. Stay up-to-date with hourly updates and utilize 80 years of historical weather data. Experience specialized forecasts for solar radiation, winds, and more. Easily resolve city names to coordinates, retrieve accurate elevation data, and manage timezones seamlessly."
+		content="Open-Meteo offers feature rich and simple JSON APIs with global coverage and up to 1 km resolution. Get started today and access the most accurate weather forecasts worldwide. Our APIs combine cutting-edge local and global models from renowned national weather services. Stay up-to-date with hourly updates and utilise 80 years of historical weather data. Experience specialized forecasts for solar radiation, winds, and more. Easily resolve city names to coordinates, retrieve accurate elevation data, and manage timezones seamlessly."
 	/>
 </svelte:head>
 
@@ -88,7 +88,7 @@
 			<p>
 				Open-Meteo APIs are designed to provide you with the most precise weather information for
 				your location. We select the highest resolution weather models available, ensuring detailed
-				forecasts for your specific area. If you're in Europe or the US, we utilize impressive 1-2
+				forecasts for your specific area. If you're in Europe or the US, we utilise impressive 1-2
 				km high resolution models for even greater accuracy.
 			</p>
 			<p>
@@ -170,7 +170,7 @@
 			<p>
 				With our <a href="/en/docs/historical-weather-api">Historical Weather API</a>, you have
 				access to over 80 years of hourly weather data, covering any location on earth, all at a
-				10-kilometer resolution. This extensive dataset allows you to delve into the past and
+				10-kilometre resolution. This extensive dataset allows you to delve into the past and
 				analyze historical weather patterns.
 			</p>
 			<p>

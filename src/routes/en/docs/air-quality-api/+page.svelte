@@ -820,7 +820,7 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			Forecast is based on the 11 kilometer CAMS European air quality forecast and the 40 kilometer
+			Forecast is based on the 11 kilometre CAMS European air quality forecast and the 40 kilometre
 			CAMS global atmospheric composition forecasts. The European and global domain are not coupled
 			and may show different forecasts.
 		</p>
@@ -1248,7 +1248,7 @@
 						<td>Floating point</td>
 						<td
 							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometers away from the requested
+							forecast. This coordinate might be a few kilometres away from the requested
 							coordinate.</td
 						>
 					</tr>

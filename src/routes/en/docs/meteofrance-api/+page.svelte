@@ -1790,7 +1790,7 @@
 						<td>Floating point</td>
 						<td
 							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometers away from the requested
+							forecast. This coordinate might be a few kilometres away from the requested
 							coordinate.</td
 						>
 					</tr>

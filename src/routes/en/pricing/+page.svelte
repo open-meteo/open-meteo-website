@@ -239,7 +239,7 @@
 				>.
 			</p>
 			<p>
-				During the evaluation, prototyping, and development stages, we encourage you to utilize the
+				During the evaluation, prototyping, and development stages, we encourage you to utilise the
 				free tier. However, for your production system, we will provide you with an API key to
 				ensure that your application reliably receives weather data.
 			</p>
@@ -577,7 +577,7 @@
 						href="https://creativecommons.org/licenses/by/4.0/"
 						target="_blank">Attribution 4.0 International (CC BY 4.0)</a
 					>. This license mandates giving appropriate credit and indicating any modifications made
-					to the data. While you are permitted to utilize and distribute the data, including for
+					to the data. While you are permitted to utilise and distribute the data, including for
 					commercial purposes, attribution is a requirement under this license. For more
 					information, please refer to the <a href="/en/license">license page</a>.
 				</p>

@@ -886,7 +886,7 @@
 		</p>
 		<p>
 			The default <mark>Best Match</mark> option selects the most suitable high-resolution weather models
-			for any global location, though users can also manually specify the weather model. Open-Meteo utilizes
+			for any global location, though users can also manually specify the weather model. Open-Meteo utilises
 			the following weather forecast models:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
@@ -1204,7 +1204,7 @@
 				> This dataset is based on reanalysis weather models, particularly ERA5. It offers data from
 				1940 onwards with reasonable consistency throughout the time series, making it ideal for analyzing
 				weather trends and climate change. The focus here is on consistency rather than pinpoint accuracy,
-				with a spatial resolution ranging from 9 to 25 kilometers.
+				with a spatial resolution ranging from 9 to 25 kilometres.
 			</li>
 			<li>
 				<strong

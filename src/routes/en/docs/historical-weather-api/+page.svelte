@@ -131,7 +131,7 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides
+		Now, with the addition of the 9-kilometre ECMWF IFS model, the historical weather API provides
 		access to a staggering 90 terabytes of meteorological data! Read the <a
 			class="text-link underline"
 			href="https://open.substack.com/pub/openmeteo/p/processing-90-tb-historical-weather"
@@ -689,7 +689,7 @@
 				resolution and precision in depicting historical weather conditions.
 			</p>
 			<p>
-				However, when studying climate change over decades, it is advisable to exclusively utilize
+				However, when studying climate change over decades, it is advisable to exclusively utilise
 				ERA5 or ERA5-Land. This choice ensures data consistency and prevents unintentional
 				alterations that could arise from the adoption of different weather model upgrades.
 			</p>
@@ -1488,7 +1488,7 @@
 						<td>Floating point</td>
 						<td
 							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometers away from the requested
+							forecast. This coordinate might be a few kilometres away from the requested
 							coordinate.</td
 						>
 					</tr>

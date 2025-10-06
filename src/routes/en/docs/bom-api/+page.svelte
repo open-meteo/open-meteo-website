@@ -148,7 +148,7 @@
 		Bureau of Meteorology (BOM). For more comprehensive applications, we recommend the <a
 			class="text-link underline"
 			href={'/en/docs'}>Weather Forecast API</a
-		>, which utilizes multiple local weather models for forecasts extending up to 16 days.
+		>, which utilises multiple local weather models for forecasts extending up to 16 days.
 	</Alert.Description>
 </Alert.Root>
 
@@ -1276,7 +1276,7 @@
 						<td>Floating point</td>
 						<td
 							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometers away from the requested
+							forecast. This coordinate might be a few kilometres away from the requested
 							coordinate.</td
 						>
 					</tr>
