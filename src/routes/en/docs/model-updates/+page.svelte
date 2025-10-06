@@ -160,6 +160,11 @@
 				url: '/en/docs/ecmwf-api',
 				models: [
 					{
+						name: 'IFS HRES 9km',
+						area: [],
+						meta: fetchMeta('ecmwf_ifs', 'forecast', api_key_preferences)
+					},
+					{
 						name: 'AIFS 0.25° Single',
 						area: [],
 						meta: fetchMeta('ecmwf_aifs025_single', 'forecast', api_key_preferences)
