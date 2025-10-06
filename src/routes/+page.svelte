@@ -193,7 +193,7 @@
 				</p>
 				<p>
 					Our weather data is presented in hourly resolution, allowing you to plan your activities
-					with confidence. The initial days of the forecast benefit from localized weather models,
+					with confidence. The initial days of the forecast benefit from localised weather models,
 					offering highly detailed and accurate information. Subsequently, global weather models
 					provide forecasts for up to 16 days. Through seamless integration, our APIs deliver a
 					straightforward and reliable hourly weather forecast experience.
@@ -307,7 +307,7 @@
 					We believe in the power of open-source software. That's why the entire codebase of
 					Open-Meteo is accessible on <a
 						href="https://github.com/open-meteo/open-meteo"
-						title="Open-Meteo GitHub respository">GitHub</a
+						title="Open-Meteo GitHub Repository">GitHub</a
 					>, released under the
 					<a href="https://github.com/open-meteo/open-meteo/blob/main/LICENSE">AGPLv3 licence</a>.
 					This means you can explore, use, modify, and contribute to the code.
@@ -365,7 +365,7 @@
 				</p>
 
 				<p>
-					We trust our users to utilize the free API responsibly and kindly request appropriate
+					We trust our users to utilise the free API responsibly and kindly request appropriate
 					credit for the data used. While there are no strict access restrictions, we encourage fair
 					usage of the service. If you require commercial usage or anticipate exceeding 10'000 API
 					calls per day, we recommend considering our <a
