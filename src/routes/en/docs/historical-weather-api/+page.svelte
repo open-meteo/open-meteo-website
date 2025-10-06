@@ -20,7 +20,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
@@ -646,7 +646,7 @@
 
 	<!-- LICENSE -->
 	<div class="mt-6 md:mt-12">
-		<LicenseSelector requires_professional_plan={true} />
+		<LicenceSelector requires_professional_plan={true} />
 	</div>
 </form>
 
@@ -1719,7 +1719,7 @@
 								>@software&#123;Zippenfenig_Open-Meteo,
   author = &#123;Zippenfenig, Patrick&#125;,
   doi = &#123;10.5281/zenodo.7970649&#125;,
-  license = &#123;CC-BY-4.0&#125;,
+  licence = &#123;CC-BY-4.0&#125;,
   title = &#123;Open-Meteo.com Weather API&#125;,
   year = &#123;2023&#125;,
   copyright = &#123;Creative Commons Attribution 4.0 International&#125;,

@@ -319,8 +319,8 @@
 					language models.
 				</p>
 				<p>
-					In addition, our data is licensed under <a
-						href="https://creativecommons.org/licenses/by/4.0/"
+					In addition, our data is licenced under <a
+						href="https://creativecommons.org/licences/by/4.0/"
 						title="CC BY 4.0 Licence Information">Attribution 4.0 International (CC BY 4.0)</a
 					>. This means you are free to share and adapt the data, even for commercial purposes. We
 					believe in fostering an open ecosystem that encourages transparency, collaboration and

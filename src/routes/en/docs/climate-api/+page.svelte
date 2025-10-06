@@ -16,7 +16,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import ClimateError from '$lib/components/code/docs/climate-error.svx';
@@ -215,7 +215,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector requires_professional_plan={true} /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true} /></div>
 </form>
 
 <!-- RESULT -->
@@ -889,7 +889,7 @@
 	>
 	<div class="mt-3 md:mt-6">
 		<p>
-			CMIP6 model data is licensed under a Creative Commons Attribution 4.0 International License (<a
+			CMIP6 model data is licenced under a Creative Commons Attribution 4.0 International Licence (<a
 				href="https://creativecommons.org/licenses/">CC BY 4.0</a
 			>). Consult
 			<a href="https://pcmdi.llnl.gov/CMIP6/TermsOfUse">https://pcmdi.llnl.gov/CMIP6/TermsOfUse</a> for

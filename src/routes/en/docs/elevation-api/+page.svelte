@@ -7,7 +7,7 @@
 	import { api_key_preferences } from '$lib/stores/settings';
 	import type { GeoLocation } from '$lib/stores/settings';
 
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
 	import { Input } from '$lib/components/ui/input';
@@ -242,7 +242,7 @@
 
 	<!-- LICENSE -->
 	<div class="mt-3 md:mt-6">
-		<LicenseSelector />
+		<LicenceSelector />
 	</div>
 </form>
 
@@ -289,7 +289,7 @@
 			Data is based on the <a
 				href="https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model"
 				>Copernicus DEM 2021 release GLO-90</a
-			> with 90 meters resolution. The GLO-90 dataset is available worldwide with a free license.
+			> with 90 meters resolution. The GLO-90 dataset is available worldwide with a free licence.
 		</p>
 		<p>All URL parameters are listed below:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">

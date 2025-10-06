@@ -46,7 +46,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/pricing" />
 	<meta
 		name="description"
-		content="Open-Meteo offers a pricing structure that caters to both non-commercial and commercial users. Non-commercial use is free, with fair usage guidelines and attribution required. Commercial clients enjoy dedicated API servers, personalized support, and a commercial use license. The API price includes millions of API calls, with options to adjust the quantity based on your needs. Our API boasts excellent uptime, low latency, and flexible payment options. We provide transparent pricing, predictable costs, and flexible cancellation options for your convenience."
+		content="Open-Meteo offers a pricing structure that caters to both non-commercial and commercial users. Non-commercial use is free, with fair usage guidelines and attribution required. Commercial clients enjoy dedicated API servers, personalized support, and a commercial use licence. The API price includes millions of API calls, with options to adjust the quantity based on your needs. Our API boasts excellent uptime, low latency, and flexible payment options. We provide transparent pricing, predictable costs, and flexible cancellation options for your convenience."
 	/>
 </svelte:head>
 
@@ -230,7 +230,7 @@
 					</svg>
 				</div>
 
-				<h3 class="pl-3 text-2xl">Commercial Use License</h3>
+				<h3 class="pl-3 text-2xl">Commercial Use Licence</h3>
 			</div>
 			<p>
 				Commercial clients enjoy the advantages of dedicated API servers and personalized support.
@@ -573,13 +573,13 @@
 			<div>
 				<h4 class="mb-3 text-2xl">Is it necessary to provide attribution to Open-Meteo?</h4>
 				<p>
-					Open-Meteo relies on open data that is licensed under <a
+					Open-Meteo relies on open data that is licenced under <a
 						href="https://creativecommons.org/licenses/by/4.0/"
 						target="_blank">Attribution 4.0 International (CC BY 4.0)</a
-					>. This license mandates giving appropriate credit and indicating any modifications made
+					>. This licence mandates giving appropriate credit and indicating any modifications made
 					to the data. While you are permitted to utilise and distribute the data, including for
-					commercial purposes, attribution is a requirement under this license. For more
-					information, please refer to the <a href="/en/license">license page</a>.
+					commercial purposes, attribution is a requirement under this licence. For more
+					information, please refer to the <a href="/en/licence">licence page</a>.
 				</p>
 			</div>
 		</div>

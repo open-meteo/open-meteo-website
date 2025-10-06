@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import { api_key_preferences } from '$lib/stores/settings';
 
 	import { Label } from '$lib/components/ui/label';
@@ -711,7 +711,7 @@
 			calls to the metadata API are not counted toward daily or monthly request limits.
 		</p>
 		<div class="mt-6">
-			<LicenseSelector />
+			<LicenceSelector />
 		</div>
 	</div>
 
