@@ -20,7 +20,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
@@ -131,7 +131,7 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides
+		Now, with the addition of the 9-kilometre ECMWF IFS model, the historical weather API provides
 		access to a staggering 90 terabytes of meteorological data! Read the <a
 			class="text-link underline"
 			href="https://open.substack.com/pub/openmeteo/p/processing-90-tb-historical-weather"
@@ -646,7 +646,7 @@
 
 	<!-- LICENSE -->
 	<div class="mt-6 md:mt-12">
-		<LicenseSelector requires_professional_plan={true} />
+		<LicenceSelector requires_professional_plan={true} />
 	</div>
 </form>
 
@@ -689,7 +689,7 @@
 				resolution and precision in depicting historical weather conditions.
 			</p>
 			<p>
-				However, when studying climate change over decades, it is advisable to exclusively utilize
+				However, when studying climate change over decades, it is advisable to exclusively utilise
 				ERA5 or ERA5-Land. This choice ensures data consistency and prevents unintentional
 				alterations that could arise from the adoption of different weather model upgrades.
 			</p>
@@ -1488,7 +1488,7 @@
 						<td>Floating point</td>
 						<td
 							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometers away from the requested
+							forecast. This coordinate might be a few kilometres away from the requested
 							coordinate.</td
 						>
 					</tr>
@@ -1719,7 +1719,7 @@
 								>@software&#123;Zippenfenig_Open-Meteo,
   author = &#123;Zippenfenig, Patrick&#125;,
   doi = &#123;10.5281/zenodo.7970649&#125;,
-  license = &#123;CC-BY-4.0&#125;,
+  licence = &#123;CC-BY-4.0&#125;,
   title = &#123;Open-Meteo.com Weather API&#125;,
   year = &#123;2023&#125;,
   copyright = &#123;Creative Commons Attribution 4.0 International&#125;,

@@ -26,7 +26,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 
@@ -144,7 +144,7 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		The API is optimized for Japan, utilizing JMA global GSM and local MSM models. However, for most
+		The API is optimised for Japan, utilizing JMA global GSM and local MSM models. However, for most
 		use-cases, we recommend the <a class="text-link underline" href={'/en/docs'}
 			>generic Weather Forecast API</a
 		>.
@@ -806,7 +806,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
 </form>
 
 <!-- RESULT -->
@@ -820,7 +820,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			This API uses global and local weather models from the Japan Meteorological Agency JMA. Due to
-			data license restrictions only a limited version of data is available. A list of official JMA
+			data licence restrictions only a limited version of data is available. A list of official JMA
 			data is available on the <a
 				target="_blank"
 				href="https://www.jma.go.jp/jma/en/Activities/nwp.html">JMA website</a
@@ -1528,7 +1528,7 @@
 						<td>Floating point</td>
 						<td
 							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometers away from the requested
+							forecast. This coordinate might be a few kilometres away from the requested
 							coordinate.</td
 						>
 					</tr>
