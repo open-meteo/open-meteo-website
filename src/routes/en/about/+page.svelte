@@ -12,7 +12,7 @@
 		</p>
 		<p>
 			We at Open-Meteo believe that access to accurate and reliable weather data should be available
-			to everyone. That's why we have created an open-source weather API that utilizes open-data
+			to everyone. That's why we have created an open-source weather API that utilises open-data
 			weather forecasts provided by national weather services. These numerical weather predictions
 			are free to download, but working with them can be challenging due to the expertise required
 			in binary file formats, grid-systems, projections, and the fundamentals of weather
@@ -22,7 +22,7 @@
 			Our team has worked hard to create a user-friendly API that integrates high-resolution local
 			and global weather models. Every day, over 2 TB of data are downloaded and processed from
 			multiple national weather services. We then store the collected data in local files using a
-			customized file format and compression technique to enhance access to time-series data such as
+			customised file format and compression technique to enhance access to time-series data such as
 			a 14-day temperature forecast.
 		</p>
 		<p>
@@ -35,7 +35,7 @@
 		</p>
 		<p>
 			The API is available for non-commercial use at no cost. Despite being free of charge, the
-			forecast accuracy is top-notch. The API utilizes a vast array of local weather models with
+			forecast accuracy is top-notch. The API utilises a vast array of local weather models with
 			rapid updates, ensuring that the most precise forecast is generated for any location globally.
 		</p>
 		<p>
