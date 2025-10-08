@@ -14,50 +14,47 @@ updates:
     commit-message:
       prefix: 'fix: '
     groups:
-      svelte:
+      openmeteo:
         patterns:
-          - 'vite'
-          - 'svelte'
-
-          - 'vite-*'
-          - 'rollup*'
-          - 'svelte-*'
-          - '@sveltejs/*'
-
-          - 'mdsvex'
-          - 'mode-watcher'
-          - 'sveltekit-superforms'
-      eslint:
-        patterns:
-          - 'eslint'
-          - 'prettier'
-          - 'typescript'
-
-          - 'eslint-*'
-          - 'prettier-*'
-          - '@typescript-eslint/*'
-
-          - '@eslint/compat'
-      shiki:
-        patterns:
-          - 'shiki'
-          - 'prismjs'
-          - 'prism-themes'
-          - '@shikijs*'
-      shadcn:
-        patterns:
-          - 'zod'
-          - 'simple-icons'
-
-          - '@lucide/svelte'
-          - 'lucide-svelte'
-          - 'lucide-static'
-      tailwind:
-        patterns:
-          - 'tailwindcss'
-
-          - 'tailwind-*'
-          - '@tailwindcss*'
+          - '*'
+        # svelte:
+        #   patterns:
+        #     - 'vite'
+        #     - 'svelte'
+        #     - 'vite-*'
+        #     - 'rollup*'
+        #     - 'svelte-*'
+        #     - '@sveltejs/*'
+        #     - 'mdsvex'
+        #     - 'mode-watcher'
+        #     - 'sveltekit-superforms'
+        # eslint:
+        #   patterns:
+        #     - 'eslint'
+        #     - 'prettier'
+        #     - 'typescript'
+        #     - 'eslint-*'
+        #     - 'prettier-*'
+        #     - '@typescript-eslint/*'
+        #     - '@eslint/compat'
+        # shiki:
+        #   patterns:
+        #     - 'shiki'
+        #     - 'prismjs'
+        #     - 'prism-themes'
+        #     - '@shikijs*'
+        # shadcn:
+        #   patterns:
+        #     - 'zod'
+        #     - 'simple-icons'
+        #     - '@lucide/svelte'
+        #     - 'lucide-svelte'
+        #     - 'lucide-static'
+        # tailwind:
+        #   patterns:
+        #     - 'tailwindcss'
+        #     - 'tailwind-*'
+        #     - '@tailwindcss*'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
