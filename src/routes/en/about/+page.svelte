@@ -22,7 +22,7 @@
 			Our team has worked hard to create a user-friendly API that integrates high-resolution local
 			and global weather models. Every day, over 2 TB of data are downloaded and processed from
 			multiple national weather services. We then store the collected data in local files using a
-			customized file format and compression technique to enhance access to time-series data such as
+			customised file format and compression technique to enhance access to time-series data such as
 			a 14-day temperature forecast.
 		</p>
 		<p>
