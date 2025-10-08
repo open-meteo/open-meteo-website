@@ -1,8 +1,8 @@
-import LicenseSelector from './license-selector.svelte';
+import LicenceSelector from './licence-selector.svelte';
 
-describe('LicenseSelector', () => {
-	it('should switch licenses', () => {
-		cy.mount(LicenseSelector);
+describe('LicenceSelector', () => {
+	it('should switch licences', () => {
+		cy.mount(LicenceSelector);
 		cy.get('#commercial').click({ force: true });
 		cy.wait(200);
 		cy.get('#apikey').clear().type('uwhefiuwbhef').invoke('val').should('contain', 'uwhefiuwbhef');

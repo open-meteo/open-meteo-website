@@ -6,7 +6,7 @@
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { api_key_preferences } from '$lib/stores/settings';
 
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
@@ -184,7 +184,7 @@
 
 	<!-- LICENSE -->
 	<div class="mt-3 md:mt-6">
-		<LicenseSelector />
+		<LicenceSelector />
 	</div>
 </form>
 

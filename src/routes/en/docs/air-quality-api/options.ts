@@ -165,7 +165,7 @@ export const additionalVariables = [
 	[
 		{
 			value: 'residential_elementary_carbon',
-			label: 'Residential Rlementary Carbon <small class="text-muted-foreground">(*)</small>'
+			label: 'Residential Elementary Carbon <small class="text-muted-foreground">(*)</small>'
 		},
 		{
 			value: 'total_elementary_carbon',

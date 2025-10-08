@@ -1,6 +1,6 @@
 # Open-Meteo.com Website
 
-[![Build](https://github.com/open-meteo/open-meteo-website/actions/workflows/build.yml/badge.svg)](https://github.com/open-meteo/open-meteo-website/actions/workflows/build.yml) [![GitHub license](https://img.shields.io/github/license/open-meteo/open-meteo-website)](https://github.com/open-meteo/open-meteo-website/blob/main/LICENSE)
+[![Build](https://github.com/open-meteo/open-meteo-website/actions/workflows/build.yml/badge.svg)](https://github.com/open-meteo/open-meteo-website/actions/workflows/build.yml) [![GitHub licence](https://img.shields.io/github/license/open-meteo/open-meteo-website)](https://github.com/open-meteo/open-meteo-website/blob/main/LICENSE)
 
 This repository contains the [open-meteo.com](https://open-meteo.com/) website. The weather API code can be found in [this](https://github.com/open-meteo/open-meteo) repository.
 
@@ -28,6 +28,6 @@ You can preview the production build with `npm run preview`. The production buil
 
 Contributions are always welcome! Please create an issue ticket to discuss larger changes.
 
-## License
+## Licence
 
-Open-Meteo is open-source under the GNU Affero General Public License Version 3 (AGPLv3) or any later version. You can [find the license here](LICENSE). Exceptions are third party source-code with individual licensing in each file.
+Open-Meteo is open-source under the GNU Affero General Public Licence Version 3 (AGPLv3) or any later version. You can [find the licence here](LICENSE). Exceptions are third party source-code with individual licensing in each file.

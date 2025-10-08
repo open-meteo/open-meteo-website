@@ -33,10 +33,10 @@
 					<li>Less than 10'000 API calls per day, 5'000 per hour and 600 per minute.</li>
 					<li>You may only use the free API services for non-commercial purposes.</li>
 					<li>
-						You accept to the CC-BY 4.0 license, as specified in the <a
+						You accept to the CC-BY 4.0 licence, as specified in the <a
 							class="text-link underline"
-							href={'/en/license'}
-							title="Open-Meteo further license details">license conditions</a
+							href={'/en/licence'}
+							title="Open-Meteo further licence details">licence conditions</a
 						>.
 					</li>
 					<li>
@@ -45,7 +45,7 @@
 					</li>
 				</ul>
 				<p>
-					Non-commercial use is defined as as
+					Non-commercial use is defined as
 					<a href="https://wiki.creativecommons.org/wiki/NonCommercial_interpretation"
 						>elaborated by creative commons</a
 					>. To make it easier to understand, here are some examples that qualify as non-commercial
@@ -76,7 +76,7 @@
 				</p>
 			</div>
 			<div class="[&_p]:mt-3">
-				<h3 id="api_subcription" class="mb-3 text-xl lg:text-2xl">API Subscription</h3>
+				<h3 id="api_subscription" class="mb-3 text-xl lg:text-2xl">API Subscription</h3>
 				<p>
 					When using the <a
 						href="/en/pricing"
@@ -109,15 +109,15 @@
 						software, content, and trademarks, belong to us.
 					</li>
 					<li>
-						You are granted a limited, non-exclusive, and non-transferable license to use our
+						You are granted a limited, non-exclusive, and non-transferable licence to use our
 						service for the duration of your subscription.
 					</li>
 					<li>
-						The data obtained through the API is provided under the terms of the CC-BY 4.0 license,
+						The data obtained through the API is provided under the terms of the CC-BY 4.0 licence,
 						as specified in the <a
 							class="text-link underline"
-							href="/en/license"
-							title="Open-Meteo further license details">license conditions</a
+							href="/en/licence"
+							title="Open-Meteo further licence details">licence conditions</a
 						>.
 					</li>
 				</ul>

@@ -30,7 +30,7 @@ export const defaultParameters = {
 export const pressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
 	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud cover' },
+	{ value: 'cloud_cover', label: 'Cloud Cover' },
 	{ value: 'wind_speed', label: 'Wind Speed' },
 	{ value: 'wind_direction', label: 'Wind Direction' },
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
@@ -49,21 +49,20 @@ export const hourly = [
 		{ value: 'showers', label: 'Showers' },
 		{ value: 'snowfall', label: 'Snowfall' },
 		{ value: 'runoff', label: 'Surface Water Runoff' },
-		{ value: 'visibility', label: 'Visibility' },
-		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'visibility', label: 'Visibility' }
 	],
 	[
-		
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'weather_code', label: 'Weather Code' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' },
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
-		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
-		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud cover High' },
+		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
+		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
+		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
+		{ value: 'cloud_cover_high', label: 'Cloud Cover High' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
-		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' },
+
 		{ value: 'potential_evapotranspiration', label: 'Potential Evapotranspiration' },
-		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
 	],
 	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
@@ -73,17 +72,17 @@ export const hourly = [
 		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 		{ value: 'wind_direction_200m', label: 'Wind Direction (200 m)' },
 		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-		
-		
+
 		{ value: 'cape', label: 'CAPE' },
 		{ value: 'convective_inhibition', label: 'Convective Inhibition' },
-		
+
 		{
 			value: 'total_column_integrated_water_vapour',
 			label: 'Total Column Integrated Water Vapour'
 		}
 	],
 	[
+		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' },
 		{ value: 'surface_temperature', label: 'Surface temperature' },
 		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
 		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
@@ -129,14 +128,14 @@ export const additionalVariables = [
 		{ value: 'temperature_2m_min', label: 'Temperature 3-Hourly Minimum (2 m)' },
 		{ value: 'temperature_2m_max', label: 'Temperature 3-Hourly Maximum (2 m)' },
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
-		{ value: 'precipitation_type', label: 'Precipitation Type' },
+		{ value: 'precipitation_type', label: 'Precipitation Type' }
 	],
 	[
 		{ value: 'roughness_length', label: 'Roughness Length z₀' },
 		{ value: 'albedo', label: 'Albedo' },
 		{ value: 'k_index', label: 'K-Index' },
 		{ value: 'snowfall_water_equivalent', label: 'Snowfall (Water Equivalent)' },
-		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth (Water Equivalent)' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth (Water Equivalent)' }
 	]
 ];
 
