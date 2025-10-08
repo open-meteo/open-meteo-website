@@ -8,7 +8,7 @@ export const load = (() => {
 		heroImage: '/images/backgrounds/snowy.webp',
 		heroHeight: 500,
 		heroTitle: 'Pricing',
-		heroDescription: 'Commercial use license, support and dedicated API capacity',
+		heroDescription: 'Commercial use licence, support and dedicated API capacity',
 		heroPrimaryButtonPath: '#plans',
 		heroPrimaryButtonText: 'API Plans',
 		heroSecondaryButtonPath: '/en/docs',

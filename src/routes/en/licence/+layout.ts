@@ -7,7 +7,7 @@ export const load = (() => {
 		Logo: Rain,
 		heroImage: '/images/backgrounds/features_background.webp',
 		heroHeight: 300,
-		heroTitle: 'License',
+		heroTitle: 'Licence',
 		heroDescription: null,
 		heroPrimaryButtonPath: null,
 		heroPrimaryButtonText: null,

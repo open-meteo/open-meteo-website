@@ -21,7 +21,7 @@ export const defaultParameters = {
 
 export const six_hourly = [
 	[
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
 		{ value: 'temperature_2m_max', label: 'Temperature (2 m) 6h max' },
 		{ value: 'temperature_2m_min', label: 'Temperature (2 m) 6h min' },

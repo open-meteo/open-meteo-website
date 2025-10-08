@@ -42,9 +42,9 @@ export const hourly = [
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' },
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
+		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 	],
@@ -70,8 +70,8 @@ export const current = [
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' }
 	],
 	[

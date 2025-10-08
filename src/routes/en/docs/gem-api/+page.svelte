@@ -26,7 +26,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 
@@ -144,7 +144,7 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		The API utilizes GEM models from the Canadian Meteorological Center, optimized for North
+		The API utilises GEM models from the Canadian Meteorological Center, optimised for North
 		America. However, updates every 6 hours may not reflect the latest weather developments. For
 		accurate forecasts for any location worldwide, the <a
 			class="text-link underline"
@@ -809,7 +809,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
 </form>
 
 <!-- RESULT -->
@@ -1613,7 +1613,7 @@
 						<td>Floating point</td>
 						<td
 							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometers away from the requested
+							forecast. This coordinate might be a few kilometres away from the requested
 							coordinate.</td
 						>
 					</tr>

@@ -28,7 +28,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import {
@@ -154,11 +154,11 @@
 	<Alert.Description>
 		UK Met Office data is provided under the <a
 			class="text-link underline"
-			href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">CC BY-SA 4.0</a
+			href="https://creativecommons.org/licences/by-sa/4.0/deed.en">CC BY-SA 4.0</a
 		>
-		license. Therefore, any derived products from this data should also be redistributed under the same
-		or a compatible license. Typically, Open-Meteo provides data under
-		<a class="text-link underline" href="https://creativecommons.org/licenses/by/4.0/deed.en"
+		licence. Therefore, any derived products from this data should also be redistributed under the same
+		or a compatible licence. Typically, Open-Meteo provides data under
+		<a class="text-link underline" href="https://creativecommons.org/licences/by/4.0/deed.en"
 			>CC BY 4.0</a
 		>.
 	</Alert.Description>
@@ -915,7 +915,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
 </form>
 
 <!-- RESULT -->
