@@ -750,7 +750,7 @@ TODO:
 					<td>1983</td>
 				</tr>
 				<tr>
-					<th scope="row"
+					<th rowspan="2" scope="row"
 						><a href="https://www.eorc.jaxa.jp/ptree/userguide.html" target="_blank">JMA JAXA</a
 						></th
 					>
@@ -761,6 +761,15 @@ TODO:
 					<td>Every 10 minutes</td>
 					<td>20 Minutes</td>
 					<td>2015</td>
+				</tr>
+				<tr>
+					<td>EUMETSAT MTG</td>
+					<td>Europe, Africa</td>
+					<td>0.05° (~ 5km)</td>
+					<td>10 minutely</td>
+					<td>Every 10 minutes</td>
+					<td>2 Hours</td>
+					<td>2025</td>
 				</tr>
 				<tr>
 					<th scope="row" rowspan="2">NASA (not yet available)</th>
