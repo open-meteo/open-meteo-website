@@ -85,7 +85,12 @@ export const models = [
 			value: 'jma_jaxa_himawari',
 			label:
 				'JMA JAXA Himawari (India, Asia, Australia, New Zealand, 10-minutely, since 2023, 20 minutes delay)'
-		}
+		},
+		{
+			value: 'jma_jaxa_mtg_fci',
+			label:
+				'EUMETSAT MTG Third Generation via JMA JAXA (Europe, Africa, India, 10-minutely, since 2025, 20 minutes delay)'
+		},
 	]
 ];
 
