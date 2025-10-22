@@ -26,7 +26,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import {
@@ -853,7 +853,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
 </form>
 
 <!-- RESULTS -->
@@ -869,7 +869,7 @@
 			The weather data precisely aligns with the weather forecast API, created by continuously
 			integrating weather forecast model data. Each update from the weather models' initial hours is
 			compiled into a seamless time series. This extensive dataset is ideal for training machine
-			learning models and combining them with forecast data to generate optimized predictions.
+			learning models and combining them with forecast data to generate optimised predictions.
 		</p>
 		<p>
 			Weather models are initialized using data from weather stations, satellites, radar, airplanes,
@@ -886,7 +886,7 @@
 		</p>
 		<p>
 			The default <mark>Best Match</mark> option selects the most suitable high-resolution weather models
-			for any global location, though users can also manually specify the weather model. Open-Meteo utilizes
+			for any global location, though users can also manually specify the weather model. Open-Meteo utilises
 			the following weather forecast models:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
@@ -1204,7 +1204,7 @@
 				> This dataset is based on reanalysis weather models, particularly ERA5. It offers data from
 				1940 onwards with reasonable consistency throughout the time series, making it ideal for analyzing
 				weather trends and climate change. The focus here is on consistency rather than pinpoint accuracy,
-				with a spatial resolution ranging from 9 to 25 kilometers.
+				with a spatial resolution ranging from 9 to 25 kilometres.
 			</li>
 			<li>
 				<strong

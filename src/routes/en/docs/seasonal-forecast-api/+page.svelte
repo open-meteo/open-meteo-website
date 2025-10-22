@@ -509,7 +509,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
 </form>
 
 <!-- RESULT -->
@@ -591,6 +591,103 @@
 	<a href="#api_documentation"
 		><h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2></a
 	>
+	<div class="mt-2 md:mt-4">
+		<p class="">On success a JSON object will be returned.</p>
+		<div
+			class="pregenerated-code code-numbered -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+		>
+			<WeatherForecastObject />
+		</div>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">latitude, longitude</th>
+						<td>Floating point</td>
+						<td
+							>WGS84 of the center of the weather grid-cell which was used to generate this
+							forecast. This coordinate might be a few kilometres away from the requested
+							coordinate.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">elevation</th>
+						<td>Floating point</td>
+						<td
+							>The elevation from a 90 meter digital elevation model. This effects which grid-cell
+							is selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is
+							used to adapt weather conditions for this elevation. This elevation can also be
+							controlled with the query parameter <mark>elevation</mark>. If
+							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the averge grid-cell
+							elevation is used.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">generationtime_ms</th>
+						<td>Floating point</td>
+						<td
+							>Generation time of the weather forecast in milliseconds. This is mainly used for
+							performance monitoring and improvements.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">utc_offset_seconds</th>
+						<td>Integer</td>
+						<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
+					</tr>
+					<tr>
+						<th scope="row">timezone<br />timezone_abbreviation</th>
+						<td>String</td>
+						<td
+							>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
+							<mark>CEST</mark>)</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">hourly</th>
+						<td>Object</td>
+						<td
+							>For each selected weather variable, data will be returned as a floating point array.
+							Additionally a
+							<mark>time</mark> array will be returned with ISO8601 timestamps.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">hourly_units</th>
+						<td>Object</td>
+						<td>For each selected weather variable, the unit will be listed here.</td>
+					</tr>
+					<tr>
+						<th scope="row">daily</th>
+						<td>Object</td>
+						<td
+							>For each selected daily weather variable, data will be returned as a floating point
+							array. Additionally a <mark>time</mark> array will be returned with ISO8601 timestamps.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">daily_units</th>
+						<td>Object</td>
+						<td>For each selected daily weather variable, the unit will be listed here.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- API DOCS - ERRORS -->
+<div class="mt-6 md:mt-12">
+	<a href="#errors"><h3 id="errors" class="text-xl md:text-2xl">Errors</h3></a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a

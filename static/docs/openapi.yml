@@ -170,11 +170,11 @@ paths:
                   latitude:
                     type: number
                     example: 52.52
-                    description: WGS84 of the center of the weather grid-cell which was used to generate this forecast. This coordinate might be a few kilometers away from the requested coordinate.
+                    description: WGS84 of the center of the weather grid-cell which was used to generate this forecast. This coordinate might be a few kilometres away from the requested coordinate.
                   longitude:
                     type: number
                     example: 13.419.52
-                    description: WGS84 of the center of the weather grid-cell which was used to generate this forecast. This coordinate might be a few kilometers away from the requested coordinate.
+                    description: WGS84 of the center of the weather grid-cell which was used to generate this forecast. This coordinate might be a few kilometres away from the requested coordinate.
                   elevation:
                     type: number
                     example: 44.812

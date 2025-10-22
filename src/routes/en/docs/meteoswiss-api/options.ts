@@ -48,13 +48,13 @@ export const hourly = [
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
-		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
-		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud cover High' }
+		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
+		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
+		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
+		{ value: 'cloud_cover_high', label: 'Cloud Cover High' }
 	],
 	[
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' },
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
@@ -77,8 +77,8 @@ export const current = [
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' }
 	],
 	[
@@ -123,7 +123,7 @@ export const additionalVariables = [
 	[
 		{ value: 'is_day', label: 'Is Day or Night' },
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
-		{ value: 'cloud_base', label: 'Cloud Base' },
+		{ value: 'cloud_base', label: 'Cloud Base' }
 	],
 	[
 		{ value: 'cape', label: 'CAPE' },

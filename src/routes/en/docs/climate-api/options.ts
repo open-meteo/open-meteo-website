@@ -35,7 +35,7 @@ export const daily = [
 		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ value: 'pressure_msl_mean', label: 'Sealevel Pressure' },
+		{ value: 'pressure_msl_mean', label: 'Sea Level Pressure' },
 		{ value: 'soil_moisture_0_to_10cm_mean', label: 'Mean Soil Moisture (0-10 cm)' },
 		{ value: 'et0_fao_evapotranspiration_sum', label: 'Reference Evapotranspiration (ET₀)' }
 	]

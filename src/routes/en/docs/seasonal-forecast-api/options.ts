@@ -25,6 +25,7 @@ export const defaultParameters = {
 
 export const hourly = [
 	[
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
 		{ value: 'dew_point_2m', label: 'Dew Point (2 m)' },
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
