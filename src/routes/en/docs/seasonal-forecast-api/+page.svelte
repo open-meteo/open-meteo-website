@@ -35,7 +35,6 @@
 	} from './options';
 
 	import { pastDaysOptions } from '../options';
-	import { onMount } from 'svelte';
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -59,8 +58,6 @@
 	let temporalResolution = $derived(
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
-
-	let accordionValues: string[] = $state([]);
 
 	onMount(() => {
 		if (
@@ -520,9 +517,9 @@
 	<ResultPreview
 		{params}
 		{defaultParameters}
-		type="forecast"
-		model_default="ecmwf_seas5_seamless"
-		action="forecast"
+		type="seasonal-forecast"
+		model_default="ecmwf_seasonal_seamless"
+		action="seasonal"
 		sdk_type="ensemble_api"
 	/>
 </div>
