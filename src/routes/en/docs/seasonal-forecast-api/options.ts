@@ -49,8 +49,8 @@ EC46 only:
 export const hourly = [
 	[
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
-		{ value: 'temperature_2m_max', label: 'Temperature 66 maximum (2 m) *' },
-		{ value: 'temperature_2m_min', label: 'Temperature 6h minimum (2 m) *' },
+		{ value: 'temperature_2m_max', label: 'Temperature 6h Maximum (2 m) *' },
+		{ value: 'temperature_2m_min', label: 'Temperature 6h Minimum (2 m) *' },
 		{ value: 'dew_point_2m', label: 'Dew Point (2 m)' },
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature (2 m)' }
@@ -60,24 +60,14 @@ export const hourly = [
 		{ value: 'precipitation', label: 'Total Precipitation' },
 		{ value: 'showers', label: 'Showers *' },
 		{ value: 'snowfall', label: 'Snowfall' },
-		{ value: 'rain', label: 'Rain' }
-	],
-	[
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'rain', label: 'Rain' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'cloud_cover', label: 'Total Cloud Cover' },
 		{ value: 'daylight_duration', label: 'Daylight Duration' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration *' },
 		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
-		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
-		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm) *' },
-		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm) *' },
-		{ value: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm) *' },
-		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm) *' },
-		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm) *' },
-		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm) *' },
-		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm) *' }
 	],
-	[
+		[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 		{ value: 'wind_speed_200m', label: 'Wind Speed (200 m)' },
@@ -87,6 +77,17 @@ export const hourly = [
 		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m) *' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
+	],
+	[
+
+		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
+		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm) *' },
+		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm) *' },
+		{ value: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm) *' },
+		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm) *' },
+		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm) *' },
+		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm) *' },
+		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm) *' }
 	]
 ];
 
@@ -270,7 +271,7 @@ export const monthly = [
 
 export const models = [
 	[
-		{ value: 'ecmwf_seasonal_seamless', label: 'ECMWF Seasonal seamless (EC46 + SEAS5)' },
+		{ value: 'ecmwf_seasonal_seamless', label: 'ECMWF Seasonal Seamless (EC46 + SEAS5)' },
 		{ value: 'ecmwf_seas5', label: 'ECMWF SEAS5' },
 		{ value: 'ecmwf_ec46', label: 'ECMWF EC46' }
 	]

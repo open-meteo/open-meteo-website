@@ -46,9 +46,9 @@
 	if ($params.forecast_days === '7') {
 		$params.forecast_days = '183';
 	}
-	if ($params.temporal_resolution === 'hourly_1') {
+	/*if ($params.temporal_resolution === 'hourly_1') {
 		$params.temporal_resolution = 'hourly_6';
-	}
+	}*/
 
 	let forecastDays = $derived(
 		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
@@ -94,7 +94,7 @@
 
 	let accordionValues: string[] = $state([]);
 	onMount(() => {
-		(($params.temporal_resolution = 'hourly_6'), ($params.forecast_days = '183'));
+		//(($params.temporal_resolution = 'hourly_6'), ($params.forecast_days = '183'));
 	});
 </script>
 
@@ -302,10 +302,8 @@
 					</div>
 				</div>
 			</AccordionItem>
-			{'' +
-				/*
 			<AccordionItem id="models" title="Models" count={countVariables(models, $params.models)}>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+				<div class="mt-2 grid sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2">
 					{#each models as group, i (i)}
 						<div class="mb-3">
 							{#each group as { value, label } (value)}
@@ -339,13 +337,10 @@
 				</div>
 				<div>
 					<small class="text-muted-foreground"
-						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses EC46 for the first 46 days and switches to SEAS5 afterwards.</small
 					>
 				</div>
 			</AccordionItem>
-			*/ ''}
 		</Accordion.Root>
 	</div>
 
