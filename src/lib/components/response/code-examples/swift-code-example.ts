@@ -1,7 +1,7 @@
 import type { Parameters } from '$lib/docs';
 import { camelCase, titleCase } from '$lib/utils';
 
-import { INT_64_VARIABLES } from '$lib/constants';
+import { INT_64_VARIABLES, SECTIONS } from '$lib/constants';
 
 export const swiftCodeExample = (
 	params: Parameters,
@@ -21,7 +21,7 @@ export const swiftCodeExample = (
 <span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> responses </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-token-keyword-special);font-style:italic;"> try</span><span style="color:var(--code-preview-token-keyword-special);font-style:italic;"> await</span><span style="color:var(--code-preview-foreground)"> WeatherApiResponse<span style="color:var(--code-preview-token-punctuation-mark)">.</span></span><span style="color:var(--code-preview-token-function)">fetch</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-function)">url</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-function)"> url</span><span style="color:var(--code-preview-token-punctuation)">)</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:var(--code-preview-token-accent)">struct</span><span style="color:var(--code-preview-token-constant)"> WeatherData</span><span style="color:var(--code-preview-foreground)"> {</span></span>`;
-	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+	for (const section of SECTIONS) {
 		const sect = params[section];
 		if (sect) {
 			c += `
@@ -30,7 +30,7 @@ export const swiftCodeExample = (
 	}
 	c += `
 <span class="line"></span>`;
-	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+	for (const section of SECTIONS) {
 		const sect = params[section];
 		if (sect) {
 			c += `
@@ -96,7 +96,7 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-f
 	c += `
 ${t ? '\t' : ''}<span class="line"></span>`;
 
-	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+	for (const section of SECTIONS) {
 		const sect = params[section];
 		if (sect) {
 			c += `
@@ -107,7 +107,7 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-k
 ${t ? '\t' : ''}<span class="line"></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic;">/// Note: The order of weather variables in the URL query and the 'at' indices below need to match!</span></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">let</span><span style="color:var(--code-preview-foreground)"> data </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-token-function)"> WeatherData</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span></span>`;
-	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+	for (const section of SECTIONS) {
 		const sect = params[section];
 		if (sect) {
 			c += `
@@ -139,7 +139,7 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foregro
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">dateFormatter<span style="color:var(--code-preview-token-punctuation-mark)">.</span>dateFormat </span><span style="color:var(--code-preview-token-punctuation-mark)">=</span><span style="color:var(--code-preview-token-string-expression)"> <span style="color:var(--code-preview-token-punctuation-mark)">"</span>yyyy-MM-dd HH:mm<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span></span>
 ${t ? '\t' : ''}<span class="line"></span>`;
 
-	for (const section of ['current', 'minutely_15', 'hourly', 'daily', 'six_hourly']) {
+	for (const section of SECTIONS) {
 		const sect = params[section];
 		if (sect) {
 			if (section === 'current') {
