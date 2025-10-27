@@ -161,7 +161,7 @@ export const solarVariables = [
 
 export const weekly = [
 	[
-		{ value: 'temperature_2m_anomaly', label: 'Temperature (2 m)' },
+		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
 		{ value: 'temperature_max6h_2m', label: 'Temperature (2 m) Max 6h' },
 		{ value: 'temperature_min6h_2m', label: 'Temperature (2 m) Min 6h' },
 		{ value: 'dew_point_2m', label: 'Dew Point (2 m)' },
