@@ -184,62 +184,31 @@ export const solarVariables = [
 
 export const weekly = [
 	[
-		{ value: 'temperature_2m_mean', label: 'Temperature (2 m) Mean' },
-		{ value: 'temperature_2m_anomaly', label: 'Temperature (2 m) Anomaly' },
-		{ value: 'temperature_max6h_2m_mean', label: 'Temperature (2 m) Max 6h Mean' },
-		{ value: 'temperature_max6h_2m_anomaly', label: 'Temperature (2 m) Max 6h Anomaly' },
-		{ value: 'temperature_min6h_2m_mean', label: 'Temperature (2 m) Min 6h Mean' },
-		{ value: 'temperature_min6h_2m_anomaly', label: 'Temperature (2 m) Min 6h Anomaly' }
-	],
-
-	[
-		{ value: 'precipitation_mean', label: 'Precipitation Mean' },
-		{ value: 'precipitation_anomaly', label: 'Precipitation Anomaly' },
-		{ value: 'pressure_msl_mean', label: 'Pressure Mean Sea Level Mean' },
-		{ value: 'pressure_msl_anomaly', label: 'Pressure Mean Sea Level Anomaly' },
-		{ value: 'sea_surface_temperature_mean', label: 'Sea Surface Temperature Mean' },
-		{ value: 'sea_surface_temperature_anomaly', label: 'Sea Surface Temperature Anomaly' }
+		{ value: 'temperature_2m_anomaly', label: 'Temperature (2 m)' },
+		{ value: 'temperature_max6h_2m', label: 'Temperature (2 m) Max 6h' },
+		{ value: 'temperature_min6h_2m', label: 'Temperature (2 m) Min 6h' },
+		{ value: 'dew_point_2m', label: 'Dew Point (2 m)' },
+		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
+		{ value: 'precipitation', label: 'Precipitation' },
+		{ value: 'pressure_msl', label: 'Pressure Mean Sea Level' },
+		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
+		{ value: 'cloud_cover', label: 'Cloud Cover' },
 	],
 	[
-		{ value: 'sunshine_duration_mean', label: 'Sunshine Duration Mean' },
-		{ value: 'sunshine_duration_anomaly', label: 'Sunshine Duration Anomaly' },
-		{ value: 'cloud_cover_mean', label: 'Cloud Cover Mean' },
-		{ value: 'cloud_cover_anomaly', label: 'Cloud Cover Anomaly' },
-		//{ value: 'showers_mean', label: 'Showers Mean' },
-		//{ value: 'showers_anomaly', label: 'Showers Anomaly' },
-		{ value: 'snow_density_mean', label: 'Snow Density Mean' },
-		{ value: 'snow_density_anomaly', label: 'Snow Density Anomaly' },
-		{ value: 'snow_depth_mean', label: 'Snow Depth Mean' },
-		{ value: 'snow_depth_anomaly', label: 'Snow Depth Anomaly' },
-		{ value: 'snow_depth_water_equivalent_mean', label: 'Snow Depth Water Equivalent Mean' },
-		{ value: 'snow_depth_water_equivalent_anomaly', label: 'Snow Depth Water Equivalent Anomaly' },
-		{ value: 'snowfall_mean', label: 'Snowfall Mean' },
-		{ value: 'snowfall_anomaly', label: 'Snowfall Anomaly' },
-		{ value: 'snowfall_water_equivalent_mean', label: 'Snowfall Water Equivalent Mean' },
-		{ value: 'snowfall_water_equivalent_anomaly', label: 'Snowfall Water Equivalent Anomaly' },
+		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
+		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
+		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
+		{ value: 'snow_density', label: 'Snow Density' },
+		{ value: 'snow_depth', label: 'Snow Depth' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent' },
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'snowfall_water_equivalent', label: 'Snowfall Water Equivalent' },
 		{
-			value: 'total_column_integrated_water_vapour_mean',
-			label: 'Total Column Integrated Water Vapour Mean'
-		},
-		{
-			value: 'total_column_integrated_water_vapour_anomaly',
-			label: 'Total Column Integrated Water Vapour Anomaly'
+			value: 'total_column_integrated_water_vapour',
+			label: 'Total Column Integrated Water Vapour'
 		}
-	],
-
-	[
-		{ value: 'dew_point_2m_mean', label: 'Dew Point (2 m) Mean' },
-		{ value: 'dew_point_2m_anomaly', label: 'Dew Point (2 m) Anomaly' },
-		{ value: 'soil_temperature_0_to_7cm_mean', label: 'Soil Temperature (0-7 cm) Mean' },
-		{ value: 'soil_temperature_0_to_7cm_anomaly', label: 'Soil Temperature (0-7 cm) Anomaly' },
-		{ value: 'wind_speed_10m_mean', label: 'Wind Speed (10 m) Mean' },
-		{ value: 'wind_speed_10m_anomaly', label: 'Wind Speed (10 m) Anomaly' },
-		{ value: 'wind_speed_100m_mean', label: 'Wind Speed (100 m) Mean' },
-		{ value: 'wind_speed_100m_anomaly', label: 'Wind Speed (100 m) Anomaly' },
-		{ value: 'wind_direction_10m_mean', label: 'Wind Direction (10 m) Mean' },
-		{ value: 'wind_direction_10m_anomaly', label: 'Wind Direction (10 m) Anomaly' },
-		{ value: 'wind_direction_100m_mean', label: 'Wind Direction (100 m) Mean' },
-		{ value: 'wind_direction_100m_anomaly', label: 'Wind Direction (100 m) Anomaly' },
 		/*{ value: 'wind_u_component_10m_mean', label: 'Wind U Component (10 m) Mean' },
 		{ value: 'wind_v_component_10m_mean', label: 'Wind V Component (10 m) Mean' },
 		{ value: 'wind_u_component_10m_anomaly', label: 'Wind U Component (10 m) Anomaly' },
@@ -249,18 +218,23 @@ export const weekly = [
 		{ value: 'wind_u_component_100m_anomaly', label: 'Wind U Component (100 m) Anomaly' },
 		{ value: 'wind_v_component_100m_anomaly', label: 'Wind V Component (100 m) Anomaly' }*/
 	],
+
+];
+
+export const weeklySpecial = [
 	[
+		{ value: 'temperature_2m_efi', label: 'Temperature (2 m) Extreme Forecast Index' },
+		{ value: 'temperature_2m_sot10', label: 'Temperature (2 m) Shift of Tails 10' },
+		{ value: 'temperature_2m_sot90', label: 'Temperature (2 m) Shift of Tails 90' },
 		{ value: 'temperature_2m_anomaly_gt_0k', label: 'Temperature (2 m) Anomaly Greater than 0K' },
 		{ value: 'temperature_2m_anomaly_gt_1k', label: 'Temperature (2 m) Anomaly Greater than 1K' },
 		{ value: 'temperature_2m_anomaly_gt_2k', label: 'Temperature (2 m) Anomaly Greater than 2K' },
 		{ value: 'temperature_2m_anomaly_lt_minus1k', label: 'Temperature (2 m) Anomaly Lower than -1K' },
 		{ value: 'temperature_2m_anomaly_lt_minus2k', label: 'Temperature (2 m) Anomaly Lower than -2K' },
-		{ value: 'temperature_2m_sot10', label: 'Temperature (2 m) Shift of Tails 10' },
-		{ value: 'temperature_2m_sot90', label: 'Temperature (2 m) Shift of Tails 90' },
-		{ value: 'temperature_2m_efi', label: 'Temperature (2 m) Extreme Forecast Index' }
+
 	], [
-		{ value: 'precipitation_sot90', label: 'Precipitation Shift of Tails 90' },
 		{ value: 'precipitation_efi', label: 'Precipitation Extreme Forecast Index' },
+		{ value: 'precipitation_sot90', label: 'Precipitation Shift of Tails 90' },
 		{ value: 'precipitation_anomaly_gt_0mm', label: 'Precipitation Anomaly Greater than 0mm' },
 		{ value: 'precipitation_anomaly_gt_10mm', label: 'Precipitation Anomaly Greater than 10mm' },
 		{ value: 'precipitation_anomaly_gt_20mm', label: 'Precipitation Anomaly Greater than 20mm' },
@@ -270,100 +244,54 @@ export const weekly = [
 			label: 'Surface Temperature Anomaly Greater than 0K'
 		},
 	]
-];
+]
 
 export const monthly = [
 	[
-		{ value: 'temperature_2m_mean', label: ' Temperature (2 m) Mean' },
-		{ value: 'temperature_2m_anomaly', label: 'Temperature (2 m) Anomaly' },
-		{ value: 'temperature_max24h_2m_mean', label: 'Temperature (2 m) Max 24h Mean' },
-		{ value: 'temperature_max24h_2m_anomaly', label: 'Temperature (2 m) Max 24h Anomaly' },
-		{ value: 'temperature_min24h_2m_mean', label: 'Temperature (2 m) Min 24h Mean' },
-		{ value: 'temperature_min24h_2m_anomaly', label: 'Temperature (2 m) Min 24h Anomaly' },
-		{ value: 'sea_surface_temperature_mean', label: 'Sea Surface Temperature Mean' },
-		{ value: 'sea_surface_temperature_anomaly', label: 'Sea Surface Temperature Anomaly' },
-		{ value: 'dew_point_2m_mean', label: 'Dew Point (2 m) Mean' },
-		{ value: 'dew_point_2m_anomaly', label: 'Dew Point (2 m) Anomaly' },
-		{ value: 'precipitation_mean', label: 'Precipitation Mean' },
-		{ value: 'precipitation_anomaly', label: 'Precipitation Anomaly' },
-		{ value: 'showers_mean', label: 'Showers Mean' },
-		{ value: 'showers_anomaly', label: 'Showers Anomaly' },
-		{ value: 'runoff_mean', label: 'Runoff Mean' },
-		{ value: 'runoff_anomaly', label: 'Runoff Anomaly' },
-		{ value: 'evapotranspiration_mean', label: 'Evapotranspiration Mean' },
-		{ value: 'evapotranspiration_anomaly', label: 'Evapotranspiration Anomaly' }
+		{ value: 'temperature_2m', label: ' Temperature (2 m)' },
+		{ value: 'temperature_max24h_2m', label: 'Temperature (2 m) Max 24h' },
+		{ value: 'temperature_min24h_2m', label: 'Temperature (2 m) Min 24h' },
+		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
+		{ value: 'dew_point_2m', label: 'Dew Point (2 m)' },
+		{ value: 'precipitation', label: 'Precipitation' },
+		{ value: 'showers', label: 'Showers' },
+		{ value: 'runoff', label: 'Runoff' },
+		{ value: 'evapotranspiration', label: 'Evapotranspiration' },
 	],
 	[
-		{ value: 'cloud_cover_mean', label: 'Cloud Cover Mean' },
-		{ value: 'cloud_cover_anomaly', label: 'Cloud Cover Anomaly' },
-		{ value: 'cloud_cover_low_mean', label: 'Cloud Cover Low Mean' },
-		{ value: 'cloud_cover_low_anomaly', label: 'Cloud Cover Low Anomaly' },
-		{ value: 'sunshine_duration_mean', label: 'Sunshine Duration Mean' },
-		{ value: 'sunshine_duration_anomaly', label: 'Sunshine Duration Anomaly' },
+		{ value: 'cloud_cover', label: 'Cloud Cover' },
+		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
 		{
-			value: 'total_column_integrated_water_vapour_mean',
-			label: 'Total Column Integrated Water Vapour Mean'
+			value: 'total_column_integrated_water_vapour',
+			label: 'Total Column Integrated Water Vapour'
 		},
-		{
-			value: 'total_column_integrated_water_vapour_anomaly',
-			label: 'Total Column Integrated Water Vapour Anomaly'
-		},
-		{ value: 'shortwave_radiation_mean', label: 'Shortwave Radiation Mean' },
-		{ value: 'shortwave_radiation_anomaly', label: 'Shortwave Radiation Anomaly' },
-		{ value: 'longwave_radiation_mean', label: 'Longwave Radiation Mean' },
-		{ value: 'longwave_radiation_anomaly', label: 'Longwave Radiation Anomaly' },
-		{ value: 'latent_heat_flux_mean', label: 'Latent Heat Flux Mean' },
-		{ value: 'latent_heat_flux_anomaly', label: 'Latent Heat Flux Anomaly' },
-		{ value: 'sensible_heat_flux_mean', label: 'Sensible Heat Flux Mean' },
-		{ value: 'sensible_heat_flux_anomaly', label: 'Sensible Heat Flux Anomaly' },
-		{ value: 'albedo_mean', label: 'Albedo Mean' },
-		{ value: 'albedo_anomaly', label: 'Albedo Anomaly' }
+		{ value: 'shortwave_radiation', label: 'Shortwave Radiation' },
+		{ value: 'longwave_radiation', label: 'Longwave Radiation' },
+		{ value: 'latent_heat_flux', label: 'Latent Heat Flux' },
+		{ value: 'sensible_heat_flux', label: 'Sensible Heat Flux' },
+		{ value: 'albedo', label: 'Albedo' },
 	],
 	[
-		{ value: 'snow_density_mean', label: 'Snow Density Mean' },
-		{ value: 'snow_density_anomaly', label: 'Snow Density Anomaly' },
-		{ value: 'snow_depth_mean', label: 'Snow Depth Mean' },
-		{ value: 'snow_depth_anomaly', label: 'Snow Depth Anomaly' },
-		{ value: 'snow_depth_water_equivalent_mean', label: 'Snow Depth (Water Equivalent) Mean' },
-		{
-			value: 'snow_depth_water_equivalent_anomaly',
-			label: 'Snow Depth (Water Equivalent) Anomaly'
-		},
-		{ value: 'sea_ice_cover_mean', label: 'Sea Ice Cover Mean' },
-		{ value: 'sea_ice_cover_anomaly', label: 'Sea Ice Cover Anomaly' },
-		{ value: 'snowfall_mean', label: 'Snowfall Mean' },
-		{ value: 'snowfall_anomaly', label: 'Snowfall Anomaly' },
-		{ value: 'snowfall_water_equivalent_mean', label: 'Snowfall Water Equivalent Mean' },
-		{ value: 'snowfall_water_equivalent_anomaly', label: 'Snowfall Water Equivalent Anomaly' },
-		{ value: 'pressure_msl_mean', label: 'Sealevel Pressure Mean' },
-		{ value: 'pressure_msl_anomaly', label: 'Sealevel Pressure Anomaly' },
-		{ value: 'wind_speed_10m_mean', label: 'Wind Speed (10 m) Mean' },
-		{ value: 'wind_speed_10m_anomaly', label: 'Wind Speed (10 m) Anomaly' },
-		{ value: 'wind_gusts_10m_anomaly', label: 'Wind Gusts (10 m) Anomaly' }
+		{ value: 'snow_density', label: 'Snow Density' },
+		{ value: 'snow_depth', label: 'Snow Depth' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth (Water Equivalent)' },
+		{ value: 'sea_ice_cover', label: 'Sea Ice Cover' },
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'snowfall_water_equivalent', label: 'Snowfall Water Equivalent' },
+		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 	],
 	[
-		{ value: 'soil_temperature_0_to_7cm_mean', label: 'Soil Temperature (0-7 cm) Mean' },
-		{ value: 'soil_temperature_0_to_7cm_anomaly', label: 'Soil Temperature (0-7 cm) Anomaly' },
-		{ value: 'soil_temperature_7_to_28cm_mean', label: 'Soil Temperature (7-28 cm) Mean' },
-		{ value: 'soil_temperature_7_to_28cm_anomaly', label: 'Soil Temperature (7-28 cm) Anomaly' },
-		{ value: 'soil_temperature_28_to_100cm_mean', label: 'Soil Temperature (28-100 cm) Mean' },
-		{
-			value: 'soil_temperature_28_to_100cm_anomaly',
-			label: 'Soil Temperature (28-100 cm) Anomaly'
-		},
-		{ value: 'soil_temperature_100_to_255cm_mean', label: 'Soil Temperature (100-255 cm) Mean' },
-		{
-			value: 'soil_temperature_100_to_255cm_anomaly',
-			label: 'Soil Temperature (100-255 cm) Anomaly'
-		},
-		{ value: 'soil_moisture_0_to_7cm_mean', label: 'Soil Moisture (0-7 cm) Mean' },
-		{ value: 'soil_moisture_0_to_7cm_anomaly', label: 'Soil Moisture (0-7 cm) Anomaly' },
-		{ value: 'soil_moisture_7_to_28cm_mean', label: 'Soil Moisture (7-28 cm) Mean' },
-		{ value: 'soil_moisture_7_to_28cm_anomaly', label: 'Soil Moisture (7-28 cm) Anomaly' },
-		{ value: 'soil_moisture_28_to_100cm_mean', label: 'Soil Moisture (28-100 cm) Mean' },
-		{ value: 'soil_moisture_28_to_100cm_anomaly', label: 'Soil Moisture (28-100 cm) Anomaly' },
-		{ value: 'soil_moisture_100_to_255cm_mean', label: 'Soil Moisture (100-255 cm) Mean' },
-		{ value: 'soil_moisture_100_to_255cm_anomaly', label: 'Soil Moisture (100-255 cm) Anomaly' }
+		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
+		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
+		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm)' },
+		{ value: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm)' },
+		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
+		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)' },
+		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)' },
+		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)' },
 	]
 ];
 
