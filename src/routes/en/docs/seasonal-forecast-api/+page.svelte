@@ -174,6 +174,13 @@
 		</div>
 	</div>
 
+	<div>
+		<small class="text-muted-foreground"
+			>Note: *) Variables marked with an asterisk are only available for 46 days based on ECMWF
+			EC46.
+		</small>
+	</div>
+
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
 		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
@@ -342,34 +349,44 @@
 			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
 		>
 		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			class="mt-2 grid grid-flow-row gap-x-4 gap-y-4 md:gap-x-8 md:gap-y-8 lg:grid-cols-1 xl:grid-cols-2"
 		>
 			{#each daily as group, i (i)}
 				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.daily?.includes(value)}
-								aria-labelledby="{value}_daily_label"
-								onCheckedChange={() => {
-									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
-											return item !== value;
-										});
-									} else if ($params.daily) {
-										$params.daily.push(value);
-										$params.daily = $params.daily;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_daily_label"
-								for="{value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
-							>
+					{#each group as { value, label, aggregations }}
+						<div class="flex gap-3">
+							<div class="w-1/2">
+								{label}
+							</div>
+							<div class="flex w-1/2 gap-2">
+								{#each aggregations as aggregation}
+									<div class="group flex items-center" title="{label} {aggregation.label}">
+										<Checkbox
+											id="{value}{aggregation.value}_daily"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											value="{value}min"
+											checked={$params.daily?.includes(`${value}${aggregation.value}`)}
+											aria-labelledby="{value}{aggregation.value}daily_label"
+											onCheckedChange={() => {
+												if ($params.daily?.includes(`${value}${aggregation.value}`)) {
+													$params.daily = $params.daily.filter((item) => {
+														return item !== `${value}${aggregation.value}`;
+													});
+												} else if ($params.daily) {
+													$params.daily.push(`${value}${aggregation.value}`);
+													$params.daily = $params.daily;
+												}
+											}}
+										/>
+										<Label
+											id="{value}{aggregation.value}_daily_label"
+											for="{value}{aggregation.value}_daily"
+											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]"
+											>{aggregation.label}</Label
+										>
+									</div>
+								{/each}
+							</div>
 						</div>
 					{/each}
 				</div>
@@ -390,7 +407,6 @@
 			{#each weekly as group, i (i)}
 				<div>
 					{#each group as { value, label } (value)}
-						{@const valueAn = value.replace('_mean', '_anomaly')}
 						<div class="flex gap-3">
 							<div class="w-1/2">
 								{label}
@@ -470,7 +486,6 @@
 					{#each additionalWeekly as group, i (i)}
 						<div>
 							{#each group as { value, label } (value)}
-								{@const valueAn = value.replace('_mean', '_anomaly')}
 								<div class="flex gap-3">
 									<div class="w-1/2">
 										{label}
@@ -592,7 +607,6 @@
 			{#each monthly as group, i (i)}
 				<div>
 					{#each group as { value, label } (value)}
-						{@const valueAn = value.replace('_mean', '_anomaly')}
 						<div class="flex gap-3">
 							<div class="w-1/2">
 								{label}

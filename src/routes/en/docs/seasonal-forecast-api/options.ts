@@ -54,7 +54,9 @@ export const hourly = [
 		{ value: 'temperature_2m_min', label: 'Temperature 6h Minimum (2 m) *' },
 		{ value: 'dew_point_2m', label: 'Dew Point (2 m)' },
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-		{ value: 'apparent_temperature', label: 'Apparent Temperature (2 m)' }
+		{ value: 'apparent_temperature', label: 'Apparent Temperature (2 m)' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 	],
 	[
 		{ value: 'weather_code', label: 'Weather Code' },
@@ -65,7 +67,6 @@ export const hourly = [
 		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'cloud_cover', label: 'Total Cloud Cover' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration *' },
-		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' }
 	],
 	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
@@ -75,8 +76,7 @@ export const hourly = [
 		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 		{ value: 'wind_direction_200m', label: 'Wind Direction (200 m)' },
 		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m) *' },
-		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
+		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' }
 	],
 	[
 		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
@@ -90,78 +90,55 @@ export const hourly = [
 	]
 ];
 
+const minMaxMean = [{ value: "_min", label: "Min" }, { value: "_mean", label: "Mean" }, { value: "_max", label: "Max" }]
+const sum = [{ value: "_sum", label: "Sum" }]
+const mean = [{ value: "_mean", label: "Mean" }]
+// const soilMean = [{ value: "_0_to_7cm_mean", label: "0-7 cm" }, { value: "_7_to_28cm_mean", label: "7-28 cm" }, { value: "_28_to_100cm_mean", label: "28-100 cm" }, { value: "_100_to_255cm_mean", label: "100-255 cm" }]
+const aggregationDominant = [{ value: "_dominant", label: "Dominant" }]
+const sunriseSet = [{ value: 'sunrise', label: 'Sunrise' }, { value: 'sunset', label: 'Sunset' },]
+
 export const daily = [
 	[
-		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
-		{ value: 'apparent_temperature_max', label: 'Apparent Temperature Max' },
-		{ value: 'apparent_temperature_min', label: 'Apparent Temperature Min' },
-		{ value: 'apparent_temperature_mean', label: 'Apparent Temperature Mean' },
-		{ value: 'relative_humidity_2m_max', label: 'Relative Humidity (2 m) Max' },
-		{ value: 'relative_humidity_2m_min', label: 'Relative Humidity (2 m) Min' },
-		{ value: 'relative_humidity_2m_mean', label: 'Relative Humidity (2 m) Mean' },
-		{ value: 'dew_point_2m_max', label: 'Dew Point (2 m) Max' },
-		{ value: 'dew_point_2m_min', label: 'Dew Point (2 m) Min' },
-		{ value: 'dew_point_2m_mean', label: 'Dew Point (2 m) Mean' },
-		{ value: 'sunrise', label: 'Sunrise' },
-		{ value: 'sunset', label: 'Sunset' }
+		{ value: 'temperature_2m', label: 'Temperature (2 m)', aggregations: minMaxMean },
+		{ value: 'apparent_temperature', label: 'Apparent Temperature', aggregations: minMaxMean },
+		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)', aggregations: minMaxMean },
+		{ value: 'dew_point_2m', label: 'Dew Point (2 m)', aggregations: minMaxMean },
+		{ value: 'precipitation', label: 'Precipitation', aggregations: sum },
+		{ value: 'rain', label: 'Rain Sum', aggregations: sum },
+		{ value: 'showers', label: 'Showers *', aggregations: sum },
+		{ value: 'snowfall', label: 'Snowfall', aggregations: sum },
+		{ value: 'snowfall_water_equivalent', label: 'Snowfall Water Equivalent', aggregations: sum },
+		{ value: 'pressure_msl', label: 'Sealevel Pressure', aggregations: minMaxMean },
+		{ value: 'surface_pressure', label: 'Surface Pressure', aggregations: minMaxMean },
+		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature', aggregations: minMaxMean },
+		{ value: 'cloud_cover', label: 'Cloud Cover', aggregations: minMaxMean },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)', aggregations: sum },
+		{ value: 'shortwave_radiation', label: 'Shortwave Radiation', aggregations: sum },
+		{ value: '', label: 'Sun', aggregations: sunriseSet },
+		{
+			value: '', label: 'Weather code', aggregations: [{ value: 'weather_code', label: 'Weather code' }]
+		},
 	],
 	[
-		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
-		{ value: 'rain_sum', label: 'Rain Sum' },
-		{ value: 'showers_sum', label: 'Showers Sum *' },
-		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ value: 'snowfall_water_equivalent_sum', label: 'Snowfall Water Equivalent Sum' },
-		{ value: 'et0_fao_evapotranspiration_sum', label: 'Reference Evapotranspiration (ET₀) Sum' },
-		{ value: 'vapour_pressure_deficit_max', label: 'Vapour Pressure Deficit Max' },
-		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
-		{ value: 'cloud_cover_max', label: 'Cloud Cover Max' },
-		{ value: 'cloud_cover_min', label: 'Cloud Cover Min' },
-		{ value: 'cloud_cover_mean', label: 'Cloud Cover Mean' },
-
-		{ value: 'daylight_duration', label: 'Daylight Duration' },
-		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
+		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)', aggregations: minMaxMean },
+		{ value: 'vapour_pressure_deficit_max', label: 'Vapour Pressure Deficit', aggregations: minMaxMean },
+		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)', aggregations: minMaxMean },
+		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m) *', aggregations: minMaxMean },
+		{ value: 'wind_speed_200m', label: 'Wind Speed (200 m) *', aggregations: minMaxMean },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m) *', aggregations: minMaxMean },
+		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)', aggregations: aggregationDominant },
+		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m) *', aggregations: aggregationDominant },
+		{ value: 'wind_direction_200m', label: 'Wind Direction (200 m) *', aggregations: aggregationDominant },
+		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)', aggregations: mean },
+		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)', aggregations: mean },
+		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm)', aggregations: mean },
+		{ value: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm)', aggregations: mean },
+		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)', aggregations: mean },
+		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)', aggregations: mean },
+		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)', aggregations: mean },
+		{ value: 'soil_tmoisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)', aggregations: mean },
 	],
-	[
-		{ value: 'wind_speed_10m_max', label: 'Wind Speed (10 m) Max' },
-		{ value: 'wind_speed_10m_min', label: 'Wind Speed (10 m) Min' },
-		{ value: 'wind_speed_10m_mean', label: 'Wind Speed (10 m) Mean' },
-		{ value: 'wind_speed_100m_max', label: 'Wind Speed (100 m) Max *' },
-		{ value: 'wind_speed_100m_min', label: 'Wind Speed (100 m) Min *' },
-		{ value: 'wind_speed_100m_mean', label: 'Wind Speed (100 m) Mean *' },
-		{ value: 'wind_speed_200m_max', label: 'Wind Speed (200 m) Max *' },
-		{ value: 'wind_speed_200m_min', label: 'Wind Speed (200 m) Min *' },
-		{ value: 'wind_speed_200m_mean', label: 'Wind Speed (200 m) Mean *' },
-		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m) *' },
-		{ value: 'wind_direction_10m_dominant', label: 'Wind Direction (10 m) Dominant' },
-		{ value: 'wind_direction_100m_dominant', label: 'Wind Direction (100 m) Dominant' },
-		{ value: 'wind_direction_200m_dominant', label: 'Wind Direction (200 m) Dominant' },
-		{ value: 'pressure_msl_max', label: 'Sealevel Pressure Max' },
-		{ value: 'pressure_msl_min', label: 'Sealevel Pressure Min' },
-		{ value: 'pressure_msl_mean', label: 'Sealevel Pressure Mean' },
-		{ value: 'surface_pressure_max', label: 'Surface Pressure Max' },
-		{ value: 'surface_pressure_min', label: 'Surface Pressure Min' },
-		{ value: 'surface_pressure_mean', label: 'Surface Pressure Mean' },
-		{ value: 'wet_bulb_temperature_2m_max', label: 'Wet Bulb Temperature (2 m) Max' },
-		{ value: 'wet_bulb_temperature_2m_min', label: 'Wet Bulb Temperature (2 m) Min' },
-		{ value: 'wet_bulb_temperature_2m_mean', label: 'Wet Bulb Temperature (2 m) Mean' }
-	],
-	[
-		{ value: 'sea_surface_temperature_max', label: 'Sea Surface Temperature Max' },
-		{ value: 'sea_surface_temperature_min', label: 'Sea Surface Temperature Min' },
-		{ value: 'sea_surface_temperature_mean', label: 'Sea Surface Temperature Mean' },
-		{ value: 'soil_temperature_0_to_7cm_mean', label: 'Soil Temperature (0-7 cm)' },
-		{ value: 'soil_temperature_7_to_28cm_mean', label: 'Soil Temperature (7-28 cm)' },
-		{ value: 'soil_temperature_28_to_100cm_mean', label: 'Soil Temperature (28-100 cm)' },
-		{ value: 'soil_temperature_100_to_255cm_mean', label: 'Soil Temperature (100-255 cm)' },
-		{ value: 'soil_moisture_0_to_7cm_mean', label: 'Soil Moisture (0-7 cm)' },
-		{ value: 'soil_moisture_7_to_28cm_mean', label: 'Soil Moisture (7-28 cm)' },
-		{ value: 'soil_moisture_28_to_100cm_mean', label: 'Soil Moisture (28-100 cm)' },
-		{ value: 'soil_moisture_100_to_255cm_mean', label: 'Soil Moisture (100-255 cm)' }
-	]
-];
+]
 
 export const solarVariables = [
 	[
