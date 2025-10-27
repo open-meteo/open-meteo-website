@@ -7,6 +7,7 @@ export const SECTIONS = [
 	'three_hourly',
 	'six_hourly',
 	'daily',
+	'weekly',
 	'monthly'
 ];
 
