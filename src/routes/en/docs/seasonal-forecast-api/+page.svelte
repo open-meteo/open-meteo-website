@@ -110,10 +110,10 @@
 	>
 	<Alert.Description
 		><p>
-			This API delivers ECMWF SEAS5 data at a 36 km resolution with 51 ensemble members. The data
-			are not bias-corrected and may not accurately reflect local conditions. They should be
-			interpreted as area forecasts, giving an indication of whether the coming months are likely to
-			be warmer, colder, wetter, or drier than average.
+			This API provides seasonal ECMWF SEAS5 and sub-seasonal ECMWF EC46 forecasts at a 36 km
+			resolution with 51 ensemble members. The data are not bias-corrected and may not accurately
+			reflect local conditions. They should be interpreted as area forecasts, giving an indication
+			of whether the coming months are likely to be warmer, colder, wetter, or drier than average.
 		</p></Alert.Description
 	>
 </Alert.Root>
@@ -336,7 +336,8 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses EC46 for the first 46 days and
-						switches to SEAS5 afterwards.</small
+						switches to SEAS5 afterwards. Some weather variables may only be available for either weather
+						model.</small
 					>
 				</div>
 			</AccordionItem>
@@ -805,11 +806,15 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			This API provides data from the ECMWF EC46 and SEAS5 seasonal weather forecast model. SEAS5
-			produces forecasts up to 7 months ahead and EC46 and is run as an ensemble system (51
-			members). Each member starts from slightly different initial conditions, which allows SEAS5 to
-			estimate both the most likely future climate and the uncertainty around it. Updates are only
-			published once per month on the 5th. EC46 runs daily and provides forecasts for up to 46 days.
+			This API provides data from the ECMWF EC46 and SEAS5 seasonal forecast models. SEAS5 generates
+			forecasts up to 7 months in advance, EC46 provides forecasts for up to 46 days ahead. Both
+			models are ensemble forecast systems with 51 members, each initialized with slightly different
+			starting conditions. This approach allows the models to estimate not only the most likely
+			future weather but also the range of possible outcomes and their associated uncertainties.
+		</p>
+		<p>
+			Forecasts from EC46 for the next 46 days are updated every day at around 22:15 GMT+0. Seasonal
+			SEAS5 forecast update every month on the 5th.
 		</p>
 		<p>
 			For short-term forecasting consider using the <a href="/en/docs/ecmwf-api"
@@ -857,7 +862,7 @@
 						<td>7 months</td>
 						<td>Every month on the 5th</td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<th scope="row"
 							><a
 								href="https://confluence.ecmwf.int/display/FCST/Implementation+of+Seasonal+Forecast+SEAS5"
@@ -869,7 +874,7 @@
 						<td>12-hourly</td>
 						<td>7 months</td>
 						<td>Every month on the 5th</td>
-					</tr>
+					</tr> -->
 				</tbody>
 			</table>
 		</div>
