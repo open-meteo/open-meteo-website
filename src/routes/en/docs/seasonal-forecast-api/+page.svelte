@@ -419,6 +419,9 @@
 				</div>
 			{/each}
 		</div>
+		<!-- <div class="mt-3">
+			<small class="text-muted-foreground">*EFI: Extreme Forecast Index, SOT: Shift of Tails</small>
+		</div> -->
 	</div>
 
 	<!-- Monthly -->
