@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { fade, slide } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -9,7 +9,6 @@
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
-	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 
 	import * as Alert from '$lib/components/ui/alert';
@@ -26,6 +25,7 @@
 	import {
 		daily,
 		hourly,
+		weekly,
 		models,
 		monthly,
 		solarVariables,
@@ -46,14 +46,6 @@
 	if ($params.forecast_days === '7') {
 		$params.forecast_days = '183';
 	}
-	/*if ($params.temporal_resolution === 'hourly_1') {
-		$params.temporal_resolution = 'hourly_6';
-	}*/
-
-	let forecastDays = $derived(
-		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
-	);
-	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
 	let temporalResolution = $derived(
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
@@ -88,14 +80,10 @@
 	});
 
 	let beginDate = new Date('2022-06-08');
-
 	let lastDate = new Date();
 	lastDate.setDate(lastDate.getDate() + 274);
 
 	let accordionValues: string[] = $state([]);
-	onMount(() => {
-		//(($params.temporal_resolution = 'hourly_6'), ($params.forecast_days = '183'));
-	});
 </script>
 
 <svelte:head>
@@ -337,7 +325,8 @@
 				</div>
 				<div>
 					<small class="text-muted-foreground"
-						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses EC46 for the first 46 days and switches to SEAS5 afterwards.</small
+						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses EC46 for the first 46 days and
+						switches to SEAS5 afterwards.</small
 					>
 				</div>
 			</AccordionItem>
@@ -378,6 +367,53 @@
 								for="{value}_daily"
 								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
 							>
+						</div>
+					{/each}
+				</div>
+			{/each}
+		</div>
+	</div>
+
+	<!-- Weekly -->
+	<div class="mt-6 md:mt-12">
+		<a href="#monthly_weather_variables"
+			><h2 id="monthly_weather_variables" class="text-2xl md:text-3xl">
+				Weekly Weather Variables
+			</h2></a
+		>
+		<div
+			class="mt-2 grid grid-flow-row gap-x-4 gap-y-4 md:gap-x-8 md:gap-y-8 lg:grid-cols-1 xl:grid-cols-2"
+		>
+			{#each weekly as group, i (i)}
+				<div>
+					{#each group as { value, label } (value)}
+						<div class="flex gap-3">
+							<div class="flex w-1/2 gap-2">
+								<div class="group flex items-center" title={label}>
+									<Checkbox
+										id="{value}_weekly"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										{value}
+										checked={$params.weekly?.includes(value)}
+										aria-labelledby="{value}_weekly_label"
+										onCheckedChange={() => {
+											if ($params.weekly?.includes(value)) {
+												$params.weekly = $params.weekly.filter((item) => {
+													return item !== value;
+												});
+											} else if ($params.weekly) {
+												$params.weekly.push(value);
+												$params.weekly = $params.weekly;
+											}
+										}}
+									/>
+									<Label
+										id="{value}_weekly_label"
+										for="{value}_weekly"
+										class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">{label}</Label
+									>
+								</div>
+							</div>
 						</div>
 					{/each}
 				</div>
@@ -524,11 +560,11 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			This API provides data from the ECMWF EC46 and SEAS5 seasonal weather forecast model. SEAS5 produces
-			forecasts up to 7 months ahead and EC46 and is run as an ensemble system (51 members). Each member
-			starts from slightly different initial conditions, which allows SEAS5 to estimate both the
-			most likely future climate and the uncertainty around it. Updates are only published once per
-			month on the 5th. EC46 runs daily and provides forecasts for up to 46 days.
+			This API provides data from the ECMWF EC46 and SEAS5 seasonal weather forecast model. SEAS5
+			produces forecasts up to 7 months ahead and EC46 and is run as an ensemble system (51
+			members). Each member starts from slightly different initial conditions, which allows SEAS5 to
+			estimate both the most likely future climate and the uncertainty around it. Updates are only
+			published once per month on the 5th. EC46 runs daily and provides forecasts for up to 46 days.
 		</p>
 		<p>
 			For short-term forecasting consider using the <a href="/en/docs/ecmwf-api"

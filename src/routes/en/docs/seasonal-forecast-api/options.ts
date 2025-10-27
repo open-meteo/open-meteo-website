@@ -1,8 +1,9 @@
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
-	monthly: [],
+	weekly: [],
 	models: [],
+	monthly: [],
 
 	temporal_resolution: 'hourly_6',
 
@@ -65,9 +66,9 @@ export const hourly = [
 		{ value: 'cloud_cover', label: 'Total Cloud Cover' },
 		{ value: 'daylight_duration', label: 'Daylight Duration' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration *' },
-		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
+		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' }
 	],
-		[
+	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 		{ value: 'wind_speed_200m', label: 'Wind Speed (200 m)' },
@@ -79,7 +80,6 @@ export const hourly = [
 		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 	],
 	[
-
 		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
 		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm) *' },
 		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm) *' },
@@ -90,7 +90,6 @@ export const hourly = [
 		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm) *' }
 	]
 ];
-
 
 export const daily = [
 	[
@@ -172,6 +171,123 @@ export const solarVariables = [
 		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' },
 		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 	]
+];
+
+export const weekly = [
+	[
+		{ value: 'temperature_2m_anomaly_gt_0k', label: 'Temperature (2m) Greater than 0K' },
+		{ value: 'temperature_2m_anomaly_gt_1k', label: 'Temperature (2m) Greater than 1K' },
+		{ value: 'temperature_2m_anomaly_gt_2k', label: 'Temperature (2m) Greater than 2K' },
+		{ value: 'temperature_2m_anomaly_lt_minus1k', label: 'Temperature (2m) Lower than -1K' },
+		{ value: 'temperature_2m_anomaly_lt_minus2k', label: 'Temperature (2m) Lower than -2K' },
+
+		// Name still
+		{ value: 'pressure_msl_anomaly_gt_0Pa', label: 'Label' },
+		{ value: 'surface_temperature_anomaly_gt_0K', label: 'Label' },
+		{ value: 'precipitation_anomaly_gt_0mm', label: 'Label' },
+		{ value: 'precipitation_anomaly_gt_10mm', label: 'Label' },
+		{ value: 'precipitation_anomaly_gt_20mm', label: 'Label' }
+	],
+
+	[
+		{ value: 'temperature_2m_sot10', label: 'Temperature (2m) Shift of Tails 10' },
+		{ value: 'temperature_2m_sot90', label: 'Temperature (2m) Shift of Tails 90' },
+		{ value: 'temperature_2m_efi', label: 'Temperature (2m) EFI' },
+		{ value: 'precipitation_efi', label: 'Precipitation EFI' },
+		{ value: 'precipitation_sot90', label: 'Precipitation Shift of Tails 90' }
+	],
+
+	// Implement still
+	// showers_mean
+	// showers_anomaly // missing ?
+
+	// snow_density_mean
+	// snow_density_anomaly
+	// snow_depth_water_equivalent_mean
+	// snow_depth_water_equivalent_anomaly
+
+	// total_column_integrated_water_vapour_mean
+	// total_column_integrated_water_vapour_anomaly
+
+	// temperature_2m_mean
+	// temperature_2m_anomaly
+
+	// dew_point_2m_mean
+	// dew_point_2m_anomaly
+
+	// pressure_msl_mean
+	// pressure_msl_anomaly
+
+	// sea_surface_temperature_mean
+	// sea_surface_temperature_anomaly
+
+	// wind_u_component_10m_mean
+	// wind_u_component_10m_anomaly
+	// wind_v_component_10m_mean
+	// wind_v_component_10m_anomaly
+
+	// wind_u_component_100m_mean
+	// wind_u_component_100m_anomaly
+	// wind_v_component_100m_mean
+	// wind_v_component_100m_anomaly
+
+	// snowfall_water_equivalent_mean
+	// snowfall_water_equivalent_anomaly
+
+	// precipitation_mean
+	// precipitation_anomaly
+
+	// cloud_cover_mean
+	// cloud_cover_anomaly
+
+	// sunshine_duration_mean
+	// sunshine_duration_anomaly
+
+	// soil_temperature_0_to_7cm_mean
+	// soil_temperature_0_to_7cm_anomaly
+	[],
+	[
+		{ value: 'temperature_max24h_2m_mean', label: 'Temperature (2 m) Max 24h Mean' },
+		{ value: 'temperature_max24h_2m_anomaly', label: 'Temperature (2 m) Max 24h Anomaly' },
+		{ value: 'temperature_min24h_2m_mean', label: 'Temperature (2 m) Min 24h Mean' },
+		{ value: 'temperature_min24h_2m_anomaly', label: 'Temperature (2 m) Min 24h Anomaly' }
+	]
+
+	// wind_gusts_10m_anomaly
+	// wind_speed_10m_mean
+	// wind_speed_10m_anomaly
+	// albedo_mean
+	// albedo_anomaly
+	// cloud_cover_low_mean
+	// cloud_cover_low_anomaly
+	// runoff_mean
+	// runoff_anomaly
+	// shortwave_radiation_mean
+	// shortwave_radiation_anomaly
+	// longwave_radiation_mean
+	// longwave_radiation_anomaly
+	// soil_temperature_7_to_28cm_mean
+	// soil_temperature_7_to_28cm_anomaly
+	// soil_temperature_28_to_100cm_mean
+	// soil_temperature_28_to_100cm_anomaly
+	// soil_temperature_100_to_255cm_mean
+	// soil_temperature_100_to_255cm_anomaly
+	// soil_moisture_0_to_7cm_mean
+	// soil_moisture_0_to_7cm_anomaly
+	// soil_moisture_7_to_28cm_mean
+	// soil_moisture_7_to_28cm_anomaly
+	// soil_moisture_28_to_100cm_mean
+	// soil_moisture_28_to_100cm_anomaly
+	// soil_moisture_100_to_255cm_mean
+	// soil_moisture_100_to_255cm_anomaly
+	// sea_ice_cover_mean
+	// sea_ice_cover_anomaly
+	// latent_heat_flux_mean
+	// latent_heat_flux_anomaly
+	// sensible_heat_flux_mean
+	// sensible_heat_flux_anomaly
+	// evapotranspiration_mean
+	// evapotranspiration_anomaly
 ];
 
 export const monthly = [
