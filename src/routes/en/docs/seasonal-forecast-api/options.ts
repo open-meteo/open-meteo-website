@@ -242,8 +242,8 @@ export const weekly = [
 		{ value: 'wind_u_component_10m_anomaly', label: 'Wind U Component (10 m) Anomaly' },
 		{ value: 'wind_v_component_10m_anomaly', label: 'Wind V Component (10 m) Anomaly' },
 		{ value: 'wind_u_component_100m_mean', label: 'Wind U Component (100 m) Mean' },
-		{ value: 'wind_u_component_100m_anomaly', label: 'Wind U Component (100 m) Anomaly' },
 		{ value: 'wind_v_component_100m_mean', label: 'Wind V Component (100 m) Mean' },
+		{ value: 'wind_u_component_100m_anomaly', label: 'Wind U Component (100 m) Anomaly' },
 		{ value: 'wind_v_component_100m_anomaly', label: 'Wind V Component (100 m) Anomaly' }
 	]
 
