@@ -64,7 +64,6 @@ export const hourly = [
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'cloud_cover', label: 'Total Cloud Cover' },
-		{ value: 'daylight_duration', label: 'Daylight Duration' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration *' },
 		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' }
 	],
@@ -112,6 +111,7 @@ export const daily = [
 		{ value: 'weather_code', label: 'Weather code' },
 		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
+		{ value: 'showers_sum', label: 'Showers Sum *' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
 		{ value: 'snowfall_water_equivalent_sum', label: 'Snowfall Water Equivalent Sum' },
 		{ value: 'et0_fao_evapotranspiration_sum', label: 'Reference Evapotranspiration (ET₀) Sum' },
@@ -128,6 +128,13 @@ export const daily = [
 		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
 		{ value: 'wind_speed_10m_min', label: 'Wind Speed (10 m) Min' },
 		{ value: 'wind_speed_10m_mean', label: 'Wind Speed (10 m) Mean' },
+		{ value: 'wind_speed_100m_max', label: 'Maximum Wind Speed (100 m)' },
+		{ value: 'wind_speed_100m_min', label: 'Wind Speed (100 m) Min' },
+		{ value: 'wind_speed_100m_mean', label: 'Wind Speed (100 m) Mean' },
+		{ value: 'wind_speed_200m_max', label: 'Maximum Wind Speed (200 m)' },
+		{ value: 'wind_speed_200m_min', label: 'Wind Speed (200 m) Min' },
+		{ value: 'wind_speed_200m_mean', label: 'Wind Speed (200 m) Mean' },
+		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m) *' },
 		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
 		{ value: 'pressure_msl_max', label: 'Sealevel Pressure Max' },
 		{ value: 'pressure_msl_min', label: 'Sealevel Pressure Min' },
@@ -143,14 +150,14 @@ export const daily = [
 		{ value: 'sea_surface_temperature_max', label: 'Sea Surface Temperature Max' },
 		{ value: 'sea_surface_temperature_min', label: 'Sea Surface Temperature Min' },
 		{ value: 'sea_surface_temperature_mean', label: 'Sea Surface Temperature Mean' },
-		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
-		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
-		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm)' },
-		{ value: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm)' },
-		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
-		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)' },
-		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)' },
-		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)' }
+		{ value: 'soil_temperature_0_to_7cm_mean', label: 'Soil Temperature (0-7 cm)' },
+		{ value: 'soil_temperature_7_to_28cm_mean', label: 'Soil Temperature (7-28 cm)' },
+		{ value: 'soil_temperature_28_to_100cm_mean', label: 'Soil Temperature (28-100 cm)' },
+		{ value: 'soil_temperature_100_to_255cm_mean', label: 'Soil Temperature (100-255 cm)' },
+		{ value: 'soil_moisture_0_to_7cm_mean', label: 'Soil Moisture (0-7 cm)' },
+		{ value: 'soil_moisture_7_to_28cm_mean', label: 'Soil Moisture (7-28 cm)' },
+		{ value: 'soil_moisture_28_to_100cm_mean', label: 'Soil Moisture (28-100 cm)' },
+		{ value: 'soil_moisture_100_to_255cm_mean', label: 'Soil Moisture (100-255 cm)' }
 	]
 ];
 

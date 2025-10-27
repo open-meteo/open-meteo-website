@@ -551,7 +551,7 @@
 	<ResultPreview
 		{params}
 		{defaultParameters}
-		type="seasonal-forecast"
+		type="seasonal"
 		model_default="ecmwf_seasonal_seamless"
 		action="seasonal"
 		sdk_type="ensemble_api"
@@ -600,7 +600,7 @@
 						<td>36 km (O320 grid)</td>
 						<td>6-hourly</td>
 						<td>46 days</td>
-						<td>Daily at 22:00Z</td>
+						<td>Daily at 20:30Z</td>
 					</tr>
 					<tr>
 						<th scope="row"
