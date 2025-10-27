@@ -190,36 +190,34 @@ export const weekly = [
 		{ value: 'dew_point_2m', label: 'Dew Point (2 m)' },
 		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
 		{ value: 'precipitation', label: 'Precipitation' },
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'snow_depth', label: 'Snow Depth' },
+	],
+	[
 		{ value: 'pressure_msl', label: 'Pressure Mean Sea Level' },
 		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
 		{ value: 'cloud_cover', label: 'Cloud Cover' },
-	],
-	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
 		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
+	],
+];
+
+export const additionalWeekly = [
+	[
 		{ value: 'snow_density', label: 'Snow Density' },
-		{ value: 'snow_depth', label: 'Snow Depth' },
 		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent' },
-		{ value: 'snowfall', label: 'Snowfall' },
+	],
+	[
 		{ value: 'snowfall_water_equivalent', label: 'Snowfall Water Equivalent' },
 		{
 			value: 'total_column_integrated_water_vapour',
 			label: 'Total Column Integrated Water Vapour'
 		}
-		/*{ value: 'wind_u_component_10m_mean', label: 'Wind U Component (10 m) Mean' },
-		{ value: 'wind_v_component_10m_mean', label: 'Wind V Component (10 m) Mean' },
-		{ value: 'wind_u_component_10m_anomaly', label: 'Wind U Component (10 m) Anomaly' },
-		{ value: 'wind_v_component_10m_anomaly', label: 'Wind V Component (10 m) Anomaly' },
-		{ value: 'wind_u_component_100m_mean', label: 'Wind U Component (100 m) Mean' },
-		{ value: 'wind_v_component_100m_mean', label: 'Wind V Component (100 m) Mean' },
-		{ value: 'wind_u_component_100m_anomaly', label: 'Wind U Component (100 m) Anomaly' },
-		{ value: 'wind_v_component_100m_anomaly', label: 'Wind V Component (100 m) Anomaly' }*/
-	],
-
-];
+	]
+]
 
 export const weeklySpecial = [
 	[
@@ -251,39 +249,21 @@ export const monthly = [
 		{ value: 'temperature_2m', label: ' Temperature (2 m)' },
 		{ value: 'temperature_max24h_2m', label: 'Temperature (2 m) Max 24h' },
 		{ value: 'temperature_min24h_2m', label: 'Temperature (2 m) Min 24h' },
-		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
 		{ value: 'dew_point_2m', label: 'Dew Point (2 m)' },
 		{ value: 'precipitation', label: 'Precipitation' },
 		{ value: 'showers', label: 'Showers' },
-		{ value: 'runoff', label: 'Runoff' },
-		{ value: 'evapotranspiration', label: 'Evapotranspiration' },
-	],
-	[
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'snow_depth', label: 'Snow Depth' },
 		{ value: 'cloud_cover', label: 'Cloud Cover' },
 		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
-		{
-			value: 'total_column_integrated_water_vapour',
-			label: 'Total Column Integrated Water Vapour'
-		},
 		{ value: 'shortwave_radiation', label: 'Shortwave Radiation' },
-		{ value: 'longwave_radiation', label: 'Longwave Radiation' },
-		{ value: 'latent_heat_flux', label: 'Latent Heat Flux' },
-		{ value: 'sensible_heat_flux', label: 'Sensible Heat Flux' },
-		{ value: 'albedo', label: 'Albedo' },
 	],
 	[
-		{ value: 'snow_density', label: 'Snow Density' },
-		{ value: 'snow_depth', label: 'Snow Depth' },
-		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth (Water Equivalent)' },
-		{ value: 'sea_ice_cover', label: 'Sea Ice Cover' },
-		{ value: 'snowfall', label: 'Snowfall' },
-		{ value: 'snowfall_water_equivalent', label: 'Snowfall Water Equivalent' },
 		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
-	],
-	[
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
 		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
 		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm)' },
@@ -294,6 +274,27 @@ export const monthly = [
 		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)' },
 	]
 ];
+
+export const additionalMonthly = [
+	[
+		{ value: 'runoff', label: 'Runoff' },
+		{ value: 'evapotranspiration', label: 'Evapotranspiration' },
+		{ value: 'snow_density', label: 'Snow Density' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth (Water Equivalent)' },
+		{
+			value: 'total_column_integrated_water_vapour',
+			label: 'Total Column Integrated Water Vapour'
+		},
+		{ value: 'sea_ice_cover', label: 'Sea Ice Cover' },
+	],
+	[
+		{ value: 'longwave_radiation', label: 'Longwave Radiation' },
+		{ value: 'snowfall_water_equivalent', label: 'Snowfall Water Equivalent' },
+		{ value: 'albedo', label: 'Albedo' },
+		{ value: 'latent_heat_flux', label: 'Latent Heat Flux' },
+		{ value: 'sensible_heat_flux', label: 'Sensible Heat Flux' }
+	]
+]
 
 export const models = [
 	[

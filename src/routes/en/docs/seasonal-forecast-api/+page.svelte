@@ -32,7 +32,9 @@
 		defaultParameters,
 		forecastDaysOptions,
 		temporalResolutionOptions,
-		weeklySpecial
+		weeklySpecial,
+		additionalWeekly,
+		additionalMonthly
 	} from './options';
 
 	import { pastDaysOptions } from '../options';
@@ -460,6 +462,78 @@
 	<div class="mt-6">
 		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem
+				id="additionalWeekly-variables"
+				title="Additional Weekly Variables"
+				count={countVariables(additionalWeekly, $params.weekly)}
+			>
+				<div class="grid md:grid-cols-2">
+					{#each additionalWeekly as group, i (i)}
+						<div>
+							{#each group as { value, label } (value)}
+								{@const valueAn = value.replace('_mean', '_anomaly')}
+								<div class="flex gap-3">
+									<div class="w-1/2">
+										{label}
+									</div>
+									<div class="flex w-1/2 gap-2">
+										<div class="group flex items-center" title="{label} Mean">
+											<Checkbox
+												id="{value}_mean_weekly"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												value="{value}_mean"
+												checked={$params.weekly?.includes(`${value}_mean`)}
+												aria-labelledby="{value}_mean_weekly_label"
+												onCheckedChange={() => {
+													if ($params.weekly?.includes(`${value}_mean`)) {
+														$params.weekly = $params.weekly.filter((item) => {
+															return item !== `${value}_mean`;
+														});
+													} else if ($params.weekly) {
+														$params.weekly.push(`${value}_mean`);
+														$params.weekly = $params.weekly;
+													}
+												}}
+											/>
+											<Label
+												id="{value}_mean_weekly_label"
+												for="{value}_mean_weekly"
+												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
+											>
+										</div>
+										<div class="group flex items-center" title="{label} Anomaly">
+											<Checkbox
+												id="{value}_anomaly_weekly"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												value="{value}_anomaly"
+												checked={$params.weekly?.includes(`${value}_anomaly`)}
+												aria-labelledby="{value}_anomaly_weekly_label"
+												onCheckedChange={() => {
+													if ($params.weekly?.includes(`${value}_anomaly`)) {
+														$params.weekly = $params.weekly.filter((item) => {
+															return item !== `${value}_anomaly`;
+														});
+													} else if ($params.weekly) {
+														$params.weekly.push(`${value}_anomaly`);
+														$params.weekly = $params.weekly;
+													}
+												}}
+											/>
+
+											<Label
+												id="{value}_anomaly_weekly_label"
+												for="{value}_anomaly_weekly"
+												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
+											>
+										</div>
+									</div>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div></AccordionItem
+			>
+
+			<AccordionItem
 				id="weeklySpecial-variables"
 				title="Anomaly Probabilities, Extreme Forecast Index (EFI) & Shift of tails (SOT)"
 				count={countVariables(weeklySpecial, $params.weekly)}
@@ -495,12 +569,12 @@
 						</div>
 					{/each}
 				</div>
-				<small class="text-muted-foreground mt-1">
+				<!-- <small class="text-muted-foreground mt-1">
 					Note: You can further adjust the forecast time range for hourly weather variables using <mark
 						>&forecast_hours=</mark
 					>
 					and <mark>&past_hours=</mark> as shown below.
-				</small>
+				</small> -->
 			</AccordionItem>
 		</Accordion.Root>
 	</div>
@@ -612,6 +686,83 @@
 				</div>
 			{/each}
 		</div>
+	</div>
+
+	<!-- additional Monthly -->
+	<div class="mt-6">
+		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+			<AccordionItem
+				id="additionalMonthly-variables"
+				title="Additional Monthly Variables"
+				count={countVariables(additionalMonthly, $params.weekly)}
+			>
+				<div class="grid md:grid-cols-2">
+					{#each additionalMonthly as group, i (i)}
+						<div>
+							{#each group as { value, label } (value)}
+								{@const valueAn = value.replace('_mean', '_anomaly')}
+								<div class="flex gap-3">
+									<div class="w-1/2">
+										{label}
+									</div>
+									<div class="flex w-1/2 gap-2">
+										<div class="group flex items-center" title="{label} Mean">
+											<Checkbox
+												id="{value}_mean_monthly"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												value="{value}_mean"
+												checked={$params.monthly?.includes(`${value}_mean`)}
+												aria-labelledby="{value}_mean_monthly_label"
+												onCheckedChange={() => {
+													if ($params.monthly?.includes(`${value}_mean`)) {
+														$params.monthly = $params.monthly.filter((item) => {
+															return item !== `${value}_mean`;
+														});
+													} else if ($params.monthly) {
+														$params.monthly.push(`${value}_mean`);
+														$params.monthly = $params.monthly;
+													}
+												}}
+											/>
+											<Label
+												id="{value}_mean_monthly_label"
+												for="{value}_mean_monthly"
+												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
+											>
+										</div>
+										<div class="group flex items-center" title="{label} Anomaly">
+											<Checkbox
+												id="{value}_anomaly_monthly"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												value="{value}_anomaly"
+												checked={$params.monthly?.includes(`${value}_anomaly`)}
+												aria-labelledby="{value}_anomaly_monthly_label"
+												onCheckedChange={() => {
+													if ($params.monthly?.includes(`${value}_anomaly`)) {
+														$params.monthly = $params.monthly.filter((item) => {
+															return item !== `${value}_anomaly`;
+														});
+													} else if ($params.monthly) {
+														$params.monthly.push(`${value}_anomaly`);
+														$params.monthly = $params.monthly;
+													}
+												}}
+											/>
+
+											<Label
+												id="{value}_anomaly_monthly_label"
+												for="{value}_anomaly_monthly"
+												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
+											>
+										</div>
+									</div>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div></AccordionItem
+			>
+		</Accordion.Root>
 	</div>
 
 	<!-- SETTINGS -->
