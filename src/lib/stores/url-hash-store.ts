@@ -1,10 +1,8 @@
-import { writable, type Writable } from 'svelte/store';
-
-import { page } from '$app/state';
-
-import { goto } from '$app/navigation';
+import { type Writable, writable } from 'svelte/store';
 
 import { browser } from '$app/environment';
+import { goto } from '$app/navigation';
+import { page } from '$app/state';
 
 import { debounce, isNumeric } from '$lib/utils';
 

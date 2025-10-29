@@ -1,6 +1,6 @@
-import type { LayoutLoad } from './$types';
-
 import Rain from '$lib/assets/icons/rain.svelte';
+
+import type { LayoutLoad } from './$types';
 
 export const load = (() => {
 	return {

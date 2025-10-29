@@ -1,11 +1,10 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
 
+	import { dev } from '$app/environment';
 	import { page } from '$app/state';
 
-	import { dev } from '$app/environment';
-
-	import { storedLocation, type GeoLocation } from '$lib/stores/settings';
+	import { type GeoLocation, storedLocation } from '$lib/stores/settings';
 
 	import { geoLocationNameToRoute } from '$lib/utils/meteo';
 

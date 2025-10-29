@@ -1,42 +1,39 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import { fade, slide } from 'svelte/transition';
-
-	import { countVariables, countPreviousVariables } from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
+	import { countPreviousVariables, countVariables } from '$lib/utils/meteo';
+
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Alert from '$lib/components/ui/alert';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
-	import * as Accordion from '$lib/components/ui/accordion';
 
-	import Settings from '$lib/components/settings/settings.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-
-	import {
-		previousDay,
-		windVariables,
-		solarVariables,
-		pastDaysOptions,
-		defaultParameters
-	} from './options';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
 
 	import {
 		forecastDaysOptions,
 		gridCellSelectionOptions,
-		temporalResolutionOptions,
-		models
+		models,
+		temporalResolutionOptions
 	} from '../options';
+	import {
+		defaultParameters,
+		pastDaysOptions,
+		previousDay,
+		solarVariables,
+		windVariables
+	} from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
