@@ -1,6 +1,6 @@
-import Hero from './hero.svelte';
-
 import Sun from '$lib/assets/icons/sun.svelte';
+
+import Hero from './hero.svelte';
 
 describe('Hero', () => {
 	it('should load hero', () => {

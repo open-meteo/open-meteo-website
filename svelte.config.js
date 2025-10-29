@@ -1,7 +1,6 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-
-import { mdsvex, escapeSvelte } from 'mdsvex';
+import { escapeSvelte, mdsvex } from 'mdsvex';
 import { createHighlighter } from 'shiki';
 
 import cityNames from './src/routes/en/weather/locations/city-names10.json' with { type: 'json' };

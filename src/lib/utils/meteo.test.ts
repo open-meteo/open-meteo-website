@@ -1,5 +1,6 @@
 import { expect, test } from 'vitest';
-import { getWeatherCode, altitudeAboveSeaLevelMeters, geoLocationNameToRoute } from './meteo';
+
+import { altitudeAboveSeaLevelMeters, geoLocationNameToRoute, getWeatherCode } from './meteo';
 
 // --- altitudeAboveSeaLevelMeters ---
 test('check altitudeAboveSeaLevelMeters with 1000hPa', () => {

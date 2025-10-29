@@ -1,5 +1,6 @@
-import { SECTIONS } from '$lib/constants';
 import { getWeatherCode } from '$lib/utils/meteo';
+
+import { SECTIONS } from '$lib/constants';
 
 export function jsonToChart(data: any, downloadTime: number) {
 	let yAxis: any = [];

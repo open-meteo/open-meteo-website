@@ -1,10 +1,10 @@
-export const prerender = true;
-export const trailingSlash = 'never';
 //export const ssr = true;
+import Sun from '$lib/assets/icons/sun.svelte';
 
 import type { LayoutLoad } from './$types';
 
-import Sun from '$lib/assets/icons/sun.svelte';
+export const prerender = true;
+export const trailingSlash = 'never';
 
 export const load: LayoutLoad = async (event) => {
 	const { pathname } = event.url;
