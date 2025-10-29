@@ -50,6 +50,7 @@
 	];
 	if (dev) {
 		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
+		links.push({ title: 'Single Runs', url: '/en/docs/single-runs-api' });
 	}
 
 	interface Path {
