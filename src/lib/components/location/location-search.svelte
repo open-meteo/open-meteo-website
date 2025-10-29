@@ -1,10 +1,12 @@
 <script lang="ts">
+	import { createEventDispatcher, onDestroy } from 'svelte';
+
+	import { type GeoLocation, favorites, last_visited } from '$lib/stores/settings';
+
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { Input } from '$lib/components/ui/input';
-	import { type GeoLocation, favorites, last_visited } from '$lib/stores/settings';
-	import { createEventDispatcher, onDestroy } from 'svelte';
 
 	export let label: string = 'Search Locations...';
 

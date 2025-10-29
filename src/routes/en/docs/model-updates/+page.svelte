@@ -1,8 +1,10 @@
 <script lang="ts">
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import { api_key_preferences } from '$lib/stores/settings';
+
 	import { Label } from '$lib/components/ui/label';
 	import { Switch } from '$lib/components/ui/switch';
-	import { api_key_preferences } from '$lib/stores/settings';
+
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 
 	async function fetchMeta(model: String, type: String, api_key_preferences: any) {
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;

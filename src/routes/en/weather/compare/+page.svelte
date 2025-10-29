@@ -1,18 +1,23 @@
 <script lang="ts">
-	import { dev } from '$app/environment';
-	import LocationSearch from '$lib/components/location/location-search.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Label } from '$lib/components/ui/label';
-	import { Switch } from '$lib/components/ui/switch';
-	import { storedLocation } from '$lib/stores/settings';
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-	import { hourly, models } from '../../docs/options';
-	import { mode } from 'mode-watcher';
 	import { onDestroy, onMount } from 'svelte';
 	import { get, writable } from 'svelte/store';
 	import { fade } from 'svelte/transition';
 
+	import { mode } from 'mode-watcher';
+
+	import { dev } from '$app/environment';
+
+	import { storedLocation } from '$lib/stores/settings';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Label } from '$lib/components/ui/label';
+	import { Switch } from '$lib/components/ui/switch';
+
+	import LocationSearch from '$lib/components/location/location-search.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
+
+	import { hourly, models } from '../../docs/options';
 	import './highcharts.css';
 	import { defaultParameters } from './options';
 

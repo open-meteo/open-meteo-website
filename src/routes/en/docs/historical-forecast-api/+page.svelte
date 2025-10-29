@@ -1,10 +1,16 @@
 <script lang="ts">
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
+	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
+
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import { sliceIntoChunks } from '$lib/utils';
+	import {
+		altitudeAboveSeaLevelMeters,
+		countPressureVariables,
+		countVariables
+	} from '$lib/utils/meteo';
+
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
@@ -13,13 +19,14 @@
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-	import { sliceIntoChunks } from '$lib/utils';
-	import {
-		altitudeAboveSeaLevelMeters,
-		countPressureVariables,
-		countVariables
-	} from '$lib/utils/meteo';
+
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
+
 	import {
 		forecastHoursOptions,
 		forecastMinutely15Options,
@@ -29,9 +36,6 @@
 		pastMinutely15Options,
 		temporalResolutionOptions
 	} from '../options';
-	import { onMount } from 'svelte';
-	import { slide } from 'svelte/transition';
-
 	import {
 		additionalDaily,
 		additionalVariables,

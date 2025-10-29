@@ -1,11 +1,14 @@
 <script lang="ts">
+	import { ModeWatcher } from 'mode-watcher';
+
 	import { page } from '$app/state';
+
 	import Footer from '$lib/components/footer/footer.svelte';
 	import Header from '$lib/components/header/header.svelte';
 	import Hero from '$lib/components/hero/hero.svelte';
 	import UpdateNotification from '$lib/components/update/update-notification.svelte';
+
 	import '../app.css';
-	import { ModeWatcher } from 'mode-watcher';
 
 	let { children, data } = $props();
 

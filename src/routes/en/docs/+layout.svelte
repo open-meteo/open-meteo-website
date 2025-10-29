@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	import { browser, dev } from '$app/environment';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import { page } from '$app/state';
+
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { onMount } from 'svelte';
 
 	interface Props {
 		children?: import('svelte').Snippet;

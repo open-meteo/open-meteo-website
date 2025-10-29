@@ -1,8 +1,11 @@
 <script>
-	import { page } from '$app/state';
-	import Logo from '$lib/assets/icons/rain.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
 	import { mode } from 'mode-watcher';
+
+	import { page } from '$app/state';
+
+	import Button from '$lib/components/ui/button/button.svelte';
+
+	import Logo from '$lib/assets/icons/rain.svelte';
 </script>
 
 <svelte:head>

@@ -3,7 +3,14 @@ export default {
 	singleQuote: true,
 	trailingComma: 'none',
 	printWidth: 100,
-	importOrder: ['<THIRD_PARTY_MODULES>', '^./utils/(.*)$', '^./(?!types)', '/types'],
+	importOrder: [
+		'<THIRD_PARTY_MODULES>',
+		'^.$lib/utils/(.*)$',
+		'^.$lib/components/(.*)$',
+		'^./(?!types|options)',
+		'/types',
+		'/options'
+	],
 	importOrderSeparation: true,
 	importOrderSortSpecifiers: true,
 	plugins: [

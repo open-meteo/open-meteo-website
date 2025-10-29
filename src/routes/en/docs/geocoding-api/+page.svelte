@@ -1,14 +1,18 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
+	import { fade } from 'svelte/transition';
+
+	import { api_key_preferences } from '$lib/stores/settings';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
 	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
 	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import * as Select from '$lib/components/ui/select/index';
-	import { api_key_preferences } from '$lib/stores/settings';
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-	import { onDestroy } from 'svelte';
-	import { fade } from 'svelte/transition';
+
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 
 	import { countOptions, countryCodes, formatOptions, languageOptions } from './options';
 

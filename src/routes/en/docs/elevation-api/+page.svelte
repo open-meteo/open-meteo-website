@@ -1,17 +1,22 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
+
+	import { api_key_preferences } from '$lib/stores/settings';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
 	import ElevationError from '$lib/components/code/docs/elevation-error.svx';
 	import ElevationObject from '$lib/components/code/docs/elevation-object.svx';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSearch from '$lib/components/location/location-search.svelte';
+
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
-	import { api_key_preferences } from '$lib/stores/settings';
+
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import LocationSearch from '$lib/components/location/location-search.svelte';
+
 	import type { GeoLocation } from '$lib/stores/settings';
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-	import { onMount } from 'svelte';
-	import { slide } from 'svelte/transition';
 
 	const params = urlHashStore({
 		latitude: [52.52],

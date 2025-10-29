@@ -3,7 +3,21 @@
 	"singleQuote": true,
 	"trailingComma": "none",
 	"printWidth": 100,
-	"importOrder": ["<THIRD_PARTY_MODULES>", "^./utils/(.*)$", "^./(?!types)", "/types"],
+	"importOrder": [
+		"^svelte($|/)",
+		"<THIRD_PARTY_MODULES>",
+		"app/",
+		"lib/stores",
+		"lib/utils",
+		".svx($)",
+		"lib/components/ui",
+		"lib/components",
+		"lib/assets",
+		"^~/",
+		"^\\.",
+		"<THIRD_PARTY_TS_TYPES>",
+		"<TS_TYPES>"
+	],
 	"importOrderSeparation": true,
 	"importOrderSortSpecifiers": true,
 	"plugins": [

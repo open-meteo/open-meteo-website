@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { updated } from '$app/state';
-	import Button from '../ui/button/button.svelte';
 	import { fade } from 'svelte/transition';
+
+	import { updated } from '$app/state';
+
+	import Button from '../ui/button/button.svelte';
 
 	let updateNotificationClicked = $state(false);
 </script>

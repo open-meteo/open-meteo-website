@@ -1,5 +1,6 @@
-import { storedLocation } from '$lib/stores/settings';
 import { get } from 'svelte/store';
+
+import { storedLocation } from '$lib/stores/settings';
 
 import type { LayoutLoad } from './$types';
 

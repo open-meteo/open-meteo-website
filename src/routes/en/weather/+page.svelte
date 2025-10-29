@@ -1,17 +1,19 @@
 <script lang="ts">
-	import LocationSearch from '$lib/components/location/location-search.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
-	import { type GeoLocation, model, storedLocation, themeIsDark } from '$lib/stores/settings';
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-	import { debounce, pad } from '$lib/utils';
-	import { fetchWeatherApi } from 'openmeteo';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { getColor } from './utils/colors';
-	import weatherCodes from './utils/weather-codes';
+	import { fetchWeatherApi } from 'openmeteo';
+
+	import { type GeoLocation, model, storedLocation, themeIsDark } from '$lib/stores/settings';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import { debounce, pad } from '$lib/utils';
+
+	import { Label } from '$lib/components/ui/label';
+	import * as Select from '$lib/components/ui/select';
+
+	import LocationSearch from '$lib/components/location/location-search.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
 
 	import cloudCover from './canvas/cloud-cover';
 	import daylight from './canvas/daylight';
@@ -19,6 +21,8 @@
 	import raster from './canvas/raster';
 	import tempGradient from './canvas/temp-gradient';
 	import { defaultParameters, models } from './options';
+	import { getColor } from './utils/colors';
+	import weatherCodes from './utils/weather-codes';
 
 	const params = urlHashStore({
 		latitude: [$storedLocation.latitude],

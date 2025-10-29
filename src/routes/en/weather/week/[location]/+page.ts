@@ -1,7 +1,10 @@
-import { type GeoLocation, storedLocation } from '$lib/stores/settings';
-import { geoLocationNameToRoute } from '$lib/utils/meteo';
-import type { PageLoad } from '$types';
 import { error, redirect } from '@sveltejs/kit';
+
+import { type GeoLocation, storedLocation } from '$lib/stores/settings';
+
+import { geoLocationNameToRoute } from '$lib/utils/meteo';
+
+import type { PageLoad } from '$types';
 
 export const prerender = true;
 

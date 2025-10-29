@@ -1,7 +1,9 @@
 <script lang="ts">
-	import Attribution from '$lib/components/code/licence/attribution.svx';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 	import { fade } from 'svelte/transition';
+
+	import Attribution from '$lib/components/code/licence/attribution.svx';
+
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
 	let citation = $state('apa');
 </script>

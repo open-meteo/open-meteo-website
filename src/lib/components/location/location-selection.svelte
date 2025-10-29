@@ -1,14 +1,18 @@
 <script lang="ts">
-	import LocationSearch from '$lib/components/location/location-search.svelte';
+	import { onMount } from 'svelte';
+	import { fade, slide } from 'svelte/transition';
+
+	import { type Parameters } from '$lib/docs';
+
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select/index';
-	import { type Parameters } from '$lib/docs';
+
+	import LocationSearch from '$lib/components/location/location-search.svelte';
+
 	import type { GeoLocation } from '$lib/stores/settings';
-	import { onMount } from 'svelte';
-	import { fade, slide } from 'svelte/transition';
 
 	interface Props {
 		params: Parameters;

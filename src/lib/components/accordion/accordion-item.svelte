@@ -1,6 +1,7 @@
 <script lang="ts">
-	import * as Accordion from '$lib/components/ui/accordion';
 	import { fade } from 'svelte/transition';
+
+	import * as Accordion from '$lib/components/ui/accordion';
 
 	interface Props {
 		id: string;

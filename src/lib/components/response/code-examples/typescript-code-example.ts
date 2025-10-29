@@ -1,6 +1,8 @@
 import { INT_64_VARIABLES, SECTIONS, VARIABLE_REGEX } from '$lib/constants';
-import type { Parameters } from '$lib/docs';
+
 import { camelCase, isNumeric, titleCase } from '$lib/utils';
+
+import type { Parameters } from '$lib/docs';
 
 export const typescriptCodeExample = (
 	params: Parameters,

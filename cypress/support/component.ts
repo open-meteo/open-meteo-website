@@ -13,12 +13,11 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 // Import commands.js using ES2015 syntax:
-import '../../src/app.css';
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-
 import { mount } from 'cypress/svelte';
 
+import '../../src/app.css';
 import './commands';
 
 // Augment the Cypress namespace to include type definitions for

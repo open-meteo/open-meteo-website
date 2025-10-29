@@ -1,6 +1,8 @@
 import { INT_64_VARIABLES, SECTIONS } from '$lib/constants';
-import type { Parameters } from '$lib/docs';
+
 import { camelCase, titleCase } from '$lib/utils';
+
+import type { Parameters } from '$lib/docs';
 
 export const swiftCodeExample = (
 	params: Parameters,

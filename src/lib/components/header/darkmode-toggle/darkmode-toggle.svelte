@@ -1,6 +1,7 @@
 <script lang="ts">
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { resetMode, setMode } from 'mode-watcher';
+
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 </script>
 
 <DropdownMenu.Root>

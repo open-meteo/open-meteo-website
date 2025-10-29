@@ -1,13 +1,15 @@
 <script lang="ts">
-	import Sun from '$lib/assets/icons/sun.svelte';
+	import { mode } from 'mode-watcher';
+
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
-	import { additionalDaily, daily, hourly, minutely_15, models } from '../docs/options';
-	import { mode } from 'mode-watcher';
 
+	import Sun from '$lib/assets/icons/sun.svelte';
+
+	import { additionalDaily, daily, hourly, minutely_15, models } from '../docs/options';
 	import { timeSelectionOptions } from './options';
 
 	let timeInput = $state('14');

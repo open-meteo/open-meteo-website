@@ -1,7 +1,8 @@
 <script lang="ts">
+	import { type Parameters } from '$lib/docs';
+
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Label } from '$lib/components/ui/label';
-	import { type Parameters } from '$lib/docs';
 
 	interface Props {
 		params: Parameters;
