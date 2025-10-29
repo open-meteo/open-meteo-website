@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 
-	import { type Parameters } from '$lib/docs';
-
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select/index';
 
 	import DatePicker from '$lib/components/date/date-picker.svelte';
+
+	import { type Parameters } from '$lib/docs';
 
 	interface Props {
 		params: Parameters;

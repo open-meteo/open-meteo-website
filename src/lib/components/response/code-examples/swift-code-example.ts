@@ -1,6 +1,6 @@
-import { INT_64_VARIABLES, SECTIONS } from '$lib/constants';
-
 import { camelCase, titleCase } from '$lib/utils';
+
+import { INT_64_VARIABLES, SECTIONS } from '$lib/constants';
 
 import type { Parameters } from '$lib/docs';
 
