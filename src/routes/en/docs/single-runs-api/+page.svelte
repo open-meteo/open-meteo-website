@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -13,7 +14,6 @@
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
-	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -21,8 +21,7 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -49,7 +48,7 @@
 		solarVariables
 	} from './options';
 
-	let d = new Date();
+	let d = new SvelteDate();
 	d.setUTCDate(d.getUTCDate() - 1);
 	d.setUTCHours(0);
 	d.setUTCMinutes(0);
@@ -73,8 +72,8 @@
 
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
 
-	let begin_date = new Date('2016-01-01');
-	let last_date = new Date();
+	// let begin_date = new Date('2016-01-01');
+	let last_date = new SvelteDate();
 	last_date.setDate(last_date.getDate() - 2);
 
 	// Additional variable settings
@@ -831,7 +830,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
 </form>
 
 <!-- RESULTS -->
