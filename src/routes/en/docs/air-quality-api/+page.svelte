@@ -1,46 +1,43 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import { fade } from 'svelte/transition';
-
-	import { countVariables } from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { Label } from '$lib/components/ui/label';
-	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Select from '$lib/components/ui/select';
-	import * as Accordion from '$lib/components/ui/accordion';
-
-	import Settings from '$lib/components/settings/settings.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import { countVariables } from '$lib/utils/meteo';
 
 	import AirQualityObject from '$lib/components/code/docs/air-quality-object.svx';
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 
-	import {
-		hourly,
-		current,
-		aqi_european,
-		aqi_united_states,
-		defaultParameters,
-		additionalVariables,
-		forecastDaysOptions
-	} from './options';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Label } from '$lib/components/ui/label';
+	import * as Select from '$lib/components/ui/select';
+
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
 
 	import {
-		pastDaysOptions,
-		pastHoursOptions,
 		forecastHoursOptions,
 		gridCellSelectionOptions,
+		pastDaysOptions,
+		pastHoursOptions,
 		temporalResolutionOptions
 	} from '../options';
+	import {
+		additionalVariables,
+		aqi_european,
+		aqi_united_states,
+		current,
+		defaultParameters,
+		forecastDaysOptions,
+		hourly
+	} from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],

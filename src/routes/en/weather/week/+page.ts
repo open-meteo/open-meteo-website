@@ -1,14 +1,14 @@
-export const prerender = true;
-
 import { get } from 'svelte/store';
 
 import { error, redirect } from '@sveltejs/kit';
 
-import { storedLocation, type GeoLocation } from '$lib/stores/settings';
+import { type GeoLocation, storedLocation } from '$lib/stores/settings';
 
 import { geoLocationNameToRoute } from '$lib/utils/meteo';
 
 import type { PageLoad } from '$types';
+
+export const prerender = true;
 
 export const load = (async (event) => {
 	const location = get(storedLocation);
