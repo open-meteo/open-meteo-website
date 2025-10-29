@@ -22,6 +22,7 @@ export interface Parameters {
 
 	end_date?: string;
 	start_date?: string;
+	run?: string;
 
 	past_hours?: string;
 	forecast_hours?: string;
