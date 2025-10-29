@@ -1,30 +1,22 @@
 <script lang="ts">
+	import * as Alert from '$lib/components/ui/alert';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import Input from '$lib/components/ui/input/input.svelte';
+	import type { APIKeyPreferences, Parameters } from '$lib/docs';
+	import { api_key_preferences } from '$lib/stores/settings';
+	import type { UrlHashStore } from '$lib/stores/url-hash-store';
+	import { objectDifference } from '$lib/utils';
+	import { membersPerModel } from '$lib/utils/meteo';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { objectDifference } from '$lib/utils';
-	import { membersPerModel } from '$lib/utils/meteo';
-
-	import { api_key_preferences } from '$lib/stores/settings';
-
-	import Input from '$lib/components/ui/input/input.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
-
-	import * as Alert from '$lib/components/ui/alert';
-
-	import type { APIKeyPreferences, Parameters } from '$lib/docs';
-	import type { UrlHashStore } from '$lib/stores/url-hash-store';
-
-	import HighchartContainer from './highcharts/highcharts-container.svelte';
-
-	import { jsonToChart } from './highcharts/json-to-chart';
-
-	import { swiftCodeExample } from './code-examples/swift-code-example';
 	import { pythonCodeExample } from './code-examples/python-code-example';
+	import { swiftCodeExample } from './code-examples/swift-code-example';
 	import { typescriptCodeExample } from './code-examples/typescript-code-example';
-
-	import { swiftInstallCode } from './installs/swift-install-code';
+	import HighchartContainer from './highcharts/highcharts-container.svelte';
+	import { jsonToChart } from './highcharts/json-to-chart';
 	import { pythonInstallCode } from './installs/python-install-code';
+	import { swiftInstallCode } from './installs/swift-install-code';
 	import { typescriptInstallCode } from './installs/typescript-install-code';
 
 	interface Props {

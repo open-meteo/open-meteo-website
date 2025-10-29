@@ -1,32 +1,24 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
-	import { fade } from 'svelte/transition';
-
-	import { countVariables } from '$lib/utils/meteo';
-
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-
-	import { Label } from '$lib/components/ui/label';
-	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Select from '$lib/components/ui/select';
-	import * as Accordion from '$lib/components/ui/accordion';
-
-	import Settings from '$lib/components/settings/settings.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-
 	import FloodError from '$lib/components/code/docs/flood-error.svx';
 	import FloodObject from '$lib/components/code/docs/flood-object.svx';
-
-	import { daily, models, defaultParameters, forecastDaysOptions } from './options';
-
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Label } from '$lib/components/ui/label';
+	import * as Select from '$lib/components/ui/select';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { countVariables } from '$lib/utils/meteo';
 	import { pastDaysOptions } from '../options';
+	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
+
+	import { daily, defaultParameters, forecastDaysOptions, models } from './options';
 
 	const params = urlHashStore({
 		latitude: [59.91],

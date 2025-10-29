@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
 	import { dev } from '$app/environment';
-
 	import { mode } from 'mode-watcher';
+	import { onDestroy, onMount } from 'svelte';
 
 	import './highcharts.css';
 

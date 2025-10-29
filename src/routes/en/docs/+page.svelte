@@ -1,59 +1,51 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
-	import { slide } from 'svelte/transition';
-
-	import { sliceIntoChunks } from '$lib/utils';
-
-	import {
-		countVariables,
-		countPressureVariables,
-		altitudeAboveSeaLevelMeters
-	} from '$lib/utils/meteo';
-
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select';
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
-
-	import Settings from '$lib/components/settings/settings.svelte';
-	import TimeSelector from '$lib/components/time/time-selector.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import HourlyVariables from '$lib/components/variables/hourly-variables.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
-
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
+	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Alert from '$lib/components/ui/alert';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import * as Select from '$lib/components/ui/select';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
+	import HourlyVariables from '$lib/components/variables/hourly-variables.svelte';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { sliceIntoChunks } from '$lib/utils';
+	import {
+		altitudeAboveSeaLevelMeters,
+		countPressureVariables,
+		countVariables
+	} from '$lib/utils/meteo';
+	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
 
 	import {
-		daily,
-		hourly,
-		models,
-		levels,
-		current,
-		minutely_15,
-		solarVariables,
 		additionalDaily,
+		additionalVariables,
+		current,
+		daily,
+		defaultParameters,
+		forecastDaysOptions,
+		forecastHoursOptions,
+		forecastMinutely15Options,
+		gridCellSelectionOptions,
+		hourly,
+		levels,
+		minutely_15,
+		models,
 		pastDaysOptions,
 		pastHoursOptions,
-		defaultParameters,
-		pressureVariables,
-		forecastDaysOptions,
-		additionalVariables,
-		forecastHoursOptions,
 		pastMinutely15Options,
-		gridCellSelectionOptions,
-		temporalResolutionOptions,
-		forecastMinutely15Options
+		pressureVariables,
+		solarVariables,
+		temporalResolutionOptions
 	} from './options';
 
 	const params = urlHashStore({

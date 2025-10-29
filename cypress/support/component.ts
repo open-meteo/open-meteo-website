@@ -12,14 +12,14 @@
 // You can read more here:
 // https://on.cypress.io/configuration
 // ***********************************************************
-
 // Import commands.js using ES2015 syntax:
-import './commands';
-
+import '../../src/app.css';
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
 import { mount } from 'cypress/svelte';
+
+import './commands';
 
 // Augment the Cypress namespace to include type definitions for
 // your custom command.
@@ -34,8 +34,6 @@ declare global {
 }
 
 Cypress.Commands.add('mount', mount);
-
-import '../../src/app.css';
 
 // Example use:
 // cy.mount(<MyComponent />)

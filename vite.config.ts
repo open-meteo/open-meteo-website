@@ -1,12 +1,9 @@
-import { defineConfig, type UserConfig } from 'vite';
-
-import { sveltekit } from '@sveltejs/kit/vite';
-import { enhancedImages } from '@sveltejs/enhanced-img';
-import { visualizer } from 'rollup-plugin-visualizer';
-
-import tailwindcss from '@tailwindcss/vite';
-
 import svg from '@poppanator/sveltekit-svg';
+import { enhancedImages } from '@sveltejs/enhanced-img';
+import { sveltekit } from '@sveltejs/kit/vite';
+import tailwindcss from '@tailwindcss/vite';
+import { visualizer } from 'rollup-plugin-visualizer';
+import { type UserConfig, defineConfig } from 'vite';
 
 import rollupOptions from './rollup.config';
 

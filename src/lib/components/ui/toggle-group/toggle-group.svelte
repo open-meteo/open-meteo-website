@@ -1,6 +1,7 @@
 <script lang="ts" module>
-	import { getContext, setContext } from 'svelte';
 	import type { ToggleVariants } from '$lib/components/ui/toggle/index.js';
+	import { getContext, setContext } from 'svelte';
+
 	export function setToggleGroupCtx(props: ToggleVariants) {
 		setContext('toggleGroup', props);
 	}
@@ -11,8 +12,8 @@
 </script>
 
 <script lang="ts">
-	import { ToggleGroup as ToggleGroupPrimitive } from 'bits-ui';
 	import { cn } from '$lib/utils/ui.js';
+	import { ToggleGroup as ToggleGroupPrimitive } from 'bits-ui';
 
 	let {
 		ref = $bindable(null),

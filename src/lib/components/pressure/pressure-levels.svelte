@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { altitudeAboveSeaLevelMeters } from '$lib/utils/meteo';
-
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { altitudeAboveSeaLevelMeters } from '$lib/utils/meteo';
 
 	let {
 		pressureVariables = [

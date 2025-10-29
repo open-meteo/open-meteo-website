@@ -1,7 +1,6 @@
-import { defineConfig } from 'cypress';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import tailwindcss from '@tailwindcss/vite';
-
+import { defineConfig } from 'cypress';
 import path from 'path';
 
 export default defineConfig({

@@ -1,14 +1,9 @@
-import { writable, type Writable } from 'svelte/store';
-
-import { page } from '$app/state';
-
-import { goto } from '$app/navigation';
-
 import { browser } from '$app/environment';
-
-import { debounce, isNumeric } from '$lib/utils';
-
+import { goto } from '$app/navigation';
+import { page } from '$app/state';
 import type { Parameters } from '$lib/docs';
+import { debounce, isNumeric } from '$lib/utils';
+import { type Writable, writable } from 'svelte/store';
 
 export interface UrlHashStore {
 	set: Function;

@@ -1,7 +1,6 @@
+import { INT_64_VARIABLES, SECTIONS, VARIABLE_REGEX } from '$lib/constants';
 import type { Parameters } from '$lib/docs';
 import { isNumeric, titleCase } from '$lib/utils';
-
-import { INT_64_VARIABLES, SECTIONS, VARIABLE_REGEX } from '$lib/constants';
 
 export const pythonCodeExample = (
 	params: Parameters,

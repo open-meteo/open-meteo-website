@@ -1,30 +1,20 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
-
-	import { get, writable } from 'svelte/store';
-
-	import { fade } from 'svelte/transition';
-
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-
 	import { dev } from '$app/environment';
-
-	import { mode } from 'mode-watcher';
-
+	import LocationSearch from '$lib/components/location/location-search.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
+	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Label } from '$lib/components/ui/label';
 	import { Switch } from '$lib/components/ui/switch';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import Settings from '$lib/components/settings/settings.svelte';
-	import LocationSearch from '$lib/components/location/location-search.svelte';
+	import { storedLocation } from '$lib/stores/settings';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { hourly, models } from '../../docs/options';
+	import '../compare/highcharts.css';
+	import { mode } from 'mode-watcher';
+	import { onDestroy, onMount } from 'svelte';
+	import { get, writable } from 'svelte/store';
+	import { fade } from 'svelte/transition';
 
 	import { defaultParameters } from './options';
-
-	import { hourly, models } from '../../docs/options';
-
-	import { storedLocation } from '$lib/stores/settings';
-
-	import '../compare/highcharts.css';
 
 	let useStockChart = false;
 	let options: any;

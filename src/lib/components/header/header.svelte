@@ -1,13 +1,10 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
-
 	import Logo from '$lib/assets/icons/sun.svelte';
-
-	import X from 'simple-icons/icons/x.svg?raw';
-	import Github from 'simple-icons/icons/github.svg?raw';
-
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Toggle from '$lib/components/ui/toggle/toggle.svelte';
+	import Github from 'simple-icons/icons/github.svg?raw';
+	import X from 'simple-icons/icons/x.svg?raw';
+	import { fade } from 'svelte/transition';
 
 	import DarkmodeToggle from './darkmode-toggle/darkmode-toggle.svelte';
 

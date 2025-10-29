@@ -1,15 +1,10 @@
 <script lang="ts">
-	import { get } from 'svelte/store';
-
-	import { page } from '$app/state';
-
 	import { dev } from '$app/environment';
-
-	import { storedLocation, type GeoLocation } from '$lib/stores/settings';
-
-	import { geoLocationNameToRoute } from '$lib/utils/meteo';
-
+	import { page } from '$app/state';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { type GeoLocation, storedLocation } from '$lib/stores/settings';
+	import { geoLocationNameToRoute } from '$lib/utils/meteo';
+	import { get } from 'svelte/store';
 
 	let location = get(storedLocation);
 	const locationRoute = geoLocationNameToRoute(location.name);

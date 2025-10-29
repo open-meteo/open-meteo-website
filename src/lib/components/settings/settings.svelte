@@ -1,16 +1,15 @@
 <script lang="ts">
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select/index';
-
 	import { type Parameters } from '$lib/docs';
 
 	import {
-		lengthOptions,
 		domainOptions,
-		windSpeedOptions,
-		timeFormatOptions,
+		lengthOptions,
+		precipitationOptions,
 		temperatureOptions,
-		precipitationOptions
+		timeFormatOptions,
+		windSpeedOptions
 	} from './options';
 
 	interface Props {

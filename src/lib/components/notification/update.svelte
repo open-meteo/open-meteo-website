@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
-
 	import { updated } from '$app/state';
+	import { fade } from 'svelte/transition';
 
 	let updateNotificationClicked = $state(false);
 </script>

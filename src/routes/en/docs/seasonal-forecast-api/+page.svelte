@@ -1,43 +1,36 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
-	import { slide } from 'svelte/transition';
-
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-
-	import { countVariables } from '$lib/utils/meteo';
-
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select';
-	import * as Accordion from '$lib/components/ui/accordion';
-
-	import Settings from '$lib/components/settings/settings.svelte';
-	import TimeSelector from '$lib/components/time/time-selector.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
+	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Alert from '$lib/components/ui/alert';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import * as Select from '$lib/components/ui/select';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { countVariables } from '$lib/utils/meteo';
+	import { pastDaysOptions } from '../options';
+	import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
 
 	import {
+		additionalMonthly,
+		additionalWeekly,
 		daily,
+		defaultParameters,
+		forecastDaysOptions,
 		hourly,
-		weekly,
 		models,
 		monthly,
 		solarVariables,
-		defaultParameters,
-		forecastDaysOptions,
 		temporalResolutionOptions,
-		weeklySpecial,
-		additionalWeekly,
-		additionalMonthly
+		weekly,
+		weeklySpecial
 	} from './options';
-
-	import { pastDaysOptions } from '../options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
