@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { altitudeAboveSeaLevelMeters } from '$lib/utils/meteo';
+
 	export let levels: number[];
 </script>
 
