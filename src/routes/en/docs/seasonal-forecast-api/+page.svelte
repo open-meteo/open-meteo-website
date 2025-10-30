@@ -915,11 +915,11 @@
 				<a
 					href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
 					>Razo, Müller Witwer</a
-				> to calculate direct radiation from shortwave solar radiation.
+				> to calculate direct radiation from shortwave solar radiation. EC46 used for the first 46 days directly models direct and diffuse solar radiation.
 			</li>
 			<li>
 				<strong>Bias correction:</strong> The dataset is currently provided without bias adjustment.
-				Future versions of the API will include bias-corrected and downscaled outputs.
+				Future iterations of the API may include bias-corrected and downscaled outputs.
 			</li>
 		</ul>
 	</div>
