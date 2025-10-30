@@ -351,13 +351,13 @@
 		>
 			{#each daily as group, i (i)}
 				<div>
-					{#each group as { value, label, aggregations }}
-						<div class="flex gap-3">
+					{#each group as { value, label, aggregations } (value)}
+						<div class="px-3 -mx-3 flex gap-3 hover:shadow">
 							<div class="w-1/2">
 								{label}
 							</div>
 							<div class="flex w-1/2 gap-2">
-								{#each aggregations as aggregation}
+								{#each aggregations as aggregation, i (i)}
 									<div class="group flex items-center" title="{label} {aggregation.label}">
 										<Checkbox
 											id="{value}{aggregation.value}_daily"
@@ -712,7 +712,6 @@
 					{#each additionalMonthly as group, i (i)}
 						<div>
 							{#each group as { value, label } (value)}
-								{@const valueAn = value.replace('_mean', '_anomaly')}
 								<div class="flex gap-3">
 									<div class="w-1/2">
 										{label}
