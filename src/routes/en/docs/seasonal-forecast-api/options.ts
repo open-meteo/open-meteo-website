@@ -254,27 +254,27 @@ export const weeklySpecial = [
 		{ value: 'temperature_2m_efi', label: 'Temperature (2 m) Extreme Forecast Index' },
 		{ value: 'temperature_2m_sot10', label: 'Temperature (2 m) Shift of Tails 10' },
 		{ value: 'temperature_2m_sot90', label: 'Temperature (2 m) Shift of Tails 90' },
-		{ value: 'temperature_2m_anomaly_gt_0k', label: 'Temperature (2 m) Anomaly Greater than 0K' },
-		{ value: 'temperature_2m_anomaly_gt_1k', label: 'Temperature (2 m) Anomaly Greater than 1K' },
-		{ value: 'temperature_2m_anomaly_gt_2k', label: 'Temperature (2 m) Anomaly Greater than 2K' },
+		{ value: 'temperature_2m_anomaly_gt0', label: 'Temperature (2 m) Anomaly Greater than 0K' },
+		{ value: 'temperature_2m_anomaly_gt1', label: 'Temperature (2 m) Anomaly Greater than 1K' },
+		{ value: 'temperature_2m_anomaly_gt2', label: 'Temperature (2 m) Anomaly Greater than 2K' },
 		{
-			value: 'temperature_2m_anomaly_lt_minus1k',
+			value: 'temperature_2m_anomaly_ltm1',
 			label: 'Temperature (2 m) Anomaly Lower than -1K'
 		},
 		{
-			value: 'temperature_2m_anomaly_lt_minus2k',
+			value: 'temperature_2m_anomaly_ltm2',
 			label: 'Temperature (2 m) Anomaly Lower than -2K'
 		}
 	],
 	[
 		{ value: 'precipitation_efi', label: 'Precipitation Extreme Forecast Index' },
 		{ value: 'precipitation_sot90', label: 'Precipitation Shift of Tails 90' },
-		{ value: 'precipitation_anomaly_gt_0mm', label: 'Precipitation Anomaly Greater than 0mm' },
-		{ value: 'precipitation_anomaly_gt_10mm', label: 'Precipitation Anomaly Greater than 10mm' },
-		{ value: 'precipitation_anomaly_gt_20mm', label: 'Precipitation Anomaly Greater than 20mm' },
-		{ value: 'pressure_msl_anomaly_gt_0Pa', label: 'Pressure Mean Sea Level Greater than 0Pa' },
+		{ value: 'precipitation_anomaly_gt0', label: 'Precipitation Anomaly Greater than 0mm' },
+		{ value: 'precipitation_anomaly_gt10', label: 'Precipitation Anomaly Greater than 10mm' },
+		{ value: 'precipitation_anomaly_gt20', label: 'Precipitation Anomaly Greater than 20mm' },
+		{ value: 'pressure_msl_anomaly_gt0', label: 'Pressure Mean Sea Level Greater than 0Pa' },
 		{
-			value: 'surface_temperature_anomaly_gt_0K',
+			value: 'surface_temperature_anomaly_gt0',
 			label: 'Surface Temperature Anomaly Greater than 0K'
 		}
 	]
