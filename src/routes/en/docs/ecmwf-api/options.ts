@@ -33,6 +33,7 @@ export const pressureVariables = [
 	{ value: 'cloud_cover', label: 'Cloud Cover' },
 	{ value: 'wind_speed', label: 'Wind Speed' },
 	{ value: 'wind_direction', label: 'Wind Direction' },
+	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
 ];
 
