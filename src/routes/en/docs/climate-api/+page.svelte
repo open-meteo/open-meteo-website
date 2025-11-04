@@ -13,6 +13,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Label } from '$lib/components/ui/label';
+	import { Switch } from '$lib/components/ui/switch';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
@@ -215,6 +216,17 @@
 
 	<!-- LICENSE -->
 	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true} /></div>
+
+	<div class="mt-3 md:mt-6 flex items-center gap-3">
+		<Switch
+			id="disable_bias_correction"
+			name="Disable Bias Correction"
+			bind:checked={$params.disable_bias_correction}
+		/>
+		<Label for="disable_bias_correction" class="mb-[2px] cursor-pointer text-lg"
+			>Raw data. Disable statistic downscaling with ERA5-Land (10km)</Label
+		>
+	</div>
 </form>
 
 <!-- RESULT -->
