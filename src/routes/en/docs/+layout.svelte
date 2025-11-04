@@ -48,8 +48,8 @@
 		{ title: 'Flood', url: '/en/docs/flood-api' }
 	];
 	if (dev) {
-		links.push({ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' });
 		links.push({ title: 'Single Runs', url: '/en/docs/single-runs-api' });
+		links.push({ title: 'Seasonal Forecast', url: '/en/docs/seasonal-forecast-api' });
 	}
 
 	interface Path {
