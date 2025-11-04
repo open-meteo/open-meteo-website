@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -53,9 +54,9 @@
 
 	onMount(() => {
 		if (
-			$params.hourly && temporalResolution
-				? temporalResolution.value !== 'hourly_6'
-				: false && !accordionValues.includes('additional-variables')
+			$params.hourly &&
+			(temporalResolution ? temporalResolution.value !== 'hourly_6' : false) &&
+			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
 		}
@@ -80,7 +81,7 @@
 	});
 
 	let beginDate = new Date('2022-06-08');
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() + 274);
 
 	let accordionValues: string[] = $state([]);
@@ -351,36 +352,35 @@
 		>
 			{#each daily as group, i (i)}
 				<div>
-					{#each group as { value, label, aggregations } (value)}
+					{#each group as { value, label, aggregations } (label)}
 						<div class="px-3 -mx-3 flex gap-3 hover:shadow">
 							<div class="w-1/2">
 								{label}
 							</div>
 							<div class="flex w-1/2 gap-2">
-								{#each aggregations as aggregation, i (i)}
-									<div class="group flex items-center" title="{label} {aggregation.label}">
+								{#each aggregations as { value: ag_value, label: ag_label } (ag_value)}
+									<div class="group flex items-center" title="{label} {ag_label}">
 										<Checkbox
-											id="{value}{aggregation.value}_daily"
+											id="{value}{ag_value}_daily"
 											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 											value="{value}min"
-											checked={$params.daily?.includes(`${value}${aggregation.value}`)}
-											aria-labelledby="{value}{aggregation.value}daily_label"
+											checked={$params.daily?.includes(`${value}${ag_value}`)}
+											aria-labelledby="{value}{ag_value}daily_label"
 											onCheckedChange={() => {
-												if ($params.daily?.includes(`${value}${aggregation.value}`)) {
+												if ($params.daily?.includes(`${value}${ag_value}`)) {
 													$params.daily = $params.daily.filter((item) => {
-														return item !== `${value}${aggregation.value}`;
+														return item !== `${value}${ag_value}`;
 													});
 												} else if ($params.daily) {
-													$params.daily.push(`${value}${aggregation.value}`);
+													$params.daily.push(`${value}${ag_value}`);
 													$params.daily = $params.daily;
 												}
 											}}
 										/>
 										<Label
-											id="{value}{aggregation.value}_daily_label"
-											for="{value}{aggregation.value}_daily"
-											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]"
-											>{aggregation.label}</Label
+											id="{value}{ag_value}_daily_label"
+											for="{value}{ag_value}_daily"
+											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">{ag_label}</Label
 										>
 									</div>
 								{/each}
