@@ -224,9 +224,10 @@
 			bind:checked={$params.disable_bias_correction}
 		/>
 		<Label for="disable_bias_correction" class="mb-[2px] cursor-pointer text-lg"
-			>Raw data. Disable statistic downscaling with ERA5-Land (10km)</Label
-		>
+			>Raw data {$params.disable_bias_correction ? 'enabled' : 'disabled'}. <br />
+		</Label>
 	</div>
+	<div class="text-muted-foreground">Statistic downscaling with ERA5-Land (10km)</div>
 </form>
 
 <!-- RESULT -->
