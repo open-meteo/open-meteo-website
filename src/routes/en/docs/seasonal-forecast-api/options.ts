@@ -186,7 +186,7 @@ export const daily = [
 		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)', aggregations: mean },
 		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)', aggregations: mean },
 		{
-			value: 'soil_tmoisture_100_to_255cm',
+			value: 'soil_moisture_100_to_255cm',
 			label: 'Soil Moisture (100-255 cm)',
 			aggregations: mean
 		}
