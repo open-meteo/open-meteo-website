@@ -156,7 +156,7 @@
 							<Label
 								id="{value}_daily_label"
 								for="{value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -198,7 +198,7 @@
 									<Label
 										id="{value}_model_label"
 										for="{value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -217,7 +217,7 @@
 	<!-- LICENSE -->
 	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true} /></div>
 
-	<div class="mt-3 md:mt-6 flex items-center gap-3">
+	<div class="mt-3 flex items-center gap-3 md:mt-6">
 		<Switch
 			id="disable_bias_correction"
 			name="Disable Bias Correction"
