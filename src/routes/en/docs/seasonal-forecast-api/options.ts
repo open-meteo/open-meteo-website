@@ -50,8 +50,8 @@ EC46 only:
 export const hourly = [
 	[
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
-		{ value: 'temperature_2m_max', label: 'Temperature 6h Maximum (2 m) *' },
-		{ value: 'temperature_2m_min', label: 'Temperature 6h Minimum (2 m) *' },
+		{ value: 'temperature_2m_max', label: 'Temperature 6h Maximum (2 m)', EC46Only: true },
+		{ value: 'temperature_2m_min', label: 'Temperature 6h Minimum (2 m)', EC46Only: true },
 		{ value: 'dew_point_2m', label: 'Dew Point (2 m)' },
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature (2 m)' },
@@ -61,12 +61,12 @@ export const hourly = [
 	[
 		{ value: 'weather_code', label: 'Weather Code' },
 		{ value: 'precipitation', label: 'Total Precipitation' },
-		{ value: 'showers', label: 'Showers *' },
+		{ value: 'showers', label: 'Showers', EC46Only: true },
 		{ value: 'snowfall', label: 'Snowfall' },
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'cloud_cover', label: 'Total Cloud Cover' },
-		{ value: 'sunshine_duration', label: 'Sunshine Duration *' }
+		{ value: 'sunshine_duration', label: 'Sunshine Duration', EC46Only: true }
 	],
 	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
@@ -75,18 +75,26 @@ export const hourly = [
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
 		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 		{ value: 'wind_direction_200m', label: 'Wind Direction (200 m)' },
-		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m) *' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)', EC46Only: true },
 		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' }
 	],
 	[
 		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
-		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm) *' },
-		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm) *' },
-		{ value: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm) *' },
-		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm) *' },
-		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm) *' },
-		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm) *' },
-		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm) *' }
+		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)', EC46Only: true },
+		{
+			value: 'soil_temperature_28_to_100cm',
+			label: 'Soil Temperature (28-100 cm)',
+			EC46Only: true
+		},
+		{
+			value: 'soil_temperature_100_to_255cm',
+			label: 'Soil Temperature (100-255 cm)',
+			EC46Only: true
+		},
+		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)', EC46Only: true },
+		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)', EC46Only: true },
+		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)', EC46Only: true },
+		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)', EC46Only: true }
 	]
 ];
 
@@ -112,7 +120,7 @@ export const daily = [
 		{ value: 'dew_point_2m', label: 'Dew Point (2 m)', aggregations: minMaxMean },
 		{ value: 'precipitation', label: 'Precipitation', aggregations: sum },
 		{ value: 'rain', label: 'Rain Sum', aggregations: sum },
-		{ value: 'showers', label: 'Showers *', aggregations: sum },
+		{ value: 'showers', label: 'Showers', aggregations: sum, EC46Only: true },
 		{ value: 'snowfall', label: 'Snowfall', aggregations: sum },
 		{ value: 'snowfall_water_equivalent', label: 'Snowfall Water Equivalent', aggregations: sum },
 		{ value: 'pressure_msl', label: 'Sealevel Pressure', aggregations: minMaxMean },
@@ -148,9 +156,24 @@ export const daily = [
 			aggregations: minMaxMean
 		},
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)', aggregations: minMaxMean },
-		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m) *', aggregations: minMaxMean },
-		{ value: 'wind_speed_200m', label: 'Wind Speed (200 m) *', aggregations: minMaxMean },
-		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m) *', aggregations: minMaxMean },
+		{
+			value: 'wind_speed_100m',
+			label: 'Wind Speed (100 m)',
+			EC46Only: true,
+			aggregations: minMaxMean
+		},
+		{
+			value: 'wind_speed_200m',
+			label: 'Wind Speed (200 m)',
+			EC46Only: true,
+			aggregations: minMaxMean
+		},
+		{
+			value: 'wind_gusts_10m',
+			label: 'Wind Gusts (10 m)',
+			EC46Only: true,
+			aggregations: minMaxMean
+		},
 		{
 			value: 'wind_direction_10m',
 			label: 'Wind Direction (10 m)',
@@ -158,12 +181,14 @@ export const daily = [
 		},
 		{
 			value: 'wind_direction_100m',
-			label: 'Wind Direction (100 m) *',
+			label: 'Wind Direction (100 m)',
+			EC46Only: true,
 			aggregations: aggregationDominant
 		},
 		{
 			value: 'wind_direction_200m',
-			label: 'Wind Direction (200 m) *',
+			label: 'Wind Direction (200 m)',
+			EC46Only: true,
 			aggregations: aggregationDominant
 		},
 		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)', aggregations: mean },

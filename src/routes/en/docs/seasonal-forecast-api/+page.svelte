@@ -141,7 +141,7 @@
 		>
 			{#each hourly as group, i (i)}
 				<div>
-					{#each group as { value, label } (value)}
+					{#each group as { value, label, EC46Only } (value)}
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_hourly"
@@ -163,7 +163,8 @@
 							<Label
 								id="{value}_hourly_label"
 								for="{value}_hourly"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
+								>{label}{@html EC46Only ? '<sup class="ml-0.75">*</sup>' : ''}</Label
 							>
 						</div>
 					{/each}
@@ -171,13 +172,7 @@
 			{/each}
 		</div>
 	</div>
-
-	<div>
-		<small class="text-muted-foreground"
-			>Note: *) Variables marked with an asterisk are only available for 46 days based on ECMWF
-			EC46.
-		</small>
-	</div>
+	<small class="text-muted-foreground"> * Only available for 46 days, based on ECMWF EC46. </small>
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
@@ -305,7 +300,7 @@
 			<AccordionItem id="models" title="Models" count={countVariables(models, $params.models)}>
 				<div class="mt-2 grid sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2">
 					{#each models as group, i (i)}
-						<div class="mb-3">
+						<div>
 							{#each group as { value, label } (value)}
 								<div class="group flex items-center" title={label}>
 									<Checkbox
@@ -335,13 +330,11 @@
 						</div>
 					{/each}
 				</div>
-				<div>
-					<small class="text-muted-foreground"
-						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses EC46 for the first 46 days and
-						switches to SEAS5 afterwards. Some weather variables may only be available for either weather
-						model.</small
-					>
-				</div>
+				<small class="text-muted-foreground"
+					>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses EC46 for the first 46 days and
+					switches to SEAS5 afterwards. Some weather variables may only be available for either weather
+					model.</small
+				>
 			</AccordionItem>
 		</Accordion.Root>
 	</div>
@@ -356,11 +349,11 @@
 		>
 			{#each daily as group, i (i)}
 				<div>
-					{#each group as { value, label, aggregations } (label)}
+					{#each group as { value, label, EC46Only, aggregations } (label)}
 						<div class="flex w-full">
 							<div class="highlight-row -mx-2 -mb-1 flex items-center gap-3 rounded px-2 py-0.5">
 								<div class="highlight-row-label w-[46vw] md:w-[36vw] lg:w-[35vw] xl:w-[20vw]">
-									{label}
+									{label}{@html EC46Only ? '<sup class="ml-0.75">*</sup>' : ''}
 								</div>
 								<div class="flex gap-2">
 									{#each aggregations as { value: ag_value, label: ag_label } (ag_value)}
@@ -397,6 +390,7 @@
 			{/each}
 		</div>
 	</div>
+	<small class="text-muted-foreground"> * Only available for 46 days, based on ECMWF EC46. </small>
 
 	<!-- WEEKLY -->
 	<div class="mt-6 md:mt-12">
