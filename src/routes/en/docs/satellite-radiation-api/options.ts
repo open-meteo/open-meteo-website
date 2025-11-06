@@ -90,7 +90,7 @@ export const models = [
 			value: 'jma_jaxa_mtg_fci',
 			label:
 				'EUMETSAT MTG Third Generation via JMA JAXA (Europe, Africa, India, 10-minutely, since 2025, 20 minutes delay)'
-		},
+		}
 	]
 ];
 
