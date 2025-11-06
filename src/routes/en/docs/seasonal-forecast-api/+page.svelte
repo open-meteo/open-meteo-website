@@ -359,7 +359,7 @@
 					{#each group as { value, label, aggregations } (label)}
 						<div class="flex w-full">
 							<div class="highlight-row -mx-2 -mb-0.5 flex items-center gap-3 rounded px-2 py-0.5">
-								<div class="highlight-row-label w-[40vw] lg:w-[23vw]">
+								<div class="highlight-row-label w-[46vw] md:w-[36vw] xl:w-[23vw]">
 									{label}
 								</div>
 								<div class="flex gap-2">
