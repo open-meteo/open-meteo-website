@@ -358,7 +358,7 @@
 							<Label
 								id="{value}_model_label"
 								for="{value}_models"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -402,7 +402,7 @@
 							<Label
 								id="{value}_label"
 								for="{value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -445,7 +445,7 @@
 									<Label
 										id="{value}_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -558,7 +558,7 @@
 									<Label
 										id="{value}_hourly_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -657,7 +657,7 @@
 							<Label
 								id="{value}_daily_label"
 								for="{value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -1216,9 +1216,9 @@
 							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
 							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
 							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
-							is set to "nan", the calculation assumes a vertical tracker (east-west). If tilt is set to
-							"nan", it is assumed that the panel has a horizontal tracker (up-down). If both are set to "nan",
-							a bi-axial tracker is assumed.</td
+							is set to "nan", the calculation assumes a vertical tracker (east-west). If tilt is
+							set to "nan", it is assumed that the panel has a horizontal tracker (up-down). If both
+							are set to "nan", a bi-axial tracker is assumed.</td
 						>
 					</tr>
 					<tr>
