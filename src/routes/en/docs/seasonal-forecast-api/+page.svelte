@@ -181,7 +181,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem id="additional-variables" title="Additional Options">
 				<div class="md:w-1/2">
 					<div class="relative md:col-span-2">
@@ -353,37 +357,39 @@
 			{#each daily as group, i (i)}
 				<div>
 					{#each group as { value, label, aggregations } (label)}
-						<div class="px-3 -mx-3 flex gap-3 hover:shadow">
-							<div class="w-1/2">
-								{label}
-							</div>
-							<div class="flex w-1/2 gap-2">
-								{#each aggregations as { value: ag_value, label: ag_label } (ag_value)}
-									<div class="group flex items-center" title="{label} {ag_label}">
-										<Checkbox
-											id="{value}{ag_value}_daily"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-											value="{value}min"
-											checked={$params.daily?.includes(`${value}${ag_value}`)}
-											aria-labelledby="{value}{ag_value}daily_label"
-											onCheckedChange={() => {
-												if ($params.daily?.includes(`${value}${ag_value}`)) {
-													$params.daily = $params.daily.filter((item) => {
-														return item !== `${value}${ag_value}`;
-													});
-												} else if ($params.daily) {
-													$params.daily.push(`${value}${ag_value}`);
-													$params.daily = $params.daily;
-												}
-											}}
-										/>
-										<Label
-											id="{value}{ag_value}_daily_label"
-											for="{value}{ag_value}_daily"
-											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">{ag_label}</Label
-										>
-									</div>
-								{/each}
+						<div class="flex w-full">
+							<div class="highlight-row -mx-2 -mb-0.5 flex items-center gap-3 rounded px-2 py-0.5">
+								<div class="highlight-row-label w-[40vw] lg:w-[23vw]">
+									{label}
+								</div>
+								<div class="flex gap-2">
+									{#each aggregations as { value: ag_value, label: ag_label } (ag_value)}
+										<div class="group flex items-center" title="{label} {ag_label}">
+											<Checkbox
+												id="{value}{ag_value}_daily"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												value="{value}min"
+												checked={$params.daily?.includes(`${value}${ag_value}`)}
+												aria-labelledby="{value}{ag_value}daily_label"
+												onCheckedChange={() => {
+													if ($params.daily?.includes(`${value}${ag_value}`)) {
+														$params.daily = $params.daily.filter((item) => {
+															return item !== `${value}${ag_value}`;
+														});
+													} else if ($params.daily) {
+														$params.daily.push(`${value}${ag_value}`);
+														$params.daily = $params.daily;
+													}
+												}}
+											/>
+											<Label
+												id="{value}{ag_value}_daily_label"
+												for="{value}{ag_value}_daily"
+												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">{ag_label}</Label
+											>
+										</div>
+									{/each}
+								</div>
 							</div>
 						</div>
 					{/each}
@@ -392,7 +398,7 @@
 		</div>
 	</div>
 
-	<!-- Weekly -->
+	<!-- WEEKLY -->
 	<div class="mt-6 md:mt-12">
 		<a href="#weekly_weather_variables"
 			><h2 id="weekly_weather_variables" class="text-2xl md:text-3xl">
@@ -465,16 +471,15 @@
 				</div>
 			{/each}
 		</div>
-		<!-- <div class="mt-3">
-			<small class="text-muted-foreground"
-				>Weekly Aggregations are based on 100 members of ECMWF EC46 forecast for up to 46 days.</small
-			>
-		</div> -->
 	</div>
 
-	<!-- weeklySpecial -->
+	<!-- Additional Weekly -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additionalWeekly-variables"
 				title="Additional Weekly Variables"
@@ -582,17 +587,11 @@
 						</div>
 					{/each}
 				</div>
-				<!-- <small class="text-muted-foreground mt-1">
-					Note: You can further adjust the forecast time range for hourly weather variables using <mark
-						>&forecast_hours=</mark
-					>
-					and <mark>&past_hours=</mark> as shown below.
-				</small> -->
 			</AccordionItem>
 		</Accordion.Root>
 	</div>
 
-	<!-- Monthly -->
+	<!-- MONTHLY -->
 	<div class="mt-6 md:mt-12">
 		<a href="#monthly_weather_variables"
 			><h2 id="monthly_weather_variables" class="text-2xl md:text-3xl">
@@ -700,9 +699,13 @@
 		</div>
 	</div>
 
-	<!-- additional Monthly -->
+	<!-- Additional Monthly -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additionalMonthly-variables"
 				title="Additional Monthly Variables"
