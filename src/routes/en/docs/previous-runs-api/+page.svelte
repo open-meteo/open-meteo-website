@@ -331,7 +331,7 @@
 										<Label
 											id="{pd.value}_hourly_previous_day_label{i}"
 											for="{pd.value}_hourly_previous_day{i}"
-											class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
+											class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Day {i}</Label
 										>
 									</div></td
 								>
@@ -418,7 +418,7 @@
 												<Label
 													id="{sv.value}_hourly_previous_day_label{i}"
 													for="{sv.value}_hourly_previous_day{i}"
-													class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
+													class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Day {i}</Label
 												>
 											</div></td
 										>
@@ -518,7 +518,7 @@
 												<Label
 													id="{wv.value}_hourly_previous_day_label{i}"
 													for="{wv.value}_hourly_previous_day{i}"
-													class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">Day {i}</Label
+													class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Day {i}</Label
 												>
 											</div></td
 										>
@@ -559,7 +559,7 @@
 									<Label
 										id="{value}_model_label"
 										for="{value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
