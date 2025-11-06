@@ -381,7 +381,7 @@
 						<Label
 							id="{value}_model_label"
 							for="{value}_model"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+							class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 						>
 					</div>
 				{/each}
@@ -435,7 +435,7 @@
 							<Label
 								id="{value}_label"
 								for="{value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}

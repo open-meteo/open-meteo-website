@@ -163,7 +163,7 @@
 							<Label
 								id="{value}_hourly_label"
 								for="{value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -239,7 +239,7 @@
 									<Label
 										id="{value}_hourly_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -328,7 +328,7 @@
 									<Label
 										id="{value}_model_label"
 										for="{value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -385,7 +385,7 @@
 											<Label
 												id="{value}{ag_value}_daily_label"
 												for="{value}{ag_value}_daily"
-												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">{ag_label}</Label
+												class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">{ag_label}</Label
 											>
 										</div>
 									{/each}
@@ -438,7 +438,7 @@
 										<Label
 											id="{value}_mean_weekly_label"
 											for="{value}_mean_weekly"
-											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
+											class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Mean</Label
 										>
 									</div>
 									<div class="group flex items-center" title="{label} Anomaly">
@@ -463,7 +463,7 @@
 										<Label
 											id="{value}_anomaly_weekly_label"
 											for="{value}_anomaly_weekly"
-											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
+											class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Anomaly</Label
 										>
 									</div>
 								</div>
@@ -520,7 +520,7 @@
 												<Label
 													id="{value}_mean_weekly_label"
 													for="{value}_mean_weekly"
-													class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
+													class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Mean</Label
 												>
 											</div>
 											<div class="group flex items-center" title="{label} Anomaly">
@@ -545,7 +545,7 @@
 												<Label
 													id="{value}_anomaly_weekly_label"
 													for="{value}_anomaly_weekly"
-													class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
+													class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Anomaly</Label
 												>
 											</div>
 										</div>
@@ -586,7 +586,7 @@
 									<Label
 										id="{value}_label"
 										for="{value}_weekly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -638,7 +638,7 @@
 											<Label
 												id="{value}_mean_monthly_label"
 												for="{value}_mean_monthly"
-												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
+												class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Mean</Label
 											>
 										</div>
 										<div class="group flex items-center" title="{label} Anomaly">
@@ -663,7 +663,7 @@
 											<Label
 												id="{value}_anomaly_monthly_label"
 												for="{value}_anomaly_monthly"
-												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
+												class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Anomaly</Label
 											>
 										</div>
 									{:else}
@@ -693,7 +693,7 @@
 												<Label
 													id="wind_gusts_10m_anomaly_monthly_label"
 													for="wind_gusts_10m_anomaly_monthly"
-													class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
+													class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Anomaly</Label
 												>
 											</div>
 										</div>
@@ -749,7 +749,7 @@
 											<Label
 												id="{value}_mean_monthly_label"
 												for="{value}_mean_monthly"
-												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
+												class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Mean</Label
 											>
 										</div>
 										<div class="group flex items-center" title="{label} Anomaly">
@@ -774,7 +774,7 @@
 											<Label
 												id="{value}_anomaly_monthly_label"
 												for="{value}_anomaly_monthly"
-												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
+												class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Anomaly</Label
 											>
 										</div>
 									</div>
@@ -925,7 +925,8 @@
 				<a
 					href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
 					>Razo, Müller Witwer</a
-				> to calculate direct radiation from shortwave solar radiation. EC46 used for the first 46 days directly models direct and diffuse solar radiation.
+				> to calculate direct radiation from shortwave solar radiation. EC46 used for the first 46 days
+				directly models direct and diffuse solar radiation.
 			</li>
 			<li>
 				<strong>Bias correction:</strong> The dataset is currently provided without bias adjustment.
