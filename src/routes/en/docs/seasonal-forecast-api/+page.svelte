@@ -358,8 +358,8 @@
 				<div>
 					{#each group as { value, label, aggregations } (label)}
 						<div class="flex w-full">
-							<div class="highlight-row -mx-2 -mb-0.5 flex items-center gap-3 rounded px-2 py-0.5">
-								<div class="highlight-row-label w-[46vw] md:w-[36vw] xl:w-[23vw]">
+							<div class="highlight-row -mx-2 -mb-1 flex items-center gap-3 rounded px-2 py-0.5">
+								<div class="highlight-row-label w-[46vw] md:w-[36vw] lg:w-[35vw] xl:w-[20vw]">
 									{label}
 								</div>
 								<div class="flex gap-2">
@@ -411,59 +411,61 @@
 			{#each weekly as group, i (i)}
 				<div>
 					{#each group as { value, label } (value)}
-						<div class="flex gap-3">
-							<div class="w-1/2">
-								{label}
-							</div>
-							<div class="flex w-1/2 gap-2">
-								<div class="group flex items-center" title="{label} Mean">
-									<Checkbox
-										id="{value}_mean_weekly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value="{value}_mean"
-										checked={$params.weekly?.includes(`${value}_mean`)}
-										aria-labelledby="{value}_mean_weekly_label"
-										onCheckedChange={() => {
-											if ($params.weekly?.includes(`${value}_mean`)) {
-												$params.weekly = $params.weekly.filter((item) => {
-													return item !== `${value}_mean`;
-												});
-											} else if ($params.weekly) {
-												$params.weekly.push(`${value}_mean`);
-												$params.weekly = $params.weekly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_mean_weekly_label"
-										for="{value}_mean_weekly"
-										class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
-									>
+						<div class="flex w-full">
+							<div class="highlight-row -mx-2 -mb-1 flex items-center gap-3 rounded px-2 py-0.5">
+								<div class="highlight-row-label w-[46vw] md:w-[36vw] lg:w-[35vw] xl:w-[20vw]">
+									{label}
 								</div>
-								<div class="group flex items-center" title="{label} Anomaly">
-									<Checkbox
-										id="{value}_anomaly_weekly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value="{value}_anomaly"
-										checked={$params.weekly?.includes(`${value}_anomaly`)}
-										aria-labelledby="{value}_anomaly_weekly_label"
-										onCheckedChange={() => {
-											if ($params.weekly?.includes(`${value}_anomaly`)) {
-												$params.weekly = $params.weekly.filter((item) => {
-													return item !== `${value}_anomaly`;
-												});
-											} else if ($params.weekly) {
-												$params.weekly.push(`${value}_anomaly`);
-												$params.weekly = $params.weekly;
-											}
-										}}
-									/>
+								<div class="flex gap-2">
+									<div class="group flex items-center" title="{label} Mean">
+										<Checkbox
+											id="{value}_mean_weekly"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											value="{value}_mean"
+											checked={$params.weekly?.includes(`${value}_mean`)}
+											aria-labelledby="{value}_mean_weekly_label"
+											onCheckedChange={() => {
+												if ($params.weekly?.includes(`${value}_mean`)) {
+													$params.weekly = $params.weekly.filter((item) => {
+														return item !== `${value}_mean`;
+													});
+												} else if ($params.weekly) {
+													$params.weekly.push(`${value}_mean`);
+													$params.weekly = $params.weekly;
+												}
+											}}
+										/>
+										<Label
+											id="{value}_mean_weekly_label"
+											for="{value}_mean_weekly"
+											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
+										>
+									</div>
+									<div class="group flex items-center" title="{label} Anomaly">
+										<Checkbox
+											id="{value}_anomaly_weekly"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											value="{value}_anomaly"
+											checked={$params.weekly?.includes(`${value}_anomaly`)}
+											aria-labelledby="{value}_anomaly_weekly_label"
+											onCheckedChange={() => {
+												if ($params.weekly?.includes(`${value}_anomaly`)) {
+													$params.weekly = $params.weekly.filter((item) => {
+														return item !== `${value}_anomaly`;
+													});
+												} else if ($params.weekly) {
+													$params.weekly.push(`${value}_anomaly`);
+													$params.weekly = $params.weekly;
+												}
+											}}
+										/>
 
-									<Label
-										id="{value}_anomaly_weekly_label"
-										for="{value}_anomaly_weekly"
-										class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
-									>
+										<Label
+											id="{value}_anomaly_weekly_label"
+											for="{value}_anomaly_weekly"
+											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
+										>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -485,63 +487,67 @@
 				title="Additional Weekly Variables"
 				count={countVariables(additionalWeekly, $params.weekly)}
 			>
-				<div class="grid md:grid-cols-2">
+				<div class="grid xl:grid-cols-2">
 					{#each additionalWeekly as group, i (i)}
 						<div>
 							{#each group as { value, label } (value)}
-								<div class="flex gap-3">
-									<div class="w-1/2">
-										{label}
-									</div>
-									<div class="flex w-1/2 gap-2">
-										<div class="group flex items-center" title="{label} Mean">
-											<Checkbox
-												id="{value}_mean_weekly"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-												value="{value}_mean"
-												checked={$params.weekly?.includes(`${value}_mean`)}
-												aria-labelledby="{value}_mean_weekly_label"
-												onCheckedChange={() => {
-													if ($params.weekly?.includes(`${value}_mean`)) {
-														$params.weekly = $params.weekly.filter((item) => {
-															return item !== `${value}_mean`;
-														});
-													} else if ($params.weekly) {
-														$params.weekly.push(`${value}_mean`);
-														$params.weekly = $params.weekly;
-													}
-												}}
-											/>
-											<Label
-												id="{value}_mean_weekly_label"
-												for="{value}_mean_weekly"
-												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
-											>
+								<div class="flex w-full">
+									<div
+										class="highlight-row -mx-2 -mb-1 flex items-center gap-3 rounded px-2 py-0.5"
+									>
+										<div class="highlight-row-label w-[46vw] md:w-[36vw] lg:w-[35vw] xl:w-[20vw]">
+											{label}
 										</div>
-										<div class="group flex items-center" title="{label} Anomaly">
-											<Checkbox
-												id="{value}_anomaly_weekly"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-												value="{value}_anomaly"
-												checked={$params.weekly?.includes(`${value}_anomaly`)}
-												aria-labelledby="{value}_anomaly_weekly_label"
-												onCheckedChange={() => {
-													if ($params.weekly?.includes(`${value}_anomaly`)) {
-														$params.weekly = $params.weekly.filter((item) => {
-															return item !== `${value}_anomaly`;
-														});
-													} else if ($params.weekly) {
-														$params.weekly.push(`${value}_anomaly`);
-														$params.weekly = $params.weekly;
-													}
-												}}
-											/>
+										<div class="flex gap-2">
+											<div class="group flex items-center" title="{label} Mean">
+												<Checkbox
+													id="{value}_mean_weekly"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													value="{value}_mean"
+													checked={$params.weekly?.includes(`${value}_mean`)}
+													aria-labelledby="{value}_mean_weekly_label"
+													onCheckedChange={() => {
+														if ($params.weekly?.includes(`${value}_mean`)) {
+															$params.weekly = $params.weekly.filter((item) => {
+																return item !== `${value}_mean`;
+															});
+														} else if ($params.weekly) {
+															$params.weekly.push(`${value}_mean`);
+															$params.weekly = $params.weekly;
+														}
+													}}
+												/>
+												<Label
+													id="{value}_mean_weekly_label"
+													for="{value}_mean_weekly"
+													class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
+												>
+											</div>
+											<div class="group flex items-center" title="{label} Anomaly">
+												<Checkbox
+													id="{value}_anomaly_weekly"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													value="{value}_anomaly"
+													checked={$params.weekly?.includes(`${value}_anomaly`)}
+													aria-labelledby="{value}_anomaly_weekly_label"
+													onCheckedChange={() => {
+														if ($params.weekly?.includes(`${value}_anomaly`)) {
+															$params.weekly = $params.weekly.filter((item) => {
+																return item !== `${value}_anomaly`;
+															});
+														} else if ($params.weekly) {
+															$params.weekly.push(`${value}_anomaly`);
+															$params.weekly = $params.weekly;
+														}
+													}}
+												/>
 
-											<Label
-												id="{value}_anomaly_weekly_label"
-												for="{value}_anomaly_weekly"
-												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
-											>
+												<Label
+													id="{value}_anomaly_weekly_label"
+													for="{value}_anomaly_weekly"
+													class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
+												>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -604,93 +610,95 @@
 			{#each monthly as group, i (i)}
 				<div>
 					{#each group as { value, label } (value)}
-						<div class="flex gap-3">
-							<div class="w-1/2">
-								{label}
-							</div>
-							<div class="flex w-1/2 gap-2">
-								{#if value != 'wind_gusts_10m'}
-									<div class="group flex items-center" title="{label} Mean">
-										<Checkbox
-											id="{value}_mean_monthly"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-											value="{value}_mean"
-											checked={$params.monthly?.includes(`${value}_mean`)}
-											aria-labelledby="{value}_mean_monthly_label"
-											onCheckedChange={() => {
-												if ($params.monthly?.includes(`${value}_mean`)) {
-													$params.monthly = $params.monthly.filter((item) => {
-														return item !== `${value}_mean`;
-													});
-												} else if ($params.monthly) {
-													$params.monthly.push(`${value}_mean`);
-													$params.monthly = $params.monthly;
-												}
-											}}
-										/>
-										<Label
-											id="{value}_mean_monthly_label"
-											for="{value}_mean_monthly"
-											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
-										>
-									</div>
-									<div class="group flex items-center" title="{label} Anomaly">
-										<Checkbox
-											id="{value}_anomaly_monthly"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-											value="{value}_anomaly"
-											checked={$params.monthly?.includes(`${value}_anomaly`)}
-											aria-labelledby="{value}_anomaly_monthly_label"
-											onCheckedChange={() => {
-												if ($params.monthly?.includes(`${value}_anomaly`)) {
-													$params.monthly = $params.monthly.filter((item) => {
-														return item !== `${value}_anomaly`;
-													});
-												} else if ($params.monthly) {
-													$params.monthly.push(`${value}_anomaly`);
-													$params.monthly = $params.monthly;
-												}
-											}}
-										/>
-
-										<Label
-											id="{value}_anomaly_monthly_label"
-											for="{value}_anomaly_monthly"
-											class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
-										>
-									</div>
-								{:else}
-									<div class="flex w-1/2 gap-2">
-										<div
-											class="group ml-[75px] flex items-center"
-											title="Wind Gusts (10 m) Anomaly"
-										>
+						<div class="flex w-full">
+							<div class="highlight-row -mx-2 -mb-1 flex items-center gap-3 rounded px-2 py-0.5">
+								<div class="highlight-row-label w-[46vw] md:w-[36vw] lg:w-[35vw] xl:w-[20vw]">
+									{label}
+								</div>
+								<div class="flex gap-2">
+									{#if value != 'wind_gusts_10m'}
+										<div class="group flex items-center" title="{label} Mean">
 											<Checkbox
-												id="wind_gusts_10m_anomaly_monthly"
+												id="{value}_mean_monthly"
 												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-												value="wind_gusts_10m_anomaly"
-												checked={$params.monthly?.includes('wind_gusts_10m_anomaly')}
-												aria-labelledby="wind_gusts_10m_anomaly_monthly_label"
+												value="{value}_mean"
+												checked={$params.monthly?.includes(`${value}_mean`)}
+												aria-labelledby="{value}_mean_monthly_label"
 												onCheckedChange={() => {
-													if ($params.monthly?.includes('wind_gusts_10m_anomaly')) {
+													if ($params.monthly?.includes(`${value}_mean`)) {
 														$params.monthly = $params.monthly.filter((item) => {
-															return item !== 'wind_gusts_10m_anomaly';
+															return item !== `${value}_mean`;
 														});
 													} else if ($params.monthly) {
-														$params.monthly.push('wind_gusts_10m_anomaly');
+														$params.monthly.push(`${value}_mean`);
+														$params.monthly = $params.monthly;
+													}
+												}}
+											/>
+											<Label
+												id="{value}_mean_monthly_label"
+												for="{value}_mean_monthly"
+												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Mean</Label
+											>
+										</div>
+										<div class="group flex items-center" title="{label} Anomaly">
+											<Checkbox
+												id="{value}_anomaly_monthly"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												value="{value}_anomaly"
+												checked={$params.monthly?.includes(`${value}_anomaly`)}
+												aria-labelledby="{value}_anomaly_monthly_label"
+												onCheckedChange={() => {
+													if ($params.monthly?.includes(`${value}_anomaly`)) {
+														$params.monthly = $params.monthly.filter((item) => {
+															return item !== `${value}_anomaly`;
+														});
+													} else if ($params.monthly) {
+														$params.monthly.push(`${value}_anomaly`);
 														$params.monthly = $params.monthly;
 													}
 												}}
 											/>
 
 											<Label
-												id="wind_gusts_10m_anomaly_monthly_label"
-												for="wind_gusts_10m_anomaly_monthly"
+												id="{value}_anomaly_monthly_label"
+												for="{value}_anomaly_monthly"
 												class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
 											>
 										</div>
-									</div>
-								{/if}
+									{:else}
+										<div class="flex w-1/2 gap-2">
+											<div
+												class="group ml-[75px] flex items-center"
+												title="Wind Gusts (10 m) Anomaly"
+											>
+												<Checkbox
+													id="wind_gusts_10m_anomaly_monthly"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													value="wind_gusts_10m_anomaly"
+													checked={$params.monthly?.includes('wind_gusts_10m_anomaly')}
+													aria-labelledby="wind_gusts_10m_anomaly_monthly_label"
+													onCheckedChange={() => {
+														if ($params.monthly?.includes('wind_gusts_10m_anomaly')) {
+															$params.monthly = $params.monthly.filter((item) => {
+																return item !== 'wind_gusts_10m_anomaly';
+															});
+														} else if ($params.monthly) {
+															$params.monthly.push('wind_gusts_10m_anomaly');
+															$params.monthly = $params.monthly;
+														}
+													}}
+												/>
+
+												<Label
+													id="wind_gusts_10m_anomaly_monthly_label"
+													for="wind_gusts_10m_anomaly_monthly"
+													class="ml-[0.42rem]  cursor-pointer truncate py-[0.1rem]">Anomaly</Label
+												>
+											</div>
+										</div>
+									{/if}
+								</div>
 							</div>
 						</div>
 					{/each}
