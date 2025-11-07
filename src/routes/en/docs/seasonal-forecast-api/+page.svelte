@@ -796,7 +796,6 @@
 		{params}
 		{defaultParameters}
 		type="seasonal"
-		model_default="ecmwf_seasonal_seamless"
 		action="seasonal"
 		sdk_type="ensemble_api"
 	/>
