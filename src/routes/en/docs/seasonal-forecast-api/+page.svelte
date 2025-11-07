@@ -787,7 +787,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true}/></div>
 </form>
 
 <!-- RESULT -->
@@ -796,7 +796,6 @@
 		{params}
 		{defaultParameters}
 		type="seasonal"
-		model_default="ecmwf_seasonal_seamless"
 		action="seasonal"
 		sdk_type="ensemble_api"
 	/>
@@ -814,7 +813,7 @@
 			future weather but also the range of possible outcomes and their associated uncertainties.
 		</p>
 		<p>
-			Forecasts from EC46 for the next 46 days are updated every day at around 22:15 GMT+0. Seasonal
+			Forecasts from EC46 for the next 46 days are updated every day at around 20:30 GMT+0. Seasonal
 			SEAS5 forecast update every month on the 5th.
 		</p>
 		<p>
@@ -854,7 +853,7 @@
 						<th scope="row"
 							><a
 								href="https://confluence.ecmwf.int/display/FCST/Implementation+of+Seasonal+Forecast+SEAS5"
-								target="_blank">SEAS5 Surface Level</a
+								target="_blank">SEAS5</a
 							></th
 						>
 						<td>Global</td>
@@ -887,11 +886,6 @@
 	<a href="#api_documentation"
 		><h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2></a
 	>
-</div>
-
-<!-- API DOCS - ERRORS -->
-<div class="mt-6 md:mt-12">
-	<a href="#errors"><h3 id="errors" class="text-xl md:text-2xl">Errors</h3></a>
 	<div class="mt-2 md:mt-4">
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a
@@ -905,26 +899,64 @@
 				However, using 1-hourly resolution may be practical for applications such as solar PV modeling.
 			</li>
 			<li>
-				<strong>Monthly anomalies</strong> are calculated by comparing forecast values against a
-				long-term model climatology (a baseline of past simulations from the same forecasting
-				system). ECMWF runs past forecasts (typically covering the last 20–30+ years) using the same
-				SEAS5 model configuration. These hindcasts build a model-consistent climatology. For each
-				forecast, the anomaly is obtained by subtracting the model climatology from the forecast
-				value:
-				<mark>Anomaly = Forecast - Model Climatology</mark>
+				Data is available for <strong>51 ensemble member</strong>s, which can be useful for
+				applications such as running pest or energy production models using each member individually
+				and averaging the results. Although EC46 generates 100 ensemble members, providing 51 offers
+				a good balance between data volume and accuracy and is sufficient for most use cases.
 			</li>
 			<li>
 				<strong>Solar Radiation:</strong> SEAS5 only contains global solar radiation data and does
 				not offer direct or diffuse solar radiation. Open-Meteo applies the separation model from
-				<a
+				<a class="text-link underline"
 					href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
 					>Razo, Müller Witwer</a
 				> to calculate direct radiation from shortwave solar radiation. EC46 used for the first 46 days
 				directly models direct and diffuse solar radiation.
 			</li>
 			<li>
+				<strong>Weekly and monthly data</strong> are computed directly by the ECMWF SEAS5 and EC46 models.
+				Monthly data is available from SEAS5 for up to 7 months ahead, based on 51 ensemble members,
+				while weekly data is available from EC46 for up to 6 weeks ahead, using 100 ensemble members.
+			</li>
+			<li>
+				<strong>Anomalies</strong> are calculated by comparing forecast values against a long-term
+				model climatology (a baseline of past simulations from the same forecasting system). ECMWF
+				runs past forecasts (typically covering the last 20–30+ years) using the same model
+				configuration. These hindcasts build a model-consistent climatology. For each forecast, the
+				anomaly is obtained by subtracting the model climatology from the forecast value:
+				<mark>Anomaly = Forecast - Model Climatology</mark>
+			</li>
+			<li>
+				<strong>The Extreme Forecast Index (EFI)</strong> highlights potential extreme events in
+				temperature or precipitation relative to the expected climate. Rather than showing absolute
+				values, the EFI expresses how unusual a forecast is compared to the model climate. For
+				temperature, EFI values near +1 indicate a high likelihood of much warmer-than-normal
+				conditions, while values near –1 suggest much colder-than-normal conditions. For
+				precipitation, EFI values close to +1 point to much wetter-than-normal conditions, and those
+				near –1 indicate much drier-than-normal conditions.
+				<a class="text-link underline"
+					href="https://confluence.ecmwf.int/display/FUG/Section+8.1.9.2+Extreme+Forecast+Index+-+EFI"
+					title="Extreme Forecast Index - EFI">More information in the ECMWF documentation</a
+				>.
+			</li>
+			<li>
+				The <strong>Shift of Tails (SOT)</strong> is a complementary metric to the Extreme Forecast
+				Index (EFI) that indicates how extreme an event could potentially become. While the EFI is
+				limited by the historical extremes of the model climate, the SOT examines the outer tails of
+				the forecast distribution — capturing rare, exceptional events that may exceed anything
+				previously simulated by the model. The SOT is computed for the 10th and 90th percentiles
+				across all 100 EC46 ensemble members.
+				<a class="text-link underline"
+					href="https://confluence.ecmwf.int/display/FUG/Section+8.1.9.3+Calculating+the+Shift+of+Tails+-+SOT"
+					title="Calculating the Shift of Tails - SOT"
+					>More information in the ECMWF documentation</a
+				>.
+			</li>
+			<li>
 				<strong>Bias correction:</strong> The dataset is currently provided without bias adjustment.
-				Future iterations of the API may include bias-corrected and downscaled outputs.
+				Future versions of the API may include bias-corrected and downscaled outputs for improved local
+				accuracy. Parameters such as anomalies, EFI, and SOT are expressed relative to the model climate,
+				which inherently reduces some systematic biases.
 			</li>
 		</ul>
 	</div>
