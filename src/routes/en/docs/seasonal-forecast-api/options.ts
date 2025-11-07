@@ -5,7 +5,7 @@ export const defaultParameters = {
 	models: [],
 	monthly: [],
 
-	temporal_resolution: 'hourly_6',
+	temporal_resolution: '',
 
 	timezone: 'UTC',
 	location_mode: 'location_search',
