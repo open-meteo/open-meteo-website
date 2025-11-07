@@ -366,9 +366,9 @@ export const models = [
 ];
 
 export const temporalResolutionOptions = [
-	{ value: '', label: '1 Hourly' },
+	{ value: 'hourly_1', label: '1 Hourly' },
 	{ value: 'hourly_3', label: '3 Hourly' },
-	{ value: 'hourly_6', label: '6 Hourly (default)' },
+	{ value: '', label: '6 Hourly (default)' },
 	{ value: 'hourly_12', label: '12 Hourly' },
 	{ value: 'native', label: 'Native Model Resolution' }
 ];
