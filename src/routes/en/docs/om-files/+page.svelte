@@ -6,6 +6,9 @@
 
 	import { countVariables } from '$lib/utils/meteo';
 
+	import TypeScriptExample from '$lib/components/code/om-files/typescript-request.svx';
+	import TypeScriptResult from '$lib/components/code/om-files/typescript-result.svx';
+
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
@@ -60,6 +63,9 @@
 	lastDate.setDate(lastDate.getDate() + 14);
 
 	let mode = $state('typescript');
+
+	let codeInstallCopied = $state(false);
+	let codeExampleCopied = $state(false);
 </script>
 
 <svelte:head>
@@ -195,7 +201,109 @@
 	</div>
 
 	{#if mode === 'typescript'}
-		{@html typescriptInstallCode}
+		<div in:fade>
+			<div class="code-install mt-3 relative group">
+				{@html typescriptInstallCode}
+				<div
+					class="absolute duration-300 right-2 top-2 lg:right-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+				>
+					<Button
+						onclick={() => {
+							const query = document.querySelector('.code-install pre');
+							if (query) {
+								navigator.clipboard.writeText(query.textContent);
+								codeInstallCopied = true;
+								setTimeout(() => {
+									codeInstallCopied = false;
+								}, 1250);
+							}
+						}}
+						>{#if codeInstallCopied}<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
+							>{:else}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.4"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
+								><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
+									d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+								/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
+									d="m15 10-4 4 4 4"
+								/></svg
+							>{/if}</Button
+					>
+				</div>
+			</div>
 
-		Hello{/if}
+			<div class="code-example mt-3 relative group">
+				<TypeScriptExample />
+
+				<div
+					class="absolute duration-300 right-2 top-2 lg:right-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+				>
+					<Button
+						onclick={() => {
+							const query = document.querySelector('.code-example pre');
+							if (query) {
+								navigator.clipboard.writeText(query.textContent);
+								codeExampleCopied = true;
+								setTimeout(() => {
+									codeExampleCopied = false;
+								}, 1250);
+							}
+						}}
+						>{#if codeExampleCopied}<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
+							>{:else}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.4"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
+								><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
+									d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+								/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
+									d="m15 10-4 4 4 4"
+								/></svg
+							>{/if}</Button
+					>
+				</div>
+			</div>
+
+			<div class="mt-3">
+				<TypeScriptResult />
+			</div>
+		</div>
+	{/if}
 </form>
