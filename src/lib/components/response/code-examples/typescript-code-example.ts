@@ -10,8 +10,7 @@ export const typescriptCodeExample = (
 	numberOfLocations: number | string,
 	numberOfModels: number,
 	server: string,
-	sdk_type: string,
-	sdk_cache: number
+	sdk_type: string
 ) => {
 	const t = multipleLocationsOrModels;
 

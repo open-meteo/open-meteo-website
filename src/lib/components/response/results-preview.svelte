@@ -24,7 +24,7 @@
 	import type { UrlHashStore } from '$lib/stores/url-hash-store';
 
 	interface Props {
-		params: Parameters;
+		params: UrlHashStore;
 		type?: string;
 		action?: string;
 		model_default?: string;
@@ -35,7 +35,7 @@
 	}
 
 	let {
-		params,
+		params = $bindable(),
 		type = 'forecast',
 		action = 'forecast',
 		model_default = '',
@@ -48,28 +48,28 @@
 	/// Parsed params that resolved CSV fields
 	let parsedParams = $derived(
 		((p: Parameters, api_key_preferences: APIKeyPreferences) => {
-			const params = { ...p };
-			if ('time_mode' in params) {
-				if (params.time_mode == 'forecast_days') {
-					delete params['start_date'];
-					delete params['end_date'];
+			const jsonParams = { ...p };
+			if ('time_mode' in jsonParams) {
+				if (jsonParams.time_mode == 'forecast_days') {
+					delete jsonParams['start_date'];
+					delete jsonParams['end_date'];
 				}
-				if (params.time_mode == 'time_interval') {
-					delete params['forecast_days'];
-					delete params['past_days'];
+				if (jsonParams.time_mode == 'time_interval') {
+					delete jsonParams['forecast_days'];
+					delete jsonParams['past_days'];
 				}
-				delete params['csv_time_intervals'];
-				delete params['time_mode'];
+				delete jsonParams['csv_time_intervals'];
+				delete jsonParams['time_mode'];
 			}
-			if ('location_mode' in params) {
-				if (params.location_mode == 'csv_coordinates' && params['csv_coordinates']) {
+			if ('location_mode' in jsonParams) {
+				if (jsonParams.location_mode == 'csv_coordinates' && jsonParams['csv_coordinates']) {
 					const lats: number[] = [];
 					const lons: number[] = [];
 					const elevation: number[] = [];
 					const timezone: string[] = [];
 					const start_date: string[] = [];
 					const end_date: string[] = [];
-					const csv: string = params['csv_coordinates'];
+					const csv: string = jsonParams['csv_coordinates'];
 					csv.split(/\r?\n/).forEach((row) => {
 						if (row.length < 4) {
 							return;
@@ -91,40 +91,45 @@
 							end_date.push(parts[5]);
 						}
 					});
-					params['latitude'] = lats;
-					params['longitude'] = lons;
+					jsonParams['latitude'] = lats;
+					jsonParams['longitude'] = lons;
 					if (elevation.length > 0) {
-						params['elevation'] = elevation;
+						jsonParams['elevation'] = elevation;
 					}
 					if (timezone.length > 0) {
-						params['timezone'] = timezone;
+						jsonParams['timezone'] = timezone;
 					}
 					if (start_date.length > 0) {
-						params['start_date'] = start_date;
-						params['end_date'] = end_date;
-						delete params['forecast_days'];
-						delete params['past_days'];
+						jsonParams['start_date'] = start_date;
+						jsonParams['end_date'] = end_date;
+						delete jsonParams['forecast_days'];
+						delete jsonParams['past_days'];
 					}
 				}
-				delete params['location_mode'];
-				delete params['csv_coordinates'];
+				delete jsonParams['location_mode'];
+				delete jsonParams['csv_coordinates'];
 			}
+
 			// Cast 1-element arrays to a scalar value
-			for (const key in params) {
-				if (Array.isArray(params[key]) && params[key].length == 1) {
-					params[key] = params[key][0];
+			for (const key in jsonParams) {
+				if (Array.isArray(jsonParams[key]) && jsonParams[key].length == 1) {
+					jsonParams[key] = jsonParams[key][0];
 				}
 			}
 
-			if (model_default != '' && !('models' in params && params['models'] != '')) {
-				params['models'] = model_default;
+			if (model_default != '' && !('models' in jsonParams && jsonParams['models'] != '')) {
+				jsonParams['models'] = model_default;
 			}
 
 			if (api_key_preferences.use == 'commercial') {
-				params['apikey'] = api_key_preferences.apikey;
+				jsonParams['apikey'] = api_key_preferences.apikey;
 			}
 
-			return objectDifference(params, defaultParameters);
+			if ($params.location_mode !== 'bounding_box' && jsonParams.bounding_box) {
+				delete jsonParams.bounding_box;
+			}
+
+			return objectDifference(jsonParams, defaultParameters);
 		})($params, $api_key_preferences)
 	);
 
@@ -243,10 +248,9 @@
 
 	async function preview() {
 		if (
-			('latitude' in parsedParams &&
-				Array.isArray(parsedParams.latitude) &&
-				parsedParams.latitude.length > 5) ||
-			$params.location_mode === 'bounding_box'
+			'latitude' in parsedParams &&
+			Array.isArray(parsedParams.latitude) &&
+			parsedParams.latitude.length > 5
 		) {
 			throw new Error('Can not preview more than 5 locations');
 		}
@@ -461,6 +465,26 @@
 				</div>
 			{:then results}
 				{#if results}
+					{#if results.length > 10}
+						<Alert.Root variant="info" class="mt-2 md:mt-4">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="lucide lucide-info-icon lucide-info"
+								><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
+							>
+							<Alert.Description>
+								Only first 10/{results.length} locations are shown
+							</Alert.Description>
+						</Alert.Root>
+					{/if}
 					{#each results.slice(0, 10) as chart, i (i)}
 						<div transition:fade={{ duration: 300 }} class="w-full">
 							<HighchartContainer
