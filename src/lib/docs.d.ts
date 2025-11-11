@@ -12,7 +12,7 @@ export interface Parameters {
 	minutely_15?: Array<string> | string;
 
 	timezone?: string;
-	location_mode?: 'location_search' | 'csv_coordinates' | 'bounding_box';
+	location_mode?: string | 'location_search' | 'csv_coordinates' | 'bounding_box'; // replace with enum
 	csv_coordinates?: string;
 	bounding_box?: string;
 
@@ -22,6 +22,7 @@ export interface Parameters {
 
 	end_date?: string;
 	start_date?: string;
+	run?: string;
 
 	past_hours?: string;
 	forecast_hours?: string;

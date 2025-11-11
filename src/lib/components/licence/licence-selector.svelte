@@ -1,15 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import { fade } from 'svelte/transition';
 
 	import { api_key_preferences } from '$lib/stores/settings';
 
-	import { Label } from '$lib/components/ui/label';
-	import { Input } from '$lib/components/ui/input';
-	import { Button } from '$lib/components/ui/button';
-
 	import * as Alert from '$lib/components/ui/alert';
+	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
 
 	interface Props {
 		requires_professional_plan?: boolean;
@@ -17,55 +15,55 @@
 
 	let { requires_professional_plan = false }: Props = $props();
 
-	let licenseSelected = $state('');
+	let licenceSelected = $state('');
 
 	onMount(() => {
-		licenseSelected = $api_key_preferences.use;
+		licenceSelected = $api_key_preferences.use;
 	});
 </script>
 
 <div>
 	<div class="-mr-6 flex items-center gap-2 overflow-auto md:mr-0">
-		<div class="text-muted-foreground text-nowrap">Usage license:</div>
+		<div class="text-muted-foreground text-nowrap">Usage licence:</div>
 		<div class="border-border flex rounded-md border">
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {licenseSelected ===
+				class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {licenceSelected ===
 				'non_commercial'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
-				disabled={licenseSelected === 'non_commercial'}
+				disabled={licenceSelected === 'non_commercial'}
 				onclick={() => {
-					licenseSelected = 'non_commercial';
-					$api_key_preferences.use = licenseSelected;
+					licenceSelected = 'non_commercial';
+					$api_key_preferences.use = licenceSelected;
 				}}
 			>
 				Non-Commercial
 			</Button>
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-none !opacity-100 duration-300 {licenseSelected ===
+				class="items-center gap-1 rounded-none !opacity-100 duration-300 {licenceSelected ===
 				'commercial'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
-				disabled={licenseSelected === 'commercial'}
+				disabled={licenceSelected === 'commercial'}
 				onclick={() => {
-					licenseSelected = 'commercial';
-					$api_key_preferences.use = licenseSelected;
+					licenceSelected = 'commercial';
+					$api_key_preferences.use = licenceSelected;
 				}}
 			>
 				Commercial
 			</Button>
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {licenseSelected ===
+				class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {licenceSelected ===
 				'self_hosted'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
-				disabled={licenseSelected === 'self_hosted'}
+				disabled={licenceSelected === 'self_hosted'}
 				onclick={() => {
-					licenseSelected = 'self_hosted';
-					$api_key_preferences.use = licenseSelected;
+					licenceSelected = 'self_hosted';
+					$api_key_preferences.use = licenceSelected;
 				}}
 			>
 				Self-Hosted
@@ -73,7 +71,7 @@
 		</div>
 	</div>
 	<div class="relative mt-3 md:mt-6">
-		{#if licenseSelected === 'non_commercial'}
+		{#if licenceSelected === 'non_commercial'}
 			<div in:fade>
 				<Alert.Root variant="info">
 					<svg
@@ -97,7 +95,7 @@
 					</Alert.Description>
 				</Alert.Root>
 			</div>
-		{:else if licenseSelected === 'commercial'}
+		{:else if licenceSelected === 'commercial'}
 			<div in:fade class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6">
 				<div class="relative flex">
 					<Input
@@ -135,7 +133,7 @@
 					</Alert.Root>
 				</div>
 			</div>
-		{:else if licenseSelected === 'self_hosted'}
+		{:else if licenceSelected === 'self_hosted'}
 			<div in:fade class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6">
 				<div class="relative flex">
 					<Input

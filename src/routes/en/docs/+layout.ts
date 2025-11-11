@@ -1,6 +1,6 @@
-import type { LayoutLoad } from './$types';
-
 import Cog from '$lib/assets/icons/cog.svelte';
+
+import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = async () => {
 	return {

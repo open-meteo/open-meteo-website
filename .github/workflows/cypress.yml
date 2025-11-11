@@ -15,7 +15,7 @@ jobs:
           build: npm run build
           start: npm run preview
       - name: Upload screenshots & videos
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: cypress-files

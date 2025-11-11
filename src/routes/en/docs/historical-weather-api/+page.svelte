@@ -1,43 +1,41 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
+
 	import { countVariables } from '$lib/utils/meteo';
-
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select/index';
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
-
-	import Settings from '$lib/components/settings/settings.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
 
-	import {
-		daily,
-		hourly,
-		models,
-		solarVariables,
-		additionalDaily,
-		defaultParameters,
-		additionalVariables,
-		ensembleSpreadVariables
-	} from './options';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Alert from '$lib/components/ui/alert';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import * as Select from '$lib/components/ui/select/index';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
 
 	import { gridCellSelectionOptions, temporalResolutionOptions } from '../options';
+	import {
+		additionalDaily,
+		additionalVariables,
+		daily,
+		defaultParameters,
+		ensembleSpreadVariables,
+		hourly,
+		models,
+		solarVariables
+	} from './options';
 
 	var d = new Date();
 	d.setDate(d.getDate() - 2);
@@ -131,7 +129,7 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		Now, with the addition of the 9-kilometer ECMWF IFS model, the historical weather API provides
+		Now, with the addition of the 9-kilometre ECMWF IFS model, the historical weather API provides
 		access to a staggering 90 terabytes of meteorological data! Read the <a
 			class="text-link underline"
 			href="https://open.substack.com/pub/openmeteo/p/processing-90-tb-historical-weather"
@@ -267,7 +265,7 @@
 							<Label
 								id="{value}_label"
 								for="{value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -309,7 +307,7 @@
 									<Label
 										id="{value}_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -390,7 +388,7 @@
 									<Label
 										id="{value}_hourly_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -483,7 +481,7 @@
 									<Label
 										id="{value}_hourly_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -527,7 +525,7 @@
 									<Label
 										id="{value}_model_label"
 										for="{value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -577,7 +575,7 @@
 							<Label
 								id="{value}_daily_label"
 								for="{value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -628,7 +626,7 @@
 									<Label
 										id="{value}_daily_label"
 										for="{value}_daily"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -646,7 +644,7 @@
 
 	<!-- LICENSE -->
 	<div class="mt-6 md:mt-12">
-		<LicenseSelector requires_professional_plan={true} />
+		<LicenceSelector requires_professional_plan={true} />
 	</div>
 </form>
 
@@ -689,7 +687,7 @@
 				resolution and precision in depicting historical weather conditions.
 			</p>
 			<p>
-				However, when studying climate change over decades, it is advisable to exclusively utilize
+				However, when studying climate change over decades, it is advisable to exclusively utilise
 				ERA5 or ERA5-Land. This choice ensures data consistency and prevents unintentional
 				alterations that could arise from the adoption of different weather model upgrades.
 			</p>
@@ -1241,9 +1239,9 @@
 							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
 							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
 							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
-							is set to "nan", the calculation assumes a horizontal tracker. If tilt is set to
-							"nan", it is assumed that the panel has a vertical tracker. If both are set to "nan",
-							a bi-axial tracker is assumed.</td
+							is set to "nan", the calculation assumes a vertical tracker (east-west). If tilt is
+							set to "nan", it is assumed that the panel has a horizontal tracker (up-down). If both
+							are set to "nan", a bi-axial tracker is assumed.</td
 						>
 					</tr>
 					<tr>
@@ -1488,7 +1486,7 @@
 						<td>Floating point</td>
 						<td
 							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometers away from the requested
+							forecast. This coordinate might be a few kilometres away from the requested
 							coordinate.</td
 						>
 					</tr>
@@ -1719,7 +1717,7 @@
 								>@software&#123;Zippenfenig_Open-Meteo,
   author = &#123;Zippenfenig, Patrick&#125;,
   doi = &#123;10.5281/zenodo.7970649&#125;,
-  license = &#123;CC-BY-4.0&#125;,
+  licence = &#123;CC-BY-4.0&#125;,
   title = &#123;Open-Meteo.com Weather API&#125;,
   year = &#123;2023&#125;,
   copyright = &#123;Creative Commons Attribution 4.0 International&#125;,

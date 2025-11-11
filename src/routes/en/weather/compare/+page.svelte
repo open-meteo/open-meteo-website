@@ -1,30 +1,25 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
-
 	import { get, writable } from 'svelte/store';
-
 	import { fade } from 'svelte/transition';
-
-	import { urlHashStore } from '$lib/stores/url-hash-store';
-
-	import { dev } from '$app/environment';
 
 	import { mode } from 'mode-watcher';
 
-	import { Label } from '$lib/components/ui/label';
-	import { Switch } from '$lib/components/ui/switch';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import Settings from '$lib/components/settings/settings.svelte';
-	import LocationSearch from '$lib/components/location/location-search.svelte';
-
-	import { defaultParameters } from './options';
-
-	import { hourly, models } from '../../docs/options';
+	import { dev } from '$app/environment';
 
 	import { storedLocation } from '$lib/stores/settings';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Label } from '$lib/components/ui/label';
+	import { Switch } from '$lib/components/ui/switch';
+
+	import LocationSearch from '$lib/components/location/location-search.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
+
+	import { hourly, models } from '../../docs/options';
 	import './highcharts.css';
+	import { defaultParameters } from './options';
 
 	let useStockChart = false;
 	let options: any;
@@ -386,7 +381,7 @@
 						<Label
 							id="{value}_model_label"
 							for="{value}_model"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+							class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 						>
 					</div>
 				{/each}
@@ -440,7 +435,7 @@
 							<Label
 								id="{value}_label"
 								for="{value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}

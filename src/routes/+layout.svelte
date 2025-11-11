@@ -3,10 +3,9 @@
 
 	import { page } from '$app/state';
 
-	import Hero from '$lib/components/hero/hero.svelte';
-	import Header from '$lib/components/header/header.svelte';
 	import Footer from '$lib/components/footer/footer.svelte';
-
+	import Header from '$lib/components/header/header.svelte';
+	import Hero from '$lib/components/hero/hero.svelte';
 	import UpdateNotification from '$lib/components/update/update-notification.svelte';
 
 	import '../app.css';

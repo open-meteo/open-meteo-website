@@ -1,21 +1,20 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-
 	import { fade } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
 	import { api_key_preferences } from '$lib/stores/settings';
+	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
+	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';
 
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import * as Select from '$lib/components/ui/select/index';
 
-	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
-	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 
-	import { countOptions, formatOptions, countryCodes, languageOptions } from './options';
+	import { countOptions, countryCodes, formatOptions, languageOptions } from './options';
 
 	const params = urlHashStore({
 		name: 'Berlin',
@@ -184,7 +183,7 @@
 
 	<!-- LICENSE -->
 	<div class="mt-3 md:mt-6">
-		<LicenseSelector />
+		<LicenceSelector />
 	</div>
 </form>
 

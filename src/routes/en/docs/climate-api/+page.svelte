@@ -1,28 +1,28 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { countVariables } from '$lib/utils/meteo';
-
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { Label } from '$lib/components/ui/label';
-	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Alert from '$lib/components/ui/alert';
-	import * as Accordion from '$lib/components/ui/accordion';
-
-	import Settings from '$lib/components/settings/settings.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import { countVariables } from '$lib/utils/meteo';
 
 	import ClimateError from '$lib/components/code/docs/climate-error.svx';
 	import ClimateObject from '$lib/components/code/docs/climate-object.svx';
 
-	import { daily, models, defaultParameters } from './options';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Alert from '$lib/components/ui/alert';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Label } from '$lib/components/ui/label';
+	import { Switch } from '$lib/components/ui/switch';
+
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
+
+	import { daily, defaultParameters, models } from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -156,7 +156,7 @@
 							<Label
 								id="{value}_daily_label"
 								for="{value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -198,7 +198,7 @@
 									<Label
 										id="{value}_model_label"
 										for="{value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -215,7 +215,19 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector requires_professional_plan={true} /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true} /></div>
+
+	<div class="mt-3 flex items-center gap-3 md:mt-6">
+		<Switch
+			id="disable_bias_correction"
+			name="Disable Bias Correction"
+			bind:checked={$params.disable_bias_correction}
+		/>
+		<Label for="disable_bias_correction" class="mb-[2px] cursor-pointer text-lg"
+			>Raw data {$params.disable_bias_correction ? 'enabled' : 'disabled'}. <br />
+		</Label>
+	</div>
+	<div class="text-muted-foreground">Statistic downscaling with ERA5-Land (10km)</div>
 </form>
 
 <!-- RESULT -->
@@ -235,7 +247,7 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			This API utilizes regional downscaled climate models with up to 20 kilometer resolution from
+			This API utilises regional downscaled climate models with up to 20 kilometre resolution from
 			the <a href="https://hrcm.ceda.ac.uk/research/cmip6-highresmip/" title="CMIP6 HighResMIP"
 				>HighResMip working group</a
 			>, which are part of the IPCC CMIP6 project.
@@ -822,7 +834,7 @@
 						<td>Floating point</td>
 						<td
 							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometers away from the requested
+							forecast. This coordinate might be a few kilometres away from the requested
 							coordinate.</td
 						>
 					</tr>
@@ -889,7 +901,7 @@
 	>
 	<div class="mt-3 md:mt-6">
 		<p>
-			CMIP6 model data is licensed under a Creative Commons Attribution 4.0 International License (<a
+			CMIP6 model data is licenced under a Creative Commons Attribution 4.0 International Licence (<a
 				href="https://creativecommons.org/licenses/">CC BY 4.0</a
 			>). Consult
 			<a href="https://pcmdi.llnl.gov/CMIP6/TermsOfUse">https://pcmdi.llnl.gov/CMIP6/TermsOfUse</a> for

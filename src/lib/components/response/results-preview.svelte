@@ -2,33 +2,30 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { objectDifference } from '$lib/utils';
-	import { membersPerModel } from '$lib/utils/meteo';
+	import { browser } from '$app/environment';
 
 	import { api_key_preferences } from '$lib/stores/settings';
 
-	import Input from '$lib/components/ui/input/input.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { objectDifference } from '$lib/utils';
+	import { membersPerModel } from '$lib/utils/meteo';
 
 	import * as Alert from '$lib/components/ui/alert';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import Input from '$lib/components/ui/input/input.svelte';
 
-	import type { APIKeyPreferences, Parameters } from '$lib/docs';
-	import type { UrlHashStore } from '$lib/stores/url-hash-store';
-
-	import HighchartContainer from './highcharts/highcharts-container.svelte';
-
-	import { jsonToChart } from './highcharts/json-to-chart';
-
-	import { swiftCodeExample } from './code-examples/swift-code-example';
 	import { pythonCodeExample } from './code-examples/python-code-example';
+	import { swiftCodeExample } from './code-examples/swift-code-example';
 	import { typescriptCodeExample } from './code-examples/typescript-code-example';
-
-	import { swiftInstallCode } from './installs/swift-install-code';
+	import HighchartContainer from './highcharts/highcharts-container.svelte';
+	import { jsonToChart } from './highcharts/json-to-chart';
 	import { pythonInstallCode } from './installs/python-install-code';
+	import { swiftInstallCode } from './installs/swift-install-code';
 	import { typescriptInstallCode } from './installs/typescript-install-code';
 
+	import type { APIKeyPreferences, Parameters } from '$lib/docs';
+
 	interface Props {
-		params: UrlHashStore;
+		params: Parameters;
 		type?: string;
 		action?: string;
 		model_default?: string;
@@ -357,12 +354,14 @@
 	);
 
 	let mode = $state('chart');
+
+	let codeInstallCopied = $state(false);
+	let codeExampleCopied = $state(false);
 </script>
 
 <a href="#api_response">
 	<h2 id="api_response" class="text-2xl md:text-3xl">API Response</h2>
 </a>
-
 <div class="mt-2 -mr-6 flex items-center gap-2 overflow-auto md:mt-4 md:mr-0">
 	<div class="text-muted-foreground">Preview:</div>
 
@@ -404,18 +403,20 @@
 		>
 			TypeScript
 		</Button>
-		<Button
-			variant="ghost"
-			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'swift'
-				? 'bg-accent cursor-not-allowed'
-				: ''}"
-			disabled={mode === 'swift'}
-			onclick={() => {
-				mode = 'swift';
-			}}
-		>
-			Swift
-		</Button>
+		{#if sdk_type != 'ensemble_api'}
+			<Button
+				variant="ghost"
+				class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'swift'
+					? 'bg-accent cursor-not-allowed'
+					: ''}"
+				disabled={mode === 'swift'}
+				onclick={() => {
+					mode = 'swift';
+				}}
+			>
+				Swift
+			</Button>
+		{/if}
 		<Button
 			variant="ghost"
 			class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {mode === 'other'
@@ -645,16 +646,106 @@
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<div
-					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+					class="code-install group relative -mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 				>
 					{@html pythonInstallCode}
+					<div
+						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+					>
+						<Button
+							onclick={() => {
+								const query = document.querySelector('.code-install pre');
+								if (query) {
+									navigator.clipboard.writeText(query.textContent);
+									codeInstallCopied = true;
+									setTimeout(() => {
+										codeInstallCopied = false;
+									}, 1250);
+								}
+							}}
+							>{#if codeInstallCopied}<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
+								>{:else}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="1.4"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
+									><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
+										d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+									/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
+										d="m15 10-4 4 4 4"
+									/></svg
+								>{/if}</Button
+						>
+					</div>
 				</div>
 
 				<h4 class="text-xl md:text-2xl">Usage</h4>
 				<div
-					class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+					class="code-example relative group -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 				>
 					{@html pythonCode}
+					<div
+						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+					>
+						<Button
+							onclick={() => {
+								const query = document.querySelector('.code-example pre');
+								if (query) {
+									navigator.clipboard.writeText(query.textContent);
+									codeExampleCopied = true;
+									setTimeout(() => {
+										codeExampleCopied = false;
+									}, 1250);
+								}
+							}}
+							>{#if codeExampleCopied}<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
+								>{:else}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="1.4"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
+									><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
+										d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+									/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
+										d="m15 10-4 4 4 4"
+									/></svg
+								>{/if}</Button
+						>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -671,15 +762,105 @@
 				</p>
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<div
-					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+					class="code-install relative group -mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 				>
 					{@html typescriptInstallCode}
+					<div
+						class="absolute duration-300 right-2 top-2 lg:right-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+					>
+						<Button
+							onclick={() => {
+								const query = document.querySelector('.code-install pre');
+								if (query) {
+									navigator.clipboard.writeText(query.textContent);
+									codeInstallCopied = true;
+									setTimeout(() => {
+										codeInstallCopied = false;
+									}, 1250);
+								}
+							}}
+							>{#if codeInstallCopied}<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
+								>{:else}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="1.4"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
+									><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
+										d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+									/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
+										d="m15 10-4 4 4 4"
+									/></svg
+								>{/if}</Button
+						>
+					</div>
 				</div>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
 				<div
-					class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+					class="code-example relative group -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 				>
 					{@html typescriptCode}
+					<div
+						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+					>
+						<Button
+							onclick={() => {
+								const query = document.querySelector('.code-example pre');
+								if (query) {
+									navigator.clipboard.writeText(query.textContent);
+									codeExampleCopied = true;
+									setTimeout(() => {
+										codeExampleCopied = false;
+									}, 1250);
+								}
+							}}
+							>{#if codeExampleCopied}<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
+								>{:else}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="1.4"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
+									><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
+										d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+									/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
+										d="m15 10-4 4 4 4"
+									/></svg
+								>{/if}</Button
+						>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -697,15 +878,105 @@
 				<h4 class="text-xl md:text-2xl">Install</h4>
 				<p class="my-3">Add OpenMeteoSdk as a dependency to your Package.swift</p>
 				<div
-					class="-mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+					class="code-install group relative -mx-6 my-2 overflow-auto rounded-lg bg-[#FAFAFA] md:my-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 				>
 					{@html swiftInstallCode}
+					<div
+						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+					>
+						<Button
+							onclick={() => {
+								const query = document.querySelector('.code-install pre');
+								if (query) {
+									navigator.clipboard.writeText(query.textContent);
+									codeInstallCopied = true;
+									setTimeout(() => {
+										codeInstallCopied = false;
+									}, 1250);
+								}
+							}}
+							>{#if codeInstallCopied}<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
+								>{:else}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="1.4"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
+									><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
+										d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+									/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
+										d="m15 10-4 4 4 4"
+									/></svg
+								>{/if}</Button
+						>
+					</div>
 				</div>
 				<h4 class="text-xl md:text-2xl">Usage</h4>
 				<div
-					class="-mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+					class="code-example group relative -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
 				>
 					{@html swiftCode}
+					<div
+						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+					>
+						<Button
+							onclick={() => {
+								const query = document.querySelector('.code-example pre');
+								if (query) {
+									navigator.clipboard.writeText(query.textContent);
+									codeExampleCopied = true;
+									setTimeout(() => {
+										codeExampleCopied = false;
+									}, 1250);
+								}
+							}}
+							>{#if codeExampleCopied}<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
+								>{:else}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="1.4"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
+									><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
+										d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+									/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
+										d="m15 10-4 4 4 4"
+									/></svg
+								>{/if}</Button
+						>
+					</div>
 				</div>
 			</div>
 		</div>

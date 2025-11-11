@@ -1,0 +1,1 @@
+export const typescriptInstallCode = `<pre><code><span class="line"><span style="color:var(--code-preview-token-constant)">npm</span><span style="color:var(--code-preview-token-string-expression)"> install</span><span style="color:var(--code-preview-token-string-expression)"> @openmeteo/file-reader</span></span></code></pre>`;

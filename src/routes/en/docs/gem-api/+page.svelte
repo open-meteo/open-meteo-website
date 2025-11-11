@@ -1,58 +1,55 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import { fade, slide } from 'svelte/transition';
-
-	import { sliceIntoChunks } from '$lib/utils';
-	import {
-		countVariables,
-		countPressureVariables,
-		altitudeAboveSeaLevelMeters
-	} from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select';
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
-
-	import Settings from '$lib/components/settings/settings.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
+	import { sliceIntoChunks } from '$lib/utils';
+	import {
+		altitudeAboveSeaLevelMeters,
+		countPressureVariables,
+		countVariables
+	} from '$lib/utils/meteo';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
 
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Alert from '$lib/components/ui/alert';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import * as Select from '$lib/components/ui/select';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
+
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
+
 	import {
+		forecastHoursOptions,
+		gridCellSelectionOptions,
+		pastDaysOptions,
+		pastHoursOptions,
+		temporalResolutionOptions
+	} from '../options';
+	import {
+		additionalVariables,
+		current,
 		daily,
+		defaultParameters,
+		forecastDaysOptions,
 		hourly,
 		levels,
 		models,
-		current,
-		solarVariables,
-		defaultParameters,
 		pressureVariables,
-		additionalVariables,
-		forecastDaysOptions
+		solarVariables
 	} from './options';
-
-	import {
-		pastDaysOptions,
-		pastHoursOptions,
-		forecastHoursOptions,
-		gridCellSelectionOptions,
-		temporalResolutionOptions
-	} from '../options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -144,7 +141,7 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		The API utilizes GEM models from the Canadian Meteorological Center, optimized for North
+		The API utilises GEM models from the Canadian Meteorological Center, optimised for North
 		America. However, updates every 6 hours may not reflect the latest weather developments. For
 		accurate forecasts for any location worldwide, the <a
 			class="text-link underline"
@@ -344,7 +341,7 @@
 							<Label
 								id="{value}_label"
 								for="{value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -386,7 +383,7 @@
 									<Label
 										id="{value}_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -498,7 +495,7 @@
 									<Label
 										id="{value}_hourly_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -635,7 +632,7 @@
 														/>
 														<Label
 															for="{variable.value}_{level}hPa"
-															class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
+															class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
 															>{level} hPa
 															<small class="text-muted-foreground"
 																>({altitudeAboveSeaLevelMeters(level)})</small
@@ -689,7 +686,7 @@
 									<Label
 										id="{value}_model_label"
 										for="{value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -739,7 +736,7 @@
 							<Label
 								id="{value}_daily_label"
 								for="{value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -790,7 +787,7 @@
 							<Label
 								id="{value}_current_label"
 								for="{value}_current"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -809,7 +806,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
 </form>
 
 <!-- RESULT -->
@@ -1291,9 +1288,9 @@
 							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
 							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
 							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
-							is set to "nan", the calculation assumes a horizontal tracker. If tilt is set to
-							"nan", it is assumed that the panel has a vertical tracker. If both are set to "nan",
-							a bi-axial tracker is assumed.</td
+							is set to "nan", the calculation assumes a vertical tracker (east-west). If tilt is
+							set to "nan", it is assumed that the panel has a horizontal tracker (up-down). If both
+							are set to "nan", a bi-axial tracker is assumed.</td
 						>
 					</tr>
 					<tr>
@@ -1613,7 +1610,7 @@
 						<td>Floating point</td>
 						<td
 							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometers away from the requested
+							forecast. This coordinate might be a few kilometres away from the requested
 							coordinate.</td
 						>
 					</tr>
