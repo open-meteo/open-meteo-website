@@ -1,48 +1,45 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import { fade, slide } from 'svelte/transition';
-
-	import { countVariables } from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
+	import { countVariables } from '$lib/utils/meteo';
+
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Alert from '$lib/components/ui/alert';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
-	import * as Accordion from '$lib/components/ui/accordion';
 
-	import Settings from '$lib/components/settings/settings.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-
-	import {
-		hourly,
-		models,
-		current,
-		solarVariables,
-		defaultParameters,
-		additionalVariables,
-		forecastDaysOptions
-	} from './options';
-
-	import {
-		pastDaysOptions,
-		pastHoursOptions,
-		forecastHoursOptions,
-		pastMinutely15Options,
-		gridCellSelectionOptions,
-		temporalResolutionOptions
-	} from '../options';
 	import { pythonInstallCode } from '$lib/components/response/installs/om-files/python-install-code';
 	import { typescriptInstallCode } from '$lib/components/response/installs/om-files/typescript-install-code';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
+
+	import {
+		forecastHoursOptions,
+		gridCellSelectionOptions,
+		pastDaysOptions,
+		pastHoursOptions,
+		pastMinutely15Options,
+		temporalResolutionOptions
+	} from '../options';
+	import {
+		additionalVariables,
+		current,
+		defaultParameters,
+		forecastDaysOptions,
+		hourly,
+		models,
+		solarVariables
+	} from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -140,7 +137,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
 
 	<div class="mt-2 -mr-6 flex items-center gap-2 overflow-auto md:mt-4 md:mr-0">
 		<div class="text-muted-foreground">Language:</div>
