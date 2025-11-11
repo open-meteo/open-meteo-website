@@ -1,5 +1,6 @@
 import { expect, test } from 'vitest';
-import { pad, isNumeric, titleCase, camelCase, sliceIntoChunks, objectDifference } from './';
+
+import { camelCase, isNumeric, objectDifference, pad, sliceIntoChunks, titleCase } from './';
 
 // --- pad ---
 test('pad with 1 digit', () => {

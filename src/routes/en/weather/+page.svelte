@@ -1,32 +1,28 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import { fade } from 'svelte/transition';
 
 	import { fetchWeatherApi } from 'openmeteo';
 
-	import { pad, debounce } from '$lib/utils';
+	import { type GeoLocation, model, storedLocation, themeIsDark } from '$lib/stores/settings';
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { storedLocation, model, themeIsDark, type GeoLocation } from '$lib/stores/settings';
+	import { debounce, pad } from '$lib/utils';
 
 	import { Label } from '$lib/components/ui/label';
-
 	import * as Select from '$lib/components/ui/select';
 
-	import Settings from '$lib/components/settings/settings.svelte';
 	import LocationSearch from '$lib/components/location/location-search.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
 
-	import { getColor } from './utils/colors';
-	import weatherCodes from './utils/weather-codes';
-
+	import cloudCover from './canvas/cloud-cover';
 	import daylight from './canvas/daylight';
+	import precip from './canvas/precip';
 	import raster from './canvas/raster';
 	import tempGradient from './canvas/temp-gradient';
-	import cloudCover from './canvas/cloud-cover';
-	import precip from './canvas/precip';
-
 	import { defaultParameters, models } from './options';
+	import { getColor } from './utils/colors';
+	import weatherCodes from './utils/weather-codes';
 
 	const params = urlHashStore({
 		latitude: [$storedLocation.latitude],

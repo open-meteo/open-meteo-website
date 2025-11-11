@@ -1,49 +1,46 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import { fade, slide } from 'svelte/transition';
-
-	import { countVariables } from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { Label } from '$lib/components/ui/label';
-	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Alert from '$lib/components/ui/alert';
-	import * as Select from '$lib/components/ui/select';
-	import * as Accordion from '$lib/components/ui/accordion';
-
-	import Settings from '$lib/components/settings/settings.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import { countVariables } from '$lib/utils/meteo';
 
 	import MarineObject from '$lib/components/code/docs/marine-object.svx';
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 
-	import {
-		daily,
-		hourly,
-		models,
-		minutely_15,
-		defaultParameters,
-		additionalVariables,
-		forecastDaysOptions
-	} from './options';
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Alert from '$lib/components/ui/alert';
+	import { Button } from '$lib/components/ui/button';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Label } from '$lib/components/ui/label';
+	import * as Select from '$lib/components/ui/select';
+
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
 
 	import {
+		forecastHoursOptions,
+		forecastMinutely15Options,
+		gridCellSelectionOptions,
 		pastDaysOptions,
 		pastHoursOptions,
-		forecastHoursOptions,
 		pastMinutely15Options,
-		gridCellSelectionOptions,
-		temporalResolutionOptions,
-		forecastMinutely15Options
+		temporalResolutionOptions
 	} from '../options';
+	import {
+		additionalVariables,
+		daily,
+		defaultParameters,
+		forecastDaysOptions,
+		hourly,
+		minutely_15,
+		models
+	} from './options';
 
 	const params = urlHashStore({
 		latitude: [54.544587],
@@ -314,7 +311,7 @@
 							<Label
 								id="{value}_label"
 								for="{value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -371,7 +368,7 @@
 									<Label
 										id="{value}_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -483,7 +480,7 @@
 									<Label
 										id="{value}_model_label"
 										for="{value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -528,7 +525,7 @@
 									<Label
 										id="{value}_minutely_15_label"
 										for="{value}_minutely_15"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -621,7 +618,7 @@
 							<Label
 								id="{value}_daily_label"
 								for="{value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -672,7 +669,7 @@
 							<Label
 								id="{value}_current_label"
 								for="{value}_current"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -691,7 +688,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
 </form>
 
 <!-- RESULT -->
@@ -1242,7 +1239,7 @@
 						<td>Floating point</td>
 						<td
 							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometers away from the requested
+							forecast. This coordinate might be a few kilometres away from the requested
 							coordinate.</td
 						>
 					</tr>

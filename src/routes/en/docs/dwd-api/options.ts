@@ -33,7 +33,7 @@ export const defaultParameters = {
 export const pressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
 	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud cover' },
+	{ value: 'cloud_cover', label: 'Cloud Cover' },
 	{ value: 'wind_speed', label: 'Wind Speed' },
 	{ value: 'wind_direction', label: 'Wind Direction' },
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
@@ -56,12 +56,12 @@ export const hourly = [
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' },
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
-		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
-		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud cover High' },
+		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
+		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
+		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
+		{ value: 'cloud_cover_high', label: 'Cloud Cover High' },
 		{ value: 'visibility', label: 'Visibility' },
 		{ value: 'evapotranspiration', label: 'Evapotranspiration' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
@@ -109,8 +109,8 @@ export const current = [
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' }
 	],
 	[

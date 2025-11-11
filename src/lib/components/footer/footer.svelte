@@ -13,7 +13,7 @@
 					<a class="text-secondary-foreground" href={'/en/about'}>About us &amp; Contact</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/license'}>License</a>
+					<a class="text-secondary-foreground" href={'/en/licence'}>Licence</a>
 				</li>
 				<li class="mb-1">
 					<a class="text-secondary-foreground" href={'/en/terms'}>Terms &amp; Privacy</a>

@@ -1,12 +1,9 @@
 <script lang="ts">
+	import { browser, dev } from '$app/environment';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 
-	import { browser, dev } from '$app/environment';
-
-	import { beforeNavigate, afterNavigate } from '$app/navigation';
-
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { onMount } from 'svelte';
 
 	interface Props {
 		children?: import('svelte').Snippet;
@@ -40,6 +37,7 @@
 		},
 		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
 		{ title: 'Ensemble Models', url: '/en/docs/ensemble-api' },
+		{ title: 'Seasonal Forecast', url: '/en/docs/seasonal-forecast-api' },
 		{ title: 'Climate Change', url: '/en/docs/climate-api' },
 		{ title: 'Marine Forecast', url: '/en/docs/marine-weather-api' },
 		{ title: 'Air Quality', url: '/en/docs/air-quality-api' },
@@ -50,7 +48,7 @@
 	];
 	if (dev) {
 		links.push(
-			{ title: 'Seasonal Forecast API', url: '/en/docs/seasonal-forecast-api' },
+			{ title: 'Single Runs', url: '/en/docs/single-runs-api' },
 			{ title: 'OM Files', url: '/en/docs/om-files' }
 		);
 	}

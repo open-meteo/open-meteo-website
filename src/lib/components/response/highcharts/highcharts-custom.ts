@@ -1,3 +1,4 @@
+// sort-imports-ignore
 import Highcharts from 'highcharts/es-modules/Core/Globals.js';
 import Utilities from 'highcharts/es-modules/Core/Utilities.js';
 import Defaults from 'highcharts/es-modules/Core/Defaults.js';

@@ -3,7 +3,7 @@ import type { LayoutLoad } from './$types';
 export const load = (() => {
 	return {
 		heroTitle: 'Seasonal Forecast API',
-		heroDescription: 'Up to 9 month forecasts from different ensembles',
-		heroImage: '/images/backgrounds/rocky_coast.webp'
+		heroDescription: 'Sub-Seasonal and Long Range Forecast for 7 Months',
+		heroImage: '/images/backgrounds/kehlenalp.webp'
 	};
 }) satisfies LayoutLoad;

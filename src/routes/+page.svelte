@@ -3,16 +3,14 @@
 
 	import Github from 'simple-icons/icons/github.svg?raw';
 
-	import { Button } from '$lib/components/ui/button';
-
-	import WeatherApiCodeBlock from '$lib/components/code/home/weather-api.svx';
-	import WeatherApiCurlBlock from '$lib/components/code/home/weather-api-curl.svx';
-
-	import Last10DaysCodeBlock from '$lib/components/code/home/last-10-days.svx';
-	import Last10DaysCurlBlock from '$lib/components/code/home/last-10-days-curl.svx';
-
-	import HistoricalWeatherCodeBlock from '$lib/components/code/home/historical-weather.svx';
 	import HistoricalWeatherCurlBlock from '$lib/components/code/home/historical-weather-curl.svx';
+	import HistoricalWeatherCodeBlock from '$lib/components/code/home/historical-weather.svx';
+	import Last10DaysCurlBlock from '$lib/components/code/home/last-10-days-curl.svx';
+	import Last10DaysCodeBlock from '$lib/components/code/home/last-10-days.svx';
+	import WeatherApiCurlBlock from '$lib/components/code/home/weather-api-curl.svx';
+	import WeatherApiCodeBlock from '$lib/components/code/home/weather-api.svx';
+
+	import { Button } from '$lib/components/ui/button';
 
 	let tabSelected = $state('weather-api');
 </script>
@@ -22,7 +20,7 @@
 	<link rel="canonical" href="https://open-meteo.com/" />
 	<meta
 		name="description"
-		content="Open-Source ☀️️️️️️️️️️️️️️️️️️️️️️️️️️️️️ Weather API with free access for non-commercial use. No API Key required ✅. Accurate weather forecasts for any location. Open-Meteo provides high-resolution open data ranging from 1 to 11 kilometers from national weather services. With a user-friendly JSON API, integrating weather data has never been easier. Experience the precision and convenience of Open-Meteo's Forecast API for reliable and comprehensive weather information worldwide."
+		content="Open-Source ☀️️️️️️️️️️️️️️️️️️️️️️️️️️️️️ Weather API with free access for non-commercial use. No API Key required ✅. Accurate weather forecasts for any location. Open-Meteo provides high-resolution open data ranging from 1 to 11 kilometres from national weather services. With a user-friendly JSON API, integrating weather data has never been easier. Experience the precision and convenience of Open-Meteo's Forecast API for reliable and comprehensive weather information worldwide."
 	/>
 </svelte:head>
 
@@ -34,7 +32,7 @@
 			</h2>
 			<p class="text-lg font-light">
 				Open-Meteo partners with national weather services to bring you open data with high
-				resolution, ranging from 1 to 11 kilometers. Our powerful APIs intelligently select the most
+				resolution, ranging from 1 to 11 kilometres. Our powerful APIs intelligently select the most
 				suitable weather models for your specific location, ensuring accurate and reliable
 				forecasts.
 			</p>
@@ -193,7 +191,7 @@
 				</p>
 				<p>
 					Our weather data is presented in hourly resolution, allowing you to plan your activities
-					with confidence. The initial days of the forecast benefit from localized weather models,
+					with confidence. The initial days of the forecast benefit from localised weather models,
 					offering highly detailed and accurate information. Subsequently, global weather models
 					provide forecasts for up to 16 days. Through seamless integration, our APIs deliver a
 					straightforward and reliable hourly weather forecast experience.
@@ -275,13 +273,13 @@
 					Explore the past with our comprehensive <a
 						href="/en/docs/historical-weather-api"
 						title="Historical weather data via API">Historical Weather API</a
-					>. With over 80 years of hourly weather data available at a 10 kilometer resolution, you
+					>. With over 80 years of hourly weather data available at a 10 kilometre resolution, you
 					can dive into the climate of any location. Behind the scenes, this extensive dataset,
 					comprising 50 TB of information, enables you to access temperature records spanning eight
 					decades in an instant.
 				</p>
 				<p>
-					Moreover, our 1 kilometer weather models continuously archive recent data, ensuring that
+					Moreover, our 1 kilometre weather models continuously archive recent data, ensuring that
 					you can seamlessly retrieve the latest forecasts alongside historical information from
 					previous weeks. This functionality opens up possibilities for training machine learning
 					applications and gaining valuable insights from the combination of present and past
@@ -307,7 +305,7 @@
 					We believe in the power of open-source software. That's why the entire codebase of
 					Open-Meteo is accessible on <a
 						href="https://github.com/open-meteo/open-meteo"
-						title="Open-Meteo GitHub respository">GitHub</a
+						title="Open-Meteo GitHub Repository">GitHub</a
 					>, released under the
 					<a href="https://github.com/open-meteo/open-meteo/blob/main/LICENSE">AGPLv3 licence</a>.
 					This means you can explore, use, modify, and contribute to the code.
@@ -319,8 +317,8 @@
 					language models.
 				</p>
 				<p>
-					In addition, our data is licensed under <a
-						href="https://creativecommons.org/licenses/by/4.0/"
+					In addition, our data is licenced under <a
+						href="https://creativecommons.org/licences/by/4.0/"
 						title="CC BY 4.0 Licence Information">Attribution 4.0 International (CC BY 4.0)</a
 					>. This means you are free to share and adapt the data, even for commercial purposes. We
 					believe in fostering an open ecosystem that encourages transparency, collaboration and
@@ -365,7 +363,7 @@
 				</p>
 
 				<p>
-					We trust our users to utilize the free API responsibly and kindly request appropriate
+					We trust our users to utilise the free API responsibly and kindly request appropriate
 					credit for the data used. While there are no strict access restrictions, we encourage fair
 					usage of the service. If you require commercial usage or anticipate exceeding 10'000 API
 					calls per day, we recommend considering our <a
@@ -407,7 +405,7 @@
 				</div>
 				<p>
 					We've designed our APIs to be incredibly user-friendly. They are based on the widely
-					adopted HTTP protocol and utilize the simplicity of JSON data format. All you need to get
+					adopted HTTP protocol and utilise the simplicity of JSON data format. All you need to get
 					started is a basic understanding of geographic coordinates, making HTTP requests, and
 					working with JSON data.
 				</p>

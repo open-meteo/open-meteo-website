@@ -25,7 +25,7 @@ export const defaultParameters = {
 export const pressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
 	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud cover' },
+	{ value: 'cloud_cover', label: 'Cloud Cover' },
 	{ value: 'wind_speed', label: 'Wind Speed' },
 	{ value: 'wind_direction', label: 'Wind Direction' },
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
@@ -50,12 +50,12 @@ export const hourly = [
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'pressure_msl', label: 'Sealevel Pressure' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' },
-		{ value: 'cloud_cover', label: 'Cloud cover Total' },
-		{ value: 'cloud_cover_low', label: 'Cloud cover Low' },
-		{ value: 'cloud_cover_mid', label: 'Cloud cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud cover High' },
+		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
+		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
+		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
+		{ value: 'cloud_cover_high', label: 'Cloud Cover High' },
 		{ value: 'visibility', label: 'Visibility' },
 		{ value: 'evapotranspiration', label: 'Evapotranspiration' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
@@ -160,9 +160,9 @@ export const additionalDaily = [
 		{ value: 'cape_mean', label: 'Mean CAPE' },
 		{ value: 'cape_max', label: 'Maximum CAPE' },
 		{ value: 'cape_min', label: 'Minimum CAPE' },
-		{ value: 'cloud_cover_mean', label: 'Mean Cloud cover' },
-		{ value: 'cloud_cover_max', label: 'Maximum Cloud cover' },
-		{ value: 'cloud_cover_min', label: 'Minimum Cloud cover' },
+		{ value: 'cloud_cover_mean', label: 'Mean Cloud Cover' },
+		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' },
+		{ value: 'cloud_cover_min', label: 'Minimum Cloud Cover' },
 		{ value: 'dew_point_2m_mean', label: 'Mean Dewpoint (2 m)' },
 		{ value: 'dew_point_2m_max', label: 'Maximum Dewpoint (2 m)' },
 		{ value: 'dew_point_2m_min', label: 'Minimum Dewpoint (2 m)' }
@@ -177,9 +177,9 @@ export const additionalDaily = [
 		{ value: 'relative_humidity_2m_max', label: 'Maximum Relative Humidity (2 m)' },
 		{ value: 'relative_humidity_2m_min', label: 'Minimum Relative Humidity (2 m)' },
 		{ value: 'snowfall_water_equivalent_sum', label: 'Snowfall Water Equivalent Sum' },
-		{ value: 'pressure_msl_mean', label: 'Mean Sealevel Pressure' },
-		{ value: 'pressure_msl_max', label: 'Maximum Sealevel Pressure' },
-		{ value: 'pressure_msl_min', label: 'Minimum Sealevel Pressure' }
+		{ value: 'pressure_msl_mean', label: 'Mean Sea Level Pressure' },
+		{ value: 'pressure_msl_max', label: 'Maximum Sea Level Pressure' },
+		{ value: 'pressure_msl_min', label: 'Minimum Sea Level Pressure' }
 	],
 	[
 		{ value: 'surface_pressure_mean', label: 'Mean Surface Pressure' },

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Label } from '$lib/components/ui/label';
 	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Label } from '$lib/components/ui/label';
 
 	import { type Parameters } from '$lib/docs';
 
@@ -43,7 +43,7 @@
 						<Label
 							id="{value}_label"
 							for="{value}_hourly"
-							class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+							class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 						>
 					</div>
 				{/each}

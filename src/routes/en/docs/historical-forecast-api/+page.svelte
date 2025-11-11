@@ -1,55 +1,52 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
 	import { slide } from 'svelte/transition';
-
-	import { sliceIntoChunks } from '$lib/utils';
-	import {
-		countVariables,
-		countPressureVariables,
-		altitudeAboveSeaLevelMeters
-	} from '$lib/utils/meteo';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
+	import { sliceIntoChunks } from '$lib/utils';
+	import {
+		altitudeAboveSeaLevelMeters,
+		countPressureVariables,
+		countVariables
+	} from '$lib/utils/meteo';
+
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
-
-	import * as Alert from '$lib/components/ui/alert';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
-	import * as Accordion from '$lib/components/ui/accordion';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
-	import Settings from '$lib/components/settings/settings.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
-	import LicenseSelector from '$lib/components/license/license-selector.svelte';
+	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
 
 	import {
+		forecastHoursOptions,
+		forecastMinutely15Options,
+		gridCellSelectionOptions,
+		models,
+		pastHoursOptions,
+		pastMinutely15Options,
+		temporalResolutionOptions
+	} from '../options';
+	import {
+		additionalDaily,
+		additionalVariables,
 		daily,
+		defaultParameters,
 		hourly,
 		levels,
 		minutely_15,
-		solarVariables,
-		additionalDaily,
-		defaultParameters,
 		pressureVariables,
-		additionalVariables
+		solarVariables
 	} from './options';
-
-	import {
-		pastHoursOptions,
-		forecastHoursOptions,
-		pastMinutely15Options,
-		gridCellSelectionOptions,
-		temporalResolutionOptions,
-		forecastMinutely15Options,
-		models
-	} from '../options';
 
 	let d = new Date();
 	d.setDate(d.getDate() - 2);
@@ -262,7 +259,7 @@
 							<Label
 								id="{value}_label"
 								for="{value}_hourly"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -304,7 +301,7 @@
 									<Label
 										id="{value}_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -416,7 +413,7 @@
 									<Label
 										id="{value}_hourly_label"
 										for="{value}_hourly"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -553,7 +550,7 @@
 														/>
 														<Label
 															for="{variable.value}_{level}hPa"
-															class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]"
+															class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
 															>{level} hPa
 															<small class="text-muted-foreground"
 																>({altitudeAboveSeaLevelMeters(level)})</small
@@ -607,7 +604,7 @@
 									<Label
 										id="{value}_model_label"
 										for="{value}_model"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -659,7 +656,7 @@
 									<Label
 										id="{value}_minutely_15_label"
 										for="{value}_minutely_15"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -692,7 +689,7 @@
 									<Label
 										id="{value}_minutely_15_label"
 										for="{value}_minutely_15"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -785,7 +782,7 @@
 							<Label
 								id="{value}_daily_label"
 								for="{value}_daily"
-								class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 							>
 						</div>
 					{/each}
@@ -836,7 +833,7 @@
 									<Label
 										id="{value}_daily_label"
 										for="{value}_daily"
-										class="ml-[0.42rem] cursor-pointer truncate py-[0.1rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
 									>
 								</div>
 							{/each}
@@ -853,7 +850,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenseSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
 </form>
 
 <!-- RESULTS -->
@@ -869,7 +866,7 @@
 			The weather data precisely aligns with the weather forecast API, created by continuously
 			integrating weather forecast model data. Each update from the weather models' initial hours is
 			compiled into a seamless time series. This extensive dataset is ideal for training machine
-			learning models and combining them with forecast data to generate optimized predictions.
+			learning models and combining them with forecast data to generate optimised predictions.
 		</p>
 		<p>
 			Weather models are initialized using data from weather stations, satellites, radar, airplanes,
@@ -886,7 +883,7 @@
 		</p>
 		<p>
 			The default <mark>Best Match</mark> option selects the most suitable high-resolution weather models
-			for any global location, though users can also manually specify the weather model. Open-Meteo utilizes
+			for any global location, though users can also manually specify the weather model. Open-Meteo utilises
 			the following weather forecast models:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
@@ -1204,7 +1201,7 @@
 				> This dataset is based on reanalysis weather models, particularly ERA5. It offers data from
 				1940 onwards with reasonable consistency throughout the time series, making it ideal for analyzing
 				weather trends and climate change. The focus here is on consistency rather than pinpoint accuracy,
-				with a spatial resolution ranging from 9 to 25 kilometers.
+				with a spatial resolution ranging from 9 to 25 kilometres.
 			</li>
 			<li>
 				<strong
