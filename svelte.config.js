@@ -28,7 +28,7 @@ const mdsvexOptions = {
 const weatherRoutes = cityNames.map((city) => '/en/weather/week/' + city);
 
 if (process.env.BUILD_WEATHER_PAGES && process._eventsCount == 5) {
-	console.log(`  Building ${weatherRoutes.length} weather pages`);
+	console.log(`  Pregenerating ${weatherRoutes.length} weather pages`);
 }
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -55,9 +55,12 @@ const config = {
 						'/en/docs/seasonal-forecast-api',
 						'/en/weather/week',
 						...weatherRoutes
-					]
+					],
+					handleUnseenRoutes: 'warn'
 				}
-			: {},
+			: {
+					concurrency: 10 // usefull when making requests for domains
+				},
 		paths: {
 			relative: false
 		},
