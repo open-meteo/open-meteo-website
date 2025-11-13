@@ -45,8 +45,7 @@ export const pullDomainData = (generateNewOptionFiles = true) => {
 										console.error('Error occurred:', error);
 									}
 								} else {
-									const newCode = code.replace(regex, newHourly);
-									return newCode;
+									return code.replace(regex, newHourly);
 								}
 							});
 					}
