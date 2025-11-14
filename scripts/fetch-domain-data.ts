@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { replaceInFileSync } from 'replace-in-file';
 
-export const pullDomainData = (generateNewOptionFiles = true) => {
+export const fetchDomainData = (generateNewOptionFiles = true) => {
 	return {
 		name: 'pull-domain-data',
 		transform(code, id, options) {
@@ -32,7 +32,7 @@ export const pullDomainData = (generateNewOptionFiles = true) => {
 
 								if (generateNewOptionFiles) {
 									const replaceOptions = {
-										files: id,
+										files: basePath + 'domains/dwd-icon.ts',
 										from: regex,
 										to: newHourly,
 										countMatches: true
