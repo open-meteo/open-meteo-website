@@ -1,0 +1,41 @@
+```js
+import {
+	OmDataType,
+	OmHttpBackend,
+	Range,
+	setupGlobalCache,
+} from "@openmeteo/file-reader";
+
+setupGlobalCache();
+
+const backend = new OmHttpBackend({
+	url: "https://map-tiles.open-meteo.com/data_spatial/dwd_icon/2025/11/11/0000Z/2025-11-11T0000.om",
+});
+
+const reader = await backend.asCachedReader();
+
+const variableReader = await reader.getChildByName("temperature_2m");
+
+if (!variableReader) {
+	throw new Error("Variable 'temperature_2m' not found");
+}
+
+const dimensions = variableReader.getDimensions();
+const readRanges = [
+	{ start: 0, end: dimensions[0] },
+	{ start: 0, end: dimensions[1] },
+];
+
+const data = await variableReader.read({
+	type: OmDataType.FloatArray,
+	ranges: readRanges,
+});
+
+console.log(data);
+
+variableReader.dispose();
+reader.dispose();
+
+// for node
+process.exit();
+```
