@@ -1,0 +1,23 @@
+{
+	"chunk_time_length": 253,
+	"data_end_time": 1763643600,
+	"last_run_availability_time": 1763006383,
+	"last_run_initialisation_time": 1762992000,
+	"last_run_modification_time": 1763006383,
+	"temporal_resolution_seconds": 3600,
+	"update_interval_seconds": 21600,
+	"variables": [
+		"temperature_2m",
+		"relative_humidity_2m",
+		"apparent_temperature",
+		"precipitation",
+		"surface_pressure"
+	],
+	"labels": [
+		"Temperature (2 m)",
+		"Relative Humidity (2 m)",
+		"Apparent Temperature",
+		"Precipitation (rain + showers + snow)",
+		"Surface Pressure"
+	]
+}
