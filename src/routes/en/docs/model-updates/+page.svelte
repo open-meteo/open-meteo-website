@@ -116,6 +116,11 @@
 						name: 'HRDPS',
 						area: ['ca'],
 						meta: fetchMeta('cmc_gem_hrdps', 'forecast', api_key_preferences)
+					},
+					{
+						name: 'HRDPS West',
+						area: ['ca'],
+						meta: fetchMeta('cmc_gem_hrdps_west', 'forecast', api_key_preferences)
 					}
 				]
 			},
