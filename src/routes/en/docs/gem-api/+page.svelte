@@ -882,6 +882,18 @@
 						<td>2 days</td>
 						<td>Every 6 hours</td>
 					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://eccc-msc.github.io/open-data/msc-data/nwp_hrdps/readme_hrdps-datamart-alpha_en/" target="_blank"
+								>HRDPS West (Experimental)</a
+							></th
+						>
+						<td>West Canada</td>
+						<td>1 km</td>
+						<td>Hourly</td>
+						<td>2 days</td>
+						<td>Every 12 hours</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
