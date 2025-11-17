@@ -347,7 +347,8 @@ export const models = [
 		{ value: 'gem_seamless', label: 'GEM Seamless' },
 		{ value: 'gem_global', label: 'GEM Global' },
 		{ value: 'gem_regional', label: 'GEM Regional' },
-		{ value: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' }
+		{ value: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' },
+		{ value: 'gem_hrdps_west', label: 'GEM HRDPS West' }
 	],
 	[
 		{ value: 'meteofrance_seamless', label: 'Météo-France Seamless' },
