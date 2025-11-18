@@ -776,9 +776,20 @@
 						</th>
 						<td>Global</td>
 						<td></td>
+						<td>9 km</td>
+						<td>Hourly</td>
+						<td>November 2025 with 15 day forecast</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.ecmwf.int/en/elibrary/79883-wave-model">ECMWF WAM 0.25</a>
+						</th>
+						<td>Global</td>
+						<td></td>
 						<td>0.25° (~25 km)</td>
 						<td>3-Hourly</td>
-						<td>March 2024 with 10 day forecast</td>
+						<td>March 2024 with 15 day forecast</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
@@ -815,7 +826,7 @@
 						<td>0.05° (~5 km)</td>
 						<td>Hourly</td>
 						<td>August 2022 with 8 day forecast</td>
-						<td>Twice daily</td>
+						<td>Every 12 hours</td>
 					</tr>
 					<tr>
 						<th scope="row"
@@ -829,7 +840,7 @@
 						<td>0.25° (~25 km)</td>
 						<td>Hourly</td>
 						<td>August 2022 with 4 day forecast</td>
-						<td>Twice daily</td>
+						<td>Every 12 hours</td>
 					</tr>
 					<tr>
 						<th scope="row"

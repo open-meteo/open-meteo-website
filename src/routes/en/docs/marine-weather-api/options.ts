@@ -29,12 +29,13 @@ export const hourly = [
 		{ value: 'wave_height', label: 'Wave Height' },
 		{ value: 'wave_direction', label: 'Wave Direction' },
 		{ value: 'wave_period', label: 'Wave Period' },
-		{ value: 'wind_wave_peak_period', label: 'Wind Wave Peak Period' },
-		{ value: 'wind_wave_height', label: 'Wind Wave Height' },
-		{ value: 'wind_wave_direction', label: 'Wind Wave Direction' },
-		{ value: 'wind_wave_period', label: 'Wind Wave Period' }
+		{ value: 'wave_peak_period', label: 'Wave Peak Period (ECMWF WAM & ERA5)' }
 	],
 	[
+		{ value: 'wind_wave_height', label: 'Wind Wave Height' },
+		{ value: 'wind_wave_direction', label: 'Wind Wave Direction' },
+		{ value: 'wind_wave_period', label: 'Wind Wave Period' },
+		{ value: 'wind_wave_peak_period', label: 'Wind Wave Peak Period' },
 		{ value: 'swell_wave_height', label: 'Swell Wave Height' },
 		{ value: 'swell_wave_direction', label: 'Swell Wave Direction' },
 		{ value: 'swell_wave_period', label: 'Swell Wave Period' },
@@ -94,7 +95,6 @@ export const daily = [
 
 export const additionalVariables = [
 	[
-		{ value: 'wave_peak_period', label: 'Wave Peak Period (ERA5 only)' },
 		{ value: 'invert_barometer_height', label: 'Inverted Barometer Height' }
 	],
 	[]
@@ -107,7 +107,8 @@ export const models = [
 		{ value: 'meteofrance_currents', label: 'MeteoFrance Ocean Currents', caption: '0.083°' },
 		{ value: 'ewam', label: 'DWD EWAM', caption: '0.05° only Europe' },
 		{ value: 'gwam', label: 'DWD GWAM', caption: '0.25°' },
-		{ value: 'ecmwf_wam025', label: 'ECMWF WAM', caption: '0.25°, global' },
+		{ value: 'ecmwf_wam', label: 'ECMWF WAM', caption: '9km, global' },
+		{ value: 'ecmwf_wam025', label: 'ECMWF WAM 0.25', caption: '0.25°, global' },
 		//{ value: 'ecmwf_wam025_ensemble', label: 'ECMWF WAM Ensemble', caption: '0.25°, global, 51 members' },
 		{ value: 'ncep_gfswave025', label: 'GFS Wave 0.25°', caption: '0.25°, global' },
 		{ value: 'ncep_gfswave016', label: 'GFS Wave 0.16°', caption: '0.16°, mid-latitudes' },

@@ -560,6 +560,11 @@
 						name: 'WAM 0.25°',
 						area: [],
 						meta: fetchMeta('ecmwf_wam025', 'marine', api_key_preferences)
+					},
+										{
+						name: 'WAM HRES',
+						area: [],
+						meta: fetchMeta('ecmwf_wam0', 'marine', api_key_preferences)
 					}
 				]
 			},
