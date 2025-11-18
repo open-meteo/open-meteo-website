@@ -584,21 +584,22 @@
 					}
 				]
 			},
-			/*{
+			{
 				provider: 'DWD',
 				url: '/en/docs/marine-weather-api',
 				models: [
 					{
 						name: 'GWAM',
+						area: [],
 						meta: fetchMeta('dwd_gwam', 'marine', api_key_preferences)
 					},
 					{
 						name: 'EWAM',
+						area: ['european_union'],
 						meta: fetchMeta('dwd_ewam', 'marine', api_key_preferences)
 					}
 				]
-			},*/
-
+			},
 			{
 				provider: 'Copernicus',
 				url: '/en/docs/marine-weather-api',
