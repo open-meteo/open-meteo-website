@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -114,10 +115,10 @@
 		}
 	});
 
-	let beginDate = new Date();
+	let beginDate = new SvelteDate();
 	beginDate.setMonth(beginDate.getMonth() - 3);
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() + 14);
 </script>
 
@@ -571,7 +572,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
@@ -884,8 +885,9 @@
 					</tr>
 					<tr>
 						<th scope="row"
-							><a href="https://eccc-msc.github.io/open-data/msc-data/nwp_hrdps/readme_hrdps-datamart-alpha_en/" target="_blank"
-								>HRDPS West (Experimental)</a
+							><a
+								href="https://eccc-msc.github.io/open-data/msc-data/nwp_hrdps/readme_hrdps-datamart-alpha_en/"
+								target="_blank">HRDPS West (Experimental)</a
 							></th
 						>
 						<td>West Canada</td>
@@ -899,16 +901,26 @@
 		</div>
 	</div>
 
-	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-3">
 		<figure>
-			<img src="/images/models/gem_hrdps.webp" class="rounded-lg" alt="..." />
+			<img src="/images/models/gem_hrdps.webp" class="rounded-lg" alt="HRDPS Model Area" />
 			<figcaption class="text-muted-foreground">
 				HRDPS Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 			</figcaption>
 		</figure>
 
+		<figure class="w-full">
+			<enhanced:img
+				class="w-full rounded-lg"
+				src="/static/images/models/gem_hrdps_west_original.png"
+				alt="HRDPS West Model Area"
+			/>
+			<figcaption class="text-muted-foreground">
+				HRDPS West Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+			</figcaption>
+		</figure>
 		<figure>
-			<img src="/images/models/gem_rdps.webp" class="rounded-lg" alt="..." />
+			<img src="/images/models/gem_rdps.webp" class="rounded-lg" alt="RDPS Regional Model Area" />
 			<figcaption class="text-muted-foreground">
 				RDPS Regional Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 			</figcaption>
