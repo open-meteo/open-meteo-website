@@ -26,7 +26,6 @@
 	import {
 		forecastHoursOptions,
 		forecastMinutely15Options,
-		gridCellSelectionOptions,
 		pastDaysOptions,
 		pastHoursOptions,
 		pastMinutely15Options,
@@ -37,6 +36,7 @@
 		daily,
 		defaultParameters,
 		forecastDaysOptions,
+		gridCellSelectionOptions,
 		hourly,
 		minutely_15,
 		models
