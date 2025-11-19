@@ -127,3 +127,8 @@ export const forecastDaysOptions = [
 	{ value: '14', label: '14 days' },
 	{ value: '16', label: '16 days' }
 ];
+
+export const gridCellSelectionOptions = [
+	{ value: '', label: 'Prefer Sea' },
+	{ value: 'nearest', label: 'Nearest' }
+];
