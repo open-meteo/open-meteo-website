@@ -272,7 +272,8 @@
 						</div>
 						<div
 							class="relative flex flex-col gap-2 duration-200 {params.longitude[index] < -180 ||
-							params.longitude[index] > 180
+							params.longitude[index] > 180 ||
+							(params.longitude[index] > 33 && params.longitude[index] <= 180)
 								? 'pb-6'
 								: ''}"
 						>
@@ -294,6 +295,11 @@
 							{#if params.longitude[index] < -180 || params.longitude[index] > 180}
 								<div class="absolute top-14 left-3 text-sm" transition:slide>
 									Longitude must be between -180 and 180
+								</div>
+							{/if}
+							{#if params.longitude[index] > 33 && params.longitude[index] <= 180}
+								<div class="absolute top-14 left-3 text-sm" transition:slide>
+									Use negative longitude for Americas
 								</div>
 							{/if}
 						</div>
