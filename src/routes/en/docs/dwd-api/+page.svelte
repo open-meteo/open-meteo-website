@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { slide } from 'svelte/transition';
+	import { fade, slide } from 'svelte/transition';
+
+	import { resolve } from '$app/paths';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -16,6 +18,7 @@
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
+	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -23,12 +26,14 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import DarkmodeToggle from '$lib/components/header/darkmode-toggle/darkmode-toggle.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import HourlyVariablesEmpty from '$lib/components/variables/hourly-variables-empty.svelte';
 	import HourlyVariables from '$lib/components/variables/hourly-variables.svelte';
 
 	import {
@@ -46,13 +51,17 @@
 		daily,
 		defaultParameters,
 		forecastDaysOptions,
-		hourly,
+		// hourly,
 		levels,
 		minutely_15,
 		models,
 		pressureVariables,
 		solarVariables
 	} from './options';
+
+	import(`./domains/dwd-icon`);
+	import(`./domains/dwd-icon-d2`);
+	import(`./domains/dwd-icon-europe`);
 
 	const params = urlHashStore({
 		latitude: [52.52],
@@ -64,11 +73,6 @@
 	let timezoneInvalid = $derived(
 		$params.timezone == 'UTC' && ($params.daily ? $params.daily.length > 0 : false)
 	);
-
-	let forecastDays = $derived(
-		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
-	);
-	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
 	// Additional variable settings
 	let forecastHours = $derived(
@@ -93,10 +97,10 @@
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				forecastHours.value ||
-				pastHours.value ||
-				temporalResolution.value ||
-				cellSelection.value) &&
+				forecastHours?.value ||
+				pastHours?.value ||
+				temporalResolution?.value ||
+				cellSelection?.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -137,6 +141,11 @@
 
 	let lastDate = new Date();
 	lastDate.setDate(lastDate.getDate() + 8);
+
+	let model = $state('dwd-icon');
+	let hourly = $derived.by(async () => {
+		return (await import(`./domains/${model}.ts`)).hourly;
+	});
 </script>
 
 <svelte:head>
@@ -163,7 +172,7 @@
 		delivering 15-minutely data for short-term forecasts in central Europe and 11 km resolution
 		global forecasts. The ICON model is a preferred choice in <a
 			class="text-link underline"
-			href="/en/docs">generic weather forecast API</a
+			href={resolve('/en/docs')}>generic weather forecast API</a
 		> if no other high resolution weather models are available.
 	</Alert.Description>
 </Alert.Root>
@@ -181,8 +190,38 @@
 		{lastDate}
 	/>
 
+	<Button
+		class="mt-3"
+		onclick={() => {
+			model = 'dwd-icon';
+		}}>DWD ICON</Button
+	>
+	<Button
+		class="mt-3"
+		onclick={() => {
+			model = 'dwd-icon-europe';
+		}}>DWD ICON EU</Button
+	>
+	<Button
+		class="mt-3"
+		onclick={() => {
+			model = 'dwd-icon-d2';
+		}}>DWD ICON D2</Button
+	>
+
 	<!-- HOURLY -->
-	<HourlyVariables bind:params={$params} {hourly} />
+	<div class="mt-6 md:mt-12">
+		<a href="#hourly_weather_variables"
+			><h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">
+				Hourly Weather Variables
+			</h2></a
+		>
+		{#await hourly}
+			<HourlyVariablesEmpty />
+		{:then hourly}
+			<HourlyVariables bind:params={$params} {hourly} />
+		{/await}
+	</div>
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">

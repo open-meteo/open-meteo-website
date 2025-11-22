@@ -6,8 +6,9 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import { type UserConfig, defineConfig } from 'vite';
 
 import rollupOptions from './rollup.config';
+import { fetchDomainData } from './scripts/fetch-domain-data';
 
-function replaceChunckNames() {
+const replaceChunckNames = () => {
 	return {
 		name: 'replace-chunk-names-plugin',
 		apply: 'build' as const,
@@ -17,10 +18,11 @@ function replaceChunckNames() {
 			return config;
 		}
 	};
-}
+};
 
 export default defineConfig({
 	plugins: [
+		fetchDomainData(),
 		tailwindcss(),
 		enhancedImages(),
 		sveltekit(),

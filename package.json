@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "svelte-kit sync && vite dev --host",
 		"build": "svelte-kit sync && vite build -l info",
-		"build-weather": "BUILD_WEATHER_PAGES=true svelte-kit sync && BUILD_WEATHER_PAGES=true vite build -l info",
+		"build:weather": "BUILD_WEATHER_PAGES=true svelte-kit sync && BUILD_WEATHER_PAGES=true vite build -l info",
 		"staging": "NODE_ENV=development vite build --mode development",
 		"preview": "vite preview --host",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -50,6 +50,7 @@
 		"prettier": "^3.6.0",
 		"prettier-plugin-svelte": "^3.4.0",
 		"prettier-plugin-tailwindcss": "^0.7.1",
+		"replace-in-file": "^8.3.0",
 		"start-server-and-test": "^2.1.0",
 		"svelte": "^5.43.2",
 		"svelte-check": "^4.3.0",
