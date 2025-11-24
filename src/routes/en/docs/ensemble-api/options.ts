@@ -196,6 +196,7 @@ export const ukmo_variables = [
 	'temperature_2m',
 	'rain',
 	'snowfall',
+	'snow_depth_water_equivalent',
 	'snowfall_water_equivalent',
 	'precipitation',
 	'et0_fao_evapotranspiration',
