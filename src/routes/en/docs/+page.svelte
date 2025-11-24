@@ -2011,6 +2011,17 @@
 						>
 					</tr>
 					<tr>
+						<th scope="row">current</th>
+						<td>Object</td>
+						<td
+							>For every chosen current weather variable, the data is provided as a numeric value.
+							In addition, <mark>time</mark> specifies the moment at which the data is valid. The
+							<mark>interval</mark> represents the duration in seconds used for calculating backward-looking
+							sums or averages. For instance, an interval of 900 seconds (15 minutes) means that aggregated
+							metrics such as precipitation reflect the total from the previous 15 minutes.
+						</td>
+					</tr>
+					<tr>
 						<th scope="row">hourly</th>
 						<td>Object</td>
 						<td

@@ -116,6 +116,11 @@
 						name: 'HRDPS',
 						area: ['ca'],
 						meta: fetchMeta('cmc_gem_hrdps', 'forecast', api_key_preferences)
+					},
+					{
+						name: 'HRDPS West',
+						area: ['ca'],
+						meta: fetchMeta('cmc_gem_hrdps_west', 'forecast', api_key_preferences)
 					}
 				]
 			},
@@ -555,6 +560,11 @@
 						name: 'WAM 0.25°',
 						area: [],
 						meta: fetchMeta('ecmwf_wam025', 'marine', api_key_preferences)
+					},
+										{
+						name: 'WAM HRES',
+						area: [],
+						meta: fetchMeta('ecmwf_wam0', 'marine', api_key_preferences)
 					}
 				]
 			},
@@ -574,21 +584,22 @@
 					}
 				]
 			},
-			/*{
+			{
 				provider: 'DWD',
 				url: '/en/docs/marine-weather-api',
 				models: [
 					{
 						name: 'GWAM',
+						area: [],
 						meta: fetchMeta('dwd_gwam', 'marine', api_key_preferences)
 					},
 					{
 						name: 'EWAM',
+						area: ['european_union'],
 						meta: fetchMeta('dwd_ewam', 'marine', api_key_preferences)
 					}
 				]
-			},*/
-
+			},
 			{
 				provider: 'Copernicus',
 				url: '/en/docs/marine-weather-api',
