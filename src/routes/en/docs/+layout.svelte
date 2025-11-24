@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	import { browser, dev } from '$app/environment';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
 	import { page } from '$app/state';
@@ -49,7 +47,10 @@
 		{ title: 'Flood', url: '/en/docs/flood-api' }
 	];
 	if (dev) {
-		links.push({ title: 'Single Runs', url: '/en/docs/single-runs-api' });
+		links.push(
+			{ title: 'Single Runs', url: '/en/docs/single-runs-api' },
+			{ title: 'OM Files', url: '/en/docs/om-files' }
+		);
 	}
 
 	interface Path {
