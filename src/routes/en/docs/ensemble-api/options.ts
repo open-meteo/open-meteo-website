@@ -38,6 +38,7 @@ export const icon_global_variables = [
 	'apparent_temperature',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'cloud_cover',
 	'et0_fao_evapotranspiration',
 	'vapour_pressure_deficit',
@@ -54,6 +55,7 @@ export const icon_eu_variables = [
 	'pressure_msl',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'cloud_cover',
 	'wind_speed_10m',
 	'wind_direction_10m',
@@ -76,6 +78,7 @@ export const icon_d2_variables = [
 	'apparent_temperature',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'cloud_cover',
 	'et0_fao_evapotranspiration',
 	'vapour_pressure_deficit',
@@ -111,6 +114,7 @@ export const gfs025_variables = [
 	'wind_direction_10m',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'cape',
 	'cloud_cover',
 	'apparent_temperature',
@@ -158,6 +162,7 @@ export const ecmwf_variables = [
 	'precipitation',
 	'rain',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'relative_humidity_2m',
 	'dew_point_2m',
 	'apparent_temperature',
@@ -183,14 +188,15 @@ export const ecmwf_variables = [
 	'geopotential_height_850hPa',
 	'et0_fao_evapotranspiration',
 	'shortwave_radiation',
-	'cape'
+	'cape',
+	'snow_depth_water_equivalent'
 ];
 
 export const ukmo_variables = [
 	'temperature_2m',
 	'rain',
 	'snowfall',
-	'snow_depth',
+	'snowfall_water_equivalent',
 	'precipitation',
 	'et0_fao_evapotranspiration',
 	'relative_humidity_2m',
@@ -227,6 +233,7 @@ export const gem_global_variables = [
 	'wind_direction_10m',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'cape',
 	'cloud_cover',
 	'apparent_temperature',
@@ -254,6 +261,7 @@ export const bom_access_global_ensemble = [
 	'wind_direction_10m',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'cape',
 	'cloud_cover',
 	'apparent_temperature',
@@ -287,6 +295,7 @@ export const meteoswiss = [
 	'wind_direction_10m',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'convective_inhibition',
 	'cape',
 	'cloud_cover',
@@ -441,7 +450,9 @@ export const additionalVariables = [
 		{ value: 'convective_inhibition', label: 'Convective Inhibition (CIN)' },
 		{ value: 'freezing_level_height', label: 'Freezing Level Height' },
 		{ value: 'snowfall_height', label: 'Snowfall Height' },
-		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
+		{ value: 'snowfall_water_equivalent', label: 'Snowfall (Water Equivalent)' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth (Water Equivalent)' }
 	]
 ];
 
