@@ -26,9 +26,9 @@
 		"cypress:local:open": "CYPRESS_BASE_URL=http://localhost:5173 start-server-and-test dev http://localhost:5173 cy:open"
 	},
 	"devDependencies": {
-		"@eslint/compat": "^1.4.0",
+		"@eslint/compat": "^2.0.0",
 		"@internationalized/date": "^3.10.0",
-		"@lucide/svelte": "^0.553.0",
+		"@lucide/svelte": "^0.554.0",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@sveltejs/kit": "^2.48.0",
 		"@sveltejs/vite-plugin-svelte": "^6.2.0",
@@ -43,8 +43,8 @@
 		"eslint-plugin-svelte": "^3.13.0",
 		"formsnap": "^2.0.0",
 		"globals": "^16.5.0",
-		"jsdom": "^27.1.0",
-		"lucide-svelte": "^0.553.0",
+		"jsdom": "^27.2.0",
+		"lucide-svelte": "^0.554.0",
 		"mdsvex": "^0.12.3",
 		"mode-watcher": "^1.1.0",
 		"prettier": "^3.6.0",
@@ -73,12 +73,12 @@
 		"@tailwindcss/vite": "^4.1.11",
 		"autoprefixer": "^10.4.20",
 		"highcharts": "12.4.0",
-		"lucide-static": "^0.553.0",
+		"lucide-static": "^0.554.0",
 		"openmeteo": "^1.2.0",
 		"prism-themes": "^1.9.0",
 		"rollup-plugin-visualizer": "^6.0.0",
 		"shiki": "^3.15.0",
-		"simple-icons": "^15.20.0",
+		"simple-icons": "^15.21.0",
 		"svelte-persisted-store": "^0.12.0",
 		"typescript-eslint": "^8.46.0"
 	}
