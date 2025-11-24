@@ -170,7 +170,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -998,7 +1002,8 @@
 							>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 							separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return
 							data for multiple locations the JSON output changes to a list of structures. CSV and
-							XLSX formats add a column <mark>location_id</mark>.</td
+							XLSX formats add a column <mark>location_id</mark>. For North and South America
+							locations use negative longitudes, because they lie west of Greenwich.</td
 						>
 					</tr>
 					<tr>
