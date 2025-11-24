@@ -297,9 +297,14 @@
 									Longitude must be between -180 and 180
 								</div>
 							{/if}
-							{#if params.longitude[index] > 33 && params.longitude[index] <= 180}
+							{#if params.longitude[index] > 33 && params.longitude[index] <= 180 && params.latitude[index] >= 25}
 								<div class="absolute top-14 left-3 text-sm" transition:slide>
-									Use negative longitude for Americas
+									Negative longitude for North America
+								</div>
+							{/if}
+							{#if params.longitude[index] > 33 && params.longitude[index] <= 180 && params.latitude[index] < 25}
+								<div class="absolute top-14 left-3 text-sm" transition:slide>
+									Negative longitude for South America
 								</div>
 							{/if}
 						</div>
