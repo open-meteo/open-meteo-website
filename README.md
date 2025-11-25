@@ -1,6 +1,6 @@
 # Open-Meteo.com Website
 
-[![Build](https://github.com/open-meteo/open-meteo-website/actions/workflows/build.yml/badge.svg)](https://github.com/open-meteo/open-meteo-website/actions/workflows/build.yml) [![GitHub licence](https://img.shields.io/github/license/open-meteo/open-meteo-website)](https://github.com/open-meteo/open-meteo-website/blob/main/LICENSE)
+[![Tests & Build](https://github.com/open-meteo/open-meteo-website/actions/workflows/build.yml/badge.svg)](https://github.com/open-meteo/open-meteo-website/actions/workflows/build.yml) [![GitHub licence](https://img.shields.io/github/license/open-meteo/open-meteo-website)](https://github.com/open-meteo/open-meteo-website/blob/main/LICENSE)
 
 This repository contains the [open-meteo.com](https://open-meteo.com/) website. The weather API code can be found in [this](https://github.com/open-meteo/open-meteo) repository.
 
