@@ -8,9 +8,6 @@
 		"type": "git",
 		"url": "git+https://github.com/open-meteo/open-meteo-website.git"
 	},
-	"engines": {
-		"npm": ">=11.6.3"
-	},
 	"description": "This package contains the Open-Meteo website",
 	"scripts": {
 		"dev": "svelte-kit sync && vite dev --host",
