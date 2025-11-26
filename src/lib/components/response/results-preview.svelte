@@ -125,6 +125,10 @@
 				jsonParams['apikey'] = apiKeyPreferences.apikey;
 			}
 
+			if ($params.location_mode !== 'bounding_box' && jsonParams.bounding_box) {
+				delete jsonParams.bounding_box;
+			}
+
 			return objectDifference(jsonParams, defaultParameters);
 		})($params, $apiKeyPreferences)
 	);
@@ -247,10 +251,9 @@
 
 	const preview = async () => {
 		if (
-			('latitude' in parsedParams &&
-				Array.isArray(parsedParams.latitude) &&
-				parsedParams.latitude.length > 5) ||
-			$params.location_mode === 'bounding_box'
+			'latitude' in parsedParams &&
+			Array.isArray(parsedParams.latitude) &&
+			parsedParams.latitude.length > 5
 		) {
 			throw new Error('Can not preview more than 5 locations');
 		}
@@ -542,6 +545,28 @@
 					</div>
 				{:then results}
 					{#if results}
+						{#if results.length > 10}
+							<Alert.Root variant="info" class="mt-2 md:mt-4">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-info-icon lucide-info"
+									><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path
+										d="M12 8h.01"
+									/></svg
+								>
+								<Alert.Description>
+									Only first 10/{results.length} locations are shown
+								</Alert.Description>
+							</Alert.Root>
+						{/if}
 						{#each results.slice(0, 10) as chart, i (i)}
 							<div transition:fade={{ duration: 300 }} class="w-full">
 								<HighchartContainer
