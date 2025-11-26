@@ -255,6 +255,10 @@
 			throw new Error('Can not preview more than 5 locations');
 		}
 
+		if ($params.location_mode !== 'bounding_box') {
+			delete $params.bounding_box;
+		}
+
 		const urlParams = { ...parsedParams };
 		urlParams.format = 'json'; // Always set format=json to fetch data
 		urlParams.timeformat = 'unixtime';
