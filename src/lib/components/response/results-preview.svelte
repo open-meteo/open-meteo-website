@@ -258,7 +258,7 @@
 		const urlParams = { ...parsedParams };
 		urlParams.format = 'json'; // Always set format=json to fetch data
 		urlParams.timeformat = 'unixtime';
-		console.log(urlParams);
+
 		const url = `${server}?${new URLSearchParams(urlParams)}`.replaceAll('%2C', ',');
 
 		try {
