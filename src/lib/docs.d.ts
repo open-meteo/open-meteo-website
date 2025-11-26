@@ -11,7 +11,7 @@ export interface Parameters {
 	six_hourly?: Array<string> | string;
 	minutely_15?: Array<string> | string;
 
-	timezone?: string;
+	timezone?: string | string[];
 	location_mode?: string | 'location_search' | 'csv_coordinates' | 'bounding_box'; // replace with enum
 	csv_coordinates?: string;
 	bounding_box?: string;
@@ -20,8 +20,8 @@ export interface Parameters {
 	past_days?: string;
 	forecast_days?: string;
 
-	end_date?: string;
-	start_date?: string;
+	end_date?: string | string[];
+	start_date?: string | string[];
 	run?: string;
 
 	past_hours?: string;

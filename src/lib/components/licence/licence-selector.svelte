@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { api_key_preferences } from '$lib/stores/settings';
+	import { apiKeyPreferences } from '$lib/stores/settings';
 
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
@@ -18,7 +18,7 @@
 	let licenceSelected = $state('');
 
 	onMount(() => {
-		licenceSelected = $api_key_preferences.use;
+		licenceSelected = $apiKeyPreferences.use;
 	});
 </script>
 
@@ -35,7 +35,7 @@
 				disabled={licenceSelected === 'non_commercial'}
 				onclick={() => {
 					licenceSelected = 'non_commercial';
-					$api_key_preferences.use = licenceSelected;
+					$apiKeyPreferences.use = licenceSelected;
 				}}
 			>
 				Non-Commercial
@@ -49,7 +49,7 @@
 				disabled={licenceSelected === 'commercial'}
 				onclick={() => {
 					licenceSelected = 'commercial';
-					$api_key_preferences.use = licenceSelected;
+					$apiKeyPreferences.use = licenceSelected;
 				}}
 			>
 				Commercial
@@ -63,7 +63,7 @@
 				disabled={licenceSelected === 'self_hosted'}
 				onclick={() => {
 					licenceSelected = 'self_hosted';
-					$api_key_preferences.use = licenceSelected;
+					$apiKeyPreferences.use = licenceSelected;
 				}}
 			>
 				Self-Hosted
@@ -103,7 +103,7 @@
 						name="apikey"
 						type="text"
 						class="h-12 pt-6"
-						bind:value={$api_key_preferences.apikey}
+						bind:value={$apiKeyPreferences.apikey}
 						required
 					/>
 					<Label
@@ -141,7 +141,7 @@
 						name="self_host_server"
 						type="text"
 						class="h-12 pt-6"
-						bind:value={$api_key_preferences.self_host_server}
+						bind:value={$apiKeyPreferences.self_host_server}
 					/>
 					<Label
 						class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
