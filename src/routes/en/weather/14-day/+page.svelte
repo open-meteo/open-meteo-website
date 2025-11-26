@@ -76,8 +76,6 @@
 			);
 			const data = await dataReq.json();
 
-			console.log(data);
-
 			let plotBands: any = [];
 			if ('daily' in wd && 'sunrise' in wd.daily && 'sunset' in wd.daily) {
 				let rise = wd.daily.sunrise;

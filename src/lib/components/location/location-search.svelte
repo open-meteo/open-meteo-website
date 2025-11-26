@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher, onDestroy } from 'svelte';
 
-	import { type GeoLocation, favorites, last_visited } from '$lib/stores/settings';
+	import { type GeoLocation, favorites, lastVisited } from '$lib/stores/settings';
 
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
@@ -32,7 +32,7 @@
 	};
 
 	const deleteRecent = (location: GeoLocation) => {
-		$last_visited = $last_visited.filter((item) => item.id != location.id);
+		$lastVisited = $lastVisited.filter((item) => item.id != location.id);
 	};
 
 	const deleteFavorite = (location: GeoLocation) => {
@@ -55,12 +55,12 @@
 			$favorites = temp;
 			return;
 		}
-		let temp = $last_visited.filter((item) => item.id != location.id);
+		let temp = $lastVisited.filter((item) => item.id != location.id);
 		temp.unshift(location);
 		if (temp.length > 10) {
 			temp.pop();
 		}
-		$last_visited = temp;
+		$lastVisited = temp;
 	};
 
 	const selectLocation = (location: GeoLocation) => {
@@ -204,7 +204,7 @@
 				{:then results}
 					{#if results.results && results.results.length === 0}
 						{#if searchQuery.length < 2}
-							{#if $last_visited.length === 0 && $favorites.length === 0}
+							{#if $lastVisited.length === 0 && $favorites.length === 0}
 								<Alert.Root class="border-border my-auto mt-4 w-[unset]">
 									<Alert.Description>Start typing to search for locations</Alert.Description>
 								</Alert.Root>
@@ -305,16 +305,16 @@
 									{/each}
 								</div>
 							{/if}
-							{#if $last_visited.length > 0}
+							{#if $lastVisited.length > 0}
 								<h6 class="text-muted-foreground mt-4 mb-4 text-xl">Recent Locations</h6>
-								<div id="location_search_last_visited" class="border-border rounded-lg border">
-									{#each $last_visited as location, i (i)}
+								<div id="location_search_lastVisited" class="border-border rounded-lg border">
+									{#each $lastVisited as location, i (i)}
 										<Button
 											variant="outline"
 											class="location-search-last-visited flex h-[unset] w-full justify-between gap-0 rounded-none py-2 pr-1 pl-3 not-last:border-b md:pr-2 {i ===
 											0
 												? 'rounded-t-md'
-												: ''} {i === $last_visited.length - 1 ? 'rounded-b-md' : ''}"
+												: ''} {i === $lastVisited.length - 1 ? 'rounded-b-md' : ''}"
 											onclick={() => selectLocation(location)}
 										>
 											<div class="pointer-events-none flex flex-col gap-1 truncate">

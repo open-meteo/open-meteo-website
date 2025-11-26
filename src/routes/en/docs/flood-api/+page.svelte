@@ -19,7 +19,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 
 	import { pastDaysOptions } from '../options';
@@ -328,7 +328,7 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview {params} {defaultParameters} type="flood" action="flood" sdk_type="flood_api" />
+	<ResultsPreview {params} {defaultParameters} type="flood" action="flood" sdk_type="flood_api" />
 </div>
 
 <!-- DATA SOURCES -->

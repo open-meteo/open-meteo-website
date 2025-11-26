@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 
 import { persisted } from 'svelte-persisted-store';
 
-export const api_key_preferences = persisted('api_key_preferences', {
+export const apiKeyPreferences = persisted('api_key_preferences', {
 	use: 'non_commercial',
 	apikey: '',
 	self_host_server: 'https://my-server.tld'
@@ -61,5 +61,5 @@ export const defaultLocation: GeoLocation = {
 };
 
 export const storedLocation = persisted('stored_location', defaultLocation as GeoLocation);
-export const last_visited = persisted('last_visited_locations', [] as GeoLocation[]);
+export const lastVisited = persisted('last_visited_locations', [] as GeoLocation[]);
 export const favorites = persisted('favorites', [] as GeoLocation[]);

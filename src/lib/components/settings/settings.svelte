@@ -50,7 +50,7 @@
 					class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{temperatureUnit?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each temperatureOptions as to}
+					{#each temperatureOptions as to, i (i)}
 						<Select.Item value={to.value}>{to.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -69,7 +69,7 @@
 					class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{lengthUnit?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each lengthOptions as lo}
+					{#each lengthOptions as lo, i (i)}
 						<Select.Item value={lo.value}>{lo.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -88,7 +88,7 @@
 					class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{windSpeedUnit?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each windSpeedOptions as wso}
+					{#each windSpeedOptions as wso, i (i)}
 						<Select.Item value={wso.value}>{wso.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -107,7 +107,7 @@
 					class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{precipitationUnit?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each precipitationOptions as po}
+					{#each precipitationOptions as po, i (i)}
 						<Select.Item value={po.value}>{po.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -127,7 +127,7 @@
 					>{domain?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each domainOptions as doo}
+					{#each domainOptions as doo, i (i)}
 						<Select.Item value={doo.value}>{doo.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -147,7 +147,7 @@
 					>{timeFormat?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each timeFormatOptions as tfo}
+					{#each timeFormatOptions as tfo, i (i)}
 						<Select.Item value={tfo.value}>{tfo.label}</Select.Item>
 					{/each}
 				</Select.Content>

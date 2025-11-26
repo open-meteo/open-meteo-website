@@ -2,11 +2,13 @@ import { getWeatherCode } from '$lib/utils/meteo';
 
 import { SECTIONS } from '$lib/constants';
 
-export function jsonToChart(data: any, downloadTime: number) {
-	let yAxis: any = [];
+import type { AxisPlotBandsOptions, Series, YAxisOptions } from 'highcharts';
 
-	let series: any = [];
-	SECTIONS.forEach(function (section, index) {
+export function jsonToChart(data: any, downloadTime: number) {
+	const yAxis: YAxisOptions[] = [];
+
+	const series: Series[] = [];
+	SECTIONS.forEach(function (section) {
 		if (!(section in data) || section === 'current') {
 			return;
 		}
@@ -14,12 +16,12 @@ export function jsonToChart(data: any, downloadTime: number) {
 			if (k[0] == 'time' || k[0] == 'sunrise' || k[0] == 'sunset') {
 				return;
 			}
-			let hourly_starttime = (data[section].time[0] + data.utc_offset_seconds) * 1000;
-			let pointInterval = (data[section].time[1] - data[section].time[0]) * 1000;
-			let unit = data[`${section}_units`][k[0]];
+			const hourly_starttime = (data[section].time[0] + data.utc_offset_seconds) * 1000;
+			const pointInterval = (data[section].time[1] - data[section].time[0]) * 1000;
+			const unit = data[`${section}_units`][k[0]];
 			let axisId = null;
 			for (let i = 0; i < yAxis.length; i++) {
-				if (yAxis[i].title.text == unit) {
+				if (yAxis[i].title?.text == unit) {
 					axisId = i;
 				}
 			}
@@ -27,7 +29,7 @@ export function jsonToChart(data: any, downloadTime: number) {
 				yAxis.push({ title: { text: unit } });
 				axisId = yAxis.length - 1;
 			}
-			let ser = {
+			const ser = {
 				name: k[0],
 				data: k[1],
 				yAxis: axisId,
@@ -52,7 +54,7 @@ export function jsonToChart(data: any, downloadTime: number) {
 
 			if (k[0] == 'weather_code') {
 				ser.tooltip.pointFormatter = function () {
-					let condition = getWeatherCode(this.y);
+					const condition = getWeatherCode(this.y);
 					return (
 						'<span style="color:' +
 						this.series.color +
@@ -71,10 +73,10 @@ export function jsonToChart(data: any, downloadTime: number) {
 		});
 	});
 
-	let plotBands: any = [];
+	let plotBands: AxisPlotBandsOptions[] = [];
 	if ('daily' in data && 'sunrise' in data.daily && 'sunset' in data.daily) {
-		let rise = data.daily.sunrise;
-		let set = data.daily.sunset;
+		const rise = data.daily.sunrise;
+		const set = data.daily.sunset;
 		plotBands = rise.map(function (r, i) {
 			return {
 				color: 'rgb(255, 255, 194)',
@@ -84,19 +86,19 @@ export function jsonToChart(data: any, downloadTime: number) {
 		});
 	}
 
-	let latitude = data.latitude.toFixed(2);
-	let longitude = data.longitude.toFixed(2);
+	const latitude = data.latitude.toFixed(2);
+	const longitude = data.longitude.toFixed(2);
 	let title = `${latitude}°N ${longitude}°E`;
 
 	if ('elevation' in data) {
-		let elevation = data.elevation.toFixed(0);
+		const elevation = data.elevation.toFixed(0);
 		title = `${title} ${elevation}m above sea level`;
 	}
-	let generationtime_ms = data.generationtime_ms.toFixed(2);
+	const generationtime_ms = data.generationtime_ms.toFixed(2);
 
-	let utc_offset_sign = data.utc_offset_seconds < 0 ? '' : '+';
+	const utc_offset_sign = data.utc_offset_seconds < 0 ? '' : '+';
 
-	let json = {
+	const json = {
 		title: {
 			text: title
 		},

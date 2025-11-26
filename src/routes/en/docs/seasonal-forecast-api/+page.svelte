@@ -17,7 +17,7 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
 
@@ -787,12 +787,12 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true}/></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true} /></div>
 </form>
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview
+	<ResultsPreview
 		{params}
 		{defaultParameters}
 		type="seasonal"
@@ -907,7 +907,8 @@
 			<li>
 				<strong>Solar Radiation:</strong> SEAS5 only contains global solar radiation data and does
 				not offer direct or diffuse solar radiation. Open-Meteo applies the separation model from
-				<a class="text-link underline"
+				<a
+					class="text-link underline"
 					href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
 					>Razo, Müller Witwer</a
 				> to calculate direct radiation from shortwave solar radiation. EC46 used for the first 46 days
@@ -934,7 +935,8 @@
 				conditions, while values near –1 suggest much colder-than-normal conditions. For
 				precipitation, EFI values close to +1 point to much wetter-than-normal conditions, and those
 				near –1 indicate much drier-than-normal conditions.
-				<a class="text-link underline"
+				<a
+					class="text-link underline"
 					href="https://confluence.ecmwf.int/display/FUG/Section+8.1.9.2+Extreme+Forecast+Index+-+EFI"
 					title="Extreme Forecast Index - EFI">More information in the ECMWF documentation</a
 				>.
@@ -946,7 +948,8 @@
 				the forecast distribution — capturing rare, exceptional events that may exceed anything
 				previously simulated by the model. The SOT is computed for the 10th and 90th percentiles
 				across all 100 EC46 ensemble members.
-				<a class="text-link underline"
+				<a
+					class="text-link underline"
 					href="https://confluence.ecmwf.int/display/FUG/Section+8.1.9.3+Calculating+the+Shift+of+Tails+-+SOT"
 					title="Calculating the Shift of Tails - SOT"
 					>More information in the ECMWF documentation</a
