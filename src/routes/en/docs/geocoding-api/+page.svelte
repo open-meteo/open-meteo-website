@@ -2,7 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { api_key_preferences } from '$lib/stores/settings';
+	import { apiKeyPreferences } from '$lib/stores/settings';
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
@@ -27,12 +27,12 @@
 	//const params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
 	let action = $state('https://geocoding-api.open-meteo.com/v1/search?');
 	$effect(() => {
-		switch ($api_key_preferences.use) {
+		switch ($apiKeyPreferences.use) {
 			case 'commercial':
-				action = `https://customer-geocoding-api.open-meteo.com/v1/search?apikey=${$api_key_preferences.apikey}&`;
+				action = `https://customer-geocoding-api.open-meteo.com/v1/search?apikey=${$apiKeyPreferences.apikey}&`;
 				break;
 			case 'self_hosted':
-				action = `${$api_key_preferences.self_host_server}/v1/search?`;
+				action = `${$apiKeyPreferences.self_host_server}/v1/search?`;
 				break;
 			default:
 				action = 'https://geocoding-api.open-meteo.com/v1/search?';
