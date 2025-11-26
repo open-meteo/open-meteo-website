@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { api_key_preferences } from '$lib/stores/settings';
+	import { apiKeyPreferences } from '$lib/stores/settings';
 
 	import { Label } from '$lib/components/ui/label';
 	import { Switch } from '$lib/components/ui/switch';
 
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 
-	async function fetchMeta(model: String, type: String, api_key_preferences: any) {
+	async function fetchMeta(model: String, type: String, apiKeyPreferences: any) {
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
 		let url: string;
 
-		switch (api_key_preferences.use) {
+		switch (apiKeyPreferences.use) {
 			case 'commercial':
 				url = `https://customer-${serverPrefix}.open-meteo.com/data/${model}/static/meta.json`;
 				break;
 			case 'self_hosted':
-				url = `${api_key_preferences.self_host_server}/data/${model}/static/meta.json`;
+				url = `${apiKeyPreferences.self_host_server}/data/${model}/static/meta.json`;
 				break;
 			default:
 				url = `https://${serverPrefix}.open-meteo.com/data/${model}/static/meta.json`;
@@ -63,7 +63,7 @@
 		};
 	}
 
-	function getData(api_key_preferences: any) {
+	function getData(apiKeyPreferences: any) {
 		let forecastModels = [
 			{
 				provider: 'ItaliaMeteo ARPAE',
@@ -72,7 +72,7 @@
 					{
 						name: 'ICON 2I',
 						area: ['it'],
-						meta: fetchMeta('italia_meteo_arpae_icon_2i', 'forecast', api_key_preferences)
+						meta: fetchMeta('italia_meteo_arpae_icon_2i', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -83,7 +83,7 @@
 					{
 						name: 'ACCESS-G 0.15°',
 						area: [],
-						meta: fetchMeta('bom_access_global', 'forecast', api_key_preferences)
+						meta: fetchMeta('bom_access_global', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -94,7 +94,7 @@
 					{
 						name: 'GFS Grapes 0.125°',
 						area: [],
-						meta: fetchMeta('cma_grapes_global', 'forecast', api_key_preferences)
+						meta: fetchMeta('cma_grapes_global', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -105,22 +105,22 @@
 					{
 						name: 'GDPS 0.125°',
 						area: [],
-						meta: fetchMeta('cmc_gem_gdps', 'forecast', api_key_preferences)
+						meta: fetchMeta('cmc_gem_gdps', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'RDPS',
 						area: ['ca', 'us'],
-						meta: fetchMeta('cmc_gem_rdps', 'forecast', api_key_preferences)
+						meta: fetchMeta('cmc_gem_rdps', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'HRDPS',
 						area: ['ca'],
-						meta: fetchMeta('cmc_gem_hrdps', 'forecast', api_key_preferences)
+						meta: fetchMeta('cmc_gem_hrdps', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'HRDPS West',
 						area: ['ca'],
-						meta: fetchMeta('cmc_gem_hrdps_west', 'forecast', api_key_preferences)
+						meta: fetchMeta('cmc_gem_hrdps_west', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -131,7 +131,7 @@
 					{
 						name: 'Harmonie AROME Europe',
 						area: ['european_union'],
-						meta: fetchMeta('dmi_harmonie_arome_europe', 'forecast', api_key_preferences)
+						meta: fetchMeta('dmi_harmonie_arome_europe', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -142,22 +142,22 @@
 					{
 						name: 'ICON',
 						area: [],
-						meta: fetchMeta('dwd_icon', 'forecast', api_key_preferences)
+						meta: fetchMeta('dwd_icon', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'ICON-EU',
 						area: ['european_union'],
-						meta: fetchMeta('dwd_icon_eu', 'forecast', api_key_preferences)
+						meta: fetchMeta('dwd_icon_eu', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'ICON-D2',
 						area: ['de', 'ch', 'at'],
-						meta: fetchMeta('dwd_icon_d2', 'forecast', api_key_preferences)
+						meta: fetchMeta('dwd_icon_d2', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'ICON-D2 15min',
 						area: ['de', 'ch', 'at'],
-						meta: fetchMeta('dwd_icon_d2_15min', 'forecast', api_key_preferences)
+						meta: fetchMeta('dwd_icon_d2_15min', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -168,17 +168,17 @@
 					{
 						name: 'IFS HRES 9km',
 						area: [],
-						meta: fetchMeta('ecmwf_ifs', 'forecast', api_key_preferences)
+						meta: fetchMeta('ecmwf_ifs', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'AIFS 0.25° Single',
 						area: [],
-						meta: fetchMeta('ecmwf_aifs025_single', 'forecast', api_key_preferences)
+						meta: fetchMeta('ecmwf_aifs025_single', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'IFS 0.25°',
 						area: [],
-						meta: fetchMeta('ecmwf_ifs025', 'forecast', api_key_preferences)
+						meta: fetchMeta('ecmwf_ifs025', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -189,12 +189,12 @@
 					{
 						name: 'GSM 0.5°',
 						area: [],
-						meta: fetchMeta('jma_gsm', 'forecast', api_key_preferences)
+						meta: fetchMeta('jma_gsm', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'MSM 0.05°',
 						area: ['jp'],
-						meta: fetchMeta('jma_msm', 'forecast', api_key_preferences)
+						meta: fetchMeta('jma_msm', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -205,12 +205,12 @@
 					{
 						name: 'KMA GDPS 0.13°',
 						area: [],
-						meta: fetchMeta('kma_gdps', 'forecast', api_key_preferences)
+						meta: fetchMeta('kma_gdps', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'KMA LDPS 1.5km',
 						area: ['kr'],
-						meta: fetchMeta('kma_ldps', 'forecast', api_key_preferences)
+						meta: fetchMeta('kma_ldps', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -221,12 +221,12 @@
 					{
 						name: 'Harmonie AROME Europe',
 						area: ['european_union'],
-						meta: fetchMeta('knmi_harmonie_arome_europe', 'forecast', api_key_preferences)
+						meta: fetchMeta('knmi_harmonie_arome_europe', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'Harmonie AROME Netherlands',
 						area: ['nl', 'be'],
-						meta: fetchMeta('knmi_harmonie_arome_netherlands', 'forecast', api_key_preferences)
+						meta: fetchMeta('knmi_harmonie_arome_netherlands', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -237,12 +237,12 @@
 					{
 						name: 'ARPEGE World 0.25°',
 						area: [],
-						meta: fetchMeta('meteofrance_arpege_world025', 'forecast', api_key_preferences)
+						meta: fetchMeta('meteofrance_arpege_world025', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'ARPEGE Europe 0.1°',
 						area: ['european_union'],
-						meta: fetchMeta('meteofrance_arpege_europe', 'forecast', api_key_preferences)
+						meta: fetchMeta('meteofrance_arpege_europe', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'ARPEGE Europe 0.1° Probabilities',
@@ -250,28 +250,28 @@
 						meta: fetchMeta(
 							'meteofrance_arpege_europe_probabilities',
 							'forecast',
-							api_key_preferences
+							apiKeyPreferences
 						)
 					},
 					{
 						name: 'AROME France 0.01 HD°',
 						area: ['fr'],
-						meta: fetchMeta('meteofrance_arome_france_hd', 'forecast', api_key_preferences)
+						meta: fetchMeta('meteofrance_arome_france_hd', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'AROME France 0.01 HD 15min',
 						area: ['fr'],
-						meta: fetchMeta('meteofrance_arome_france_hd_15min', 'forecast', api_key_preferences)
+						meta: fetchMeta('meteofrance_arome_france_hd_15min', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'AROME France 0.025°',
 						area: ['fr'],
-						meta: fetchMeta('meteofrance_arome_france0025', 'forecast', api_key_preferences)
+						meta: fetchMeta('meteofrance_arome_france0025', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'AROME France 0.025° 15min',
 						area: ['fr'],
-						meta: fetchMeta('meteofrance_arome_france0025_15min', 'forecast', api_key_preferences)
+						meta: fetchMeta('meteofrance_arome_france0025_15min', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -282,12 +282,12 @@
 					{
 						name: 'ICON CH1',
 						area: ['ch'],
-						meta: fetchMeta('meteoswiss_icon_ch1', 'forecast', api_key_preferences)
+						meta: fetchMeta('meteoswiss_icon_ch1', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'ICON CH2',
 						area: ['ch'],
-						meta: fetchMeta('meteoswiss_icon_ch2', 'forecast', api_key_preferences)
+						meta: fetchMeta('meteoswiss_icon_ch2', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -298,7 +298,7 @@
 					{
 						name: 'MET Nordic PP',
 						area: ['no', 'se', 'dk'],
-						meta: fetchMeta('metno_nordic_pp', 'forecast', api_key_preferences)
+						meta: fetchMeta('metno_nordic_pp', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -309,37 +309,37 @@
 					{
 						name: 'GFS 0.11°',
 						area: [],
-						meta: fetchMeta('ncep_gfs013', 'forecast', api_key_preferences)
+						meta: fetchMeta('ncep_gfs013', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'GFS 0.25°',
 						area: [],
-						meta: fetchMeta('ncep_gfs025', 'forecast', api_key_preferences)
+						meta: fetchMeta('ncep_gfs025', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'GFS GraphCast 0.25°',
 						area: [],
-						meta: fetchMeta('ncep_gfs_graphcast025', 'forecast', api_key_preferences)
+						meta: fetchMeta('ncep_gfs_graphcast025', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'NBM Conus',
 						area: ['us', 'ca'],
-						meta: fetchMeta('ncep_nbm_conus', 'forecast', api_key_preferences)
+						meta: fetchMeta('ncep_nbm_conus', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'HRRR Conus',
 						area: ['us', 'ca'],
-						meta: fetchMeta('ncep_hrrr_conus', 'forecast', api_key_preferences)
+						meta: fetchMeta('ncep_hrrr_conus', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'HRRR Conus 15min',
 						area: ['us', 'ca'],
-						meta: fetchMeta('ncep_hrrr_conus_15min', 'forecast', api_key_preferences)
+						meta: fetchMeta('ncep_hrrr_conus_15min', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'NAM Conus',
 						area: ['us', 'ca'],
-						meta: fetchMeta('ncep_nam_conus', 'forecast', api_key_preferences)
+						meta: fetchMeta('ncep_nam_conus', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -350,12 +350,12 @@
 					{
 						name: 'UKMO Global Deterministic 0.09°',
 						area: [],
-						meta: fetchMeta('ukmo_global_deterministic_10km', 'forecast', api_key_preferences)
+						meta: fetchMeta('ukmo_global_deterministic_10km', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'UKMO UKV',
 						area: ['gb'],
-						meta: fetchMeta('ukmo_uk_deterministic_2km', 'forecast', api_key_preferences)
+						meta: fetchMeta('ukmo_uk_deterministic_2km', 'forecast', apiKeyPreferences)
 					}
 				]
 			}
@@ -369,17 +369,17 @@
 					{
 						name: 'ERA5 0.25°',
 						area: [],
-						meta: fetchMeta('copernicus_era5', 'archive', api_key_preferences)
+						meta: fetchMeta('copernicus_era5', 'archive', apiKeyPreferences)
 					},
 					{
 						name: 'ERA5-Land 0.1°',
 						area: [],
-						meta: fetchMeta('copernicus_era5_land', 'archive', api_key_preferences)
+						meta: fetchMeta('copernicus_era5_land', 'archive', apiKeyPreferences)
 					},
 					{
 						name: 'ERA5-Ensemble 0.25°',
 						area: [],
-						meta: fetchMeta('copernicus_era5_ensemble', 'archive', api_key_preferences)
+						meta: fetchMeta('copernicus_era5_ensemble', 'archive', apiKeyPreferences)
 					}
 				]
 			},
@@ -390,12 +390,12 @@
 					{
 						name: 'IFS HRES 9km',
 						area: [],
-						meta: fetchMeta('ecmwf_ifs', 'archive', api_key_preferences)
+						meta: fetchMeta('ecmwf_ifs', 'archive', apiKeyPreferences)
 					},
 					{
 						name: 'IFS Analysis Long-Window 4D',
 						area: [],
-						meta: fetchMeta('ecmwf_ifs_analysis_long_window', 'archive', api_key_preferences)
+						meta: fetchMeta('ecmwf_ifs_analysis_long_window', 'archive', apiKeyPreferences)
 					}
 				]
 			}
@@ -409,7 +409,7 @@
 					{
 						name: 'ACCESS-GE 0.4°',
 						area: [],
-						meta: fetchMeta('bom_access_global_ensemble', 'ensemble', api_key_preferences)
+						meta: fetchMeta('bom_access_global_ensemble', 'ensemble', apiKeyPreferences)
 					}
 				]
 			},
@@ -420,7 +420,7 @@
 					{
 						name: 'GDPS 0.25° Ensemble',
 						area: [],
-						meta: fetchMeta('cmc_gem_geps', 'ensemble', api_key_preferences)
+						meta: fetchMeta('cmc_gem_geps', 'ensemble', apiKeyPreferences)
 					}
 				]
 			},
@@ -431,17 +431,17 @@
 					{
 						name: 'ICON-EPS',
 						area: [],
-						meta: fetchMeta('dwd_icon_eps', 'ensemble', api_key_preferences)
+						meta: fetchMeta('dwd_icon_eps', 'ensemble', apiKeyPreferences)
 					},
 					{
 						name: 'ICON-EU-EPS',
 						area: ['european_union'],
-						meta: fetchMeta('dwd_icon_eu_eps', 'ensemble', api_key_preferences)
+						meta: fetchMeta('dwd_icon_eu_eps', 'ensemble', apiKeyPreferences)
 					},
 					{
 						name: 'ICON-D2-EPS',
 						area: ['de', 'ch', 'at'],
-						meta: fetchMeta('dwd_icon_d2_eps', 'ensemble', api_key_preferences)
+						meta: fetchMeta('dwd_icon_d2_eps', 'ensemble', apiKeyPreferences)
 					}
 				]
 			},
@@ -452,12 +452,12 @@
 					{
 						name: 'IFS 0.25° Ensemble',
 						area: [],
-						meta: fetchMeta('ecmwf_ifs025_ensemble', 'ensemble', api_key_preferences)
+						meta: fetchMeta('ecmwf_ifs025_ensemble', 'ensemble', apiKeyPreferences)
 					},
 					{
 						name: 'AIFS 0.25° Ensemble',
 						area: [],
-						meta: fetchMeta('ecmwf_aifs025_ensemble', 'ensemble', api_key_preferences)
+						meta: fetchMeta('ecmwf_aifs025_ensemble', 'ensemble', apiKeyPreferences)
 					}
 				]
 			},
@@ -468,12 +468,12 @@
 					{
 						name: 'GFS 0.25 Ensemble',
 						area: [],
-						meta: fetchMeta('ncep_gefs025', 'ensemble', api_key_preferences)
+						meta: fetchMeta('ncep_gefs025', 'ensemble', apiKeyPreferences)
 					},
 					{
 						name: 'GFS 0.5° Ensemble',
 						area: [],
-						meta: fetchMeta('ncep_gefs05', 'ensemble', api_key_preferences)
+						meta: fetchMeta('ncep_gefs05', 'ensemble', apiKeyPreferences)
 					}
 				]
 			},
@@ -484,12 +484,12 @@
 					{
 						name: 'ICON CH1',
 						area: ['ch'],
-						meta: fetchMeta('meteoswiss_icon_ch1_ensemble', 'ensemble', api_key_preferences)
+						meta: fetchMeta('meteoswiss_icon_ch1_ensemble', 'ensemble', apiKeyPreferences)
 					},
 					{
 						name: 'ICON CH2',
 						area: ['ch'],
-						meta: fetchMeta('meteoswiss_icon_ch2_ensemble', 'ensemble', api_key_preferences)
+						meta: fetchMeta('meteoswiss_icon_ch2_ensemble', 'ensemble', apiKeyPreferences)
 					}
 				]
 			},
@@ -500,12 +500,12 @@
 					{
 						name: 'UKMO UK Ensemble 2 km',
 						area: ['gb'],
-						meta: fetchMeta('ukmo_uk_ensemble_2km', 'ensemble', api_key_preferences)
+						meta: fetchMeta('ukmo_uk_ensemble_2km', 'ensemble', apiKeyPreferences)
 					},
 					{
 						name: 'UKMO Global Ensemble 20 km',
 						area: [],
-						meta: fetchMeta('ukmo_global_ensemble_20km', 'ensemble', api_key_preferences)
+						meta: fetchMeta('ukmo_global_ensemble_20km', 'ensemble', apiKeyPreferences)
 					}
 				]
 			}
@@ -519,17 +519,17 @@
 					{
 						name: 'CAMS GLOBAL 0.4°',
 						area: [],
-						meta: fetchMeta('cams_global', 'air-quality', api_key_preferences)
+						meta: fetchMeta('cams_global', 'air-quality', apiKeyPreferences)
 					},
 					{
 						name: 'CAMS Europe 0.1°',
 						area: ['european_union'],
-						meta: fetchMeta('cams_europe', 'air-quality', api_key_preferences)
+						meta: fetchMeta('cams_europe', 'air-quality', apiKeyPreferences)
 					},
 					{
 						name: 'CAMS Global Greenhouse Gases 0.1°',
 						area: ['european_union'],
-						meta: fetchMeta('cams_global_greenhouse_gases', 'air-quality', api_key_preferences)
+						meta: fetchMeta('cams_global_greenhouse_gases', 'air-quality', apiKeyPreferences)
 					}
 				]
 			}
@@ -543,12 +543,12 @@
 					{
 						name: 'MFWAM 0.08°',
 						area: [],
-						meta: fetchMeta('meteofrance_wave', 'marine', api_key_preferences)
+						meta: fetchMeta('meteofrance_wave', 'marine', apiKeyPreferences)
 					},
 					{
 						name: 'SMOC Currents 0.08°',
 						area: [],
-						meta: fetchMeta('meteofrance_currents', 'marine', api_key_preferences)
+						meta: fetchMeta('meteofrance_currents', 'marine', apiKeyPreferences)
 					}
 				]
 			},
@@ -559,12 +559,12 @@
 					{
 						name: 'WAM 0.25°',
 						area: [],
-						meta: fetchMeta('ecmwf_wam025', 'marine', api_key_preferences)
+						meta: fetchMeta('ecmwf_wam025', 'marine', apiKeyPreferences)
 					},
-										{
+					{
 						name: 'WAM HRES',
 						area: [],
-						meta: fetchMeta('ecmwf_wam0', 'marine', api_key_preferences)
+						meta: fetchMeta('ecmwf_wam0', 'marine', apiKeyPreferences)
 					}
 				]
 			},
@@ -575,12 +575,12 @@
 					{
 						name: 'GFS Wave 0.25°',
 						area: [],
-						meta: fetchMeta('ncep_gfswave025', 'marine', api_key_preferences)
+						meta: fetchMeta('ncep_gfswave025', 'marine', apiKeyPreferences)
 					},
 					{
 						name: 'GFS Wave 0.16',
 						area: [],
-						meta: fetchMeta('ncep_gfswave016', 'marine', api_key_preferences)
+						meta: fetchMeta('ncep_gfswave016', 'marine', apiKeyPreferences)
 					}
 				]
 			},
@@ -591,12 +591,12 @@
 					{
 						name: 'GWAM',
 						area: [],
-						meta: fetchMeta('dwd_gwam', 'marine', api_key_preferences)
+						meta: fetchMeta('dwd_gwam', 'marine', apiKeyPreferences)
 					},
 					{
 						name: 'EWAM',
 						area: ['european_union'],
-						meta: fetchMeta('dwd_ewam', 'marine', api_key_preferences)
+						meta: fetchMeta('dwd_ewam', 'marine', apiKeyPreferences)
 					}
 				]
 			},
@@ -607,7 +607,7 @@
 					{
 						name: 'ERA5-Ocean',
 						area: [],
-						meta: fetchMeta('copernicus_era5_ocean', 'marine', api_key_preferences)
+						meta: fetchMeta('copernicus_era5_ocean', 'marine', apiKeyPreferences)
 					}
 				]
 			}
@@ -621,12 +621,12 @@
 					{
 						name: 'GloFAS v4 Forecast',
 						area: [],
-						meta: fetchMeta('glofas_forecast_v4', 'flood', api_key_preferences)
+						meta: fetchMeta('glofas_forecast_v4', 'flood', apiKeyPreferences)
 					},
 					{
 						name: 'GloFAS v4 Seasonal Forecast',
 						area: [],
-						meta: fetchMeta('glofas_seasonal_v4', 'flood', api_key_preferences)
+						meta: fetchMeta('glofas_seasonal_v4', 'flood', apiKeyPreferences)
 					}
 				]
 			}
@@ -647,7 +647,7 @@
 	let showNorthAmericanModels = $state(true);
 	let showAsianModels = $state(true);
 
-	let sectionsAll = $derived(getData($api_key_preferences));
+	let sectionsAll = $derived(getData($apiKeyPreferences));
 	let sections = $derived(
 		sectionsAll.map((e) => {
 			return {

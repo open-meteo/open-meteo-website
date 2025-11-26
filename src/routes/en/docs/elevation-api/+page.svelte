@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
 
-	import { api_key_preferences } from '$lib/stores/settings';
+	import { apiKeyPreferences } from '$lib/stores/settings';
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import ElevationError from '$lib/components/code/docs/elevation-error.svx';
@@ -44,12 +44,12 @@
 	let base = $state('https://api.open-meteo.com/v1/elevation?');
 
 	$effect(() => {
-		switch ($api_key_preferences.use) {
+		switch ($apiKeyPreferences.use) {
 			case 'commercial':
-				base = `https://customer-api.open-meteo.com/v1/elevation?apikey=${$api_key_preferences.apikey}&`;
+				base = `https://customer-api.open-meteo.com/v1/elevation?apikey=${$apiKeyPreferences.apikey}&`;
 				break;
 			case 'self_hosted':
-				base = `${$api_key_preferences.self_host_server}/v1/elevation?`;
+				base = `${$apiKeyPreferences.self_host_server}/v1/elevation?`;
 				break;
 			default:
 				base = 'https://api.open-meteo.com/v1/elevation?';

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -26,7 +27,7 @@
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
 	import HourlyVariables from '$lib/components/variables/hourly-variables.svelte';
@@ -136,10 +137,10 @@
 		}
 	});
 
-	let beginDate = new Date();
+	let beginDate = new SvelteDate();
 	beginDate.setMonth(beginDate.getMonth() - 3);
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() + 16);
 </script>
 
@@ -725,7 +726,7 @@
 												$params.daily = $params.daily.filter((item) => {
 													return item !== value;
 												});
-											} else if ($params.daily) {
+											} else if ($params.daily && Array.isArray($params.daily)) {
 												$params.daily.push(value);
 												$params.daily = $params.daily;
 											}
@@ -768,7 +769,7 @@
 										$params.current = $params.current.filter((item) => {
 											return item !== value;
 										});
-									} else if ($params.current) {
+									} else if ($params.current && Array.isArray($params.current)) {
 										$params.current.push(value);
 										$params.current = $params.current;
 									}
@@ -801,7 +802,7 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview {params} {defaultParameters} />
+	<ResultsPreview {params} {defaultParameters} />
 </div>
 
 <!-- DATA SOURCES -->

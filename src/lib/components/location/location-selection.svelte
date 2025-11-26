@@ -564,7 +564,7 @@
 				<p>
 					The bounding box selection method is not recommended for building maps. Several projects
 					are already leveraging Open-Meteo data for building maps; you can find an example <a
-						href="https://github.com/open-meteo/maps">here</a
+						href="https://github.com/open-meteo/mapbox-layer">here</a
 					>.
 				</p>
 			</Alert.Description>
