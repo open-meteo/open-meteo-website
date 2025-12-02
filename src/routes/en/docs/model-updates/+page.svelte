@@ -564,7 +564,7 @@
 					{
 						name: 'WAM HRES',
 						area: [],
-						meta: fetchMeta('ecmwf_wam0', 'marine', apiKeyPreferences)
+						meta: fetchMeta('ecmwf_wam', 'marine', apiKeyPreferences)
 					}
 				]
 			},
