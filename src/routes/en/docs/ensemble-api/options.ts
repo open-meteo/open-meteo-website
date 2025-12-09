@@ -657,7 +657,15 @@ export const hourly = [
 		{ value: 'soil_moisture_0_to_10cm', label: 'Soil Moisture (0-10 cm)' },
 		{ value: 'soil_moisture_10_to_40cm', label: 'Soil Moisture (10-40 cm)' },
 		{ value: 'soil_moisture_40_to_100cm', label: 'Soil Moisture (40-100 cm)' },
-		{ value: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-400 cm)' }
+		{ value: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-400 cm)' },
+		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
+		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
+		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm)' },
+		{ value: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm)' },
+		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
+		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)' },
+		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)' },
+		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)' }
 	]
 ];
 
