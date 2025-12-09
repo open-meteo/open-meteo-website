@@ -697,7 +697,10 @@
 															id="{variable.value}_{level}hPa"
 															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 															value="{variable.value}_{level}hPa"
-															disabled={!isAvailable(variable.value, $params.models)}
+															disabled={!isAvailable(
+																`${variable.value}_${level}hPa`,
+																$params.models
+															)}
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
 															aria-labelledby="{variable.value}_{level}hPa"
 															onCheckedChange={() => {

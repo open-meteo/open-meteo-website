@@ -31,9 +31,9 @@ export const defaultParameters = {
 export const pressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
 	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud Cover' },
-	{ value: 'wind_speed', label: 'Wind Speed' },
-	{ value: 'wind_direction', label: 'Wind Direction' },
+	// { value: 'cloud_cover', label: 'Cloud Cover' },
+	// { value: 'wind_speed', label: 'Wind Speed' },
+	// { value: 'wind_direction', label: 'Wind Direction' },
 	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
 ];
