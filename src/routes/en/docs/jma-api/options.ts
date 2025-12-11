@@ -40,7 +40,7 @@ export const pressureVariables = [
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
 ];
 
-export const levels = [1000, 975, 950, 529, 900, 850, 800, 700, 600, 500, 400, 250, 200, 150, 100];
+export const levels = [1000, 975, 950, 529, 900, 850, 800, 700, 600, 500, 400, 300, 250, 200, 150, 100];
 
 export const hourly = [
 	[
