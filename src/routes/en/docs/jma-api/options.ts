@@ -36,10 +36,11 @@ export const pressureVariables = [
 	{ value: 'cloud_cover', label: 'Cloud Cover' },
 	{ value: 'wind_speed', label: 'Wind Speed' },
 	{ value: 'wind_direction', label: 'Wind Direction' },
+	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
 ];
 
-export const levels = [1000, 925, 850, 700, 500, 400, 300, 250, 200, 150, 100];
+export const levels = [1000, 975, 950, 529, 900, 850, 800, 700, 600, 500, 400, 250, 200, 150, 100];
 
 export const hourly = [
 	[
