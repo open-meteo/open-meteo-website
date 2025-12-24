@@ -57,7 +57,7 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
       - name: Strip content hashes from stats files
         run: |
           sed -i -E 's/index\.[0-9a-zA-Z_-]{8,}\./index./g' ./head-stats/build-stats.json
