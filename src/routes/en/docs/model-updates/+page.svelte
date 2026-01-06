@@ -322,6 +322,16 @@
 						meta: fetchMeta('ncep_gfs_graphcast025', 'forecast', apiKeyPreferences)
 					},
 					{
+						name: 'AIGFS 0.25°',
+						area: [],
+						meta: fetchMeta('ncep_aigfs025', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'HGEFS 0.25°',
+						area: [],
+						meta: fetchMeta('ncep_hgfs025_stats', 'forecast', apiKeyPreferences)
+					},
+					{
 						name: 'NBM Conus',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_nbm_conus', 'forecast', apiKeyPreferences)
@@ -474,7 +484,12 @@
 						name: 'GFS 0.5° Ensemble',
 						area: [],
 						meta: fetchMeta('ncep_gefs05', 'ensemble', apiKeyPreferences)
-					}
+					},
+					{
+						name: 'AIGEFS 0.25°',
+						area: [],
+						meta: fetchMeta('ncep_aigefs025', 'forecast', apiKeyPreferences)
+					},
 				]
 			},
 			{

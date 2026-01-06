@@ -255,6 +255,25 @@ export const gfs025_variables = [
 	'sunshine_duration',
 ];
 
+export const aigfs025_variables = [
+	...ecmwf_pressure_levels,
+	'temperature_2m',
+	'surface_pressure',
+	'pressure_msl',
+	'wind_speed_10m',
+	'wind_direction_10m',
+	'precipitation',
+	'rain',
+	'snowfall',
+	'snowfall_water_equivalent',
+	'cloud_cover',
+	'cloud_cover_high',
+	'cloud_cover_low',
+	'cloud_cover_mid',
+	'weather_code',
+];
+
+
 export const gfs05_variables = [
 	...gfs025_variables,
 	...ecmwf_pressure_levels,
@@ -504,6 +523,7 @@ export const availableVariables = {
 	gfs_seamless: gfs05_variables,
 	gfs025: gfs025_variables,
 	gfs05: gfs05_variables,
+	aigfs025: aigfs025_variables,
 	ecmwf_ifs025: ecmwf_ifs025_variables,
 	ecmwf_aifs025: ecmwf_aifs025_variables,
 	ukmo_global_ensemble_20km: ukmo_variables,
@@ -668,8 +688,9 @@ export const models = [
 	],
 	[
 		{ value: 'gfs_seamless', label: 'GFS Ensemble Seamless' },
-		{ value: 'gfs025', label: 'GFS Ensemble 0.25' },
-		{ value: 'gfs05', label: 'GFS Ensemble 0.5' }
+		{ value: 'gfs025', label: 'GFS Ensemble 0.25°' },
+		{ value: 'gfs05', label: 'GFS Ensemble 0.5°' },
+		{ value: 'gfs025', label: 'AIGEFS 0.25°' },
 	],
 	[
 		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' },
