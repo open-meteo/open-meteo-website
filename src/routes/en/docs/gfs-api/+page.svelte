@@ -1062,7 +1062,7 @@
 					<tr>
 						<th scope="row"
 							><a href="https://www.nco.ncep.noaa.gov/pmb/products/hgefs/" target="_blank"
-								>HGFS 0.25° ens mean</a
+								>HGEFS 0.25° ens mean</a
 							></th
 						>
 						<td>Global</td>
