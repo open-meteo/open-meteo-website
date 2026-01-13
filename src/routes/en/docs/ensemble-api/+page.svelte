@@ -30,7 +30,6 @@
 	import {
 		forecastHoursOptions,
 		gridCellSelectionOptions,
-		pastDaysOptions,
 		pastHoursOptions,
 		temporalResolutionOptions
 	} from '../options';
@@ -43,6 +42,7 @@
 		hourly,
 		levels,
 		models,
+		pastDaysOptions,
 		pressureVariables,
 		solarVariables
 	} from './options';
@@ -589,8 +589,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
