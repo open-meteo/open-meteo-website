@@ -1,6 +1,12 @@
 <script lang="ts">
+	import { onDestroy, onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
+
 	import { apiKeyPreferences } from '$lib/stores/settings';
 
+	import { pad } from '$lib/utils';
+
+	import Button from '$lib/components/ui/button/button.svelte';
 	import { Label } from '$lib/components/ui/label';
 	import { Switch } from '$lib/components/ui/switch';
 
@@ -677,6 +683,29 @@
 			};
 		})
 	);
+
+	let today = new SvelteDate();
+	today.setTime(0);
+	let mount = new SvelteDate();
+	let lastRefresh = $state('00:00');
+	let refreshTickerInterval: ReturnType<typeof setInterval> | undefined;
+	onMount(() => {
+		mount = new SvelteDate();
+		refreshTickerInterval = setInterval(() => {
+			const now = new SvelteDate();
+			const difference = Math.round(now.getTime() - mount.getTime());
+			today.setTime(difference);
+			if (today.getUTCHours() > 0) {
+				lastRefresh = '>59:59';
+			} else {
+				lastRefresh = `${pad(today.getUTCMinutes())}:${pad(today.getUTCSeconds())}`;
+			}
+		}, 1000);
+	});
+
+	onDestroy(() => {
+		clearInterval(refreshTickerInterval);
+	});
 </script>
 
 <svelte:head>
@@ -767,6 +796,29 @@
 			<Label for="asian_models" class="mb-[2px] cursor-pointer text-lg">Local Asian Models</Label>
 			<img height="26" width="26" src="/images/country-flags/jp.svg" alt="jp" />
 		</div>
+	</div>
+	<div class="flex mt-3 gap-3 items-center" id="refresh">
+		<Button
+			onclick={() => {
+				sectionsAll = getData($apiKeyPreferences);
+				mount = new SvelteDate();
+			}}
+			><svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				class="lucide lucide-refresh-cw-icon lucide-refresh-cw"
+				><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path
+					d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"
+				/><path d="M8 16H3v5" /></svg
+			> Refresh</Button
+		> last refresh: {lastRefresh}
 	</div>
 	{#each sections as section, i (i)}
 		<div class="mt-6">
