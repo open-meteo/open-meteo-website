@@ -15,17 +15,17 @@
 
 		switch (apiKeyPreferences.use) {
 			case 'commercial':
-				url = `https://customer-${serverPrefix}.open-meteo.com/data/${model}/static/meta.json?cached_buster=${now.getTime()}`;
+				url = `https://customer-${serverPrefix}.open-meteo.com/data/${model}/static/meta.json`;
 				break;
 			case 'self_hosted':
-				url = `${apiKeyPreferences.self_host_server}/data/${model}/static/meta.json?cached_buster=${now.getTime()}`;
+				url = `${apiKeyPreferences.self_host_server}/data/${model}/static/meta.json`;
 				break;
 			default:
-				url = `https://${serverPrefix}.open-meteo.com/data/${model}/static/meta.json?cached_buster=${now.getTime()}`;
+				url = `https://${serverPrefix}.open-meteo.com/data/${model}/static/meta.json`;
 				break;
 		}
 
-		const result = await fetch(url);
+		const result = await fetch(`${url}?cache_buster=${now.getTime()}`);
 		if (!result.ok) {
 			throw new Error(await result.text());
 		}
@@ -677,12 +677,6 @@
 			};
 		})
 	);
-
-	const removeCachedBuster = (urlString: string) => {
-		const url = new URL(urlString);
-		url.searchParams.delete('cached_buster');
-		return url.href;
-	};
 </script>
 
 <svelte:head>
@@ -832,13 +826,7 @@
 										>
 										<td>{meta.temporal_resolution_seconds / 3600} hourly</td>
 										<td>Every {meta.update_interval_seconds / 3600} h</td>
-										<td
-											><a
-												href={removeCachedBuster(meta.url)}
-												class="text-link underline"
-												target="_blank">Link</a
-											></td
-										>
+										<td><a href={meta.url} class="text-link underline" target="_blank">Link</a></td>
 									{:catch error}
 										<td colspan="5" class="bg-red">{error}</td>
 									{/await}
