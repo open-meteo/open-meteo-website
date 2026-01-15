@@ -36,10 +36,10 @@
 		const json = await result.json();
 		const init = new Date(json.last_run_initialisation_time * 1000);
 
-		const initFormated = `${utcYYYYMMDD(init)} ${zeroPad(init.getUTCHours(), 2)}z`;
+		const initFormated = `${utcYYYYMMDD(init)} ${zeroPad(init.getUTCHours(), 2)}Z`;
 
 		const avail = new Date(json.last_run_availability_time * 1000);
-		const availHHMM = `${zeroPad(avail.getUTCHours(), 2)}:${zeroPad(avail.getUTCMinutes(), 2)}z`;
+		const availHHMM = `${zeroPad(avail.getUTCHours(), 2)}:${zeroPad(avail.getUTCMinutes(), 2)}Z`;
 		const availYYYMMDD = `${utcYYYYMMDD(avail)}`;
 		const availFormated =
 			now.getTime() / 1000 - json.last_run_availability_time < 18 * 3600
