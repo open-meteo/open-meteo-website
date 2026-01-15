@@ -47,91 +47,89 @@
 	}: Props = $props();
 
 	/// Parsed params that resolved CSV fields
-	let parsedParams = $derived(
-		((p: Parameters, apiKeyPreferences: APIKeyPreferences) => {
-			const jsonParams = { ...p };
-			if ('time_mode' in jsonParams) {
-				if (jsonParams.time_mode == 'forecast_days') {
-					delete jsonParams['start_date'];
-					delete jsonParams['end_date'];
+	let parsedParams = $derived.by(() => {
+		let jsonParams = { ...$params };
+		if ('time_mode' in jsonParams) {
+			if (jsonParams.time_mode == 'forecast_days') {
+				delete jsonParams['start_date'];
+				delete jsonParams['end_date'];
+			}
+			if (jsonParams.time_mode == 'time_interval' && !jsonParams.run) {
+				delete jsonParams['forecast_days'];
+				delete jsonParams['past_days'];
+			}
+			delete jsonParams['csv_time_intervals'];
+			delete jsonParams['time_mode'];
+		}
+		if ('location_mode' in jsonParams) {
+			if (jsonParams.location_mode == 'csv_coordinates' && jsonParams['csv_coordinates']) {
+				const lats: number[] = [];
+				const lons: number[] = [];
+				const elevation: number[] = [];
+				const timezone: string[] = [];
+				const start_date: string[] = [];
+				const end_date: string[] = [];
+				const csv: string = jsonParams['csv_coordinates'];
+				csv.split(/\r?\n/).forEach((row) => {
+					if (row.length < 4) {
+						return;
+					}
+					let parts = row.split(/[;,\t]/);
+					if (parts.length < 2) {
+						return;
+					}
+					lats.push(parseFloat(parts[0]));
+					lons.push(parseFloat(parts[1]));
+					if (parts.length > 2 && parts[2].length > 0) {
+						elevation.push(parseFloat(parts[2]));
+					}
+					if (parts.length > 3 && parts[3].length > 0) {
+						timezone.push(parts[3]);
+					}
+					if (parts.length > 5 && parts[4].length > 0 && parts[5].length > 0) {
+						start_date.push(parts[4]);
+						end_date.push(parts[5]);
+					}
+				});
+				jsonParams['latitude'] = lats;
+				jsonParams['longitude'] = lons;
+				if (elevation.length > 0) {
+					jsonParams['elevation'] = elevation;
 				}
-				if (jsonParams.time_mode == 'time_interval') {
+				if (timezone.length > 0) {
+					jsonParams['timezone'] = timezone;
+				}
+				if (start_date.length > 0) {
+					jsonParams['start_date'] = start_date;
+					jsonParams['end_date'] = end_date;
 					delete jsonParams['forecast_days'];
 					delete jsonParams['past_days'];
 				}
-				delete jsonParams['csv_time_intervals'];
-				delete jsonParams['time_mode'];
 			}
-			if ('location_mode' in jsonParams) {
-				if (jsonParams.location_mode == 'csv_coordinates' && jsonParams['csv_coordinates']) {
-					const lats: number[] = [];
-					const lons: number[] = [];
-					const elevation: number[] = [];
-					const timezone: string[] = [];
-					const start_date: string[] = [];
-					const end_date: string[] = [];
-					const csv: string = jsonParams['csv_coordinates'];
-					csv.split(/\r?\n/).forEach((row) => {
-						if (row.length < 4) {
-							return;
-						}
-						let parts = row.split(/[;,\t]/);
-						if (parts.length < 2) {
-							return;
-						}
-						lats.push(parseFloat(parts[0]));
-						lons.push(parseFloat(parts[1]));
-						if (parts.length > 2 && parts[2].length > 0) {
-							elevation.push(parseFloat(parts[2]));
-						}
-						if (parts.length > 3 && parts[3].length > 0) {
-							timezone.push(parts[3]);
-						}
-						if (parts.length > 5 && parts[4].length > 0 && parts[5].length > 0) {
-							start_date.push(parts[4]);
-							end_date.push(parts[5]);
-						}
-					});
-					jsonParams['latitude'] = lats;
-					jsonParams['longitude'] = lons;
-					if (elevation.length > 0) {
-						jsonParams['elevation'] = elevation;
-					}
-					if (timezone.length > 0) {
-						jsonParams['timezone'] = timezone;
-					}
-					if (start_date.length > 0) {
-						jsonParams['start_date'] = start_date;
-						jsonParams['end_date'] = end_date;
-						delete jsonParams['forecast_days'];
-						delete jsonParams['past_days'];
-					}
-				}
-				delete jsonParams['location_mode'];
-				delete jsonParams['csv_coordinates'];
+			delete jsonParams['location_mode'];
+			delete jsonParams['csv_coordinates'];
+		}
+		// Cast 1-element arrays to a scalar value
+		for (const key in jsonParams) {
+			if (Array.isArray(jsonParams[key]) && jsonParams[key].length == 1) {
+				jsonParams[key] = jsonParams[key][0];
 			}
-			// Cast 1-element arrays to a scalar value
-			for (const key in jsonParams) {
-				if (Array.isArray(jsonParams[key]) && jsonParams[key].length == 1) {
-					jsonParams[key] = jsonParams[key][0];
-				}
-			}
+		}
 
-			if (model_default != '' && !('models' in jsonParams && jsonParams['models'] != '')) {
-				jsonParams['models'] = model_default;
-			}
+		if (model_default != '' && !('models' in jsonParams && jsonParams['models'] != '')) {
+			jsonParams['models'] = model_default;
+		}
 
-			if (apiKeyPreferences.use == 'commercial') {
-				jsonParams['apikey'] = apiKeyPreferences.apikey;
-			}
+		if ($apiKeyPreferences.use == 'commercial') {
+			jsonParams['apikey'] = $apiKeyPreferences.apikey;
+		}
 
-			if ($params.location_mode !== 'bounding_box' && jsonParams.bounding_box) {
-				delete jsonParams.bounding_box;
-			}
+		if ($params.location_mode !== 'bounding_box' && jsonParams.bounding_box) {
+			delete jsonParams.bounding_box;
+		}
 
-			return objectDifference(jsonParams, defaultParameters);
-		})($params, $apiKeyPreferences)
-	);
+		return objectDifference(jsonParams, defaultParameters);
+	});
 
 	let server = $derived(
 		((apiKeyPreferences: APIKeyPreferences) => {
