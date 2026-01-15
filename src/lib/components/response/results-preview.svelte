@@ -48,7 +48,7 @@
 
 	/// Parsed params that resolved CSV fields
 	let parsedParams = $derived.by(() => {
-		let jsonParams = { ...$params };
+		const jsonParams = { ...$params };
 		if ('time_mode' in jsonParams) {
 			if (jsonParams.time_mode == 'forecast_days') {
 				delete jsonParams['start_date'];
