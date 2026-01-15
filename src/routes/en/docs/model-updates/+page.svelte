@@ -799,6 +799,7 @@
 	</div>
 	<div class="flex mt-3 gap-3 items-center" id="refresh">
 		<Button
+			href="/en/docs/model-updates#refresh"
 			onclick={() => {
 				sectionsAll = getData($apiKeyPreferences);
 				mount = new SvelteDate();
