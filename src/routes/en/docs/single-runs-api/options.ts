@@ -9,9 +9,15 @@ export const defaultParameters = {
 	csv_coordinates: undefined,
 
 	time_mode: 'time_interval',
+	past_days: '0',
+	forecast_days: '7',
 
+	past_hours: undefined,
 	cell_selection: undefined,
+	forecast_hours: undefined,
+	past_minutely_15: undefined,
 	temporal_resolution: undefined,
+	forecast_minutely_15: undefined,
 
 	tilt: '0',
 	azimuth: '0',
