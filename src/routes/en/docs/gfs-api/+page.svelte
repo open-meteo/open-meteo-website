@@ -1047,6 +1047,30 @@
 						<td>16 days</td>
 						<td>Every 6 hours</td>
 					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/aigfs/" target="_blank"
+								>AIGFS 0.25°</a
+							></th
+						>
+						<td>Global</td>
+						<td>0.25° (~25 km)</td>
+						<td>6-hourly</td>
+						<td>16 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/hgefs/" target="_blank"
+								>HGEFS 0.25° ens mean</a
+							></th
+						>
+						<td>Global</td>
+						<td>0.25° (~25 km)</td>
+						<td>6-hourly</td>
+						<td>10 days</td>
+						<td>Every 6 hours</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

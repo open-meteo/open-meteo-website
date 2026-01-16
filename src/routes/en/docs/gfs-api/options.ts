@@ -235,6 +235,8 @@ export const models = [
 		{ value: 'gfs_hrrr', label: 'HRRR Conus' },
 		{ value: 'ncep_nbm_conus', label: 'NBM Conus' },
 		{ value: 'ncep_nam_conus', label: 'NAM Conus' },
-		{ value: 'gfs_graphcast025', label: 'GFS GraphCast' }
+		{ value: 'gfs_graphcast025', label: 'GFS GraphCast' },
+		{ value: 'ncep_aigfs025', label: 'AIGFS 0.25°' },
+		{ value: 'ncep_hgefs025_stats', label: 'HGEFS 0.25° mean' }
 	]
 ];
