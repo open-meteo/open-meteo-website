@@ -362,6 +362,10 @@ export const models = [
 		{ value: 'ecmwf_seasonal_seamless', label: 'ECMWF Seasonal Seamless (EC46 + SEAS5)' },
 		{ value: 'ecmwf_seas5', label: 'ECMWF SEAS5' },
 		{ value: 'ecmwf_ec46', label: 'ECMWF EC46' }
+	],[
+		{ value: 'ecmwf_seasonal_ensemble_mean_seamless', label: 'ECMWF Seasonal Seamless (EC46 + SEAS5), Ensemble Mean' },
+		{ value: 'ecmwf_seas5_ensemble_mean', label: 'ECMWF SEAS5, Ensemble Mean' },
+		{ value: 'ecmwf_ec46_ensemble_mean', label: 'ECMWF EC46, Ensemble Mean' }
 	]
 ];
 
