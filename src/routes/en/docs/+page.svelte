@@ -194,7 +194,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if (value && $params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if (value && $params.hourly) {
@@ -306,7 +306,7 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -328,8 +328,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -440,7 +440,7 @@
 															aria-labelledby="{variable.value}_{level}hPa"
 															onCheckedChange={() => {
 																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-																	$params.hourly = $params.hourly.filter((item) => {
+																	$params.hourly = $params.hourly.filter((item: string) => {
 																		return item !== `${variable.value}_${level}hPa`;
 																	});
 																} else if ($params.hourly) {
@@ -493,7 +493,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -515,8 +515,8 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
+						seamless prediction.</small
 					>
 				</div>
 			</AccordionItem>
@@ -546,7 +546,7 @@
 										aria-labelledby="{value}_minutely_15_label"
 										onCheckedChange={() => {
 											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
+												$params.minutely_15 = $params.minutely_15.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.minutely_15) {
@@ -579,7 +579,7 @@
 										aria-labelledby="{value}_minutely_15_label"
 										onCheckedChange={() => {
 											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
+												$params.minutely_15 = $params.minutely_15.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.minutely_15) {
@@ -672,7 +672,7 @@
 								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
+										$params.daily = $params.daily.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.daily) {
@@ -723,7 +723,7 @@
 										aria-labelledby="{value}_daily_label"
 										onCheckedChange={() => {
 											if ($params.daily?.includes(value)) {
-												$params.daily = $params.daily.filter((item) => {
+												$params.daily = $params.daily.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.daily && Array.isArray($params.daily)) {
@@ -766,7 +766,7 @@
 								aria-labelledby="{value}_current_label"
 								onCheckedChange={() => {
 									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item) => {
+										$params.current = $params.current.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.current && Array.isArray($params.current)) {
@@ -1114,8 +1114,7 @@
 						<td>No</td>
 						<td><mark>0</mark></td>
 						<td
-							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also
-							returned.</td
+							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
 						>
 					</tr>
 					<tr>

@@ -151,7 +151,7 @@
 								aria-labelledby="{value}_hourly_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
@@ -222,7 +222,7 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -244,8 +244,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -311,7 +311,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -366,7 +366,7 @@
 												aria-labelledby="{value}{ag_value}daily_label"
 												onCheckedChange={() => {
 													if ($params.daily?.includes(`${value}${ag_value}`)) {
-														$params.daily = $params.daily.filter((item) => {
+														$params.daily = $params.daily.filter((item: string) => {
 															return item !== `${value}${ag_value}`;
 														});
 													} else if ($params.daily) {
@@ -420,7 +420,7 @@
 											aria-labelledby="{value}_mean_weekly_label"
 											onCheckedChange={() => {
 												if ($params.weekly?.includes(`${value}_mean`)) {
-													$params.weekly = $params.weekly.filter((item) => {
+													$params.weekly = $params.weekly.filter((item: string) => {
 														return item !== `${value}_mean`;
 													});
 												} else if ($params.weekly) {
@@ -444,7 +444,7 @@
 											aria-labelledby="{value}_anomaly_weekly_label"
 											onCheckedChange={() => {
 												if ($params.weekly?.includes(`${value}_anomaly`)) {
-													$params.weekly = $params.weekly.filter((item) => {
+													$params.weekly = $params.weekly.filter((item: string) => {
 														return item !== `${value}_anomaly`;
 													});
 												} else if ($params.weekly) {
@@ -502,7 +502,7 @@
 													aria-labelledby="{value}_mean_weekly_label"
 													onCheckedChange={() => {
 														if ($params.weekly?.includes(`${value}_mean`)) {
-															$params.weekly = $params.weekly.filter((item) => {
+															$params.weekly = $params.weekly.filter((item: string) => {
 																return item !== `${value}_mean`;
 															});
 														} else if ($params.weekly) {
@@ -526,7 +526,7 @@
 													aria-labelledby="{value}_anomaly_weekly_label"
 													onCheckedChange={() => {
 														if ($params.weekly?.includes(`${value}_anomaly`)) {
-															$params.weekly = $params.weekly.filter((item) => {
+															$params.weekly = $params.weekly.filter((item: string) => {
 																return item !== `${value}_anomaly`;
 															});
 														} else if ($params.weekly) {
@@ -568,12 +568,14 @@
 										checked={$params.weekly?.includes(value)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
+											console.log(value);
 											if (value && $params.weekly?.includes(value)) {
-												$params.weekly = $params.weekly.filter((item) => {
+												$params.weekly = $params.weekly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if (value && $params.weekly) {
 												$params.weekly.push(value);
+												$params.weekly = $params.weekly;
 											}
 										}}
 									/>
@@ -620,7 +622,7 @@
 												aria-labelledby="{value}_mean_monthly_label"
 												onCheckedChange={() => {
 													if ($params.monthly?.includes(`${value}_mean`)) {
-														$params.monthly = $params.monthly.filter((item) => {
+														$params.monthly = $params.monthly.filter((item: string) => {
 															return item !== `${value}_mean`;
 														});
 													} else if ($params.monthly) {
@@ -644,7 +646,7 @@
 												aria-labelledby="{value}_anomaly_monthly_label"
 												onCheckedChange={() => {
 													if ($params.monthly?.includes(`${value}_anomaly`)) {
-														$params.monthly = $params.monthly.filter((item) => {
+														$params.monthly = $params.monthly.filter((item: string) => {
 															return item !== `${value}_anomaly`;
 														});
 													} else if ($params.monthly) {
@@ -674,7 +676,7 @@
 													aria-labelledby="wind_gusts_10m_anomaly_monthly_label"
 													onCheckedChange={() => {
 														if ($params.monthly?.includes('wind_gusts_10m_anomaly')) {
-															$params.monthly = $params.monthly.filter((item) => {
+															$params.monthly = $params.monthly.filter((item: string) => {
 																return item !== 'wind_gusts_10m_anomaly';
 															});
 														} else if ($params.monthly) {
@@ -731,7 +733,7 @@
 												aria-labelledby="{value}_mean_monthly_label"
 												onCheckedChange={() => {
 													if ($params.monthly?.includes(`${value}_mean`)) {
-														$params.monthly = $params.monthly.filter((item) => {
+														$params.monthly = $params.monthly.filter((item: string) => {
 															return item !== `${value}_mean`;
 														});
 													} else if ($params.monthly) {
@@ -755,7 +757,7 @@
 												aria-labelledby="{value}_anomaly_monthly_label"
 												onCheckedChange={() => {
 													if ($params.monthly?.includes(`${value}_anomaly`)) {
-														$params.monthly = $params.monthly.filter((item) => {
+														$params.monthly = $params.monthly.filter((item: string) => {
 															return item !== `${value}_anomaly`;
 														});
 													} else if ($params.monthly) {
@@ -894,8 +896,8 @@
 		</p>
 		<ul class="ml-6 list-disc">
 			<li>
-				<strong>6-hourly resolution:</strong> Forecast data is provided at a native 6-hour interval.
-				While it can be interpolated to 3-hourly or 1-hourly steps, this does not increase forecast accuracy.
+				<strong>6-hourly resolution:</strong> Forecast data is provided at a native 6-hour interval. While
+				it can be interpolated to 3-hourly or 1-hourly steps, this does not increase forecast accuracy.
 				However, using 1-hourly resolution may be practical for applications such as solar PV modeling.
 			</li>
 			<li>
@@ -916,8 +918,8 @@
 			</li>
 			<li>
 				<strong>Weekly and monthly data</strong> are computed directly by the ECMWF SEAS5 and EC46 models.
-				Monthly data is available from SEAS5 for up to 7 months ahead, based on 51 ensemble members,
-				while weekly data is available from EC46 for up to 6 weeks ahead, using 100 ensemble members.
+				Monthly data is available from SEAS5 for up to 7 months ahead, based on 51 ensemble members, while
+				weekly data is available from EC46 for up to 6 weeks ahead, using 100 ensemble members.
 			</li>
 			<li>
 				<strong>Anomalies</strong> are calculated by comparing forecast values against a long-term
@@ -956,10 +958,10 @@
 				>.
 			</li>
 			<li>
-				<strong>Bias correction:</strong> The dataset is currently provided without bias adjustment.
-				Future versions of the API may include bias-corrected and downscaled outputs for improved local
-				accuracy. Parameters such as anomalies, EFI, and SOT are expressed relative to the model climate,
-				which inherently reduces some systematic biases.
+				<strong>Bias correction:</strong> The dataset is currently provided without bias adjustment. Future
+				versions of the API may include bias-corrected and downscaled outputs for improved local accuracy.
+				Parameters such as anomalies, EFI, and SOT are expressed relative to the model climate, which
+				inherently reduces some systematic biases.
 			</li>
 		</ul>
 	</div>
