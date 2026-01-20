@@ -53,7 +53,7 @@
 	let temporalResolution = $derived(
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
-		let cellSelection = $derived(
+	let cellSelection = $derived(
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
 
@@ -223,7 +223,6 @@
 						</Select.Root>
 					</div>
 				</div>
-
 			</AccordionItem>
 			<AccordionItem
 				id="solar-variables"
@@ -398,9 +397,9 @@
 				</div>
 				<p>
 					<small class="text-muted-foreground"
-						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses all 51 members from EC46 for the first 46 days and
-						switches to SEAS5 afterwards. Some weather variables may only be available for either weather
-						model.</small
+						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses all 51 members from EC46 for
+						the first 46 days and switches to SEAS5 afterwards. Some weather variables may only be available
+						for either weather model.</small
 					>
 				</p>
 				<p>
@@ -888,6 +887,13 @@
 			models are ensemble forecast systems with 51 members, each initialized with slightly different
 			starting conditions. This approach allows the models to estimate not only the most likely
 			future weather but also the range of possible outcomes and their associated uncertainties.
+		</p>
+		<p>
+			In addition to the 51 individual member forecasts, Open-Meteo also provides ensemble mean and spread
+			values. If an <mark>Ensemble Mean model</mark> is selected in the model selection above, the
+			API returns the ensemble mean instead of individual member forecasts. Ensemble mean and spread
+			values are stored for a longer period of time and can be used for bias correction later on.
+			Forecasts for all 51 individual members are only kept for one month.
 		</p>
 		<p>
 			Forecasts from EC46 for the next 46 days are updated every day at around 20:30 GMT+0. Seasonal
