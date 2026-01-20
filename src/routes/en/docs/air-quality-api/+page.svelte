@@ -285,7 +285,7 @@
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
@@ -329,7 +329,7 @@
 									aria-labelledby="{value}_label"
 									onCheckedChange={() => {
 										if ($params.hourly?.includes(value)) {
-											$params.hourly = $params.hourly.filter((item) => {
+											$params.hourly = $params.hourly.filter((item: string) => {
 												return item !== value;
 											});
 										} else if ($params.hourly) {
@@ -463,7 +463,7 @@
 									aria-labelledby="{value}_label"
 									onCheckedChange={() => {
 										if ($params.hourly?.includes(value)) {
-											$params.hourly = $params.hourly.filter((item) => {
+											$params.hourly = $params.hourly.filter((item: string) => {
 												return item !== value;
 											});
 										} else if ($params.hourly) {
@@ -650,7 +650,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -767,7 +767,7 @@
 								aria-labelledby="{value}_current_label"
 								onCheckedChange={() => {
 									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item) => {
+										$params.current = $params.current.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.current) {
@@ -1001,8 +1001,7 @@
 						<td>No</td>
 						<td><mark>0</mark></td>
 						<td
-							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also
-							returned.</td
+							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
 						>
 					</tr>
 					<tr>
