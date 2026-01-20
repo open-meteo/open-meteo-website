@@ -253,7 +253,7 @@
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
@@ -295,7 +295,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -376,7 +376,7 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -398,8 +398,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -469,7 +469,7 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -513,7 +513,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -563,7 +563,7 @@
 								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
+										$params.daily = $params.daily.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.daily) {
@@ -614,7 +614,7 @@
 										aria-labelledby="{value}_daily_label"
 										onCheckedChange={() => {
 											if ($params.daily?.includes(value)) {
-												$params.daily = $params.daily.filter((item) => {
+												$params.daily = $params.daily.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.daily) {
@@ -914,8 +914,8 @@
 	>
 	<div class="mt-2 md:mt-4">
 		<p>
-			The API endpoint <mark>/v1/archive</mark> allows users to retrieve historical weather data for
-			a specific location and time period. To use this endpoint, you can specify a geographical coordinate,
+			The API endpoint <mark>/v1/archive</mark> allows users to retrieve historical weather data for a
+			specific location and time period. To use this endpoint, you can specify a geographical coordinate,
 			a time interval, and a list of weather variables that they are interested in. The endpoint will
 			then return the requested data in a format that can be easily accessed and used by applications
 			or other software. This endpoint can be very useful for researchers and other users who need to

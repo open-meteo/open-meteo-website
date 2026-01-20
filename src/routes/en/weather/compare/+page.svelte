@@ -369,7 +369,7 @@
 							aria-labelledby="{value}_label"
 							onCheckedChange={() => {
 								if ($params.models?.includes(value)) {
-									$params.models = $params.models.filter((item) => {
+									$params.models = $params.models.filter((item: string) => {
 										return item !== value;
 									});
 								} else if ($params.models) {
@@ -423,7 +423,7 @@
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
