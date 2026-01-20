@@ -144,7 +144,7 @@
 								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
+										$params.daily = $params.daily.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.daily) {
@@ -186,7 +186,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -504,8 +504,8 @@
 		<p>
 			The API endpoint <mark>/v1/climate</mark> allows users to retrieve climate weather data from multiple
 			climate models. To use this endpoint, you can specify a geographical coordinate, a time interval,
-			and a list of weather variables that they are interested in. It is recommended to use the full
-			time range of 1950 to 2050.
+			and a list of weather variables that they are interested in. It is recommended to use the full time
+			range of 1950 to 2050.
 		</p>
 		<p>All URL parameters are listed below:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
@@ -908,8 +908,8 @@
 			terms of use governing CMIP6 output, including citation requirements and proper acknowledgment.
 			The data producers and data providers make no warranty, either express or implied, including, but
 			not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities
-			arising from the supply of the information (including any liability arising in negligence) are
-			excluded to the fullest extent permitted by law.
+			arising from the supply of the information (including any liability arising in negligence) are excluded
+			to the fullest extent permitted by law.
 		</p>
 
 		<p>
