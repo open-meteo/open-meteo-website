@@ -23,7 +23,7 @@
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
 
-	import { pastDaysOptions } from '../options';
+	import { gridCellSelectionOptions, pastDaysOptions } from '../options';
 	import {
 		additionalMonthly,
 		additionalWeekly,
@@ -52,6 +52,9 @@
 
 	let temporalResolution = $derived(
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
+	);
+	let cellSelection = $derived(
+		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
 
 	onMount(() => {
@@ -184,8 +187,8 @@
 			bind:value={accordionValues}
 		>
 			<AccordionItem id="additional-variables" title="Additional Options">
-				<div class="md:w-1/2">
-					<div class="relative md:col-span-2">
+				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
+					<div class="relative">
 						<Select.Root
 							name="temporal_resolution"
 							type="single"
@@ -201,6 +204,21 @@
 							</Select.Content>
 							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Temporal Resolution For Hourly Data</Label
+							>
+						</Select.Root>
+					</div>
+					<div class="relative">
+						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{cellSelection?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each gridCellSelectionOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								>Grid Cell Selection</Label
 							>
 						</Select.Root>
 					</div>
@@ -299,6 +317,51 @@
 					</div>
 				</div>
 			</AccordionItem>
+			<AccordionItem id="spread-variables" title="Ensemble Spread Variables">
+				<div
+					class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+				>
+					{#each hourly as group, i (i)}
+						<div>
+							{#each group as { value, label, EC46Only } (value)}
+								{@const valueSpread = `${value}_spread`}
+								<div class="group flex items-center" title={label}>
+									<Checkbox
+										id="{valueSpread}_hourly"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value="valueSpread"
+										checked={$params.hourly?.includes(valueSpread)}
+										aria-labelledby="{valueSpread}_hourly_label"
+										onCheckedChange={() => {
+											if ($params.hourly?.includes(valueSpread)) {
+												$params.hourly = $params.hourly.filter((item: string) => {
+													return item !== valueSpread;
+												});
+											} else if ($params.hourly) {
+												$params.hourly.push(valueSpread);
+												$params.hourly = $params.hourly;
+											}
+										}}
+									/>
+									<Label
+										id="{valueSpread}_hourly_label"
+										for="{valueSpread}_hourly"
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
+										>{label}{@html EC46Only ? '<sup class="ml-0.75">*</sup>' : ''}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
+				<p>
+					<small class="text-muted-foreground"
+						>Note: You need to select an <mark>Ensemble Mean</mark> in the model selection below to retrieve
+						ensemble spread data. Selecting an Ensemble Mean model will also return the ensemble mean
+						value for hourly data instead of values for each individual member.</small
+					>
+				</p>
+			</AccordionItem>
 			<AccordionItem id="models" title="Models" count={countVariables(models, $params.models)}>
 				<div class="mt-2 grid sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2">
 					{#each models as group, i (i)}
@@ -332,12 +395,21 @@
 						</div>
 					{/each}
 				</div>
-				<small class="text-muted-foreground"
-					>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses EC46 for the first 46 days and
-					switches to SEAS5 afterwards. Some weather variables may only be available for either weather
-					model.</small
-				>
-			</AccordionItem>
+				<p>
+					<small class="text-muted-foreground"
+						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses all 51 members from EC46 for
+						the first 46 days and switches to SEAS5 afterwards. Some weather variables may only be available
+						for either weather model.</small
+					>
+				</p>
+				<p>
+					<small class="text-muted-foreground"
+						>Note: If an <mark>Ensemble Mean</mark> model is selected, the API will return the mean value
+						of all ensemble members instead of individual members. Ensemble mean values are stored for
+						a longer period of time.
+					</small>
+				</p></AccordionItem
+			>
 		</Accordion.Root>
 	</div>
 
@@ -815,6 +887,13 @@
 			models are ensemble forecast systems with 51 members, each initialized with slightly different
 			starting conditions. This approach allows the models to estimate not only the most likely
 			future weather but also the range of possible outcomes and their associated uncertainties.
+		</p>
+		<p>
+			In addition to the 51 individual member forecasts, Open-Meteo also provides ensemble mean and spread
+			values. If an <mark>Ensemble Mean model</mark> is selected in the model selection above, the
+			API returns the ensemble mean instead of individual member forecasts. Ensemble mean and spread
+			values are stored for a longer period of time and can be used for bias correction later on.
+			Forecasts for all 51 individual members are only kept for one month.
 		</p>
 		<p>
 			Forecasts from EC46 for the next 46 days are updated every day at around 20:30 GMT+0. Seasonal
