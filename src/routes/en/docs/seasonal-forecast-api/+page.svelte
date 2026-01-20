@@ -398,7 +398,7 @@
 				</div>
 				<p>
 					<small class="text-muted-foreground"
-						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses EC46 for the first 46 days and
+						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses all 51 members from EC46 for the first 46 days and
 						switches to SEAS5 afterwards. Some weather variables may only be available for either weather
 						model.</small
 					>
