@@ -23,7 +23,7 @@
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
 
-	import { pastDaysOptions } from '../options';
+	import { gridCellSelectionOptions, pastDaysOptions } from '../options';
 	import {
 		additionalMonthly,
 		additionalWeekly,
@@ -52,6 +52,9 @@
 
 	let temporalResolution = $derived(
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
+	);
+		let cellSelection = $derived(
+		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
 
 	onMount(() => {
@@ -204,7 +207,23 @@
 							>
 						</Select.Root>
 					</div>
+					<div class="relative md:col-span-2">
+						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{cellSelection?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each gridCellSelectionOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								>Grid Cell Selection</Label
+							>
+						</Select.Root>
+					</div>
 				</div>
+
 			</AccordionItem>
 			<AccordionItem
 				id="solar-variables"

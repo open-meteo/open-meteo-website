@@ -24,29 +24,6 @@ export const defaultParameters = {
 	precipitation_unit: 'mm'
 };
 
-/*
-EC46 only:
-	case wind_u_component_100m
-	case wind_v_component_100m
-	case wind_u_component_200m
-	case wind_v_component_200m
-	case direct_radiation
-	case temperature_2m_max
-	case temperature_2m_min
-	case soil_temperature_7_to_28cm
-	case soil_temperature_28_to_100cm
-	case soil_temperature_100_to_255cm
-	case soil_moisture_0_to_7cm
-	case soil_moisture_7_to_28cm
-	case soil_moisture_28_to_100cm
-	case soil_moisture_100_to_255cm
-	case showers
-	case wind_gusts_10m
-	case sunshine_duration
-
-	EC46 are marked below with an asterisk
-*/
-
 export const hourly = [
 	[
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
@@ -56,7 +33,8 @@ export const hourly = [
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature (2 m)' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
+		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' }
 	],
 	[
 		{ value: 'weather_code', label: 'Weather Code' },
@@ -64,21 +42,24 @@ export const hourly = [
 		{ value: 'showers', label: 'Showers', EC46Only: true },
 		{ value: 'snowfall', label: 'Snowfall' },
 		{ value: 'rain', label: 'Rain' },
-		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
-		{ value: 'cloud_cover', label: 'Total Cloud Cover' },
-		{ value: 'sunshine_duration', label: 'Sunshine Duration', EC46Only: true }
+		{ value: 'wave_height', label: 'Wave Height', EC46Only: true },
+		{ value: 'wave_direction', label: 'Wave Direction', EC46Only: true },
+		{ value: 'wave_period', label: 'Wave Period', EC46Only: true },
+		{ value: 'wave_peak_period', label: 'Wave Peak Period', EC46Only: true }
 	],
 	[
+		{ value: 'cloud_cover', label: 'Total Cloud Cover' },
+		{ value: 'sunshine_duration', label: 'Sunshine Duration', EC46Only: true },
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 		{ value: 'wind_speed_200m', label: 'Wind Speed (200 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
 		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 		{ value: 'wind_direction_200m', label: 'Wind Direction (200 m)' },
-		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)', EC46Only: true },
-		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' }
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)', EC46Only: true }
 	],
 	[
+		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
 		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
 		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)', EC46Only: true },
 		{
@@ -362,8 +343,12 @@ export const models = [
 		{ value: 'ecmwf_seasonal_seamless', label: 'ECMWF Seasonal Seamless (EC46 + SEAS5)' },
 		{ value: 'ecmwf_seas5', label: 'ECMWF SEAS5' },
 		{ value: 'ecmwf_ec46', label: 'ECMWF EC46' }
-	],[
-		{ value: 'ecmwf_seasonal_ensemble_mean_seamless', label: 'ECMWF Seasonal Seamless (EC46 + SEAS5), Ensemble Mean' },
+	],
+	[
+		{
+			value: 'ecmwf_seasonal_ensemble_mean_seamless',
+			label: 'ECMWF Seasonal Seamless (EC46 + SEAS5), Ensemble Mean'
+		},
 		{ value: 'ecmwf_seas5_ensemble_mean', label: 'ECMWF SEAS5, Ensemble Mean' },
 		{ value: 'ecmwf_ec46_ensemble_mean', label: 'ECMWF EC46, Ensemble Mean' }
 	]
