@@ -187,8 +187,8 @@
 			bind:value={accordionValues}
 		>
 			<AccordionItem id="additional-variables" title="Additional Options">
-				<div class="md:w-1/2">
-					<div class="relative md:col-span-2">
+				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
+					<div class="relative">
 						<Select.Root
 							name="temporal_resolution"
 							type="single"
@@ -207,7 +207,7 @@
 							>
 						</Select.Root>
 					</div>
-					<div class="relative md:col-span-2">
+					<div class="relative">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
 							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
