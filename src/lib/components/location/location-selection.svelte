@@ -299,12 +299,12 @@
 							{/if}
 							{#if params.longitude[index] > 33 && params.longitude[index] <= 180 && params.latitude[index] >= 25}
 								<div class="absolute top-14 left-3 text-sm" transition:slide>
-									Negative longitude for North America
+									Hint: Use negative longitudes for North America
 								</div>
 							{/if}
 							{#if params.longitude[index] > 33 && params.longitude[index] <= 180 && params.latitude[index] < 25}
 								<div class="absolute top-14 left-3 text-sm" transition:slide>
-									Negative longitude for South America
+									Hint: Use negative longitudes for South America
 								</div>
 							{/if}
 						</div>
