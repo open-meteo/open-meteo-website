@@ -129,7 +129,15 @@ export const additionalVariables = [
 		{ value: 'temperature_2m_min', label: 'Temperature 3-Hourly Minimum (2 m)' },
 		{ value: 'temperature_2m_max', label: 'Temperature 3-Hourly Maximum (2 m)' },
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
-		{ value: 'precipitation_type', label: 'Precipitation Type' }
+		{ value: 'precipitation_type', label: 'Precipitation Type' },
+				{
+			value: 'sea_level_height_msl',
+			label: 'Sea Level Height including tides (above global mean sea level)'
+		},
+		{ value: 'ocean_current_velocity', label: 'Ocean Current Velocity' },
+		{ value: 'ocean_current_direction', label: 'Ocean Current Direction' },
+		{ value: 'lightning_density', label: 'Lightning Density'},
+		{ value: 'sea_ice_thickness', label: 'Sea Ice Thickness'}
 	],
 	[
 		{ value: 'roughness_length', label: 'Roughness Length z₀' },
