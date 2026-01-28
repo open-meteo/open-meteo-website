@@ -690,7 +690,7 @@ export const models = [
 		{ value: 'gfs_seamless', label: 'GFS Ensemble Seamless' },
 		{ value: 'gfs025', label: 'GFS Ensemble 0.25°' },
 		{ value: 'gfs05', label: 'GFS Ensemble 0.5°' },
-		{ value: 'gfs025', label: 'AIGEFS 0.25°' },
+		{ value: 'aigfs025', label: 'AIGEFS 0.25°' },
 	],
 	[
 		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' },
