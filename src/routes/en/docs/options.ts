@@ -327,7 +327,7 @@ export const models = [
 		{ value: 'ncep_nam_conus', label: 'NCEP NAM U.S. Conus' },
 		{ value: 'gfs_graphcast025', label: 'NCEP GFS GraphCast' },
 		{ value: 'ncep_aigfs025', label: 'NCEP AIGFS 0.25°' },
-		{ value: 'ncep_hgefs025_stats', label: 'NCEP HGEFS 0.25° mean' }
+		{ value: 'ncep_hgefs025_ensemble_mean', label: 'NCEP HGEFS 0.25° Ensemble Mean' }
 	],
 	[
 		{ value: 'jma_seamless', label: 'JMA Seamless' },

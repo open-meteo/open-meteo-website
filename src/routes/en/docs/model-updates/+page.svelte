@@ -329,7 +329,7 @@
 					{
 						name: 'HGEFS 0.25°',
 						area: [],
-						meta: fetchMeta('ncep_hgefs025_stats', 'forecast', apiKeyPreferences)
+						meta: fetchMeta('ncep_hgefs025_ensemble_mean', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'NBM Conus',
