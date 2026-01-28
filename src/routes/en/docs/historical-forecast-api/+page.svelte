@@ -928,7 +928,7 @@
 						<td>2022-11-24</td>
 					</tr>
 					<tr>
-						<th scope="row" rowspan="6">NOAA NCEP</th>
+						<th scope="row" rowspan="8">NOAA NCEP</th>
 						<td>GFS</td>
 						<td>Global</td>
 						<td>0.11° (~13 km)</td>
@@ -975,6 +975,22 @@
 						<td>6-Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2024-02-05</td>
+					</tr>
+										<tr>
+						<td>AIGFS</td>
+						<td>Global</td>
+						<td>0.25° (~25 km)</td>
+						<td>6-Hourly</td>
+						<td>Every 6 hours</td>
+						<td>2026-01-07</td>
+					</tr>
+					<tr>
+						<td>HGEFS</td>
+						<td>Global</td>
+						<td>0.25° (~25 km)</td>
+						<td>6-Hourly</td>
+						<td>Every 6 hours</td>
+						<td>2026-01-07</td>
 					</tr>
 					<tr>
 						<th scope="row" rowspan="4">Météo-France</th>
