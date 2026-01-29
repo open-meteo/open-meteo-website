@@ -52,7 +52,7 @@
 		longitude: [13.41],
 		...defaultParameters,
 		hourly: ['temperature_2m'],
-		models: ['icon_seamless']
+		models: ['icon_seamless_eps']
 	});
 
 	let forecastDays = $derived(

@@ -1083,7 +1083,7 @@
 					alt="HRRR U.S.Conus Model Area"
 				/>
 				<figcaption>
-					HRRR and NAM U.S.Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a
+					HRRR and NAM U.S. Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a
 					>.
 				</figcaption>
 			</figure>

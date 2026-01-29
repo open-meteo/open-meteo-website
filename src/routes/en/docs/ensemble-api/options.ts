@@ -516,22 +516,22 @@ export const meteoswiss = [
 ];
 
 export const availableVariables = {
-	icon_seamless: icon_d2_variables,
-	icon_global: icon_global_variables,
-	icon_eu: icon_eu_variables,
-	icon_d2: icon_d2_variables,
-	gfs_seamless: gfs05_variables,
-	gfs025: gfs025_variables,
-	gfs05: gfs05_variables,
-	aigfs025: aigfs025_variables,
-	ecmwf_ifs025: ecmwf_ifs025_variables,
-	ecmwf_aifs025: ecmwf_aifs025_variables,
+	icon_seamless_eps: icon_d2_variables,
+	icon_global_eps: icon_global_variables,
+	icon_eu_eps: icon_eu_variables,
+	icon_d2_eps: icon_d2_variables,
+	ncep_gefs_seamless: gfs05_variables,
+	ncep_gefs025: gfs025_variables,
+	ncep_gefs05: gfs05_variables,
+	ncep_aigefs025: aigfs025_variables,
+	ecmwf_ifs025_ensemble: ecmwf_ifs025_variables,
+	ecmwf_aifs025_ensemble: ecmwf_aifs025_variables,
 	ukmo_global_ensemble_20km: ukmo_variables,
 	ukmo_uk_ensemble_2km: ukmo_2km_variables,
-	gem_global: gem_global_variables,
+	gem_global_ensemble: gem_global_variables,
 	bom_access_global_ensemble: bom_access_global_ensemble,
-	meteoswiss_icon_ch1: meteoswiss,
-	meteoswiss_icon_ch2: meteoswiss
+	meteoswiss_icon_ch1_ensemble: meteoswiss,
+	meteoswiss_icon_ch2_ensemble: meteoswiss
 };
 
 export const hourly = [
