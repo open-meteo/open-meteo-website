@@ -681,21 +681,21 @@ export const solarVariables = [
 
 export const models = [
 	[
-		{ value: 'icon_seamless', label: 'DWD ICON EPS Seamless' },
-		{ value: 'icon_global', label: 'DWD ICON EPS Global' },
-		{ value: 'icon_eu', label: 'DWD ICON EPS EU' },
-		{ value: 'icon_d2', label: 'DWD ICON EPS D2' }
+		{ value: 'icon_seamless_eps', label: 'DWD ICON EPS Seamless' },
+		{ value: 'icon_global_eps', label: 'DWD ICON EPS Global' },
+		{ value: 'icon_eu_eps', label: 'DWD ICON EPS EU' },
+		{ value: 'icon_d2_eps', label: 'DWD ICON EPS D2' }
 	],
 	[
-		{ value: 'gfs_seamless', label: 'GFS Ensemble Seamless' },
-		{ value: 'gfs025', label: 'GFS Ensemble 0.25°' },
-		{ value: 'gfs05', label: 'GFS Ensemble 0.5°' },
-		{ value: 'aigfs025', label: 'AIGEFS 0.25°' },
+		{ value: 'ncep_gefs_seamless', label: 'GFS Ensemble Seamless' },
+		{ value: 'ncep_gefs025', label: 'GFS Ensemble 0.25°' },
+		{ value: 'ncep_gefs05', label: 'GFS Ensemble 0.5°' },
+		{ value: 'ncep_aigefs025', label: 'AIGEFS 0.25°' },
 	],
 	[
-		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' },
-		{ value: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25° Ensemble' },
-		{ value: 'gem_global', label: 'GEM Global Ensemble' },
+		{ value: 'ecmwf_ifs025_ensemble', label: 'ECMWF IFS 0.25° Ensemble' },
+		{ value: 'ecmwf_aifs025_ensemble', label: 'ECMWF AIFS 0.25° Ensemble' },
+		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' },
 		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
 	],
 	[
@@ -703,8 +703,8 @@ export const models = [
 		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' }
 	],
 	[
-		{ value: 'meteoswiss_icon_ch1', label: 'MeteoSwiss ICON CH1' },
-		{ value: 'meteoswiss_icon_ch2', label: 'MeteoSwiss ICON CH2' }
+		{ value: 'meteoswiss_icon_ch1_ensemble', label: 'MeteoSwiss ICON CH1' },
+		{ value: 'meteoswiss_icon_ch2_ensemble', label: 'MeteoSwiss ICON CH2' }
 	]
 ];
 
