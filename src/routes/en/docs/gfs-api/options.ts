@@ -237,6 +237,6 @@ export const models = [
 		{ value: 'ncep_nam_conus', label: 'NAM Conus' },
 		{ value: 'gfs_graphcast025', label: 'GFS GraphCast' },
 		{ value: 'ncep_aigfs025', label: 'AIGFS 0.25°' },
-		{ value: 'ncep_hgefs025_ensemble_mean', label: 'HGEFS 0.25° mean' }
+		{ value: 'ncep_hgefs025_ensemble_mean', label: 'HGEFS 0.25° Ensemble Mean' }
 	]
 ];
