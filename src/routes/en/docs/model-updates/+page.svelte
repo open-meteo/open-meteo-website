@@ -703,7 +703,7 @@
 						})
 					};
 				})
-			: {}
+			: []
 	);
 
 	let today = new SvelteDate();
