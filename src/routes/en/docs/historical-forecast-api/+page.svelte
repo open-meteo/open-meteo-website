@@ -69,7 +69,7 @@
 
 	let beginDate = new Date('2016-01-01');
 	let lastDate = new Date();
-	lastDate.setDate(lastDate.getDate() - 2);
+	lastDate.setDate(lastDate.getDate());
 
 	// Additional variable settings
 	let forecastHours = $derived(
