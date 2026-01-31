@@ -30,7 +30,6 @@
 	import {
 		forecastHoursOptions,
 		gridCellSelectionOptions,
-		pastDaysOptions,
 		pastHoursOptions,
 		temporalResolutionOptions
 	} from '../options';
@@ -43,6 +42,7 @@
 		hourly,
 		levels,
 		models,
+		pastDaysOptions,
 		pressureVariables,
 		solarVariables
 	} from './options';
@@ -363,7 +363,7 @@
 								aria-labelledby="{value}_model_label"
 								onCheckedChange={() => {
 									if ($params.models?.includes(value)) {
-										$params.models = $params.models.filter((item) => {
+										$params.models = $params.models.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.models) {
@@ -407,7 +407,7 @@
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
@@ -454,7 +454,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -567,7 +567,7 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -589,8 +589,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -705,7 +705,7 @@
 															aria-labelledby="{variable.value}_{level}hPa"
 															onCheckedChange={() => {
 																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-																	$params.hourly = $params.hourly.filter((item) => {
+																	$params.hourly = $params.hourly.filter((item: string) => {
 																		return item !== `${variable.value}_${level}hPa`;
 																	});
 																} else if ($params.hourly) {
@@ -764,7 +764,7 @@
 								disabled={!isDailyAvailable(value, $params.models)}
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
+										$params.daily = $params.daily.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.daily) {

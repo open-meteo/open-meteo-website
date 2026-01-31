@@ -319,7 +319,7 @@
 											aria-labelledby="{pd.value}_hourly_previous_day_label{i}"
 											onCheckedChange={() => {
 												if ($params.hourly?.includes(formatVariableName(pd.value, i))) {
-													$params.hourly = $params.hourly.filter((item) => {
+													$params.hourly = $params.hourly.filter((item: string) => {
 														return item !== formatVariableName(pd.value, i);
 													});
 												} else if ($params.hourly) {
@@ -406,7 +406,7 @@
 													aria-labelledby="{sv.value}_hourly_previous_day_label{i}"
 													onCheckedChange={() => {
 														if ($params.hourly?.includes(formatVariableName(sv.value, i))) {
-															$params.hourly = $params.hourly.filter((item) => {
+															$params.hourly = $params.hourly.filter((item: string) => {
 																return item !== formatVariableName(sv.value, i);
 															});
 														} else if ($params.hourly) {
@@ -506,7 +506,7 @@
 													aria-labelledby="{wv.value}_hourly_previous_day_label{i}"
 													onCheckedChange={() => {
 														if ($params.hourly?.includes(formatVariableName(wv.value, i))) {
-															$params.hourly = $params.hourly.filter((item) => {
+															$params.hourly = $params.hourly.filter((item: string) => {
 																return item !== formatVariableName(wv.value, i);
 															});
 														} else if ($params.hourly) {
@@ -547,7 +547,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -569,8 +569,8 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
+						seamless prediction.</small
 					>
 				</div>
 			</AccordionItem>
@@ -635,8 +635,7 @@
 		<p>
 			<strong>Weather Models Sources:</strong> The Previous Runs API uses the same models as
 			available in the general weather forecast API. Please refer to the
-			<a href="/en/docs">Forecast API documentation</a> for a list of all weather models and weather
-			variables.
+			<a href="/en/docs">Forecast API documentation</a> for a list of all weather models and weather variables.
 		</p>
 		<p>
 			<strong>Data Availability:</strong> Data is generally available from January 2024 onwards. Exceptions

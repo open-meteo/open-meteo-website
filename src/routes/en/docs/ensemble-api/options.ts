@@ -32,7 +32,7 @@ export const pressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
 	{ value: 'relative_humidity', label: 'Relative Humidity' },
 	{ value: 'dew_point', label: 'Dew Point' },
- 	{ value: 'cloud_cover', label: 'Cloud Cover' },
+	{ value: 'cloud_cover', label: 'Cloud Cover' },
 	{ value: 'wind_speed', label: 'Wind Speed' },
 	{ value: 'wind_direction', label: 'Wind Direction' },
 	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
@@ -145,8 +145,8 @@ const ecmwf_pressure_levels = [
 	'wind_direction_600hPa',
 	'wind_direction_700hPa',
 	'wind_direction_850hPa',
-	'wind_direction_925hPa',
-]
+	'wind_direction_925hPa'
+];
 
 export const icon_global_variables = [
 	'weather_code',
@@ -167,7 +167,7 @@ export const icon_global_variables = [
 	'rain',
 	'wet_bulb_temperature_2m',
 	'shortwave_radiation',
-	'sunshine_duration',
+	'sunshine_duration'
 ];
 
 export const icon_eu_variables = [
@@ -189,7 +189,7 @@ export const icon_eu_variables = [
 	'cape',
 	'wet_bulb_temperature_2m',
 	'shortwave_radiation',
-	'sunshine_duration',
+	'sunshine_duration'
 ];
 
 export const icon_d2_variables = [
@@ -252,7 +252,7 @@ export const gfs025_variables = [
 	'convective_inhibition',
 	'rain',
 	'shortwave_radiation',
-	'sunshine_duration',
+	'sunshine_duration'
 ];
 
 export const aigfs025_variables = [
@@ -349,7 +349,7 @@ export const ecmwf_ifs025_variables = [
 	'weather_code',
 	'sunshine_duration',
 	'surface_pressure',
-	'et0_fao_evapotranspiration',
+	'et0_fao_evapotranspiration'
 ];
 
 export const ecmwf_aifs025_variables = [
@@ -381,7 +381,7 @@ export const ecmwf_aifs025_variables = [
 	'weather_code',
 	'surface_pressure',
 	'sunshine_duration',
-	'et0_fao_evapotranspiration',
+	'et0_fao_evapotranspiration'
 ];
 
 export const ukmo_variables = [
@@ -716,4 +716,11 @@ export const forecastDaysOptions = [
 	{ value: '16', label: '16 days' },
 	{ value: '30', label: '30 days' },
 	{ value: '35', label: '35 days' }
+];
+
+export const pastDaysOptions = [
+	{ value: '0', label: '0 days (default)' },
+	{ value: '1', label: '1 day' },
+	{ value: '2', label: '2 days' },
+	{ value: '3', label: '3 days' }
 ];
