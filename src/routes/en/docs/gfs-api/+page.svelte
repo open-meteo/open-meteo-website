@@ -523,8 +523,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -714,8 +714,8 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
+						seamless prediction.</small
 					>
 				</div>
 			</AccordionItem>
@@ -1083,7 +1083,8 @@
 					alt="HRRR U.S.Conus Model Area"
 				/>
 				<figcaption>
-					HRRR and NAM U.S. Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a
+					HRRR and NAM U.S. Conus Model Area. Source: <a href="https://open-meteo.com/"
+						>Open-Meteo</a
 					>.
 				</figcaption>
 			</figure>
@@ -1346,6 +1347,13 @@
 			precipitation types. Probability data is directly available only for NBM, while Open-Meteo
 			calculates precipitation probability for the GFS025 model.
 		</p>
+		<p>
+			In AIGFS, HGEFS, and GFS GraphCast, cloud cover is estimated by Open-Meteo using specific
+			humidity data from different heights in the atmosphere. The method uses the Murphy & Koop
+			(2005) equations to represent clouds made of liquid water, supercooled droplets, or ice. A
+			smooth phased transition between liquid and ice clouds is applied, similar to the approach
+			used in the ECMWF IFS model.
+		</p>
 		<div class="relative -mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
 				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[600px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
@@ -1357,7 +1365,7 @@
 						<th scope="col">GFS025</th>
 						<th scope="col">HRRR</th>
 						<th scope="col">NBM</th>
-						<th scope="col">GraphCast</th>
+						<th scope="col">GraphCast,<br />AIGFS, HGEFS</th>
 					</tr></thead
 				>
 				<tbody>
