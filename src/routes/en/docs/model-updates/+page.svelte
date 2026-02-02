@@ -248,15 +248,15 @@
 						area: ['european_union'],
 						meta: fetchMeta('meteofrance_arpege_europe', 'forecast', apiKeyPreferences)
 					},
-					{
-						name: 'ARPEGE Europe 0.1° Probabilities',
-						area: ['european_union'],
-						meta: fetchMeta(
-							'meteofrance_arpege_europe_probabilities',
-							'forecast',
-							apiKeyPreferences
-						)
-					},
+					// { Removed 2026-02-02: Not provided anymore by Meteo-France
+					// 	name: 'ARPEGE Europe 0.1° Probabilities',
+					// 	area: ['european_union'],
+					// 	meta: fetchMeta(
+					// 		'meteofrance_arpege_europe_probabilities',
+					// 		'forecast',
+					// 		apiKeyPreferences
+					// 	)
+					// },
 					{
 						name: 'AROME France 0.01 HD°',
 						area: ['fr'],
