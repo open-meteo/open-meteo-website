@@ -851,7 +851,7 @@
 						</th>
 						<td>Europe</td>
 						<td>0.1° (~11 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>October 2023 onwards</td>
 						<td>Every 24 hours, 4 days forecast</td>
 					</tr>
