@@ -40,6 +40,6 @@ export const lengthOptions = [
 
 export const domainOptions = [
 	{ value: 'auto', label: 'Global + European' },
-	{ value: 'cams_global', label: 'Global (40km)' },
+	{ value: 'cams_global', label: 'Global (45km)' },
 	{ value: 'cams_europe', label: 'European (11km)' }
 ];
