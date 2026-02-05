@@ -766,7 +766,7 @@
 						<th scope="row">ICON 2I</th>
 						<td>Southern Europe</td>
 						<td>0.02° (~2 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>3 days</td>
 						<td>Every 12 hours</td>
 					</tr>
