@@ -103,7 +103,7 @@
 </script>
 
 <svelte:head>
-	<title>UK Met Office API | Open-Meteo.com</title>
+	<title>KMA Weather API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/kma-api" />
 </svelte:head>
 
