@@ -851,7 +851,7 @@
 				const newSections = getData($apiKeyPreferences);
 				sectionsAll = newSections;
 
-				const collectMetaPromises = (providers: { models: { meta: Promise }[] }[]) =>
+				const collectMetaPromises = (providers: { models: { meta: Promise<ModelMetadata> }[] }[]) =>
 					providers.flatMap((provider) => provider.models.map((model) => model.meta));
 
 				const allPromises = newSections.flatMap((section) =>
