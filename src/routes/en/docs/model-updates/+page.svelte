@@ -848,6 +848,7 @@
 			href="/en/docs/model-updates#refresh"
 			onclick={async () => {
 				loadingData = true;
+				lastRefresh = '00:00';
 				const newSections = getData($apiKeyPreferences);
 				sectionsAll = newSections;
 
@@ -861,7 +862,6 @@
 				await Promise.all(allPromises);
 				loadingData = false;
 				mount = new SvelteDate();
-				lastRefresh = '00:00';
 			}}
 			><svg
 				xmlns="http://www.w3.org/2000/svg"
