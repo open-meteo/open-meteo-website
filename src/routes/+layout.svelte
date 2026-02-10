@@ -37,18 +37,21 @@
 
 <Header {pathname} />
 <Hero {...page.data} />
+<div class="content">
 {@render children()}
+
+</div>
 {#if loading}
 	<div
 		in:fade={{ delay: 300, duration: 300 }}
 		out:fade={{ duration: 100 }}
-		class="fixed w-full h-full bg-foreground/25 z-10 top-0 flex items-center justify-center"
+		class="fixed w-full h-full bg-foreground/15 z-10 top-0 flex items-center justify-center"
 	>
 		<svg
 			class="lucide lucide-loader-circle animate-spin"
 			xmlns="http://www.w3.org/2000/svg"
-			width="40"
-			height="40"
+			width="60"
+			height="60"
 			viewBox="0 0 24 24"
 			fill="none"
 			stroke="currentColor"

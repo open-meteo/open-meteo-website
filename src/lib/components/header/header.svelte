@@ -16,7 +16,7 @@
 	let toggleMenu = $state(false);
 </script>
 
-<nav class="header container flex flex-wrap py-4 md:flex-nowrap">
+<nav style="view-transition-name: header;" class=" container flex flex-wrap py-4 md:flex-nowrap">
 	<div class="flex w-full justify-between md:w-[unset]">
 		<Button
 			variant="ghost"
@@ -144,11 +144,3 @@
 		</div>
 	</div>
 </nav>
-
-<style>
-	header {
-		display: flex;
-		justify-content: space-between;
-		view-transition-name: header;
-	}
-</style>
