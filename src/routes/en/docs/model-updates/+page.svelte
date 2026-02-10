@@ -45,7 +45,7 @@
 		providers: Provider[];
 	};
 
-	const fetchMeta = async (model: string, type: string, apiKeyPreferences: APIKeyPreferences) => {		
+	const fetchMeta = async (model: string, type: string, apiKeyPreferences: APIKeyPreferences) => {
 		const now = new Date();
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
 		let url: string;
@@ -850,14 +850,14 @@
 				loadingData = true;
 				const newSections = getData($apiKeyPreferences);
 				sectionsAll = newSections;
-				
-				const collectMetaPromises = (providers: { models: { meta: Promise<unknown> }[] }[]) =>
+
+				const collectMetaPromises = (providers: { models: { meta: Promise }[] }[]) =>
 					providers.flatMap((provider) => provider.models.map((model) => model.meta));
-				
-				const allPromises = newSections.flatMap((section) => 
+
+				const allPromises = newSections.flatMap((section) =>
 					collectMetaPromises(section.providers)
 				);
-				
+
 				await Promise.all(allPromises);
 				loadingData = false;
 				mount = new SvelteDate();
@@ -958,7 +958,8 @@
 														<td>{meta.temporal_resolution_seconds / 3600} hourly</td>
 														<td>Every {meta.update_interval_seconds / 3600} h</td>
 														<td
-															><a href={meta.url} class="text-link underline" target="_blank">Link</a
+															><a href={meta.url} class="text-link underline" target="_blank"
+																>Link</a
 															></td
 														>
 													{:catch error}
