@@ -15,7 +15,37 @@
 
 	import type { APIKeyPreferences } from '$lib/docs';
 
-	const fetchMeta = async (model: string, type: string, apiKeyPreferences: APIKeyPreferences) => {
+	type ModelMetadata = {
+		url: string;
+		data_end_time: number;
+		last_run_availability_time: string;
+		last_run_initialisation_time: string;
+		last_run_modification_time: number;
+		temporal_resolution_seconds: number;
+		update_interval_seconds: number;
+		area: string[];
+		is_late: boolean;
+		is_really_late: boolean;
+	};
+
+	type Model = {
+		name: string;
+		area: string[];
+		meta: Promise<ModelMetadata>;
+	};
+
+	type Provider = {
+		provider: string;
+		url: string;
+		models: Model[];
+	};
+
+	type Section = {
+		name: string;
+		providers: Provider[];
+	};
+
+	const fetchMeta = async (model: string, type: string, apiKeyPreferences: APIKeyPreferences) => {		
 		const now = new Date();
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
 		let url: string;
@@ -74,11 +104,7 @@
 		};
 	};
 
-	let loadingData = $state(true);
-	const getData = async (apiKeyPreferences: APIKeyPreferences) => {
-		const collectMetaPromises = (providers: { models: { meta: Promise<unknown> }[] }[]) =>
-			providers.flatMap((provider) => provider.models.map((model) => model.meta));
-
+	const getData = (apiKeyPreferences: APIKeyPreferences): Section[] => {
 		let forecastModels = [
 			{
 				provider: 'ItaliaMeteo ARPAE',
@@ -647,17 +673,6 @@
 			}
 		];
 
-		await Promise.all([
-			...collectMetaPromises(forecastModels),
-			...collectMetaPromises(historicalModels),
-			...collectMetaPromises(ensembleModels),
-			...collectMetaPromises(airQualityModels),
-			...collectMetaPromises(marineModels),
-			...collectMetaPromises(floodModels)
-		]);
-
-		loadingData = false;
-
 		return [
 			{ name: 'Forecast API', providers: forecastModels },
 			{ name: 'Historical Weather API', providers: historicalModels },
@@ -672,25 +687,26 @@
 	let showEuropeanModels = $state(true);
 	let showNorthAmericanModels = $state(true);
 	let showAsianModels = $state(true);
+	let loadingData = $state(false);
 
-	let sectionsAll = $state();
+	let sectionsAll: Section[] | undefined = $state();
 	onMount(async () => {
-		sectionsAll = await getData($apiKeyPreferences);
+		sectionsAll = getData($apiKeyPreferences);
 	});
 
 	let sections = $derived(
 		sectionsAll
-			? sectionsAll.map((e) => {
+			? sectionsAll.map((e: Section) => {
 					return {
 						name: e.name,
-						providers: e.providers.map((e) => {
+						providers: e.providers.map((p: Provider) => {
 							return {
-								url: e.url,
-								provider: e.provider,
-								models: e.models.filter((e) => {
-									let isNorthAmerica = e.area.includes('ca') || e.area.includes('us');
-									let isGlobal = e.area.length == 0;
-									let isAsian = e.area.includes('jp') || e.area.includes('kr');
+								url: p.url,
+								provider: p.provider,
+								models: p.models.filter((m: Model) => {
+									let isNorthAmerica = m.area.includes('ca') || m.area.includes('us');
+									let isGlobal = m.area.length == 0;
+									let isAsian = m.area.includes('jp') || m.area.includes('kr');
 									let isEuropean = !isGlobal && !isNorthAmerica && !isAsian;
 									return (
 										(showGlobalModels && isGlobal) ||
@@ -708,12 +724,16 @@
 
 	let today = new SvelteDate();
 	today.setTime(0);
-	let mount = new SvelteDate();
+
+	let mount = $state(new SvelteDate());
 	let lastRefresh = $state('00:00');
 	let refreshTickerInterval: ReturnType<typeof setInterval> | undefined;
 	onMount(() => {
 		mount = new SvelteDate();
 		refreshTickerInterval = setInterval(() => {
+			if (loadingData) {
+				return;
+			}
 			const now = new SvelteDate();
 			const difference = Math.round(now.getTime() - mount.getTime());
 			today.setTime(difference);
@@ -824,12 +844,22 @@
 		id="refresh"
 	>
 		<Button
-			class={loadingData ? 'pointer-events-none ' : ''}
+			class={loadingData ? 'pointer-events-none' : ''}
 			href="/en/docs/model-updates#refresh"
 			onclick={async () => {
 				loadingData = true;
-
-				sectionsAll = await getData($apiKeyPreferences);
+				const newSections = getData($apiKeyPreferences);
+				sectionsAll = newSections;
+				
+				const collectMetaPromises = (providers: { models: { meta: Promise<unknown> }[] }[]) =>
+					providers.flatMap((provider) => provider.models.map((model) => model.meta));
+				
+				const allPromises = newSections.flatMap((section) => 
+					collectMetaPromises(section.providers)
+				);
+				
+				await Promise.all(allPromises);
+				loadingData = false;
 				mount = new SvelteDate();
 				lastRefresh = '00:00';
 			}}
@@ -850,34 +880,8 @@
 			> Refresh</Button
 		> Last refresh: {lastRefresh}
 	</div>
-	<div class="relative min-h-[90vh]">
-		{#if loadingData}
-			<div
-				in:fade={{ duration: 300 }}
-				out:fade={{ delay: 300, duration: 300 }}
-				class="absolute z-10 top-0 w-full h-full"
-			>
-				<div
-					class="border-none mt-3 bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg border"
-				>
-					<svg
-						class="lucide lucide-loader-circle animate-spin"
-						xmlns="http://www.w3.org/2000/svg"
-						width="40"
-						height="40"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<path d="M21 12a9 9 0 1 1-6.219-8.56" />
-					</svg>
-					<span class="hidden">Loading...</span>
-				</div>
-			</div>
-		{:else}
+	<div class="relative min-h-0">
+		{#if sectionsAll}
 			<div transition:fade={{ duration: 300 }}>
 				{#each sections as section, i (i)}
 					<div class="mt-6">
@@ -888,67 +892,84 @@
 						</a>
 
 						<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-							<table
-								class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1140px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-							>
-								<thead>
-									<tr>
-										<th scope="col">Provider</th>
-										<th scope="col">Weather Model</th>
-										<th>Area</th>
-										<th scope="col">Last Model Run</th>
-										<th scope="col">Update Available</th>
-										<th scope="col">Temporal Resolution</th>
-										<th scope="col">Update frequency</th>
-										<th scope="col">API</th>
-									</tr>
-								</thead>
-								<tbody>
-									{#each section.providers as provider, i (i)}
-										{#each provider.models as model, index (index)}
-											<tr>
-												{#if index == 0}
-													<td rowspan={provider.models.length}>{provider.provider}</td>
-												{/if}
-												<td>{model.name}</td>
-												<td>
-													{#each model.area as area, i (i)}
-														<img
-															height="26"
-															width="26"
-															src="/images/country-flags/{area}.svg"
-															alt={area}
-															title={area}
-														/>
-													{/each}
-												</td>
-												{#await model.meta}
-													<td colspan="6">Loading</td>
-												{:then meta}
-													<td
-														class="{meta.is_late ? 'bg-amber-200/75' : ''} {meta.is_really_late
-															? 'bg-red-400/75'
-															: ''}">{meta.last_run_initialisation_time}</td
-													>
-													<td
-														class="{meta.is_late ? 'bg-amber-200/75' : ''} {meta.is_really_late
-															? 'bg-red-400/75'
-															: ''}">{meta.last_run_availability_time}</td
-													>
-													<td>{meta.temporal_resolution_seconds / 3600} hourly</td>
-													<td>Every {meta.update_interval_seconds / 3600} h</td>
-													<td
-														><a href={meta.url} class="text-link underline" target="_blank">Link</a
-														></td
-													>
-												{:catch error}
-													<td colspan="5" class="bg-red">{error}</td>
-												{/await}
-											</tr>
+							{#if section.providers.some((p: Provider) => p.models.length > 0)}
+								<table
+									class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1140px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+								>
+									<thead>
+										<tr>
+											<th scope="col">Provider</th>
+											<th scope="col">Weather Model</th>
+											<th>Area</th>
+											<th scope="col">Last Model Run</th>
+											<th scope="col">Update Available</th>
+											<th scope="col">Temporal Resolution</th>
+											<th scope="col">Update frequency</th>
+											<th scope="col">API</th>
+										</tr>
+									</thead>
+									<tbody>
+										{#each section.providers as provider, i (i)}
+											{#each provider.models as model, index (index)}
+												<tr>
+													{#if index == 0}
+														<td rowspan={provider.models.length}>{provider.provider}</td>
+													{/if}
+													<td>{model.name}</td>
+													<td>
+														{#each model.area as area, i (i)}
+															<img
+																height="26"
+																width="26"
+																src="/images/country-flags/{area}.svg"
+																alt={area}
+																title={area}
+															/>
+														{/each}
+													</td>
+													{#await model.meta}
+														<td colspan="5" class="text-center py-2">
+															<svg
+																class="lucide lucide-loader-circle animate-spin inline"
+																xmlns="http://www.w3.org/2000/svg"
+																width="16"
+																height="16"
+																viewBox="0 0 24 24"
+																fill="none"
+																stroke="currentColor"
+																stroke-width="2"
+																stroke-linecap="round"
+																stroke-linejoin="round"
+															>
+																<path d="M21 12a9 9 0 1 1-6.219-8.56" />
+															</svg>
+														</td>
+													{:then meta}
+														<td
+															class="{meta.is_late ? 'bg-amber-200/75' : ''} {meta.is_really_late
+																? 'bg-red-400/75'
+																: ''}">{meta.last_run_initialisation_time}</td
+														>
+														<td
+															class="{meta.is_late ? 'bg-amber-200/75' : ''} {meta.is_really_late
+																? 'bg-red-400/75'
+																: ''}">{meta.last_run_availability_time}</td
+														>
+														<td>{meta.temporal_resolution_seconds / 3600} hourly</td>
+														<td>Every {meta.update_interval_seconds / 3600} h</td>
+														<td
+															><a href={meta.url} class="text-link underline" target="_blank">Link</a
+															></td
+														>
+													{:catch error}
+														<td colspan="5" class="bg-red">{error}</td>
+													{/await}
+												</tr>
+											{/each}
 										{/each}
-									{/each}
-								</tbody>
-							</table>
+									</tbody>
+								</table>
+							{/if}
 						</div>
 					</div>
 				{/each}
