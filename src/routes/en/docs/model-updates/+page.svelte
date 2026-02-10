@@ -848,7 +848,6 @@
 			href="/en/docs/model-updates#refresh"
 			onclick={async () => {
 				loadingData = true;
-				lastRefresh = '00:00';
 				const newSections = getData($apiKeyPreferences);
 				sectionsAll = newSections;
 
@@ -858,6 +857,8 @@
 				const allPromises = newSections.flatMap((section) =>
 					collectMetaPromises(section.providers)
 				);
+
+				lastRefresh = '00:00';
 
 				await Promise.all(allPromises);
 				loadingData = false;
