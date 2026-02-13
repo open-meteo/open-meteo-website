@@ -19,7 +19,11 @@
 
 <div class="container my-6 grid grid-cols-1 gap-6 md:my-12 md:grid-cols-2 md:gap-12">
 	<div>
-		<h2 class="mb-3 text-3xl font-light md:text-5xl lg:mb-5">Data Sources</h2>
+		<a href="#data_sources">
+			<h2 id="data_sources" class="clickable mb-3 text-3xl font-light md:text-5xl lg:mb-5">
+				Data Sources
+			</h2>
+		</a>
 		<p>Open-Meteo utilises open-data from various national weather services including:</p>
 		<ul class="[&_a]:text-link ml-6 list-disc [&_a]:underline [&_li]:py-1">
 			<li>
@@ -184,7 +188,9 @@
 		</ul>
 	</div>
 	<div>
-		<h2 id="licence" class="mb-3 text-3xl font-light md:text-5xl lg:mb-5">Licence</h2>
+		<a href="#licence">
+			<h2 id="licence" class="clickable mb-3 text-3xl font-light md:text-5xl lg:mb-5">Licence</h2>
+		</a>
 		<h3 class="mb-3 text-xl font-light">
 			API data are offered under <a
 				href="https://creativecommons.org/licenses/by/4.0/"
@@ -197,9 +203,9 @@
 			<strong>adapt:</strong> remix, transform, and build upon the material.
 		</p>
 		<p>
-			<strong>Attribution:</strong> You must give appropriate credit, provide a link to the licence,
-			and indicate if changes were made. You may do so in any reasonable manner, but not in any way that
-			suggests the licensor endorses you or your use.
+			<strong>Attribution:</strong> You must give appropriate credit, provide a link to the licence, and
+			indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests
+			the licensor endorses you or your use.
 		</p>
 		<p>You must include a link next to any location Open-Meteo data are displayed, for example:</p>
 		<div
@@ -219,7 +225,9 @@
 		</p>
 	</div>
 	<div class="md:col-span-2">
-		<h2 id="citation" class="mb-3 text-3xl font-light md:text-5xl lg:mb-5">Citation</h2>
+		<a href="#citation">
+			<h2 id="citation" class="clickable mb-3 text-3xl font-light md:text-5xl lg:mb-5">Citation</h2>
+		</a>
 		<p>
 			We encourage researchers in the field of meteorology and related disciplines to cite
 			Open-Meteo in their work. By acknowledging Open-Meteo as the source of weather data and
@@ -309,5 +317,10 @@
 				{/if}
 			</div>
 		</div>
+	</div>
+	<div class="md:col-span-2">
+		<a href="#maps">
+			<h2 id="maps" class="clickable mb-3 text-3xl font-light md:text-5xl lg:mb-5">Maps</h2>
+		</a>
 	</div>
 </div>
