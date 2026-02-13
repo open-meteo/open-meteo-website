@@ -41,7 +41,7 @@
 </svelte:head>
 
 <!-- h-[300px] h-[400px] h-[500px] h-[600px] -->
-<div class="h-[{heroHeight}px] relative flex items-center">
+<div style="view-transition-name: hero;" class="h-[{heroHeight}px] relative flex items-center">
 	<div
 		class="hero-image absolute -z-10 h-full w-full"
 		style="
@@ -91,3 +91,30 @@
 		</div>
 	</div>
 </div>
+
+
+<style>
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+	}
+
+	@keyframes fade-out {
+		to {
+			opacity: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		:root::view-transition-old(root) {
+			animation:
+				90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+		}
+
+		:root::view-transition-new(root) {
+			animation:
+				210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+		}
+	}
+</style>

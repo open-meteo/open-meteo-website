@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SvelteComponent, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
 
