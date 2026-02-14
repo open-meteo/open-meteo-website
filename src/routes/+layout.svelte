@@ -18,8 +18,11 @@
 	const pathname = $derived(data.pathname);
 
 	let loading = $state(false);
+	let loadingTimeout: ReturnType<typeof setTimeout> | undefined;
 	onNavigate(async (navigation) => {
+		if (loadingTimeout) clearTimeout(loadingTimeout);
 		loading = false;
+
 		if (!document.startViewTransition) return;
 		return new Promise((resolve) => {
 			document.startViewTransition(async () => {
@@ -31,19 +34,20 @@
 	});
 
 	beforeNavigate(() => {
-		loading = true;
+		loadingTimeout = setTimeout(() => {
+			loading = true;
+		}, 300);
 	});
 </script>
 
 <Header {pathname} />
 <Hero {...page.data} />
 <div class="content">
-{@render children()}
-
+	{@render children()}
 </div>
 {#if loading}
 	<div
-		in:fade={{ delay: 300, duration: 300 }}
+		in:fade={{ duration: 300 }}
 		out:fade={{ duration: 100 }}
 		class="fixed w-full h-full bg-foreground/15 z-10 top-0 flex items-center justify-center"
 	>
