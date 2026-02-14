@@ -9,10 +9,6 @@ export const trailingSlash = 'never';
 export const load: LayoutLoad = async (event) => {
 	const { pathname } = event.url;
 
-	// TODO: Remove
-	// simulate a delay for testing page transition
-	// await new Promise((resolve) => setTimeout(resolve, 2000));
-
 	return {
 		pathname,
 		Logo: Sun,

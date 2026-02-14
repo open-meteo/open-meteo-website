@@ -3,8 +3,8 @@
 </script>
 
 <div
-	in:fade={{ duration: 300 }}
-	out:fade={{ duration: 100 }}
+	in:fade={{ duration: 500 }}
+	out:fade={{ duration: 500 }}
 	class="fixed inset-x-0 top-0 bottom-0 bg-foreground/15 z-5 flex items-center justify-center"
 >
 	<svg
