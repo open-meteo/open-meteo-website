@@ -24,41 +24,28 @@
 		heroSecondaryButtonPath,
 		heroSecondaryButtonText
 	}: Props = $props();
-
-	// const heroImages = import.meta.glob(
-	// 	'/static/images/backgrounds/*.{avif,gif,heif,jpeg,jpg,png,tiff,webp,svg}',
-	// 	{
-	// 		eager: true,
-	// 		query: {
-	// 			enhanced: true
-	// 		}
-	// 	}
-	// );
 </script>
 
 <svelte:head>
 	<link rel="preload" fetchpriority="high" as="image" href={heroImage} type="image/webp" />
 </svelte:head>
 
-<!-- h-[300px] h-[400px] h-[500px] h-[600px] -->
-<div style="view-transition-name: hero;" class="h-[{heroHeight}px] relative flex items-center">
+<div style="height: {heroHeight}px;" class="relative flex items-center">
+	<div class="absolute inset-0 -z-10">
+		<div
+			class="h-full w-full"
+			style="
+			  view-transition-name: hero-image;
+			  background-image: url('{heroImage}');
+			  background-size: cover;
+			  background-position: center;
+			"
+		></div>
+	</div>
 	<div
-		class="hero-image absolute -z-10 h-full w-full"
-		style="
-          background-image: url('{heroImage}');
-          background-size: cover;
-          background-position: center;
-          height: {heroHeight}px;
-        "
-	></div>
-	<!-- <div class="hero-image absolute -z-10 h-full w-full overflow-hidden">
-		<enhanced:img
-			class="w-auto min-h-full object-cover object-center"
-			alt="Background image"
-			src={heroImages['/static' + heroImage].default}
-		></enhanced:img>
-	</div> -->
-	<div class="container flex h-full flex-col items-center justify-center gap-6 text-white">
+		style="view-transition-name: hero-content"
+		class="container flex h-full flex-col items-center justify-center gap-6 text-white"
+	>
 		<Logo width="96" height="96" shadow={true} />
 		<h1
 			class="text-center text-3xl font-light [text-shadow:_3px_3px_2px_rgba(0,0,0,.7)] md:text-5xl"
@@ -92,11 +79,13 @@
 	</div>
 </div>
 
-
 <style>
 	@keyframes fade-in {
 		from {
 			opacity: 0;
+		}
+		to {
+			opacity: 1;
 		}
 	}
 
@@ -107,14 +96,28 @@
 	}
 
 	@media (prefers-reduced-motion: no-preference) {
-		:root::view-transition-old(root) {
-			animation:
-				90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+		::view-transition-group(hero-image) {
+			animation: none;
 		}
 
-		:root::view-transition-new(root) {
-			animation:
-				210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+		::view-transition-old(hero-image) {
+			animation: fade-out 400ms ease both;
+		}
+
+		::view-transition-new(hero-image) {
+			animation: fade-in 800ms ease both;
+		}
+
+		::view-transition-group(hero-content) {
+			animation: none;
+		}
+
+		::view-transition-old(hero-content) {
+			animation: fade-out 50ms ease both;
+		}
+
+		::view-transition-new(hero-content) {
+			animation: fade-in 100ms ease both;
 		}
 	}
 </style>
