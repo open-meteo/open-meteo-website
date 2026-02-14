@@ -16,7 +16,7 @@
 	let toggleMenu = $state(false);
 </script>
 
-<nav class="container z-20 flex flex-wrap py-4 md:flex-nowrap">
+<nav class="container flex flex-wrap py-4 md:flex-nowrap">
 	<div class="flex w-full justify-between md:w-[unset]">
 		<Button
 			variant="ghost"

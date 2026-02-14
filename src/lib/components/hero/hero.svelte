@@ -101,11 +101,11 @@
 		}
 
 		::view-transition-old(hero-image) {
-			animation: fade-out 400ms ease both;
+			animation: fade-out 600ms ease both;
 		}
 
 		::view-transition-new(hero-image) {
-			animation: fade-in 800ms ease both;
+			animation: fade-in 900ms ease both;
 		}
 
 		::view-transition-group(hero-content) {
@@ -113,11 +113,11 @@
 		}
 
 		::view-transition-old(hero-content) {
-			animation: fade-out 50ms ease both;
+			animation: fade-out 0ms ease both;
 		}
 
 		::view-transition-new(hero-content) {
-			animation: fade-in 100ms ease both;
+			animation: fade-in 0ms ease both;
 		}
 	}
 </style>

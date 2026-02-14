@@ -11,7 +11,7 @@ export const load: LayoutLoad = async (event) => {
 
 	// TODO: Remove
 	// simulate a delay for testing page transition
-	await new Promise((resolve) => setTimeout(resolve, 2000));
+	// await new Promise((resolve) => setTimeout(resolve, 2000));
 
 	return {
 		pathname,

@@ -1,4 +1,4 @@
-<footer style="view-transition-name: footer;" class="container pt-5 pb-16">
+<footer class="container pt-5 pb-16">
 	<div class="flex flex-wrap justify-between gap-5">
 		<div>
 			<a href={'/'} class="text-lg font-bold">Open-Meteo</a>
