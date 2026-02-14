@@ -105,7 +105,7 @@
 		}
 
 		::view-transition-new(hero-image) {
-			animation: fade-in 900ms ease both;
+			animation: fade-in 500ms ease both;
 		}
 
 		::view-transition-group(hero-content) {
