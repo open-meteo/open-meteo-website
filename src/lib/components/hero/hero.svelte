@@ -55,7 +55,7 @@
 		<div class="flex flex-col items-center justify-center gap-6 md:w-1/2">
 			{#if heroDescription}
 				<p
-					class="text-center text-xl font-light [text-shadow:_3px_3px_2px_rgba(0,0,0,.7)] md:text-2xl"
+					class="text-center min-h-16 text-xl font-light [text-shadow:_3px_3px_2px_rgba(0,0,0,.7)] md:text-2xl"
 				>
 					{heroDescription}
 				</p>
