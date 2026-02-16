@@ -164,7 +164,7 @@ export const daily = [
 		{ value: 'showers_sum', label: 'Showers Sum' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
 		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
-		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' }
 		// { value: 'precipitation_probability_max', label: 'Precipitation Probability Max' }
 	],
 	[

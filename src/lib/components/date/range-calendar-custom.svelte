@@ -38,7 +38,10 @@
 	let yearModeEnd = $state(false);
 	let monthModeEnd = $state(false);
 
-	const monthsForLocale = (localeName = 'en-US', monthFormat = 'long') => {
+	const monthsForLocale = (
+		localeName = 'en-US',
+		monthFormat: Intl.DateTimeFormatOptions['month'] = 'long'
+	) => {
 		const format = new Intl.DateTimeFormat(localeName, { month: monthFormat }).format;
 		return [...Array(12).keys()].map((m) => format(new Date(now.getUTCFullYear(), m % 12)));
 	};
@@ -46,7 +49,7 @@
 	const getDatesInMonth = (year: number, month: number): Date[] => {
 		let result: Date[] = [];
 		for (let day = 1; day <= 32; day++) {
-			const date = new Date(year, month - 1, day, parseInt(now.getTimezoneOffset() / 60));
+			const date = new Date(year, month - 1, day, Math.floor(now.getTimezoneOffset() / 60));
 			if (date.getUTCFullYear() === year && date.getUTCMonth() === month - 1) {
 				result.push(date);
 			}
@@ -55,20 +58,22 @@
 	};
 
 	const monthList = monthsForLocale();
-	const yearList = [
-		...Array(
-			lastDate.getUTCFullYear() -
+	const yearList = $derived(
+		[
+			...Array(
+				lastDate.getUTCFullYear() -
+					(beginDate.getUTCFullYear() > 1990
+						? beginDate.getUTCFullYear() - 10
+						: beginDate.getUTCFullYear()) +
+					1
+			).keys()
+		].map(
+			(y) =>
+				y +
 				(beginDate.getUTCFullYear() > 1990
 					? beginDate.getUTCFullYear() - 10
-					: beginDate.getUTCFullYear()) +
-				1
-		).keys()
-	].map(
-		(y) =>
-			y +
-			(beginDate.getUTCFullYear() > 1990
-				? beginDate.getUTCFullYear() - 10
-				: beginDate.getUTCFullYear())
+					: beginDate.getUTCFullYear())
+		)
 	);
 	let startDates = $derived(
 		getDatesInMonth(startDate.getUTCFullYear(), startDate.getUTCMonth() + 1)

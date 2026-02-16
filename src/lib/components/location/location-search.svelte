@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher, onDestroy } from 'svelte';
+	import { onDestroy } from 'svelte';
 
 	import { type GeoLocation, favorites, lastVisited } from '$lib/stores/settings';
 
@@ -8,27 +8,27 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { Input } from '$lib/components/ui/input';
 
-	export let label: string = 'Search Locations...';
+	interface Props {
+		label?: string;
+		style?: string;
+		onlocation?: (location: GeoLocation) => void;
+	}
+
+	let { label = 'Search Locations...', style, onlocation }: Props = $props();
 
 	interface ResultSet {
 		results: GeoLocation[] | undefined;
 	}
 
-	const dispatch = createEventDispatcher();
 	let debounceTimeout: ReturnType<typeof setTimeout> | undefined;
-	let searchQuery = '';
+	let searchQuery = $state('');
 
 	onDestroy(() => {
-		clearInterval(debounceTimeout);
+		clearTimeout(debounceTimeout);
 	});
-
-	let scrollY: number | undefined;
 
 	const closeModal = () => {
 		dialogOpen = false;
-		if (scrollY) {
-			window.scrollTo({ top: scrollY, behavior: 'instant' });
-		}
 	};
 
 	const deleteRecent = (location: GeoLocation) => {
@@ -67,65 +67,72 @@
 		saveRecent(location);
 		searchQuery = '';
 		closeModal();
-		dispatch('location', location);
+		onlocation?.(location);
 	};
 
-	$: results = (async () => {
+	let results: Promise<ResultSet> = $derived.by(() => {
 		if (debounceTimeout) {
 			clearTimeout(debounceTimeout);
 		}
 		if (searchQuery.length < 2) {
-			return { results: [] };
+			return Promise.resolve({ results: [] });
 		}
-		await new Promise((resolve) => {
-			debounceTimeout = setTimeout(resolve, 300);
+		return new Promise<ResultSet>(async (resolveOuter) => {
+			await new Promise<void>((resolve) => {
+				debounceTimeout = setTimeout(resolve, 300);
+			});
+
+			try {
+				if (searchQuery.toLowerCase() == 'gps') {
+					let position: GeolocationPosition = await new Promise((resolve, reject) =>
+						navigator.geolocation.getCurrentPosition(resolve, reject, {})
+					);
+					const latitude = position.coords.latitude;
+					const longitude = position.coords.longitude;
+					resolveOuter({
+						results: [
+							{
+								id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
+								name: `GPS ${latitude.toFixed(2)}°N ${longitude.toFixed(2)}°E`,
+								latitude: latitude,
+								longitude: longitude,
+								elevation: position.coords.altitude ?? NaN,
+								feature_code: '',
+								country_code: undefined,
+								admin1_id: undefined,
+								admin3_id: undefined,
+								admin4_id: undefined,
+								timezone: '',
+								population: undefined,
+								postcodes: undefined,
+								country_id: undefined,
+								country: undefined,
+								admin1: undefined,
+								admin3: undefined,
+								admin4: undefined
+							}
+						]
+					});
+					return;
+				}
+
+				// Always set format=json to fetch data
+				const url = 'https://geocoding-api.open-meteo.com/v1/search';
+				const fetchUrl = `${url}?${new URLSearchParams({ name: searchQuery })}`;
+				const result = await fetch(fetchUrl);
+
+				if (!result.ok) {
+					throw new Error(await result.text());
+				}
+
+				resolveOuter((await result.json()) as ResultSet);
+			} catch (err) {
+				throw err;
+			}
 		});
+	});
 
-		if (searchQuery.toLowerCase() == 'gps') {
-			let position: GeolocationPosition = await new Promise((resolve, reject) =>
-				navigator.geolocation.getCurrentPosition(resolve, reject, {})
-			);
-			const latitude = position.coords.latitude;
-			const longitude = position.coords.longitude;
-			return {
-				results: [
-					{
-						id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
-						name: `GPS ${latitude.toFixed(2)}°N ${longitude.toFixed(2)}°E`,
-						latitude: latitude,
-						longitude: longitude,
-						elevation: position.coords.altitude ?? NaN,
-						feature_code: '',
-						country_code: undefined,
-						admin1_id: undefined,
-						admin3_id: undefined,
-						admin4_id: undefined,
-						timezone: '',
-						population: undefined,
-						postcodes: undefined,
-						country_id: undefined,
-						country: undefined,
-						admin1: undefined,
-						admin3: undefined,
-						admin4: undefined
-					}
-				]
-			};
-		}
-
-		// Always set format=json to fetch data
-		const url = 'https://geocoding-api.open-meteo.com/v1/search';
-		const fetchUrl = `${url}?${new URLSearchParams({ name: searchQuery })}`;
-		const result = await fetch(fetchUrl);
-
-		if (!result.ok) {
-			throw new Error(await result.text());
-		}
-
-		return (await result.json()) as ResultSet;
-	})();
-
-	let dialogOpen = false;
+	let dialogOpen = $state(false);
 </script>
 
 <Dialog.Root bind:open={dialogOpen}>
@@ -230,7 +237,7 @@
 															location.country_code || 'united_nations'
 														).toLowerCase()}.svg"
 														title={location.country}
-														alt={location.country_code}
+														alt={location.country ?? location.country_code ?? ''}
 													/>
 													{location.name}
 												</div>
@@ -326,7 +333,7 @@
 															location.country_code || 'united_nations'
 														).toLowerCase()}.svg"
 														title={location.country}
-														alt={location.country_code}
+														alt={location.country ?? location.country_code ?? ''}
 													/>
 													{location.name}
 												</div>
@@ -459,7 +466,7 @@
 														location.country_code || 'united_nations'
 													).toLowerCase()}.svg"
 													title={location.country}
-													alt={location.country_code}
+													alt={location.country ?? location.country_code ?? ''}
 												/>
 												{location.name}
 											</div>

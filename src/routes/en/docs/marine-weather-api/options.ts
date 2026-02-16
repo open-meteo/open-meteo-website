@@ -94,9 +94,7 @@ export const daily = [
 ];
 
 export const additionalVariables = [
-	[
-		{ value: 'invert_barometer_height', label: 'Inverted Barometer Height' }
-	],
+	[{ value: 'invert_barometer_height', label: 'Inverted Barometer Height' }],
 	[]
 ];
 

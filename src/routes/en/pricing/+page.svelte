@@ -124,8 +124,9 @@
 				</tr>
 				<tr>
 					<th scope="row"
-						>Satellite Radiation API<br />Climate API<br />Seasonal Forecast API<br />Ensemble Weather API<br />Historical
-						Weather API<br />Historical Forecast API<br />Previous Model Runs API</th
+						>Satellite Radiation API<br />Climate API<br />Seasonal Forecast API<br />Ensemble
+						Weather API<br />Historical Weather API<br />Historical Forecast API<br />Previous Model
+						Runs API</th
 					>
 					<td>&#x2705;</td>
 					<td>&#x274c;</td>

@@ -270,9 +270,8 @@ export const aigfs025_variables = [
 	'cloud_cover_high',
 	'cloud_cover_low',
 	'cloud_cover_mid',
-	'weather_code',
+	'weather_code'
 ];
-
 
 export const gfs05_variables = [
 	...gfs025_variables,
@@ -690,7 +689,7 @@ export const models = [
 		{ value: 'ncep_gefs_seamless', label: 'GFS Ensemble Seamless' },
 		{ value: 'ncep_gefs025', label: 'GFS Ensemble 0.25°' },
 		{ value: 'ncep_gefs05', label: 'GFS Ensemble 0.5°' },
-		{ value: 'ncep_aigefs025', label: 'AIGEFS 0.25°' },
+		{ value: 'ncep_aigefs025', label: 'AIGEFS 0.25°' }
 	],
 	[
 		{ value: 'ecmwf_ifs025_ensemble', label: 'ECMWF IFS 0.25° Ensemble' },

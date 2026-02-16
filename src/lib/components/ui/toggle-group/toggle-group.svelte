@@ -1,14 +1,22 @@
 <script lang="ts" module>
 	import { getContext, setContext } from 'svelte';
 
-	import type { ToggleVariants } from '$lib/components/ui/toggle/index.js';
+	import { toggleVariants } from '$lib/components/ui/toggle/index.js';
 
-	export function setToggleGroupCtx(props: ToggleVariants) {
+	import type { VariantProps } from 'tailwind-variants';
+
+	type ToggleVariants = VariantProps<typeof toggleVariants>;
+
+	interface ToggleGroupContext extends ToggleVariants {
+		spacing?: number;
+	}
+
+	export function setToggleGroupCtx(props: ToggleGroupContext) {
 		setContext('toggleGroup', props);
 	}
 
 	export function getToggleGroupCtx() {
-		return getContext<ToggleVariants>('toggleGroup');
+		return getContext<Required<ToggleGroupContext>>('toggleGroup');
 	}
 </script>
 
@@ -22,13 +30,18 @@
 		value = $bindable(),
 		class: className,
 		size = 'default',
+		spacing = 0,
 		variant = 'default',
 		...restProps
-	}: ToggleGroupPrimitive.RootProps & ToggleVariants = $props();
+	}: ToggleGroupPrimitive.RootProps & ToggleVariants & { spacing?: number } = $props();
 
 	setToggleGroupCtx({
+		// svelte-ignore state_referenced_locally
 		variant,
-		size
+		// svelte-ignore state_referenced_locally
+		size,
+		// svelte-ignore state_referenced_locally
+		spacing
 	});
 </script>
 
@@ -42,8 +55,10 @@ get along, so we shut typescript up by casting `value` to `never`.
 	data-slot="toggle-group"
 	data-variant={variant}
 	data-size={size}
+	data-spacing={spacing}
+	style={`--gap: ${spacing}`}
 	class={cn(
-		'group/toggle-group flex w-fit flex-wrap items-center rounded-md data-[variant=outline]:shadow-xs',
+		'group/toggle-group flex w-fit items-center gap-[--spacing(var(--gap))] rounded-md data-[spacing=default]:data-[variant=outline]:shadow-xs',
 		className
 	)}
 	{...restProps}

@@ -3,7 +3,7 @@
 	"type": "module",
 	"author": "Open-Meteo <info@open-meteo.com>",
 	"private": true,
-	"version": "1.50.7",
+	"version": "1.52.3",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/open-meteo/open-meteo-website.git"
@@ -56,9 +56,8 @@
 		"eslint-config-prettier": "^10.1.1",
 		"eslint-plugin-svelte": "^3.14.0",
 		"formsnap": "^2.0.0",
+		"jsdom": "^27.4.0",
 		"globals": "^17.3.0",
-		"jsdom": "^28.0.0",
-		"lucide-svelte": "^0.563.0",
 		"mdsvex": "^0.12.3",
 		"mode-watcher": "^1.1.0",
 		"prettier": "^3.8.0",

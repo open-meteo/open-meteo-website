@@ -889,11 +889,11 @@
 			future weather but also the range of possible outcomes and their associated uncertainties.
 		</p>
 		<p>
-			In addition to the 51 individual member forecasts, Open-Meteo also provides ensemble mean and spread
-			values. If an <mark>Ensemble Mean model</mark> is selected in the model selection above, the
-			API returns the ensemble mean instead of individual member forecasts. Ensemble mean and spread
-			values are stored for a longer period of time and can be used for bias correction later on.
-			Forecasts for all 51 individual members are only kept for one month.
+			In addition to the 51 individual member forecasts, Open-Meteo also provides ensemble mean and
+			spread values. If an <mark>Ensemble Mean model</mark> is selected in the model selection above,
+			the API returns the ensemble mean instead of individual member forecasts. Ensemble mean and spread
+			values are stored for a longer period of time and can be used for bias correction later on. Forecasts
+			for all 51 individual members are only kept for one month.
 		</p>
 		<p>
 			Forecasts from EC46 for the next 46 days are updated every day at around 20:30 GMT+0. Seasonal

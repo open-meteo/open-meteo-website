@@ -72,15 +72,15 @@
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
 
-	let accordionValues = $state([]);
+	let accordionValues: string[] = $state([]);
 	let pressureVariablesTab = $state('temperature');
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				forecastHours.value ||
-				pastHours.value ||
-				temporalResolution.value ||
-				cellSelection.value) &&
+				forecastHours?.value ||
+				pastHours?.value ||
+				temporalResolution?.value ||
+				cellSelection?.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -104,23 +104,25 @@
 		}
 	});
 
-	function isAvailable(variable: String, models: String[]): Boolean {
+	const availableVariablesMap = availableVariables as Record<string, string[]>;
+
+	function isAvailable(variable: string, models: string[] | undefined): boolean {
 		// no model selected
-		if (models.length == 0) {
+		if (!models || models.length == 0) {
 			return true;
 		}
 		for (const model of models) {
-			if (!availableVariables[model]) {
+			if (!availableVariablesMap[model]) {
 				continue;
 			}
-			if (availableVariables[model].includes(variable)) {
+			if (availableVariablesMap[model].includes(variable)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	function isDailyAvailable(variable: String, models: String[]): Boolean {
+	function isDailyAvailable(variable: string, models: string[] | undefined): boolean {
 		// remove last '_part' of variable, that they can be checked with the hourly variables
 		let variableSplit = variable.split('_');
 		if (
@@ -133,14 +135,14 @@
 		let variableBase = variableSplit.join('_');
 
 		// no model selected
-		if (models.length == 0) {
+		if (!models || models.length == 0) {
 			return true;
 		}
 		for (const model of models) {
-			if (!availableVariables[model]) {
+			if (!availableVariablesMap[model]) {
 				continue;
 			}
-			if (availableVariables[model].includes(variableBase)) {
+			if (availableVariablesMap[model].includes(variableBase)) {
 				return true;
 			}
 		}
@@ -666,11 +668,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
