@@ -58,7 +58,6 @@
 		"formsnap": "^2.0.0",
 		"globals": "^17.0.0",
 		"jsdom": "^27.4.0",
-		"lucide-svelte": "^0.562.0",
 		"mdsvex": "^0.12.3",
 		"mode-watcher": "^1.1.0",
 		"prettier": "^3.8.0",

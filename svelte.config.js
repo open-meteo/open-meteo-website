@@ -3,8 +3,6 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { escapeSvelte, mdsvex } from 'mdsvex';
 import { createHighlighter } from 'shiki';
 
-import cityNames from './src/routes/en/weather/locations/city-names10.json' with { type: 'json' };
-
 const themes = {
 	dark: 'material-theme-darker',
 	light: 'material-theme-lighter'
@@ -25,12 +23,6 @@ const mdsvexOptions = {
 	}
 };
 
-const weatherRoutes = cityNames.map((city) => '/en/weather/week/' + city);
-
-if (process.env.BUILD_WEATHER_PAGES && process._eventsCount == 5) {
-	console.log(`  Building ${weatherRoutes.length} weather pages`);
-}
-
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	extensions: ['.svelte', '.svx', '.md'],
@@ -46,18 +38,6 @@ const config = {
 			precompress: false,
 			strict: true
 		}),
-		prerender: process.env.BUILD_WEATHER_PAGES
-			? {
-					crawl: true,
-					entries: [
-						'/',
-						'/404',
-						'/en/docs/seasonal-forecast-api',
-						'/en/weather/week',
-						...weatherRoutes
-					]
-				}
-			: {},
 		paths: {
 			relative: false
 		},
