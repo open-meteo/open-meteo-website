@@ -4,7 +4,7 @@ import Hero from './hero.svelte';
 
 describe('Hero', () => {
 	it('should load hero', () => {
-		cy.mount(Hero, {
+		cy.mount(Hero as any, {
 			props: {
 				Logo: Sun,
 				heroImage: '/images/convective_clouds.webp',
