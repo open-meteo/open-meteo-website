@@ -58,7 +58,7 @@
 		children?: {
 			title: string;
 			url: string;
-		};
+		}[];
 	}
 
 	let selectedPath: Path = $derived.by(() => {

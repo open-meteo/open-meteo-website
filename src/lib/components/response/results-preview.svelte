@@ -697,7 +697,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -749,7 +749,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;
@@ -813,7 +813,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -864,7 +864,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;
@@ -929,7 +929,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -980,7 +980,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;

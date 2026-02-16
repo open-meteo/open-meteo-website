@@ -23,9 +23,9 @@
 		longitude: [13.41]
 	});
 
-	function locationCallback(event: CustomEvent<GeoLocation>, index: number) {
-		const latitude = Number(event.detail.latitude.toFixed(4));
-		const longitude = Number(event.detail.longitude.toFixed(4));
+	function locationCallback(location: GeoLocation, index: number) {
+		const latitude = Number(location.latitude.toFixed(4));
+		const longitude = Number(location.longitude.toFixed(4));
 		$params.latitude = $params.latitude.toSpliced(index, 1, latitude);
 		$params.longitude = $params.longitude.toSpliced(index, 1, longitude);
 		submitForm();
@@ -178,7 +178,7 @@
 					<div class="flex gap-3 md:gap-6">
 						<div class="md:w-2/3">
 							<LocationSearch
-								on:location={(event) => locationCallback(event, index)}
+								onlocation={(location) => locationCallback(location, index)}
 								label="Search"
 							/>
 						</div>
