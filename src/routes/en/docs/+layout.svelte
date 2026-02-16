@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	import { browser, dev } from '$app/environment';
-	import { afterNavigate, beforeNavigate } from '$app/navigation';
+	import { beforeNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -94,14 +92,6 @@
 					}, 75);
 				}
 			}
-		}
-	});
-
-	afterNavigate((e) => {
-		if (e.to && (!e.from || e.from.route.id !== e.to.route.id) && !window.location.hash) {
-			setTimeout(() => {
-				window.scrollTo(0, 0);
-			}, 75);
 		}
 	});
 </script>
