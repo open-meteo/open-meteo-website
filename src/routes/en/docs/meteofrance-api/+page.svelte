@@ -1020,7 +1020,7 @@
 						<td>4 days</td>
 						<td>Every 6 hours</td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<th scope="row"
 							><a href="https://www.umr-cnrm.fr/spip.php?article121&lang=en" target="_blank"
 								>ARPEGE Europe Probabilities</a
@@ -1031,7 +1031,7 @@
 						<td>3-Hourly<small class="text-muted-foreground"></small></td>
 						<td>4 days</td>
 						<td>Every 12 hours</td>
-					</tr>
+					</tr> -->
 					<tr>
 						<th scope="row"
 							><a href="https://www.umr-cnrm.fr/spip.php?article120" target="_blank">AROME France</a

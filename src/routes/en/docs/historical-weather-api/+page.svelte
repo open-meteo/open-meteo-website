@@ -154,12 +154,7 @@
 		</div>
 		<div class="lg:w-1/2">
 			<p>
-				You can access past weather data dating back to 1940. However, there is a 5-day delay in the
-				data. If you want information for the most recent days, you can use the <a
-					href="/en/docs"
-					title="Weather forecast API">forecast API</a
-				>
-				and adjust the <mark>Past Days</mark> setting.
+				You can access past weather data dating back to 1940 in 0.1 or 0.25° resolution. Data from 2017 onwards uses newer weather models with 9 km resolution. Select "ERA5" or "ERA5-Land" for consistent data over multiple decades.
 			</p>
 			<div class="flex flex-wrap items-center gap-2">
 				Quick:
@@ -686,9 +681,9 @@
 		</div>
 		<div>
 			<p>
-				The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs at
-				0z and 12z, employing the most up-to-date version of IFS. This dataset offers the utmost
-				resolution and precision in depicting historical weather conditions.
+				The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs daily at
+				0z, 6z, 12z and 18z, employing the most up-to-date version of IFS. This dataset offers the highest
+				resolution and precision for global historical weather conditions.
 			</p>
 			<p>
 				However, when studying climate change over decades, it is advisable to exclusively utilise
@@ -696,7 +691,7 @@
 				alterations that could arise from the adoption of different weather model upgrades.
 			</p>
 			<p>
-				You can access data dating back to 1940 with a delay of 2 days. If you're looking for
+				You can access data dating back to 1940. If you're looking for
 				weather information from the previous day, our <a
 					href={'/en/docs'}
 					title="Weather Forecast API documentation">Forecast API</a
@@ -737,7 +732,7 @@
 					<td>9 km</td>
 					<td>Hourly</td>
 					<td>2017 to present</td>
-					<td>Daily with 2 days delay</td>
+					<td>Every 6 hours with no delay</td>
 				</tr>
 				<tr>
 					<th scope="row"

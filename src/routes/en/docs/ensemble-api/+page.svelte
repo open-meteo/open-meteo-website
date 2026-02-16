@@ -52,7 +52,7 @@
 		longitude: [13.41],
 		...defaultParameters,
 		hourly: ['temperature_2m'],
-		models: ['icon_seamless']
+		models: ['icon_seamless_eps']
 	});
 
 	let forecastDays = $derived(
@@ -892,7 +892,7 @@
 						<td>Every 12 hours</td>
 					</tr>
 					<tr>
-						<th scope="row" rowspan="2">NOAA</th>
+						<th scope="row" rowspan="3">NOAA</th>
 						<td>GFS Ensemble 0.25°</td>
 						<td>Global</td>
 						<td>25 km, 3-hourly</td>
@@ -906,6 +906,14 @@
 						<td>50 km, 3-hourly</td>
 						<td>31</td>
 						<td>35 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<td>AIGFS 0.25°</td>
+						<td>Global</td>
+						<td>25 km, 6-hourly</td>
+						<td>31</td>
+						<td>16 days</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
