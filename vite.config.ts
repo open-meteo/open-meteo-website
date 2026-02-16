@@ -5,15 +5,15 @@ import tailwindcss from '@tailwindcss/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { type UserConfig, defineConfig } from 'vite';
 
-import rollupOptions from './rollup.config';
-
-function replaceChunckNames() {
+function replaceChunkNames() {
 	return {
 		name: 'replace-chunk-names-plugin',
 		apply: 'build' as const,
 		config(config: UserConfig) {
-			config.build.rollupOptions.output.chunkFileNames =
-				config.build.rollupOptions.output.chunkFileNames.replace('[hash]', `[name].[hash].chunk`);
+			const output = config.build?.rollupOptions?.output;
+			if (output && !Array.isArray(output) && typeof output.chunkFileNames === 'string') {
+				output.chunkFileNames = output.chunkFileNames.replace('[hash]', `[name].[hash].chunk`);
+			}
 			return config;
 		}
 	};
@@ -25,13 +25,10 @@ export default defineConfig({
 		enhancedImages(),
 		sveltekit(),
 		svg(),
-		replaceChunckNames(),
+		replaceChunkNames(),
 		visualizer({
 			filename: 'build-stats.json',
 			template: 'raw-data'
 		})
-	],
-	build: {
-		rollupOptions: rollupOptions
-	}
+	]
 });

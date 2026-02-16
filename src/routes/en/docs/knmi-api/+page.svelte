@@ -322,7 +322,7 @@
 											return item !== value;
 										});
 									} else if ($params.hourly) {
-										$params.hourly.push(value);
+										$params.hourly?.push(value);
 										$params.hourly = $params.hourly;
 									}
 								}}
@@ -341,7 +341,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -364,7 +368,7 @@
 													return item !== value;
 												});
 											} else if (value && $params.hourly) {
-												$params.hourly.push(value);
+												$params.hourly?.push(value);
 												$params.hourly = $params.hourly;
 											}
 										}}
@@ -476,7 +480,7 @@
 													return item !== value;
 												});
 											} else if ($params.hourly) {
-												$params.hourly.push(value);
+												$params.hourly?.push(value);
 												$params.hourly = $params.hourly;
 											}
 										}}
@@ -575,11 +579,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
@@ -598,7 +602,7 @@
 								<div class="mb-3">{variable.label}</div>
 								<div class="grid grid-cols-1">
 									{#each levels as level}
-										<div class="group flex items-center" title={level.label}>
+										<div class="group flex items-center" title={String(level)}>
 											<Checkbox
 												id="{variable.value}_{level}hPa"
 												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -611,7 +615,7 @@
 															return item !== `${variable.value}_${level}hPa`;
 														});
 													} else {
-														$params.hourly.push(`${variable.value}_${level}hPa`);
+														$params.hourly?.push(`${variable.value}_${level}hPa`);
 														$params.hourly = $params.hourly;
 													}
 												}}

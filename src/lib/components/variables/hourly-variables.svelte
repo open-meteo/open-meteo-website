@@ -6,7 +6,7 @@
 
 	interface Props {
 		params: Parameters;
-		hourly;
+		hourly: { value: string; label: string }[][];
 	}
 
 	let { params = $bindable(), hourly }: Props = $props();

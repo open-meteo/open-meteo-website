@@ -68,14 +68,14 @@
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
 
-	let accordionValues = $state([]);
+	let accordionValues: string[] = $state([]);
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				forecastHours.value ||
-				pastHours.value ||
-				temporalResolution.value ||
-				cellSelection.value) &&
+				forecastHours?.value ||
+				pastHours?.value ||
+				temporalResolution?.value ||
+				cellSelection?.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -83,8 +83,8 @@
 
 		if (
 			(countVariables(solarVariables, $params.hourly).active ||
-				$params.tilt > 0 ||
-				$params.azimuth > 0) &&
+				Number($params.tilt) > 0 ||
+				Number($params.azimuth) > 0) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
@@ -309,7 +309,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"

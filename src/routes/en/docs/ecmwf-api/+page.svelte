@@ -343,7 +343,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -577,11 +581,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
@@ -603,7 +607,7 @@
 										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
 											<div>
 												{#each chunk as level, k (k)}
-													<div class="group flex items-center" title={level.label}>
+													<div class="group flex items-center" title={String(level)}>
 														<Checkbox
 															id="{variable.value}_{level}hPa"
 															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"

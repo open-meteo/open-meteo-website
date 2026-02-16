@@ -310,7 +310,7 @@ export const solarVariables = [
 	]
 ];
 
-export const models = [
+export const models: { value: string; label: string; caption?: string }[][] = [
 	[
 		{ value: 'best_match', label: 'Best match' },
 		{ value: 'ecmwf_ifs', label: 'ECMWF IFS HRES 9km' },

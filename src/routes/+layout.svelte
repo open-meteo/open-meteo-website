@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ModeWatcher } from 'mode-watcher';
 
-	import { beforeNavigate, onNavigate } from '$app/navigation';
+	import { afterNavigate, beforeNavigate, onNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 
 	import Footer from '$lib/components/footer/footer.svelte';
@@ -22,14 +22,16 @@
 		if (loadingTimeout) clearTimeout(loadingTimeout);
 		loading = false;
 
-		if (!document.startViewTransition) return;
-		return new Promise((resolve) => {
-			document.startViewTransition(async () => {
-				resolve();
+		if (navigation.to?.route.id !== navigation.from?.route.id) {
+			if (!document.startViewTransition) return;
+			return new Promise((resolve) => {
+				document.startViewTransition(async () => {
+					resolve();
 
-				await navigation.complete;
+					await navigation.complete;
+				});
 			});
-		});
+		}
 	});
 
 	beforeNavigate(() => {
@@ -37,13 +39,21 @@
 			loading = true;
 		}, 300);
 	});
+
+	afterNavigate((e) => {
+		if (e.to && (!e.from || e.from.route.id !== e.to.route.id) && !window.location.hash) {
+			setTimeout(() => {
+				window.scrollTo(0, 0);
+			}, 75);
+		}
+	});
 </script>
 
 <Header {pathname} />
 {#if loading}
 	<Loading />
 {/if}
-<Hero {...page.data} />
+<Hero {...page.data as any} />
 {@render children()}
 <Footer />
 <ModeWatcher />
