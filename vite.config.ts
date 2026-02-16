@@ -5,8 +5,6 @@ import tailwindcss from '@tailwindcss/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { type UserConfig, defineConfig } from 'vite';
 
-import rollupOptions from './rollup.config';
-
 function replaceChunkNames() {
 	return {
 		name: 'replace-chunk-names-plugin',
@@ -32,8 +30,5 @@ export default defineConfig({
 			filename: 'build-stats.json',
 			template: 'raw-data'
 		})
-	],
-	build: {
-		rollupOptions: rollupOptions
-	}
+	]
 });

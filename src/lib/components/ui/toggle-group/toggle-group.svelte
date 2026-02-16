@@ -1,7 +1,9 @@
 <script lang="ts" module>
-	import { getContext, setContext } from "svelte";
-	import type { VariantProps } from "tailwind-variants";
-	import { toggleVariants } from "$lib/components/ui/toggle/index.js";
+	import { getContext, setContext } from 'svelte';
+
+	import { toggleVariants } from '$lib/components/ui/toggle/index.js';
+
+	import type { VariantProps } from 'tailwind-variants';
 
 	type ToggleVariants = VariantProps<typeof toggleVariants>;
 
@@ -10,32 +12,36 @@
 	}
 
 	export function setToggleGroupCtx(props: ToggleGroupContext) {
-		setContext("toggleGroup", props);
+		setContext('toggleGroup', props);
 	}
 
 	export function getToggleGroupCtx() {
-		return getContext<Required<ToggleGroupContext>>("toggleGroup");
+		return getContext<Required<ToggleGroupContext>>('toggleGroup');
 	}
 </script>
 
 <script lang="ts">
-	import { ToggleGroup as ToggleGroupPrimitive } from "bits-ui";
-	import { cn } from "$lib/utils/ui.js";
+	import { ToggleGroup as ToggleGroupPrimitive } from 'bits-ui';
+
+	import { cn } from '$lib/utils/ui.js';
 
 	let {
 		ref = $bindable(null),
 		value = $bindable(),
 		class: className,
-		size = "default",
+		size = 'default',
 		spacing = 0,
-		variant = "default",
+		variant = 'default',
 		...restProps
 	}: ToggleGroupPrimitive.RootProps & ToggleVariants & { spacing?: number } = $props();
 
 	setToggleGroupCtx({
+		// svelte-ignore state_referenced_locally
 		variant,
+		// svelte-ignore state_referenced_locally
 		size,
-		spacing,
+		// svelte-ignore state_referenced_locally
+		spacing
 	});
 </script>
 
@@ -52,7 +58,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 	data-spacing={spacing}
 	style={`--gap: ${spacing}`}
 	class={cn(
-		"group/toggle-group flex w-fit items-center gap-[--spacing(var(--gap))] rounded-md data-[spacing=default]:data-[variant=outline]:shadow-xs",
+		'group/toggle-group flex w-fit items-center gap-[--spacing(var(--gap))] rounded-md data-[spacing=default]:data-[variant=outline]:shadow-xs',
 		className
 	)}
 	{...restProps}
