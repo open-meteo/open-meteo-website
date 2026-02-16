@@ -264,8 +264,8 @@
 					href="https://substack.com/privacy"
 					title="Substack privacy policy">Substack.com</a
 				> to manage our newsletter. This platform collects information such as your email address and
-				IP address. We use this information solely for the purpose of sending you our newsletter and
-				will not share or sell it with any third-party providers.
+				IP address. We use this information solely for the purpose of sending you our newsletter and will
+				not share or sell it with any third-party providers.
 			</p>
 		</div>
 		<div>

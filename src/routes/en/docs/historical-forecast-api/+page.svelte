@@ -980,7 +980,7 @@
 						<td>Every 6 hours</td>
 						<td>2024-02-05</td>
 					</tr>
-										<tr>
+					<tr>
 						<td>AIGFS</td>
 						<td>Global</td>
 						<td>0.25° (~25 km)</td>
