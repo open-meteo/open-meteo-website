@@ -104,23 +104,25 @@
 		}
 	});
 
-	function isAvailable(variable: String, models: String[]): Boolean {
+	const availableVariablesMap = availableVariables as Record<string, string[]>;
+
+	function isAvailable(variable: string, models: string[]): boolean {
 		// no model selected
 		if (models.length == 0) {
 			return true;
 		}
 		for (const model of models) {
-			if (!availableVariables[model]) {
+			if (!availableVariablesMap[model]) {
 				continue;
 			}
-			if (availableVariables[model].includes(variable)) {
+			if (availableVariablesMap[model].includes(variable)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	function isDailyAvailable(variable: String, models: String[]): Boolean {
+	function isDailyAvailable(variable: string, models: string[]): boolean {
 		// remove last '_part' of variable, that they can be checked with the hourly variables
 		let variableSplit = variable.split('_');
 		if (
@@ -137,10 +139,10 @@
 			return true;
 		}
 		for (const model of models) {
-			if (!availableVariables[model]) {
+			if (!availableVariablesMap[model]) {
 				continue;
 			}
-			if (availableVariables[model].includes(variableBase)) {
+			if (availableVariablesMap[model].includes(variableBase)) {
 				return true;
 			}
 		}
