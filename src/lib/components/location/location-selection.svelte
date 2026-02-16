@@ -20,10 +20,10 @@
 
 	let { params = $bindable() }: Props = $props();
 
-	const locationCallback = (event: CustomEvent<GeoLocation>, index: number) => {
+	const locationCallback = (location: GeoLocation, index: number) => {
 		if (params.latitude && params.longitude) {
-			params.latitude[index] = Number(event.detail.latitude.toFixed(4));
-			params.longitude[index] = Number(event.detail.longitude.toFixed(4));
+			params.latitude[index] = Number(location.latitude.toFixed(4));
+			params.longitude[index] = Number(location.longitude.toFixed(4));
 		}
 		params.latitude = params.latitude;
 		params.longitude = params.longitude;
@@ -328,7 +328,7 @@
 						<div class="flex gap-3 md:gap-6">
 							<div class="md:w-2/3">
 								<LocationSearch
-									on:location={(event) => locationCallback(event, index)}
+									onlocation={(location) => locationCallback(location, index)}
 									label="Search"
 								/>
 							</div>
