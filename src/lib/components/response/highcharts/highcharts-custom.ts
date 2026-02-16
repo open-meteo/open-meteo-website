@@ -23,7 +23,7 @@ import DataLabel from 'highcharts/es-modules/Core/Series/DataLabel.js';
 import Responsive from 'highcharts/es-modules/Core/Responsive.js';
 import Time from 'highcharts/es-modules/Core/Time.js';
 
-const G: AnyRecord = Highcharts;
+const G: Record<string, any> = Highcharts;
 
 // Classes
 G.Axis = Axis;

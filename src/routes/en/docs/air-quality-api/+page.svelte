@@ -311,7 +311,7 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root type="multiple" class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem
 				id="european_air_quality_index"
 				title="European Air Quality Index"

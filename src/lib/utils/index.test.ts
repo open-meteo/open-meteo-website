@@ -33,11 +33,11 @@ describe('pad', () => {
 	});
 
 	test('returns empty string for null', () => {
-		expect(pad(null)).toBe('');
+		expect(pad(null as unknown as string)).toBe('');
 	});
 
 	test('returns empty string for undefined', () => {
-		expect(pad(undefined)).toBe('');
+		expect(pad(undefined as unknown as string)).toBe('');
 	});
 });
 

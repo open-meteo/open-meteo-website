@@ -64,12 +64,12 @@
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
 
-	let accordionValues = $state([]);
+	let accordionValues: string[] = $state([]);
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				temporalResolution.value ||
-				cellSelection.value) &&
+				temporalResolution?.value ||
+				cellSelection?.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -276,7 +276,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -593,7 +597,7 @@
 			</div>
 		{/if}
 
-		<Accordion.Root class="border-border mt-3 rounded-lg border md:mt-6">
+		<Accordion.Root type="single" class="border-border mt-3 rounded-lg border md:mt-6">
 			<AccordionItem
 				id="additional-daily-variables"
 				title="Additional Daily Variables"

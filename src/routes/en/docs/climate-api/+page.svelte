@@ -167,7 +167,7 @@
 
 	<!-- CLIMATE MODELS -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root type="multiple" class="border-border rounded-lg border" bind:value={accordionValues}>
 			<AccordionItem
 				id="models"
 				title="Climate models"

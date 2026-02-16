@@ -72,15 +72,15 @@
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
 
-	let accordionValues = $state([]);
+	let accordionValues: string[] = $state([]);
 	let pressureVariablesTab = $state('temperature');
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				forecastHours.value ||
-				pastHours.value ||
-				temporalResolution.value ||
-				cellSelection.value) &&
+				forecastHours?.value ||
+				pastHours?.value ||
+				temporalResolution?.value ||
+				cellSelection?.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -106,9 +106,9 @@
 
 	const availableVariablesMap = availableVariables as Record<string, string[]>;
 
-	function isAvailable(variable: string, models: string[]): boolean {
+	function isAvailable(variable: string, models: string[] | undefined): boolean {
 		// no model selected
-		if (models.length == 0) {
+		if (!models || models.length == 0) {
 			return true;
 		}
 		for (const model of models) {
@@ -122,7 +122,7 @@
 		return false;
 	}
 
-	function isDailyAvailable(variable: string, models: string[]): boolean {
+	function isDailyAvailable(variable: string, models: string[] | undefined): boolean {
 		// remove last '_part' of variable, that they can be checked with the hourly variables
 		let variableSplit = variable.split('_');
 		if (
@@ -135,7 +135,7 @@
 		let variableBase = variableSplit.join('_');
 
 		// no model selected
-		if (models.length == 0) {
+		if (!models || models.length == 0) {
 			return true;
 		}
 		for (const model of models) {
@@ -668,11 +668,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +

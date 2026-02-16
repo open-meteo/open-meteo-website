@@ -6,11 +6,15 @@ const LCP_SUB_PARTS = [
 ];
 
 new PerformanceObserver((list) => {
-	const lcpEntry = list.getEntries().at(-1);
-	const navEntry = performance.getEntriesByType('navigation')[0];
+	const lcpEntry = list.getEntries().at(-1) as
+		| (PerformanceEntry & { url?: string; element?: Element })
+		| undefined;
+	const navEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
 	const lcpResEntry = performance
 		.getEntriesByType('resource')
-		.filter((e) => e.name === lcpEntry.url)[0];
+		.filter((e) => e.name === lcpEntry?.url)[0] as PerformanceResourceTiming | undefined;
+
+	if (!lcpEntry) return;
 
 	// Ignore LCP entries that aren't images to reduce DevTools noise.
 	// Comment this line out if you want to include text entries.

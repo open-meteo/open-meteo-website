@@ -16,7 +16,7 @@
 </script>
 
 <Header {pathname} />
-<Hero {...page.data} />
+<Hero {...page.data as any} />
 {@render children()}
 <Footer />
 <ModeWatcher />

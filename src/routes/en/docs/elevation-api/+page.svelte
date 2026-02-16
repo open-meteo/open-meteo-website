@@ -26,19 +26,19 @@
 	function locationCallback(location: GeoLocation, index: number) {
 		const latitude = Number(location.latitude.toFixed(4));
 		const longitude = Number(location.longitude.toFixed(4));
-		$params.latitude = $params.latitude.toSpliced(index, 1, latitude);
-		$params.longitude = $params.longitude.toSpliced(index, 1, longitude);
+		$params.latitude = ($params.latitude ?? []).toSpliced(index, 1, latitude);
+		$params.longitude = ($params.longitude ?? []).toSpliced(index, 1, longitude);
 		submitForm();
 	}
 
 	function addLocation() {
-		$params.latitude = [...$params.latitude, NaN];
-		$params.longitude = [...$params.longitude, NaN];
+		$params.latitude = [...($params.latitude ?? []), NaN];
+		$params.longitude = [...($params.longitude ?? []), NaN];
 	}
 
 	function removeLocation(index: number) {
-		$params.latitude = $params.latitude.toSpliced(index, 1);
-		$params.longitude = $params.longitude.toSpliced(index, 1);
+		$params.latitude = ($params.latitude ?? []).toSpliced(index, 1);
+		$params.longitude = ($params.longitude ?? []).toSpliced(index, 1);
 	}
 
 	let base = $state('https://api.open-meteo.com/v1/elevation?');
@@ -112,17 +112,17 @@
 			<h2 id="elevation_search" class="text-2xl md:text-3xl">Select Coordinates or City</h2>
 		</a>
 		<div class="mt-3">
-			{#each $params.latitude as _, index}
+			{#each $params.latitude ?? [] as _, index}
 				<div
 					transition:slide
 					class="grid gap-3 duration-300 sm:grid-cols-2 md:gap-6 md:gap-y-3 xl:grid-cols-4 {index <
-					$params.latitude.length - 1
+					($params.latitude?.length ?? 0) - 1
 						? 'pb-6'
 						: ''}"
 				>
 					<div
-						class="relative flex flex-col gap-2 duration-200 {$params.latitude[index] < -90 ||
-						$params.latitude[index] > 90
+						class="relative flex flex-col gap-2 duration-200 {($params.latitude?.[index] ?? 0) <
+							-90 || ($params.latitude?.[index] ?? 0) > 90
 							? 'pb-6'
 							: ''}"
 					>
@@ -135,21 +135,21 @@
 							step="0.000001"
 							min="-90"
 							max="90"
-							bind:value={$params.latitude[index]}
+							bind:value={$params.latitude![index]}
 						/>
 						<Label
 							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="latitude">Latitude</Label
 						>
-						{#if $params.latitude[index] < -90 || $params.latitude[index] > 90}
+						{#if ($params.latitude?.[index] ?? 0) < -90 || ($params.latitude?.[index] ?? 0) > 90}
 							<div class="absolute top-14 left-3 text-sm duration-300" transition:slide>
 								Latitude must be between -90 and 90
 							</div>
 						{/if}
 					</div>
 					<div
-						class="relative flex flex-col gap-2 duration-200 {$params.longitude[index] < -180 ||
-						$params.longitude[index] > 180
+						class="relative flex flex-col gap-2 duration-200 {($params.longitude?.[index] ?? 0) <
+							-180 || ($params.longitude?.[index] ?? 0) > 180
 							? 'pb-6'
 							: ''}"
 					>
@@ -162,13 +162,13 @@
 							step="0.000001"
 							min="-180"
 							max="180"
-							bind:value={$params.longitude[index]}
+							bind:value={$params.longitude![index]}
 						/>
 						<Label
 							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 							for="longitude">Longitude</Label
 						>
-						{#if $params.longitude[index] < -180 || $params.longitude[index] > 180}
+						{#if ($params.longitude?.[index] ?? 0) < -180 || ($params.longitude?.[index] ?? 0) > 180}
 							<div class="absolute top-14 left-3 text-sm" transition:slide>
 								Longitude must be between -180 and 180
 							</div>

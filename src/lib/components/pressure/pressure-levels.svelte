@@ -15,7 +15,7 @@
 		levels = [
 			30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000
 		].reverse()
-	} = $props();
+	}: { pressureVariables?: { name: string; label: string }[]; levels?: number[] } = $props();
 
 	let selectedOptions: string[] = $state([]);
 
@@ -82,8 +82,7 @@
 					<div class="mt-3">
 						<small class="text-muted-foreground"
 							>Note: Altitudes are approximate and in meters <strong> above sea level</strong> (not
-							above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
-							level.</small
+							above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea level.</small
 						>
 					</div>
 				</div>
