@@ -1,6 +1,9 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	import { ModeWatcher } from 'mode-watcher';
 
+	import { browser } from '$app/environment';
 	import { afterNavigate, beforeNavigate, onNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 
@@ -45,6 +48,14 @@
 			setTimeout(() => {
 				window.scrollTo(0, 0);
 			}, 75);
+		}
+	});
+
+	onMount(() => {
+		if (browser) {
+			window.addEventListener('pagehide', () => {
+				loading = false;
+			});
 		}
 	});
 </script>
