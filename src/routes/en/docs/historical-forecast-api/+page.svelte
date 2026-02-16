@@ -65,7 +65,7 @@
 
 	let pressureVariablesTab = $state('temperature');
 
-	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
+	let timezoneInvalid = $derived($params.timezone == 'UTC' && ($params.daily?.length ?? 0) > 0);
 
 	let beginDate = new Date('2016-01-01');
 	let lastDate = new Date();
@@ -270,7 +270,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -504,11 +508,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
@@ -530,7 +534,7 @@
 										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
 											<div>
 												{#each chunk as level, k (k)}
-													<div class="group flex items-center" title={level.label}>
+													<div class="group flex items-center" title={String(level)}>
 														<Checkbox
 															id="{variable.value}_{level}hPa"
 															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -800,7 +804,7 @@
 			</div>
 		{/if}
 
-		<Accordion.Root class="border-border mt-3 rounded-lg border md:mt-6">
+		<Accordion.Root type="single" class="border-border mt-3 rounded-lg border md:mt-6">
 			<AccordionItem
 				id="additional-daily-variables"
 				title="Additional Daily Variables"
@@ -976,7 +980,7 @@
 						<td>Every 6 hours</td>
 						<td>2024-02-05</td>
 					</tr>
-										<tr>
+					<tr>
 						<td>AIGFS</td>
 						<td>Global</td>
 						<td>0.25° (~25 km)</td>

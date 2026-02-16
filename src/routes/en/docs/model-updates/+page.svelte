@@ -493,7 +493,7 @@
 						name: 'AIGEFS 0.25°',
 						area: [],
 						meta: fetchMeta('ncep_aigefs025', 'ensemble', apiKeyPreferences)
-					},
+					}
 				]
 			},
 			{

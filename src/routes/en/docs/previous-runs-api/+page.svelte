@@ -83,7 +83,7 @@
 		}
 
 		if (
-			(countPreviousVariables(solarVariables, $params.hourly).active ||
+			(countPreviousVariables([solarVariables], $params.hourly).active ||
 				($params.tilt ? Number($params.tilt) > 0 : false) ||
 				($params.azimuth ? Number($params.azimuth) > 0 : false)) &&
 			!accordionValues.includes('solar-variables')
@@ -92,7 +92,7 @@
 		}
 
 		if (
-			countPreviousVariables(windVariables, $params.hourly).active &&
+			countPreviousVariables([windVariables], $params.hourly).active &&
 			!accordionValues.includes('wind-variables')
 		) {
 			accordionValues.push('wind-variables');
@@ -345,7 +345,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem id="additional-variables" title="Additional Options">
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative md:col-span-2">
@@ -387,7 +391,7 @@
 			<AccordionItem
 				id="solar-variables"
 				title="Solar Radiation Variables"
-				count={countPreviousVariables(solarVariables, $params.hourly)}
+				count={countPreviousVariables([solarVariables], $params.hourly)}
 			>
 				<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 					<table class="mx-6 mt-2 w-full min-w-[1020px] md:ml-0 lg:mx-0">
@@ -487,7 +491,7 @@
 			<AccordionItem
 				id="wind-variables"
 				title="Wind on 80, 120 and 180 meter"
-				count={countPreviousVariables(windVariables, $params.hourly)}
+				count={countPreviousVariables([windVariables], $params.hourly)}
 			>
 				<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 					<table class="mx-6 mt-2 w-full min-w-[1020px] md:ml-0 lg:mx-0">

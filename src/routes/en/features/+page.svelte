@@ -428,8 +428,8 @@
 						Explore the <a href="/en/docs/elevation-api" title="Elevation API Documentation"
 							>Elevation API</a
 						> to unlock the power of elevation data. Resolve any set of coordinates to their corresponding
-						elevation using our digital elevation model with impressive resolution, up to 90 meters.
-						Enhance your understanding of terrain and elevation variations for various geographic points.
+						elevation using our digital elevation model with impressive resolution, up to 90 meters. Enhance
+						your understanding of terrain and elevation variations for various geographic points.
 					</p>
 				</div>
 			</div>
@@ -513,8 +513,8 @@
 				and work with JSON data.
 			</p>
 			<p>
-				We provide <a href="/en/docs">comprehensive API documentation</a> with detailed explanations
-				and all the necessary parameters, making it simple for you to integrate our APIs into your projects.
+				We provide <a href="/en/docs">comprehensive API documentation</a> with detailed explanations and
+				all the necessary parameters, making it simple for you to integrate our APIs into your projects.
 			</p>
 		</div>
 		<div>
