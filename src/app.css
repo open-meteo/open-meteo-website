@@ -226,9 +226,13 @@
 	}
 }
 
+html,
+body {
+	scroll-behavior: smooth;
+}
+
 body {
 	overflow-y: overlay;
-	scroll-behavior: smooth;
 }
 
 h1,

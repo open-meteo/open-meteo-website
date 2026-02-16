@@ -15,7 +15,12 @@
 		class?: string;
 	}
 
-	let { useStockChart = false, options, style = 'height: 400px', class: clazz = 'w-full' }: Props = $props();
+	let {
+		useStockChart = false,
+		options,
+		style = 'height: 400px',
+		class: clazz = 'w-full'
+	}: Props = $props();
 
 	let node: HTMLElement;
 	let chart: Highcharts.Chart | undefined;
