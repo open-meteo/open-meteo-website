@@ -107,8 +107,6 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/kma-api" />
 </svelte:head>
 
-<div class="alert alert-warning" role="alert"></div>
-
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
@@ -732,7 +730,7 @@
 	</div>
 
 	<figure class="mt-6">
-		<img src="/images/models/kma_ldps.webp" class="rounded-lg" alt="..." />
+		<img src="/images/models/kma_ldps.webp" class="rounded-lg" alt="KMA LDPS model domain area at 1.5 km resolution" />
 		<figcaption class="text-muted-foreground">
 			KMA LDPS domain area at 1.5 km resolution. Source: <a href="https://open-meteo.com/"
 				>Open-Meteo</a

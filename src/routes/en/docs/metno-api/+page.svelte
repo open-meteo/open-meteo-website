@@ -706,7 +706,7 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
 		<figure>
-			<enhanced:img src="/static/images/models/metno_nordic.png" class="rounded-lg" alt="..." />
+			<enhanced:img src="/static/images/models/metno_nordic.png" class="rounded-lg" alt="MET Nordic model area" />
 			<figcaption class="text-muted-foreground">
 				MET Nordic model area (marked in red). Source: <a
 					href="https://github.com/metno/NWPdocs/wiki/MEPS-dataset">Met Norway GitHub</a
