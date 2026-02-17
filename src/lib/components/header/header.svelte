@@ -79,7 +79,7 @@
 			: 'max-h-0 opacity-0 md:max-h-[unset] md:opacity-100'} -ml-3 w-full overflow-hidden duration-500"
 	>
 		<div class="flex flex-col pt-4 md:flex-row md:pt-0">
-			<nav class="flex flex-col md:flex-row">
+			<nav aria-label="Header" class="flex flex-col md:flex-row">
 				<hr class="border-border my-1 ml-3" />
 				<Button
 					variant="ghost"
