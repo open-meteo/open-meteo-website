@@ -882,7 +882,7 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
 		<figure>
-			<img src="/images/models/jma_msm.webp" class="rounded-lg" alt="..." />
+			<img src="/images/models/jma_msm.webp" class="rounded-lg" alt="JMA MSM model area over Japan" />
 			<figcaption class="text-muted-foreground">
 				JMA MSM model area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 			</figcaption>

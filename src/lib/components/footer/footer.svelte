@@ -1,5 +1,5 @@
 <footer class="container pt-5 pb-16">
-	<div class="flex flex-wrap justify-between gap-5">
+	<nav aria-label="Footer" class="flex flex-wrap justify-between gap-5">
 		<div>
 			<a href={'/'} class="text-lg font-bold">Open-Meteo</a>
 			<ul class="list-unstyled text-small mt-2">
@@ -126,7 +126,7 @@
 				</li>
 			</ul>
 		</div>
-	</div>
+	</nav>
 	<div class="pt-3 text-center">
 		<small class="text-muted-foreground"
 			>© 2022-{new Date().getFullYear()} Copyright:
