@@ -16,7 +16,7 @@
 	let toggleMenu = $state(false);
 </script>
 
-<nav class="container flex flex-wrap py-4 md:flex-nowrap">
+<header class="container flex flex-wrap py-4 md:flex-nowrap">
 	<div class="flex w-full justify-between md:w-[unset]">
 		<Button
 			variant="ghost"
@@ -79,7 +79,7 @@
 			: 'max-h-0 opacity-0 md:max-h-[unset] md:opacity-100'} -ml-3 w-full overflow-hidden duration-500"
 	>
 		<div class="flex flex-col pt-4 md:flex-row md:pt-0">
-			<div class="flex flex-col md:flex-row">
+			<nav class="flex flex-col md:flex-row">
 				<hr class="border-border my-1 ml-3" />
 				<Button
 					variant="ghost"
@@ -116,7 +116,7 @@
 					onclick={() => (toggleMenu = false)}>API Docs</Button
 				>
 				<hr class="border-border mt-2 mb-4 ml-3" />
-			</div>
+			</nav>
 			<div class="flex gap-1 md:ml-auto md:flex-row md:justify-self-end">
 				<Button
 					variant="ghost"
@@ -143,4 +143,4 @@
 			</div>
 		</div>
 	</div>
-</nav>
+</header>
