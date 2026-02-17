@@ -99,11 +99,14 @@
 <div class="mb-12 flex flex-col md:mb-24 md:flex-row">
 	<aside class="w-full md:w-1/6 md:max-w-[400px] md:min-w-[230px]">
 		<nav
+			aria-label="Documentation"
 			class="sticky top-0 mb-3 flex flex-col overflow-hidden p-6 pb-0 md:mb-0 md:max-h-[100vh] md:overflow-auto md:pr-3 md:pb-3"
 		>
 			<Button
 				variant="outline"
 				class="flex justify-start p-3 md:hidden"
+				aria-expanded={mobileNavOpened}
+				aria-label="Documentation navigation"
 				onclick={() => {
 					mobileNavOpened = !mobileNavOpened;
 				}}
