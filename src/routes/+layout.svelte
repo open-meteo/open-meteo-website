@@ -43,13 +43,13 @@
 		}, 300);
 	});
 
-	afterNavigate((e) => {
-		if (e.to && (!e.from || e.from.route.id !== e.to.route.id) && !window.location.hash) {
-			setTimeout(() => {
-				window.scrollTo(0, 0);
-			}, 75);
-		}
-	});
+	// afterNavigate((e) => {
+	// 	if (e.to && (!e.from || e.from.route.id !== e.to.route.id) && !window.location.hash) {
+	// 		setTimeout(() => {
+	// 			window.scrollTo(0, 0);
+	// 		}, 75);
+	// 	}
+	// });
 
 	onMount(() => {
 		if (browser) {
@@ -65,7 +65,9 @@
 	<Loading />
 {/if}
 <Hero {...page.data as any} />
-{@render children()}
+<main>
+	{@render children()}
+</main>
 <Footer />
 <ModeWatcher />
 <UpdateNotification />
