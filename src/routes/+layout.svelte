@@ -76,8 +76,8 @@
 {#if loading}
 	<Loading />
 {/if}
-<Hero {...page.data as any} />
 <main>
+	<Hero {...page.data as any} />
 	{@render children()}
 </main>
 <Footer />

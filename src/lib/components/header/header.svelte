@@ -79,7 +79,7 @@
 			: 'max-h-0 opacity-0 md:max-h-[unset] md:opacity-100'} -ml-3 w-full overflow-hidden duration-500"
 	>
 		<div class="flex flex-col pt-4 md:flex-row md:pt-0">
-			<nav aria-label="Header" class="flex flex-col md:flex-row">
+			<nav aria-label="Main" class="flex flex-col md:flex-row">
 				<hr class="border-border my-1 ml-3" />
 				<Button
 					variant="ghost"
@@ -121,7 +121,7 @@
 				<Button
 					variant="ghost"
 					href="https://github.com/open-meteo/open-meteo"
-					aria-label="Github link"
+					aria-label="GitHub"
 					class="relative flex w-10 items-center gap-0"
 					><div class="flex dark:fill-white [&_svg]:h-6 [&_svg]:w-6">
 						{@html Github}
@@ -129,7 +129,7 @@
 				><Button
 					variant="ghost"
 					href="https://x.com/open_meteo"
-					aria-label="X link"
+					aria-label="X (formerly Twitter)"
 					class="relative flex w-10 items-center gap-0"
 					><div class="absolute dark:fill-white [&_svg]:h-5 [&_svg]:w-5">
 						{@html X}
@@ -137,7 +137,6 @@
 				>
 				<div class="border-border mx-2 hidden border-l md:flex"></div>
 				<div class="ml-auto flex gap-1">
-					<!-- <LocaleToggle {pathname} /> -->
 					<div class="relative"><DarkmodeToggle /></div>
 				</div>
 			</div>

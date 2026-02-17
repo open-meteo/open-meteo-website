@@ -1090,7 +1090,7 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<figure class="w-full">
-			<img src="/images/models/meteofrance_arome.webp" class="rounded-lg" alt="..." />
+			<img src="/images/models/meteofrance_arome.webp" class="rounded-lg" alt="Météo-France AROME and AROME HD model area" />
 			<figcaption class="text-muted-foreground">
 				MeteoFrance AROME & AROME HD Model Area. Source: <a href="https://open-meteo.com/"
 					>Open-Meteo</a
@@ -1099,7 +1099,7 @@
 		</figure>
 
 		<figure class="w-full">
-			<img src="/images/models/meteofrance_arpege_europe.webp" class="rounded-lg" alt="..." />
+			<img src="/images/models/meteofrance_arpege_europe.webp" class="rounded-lg" alt="Météo-France ARPEGE model area over Europe" />
 			<figcaption class="text-muted-foreground">
 				MeteoFrance ARPEGE Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 			</figcaption>

@@ -11,6 +11,8 @@
 {#if updated.current && !updateNotificationClicked}
 	<div
 		transition:fade
+		role="status"
+		aria-live="polite"
 		class="fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 pr-8 sm:top-auto sm:right-0 sm:bottom-0 sm:flex-col md:max-w-[475px]"
 	>
 		<div
@@ -30,6 +32,7 @@
 			><Button
 				variant="ghost"
 				class="text-foreground/50 hover:text-foreground absolute -top-1 right-0 rounded-md p-1 px-[0.4rem] opacity-0 transition-opacity group-hover:opacity-100 group-[.destructive]:text-red-300 group-[.destructive]:hover:text-red-50 focus:opacity-100 focus:ring-1 focus:outline-none group-[.destructive]:focus:ring-red-400 group-[.destructive]:focus:ring-offset-red-600"
+				aria-label="Dismiss notification"
 				onclick={() => (updateNotificationClicked = true)}
 				><svg
 					class="lucide lucide-x"
