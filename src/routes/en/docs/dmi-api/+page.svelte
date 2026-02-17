@@ -688,7 +688,7 @@
 			<enhanced:img
 				src="/static/images/models/dmi_harmonie_dini-ig.jpg"
 				class="rounded-lg"
-				alt="..."
+				alt="DMI HARMONIE AROME DINI model area"
 			/>
 			<figcaption class="text-muted-foreground">
 				DMI HARMONIE AROME DINI model area (green). Source: <a

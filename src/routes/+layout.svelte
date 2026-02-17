@@ -15,39 +15,51 @@
 
 	import '../app.css';
 
+	import type { AfterNavigate, BeforeNavigate, OnNavigate } from '@sveltejs/kit';
+
 	let { children, data } = $props();
+
+	const fromNotTo = (navigation: BeforeNavigate | OnNavigate | AfterNavigate) => {
+		return navigation.from && navigation.to && navigation.from.route.id !== navigation.to.route.id;
+	};
 
 	const pathname = $derived(data.pathname);
 
 	let loading = $state(false);
 	let loadingTimeout: ReturnType<typeof setTimeout> | undefined;
-	onNavigate(async (navigation) => {
+	onNavigate(async (e) => {
 		if (loadingTimeout) clearTimeout(loadingTimeout);
 		loading = false;
 
-		if (navigation.to?.route.id !== navigation.from?.route.id) {
-			if (!document.startViewTransition) return;
-			return new Promise((resolve) => {
-				document.startViewTransition(async () => {
-					resolve();
+		if (browser) {
+			if (fromNotTo(e)) {
+				if (!document.startViewTransition) return;
+				return new Promise((resolve) => {
+					document.startViewTransition(async () => {
+						resolve();
 
-					await navigation.complete;
+						await e.complete;
+					});
 				});
-			});
+			}
 		}
 	});
 
-	beforeNavigate(() => {
-		loadingTimeout = setTimeout(() => {
-			loading = true;
-		}, 300);
+	beforeNavigate((e) => {
+		if (fromNotTo(e)) {
+			loadingTimeout = setTimeout(() => {
+				loading = true;
+			}, 300);
+		}
 	});
 
 	afterNavigate((e) => {
-		if (e.to && (!e.from || e.from.route.id !== e.to.route.id) && !window.location.hash) {
-			setTimeout(() => {
-				window.scrollTo(0, 0);
-			}, 75);
+		if (browser) {
+			if (fromNotTo(e) && !window.location.hash) {
+				setTimeout(() => {
+					window.scrollTo(0, 0);
+				}, 75);
+			}
 		}
 	});
 
@@ -64,8 +76,10 @@
 {#if loading}
 	<Loading />
 {/if}
-<Hero {...page.data as any} />
-{@render children()}
+<main>
+	<Hero {...page.data as any} />
+	{@render children()}
+</main>
 <Footer />
 <ModeWatcher />
 <UpdateNotification />

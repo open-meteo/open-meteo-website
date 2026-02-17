@@ -161,8 +161,6 @@
 	</Alert.Description>
 </Alert.Root>
 
-<div class="alert alert-warning" role="alert"></div>
-
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
@@ -988,7 +986,7 @@
 	</div>
 
 	<figure class="mt-6">
-		<img src="/images/models/ukmo_2km_ukv.webp" class="rounded-lg" alt="..." />
+		<img src="/images/models/ukmo_2km_ukv.webp" class="rounded-lg" alt="UKMO UKV 2km model area covering UK and Ireland" />
 		<figcaption class="text-muted-foreground">
 			UKMO UKV 2km model covering UK and Ireland. Source: UK Met Office.
 		</figcaption>
