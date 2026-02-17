@@ -772,6 +772,19 @@ TODO:
 					<td>2025</td>
 				</tr>
 				<tr>
+					<th scope="row"
+						><a href="https://www.dwd.de/DE/leistungen/fernerkund_globalstrahlung_sis/fernerkund_globalstrahlung_sis.html" target="_blank">DWD</a
+						></th
+					>
+					<td>EUMETSAT MTG</td>
+					<td>Europe, Africa</td>
+					<td>0.025° (~ 2.5km)</td>
+					<td>10 minutely</td>
+					<td>Every 10 minutes</td>
+					<td>20 Minutes</td>
+					<td>Feb. 2026</td>
+				</tr>
+				<tr>
 					<th scope="row" rowspan="2">NASA (not yet available)</th>
 					<td>GOES-East</td>
 					<td>North & South America</td>
