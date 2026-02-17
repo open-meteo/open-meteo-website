@@ -320,6 +320,7 @@ export const ecmwf_ifs025_variables = [
 	'relative_humidity_2m',
 	'runoff',
 	'shortwave_radiation',
+	'snow_depth',
 	'snow_depth_water_equivalent',
 	'snowfall_water_equivalent',
 	'snowfall',
