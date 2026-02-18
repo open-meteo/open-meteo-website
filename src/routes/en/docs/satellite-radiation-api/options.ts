@@ -36,6 +36,7 @@ export const hourly = [
 		{ value: 'direct_radiation', label: 'Direct Solar Radiation' },
 		{ value: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
 		{ value: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
+		{ value: 'shortwave_radiation_clear_sky', label: 'Clear Sky Radiation (only DWD MTG)' },
 		{ value: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
 		{ value: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
 	],
@@ -44,6 +45,7 @@ export const hourly = [
 		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
 		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
 		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
+		{ value: 'shortwave_radiation_clear_sky_instant', label: 'Clear Sky Radiation (only DWD MTG) (Instant)' },
 		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' },
 		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 	]
@@ -70,6 +72,11 @@ export const models = [
 	[
 		{ value: 'satellite_radiation_seamless', label: 'Automatic Selection' },
 		{
+			value: 'dwd_sis_europe_africa_v4',
+			label:
+				'DWD EUMETSAT MTG (Europe, Africa, 10-minutely, since 2025, 20 minutes delay)'
+		},
+		{
 			value: 'eumetsat_lsa_saf_msg',
 			label: 'EUMETSAT MSG (Europe, Africa, South America, 15-minutely, since 2025, 2 hours delay)'
 		},
@@ -84,12 +91,12 @@ export const models = [
 		{
 			value: 'jma_jaxa_himawari',
 			label:
-				'JMA JAXA Himawari (India, Asia, Australia, New Zealand, 10-minutely, since 2023, 20 minutes delay)'
+				'JMA JAXA Himawari (India, Asia, Australia, New Zealand, 10-minutely, since 2023, 30 minutes delay)'
 		},
 		{
 			value: 'jma_jaxa_mtg_fci',
 			label:
-				'EUMETSAT MTG Third Generation via JMA JAXA (Europe, Africa, India, 10-minutely, since 2025, 20 minutes delay)'
+				'JMA JAXA EUMETSAT MTG (Europe, Africa, India, 10-minutely, since 2025, 30 minutes delay)'
 		}
 	]
 ];
