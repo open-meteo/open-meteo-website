@@ -783,6 +783,7 @@
 								target="_blank">GFS GRAPES</a
 							></th
 						>
+						<!-- GFS? -->
 						<td>Global</td>
 						<td>0.125° (~15 km)</td>
 						<td>3-hourly</td>

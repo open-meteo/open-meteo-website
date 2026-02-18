@@ -911,7 +911,7 @@
 						<td>ICON</td>
 						<td>Global</td>
 						<td>0.1° (~11 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2022-11-24</td>
 					</tr>
@@ -919,7 +919,7 @@
 						<td>ICON-EU</td>
 						<td>Europe</td>
 						<td>0.0625° (~7 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2022-11-24</td>
 					</tr>
@@ -927,7 +927,7 @@
 						<td>ICON-D2</td>
 						<td>Central Europe</td>
 						<td>0.02° (~2 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2022-11-24</td>
 					</tr>
@@ -936,7 +936,7 @@
 						<td>GFS</td>
 						<td>Global</td>
 						<td>0.11° (~13 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2021-03-23</td>
 					</tr>
@@ -944,7 +944,7 @@
 						<td>GFS Pressure Variables</td>
 						<td>Global</td>
 						<td>0.25° (~25 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2021-03-23</td>
 					</tr>
@@ -952,7 +952,7 @@
 						<td>HRRR</td>
 						<td>U.S. Conus</td>
 						<td>3 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every hour</td>
 						<td>2018-01-01</td>
 					</tr>
@@ -960,7 +960,7 @@
 						<td>NAM</td>
 						<td>U.S. Conus</td>
 						<td>3 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2025-09-01</td>
 					</tr>
@@ -968,7 +968,7 @@
 						<td>NBM</td>
 						<td>U.S. Conus</td>
 						<td>3 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every hour</td>
 						<td>2024-10-08</td>
 					</tr>
@@ -1001,7 +1001,7 @@
 						<td>ARPEGE World</td>
 						<td>Global</td>
 						<td>0.25° (~25 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2024-01-02</td>
 					</tr>
@@ -1009,7 +1009,7 @@
 						<td>ARPEGE Europe</td>
 						<td>Europe</td>
 						<td>0.1° (~11 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2022-11-13</td>
 					</tr>
@@ -1017,7 +1017,7 @@
 						<td>AROME France</td>
 						<td>Global</td>
 						<td>0.025° (~2.5 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2024-01-02</td>
 					</tr>
@@ -1025,7 +1025,7 @@
 						<td>AROME France HD</td>
 						<td>Global</td>
 						<td>0.01° (~1.5 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2022-11-13</td>
 					</tr>
@@ -1084,7 +1084,7 @@
 						<td>MSM</td>
 						<td>Japan</td>
 						<td>0.05° (~5 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2016-01-01</td>
 					</tr>
@@ -1093,7 +1093,7 @@
 						<td>MET Nordic</td>
 						<td>Norway, Denmark, Sweden, Finland</td>
 						<td>1 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every hour</td>
 						<td>2022-11-15</td>
 					</tr>
@@ -1110,7 +1110,7 @@
 						<td>GEM Regional</td>
 						<td>North America, North Pole</td>
 						<td>10 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2022-11-23</td>
 					</tr>
@@ -1118,7 +1118,7 @@
 						<td>HRDPS Continental</td>
 						<td>Canada, Nothern US</td>
 						<td>2.5 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2023-03-03</td>
 					</tr>
@@ -1136,7 +1136,7 @@
 						<td>ACCESS-G</td>
 						<td>Global</td>
 						<td>0.15° (~15 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2024-01-18</td>
 					</tr>
@@ -1145,7 +1145,7 @@
 						<td>ICON 2I</td>
 						<td>Southern Europe</td>
 						<td>2 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 12 hours</td>
 						<td>2025-04-13</td>
 					</tr>
@@ -1154,7 +1154,7 @@
 						<td>HARMONIE AROME DINI</td>
 						<td>Central & Northern Europe</td>
 						<td>2 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2024-07-01</td>
 					</tr>
@@ -1163,7 +1163,7 @@
 						<td>HARMONIE AROME Netherlands</td>
 						<td>Netherlands, Belgium</td>
 						<td>2 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every hour</td>
 						<td>2024-07-01</td>
 					</tr>
@@ -1171,7 +1171,7 @@
 						<td>HARMONIE AROME Europe</td>
 						<td>Central & Northern Europe up to Iceland</td>
 						<td>5.5 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every hour</td>
 						<td>2024-07-01</td>
 					</tr>
@@ -1180,7 +1180,7 @@
 						<td>ICON CH1</td>
 						<td>Central Europe</td>
 						<td>1 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2025-07-29</td>
 					</tr>
@@ -1188,7 +1188,7 @@
 						<td>ICON CH2</td>
 						<td>Central Europe</td>
 						<td>2 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2025-07-29</td>
 					</tr>
