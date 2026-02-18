@@ -74,7 +74,7 @@ export const models = [
 		{
 			value: 'dwd_sis_europe_africa_v4',
 			label:
-				'DWD EUMETSAT MTG (Europe, Africa, 10-minutely, since 2025, 10-20 minutes delay)'
+				'DWD EUMETSAT MTG (Europe, Africa, 10-minutely, since 2025, 20 minutes delay)'
 		},
 		{
 			value: 'eumetsat_lsa_saf_msg',
@@ -91,12 +91,12 @@ export const models = [
 		{
 			value: 'jma_jaxa_himawari',
 			label:
-				'JMA JAXA Himawari (India, Asia, Australia, New Zealand, 10-minutely, since 2023, 20 minutes delay)'
+				'JMA JAXA Himawari (India, Asia, Australia, New Zealand, 10-minutely, since 2023, 30 minutes delay)'
 		},
 		{
 			value: 'jma_jaxa_mtg_fci',
 			label:
-				'JMA JAXA EUMETSAT MTG (Europe, Africa, India, 10-minutely, since 2025, 20 minutes delay)'
+				'JMA JAXA EUMETSAT MTG (Europe, Africa, India, 10-minutely, since 2025, 30 minutes delay)'
 		}
 	]
 ];

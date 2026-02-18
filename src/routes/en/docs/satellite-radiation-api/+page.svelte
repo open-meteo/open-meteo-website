@@ -724,7 +724,7 @@ TODO:
 					<td>0.025° (~ 2.5km)</td>
 					<td>10 minutely</td>
 					<td>Every 10 minutes</td>
-					<td>10-20 Minutes</td>
+					<td>20 Minutes</td>
 					<td>Feb. 2026</td>
 				</tr>
 				<tr>
@@ -775,7 +775,7 @@ TODO:
 					<td>0.05° (~ 5km)</td>
 					<td>10 minutely</td>
 					<td>Every 10 minutes</td>
-					<td>20 Minutes</td>
+					<td>30 Minutes</td>
 					<td>2015</td>
 				</tr>
 				<tr>
@@ -784,7 +784,7 @@ TODO:
 					<td>0.05° (~ 5km)</td>
 					<td>10 minutely</td>
 					<td>Every 10 minutes</td>
-					<td>2 Hours</td>
+					<td>30 Minutes</td>
 					<td>2025</td>
 				</tr>
 				<tr>
