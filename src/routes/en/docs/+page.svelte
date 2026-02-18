@@ -881,7 +881,7 @@
 						<th scope="row"><a href={resolve('/en/docs/ecmwf-api', {})}>IFS & AIFS</a></th>
 						<td>ECMWF</td>
 						<td>European Union</td>
-						<td>25 km</td>
+						<td>9 - 25km</td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
 					</tr>
