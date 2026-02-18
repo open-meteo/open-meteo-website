@@ -77,14 +77,14 @@
 	);
 	let pressureVariablesTab = $state('temperature');
 
-	let accordionValues = $state([]);
+	let accordionValues: string[] = $state([]);
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				forecastHours.value ||
-				pastHours.value ||
-				temporalResolution.value ||
-				cellSelection.value) &&
+				forecastHours?.value ||
+				pastHours?.value ||
+				temporalResolution?.value ||
+				cellSelection?.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -302,11 +302,11 @@
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
-										$params.hourly.push(value);
+										$params.hourly?.push(value);
 										$params.hourly = $params.hourly;
 									}
 								}}
@@ -325,7 +325,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -344,11 +348,11 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
-												$params.hourly.push(value);
+												$params.hourly?.push(value);
 												$params.hourly = $params.hourly;
 											}
 										}}
@@ -456,11 +460,11 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
-												$params.hourly.push(value);
+												$params.hourly?.push(value);
 												$params.hourly = $params.hourly;
 											}
 										}}
@@ -478,8 +482,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -559,11 +563,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
@@ -582,7 +586,7 @@
 								<div class="mb-3">{variable.label}</div>
 								<div class="grid grid-cols-1">
 									{#each levels as level, j (j)}
-										<div class="group flex items-center" title={level}>
+										<div class="group flex items-center" title={String(level)}>
 											<Checkbox
 												id="{variable.value}_{level}hPa"
 												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -591,11 +595,11 @@
 												aria-labelledby="{variable.value}_{level}hPa"
 												onCheckedChange={() => {
 													if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-														$params.hourly = $params.hourly.filter((item) => {
+														$params.hourly = $params.hourly.filter((item: string) => {
 															return item !== `${variable.value}_${level}hPa`;
 														});
 													} else {
-														$params.hourly.push(`${variable.value}_${level}hPa`);
+														$params.hourly?.push(`${variable.value}_${level}hPa`);
 														$params.hourly = $params.hourly;
 													}
 												}}
@@ -646,7 +650,7 @@
 								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
+										$params.daily = $params.daily.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.daily) {
@@ -697,7 +701,7 @@
 								aria-labelledby="{value}_current_label"
 								onCheckedChange={() => {
 									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item) => {
+										$params.current = $params.current.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.current) {

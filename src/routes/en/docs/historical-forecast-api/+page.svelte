@@ -65,11 +65,11 @@
 
 	let pressureVariablesTab = $state('temperature');
 
-	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
+	let timezoneInvalid = $derived($params.timezone == 'UTC' && ($params.daily?.length ?? 0) > 0);
 
 	let beginDate = new Date('2016-01-01');
 	let lastDate = new Date();
-	lastDate.setDate(lastDate.getDate() - 2);
+	lastDate.setDate(lastDate.getDate());
 
 	// Additional variable settings
 	let forecastHours = $derived(
@@ -247,7 +247,7 @@
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
@@ -270,7 +270,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -289,7 +293,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -401,7 +405,7 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -423,8 +427,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -504,11 +508,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
@@ -530,7 +534,7 @@
 										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
 											<div>
 												{#each chunk as level, k (k)}
-													<div class="group flex items-center" title={level.label}>
+													<div class="group flex items-center" title={String(level)}>
 														<Checkbox
 															id="{variable.value}_{level}hPa"
 															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -539,7 +543,7 @@
 															aria-labelledby="{variable.value}_{level}hPa"
 															onCheckedChange={() => {
 																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-																	$params.hourly = $params.hourly.filter((item) => {
+																	$params.hourly = $params.hourly.filter((item: string) => {
 																		return item !== `${variable.value}_${level}hPa`;
 																	});
 																} else if ($params.hourly) {
@@ -592,7 +596,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -614,8 +618,8 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
+						seamless prediction.</small
 					>
 				</div>
 			</AccordionItem>
@@ -644,7 +648,7 @@
 										aria-labelledby="{value}_minutely_15_label"
 										onCheckedChange={() => {
 											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
+												$params.minutely_15 = $params.minutely_15.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.minutely_15) {
@@ -677,7 +681,7 @@
 										aria-labelledby="{value}_minutely_15_label"
 										onCheckedChange={() => {
 											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
+												$params.minutely_15 = $params.minutely_15.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.minutely_15) {
@@ -770,7 +774,7 @@
 								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
+										$params.daily = $params.daily.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.daily) {
@@ -800,7 +804,7 @@
 			</div>
 		{/if}
 
-		<Accordion.Root class="border-border mt-3 rounded-lg border md:mt-6">
+		<Accordion.Root type="single" class="border-border mt-3 rounded-lg border md:mt-6">
 			<AccordionItem
 				id="additional-daily-variables"
 				title="Additional Daily Variables"
@@ -821,7 +825,7 @@
 										aria-labelledby="{value}_daily_label"
 										onCheckedChange={() => {
 											if ($params.daily?.includes(value)) {
-												$params.daily = $params.daily.filter((item) => {
+												$params.daily = $params.daily.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.daily) {
@@ -928,7 +932,7 @@
 						<td>2022-11-24</td>
 					</tr>
 					<tr>
-						<th scope="row" rowspan="6">NOAA NCEP</th>
+						<th scope="row" rowspan="8">NOAA NCEP</th>
 						<td>GFS</td>
 						<td>Global</td>
 						<td>0.11° (~13 km)</td>
@@ -975,6 +979,22 @@
 						<td>6-Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2024-02-05</td>
+					</tr>
+					<tr>
+						<td>AIGFS</td>
+						<td>Global</td>
+						<td>0.25° (~25 km)</td>
+						<td>6-Hourly</td>
+						<td>Every 6 hours</td>
+						<td>2026-01-07</td>
+					</tr>
+					<tr>
+						<td>HGEFS</td>
+						<td>Global</td>
+						<td>0.25° (~25 km)</td>
+						<td>6-Hourly</td>
+						<td>Every 6 hours</td>
+						<td>2026-01-07</td>
 					</tr>
 					<tr>
 						<th scope="row" rowspan="4">Météo-France</th>
@@ -1198,8 +1218,8 @@
 					><a class="text-link underline" href="/en/docs/historical-weather-api"
 						>Historical Weather API:</a
 					></strong
-				> This dataset is based on reanalysis weather models, particularly ERA5. It offers data from
-				1940 onwards with reasonable consistency throughout the time series, making it ideal for analyzing
+				> This dataset is based on reanalysis weather models, particularly ERA5. It offers data from 1940
+				onwards with reasonable consistency throughout the time series, making it ideal for analyzing
 				weather trends and climate change. The focus here is on consistency rather than pinpoint accuracy,
 				with a spatial resolution ranging from 9 to 25 kilometres.
 			</li>

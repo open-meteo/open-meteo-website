@@ -70,7 +70,7 @@
 			</Button>
 		</div>
 	</div>
-	<div class="relative mt-3 md:mt-6">
+	<div class="relative mt-3 md:mt-6 min-h-12">
 		{#if licenceSelected === 'non_commercial'}
 			<div in:fade>
 				<Alert.Root variant="info">

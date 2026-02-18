@@ -30,7 +30,6 @@
 	import {
 		forecastHoursOptions,
 		gridCellSelectionOptions,
-		pastDaysOptions,
 		pastHoursOptions,
 		temporalResolutionOptions
 	} from '../options';
@@ -43,6 +42,7 @@
 		hourly,
 		levels,
 		models,
+		pastDaysOptions,
 		pressureVariables,
 		solarVariables
 	} from './options';
@@ -52,7 +52,7 @@
 		longitude: [13.41],
 		...defaultParameters,
 		hourly: ['temperature_2m'],
-		models: ['icon_seamless']
+		models: ['icon_seamless_eps']
 	});
 
 	let forecastDays = $derived(
@@ -72,15 +72,15 @@
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
 
-	let accordionValues = $state([]);
+	let accordionValues: string[] = $state([]);
 	let pressureVariablesTab = $state('temperature');
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				forecastHours.value ||
-				pastHours.value ||
-				temporalResolution.value ||
-				cellSelection.value) &&
+				forecastHours?.value ||
+				pastHours?.value ||
+				temporalResolution?.value ||
+				cellSelection?.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -104,23 +104,25 @@
 		}
 	});
 
-	function isAvailable(variable: String, models: String[]): Boolean {
+	const availableVariablesMap = availableVariables as Record<string, string[]>;
+
+	function isAvailable(variable: string, models: string[] | undefined): boolean {
 		// no model selected
-		if (models.length == 0) {
+		if (!models || models.length == 0) {
 			return true;
 		}
 		for (const model of models) {
-			if (!availableVariables[model]) {
+			if (!availableVariablesMap[model]) {
 				continue;
 			}
-			if (availableVariables[model].includes(variable)) {
+			if (availableVariablesMap[model].includes(variable)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	function isDailyAvailable(variable: String, models: String[]): Boolean {
+	function isDailyAvailable(variable: string, models: string[] | undefined): boolean {
 		// remove last '_part' of variable, that they can be checked with the hourly variables
 		let variableSplit = variable.split('_');
 		if (
@@ -133,14 +135,14 @@
 		let variableBase = variableSplit.join('_');
 
 		// no model selected
-		if (models.length == 0) {
+		if (!models || models.length == 0) {
 			return true;
 		}
 		for (const model of models) {
-			if (!availableVariables[model]) {
+			if (!availableVariablesMap[model]) {
 				continue;
 			}
-			if (availableVariables[model].includes(variableBase)) {
+			if (availableVariablesMap[model].includes(variableBase)) {
 				return true;
 			}
 		}
@@ -363,7 +365,7 @@
 								aria-labelledby="{value}_model_label"
 								onCheckedChange={() => {
 									if ($params.models?.includes(value)) {
-										$params.models = $params.models.filter((item) => {
+										$params.models = $params.models.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.models) {
@@ -407,7 +409,7 @@
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
@@ -454,7 +456,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -567,7 +569,7 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -589,8 +591,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -666,11 +668,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
@@ -705,7 +707,7 @@
 															aria-labelledby="{variable.value}_{level}hPa"
 															onCheckedChange={() => {
 																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-																	$params.hourly = $params.hourly.filter((item) => {
+																	$params.hourly = $params.hourly.filter((item: string) => {
 																		return item !== `${variable.value}_${level}hPa`;
 																	});
 																} else if ($params.hourly) {
@@ -764,7 +766,7 @@
 								disabled={!isDailyAvailable(value, $params.models)}
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
+										$params.daily = $params.daily.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.daily) {
@@ -890,7 +892,7 @@
 						<td>Every 12 hours</td>
 					</tr>
 					<tr>
-						<th scope="row" rowspan="2">NOAA</th>
+						<th scope="row" rowspan="3">NOAA</th>
 						<td>GFS Ensemble 0.25°</td>
 						<td>Global</td>
 						<td>25 km, 3-hourly</td>
@@ -904,6 +906,14 @@
 						<td>50 km, 3-hourly</td>
 						<td>31</td>
 						<td>35 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<td>AIGFS 0.25°</td>
+						<td>Global</td>
+						<td>25 km, 6-hourly</td>
+						<td>31</td>
+						<td>16 days</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>

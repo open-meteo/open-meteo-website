@@ -3,6 +3,8 @@
 	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
 
+	import { resolve } from '$app/paths';
+
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import { countVariables } from '$lib/utils/meteo';
@@ -21,7 +23,7 @@
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
 
-	import { pastDaysOptions } from '../options';
+	import { gridCellSelectionOptions, pastDaysOptions } from '../options';
 	import {
 		additionalMonthly,
 		additionalWeekly,
@@ -50,6 +52,9 @@
 
 	let temporalResolution = $derived(
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
+	);
+	let cellSelection = $derived(
+		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
 
 	onMount(() => {
@@ -151,7 +156,7 @@
 								aria-labelledby="{value}_hourly_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
@@ -182,8 +187,8 @@
 			bind:value={accordionValues}
 		>
 			<AccordionItem id="additional-variables" title="Additional Options">
-				<div class="md:w-1/2">
-					<div class="relative md:col-span-2">
+				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
+					<div class="relative">
 						<Select.Root
 							name="temporal_resolution"
 							type="single"
@@ -199,6 +204,21 @@
 							</Select.Content>
 							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Temporal Resolution For Hourly Data</Label
+							>
+						</Select.Root>
+					</div>
+					<div class="relative">
+						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
+							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+								>{cellSelection?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each gridCellSelectionOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								>Grid Cell Selection</Label
 							>
 						</Select.Root>
 					</div>
@@ -222,7 +242,7 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -244,8 +264,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -297,6 +317,51 @@
 					</div>
 				</div>
 			</AccordionItem>
+			<AccordionItem id="spread-variables" title="Ensemble Spread Variables">
+				<div
+					class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+				>
+					{#each hourly as group, i (i)}
+						<div>
+							{#each group as { value, label, EC46Only } (value)}
+								{@const valueSpread = `${value}_spread`}
+								<div class="group flex items-center" title={label}>
+									<Checkbox
+										id="{valueSpread}_hourly"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										value="valueSpread"
+										checked={$params.hourly?.includes(valueSpread)}
+										aria-labelledby="{valueSpread}_hourly_label"
+										onCheckedChange={() => {
+											if ($params.hourly?.includes(valueSpread)) {
+												$params.hourly = $params.hourly.filter((item: string) => {
+													return item !== valueSpread;
+												});
+											} else if ($params.hourly) {
+												$params.hourly.push(valueSpread);
+												$params.hourly = $params.hourly;
+											}
+										}}
+									/>
+									<Label
+										id="{valueSpread}_hourly_label"
+										for="{valueSpread}_hourly"
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
+										>{label}{@html EC46Only ? '<sup class="ml-0.75">*</sup>' : ''}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
+				<p>
+					<small class="text-muted-foreground"
+						>Note: You need to select an <mark>Ensemble Mean</mark> in the model selection below to retrieve
+						ensemble spread data. Selecting an Ensemble Mean model will also return the ensemble mean
+						value for hourly data instead of values for each individual member.</small
+					>
+				</p>
+			</AccordionItem>
 			<AccordionItem id="models" title="Models" count={countVariables(models, $params.models)}>
 				<div class="mt-2 grid sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2">
 					{#each models as group, i (i)}
@@ -311,7 +376,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -330,12 +395,21 @@
 						</div>
 					{/each}
 				</div>
-				<small class="text-muted-foreground"
-					>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses EC46 for the first 46 days and
-					switches to SEAS5 afterwards. Some weather variables may only be available for either weather
-					model.</small
-				>
-			</AccordionItem>
+				<p>
+					<small class="text-muted-foreground"
+						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses all 51 members from EC46 for
+						the first 46 days and switches to SEAS5 afterwards. Some weather variables may only be available
+						for either weather model.</small
+					>
+				</p>
+				<p>
+					<small class="text-muted-foreground"
+						>Note: If an <mark>Ensemble Mean</mark> model is selected, the API will return the mean value
+						of all ensemble members instead of individual members. Ensemble mean values are stored for
+						a longer period of time.
+					</small>
+				</p></AccordionItem
+			>
 		</Accordion.Root>
 	</div>
 
@@ -366,7 +440,7 @@
 												aria-labelledby="{value}{ag_value}daily_label"
 												onCheckedChange={() => {
 													if ($params.daily?.includes(`${value}${ag_value}`)) {
-														$params.daily = $params.daily.filter((item) => {
+														$params.daily = $params.daily.filter((item: string) => {
 															return item !== `${value}${ag_value}`;
 														});
 													} else if ($params.daily) {
@@ -420,7 +494,7 @@
 											aria-labelledby="{value}_mean_weekly_label"
 											onCheckedChange={() => {
 												if ($params.weekly?.includes(`${value}_mean`)) {
-													$params.weekly = $params.weekly.filter((item) => {
+													$params.weekly = $params.weekly.filter((item: string) => {
 														return item !== `${value}_mean`;
 													});
 												} else if ($params.weekly) {
@@ -444,7 +518,7 @@
 											aria-labelledby="{value}_anomaly_weekly_label"
 											onCheckedChange={() => {
 												if ($params.weekly?.includes(`${value}_anomaly`)) {
-													$params.weekly = $params.weekly.filter((item) => {
+													$params.weekly = $params.weekly.filter((item: string) => {
 														return item !== `${value}_anomaly`;
 													});
 												} else if ($params.weekly) {
@@ -502,7 +576,7 @@
 													aria-labelledby="{value}_mean_weekly_label"
 													onCheckedChange={() => {
 														if ($params.weekly?.includes(`${value}_mean`)) {
-															$params.weekly = $params.weekly.filter((item) => {
+															$params.weekly = $params.weekly.filter((item: string) => {
 																return item !== `${value}_mean`;
 															});
 														} else if ($params.weekly) {
@@ -526,7 +600,7 @@
 													aria-labelledby="{value}_anomaly_weekly_label"
 													onCheckedChange={() => {
 														if ($params.weekly?.includes(`${value}_anomaly`)) {
-															$params.weekly = $params.weekly.filter((item) => {
+															$params.weekly = $params.weekly.filter((item: string) => {
 																return item !== `${value}_anomaly`;
 															});
 														} else if ($params.weekly) {
@@ -568,12 +642,14 @@
 										checked={$params.weekly?.includes(value)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
+											console.log(value);
 											if (value && $params.weekly?.includes(value)) {
-												$params.weekly = $params.weekly.filter((item) => {
+												$params.weekly = $params.weekly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if (value && $params.weekly) {
 												$params.weekly.push(value);
+												$params.weekly = $params.weekly;
 											}
 										}}
 									/>
@@ -620,7 +696,7 @@
 												aria-labelledby="{value}_mean_monthly_label"
 												onCheckedChange={() => {
 													if ($params.monthly?.includes(`${value}_mean`)) {
-														$params.monthly = $params.monthly.filter((item) => {
+														$params.monthly = $params.monthly.filter((item: string) => {
 															return item !== `${value}_mean`;
 														});
 													} else if ($params.monthly) {
@@ -644,7 +720,7 @@
 												aria-labelledby="{value}_anomaly_monthly_label"
 												onCheckedChange={() => {
 													if ($params.monthly?.includes(`${value}_anomaly`)) {
-														$params.monthly = $params.monthly.filter((item) => {
+														$params.monthly = $params.monthly.filter((item: string) => {
 															return item !== `${value}_anomaly`;
 														});
 													} else if ($params.monthly) {
@@ -674,7 +750,7 @@
 													aria-labelledby="wind_gusts_10m_anomaly_monthly_label"
 													onCheckedChange={() => {
 														if ($params.monthly?.includes('wind_gusts_10m_anomaly')) {
-															$params.monthly = $params.monthly.filter((item) => {
+															$params.monthly = $params.monthly.filter((item: string) => {
 																return item !== 'wind_gusts_10m_anomaly';
 															});
 														} else if ($params.monthly) {
@@ -731,7 +807,7 @@
 												aria-labelledby="{value}_mean_monthly_label"
 												onCheckedChange={() => {
 													if ($params.monthly?.includes(`${value}_mean`)) {
-														$params.monthly = $params.monthly.filter((item) => {
+														$params.monthly = $params.monthly.filter((item: string) => {
 															return item !== `${value}_mean`;
 														});
 													} else if ($params.monthly) {
@@ -755,7 +831,7 @@
 												aria-labelledby="{value}_anomaly_monthly_label"
 												onCheckedChange={() => {
 													if ($params.monthly?.includes(`${value}_anomaly`)) {
-														$params.monthly = $params.monthly.filter((item) => {
+														$params.monthly = $params.monthly.filter((item: string) => {
 															return item !== `${value}_anomaly`;
 														});
 													} else if ($params.monthly) {
@@ -813,11 +889,18 @@
 			future weather but also the range of possible outcomes and their associated uncertainties.
 		</p>
 		<p>
+			In addition to the 51 individual member forecasts, Open-Meteo also provides ensemble mean and
+			spread values. If an <mark>Ensemble Mean model</mark> is selected in the model selection above,
+			the API returns the ensemble mean instead of individual member forecasts. Ensemble mean and spread
+			values are stored for a longer period of time and can be used for bias correction later on. Forecasts
+			for all 51 individual members are only kept for one month.
+		</p>
+		<p>
 			Forecasts from EC46 for the next 46 days are updated every day at around 20:30 GMT+0. Seasonal
 			SEAS5 forecast update every month on the 5th.
 		</p>
 		<p>
-			For short-term forecasting consider using the <a href="/en/docs/ecmwf-api"
+			For short-term forecasting consider using the <a href={resolve('/en/docs/ecmwf-api', {})}
 				>15-days ECMWF forecast</a
 			>
 		</p>
@@ -889,13 +972,13 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a
-				href={'/en/docs'}>Weather Forecast API</a
+				href={resolve('/en/docs', {})}>Weather Forecast API</a
 			>. Only notable remarks are listed below
 		</p>
 		<ul class="ml-6 list-disc">
 			<li>
-				<strong>6-hourly resolution:</strong> Forecast data is provided at a native 6-hour interval.
-				While it can be interpolated to 3-hourly or 1-hourly steps, this does not increase forecast accuracy.
+				<strong>6-hourly resolution:</strong> Forecast data is provided at a native 6-hour interval. While
+				it can be interpolated to 3-hourly or 1-hourly steps, this does not increase forecast accuracy.
 				However, using 1-hourly resolution may be practical for applications such as solar PV modeling.
 			</li>
 			<li>
@@ -916,8 +999,8 @@
 			</li>
 			<li>
 				<strong>Weekly and monthly data</strong> are computed directly by the ECMWF SEAS5 and EC46 models.
-				Monthly data is available from SEAS5 for up to 7 months ahead, based on 51 ensemble members,
-				while weekly data is available from EC46 for up to 6 weeks ahead, using 100 ensemble members.
+				Monthly data is available from SEAS5 for up to 7 months ahead, based on 51 ensemble members, while
+				weekly data is available from EC46 for up to 6 weeks ahead, using 100 ensemble members.
 			</li>
 			<li>
 				<strong>Anomalies</strong> are calculated by comparing forecast values against a long-term
@@ -956,10 +1039,10 @@
 				>.
 			</li>
 			<li>
-				<strong>Bias correction:</strong> The dataset is currently provided without bias adjustment.
-				Future versions of the API may include bias-corrected and downscaled outputs for improved local
-				accuracy. Parameters such as anomalies, EFI, and SOT are expressed relative to the model climate,
-				which inherently reduces some systematic biases.
+				<strong>Bias correction:</strong> The dataset is currently provided without bias adjustment. Future
+				versions of the API may include bias-corrected and downscaled outputs for improved local accuracy.
+				Parameters such as anomalies, EFI, and SOT are expressed relative to the model climate, which
+				inherently reduces some systematic biases.
 			</li>
 		</ul>
 	</div>

@@ -155,7 +155,7 @@ export const solarVariables = [
 
 export const models = [
 	[
-		{ value: 'meteoswiss_seamless', label: 'MeteoSwiss Seamless' },
+		{ value: 'meteoswiss_icon_seamless', label: 'MeteoSwiss Seamless' },
 		{ value: 'meteoswiss_icon_ch1', label: 'MeteoSwiss ICON CH1' },
 		{ value: 'meteoswiss_icon_ch2', label: 'MeteoSwiss ICON CH2' }
 	]

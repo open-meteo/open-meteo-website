@@ -6,7 +6,10 @@
 
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 
-	async function fetchMeta(model: String, type: String, apiKeyPreferences: any) {
+	import type { APIKeyPreferences } from '$lib/docs';
+
+	async function fetchMeta(model: string, type: string, apiKeyPreferences: APIKeyPreferences) {
+		const now = new Date();
 		let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
 		let url: string;
 
@@ -22,7 +25,7 @@
 				break;
 		}
 
-		const result = await fetch(url);
+		const result = await fetch(`${url}?cache_buster=${now.getTime()}`);
 		if (!result.ok) {
 			throw new Error(await result.text());
 		}
@@ -32,22 +35,23 @@
 
 		const json = await result.json();
 		const init = new Date(json.last_run_initialisation_time * 1000);
-		const now = Date.now() / 1000;
 
-		const initFormated = `${utcYYYYMMDD(init)} ${zeroPad(init.getUTCHours(), 2)}z`;
+		const initFormated = `${utcYYYYMMDD(init)} ${zeroPad(init.getUTCHours(), 2)}Z`;
 
 		const avail = new Date(json.last_run_availability_time * 1000);
-		const availHHMM = `${zeroPad(avail.getUTCHours(), 2)}:${zeroPad(avail.getUTCMinutes(), 2)}z`;
+		const availHHMM = `${zeroPad(avail.getUTCHours(), 2)}:${zeroPad(avail.getUTCMinutes(), 2)}Z`;
 		const availYYYMMDD = `${utcYYYYMMDD(avail)}`;
 		const availFormated =
-			now - json.last_run_availability_time < 18 * 3600
+			now.getTime() / 1000 - json.last_run_availability_time < 18 * 3600
 				? `${availHHMM}`
 				: `${availYYYMMDD} ${availHHMM}`;
 		const isReallyLate =
-			json.last_run_availability_time + 2 * json.update_interval_seconds + 20 * 60 < now;
+			json.last_run_availability_time + 2 * json.update_interval_seconds + 20 * 60 <
+			now.getTime() / 1000;
 		const isLate =
 			!isReallyLate &&
-			json.last_run_availability_time + json.update_interval_seconds + 20 * 60 < now;
+			json.last_run_availability_time + json.update_interval_seconds + 20 * 60 <
+				now.getTime() / 1000;
 
 		return {
 			url: url,
@@ -63,7 +67,7 @@
 		};
 	}
 
-	function getData(apiKeyPreferences: any) {
+	function getData(apiKeyPreferences: APIKeyPreferences) {
 		let forecastModels = [
 			{
 				provider: 'ItaliaMeteo ARPAE',
@@ -244,15 +248,15 @@
 						area: ['european_union'],
 						meta: fetchMeta('meteofrance_arpege_europe', 'forecast', apiKeyPreferences)
 					},
-					{
-						name: 'ARPEGE Europe 0.1° Probabilities',
-						area: ['european_union'],
-						meta: fetchMeta(
-							'meteofrance_arpege_europe_probabilities',
-							'forecast',
-							apiKeyPreferences
-						)
-					},
+					// { Removed 2026-02-02: Not provided anymore by Meteo-France
+					// 	name: 'ARPEGE Europe 0.1° Probabilities',
+					// 	area: ['european_union'],
+					// 	meta: fetchMeta(
+					// 		'meteofrance_arpege_europe_probabilities',
+					// 		'forecast',
+					// 		apiKeyPreferences
+					// 	)
+					// },
 					{
 						name: 'AROME France 0.01 HD°',
 						area: ['fr'],
@@ -320,6 +324,16 @@
 						name: 'GFS GraphCast 0.25°',
 						area: [],
 						meta: fetchMeta('ncep_gfs_graphcast025', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'AIGFS 0.25°',
+						area: [],
+						meta: fetchMeta('ncep_aigfs025', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'HGEFS 0.25°',
+						area: [],
+						meta: fetchMeta('ncep_hgefs025_ensemble_mean', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'NBM Conus',
@@ -474,6 +488,11 @@
 						name: 'GFS 0.5° Ensemble',
 						area: [],
 						meta: fetchMeta('ncep_gefs05', 'ensemble', apiKeyPreferences)
+					},
+					{
+						name: 'AIGEFS 0.25°',
+						area: [],
+						meta: fetchMeta('ncep_aigefs025', 'ensemble', apiKeyPreferences)
 					}
 				]
 			},
@@ -764,7 +783,7 @@
 			<img height="26" width="26" src="/images/country-flags/jp.svg" alt="jp" />
 		</div>
 	</div>
-	{#each sections as section}
+	{#each sections as section, i (i)}
 		<div class="mt-6">
 			<a href={`#${section.name.toLowerCase().replaceAll(' ', '_')}`}>
 				<h2 id={section.name.toLowerCase().replaceAll(' ', '_')} class="text-2xl md:text-3xl">
@@ -789,15 +808,15 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each section.providers as provider}
-							{#each provider.models as model, index}
+						{#each section.providers as provider, i (i)}
+							{#each provider.models as model, index (index)}
 								<tr>
 									{#if index == 0}
 										<td rowspan={provider.models.length}>{provider.provider}</td>
 									{/if}
 									<td>{model.name}</td>
 									<td>
-										{#each model.area as area}
+										{#each model.area as area, i (i)}
 											<img
 												height="26"
 												width="26"
@@ -858,10 +877,10 @@
 					were completed, which does not indicate when the data became available on the API.
 				</li>
 				<li>
-					<strong>last_run_availability_time:</strong> The time when the data is actually accessible
-					on the API server. Important: Open-Meteo utilises multiple redundant API servers, so there
-					may be slight differences between them while the data is being copied. To ensure all API calls
-					use the most recent data, please wait 10 minutes after the availability time.
+					<strong>last_run_availability_time:</strong> The time when the data is actually accessible on
+					the API server. Important: Open-Meteo utilises multiple redundant API servers, so there may
+					be slight differences between them while the data is being copied. To ensure all API calls use
+					the most recent data, please wait 10 minutes after the availability time.
 				</li>
 				<li>
 					<strong>temporal_resolution_seconds:</strong> The temporal resolution of the model in seconds.
@@ -869,8 +888,8 @@
 					may only provide data in 3 or 6-hourly steps. A value of 3600 indicates that the data is 1-hourly.
 				</li>
 				<li>
-					<strong>update_interval_seconds:</strong> The typical time interval between model updates,
-					such as 3600 seconds for a model that updates every hour.
+					<strong>update_interval_seconds:</strong> The typical time interval between model updates, such
+					as 3600 seconds for a model that updates every hour.
 				</li>
 			</ul>
 			<p class="mt-2">

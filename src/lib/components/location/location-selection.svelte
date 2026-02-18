@@ -20,10 +20,10 @@
 
 	let { params = $bindable() }: Props = $props();
 
-	const locationCallback = (event: CustomEvent<GeoLocation>, index: number) => {
+	const locationCallback = (location: GeoLocation, index: number) => {
 		if (params.latitude && params.longitude) {
-			params.latitude[index] = Number(event.detail.latitude.toFixed(4));
-			params.longitude[index] = Number(event.detail.longitude.toFixed(4));
+			params.latitude[index] = Number(location.latitude.toFixed(4));
+			params.longitude[index] = Number(location.longitude.toFixed(4));
 		}
 		params.latitude = params.latitude;
 		params.longitude = params.longitude;
@@ -108,14 +108,14 @@
 
 	const seamlessModelPresent = $derived.by(() => {
 		if (params.models) {
-			if (params.models.constructor === Array) {
+			if (Array.isArray(params.models)) {
 				for (const model of params.models) {
 					if (model.endsWith('_seamless')) {
 						return true;
 					}
 				}
 			} else if (typeof params.models === 'string') {
-				if (params.models.endsWith('_seamless')) {
+				if ((params.models as string).endsWith('_seamless')) {
 					return true;
 				}
 			}
@@ -299,12 +299,12 @@
 							{/if}
 							{#if params.longitude[index] > 33 && params.longitude[index] <= 180 && params.latitude[index] >= 25}
 								<div class="absolute top-14 left-3 text-sm" transition:slide>
-									Negative longitude for North America
+									Hint: Use negative longitudes for North America
 								</div>
 							{/if}
 							{#if params.longitude[index] > 33 && params.longitude[index] <= 180 && params.latitude[index] < 25}
 								<div class="absolute top-14 left-3 text-sm" transition:slide>
-									Negative longitude for South America
+									Hint: Use negative longitudes for South America
 								</div>
 							{/if}
 						</div>
@@ -328,7 +328,7 @@
 						<div class="flex gap-3 md:gap-6">
 							<div class="md:w-2/3">
 								<LocationSearch
-									on:location={(event) => locationCallback(event, index)}
+									onlocation={(location) => locationCallback(location, index)}
 									label="Search"
 								/>
 							</div>
@@ -413,7 +413,7 @@
 							<Select.Trigger
 								aria-label="Forecast days input"
 								class="h-12 cursor-pointer rounded-b-none pt-6 [&_svg]:mb-3"
-								>{csvExampleSet.label}</Select.Trigger
+								>{csvExampleSet?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
 								{#each csvExampleOptions as { value, label } (value)}

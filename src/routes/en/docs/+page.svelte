@@ -3,6 +3,8 @@
 	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
 
+	import { resolve } from '$app/paths';
+
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import { sliceIntoChunks } from '$lib/utils';
@@ -193,14 +195,15 @@
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
-											if (value && $params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
-													return item !== value;
-												});
-											} else if (value && $params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
+											if (Array.isArray($params.hourly))
+												if (value && $params.hourly?.includes(value)) {
+													$params.hourly = $params.hourly.filter((item: string) => {
+														return item !== value;
+													});
+												} else if (value && $params.hourly) {
+													$params.hourly.push(value);
+													$params.hourly = $params.hourly;
+												}
 										}}
 									/>
 									<Label
@@ -305,14 +308,15 @@
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
+											if (Array.isArray($params.hourly))
+												if ($params.hourly?.includes(value)) {
+													$params.hourly = $params.hourly.filter((item: string) => {
+														return item !== value;
+													});
+												} else if ($params.hourly) {
+													$params.hourly.push(value);
+													$params.hourly = $params.hourly;
+												}
 										}}
 									/>
 									<Label
@@ -328,8 +332,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -405,11 +409,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
@@ -439,14 +443,15 @@
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
 															aria-labelledby="{variable.value}_{level}hPa"
 															onCheckedChange={() => {
-																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-																	$params.hourly = $params.hourly.filter((item) => {
-																		return item !== `${variable.value}_${level}hPa`;
-																	});
-																} else if ($params.hourly) {
-																	$params.hourly.push(`${variable.value}_${level}hPa`);
-																	$params.hourly = $params.hourly;
-																}
+																if (Array.isArray($params.hourly))
+																	if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
+																		$params.hourly = $params.hourly.filter((item: string) => {
+																			return item !== `${variable.value}_${level}hPa`;
+																		});
+																	} else if ($params.hourly) {
+																		$params.hourly.push(`${variable.value}_${level}hPa`);
+																		$params.hourly = $params.hourly;
+																	}
 															}}
 														/>
 														<Label
@@ -492,14 +497,15 @@
 										checked={$params.models?.includes(value)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
+											if (Array.isArray($params.models))
+												if ($params.models?.includes(value)) {
+													$params.models = $params.models.filter((item: string) => {
+														return item !== value;
+													});
+												} else if ($params.models) {
+													$params.models.push(value);
+													$params.models = $params.models;
+												}
 										}}
 									/>
 									<Label
@@ -515,8 +521,8 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
+						seamless prediction.</small
 					>
 				</div>
 			</AccordionItem>
@@ -545,14 +551,15 @@
 										checked={$params.minutely_15?.includes(value)}
 										aria-labelledby="{value}_minutely_15_label"
 										onCheckedChange={() => {
-											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.minutely_15) {
-												$params.minutely_15.push(value);
-												$params.minutely_15 = $params.minutely_15;
-											}
+											if (Array.isArray($params.minutely_15))
+												if ($params.minutely_15?.includes(value)) {
+													$params.minutely_15 = $params.minutely_15.filter((item: string) => {
+														return item !== value;
+													});
+												} else if ($params.minutely_15) {
+													$params.minutely_15.push(value);
+													$params.minutely_15 = $params.minutely_15;
+												}
 										}}
 									/>
 									<Label
@@ -578,14 +585,15 @@
 										checked={$params.minutely_15?.includes(value)}
 										aria-labelledby="{value}_minutely_15_label"
 										onCheckedChange={() => {
-											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.minutely_15) {
-												$params.minutely_15.push(value);
-												$params.minutely_15 = $params.minutely_15;
-											}
+											if (Array.isArray($params.minutely_15))
+												if ($params.minutely_15?.includes(value)) {
+													$params.minutely_15 = $params.minutely_15.filter((item: string) => {
+														return item !== value;
+													});
+												} else if ($params.minutely_15) {
+													$params.minutely_15.push(value);
+													$params.minutely_15 = $params.minutely_15;
+												}
 										}}
 									/>
 									<Label
@@ -671,14 +679,15 @@
 								checked={$params.daily?.includes(value)}
 								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
-									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
-											return item !== value;
-										});
-									} else if ($params.daily) {
-										$params.daily.push(value);
-										$params.daily = $params.daily;
-									}
+									if (Array.isArray($params.daily))
+										if ($params.daily?.includes(value)) {
+											$params.daily = $params.daily.filter((item: string) => {
+												return item !== value;
+											});
+										} else if ($params.daily) {
+											$params.daily.push(value);
+											$params.daily = $params.daily;
+										}
 								}}
 							/>
 							<Label
@@ -702,7 +711,7 @@
 			</div>
 		{/if}
 
-		<Accordion.Root class="border-border mt-3 rounded-lg border md:mt-6">
+		<Accordion.Root type="single" class="border-border mt-3 rounded-lg border md:mt-6">
 			<AccordionItem
 				id="additional-daily-variables"
 				title="Additional Daily Variables"
@@ -722,14 +731,15 @@
 										checked={$params.daily?.includes(value)}
 										aria-labelledby="{value}_daily_label"
 										onCheckedChange={() => {
-											if ($params.daily?.includes(value)) {
-												$params.daily = $params.daily.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.daily && Array.isArray($params.daily)) {
-												$params.daily.push(value);
-												$params.daily = $params.daily;
-											}
+											if (Array.isArray($params.daily))
+												if ($params.daily?.includes(value)) {
+													$params.daily = $params.daily.filter((item: string) => {
+														return item !== value;
+													});
+												} else if ($params.daily && Array.isArray($params.daily)) {
+													$params.daily.push(value);
+													$params.daily = $params.daily;
+												}
 										}}
 									/>
 									<Label
@@ -765,14 +775,15 @@
 								checked={$params.current?.includes(value)}
 								aria-labelledby="{value}_current_label"
 								onCheckedChange={() => {
-									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item) => {
-											return item !== value;
-										});
-									} else if ($params.current && Array.isArray($params.current)) {
-										$params.current.push(value);
-										$params.current = $params.current;
-									}
+									if (Array.isArray($params.current))
+										if ($params.current?.includes(value)) {
+											$params.current = $params.current.filter((item: string) => {
+												return item !== value;
+											});
+										} else if ($params.current && Array.isArray($params.current)) {
+											$params.current.push(value);
+											$params.current = $params.current;
+										}
 								}}
 							/>
 							<Label
@@ -827,7 +838,7 @@
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
 						class="text-link underline"
-						href="/en/docs/model-updates">model updates documentation</a
+						href={resolve('/en/docs/model-updates', {})}>model updates documentation</a
 					>.</caption
 				>
 				<thead>
@@ -842,7 +853,7 @@
 				</thead>
 				<tbody class="[&_a]:text-link [&_a]:underline [&_a]:underline-offset-3">
 					<tr class="">
-						<th scope="row"><a href="/en/docs/dwd-api">ICON</a></th>
+						<th scope="row"><a href={resolve('/en/docs/dwd-api', {})}>ICON</a></th>
 						<td>Deutscher Wetterdienst (DWD)</td>
 						<td>Germany</td>
 						<td>2 - 11 km</td>
@@ -850,7 +861,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/gfs-api">GFS & HRRR</a></th>
+						<th scope="row"><a href={resolve('/en/docs/gfs-api', {})}>GFS & HRRR</a></th>
 						<td>NOAA</td>
 						<td>United States</td>
 						<td>3 - 25 km</td>
@@ -858,7 +869,8 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/meteofrance-api">ARPEGE & AROME</a></th>
+						<th scope="row"><a href={resolve('/en/docs/meteofrance-api', {})}>ARPEGE & AROME</a></th
+						>
 						<td>Météo-France</td>
 						<td>France</td>
 						<td>1 - 25 km</td>
@@ -866,7 +878,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/ecmwf-api">IFS & AIFS</a></th>
+						<th scope="row"><a href={resolve('/en/docs/ecmwf-api', {})}>IFS & AIFS</a></th>
 						<td>ECMWF</td>
 						<td>European Union</td>
 						<td>25 km</td>
@@ -874,7 +886,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/ukmo-api">UKMO</a></th>
+						<th scope="row"><a href={resolve('/en/docs/ukmo-api', {})}>UKMO</a></th>
 						<td>UK Met Office</td>
 						<td>United Kingdom</td>
 						<td>2 - 10 km</td>
@@ -882,7 +894,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/kma-api">KMA</a></th>
+						<th scope="row"><a href={resolve('/en/docs/kma-api', {})}>KMA</a></th>
 						<td>KMA Korea</td>
 						<td>Korea</td>
 						<td>1.5 - 13 km</td>
@@ -890,7 +902,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/jma-api">MSM & GSM</a></th>
+						<th scope="row"><a href={resolve('/en/docs/jma-api', {})}>MSM & GSM</a></th>
 						<td>JMA</td>
 						<td>Japan</td>
 						<td>5 - 55 km</td>
@@ -898,7 +910,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/meteoswiss-api">ICON CH</a></th>
+						<th scope="row"><a href={resolve('/en/docs/meteoswiss-api', {})}>ICON CH</a></th>
 						<td>MeteoSwiss</td>
 						<td>Switzerland</td>
 						<td>1 - 2 km</td>
@@ -906,7 +918,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/metno-api">MET Nordic</a></th>
+						<th scope="row"><a href={resolve('/en/docs/metno-api', {})}>MET Nordic</a></th>
 						<td>MET Norway</td>
 						<td>Norway</td>
 						<td>1 km</td>
@@ -914,7 +926,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/gem-api">GEM</a></th>
+						<th scope="row"><a href={resolve('/en/docs/gem-api', {})}>GEM</a></th>
 						<td>Canadian Weather Service</td>
 						<td>Canada</td>
 						<td>2.5 km</td>
@@ -922,7 +934,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/bom-api">ACCESS-G</a></th>
+						<th scope="row"><a href={resolve('/en/docs/bom-api', {})}>ACCESS-G</a></th>
 						<td>Australian Bureau of Meteorology (BOM)</td>
 						<td>Australia</td>
 						<td>15 km</td>
@@ -930,7 +942,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/cma-api">GFS GRAPES</a></th>
+						<th scope="row"><a href={resolve('/en/docs/cma-api', {})}>GFS GRAPES</a></th>
 						<td>China Meteorological Administration (CMA)</td>
 						<td>China</td>
 						<td>15 km</td>
@@ -938,7 +950,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/knmi-api">HARMONIE</a></th>
+						<th scope="row"><a href={resolve('/en/docs/knmi-api', {})}>HARMONIE</a></th>
 						<td>KNMI</td>
 						<td>Netherlands</td>
 						<td>2 km</td>
@@ -946,7 +958,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/dmi-api">HARMONIE</a></th>
+						<th scope="row"><a href={resolve('/en/docs/dmi-api', {})}>HARMONIE</a></th>
 						<td>DMI</td>
 						<td>Denmark</td>
 						<td>2 km</td>
@@ -954,7 +966,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/italia-meteo-arpae-api">ARPAE</a></th>
+						<th scope="row"><a href={resolve('/en/docs/italia-meteo-arpae-api', {})}>ARPAE</a></th>
 						<td>ItaliaMeteo</td>
 						<td>Italy</td>
 						<td>2 km</td>
@@ -1114,8 +1126,7 @@
 						<td>No</td>
 						<td><mark>0</mark></td>
 						<td
-							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also
-							returned.</td
+							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
 						>
 					</tr>
 					<tr>
@@ -1200,7 +1211,7 @@
 							server URL requires the prefix <mark>customer-</mark>. See
 							<a
 								class="text-link underline"
-								href="/en/pricing"
+								href={resolve('/en/pricing', {})}
 								title="Pricing information to use the weather API commercially">pricing</a
 							> for more information.</td
 						>

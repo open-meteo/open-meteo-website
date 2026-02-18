@@ -14,12 +14,12 @@ jobs:
           node-version: 24
           cache: 'npm'
       - name: Cypress run
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
           build: npm run build
           start: npm run preview
       - name: Upload screenshots & videos
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: cypress-files

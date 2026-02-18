@@ -310,7 +310,7 @@ export const solarVariables = [
 	]
 ];
 
-export const models = [
+export const models: { value: string; label: string; caption?: string }[][] = [
 	[
 		{ value: 'best_match', label: 'Best match' },
 		{ value: 'ecmwf_ifs', label: 'ECMWF IFS HRES 9km' },
@@ -325,7 +325,9 @@ export const models = [
 		{ value: 'gfs_hrrr', label: 'NCEP HRRR U.S. Conus' },
 		{ value: 'ncep_nbm_conus', label: 'NCEP NBM U.S. Conus' },
 		{ value: 'ncep_nam_conus', label: 'NCEP NAM U.S. Conus' },
-		{ value: 'gfs_graphcast025', label: 'GFS GraphCast' }
+		{ value: 'gfs_graphcast025', label: 'NCEP GFS GraphCast' },
+		{ value: 'ncep_aigfs025', label: 'NCEP AIGFS 0.25°' },
+		{ value: 'ncep_hgefs025_ensemble_mean', label: 'NCEP HGEFS 0.25° Ensemble Mean' }
 	],
 	[
 		{ value: 'jma_seamless', label: 'JMA Seamless' },

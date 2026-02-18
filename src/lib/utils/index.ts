@@ -18,12 +18,15 @@ export const pad = (n: string | number) => {
 	return ('0' + n).slice(-2);
 };
 
-export function debounce(func, timeout = 100) {
-	let timer: NodeJS.Timeout;
-	return (...args) => {
+export function debounce<T extends (...args: Parameters<T>) => void>(
+	func: T,
+	timeout = 100
+): (...args: Parameters<T>) => void {
+	let timer: ReturnType<typeof setTimeout>;
+	return (...args: Parameters<T>) => {
 		clearTimeout(timer);
 		timer = setTimeout(() => {
-			func.apply(this, args);
+			func(...args);
 		}, timeout);
 	};
 }
@@ -46,7 +49,7 @@ export function objectDifference<T extends Record<string, any>>(a: T, b: T): Par
 	return diff;
 }
 
-export const sliceIntoChunks = (arr: Array<T>, chunkSize: number): Array<Array<T>> => {
+export const sliceIntoChunks = <T>(arr: Array<T>, chunkSize: number): Array<Array<T>> => {
 	const res = [];
 	for (let i = 0; i < arr.length; i += chunkSize) {
 		const chunk = arr.slice(i, i + chunkSize);

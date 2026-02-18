@@ -2,12 +2,12 @@ import { getWeatherCode } from '$lib/utils/meteo';
 
 import { SECTIONS } from '$lib/constants';
 
-import type { AxisPlotBandsOptions, Series, YAxisOptions } from 'highcharts';
+import type { AxisPlotBandsOptions, SeriesOptionsType, YAxisOptions } from 'highcharts';
 
 export function jsonToChart(data: any, downloadTime: number) {
 	const yAxis: YAxisOptions[] = [];
 
-	const series: Series[] = [];
+	const series: SeriesOptionsType[] = [];
 	SECTIONS.forEach(function (section) {
 		if (!(section in data) || section === 'current') {
 			return;
@@ -29,7 +29,8 @@ export function jsonToChart(data: any, downloadTime: number) {
 				yAxis.push({ title: { text: unit } });
 				axisId = yAxis.length - 1;
 			}
-			const ser = {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const ser: any = {
 				name: k[0],
 				data: k[1],
 				yAxis: axisId,
@@ -77,7 +78,7 @@ export function jsonToChart(data: any, downloadTime: number) {
 	if ('daily' in data && 'sunrise' in data.daily && 'sunset' in data.daily) {
 		const rise = data.daily.sunrise;
 		const set = data.daily.sunset;
-		plotBands = rise.map(function (r, i) {
+		plotBands = rise.map(function (r: number, i: number) {
 			return {
 				color: 'rgb(255, 255, 194)',
 				from: (r + data.utc_offset_seconds) * 1000,

@@ -233,7 +233,7 @@
 							aria-labelledby="{value}_daily_label"
 							onCheckedChange={() => {
 								if ($params.daily?.includes(value)) {
-									$params.daily = $params.daily.filter((item) => {
+									$params.daily = $params.daily.filter((item: string) => {
 										return item !== value;
 									});
 								} else if ($params.daily) {
@@ -269,7 +269,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="models"
 				title="Flood models"
@@ -288,7 +292,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {

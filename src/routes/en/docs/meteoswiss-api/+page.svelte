@@ -68,14 +68,14 @@
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
 
-	let accordionValues = $state([]);
+	let accordionValues: string[] = $state([]);
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				forecastHours.value ||
-				pastHours.value ||
-				temporalResolution.value ||
-				cellSelection.value) &&
+				forecastHours?.value ||
+				pastHours?.value ||
+				temporalResolution?.value ||
+				cellSelection?.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -83,8 +83,8 @@
 
 		if (
 			(countVariables(solarVariables, $params.hourly).active ||
-				$params.tilt > 0 ||
-				$params.azimuth > 0) &&
+				Number($params.tilt) > 0 ||
+				Number($params.azimuth) > 0) &&
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
@@ -286,7 +286,7 @@
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
@@ -309,7 +309,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -328,7 +332,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -440,7 +444,7 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -462,8 +466,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -533,7 +537,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -555,8 +559,8 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
+						seamless prediction.</small
 					>
 				</div>
 			</AccordionItem>
@@ -583,7 +587,7 @@
 								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
+										$params.daily = $params.daily.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.daily) {
@@ -634,7 +638,7 @@
 								aria-labelledby="{value}_current_label"
 								onCheckedChange={() => {
 									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item) => {
+										$params.current = $params.current.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.current) {
@@ -771,12 +775,12 @@
 			</li>
 			<li>
 				<strong>Wind, Temperature, and Cloud Forecasts at Heights of 100m and Above:</strong> Forecasts
-				at elevated height levels are not yet integrated. If this data is of interest to you, please
-				reach out to discuss possible integration.
+				at elevated height levels are not yet integrated. If this data is of interest to you, please reach
+				out to discuss possible integration.
 			</li>
 			<li>
-				<strong>Sunshine Duration</strong> is natively computed by the ICON model. For other weather
-				models, Open-Meteo derives sunshine duration using direct normal irradiance (DNI).
+				<strong>Sunshine Duration</strong> is natively computed by the ICON model. For other weather models,
+				Open-Meteo derives sunshine duration using direct normal irradiance (DNI).
 			</li>
 			<li>
 				<strong>Snowfall and Freezing Level Height</strong> may show invalid values if the computed level
@@ -785,8 +789,8 @@
 			</li>
 			<li>
 				<strong>CAPE and Convective Inhibition</strong> are calculated using mean-layer values, consistent
-				with other ICON domains. Convective inhibition may be -1 indicating that the model could not
-				calculate convective inhibition.
+				with other ICON domains. Convective inhibition may be -1 indicating that the model could not calculate
+				convective inhibition.
 			</li>
 		</ul>
 	</div>

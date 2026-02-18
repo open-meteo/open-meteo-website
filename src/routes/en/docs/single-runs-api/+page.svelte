@@ -59,7 +59,6 @@
 		latitude: [52.52],
 		longitude: [13.41],
 		run: d.toISOString().replace(':00.000Z', ''),
-		forecast_days: '7',
 		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
@@ -70,7 +69,9 @@
 
 	let pressureVariablesTab = $state('temperature');
 
-	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
+	let timezoneInvalid = $derived(
+		$params.timezone == 'UTC' && ($params.daily ? $params.daily.length > 0 : false)
+	);
 
 	// let begin_date = new Date('2016-01-01');
 	let last_date = new SvelteDate();
@@ -97,6 +98,7 @@
 	let accordionValues: string[] = $state([]);
 	onMount(() => {
 		if (
+			$params.hourly &&
 			(countVariables(additionalVariables, $params.hourly).active ||
 				(pastHours ? pastHours.value : false) ||
 				(cellSelection ? cellSelection.value : false) ||
@@ -108,6 +110,7 @@
 		}
 
 		if (
+			$params.hourly &&
 			(countVariables(solarVariables, $params.hourly).active ||
 				($params.tilt ? Number($params.tilt) > 0 : false) ||
 				($params.azimuth ? Number($params.azimuth) > 0 : false)) &&
@@ -117,17 +120,23 @@
 		}
 
 		if (
+			$params.hourly &&
 			countPressureVariables(pressureVariables, levels, $params.hourly).active &&
 			!accordionValues.includes('pressure-variables')
 		) {
 			accordionValues.push('pressure-variables');
 		}
 
-		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
+		if (
+			$params.models &&
+			countVariables(models, $params.models).active &&
+			!accordionValues.includes('models')
+		) {
 			accordionValues.push('models');
 		}
 
 		if (
+			$params.minutely_15 &&
 			(countVariables(minutely_15, $params.minutely_15).active +
 				countVariables(solarVariables, $params.minutely_15).active >
 				0 ||
@@ -229,7 +238,7 @@
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
@@ -252,7 +261,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -271,7 +284,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -383,7 +396,7 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -405,8 +418,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -471,7 +484,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
@@ -484,11 +497,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
@@ -510,7 +523,7 @@
 										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
 											<div>
 												{#each chunk as level, k (k)}
-													<div class="group flex items-center" title={level.label}>
+													<div class="group flex items-center" title={String(level)}>
 														<Checkbox
 															id="{variable.value}_{level}hPa"
 															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -519,7 +532,7 @@
 															aria-labelledby="{variable.value}_{level}hPa"
 															onCheckedChange={() => {
 																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-																	$params.hourly = $params.hourly.filter((item) => {
+																	$params.hourly = $params.hourly.filter((item: string) => {
 																		return item !== `${variable.value}_${level}hPa`;
 																	});
 																} else if ($params.hourly) {
@@ -572,7 +585,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -594,8 +607,8 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
+						seamless prediction.</small
 					>
 				</div>
 			</AccordionItem>
@@ -624,7 +637,7 @@
 										aria-labelledby="{value}_minutely_15_label"
 										onCheckedChange={() => {
 											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
+												$params.minutely_15 = $params.minutely_15.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.minutely_15) {
@@ -657,7 +670,7 @@
 										aria-labelledby="{value}_minutely_15_label"
 										onCheckedChange={() => {
 											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
+												$params.minutely_15 = $params.minutely_15.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.minutely_15) {
@@ -750,7 +763,7 @@
 								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
+										$params.daily = $params.daily.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.daily) {
@@ -780,7 +793,7 @@
 			</div>
 		{/if}
 
-		<Accordion.Root class="border-border mt-3 rounded-lg border md:mt-6">
+		<Accordion.Root type="single" class="border-border mt-3 rounded-lg border md:mt-6">
 			<AccordionItem
 				id="additional-daily-variables"
 				title="Additional Daily Variables"
@@ -801,7 +814,7 @@
 										aria-labelledby="{value}_daily_label"
 										onCheckedChange={() => {
 											if ($params.daily?.includes(value)) {
-												$params.daily = $params.daily.filter((item) => {
+												$params.daily = $params.daily.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.daily) {

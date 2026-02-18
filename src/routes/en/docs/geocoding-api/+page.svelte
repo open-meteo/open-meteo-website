@@ -49,7 +49,7 @@
 		apiUrl = `${action}${new URLSearchParams(urlParams)}`;
 	});
 
-	let debounceTimeout: number | undefined = undefined;
+	let debounceTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
 
 	onDestroy(() => {
 		clearInterval(debounceTimeout);

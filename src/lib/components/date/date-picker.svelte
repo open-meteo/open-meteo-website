@@ -116,7 +116,7 @@
 					class="m-0 -mt-2 h-[unset] border-none !bg-transparent p-0 !ring-0 !ring-offset-0 "
 					type="text"
 					value={start_date}
-					oninput={debounce((e: InputEvent) => {
+					oninput={debounce((e: Event & { currentTarget: HTMLInputElement }) => {
 						let target = e.target as HTMLInputElement;
 						if (
 							target &&
@@ -168,7 +168,7 @@
 					class="m-0 -mt-2 h-[unset] border-none !bg-transparent p-0 !ring-0 !ring-offset-0  "
 					type="text"
 					value={end_date}
-					oninput={debounce((e: InputEvent) => {
+					oninput={debounce((e: Event & { currentTarget: HTMLInputElement }) => {
 						let target = e.target as HTMLInputElement;
 						if (
 							target &&

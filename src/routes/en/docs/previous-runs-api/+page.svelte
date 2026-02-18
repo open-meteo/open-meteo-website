@@ -83,7 +83,7 @@
 		}
 
 		if (
-			(countPreviousVariables(solarVariables, $params.hourly).active ||
+			(countPreviousVariables([solarVariables], $params.hourly).active ||
 				($params.tilt ? Number($params.tilt) > 0 : false) ||
 				($params.azimuth ? Number($params.azimuth) > 0 : false)) &&
 			!accordionValues.includes('solar-variables')
@@ -92,7 +92,7 @@
 		}
 
 		if (
-			countPreviousVariables(windVariables, $params.hourly).active &&
+			countPreviousVariables([windVariables], $params.hourly).active &&
 			!accordionValues.includes('wind-variables')
 		) {
 			accordionValues.push('wind-variables');
@@ -319,7 +319,7 @@
 											aria-labelledby="{pd.value}_hourly_previous_day_label{i}"
 											onCheckedChange={() => {
 												if ($params.hourly?.includes(formatVariableName(pd.value, i))) {
-													$params.hourly = $params.hourly.filter((item) => {
+													$params.hourly = $params.hourly.filter((item: string) => {
 														return item !== formatVariableName(pd.value, i);
 													});
 												} else if ($params.hourly) {
@@ -345,7 +345,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem id="additional-variables" title="Additional Options">
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative md:col-span-2">
@@ -387,7 +391,7 @@
 			<AccordionItem
 				id="solar-variables"
 				title="Solar Radiation Variables"
-				count={countPreviousVariables(solarVariables, $params.hourly)}
+				count={countPreviousVariables([solarVariables], $params.hourly)}
 			>
 				<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 					<table class="mx-6 mt-2 w-full min-w-[1020px] md:ml-0 lg:mx-0">
@@ -406,7 +410,7 @@
 													aria-labelledby="{sv.value}_hourly_previous_day_label{i}"
 													onCheckedChange={() => {
 														if ($params.hourly?.includes(formatVariableName(sv.value, i))) {
-															$params.hourly = $params.hourly.filter((item) => {
+															$params.hourly = $params.hourly.filter((item: string) => {
 																return item !== formatVariableName(sv.value, i);
 															});
 														} else if ($params.hourly) {
@@ -487,7 +491,7 @@
 			<AccordionItem
 				id="wind-variables"
 				title="Wind on 80, 120 and 180 meter"
-				count={countPreviousVariables(windVariables, $params.hourly)}
+				count={countPreviousVariables([windVariables], $params.hourly)}
 			>
 				<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 					<table class="mx-6 mt-2 w-full min-w-[1020px] md:ml-0 lg:mx-0">
@@ -506,7 +510,7 @@
 													aria-labelledby="{wv.value}_hourly_previous_day_label{i}"
 													onCheckedChange={() => {
 														if ($params.hourly?.includes(formatVariableName(wv.value, i))) {
-															$params.hourly = $params.hourly.filter((item) => {
+															$params.hourly = $params.hourly.filter((item: string) => {
 																return item !== formatVariableName(wv.value, i);
 															});
 														} else if ($params.hourly) {
@@ -547,7 +551,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -569,8 +573,8 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
+						seamless prediction.</small
 					>
 				</div>
 			</AccordionItem>
@@ -635,8 +639,7 @@
 		<p>
 			<strong>Weather Models Sources:</strong> The Previous Runs API uses the same models as
 			available in the general weather forecast API. Please refer to the
-			<a href="/en/docs">Forecast API documentation</a> for a list of all weather models and weather
-			variables.
+			<a href="/en/docs">Forecast API documentation</a> for a list of all weather models and weather variables.
 		</p>
 		<p>
 			<strong>Data Availability:</strong> Data is generally available from January 2024 onwards. Exceptions

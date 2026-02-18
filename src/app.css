@@ -198,9 +198,8 @@
 	--color-warning: var(--warning);
 	--color-warning-dark: var(--warning-dark);
 	--color-warning-foreground: var(--warning-foreground);
-	--color-desctructive: var(--desctructive);
-	--color-desctructive-foreground: var(--desctructive-foreground);
-	--color-warning-foreground: var(--warning-foreground);
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
 	--color-mark-color: var(--mark-color);
 }
 
@@ -227,9 +226,13 @@
 	}
 }
 
+html,
+body {
+	scroll-behavior: smooth;
+}
+
 body {
 	overflow-y: overlay;
-	scroll-behavior: smooth;
 }
 
 h1,

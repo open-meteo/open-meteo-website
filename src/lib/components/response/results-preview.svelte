@@ -22,7 +22,6 @@
 
 	import type { APIKeyPreferences, Parameters } from '$lib/docs';
 	import type { UrlHashStore } from '$lib/stores/url-hash-store';
-	import type { ChartOptions } from 'highcharts';
 
 	interface Props {
 		params: UrlHashStore;
@@ -47,91 +46,89 @@
 	}: Props = $props();
 
 	/// Parsed params that resolved CSV fields
-	let parsedParams = $derived(
-		((p: Parameters, apiKeyPreferences: APIKeyPreferences) => {
-			const jsonParams = { ...p };
-			if ('time_mode' in jsonParams) {
-				if (jsonParams.time_mode == 'forecast_days') {
-					delete jsonParams['start_date'];
-					delete jsonParams['end_date'];
+	let parsedParams = $derived.by(() => {
+		const jsonParams: Record<string, any> = { ...$params };
+		if ('time_mode' in jsonParams) {
+			if (jsonParams.time_mode == 'forecast_days') {
+				delete jsonParams['start_date'];
+				delete jsonParams['end_date'];
+			}
+			if (jsonParams.time_mode == 'time_interval' && !jsonParams.run) {
+				delete jsonParams['forecast_days'];
+				delete jsonParams['past_days'];
+			}
+			delete jsonParams['csv_time_intervals'];
+			delete jsonParams['time_mode'];
+		}
+		if ('location_mode' in jsonParams) {
+			if (jsonParams.location_mode == 'csv_coordinates' && jsonParams['csv_coordinates']) {
+				const lats: number[] = [];
+				const lons: number[] = [];
+				const elevation: number[] = [];
+				const timezone: string[] = [];
+				const start_date: string[] = [];
+				const end_date: string[] = [];
+				const csv: string = jsonParams['csv_coordinates'];
+				csv.split(/\r?\n/).forEach((row) => {
+					if (row.length < 4) {
+						return;
+					}
+					let parts = row.split(/[;,\t]/);
+					if (parts.length < 2) {
+						return;
+					}
+					lats.push(parseFloat(parts[0]));
+					lons.push(parseFloat(parts[1]));
+					if (parts.length > 2 && parts[2].length > 0) {
+						elevation.push(parseFloat(parts[2]));
+					}
+					if (parts.length > 3 && parts[3].length > 0) {
+						timezone.push(parts[3]);
+					}
+					if (parts.length > 5 && parts[4].length > 0 && parts[5].length > 0) {
+						start_date.push(parts[4]);
+						end_date.push(parts[5]);
+					}
+				});
+				jsonParams['latitude'] = lats;
+				jsonParams['longitude'] = lons;
+				if (elevation.length > 0) {
+					jsonParams['elevation'] = elevation;
 				}
-				if (jsonParams.time_mode == 'time_interval') {
+				if (timezone.length > 0) {
+					jsonParams['timezone'] = timezone;
+				}
+				if (start_date.length > 0) {
+					jsonParams['start_date'] = start_date;
+					jsonParams['end_date'] = end_date;
 					delete jsonParams['forecast_days'];
 					delete jsonParams['past_days'];
 				}
-				delete jsonParams['csv_time_intervals'];
-				delete jsonParams['time_mode'];
 			}
-			if ('location_mode' in jsonParams) {
-				if (jsonParams.location_mode == 'csv_coordinates' && jsonParams['csv_coordinates']) {
-					const lats: number[] = [];
-					const lons: number[] = [];
-					const elevation: number[] = [];
-					const timezone: string[] = [];
-					const start_date: string[] = [];
-					const end_date: string[] = [];
-					const csv: string = jsonParams['csv_coordinates'];
-					csv.split(/\r?\n/).forEach((row) => {
-						if (row.length < 4) {
-							return;
-						}
-						let parts = row.split(/[;,\t]/);
-						if (parts.length < 2) {
-							return;
-						}
-						lats.push(parseFloat(parts[0]));
-						lons.push(parseFloat(parts[1]));
-						if (parts.length > 2 && parts[2].length > 0) {
-							elevation.push(parseFloat(parts[2]));
-						}
-						if (parts.length > 3 && parts[3].length > 0) {
-							timezone.push(parts[3]);
-						}
-						if (parts.length > 5 && parts[4].length > 0 && parts[5].length > 0) {
-							start_date.push(parts[4]);
-							end_date.push(parts[5]);
-						}
-					});
-					jsonParams['latitude'] = lats;
-					jsonParams['longitude'] = lons;
-					if (elevation.length > 0) {
-						jsonParams['elevation'] = elevation;
-					}
-					if (timezone.length > 0) {
-						jsonParams['timezone'] = timezone;
-					}
-					if (start_date.length > 0) {
-						jsonParams['start_date'] = start_date;
-						jsonParams['end_date'] = end_date;
-						delete jsonParams['forecast_days'];
-						delete jsonParams['past_days'];
-					}
-				}
-				delete jsonParams['location_mode'];
-				delete jsonParams['csv_coordinates'];
+			delete jsonParams['location_mode'];
+			delete jsonParams['csv_coordinates'];
+		}
+		// Cast 1-element arrays to a scalar value
+		for (const key in jsonParams) {
+			if (Array.isArray(jsonParams[key]) && jsonParams[key].length == 1) {
+				jsonParams[key] = jsonParams[key][0];
 			}
-			// Cast 1-element arrays to a scalar value
-			for (const key in jsonParams) {
-				if (Array.isArray(jsonParams[key]) && jsonParams[key].length == 1) {
-					jsonParams[key] = jsonParams[key][0];
-				}
-			}
+		}
 
-			if (model_default != '' && !('models' in jsonParams && jsonParams['models'] != '')) {
-				jsonParams['models'] = model_default;
-			}
+		if (model_default != '' && !('models' in jsonParams && jsonParams['models'] != '')) {
+			jsonParams['models'] = model_default;
+		}
 
-			if (apiKeyPreferences.use == 'commercial') {
-				jsonParams['apikey'] = apiKeyPreferences.apikey;
-			}
+		if ($apiKeyPreferences.use == 'commercial') {
+			jsonParams['apikey'] = $apiKeyPreferences.apikey;
+		}
 
-			if ($params.location_mode !== 'bounding_box' && jsonParams.bounding_box) {
-				delete jsonParams.bounding_box;
-			}
+		if ($params.location_mode !== 'bounding_box' && jsonParams.bounding_box) {
+			delete jsonParams.bounding_box;
+		}
 
-			return objectDifference(jsonParams, defaultParameters);
-		})($params, $apiKeyPreferences)
-	);
+		return objectDifference(jsonParams, defaultParameters);
+	});
 
 	let server = $derived(
 		((apiKeyPreferences: APIKeyPreferences) => {
@@ -196,29 +193,29 @@
 			/// Number of weather variables for hourly, daily, current or minutely_15
 			const nHourly = cwParams.hourly
 				? Array.isArray(cwParams.hourly)
-					? cwParams.hourly.length
-					: cwParams.hourly.length > 1
+					? (cwParams.hourly as any[]).length
+					: (cwParams.hourly as string).length > 1
 						? 1
 						: 0
 				: 0;
 			const nDaily = cwParams.daily
 				? Array.isArray(cwParams.daily)
-					? cwParams.daily.length
-					: cwParams.daily.length > 1
+					? (cwParams.daily as any[]).length
+					: (cwParams.daily as string).length > 1
 						? 1
 						: 0
 				: 0;
 			const nCurrent = cwParams.current
 				? Array.isArray(cwParams.current)
-					? cwParams.current.length
-					: cwParams.current.length > 1
+					? (cwParams.current as any[]).length
+					: (cwParams.current as string).length > 1
 						? 1
 						: 0
 				: 0;
 			const nMinutely15 = cwParams.minutely_15
 				? Array.isArray(cwParams.minutely_15)
-					? cwParams.minutely_15.length
-					: cwParams.minutely_15.length > 1
+					? (cwParams.minutely_15 as any[]).length
+					: (cwParams.minutely_15 as string).length > 1
 						? 1
 						: 0
 				: 0;
@@ -239,15 +236,21 @@
 	);
 
 	let error = $state('');
-	let results: Promise<ChartOptions[] | null> = $state(new Promise((resolve) => resolve(null)));
+	let results: Promise<any[] | null> = $state(new Promise((resolve) => resolve(null)));
 	const reset = () => {
 		error = '';
 		results = new Promise((resolve) => resolve(null));
 	};
 
 	// reset results on variable changes
-	params.subscribe(reset);
-	apiKeyPreferences.subscribe(reset);
+	$effect(() => {
+		$params;
+		reset();
+	});
+	$effect(() => {
+		$apiKeyPreferences;
+		reset();
+	});
 
 	const preview = async () => {
 		if (
@@ -699,7 +702,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -751,7 +754,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;
@@ -815,7 +818,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -866,7 +869,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;
@@ -931,7 +934,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -982,7 +985,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;
