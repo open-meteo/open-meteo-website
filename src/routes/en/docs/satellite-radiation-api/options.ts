@@ -72,6 +72,11 @@ export const models = [
 	[
 		{ value: 'satellite_radiation_seamless', label: 'Automatic Selection' },
 		{
+			value: 'dwd_sis_europe_africa_v4',
+			label:
+				'DWD EUMETSAT MTG (Europe, Africa, 10-minutely, since 2025, 10-20 minutes delay)'
+		},
+		{
 			value: 'eumetsat_lsa_saf_msg',
 			label: 'EUMETSAT MSG (Europe, Africa, South America, 15-minutely, since 2025, 2 hours delay)'
 		},
@@ -91,13 +96,7 @@ export const models = [
 		{
 			value: 'jma_jaxa_mtg_fci',
 			label:
-				'EUMETSAT MTG Third Generation via JMA JAXA (Europe, Africa, India, 10-minutely, since 2025, 20 minutes delay)'
-		}
-		,
-		{
-			value: 'dwd_sis_europe_africa_v4',
-			label:
-				'EUMETSAT MTG Third Generation via DWD (Europe, Africa, 10-minutely, since 2025, 20 minutes delay)'
+				'JMA JAXA EUMETSAT MTG (Europe, Africa, India, 10-minutely, since 2025, 20 minutes delay)'
 		}
 	]
 ];

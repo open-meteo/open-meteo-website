@@ -51,6 +51,7 @@
 		latitude: [52.52],
 		longitude: [13.41],
 		...defaultParameters,
+		temporal_resolution: 'native',
 		hourly: ['shortwave_radiation']
 	});
 
@@ -712,6 +713,21 @@ TODO:
 			</thead>
 			<tbody>
 				<tr>
+				<th scope="row"
+						><a
+							href="https://www.dwd.de/DE/leistungen/fernerkund_globalstrahlung_sis/fernerkund_globalstrahlung_sis.html"
+							target="_blank">DWD</a
+						></th
+					>
+					<td>EUMETSAT MTG</td>
+					<td>Europe, Africa</td>
+					<td>0.025° (~ 2.5km)</td>
+					<td>10 minutely</td>
+					<td>Every 10 minutes</td>
+					<td>10-20 Minutes</td>
+					<td>Feb. 2026</td>
+				</tr>
+				<tr>
 					<th rowspan="2" scope="row"
 						><a href="https://lsa-saf.eumetsat.int/en/data/products/radiation/" target="_blank"
 							>EUMETSAT LSA SAF</a
@@ -770,19 +786,6 @@ TODO:
 					<td>Every 10 minutes</td>
 					<td>2 Hours</td>
 					<td>2025</td>
-				</tr>
-				<tr>
-					<th scope="row"
-						><a href="https://www.dwd.de/DE/leistungen/fernerkund_globalstrahlung_sis/fernerkund_globalstrahlung_sis.html" target="_blank">DWD</a
-						></th
-					>
-					<td>EUMETSAT MTG</td>
-					<td>Europe, Africa</td>
-					<td>0.025° (~ 2.5km)</td>
-					<td>10 minutely</td>
-					<td>Every 10 minutes</td>
-					<td>20 Minutes</td>
-					<td>Feb. 2026</td>
 				</tr>
 				<tr>
 					<th scope="row" rowspan="2">NASA (not yet available)</th>
@@ -846,6 +849,10 @@ TODO:
 				> to calculate direct radiation from shortwave solar radiation.
 			</li>
 			<li>
+				<strong>Clear-Sky solar shortwave radiation</strong> is only available for DWD satellite shortwave
+				radiation data.
+			</li>
+			<li>
 				<strong>Instantaneous Values Correction</strong>: All satellites provide data as
 				instantaneous values. However, a full Earth scan takes approximately 10–15 minutes. As a
 				result, the top and bottom of each scan have a significant time difference. To ensure
@@ -891,28 +898,39 @@ TODO:
 						<th scope="row">shortwave_radiation</th>
 						<td>Preceding hour mean</td>
 						<td
-							>Shortwave solar radiation as average of the preceding hour. This is equal to the
-							total global horizontal irradiation. This is equal the sum of direct and diffuse
-							radiation.
+							>Shortwave solar radiation is the average incoming solar radiation over the preceding
+							hour at the surface. It corresponds to the total global horizontal irradiance (GHI),
+							defined as the sum of direct and diffuse solar radiation. It accounts for atmospheric
+							effects including clouds and aerosols.
 						</td>
 					</tr>
 					<tr>
 						<th scope="row">diffuse_radiation</th>
 						<td>Preceding hour mean</td>
-						<td>Diffuse solar radiation as average of the preceding hour</td>
+						<td
+							>Diffuse solar radiation is the average refracted and scattered component of solar
+							radiation reaching the surface over the preceding hour. It excludes the direct solar
+							beam and results from interactions of sunlight with atmospheric molecules, aerosols,
+							and clouds.</td
+						>
 					</tr>
 					<tr>
 						<th scope="row">direct_radiation</th>
 						<td>Preceding hour mean</td>
-						<td>Direct solar radiation as average of the preceding hour on the horizontal plane.</td
+						<td
+							>Direct solar radiation is the average solar radiation over the preceding hour on a
+							horizontal surface that comes straight from the sun. It excludes any scattered or
+							reflected light and represents the unaltered solar beam reaching the surface.</td
 						>
 					</tr>
 					<tr>
 						<th scope="row">direct_normal_irradiance</th>
 						<td>Preceding hour mean</td>
 						<td
-							>Direct solar radiation as average of the preceding hour on the normal plane
-							(perpendicular to the sun). Often denoted DNI.</td
+							>Direct normal irradiance (DNI) is the average direct solar radiation over the
+							preceding hour measured on a surface perpendicular to the sun’s rays. “Perpendicular”
+							means the surface always faces the sun directly, as if mounted on a solar tracker,
+							capturing the maximum direct solar beam without scattering.</td
 						>
 					</tr>
 					<tr>
@@ -929,6 +947,17 @@ TODO:
 						>
 					</tr>
 					<tr>
+						<th scope="row">shortwave_radiation_clear_sky</th>
+						<td>Preceding hour mean</td>
+						<td
+							>Clear-sky shortwave radiation is the solar radiation reaching the surface in the
+							absence of clouds. Atmospheric effects such as gas absorption, aerosol scattering, and
+							refraction due to air density are included, while cloud particles are excluded. Under
+							perfectly clear conditions, the regular shortwave radiation can be as high as the
+							clear-sky shortwave radiation.</td
+						>
+					</tr>
+					<tr>
 						<th scope="row">terrestrial_radiation</th>
 						<td>Preceding hour mean</td>
 						<td
@@ -937,14 +966,17 @@ TODO:
 							constant of 1367.7 W/m². This differs from clear sky radiation, which accounts for
 							aerosols but not clouds.</td
 						>
-					</tr><tr>
+					</tr>
+					<tr>
 						<th scope="row">*_instant</th>
 						<td>Instant</td>
 						<td
-							>All solar radiation parameters can be converted to instantaneous values by
-							integrating the solar zenith angle. Instantaneous values are useful for comparing data
-							with local measurements. However, for energy calculations or comparisons with
-							numerical weather models, backward-averaged data is recommended.</td
+							>All solar radiation parameters can be expressed as instantaneous values by accounting
+							for the solar zenith angle at a specific moment. Instantaneous values are useful for
+							direct comparison with local measurements. However, for energy calculations or model
+							evaluations, backward-averaged (preceding hour) data is preferred. By default, the
+							Open-Meteo API provides backward-averaged solar radiation to simplify energy
+							calculations.</td
 						>
 					</tr>
 				</tbody>
