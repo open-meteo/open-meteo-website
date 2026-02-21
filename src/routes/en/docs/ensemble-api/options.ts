@@ -2,6 +2,7 @@ export const defaultParameters = {
 	daily: [],
 	hourly: [],
 	models: [],
+	current: [],
 
 	timezone: 'UTC',
 	location_mode: 'location_search',
@@ -642,6 +643,8 @@ export const daily = [
 		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' }
 	]
 ];
+
+export const current = [[{ value: 'is_day', label: 'Is Day or Night' }]];
 
 export const additionalVariables = [
 	[
