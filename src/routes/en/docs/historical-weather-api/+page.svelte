@@ -789,7 +789,7 @@
 				<tr>
 					<th scope="row"
 						><a
-							href="https://confluence.ecmwf.int/display/FUG/Section+2.5+Model+Data+Assimilation%2C+4D-Var"
+							href="https://confluence.ecmwf.int/display/FUG/Section+2.6+Model+Data+Assimilation%2C+4D-Var"
 							>ECMWF IFS Assimilation Long-Window</a
 						>
 					</th>
