@@ -1015,7 +1015,7 @@
 					</tr>
 					<tr>
 						<td>AROME France</td>
-						<td>Global</td>
+						<td>France</td>
 						<td>0.025° (~2.5 km)</td>
 						<td>1-Hourly</td>
 						<td>Every 3 hours</td>
@@ -1023,7 +1023,7 @@
 					</tr>
 					<tr>
 						<td>AROME France HD</td>
-						<td>Global</td>
+						<td>France</td>
 						<td>0.01° (~1.5 km)</td>
 						<td>1-Hourly</td>
 						<td>Every 3 hours</td>
