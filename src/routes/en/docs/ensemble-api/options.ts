@@ -168,7 +168,8 @@ export const icon_global_variables = [
 	'rain',
 	'wet_bulb_temperature_2m',
 	'shortwave_radiation',
-	'sunshine_duration'
+	'sunshine_duration',
+	'is_day'
 ];
 
 export const icon_eu_variables = [
@@ -190,7 +191,8 @@ export const icon_eu_variables = [
 	'cape',
 	'wet_bulb_temperature_2m',
 	'shortwave_radiation',
-	'sunshine_duration'
+	'sunshine_duration',
+	'is_day'
 ];
 
 export const icon_d2_variables = [
@@ -223,7 +225,8 @@ export const icon_d2_variables = [
 	'temperature_500hPa',
 	'temperature_850hPa',
 	'geopotential_height_500hPa',
-	'geopotential_height_850hPa'
+	'geopotential_height_850hPa',
+	'is_day'
 ];
 
 export const gfs025_variables = [
@@ -253,7 +256,8 @@ export const gfs025_variables = [
 	'convective_inhibition',
 	'rain',
 	'shortwave_radiation',
-	'sunshine_duration'
+	'sunshine_duration',
+	'is_day'
 ];
 
 export const aigfs025_variables = [
@@ -271,7 +275,8 @@ export const aigfs025_variables = [
 	'cloud_cover_high',
 	'cloud_cover_low',
 	'cloud_cover_mid',
-	'weather_code'
+	'weather_code',
+	'is_day'
 ];
 
 export const gfs05_variables = [
@@ -303,7 +308,8 @@ export const gfs05_variables = [
 	'temperature_500hPa',
 	'temperature_850hPa',
 	'geopotential_height_500hPa',
-	'geopotential_height_850hPa'
+	'geopotential_height_850hPa',
+	'is_day'
 ];
 
 export const ecmwf_ifs025_variables = [
@@ -350,7 +356,8 @@ export const ecmwf_ifs025_variables = [
 	'weather_code',
 	'sunshine_duration',
 	'surface_pressure',
-	'et0_fao_evapotranspiration'
+	'et0_fao_evapotranspiration',
+	'is_day'
 ];
 
 export const ecmwf_aifs025_variables = [
@@ -382,7 +389,8 @@ export const ecmwf_aifs025_variables = [
 	'weather_code',
 	'surface_pressure',
 	'sunshine_duration',
-	'et0_fao_evapotranspiration'
+	'et0_fao_evapotranspiration',
+	'is_day'
 ];
 
 export const ukmo_variables = [
@@ -409,14 +417,16 @@ export const ukmo_variables = [
 	'cape',
 	'wet_bulb_temperature_2m',
 	'shortwave_radiation',
-	'sunshine_duration'
+	'sunshine_duration',
+	'is_day'
 ];
 
 export const ukmo_2km_variables = [
 	...ukmo_variables,
 	'cloud_cover_high',
 	'cloud_cover_mid',
-	'cloud_cover_low'
+	'cloud_cover_low',
+	'is_day'
 ];
 
 export const gem_global_variables = [
@@ -445,7 +455,8 @@ export const gem_global_variables = [
 	'temperature_500hPa',
 	'temperature_850hPa',
 	'geopotential_height_500hPa',
-	'geopotential_height_850hPa'
+	'geopotential_height_850hPa',
+	'is_day'
 ];
 
 export const bom_access_global_ensemble = [
@@ -480,7 +491,8 @@ export const bom_access_global_ensemble = [
 	'soil_moisture_0_to_10cm',
 	'soil_moisture_10_to_40cm',
 	'soil_moisture_40_to_100cm',
-	'soil_moisture_100_to_200cm'
+	'soil_moisture_100_to_200cm',
+	'is_day'
 ];
 
 export const meteoswiss = [
@@ -513,7 +525,8 @@ export const meteoswiss = [
 	'cloud_cover_mid',
 	'cloud_cover_low',
 	'freezing_level_height',
-	'snowfall_height'
+	'snowfall_height',
+	'is_day'
 ];
 
 export const availableVariables = {
@@ -644,10 +657,9 @@ export const daily = [
 	]
 ];
 
-export const current = [[{ value: 'is_day', label: 'Is Day or Night' }]];
-
 export const additionalVariables = [
 	[
+		{ value: 'is_day', label: 'Is Day or Night' },
 		{ value: 'uv_index', label: 'UV Index' },
 		{ value: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
 		{ value: 'temperature_2m_min', label: 'Temperature 3-Hourly Minimum (2 m)' },
