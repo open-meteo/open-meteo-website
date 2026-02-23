@@ -818,7 +818,7 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			Forecast is based on the 11 kilometre CAMS European air quality forecast and the 40 kilometre
+			Forecast is based on the 11 kilometre CAMS European air quality forecast and the 45 kilometre
 			CAMS global atmospheric composition forecasts. The European and global domain are not coupled
 			and may show different forecasts.
 		</p>
