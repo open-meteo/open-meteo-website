@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { fade } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -93,7 +94,7 @@
 
 	let beginDate = new Date('2013-01-01');
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() + 5);
 </script>
 
@@ -821,7 +822,7 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			Forecast is based on the 11 kilometre CAMS European air quality forecast and the 40 kilometre
+			Forecast is based on the 11 kilometre CAMS European air quality forecast and the 45 kilometre
 			CAMS global atmospheric composition forecasts. The European and global domain are not coupled
 			and may show different forecasts.
 		</p>
@@ -855,7 +856,7 @@
 						</th>
 						<td>Europe</td>
 						<td>0.1° (~11 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>October 2023 onwards</td>
 						<td>Every 24 hours, 4 days forecast</td>
 					</tr>
@@ -876,11 +877,11 @@
 						<th scope="row"
 							><a
 								href="https://ads.atmosphere.copernicus.eu/datasets/cams-global-atmospheric-composition-forecasts?tab=overview"
-								>CAMS global atmospheric composition forecasts</a
+								>CAMS Global Atmospheric Composition Forecasts</a
 							>
 						</th>
 						<td>Global</td>
-						<td>0.25° (~25 km)</td>
+						<td>0.4° (~45 km)</td>
 						<td>3-Hourly</td>
 						<td>August 2022 onwards </td>
 						<td>Every 12 hours, 5 days forecast</td>
