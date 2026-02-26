@@ -758,7 +758,7 @@
 						<th scope="row"
 							><a
 								href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_PHY_001_024/services"
-								>MeteoFrance SMOC Currents, Tides & SST</a
+								>MeteoFrance SMOC Currents, Tides</a
 							>
 						</th>
 						<td>Global</td>
@@ -771,6 +771,26 @@
 						>
 						<td>0.08° (~8 km)</td>
 						<td>Hourly</td>
+						<td>January 2022 with 10 day forecast</td>
+						<td>Every 24 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a
+								href="https://data.marine.copernicus.eu/product/GLOBAL_ANALYSISFORECAST_PHY_001_024/services"
+								>MeteoFrance Sea Surface Temperature</a
+							>
+						</th>
+						<td>Global</td>
+						<td
+							><a
+								href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&t=1771934400000&z=-0.49402499198913574&center=-12.433872193277338%2C42.88370285999325&zoom=11.872305323411199&layers=H4sIADIPnGkAAyWOywqDMBRE._Wu_0gflJKdFVsFqVLdSCmXYK4PiEaiBa34703pdpiZc54z6KEi42ptZA98XlZQS_AwUNPtYAVKTGSCX3ILo4sTonN3wiwJkmv08FwnSTH2M2Rsh2x.3OYNNT02WmKpNHbVtLbng9Ao2iJHtmHng6QS4.Tkr2vc2wk7bf8Vy.oEraQROLMOvTd2Spu6LYEP5k3WRJdJLhQBL4TqaXl9AaUlKFe8AAAA&basemap=dark"
+								target="_blank"
+								title="Visualize as map">Map</a
+							></td
+						>
+						<td>0.08° (~8 km)</td>
+						<td>6-Hourly</td>
 						<td>January 2022 with 10 day forecast</td>
 						<td>Every 24 hours</td>
 					</tr>
