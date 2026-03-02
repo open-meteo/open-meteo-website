@@ -17,7 +17,7 @@ export default defineConfig([
 		'.vscode',
 		'.gitignore'
 	]),
-	js.configs.recommended,
+	//js.configs.recommended,
 	...ts.configs.recommended,
 	...svelte.configs.recommended,
 	prettier,
