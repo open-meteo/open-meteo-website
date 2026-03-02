@@ -48,6 +48,7 @@
 	];
 	if (dev) {
 		links.push({ title: 'Single Runs', url: '/en/docs/single-runs-api' });
+		links.splice(3, 0, { title: 'Ensemble Mean API', url: '/en/docs/ensemble-mean-api' });
 	}
 
 	interface Path {

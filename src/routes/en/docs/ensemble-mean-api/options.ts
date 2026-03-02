@@ -530,22 +530,22 @@ export const meteoswiss_variables = [
 ];
 
 export const availableVariables = {
-	icon_seamless_eps: icon_d2_variables,
-	icon_global_eps: icon_global_variables,
-	icon_eu_eps: icon_eu_variables,
-	icon_d2_eps: icon_d2_variables,
-	ncep_gefs_seamless: gfs05_variables,
-	ncep_gefs025: gfs025_variables,
-	ncep_gefs05: gfs05_variables,
-	ncep_aigefs025: aigfs025_variables,
-	ecmwf_ifs025_ensemble: ecmwf_ifs025_variables,
-	ecmwf_aifs025_ensemble: ecmwf_aifs025_variables,
-	ukmo_global_ensemble_20km: ukmo_variables,
-	ukmo_uk_ensemble_2km: ukmo_2km_variables,
-	gem_global_ensemble: gem_global_variables,
-	bom_access_global_ensemble: bom_access_global_ensemble,
-	meteoswiss_icon_ch1_ensemble: meteoswiss_variables,
-	meteoswiss_icon_ch2_ensemble: meteoswiss_variables
+	dwd_icon_eps_ensemble_mean_seamless: icon_d2_variables,
+	dwd_icon_eps_ensemble_mean: icon_global_variables,
+	dwd_icon_eu_eps_ensemble_mean: icon_eu_variables,
+	dwd_icon_d2_eps_ensemble_mean: icon_d2_variables,
+	ncep_gefs_ensemble_mean_seamless: gfs05_variables,
+	ncep_gefs025_ensemble_mean: gfs025_variables,
+	ncep_gefs05_ensemble_mean: gfs05_variables,
+	ncep_hgefs025_ensemble_mean: gfs025_variables,
+	ecmwf_ifs025_ensemble_mean: ecmwf_ifs025_variables,
+	ecmwf_aifs025_ensemble_mean: ecmwf_aifs025_variables,
+	ukmo_global_ensemble_mean_20km: ukmo_variables,
+	ukmo_uk_ensemble_mean_2km: ukmo_2km_variables,
+	cmc_gem_geps_ensemble_mean: gem_global_variables,
+	bom_access_global_ensemble_mean: bom_access_global_ensemble,
+	meteoswiss_icon_ch1_ensemble_mean: meteoswiss_variables,
+	meteoswiss_icon_ch2_ensemble_mean: meteoswiss_variables
 };
 
 export const hourly = [
@@ -696,30 +696,30 @@ export const solarVariables = [
 
 export const models = [
 	[
-		{ value: 'icon_seamless_eps', label: 'DWD ICON EPS Seamless' },
-		{ value: 'icon_global_eps', label: 'DWD ICON EPS Global' },
-		{ value: 'icon_eu_eps', label: 'DWD ICON EPS EU' },
-		{ value: 'icon_d2_eps', label: 'DWD ICON EPS D2' }
+		{ value: 'dwd_icon_eps_ensemble_mean_seamless', label: 'DWD ICON EPS Seamless Mean' },
+		{ value: 'dwd_icon_eps_ensemble_mean', label: 'DWD ICON EPS Global Mean' },
+		{ value: 'dwd_icon_eu_eps_ensemble_mean', label: 'DWD ICON EPS EU Mean' },
+		{ value: 'dwd_icon_d2_eps_ensemble_mean', label: 'DWD ICON EPS D2 Mean' }
 	],
 	[
-		{ value: 'ncep_gefs_seamless', label: 'GFS Ensemble Seamless' },
-		{ value: 'ncep_gefs025', label: 'GFS Ensemble 0.25°' },
-		{ value: 'ncep_gefs05', label: 'GFS Ensemble 0.5°' },
-		{ value: 'ncep_aigefs025', label: 'AIGEFS 0.25°' }
+		{ value: 'ncep_gefs_ensemble_mean_seamless', label: 'GFS Ensemble Seamless Mean' },
+		{ value: 'ncep_gefs025_ensemble_mean', label: 'GFS Ensemble 0.25° Mean' },
+		{ value: 'ncep_gefs05_ensemble_mean', label: 'GFS Ensemble 0.5° Mean' },
+		{ value: 'ncep_hgefs025_ensemble_mean', label: 'HGEFS 0.25° Mean' }
 	],
 	[
-		{ value: 'ecmwf_ifs025_ensemble', label: 'ECMWF IFS 0.25° Ensemble' },
-		{ value: 'ecmwf_aifs025_ensemble', label: 'ECMWF AIFS 0.25° Ensemble' },
-		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' },
-		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
+		{ value: 'ecmwf_ifs025_ensemble_mean', label: 'ECMWF IFS 0.25° Ensemble Mean' },
+		{ value: 'ecmwf_aifs025_ensemble_mean', label: 'ECMWF AIFS 0.25° Ensemble Mean' },
+		{ value: 'cmc_gem_geps_ensemble_mean', label: 'GEM Global Ensemble Mean' },
+		{ value: 'bom_access_global_ensemble_mean', label: 'BOM ACCESS Global Mean' }
 	],
 	[
-		{ value: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' },
-		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' }
+		{ value: 'ukmo_global_ensemble_mean_20km', label: 'UK MetOffice Global 20km Mean' },
+		{ value: 'ukmo_uk_ensemble_mean_2km', label: 'UK MetOffice UK 2km Mean' }
 	],
 	[
-		{ value: 'meteoswiss_icon_ch1_ensemble', label: 'MeteoSwiss ICON CH1' },
-		{ value: 'meteoswiss_icon_ch2_ensemble', label: 'MeteoSwiss ICON CH2' }
+		{ value: 'meteoswiss_icon_ch1_ensemble_mean', label: 'MeteoSwiss ICON CH1 Mean' },
+		{ value: 'meteoswiss_icon_ch2_ensemble_mean', label: 'MeteoSwiss ICON CH2 Mean' }
 	]
 ];
 
