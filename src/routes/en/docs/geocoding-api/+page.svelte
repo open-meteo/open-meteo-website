@@ -122,7 +122,7 @@
 					>{language?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each languageOptions as lo}
+					{#each languageOptions as lo (lo.value)}
 						<Select.Item class="cursor-pointer" value={lo.value}>{lo.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -138,7 +138,7 @@
 					>{count?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each countOptions as co}
+					{#each countOptions as co (co.value)}
 						<Select.Item class="cursor-pointer" value={co.value}>{co.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -154,7 +154,7 @@
 					>{format?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each formatOptions as fo}
+					{#each formatOptions as fo (fo.value)}
 						<Select.Item class="cursor-pointer" value={fo.value}>{fo.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -170,7 +170,7 @@
 					>{countryCode?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each countryCodes as cc}
+					{#each countryCodes as cc (cc.value)}
 						<Select.Item class="cursor-pointer" value={cc.value}>{cc.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -238,7 +238,7 @@
 					</thead>
 					<tbody>
 						{#if results.results && results.results.length > 0}
-							{#each results.results as location}
+							{#each results.results as location (location.id)}
 								<tr>
 									<td class="min-w-[40px] p-1"
 										><img

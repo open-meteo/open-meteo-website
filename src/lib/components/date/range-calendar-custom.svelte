@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { SvelteDate } from 'svelte/reactivity';
 	import { scale } from 'svelte/transition';
 
 	import { pad } from '$lib/utils';
@@ -88,18 +89,18 @@
 	};
 
 	const decreaseStart = () => {
-		let newDate = new Date(startDate);
+		let newDate = new SvelteDate(startDate);
 		newDate.setUTCMonth(newDate.getUTCMonth() - 1);
 		start_date = newDate.toISOString().split('T')[0];
 	};
 	const increaseStart = () => {
-		let newDate = new Date(startDate);
+		let newDate = new SvelteDate(startDate);
 		newDate.setUTCMonth(newDate.getUTCMonth() + 1);
 		start_date = newDate.toISOString().split('T')[0];
 	};
 
 	const decreaseEnd = () => {
-		let newDate = new Date(endDate);
+		let newDate = new SvelteDate(endDate);
 		if (monthModeEnd) {
 			newDate.setUTCFullYear(newDate.getUTCFullYear() - 1);
 		} else {
@@ -108,7 +109,7 @@
 		end_date = newDate.toISOString().split('T')[0];
 	};
 	const increaseEnd = () => {
-		let newDate = new Date(endDate);
+		let newDate = new SvelteDate(endDate);
 		if (monthModeEnd) {
 			newDate.setUTCFullYear(newDate.getUTCFullYear() + 1);
 		} else {
@@ -176,7 +177,7 @@
 		<div class="flex max-h-[300px] min-h-[180px] min-w-[340px] justify-center overflow-y-auto">
 			{#if yearModeStart}
 				<div in:scale={{ start: 0.8, duration: 200 }} class="grid-d grid grid-cols-4">
-					{#each yearList as year}
+					{#each yearList as year (year)}
 						<Button
 							id="start_year_{year}"
 							class={startDate.getUTCFullYear() === year ? 'bg-accent/75' : ''}
@@ -184,7 +185,7 @@
 							disabled={year < beginDate.getUTCFullYear()}
 							onclick={() => {
 								yearModeStart = false;
-								let newDate = new Date(startDate);
+								let newDate = new SvelteDate(startDate);
 								newDate.setUTCFullYear(year);
 								updateStartDate(newDate);
 							}}>{year}</Button
@@ -193,7 +194,7 @@
 				</div>
 			{:else if monthModeStart}
 				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-3 gap-1">
-					{#each monthsForLocale() as month, i}
+					{#each monthsForLocale() as month, i (i)}
 						<Button
 							class={monthList[startDate.getUTCMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
@@ -220,7 +221,7 @@
 						aria-roledescription="Date picker window"
 						onmouseleave={() => (selectEndNext = false)}
 					>
-						{#each startDates as date}
+						{#each startDates as date (date.getTime())}
 							<Button
 								class="duration-200 hover:rounded-md
 								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? 'font-bold' : ''}
@@ -309,7 +310,7 @@
 		<div class="flex max-h-[300px] min-h-[180px] min-w-[340px] justify-center overflow-y-auto">
 			{#if yearModeEnd}
 				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-cols-4">
-					{#each yearList as year}
+					{#each yearList as year (year)}
 						<Button
 							id="end_year_{year}"
 							class={endDate.getUTCFullYear() === year ? 'bg-accent/75' : ''}
@@ -317,7 +318,7 @@
 							disabled={year < beginDate.getUTCFullYear()}
 							onclick={() => {
 								yearModeEnd = false;
-								let newDate = new Date(endDate);
+								let newDate = new SvelteDate(endDate);
 								newDate.setUTCFullYear(year);
 								updateEndDate(newDate);
 							}}>{year}</Button
@@ -326,7 +327,7 @@
 				</div>
 			{:else if monthModeEnd}
 				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-3 gap-1">
-					{#each monthsForLocale() as month, i}
+					{#each monthsForLocale() as month, i (i)}
 						<Button
 							class={monthList[endDate.getUTCMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
@@ -346,7 +347,7 @@
 			{:else}
 				<div class="min-h-[280px]">
 					<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
-						{#each endDates as date}
+						{#each endDates as date (date.getTime())}
 							<Button
 								class="duration-200 hover:rounded-md
 								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? ' font-bold' : ''}

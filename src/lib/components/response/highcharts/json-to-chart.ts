@@ -4,6 +4,7 @@ import { SECTIONS } from '$lib/constants';
 
 import type { AxisPlotBandsOptions, SeriesOptionsType, YAxisOptions } from 'highcharts';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function jsonToChart(data: any, downloadTime: number) {
 	const yAxis: YAxisOptions[] = [];
 

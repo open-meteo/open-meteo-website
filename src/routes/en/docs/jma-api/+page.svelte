@@ -143,7 +143,7 @@
 	>
 	<Alert.Description>
 		The API is optimised for Japan, utilizing JMA global GSM and local MSM models. However, for most
-		use-cases, we recommend the <a class="text-link underline" href={'/en/docs'}
+		use-cases, we recommend the <a class="text-link underline" href="/en/docs"
 			>generic Weather Forecast API</a
 		>.
 	</Alert.Description>
@@ -573,7 +573,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
@@ -611,7 +611,7 @@
 								<div class="mb-3">{variable.label}</div>
 								<div>
 									<div class="grid grid-cols-1 lg:grid-cols-2">
-										{#each sliceIntoChunks(levels, levels.length / 2 + 1) as chunk}
+										{#each sliceIntoChunks(levels, levels.length / 2 + 1) as chunk, ci (ci)}
 											<div>
 												{#each chunk as level, k (k)}
 													<div class="group flex items-center" title={String(level)}>
@@ -882,7 +882,11 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
 		<figure>
-			<img src="/images/models/jma_msm.webp" class="rounded-lg" alt="JMA MSM model area over Japan" />
+			<img
+				src="/images/models/jma_msm.webp"
+				class="rounded-lg"
+				alt="JMA MSM model area over Japan"
+			/>
 			<figcaption class="text-muted-foreground">
 				JMA MSM model area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 			</figcaption>

@@ -107,7 +107,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '1950-01-01';
 						$params.end_date = '2050-12-31';
 					}}>1950-2050</Button
@@ -115,7 +115,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2015-01-01';
 						$params.end_date = '2050-12-31';
 					}}>2015-2050</Button
