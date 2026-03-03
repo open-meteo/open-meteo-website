@@ -57,9 +57,11 @@
 			// const HighchartsStock = await import('highcharts/modules/stock');
 			// HighchartsStock.default(Highcharts);
 			// chart = new Highcharts.StockChart(node, options);
-			chart = new Highcharts.StockChart(node, options);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			chart = new (Highcharts.StockChart as any)(node, options);
 		} else {
-			chart = new Highcharts.Chart(node, options);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			chart = new (Highcharts.Chart as any)(node, options);
 		}
 	});
 

@@ -9,8 +9,6 @@ export const swiftCodeExample = (
 	multipleLocationsOrModels: boolean,
 	numberOfLocations: number | string,
 	numberOfModels: number,
-	server: string,
-	sdk_type: string,
 	previewUrl: string
 ) => {
 	const t = multipleLocationsOrModels;
@@ -147,7 +145,7 @@ ${t ? '\t' : ''}<span class="line"></span>`;
 				c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">"</span>Current time: <span style="color:var(--code-preview-token-punctuation-mark)">\\(</span><span style="color:var(--code-preview-foreground)">data<span style="color:var(--code-preview-token-punctuation-mark)">.</span>current<span style="color:var(--code-preview-token-punctuation-mark)">.</span>time</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">)</span></span>`;
 				if (sect.constructor === Array) {
-					for (const [ind, variable] of sect.entries()) {
+					for (const [_, variable] of sect.entries()) {
 						c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">"</span>Current ${variable}: <span style="color:var(--code-preview-token-punctuation-mark)">\\(</span><span style="color:var(--code-preview-foreground)">data<span style="color:var(--code-preview-token-punctuation-mark)">.</span>current<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${variable}</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">)</span></span>`;
 					}
@@ -160,7 +158,7 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-f
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword-special);font-style:italic;">for</span><span style="color:var(--code-preview-token-punctuation-mark)"> (</span><span style="color:var(--code-preview-token-variable)">i, date</span><span style="color:var(--code-preview-token-punctuation-mark)">)</span><span style="color:var(--code-preview-token-keyword-special);font-style:italic;"> in</span><span style="color:var(--code-preview-foreground)"> data<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${camelCase(section)}<span style="color:var(--code-preview-token-punctuation-mark)">.</span>time<span style="color:var(--code-preview-token-punctuation-mark)">.</span></span><span style="color:var(--code-preview-token-function)">enumerated</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span><span style="color:var(--code-preview-token-punctuation-mark)"> {</span></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">	print</span><span style="color:var(--code-preview-token-punctuation)">(</span><span style="color:var(--code-preview-token-variable)">dateFormatter<span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">string</span></span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-function)">from</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-variable)"> date</span><span style="color:var(--code-preview-token-punctuation-mark)">))</span></span>`;
 				if (sect.constructor === Array) {
-					for (const [ind, variable] of sect.entries()) {
+					for (const [_, variable] of sect.entries()) {
 						c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">	print</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-variable)">data<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${camelCase(section)}<span style="color:var(--code-preview-token-punctuation-mark)">.</span>${variable}</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-variable)">i</span><span style="color:var(--code-preview-token-punctuation-mark)">])</span></span>`;
 					}

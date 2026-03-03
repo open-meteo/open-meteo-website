@@ -35,7 +35,7 @@
 					<li>
 						You accept to the CC-BY 4.0 licence, as specified in the <a
 							class="text-link underline"
-							href={'/en/licence'}
+							href="/en/licence"
 							title="Open-Meteo further licence details">licence conditions</a
 						>.
 					</li>

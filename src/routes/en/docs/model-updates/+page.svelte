@@ -740,7 +740,7 @@
 	let today = new SvelteDate();
 	today.setTime(0);
 
-	let mount = $state(new SvelteDate());
+	let mount = new SvelteDate();
 	let lastRefresh = $state('00:00');
 	let refreshTickerInterval: ReturnType<typeof setInterval> | undefined;
 	onMount(() => {
@@ -763,6 +763,9 @@
 	onDestroy(() => {
 		clearInterval(refreshTickerInterval);
 	});
+
+	const collectMetaPromises = (providers: { models: { meta: Promise<ModelMetadata> }[] }[]) =>
+		providers.flatMap((provider) => provider.models.map((model) => model.meta));
 </script>
 
 <svelte:head>
@@ -865,9 +868,6 @@
 				loadingData = true;
 				const newSections = getData($apiKeyPreferences);
 				sectionsAll = newSections;
-
-				const collectMetaPromises = (providers: { models: { meta: Promise<ModelMetadata> }[] }[]) =>
-					providers.flatMap((provider) => provider.models.map((model) => model.meta));
 
 				const allPromises = newSections.flatMap((section) =>
 					collectMetaPromises(section.providers)

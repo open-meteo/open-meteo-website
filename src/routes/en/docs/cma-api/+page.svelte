@@ -162,7 +162,7 @@
 		This API provides weather forecasts based on the global GFS GRAPES model from the Chinese
 		Meteorological Administration. For more extensive use cases, we recommend the <a
 			class="text-link underline"
-			href={'/en/docs'}>Weather Forecast API</a
+			href="/en/docs">Weather Forecast API</a
 		>, which utilises multiple local weather models for forecasts extending up to 16 days.
 	</Alert.Description>
 </Alert.Root>
@@ -592,7 +592,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
