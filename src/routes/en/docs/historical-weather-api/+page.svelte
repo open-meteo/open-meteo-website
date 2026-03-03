@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -37,7 +38,7 @@
 		solarVariables
 	} from './options';
 
-	var d = new Date();
+	var d = new SvelteDate();
 	d.setDate(d.getDate() - 2);
 	let endDateDefault = d.toISOString().split('T')[0];
 	d.setDate(d.getDate() - 14);
@@ -101,7 +102,7 @@
 
 	let beginDate = new Date('1940-01-01');
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() - 1);
 </script>
 
@@ -458,7 +459,7 @@
 				count={countVariables(ensembleSpreadVariables, $params.hourly)}
 			>
 				<div class="mt-2 grid sm:grid-cols-2">
-					{#each ensembleSpreadVariables as group}
+					{#each ensembleSpreadVariables as group, gi (gi)}
 						<div class="col-md-6">
 							{#each group as { value, label } (value)}
 								<div class="group flex items-center" title={label}>
@@ -694,7 +695,7 @@
 			</p>
 			<p>
 				You can access data dating back to 1940. If you're looking for weather information from the
-				previous day, our <a href={'/en/docs'} title="Weather Forecast API documentation"
+				previous day, our <a href="/en/docs" title="Weather Forecast API documentation"
 					>Forecast API</a
 				>
 				offers the <mark>&past_days=</mark> feature for your convenience.

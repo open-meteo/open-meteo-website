@@ -45,7 +45,10 @@ export const hourly = [
 		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
 		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
 		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'shortwave_radiation_clear_sky_instant', label: 'Clear Sky Radiation (only DWD MTG) (Instant)' },
+		{
+			value: 'shortwave_radiation_clear_sky_instant',
+			label: 'Clear Sky Radiation (only DWD MTG) (Instant)'
+		},
 		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' },
 		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 	]
@@ -73,8 +76,7 @@ export const models = [
 		{ value: 'satellite_radiation_seamless', label: 'Automatic Selection' },
 		{
 			value: 'dwd_sis_europe_africa_v4',
-			label:
-				'DWD EUMETSAT MTG (Europe, Africa, 10-minutely, since 2025, 20 minutes delay)'
+			label: 'DWD EUMETSAT MTG (Europe, Africa, 10-minutely, since 2025, 20 minutes delay)'
 		},
 		{
 			value: 'eumetsat_lsa_saf_msg',

@@ -730,7 +730,11 @@
 	</div>
 
 	<figure class="mt-6">
-		<img src="/images/models/kma_ldps.webp" class="rounded-lg" alt="KMA LDPS model domain area at 1.5 km resolution" />
+		<img
+			src="/images/models/kma_ldps.webp"
+			class="rounded-lg"
+			alt="KMA LDPS model domain area at 1.5 km resolution"
+		/>
 		<figcaption class="text-muted-foreground">
 			KMA LDPS domain area at 1.5 km resolution. Source: <a href="https://open-meteo.com/"
 				>Open-Meteo</a
@@ -747,7 +751,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a
-				href={'/en/docs'}>Weather Forecast API</a
+				href="/en/docs">Weather Forecast API</a
 			>. Only notable remarks are listed below
 		</p>
 		<ul class="ml-6 list-disc">

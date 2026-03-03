@@ -524,7 +524,7 @@
 								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{timeSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
-								{#each timeSelectionOptions as tso}
+								{#each timeSelectionOptions as tso (tso.value)}
 									<Select.Item class="cursor-pointer" value={tso.value}>{tso.label}</Select.Item>
 								{/each}
 							</Select.Content>
