@@ -32,7 +32,7 @@ export function debounce<T extends (...args: Parameters<T>) => void>(
 }
 
 // Only considers keys of the first object. Ignores nulls and empty strings
-export function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
+export function objectDifference<T extends Record<string, unknown>>(a: T, b: T): Partial<T> {
 	const diff: Partial<T> = {};
 	for (const key in a) {
 		if (isNumeric(a[key])) {

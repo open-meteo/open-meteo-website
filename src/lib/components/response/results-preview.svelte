@@ -47,7 +47,7 @@
 
 	/// Parsed params that resolved CSV fields
 	let parsedParams = $derived.by(() => {
-		const jsonParams: Record<string, any> = { ...$params };
+		const jsonParams = { ...$params };
 		if ('time_mode' in jsonParams) {
 			if (jsonParams.time_mode == 'forecast_days') {
 				delete jsonParams['start_date'];
@@ -236,6 +236,7 @@
 	);
 
 	let error = $state('');
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let results: Promise<any[] | null> = $state(new Promise((resolve) => resolve(null)));
 	const reset = () => {
 		error = '';
