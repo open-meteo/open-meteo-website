@@ -573,7 +573,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
@@ -611,7 +611,7 @@
 								<div class="mb-3">{variable.label}</div>
 								<div>
 									<div class="grid grid-cols-1 lg:grid-cols-2">
-										{#each sliceIntoChunks(levels, levels.length / 2 + 1) as chunk}
+										{#each sliceIntoChunks(levels, levels.length / 2 + 1) as chunk, ci (ci)}
 											<div>
 												{#each chunk as level, k (k)}
 													<div class="group flex items-center" title={String(level)}>

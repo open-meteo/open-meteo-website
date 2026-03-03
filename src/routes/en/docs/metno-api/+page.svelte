@@ -27,11 +27,9 @@
 
 	import {
 		forecastHoursOptions,
-		forecastMinutely15Options,
 		gridCellSelectionOptions,
 		pastDaysOptions,
 		pastHoursOptions,
-		pastMinutely15Options,
 		temporalResolutionOptions
 	} from '../options';
 	import {

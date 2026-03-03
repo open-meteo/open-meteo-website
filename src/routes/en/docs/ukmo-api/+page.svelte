@@ -586,7 +586,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each heightVariables as variable, i}
+								{#each heightVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
@@ -617,12 +617,12 @@
 						</ToggleGroup.Root>
 					</div>
 					<div>
-						{#each heightVariables as variable}
+						{#each heightVariables as variable (variable.value)}
 							{#if heightVariablesTab === variable.value}
 								<div class="mb-3">{variable.label}</div>
 								<div>
 									<div class="grid grid-cols-1 lg:grid-cols-3">
-										{#each sliceIntoChunks(heights, heights.length / 3 + 1) as chunk}
+										{#each sliceIntoChunks(heights, heights.length / 3 + 1) as chunk, ci (ci)}
 											<div>
 												{#each chunk as level, k (k)}
 													<div class="group flex items-center" title={String(level)}>
@@ -679,7 +679,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===

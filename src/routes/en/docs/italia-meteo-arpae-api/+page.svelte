@@ -5,7 +5,6 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { sliceIntoChunks } from '$lib/utils';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,

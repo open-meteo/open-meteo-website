@@ -317,7 +317,7 @@ ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-c
 			const sect = params[section];
 			if (sect) {
 				if (sect.constructor === Array) {
-					for (const [ind, variable] of sect.entries()) {
+					for (const [_, variable] of sect.entries()) {
 						c += `
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword-special);font-style:italic;">for</span><span style="color:var(--code-preview-foreground)"> (</span><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> variable</span><span style="color:var(--code-preview-token-keyword-special)"> of</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section + '_' + variable)}) <span style="color:var(--code-preview-token-punctuation-mark)">{</span></span></span>
 ${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">	const</span><span style="color:var(--code-preview-token-variable)"> member</span><span style="color:var(--code-preview-token-keyword)"> <span style="color:var(--code-preview-token-punctuation-mark)">=</span></span><span style="color:var(--code-preview-token-variable)"> variable</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">?.</span>ensembleMember</span><span style="color:var(--code-preview-foreground)">()<span style="color:var(--code-preview-token-punctuation-mark)">;</span></span></span>

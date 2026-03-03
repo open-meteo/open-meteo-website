@@ -740,7 +740,7 @@
 	let today = new SvelteDate();
 	today.setTime(0);
 
-	let mount = $state(new SvelteDate());
+	let mount = new SvelteDate();
 	let lastRefresh = $state('00:00');
 	let refreshTickerInterval: ReturnType<typeof setInterval> | undefined;
 	onMount(() => {

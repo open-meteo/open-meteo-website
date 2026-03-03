@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
 
 	import { browser } from '$app/environment';
@@ -30,14 +31,14 @@
 
 	$effect(() => {
 		if (!start_date) {
-			let date = new Date();
+			let date = new SvelteDate();
 			date.setUTCDate(date.getUTCDate() - 7);
 
 			start_date = date.toISOString().split('T')[0];
 		}
 
 		if (!end_date) {
-			let date = new Date();
+			let date = new SvelteDate();
 			date.setUTCDate(date.getUTCDate() + 7);
 			if (date.getTime() > date.getTime()) {
 				date.setUTCDate(date.getUTCDate());

@@ -5,7 +5,6 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { sliceIntoChunks } from '$lib/utils';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -564,7 +563,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
@@ -601,7 +600,7 @@
 							{#if pressureVariablesTab === variable.value}
 								<div class="mb-3">{variable.label}</div>
 								<div class="grid grid-cols-1">
-									{#each levels as level}
+									{#each levels as level (level)}
 										<div class="group flex items-center" title={String(level)}>
 											<Checkbox
 												id="{variable.value}_{level}hPa"

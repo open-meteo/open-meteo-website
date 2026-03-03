@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -48,7 +49,7 @@
 		solarVariables
 	} from './options';
 
-	let d = new Date();
+	let d = new SvelteDate();
 	d.setDate(d.getDate() - 2);
 	let endDateDefault = d.toISOString().split('T')[0];
 	d.setDate(d.getDate() - 14);
@@ -68,7 +69,7 @@
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && ($params.daily?.length ?? 0) > 0);
 
 	let beginDate = new Date('2016-01-01');
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate());
 
 	// Additional variable settings
@@ -192,7 +193,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2022-01-01';
 						$params.end_date = '2022-12-31';
 					}}>2022</Button
@@ -200,7 +201,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2023-01-01';
 						$params.end_date = '2023-12-31';
 					}}>2023</Button
@@ -208,7 +209,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2024-01-01';
 						$params.end_date = '2024-12-31';
 					}}>2024</Button
@@ -216,7 +217,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2025-01-01';
 						$params.end_date = endDateDefault;
 					}}>2025</Button
@@ -493,7 +494,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===

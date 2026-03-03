@@ -193,28 +193,28 @@
 			/// Number of weather variables for hourly, daily, current or minutely_15
 			const nHourly = cwParams.hourly
 				? Array.isArray(cwParams.hourly)
-					? (cwParams.hourly as any[]).length
+					? (cwParams.hourly as string[]).length
 					: (cwParams.hourly as string).length > 1
 						? 1
 						: 0
 				: 0;
 			const nDaily = cwParams.daily
 				? Array.isArray(cwParams.daily)
-					? (cwParams.daily as any[]).length
+					? (cwParams.daily as string[]).length
 					: (cwParams.daily as string).length > 1
 						? 1
 						: 0
 				: 0;
 			const nCurrent = cwParams.current
 				? Array.isArray(cwParams.current)
-					? (cwParams.current as any[]).length
+					? (cwParams.current as string[]).length
 					: (cwParams.current as string).length > 1
 						? 1
 						: 0
 				: 0;
 			const nMinutely15 = cwParams.minutely_15
 				? Array.isArray(cwParams.minutely_15)
-					? (cwParams.minutely_15 as any[]).length
+					? (cwParams.minutely_15 as string[]).length
 					: (cwParams.minutely_15 as string).length > 1
 						? 1
 						: 0
@@ -244,11 +244,11 @@
 
 	// reset results on variable changes
 	$effect(() => {
-		$params;
+		void $params;
 		reset();
 	});
 	$effect(() => {
-		$apiKeyPreferences;
+		void $apiKeyPreferences;
 		reset();
 	});
 
@@ -365,8 +365,6 @@
 			multipleLocationsOrModels,
 			numberOfLocations,
 			numberOfModels,
-			server,
-			sdk_type,
 			previewUrl
 		)
 	);
