@@ -146,7 +146,7 @@
 		America. However, updates every 6 hours may not reflect the latest weather developments. For
 		accurate forecasts for any location worldwide, the <a
 			class="text-link underline"
-			href={'/en/docs'}>generic Weather Forecast API</a
+			href="/en/docs">generic Weather Forecast API</a
 		> is recommended.
 	</Alert.Description>
 </Alert.Root>

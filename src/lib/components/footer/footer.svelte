@@ -1,30 +1,30 @@
 <footer class="container pt-5 pb-16">
 	<nav aria-label="Footer" class="flex flex-wrap justify-between gap-5">
 		<div>
-			<a href={'/'} class="text-lg font-bold">Open-Meteo</a>
+			<a href="/" class="text-lg font-bold">Open-Meteo</a>
 			<ul class="list-unstyled text-small mt-2">
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/features'}>Features</a>
+					<a class="text-secondary-foreground" href="/en/features">Features</a>
 				</li>
 				<li class="mb-1">
 					<a class="text-secondary-foreground" href="/en/pricing">Pricing</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/about'}>About us &amp; Contact</a>
+					<a class="text-secondary-foreground" href="/en/about">About us &amp; Contact</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/licence'}>Licence</a>
+					<a class="text-secondary-foreground" href="/en/licence">Licence</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/terms'}>Terms &amp; Privacy</a>
+					<a class="text-secondary-foreground" href="/en/terms">Terms &amp; Privacy</a>
 				</li>
 			</ul>
 		</div>
 		<div>
-			<a href={'/en/docs'} class="  text-lg font-bold">Weather APIs</a>
+			<a href="/en/docs" class="  text-lg font-bold">Weather APIs</a>
 			<ul class="list-unstyled text-small mt-2">
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs'}>Weather Forecast API</a>
+					<a class="text-secondary-foreground" href="/en/docs">Weather Forecast API</a>
 				</li>
 				<li class="mb-1">
 					<a class="text-secondary-foreground" href="/en/docs/historical-weather-api"
@@ -32,26 +32,26 @@
 					>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/ecmwf-api'}>ECMWF API</a>
+					<a class="text-secondary-foreground" href="/en/docs/ecmwf-api">ECMWF API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/gfs-api'}>GFS & HRRR Forecast API</a>
+					<a class="text-secondary-foreground" href="/en/docs/gfs-api">GFS & HRRR Forecast API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/meteofrance-api'}>Météo-France API</a
+					<a class="text-secondary-foreground" href="/en/docs/meteofrance-api">Météo-France API</a
 					>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/dwd-api'}>DWD ICON API</a>
+					<a class="text-secondary-foreground" href="/en/docs/dwd-api">DWD ICON API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/gem-api'}>GEM API</a>
+					<a class="text-secondary-foreground" href="/en/docs/gem-api">GEM API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/jma-api'}>JMA API</a>
+					<a class="text-secondary-foreground" href="/en/docs/jma-api">JMA API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/metno-api'}>Met Norway API</a>
+					<a class="text-secondary-foreground" href="/en/docs/metno-api">Met Norway API</a>
 				</li>
 			</ul>
 		</div>
@@ -59,27 +59,27 @@
 			<span class="text-lg font-bold">Other APIs</span>
 			<ul class="list-unstyled text-small mt-2">
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/ensemble-api'}>Ensemble API</a>
+					<a class="text-secondary-foreground" href="/en/docs/ensemble-api">Ensemble API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/climate-api'}>Climate Change API</a>
+					<a class="text-secondary-foreground" href="/en/docs/climate-api">Climate Change API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/marine-weather-api'}
+					<a class="text-secondary-foreground" href="/en/docs/marine-weather-api"
 						>Marine Weather API</a
 					>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/air-quality-api'}>Air Quality API</a>
+					<a class="text-secondary-foreground" href="/en/docs/air-quality-api">Air Quality API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/geocoding-api'}>Geocoding API</a>
+					<a class="text-secondary-foreground" href="/en/docs/geocoding-api">Geocoding API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/elevation-api'}>Elevation API</a>
+					<a class="text-secondary-foreground" href="/en/docs/elevation-api">Elevation API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href={'/en/docs/flood-api'}>Flood API</a>
+					<a class="text-secondary-foreground" href="/en/docs/flood-api">Flood API</a>
 				</li>
 			</ul>
 		</div>
@@ -130,7 +130,7 @@
 	<div class="pt-3 text-center">
 		<small class="text-muted-foreground"
 			>© 2022-{new Date().getFullYear()} Copyright:
-			<a href={'/'}>Open-Meteo.com</a></small
+			<a href="/">Open-Meteo.com</a></small
 		>
 	</div>
 </footer>

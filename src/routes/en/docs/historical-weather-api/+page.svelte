@@ -694,7 +694,7 @@
 			</p>
 			<p>
 				You can access data dating back to 1940. If you're looking for weather information from the
-				previous day, our <a href={'/en/docs'} title="Weather Forecast API documentation"
+				previous day, our <a href="/en/docs" title="Weather Forecast API documentation"
 					>Forecast API</a
 				>
 				offers the <mark>&past_days=</mark> feature for your convenience.

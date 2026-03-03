@@ -143,7 +143,7 @@
 	>
 	<Alert.Description>
 		The API is optimised for Japan, utilizing JMA global GSM and local MSM models. However, for most
-		use-cases, we recommend the <a class="text-link underline" href={'/en/docs'}
+		use-cases, we recommend the <a class="text-link underline" href="/en/docs"
 			>generic Weather Forecast API</a
 		>.
 	</Alert.Description>

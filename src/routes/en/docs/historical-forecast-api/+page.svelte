@@ -161,7 +161,7 @@
 	<Alert.Description>
 		This API provides access to archived high-resolution weather model data from the <a
 			class="text-link underline"
-			href={'/en/docs'}>Weather Forecast API</a
+			href="/en/docs">Weather Forecast API</a
 		>. The data is continuously archived and updated daily. For more information read the
 		<a
 			class="text-link underline"

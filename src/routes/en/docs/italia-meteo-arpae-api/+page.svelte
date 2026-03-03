@@ -807,7 +807,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a
-				href={'/en/docs'}>Weather Forecast API</a
+				href="/en/docs">Weather Forecast API</a
 			>.
 		</p>
 	</div>

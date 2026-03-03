@@ -164,7 +164,7 @@
 		and specifically France. With updates for AROME every hour, nowcast is provided for Central
 		Europe. However, the maximum forecast range is 4 days. For broader use cases, the <a
 			class="text-link underline"
-			href={'/en/docs'}>Weather Forecast API</a
+			href="/en/docs">Weather Forecast API</a
 		> is recommended, utilizing multiple local weather models for forecasts up to 16 days.
 	</Alert.Description>
 </Alert.Root>

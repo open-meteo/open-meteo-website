@@ -124,7 +124,7 @@
 	<Alert.Description>
 		The API makes use of MET Nordic weather models exclusively for North Europe, offering
 		exceptional short-term weather forecasts with hourly updates and 1 km resolution. However, for
-		longer forecasts of up to 16 days, the <a class="text-link underline" href={'/en/docs'}
+		longer forecasts of up to 16 days, the <a class="text-link underline" href="/en/docs"
 			>generic Weather Forecast API</a
 		> transparently combines MET Nordic with other weather models to take advantage of hourly updates.
 	</Alert.Description>

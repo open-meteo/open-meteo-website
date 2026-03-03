@@ -163,7 +163,7 @@
 		By combining the reliable NOAA GFS weather model with the rapid updating HRRR weather model,
 		this API provides unrivaled forecasts for the US region. For a global forecast, the <a
 			class="text-link underline"
-			href={'/en/docs'}>Weather Forecast API</a
+			href="/en/docs">Weather Forecast API</a
 		> selects the most suitable weather models automatically to ensure optimal accuracy.
 	</Alert.Description>
 </Alert.Root>

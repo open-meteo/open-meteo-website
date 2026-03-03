@@ -766,7 +766,7 @@
 			Weather Centres-West" (UWC-West). Two model configuration one for Europe (5.5 km resolution)
 			and an inset for the Netherlands (2 km resolution) are available. All data is updated hourly
 			and provides forecast for up to 2.5 days. After 2.5 days, Open-Meteo combines forecasts with
-			the <a href={'/en/docs/ecmwf-api'}>ECMWF IFS 0.25° model</a> to provide up to 10 days of forecast.
+			the <a href="/en/docs/ecmwf-api">ECMWF IFS 0.25° model</a> to provide up to 10 days of forecast.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
@@ -835,7 +835,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a
-				href={'/en/docs'}>Weather Forecast API</a
+				href="/en/docs">Weather Forecast API</a
 			>. Only notable remarks are listed below
 		</p>
 		<ul class="ml-6 list-disc">

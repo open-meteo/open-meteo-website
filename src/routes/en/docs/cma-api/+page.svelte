@@ -162,7 +162,7 @@
 		This API provides weather forecasts based on the global GFS GRAPES model from the Chinese
 		Meteorological Administration. For more extensive use cases, we recommend the <a
 			class="text-link underline"
-			href={'/en/docs'}>Weather Forecast API</a
+			href="/en/docs">Weather Forecast API</a
 		>, which utilises multiple local weather models for forecasts extending up to 16 days.
 	</Alert.Description>
 </Alert.Root>
