@@ -77,6 +77,7 @@
 	<Loading />
 {/if}
 <main>
+	<!-- eslint-disable-next-line @typescript-eslint/no-explicit-any -->
 	<Hero {...page.data as any} />
 	{@render children()}
 </main>

@@ -145,7 +145,7 @@
 		This API provides weather forecasts based on the global ACCESS-G model from the Australian
 		Bureau of Meteorology (BOM). For more comprehensive applications, we recommend the <a
 			class="text-link underline"
-			href={'/en/docs'}>Weather Forecast API</a
+			href="/en/docs">Weather Forecast API</a
 		>, which utilises multiple local weather models for forecasts extending up to 16 days.
 	</Alert.Description>
 </Alert.Root>

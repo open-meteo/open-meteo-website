@@ -112,7 +112,7 @@
 			<h2 id="elevation_search" class="text-2xl md:text-3xl">Select Coordinates or City</h2>
 		</a>
 		<div class="mt-3">
-			{#each $params.latitude ?? [] as _, index}
+			{#each $params.latitude ?? [] as _, index (index)}
 				<div
 					transition:slide
 					class="grid gap-3 duration-300 sm:grid-cols-2 md:gap-6 md:gap-y-3 xl:grid-cols-4 {index <

@@ -1,4 +1,4 @@
-import { ModeWatcher, mode, setMode } from 'mode-watcher';
+import { ModeWatcher } from 'mode-watcher';
 
 import DarkmodeToggle from './darkmode-toggle.svelte';
 

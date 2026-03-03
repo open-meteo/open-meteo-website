@@ -5,7 +5,6 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { sliceIntoChunks } from '$lib/utils';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -564,7 +563,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
@@ -601,7 +600,7 @@
 							{#if pressureVariablesTab === variable.value}
 								<div class="mb-3">{variable.label}</div>
 								<div class="grid grid-cols-1">
-									{#each levels as level}
+									{#each levels as level (level)}
 										<div class="group flex items-center" title={String(level)}>
 											<Checkbox
 												id="{variable.value}_{level}hPa"
@@ -766,7 +765,7 @@
 			Weather Centres-West" (UWC-West). Two model configuration one for Europe (5.5 km resolution)
 			and an inset for the Netherlands (2 km resolution) are available. All data is updated hourly
 			and provides forecast for up to 2.5 days. After 2.5 days, Open-Meteo combines forecasts with
-			the <a href={'/en/docs/ecmwf-api'}>ECMWF IFS 0.25° model</a> to provide up to 10 days of forecast.
+			the <a href="/en/docs/ecmwf-api">ECMWF IFS 0.25° model</a> to provide up to 10 days of forecast.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
@@ -816,7 +815,11 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<figure>
-			<enhanced:img src="/static/images/models/knmi_harmonie.jpg" class="rounded-lg" alt="KNMI HARMONIE AROME model area over Europe and Netherlands" />
+			<enhanced:img
+				src="/static/images/models/knmi_harmonie.jpg"
+				class="rounded-lg"
+				alt="KNMI HARMONIE AROME model area over Europe and Netherlands"
+			/>
 			<figcaption class="text-muted-foreground">
 				KNMI HARMONIE AROME model area Europe (blue/red) and Netherlands nest (green). Source: <a
 					href="https://english.knmidata.nl/latest/newsletters/open-data-newsletter/2024/open-data-march-2024"
@@ -835,7 +838,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a
-				href={'/en/docs'}>Weather Forecast API</a
+				href="/en/docs">Weather Forecast API</a
 			>. Only notable remarks are listed below
 		</p>
 		<ul class="ml-6 list-disc">

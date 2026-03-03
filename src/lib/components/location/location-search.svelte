@@ -10,11 +10,10 @@
 
 	interface Props {
 		label?: string;
-		style?: string;
 		onlocation?: (location: GeoLocation) => void;
 	}
 
-	let { label = 'Search Locations...', style, onlocation }: Props = $props();
+	let { label = 'Search Locations...', onlocation }: Props = $props();
 
 	interface ResultSet {
 		results: GeoLocation[] | undefined;

@@ -163,7 +163,7 @@
 		By combining the reliable NOAA GFS weather model with the rapid updating HRRR weather model,
 		this API provides unrivaled forecasts for the US region. For a global forecast, the <a
 			class="text-link underline"
-			href={'/en/docs'}>Weather Forecast API</a
+			href="/en/docs">Weather Forecast API</a
 		> selects the most suitable weather models automatically to ensure optimal accuracy.
 	</Alert.Description>
 </Alert.Root>
@@ -593,7 +593,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===

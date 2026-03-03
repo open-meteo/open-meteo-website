@@ -566,7 +566,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
@@ -746,13 +746,13 @@
 		</ul>
 		<p>
 			For higher-resolution local forecasts, we recommend the
-			<a class="text-link underline" href={'/en/docs'}>Generic Weather Forecast API</a>, which
+			<a class="text-link underline" href="/en/docs">Generic Weather Forecast API</a>, which
 			integrates models down to 1 km resolution. ECMWF ensemble forecasts are available via the
-			<a class="text-link underline" href={'/en/docs/ensemble-api'}>Ensemble API</a>, ECMWF WAM wave
+			<a class="text-link underline" href="/en/docs/ensemble-api">Ensemble API</a>, ECMWF WAM wave
 			forecasts can be accessed through the
-			<a class="text-link underline" href={'/en/docs/marine-weather-api'}>Marine Forecast API</a>,
-			and HRES IFS data are archived in the
-			<a class="text-link underline" href={'/en/docs/historical-weather-api'}
+			<a class="text-link underline" href="/en/docs/marine-weather-api">Marine Forecast API</a>, and
+			HRES IFS data are archived in the
+			<a class="text-link underline" href="/en/docs/historical-weather-api"
 				>Historical Weather API</a
 			>.
 		</p>

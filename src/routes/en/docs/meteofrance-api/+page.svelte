@@ -164,7 +164,7 @@
 		and specifically France. With updates for AROME every hour, nowcast is provided for Central
 		Europe. However, the maximum forecast range is 4 days. For broader use cases, the <a
 			class="text-link underline"
-			href={'/en/docs'}>Weather Forecast API</a
+			href="/en/docs">Weather Forecast API</a
 		> is recommended, utilizing multiple local weather models for forecasts up to 16 days.
 	</Alert.Description>
 </Alert.Root>
@@ -594,7 +594,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
@@ -1090,7 +1090,11 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<figure class="w-full">
-			<img src="/images/models/meteofrance_arome.webp" class="rounded-lg" alt="Météo-France AROME and AROME HD model area" />
+			<img
+				src="/images/models/meteofrance_arome.webp"
+				class="rounded-lg"
+				alt="Météo-France AROME and AROME HD model area"
+			/>
 			<figcaption class="text-muted-foreground">
 				MeteoFrance AROME & AROME HD Model Area. Source: <a href="https://open-meteo.com/"
 					>Open-Meteo</a
@@ -1099,7 +1103,11 @@
 		</figure>
 
 		<figure class="w-full">
-			<img src="/images/models/meteofrance_arpege_europe.webp" class="rounded-lg" alt="Météo-France ARPEGE model area over Europe" />
+			<img
+				src="/images/models/meteofrance_arpege_europe.webp"
+				class="rounded-lg"
+				alt="Météo-France ARPEGE model area over Europe"
+			/>
 			<figcaption class="text-muted-foreground">
 				MeteoFrance ARPEGE Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 			</figcaption>

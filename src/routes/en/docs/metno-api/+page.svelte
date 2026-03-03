@@ -27,11 +27,9 @@
 
 	import {
 		forecastHoursOptions,
-		forecastMinutely15Options,
 		gridCellSelectionOptions,
 		pastDaysOptions,
 		pastHoursOptions,
-		pastMinutely15Options,
 		temporalResolutionOptions
 	} from '../options';
 	import {
@@ -124,7 +122,7 @@
 	<Alert.Description>
 		The API makes use of MET Nordic weather models exclusively for North Europe, offering
 		exceptional short-term weather forecasts with hourly updates and 1 km resolution. However, for
-		longer forecasts of up to 16 days, the <a class="text-link underline" href={'/en/docs'}
+		longer forecasts of up to 16 days, the <a class="text-link underline" href="/en/docs"
 			>generic Weather Forecast API</a
 		> transparently combines MET Nordic with other weather models to take advantage of hourly updates.
 	</Alert.Description>
@@ -706,7 +704,11 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
 		<figure>
-			<enhanced:img src="/static/images/models/metno_nordic.png" class="rounded-lg" alt="MET Nordic model area" />
+			<enhanced:img
+				src="/static/images/models/metno_nordic.png"
+				class="rounded-lg"
+				alt="MET Nordic model area"
+			/>
 			<figcaption class="text-muted-foreground">
 				MET Nordic model area (marked in red). Source: <a
 					href="https://github.com/metno/NWPdocs/wiki/MEPS-dataset">Met Norway GitHub</a

@@ -586,7 +586,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each heightVariables as variable, i}
+								{#each heightVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none !opacity-100 lg:min-h-[unset] {i ===
@@ -617,12 +617,12 @@
 						</ToggleGroup.Root>
 					</div>
 					<div>
-						{#each heightVariables as variable}
+						{#each heightVariables as variable (variable.value)}
 							{#if heightVariablesTab === variable.value}
 								<div class="mb-3">{variable.label}</div>
 								<div>
 									<div class="grid grid-cols-1 lg:grid-cols-3">
-										{#each sliceIntoChunks(heights, heights.length / 3 + 1) as chunk}
+										{#each sliceIntoChunks(heights, heights.length / 3 + 1) as chunk, ci (ci)}
 											<div>
 												{#each chunk as level, k (k)}
 													<div class="group flex items-center" title={String(level)}>
@@ -679,7 +679,7 @@
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
 										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
@@ -986,7 +986,11 @@
 	</div>
 
 	<figure class="mt-6">
-		<img src="/images/models/ukmo_2km_ukv.webp" class="rounded-lg" alt="UKMO UKV 2km model area covering UK and Ireland" />
+		<img
+			src="/images/models/ukmo_2km_ukv.webp"
+			class="rounded-lg"
+			alt="UKMO UKV 2km model area covering UK and Ireland"
+		/>
 		<figcaption class="text-muted-foreground">
 			UKMO UKV 2km model covering UK and Ireland. Source: UK Met Office.
 		</figcaption>
@@ -1001,7 +1005,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a
-				href={'/en/docs'}>Weather Forecast API</a
+				href="/en/docs">Weather Forecast API</a
 			>. Only notable remarks are listed below
 		</p>
 		<ul class="ml-6 list-disc">
