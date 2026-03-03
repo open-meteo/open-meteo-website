@@ -47,7 +47,8 @@
 
 	/// Parsed params that resolved CSV fields
 	let parsedParams = $derived.by(() => {
-		const jsonParams = { ...$params };
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const jsonParams: Record<string, any> = { ...$params };
 		if ('time_mode' in jsonParams) {
 			if (jsonParams.time_mode == 'forecast_days') {
 				delete jsonParams['start_date'];

@@ -35,8 +35,8 @@ export function debounce<T extends (...args: Parameters<T>) => void>(
 export function objectDifference<T extends Record<string, unknown>>(a: T, b: T): Partial<T> {
 	const diff: Partial<T> = {};
 	for (const key in a) {
-		if (isNumeric(a[key])) {
-			if (isNumeric(b[key]) && Number(a[key]) === Number(b[key])) {
+		if (isNumeric(a[key] as string | number)) {
+			if (isNumeric(b[key] as string | number) && Number(a[key]) === Number(b[key])) {
 				continue;
 			}
 			diff[key] = a[key];
