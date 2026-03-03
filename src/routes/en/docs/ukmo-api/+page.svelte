@@ -986,7 +986,11 @@
 	</div>
 
 	<figure class="mt-6">
-		<img src="/images/models/ukmo_2km_ukv.webp" class="rounded-lg" alt="UKMO UKV 2km model area covering UK and Ireland" />
+		<img
+			src="/images/models/ukmo_2km_ukv.webp"
+			class="rounded-lg"
+			alt="UKMO UKV 2km model area covering UK and Ireland"
+		/>
 		<figcaption class="text-muted-foreground">
 			UKMO UKV 2km model covering UK and Ireland. Source: UK Met Office.
 		</figcaption>

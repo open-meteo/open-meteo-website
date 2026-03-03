@@ -717,7 +717,7 @@ TODO:
 			</thead>
 			<tbody>
 				<tr>
-				<th scope="row"
+					<th scope="row"
 						><a
 							href="https://www.dwd.de/DE/leistungen/fernerkund_globalstrahlung_sis/fernerkund_globalstrahlung_sis.html"
 							target="_blank">DWD</a

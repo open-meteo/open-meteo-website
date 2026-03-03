@@ -38,8 +38,7 @@
 					<a class="text-secondary-foreground" href="/en/docs/gfs-api">GFS & HRRR Forecast API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href="/en/docs/meteofrance-api">Météo-France API</a
-					>
+					<a class="text-secondary-foreground" href="/en/docs/meteofrance-api">Météo-France API</a>
 				</li>
 				<li class="mb-1">
 					<a class="text-secondary-foreground" href="/en/docs/dwd-api">DWD ICON API</a>

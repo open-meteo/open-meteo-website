@@ -750,8 +750,8 @@
 			integrates models down to 1 km resolution. ECMWF ensemble forecasts are available via the
 			<a class="text-link underline" href="/en/docs/ensemble-api">Ensemble API</a>, ECMWF WAM wave
 			forecasts can be accessed through the
-			<a class="text-link underline" href="/en/docs/marine-weather-api">Marine Forecast API</a>,
-			and HRES IFS data are archived in the
+			<a class="text-link underline" href="/en/docs/marine-weather-api">Marine Forecast API</a>, and
+			HRES IFS data are archived in the
 			<a class="text-link underline" href="/en/docs/historical-weather-api"
 				>Historical Weather API</a
 			>.
