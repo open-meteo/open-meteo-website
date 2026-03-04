@@ -262,6 +262,7 @@
 											id="{value}_hourly_spread"
 											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 											value={value + '_spread'}
+											disabled={!isAvailable(value, $params.models)}
 											checked={$params.hourly?.includes(value + '_spread')}
 											aria-labelledby="{value}_hourly_spread_label"
 											onCheckedChange={() => {
