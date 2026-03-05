@@ -308,30 +308,67 @@
 					{#each additionalVariables as group, i (i)}
 						<div>
 							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										disabled={!isAvailable(value, $params.models)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
+								<div class="flex w-full">
+									<div
+										class="highlight-row -mx-2 -mb-1 flex items-center gap-3 rounded px-2 py-0.5"
 									>
+										<div class="highlight-row-label w-[46vw] md:w-[36vw] lg:w-[35vw] xl:w-[20vw]">
+											{label}
+										</div>
+										<div class="flex gap-2">
+											<div class="group flex items-center" title="{label} Mean">
+												<Checkbox
+													id="{value}_hourly"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													{value}
+													disabled={!isAvailable(value, $params.models)}
+													checked={$params.hourly?.includes(value)}
+													aria-labelledby="{value}_hourly_mean_label"
+													onCheckedChange={() => {
+														if ($params.hourly?.includes(value)) {
+															$params.hourly = $params.hourly.filter((item: string) => {
+																return item !== value;
+															});
+														} else if ($params.hourly) {
+															$params.hourly.push(value);
+															$params.hourly = $params.hourly;
+														}
+													}}
+												/>
+												<Label
+													id="{value}_hourly_mean_label"
+													for="{value}_hourly"
+													class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Mean</Label
+												>
+											</div>
+											<div class="group flex items-center" title="{label} Anomaly">
+												<Checkbox
+													id="{value}_hourly_spread"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													value={value + '_spread'}
+													disabled={!isAvailable(value, $params.models)}
+													checked={$params.hourly?.includes(value + '_spread')}
+													aria-labelledby="{value}_hourly_spread_label"
+													onCheckedChange={() => {
+														if ($params.hourly?.includes(value + '_spread')) {
+															$params.hourly = $params.hourly.filter((item: string) => {
+																return item !== value + '_spread';
+															});
+														} else if ($params.hourly) {
+															$params.hourly.push(value + '_spread');
+															$params.hourly = $params.hourly;
+														}
+													}}
+												/>
+
+												<Label
+													id="{value}_hourly_spread_label"
+													for="{value}_hourly_spread"
+													class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Spread</Label
+												>
+											</div>
+										</div>
+									</div>
 								</div>
 							{/each}
 						</div>
@@ -421,30 +458,67 @@
 					{#each solarVariables as group, i (i)}
 						<div>
 							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										disabled={!isAvailable('shortwave_radiation', $params.models)}
-										aria-labelledby="{value}_hourly_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_hourly_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
+								<div class="flex w-full">
+									<div
+										class="highlight-row -mx-2 -mb-1 flex items-center gap-3 rounded px-2 py-0.5"
 									>
+										<div class="highlight-row-label w-[46vw] md:w-[36vw] lg:w-[35vw] xl:w-[20vw]">
+											{label}
+										</div>
+										<div class="flex gap-2">
+											<div class="group flex items-center" title="{label} Mean">
+												<Checkbox
+													id="{value}_hourly"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													{value}
+													disabled={!isAvailable(value, $params.models)}
+													checked={$params.hourly?.includes(value)}
+													aria-labelledby="{value}_hourly_mean_label"
+													onCheckedChange={() => {
+														if ($params.hourly?.includes(value)) {
+															$params.hourly = $params.hourly.filter((item: string) => {
+																return item !== value;
+															});
+														} else if ($params.hourly) {
+															$params.hourly.push(value);
+															$params.hourly = $params.hourly;
+														}
+													}}
+												/>
+												<Label
+													id="{value}_hourly_mean_label"
+													for="{value}_hourly"
+													class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Mean</Label
+												>
+											</div>
+											<div class="group flex items-center" title="{label} Anomaly">
+												<Checkbox
+													id="{value}_hourly_spread"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													value={value + '_spread'}
+													disabled={!isAvailable(value, $params.models)}
+													checked={$params.hourly?.includes(value + '_spread')}
+													aria-labelledby="{value}_hourly_spread_label"
+													onCheckedChange={() => {
+														if ($params.hourly?.includes(value + '_spread')) {
+															$params.hourly = $params.hourly.filter((item: string) => {
+																return item !== value + '_spread';
+															});
+														} else if ($params.hourly) {
+															$params.hourly.push(value + '_spread');
+															$params.hourly = $params.hourly;
+														}
+													}}
+												/>
+
+												<Label
+													id="{value}_hourly_spread_label"
+													for="{value}_hourly_spread"
+													class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Spread</Label
+												>
+											</div>
+										</div>
+									</div>
 								</div>
 							{/each}
 						</div>
@@ -552,40 +626,97 @@
 							{#if pressureVariablesTab === variable.value}
 								<div class="mb-3">{variable.label}</div>
 								<div>
-									<div class="grid grid-cols-1 lg:grid-cols-3">
+									<div class="grid grid-cols-1">
 										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
 											<div>
 												{#each chunk as level, k (k)}
-													<div class="group flex items-center">
-														<Checkbox
-															id="{variable.value}_{level}hPa"
-															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-															value="{variable.value}_{level}hPa"
-															disabled={!isAvailable(
-																`${variable.value}_${level}hPa`,
-																$params.models
-															)}
-															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
-															aria-labelledby="{variable.value}_{level}hPa"
-															onCheckedChange={() => {
-																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-																	$params.hourly = $params.hourly.filter((item: string) => {
-																		return item !== `${variable.value}_${level}hPa`;
-																	});
-																} else if ($params.hourly) {
-																	$params.hourly.push(`${variable.value}_${level}hPa`);
-																	$params.hourly = $params.hourly;
-																}
-															}}
-														/>
-														<Label
-															for="{variable.value}_{level}hPa"
-															class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
-															>{level} hPa
-															<small class="text-muted-foreground"
-																>({altitudeAboveSeaLevelMeters(level)})</small
-															></Label
+													<div class="flex w-full">
+														<div
+															class="highlight-row -mx-2 -mb-1 flex items-center gap-3 rounded px-2 py-0.5"
 														>
+															<div
+																class="highlight-row-label w-[46vw] md:w-[36vw] lg:w-[35vw] xl:w-[20vw]"
+															>
+																({altitudeAboveSeaLevelMeters(level)})
+															</div>
+															<div class="flex gap-2">
+																<div
+																	class="group flex items-center"
+																	title="{altitudeAboveSeaLevelMeters(level)} Mean"
+																>
+																	<Checkbox
+																		id="{variable.value}_{level}hPa_mean"
+																		class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+																		value={variable.value + '_' + level + 'hPa'}
+																		disabled={!isAvailable(
+																			`${variable.value}_${level}hPa`,
+																			$params.models
+																		)}
+																		checked={$params.hourly?.includes(
+																			`${variable.value}_${level}hPa`
+																		)}
+																		aria-labelledby="{variable.value}_{level}hPa_mean_label"
+																		onCheckedChange={() => {
+																			if (
+																				$params.hourly?.includes(`${variable.value}_${level}hPa`)
+																			) {
+																				$params.hourly = $params.hourly.filter((item: string) => {
+																					return item !== `${variable.value}_${level}hPa`;
+																				});
+																			} else if ($params.hourly) {
+																				$params.hourly.push(`${variable.value}_${level}hPa`);
+																				$params.hourly = $params.hourly;
+																			}
+																		}}
+																	/>
+																	<Label
+																		id="{variable.value}_{level}hPa_mean_label"
+																		for="{variable.value}_{level}hPa_mean"
+																		class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]"
+																		>Mean</Label
+																	>
+																</div>
+																<div
+																	class="group flex items-center"
+																	title="{altitudeAboveSeaLevelMeters(level)} Anomaly"
+																>
+																	<Checkbox
+																		id="{variable.value}_{level}hPa_spread"
+																		class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+																		value={variable.value + '_' + level + 'hPa_spread'}
+																		disabled={!isAvailable(
+																			`${variable.value}_${level}hPa`,
+																			$params.models
+																		)}
+																		checked={$params.hourly?.includes(
+																			`${variable.value}_${level}hPa_spread`
+																		)}
+																		aria-labelledby="{variable.value}_{level}hPa_spread_label"
+																		onCheckedChange={() => {
+																			if (
+																				$params.hourly?.includes(
+																					`${variable.value}_${level}hPa_spread`
+																				)
+																			) {
+																				$params.hourly = $params.hourly.filter((item: string) => {
+																					return item !== `${variable.value}_${level}hPa_spread`;
+																				});
+																			} else if ($params.hourly) {
+																				$params.hourly.push(`${variable.value}_${level}hPa_spread`);
+																				$params.hourly = $params.hourly;
+																			}
+																		}}
+																	/>
+
+																	<Label
+																		id="{variable.value}_{level}hPa_spread_label"
+																		for="{variable.value}_{level}hPa_spread"
+																		class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
+																		>Spread</Label
+																	>
+																</div>
+															</div>
+														</div>
 													</div>
 												{/each}
 											</div>
