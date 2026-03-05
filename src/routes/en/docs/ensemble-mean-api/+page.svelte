@@ -613,35 +613,70 @@
 			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
 		>
 		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			class="mt-2 grid grid-flow-row gap-x-4 gap-y-4 md:gap-x-8 md:gap-y-8 lg:grid-cols-1 xl:grid-cols-2"
 		>
 			{#each daily as group, i (i)}
 				<div>
 					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.daily?.includes(value)}
-								aria-labelledby="{value}_daily_label"
-								disabled={!isDailyAvailable(value, $params.models)}
-								onCheckedChange={() => {
-									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.daily) {
-										$params.daily.push(value);
-										$params.daily = $params.daily;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_daily_label"
-								for="{value}_daily"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
+						<div class="flex w-full">
+							<div class="highlight-row -mx-2 -mb-1 flex items-center gap-3 rounded px-2 py-0.5">
+								<div class="highlight-row-label w-[46vw] md:w-[36vw] lg:w-[35vw] xl:w-[20vw]">
+									{label}
+								</div>
+								<div class="flex gap-2">
+									<div class="group flex items-center" title="{label} Mean">
+										<Checkbox
+											id="{value}_daily_mean"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											{value}
+											disabled={!isDailyAvailable(value, $params.models)}
+											checked={$params.daily?.includes(value)}
+											aria-labelledby="{value}_daily_mean_label"
+											onCheckedChange={() => {
+												if ($params.daily?.includes(value)) {
+													$params.daily = $params.daily.filter((item: string) => {
+														return item !== value;
+													});
+												} else if ($params.daily) {
+													$params.daily.push(value);
+													$params.daily = $params.daily;
+												}
+											}}
+										/>
+										<Label
+											id="{value}_daily_mean_label"
+											for="{value}_daily_mean"
+											class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Mean</Label
+										>
+									</div>
+									<div class="group flex items-center" title="{label} Anomaly">
+										<Checkbox
+											id="{value}_daily_spread"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											value={value + '_spread'}
+											disabled={!isDailyAvailable(value, $params.models)}
+											checked={$params.daily?.includes(value + '_spread')}
+											aria-labelledby="{value}_daily_spread_label"
+											onCheckedChange={() => {
+												if ($params.daily?.includes(value + '_spread')) {
+													$params.daily = $params.daily.filter((item: string) => {
+														return item !== value + '_spread';
+													});
+												} else if ($params.daily) {
+													$params.daily.push(value + '_spread');
+													$params.daily = $params.daily;
+												}
+											}}
+										/>
+
+										<Label
+											id="{value}_daily_spread_label"
+											for="{value}_daily_spread"
+											class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Spread</Label
+										>
+									</div>
+								</div>
+							</div>
 						</div>
 					{/each}
 				</div>

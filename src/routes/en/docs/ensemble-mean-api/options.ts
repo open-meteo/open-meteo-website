@@ -607,51 +607,30 @@ export const hourly = [
 
 export const daily = [
 	[
-		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
-		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
+		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
+
 		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-		{ value: 'apparent_temperature_mean', label: 'Mean Apparent Temperature' },
-		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature' },
-		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature' },
-		{ value: 'wind_speed_10m_mean', label: 'Mean Wind Speed (10 m)' },
-		{ value: 'wind_speed_10m_min', label: 'Minimum Wind Speed (10 m)' },
-		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' }
-	],
-	[
-		{ value: 'wind_gusts_10m_mean', label: 'Mean Wind Gusts (10 m)' },
-		{ value: 'wind_gusts_10m_min', label: 'Minimum Wind Gusts (10 m)' },
-		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
-		{ value: 'wind_speed_100m_mean', label: 'Mean Wind Speed (100 m)' },
-		{ value: 'wind_speed_100m_min', label: 'Minimum Wind Speed (100 m)' },
-		{ value: 'wind_speed_100m_max', label: 'Maximum Wind Speed (100 m)' },
+		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
+		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
+		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
+		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
+		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 		{ value: 'wind_direction_100m_dominant', label: 'Dominant Wind Direction (100m)' },
-		{ value: 'cloud_cover_mean', label: 'Mean Cloud Cover' },
-		{ value: 'cloud_cover_min', label: 'Minimum Cloud Cover' },
-		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' }
+		{ value: 'cloud_cover', label: 'Cloud Cover' },
+		{ value: 'surface_pressure', label: 'Surface Pressure' },
+		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' }
 	],
 	[
 		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
 		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ value: 'pressure_msl_mean', label: 'Mean Sea Level Pressure' },
-		{ value: 'pressure_msl_min', label: 'Minimum Sea Level Pressure' },
-		{ value: 'pressure_msl_max', label: 'Maximum Sea Level Pressure' },
-		{ value: 'surface_pressure_mean', label: 'Mean Surface Pressure' },
-		{ value: 'surface_pressure_min', label: 'Minimum Surface Pressure' },
-		{ value: 'surface_pressure_max', label: 'Maximum Surface Pressure' }
-	],
-	[
-		{ value: 'relative_humidity_2m_mean', label: 'Mean Relative Humidity (2 m)' },
-		{ value: 'relative_humidity_2m_min', label: 'Minimum Relative Humidity (2 m)' },
-		{ value: 'relative_humidity_2m_max', label: 'Maximum Relative Humidity (2 m)' },
-		{ value: 'cape_mean', label: 'Mean CAPE' },
-		{ value: 'cape_min', label: 'Minimum CAPE' },
-		{ value: 'cape_max', label: 'Maximum CAPE' },
-		{ value: 'dew_point_2m_mean', label: 'Mean Dewpoint (2 m)' },
-		{ value: 'dew_point_2m_min', label: 'Minimum Dewpoint (2 m)' },
-		{ value: 'dew_point_2m_max', label: 'Maximum Dewpoint (2 m)' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
+		{ value: 'cape', label: 'CAPE' },
+		{ value: 'dew_point_2m_min', label: 'Dewpoint Minimum (2 m)' },
+		{ value: 'dew_point_2m_max', label: 'Dewpoint Maximum (2 m)' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' }
 	]
@@ -737,5 +716,11 @@ export const pastDaysOptions = [
 	{ value: '0', label: '0 days (default)' },
 	{ value: '1', label: '1 day' },
 	{ value: '2', label: '2 days' },
-	{ value: '3', label: '3 days' }
+	{ value: '3', label: '3 days' },
+	{ value: '5', label: '5 days' },
+	{ value: '7', label: '1 week' },
+	{ value: '14', label: '2 weeks' },
+	{ value: '31', label: '1 month' },
+	{ value: '61', label: '2 months' },
+	{ value: '92', label: '3 months' }
 ];
