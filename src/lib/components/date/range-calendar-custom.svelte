@@ -124,6 +124,7 @@
 <div
 	class="border-border flex w-full flex-col items-stretch justify-between gap-3 overflow-auto border-b p-3 md:flex-row"
 >
+	<!-- Start Date -->
 	<div class="flex w-full flex-col items-center gap-3">
 		<div class="flex w-full justify-between">
 			<Button variant="outline" class="px-3" onclick={decreaseStart}
@@ -212,14 +213,11 @@
 					{/each}
 				</div>
 			{:else}
-				<!-- svelte-ignore a11y_no_static_element_interactions -->
 				<div class="min-h-[280px]">
 					<div
 						id="start_date_days"
 						in:scale={{ start: 0.8, duration: 300 }}
 						class="grid grid-cols-5"
-						aria-roledescription="Date picker window"
-						onmouseleave={() => (selectEndNext = false)}
 					>
 						{#each startDates as date (date.getTime())}
 							<Button
@@ -237,14 +235,12 @@
 								disabled={date.getTime() < beginDate.getTime() - 11 * 60 * 60 * 1000 ||
 									date.getTime() > lastDate.getTime() + 11 * 60 * 60 * 1000}
 								onclick={() => {
+									let newDate = new Date(startDate);
+									newDate.setUTCDate(date.getUTCDate());
 									if (selectEndNext) {
-										let newDate = new Date(startDate);
-										newDate.setUTCDate(date.getUTCDate());
 										updateEndDate(newDate);
 										selectEndNext = false;
 									} else {
-										let newDate = new Date(startDate);
-										newDate.setUTCDate(date.getUTCDate());
 										updateStartDate(newDate);
 										selectEndNext = true;
 									}
@@ -257,6 +253,7 @@
 		</div>
 	</div>
 	<div class="border-border border-r"></div>
+	<!-- End Date -->
 	<div class="flex w-full flex-col items-center gap-3">
 		<div class="flex w-full justify-between">
 			<Button variant="outline" class="px-3" onclick={decreaseEnd}
@@ -364,7 +361,13 @@
 								onclick={() => {
 									let newDate = new Date(endDate);
 									newDate.setUTCDate(date.getUTCDate());
-									updateEndDate(newDate);
+									if (selectEndNext) {
+										updateStartDate(newDate);
+										selectEndNext = false;
+									} else {
+										updateEndDate(newDate);
+										selectEndNext = true;
+									}
 								}}>{date.getUTCDate()}</Button
 							>
 						{/each}
