@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Upload stats
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: head-stats
           path: ./build-stats.json
@@ -45,7 +45,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Upload stats
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: base-stats
           path: ./build-stats.json
