@@ -688,9 +688,29 @@
 			}
 		];
 
+		let seasonalModels = [
+			{
+				provider: 'ECMWF',
+				url: '/en/docs/seasonal-forecast-api',
+				models: [
+					{
+						name: 'EC46',
+						area: [],
+						meta: fetchMeta('ecmwf_ec46', 'seasonal', apiKeyPreferences)
+					},
+					{
+						name: 'SEAS5',
+						area: [],
+						meta: fetchMeta('ecmwf_seas5', 'seasonal', apiKeyPreferences)
+					}
+				]
+			}
+		];
+
 		return [
 			{ name: 'Forecast API', providers: forecastModels },
 			{ name: 'Historical Weather API', providers: historicalModels },
+			{ name: 'Seasonal Forecast API', providers: seasonalModels },
 			{ name: 'Ensemble API', providers: ensembleModels },
 			{ name: 'Air Quality API', providers: airQualityModels },
 			{ name: 'Marine API', providers: marineModels },
