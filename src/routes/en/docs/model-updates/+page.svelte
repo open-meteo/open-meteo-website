@@ -285,15 +285,6 @@
 						area: ['european_union'],
 						meta: fetchMeta('meteofrance_arpege_europe', 'forecast', apiKeyPreferences)
 					},
-					// { Removed 2026-02-02: Not provided anymore by Meteo-France
-					// 	name: 'ARPEGE Europe 0.1° Probabilities',
-					// 	area: ['european_union'],
-					// 	meta: fetchMeta(
-					// 		'meteofrance_arpege_europe_probabilities',
-					// 		'forecast',
-					// 		apiKeyPreferences
-					// 	)
-					// },
 					{
 						name: 'AROME France 0.01 HD°',
 						area: ['fr'],
@@ -688,9 +679,29 @@
 			}
 		];
 
+		let seasonalModels = [
+			{
+				provider: 'ECMWF',
+				url: '/en/docs/seasonal-forecast-api',
+				models: [
+					{
+						name: 'EC46',
+						area: [],
+						meta: fetchMeta('ecmwf_ec46', 'seasonal', apiKeyPreferences)
+					},
+					{
+						name: 'SEAS5',
+						area: [],
+						meta: fetchMeta('ecmwf_seas5', 'seasonal', apiKeyPreferences)
+					}
+				]
+			}
+		];
+
 		return [
 			{ name: 'Forecast API', providers: forecastModels },
 			{ name: 'Historical Weather API', providers: historicalModels },
+			{ name: 'Seasonal Forecast API', providers: seasonalModels },
 			{ name: 'Ensemble API', providers: ensembleModels },
 			{ name: 'Air Quality API', providers: airQualityModels },
 			{ name: 'Marine API', providers: marineModels },
