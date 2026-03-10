@@ -476,7 +476,7 @@
 													id="{value}_hourly"
 													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 													{value}
-													disabled={!isAvailable(value, $params.models)}
+													disabled={!isAvailable('shortwave_radiation', $params.models)}
 													checked={$params.hourly?.includes(value)}
 													aria-labelledby="{value}_hourly_mean_label"
 													onCheckedChange={() => {
@@ -501,7 +501,7 @@
 													id="{value}_hourly_spread"
 													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 													value={value + '_spread'}
-													disabled={!isAvailable(value, $params.models)}
+													disabled={!isAvailable('shortwave_radiation', $params.models)}
 													checked={$params.hourly?.includes(value + '_spread')}
 													aria-labelledby="{value}_hourly_spread_label"
 													onCheckedChange={() => {
