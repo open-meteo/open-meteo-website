@@ -724,3 +724,5 @@ export const pastDaysOptions = [
 	{ value: '61', label: '2 months' },
 	{ value: '92', label: '3 months' }
 ];
+
+export const noSpreadVariables = ['is_day', 'weather_code'];

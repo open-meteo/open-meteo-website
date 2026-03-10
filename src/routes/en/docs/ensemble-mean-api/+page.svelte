@@ -42,6 +42,7 @@
 		hourly,
 		levels,
 		models,
+		noSpreadVariables,
 		pastDaysOptions,
 		pressureVariables,
 		solarVariables
@@ -257,32 +258,34 @@
 											class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Mean</Label
 										>
 									</div>
-									<div class="group flex items-center" title="{label} Anomaly">
-										<Checkbox
-											id="{value}_hourly_spread"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-											value={value + '_spread'}
-											disabled={!isAvailable(value, $params.models)}
-											checked={$params.hourly?.includes(value + '_spread')}
-											aria-labelledby="{value}_hourly_spread_label"
-											onCheckedChange={() => {
-												if ($params.hourly?.includes(value + '_spread')) {
-													$params.hourly = $params.hourly.filter((item: string) => {
-														return item !== value + '_spread';
-													});
-												} else if ($params.hourly) {
-													$params.hourly.push(value + '_spread');
-													$params.hourly = $params.hourly;
-												}
-											}}
-										/>
+									{#if !noSpreadVariables.includes(value)}
+										<div class="group flex items-center" title="{label} Spread">
+											<Checkbox
+												id="{value}_hourly_spread"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												value={value + '_spread'}
+												disabled={!isAvailable(value, $params.models)}
+												checked={$params.hourly?.includes(value + '_spread')}
+												aria-labelledby="{value}_hourly_spread_label"
+												onCheckedChange={() => {
+													if ($params.hourly?.includes(value + '_spread')) {
+														$params.hourly = $params.hourly.filter((item: string) => {
+															return item !== value + '_spread';
+														});
+													} else if ($params.hourly) {
+														$params.hourly.push(value + '_spread');
+														$params.hourly = $params.hourly;
+													}
+												}}
+											/>
 
-										<Label
-											id="{value}_hourly_spread_label"
-											for="{value}_hourly_spread"
-											class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Spread</Label
-										>
-									</div>
+											<Label
+												id="{value}_hourly_spread_label"
+												for="{value}_hourly_spread"
+												class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Spread</Label
+											>
+										</div>
+									{/if}
 								</div>
 							</div>
 						</div>
@@ -341,32 +344,34 @@
 													class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Mean</Label
 												>
 											</div>
-											<div class="group flex items-center" title="{label} Anomaly">
-												<Checkbox
-													id="{value}_hourly_spread"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-													value={value + '_spread'}
-													disabled={!isAvailable(value, $params.models)}
-													checked={$params.hourly?.includes(value + '_spread')}
-													aria-labelledby="{value}_hourly_spread_label"
-													onCheckedChange={() => {
-														if ($params.hourly?.includes(value + '_spread')) {
-															$params.hourly = $params.hourly.filter((item: string) => {
-																return item !== value + '_spread';
-															});
-														} else if ($params.hourly) {
-															$params.hourly.push(value + '_spread');
-															$params.hourly = $params.hourly;
-														}
-													}}
-												/>
+											{#if !noSpreadVariables.includes(value)}
+												<div class="group flex items-center" title="{label} Spread">
+													<Checkbox
+														id="{value}_hourly_spread"
+														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+														value={value + '_spread'}
+														disabled={!isAvailable(value, $params.models)}
+														checked={$params.hourly?.includes(value + '_spread')}
+														aria-labelledby="{value}_hourly_spread_label"
+														onCheckedChange={() => {
+															if ($params.hourly?.includes(value + '_spread')) {
+																$params.hourly = $params.hourly.filter((item: string) => {
+																	return item !== value + '_spread';
+																});
+															} else if ($params.hourly) {
+																$params.hourly.push(value + '_spread');
+																$params.hourly = $params.hourly;
+															}
+														}}
+													/>
 
-												<Label
-													id="{value}_hourly_spread_label"
-													for="{value}_hourly_spread"
-													class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Spread</Label
-												>
-											</div>
+													<Label
+														id="{value}_hourly_spread_label"
+														for="{value}_hourly_spread"
+														class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Spread</Label
+													>
+												</div>
+											{/if}
 										</div>
 									</div>
 								</div>
@@ -491,7 +496,7 @@
 													class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Mean</Label
 												>
 											</div>
-											<div class="group flex items-center" title="{label} Anomaly">
+											<div class="group flex items-center" title="{label} Spread">
 												<Checkbox
 													id="{value}_hourly_spread"
 													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -637,12 +642,12 @@
 															<div
 																class="highlight-row-label w-[46vw] md:w-[36vw] lg:w-[35vw] xl:w-[20vw]"
 															>
-																({altitudeAboveSeaLevelMeters(level)})
+																{level} hPa ({altitudeAboveSeaLevelMeters(level)})
 															</div>
 															<div class="flex gap-2">
 																<div
 																	class="group flex items-center"
-																	title="{altitudeAboveSeaLevelMeters(level)} Mean"
+																	title="{level} hPa {altitudeAboveSeaLevelMeters(level)} Mean"
 																>
 																	<Checkbox
 																		id="{variable.value}_{level}hPa_mean"
@@ -678,7 +683,7 @@
 																</div>
 																<div
 																	class="group flex items-center"
-																	title="{altitudeAboveSeaLevelMeters(level)} Anomaly"
+																	title="{level} hPa {altitudeAboveSeaLevelMeters(level)} Spread"
 																>
 																	<Checkbox
 																		id="{variable.value}_{level}hPa_spread"
@@ -780,32 +785,34 @@
 											class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Mean</Label
 										>
 									</div>
-									<div class="group flex items-center" title="{label} Anomaly">
-										<Checkbox
-											id="{value}_daily_spread"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-											value={value + '_spread'}
-											disabled={!isDailyAvailable(value, $params.models)}
-											checked={$params.daily?.includes(value + '_spread')}
-											aria-labelledby="{value}_daily_spread_label"
-											onCheckedChange={() => {
-												if ($params.daily?.includes(value + '_spread')) {
-													$params.daily = $params.daily.filter((item: string) => {
-														return item !== value + '_spread';
-													});
-												} else if ($params.daily) {
-													$params.daily.push(value + '_spread');
-													$params.daily = $params.daily;
-												}
-											}}
-										/>
+									{#if !noSpreadVariables.includes(value)}
+										<div class="group flex items-center" title="{label} Spread">
+											<Checkbox
+												id="{value}_daily_spread"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												value={value + '_spread'}
+												disabled={!isDailyAvailable(value, $params.models)}
+												checked={$params.daily?.includes(value + '_spread')}
+												aria-labelledby="{value}_daily_spread_label"
+												onCheckedChange={() => {
+													if ($params.daily?.includes(value + '_spread')) {
+														$params.daily = $params.daily.filter((item: string) => {
+															return item !== value + '_spread';
+														});
+													} else if ($params.daily) {
+														$params.daily.push(value + '_spread');
+														$params.daily = $params.daily;
+													}
+												}}
+											/>
 
-										<Label
-											id="{value}_daily_spread_label"
-											for="{value}_daily_spread"
-											class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Spread</Label
-										>
-									</div>
+											<Label
+												id="{value}_daily_spread_label"
+												for="{value}_daily_spread"
+												class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Spread</Label
+											>
+										</div>
+									{/if}
 								</div>
 							</div>
 						</div>
