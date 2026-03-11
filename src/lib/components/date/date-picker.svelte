@@ -74,6 +74,7 @@
 	});
 
 	let inputFields: HTMLElement | null = $state(null);
+	let selectStartDate = $state(true);
 </script>
 
 <div>
@@ -90,12 +91,13 @@
 		>
 			<div
 				bind:this={inputDiv}
-				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen
+				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen &&
+				selectStartDate
 					? 'ring-ring ring-2 ring-offset-2'
 					: ''}"
 			>
 				<svg
-					class="lucide lucide-calendar mt-[1px] mr-1"
+					class="lucide lucide-calendar mt-px mr-1"
 					xmlns="http://www.w3.org/2000/svg"
 					width="16"
 					height="16"
@@ -114,7 +116,7 @@
 
 				<Input
 					id="start_date_input"
-					class="m-0 -mt-2 h-[unset] border-none !bg-transparent p-0 !ring-0 !ring-offset-0 "
+					class="m-0 -mt-2 h-[unset] border-none p-0 ring-0! ring-offset-0!"
 					type="text"
 					value={start_date}
 					oninput={debounce((e: Event & { currentTarget: HTMLInputElement }) => {
@@ -142,12 +144,13 @@
 				</div>
 			{/if}
 			<div
-				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen
+				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen &&
+				!selectStartDate
 					? 'ring-ring ring-2 ring-offset-2'
 					: ''}"
 			>
 				<svg
-					class="lucide lucide-calendar mt-[1px] mr-1"
+					class="lucide lucide-calendar mt-px mr-1"
 					xmlns="http://www.w3.org/2000/svg"
 					width="16"
 					height="16"
@@ -166,7 +169,7 @@
 
 				<Input
 					id="end_date_input"
-					class="m-0 -mt-2 h-[unset] border-none !bg-transparent p-0 !ring-0 !ring-offset-0  "
+					class="m-0 -mt-2 h-[unset] border-none p-0 ring-0! ring-offset-0!"
 					type="text"
 					value={end_date}
 					oninput={debounce((e: Event & { currentTarget: HTMLInputElement }) => {
@@ -212,12 +215,12 @@
 				}
 			}}
 			trapFocus={false}
-			class="border-border relative w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 "
+			class="border-border relative w-auto min-w-(--bits-popover-anchor-width) overflow-auto p-0 "
 			align="start"
 		>
-			<RangeCalendar bind:start_date bind:end_date {beginDate} {lastDate} />
+			<RangeCalendar bind:start_date bind:end_date {beginDate} {lastDate} bind:selectStartDate />
 			<Popover.Close
-				class="ring-offset-background focus:ring-ring absolute !top-3 right-3 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none md:top-8"
+				class="ring-offset-background focus:ring-ring absolute top-3! right-3 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none md:top-8"
 			>
 				<svg
 					class="lucide lucide-x"
