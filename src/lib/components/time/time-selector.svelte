@@ -13,8 +13,8 @@
 		params: Parameters;
 		forecastDaysOptions: { value: string; label: string }[];
 		pastDaysOptions: { value: string; label: string }[];
-		beginDate?: Date;
-		lastDate?: Date;
+		beginDate: Date;
+		lastDate: Date;
 	}
 
 	let {
@@ -157,10 +157,10 @@
 			<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
 				<div class="mb-3 lg:w-1/2">
 					<DatePicker
-						bind:start_date={params.start_date}
-						bind:end_date={params.end_date}
 						{beginDate}
 						{lastDate}
+						bind:start_date={params.start_date}
+						bind:end_date={params.end_date}
 					/>
 				</div>
 				<div class="mb-3 lg:w-1/2">
