@@ -530,22 +530,22 @@ export const meteoswiss_variables = [
 ];
 
 export const availableVariables = {
-	icon_seamless_eps: icon_d2_variables,
-	icon_global_eps: icon_global_variables,
-	icon_eu_eps: icon_eu_variables,
-	icon_d2_eps: icon_d2_variables,
-	ncep_gefs_seamless: gfs05_variables,
-	ncep_gefs025: gfs025_variables,
-	ncep_gefs05: gfs05_variables,
-	ncep_aigefs025: aigfs025_variables,
-	ecmwf_ifs025_ensemble: ecmwf_ifs025_variables,
-	ecmwf_aifs025_ensemble: ecmwf_aifs025_variables,
-	ukmo_global_ensemble_20km: ukmo_variables,
-	ukmo_uk_ensemble_2km: ukmo_2km_variables,
-	gem_global_ensemble: gem_global_variables,
-	bom_access_global_ensemble: bom_access_global_ensemble,
-	meteoswiss_icon_ch1_ensemble: meteoswiss_variables,
-	meteoswiss_icon_ch2_ensemble: meteoswiss_variables
+	dwd_icon_eps_ensemble_mean_seamless: icon_d2_variables,
+	dwd_icon_eps_ensemble_mean: icon_global_variables,
+	dwd_icon_eu_eps_ensemble_mean: icon_eu_variables,
+	dwd_icon_d2_eps_ensemble_mean: icon_d2_variables,
+	ncep_gefs_ensemble_mean_seamless: gfs05_variables,
+	ncep_gefs025_ensemble_mean: gfs025_variables,
+	ncep_gefs05_ensemble_mean: gfs05_variables,
+	ncep_hgefs025_ensemble_mean: gfs025_variables,
+	ecmwf_ifs025_ensemble_mean: ecmwf_ifs025_variables,
+	ecmwf_aifs025_ensemble_mean: ecmwf_aifs025_variables,
+	ukmo_global_ensemble_mean_20km: ukmo_variables,
+	ukmo_uk_ensemble_mean_2km: ukmo_2km_variables,
+	cmc_gem_geps_ensemble_mean: gem_global_variables,
+	bom_access_global_ensemble_mean: bom_access_global_ensemble,
+	meteoswiss_icon_ch1_ensemble_mean: meteoswiss_variables,
+	meteoswiss_icon_ch2_ensemble_mean: meteoswiss_variables
 };
 
 export const hourly = [
@@ -607,51 +607,30 @@ export const hourly = [
 
 export const daily = [
 	[
-		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
-		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
+		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
+
 		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-		{ value: 'apparent_temperature_mean', label: 'Mean Apparent Temperature' },
-		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature' },
-		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature' },
-		{ value: 'wind_speed_10m_mean', label: 'Mean Wind Speed (10 m)' },
-		{ value: 'wind_speed_10m_min', label: 'Minimum Wind Speed (10 m)' },
-		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' }
-	],
-	[
-		{ value: 'wind_gusts_10m_mean', label: 'Mean Wind Gusts (10 m)' },
-		{ value: 'wind_gusts_10m_min', label: 'Minimum Wind Gusts (10 m)' },
-		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
-		{ value: 'wind_speed_100m_mean', label: 'Mean Wind Speed (100 m)' },
-		{ value: 'wind_speed_100m_min', label: 'Minimum Wind Speed (100 m)' },
-		{ value: 'wind_speed_100m_max', label: 'Maximum Wind Speed (100 m)' },
+		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
+		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
+		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
+		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
+		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 		{ value: 'wind_direction_100m_dominant', label: 'Dominant Wind Direction (100m)' },
-		{ value: 'cloud_cover_mean', label: 'Mean Cloud Cover' },
-		{ value: 'cloud_cover_min', label: 'Minimum Cloud Cover' },
-		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' }
+		{ value: 'cloud_cover', label: 'Cloud Cover' },
+		{ value: 'surface_pressure', label: 'Surface Pressure' },
+		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' }
 	],
 	[
 		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
 		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ value: 'pressure_msl_mean', label: 'Mean Sea Level Pressure' },
-		{ value: 'pressure_msl_min', label: 'Minimum Sea Level Pressure' },
-		{ value: 'pressure_msl_max', label: 'Maximum Sea Level Pressure' },
-		{ value: 'surface_pressure_mean', label: 'Mean Surface Pressure' },
-		{ value: 'surface_pressure_min', label: 'Minimum Surface Pressure' },
-		{ value: 'surface_pressure_max', label: 'Maximum Surface Pressure' }
-	],
-	[
-		{ value: 'relative_humidity_2m_mean', label: 'Mean Relative Humidity (2 m)' },
-		{ value: 'relative_humidity_2m_min', label: 'Minimum Relative Humidity (2 m)' },
-		{ value: 'relative_humidity_2m_max', label: 'Maximum Relative Humidity (2 m)' },
-		{ value: 'cape_mean', label: 'Mean CAPE' },
-		{ value: 'cape_min', label: 'Minimum CAPE' },
-		{ value: 'cape_max', label: 'Maximum CAPE' },
-		{ value: 'dew_point_2m_mean', label: 'Mean Dewpoint (2 m)' },
-		{ value: 'dew_point_2m_min', label: 'Minimum Dewpoint (2 m)' },
-		{ value: 'dew_point_2m_max', label: 'Maximum Dewpoint (2 m)' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
+		{ value: 'cape', label: 'CAPE' },
+		{ value: 'dew_point_2m_min', label: 'Dewpoint Minimum (2 m)' },
+		{ value: 'dew_point_2m_max', label: 'Dewpoint Maximum (2 m)' },
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
 		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' }
 	]
@@ -696,30 +675,30 @@ export const solarVariables = [
 
 export const models = [
 	[
-		{ value: 'icon_seamless_eps', label: 'DWD ICON EPS Seamless' },
-		{ value: 'icon_global_eps', label: 'DWD ICON EPS Global' },
-		{ value: 'icon_eu_eps', label: 'DWD ICON EPS EU' },
-		{ value: 'icon_d2_eps', label: 'DWD ICON EPS D2' }
+		{ value: 'dwd_icon_eps_ensemble_mean_seamless', label: 'DWD ICON EPS Seamless Mean' },
+		{ value: 'dwd_icon_eps_ensemble_mean', label: 'DWD ICON EPS Global Mean' },
+		{ value: 'dwd_icon_eu_eps_ensemble_mean', label: 'DWD ICON EPS EU Mean' },
+		{ value: 'dwd_icon_d2_eps_ensemble_mean', label: 'DWD ICON EPS D2 Mean' }
 	],
 	[
-		{ value: 'ncep_gefs_seamless', label: 'GFS Ensemble Seamless' },
-		{ value: 'ncep_gefs025', label: 'GFS Ensemble 0.25°' },
-		{ value: 'ncep_gefs05', label: 'GFS Ensemble 0.5°' },
-		{ value: 'ncep_aigefs025', label: 'AIGEFS 0.25°' }
+		{ value: 'ncep_gefs_ensemble_mean_seamless', label: 'GFS Ensemble Seamless Mean' },
+		{ value: 'ncep_gefs025_ensemble_mean', label: 'GFS Ensemble 0.25° Mean' },
+		{ value: 'ncep_gefs05_ensemble_mean', label: 'GFS Ensemble 0.5° Mean' },
+		{ value: 'ncep_hgefs025_ensemble_mean', label: 'HGEFS 0.25° Mean' }
 	],
 	[
-		{ value: 'ecmwf_ifs025_ensemble', label: 'ECMWF IFS 0.25° Ensemble' },
-		{ value: 'ecmwf_aifs025_ensemble', label: 'ECMWF AIFS 0.25° Ensemble' },
-		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' },
-		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
+		{ value: 'ecmwf_ifs025_ensemble_mean', label: 'ECMWF IFS 0.25° Ensemble Mean' },
+		{ value: 'ecmwf_aifs025_ensemble_mean', label: 'ECMWF AIFS 0.25° Ensemble Mean' },
+		{ value: 'cmc_gem_geps_ensemble_mean', label: 'GEM Global Ensemble Mean' },
+		{ value: 'bom_access_global_ensemble_mean', label: 'BOM ACCESS Global Mean' }
 	],
 	[
-		{ value: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' },
-		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' }
+		{ value: 'ukmo_global_ensemble_mean_20km', label: 'UK MetOffice Global 20km Mean' },
+		{ value: 'ukmo_uk_ensemble_mean_2km', label: 'UK MetOffice UK 2km Mean' }
 	],
 	[
-		{ value: 'meteoswiss_icon_ch1_ensemble', label: 'MeteoSwiss ICON CH1' },
-		{ value: 'meteoswiss_icon_ch2_ensemble', label: 'MeteoSwiss ICON CH2' }
+		{ value: 'meteoswiss_icon_ch1_ensemble_mean', label: 'MeteoSwiss ICON CH1 Mean' },
+		{ value: 'meteoswiss_icon_ch2_ensemble_mean', label: 'MeteoSwiss ICON CH2 Mean' }
 	]
 ];
 
@@ -737,5 +716,13 @@ export const pastDaysOptions = [
 	{ value: '0', label: '0 days (default)' },
 	{ value: '1', label: '1 day' },
 	{ value: '2', label: '2 days' },
-	{ value: '3', label: '3 days' }
+	{ value: '3', label: '3 days' },
+	{ value: '5', label: '5 days' },
+	{ value: '7', label: '1 week' },
+	{ value: '14', label: '2 weeks' },
+	{ value: '31', label: '1 month' },
+	{ value: '61', label: '2 months' },
+	{ value: '92', label: '3 months' }
 ];
+
+export const noSpreadVariables = ['is_day', 'weather_code'];
