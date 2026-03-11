@@ -353,13 +353,14 @@
 						{#each endDates as date (date.getTime())}
 							<Button
 								class="duration-200 rounded-lg border-2 border-transparent hover:border-foreground/50
-								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? ' font-bold' : ''}
-								{date.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]
-									? 'bg-accent rounded-s-none'
-									: ''} {date.getTime() < endDate.getTime() && date.getTime() > startDate.getTime()
+								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? ' font-bold' : ''} 
+									{date.getTime() < endDate.getTime() && date.getTime() > startDate.getTime()
 									? 'bg-accent/50 rounded-none'
-									: ''} {date.toISOString().split('T')[0] === startDate.toISOString().split('T')[0]
-									? 'bg-accent rounded-s-lg rounded-e-none'
+									: ''}
+								{date.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]
+									? 'bg-primary/10 rounded-s-none'
+									: ''}  {date.toISOString().split('T')[0] === startDate.toISOString().split('T')[0]
+									? 'bg-primary/10 rounded-s-lg rounded-e-none'
 									: ''}"
 								variant="ghost"
 								disabled={date.getTime() < beginDate.getTime() - 11 * 60 * 60 * 1000 ||
