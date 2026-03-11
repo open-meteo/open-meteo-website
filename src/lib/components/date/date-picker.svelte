@@ -14,19 +14,19 @@
 	import RangeCalendar from './range-calendar-custom.svelte';
 
 	interface Props {
+		beginDate: Date;
+		lastDate: Date;
 		start_date?: string;
 		end_date?: string;
-		beginDate?: Date;
-		lastDate?: Date;
 	}
 
 	const now = new Date();
 
 	let {
-		start_date = $bindable(),
-		end_date = $bindable(),
 		beginDate = new Date('1940-01-01'),
-		lastDate = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`)
+		lastDate = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`),
+		start_date = $bindable(),
+		end_date = $bindable()
 	}: Props = $props();
 
 	$effect(() => {
@@ -40,14 +40,10 @@
 		if (!end_date) {
 			let date = new SvelteDate();
 			date.setUTCDate(date.getUTCDate() + 7);
-			if (date.getTime() > date.getTime()) {
-				date.setUTCDate(date.getUTCDate());
+			if (date.getTime() > lastDate.getTime()) {
+				date = new SvelteDate(lastDate);
 			}
 			end_date = date.toISOString().split('T')[0];
-		}
-
-		if (!beginDate) {
-			beginDate = new Date('1940-01-01');
 		}
 	});
 
@@ -56,9 +52,9 @@
 
 	onMount(() => {
 		if (browser) {
-			var observer = new IntersectionObserver(
-				() => {
-					if (popoverOpen) {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					if (!entries[0].isIntersecting && popoverOpen) {
 						popoverOpen = false;
 					}
 				},
@@ -74,6 +70,7 @@
 	});
 
 	let inputFields: HTMLElement | null = $state(null);
+	let selectStartDate = $state(true);
 </script>
 
 <div>
@@ -90,12 +87,13 @@
 		>
 			<div
 				bind:this={inputDiv}
-				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen
+				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen &&
+				selectStartDate
 					? 'ring-ring ring-2 ring-offset-2'
 					: ''}"
 			>
 				<svg
-					class="lucide lucide-calendar mt-[1px] mr-1"
+					class="lucide lucide-calendar mt-px mr-1"
 					xmlns="http://www.w3.org/2000/svg"
 					width="16"
 					height="16"
@@ -114,9 +112,12 @@
 
 				<Input
 					id="start_date_input"
-					class="m-0 -mt-2 h-[unset] border-none !bg-transparent p-0 !ring-0 !ring-offset-0 "
+					class="m-0 -mt-2 h-[unset] border-none p-0 ring-0! ring-offset-0!"
 					type="text"
 					value={start_date}
+					onfocus={() => {
+						selectStartDate = true;
+					}}
 					oninput={debounce((e: Event & { currentTarget: HTMLInputElement }) => {
 						let target = e.target as HTMLInputElement;
 						if (
@@ -142,12 +143,13 @@
 				</div>
 			{/if}
 			<div
-				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen
+				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen &&
+				!selectStartDate
 					? 'ring-ring ring-2 ring-offset-2'
 					: ''}"
 			>
 				<svg
-					class="lucide lucide-calendar mt-[1px] mr-1"
+					class="lucide lucide-calendar mt-px mr-1"
 					xmlns="http://www.w3.org/2000/svg"
 					width="16"
 					height="16"
@@ -166,9 +168,12 @@
 
 				<Input
 					id="end_date_input"
-					class="m-0 -mt-2 h-[unset] border-none !bg-transparent p-0 !ring-0 !ring-offset-0  "
+					class="m-0 -mt-2 h-[unset] border-none p-0 ring-0! ring-offset-0!"
 					type="text"
 					value={end_date}
+					onfocus={() => {
+						selectStartDate = false;
+					}}
 					oninput={debounce((e: Event & { currentTarget: HTMLInputElement }) => {
 						let target = e.target as HTMLInputElement;
 						if (
@@ -212,12 +217,12 @@
 				}
 			}}
 			trapFocus={false}
-			class="border-border relative w-auto min-w-[var(--bits-popover-anchor-width)] overflow-auto p-0 "
+			class="border-border relative w-auto min-w-(--bits-popover-anchor-width) overflow-auto p-0 "
 			align="start"
 		>
-			<RangeCalendar bind:start_date bind:end_date {beginDate} {lastDate} />
+			<RangeCalendar bind:start_date bind:end_date {beginDate} {lastDate} bind:selectStartDate />
 			<Popover.Close
-				class="ring-offset-background focus:ring-ring absolute !top-3 right-3 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none md:top-8"
+				class="ring-offset-background focus:ring-ring absolute top-3! right-3 cursor-pointer rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none md:top-8"
 			>
 				<svg
 					class="lucide lucide-x"
