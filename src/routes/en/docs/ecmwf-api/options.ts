@@ -144,7 +144,9 @@ export const additionalVariables = [
 		{ value: 'albedo', label: 'Albedo' },
 		{ value: 'k_index', label: 'K-Index' },
 		{ value: 'snowfall_water_equivalent', label: 'Snowfall (Water Equivalent)' },
-		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth (Water Equivalent)' }
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth (Water Equivalent)' },
+		{ value: 'sea_water_salinity', label: 'Sea Water Salinity' },
+		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' }
 	]
 ];
 
