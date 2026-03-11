@@ -14,19 +14,19 @@
 	import RangeCalendar from './range-calendar-custom.svelte';
 
 	interface Props {
+		beginDate: Date;
+		lastDate: Date;
 		start_date?: string;
 		end_date?: string;
-		beginDate?: Date;
-		lastDate?: Date;
 	}
 
 	const now = new Date();
 
 	let {
-		start_date = $bindable(),
-		end_date = $bindable(),
 		beginDate = new Date('1940-01-01'),
-		lastDate = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`)
+		lastDate = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`),
+		start_date = $bindable(),
+		end_date = $bindable()
 	}: Props = $props();
 
 	$effect(() => {
@@ -40,14 +40,10 @@
 		if (!end_date) {
 			let date = new SvelteDate();
 			date.setUTCDate(date.getUTCDate() + 7);
-			if (date.getTime() > date.getTime()) {
-				date.setUTCDate(date.getUTCDate());
+			if (date.getTime() > lastDate.getTime()) {
+				date = new SvelteDate(lastDate);
 			}
 			end_date = date.toISOString().split('T')[0];
-		}
-
-		if (!beginDate) {
-			beginDate = new Date('1940-01-01');
 		}
 	});
 
@@ -56,9 +52,9 @@
 
 	onMount(() => {
 		if (browser) {
-			var observer = new IntersectionObserver(
-				() => {
-					if (popoverOpen) {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					if (!entries[0].isIntersecting && popoverOpen) {
 						popoverOpen = false;
 					}
 				},
@@ -119,6 +115,9 @@
 					class="m-0 -mt-2 h-[unset] border-none p-0 ring-0! ring-offset-0!"
 					type="text"
 					value={start_date}
+					onfocus={() => {
+						selectStartDate = true;
+					}}
 					oninput={debounce((e: Event & { currentTarget: HTMLInputElement }) => {
 						let target = e.target as HTMLInputElement;
 						if (
@@ -172,6 +171,9 @@
 					class="m-0 -mt-2 h-[unset] border-none p-0 ring-0! ring-offset-0!"
 					type="text"
 					value={end_date}
+					onfocus={() => {
+						selectStartDate = false;
+					}}
 					oninput={debounce((e: Event & { currentTarget: HTMLInputElement }) => {
 						let target = e.target as HTMLInputElement;
 						if (

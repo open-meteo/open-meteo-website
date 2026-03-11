@@ -52,7 +52,7 @@
 	const getDatesInMonth = (year: number, month: number): Date[] => {
 		let result: Date[] = [];
 		for (let day = 1; day <= 32; day++) {
-			const date = new Date(year, month - 1, day, Math.floor(now.getTimezoneOffset() / 60));
+			const date = new Date(Date.UTC(year, month - 1, day));
 			if (date.getUTCFullYear() === year && date.getUTCMonth() === month - 1) {
 				result.push(date);
 			}
@@ -93,13 +93,21 @@
 	const decreaseStart = () => {
 		selectStartDate = true;
 		let newDate = new SvelteDate(startDate);
-		newDate.setUTCMonth(newDate.getUTCMonth() - 1);
+		if (monthModeStart) {
+			newDate.setUTCFullYear(newDate.getUTCFullYear() - 1);
+		} else {
+			newDate.setUTCMonth(newDate.getUTCMonth() - 1);
+		}
 		start_date = newDate.toISOString().split('T')[0];
 	};
 	const increaseStart = () => {
 		selectStartDate = true;
 		let newDate = new SvelteDate(startDate);
-		newDate.setUTCMonth(newDate.getUTCMonth() + 1);
+		if (monthModeStart) {
+			newDate.setUTCFullYear(newDate.getUTCFullYear() + 1);
+		} else {
+			newDate.setUTCMonth(newDate.getUTCMonth() + 1);
+		}
 		start_date = newDate.toISOString().split('T')[0];
 	};
 
@@ -181,7 +189,7 @@
 		</div>
 		<div class="flex max-h-75 min-h-45 min-w-85 justify-center overflow-y-auto">
 			{#if yearModeStart}
-				<div in:scale={{ start: 0.8, duration: 200 }} class="grid-d grid grid-cols-4">
+				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-cols-4">
 					{#each yearList as year (year)}
 						<Button
 							id="start_year_{year}"
@@ -199,7 +207,7 @@
 				</div>
 			{:else if monthModeStart}
 				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-3 gap-1">
-					{#each monthsForLocale() as month, i (i)}
+					{#each monthList as month, i (i)}
 						<Button
 							class={monthList[startDate.getUTCMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
@@ -227,7 +235,7 @@
 						{#each startDates as date (date.getTime())}
 							<Button
 								class="duration-200 rounded-lg border-2 border-transparent hover:border-foreground/50
-								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? 'font-bold' : ''}
+							{date.toISOString().split('T')[0] === new Date().toISOString().split('T')[0] ? 'font-bold' : ''}
 								{date.getTime() > startDate.getTime() && date.getTime() < endDate.getTime()
 									? 'bg-accent/50 rounded-none'
 									: ''}
@@ -285,7 +293,7 @@
 						yearModeEnd = true;
 						setTimeout(() => {
 							document
-								.getElementById('end_year_' + new Date(start_date).getUTCFullYear())
+								.getElementById('end_year_' + new Date(end_date).getUTCFullYear())
 								?.scrollIntoView({ behavior: 'instant', inline: 'end' });
 						}, 200);
 					}
@@ -329,7 +337,7 @@
 				</div>
 			{:else if monthModeEnd}
 				<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-3 gap-1">
-					{#each monthsForLocale() as month, i (i)}
+					{#each monthList as month, i (i)}
 						<Button
 							class={monthList[endDate.getUTCMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
@@ -353,7 +361,7 @@
 						{#each endDates as date (date.getTime())}
 							<Button
 								class="duration-200 rounded-lg border-2 border-transparent hover:border-foreground/50
-								{date.toISOString().split('T')[0] === now.toISOString().split('T')[0] ? ' font-bold' : ''} 
+							{date.toISOString().split('T')[0] === new Date().toISOString().split('T')[0] ? ' font-bold' : ''}
 									{date.getTime() < endDate.getTime() && date.getTime() > startDate.getTime()
 									? 'bg-accent/50 rounded-none'
 									: ''}
