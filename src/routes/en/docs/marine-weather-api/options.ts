@@ -166,7 +166,8 @@ export const availableVariables: Record<string, string[]> = {
 	ecmwf_wam025: ecmwf_wam_variables,
 	ncep_gfswave025: gfs_wave_variables,
 	ncep_gfswave016: gfs_wave_variables,
-	era5_ocean: era5_ocean_variables
+	era5_ocean: era5_ocean_variables,
+	best_match: hourly.flat().map((v) => v.value)
 };
 
 export const models = [
