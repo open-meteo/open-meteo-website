@@ -397,7 +397,7 @@
 								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
+										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
 										0
 											? 'rounded-t-md !rounded-b-none'
 											: ''} {i === pressureVariables.length - 1

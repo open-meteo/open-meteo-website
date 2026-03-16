@@ -57,3 +57,24 @@ export const sliceIntoChunks = <T>(arr: Array<T>, chunkSize: number): Array<Arra
 	}
 	return res;
 };
+
+const DAILY_SUFFIXES = ['max', 'mean', 'min', 'sum', 'hours', 'dominant'];
+
+export const isAvailable = (
+	variable: string,
+	models: string[] | undefined,
+	availableVariables: Record<string, string[]>
+): boolean => {
+	if (!models?.length) return true;
+	return models.some((model) => availableVariables[model]?.includes(variable));
+};
+
+export const isDailyAvailable = (
+	variable: string,
+	models: string[] | undefined,
+	availableVariables: Record<string, string[]>
+): boolean => {
+	const variableSplit = variable.split('_');
+	if (DAILY_SUFFIXES.includes(variableSplit.at(-1)!)) variableSplit.pop();
+	return isAvailable(variableSplit.join('_'), models, availableVariables);
+};
