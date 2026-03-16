@@ -5,7 +5,7 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { sliceIntoChunks } from '$lib/utils';
+	import { isAvailable, isDailyAvailable, sliceIntoChunks } from '$lib/utils';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -98,51 +98,6 @@
 			accordionValues.push('pressure-variables');
 		}
 	});
-
-	const availableVariablesMap = availableVariables as Record<string, string[]>;
-
-	function isAvailable(variable: string, models: string[] | undefined): boolean {
-		// no model selected
-		if (!models || models.length == 0) {
-			return true;
-		}
-		for (const model of models) {
-			if (!availableVariablesMap[model]) {
-				continue;
-			}
-			if (availableVariablesMap[model].includes(variable)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	function isDailyAvailable(variable: string, models: string[] | undefined): boolean {
-		// remove last '_part' of variable, that they can be checked with the hourly variables
-		let variableSplit = variable.split('_');
-		if (
-			['max', 'mean', 'min', 'sum', 'hours', 'dominant'].includes(
-				variableSplit[variableSplit.length - 1]
-			)
-		) {
-			variableSplit.pop();
-		}
-		let variableBase = variableSplit.join('_');
-
-		// no model selected
-		if (!models || models.length == 0) {
-			return true;
-		}
-		for (const model of models) {
-			if (!availableVariablesMap[model]) {
-				continue;
-			}
-			if (availableVariablesMap[model].includes(variableBase)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	let beginDate = new Date('2023-04-01');
 
@@ -256,7 +211,7 @@
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 								{value}
 								checked={$params.hourly?.includes(value)}
-								disabled={!isAvailable(value, $params.models)}
+								disabled={!isAvailable(value, $params.models, availableVariables)}
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
@@ -303,7 +258,7 @@
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 										{value}
 										checked={$params.hourly?.includes(value)}
-										disabled={!isAvailable(value, $params.models)}
+										disabled={!isAvailable(value, $params.models, availableVariables)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
@@ -416,7 +371,11 @@
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 										{value}
 										checked={$params.hourly?.includes(value)}
-										disabled={!isAvailable('shortwave_radiation', $params.models)}
+										disabled={!isAvailable(
+											'shortwave_radiation',
+											$params.models,
+											availableVariables
+										)}
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
@@ -507,7 +466,7 @@
 								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
+										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
 										0
 											? 'rounded-t-md !rounded-b-none'
 											: ''} {i === pressureVariables.length - 1
@@ -552,7 +511,8 @@
 															value="{variable.value}_{level}hPa"
 															disabled={!isAvailable(
 																`${variable.value}_${level}hPa`,
-																$params.models
+																$params.models,
+																availableVariables
 															)}
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
 															aria-labelledby="{variable.value}_{level}hPa"
@@ -614,7 +574,7 @@
 								{value}
 								checked={$params.daily?.includes(value)}
 								aria-labelledby="{value}_daily_label"
-								disabled={!isDailyAvailable(value, $params.models)}
+								disabled={!isDailyAvailable(value, $params.models, availableVariables)}
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
 										$params.daily = $params.daily.filter((item: string) => {

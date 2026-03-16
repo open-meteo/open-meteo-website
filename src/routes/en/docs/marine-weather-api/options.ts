@@ -29,7 +29,7 @@ export const hourly = [
 		{ value: 'wave_height', label: 'Wave Height' },
 		{ value: 'wave_direction', label: 'Wave Direction' },
 		{ value: 'wave_period', label: 'Wave Period' },
-		{ value: 'wave_peak_period', label: 'Wave Peak Period (ECMWF WAM & ERA5)' }
+		{ value: 'wave_peak_period', label: 'Wave Peak Period' }
 	],
 	[
 		{ value: 'wind_wave_height', label: 'Wind Wave Height' },
@@ -43,10 +43,10 @@ export const hourly = [
 	],
 	[
 		{ value: 'secondary_swell_wave_height', label: 'Secondary Swell Wave Height' },
-		{ value: 'secondary_swell_wave_period', label: 'Secondary Swell Wave Pediod' },
+		{ value: 'secondary_swell_wave_period', label: 'Secondary Swell Wave Period' },
 		{ value: 'secondary_swell_wave_direction', label: 'Secondary Swell Wave Direction' },
 		{ value: 'tertiary_swell_wave_height', label: 'Tertiary Swell Wave Height' },
-		{ value: 'tertiary_swell_wave_period', label: 'Tertiary Swell Wave Pediod' },
+		{ value: 'tertiary_swell_wave_period', label: 'Tertiary Swell Wave Period' },
 		{ value: 'tertiary_swell_wave_direction', label: 'Tertiary Swell Wave Direction' }
 	],
 	[
@@ -157,7 +157,7 @@ const gfs_wave_variables = [
 
 const era5_ocean_variables = ['wave_height', 'wave_direction', 'wave_period', 'wave_peak_period'];
 
-export const availableVariables = {
+export const availableVariables: Record<string, string[]> = {
 	meteofrance_wave: meteofrance_wave_variables,
 	meteofrance_currents: meteofrance_currents_variables,
 	ewam: icon_wave_variables,
