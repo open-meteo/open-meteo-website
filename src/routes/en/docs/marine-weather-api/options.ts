@@ -98,6 +98,77 @@ export const additionalVariables = [
 	[]
 ];
 
+const meteofrance_wave_variables = [
+	'wave_height',
+	'wave_direction',
+	'wave_period',
+	'wind_wave_height',
+	'wind_wave_direction',
+	'wind_wave_period',
+	'swell_wave_height',
+	'swell_wave_direction',
+	'swell_wave_period',
+	'secondary_swell_wave_height',
+	'secondary_swell_wave_period',
+	'secondary_swell_wave_direction'
+];
+
+const meteofrance_currents_variables = [
+	'ocean_current_velocity',
+	'ocean_current_direction',
+	'sea_level_height_msl',
+	'invert_barometer_height',
+	'sea_surface_temperature'
+];
+
+const icon_wave_variables = [
+	'wave_height',
+	'wave_direction',
+	'wave_period',
+	'wind_wave_height',
+	'wind_wave_direction',
+	'wind_wave_period',
+	'wind_wave_peak_period',
+	'swell_wave_height',
+	'swell_wave_direction',
+	'swell_wave_period',
+	'swell_wave_peak_period'
+];
+
+const ecmwf_wam_variables = ['wave_height', 'wave_direction', 'wave_period', 'wave_peak_period'];
+
+const gfs_wave_variables = [
+	'wave_height',
+	'wave_direction',
+	'wave_period',
+	'wind_wave_height',
+	'wind_wave_direction',
+	'wind_wave_period',
+	'swell_wave_height',
+	'swell_wave_direction',
+	'swell_wave_period',
+	'secondary_swell_wave_height',
+	'secondary_swell_wave_period',
+	'secondary_swell_wave_direction',
+	'tertiary_swell_wave_height',
+	'tertiary_swell_wave_period',
+	'tertiary_swell_wave_direction'
+];
+
+const era5_ocean_variables = ['wave_height', 'wave_direction', 'wave_period', 'wave_peak_period'];
+
+export const availableVariables = {
+	meteofrance_wave: meteofrance_wave_variables,
+	meteofrance_currents: meteofrance_currents_variables,
+	ewam: icon_wave_variables,
+	gwam: icon_wave_variables,
+	ecmwf_wam: ecmwf_wam_variables,
+	ecmwf_wam025: ecmwf_wam_variables,
+	ncep_gfswave025: gfs_wave_variables,
+	ncep_gfswave016: gfs_wave_variables,
+	era5_ocean: era5_ocean_variables
+};
+
 export const models = [
 	[{ value: 'best_match', label: 'Best match', caption: 'MeteoFrance Wave & Currents' }],
 	[
@@ -107,10 +178,8 @@ export const models = [
 		{ value: 'gwam', label: 'DWD GWAM', caption: '0.25°' },
 		{ value: 'ecmwf_wam', label: 'ECMWF WAM', caption: '9km, global' },
 		{ value: 'ecmwf_wam025', label: 'ECMWF WAM 0.25', caption: '0.25°, global' },
-		//{ value: 'ecmwf_wam025_ensemble', label: 'ECMWF WAM Ensemble', caption: '0.25°, global, 51 members' },
 		{ value: 'ncep_gfswave025', label: 'GFS Wave 0.25°', caption: '0.25°, global' },
 		{ value: 'ncep_gfswave016', label: 'GFS Wave 0.16°', caption: '0.16°, mid-latitudes' },
-		//{ value: 'ncep_gefswave025', label: 'GFS Wave Ensemble', caption: '0.25°, global, 31 members' },
 		{ value: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' }
 	]
 ];
