@@ -4,6 +4,8 @@ import {
 	camelCase,
 	capitalizeFirstLetter,
 	debounce,
+	isAvailable,
+	isDailyAvailable,
 	isNumeric,
 	objectDifference,
 	pad,
@@ -297,5 +299,60 @@ describe('objectDifference', () => {
 
 	test('includes numeric value from a when b has non-numeric', () => {
 		expect(objectDifference({ a: 5 }, { a: 'hello' })).toStrictEqual({ a: 5 });
+	});
+});
+
+const availableVariables = {
+	model_a: ['temperature_2m', 'wind_speed_10m'],
+	model_b: ['precipitation', 'wind_speed_10m']
+};
+
+describe('isAvailable', () => {
+	test('returns true when no models are selected', () => {
+		expect(isAvailable('temperature_2m', undefined, availableVariables)).toBe(true);
+		expect(isAvailable('temperature_2m', [], availableVariables)).toBe(true);
+	});
+
+	test('returns true when variable is available in any selected model', () => {
+		expect(isAvailable('temperature_2m', ['model_a'], availableVariables)).toBe(true);
+		expect(isAvailable('precipitation', ['model_a', 'model_b'], availableVariables)).toBe(true);
+		expect(isAvailable('wind_speed_10m', ['model_a', 'model_b'], availableVariables)).toBe(true);
+	});
+
+	test('returns false when variable is not available in any selected model', () => {
+		expect(isAvailable('precipitation', ['model_a'], availableVariables)).toBe(false);
+		expect(isAvailable('temperature_2m', ['model_b'], availableVariables)).toBe(false);
+		expect(isAvailable('unknown_var', ['model_a', 'model_b'], availableVariables)).toBe(false);
+	});
+
+	test('skips models not present in availableVariables', () => {
+		expect(isAvailable('temperature_2m', ['unknown_model'], availableVariables)).toBe(false);
+		expect(isAvailable('temperature_2m', ['unknown_model', 'model_a'], availableVariables)).toBe(true);
+	});
+});
+
+describe('isDailyAvailable', () => {
+	test('returns true when no models are selected', () => {
+		expect(isDailyAvailable('temperature_2m_max', undefined, availableVariables)).toBe(true);
+		expect(isDailyAvailable('temperature_2m_max', [], availableVariables)).toBe(true);
+	});
+
+	test('strips all recognized daily suffixes before checking', () => {
+		for (const suffix of ['max', 'min', 'mean', 'sum', 'hours', 'dominant']) {
+			expect(
+				isDailyAvailable(`temperature_2m_${suffix}`, ['model_a'], availableVariables),
+				`suffix _${suffix}`
+			).toBe(true);
+		}
+	});
+
+	test('checks the base variable when no suffix is present', () => {
+		expect(isDailyAvailable('temperature_2m', ['model_a'], availableVariables)).toBe(true);
+		expect(isDailyAvailable('precipitation', ['model_a'], availableVariables)).toBe(false);
+	});
+
+	test('returns false when stripped variable is not available in any selected model', () => {
+		expect(isDailyAvailable('precipitation_max', ['model_a'], availableVariables)).toBe(false);
+		expect(isDailyAvailable('unknown_var_sum', ['model_a', 'model_b'], availableVariables)).toBe(false);
 	});
 });

@@ -134,7 +134,7 @@
 	<div class="border-border flex rounded-md border">
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {locationMode ===
+			class="items-center gap-1 rounded-e-none opacity-100! duration-300 {locationMode ===
 			'location_search'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
@@ -165,7 +165,7 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-none !opacity-100 duration-300 {locationMode ===
+			class="items-center gap-1 rounded-none opacity-100! duration-300 {locationMode ===
 			'csv_coordinates'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
@@ -197,7 +197,7 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {locationMode ===
+			class="items-center gap-1 rounded-s-none opacity-100! duration-300 {locationMode ===
 			'bounding_box'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"

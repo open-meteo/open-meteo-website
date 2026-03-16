@@ -386,7 +386,7 @@
 	<div class="border-border flex rounded-md border">
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {mode === 'chart'
+			class="items-center gap-1 rounded-e-none opacity-100! duration-300 {mode === 'chart'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'chart'}
@@ -399,7 +399,7 @@
 
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'python'
+			class="items-center gap-1 rounded-none opacity-100! duration-300 {mode === 'python'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'python'}
@@ -411,7 +411,7 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'typescript'
+			class="items-center gap-1 rounded-none opacity-100! duration-300 {mode === 'typescript'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'typescript'}
@@ -424,7 +424,7 @@
 		{#if sdk_type != 'ensemble_api'}
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'swift'
+				class="items-center gap-1 rounded-none opacity-100! duration-300 {mode === 'swift'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
 				disabled={mode === 'swift'}
@@ -437,7 +437,7 @@
 		{/if}
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {mode === 'other'
+			class="items-center gap-1 rounded-s-none opacity-100! duration-300 {mode === 'other'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'other'}
