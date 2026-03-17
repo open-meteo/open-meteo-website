@@ -71,7 +71,7 @@ ${empty()}`;
 
 			c += `
 ${line(acc('\tstruct') + num(` ${titleCase(section)}`) + fg(' {'))}
-${line(kw('\t\tlet') + fg(`time${pm(':')} ${arrayOpen}Date${arrayClose}`))}`;
+${line(kw('\t\tlet') + fg(` time${pm(':')} ${arrayOpen}Date${arrayClose}`))}`;
 			if (sect.constructor === Array) {
 				for (const variable of sect) {
 					const typeName = INT_64_VARIABLES.includes(variable) ? 'Int64' : 'Float';

@@ -347,7 +347,7 @@ ${line(`\t\t\t${pm('(')}_ ${pm(',')}${fgi(` i${pm(')')} `)}${kw('=&gt;')}${kwsp(
 ${line(fg(`\t\t${pm(')')}`) + pm(','), indent)}`;
 					} else {
 						c += `
-${line(strk(`\t\t${sect}`) + pm(':') + vr(` ${camelCase(section)}`) + fn('.variables') + fg('(') + num('0') + fg(')') + pm('!') + fn(`${pm('.')}${section === 'current' ? 'value' : 'valuesArray'}`) + fg('()') + p(','), indent)}`;
+${line(strk(`\t\t${sect}`) + pm(':') + vr(` ${camelCase(section)}`) + pm('.') + fn('variables') + fg('(') + num('0') + fg(')') + pm('!') + fn(`${pm('.')}${section === 'current' ? 'value' : 'valuesArray'}`) + fg('()') + p(','), indent)}`;
 					}
 				}
 			}

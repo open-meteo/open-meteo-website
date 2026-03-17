@@ -253,8 +253,7 @@ ${line(fg(`${section}_${sect} `) + kw('=') + fg(` ${section}`) + pm('.') + fn('V
 							p(` ${section}`) +
 							pm('.') +
 							fn('Interval') +
-							pm('()') +
-							br('),');
+							br('()),');
 
 				c += `
 ${empty(indent)}
