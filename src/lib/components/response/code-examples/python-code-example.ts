@@ -67,7 +67,7 @@ export const pythonCodeExample = (
 		if (groups.aggregation) {
 			const agg = normalizeAggregation(groups.aggregation);
 			conditions.push(
-				p(`x.`) + fn('Aggregation') + pm('() ') + kw('==') + num(`Aggregation${pm('.')}${agg}`)
+				p(`x.`) + fn('Aggregation') + pm('() ') + kw('==') + num(` Aggregation${pm('.')}${agg}`)
 			);
 		}
 		return conditions.join(` ${kwi('and')} `);
@@ -181,11 +181,11 @@ ${line(fg(`${section}_${sect} `) + kw('=') + fn(' filter') + pm('(') + acc('lamb
 				if (sect.constructor === Array) {
 					for (const [ind, variable] of sect.entries()) {
 						c += `
-${line(fg(`${section}_${variable} `) + kw('=') + fg(` ${section}`) + pm('.') + fn('Variables') + br('(') + num(`${ind}`) + br(').') + fn(`${section === 'current' ? 'Value' : INT_64_VARIABLES.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}`) + br('()'), indent)}`;
+${line(fg(`${section}_${variable} `) + kw('=') + fg(` ${section}`) + pm('.') + fn('Variables') + br('(') + num(`${ind}`) + br(')') + pm('.') + fn(`${section === 'current' ? 'Value' : INT_64_VARIABLES.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}`) + br('()'), indent)}`;
 					}
 				} else if (typeof sect === 'string') {
 					c += `
-${line(fg(`${section}_${sect} `) + kw('=') + fg(` ${section}`) + pm('.') + fn('Variables') + br('(') + num('0') + br(').') + fn(`${section === 'current' ? 'Value' : INT_64_VARIABLES.includes(sect) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}`) + br('()'), indent)}`;
+${line(fg(`${section}_${sect} `) + kw('=') + fg(` ${section}`) + pm('.') + fn('Variables') + br('(') + num('0') + br(')') + pm('.') + fn(`${section === 'current' ? 'Value' : INT_64_VARIABLES.includes(sect) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}`) + br('()'), indent)}`;
 				}
 			}
 
@@ -194,73 +194,77 @@ ${line(fg(`${section}_${sect} `) + kw('=') + fg(` ${section}`) + pm('.') + fn('V
 				const dateRangeStart =
 					section === 'monthly'
 						? fg(
-								`${acc('f')}${pm('"')}${str(`${num('{')}${p(`monthly.`)}${fn('Year')}${br('()')}${num('}')}` + '-' + `${num('{')}${p(`monthly.`)}${fn('Month')}${br('()')}${num('}')}` + `-01${pm('"')}`)}${pm(',')}`
+								`${acc('f')}${pm('"')}${str(`${num('{')}${p(`monthly`) + pm('.')}${fn('Year')}${br('()')}${num('}')}` + '-' + `${num('{')}${p(`monthly`) + pm('.')}${fn('Month')}${br('()')}${num('}')}` + `-01${pm('"')}`)}${pm(',')}`
 							)
-						: `pd.` +
+						: p(`pd`) +
+							pm('.') +
 							fn('to_datetime') +
-							br(`(${fn(section)}.`) +
+							br('(', fn(section), pm('.')) +
 							fn('Time') +
 							br('()') +
 							(timezone
 								? fg(` ${pm('+')} response`) + pm('.') + fn(`UtcOffsetSeconds${br('()')}`)
 								: '') +
-							', ' +
-							`${fgi('unit')} ` +
+							pm(', ') +
+							fgi('unit ') +
 							kw('=') +
 							pm(' "') +
 							str('s') +
 							pm('"') +
-							pm(', ' + `${fgi('utc')} `) +
+							pm(', ') +
+							fgi('utc ') +
 							kw('=') +
 							num(' True') +
-							br('),');
+							br(')') +
+							pm(',');
 
+				const dateRangeEndName = section === 'monthly' ? 'periods' : 'end';
 				const dateRangeEnd =
 					section === 'monthly'
-						? `${it('periods ')}` + kw('=') + ` ${p(`monthly.`)}${fn('Count')}${br('()')}${pm(',')}`
-						: `${it('end ')}` +
-							kw('=') +
-							p(`  pd`) +
+						? ` ${p(`monthly`) + pm('.')}${fn('Count')}${br('()')}${pm(',')}`
+						: p(`  pd`) +
 							pm('.') +
 							fn('to_datetime') +
-							br(`(${fn(section)}.`) +
+							br('(', fn(section), pm('.')) +
 							fn('TimeEnd') +
 							br('()') +
 							(timezone
 								? fg(` ${pm('+')} response`) + pm('.') + fn(`UtcOffsetSeconds${br('()')}`)
 								: '') +
-							pm(',') +
-							` ${fgi('unit')} ` +
+							pm(', ') +
+							fgi('unit ') +
 							kw('=') +
 							pm(' "') +
 							str('s') +
 							pm('"') +
-							pm(', ' + `${fgi('utc')} `) +
+							pm(', ') +
+							fgi('utc ') +
 							kw('=') +
 							num(' True') +
-							br('),');
+							br(')') +
+							pm(',');
 
 				const dateRangeFreq =
 					section === 'monthly'
-						? `${it('freq ')}` + kw('=') + p(` ${pm('"')}${str('MS')}${pm('"')}${pm(',')}`)
-						: `${it('freq ')}` +
-							kw('=') +
-							p(` pd`) +
+						? p(` ${pm('"')}${str('MS')}${pm('"')}${pm(',')}`)
+						: p(` pd`) +
 							pm('.') +
 							fn('Timedelta') +
-							br(`(${fgi('seconds')} `) +
+							br('(') +
+							fgi('seconds ') +
 							kw('=') +
 							p(` ${section}`) +
 							pm('.') +
 							fn('Interval') +
-							br('()),');
+							br('())') +
+							pm(',');
 
 				c += `
 ${empty(indent)}
-${line(fg(`${section}_data `) + kw('=') + pm(' {') + pm('"') + str(`date${pm('"')}`) + pm(':') + fg(' pd') + pm('.') + fn('date_range') + br('('), indent)}
+${line(fg(`${section}_data `) + kw('=') + fg(' ') + br('{') + pm('"') + str(`date${pm('"')}`) + pm(':') + fg(' pd') + pm('.') + fn('date_range') + br('('), indent)}
 ${line(fgi('\tstart ') + kw('=') + p(' ') + dateRangeStart, indent)}
-${line(fgi(`\t${dateRangeEnd}`), indent)}
-${line(fgi(`\t${dateRangeFreq}`), indent)}
+${line(fgi(`\t${dateRangeEndName} `) + kw('=') + dateRangeEnd, indent)}
+${line(fgi('\tfreq ') + kw('=') + dateRangeFreq, indent)}
 ${line(fgi('\tinclusive ') + kw('=') + pm(' "') + str('left') + pm('"'), indent)}
 ${line(br(')}'), indent)}
 ${empty(indent)}`;
@@ -315,8 +319,8 @@ ${line(fn('print') + br('(') + acc('f') + pm('"') + str(`Current ${sect}: ` + nu
 				// Print DataFrame
 				c += `
 ${empty(indent)}
-${line(fg(`${section}_dataframe `) + kw('=') + fg(' pd') + pm('.') + fn('DataFrame') + br(`(${fgi('data')} `) + kw('=') + p(` ${section}_data${br(')')}`), indent)}
-${line(fn('print') + br(`("${str(`\\n${titleCase(section)} data\\n`)}",` + ` ${fn(`${section}_dataframe`)})`), indent)}`;
+${line(fg(`${section}_dataframe `) + kw('=') + fg(' pd') + pm('.') + fn('DataFrame') + br('(') + fgi('data ') + kw('=') + p(` ${section}_data`) + br(')'), indent)}
+${line(fn('print') + br('(') + pm('"') + str(`\\n${titleCase(section)} data\\n`) + pm('",') + fg(' ') + fn(`${section}_dataframe`) + br(')'), indent)}`;
 			}
 		}
 	}

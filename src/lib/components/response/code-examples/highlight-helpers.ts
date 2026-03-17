@@ -30,8 +30,14 @@ export const pm = (t: string) =>
 	`<span style="color:var(--code-preview-token-punctuation-mark)">${t}</span>`;
 export const p = (t: string) =>
 	`<span style="color:var(--code-preview-token-punctuation)">${t}</span>`;
-export const br = (t: string) =>
-	`<span style="color:var(--code-preview-token-bracket)">${t}</span>`;
+export const br = (...parts: string[]) =>
+	parts
+		.map((t) =>
+			/^[()\[\]{}]+$/.test(t)
+				? `<span style="color:var(--code-preview-token-bracket)">${t}</span>`
+				: t
+		)
+		.join('');
 
 // Comments, foreground, parameters
 export const cmt = (t: string) =>
@@ -53,7 +59,7 @@ export const empty = (indent = false) => line('', indent);
 export const quotedStr = (t: string) => pm('"') + str(t) + pm('"');
 
 export const stringArrayTokens = (items: string[]) =>
-	br(`[${pm('"')}`) +
+	br('[', pm('"')) +
 	items.map((v) => str(v)).join(`${pm('"')}${pm(`, ${pm('"')}`)}`) +
 	pm('"') +
 	br(']');
