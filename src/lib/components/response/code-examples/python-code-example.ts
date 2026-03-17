@@ -96,7 +96,7 @@ ${indent ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-to
 ${indent ? '\t' : ''}<span class="line"></span>
 ${indent ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process ${section} data. The order of variables needs to be the same as requested.</span></span>
 ${indent ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> response</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">${titleCase(section)}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
-			if (sdk_type === 'ensemble_api') {
+			if (sdk_type === 'ensemble_api' && section !== 'monthly' && section !== 'weekly') {
 				c += `
 ${indent ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_variables </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> list</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-function)">map</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-accent)">lambda</span><span style="color:var(--code-preview-token-parameter);font-style:italic"> i</span><span style="color:var(--code-preview-token-punctuation)">: ${section}.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-punctuation-mark)">(<span style="color:var(--code-preview-foreground)">i</span>), </span><span style="color:var(--code-preview-token-function)">range</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-constant)">0</span><span style="color:var(--code-preview-token-punctuation)">, ${section}.</span><span style="color:var(--code-preview-token-function)">VariablesLength</span><span style="color:var(--code-preview-token-punctuation-mark)">())))</span></span>`;
 				if (sect.constructor === Array) {
@@ -181,7 +181,7 @@ ${indent ? '\t' : ''}<span class="line"></span>`;
 			}
 
 			if (section !== 'current') {
-				if (sdk_type === 'ensemble_api') {
+				if (sdk_type === 'ensemble_api' && section !== 'monthly' && section !== 'weekly') {
 					c += `
 ${indent ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process all ${section} members</span></span>`;
 					if (sect.constructor === Array) {

@@ -35,7 +35,7 @@ export const typescriptCodeExample = (
 <span class="line"><span style="color:var(--code-preview-token-string-key)">	${key}</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${'<span style="color:var(--code-preview-token-bracket)">[</span>' + param.join('<span style="color:var(--code-preview-token-punctuation-mark)">, </span>') + '<span style="color:var(--code-preview-token-bracket)">]</span>'}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
 			}
 		} else if (typeof param === 'object') {
-			// Nested objects (e.g. bounding boxes) are not rendered in code examples
+			// ??? --- IGNORE ---
 		} else if (typeof param === 'string' && !isNumeric(param)) {
 			c += `
 <span class="line"><span style="color:var(--code-preview-token-string-key)">	${key}</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${'<span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">' + param + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span>'}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
@@ -103,7 +103,12 @@ ${indent ? '\t' : ''}<span class="line"></span>`;
 		if (sect) {
 			c += `
 ${indent ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section)}</span><span style="color:var(--code-preview-token-punctuation-mark)"> =</span><span style="color:var(--code-preview-token-variable)"> response</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>${camelCase(section)}</span><span style="color:var(--code-preview-foreground)">()</span><span style="color:var(--code-preview-token-punctuation-mark)">!</span><span style="color:var(--code-preview-foreground)"><span style="color:var(--code-preview-token-punctuation-mark)">;</span></span></span>`;
-			if (sdk_type === 'ensemble_api' && section !== 'current') {
+			if (
+				sdk_type === 'ensemble_api' &&
+				section !== 'current' &&
+				section !== 'monthly' &&
+				section !== 'weekly'
+			) {
 				c += `
 ${indent ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword)">const</span><span style="color:var(--code-preview-token-variable)"> ${camelCase(section)}Variables</span><span style="color:var(--code-preview-token-punctuation-mark)"> =</span><span style="color:var(--code-preview-foreground)"> <span style="color:var(--code-preview-token-function)">Array</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span>from(
 ${indent ? '\t' : ''}	<span style="color:var(--code-preview-token-punctuation-mark)">{</span> <span style="color:var(--code-preview-token-string-key)">length</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span> <span style="color:var(--code-preview-token-variable)">${camelCase(section)}</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>variablesLength</span><span style="color:var(--code-preview-foreground)">() }, </span>
@@ -273,7 +278,7 @@ ${indent ? '\t' : ''}			<span style="color:var(--code-preview-token-punctuation-
 ${indent ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">			${section === 'monthly' ? '<span style="color:var(--code-preview-token-punctuation-mark)">(</span>_</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span><span style="color:var(--code-preview-foreground);font-style:italic;"> i<span style="color:var(--code-preview-token-punctuation-mark)">)</span> </span><span style="color:var(--code-preview-token-keyword)">=&gt</span><span style="color:var(--code-preview-token-keyword-special)"> new</span><span style="color:var(--code-preview-token-function)"> Date</span><span style="color:var(--code-preview-foreground)">(</span><span style="color:var(--code-preview-token-function)">Date</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span>UTC(monthly<span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">year</span>(), monthly<span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">month</span>() <span style="color:var(--code-preview-token-punctuation-mark)">-</span> <span style="color:var(--code-preview-token-constant)">1</span> <span style="color:var(--code-preview-token-punctuation-mark)">+</span> <span style="color:var(--code-preview-foreground);font-style:italic;">i</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span> <span style="color:var(--code-preview-token-constant)">1</span>))' : '<span style="color:var(--code-preview-token-punctuation-mark)">(</span>_</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span><span style="color:var(--code-preview-foreground);font-style:italic;"> i<span style="color:var(--code-preview-token-punctuation-mark)">)</span> </span><span style="color:var(--code-preview-token-keyword)">=&gt</span><span style="color:var(--code-preview-token-keyword-special)"> new</span><span style="color:var(--code-preview-token-function)"> Date</span><span style="color:var(--code-preview-foreground)">((</span><span style="color:var(--code-preview-token-function)">Number</span><span style="color:var(--code-preview-foreground)">(</span><span style="color:var(--code-preview-token-variable)">' + camelCase(section) + '</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>time</span><span style="color:var(--code-preview-foreground)">()) </span><span style="color:var(--code-preview-token-punctuation-mark)">+</span><span style="color:var(--code-preview-foreground)"> i </span><span style="color:var(--code-preview-token-punctuation-mark)">*</span><span style="color:var(--code-preview-token-variable)"> ' + camelCase(section) + '</span><span style="color:var(--code-preview-token-function)"><span style="color:var(--code-preview-token-punctuation-mark)">.</span>interval</span><span style="color:var(--code-preview-foreground)">() </span><span style="color:var(--code-preview-token-punctuation-mark)">+</span><span style="color:var(--code-preview-foreground)"> utcOffsetSeconds) </span><span style="color:var(--code-preview-token-punctuation-mark)">*</span><span style="color:var(--code-preview-token-constant)"> 1000</span><span style="color:var(--code-preview-foreground)">)</span></span>'}
 ${indent ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">		)</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
 			}
-			if (sdk_type !== 'ensemble_api') {
+			if (sdk_type !== 'ensemble_api' || section === 'monthly' || section === 'weekly') {
 				if (sect.constructor === Array) {
 					for (const [ind, variable] of sect.entries()) {
 						if (INT_64_VARIABLES.includes(variable)) {
@@ -315,7 +320,7 @@ ${indent ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-to
 
 		for (const section of SECTIONS) {
 			const sect = params[section];
-			if (sect) {
+			if (sect && section !== 'monthly' && section !== 'weekly') {
 				if (sect.constructor === Array) {
 					for (const variable of sect) {
 						c += `
