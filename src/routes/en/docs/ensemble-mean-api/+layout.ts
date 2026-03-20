@@ -4,6 +4,6 @@ export const load = (() => {
 	return {
 		heroTitle: 'Ensemble Mean API',
 		heroDescription: 'Mean Ensemble Weather Forecasts from Multiple Models',
-		heroImage: '/images/backgrounds/rocky_coast.webp'
+		heroImage: '/images/backgrounds/forstberg.webp'
 	};
 }) satisfies LayoutLoad;
