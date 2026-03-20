@@ -2,6 +2,29 @@ import { isNumeric, titleCase } from '$lib/utils';
 
 import { INT_64_VARIABLES, SECTIONS, VARIABLE_REGEX } from '$lib/constants';
 
+import {
+	acc,
+	br,
+	cmt,
+	empty,
+	fg,
+	fgi,
+	fn,
+	it,
+	kw,
+	kwi,
+	line,
+	normalizeAggregation,
+	num,
+	numericArrayTokens,
+	p,
+	par,
+	pm,
+	quotedStr,
+	str,
+	stringArrayTokens
+} from './highlight-helpers';
+
 import type { Parameters } from '$lib/docs';
 
 export const pythonCodeExample = (
@@ -13,227 +36,297 @@ export const pythonCodeExample = (
 	sdk_type: string,
 	sdk_cache: number
 ) => {
-	const t = multipleLocationsOrModels;
+	const indent = multipleLocationsOrModels;
 	const timezone = params.timezone && params.timezone !== 'GMT';
 
-	let c = `<div class=""><pre class="" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)" tabindex="0"><code><span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> openmeteo_requests</span></span>`;
+	/** Build ensemble filter condition for a Python variable using VARIABLE_REGEX */
+	const buildFilterCondition = (variable: string): string => {
+		const matches = VARIABLE_REGEX.exec(variable);
+		if (matches == null || matches.groups == null) {
+			return p(`x.`) + fn('Variable') + pm('() ') + kw('==') + p(` Variable.${variable}`);
+		}
+		const groups = matches.groups;
+		const conditions = [
+			p(`x.`) + fn('Variable') + pm('() ') + kw('==') + p(` Variable.${groups.variable}`)
+		];
+		if (groups.altitude) {
+			conditions.push(p(`x.`) + fn('Altitude') + pm('() ') + kw('==') + num(` ${groups.altitude}`));
+		}
+		if (groups.pressure) {
+			conditions.push(
+				p(`x.`) + fn('PressureLevel') + pm('() ') + kw('==') + num(` ${groups.pressure}`)
+			);
+		}
+		if (groups.depth) {
+			conditions.push(p(`x.`) + fn('Depth') + pm('() ') + kw('==') + num(` ${groups.depth}`));
+		}
+		if (groups.depth_from) {
+			conditions.push(p(`x.`) + fn('Depth') + pm('() ') + kw('==') + num(` ${groups.depth_from}`));
+			conditions.push(p(`x.`) + fn('DepthTo') + pm('() ') + kw('==') + num(` ${groups.depth_to}`));
+		}
+		if (groups.aggregation) {
+			const agg = normalizeAggregation(groups.aggregation);
+			conditions.push(
+				p(`x.`) + fn('Aggregation') + pm('() ') + kw('==') + num(` Aggregation${pm('.')}${agg}`)
+			);
+		}
+		return conditions.join(` ${kwi('and')} `);
+	};
+
+	// --- Opening: imports ---
+	let c =
+		`<div class=""><pre class="" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)" tabindex="0"><code>` +
+		line(kwi('import') + fg(' openmeteo_requests'));
+
 	if (sdk_type === 'ensemble_api') {
 		c += `
-<span class="line"></span>
-<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">from</span><span style="color:var(--code-preview-foreground)"> openmeteo_sdk.Variable </span><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> Variable</span></span>
-<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">from</span><span style="color:var(--code-preview-foreground)"> openmeteo_sdk.Aggregation </span><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> Aggregation</span></span>`;
+${empty()}
+${line(kwi('from') + fg(' openmeteo_sdk.Variable ') + kwi('import') + fg(' Variable'))}
+${line(kwi('from') + fg(' openmeteo_sdk.Aggregation ') + kwi('import') + fg(' Aggregation'))}`;
 	}
+
 	c += `
-<span class="line"></span>
-<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> pandas </span><span style="color:var(--code-preview-token-keyword);font-style:italic">as</span><span style="color:var(--code-preview-foreground)"> pd</span></span>
-<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> requests_cache</span></span>
-<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">from</span><span style="color:var(--code-preview-foreground)"> retry_requests </span><span style="color:var(--code-preview-token-keyword);font-style:italic">import</span><span style="color:var(--code-preview-foreground)"> retry</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Setup the Open-Meteo API client with cache and retry on error</span></span>
-<span class="line"><span style="color:var(--code-preview-foreground)">cache_session </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> requests_cache</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">CachedSession</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)">'</span>.cache<span style="color:var(--code-preview-token-punctuation-mark)">'</span></span><span style="color:var(--code-preview-token-punctuation-mark)">, </span><span style="font-style:italic">expire_after</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> ${sdk_cache}</span><span style="color:var(--code-preview-token-bracket)">)</span></span>
-<span class="line"><span style="color:var(--code-preview-foreground)">retry_session </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-function)"> retry</span><span style="color:var(--code-preview-token-bracket)">(<span style="color:var(--code-preview-token-function)">cache_session</span>, </span><span style="font-style:italic">retries </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> 5</span><span style="font-style:italic">, backoff_factor </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> 0.2</span><span style="color:var(--code-preview-token-bracket)">)</span></span>
-<span class="line"><span style="color:var(--code-preview-foreground)">openmeteo </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> openmeteo_requests</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">Client</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="font-style:italic">session</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation)"> retry_session<span style="color:var(--code-preview-token-bracket)">)</span></span></span>
-<span class="line"></span>
-<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Make sure all required weather variables are listed here</span></span>
-<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># The order of variables in hourly or daily is important to assign them correctly below</span></span>
-<span class="line"><span style="color:var(--code-preview-foreground)">url </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-punctuation-mark)"> "</span>${server}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span>
-<span class="line"><span style="color:var(--code-preview-foreground)">params </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation-mark)"> {</span></span>`;
+${empty()}
+${line(kwi('import') + fg(' pandas ') + kwi('as') + fg(' pd'))}
+${line(kwi('import') + fg(' requests_cache'))}
+${line(kwi('from') + fg(' retry_requests ') + kwi('import') + fg(' retry'))}
+${empty()}
+${line(cmt('# Setup the Open-Meteo API client with cache and retry on error'))}
+${line(fg('cache_session ') + kw('=') + fg(' requests_cache') + pm('.') + fn('CachedSession') + br('(') + str(`${pm("'")}` + '.cache' + `${pm("'")}`) + pm(', ') + `${it('expire_after')} `) + kw('=') + num(` ${sdk_cache}`) + br(')')}
+${line(fg('retry_session ') + kw('=') + fn(' retry') + br('(') + fn('cache_session') + ', ') + `${it('retries ')}` + kw('=') + num(' 5') + pm(',') + it(' backoff_factor ') + kw('=') + num(' 0.2') + br(')')}
+${line(fg('openmeteo ') + kw('=') + fg(' openmeteo_requests') + pm('.') + fn('Client') + br('(') + `${it('session')} ` + kw('=') + p(` retry_session${br(')')}`))}
+${empty()}
+${line(cmt('# Make sure all required weather variables are listed here'))}
+${line(cmt('# The order of variables in hourly or daily is important to assign them correctly below'))}
+${line(fg('url ') + kw('=') + str(`${pm(' "')}${server}${pm('"')}`))}
+${line(fg('params ') + kw('=') + pm(' {'))}`;
+
+	// --- Params key-value pairs ---
 	for (const [key, param] of Object.entries(params)) {
 		if (param.constructor === Array) {
 			if (typeof param[0] === 'string' && !isNumeric(param[0])) {
 				c += `
-<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>${key}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span> ${'<span style="color:var(--code-preview-token-bracket)">[<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">' + param.join('</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-punctuation-mark)">, <span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-string-expression)">') + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-bracket)">]</span>'}<span style="color:var(--code-preview-token-punctuation-mark)">,</span>`;
+${line(str(`\t${pm('"')}${key}${pm('"')}`) + pm(':') + ` ${stringArrayTokens(param as string[])}${pm(',')}`)}`;
 			} else {
 				c += `
-<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>${key}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${'<span style="color:var(--code-preview-token-bracket)">[</span>' + param.join('<span style="color:var(--code-preview-token-punctuation-mark)">, </span>') + '<span style="color:var(--code-preview-token-bracket)">]</span>'}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
+${line(str(`\t${pm('"')}${key}${pm('"')}`) + pm(':') + num(` ${numericArrayTokens(param as (string | number)[])}`) + pm(','))}`;
 			}
 		} else if (typeof param === 'object') {
-			// ???
+			// Skip non-plain-object params
 		} else if (typeof param === 'string' && !isNumeric(param)) {
 			c += `
-<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>${key}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${'<span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">' + param + '</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span>'}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
+${line(str(`\t${pm('"')}${key}${pm('"')}`) + pm(':') + num(` ${quotedStr(param)}`) + pm(','))}`;
 		} else {
 			c += `
-<span class="line"><span style="color:var(--code-preview-token-string-expression)">	<span style="color:var(--code-preview-token-punctuation-mark)">"</span>${key}<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-token-constant)"> ${param}</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>`;
+${line(str(`\t${pm('"')}${key}${pm('"')}`) + pm(':') + num(` ${param}`) + pm(','))}`;
 		}
 	}
+
+	// --- URL and fetch ---
 	c += `
-<span class="line"><span style="color:var(--code-preview-token-punctuation-mark)">}</span></span>
-<span class="line"><span style="color:var(--code-preview-foreground)">responses </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> openmeteo</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">weather_api</span><span style="color:var(--code-preview-token-bracket)">(<span style="color:var(--code-preview-token-function)">url</span>, <span style="color:var(--code-preview-foreground);font-style:italic">params</span></span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation)">params<span style="color:var(--code-preview-token-bracket)">)</span></span></span>
-<span class="line"></span>`;
+${line(pm('}'))}
+${line(fg('responses ') + kw('=') + fg(' openmeteo') + pm('.') + fn('weather_api') + br('(') + fn('url') + ', ' + fg(it('params'))) + kw(' = ') + p('params' + br(')'))}
+${empty()}`;
+
+	// --- Multiple locations/models loop ---
 	if (multipleLocationsOrModels) {
-		c +=
-			`
-<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process ` +
-			(numberOfLocations ? `${numberOfLocations} locations` : '1 location') +
-			(numberOfModels ? ` and ${numberOfModels} models` : '') +
-			`</span></span>
-<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">for </span><span style="color:var(--code-preview-foreground)">response </span><span style="color:var(--code-preview-token-keyword);font-style:italic">in</span><span style="color:var(--code-preview-foreground)"> responses</span><span style="color:var(--code-preview-token-punctuation-mark)">:</span></span>`;
+		c += `
+${line(cmt('# Process ' + (numberOfLocations ? `${numberOfLocations} locations` : '1 location') + (numberOfModels ? ` and ${numberOfModels} models` : '')))}
+${line(kwi('for ') + fg('response ') + kwi('in') + fg(' responses') + pm(':'))}`;
 	} else {
 		c += `
-<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process first location. Add a for-loop for multiple locations or weather models</span></span>
-<span class="line"><span style="color:var(--code-preview-foreground)">response </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> responses</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-constant)">0</span><span style="color:var(--code-preview-token-punctuation-mark)">]</span></span>`;
+${line(cmt('# Process first location. Add a for-loop for multiple locations or weather models'))}
+${line(fg('response ') + kw('=') + fg(' responses') + pm('[') + num('0') + pm(']'))}`;
 	}
 
+	// --- Location attributes (print statements) ---
 	c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">${t ? '\\n' : ''}Coordinates: </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">response.</span><span style="color:var(--code-preview-token-function)">Latitude</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-string-expression)">°N </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">response.</span><span style="color:var(--code-preview-token-function)">Longitude</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-string-expression)">°E<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-bracket)">)</span></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">Elevation: </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">response.</span><span style="color:var(--code-preview-token-function)">Elevation</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-string-expression)"> m asl<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
+${line(fn('print') + br('(') + acc('f') + pm('"') + str(`${indent ? '\\n' : ''}Coordinates: ` + num('{') + p('response.') + fn('Latitude') + br('()') + num('}') + '°N ' + num('{') + p('response.') + fn('Longitude') + br('()') + num('}') + '°E') + pm('"') + br(')'), indent)}
+${line(fn('print') + br('(') + acc('f') + pm('"') + str('Elevation: ' + num('{') + p('response.') + fn('Elevation') + br('()') + num('}') + ' m asl') + pm('"') + br(')'), indent)}`;
 	if (params.timezone) {
 		c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">Timezone: </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">response.</span><span style="color:var(--code-preview-token-function)">Timezone</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}{</span><span style="color:var(--code-preview-token-punctuation)">response.</span><span style="color:var(--code-preview-token-function)">TimezoneAbbreviation</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)"></span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
+${line(fn('print') + br('(') + acc('f') + pm('"') + str('Timezone: ' + num('{') + p('response.') + fn('Timezone') + br('()') + num('}{') + p('response.') + fn('TimezoneAbbreviation') + br('()') + num('}')) + pm('"') + str('') + br(')'), indent)}`;
 	}
 	c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">Timezone difference to GMT+0: </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">response.</span><span style="color:var(--code-preview-token-function)">UtcOffsetSeconds</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-string-expression)">s<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
+${line(fn('print') + br('(') + acc('f') + pm('"') + str('Timezone difference to GMT+0: ' + num('{') + p('response.') + fn('UtcOffsetSeconds') + br('()') + num('}') + 's') + pm('"') + br(')'), indent)}`;
 	if (numberOfModels) {
 		c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">Model Nº: </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">response.</span><span style="color:var(--code-preview-token-function)">Model</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
+${line(fn('print') + br('(') + acc('f') + pm('"') + str('Model Nº: ' + num('{') + p('response.') + fn('Model') + br('()') + num('}')) + pm('"') + br(')'), indent)}`;
 	}
 
+	// --- Section processing (hourly, daily, etc.) ---
 	for (const section of SECTIONS) {
 		const sect = params[section];
 		if (sect) {
 			c += `
-${t ? '\t' : ''}<span class="line"></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process ${section} data. The order of variables needs to be the same as requested.</span></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> response</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">${titleCase(section)}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
-			if (sdk_type == 'ensemble_api') {
+${empty(indent)}
+${line(cmt(`# Process ${section} data. The order of variables needs to be the same as requested.`), indent)}
+${line(fg(`${section} `) + kw('=') + fg(' response') + pm('.') + fn(titleCase(section)) + br('()'), indent)}`;
+
+			if (sdk_type === 'ensemble_api' && section !== 'monthly' && section !== 'weekly') {
+				// Ensemble: get variables list via map/lambda
 				c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_variables </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> list</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-function)">map</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-accent)">lambda</span><span style="color:var(--code-preview-token-parameter);font-style:italic"> i</span><span style="color:var(--code-preview-token-punctuation)">: ${section}.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-punctuation-mark)">(<span style="color:var(--code-preview-foreground)">i</span>), </span><span style="color:var(--code-preview-token-function)">range</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-constant)">0</span><span style="color:var(--code-preview-token-punctuation)">, ${section}.</span><span style="color:var(--code-preview-token-function)">VariablesLength</span><span style="color:var(--code-preview-token-punctuation-mark)">())))</span></span>`;
+${line(fg(`${section}_variables `) + kw('=') + num(' list') + pm('(') + fn('map') + pm('(') + acc('lambda') + par(' i') + p(`${section}.`) + fn('Variables') + pm(`(${fg('i')}), `) + fn('range') + pm('(') + num('0') + p(`, ${section}.`) + fn('VariablesLength') + pm('())))'), indent)}`;
+
 				if (sect.constructor === Array) {
 					for (const variable of sect) {
 						c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_${variable} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-function)"> filter</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-accent)">lambda</span><span style="color:var(--code-preview-token-parameter);font-style:italic"> x</span><span style="color:var(--code-preview-token-punctuation)">: `;
-						const matches = VARIABLE_REGEX.exec(variable);
-						if (matches == null || matches.groups == null) {
-							c += `x.</span><span style="color:var(--code-preview-token-function)">Variable</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-punctuation)"> Variable.${variable}</span>`;
-						} else {
-							const groups = matches.groups;
-							const results = [
-								`x.</span><span style="color:var(--code-preview-token-function)">Variable</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-punctuation)"> Variable.${groups.variable}</span>`
-							];
-							if (groups.altitude) {
-								results.push(
-									`<span style="color:var(--code-preview-token-punctuation)">x.</span><span style="color:var(--code-preview-token-function)">Altitude</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> ${groups.altitude}</span>`
-								);
-							}
-							if (groups.pressure) {
-								results.push(
-									`<span style="color:var(--code-preview-token-punctuation)">x.</span><span style="color:var(--code-preview-token-function)">PressureLevel</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> ${groups.pressure}</span>`
-								);
-							}
-							if (groups.depth) {
-								results.push(
-									`<span style="color:var(--code-preview-token-punctuation)">x.</span><span style="color:var(--code-preview-token-function)">Depth</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> ${groups.depth}</span>`
-								);
-							}
-							if (groups.depth_from) {
-								results.push(
-									`<span style="color:var(--code-preview-token-punctuation)">x.</span><span style="color:var(--code-preview-token-function)">Depth</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> ${groups.depth_from}</span>`
-								);
-								results.push(
-									`<span style="color:var(--code-preview-token-punctuation)">x.</span><span style="color:var(--code-preview-token-function)">DepthTo</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> ${groups.depth_to}</span>`
-								);
-							}
-							if (groups.aggregation) {
-								let aggregation = groups.aggregation;
-								if (aggregation == 'max') {
-									aggregation = 'maximum';
-								}
-								if (aggregation == 'min') {
-									aggregation = 'minimum';
-								}
-								results.push(
-									`<span style="color:var(--code-preview-token-punctuation)">x.</span><span style="color:var(--code-preview-token-function)">Aggregation</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> Aggregation<span style="color:var(--code-preview-token-punctuation)">.</span>${aggregation}</span>`
-								);
-							}
-							c += results.join(
-								` <span style="color:var(--code-preview-token-keyword);font-style:italic">and</span> `
-							);
-						}
-
-						c += `<span style="color:var(--code-preview-token-punctuation)">, ${section}_variables)</span></span>`;
+${line(fg(`${section}_${variable} `) + kw('=') + fn(' filter') + pm('(') + acc('lambda') + par(' x') + p(': ') + buildFilterCondition(variable) + p(`, ${section}_variables)`), indent)}`;
 					}
 				} else if (typeof sect === 'string') {
 					c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_${sect} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-function)"> filter</span><span style="color:var(--code-preview-token-punctuation-mark)">(</span><span style="color:var(--code-preview-token-accent)">lambda</span><span style="color:var(--code-preview-token-parameter);font-style:italic"> x</span><span style="color:var(--code-preview-token-punctuation)">: x.</span><span style="color:var(--code-preview-token-function)">Variable</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-punctuation)"> Variable.temperature </span><span style="color:var(--code-preview-token-keyword);font-style:italic">and</span><span style="color:var(--code-preview-token-punctuation)"> x.</span><span style="color:var(--code-preview-token-function)">Altitude</span><span style="color:var(--code-preview-token-punctuation-mark)">() </span><span style="color:var(--code-preview-token-keyword)">==</span><span style="color:var(--code-preview-token-constant)"> 2</span><span style="color:var(--code-preview-token-punctuation)">, ${section}_variables)</span></span>	`;
+${line(fg(`${section}_${sect} `) + kw('=') + fn(' filter') + pm('(') + acc('lambda') + par(' x') + p(': x.') + fn('Variable') + pm('() ') + kw('==') + p(' Variable.temperature ') + kwi('and') + p(' x.') + fn('Altitude') + pm('() ') + kw('==') + num(' 2') + p(`, ${section}_variables)`), indent)}\t`;
 				}
 			} else {
 				if (sect.constructor === Array) {
 					for (const [ind, variable] of sect.entries()) {
 						c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_${variable} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> ${section}</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-constant)">${ind}</span><span style="color:var(--code-preview-token-bracket)">).</span><span style="color:var(--code-preview-token-function)">${section === 'current' ? 'Value' : INT_64_VARIABLES.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
+${line(fg(`${section}_${variable} `) + kw('=') + fg(` ${section}`) + pm('.') + fn('Variables') + br('(') + num(`${ind}`) + br(')') + pm('.') + fn(`${section === 'current' ? 'Value' : INT_64_VARIABLES.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}`) + br('()'), indent)}`;
 					}
 				} else if (typeof sect === 'string') {
 					c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_${sect} </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> ${section}</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">Variables</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-constant)">0</span><span style="color:var(--code-preview-token-bracket)">).</span><span style="color:var(--code-preview-token-function)">${section === 'current' ? 'Value' : INT_64_VARIABLES.includes(sect) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-bracket)">()</span></span>`;
+${line(fg(`${section}_${sect} `) + kw('=') + fg(` ${section}`) + pm('.') + fn('Variables') + br('(') + num('0') + br(')') + pm('.') + fn(`${section === 'current' ? 'Value' : INT_64_VARIABLES.includes(sect) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}`) + br('()'), indent)}`;
 				}
 			}
+
+			// --- DataFrame construction (for non-current sections) ---
 			if (section !== 'current') {
+				const dateRangeStart =
+					section === 'monthly'
+						? fg(
+								`${acc('f')}${pm('"')}${str(`${num('{')}${p(`monthly`) + pm('.')}${fn('Year')}${br('()')}${num('}')}` + '-' + `${num('{')}${p(`monthly`) + pm('.')}${fn('Month')}${br('()')}${num('}')}` + `-01${pm('"')}`)}${pm(',')}`
+							)
+						: p(`pd`) +
+							pm('.') +
+							fn('to_datetime') +
+							br('(', fn(section), pm('.')) +
+							fn('Time') +
+							br('()') +
+							(timezone
+								? fg(` ${pm('+')} response`) + pm('.') + fn(`UtcOffsetSeconds${br('()')}`)
+								: '') +
+							pm(', ') +
+							fgi('unit ') +
+							kw('=') +
+							pm(' "') +
+							str('s') +
+							pm('"') +
+							pm(', ') +
+							fgi('utc ') +
+							kw('=') +
+							num(' True') +
+							br(')') +
+							pm(',');
+
+				const dateRangeEndName = section === 'monthly' ? 'periods' : 'end';
+				const dateRangeEnd =
+					section === 'monthly'
+						? ` ${p(`monthly`) + pm('.')}${fn('Count')}${br('()')}${pm(',')}`
+						: p(`  pd`) +
+							pm('.') +
+							fn('to_datetime') +
+							br('(', fn(section), pm('.')) +
+							fn('TimeEnd') +
+							br('()') +
+							(timezone
+								? fg(` ${pm('+')} response`) + pm('.') + fn(`UtcOffsetSeconds${br('()')}`)
+								: '') +
+							pm(', ') +
+							fgi('unit ') +
+							kw('=') +
+							pm(' "') +
+							str('s') +
+							pm('"') +
+							pm(', ') +
+							fgi('utc ') +
+							kw('=') +
+							num(' True') +
+							br(')') +
+							pm(',');
+
+				const dateRangeFreq =
+					section === 'monthly'
+						? p(` ${pm('"')}${str('MS')}${pm('"')}${pm(',')}`)
+						: p(` pd`) +
+							pm('.') +
+							fn('Timedelta') +
+							br('(') +
+							fgi('seconds ') +
+							kw('=') +
+							p(` ${section}`) +
+							pm('.') +
+							fn('Interval') +
+							br('())') +
+							pm(',');
+
 				c += `
-${t ? '\t' : ''}<span class="line"></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_data </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation-mark)"> {</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">date<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">:</span><span style="color:var(--code-preview-foreground)"> pd</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">date_range</span><span style="color:var(--code-preview-token-bracket)">(</span></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground);font-style:italic">	start </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation)"> ${section === 'monthly' ? '<span style="color:var(--code-preview-foreground)"><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)"><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">monthly.</span><span style="color:var(--code-preview-token-function)">Year</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span>-<span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">monthly.</span><span style="color:var(--code-preview-token-function)">Month</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span>-01<span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">,</span></span>' : 'pd.</span><span style="color:var(--code-preview-token-function)">to_datetime</span><span style="color:var(--code-preview-token-bracket)">(<span style="color:var(--code-preview-token-function)">' + section + '</span>.</span><span style="color:var(--code-preview-token-function)">Time</span><span style="color:var(--code-preview-token-bracket)">()' + (timezone ? '<span style="color:var(--code-preview-foreground)"> <span style="color:var(--code-preview-token-punctuation-mark)">+</span> response</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">UtcOffsetSeconds<span style="color:var(--code-preview-token-bracket)">()</span></span>' : '') + ', <span style="color:var(--code-preview-foreground);font-style:italic">unit</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation-mark)"> "</span><span style="color:var(--code-preview-token-string-expression)">s</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">, <span style="color:var(--code-preview-foreground);font-style:italic">utc</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> True</span><span style="color:var(--code-preview-token-bracket)">),</span>'}</span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground);font-style:italic">	${section === 'monthly' ? 'periods </span><span style="color:var(--code-preview-token-keyword)">=</span> <span style="color:var(--code-preview-token-punctuation)">monthly.</span><span style="color:var(--code-preview-token-function)">Count</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span>' : 'end </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation)">  pd.</span><span style="color:var(--code-preview-token-function)">to_datetime</span><span style="color:var(--code-preview-token-bracket)">(<span style="color:var(--code-preview-token-function)">' + section + '</span>.</span><span style="color:var(--code-preview-token-function)">TimeEnd</span><span style="color:var(--code-preview-token-bracket)">()</span>' + (timezone ? '<span style="color:var(--code-preview-foreground)"> <span style="color:var(--code-preview-token-punctuation-mark)">+</span> response</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">UtcOffsetSeconds<span style="color:var(--code-preview-token-bracket)">()</span></span>' : '') + '<span style="color:var(--code-preview-token-punctuation-mark)">,</span> <span style="color:var(--code-preview-foreground);font-style:italic">unit</span> <span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation-mark)"> "</span><span style="color:var(--code-preview-token-string-expression)">s</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span></span><span style="color:var(--code-preview-token-punctuation-mark)">, <span style="color:var(--code-preview-foreground);font-style:italic">utc</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-constant)"> True</span><span style="color:var(--code-preview-token-bracket)">),</span>'}</span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground);font-style:italic">	freq </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation)"> ${section === 'monthly' ? '<span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">MS</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-punctuation-mark)">,</span>' : 'pd.</span><span style="color:var(--code-preview-token-function)">Timedelta</span><span style="color:var(--code-preview-token-bracket)">(<span style="color:var(--code-preview-foreground);font-style:italic">seconds</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation)"> ' + section + '</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">Interval</span><span style="color:var(--code-preview-token-bracket)">()),</span></span>'}
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground);font-style:italic">	inclusive </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation-mark)"> "</span><span style="color:var(--code-preview-token-string-expression)">left</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span></span></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-bracket)">)}</span></span>
-${t ? '\t' : ''}<span class="line"></span>`;
+${empty(indent)}
+${line(fg(`${section}_data `) + kw('=') + fg(' ') + br('{') + pm('"') + str(`date${pm('"')}`) + pm(':') + fg(' pd') + pm('.') + fn('date_range') + br('('), indent)}
+${line(fgi('\tstart ') + kw('=') + p(' ') + dateRangeStart, indent)}
+${line(fgi(`\t${dateRangeEndName} `) + kw('=') + dateRangeEnd, indent)}
+${line(fgi('\tfreq ') + kw('=') + dateRangeFreq, indent)}
+${line(fgi('\tinclusive ') + kw('=') + pm(' "') + str('left') + pm('"'), indent)}
+${line(br(')}'), indent)}
+${empty(indent)}`;
 			}
 
+			// --- Populate data dict / print current values ---
 			if (section !== 'current') {
-				if (sdk_type == 'ensemble_api') {
+				if (sdk_type === 'ensemble_api' && section !== 'monthly' && section !== 'weekly') {
 					c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-comment);font-style:italic"># Process all ${section} members</span></span>`;
+${line(cmt(`# Process all ${section} members`), indent)}`;
 					if (sect.constructor === Array) {
 						for (const variable of sect) {
 							c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">for</span><span style="color:var(--code-preview-foreground)"> variable </span><span style="color:var(--code-preview-token-keyword);font-style:italic">in</span><span style="color:var(--code-preview-foreground)"> ${section}_${variable}</span><span style="color:var(--code-preview-token-punctuation)">:</span></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	member </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">EnsembleMember</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	${section}_data</span><span style="color:var(--code-preview-token-punctuation)">[</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-string-expression)">"${variable}_member</span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-foreground)">member</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-string-expression)">"</span><span style="color:var(--code-preview-token-punctuation)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">${INT_64_VARIABLES.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span></span>`;
+${line(kwi('for') + fg(' variable ') + kwi('in') + fg(` ${section}_${variable}`) + p(':'), indent)}
+${line(fg('\tmember ') + kw('=') + fg(' variable') + pm('.') + fn('EnsembleMember') + pm('()'), indent)}
+${line(fg(`\t${section}_data`) + p('[') + acc('f') + str(`"${variable}_member` + num('{') + fg('member') + num('}') + '"') + p(']') + kw(' =') + fg(' variable') + p('.') + fn(`${INT_64_VARIABLES.includes(variable) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}`) + pm('()'), indent)}`;
 						}
 					} else if (typeof sect === 'string') {
 						c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-keyword);font-style:italic">for</span><span style="color:var(--code-preview-foreground)"> variable </span><span style="color:var(--code-preview-token-keyword);font-style:italic">in</span><span style="color:var(--code-preview-foreground)"> ${section}_${sect}</span><span style="color:var(--code-preview-token-punctuation)">:</span></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	member </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">EnsembleMember</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">	${section}_data</span><span style="color:var(--code-preview-token-punctuation)">[</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-string-expression)">"${sect}_member</span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-foreground)">member</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-string-expression)">"</span><span style="color:var(--code-preview-token-punctuation)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> variable</span><span style="color:var(--code-preview-token-punctuation)">.</span><span style="color:var(--code-preview-token-function)">${INT_64_VARIABLES.includes(sect) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}</span><span style="color:var(--code-preview-token-punctuation-mark)">()</span></span>`;
+${line(kwi('for') + fg(' variable ') + kwi('in') + fg(` ${section}_${sect}`) + p(':'), indent)}
+${line(fg('\tmember ') + kw('=') + fg(' variable') + pm('.') + fn('EnsembleMember') + pm('()'), indent)}
+${line(fg(`\t${section}_data`) + p('[') + acc('f') + str(`"${sect}_member` + num('{') + fg('member') + num('}') + '"') + p(']') + kw(' =') + fg(' variable') + p('.') + fn(`${INT_64_VARIABLES.includes(sect) ? 'ValuesInt64AsNumpy' : 'ValuesAsNumpy'}`) + pm('()'), indent)}`;
 					}
 				} else {
 					if (sect.constructor === Array) {
 						for (const variable of sect) {
 							c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_data</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">${variable}"</span><span style="color:var(--code-preview-token-punctuation-mark)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> ${section}_${variable}</span></span>`;
+${line(fg(`${section}_data`) + pm('[') + pm('"') + str(`${variable}"`) + pm(']') + kw(' =') + fg(` ${section}_${variable}`), indent)}`;
 						}
 					} else {
 						c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_data</span><span style="color:var(--code-preview-token-punctuation-mark)">[</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">${sect}"</span><span style="color:var(--code-preview-token-punctuation-mark)">]</span><span style="color:var(--code-preview-token-keyword)"> =</span><span style="color:var(--code-preview-foreground)"> ${section}_${sect}</span></span>`;
+${line(fg(`${section}_data`) + pm('[') + pm('"') + str(`${sect}"`) + pm(']') + kw(' =') + fg(` ${section}_${sect}`), indent)}`;
 					}
 				}
 			}
+
 			if (section === 'current') {
-				// no dataframe
+				// Print current values
 				c += `
-${t ? '\t' : ''}<span class="line"></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">\\nCurrent time: </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">current.</span><span style="color:var(--code-preview-token-function)">Time</span><span style="color:var(--code-preview-token-bracket)">()</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)"></span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
+${empty(indent)}
+${line(fn('print') + br('(') + acc('f') + pm('"') + str('\\nCurrent time: ' + num('{') + p('current.') + fn('Time') + br('()') + num('}')) + pm('"') + str('') + br(')'), indent)}`;
 				if (sect.constructor === Array) {
 					for (const variable of sect) {
 						c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">Current ${variable}: </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">current_${variable}</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)"></span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
+${line(fn('print') + br('(') + acc('f') + pm('"') + str(`Current ${variable}: ` + num('{') + p(`current_${variable}`) + num('}')) + pm('"') + str('') + br(')'), indent)}`;
 					}
 				} else {
 					c += `
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">(</span><span style="color:var(--code-preview-token-accent)">f</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)">Current ${sect}: </span><span style="color:var(--code-preview-token-constant)">{</span><span style="color:var(--code-preview-token-punctuation)">current_${sect}</span><span style="color:var(--code-preview-token-constant)">}</span><span style="color:var(--code-preview-token-punctuation-mark)">"</span><span style="color:var(--code-preview-token-string-expression)"></span><span style="color:var(--code-preview-token-bracket)">)</span></span>`;
+${line(fn('print') + br('(') + acc('f') + pm('"') + str(`Current ${sect}: ` + num('{') + p(`current_${sect}`) + num('}')) + pm('"') + str('') + br(')'), indent)}`;
 				}
 			} else {
+				// Print DataFrame
 				c += `
-${t ? '\t' : ''}<span class="line"></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-foreground)">${section}_dataframe </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-foreground)"> pd</span><span style="color:var(--code-preview-token-punctuation-mark)">.</span><span style="color:var(--code-preview-token-function)">DataFrame</span><span style="color:var(--code-preview-token-bracket)">(<span style="color:var(--code-preview-foreground);font-style:italic">data</span> </span><span style="color:var(--code-preview-token-keyword)">=</span><span style="color:var(--code-preview-token-punctuation)"> ${section}_data<span style="color:var(--code-preview-token-bracket)">)</span></span></span>
-${t ? '\t' : ''}<span class="line"><span style="color:var(--code-preview-token-function)">print</span><span style="color:var(--code-preview-token-bracket)">("<span style="color:var(--code-preview-token-string-expression)">\\n${titleCase(section)} data\\n</span>", <span style="color:var(--code-preview-token-function)">${section}_dataframe</span>)</span></span>`;
+${empty(indent)}
+${line(fg(`${section}_dataframe `) + kw('=') + fg(' pd') + pm('.') + fn('DataFrame') + br('(') + fgi('data ') + kw('=') + p(` ${section}_data`) + br(')'), indent)}
+${line(fn('print') + br('(') + pm('"') + str(`\\n${titleCase(section)} data\\n`) + pm('",') + fg(' ') + fn(`${section}_dataframe`) + br(')'), indent)}`;
 			}
 		}
 	}
 
 	c += `
-${t ? '\t' : ''}<span class="line"></span></pre></div>
+${empty(indent)}</pre></div>
 `;
 	return c;
 };
