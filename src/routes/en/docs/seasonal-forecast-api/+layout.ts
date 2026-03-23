@@ -4,6 +4,6 @@ export const load = (() => {
 	return {
 		heroTitle: 'Seasonal Forecast API',
 		heroDescription: 'Sub-Seasonal and Long Range Forecast for 7 Months',
-		heroImage: '/images/backgrounds/kehlenalp.webp'
+		heroImage: 'kehlenalp.webp'
 	};
 }) satisfies LayoutLoad;

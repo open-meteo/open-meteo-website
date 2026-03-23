@@ -5,7 +5,7 @@ import type { LayoutLoad } from './$types';
 export const load = (() => {
 	return {
 		Logo: Rain,
-		heroImage: '/images/backgrounds/features_background.webp',
+		heroImage: 'features_background.webp',
 		heroHeight: 300,
 		heroTitle: 'About',
 		heroDescription: null,
