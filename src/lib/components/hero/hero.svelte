@@ -6,6 +6,7 @@
 	interface Props {
 		Logo: import('svelte').Snippet;
 		heroImage: string;
+		heroImagePosition?: string;
 		heroTitle: string;
 		heroHeight: number;
 		heroDescription: string;
@@ -18,6 +19,7 @@
 	let {
 		Logo,
 		heroImage,
+		heroImagePosition = 'center',
 		heroHeight,
 		heroTitle,
 		heroDescription,
@@ -71,8 +73,8 @@
 					loading="eager"
 					decoding="async"
 					fetchpriority="high"
-					class="h-full w-full object-cover object-center"
-					style="view-transition-name: hero-image;"
+					class="h-full w-full object-cover"
+					style="object-position: {heroImagePosition}; view-transition-name: hero-image;"
 					alt="Hero background"
 				/>
 			</picture>
@@ -119,6 +121,7 @@
 	@media (prefers-reduced-motion: no-preference) {
 		::view-transition-group(hero-image) {
 			animation: none;
+			overflow: hidden;
 		}
 
 		::view-transition-old(hero-image) {
