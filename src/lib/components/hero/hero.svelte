@@ -118,38 +118,41 @@
 <style>
 	@media (prefers-reduced-motion: no-preference) {
 		::view-transition-group(hero-image) {
-			animation-duration: 0s;
+			animation: none;
 		}
 
 		::view-transition-old(hero-image) {
-			animation: hero-fade-out 250ms ease-out both;
+			animation: fade-out 600ms ease both;
 		}
 
 		::view-transition-new(hero-image) {
-			animation: hero-fade-in 200ms ease-in 50ms both;
+			animation: fade-in 500ms ease both;
 		}
 
 		::view-transition-group(hero-content) {
-			animation-duration: 0s;
+			animation: none;
 		}
 
 		::view-transition-old(hero-content) {
-			animation: hero-fade-out 150ms ease-out both;
+			animation: fade-out 0ms ease both;
 		}
 
 		::view-transition-new(hero-content) {
-			animation: hero-fade-in 150ms ease-in both;
+			animation: fade-in 0ms ease both;
 		}
 	}
 
-	@keyframes hero-fade-out {
-		to {
+	@keyframes fade-in {
+		from {
 			opacity: 0;
 		}
+		to {
+			opacity: 1;
+		}
 	}
 
-	@keyframes hero-fade-in {
-		from {
+	@keyframes fade-out {
+		to {
 			opacity: 0;
 		}
 	}
