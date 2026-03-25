@@ -47,7 +47,10 @@
 		{ title: 'Flood', url: '/en/docs/flood-api' }
 	];
 	if (dev) {
-		links.push({ title: 'Single Runs', url: '/en/docs/single-runs-api' });
+		links.push(
+			{ title: 'Single Runs', url: '/en/docs/single-runs-api' },
+			{ title: 'Geosphere Austria', url: '/en/docs/geosphere-austria-api' }
+		);
 	}
 
 	interface Path {
