@@ -327,7 +327,9 @@ describe('isAvailable', () => {
 
 	test('skips models not present in availableVariables', () => {
 		expect(isAvailable('temperature_2m', ['unknown_model'], availableVariables)).toBe(false);
-		expect(isAvailable('temperature_2m', ['unknown_model', 'model_a'], availableVariables)).toBe(true);
+		expect(isAvailable('temperature_2m', ['unknown_model', 'model_a'], availableVariables)).toBe(
+			true
+		);
 	});
 });
 
@@ -353,6 +355,8 @@ describe('isDailyAvailable', () => {
 
 	test('returns false when stripped variable is not available in any selected model', () => {
 		expect(isDailyAvailable('precipitation_max', ['model_a'], availableVariables)).toBe(false);
-		expect(isDailyAvailable('unknown_var_sum', ['model_a', 'model_b'], availableVariables)).toBe(false);
+		expect(isDailyAvailable('unknown_var_sum', ['model_a', 'model_b'], availableVariables)).toBe(
+			false
+		);
 	});
 });

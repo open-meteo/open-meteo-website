@@ -117,7 +117,7 @@
 	<HourlyVariables bind:params={$params} {hourly} />
 
 	<!-- ADDITIONAL VARIABLES -->
-	<!-- <div class="mt-6">
+	<div class="mt-6">
 		<Accordion.Root
 			type="multiple"
 			class="border-border rounded-lg border"
@@ -328,7 +328,7 @@
 					</div>
 				</div>
 			</AccordionItem>
-
+			<!-- 
 			<AccordionItem
 				id="models"
 				title="Weather models"
@@ -373,9 +373,9 @@
 						seamless prediction.</small
 					>
 				</div>
-			</AccordionItem>
+			</AccordionItem> -->
 		</Accordion.Root>
-	</div> -->
+	</div>
 
 	<!-- DAILY -->
 	<div class="mt-6 md:mt-12">
