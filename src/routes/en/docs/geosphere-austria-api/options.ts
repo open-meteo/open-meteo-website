@@ -28,19 +28,25 @@ export const hourly = [
 	[
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
+		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
+		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
 		{ value: 'surface_temperature', label: 'Surface Temperature' },
 		{ value: 'weather_code', label: 'Weather code' }
 	],
 	[
 		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
 		{ value: 'rain', label: 'Rain' },
-		{ value: 'pressure_msl', label: 'Sea Level Pressure' }
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
+		{ value: 'surface_pressure', label: 'Surface Pressure' }
 	],
 	[
 		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
 		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
 		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud Cover High' }
+		{ value: 'cloud_cover_high', label: 'Cloud Cover High' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
 	],
 	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
@@ -54,7 +60,22 @@ export const daily = [
 		{ value: 'weather_code', label: 'Weather code' },
 		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
 		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
+		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
+		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
+	],
+	[
+		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
+		{ value: 'rain_sum', label: 'Rain Sum' },
+		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' }
+	],
+	[
+		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
+		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
+		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
+		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
 	]
 ];
 
