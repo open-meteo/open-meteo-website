@@ -501,7 +501,7 @@
 			/>
 			<figcaption class="text-muted-foreground">
 				GeoSphere Arome Austria model area. Source: <a
-					href="https://maps.open-meteo.com?model=geosphere_arome_austria"
+					href="https://maps.open-meteo.com?domain=geosphere_arome_austria"
 					target="_blank">Open-Meteo Maps</a
 				>.
 			</figcaption>
