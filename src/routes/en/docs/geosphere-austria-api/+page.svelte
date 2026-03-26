@@ -328,7 +328,7 @@
 					</div>
 				</div>
 			</AccordionItem>
-			<!-- 
+
 			<AccordionItem
 				id="models"
 				title="Weather models"
@@ -373,7 +373,7 @@
 						seamless prediction.</small
 					>
 				</div>
-			</AccordionItem> -->
+			</AccordionItem>
 		</Accordion.Root>
 	</div>
 
@@ -468,19 +468,19 @@
 					</tr>
 				</thead>
 				<tbody>
-					<!-- <tr>
+					<tr>
 						<th scope="row"
 							><a
 								href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG"
-								target="_blank">DMI HARMONIE AROME DINI</a
+								target="_blank">Geosphere Arome Austria</a
 							></th
 						>
-						<td>Central & Northern Europe up to Iceland (green area below)</td>
+						<td>Central Europe</td>
 						<td>2 km</td>
-						<td>1-hourly</td>
+						<td>Hourly</td>
 						<td>2.5 days</td>
 						<td>Every 3 hours</td>
-					</tr> -->
+					</tr>
 				</tbody>
 			</table>
 		</div>

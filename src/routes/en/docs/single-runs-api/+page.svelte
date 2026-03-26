@@ -477,7 +477,7 @@
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
 				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-[227px]">
+					<div class="w-full md:w-56.75">
 						<ToggleGroup.Root
 							type="single"
 							bind:value={pressureVariablesTab}
@@ -487,7 +487,7 @@
 								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none opacity-100! lg:min-h-[unset] {i ===
+										class="min-h-12 w-56.25 cursor-pointer rounded-none opacity-100! lg:min-h-[unset] {i ===
 										0
 											? 'rounded-t-md'
 											: ''} {i === pressureVariables.length - 1 ? 'rounded-b-md' : ''}"
@@ -559,7 +559,7 @@
 						{/each}
 					</div>
 				</div>
-				<div class="mt-3 lg:ml-[249px]">
+				<div class="mt-3 lg:ml-62.25">
 					<small class="text-muted-foreground"
 						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea

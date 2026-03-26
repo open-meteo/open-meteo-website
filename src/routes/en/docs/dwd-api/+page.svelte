@@ -398,7 +398,7 @@
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
 				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-[227px]">
+					<div class="w-full md:w-56.75">
 						<ToggleGroup.Root
 							type="single"
 							bind:value={pressureVariablesTab}
@@ -408,11 +408,11 @@
 								{#each pressureVariables as variable, i (variable)}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
 										0
-											? 'rounded-t-md !rounded-b-none'
+											? 'rounded-t-md rounded-b-none!'
 											: ''} {i === pressureVariables.length - 1
-											? '!rounded-t-none rounded-b-md'
+											? 'rounded-t-none! rounded-b-md'
 											: ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
@@ -482,7 +482,7 @@
 						{/each}
 					</div>
 				</div>
-				<div class="mt-3 lg:ml-[249px]">
+				<div class="mt-3 lg:ml-62.25">
 					<small class="text-muted-foreground"
 						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
@@ -791,7 +791,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-6 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-6 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -877,7 +877,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 mt-6 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 mt-6 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1118,7 +1118,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 mt-6 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 mt-6 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1435,7 +1435,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 mt-6 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 mt-6 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1586,7 +1586,7 @@
 
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1665,7 +1665,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1774,7 +1774,7 @@
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1886,7 +1886,7 @@
 		<h3 class="text-xl md:text-2xl">WMO Weather interpretation codes (WW)</h3>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 min-w-[450px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 min-w-112.5 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

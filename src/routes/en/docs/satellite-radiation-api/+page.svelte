@@ -702,7 +702,7 @@ TODO:
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 		<table
-			class="[&_tr]:border-border mx-6 mt-2 min-w-[1040px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mx-6 mt-2 min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -889,7 +889,7 @@ TODO:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1060px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-265 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

@@ -586,7 +586,7 @@
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
 				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-[227px]">
+					<div class="w-full md:w-56.75">
 						<ToggleGroup.Root
 							type="single"
 							bind:value={pressureVariablesTab}
@@ -596,11 +596,11 @@
 								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
 										0
-											? 'rounded-t-md !rounded-b-none'
+											? 'rounded-t-md rounded-b-none!'
 											: ''} {i === pressureVariables.length - 1
-											? '!rounded-t-none rounded-b-md'
+											? 'rounded-t-none! rounded-b-md'
 											: ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
@@ -670,7 +670,7 @@
 						{/each}
 					</div>
 				</div>
-				<div class="mt-3 lg:ml-[249px]">
+				<div class="mt-3 lg:ml-62.25">
 					<small class="text-muted-foreground"
 						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
@@ -995,7 +995,7 @@
 						>
 						<td>Global</td>
 						<td>0.11° (~13 km)</td>
-						<td>Hourly, 3-hourly after 120 hours</td>
+						<td>Hourly, <small class="text-muted-foreground">3-hourly after 120 hours</small></td>
 						<td>16 days</td>
 						<td>Every 6 hours</td>
 					</tr>
@@ -1007,7 +1007,7 @@
 						>
 						<td>Global</td>
 						<td>0.25° (~25 km)</td>
-						<td>Hourly, 3-hourly after 120 hours</td>
+						<td>Hourly, <small class="text-muted-foreground">3-hourly after 120 hours</small></td>
 						<td>16 days</td>
 						<td>Every 6 hours</td>
 					</tr>
@@ -1018,7 +1018,10 @@
 						<td>U.S. Conus</td>
 						<td>3 km</td>
 						<td>Hourly</td>
-						<td>18 hours (48 hours for 0, 6, 12, 18z)</td>
+						<td
+							>18 hours, <small class="text-muted-foreground">(48 hours for 0, 6, 12, 18Z)</small
+							></td
+						>
 						<td>Every hour</td>
 					</tr>
 					<tr>
@@ -1029,7 +1032,11 @@
 						>
 						<td>U.S. Conus</td>
 						<td>2.5 km</td>
-						<td>Hourly, 3-Hourly after 36 hours, 6-Hourly after 8 days</td>
+						<td
+							>Hourly, <small class="text-muted-foreground"
+								>3-Hourly after 36 hours, 6-Hourly after 8 days</small
+							></td
+						>
 						<td>11 days</td>
 						<td>Every hour</td>
 					</tr>
@@ -1128,7 +1135,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1260px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-315 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -2235,7 +2242,7 @@
 
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -2319,7 +2326,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -2422,7 +2429,7 @@
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

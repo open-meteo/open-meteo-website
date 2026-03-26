@@ -675,7 +675,7 @@
 						>
 						<td>Central & Northern Europe up to Iceland (green area below)</td>
 						<td>2 km</td>
-						<td>1-hourly</td>
+						<td>Hourly</td>
 						<td>2.5 days</td>
 						<td>Every 3 hours</td>
 					</tr>
