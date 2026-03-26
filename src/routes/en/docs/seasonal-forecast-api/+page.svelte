@@ -739,7 +739,7 @@
 									{:else}
 										<div class="flex w-1/2 gap-2">
 											<div
-												class="group ml-[75px] flex items-center"
+												class="group ml-18.75 flex items-center"
 												title="Wind Gusts (10 m) Anomaly"
 											>
 												<Checkbox
@@ -906,7 +906,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
