@@ -10,7 +10,6 @@ export const load: LayoutLoad = async () => {
 			'Seamless integration of high-resolution weather models with up 16 days forecast',
 		heroImage: 'partly_cloudy.webp',
 		heroHeight: 400,
-		heroImagePosition: 'bottom',
 		heroPrimaryButtonPath: null,
 		heroPrimaryButtonText: null,
 		heroSecondaryButtonPath: null,
