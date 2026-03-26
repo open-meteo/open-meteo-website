@@ -494,17 +494,17 @@
 	</div>
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<figure>
-			<!-- <enhanced:img
-				src="/static/images/models/dmi_harmonie_dini-ig.jpg"
+			<enhanced:img
+				src="/static/images/models/geosphere_austria.png"
 				class="rounded-lg"
-				alt="DMI HARMONIE AROME DINI model area"
+				alt="GeoSphere Arome Austria model area"
 			/>
 			<figcaption class="text-muted-foreground">
-				DMI HARMONIE AROME DINI model area (green). Source: <a
-					href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG"
-					>DMI</a
+				GeoSphere Arome Austria model area. Source: <a
+					href="https://maps.open-meteo.com?model=geosphere_arome_austria"
+					target="_blank">Open-Meteo Maps</a
 				>.
-			</figcaption> -->
+			</figcaption>
 		</figure>
 	</div>
 </div>
