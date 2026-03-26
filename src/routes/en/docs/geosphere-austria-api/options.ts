@@ -113,8 +113,8 @@ export const solarVariables = [
 
 export const models = [
 	[
-		{ value: 'geosphere_seamless', label: 'Geosphere Arome Austria Seamless (with ECMWF)' },
-		{ value: 'geosphere_arome_austria', label: 'Geosphere Arome Austria' }
+		{ value: 'geosphere_seamless', label: 'GeoSphere Seamless (with ECMWF)' },
+		{ value: 'geosphere_arome_austria', label: 'GeoSphere Arome Austria' }
 	]
 ];
 

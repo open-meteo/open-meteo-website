@@ -48,7 +48,7 @@
 	];
 	if (dev) {
 		links.push({ title: 'Single Runs', url: '/en/docs/single-runs-api' });
-		links[0].children?.push({ title: 'Geosphere Austria', url: '/en/docs/geosphere-austria-api' });
+		links[0].children?.push({ title: 'GeoSphere Austria', url: '/en/docs/geosphere-austria-api' });
 	}
 
 	interface Path {
