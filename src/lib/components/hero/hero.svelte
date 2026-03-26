@@ -62,7 +62,7 @@
 	<div class="absolute inset-0 -z-10 overflow-hidden">
 		{#if picture}
 			<picture>
-				{#each Object.entries(picture.sources) as [format, srcset]}
+				{#each Object.entries(picture.sources) as [format, srcset] (srcset)}
 					<source {srcset} sizes="100vw" type="image/{format}" />
 				{/each}
 				<img
@@ -75,7 +75,9 @@
 					fetchpriority="high"
 					class="h-full w-full object-cover"
 					style="object-position: {heroImagePosition}; view-transition-name: hero-image;"
-					alt="Hero background"
+					alt=""
+					aria-hidden="true"
+					role="presentation"
 				/>
 			</picture>
 		{/if}

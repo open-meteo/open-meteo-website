@@ -7,7 +7,7 @@ const images: Record<string, { default: Picture }> = import.meta.glob(['./*.webp
 
 const imageMap = new Map<string, Picture>();
 for (const [path, mod] of Object.entries(images)) {
-	// path is like "./convective_clouds.webp" or "./originals/forstberg.jpg"
+	// path is like "./convective_clouds.webp"
 	// Strip leading "./" to get the key
 	const key = path.slice(2);
 	imageMap.set(key, mod.default);
