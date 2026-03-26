@@ -19,7 +19,7 @@
 	let {
 		Logo,
 		heroImage,
-		heroImagePosition = 'center',
+		heroImagePosition = 'center center',
 		heroHeight,
 		heroTitle,
 		heroDescription,

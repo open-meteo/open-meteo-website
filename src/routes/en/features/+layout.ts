@@ -8,7 +8,7 @@ export const load = (() => {
 		heroImage: 'features_background.webp',
 		heroHeight: 500,
 		heroTitle: 'Features',
-		heroImagePosition: 'center 30%',
+		heroImagePosition: 'center 40%',
 		heroDescription: 'Simple JSON APIs. Global coverage. Up to 1 km resolution. Get started today!',
 		heroPrimaryButtonPath: '#available_apis',
 		heroPrimaryButtonText: 'Available APIs',

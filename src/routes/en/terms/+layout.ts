@@ -8,6 +8,7 @@ export const load = (() => {
 		heroImage: 'features_background.webp',
 		heroHeight: 300,
 		heroTitle: 'Terms & Privacy',
+		heroImagePosition: 'center 40%',
 		heroDescription: null,
 		heroPrimaryButtonPath: null,
 		heroPrimaryButtonText: null,
