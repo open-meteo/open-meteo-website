@@ -13,6 +13,4 @@ for (const [path, mod] of Object.entries(images)) {
 	imageMap.set(key, mod.default);
 }
 
-export function getHeroImage(name: string): Picture | undefined {
-	return imageMap.get(name);
-}
+export const getHeroImage = (name: string): Picture | undefined => imageMap.get(name);
