@@ -97,7 +97,7 @@
 </script>
 
 <svelte:head>
-	<title>Geosphere Austria API | Open-Meteo.com</title>
+	<title>GeoSphere Austria API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/geosphere-austria-api" />
 </svelte:head>
 
@@ -446,7 +446,7 @@
 <div class="mt-6 md:mt-12">
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
-		<p>Geosphere Austria provides weather forecasts from the ...</p>
+		<p>GeoSphere Austria provides weather forecasts from the ...</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
 				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
@@ -470,13 +470,12 @@
 				<tbody>
 					<tr>
 						<th scope="row"
-							><a
-								href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG"
-								target="_blank">Geosphere Arome Austria</a
+							><a href="https://data.hub.geosphere.at/dataset/nwp-v1-1h-2500m" target="_blank"
+								>GeoSphere Arome Austria</a
 							></th
 						>
 						<td>Central Europe</td>
-						<td>2 km</td>
+						<td>2.5 km</td>
 						<td>Hourly</td>
 						<td>2.5 days</td>
 						<td>Every 3 hours</td>
