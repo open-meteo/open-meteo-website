@@ -446,7 +446,15 @@
 <div class="mt-6 md:mt-12">
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
-		<p>GeoSphere Austria provides weather forecasts from the ...</p>
+		<p>
+			The high-resolution weather forecast model AROME (Application of Research to Operations at
+			Mesoscale) provides meteorological forecasts for the wider Alpine region on a 2.5-kilometre
+			grid. It is updated every 3 hours and provides forecasts for 60 hours. The AROME model code is
+			being further developed in collaboration with the partner meteorological services of the
+			ACCORD consortium. After 2.5 days, Open-Meteo combines forecasts with the <a
+				href="/en/docs/ecmwf-api">ECMWF IFS 0.25° model</a
+			> to provide up to 10 days of forecast.
+		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
 				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
