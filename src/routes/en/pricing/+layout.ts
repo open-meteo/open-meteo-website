@@ -5,9 +5,10 @@ import type { LayoutLoad } from './$types';
 export const load = (() => {
 	return {
 		Logo: Snow,
-		heroImage: '/images/backgrounds/snowy.webp',
+		heroImage: 'snowy.webp',
 		heroHeight: 500,
 		heroTitle: 'Pricing',
+		heroImagePosition: 'center 60%',
 		heroDescription: 'Commercial use licence, support and dedicated API capacity',
 		heroPrimaryButtonPath: '#plans',
 		heroPrimaryButtonText: 'API Plans',
