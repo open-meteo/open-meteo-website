@@ -642,8 +642,8 @@
 			Weather Centres-West" (UWC-West). Forecasts for Europe use 2 km resolution and provide a large
 			range of weather variables. All data is updated every 3 hours and provides forecast for up to
 			2.5 days. After 2.5 days, Open-Meteo combines forecasts with the <a href="/en/docs/ecmwf-api"
-				>ECMWF IFS 0.25° model</a
-			> to provide up to 10 days of forecast.
+				>ECMWF IFS HRES 9 km model</a
+			> to provide up to 15 days of forecast.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table

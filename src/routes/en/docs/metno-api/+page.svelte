@@ -660,9 +660,9 @@
 			should be high.
 		</p>
 		<p>
-			Unfortunately, only 2.5 days of forecast are available. The Open-Meteo <a href="/en/docs"
-				>weather forecast API</a
-			> automatically uses MET Nordic in combination with larger scale models to offer a 7 days forecast.
+			Unfortunately, only 2.5 days of forecast are available. After 2.5 days, Open-Meteo combines
+			forecasts with the <a href="/en/docs/ecmwf-api">ECMWF IFS HRES 9 km model</a> to provide up to 15
+			days of forecast.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
