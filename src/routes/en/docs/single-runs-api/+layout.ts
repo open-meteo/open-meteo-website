@@ -4,6 +4,6 @@ export const load = (() => {
 	return {
 		heroTitle: 'Single Runs API',
 		heroDescription: 'Access individual weather model runs from the past',
-		heroImage: '/images/backgrounds/andermatt.webp'
+		heroImage: 'andermatt.webp'
 	};
 }) satisfies LayoutLoad;
