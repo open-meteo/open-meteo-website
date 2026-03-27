@@ -4,6 +4,7 @@ export const load = (() => {
 	return {
 		heroTitle: 'KMA Weather API',
 		heroDescription: 'Weather forecasts from the Korea Meteorological Administration KMA',
-		heroImage: '/images/backgrounds/scotland.webp'
+		heroImage: 'edessa.jpg',
+		heroImagePosition: 'center 90%'
 	};
 }) satisfies LayoutLoad;
