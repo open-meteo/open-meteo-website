@@ -522,11 +522,25 @@
 		</p>
 		<ul class="ml-6 list-disc">
 			<li>
-				<strong>Weather codes</strong> are directly used from the GeoSphere
+				<strong>Weather codes</strong> are used from the GeoSphere von converted to WMO weather codes.
 			</li>
 			<li>
-				<strong>Direct radiation</strong> is not provided directly, therefore a solar separation model
-				is used.
+				<strong>Solar Radiation:</strong> GeoSphere supplies only global solar radiation data and
+				does not offer direct or diffuse solar radiation. Open-Meteo applies the separation model
+				from
+				<a
+					href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
+					>Razo, Müller Witwer</a
+				> to calculate direct radiation from shortwave solar radiation.
+			</li>
+			<li>
+				<strong>Snowfall</strong> is given as amount of water equivalent. Open-Meteo assumes a constant
+				conversion factor of 1 mm snow water = 7 snowfall.
+			</li>
+			<li>
+				<strong>Snowfall height</strong> has been converted to metre above sea level. GeoSphere provides
+				snowfall height in metre above ground. For consistency with other weather models, it has been
+				converted to metre above sea level.
 			</li>
 		</ul>
 	</div>
