@@ -32,27 +32,27 @@ export const hourly = [
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
 		{ value: 'surface_temperature', label: 'Surface Temperature' },
 		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-		{ value: 'weather_code', label: 'Weather code' }
+		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' }
 	],
 	[
+		{ value: 'weather_code', label: 'Weather code' },
 		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'snowfall', label: 'Snowfall' },
 		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent' },
-		{ value: 'snowfall_height', label: 'Snowfall Height' },
-		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
-		{ value: 'surface_pressure', label: 'Surface Pressure' }
+		{ value: 'snowfall_height', label: 'Snowfall Height' }
 	],
 	[
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
+		{ value: 'surface_pressure', label: 'Surface Pressure' },
 		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
 		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
 		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud Cover High' },
-		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
+		{ value: 'cloud_cover_high', label: 'Cloud Cover High' }
 	],
 	[
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' },
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
 		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
@@ -87,7 +87,6 @@ export const additionalVariables = [
 	[
 		{ value: 'is_day', label: 'Is Day or Night' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
-		{ value: 'freezing_level_height', label: 'Freezing Level Height' },
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
 	],
 	[
