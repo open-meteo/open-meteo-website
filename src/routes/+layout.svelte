@@ -55,7 +55,7 @@
 
 	afterNavigate((e) => {
 		if (browser) {
-			if (fromNotTo(e) && !window.location.hash) {
+			if (fromNotTo(e) && !window.location.hash && e.type !== 'popstate') {
 				setTimeout(() => {
 					window.scrollTo(0, 0);
 				}, 75);

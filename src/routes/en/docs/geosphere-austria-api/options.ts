@@ -30,49 +30,32 @@ export const hourly = [
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
-		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
-		{ value: 'rain', label: 'Rain' },
-		{ value: 'snowfall', label: 'Snowfall' }
-		//{ value: 'snow_depth', label: 'Snow Depth' } only snow_depth_water_equivalent
+		{ value: 'surface_temperature', label: 'Surface Temperature' },
+		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
+		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' }
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
+		{ value: 'rain', label: 'Rain' },
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent' },
+		{ value: 'snowfall_height', label: 'Snowfall Height' }
+	],
+	[
 		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' },
 		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
 		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
 		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud Cover High' },
-		{ value: 'cloud_cover_2m', label: 'Cloud Cover / Fog (2m)' },
-		{ value: 'visibility', label: 'Visibility' },
-		{ value: 'cloud_base', label: 'Cloud Base' },
-		{ value: 'cloud_top', label: 'Cloud Top' },
+		{ value: 'cloud_cover_high', label: 'Cloud Cover High' }
+	],
+	[
 		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
-	],
-	[
+		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' },
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-		{ value: 'wind_speed_50m', label: 'Wind Speed (50 m)' },
-		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
-		{ value: 'wind_speed_150m', label: 'Wind Speed (150 m)' },
-		{ value: 'wind_speed_250m', label: 'Wind Speed (250 m)' },
-		{ value: 'wind_speed_350m', label: 'Wind Speed (350 m)' },
-		{ value: 'wind_speed_450m', label: 'Wind Speed (450 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-		{ value: 'wind_direction_50m', label: 'Wind Direction (50 m)' },
-		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
-		{ value: 'wind_direction_150m', label: 'Wind Direction (150 m)' },
-		{ value: 'wind_direction_250m', label: 'Wind Direction (250 m)' },
-		{ value: 'wind_direction_350m', label: 'Wind Direction (350 m)' }
-	],
-	[
-		{ value: 'wind_direction_450m', label: 'Wind Direction (450 m)' },
-		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-		{ value: 'surface_temperature', label: 'Surface Temperature' },
-		{ value: 'temperature_50m', label: 'Temperature (50 m)' },
-		{ value: 'temperature_100m', label: 'Temperature (100 m)' },
-		{ value: 'temperature_150m', label: 'Temperature (150 m)' },
-		{ value: 'temperature_250m', label: 'Temperature (250 m)' }
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 	]
 ];
 
@@ -82,20 +65,12 @@ export const daily = [
 		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
 		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
 		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
-		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' }
-	],
-	[
-		{ value: 'sunrise', label: 'Sunrise' },
-		{ value: 'sunset', label: 'Sunset' },
-		{ value: 'daylight_duration', label: 'Daylight Duration' },
-		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
-		{ value: 'uv_index_max', label: 'UV Index' },
-		{ value: 'uv_index_clear_sky_max', label: 'UV Index Clear Sky' }
+		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' },
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
 	],
 	[
 		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
-		{ value: 'showers_sum', label: 'Showers Sum' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
 		{ value: 'precipitation_hours', label: 'Precipitation Hours' }
 	],
@@ -112,7 +87,6 @@ export const additionalVariables = [
 	[
 		{ value: 'is_day', label: 'Is Day or Night' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
-		{ value: 'freezing_level_height', label: 'Freezing Level Height' },
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
 	],
 	[
@@ -142,8 +116,8 @@ export const solarVariables = [
 
 export const models = [
 	[
-		{ value: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
-		{ value: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie AROME Europe' }
+		{ value: 'geosphere_seamless', label: 'GeoSphere Seamless (with ECMWF)' },
+		{ value: 'geosphere_arome_austria', label: 'GeoSphere AROME Austria' }
 	]
 ];
 
