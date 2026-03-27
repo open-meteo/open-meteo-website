@@ -1,9 +1,12 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
 
+	import { getHeroImage } from '$lib/assets/backgrounds/index';
+
 	interface Props {
 		Logo: import('svelte').Snippet;
 		heroImage: string;
+		heroImagePosition?: string;
 		heroTitle: string;
 		heroHeight: number;
 		heroDescription: string;
@@ -16,6 +19,7 @@
 	let {
 		Logo,
 		heroImage,
+		heroImagePosition = 'center center',
 		heroHeight,
 		heroTitle,
 		heroDescription,
@@ -24,23 +28,59 @@
 		heroSecondaryButtonPath,
 		heroSecondaryButtonText
 	}: Props = $props();
+
+	const picture = $derived(getHeroImage(heroImage));
 </script>
 
 <svelte:head>
-	<link rel="preload" fetchpriority="high" as="image" href={heroImage} type="image/webp" />
+	{#if picture}
+		{@const avifSrcset = picture.sources['avif']}
+		{@const webpSrcset = picture.sources['webp']}
+		{#if avifSrcset}
+			<link
+				rel="preload"
+				fetchpriority="high"
+				as="image"
+				type="image/avif"
+				imagesrcset={avifSrcset}
+				imagesizes="100vw"
+			/>
+		{:else if webpSrcset}
+			<link
+				rel="preload"
+				fetchpriority="high"
+				as="image"
+				type="image/webp"
+				imagesrcset={webpSrcset}
+				imagesizes="100vw"
+			/>
+		{/if}
+	{/if}
 </svelte:head>
 
-<div style="height: {heroHeight}px;" class="relative flex items-center">
-	<div class="absolute inset-0 -z-10">
-		<div
-			class="h-full w-full"
-			style="
-			  view-transition-name: hero-image;
-			  background-image: url('{heroImage}');
-			  background-size: cover;
-			  background-position: center;
-			"
-		></div>
+<div style="height: {heroHeight}px" class="relative flex items-center">
+	<div class="absolute inset-0 -z-10 overflow-hidden">
+		{#if picture}
+			<picture>
+				{#each Object.entries(picture.sources) as [format, srcset] (srcset)}
+					<source {srcset} sizes="100vw" type="image/{format}" />
+				{/each}
+				<img
+					src={picture.img.src}
+					width={picture.img.w}
+					height={picture.img.h}
+					sizes="100vw"
+					loading="eager"
+					decoding="async"
+					fetchpriority="high"
+					class="h-full w-full object-cover"
+					style="object-position: {heroImagePosition}; view-transition-name: hero-image;"
+					alt=""
+					aria-hidden="true"
+					role="presentation"
+				/>
+			</picture>
+		{/if}
 	</div>
 	<div
 		style="view-transition-name: hero-content"
@@ -48,14 +88,14 @@
 	>
 		<Logo width="96" height="96" shadow={true} />
 		<h1
-			class="text-center text-3xl font-light [text-shadow:_3px_3px_2px_rgba(0,0,0,.7)] md:text-5xl"
+			class="text-center text-3xl font-light [text-shadow:3px_3px_2px_rgba(0,0,0,.7)] md:text-5xl"
 		>
 			{heroTitle}
 		</h1>
 		<div class="flex flex-col items-center justify-center gap-6 md:w-1/2">
 			{#if heroDescription}
 				<p
-					class="text-center min-h-16 text-xl font-light [text-shadow:_3px_3px_2px_rgba(0,0,0,.7)] md:text-2xl"
+					class="text-center min-h-16 text-xl font-light [text-shadow:3px_3px_2px_rgba(0,0,0,.7)] md:text-2xl"
 				>
 					{heroDescription}
 				</p>
@@ -80,24 +120,10 @@
 </div>
 
 <style>
-	@keyframes fade-in {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
-	@keyframes fade-out {
-		to {
-			opacity: 0;
-		}
-	}
-
 	@media (prefers-reduced-motion: no-preference) {
 		::view-transition-group(hero-image) {
 			animation: none;
+			overflow: hidden;
 		}
 
 		::view-transition-old(hero-image) {
@@ -118,6 +144,21 @@
 
 		::view-transition-new(hero-content) {
 			animation: fade-in 0ms ease both;
+		}
+	}
+
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes fade-out {
+		to {
+			opacity: 0;
 		}
 	}
 </style>
