@@ -143,7 +143,7 @@ export const solarVariables = [
 export const models = [
 	[
 		{ value: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
-		{ value: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' }
+		{ value: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie AROME Europe' }
 	]
 ];
 

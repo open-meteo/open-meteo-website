@@ -148,8 +148,8 @@ export const solarVariables = [
 export const models = [
 	[
 		{ value: 'knmi_seamless', label: 'KNMI Seamless (with ECMWF)' },
-		{ value: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie Arome Europe' },
-		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' }
+		{ value: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie AROME Europe' },
+		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie AROME Netherlands' }
 	]
 ];
 

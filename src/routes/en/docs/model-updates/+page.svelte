@@ -217,7 +217,7 @@
 				url: '/en/docs/geosphere-austria-api',
 				models: [
 					{
-						name: 'GeoSphere Arome Austria',
+						name: 'GeoSphere AROME Austria',
 						area: ['at'],
 						meta: fetchMeta('geosphere_arome_austria', 'forecast', apiKeyPreferences)
 					}

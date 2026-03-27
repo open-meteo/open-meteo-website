@@ -452,8 +452,8 @@
 			grid. It is updated every 3 hours and provides forecasts for 60 hours. The AROME model code is
 			being further developed in collaboration with the partner meteorological services of the
 			ACCORD consortium. After 2.5 days, Open-Meteo combines forecasts with the <a
-				href="/en/docs/ecmwf-api">ECMWF IFS 0.25° model</a
-			> to provide up to 10 days of forecast.
+				href="/en/docs/ecmwf-api">ECMWF IFS HRES 9 km model</a
+			> to provide up to 15 days of forecast.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
@@ -479,7 +479,7 @@
 					<tr>
 						<th scope="row"
 							><a href="https://data.hub.geosphere.at/dataset/nwp-v1-1h-2500m" target="_blank"
-								>GeoSphere Arome Austria</a
+								>GeoSphere AROME Austria</a
 							></th
 						>
 						<td>Central Europe</td>
@@ -497,10 +497,10 @@
 			<enhanced:img
 				src="/static/images/models/geosphere_austria.png"
 				class="rounded-lg"
-				alt="GeoSphere Arome Austria model area"
+				alt="GeoSphere AROME Austria model area"
 			/>
 			<figcaption class="text-muted-foreground">
-				GeoSphere Arome Austria model area. Source: <a
+				GeoSphere AROME Austria model area. Source: <a
 					href="https://maps.open-meteo.com?domain=geosphere_arome_austria"
 					target="_blank">Open-Meteo Maps</a
 				>.
@@ -520,28 +520,14 @@
 				href="/en/docs">Weather Forecast API</a
 			>. Only notable remarks are listed below
 		</p>
-		<!-- <ul class="ml-6 list-disc">
+		<ul class="ml-6 list-disc">
 			<li>
-				<strong>Direct Solar Radiation:</strong> DMI provides direct solar radiation. Many other weather
-				models only provide global solar radiation and direct solar radiation must be calculated user
-				separation models.
+				<strong>Weather codes</strong> are directly used from the GeoSphere
 			</li>
 			<li>
-				<strong>Direct Normalized Irradiance (DNI):</strong> Although DNI is available, it has not been
-				integrated. Open-Meteo uses solar position algorithms which calculate DNI from direct radiation
-				with (almost) the same results.
+				<strong>Direct radiation</strong> is not provided directly, therefore a solar separation model
+				is used.
 			</li>
-			<li>
-				<strong>Wind Direction Correction:</strong> Wind direction has been calculated from U/V wind
-				component vectors. Special care has been taken to correct for the
-				<mark>Lambert Conformal Conic</mark> projection. Without this correction, wind directions have
-				an error of up to 15°.
-			</li>
-			<li>
-				<strong>Cloud Cover (2m):</strong> DMI provides cloud cover at 2 metre abouve ground which can
-				be interpreted as fog. This is remarkable, because only very weather models are capable of modeling
-				low level cloud cover and fog with a good degree of accuracy.
-			</li>
-		</ul> -->
+		</ul>
 	</div>
 </div>

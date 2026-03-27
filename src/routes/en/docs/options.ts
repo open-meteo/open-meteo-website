@@ -366,10 +366,10 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 	],
 	[
 		{ value: 'knmi_seamless', label: 'KNMI Seamless (with ECMWF)' },
-		{ value: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie Arome Europe' },
-		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
+		{ value: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie AROME Europe' },
+		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie AROME Netherlands' },
 		{ value: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
-		{ value: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' }
+		{ value: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie AROME Europe' }
 	],
 	[
 		{ value: 'ukmo_seamless', label: 'UK Met Office Seamless' },
