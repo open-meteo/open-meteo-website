@@ -529,7 +529,7 @@ export const meteoswiss_variables = [
 	'is_day'
 ];
 
-export const availableVariables = {
+export const availableVariables: Record<string, string[]> = {
 	icon_seamless_eps: icon_d2_variables,
 	icon_global_eps: icon_global_variables,
 	icon_eu_eps: icon_eu_variables,

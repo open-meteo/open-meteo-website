@@ -4,6 +4,7 @@ export const load = (() => {
 	return {
 		heroTitle: 'ECMWF Weather Forecast API',
 		heroDescription: 'Full Resolution 1-hourly IFS HRES at 9 km',
-		heroImage: '/images/backgrounds/mountains.webp'
+		heroImage: '/images/backgrounds/mountains.webp',
+		heroImagePosition: 'center 10%'
 	};
 }) satisfies LayoutLoad;

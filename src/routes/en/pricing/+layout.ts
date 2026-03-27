@@ -6,6 +6,7 @@ export const load = (() => {
 	return {
 		Logo: Snow,
 		heroImage: '/images/backgrounds/snowy.webp',
+		heroImagePosition: 'center 60%',
 		heroHeight: 500,
 		heroTitle: 'Pricing',
 		heroDescription: 'Commercial use licence, support and dedicated API capacity',

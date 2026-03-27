@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { fade, slide } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { sliceIntoChunks } from '$lib/utils';
+	import { isAvailable, isDailyAvailable, sliceIntoChunks } from '$lib/utils';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -98,51 +98,6 @@
 			accordionValues.push('pressure-variables');
 		}
 	});
-
-	const availableVariablesMap = availableVariables as Record<string, string[]>;
-
-	function isAvailable(variable: string, models: string[] | undefined): boolean {
-		// no model selected
-		if (!models || models.length == 0) {
-			return true;
-		}
-		for (const model of models) {
-			if (!availableVariablesMap[model]) {
-				continue;
-			}
-			if (availableVariablesMap[model].includes(variable)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	function isDailyAvailable(variable: string, models: string[] | undefined): boolean {
-		// remove last '_part' of variable, that they can be checked with the hourly variables
-		let variableSplit = variable.split('_');
-		if (
-			['max', 'mean', 'min', 'sum', 'hours', 'dominant'].includes(
-				variableSplit[variableSplit.length - 1]
-			)
-		) {
-			variableSplit.pop();
-		}
-		let variableBase = variableSplit.join('_');
-
-		// no model selected
-		if (!models || models.length == 0) {
-			return true;
-		}
-		for (const model of models) {
-			if (!availableVariablesMap[model]) {
-				continue;
-			}
-			if (availableVariablesMap[model].includes(variableBase)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	let beginDate = new Date('2023-04-01');
 
@@ -256,7 +211,7 @@
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 								{value}
 								checked={$params.hourly?.includes(value)}
-								disabled={!isAvailable(value, $params.models)}
+								disabled={!isAvailable(value, $params.models, availableVariables)}
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
@@ -303,7 +258,7 @@
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 										{value}
 										checked={$params.hourly?.includes(value)}
-										disabled={!isAvailable(value, $params.models)}
+										disabled={!isAvailable(value, $params.models, availableVariables)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
@@ -336,7 +291,7 @@
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -351,7 +306,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -371,7 +326,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -386,7 +341,7 @@
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -416,7 +371,11 @@
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 										{value}
 										checked={$params.hourly?.includes(value)}
-										disabled={!isAvailable('shortwave_radiation', $params.models)}
+										disabled={!isAvailable(
+											'shortwave_radiation',
+											$params.models,
+											availableVariables
+										)}
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
@@ -501,17 +460,17 @@
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
 				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-[227px]">
+					<div class="w-full md:w-56.75">
 						<ToggleGroup.Root type="single" bind:value={pressureVariablesTab}>
 							<div class="border-border flex flex-col rounded-lg border">
 								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
 										0
-											? 'rounded-t-md !rounded-b-none'
+											? 'rounded-t-md rounded-b-none!'
 											: ''} {i === pressureVariables.length - 1
-											? '!rounded-t-none rounded-b-md'
+											? 'rounded-t-none! rounded-b-md'
 											: ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
@@ -552,7 +511,8 @@
 															value="{variable.value}_{level}hPa"
 															disabled={!isAvailable(
 																`${variable.value}_${level}hPa`,
-																$params.models
+																$params.models,
+																availableVariables
 															)}
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
 															aria-labelledby="{variable.value}_{level}hPa"
@@ -585,7 +545,7 @@
 						{/each}
 					</div>
 				</div>
-				<div class="mt-3 lg:ml-[249px]">
+				<div class="mt-3 lg:ml-62.25">
 					<small class="text-muted-foreground"
 						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
@@ -614,7 +574,7 @@
 								{value}
 								checked={$params.daily?.includes(value)}
 								aria-labelledby="{value}_daily_label"
-								disabled={!isDailyAvailable(value, $params.models)}
+								disabled={!isDailyAvailable(value, $params.models, availableVariables)}
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
 										$params.daily = $params.daily.filter((item: string) => {
@@ -695,7 +655,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -855,7 +815,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1072,7 +1032,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1360,7 +1320,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

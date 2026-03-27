@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -48,7 +49,7 @@
 		solarVariables
 	} from './options';
 
-	let d = new Date();
+	let d = new SvelteDate();
 	d.setDate(d.getDate() - 2);
 	let endDateDefault = d.toISOString().split('T')[0];
 	d.setDate(d.getDate() - 14);
@@ -68,7 +69,7 @@
 	let timezoneInvalid = $derived($params.timezone == 'UTC' && ($params.daily?.length ?? 0) > 0);
 
 	let beginDate = new Date('2016-01-01');
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate());
 
 	// Additional variable settings
@@ -161,7 +162,7 @@
 	<Alert.Description>
 		This API provides access to archived high-resolution weather model data from the <a
 			class="text-link underline"
-			href={'/en/docs'}>Weather Forecast API</a
+			href="/en/docs">Weather Forecast API</a
 		>. The data is continuously archived and updated daily. For more information read the
 		<a
 			class="text-link underline"
@@ -192,7 +193,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2022-01-01';
 						$params.end_date = '2022-12-31';
 					}}>2022</Button
@@ -200,7 +201,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2023-01-01';
 						$params.end_date = '2023-12-31';
 					}}>2023</Button
@@ -208,7 +209,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2024-01-01';
 						$params.end_date = '2024-12-31';
 					}}>2024</Button
@@ -216,7 +217,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2025-01-01';
 						$params.end_date = endDateDefault;
 					}}>2025</Button
@@ -322,7 +323,7 @@
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -337,7 +338,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -357,7 +358,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -372,7 +373,7 @@
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -486,21 +487,21 @@
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
 				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-[227px]">
+					<div class="w-full md:w-56.75">
 						<ToggleGroup.Root
 							type="single"
 							bind:value={pressureVariablesTab}
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
 										0
-											? 'rounded-t-md !rounded-b-none'
+											? 'rounded-t-md rounded-b-none!'
 											: ''} {i === pressureVariables.length - 1
-											? '!rounded-t-none rounded-b-md'
+											? 'rounded-t-none! rounded-b-md'
 											: ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
@@ -570,7 +571,7 @@
 						{/each}
 					</div>
 				</div>
-				<div class="mt-3 lg:ml-[249px]">
+				<div class="mt-3 lg:ml-62.25">
 					<small class="text-muted-foreground"
 						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
@@ -721,7 +722,7 @@
 							type="single"
 							bind:value={$params.forecast_minutely_15}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastMinutely15?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -736,7 +737,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.past_minutely_15}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastMinutely15?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">

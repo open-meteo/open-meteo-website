@@ -62,7 +62,7 @@
 				<div class="border-border flex flex-col rounded-md border lg:flex-row">
 					<Button
 						variant="ghost"
-						class="items-center gap-1 rounded-b-none !opacity-100 duration-300 lg:rounded-e-none lg:rounded-t {tabSelected ===
+						class="items-center gap-1 rounded-b-none opacity-100! duration-300 lg:rounded-e-none lg:rounded-t {tabSelected ===
 						'weather-api'
 							? 'bg-accent cursor-not-allowed'
 							: ''}"
@@ -75,7 +75,7 @@
 					</Button>
 					<Button
 						variant="ghost"
-						class="items-center gap-1 rounded-none !opacity-100 duration-300 {tabSelected ===
+						class="items-center gap-1 rounded-none opacity-100! duration-300 {tabSelected ===
 						'last-10-days'
 							? 'bg-accent cursor-not-allowed'
 							: ''}"
@@ -88,7 +88,7 @@
 					</Button>
 					<Button
 						variant="ghost"
-						class="items-center gap-1 rounded-t-none !opacity-100 duration-300 lg:rounded-s-none lg:rounded-e  {tabSelected ===
+						class="items-center gap-1 rounded-t-none opacity-100! duration-300 lg:rounded-s-none lg:rounded-e  {tabSelected ===
 						'historical-weather'
 							? 'bg-accent cursor-not-allowed'
 							: ''}"

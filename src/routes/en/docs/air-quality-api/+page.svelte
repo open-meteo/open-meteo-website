@@ -119,7 +119,7 @@
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="gap-1 rounded-e-none !opacity-100 duration-300 {$params.time_mode ===
+					class="gap-1 rounded-e-none opacity-100! duration-300 {$params.time_mode ===
 					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
@@ -131,7 +131,7 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-clock mr-[2px]"
+						class="lucide lucide-clock mr-0.5"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"
@@ -148,7 +148,7 @@
 				</Button>
 				<Button
 					variant="ghost"
-					class="gap-1 rounded-s-none !opacity-100 duration-300  {$params.time_mode ===
+					class="gap-1 rounded-s-none opacity-100! duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -158,7 +158,7 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-calendar-cog mr-[2px]"
+						class="lucide lucide-calendar-cog mr-0.5"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"
@@ -684,7 +684,7 @@
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -699,7 +699,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -719,7 +719,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -734,7 +734,7 @@
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -919,7 +919,7 @@
 		<p>All URL parameters are listed below:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1104,7 +1104,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1234,7 +1234,7 @@
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

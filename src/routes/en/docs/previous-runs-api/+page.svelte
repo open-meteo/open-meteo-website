@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -105,7 +106,7 @@
 
 	let beginDate = new Date('2021-04-01');
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() + 16);
 </script>
 
@@ -150,7 +151,7 @@
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="gap-1 rounded-e-none !opacity-100 duration-300 {$params.time_mode ===
+					class="gap-1 rounded-e-none opacity-100! duration-300 {$params.time_mode ===
 					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
@@ -162,7 +163,7 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-clock mr-[2px]"
+						class="lucide lucide-clock mr-0.5"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"
@@ -179,7 +180,7 @@
 				</Button>
 				<Button
 					variant="ghost"
-					class="gap-1 rounded-s-none !opacity-100 duration-300  {$params.time_mode ===
+					class="gap-1 rounded-s-none opacity-100! duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -189,7 +190,7 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-calendar-cog mr-[2px]"
+						class="lucide lucide-calendar-cog mr-0.5"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"
@@ -358,7 +359,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -373,7 +374,7 @@
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">

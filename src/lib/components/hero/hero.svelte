@@ -4,6 +4,7 @@
 	interface Props {
 		Logo: import('svelte').Snippet;
 		heroImage: string;
+		heroImagePosition?: string;
 		heroTitle: string;
 		heroHeight: number;
 		heroDescription: string;
@@ -16,6 +17,7 @@
 	let {
 		Logo,
 		heroImage,
+		heroImagePosition = 'center',
 		heroHeight,
 		heroTitle,
 		heroDescription,
@@ -38,7 +40,7 @@
 			  view-transition-name: hero-image;
 			  background-image: url('{heroImage}');
 			  background-size: cover;
-			  background-position: center;
+			  background-position: {heroImagePosition};
 			"
 		></div>
 	</div>
@@ -48,14 +50,14 @@
 	>
 		<Logo width="96" height="96" shadow={true} />
 		<h1
-			class="text-center text-3xl font-light [text-shadow:_3px_3px_2px_rgba(0,0,0,.7)] md:text-5xl"
+			class="text-center text-3xl font-light [text-shadow:3px_3px_2px_rgba(0,0,0,.7)] md:text-5xl"
 		>
 			{heroTitle}
 		</h1>
 		<div class="flex flex-col items-center justify-center gap-6 md:w-1/2">
 			{#if heroDescription}
 				<p
-					class="text-center min-h-16 text-xl font-light [text-shadow:_3px_3px_2px_rgba(0,0,0,.7)] md:text-2xl"
+					class="text-center min-h-16 text-xl font-light [text-shadow:3px_3px_2px_rgba(0,0,0,.7)] md:text-2xl"
 				>
 					{heroDescription}
 				</p>

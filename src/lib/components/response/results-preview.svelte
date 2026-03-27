@@ -47,6 +47,7 @@
 
 	/// Parsed params that resolved CSV fields
 	let parsedParams = $derived.by(() => {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const jsonParams: Record<string, any> = { ...$params };
 		if ('time_mode' in jsonParams) {
 			if (jsonParams.time_mode == 'forecast_days') {
@@ -193,28 +194,28 @@
 			/// Number of weather variables for hourly, daily, current or minutely_15
 			const nHourly = cwParams.hourly
 				? Array.isArray(cwParams.hourly)
-					? (cwParams.hourly as any[]).length
+					? (cwParams.hourly as string[]).length
 					: (cwParams.hourly as string).length > 1
 						? 1
 						: 0
 				: 0;
 			const nDaily = cwParams.daily
 				? Array.isArray(cwParams.daily)
-					? (cwParams.daily as any[]).length
+					? (cwParams.daily as string[]).length
 					: (cwParams.daily as string).length > 1
 						? 1
 						: 0
 				: 0;
 			const nCurrent = cwParams.current
 				? Array.isArray(cwParams.current)
-					? (cwParams.current as any[]).length
+					? (cwParams.current as string[]).length
 					: (cwParams.current as string).length > 1
 						? 1
 						: 0
 				: 0;
 			const nMinutely15 = cwParams.minutely_15
 				? Array.isArray(cwParams.minutely_15)
-					? (cwParams.minutely_15 as any[]).length
+					? (cwParams.minutely_15 as string[]).length
 					: (cwParams.minutely_15 as string).length > 1
 						? 1
 						: 0
@@ -236,6 +237,7 @@
 	);
 
 	let error = $state('');
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let results: Promise<any[] | null> = $state(new Promise((resolve) => resolve(null)));
 	const reset = () => {
 		error = '';
@@ -244,11 +246,11 @@
 
 	// reset results on variable changes
 	$effect(() => {
-		$params;
+		void $params;
 		reset();
 	});
 	$effect(() => {
-		$apiKeyPreferences;
+		void $apiKeyPreferences;
 		reset();
 	});
 
@@ -365,8 +367,6 @@
 			multipleLocationsOrModels,
 			numberOfLocations,
 			numberOfModels,
-			server,
-			sdk_type,
 			previewUrl
 		)
 	);
@@ -386,7 +386,7 @@
 	<div class="border-border flex rounded-md border">
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {mode === 'chart'
+			class="items-center gap-1 rounded-e-none opacity-100! duration-300 {mode === 'chart'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'chart'}
@@ -399,7 +399,7 @@
 
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'python'
+			class="items-center gap-1 rounded-none opacity-100! duration-300 {mode === 'python'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'python'}
@@ -411,7 +411,7 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'typescript'
+			class="items-center gap-1 rounded-none opacity-100! duration-300 {mode === 'typescript'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'typescript'}
@@ -424,7 +424,7 @@
 		{#if sdk_type != 'ensemble_api'}
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'swift'
+				class="items-center gap-1 rounded-none opacity-100! duration-300 {mode === 'swift'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
 				disabled={mode === 'swift'}
@@ -437,7 +437,7 @@
 		{/if}
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {mode === 'other'
+			class="items-center gap-1 rounded-s-none opacity-100! duration-300 {mode === 'other'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'other'}

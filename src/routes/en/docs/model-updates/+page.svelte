@@ -107,17 +107,6 @@
 	const getData = (apiKeyPreferences: APIKeyPreferences): Section[] => {
 		let forecastModels = [
 			{
-				provider: 'ItaliaMeteo ARPAE',
-				url: '/en/docs/italia-meteo-arpae-api',
-				models: [
-					{
-						name: 'ICON 2I',
-						area: ['it'],
-						meta: fetchMeta('italia_meteo_arpae_icon_2i', 'forecast', apiKeyPreferences)
-					}
-				]
-			},
-			{
 				provider: 'BOM',
 				url: '/en/docs/bom-api',
 				models: [
@@ -224,6 +213,28 @@
 				]
 			},
 			{
+				provider: 'GeoSphere Austria',
+				url: '/en/docs/geosphere-austria-api',
+				models: [
+					{
+						name: 'GeoSphere AROME Austria',
+						area: ['at'],
+						meta: fetchMeta('geosphere_arome_austria', 'forecast', apiKeyPreferences)
+					}
+				]
+			},
+			{
+				provider: 'ItaliaMeteo ARPAE',
+				url: '/en/docs/italia-meteo-arpae-api',
+				models: [
+					{
+						name: 'ICON 2I',
+						area: ['it'],
+						meta: fetchMeta('italia_meteo_arpae_icon_2i', 'forecast', apiKeyPreferences)
+					}
+				]
+			},
+			{
 				provider: 'JMA',
 				url: '/en/docs/jma-api',
 				models: [
@@ -285,15 +296,6 @@
 						area: ['european_union'],
 						meta: fetchMeta('meteofrance_arpege_europe', 'forecast', apiKeyPreferences)
 					},
-					// { Removed 2026-02-02: Not provided anymore by Meteo-France
-					// 	name: 'ARPEGE Europe 0.1° Probabilities',
-					// 	area: ['european_union'],
-					// 	meta: fetchMeta(
-					// 		'meteofrance_arpege_europe_probabilities',
-					// 		'forecast',
-					// 		apiKeyPreferences
-					// 	)
-					// },
 					{
 						name: 'AROME France 0.01 HD°',
 						area: ['fr'],
@@ -688,9 +690,29 @@
 			}
 		];
 
+		let seasonalModels = [
+			{
+				provider: 'ECMWF',
+				url: '/en/docs/seasonal-forecast-api',
+				models: [
+					{
+						name: 'EC46',
+						area: [],
+						meta: fetchMeta('ecmwf_ec46', 'seasonal', apiKeyPreferences)
+					},
+					{
+						name: 'SEAS5',
+						area: [],
+						meta: fetchMeta('ecmwf_seas5', 'seasonal', apiKeyPreferences)
+					}
+				]
+			}
+		];
+
 		return [
 			{ name: 'Forecast API', providers: forecastModels },
 			{ name: 'Historical Weather API', providers: historicalModels },
+			{ name: 'Seasonal Forecast API', providers: seasonalModels },
 			{ name: 'Ensemble API', providers: ensembleModels },
 			{ name: 'Air Quality API', providers: airQualityModels },
 			{ name: 'Marine API', providers: marineModels },
@@ -740,7 +762,7 @@
 	let today = new SvelteDate();
 	today.setTime(0);
 
-	let mount = $state(new SvelteDate());
+	let mount = new SvelteDate();
 	let lastRefresh = $state('00:00');
 	let refreshTickerInterval: ReturnType<typeof setInterval> | undefined;
 	onMount(() => {
@@ -763,6 +785,9 @@
 	onDestroy(() => {
 		clearInterval(refreshTickerInterval);
 	});
+
+	const collectMetaPromises = (providers: { models: { meta: Promise<ModelMetadata> }[] }[]) =>
+		providers.flatMap((provider) => provider.models.map((model) => model.meta));
 </script>
 
 <svelte:head>
@@ -866,9 +891,6 @@
 				const newSections = getData($apiKeyPreferences);
 				sectionsAll = newSections;
 
-				const collectMetaPromises = (providers: { models: { meta: Promise<ModelMetadata> }[] }[]) =>
-					providers.flatMap((provider) => provider.models.map((model) => model.meta));
-
 				const allPromises = newSections.flatMap((section) =>
 					collectMetaPromises(section.providers)
 				);
@@ -971,8 +993,14 @@
 																? 'bg-red-400/75'
 																: ''}">{meta.last_run_availability_time}</td
 														>
-														<td>{meta.temporal_resolution_seconds / 3600} hourly</td>
-														<td>Every {meta.update_interval_seconds / 3600} h</td>
+														<td
+															>{meta.temporal_resolution_seconds > 3599
+																? meta.temporal_resolution_seconds === 3600
+																	? 'Hourly'
+																	: meta.temporal_resolution_seconds / 3600 + ' Hourly'
+																: meta.temporal_resolution_seconds / 60 + ' Minutely'}
+														</td>
+														<td>Every {meta.update_interval_seconds / 3600}h</td>
 														<td
 															><a href={meta.url} class="text-link underline" target="_blank"
 																>Link</a

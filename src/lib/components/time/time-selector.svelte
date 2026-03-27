@@ -13,8 +13,8 @@
 		params: Parameters;
 		forecastDaysOptions: { value: string; label: string }[];
 		pastDaysOptions: { value: string; label: string }[];
-		beginDate?: Date;
-		lastDate?: Date;
+		beginDate: Date;
+		lastDate: Date;
 	}
 
 	let {
@@ -38,7 +38,7 @@
 		<div class="border-border flex rounded-md border">
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {params.time_mode ===
+				class="items-center gap-1 rounded-e-none opacity-100! duration-300 {params.time_mode ===
 				'forecast_days'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
@@ -50,7 +50,7 @@
 				}}
 			>
 				<svg
-					class="lucide lucide-clock mr-[2px]"
+					class="lucide lucide-clock mr-0.5"
 					xmlns="http://www.w3.org/2000/svg"
 					width="18"
 					height="18"
@@ -67,7 +67,7 @@
 			</Button>
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-s-none !opacity-100 duration-300  {params.time_mode ===
+				class="items-center gap-1 rounded-s-none opacity-100! duration-300  {params.time_mode ===
 				'time_interval'
 					? 'bg-accent'
 					: ''}"
@@ -77,7 +77,7 @@
 				}}
 			>
 				<svg
-					class="lucide lucide-calendar-cog mr-[2px]"
+					class="lucide lucide-calendar-cog mr-0.5"
 					xmlns="http://www.w3.org/2000/svg"
 					width="18"
 					height="18"
@@ -157,10 +157,10 @@
 			<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
 				<div class="mb-3 lg:w-1/2">
 					<DatePicker
-						bind:start_date={params.start_date}
-						bind:end_date={params.end_date}
 						{beginDate}
 						{lastDate}
+						bind:start_date={params.start_date}
+						bind:end_date={params.end_date}
 					/>
 				</div>
 				<div class="mb-3 lg:w-1/2">

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -37,7 +38,7 @@
 		solarVariables
 	} from './options';
 
-	var d = new Date();
+	var d = new SvelteDate();
 	d.setDate(d.getDate() - 2);
 	let endDateDefault = d.toISOString().split('T')[0];
 	d.setDate(d.getDate() - 14);
@@ -101,7 +102,7 @@
 
 	let beginDate = new Date('1940-01-01');
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() - 1);
 </script>
 
@@ -329,7 +330,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -344,7 +345,7 @@
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -458,7 +459,7 @@
 				count={countVariables(ensembleSpreadVariables, $params.hourly)}
 			>
 				<div class="mt-2 grid sm:grid-cols-2">
-					{#each ensembleSpreadVariables as group}
+					{#each ensembleSpreadVariables as group, gi (gi)}
 						<div class="col-md-6">
 							{#each group as { value, label } (value)}
 								<div class="group flex items-center" title={label}>
@@ -694,7 +695,7 @@
 			</p>
 			<p>
 				You can access data dating back to 1940. If you're looking for weather information from the
-				previous day, our <a href={'/en/docs'} title="Weather Forecast API documentation"
+				previous day, our <a href="/en/docs" title="Weather Forecast API documentation"
 					>Forecast API</a
 				>
 				offers the <mark>&past_days=</mark> feature for your convenience.
@@ -703,7 +704,7 @@
 	</div>
 	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 		<table
-			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 		>
 			<caption class="text-muted-foreground mt-2 table-caption text-left"
 				>You can find the update timings in the <a
@@ -811,7 +812,7 @@
 	</p>
 	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 		<table
-			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 		>
 			<caption class="text-muted-foreground mt-2 table-caption text-left text-sm">
 				<p class="!mb-0">
@@ -924,7 +925,7 @@
 		<p>All URL parameters are listed below:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>Additional optional URL parameters will be added. For API stability, no required
@@ -1106,7 +1107,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1367,7 +1368,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1471,7 +1472,7 @@
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

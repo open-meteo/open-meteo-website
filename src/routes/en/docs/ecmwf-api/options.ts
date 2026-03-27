@@ -130,21 +130,25 @@ export const additionalVariables = [
 		{ value: 'temperature_2m_max', label: 'Temperature 3-Hourly Maximum (2 m)' },
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
 		{ value: 'precipitation_type', label: 'Precipitation Type' },
-				{
+
+		{ value: 'snowfall_water_equivalent', label: 'Snowfall (Water Equivalent)' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth (Water Equivalent)' },
+
+		{ value: 'lightning_density', label: 'Lightning Density' },
+		{ value: 'roughness_length', label: 'Roughness Length z₀' }
+	],
+	[
+		{ value: 'albedo', label: 'Albedo' },
+		{ value: 'k_index', label: 'K-Index' },
+		{
 			value: 'sea_level_height_msl',
 			label: 'Sea Level Height including tides (above global mean sea level)'
 		},
+		{ value: 'sea_ice_thickness', label: 'Sea Ice Thickness' },
+		{ value: 'sea_water_salinity', label: 'Sea Water Salinity' },
+		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
 		{ value: 'ocean_current_velocity', label: 'Ocean Current Velocity' },
-		{ value: 'ocean_current_direction', label: 'Ocean Current Direction' },
-		{ value: 'lightning_density', label: 'Lightning Density'},
-		{ value: 'sea_ice_thickness', label: 'Sea Ice Thickness'}
-	],
-	[
-		{ value: 'roughness_length', label: 'Roughness Length z₀' },
-		{ value: 'albedo', label: 'Albedo' },
-		{ value: 'k_index', label: 'K-Index' },
-		{ value: 'snowfall_water_equivalent', label: 'Snowfall (Water Equivalent)' },
-		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth (Water Equivalent)' }
+		{ value: 'ocean_current_direction', label: 'Ocean Current Direction' }
 	]
 ];
 

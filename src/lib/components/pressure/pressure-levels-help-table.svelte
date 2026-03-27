@@ -27,13 +27,13 @@
 		<tbody>
 			<tr>
 				<th>Level (hPa)</th>
-				{#each levels as level}
+				{#each levels as level (level)}
 					<td>{level}</td>
 				{/each}
 			</tr>
 			<tr>
 				<th>Altitude</th>
-				{#each levels as level}
+				{#each levels as level (level)}
 					<td>{altitudeAboveSeaLevelMeters(level)}</td>
 				{/each}
 			</tr>
