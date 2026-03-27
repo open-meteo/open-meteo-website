@@ -31,12 +31,16 @@ export const hourly = [
 		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
 		{ value: 'surface_temperature', label: 'Surface Temperature' },
+		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
+		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
 		{ value: 'weather_code', label: 'Weather code' }
 	],
 	[
 		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent' },
+		{ value: 'snowfall_height', label: 'Snowfall Height' },
 		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
 		{ value: 'surface_pressure', label: 'Surface Pressure' }
 	],

@@ -380,6 +380,10 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 		{ value: 'meteoswiss_icon_seamless', label: 'MeteoSwiss ICON Seamless' },
 		{ value: 'meteoswiss_icon_ch1', label: 'MeteoSwiss ICON CH1' },
 		{ value: 'meteoswiss_icon_ch2', label: 'MeteoSwiss ICON CH2' }
+	],
+	[
+		{ value: 'geosphere_seamless', label: 'GeoSphere Seamless (with ECMWF)' },
+		{ value: 'geosphere_arome_austria', label: 'GeoSphere AROME Austria' }
 	]
 ];
 

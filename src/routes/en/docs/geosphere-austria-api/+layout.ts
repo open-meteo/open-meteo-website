@@ -4,6 +4,7 @@ export const load = (() => {
 	return {
 		heroTitle: 'GeoSphere Austria API',
 		heroDescription: 'Weather forecasts from the GeoSphere Austria API',
-		heroImage: '/images/backgrounds/convective_clouds.webp'
+		heroImage: 'pizol.jpg',
+		heroImagePosition: 'center 65%'
 	};
 }) satisfies LayoutLoad;
