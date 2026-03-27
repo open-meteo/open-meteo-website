@@ -4,7 +4,6 @@ export const load = (() => {
 	return {
 		heroTitle: 'Marine Weather API',
 		heroDescription: 'Hourly wave forecasts at 5 km resolution',
-		heroImage: 'rhine.jpg',
-		heroImagePosition: 'center 60%'
+		heroImage: '/images/backgrounds/beach.webp'
 	};
 }) satisfies LayoutLoad;

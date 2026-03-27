@@ -4,7 +4,6 @@ export const load = (() => {
 	return {
 		heroTitle: 'Elevation API',
 		heroDescription: '90 meter resolution digital elevation model',
-		heroImage: 'mountains3.webp',
-		heroImagePosition: 'center 20%'
+		heroImage: '/images/backgrounds/mountains3.webp'
 	};
 }) satisfies LayoutLoad;

@@ -4,7 +4,6 @@ export const load = (() => {
 	return {
 		heroTitle: 'DWD ICON API',
 		heroDescription: 'Open data weather forecasts from the German weather service DWD',
-		heroImage: 'cloudy2.webp',
-		heroImagePosition: 'center 60%'
+		heroImage: '/images/backgrounds/cloudy2.webp'
 	};
 }) satisfies LayoutLoad;

@@ -5,10 +5,9 @@ import type { LayoutLoad } from './$types';
 export const load = (() => {
 	return {
 		Logo: Rain,
-		heroImage: 'features_background.webp',
+		heroImage: '/images/backgrounds/features_background.webp',
 		heroHeight: 300,
 		heroTitle: 'Terms & Privacy',
-		heroImagePosition: 'center 40%',
 		heroDescription: null,
 		heroPrimaryButtonPath: null,
 		heroPrimaryButtonText: null,

@@ -4,7 +4,6 @@ export const load = (() => {
 	return {
 		heroTitle: 'MeteoSwiss ICON CH',
 		heroDescription: 'Open data weather forecasts from MeteoSwiss',
-		heroImage: 'niederbauen.jpg',
-		heroImagePosition: 'center 45%'
+		heroImage: '/images/backgrounds/niederbauen.webp'
 	};
 }) satisfies LayoutLoad;

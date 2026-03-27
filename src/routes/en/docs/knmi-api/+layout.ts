@@ -4,7 +4,6 @@ export const load = (() => {
 	return {
 		heroTitle: 'KNMI Forecast API',
 		heroDescription: 'Weather forecasts from the Royal Netherlands Meteorological Institute',
-		heroImage: 'zeedijk.jpg',
-		heroImagePosition: 'center 45%'
+		heroImage: '/images/backgrounds/iceland_mountain.webp'
 	};
 }) satisfies LayoutLoad;
