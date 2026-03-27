@@ -1083,7 +1083,7 @@
 						<td
 							>Weather condition as a numeric code. Follow WMO weather interpretation codes. See
 							table below for details. Weather code is calculated from cloud cover analysis,
-							precipitation, snowfall, cape, lifted index and gusts.</td
+							precipitation, snowfall, cape and gusts.</td
 						>
 					</tr>
 					<tr>
