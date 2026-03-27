@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
 
-	import { getHeroImage } from '$lib/assets/backgrounds/index';
-
 	interface Props {
 		Logo: import('svelte').Snippet;
 		heroImage: string;
@@ -19,7 +17,7 @@
 	let {
 		Logo,
 		heroImage,
-		heroImagePosition = 'center center',
+		heroImagePosition = 'center',
 		heroHeight,
 		heroTitle,
 		heroDescription,
@@ -28,59 +26,23 @@
 		heroSecondaryButtonPath,
 		heroSecondaryButtonText
 	}: Props = $props();
-
-	const picture = $derived(getHeroImage(heroImage));
 </script>
 
 <svelte:head>
-	{#if picture}
-		{@const avifSrcset = picture.sources['avif']}
-		{@const webpSrcset = picture.sources['webp']}
-		{#if avifSrcset}
-			<link
-				rel="preload"
-				fetchpriority="high"
-				as="image"
-				type="image/avif"
-				imagesrcset={avifSrcset}
-				imagesizes="100vw"
-			/>
-		{:else if webpSrcset}
-			<link
-				rel="preload"
-				fetchpriority="high"
-				as="image"
-				type="image/webp"
-				imagesrcset={webpSrcset}
-				imagesizes="100vw"
-			/>
-		{/if}
-	{/if}
+	<link rel="preload" fetchpriority="high" as="image" href={heroImage} type="image/webp" />
 </svelte:head>
 
-<div style="height: {heroHeight}px" class="relative flex items-center">
-	<div class="absolute inset-0 -z-10 overflow-hidden">
-		{#if picture}
-			<picture>
-				{#each Object.entries(picture.sources) as [format, srcset] (srcset)}
-					<source {srcset} sizes="100vw" type="image/{format}" />
-				{/each}
-				<img
-					src={picture.img.src}
-					width={picture.img.w}
-					height={picture.img.h}
-					sizes="100vw"
-					loading="eager"
-					decoding="async"
-					fetchpriority="high"
-					class="h-full w-full object-cover"
-					style="object-position: {heroImagePosition}; view-transition-name: hero-image;"
-					alt=""
-					aria-hidden="true"
-					role="presentation"
-				/>
-			</picture>
-		{/if}
+<div style="height: {heroHeight}px;" class="relative flex items-center">
+	<div class="absolute inset-0 -z-10">
+		<div
+			class="h-full w-full"
+			style="
+			  view-transition-name: hero-image;
+			  background-image: url('{heroImage}');
+			  background-size: cover;
+			  background-position: {heroImagePosition};
+			"
+		></div>
 	</div>
 	<div
 		style="view-transition-name: hero-content"
@@ -120,10 +82,24 @@
 </div>
 
 <style>
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes fade-out {
+		to {
+			opacity: 0;
+		}
+	}
+
 	@media (prefers-reduced-motion: no-preference) {
 		::view-transition-group(hero-image) {
 			animation: none;
-			overflow: hidden;
 		}
 
 		::view-transition-old(hero-image) {
@@ -144,21 +120,6 @@
 
 		::view-transition-new(hero-content) {
 			animation: fade-in 0ms ease both;
-		}
-	}
-
-	@keyframes fade-in {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
-	@keyframes fade-out {
-		to {
-			opacity: 0;
 		}
 	}
 </style>
