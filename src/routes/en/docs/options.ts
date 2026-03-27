@@ -366,10 +366,10 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 	],
 	[
 		{ value: 'knmi_seamless', label: 'KNMI Seamless (with ECMWF)' },
-		{ value: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie Arome Europe' },
-		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
+		{ value: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie AROME Europe' },
+		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie AROME Netherlands' },
 		{ value: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
-		{ value: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' }
+		{ value: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie AROME Europe' }
 	],
 	[
 		{ value: 'ukmo_seamless', label: 'UK Met Office Seamless' },
@@ -380,6 +380,10 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 		{ value: 'meteoswiss_icon_seamless', label: 'MeteoSwiss ICON Seamless' },
 		{ value: 'meteoswiss_icon_ch1', label: 'MeteoSwiss ICON CH1' },
 		{ value: 'meteoswiss_icon_ch2', label: 'MeteoSwiss ICON CH2' }
+	],
+	[
+		{ value: 'geosphere_seamless', label: 'GeoSphere Seamless (with ECMWF)' },
+		{ value: 'geosphere_arome_austria', label: 'GeoSphere AROME Austria' }
 	]
 ];
 

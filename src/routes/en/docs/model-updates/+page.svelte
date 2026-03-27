@@ -107,17 +107,6 @@
 	const getData = (apiKeyPreferences: APIKeyPreferences): Section[] => {
 		let forecastModels = [
 			{
-				provider: 'ItaliaMeteo ARPAE',
-				url: '/en/docs/italia-meteo-arpae-api',
-				models: [
-					{
-						name: 'ICON 2I',
-						area: ['it'],
-						meta: fetchMeta('italia_meteo_arpae_icon_2i', 'forecast', apiKeyPreferences)
-					}
-				]
-			},
-			{
 				provider: 'BOM',
 				url: '/en/docs/bom-api',
 				models: [
@@ -220,6 +209,28 @@
 						name: 'IFS 0.25°',
 						area: [],
 						meta: fetchMeta('ecmwf_ifs025', 'forecast', apiKeyPreferences)
+					}
+				]
+			},
+			{
+				provider: 'GeoSphere Austria',
+				url: '/en/docs/geosphere-austria-api',
+				models: [
+					{
+						name: 'GeoSphere AROME Austria',
+						area: ['at'],
+						meta: fetchMeta('geosphere_arome_austria', 'forecast', apiKeyPreferences)
+					}
+				]
+			},
+			{
+				provider: 'ItaliaMeteo ARPAE',
+				url: '/en/docs/italia-meteo-arpae-api',
+				models: [
+					{
+						name: 'ICON 2I',
+						area: ['it'],
+						meta: fetchMeta('italia_meteo_arpae_icon_2i', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -982,8 +993,14 @@
 																? 'bg-red-400/75'
 																: ''}">{meta.last_run_availability_time}</td
 														>
-														<td>{meta.temporal_resolution_seconds / 3600} hourly</td>
-														<td>Every {meta.update_interval_seconds / 3600} h</td>
+														<td
+															>{meta.temporal_resolution_seconds > 3599
+																? meta.temporal_resolution_seconds === 3600
+																	? 'Hourly'
+																	: meta.temporal_resolution_seconds / 3600 + ' Hourly'
+																: meta.temporal_resolution_seconds / 60 + ' Minutely'}
+														</td>
+														<td>Every {meta.update_interval_seconds / 3600}h</td>
 														<td
 															><a href={meta.url} class="text-link underline" target="_blank"
 																>Link</a
