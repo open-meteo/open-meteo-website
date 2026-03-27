@@ -8,7 +8,7 @@ describe('Hero', () => {
 		cy.mount(Hero as any, {
 			props: {
 				Logo: Sun,
-				heroImage: '/images/convective_clouds.webp',
+				heroImage: 'convective_clouds.webp',
 				heroHeight: 600,
 				heroTitle: 'Free Weather API',
 				heroDescription:
