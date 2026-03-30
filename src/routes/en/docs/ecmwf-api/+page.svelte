@@ -1253,6 +1253,16 @@
 							are set to "nan", a bi-axial tracker is assumed.</td
 						>
 					</tr>
+                    <tr>
+						<th scope="row">boundary_layer_height</th>
+						<td>Instant</td>
+						<td>m</td>
+						<td
+							>This parameter is the depth of air next to the Earth's surface which is most affected
+                            by the resistance to the transfer of momentum, heat or moisture across the surface.
+                            This option is only available for IFS HRES.</td
+						>
+					</tr>
 				</tbody>
 			</table>
 		</div>
