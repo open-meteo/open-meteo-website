@@ -148,7 +148,8 @@ export const additionalVariables = [
 		{ value: 'sea_water_salinity', label: 'Sea Water Salinity' },
 		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
 		{ value: 'ocean_current_velocity', label: 'Ocean Current Velocity' },
-		{ value: 'ocean_current_direction', label: 'Ocean Current Direction' }
+		{ value: 'ocean_current_direction', label: 'Ocean Current Direction' },
+		{ value: 'boundary_layer_height', label: 'Boundary Layer Height PBL' }
 	]
 ];
 
