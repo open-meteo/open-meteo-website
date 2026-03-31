@@ -32,18 +32,19 @@
 		"cypress:local:open": "CYPRESS_BASE_URL=http://localhost:5173 start-server-and-test dev http://localhost:5173 cy:open"
 	},
 	"devDependencies": {
+		"@eslint/js": "^10.0.1",
 		"@internationalized/date": "^3.12.0",
 		"@lucide/svelte": "^1.0.0",
 		"@poppanator/sveltekit-svg": "^6.0.0",
 		"@shikijs/transformers": "^4.0.1",
 		"@sveltejs/adapter-static": "^3.0.8",
-		"@sveltejs/enhanced-img": "^0.10.3",
+		"@sveltejs/enhanced-img": "^0.10.4",
 		"@sveltejs/kit": "^2.55.0",
 		"@sveltejs/vite-plugin-svelte": "^7.0.0",
 		"@tailwindcss/container-queries": "^0.1.1",
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.16",
-		"@tailwindcss/vite": "^4.2.1",
+		"@tailwindcss/vite": "^4.2.2",
 		"@trivago/prettier-plugin-sort-imports": "^6.0.0",
 		"@vitest/coverage-v8": "^4.1.0",
 		"autoprefixer": "^10.4.20",
@@ -83,8 +84,5 @@
 		"vite": "^8.0.2",
 		"vitest": "^4.0.4",
 		"zod": "^4.3.5"
-	},
-	"dependencies": {
-		"@eslint/js": "^10.0.1"
 	}
 }
