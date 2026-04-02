@@ -46,7 +46,7 @@
 	});
 
 	beforeNavigate((e) => {
-		if (fromNotTo(e)) {
+		if (fromNotTo(e) && !e?.to?.url?.href.includes('&format=xlsx') && !e?.to?.url?.href.includes('&format=csv')) {
 			loadingTimeout = setTimeout(() => {
 				loading = true;
 			}, 300);
