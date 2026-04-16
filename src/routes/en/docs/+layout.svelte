@@ -37,7 +37,9 @@
 			]
 		},
 		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
-		{ title: 'Ensemble Models', url: '/en/docs/ensemble-api' },
+		{ title: 'Ensemble Models', url: '/en/docs/ensemble-api', children: [
+			{ title: 'Ensemble Mean API', url: '/en/docs/ensemble-mean-api' }
+		]},
 		{ title: 'Seasonal Forecast', url: '/en/docs/seasonal-forecast-api' },
 		{ title: 'Climate Change', url: '/en/docs/climate-api' },
 		{ title: 'Marine Forecast', url: '/en/docs/marine-weather-api' },
@@ -49,7 +51,6 @@
 	];
 	if (dev) {
 		links.push({ title: 'Single Runs', url: '/en/docs/single-runs-api' });
-		links.splice(3, 0, { title: 'Ensemble Mean API', url: '/en/docs/ensemble-mean-api' });
 	}
 
 	interface Path {
