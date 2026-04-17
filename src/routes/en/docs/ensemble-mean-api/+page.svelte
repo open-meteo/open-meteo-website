@@ -791,7 +791,8 @@
 											class="cursor-pointer  truncate py-[0.1rem] pl-[0.42rem]">Mean</Label
 										>
 									</div>
-									{#if !noSpreadVariables.includes(value)}
+									<!-- PZ Disabled daily spread variables for now, because not yet implemented in the API -->
+									<!-- {#if !noSpreadVariables.includes(value)}
 										<div class="group flex items-center" title="{label} Spread">
 											<Checkbox
 												id="{value}_daily_spread"
@@ -818,7 +819,7 @@
 												class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">Spread</Label
 											>
 										</div>
-									{/if}
+									{/if} -->
 								</div>
 							</div>
 						</div>
