@@ -129,13 +129,13 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		This API provides access to individual ensemble member forecasts from different weather models.
-		Up to 3 days of past data are available. We also store <a
+		This API offers access to individual ensemble member forecasts from various weather models. You
+		can retrieve up to three days of historical data. Additionally, we store <a
 			href="/en/docs/ensemble-mean-api"
 			title="Ensemble Mean API"
-			class="text-link underline">ensemble means and spread</a
+			class="text-link underline">ensemble means and spreads</a
 		>
-		with a longer storage duration. You can learn more about ensemble models in this
+		with a longer retention period. For more information on ensemble models, see this
 		<a
 			class="text-link underline"
 			href="https://openmeteo.substack.com/p/ensemble-weather-forecast-api"
