@@ -11,7 +11,7 @@ export const defaultParameters = {
 
 	time_mode: 'forecast_days',
 	past_days: '7',
-	forecast_days: '7',
+	forecast_days: '1',
 
 	start_date: undefined,
 	end_date: undefined,
