@@ -128,7 +128,8 @@
 			delete jsonParams.bounding_box;
 		}
 
-		return objectDifference(jsonParams, defaultParameters);
+		const { forecast_days, past_days, ...diffDefaults } = defaultParameters;
+		return objectDifference(jsonParams, diffDefaults as typeof defaultParameters);
 	});
 
 	let server = $derived(
@@ -168,8 +169,8 @@
 				const end = new Date(cwParams['end_date'] as string).getTime();
 				nDays = (end - start) / 1000 / 86400;
 			} else {
-				const forecast_days = cwParams['forecast_days'] ?? 7;
-				const past_days = cwParams['past_days'] ?? 0;
+				const forecast_days = cwParams['forecast_days'] ?? defaultParameters.forecast_days ?? 7;
+				const past_days = cwParams['past_days'] ?? defaultParameters.past_days ?? 0;
 				nDays = Number(forecast_days) + Number(past_days);
 			}
 			/// Number or models (including number of ensemble members)
