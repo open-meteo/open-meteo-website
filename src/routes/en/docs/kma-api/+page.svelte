@@ -19,6 +19,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 
@@ -729,18 +730,17 @@
 		</div>
 	</div>
 
-	<figure class="mt-6">
-		<img
-			src="/images/models/kma_ldps.webp"
-			class="rounded-lg"
-			alt="KMA LDPS model domain area at 1.5 km resolution"
-		/>
-		<figcaption class="text-muted-foreground">
+	<ZoomableImage
+		figureClass="mt-6"
+		src="/images/models/kma_ldps.webp"
+		alt="KMA LDPS model domain area at 1.5 km resolution"
+	>
+		{#snippet caption()}
 			KMA LDPS domain area at 1.5 km resolution. Source: <a href="https://open-meteo.com/"
 				>Open-Meteo</a
 			>.
-		</figcaption>
-	</figure>
+		{/snippet}
+	</ZoomableImage>
 </div>
 
 <!-- API DOCS -->
