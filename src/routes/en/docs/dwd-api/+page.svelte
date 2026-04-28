@@ -26,6 +26,8 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -838,29 +840,29 @@
 			</table>
 		</div>
 
-		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<figure class="w-full">
-				<img
-					class="w-full rounded-lg"
-					src="/images/models/dwd_icon-d2.webp"
-					alt="ICON D2 Modal Area"
-				/>
-				<figcaption class="text-muted-foreground">
+		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+			<ZoomableImage
+				figureClass="w-full"
+				class="w-full"
+				src="/images/models/dwd_icon-d2.webp"
+				alt="ICON D2 Model Area"
+			>
+				{#snippet caption()}
 					ICON D2 Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
-				</figcaption>
-			</figure>
+				{/snippet}
+			</ZoomableImage>
 
-			<figure class="w-full">
-				<img
-					class="w-full rounded-lg"
-					src="/images/models/dwd_icon-eu.webp"
-					alt="ICON EU Regional Model Area"
-				/>
-				<figcaption class="text-muted-foreground">
+			<ZoomableImage
+				figureClass="w-full"
+				class="w-full"
+				src="/images/models/dwd_icon-eu.webp"
+				alt="ICON EU Regional Model Area"
+			>
+				{#snippet caption()}
 					ICON EU Regional Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
-				</figcaption>
-			</figure>
-		</div>
+				{/snippet}
+			</ZoomableImage>
+		</ZoomableImageGallery>
 	</div>
 </div>
 
