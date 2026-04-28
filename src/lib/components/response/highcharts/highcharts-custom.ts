@@ -1,6 +1,6 @@
 // sort-imports-ignore
 import Highcharts from 'highcharts/es-modules/Core/Globals.js';
-import Utilities from 'highcharts/es-modules/Core/Utilities.js';
+import * as Utilities from 'highcharts/es-modules/Shared/Utilities.js';
 import Defaults from 'highcharts/es-modules/Core/Defaults.js';
 import SVGElement from 'highcharts/es-modules/Core/Renderer/SVG/SVGElement.js';
 import SVGRenderer from 'highcharts/es-modules/Core/Renderer/SVG/SVGRenderer.js';
