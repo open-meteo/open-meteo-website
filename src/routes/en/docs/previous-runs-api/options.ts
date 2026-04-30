@@ -73,6 +73,14 @@ export const windVariables = [
 	{ value: 'wind_direction_180m', label: 'Wind Direction (180 m)' }
 ];
 
+export const forecastDaysOptions = [
+	{ value: '1', label: '1 day (default)' },
+	{ value: '3', label: '3 days' },
+	{ value: '7', label: '7 days' },
+	{ value: '14', label: '14 days' },
+	{ value: '16', label: '16 days' }
+];
+
 export const pastDaysOptions = [
 	{ value: '0', label: '0 days' },
 	{ value: '1', label: '1 day' },

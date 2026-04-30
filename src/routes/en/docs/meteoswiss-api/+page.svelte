@@ -674,7 +674,12 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultsPreview {params} {defaultParameters} model_default="meteoswiss_icon_ch1" />
+	<ResultsPreview
+		{params}
+		{defaultParameters}
+		model_default="meteoswiss_icon_ch1"
+		defaultTimeParameters={false}
+	/>
 </div>
 
 <!-- DATA SOURCES -->
