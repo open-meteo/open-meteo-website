@@ -736,7 +736,12 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultsPreview {params} {defaultParameters} model_default="italia_meteo_arpae_icon_2i" />
+	<ResultsPreview
+		{params}
+		{defaultParameters}
+		model_default="italia_meteo_arpae_icon_2i"
+		defaultTimeParameters={false}
+	/>
 </div>
 
 <!-- DATA SOURCES -->
