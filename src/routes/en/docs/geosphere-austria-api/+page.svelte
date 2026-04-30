@@ -439,7 +439,12 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultsPreview {params} {defaultParameters} model_default="geosphere_arome_austria" />
+	<ResultsPreview
+		{params}
+		{defaultParameters}
+		model_default="geosphere_arome_austria"
+		defaultTimeParameters={false}
+	/>
 </div>
 
 <!-- DATA SOURCES -->
