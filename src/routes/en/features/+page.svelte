@@ -170,7 +170,7 @@
 			</p>
 			<ul class="mt-1 list-disc pl-5">
 				<li>
-					<strong>ERA5 reanalysis</strong> back to 1940 — climate analysis and long-range baselines
+					<strong>Weather reanalysis</strong> back to 1940 — climate analysis and long-range baselines
 				</li>
 				<li>
 					<strong>Historical Forecast archive</strong> from ~2021 — seamless NWP time series matching
@@ -282,7 +282,7 @@
 		<div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
 			<div class="border-border rounded-lg border p-6">
 				<h3 class="mb-1 text-2xl font-bold">
-					<a href="/en/docs/historical-weather-api">ERA5 Reanalysis — back to 1940</a>
+					<a href="/en/docs/historical-weather-api">Weather Reanalysis — back to 1940</a>
 				</h3>
 				<p class="text-muted-foreground mb-3 text-sm">Historical Weather API</p>
 				<p>
@@ -294,7 +294,7 @@
 				<p class="mt-2">
 					This is the standard dataset for climate baselines, anomaly detection, long-range
 					correlations, and training models where decades of labelled examples are needed. The API
-					delivers data in seconds — a multi-decade time series for a single location returns in
+					delivers data lightning-fast — a multi-decade time series for a single location returns in
 					under 100 ms.
 				</p>
 			</div>
