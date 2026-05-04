@@ -850,3 +850,173 @@
 <div class="mt-6 md:mt-12">
 	<ResultsPreview {params} {defaultParameters} type="single-runs" useStockChart={true} />
 </div>
+
+<!-- DATA SOURCES -->
+<div class="mt-6 md:mt-12">
+	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
+	<div class="mt-2 md:mt-4">
+		<p>
+			Numerical weather prediction (NWP) models are initialised and executed multiple times per
+			day. Each run ingests the latest observations — from weather stations, radiosondes, aircraft,
+			satellites, and ocean buoys — and produces a complete forecast from the initialisation time
+			out to the model's full forecast horizon, typically 7–16 days. The operational Open-Meteo forecast API
+			stitch together the most recent run of each model into a seamless, continuously updated time
+			series. While this is ideal for end-user applications, it discards the individual run
+			structure that is essential for research, post-processing, and backtesting workflows.
+		</p>
+		<p>
+			The Single Runs API preserves this structure. Each model run is stored and retrievable
+			independently, so you can request the exact forecast that was issued at a specific
+			initialisation time. The <mark>&run=</mark> parameter selects the run by its UTC initialisation
+			datetime, e.g. <mark>run=2025-09-01T00:00</mark>.
+		</p>
+		<p>
+			Archival model runs are available from <strong>September 2025</strong> onwards for most
+			models. Extending the archive further into the past is possible on request, but is subject to
+			upstream archive availability — many national weather services do not retain individual-run
+			archives beyond a rolling window.
+		</p>
+		<p>
+			As a notable exception, <strong>ECMWF IFS at native 9 km resolution (HRES)</strong> is
+			available from <strong>March 14th 2024</strong> onwards, sourced from IFS Cycle 49R1
+			hindcasts. ECMWF IFS HRES is widely regarded as the highest-quality global NWP model and
+			serves as the backbone of the
+			<a class="text-link underline" href="/en/docs/historical-weather-api"
+				>Open-Meteo Historical Weather API</a
+			>. Having access to individual ECMWF runs is particularly valuable for renewable energy
+			forecasting, where the full forecast horizon from a single run is needed to schedule
+			production and trading decisions days in advance.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 mt-4 w-full min-w-[1100px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Weather Provider</th>
+						<th scope="col">Model</th>
+						<th scope="col">Region</th>
+						<th scope="col">Resolution</th>
+						<th scope="col">Temporal Resolution</th>
+						<th scope="col">Forecast Horizon</th>
+						<th scope="col">Run Frequency</th>
+						<th scope="col">Available From</th>
+					</tr>
+				</thead>
+				<tbody class="[&_a]:text-link [&_a]:underline [&_a]:underline-offset-3">
+					<tr>
+						<th scope="row">ECMWF</th>
+						<td><a href="/en/docs/ecmwf-api">IFS HRES 9 km</a></td>
+						<td>Global</td>
+						<td>9 km (O1280 grid)</td>
+						<td>Hourly</td>
+						<td>10 days</td>
+						<td>4× daily (00, 06, 12, 18 UTC)</td>
+						<td>2024-03-14</td>
+					</tr>
+					<tr>
+						<th scope="row">Others</th>
+						<td>-</td>
+						<td>Global & Regional</td>
+						<td>up to 1 km</td>
+						<td>up to 15 minutely</td>
+						<td>up to 16 days</td>
+						<td>-</td>
+						<td>2025-09-01</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- USE CASES -->
+<div class="mt-6 md:mt-12">
+	<a href="#use_cases"
+		><h2 id="use_cases" class="text-2xl md:text-3xl">Why Access Individual Model Runs?</h2></a
+	>
+	<div class="mt-2 md:mt-4 space-y-3">
+		<p>
+			Operational weather forecasts blend the latest model runs into a single seamless time-series,
+			which is ideal for end-user applications. However, for research and advanced modelling
+			purposes it is often essential to work with data from a single, unmodified model run.
+		</p>
+		<p>
+			<strong>Forecast error analysis.</strong> Every model run produces a complete forecast from
+			the initialisation time out to the full forecast horizon — typically 7–16 days. By comparing
+			the forecast issued at run time <mark>T+0</mark> with reality (e.g. observations or reanalysis),
+			you can directly measure how forecast skill degrades as lead time increases. This run-level error
+			data is the foundation for bias-correction and post-processing pipelines.
+		</p>
+		<p>
+			<strong>Machine-learning model training.</strong> Training a statistical or neural-network post-processing
+			model requires labelled examples of (raw NWP forecast, verifying observation) pairs for many past
+			runs. Mixing data from different runs that overlap in valid time would create look-ahead bias; accessing
+			each run independently avoids this problem and produces well-defined training and validation splits.
+		</p>
+		<p>
+			<strong>Operational backtesting and event reconstruction.</strong> Energy traders, grid operators,
+			and logistics companies base decisions on the forecast that was available at a specific moment in
+			time. Reconstructing the decision-relevant forecast — exactly what a model said at 00 UTC on a given
+			date — requires access to that individual run rather than a retrospective seamless merge.
+		</p>
+		<p>
+			<strong>Model intercomparison and verification.</strong> Comparing the real-time forecast skill
+			of multiple NWP models (e.g. ECMWF IFS vs. GFS vs. ICON) on a run-by-run basis makes it possible
+			to identify which model performs best in specific regions, seasons, or weather regimes.
+		</p>
+	</div>
+</div>
+
+<!-- API ENDPOINT -->
+<div class="mt-6 md:mt-12">
+	<a href="#api_endpoint">
+		<h2 id="api_endpoint" class="text-2xl md:text-3xl">API Endpoint</h2>
+	</a>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The API endpoint <mark>https://single-runs-api.open-meteo.com/v1/forecast</mark> accepts the
+			same parameters as the
+			<a class="text-link underline" href="/en/docs">Weather Forecast API</a>, with one additional
+			required parameter: <mark>run</mark>. All weather variables, units, and output formats
+			available in the Forecast API are supported. Data is served from a dedicated archive storage
+			system, so response times may be higher than the real-time forecast API.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[800px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Required</th>
+						<th scope="col">Default</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">run</th>
+						<td>ISO 8601 datetime</td>
+						<td>Yes</td>
+						<td></td>
+						<td
+							>The initialisation date and time of the model run to retrieve. Must be provided in
+							ISO 8601 format without seconds, e.g. <mark>run=2024-06-01T00:00</mark>. The time must
+							correspond to a valid run cycle for the selected model (e.g. 00, 06, 12, 18 UTC for
+							most global models). Runs that are not available will return an error.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-3 md:mt-6">
+			All other parameters from the Forecast API — including <mark>latitude</mark>,
+			<mark>longitude</mark>, <mark>hourly</mark>, <mark>daily</mark>, and others — are also
+			accepted unchanged. Please refer to the
+			<a class="text-link underline" href="/en/docs">Weather Forecast API documentation</a> for a complete
+			parameter reference.
+		</p>
+	</div>
+</div>
