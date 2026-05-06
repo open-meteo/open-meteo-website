@@ -856,25 +856,25 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			Numerical weather prediction (NWP) models are initialised and executed multiple times per
-			day. Each run ingests the latest observations — from weather stations, radiosondes, aircraft,
+			Numerical weather prediction (NWP) models are initialised and executed multiple times per day.
+			Each run ingests the latest observations — from weather stations, radiosondes, aircraft,
 			satellites, and ocean buoys — and produces a complete forecast from the initialisation time
-			out to the model's full forecast horizon, typically 7–16 days. The operational Open-Meteo forecast API
-			stitch together the most recent run of each model into a seamless, continuously updated time
-			series. While this is ideal for end-user applications, it discards the individual run
-			structure that is essential for research, post-processing, and backtesting workflows.
+			out to the model's full forecast horizon, typically 7–16 days. The operational Open-Meteo
+			forecast API stitch together the most recent run of each model into a seamless, continuously
+			updated time series. While this is ideal for end-user applications, it discards the individual
+			run structure that is essential for research, post-processing, and backtesting workflows.
 		</p>
 		<p>
 			The Single Runs API preserves this structure. Each model run is stored and retrievable
 			independently, so you can request the exact forecast that was issued at a specific
-			initialisation time. The <mark>&run=</mark> parameter selects the run by its UTC initialisation
-			datetime, e.g. <mark>run=2025-09-01T00:00</mark>.
+			initialisation time. The <mark>&run=</mark> parameter selects the run by its UTC
+			initialisation datetime, e.g. <mark>run=2025-09-01T00:00</mark>.
 		</p>
 		<p>
-			Archival model runs are available from <strong>September 2025</strong> onwards for most
-			models. Extending the archive further into the past is possible on request, but is subject to
-			upstream archive availability — many national weather services do not retain individual-run
-			archives beyond a rolling window.
+			Archival model runs are available from <strong>September 2025</strong> onwards for most models.
+			Extending the archive further into the past is possible on request, but is subject to upstream archive
+			availability — many national weather services do not retain individual-run archives beyond a rolling
+			window.
 		</p>
 		<p>
 			As a notable exception, <strong>ECMWF IFS at native 9 km resolution (HRES)</strong> is
