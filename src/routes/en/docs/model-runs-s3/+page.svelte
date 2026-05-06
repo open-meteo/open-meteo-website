@@ -3,7 +3,7 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import PythonPreview from './python-preview.svx';
+	import { pythonPreviewCodeExample } from './python-preview-code-example';
 
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
@@ -71,6 +71,11 @@
 		<a href="#python-preview">
 			<h2 id="python-preview" class="text-2xl md:text-3xl">Python preview</h2>
 		</a>
-		<PythonPreview {params} />
+		{@html pythonPreviewCodeExample(
+			$params.domain || 'ecmwf_ifs',
+			'temperature_2m',
+			Number($params.latitude?.[0] ?? 52.52),
+			Number($params.longitude?.[0] ?? 13.41)
+		)}
 	</div>
 </div>

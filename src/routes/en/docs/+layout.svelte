@@ -54,7 +54,7 @@
 	if (dev) {
 		links.push({ title: 'Single Runs', url: '/en/docs/single-runs-api' });
 		links.push({
-			title: 'Model runs S3',
+			title: 'Model Runs S3',
 			url: '/en/docs/model-runs-s3'
 		});
 	}
