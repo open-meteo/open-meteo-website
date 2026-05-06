@@ -3,6 +3,8 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
+	import PythonPreview from './python-preview.svx';
+
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
 
@@ -67,5 +69,12 @@
 			</a>
 			<div class="relative"></div>
 		</div>
+	</div>
+
+	<div class="mt-3 md:mt-6 flex gap-3 md:gap-6 flex-col">
+		<a href="#python-preview">
+			<h2 id="python-preview" class="text-2xl md:text-3xl">Python preview</h2>
+		</a>
+		<PythonPreview {params} />
 	</div>
 </div>
