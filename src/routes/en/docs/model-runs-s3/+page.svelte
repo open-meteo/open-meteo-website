@@ -3,14 +3,14 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { pythonPreviewCodeExample } from './python-preview-code-example';
-
+	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
 
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
 	import { defaultParameters } from './options';
+	import { pythonPreviewCodeExample } from './python-preview-code-example';
 
 	let { data } = $props();
 
@@ -27,6 +27,9 @@
 		longitude: [13.41],
 		domain: 'ecmwf_ifs'
 	});
+
+	let codeInstallCopied = $state(false);
+	let codeExampleCopied = $state(false);
 </script>
 
 <div>
@@ -71,11 +74,59 @@
 		<a href="#python-preview">
 			<h2 id="python-preview" class="text-2xl md:text-3xl">Python preview</h2>
 		</a>
-		{@html pythonPreviewCodeExample(
-			$params.domain || 'ecmwf_ifs',
-			'temperature_2m',
-			Number($params.latitude?.[0] ?? 52.52),
-			Number($params.longitude?.[0] ?? 13.41)
-		)}
+
+		<div class="code-example relative group">
+			{@html pythonPreviewCodeExample(
+				$params.domain || 'ecmwf_ifs',
+				'temperature_2m',
+				Number($params.latitude?.[0] ?? 52.52),
+				Number($params.longitude?.[0] ?? 13.41)
+			)}
+			<div
+				class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+			>
+				<Button
+					onclick={() => {
+						const query = document.querySelector('.code-example pre');
+						if (query) {
+							navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
+							codeExampleCopied = true;
+							setTimeout(() => {
+								codeExampleCopied = false;
+							}, 1250);
+						}
+					}}
+					>{#if codeExampleCopied}<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
+						>{:else}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.4"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
+							><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
+								d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+							/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
+								d="m15 10-4 4 4 4"
+							/></svg
+						>{/if}</Button
+				>
+			</div>
+		</div>
 	</div>
 </div>
