@@ -25,12 +25,8 @@
 		...defaultParameters,
 		latitude: [52.52],
 		longitude: [13.41],
-		models: ['ecmwf_ifs']
+		domain: 'ecmwf_ifs'
 	});
-
-	let modelSelected = 'ecmwf_ifs';
-
-	console.log(data);
 </script>
 
 <div>
@@ -42,13 +38,13 @@
 				<h2 id="models" class="text-2xl md:text-3xl">Domain</h2>
 			</a>
 			<div class="relative">
-				<Select.Root name="models" type="single" bind:value={$params.models}>
+				<Select.Root name="models" type="single" bind:value={$params.domain}>
 					<Select.Trigger class="min-w-80 data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-						>{modelSelected}</Select.Trigger
+						>{$params.domain}</Select.Trigger
 					>
 					<Select.Content preventScroll={false} class="border-border">
-						{#each data.models as model (model)}
-							<Select.Item value={model}>{model}</Select.Item>
+						{#each data.models as domain (domain)}
+							<Select.Item value={domain}>{domain}</Select.Item>
 						{/each}
 					</Select.Content>
 					<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
