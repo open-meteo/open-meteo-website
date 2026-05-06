@@ -4,6 +4,8 @@ export const defaultParameters = {
 	models: [],
 	minutely_15: [],
 
+	use_aws_endpoint: false,
+
 	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: undefined,

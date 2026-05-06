@@ -6,6 +6,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
+	import { Switch } from '$lib/components/ui/switch';
 
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 
@@ -34,6 +35,57 @@
 
 <div>
 	<LocationSelection bind:params={$params} />
+
+	<div class="mt-3 md:mt-6 flex gap-3 md:gap-6 flex-col">
+		<a href="#endpoint">
+			<h2 id="endpoint" class="text-2xl md:text-3xl">Endpoint</h2>
+		</a>
+		<div class="flex items-center gap-4">
+			<div
+				class="flex flex-col gap-0.5 rounded-lg border px-3 py-2 transition-all duration-300 cursor-pointer select-none
+					{!$params.use_aws_endpoint
+					? 'border-primary bg-primary/5 scale-105 shadow-sm'
+					: 'border-border text-muted-foreground scale-100'}"
+				role="button"
+				tabindex="0"
+				onclick={() => {
+					$params.use_aws_endpoint = false;
+				}}
+				onkeydown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') $params.use_aws_endpoint = true;
+				}}
+			>
+				<span class="font-medium text-sm">AWS Open Data</span>
+				<span class="text-xs">Last 3 months of forecast data only</span>
+				<code class="text-xs mt-1 opacity-70">https://openmeteo.s3.amazonaws.com</code>
+			</div>
+			<Switch
+				checked={$params.use_aws_endpoint}
+				class="shrink-0"
+				onCheckedChange={(checked) => {
+					$params.use_aws_endpoint = checked;
+				}}
+			/>
+			<div
+				class="flex flex-col gap-0.5 rounded-lg border px-3 py-2 transition-all duration-300 cursor-pointer select-none
+					{$params.use_aws_endpoint
+					? 'border-primary bg-primary/5 scale-105 shadow-sm'
+					: 'border-border text-muted-foreground scale-100'}"
+				role="button"
+				tabindex="0"
+				onclick={() => {
+					$params.use_aws_endpoint = true;
+				}}
+				onkeydown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') $params.use_aws_endpoint = false;
+				}}
+			>
+				<span class="font-medium text-sm">Open-Meteo S3</span>
+				<span class="text-xs">Full history available</span>
+				<code class="text-xs mt-1 opacity-70">https://s3.open-meteo.com/openmeteo/</code>
+			</div>
+		</div>
+	</div>
 
 	<div class="mt-3 md:mt-6 flex gap-3 md:gap-6">
 		<div class="flex flex-col gap-3 md:gap-6">
