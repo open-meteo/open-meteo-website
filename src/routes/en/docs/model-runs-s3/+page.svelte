@@ -129,7 +129,13 @@
 		const ts = parseInt(raw, 10);
 		return isNaN(ts) ? defaultRunPath : timestampToRunPath(ts);
 	});
-	let selectedVariables = $derived<string[]>(($params.variables as string[] | undefined) ?? []);
+	let selectedVariables = $derived.by<string[]>(() => {
+		const chosen = ($params.variables as string[] | undefined) ?? [];
+		const available = variablesState.variables;
+		// If the variables for this run have loaded, filter to only valid ones
+		if (available) return chosen.filter((v) => available.includes(v));
+		return chosen;
+	});
 
 	type VariablesState = {
 		run: string;
@@ -488,9 +494,13 @@
 									{#if modelTree.years.length === 0}
 										<div class="px-3 py-4 text-muted-foreground italic">No data found</div>
 									{/if}
-									{#each modelTree.years as year (year.name)}
+									{#each modelTree.years as year, yi (year.name)}
 										<button
-											class="w-full flex items-center gap-1.5 px-3 py-1 hover:bg-muted text-left"
+											class="w-full cursor-pointer flex items-center gap-1.5 px-3 py-1 text-left {yi %
+												2 ===
+											0
+												? 'bg-muted hover:brightness-95'
+												: 'hover:bg-muted'}"
 											onclick={() => toggleYear(year)}
 										>
 											<svg
@@ -506,6 +516,39 @@
 												class="shrink-0 transition-transform {year.expanded ? 'rotate-90' : ''}"
 												><path d="m9 18 6-6-6-6" /></svg
 											>
+											{#if year.expanded}
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													width="12"
+													height="12"
+													viewBox="0 0 24 24"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="2"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													class="shrink-0 text-foreground mb-0.5"
+													><path
+														d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"
+													/></svg
+												>
+											{:else}
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													width="12"
+													height="12"
+													viewBox="0 0 24 24"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="2"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													class="shrink-0 text-foreground mb-0.5"
+													><path
+														d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+													/></svg
+												>
+											{/if}
 											<span class="text-foreground">{year.name}/</span>
 											{#if year.loading}
 												<span class="text-muted-foreground ml-1">...</span>
@@ -516,9 +559,13 @@
 												{#if year.loading || year.months === null}
 													<div class="pl-8 pr-3 py-1 text-muted-foreground">...</div>
 												{:else}
-													{#each year.months as month (month.name)}
+													{#each year.months as month, mi (month.name)}
 														<button
-															class="w-full flex items-center gap-1.5 pl-8 pr-3 py-1 hover:bg-muted text-left"
+															class="w-full cursor-pointer flex items-center gap-1.5 pl-8 pr-3 py-1 text-left {mi %
+																2 ===
+															0
+																? 'bg-muted hover:brightness-95'
+																: 'hover:bg-muted'}"
 															onclick={() => toggleMonth(year, month)}
 														>
 															<svg
@@ -535,6 +582,39 @@
 																	? 'rotate-90'
 																	: ''}"><path d="m9 18 6-6-6-6" /></svg
 															>
+															{#if month.expanded}
+																<svg
+																	xmlns="http://www.w3.org/2000/svg"
+																	width="12"
+																	height="12"
+																	viewBox="0 0 24 24"
+																	fill="none"
+																	stroke="currentColor"
+																	stroke-width="2"
+																	stroke-linecap="round"
+																	stroke-linejoin="round"
+																	class="shrink-0 text-foreground mb-0.5"
+																	><path
+																		d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"
+																	/></svg
+																>
+															{:else}
+																<svg
+																	xmlns="http://www.w3.org/2000/svg"
+																	width="12"
+																	height="12"
+																	viewBox="0 0 24 24"
+																	fill="none"
+																	stroke="currentColor"
+																	stroke-width="2"
+																	stroke-linecap="round"
+																	stroke-linejoin="round"
+																	class="shrink-0 text-foreground mb-0.5"
+																	><path
+																		d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+																	/></svg
+																>
+															{/if}
 															<span class="text-foreground">{month.name}/</span>
 															{#if month.loading}
 																<span class="text-muted-foreground ml-1">...</span>
@@ -549,9 +629,13 @@
 																		empty
 																	</div>
 																{:else}
-																	{#each month.days as day (day.day)}
+																	{#each month.days as day, di (day.day)}
 																		<button
-																			class="w-full flex items-center gap-1.5 pl-14 pr-3 py-1 hover:bg-muted text-left"
+																			class="w-full cursor-pointer flex items-center gap-1.5 pl-14 pr-3 py-1 text-left {di %
+																				2 ===
+																			0
+																				? 'bg-muted hover:brightness-95'
+																				: 'hover:bg-muted'}"
 																			onclick={() => toggleDay(year, month, day)}
 																		>
 																			<svg
@@ -568,6 +652,39 @@
 																					? 'rotate-90'
 																					: ''}"><path d="m9 18 6-6-6-6" /></svg
 																			>
+																			{#if day.expanded}
+																				<svg
+																					xmlns="http://www.w3.org/2000/svg"
+																					width="12"
+																					height="12"
+																					viewBox="0 0 24 24"
+																					fill="none"
+																					stroke="currentColor"
+																					stroke-width="2"
+																					stroke-linecap="round"
+																					stroke-linejoin="round"
+																					class="shrink-0 text-foreground mb-0.5"
+																					><path
+																						d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"
+																					/></svg
+																				>
+																			{:else}
+																				<svg
+																					xmlns="http://www.w3.org/2000/svg"
+																					width="12"
+																					height="12"
+																					viewBox="0 0 24 24"
+																					fill="none"
+																					stroke="currentColor"
+																					stroke-width="2"
+																					stroke-linecap="round"
+																					stroke-linejoin="round"
+																					class="shrink-0 text-foreground mb-0.5"
+																					><path
+																						d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
+																					/></svg
+																				>
+																			{/if}
 																			<span class="text-foreground">{day.day}/</span>
 																			{#if day.loading}
 																				<span class="text-muted-foreground ml-1">...</span>
@@ -584,13 +701,15 @@
 																						empty
 																					</div>
 																				{:else}
-																					{#each day.runs as run (run.name)}
+																					{#each day.runs as run, ri (run.name)}
 																						{@const runPath = `${year.name}/${month.name}/${day.day}/${run.name}`}
 																						<button
 																							class="cursor-pointer w-full pl-20 pr-3 py-0.5 text-left font-mono text-xs {selectedRun ===
 																							runPath
 																								? 'text-primary bg-primary/10'
-																								: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
+																								: ri % 2 === 0
+																									? 'text-muted-foreground bg-muted hover:brightness-95'
+																									: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
 																							onclick={() => {
 																								$params.run = String(runPathToTimestamp(runPath));
 																							}}
