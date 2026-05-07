@@ -6,8 +6,6 @@
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import { Button } from '$lib/components/ui/button';
-	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
 	import { Switch } from '$lib/components/ui/switch';
 
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
@@ -90,6 +88,12 @@
 			return [];
 		}
 	};
+
+	const popularDomains: { id: string; label: string }[] = [
+		{ id: 'ecmwf_ifs', label: 'ECMWF IFS HRES' },
+		{ id: 'dwd_icon', label: 'DWD ICON Global' },
+		{ id: 'ncep_gfs013', label: 'GFS Global' }
+	];
 
 	let modelsPromise = $derived(loadModels(endpoint));
 
@@ -343,6 +347,12 @@
 					.map((f) => (f.endsWith('.om') ? f.slice(0, -3) : f))
 					.sort();
 				variablesState = { run, variables, loading: false, error: null };
+				// Remove selected variables that are not available in this run
+				const currentVars = ($params.variables as string[] | undefined) ?? [];
+				const filtered = currentVars.filter((v) => variables.includes(v));
+				if (filtered.length !== currentVars.length) {
+					$params.variables = filtered.length > 0 ? filtered : undefined;
+				}
 			})
 			.catch((e) => {
 				if (_varKey !== key) return;
@@ -360,6 +370,7 @@
 		if (!vars || !el) return;
 		const target = selectedVariables[0] ?? vars[0];
 		if (!target) return;
+		if (variablesState?.variables && variablesState?.variables?.length > 1) return;
 		requestAnimationFrame(() => {
 			const btn = el.querySelector(`[data-variable='${target}']`);
 			btn?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' });
@@ -374,7 +385,7 @@
 		<a href="#endpoint">
 			<h2 id="endpoint" class="text-2xl md:text-3xl">Endpoint</h2>
 		</a>
-		<div class="flex items-center gap-3">
+		<div class="flex items-center gap-3 flex-col md:flex-row">
 			<div
 				class="flex flex-col gap-0.5 rounded-lg border px-3 py-2 transition-all duration-300 cursor-pointer select-none
 					{$params.use_aws_endpoint
@@ -395,7 +406,7 @@
 			</div>
 			<Switch
 				checked={!$params.use_aws_endpoint}
-				class="shrink-0"
+				class="shrink-0 hidden md:inline-flex"
 				disabled={true}
 				onCheckedChange={(checked) => {
 					$params.use_aws_endpoint = checked;
@@ -429,28 +440,69 @@
 		</div>
 	</div>
 
-	<div class="mt-3 md:mt-6 grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6">
+	<div class="mt-3 md:mt-6 grid grid-cols-1 gap-3 md:grid-cols-3 2xl:grid-cols-4 md:gap-6">
 		<div class="flex flex-col gap-3">
 			<a href="#models">
-				<h2 id="models" class="text-2xl md:text-3xl">Domain</h2>
+				<h2 id="models" class="text-2xl md:text-3xl">Domains</h2>
 			</a>
 			<div class="relative">
 				{#await modelsPromise}
-					<div class="w-full h-12 rounded-md border border-border bg-muted animate-pulse"></div>
-				{:then models}
-					<Select.Root name="models" type="single" bind:value={$params.domain}>
-						<Select.Trigger class="w-full data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-							>{$params.domain}</Select.Trigger
-						>
-						<Select.Content preventScroll={false} class="border-border">
-							{#each models as domain (domain)}
-								<Select.Item value={domain}>{domain}</Select.Item>
+					<div class="border border-border rounded-lg overflow-hidden w-full">
+						<div class="bg-muted px-3 mt-0.5 py-2 border-b border-border">
+							<div class="h-3 w-48 rounded animate-pulse bg-muted-foreground/20"></div>
+						</div>
+						<div class="p-3 flex flex-col gap-2">
+							{#each [72, 56, 64] as w (w)}
+								<div
+									class="h-4 rounded animate-pulse bg-muted-foreground/20"
+									style="width: {w}%"
+								></div>
 							{/each}
-						</Select.Content>
-						<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-							>Domains</Label
+						</div>
+					</div>
+				{:then models}
+					<div class="border border-border rounded-lg overflow-hidden w-full">
+						<div
+							class="bg-muted px-3 py-1.5 text-xs border-b border-border text-muted-foreground font-medium"
 						>
-					</Select.Root>
+							Popular
+						</div>
+						<div class="font-mono text-xs border-b border-border">
+							{#each popularDomains as { id, label } (id)}
+								<button
+									class="cursor-pointer w-full px-3 py-0.5 text-left flex items-center justify-between {$params.domain ===
+									id
+										? 'text-primary bg-primary/10'
+										: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
+									onclick={() => {
+										$params.domain = id;
+									}}
+								>
+									<span>{id}</span>
+									<span class="text-xs opacity-60 ml-3 shrink-0">{label}</span>
+								</button>
+							{/each}
+						</div>
+						<div
+							class="bg-muted px-3 py-1.5 text-xs border-b border-border text-muted-foreground font-medium"
+						>
+							All domains
+						</div>
+						<div class="overflow-y-auto max-h-64 font-mono text-xs py-2">
+							{#each models as domain (domain)}
+								<button
+									class="cursor-pointer w-full px-3 py-0.5 text-left {$params.domain === domain
+										? 'text-primary bg-primary/10'
+										: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
+									onclick={() => {
+										$params.domain = domain;
+									}}
+								>
+									{domain}
+								</button>
+							{/each}
+						</div>
+					</div>
 				{/await}
 			</div>
 		</div>
@@ -461,7 +513,7 @@
 			<div class="relative">
 				{#await modelsPromise}
 					<div class="border border-border rounded-lg overflow-hidden w-full">
-						<div class="bg-muted px-3 py-2 border-b border-border">
+						<div class="bg-muted px-3 mt-0.5 py-2 border-b border-border">
 							<div class="h-3 w-48 rounded animate-pulse bg-muted-foreground/20"></div>
 						</div>
 						<div class="p-3 flex flex-col gap-2">
@@ -476,16 +528,18 @@
 				{:then}
 					{#if $params.domain}
 						<div class="border border-border rounded-lg overflow-hidden w-full">
-							<div
-								class="bg-muted px-3 py-2 text-xs font-mono border-b border-border flex items-center gap-1 text-muted-foreground sticky top-0"
+							<a
+								href={`${endpoint}/index.html#data_run/${$params.domain}/`}
+								target="_blank"
+								class="bg-muted mt-0.5 px-3 py-2 text-xs font-mono border-b border-border flex items-center gap-1 text-muted-foreground sticky top-0"
 							>
 								<span>openmeteo</span>
 								<span class="opacity-50">/</span>
 								<span>data_run</span>
 								<span class="opacity-50">/</span>
 								<span class="text-foreground font-semibold">{$params.domain}</span>
-							</div>
-							<div class="overflow-y-auto max-h-96 font-mono text-xs pb-2">
+							</a>
+							<div class="overflow-y-auto max-h-96 font-mono text-xs py-2">
 								{#if modelTree.loading}
 									<div class="px-3 py-4 text-muted-foreground">Loading...</div>
 								{:else if modelTree.error}
@@ -743,7 +797,7 @@
 			<div class="relative">
 				{#await modelsPromise}
 					<div class="border border-border rounded-lg overflow-hidden w-full">
-						<div class="bg-muted px-3 py-2 border-b border-border">
+						<div class="bg-muted mt-0.5 px-3 py-2 border-b border-border">
 							<div class="h-3 w-48 rounded animate-pulse bg-muted-foreground/20"></div>
 						</div>
 						<div class="p-3 flex flex-col gap-2">
@@ -763,14 +817,19 @@
 					{:else}
 						<div
 							transition:slide={{ duration: 200 }}
-							class="border border-border rounded-lg overflow-hidden w-full pb-2"
+							class="border border-border rounded-lg overflow-hidden w-full"
 						>
-							<div
-								class="bg-muted px-3 py-2 text-xs font-mono border-b border-border text-muted-foreground"
+							<a
+								href={`${endpoint}/index.html#data_run/${$params.domain}/${selectedRun}/`}
+								target="_blank"
+								class="bg-muted mt-0.5 px-3 py-2 text-xs font-mono border-b border-border flex items-center gap-1 text-muted-foreground sticky top-0"
 							>
 								<span class="text-foreground font-semibold">{selectedRun}</span>
-							</div>
-							<div class="overflow-y-auto max-h-96 font-mono text-xs" bind:this={variablesScrollEl}>
+							</a>
+							<div
+								class="overflow-y-auto max-h-96 font-mono text-xs py-2"
+								bind:this={variablesScrollEl}
+							>
 								{#if variablesState.loading}
 									<div class="px-3 py-4 text-muted-foreground">Loading...</div>
 								{:else if variablesState.error}
@@ -814,8 +873,8 @@
 		<div>
 			<p>
 				The sample code automatically applies all the parameters selected above. You can find
-				further details and examples in the <a href="https://pypi.org/project/openmeteo-requests/"
-					>Python API client</a
+				further details and examples in the <a href="https://pypi.org/project/omfiles/"
+					>Python OMFiles</a
 				> documentation.
 			</p>
 			<h4 class="text-xl md:text-2xl">Install</h4>
