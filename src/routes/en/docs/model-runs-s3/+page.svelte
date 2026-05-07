@@ -89,6 +89,10 @@
 		}
 	};
 
+	/** Safely coerce a URL hash param that may be a string or string[] into string[] */
+	const toStringArray = (v: unknown): string[] =>
+		Array.isArray(v) ? v.map(String) : v != null ? [String(v)] : [];
+
 	const popularDomains: { id: string; label: string }[] = [
 		{ id: 'ecmwf_ifs', label: 'ECMWF IFS HRES' },
 		{ id: 'dwd_icon', label: 'DWD ICON Global' },
@@ -134,7 +138,7 @@
 		return isNaN(ts) ? defaultRunPath : timestampToRunPath(ts);
 	});
 	let selectedVariables = $derived.by<string[]>(() => {
-		const chosen = ($params.variables as string[] | undefined) ?? [];
+		const chosen = toStringArray($params.variables);
 		const available = variablesState.variables;
 		// If the variables for this run have loaded, filter to only valid ones
 		if (available) return chosen.filter((v) => available.includes(v));
@@ -348,10 +352,10 @@
 					.sort();
 				variablesState = { run, variables, loading: false, error: null };
 				// Remove selected variables that are not available in this run
-				const currentVars = ($params.variables as string[] | undefined) ?? [];
+				const currentVars = toStringArray($params.variables);
 				const filtered = currentVars.filter((v) => variables.includes(v));
 				if (filtered.length !== currentVars.length) {
-					$params.variables = filtered.length > 0 ? filtered : undefined;
+					$params.variables = filtered;
 				}
 			})
 			.catch((e) => {
@@ -370,7 +374,7 @@
 		if (!vars || !el) return;
 		const target = selectedVariables[0] ?? vars[0];
 		if (!target) return;
-		if (variablesState?.variables && variablesState?.variables?.length > 1) return;
+		if (selectedVariables && selectedVariables.length > 1) return;
 		requestAnimationFrame(() => {
 			const btn = el.querySelector(`[data-variable='${target}']`);
 			btn?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' });
@@ -440,7 +444,7 @@
 		</div>
 	</div>
 
-	<div class="mt-3 md:mt-6 grid grid-cols-1 gap-3 md:grid-cols-3 2xl:grid-cols-4 md:gap-6">
+	<div class="mt-3 md:mt-6 grid grid-cols-1 gap-3 lg:grid-cols-3 2xl:grid-cols-4 md:gap-6">
 		<div class="flex flex-col gap-3">
 			<a href="#models">
 				<h2 id="models" class="text-2xl md:text-3xl">Domains</h2>
@@ -463,11 +467,11 @@
 				{:then models}
 					<div class="border border-border rounded-lg overflow-hidden w-full">
 						<div
-							class="bg-muted px-3 py-1.5 text-xs border-b border-border text-muted-foreground font-medium"
+							class="bg-muted px-3 py-2.25 text-xs border-b border-border text-muted-foreground font-medium"
 						>
 							Popular
 						</div>
-						<div class="font-mono text-xs border-b border-border">
+						<div class="font-mono text-xs border-b border-border py-2">
 							{#each popularDomains as { id, label } (id)}
 								<button
 									class="cursor-pointer w-full px-3 py-0.5 text-left flex items-center justify-between {$params.domain ===
@@ -484,11 +488,11 @@
 							{/each}
 						</div>
 						<div
-							class="bg-muted px-3 py-1.5 text-xs border-b border-border text-muted-foreground font-medium"
+							class="bg-muted px-3 py-2.25 text-xs border-b border-border text-muted-foreground font-medium"
 						>
 							All domains
 						</div>
-						<div class="overflow-y-auto max-h-64 font-mono text-xs py-2">
+						<div class="overflow-y-auto max-h-68 font-mono text-xs py-2">
 							{#each models as domain (domain)}
 								<button
 									class="cursor-pointer w-full px-3 py-0.5 text-left {$params.domain === domain
@@ -838,7 +842,7 @@
 									<div class="px-3 py-4 text-muted-foreground italic">No variables found</div>
 								{:else if variablesState.variables}
 									<div transition:slide={{ duration: 200 }}>
-										{#each variablesState.variables as variable (variable)}
+										{#each variablesState.variables ?? [] as variable (variable)}
 											<button
 												data-variable={variable}
 												class="cursor-pointer w-full px-3 py-0.5 text-left {selectedVariables.includes(
@@ -847,7 +851,7 @@
 													? 'text-primary bg-primary/10'
 													: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
 												onclick={() => {
-													const cur = ($params.variables as string[] | undefined) ?? [];
+											const cur = toStringArray($params.variables);
 													$params.variables = cur.includes(variable)
 														? cur.filter((v) => v !== variable)
 														: [...cur, variable];
