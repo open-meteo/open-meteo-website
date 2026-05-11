@@ -537,7 +537,7 @@
 			<div class="relative">
 				{#await modelsPromise}
 					<div class="border border-border rounded-lg overflow-hidden w-full">
-						<div class="bg-muted px-3 mt-0.5 py-2 border-b border-border">
+						<div class="bg-muted px-3 pb-2 pt-2.5 border-b border-border">
 							<div class="h-3 w-48 rounded animate-pulse bg-muted-foreground/20"></div>
 						</div>
 						<div class="p-3 flex flex-col gap-2">
@@ -555,7 +555,7 @@
 							<a
 								href={`${endpoint}/index.html#data_run/${$params.domain}/`}
 								target="_blank"
-								class="bg-muted mt-0.5 px-3 py-2 text-xs font-mono border-b border-border flex items-center gap-1 text-muted-foreground sticky top-0"
+								class="bg-muted px-3 pb-2 pt-2.5 text-xs font-mono border-b border-border flex items-center gap-1 text-muted-foreground sticky top-0"
 							>
 								<span>openmeteo</span>
 								<span class="opacity-50">/</span>
@@ -808,7 +808,7 @@
 			<div class="relative">
 				{#await modelsPromise}
 					<div class="border border-border rounded-lg overflow-hidden w-full">
-						<div class="bg-muted mt-0.5 px-3 py-2 border-b border-border">
+						<div class="bg-muted px-3 pb-2 pt-2.5 border-b border-border">
 							<div class="h-3 w-48 rounded animate-pulse bg-muted-foreground/20"></div>
 						</div>
 						<div class="p-3 flex flex-col gap-2">
@@ -833,7 +833,7 @@
 							<a
 								href={`${endpoint}/index.html#data_run/${$params.domain}/${selectedRun}/`}
 								target="_blank"
-								class="bg-muted mt-0.5 px-3 py-2 text-xs font-mono border-b border-border flex items-center gap-1 text-muted-foreground sticky top-0"
+								class="bg-muted px-3 pb-2 pt-2.5 text-xs font-mono border-b border-border flex items-center gap-1 text-muted-foreground sticky top-0"
 							>
 								<span class="text-foreground font-semibold">{selectedRun}</span>
 							</a>
