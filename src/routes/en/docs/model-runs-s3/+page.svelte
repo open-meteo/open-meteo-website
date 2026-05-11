@@ -412,7 +412,6 @@
 			<Switch
 				checked={!$params.use_aws_endpoint}
 				class="shrink-0 hidden md:inline-flex"
-				disabled={true}
 				onCheckedChange={(checked) => {
 					$params.use_aws_endpoint = checked;
 				}}
@@ -422,17 +421,17 @@
 				title="Due to CORS issues, this endpoint cannot be accessed from the browser."
 			>
 				<div
-					class=" flex flex-col gap-0.5 rounded-lg border px-3 py-2 transition-all duration-300 cursor-not-allowed! select-none
+					class=" flex flex-col gap-0.5 rounded-lg border px-3 py-2 transition-all duration-300 cursor-pointer select-none
 					{!$params.use_aws_endpoint
 						? 'border-primary bg-primary/5 scale-105 shadow-sm'
 						: 'border-border text-muted-foreground scale-100'}"
 					role="button"
 					tabindex="0"
 					onclick={() => {
-						//$params.use_aws_endpoint = false;
+						$params.use_aws_endpoint = false;
 					}}
-					onkeydown={() => {
-						// if (e.key === 'Enter' || e.key === ' ') $params.use_aws_endpoint = false;
+					onkeydown={(e) => {
+						if (e.key === 'Enter' || e.key === ' ') $params.use_aws_endpoint = false;
 					}}
 				>
 					<span class="font-medium text-sm"
