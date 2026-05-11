@@ -251,10 +251,9 @@
 				const runFound = dayEntry.runs?.some((r) => r.name === rrun);
 				if (!runFound) {
 					const firstRun = dayEntry.runs?.[0];
-					$params.run = firstRun
-						? String(runPathToTimestamp(`${ry}/${rm}/${rd}/${firstRun.name}`))
-						: undefined;
-					$params.variables = undefined;
+					if (firstRun) {
+						$params.run = String(runPathToTimestamp(`${ry}/${rm}/${rd}/${firstRun.name}`));
+					}
 				}
 			})
 			.catch((e) => {
@@ -544,6 +543,7 @@
 								<span>data_run</span>
 								<span class="opacity-50">/</span>
 								<span class="text-foreground font-semibold">{$params.domain}</span>
+								<span class="opacity-50">/</span>
 							</a>
 							<div class="overflow-y-auto max-h-96 font-mono text-xs py-2">
 								{#if modelTree.loading}
