@@ -143,11 +143,10 @@ ${line('    ' + pm('"') + str('run') + pm('"') + p(': ') + pm('"') + str(runValu
 ${line(br('}'))}
 ${empty()}
 ${line(fg('run ') + kw('=') + fg(' dt') + p('.') + fg('datetime') + p('.') + fn('fromtimestamp') + br('(') + fn('int') + br('(') + pk('run') + br(')') + ', ' + fg('tz') + '=' + fg('dt') + p('.') + fg('timezone') + p('.') + fg('utc') + br(')'))}
-${empty()}
-${line(cmt('# Use blockcache so repeated remote reads do not have to fetch the same bytes again.'))}
 ${varLoop}${line(ind(varBodyInd) + fg('s3_uri ') + kw('=') + ' ' + br('('))}
 ${line(ind(varBodyInd) + '    ' + acc('f') + pm('"') + str('s3://openmeteo/data_run/') + pfv('domain') + str('/') + fv('run.year') + str('/') + fvf('run.month', '02') + str('/') + fvf('run.day', '02') + str('/') + fvf('run.hour', '02') + fvf('run.minute', '02') + str('Z/') + s3VarRef + str('.om') + pm('"'))}
 ${line(ind(varBodyInd) + br(')'))}
+${line(ind(varBodyInd) + cmt('# Use blockcache so repeated remote reads do not have to fetch the same bytes again.'))}
 ${line(ind(varBodyInd) + fg('backend ') + kw('=') + fg(' fsspec') + p('.') + fn('open') + br('('))}
 ${line(ind(varBodyInd) + '    ' + acc('f') + pm('"') + str('blockcache::') + fv('s3_uri') + pm('"') + pm(','))}
 ${line(ind(varBodyInd) + '    ' + it('mode') + kw('=') + pm('"') + str('rb') + pm('"') + pm(','))}

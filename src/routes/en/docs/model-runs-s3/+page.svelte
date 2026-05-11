@@ -47,7 +47,8 @@
 		longitude: [13.41],
 		domain: 'ecmwf_ifs',
 		run: String(runPathToTimestamp(defaultRunPath)),
-		variables: ['temperature_2m']
+		variables: ['temperature_2m'],
+		use_aws_endpoint: true
 	});
 
 	let endpoint = $derived(
@@ -88,10 +89,6 @@
 			return [];
 		}
 	};
-
-	/** Safely coerce a URL hash param that may be a string or string[] into string[] */
-	const toStringArray = (v: unknown): string[] =>
-		Array.isArray(v) ? v.map(String) : v != null ? [String(v)] : [];
 
 	const popularDomains: { id: string; label: string }[] = [
 		{ id: 'ecmwf_ifs', label: 'ECMWF IFS HRES' },
@@ -137,6 +134,11 @@
 		const ts = parseInt(raw, 10);
 		return isNaN(ts) ? defaultRunPath : timestampToRunPath(ts);
 	});
+
+	/** Safely coerce a URL hash param that may be a string or string[] into string[] */
+	const toStringArray = (v: unknown): string[] =>
+		Array.isArray(v) ? v.map(String) : v != null ? [String(v)] : [];
+
 	let selectedVariables = $derived.by<string[]>(() => {
 		const chosen = toStringArray($params.variables);
 		const available = variablesState.variables;
@@ -851,7 +853,7 @@
 													? 'text-primary bg-primary/10'
 													: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
 												onclick={() => {
-											const cur = toStringArray($params.variables);
+													const cur = toStringArray($params.variables);
 													$params.variables = cur.includes(variable)
 														? cur.filter((v) => v !== variable)
 														: [...cur, variable];
