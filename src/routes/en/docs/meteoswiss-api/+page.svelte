@@ -736,9 +736,9 @@
 
 		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 			<figure class="w-full">
-				<enhanced:img
+				<img
 					class="w-full rounded-lg"
-					src="/static/images/models/meteoswiss_icon_ch1.png"
+					src="/images/models/meteoswiss_icon_ch1.webp"
 					alt="ICON CH1 Modal Area"
 				/>
 				<figcaption class="text-muted-foreground">

@@ -202,9 +202,6 @@ ${line(fg(`${section}_${sect} `) + kw('=') + fg(` ${section}`) + pm('.') + fn('V
 							br('(', fn(section), pm('.')) +
 							fn('Time') +
 							br('()') +
-							(timezone
-								? fg(` ${pm('+')} response`) + pm('.') + fn(`UtcOffsetSeconds${br('()')}`)
-								: '') +
 							pm(', ') +
 							fgi('unit ') +
 							kw('=') +
@@ -228,9 +225,6 @@ ${line(fg(`${section}_${sect} `) + kw('=') + fg(` ${section}`) + pm('.') + fn('V
 							br('(', fn(section), pm('.')) +
 							fn('TimeEnd') +
 							br('()') +
-							(timezone
-								? fg(` ${pm('+')} response`) + pm('.') + fn(`UtcOffsetSeconds${br('()')}`)
-								: '') +
 							pm(', ') +
 							fgi('unit ') +
 							kw('=') +
@@ -261,12 +255,14 @@ ${line(fg(`${section}_${sect} `) + kw('=') + fg(` ${section}`) + pm('.') + fn('V
 
 				c += `
 ${empty(indent)}
-${line(fg(`${section}_data `) + kw('=') + fg(' ') + br('{') + pm('"') + str(`date${pm('"')}`) + pm(':') + fg(' pd') + pm('.') + fn('date_range') + br('('), indent)}
-${line(fgi('\tstart ') + kw('=') + p(' ') + dateRangeStart, indent)}
-${line(fgi(`\t${dateRangeEndName} `) + kw('=') + dateRangeEnd, indent)}
-${line(fgi('\tfreq ') + kw('=') + dateRangeFreq, indent)}
-${line(fgi('\tinclusive ') + kw('=') + pm(' "') + str('left') + pm('"'), indent)}
-${line(br(')}'), indent)}
+${line(fg(`${section}_data `) + kw('=') + fg(' ') + br('{'), indent)}
+${line(pm('\t"') + str(`date${pm('"')}`) + pm(':') + fg(' pd') + pm('.') + fn('date_range') + br('('), indent)}
+${line(fgi('\t\tstart ') + kw('=') + p(' ') + dateRangeStart, indent)}
+${line(fgi(`\t\t${dateRangeEndName} `) + kw('=') + dateRangeEnd, indent)}
+${line(fgi('\t\tfreq ') + kw('=') + dateRangeFreq, indent)}
+${line(fgi('\t\tinclusive ') + kw('=') + pm(' "') + str('left') + pm('"'), indent)}
+${line(br('\t)' + (timezone ? pm('.') + fn('tz_convert') + br('(') + p('response.') + fn('Timezone') + br('()') + pm('.') + fn('decode') + br('()') + br(')') : '')), indent)}
+${line(br('}'), indent)}
 ${empty(indent)}`;
 			}
 
