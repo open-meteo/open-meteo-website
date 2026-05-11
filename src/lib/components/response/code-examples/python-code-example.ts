@@ -261,7 +261,7 @@ ${line(fgi('\t\tstart ') + kw('=') + p(' ') + dateRangeStart, indent)}
 ${line(fgi(`\t\t${dateRangeEndName} `) + kw('=') + dateRangeEnd, indent)}
 ${line(fgi('\t\tfreq ') + kw('=') + dateRangeFreq, indent)}
 ${line(fgi('\t\tinclusive ') + kw('=') + pm(' "') + str('left') + pm('"'), indent)}
-${line(br('\t)' + (timezone ? pm('.') + fn('tz_convert') + br('(') + pm('"') + str(params.timezone ?? '') + pm('"') + br(')') : '')), indent)}
+${line(br('\t)' + (timezone ? pm('.') + fn('tz_convert') + br('(') + p('response.') + fn('Timezone') + br('()') + pm('.') + fn('decode') + br('()') + br(')') : '')), indent)}
 ${line(br('}'), indent)}
 ${empty(indent)}`;
 			}
