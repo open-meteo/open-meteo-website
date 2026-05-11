@@ -417,29 +417,22 @@
 				}}
 			/>
 			<div
-				class="cursor-not-allowed! text-sm text-muted-foreground"
-				title="Due to CORS issues, this endpoint cannot be accessed from the browser."
-			>
-				<div
-					class=" flex flex-col gap-0.5 rounded-lg border px-3 py-2 transition-all duration-300 cursor-pointer select-none
+				class=" flex flex-col gap-0.5 rounded-lg border px-3 py-2 transition-all duration-300 cursor-pointer select-none
 					{!$params.use_aws_endpoint
-						? 'border-primary bg-primary/5 scale-105 shadow-sm'
-						: 'border-border text-muted-foreground scale-100'}"
-					role="button"
-					tabindex="0"
-					onclick={() => {
-						$params.use_aws_endpoint = false;
-					}}
-					onkeydown={(e) => {
-						if (e.key === 'Enter' || e.key === ' ') $params.use_aws_endpoint = false;
-					}}
-				>
-					<span class="font-medium text-sm"
-						>Open-Meteo S3 <span class="text-xs text-warning-foreground">(CORS Issues)</span></span
-					>
-					<span class="text-xs">Full history available</span>
-					<code class="text-xs mt-1 opacity-70">https://s3.open-meteo.com/openmeteo/</code>
-				</div>
+					? 'border-primary bg-primary/5 scale-105 shadow-sm'
+					: 'border-border text-muted-foreground scale-100'}"
+				role="button"
+				tabindex="0"
+				onclick={() => {
+					$params.use_aws_endpoint = false;
+				}}
+				onkeydown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') $params.use_aws_endpoint = false;
+				}}
+			>
+				<span class="font-medium text-sm">Open-Meteo S3</span>
+				<span class="text-xs">Full history available</span>
+				<code class="text-xs mt-1 opacity-70">https://s3.open-meteo.com/openmeteo/</code>
 			</div>
 		</div>
 	</div>
