@@ -492,14 +492,18 @@
 								<button
 									class="cursor-pointer w-full px-3 py-0.5 text-left flex items-center justify-between {$params.domain ===
 									id
-										? 'text-primary bg-primary/10'
+										? 'text-primary bg-primary/10 font-bold'
 										: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
 									onclick={() => {
 										$params.domain = id;
 									}}
 								>
 									<span>{id}</span>
-									<span class="text-xs opacity-60 ml-3 shrink-0">{label}</span>
+									<span
+										class="text-xs {$params.domain !== id
+											? 'opacity-60'
+											: 'opacity-80'} ml-3 shrink-0">{label}</span
+									>
 								</button>
 							{/each}
 						</div>
@@ -512,7 +516,7 @@
 							{#each models as domain (domain)}
 								<button
 									class="cursor-pointer w-full px-3 py-0.5 text-left {$params.domain === domain
-										? 'text-primary bg-primary/10'
+										? 'text-primary bg-primary/10 font-bold'
 										: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
 									onclick={() => {
 										$params.domain = domain;
@@ -569,13 +573,9 @@
 									{#if modelTree.years.length === 0}
 										<div class="px-3 py-4 text-muted-foreground italic">No data found</div>
 									{/if}
-									{#each modelTree.years as year, yi (year.name)}
+									{#each modelTree.years as year (year.name)}
 										<button
-											class="w-full cursor-pointer flex items-center gap-1.5 px-3 py-1 text-left {yi %
-												2 ===
-											0
-												? 'bg-muted hover:brightness-95'
-												: 'hover:bg-muted'}"
+											class="w-full cursor-pointer flex items-center gap-1.5 px-3 py-1 text-left hover:bg-muted"
 											onclick={() => toggleYear(year)}
 										>
 											<svg
@@ -634,13 +634,9 @@
 												{#if year.loading || year.months === null}
 													<div class="pl-8 pr-3 py-1 text-muted-foreground">...</div>
 												{:else}
-													{#each year.months as month, mi (month.name)}
+													{#each year.months as month (month.name)}
 														<button
-															class="w-full cursor-pointer flex items-center gap-1.5 pl-8 pr-3 py-1 text-left {mi %
-																2 ===
-															0
-																? 'bg-muted hover:brightness-95'
-																: 'hover:bg-muted'}"
+															class="w-full cursor-pointer flex items-center gap-1.5 pl-8 pr-3 py-1 text-left hover:bg-muted"
 															onclick={() => toggleMonth(year, month)}
 														>
 															<svg
@@ -704,13 +700,9 @@
 																		empty
 																	</div>
 																{:else}
-																	{#each month.days as day, di (day.day)}
+																	{#each month.days as day (day.day)}
 																		<button
-																			class="w-full cursor-pointer flex items-center gap-1.5 pl-14 pr-3 py-1 text-left {di %
-																				2 ===
-																			0
-																				? 'bg-muted hover:brightness-95'
-																				: 'hover:bg-muted'}"
+																			class="w-full cursor-pointer flex items-center gap-1.5 pl-14 pr-3 py-1 text-left hover:bg-muted"
 																			onclick={() => toggleDay(year, month, day)}
 																		>
 																			<svg
@@ -776,15 +768,13 @@
 																						empty
 																					</div>
 																				{:else}
-																					{#each day.runs as run, ri (run.name)}
+																					{#each day.runs as run (run.name)}
 																						{@const runPath = `${year.name}/${month.name}/${day.day}/${run.name}`}
 																						<button
 																							class="cursor-pointer w-full pl-20 pr-3 py-0.5 text-left font-mono text-xs {selectedRun ===
 																							runPath
-																								? 'text-primary bg-primary/10'
-																								: ri % 2 === 0
-																									? 'text-muted-foreground bg-muted hover:brightness-95'
-																									: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
+																								? 'text-primary bg-primary/10 font-bold'
+																								: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
 																							onclick={() => {
 																								$params.run = String(runPathToTimestamp(runPath));
 																							}}
@@ -865,7 +855,7 @@
 												class="cursor-pointer w-full px-3 py-0.5 text-left {selectedVariables.includes(
 													variable
 												)
-													? 'text-primary bg-primary/10'
+													? 'text-primary bg-primary/10 font-bold'
 													: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
 												onclick={() => {
 													const cur = toStringArray($params.variables);
