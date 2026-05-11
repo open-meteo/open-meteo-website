@@ -452,15 +452,38 @@
 			<div class="relative">
 				{#await modelsPromise}
 					<div class="border border-border rounded-lg overflow-hidden w-full">
-						<div class="bg-muted px-3 mt-0.5 py-2 border-b border-border">
-							<div class="h-3 w-48 rounded animate-pulse bg-muted-foreground/20"></div>
+						<div
+							class="bg-muted px-3 py-2.25 text-xs border-b border-border text-muted-foreground font-medium"
+						>
+							Popular
 						</div>
-						<div class="p-3 flex flex-col gap-2">
-							{#each [72, 56, 64] as w (w)}
-								<div
-									class="h-4 rounded animate-pulse bg-muted-foreground/20"
-									style="width: {w}%"
-								></div>
+						<div class="font-mono text-xs border-b border-border py-2">
+							{#each [{ w: 52, lw: 36 }, { w: 40, lw: 44 }, { w: 44, lw: 32 }] as row (row.w)}
+								<div class="flex items-center justify-between px-3 py-0.5">
+									<div
+										class="h-4 rounded animate-pulse bg-muted-foreground/20"
+										style="width: {row.w}%"
+									></div>
+									<div
+										class="h-4 rounded animate-pulse bg-muted-foreground/20 ml-3 shrink-0"
+										style="width: {row.lw}%"
+									></div>
+								</div>
+							{/each}
+						</div>
+						<div
+							class="bg-muted px-3 py-2.25 text-xs border-b border-border text-muted-foreground font-medium"
+						>
+							All domains
+						</div>
+						<div class="overflow-y-auto min-h-68 font-mono text-xs py-2">
+							{#each [60, 48, 72, 56, 64, 52, 68] as w (w)}
+								<div class="px-3 py-0.5">
+									<div
+										class="h-4 rounded animate-pulse bg-muted-foreground/20"
+										style="width: {w}%"
+									></div>
+								</div>
 							{/each}
 						</div>
 					</div>
