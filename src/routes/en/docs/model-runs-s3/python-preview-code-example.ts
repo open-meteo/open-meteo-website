@@ -35,6 +35,7 @@ export const pythonPreviewCodeExample = (rawParams: {
 	longitude?: unknown;
 	run?: unknown;
 	timezone?: unknown;
+	use_aws_endpoint?: unknown;
 	[key: string]: unknown;
 }): string => {
 	// Coerce from urlHashStore types (e.g. latitude is number[], variables is string[])
@@ -74,6 +75,11 @@ export const pythonPreviewCodeExample = (rawParams: {
 	const tz = rawParams.timezone;
 	const timezone = typeof tz === 'string' && tz !== 'UTC' && tz !== 'GMT';
 
+	const useAws = rawParams.use_aws_endpoint !== false && rawParams.use_aws_endpoint !== 'false';
+	const s3UriPrefix = useAws
+		? 's3://openmeteo/data_run/'
+		: 'https://s3.open-meteo.com/openmeteo/data_run/';
+
 	// Helper: render a Python list literal of numbers
 	const numList = (vals: number[]) =>
 		br('[') + vals.map((v) => num(String(v))).join(pm(', ')) + br(']');
@@ -87,6 +93,30 @@ export const pythonPreviewCodeExample = (rawParams: {
 	const ind = (n: number) => '    '.repeat(n);
 	const varBodyInd = multiVar ? 1 : 0;
 	const locBodyInd = varBodyInd + (multiLoc ? 1 : 0);
+
+	const s3KwargLine = useAws
+		? '\n' +
+			line(
+				ind(varBodyInd) +
+					'    ' +
+					it('s3') +
+					kw('=') +
+					br('{') +
+					pm('"') +
+					str('anon') +
+					pm('"') +
+					p(': ') +
+					num('True') +
+					pm(', ') +
+					pm('"') +
+					str('default_block_size') +
+					pm('"') +
+					p(': ') +
+					num('65536') +
+					br('}') +
+					pm(',')
+			)
+		: '';
 
 	// --- params dict ---
 	const latValue = multiLoc ? numList(lats) : num(String(lats[0]));
@@ -144,13 +174,12 @@ ${line(br('}'))}
 ${empty()}
 ${line(fg('run ') + kw('=') + fg(' dt') + p('.') + fg('datetime') + p('.') + fn('fromtimestamp') + br('(') + fn('int') + br('(') + pk('run') + br(')') + ', ' + fg('tz') + '=' + fg('dt') + p('.') + fg('timezone') + p('.') + fg('utc') + br(')'))}
 ${varLoop}${line(ind(varBodyInd) + fg('s3_uri ') + kw('=') + ' ' + br('('))}
-${line(ind(varBodyInd) + '    ' + acc('f') + pm('"') + str('s3://openmeteo/data_run/') + pfv('domain') + str('/') + fv('run.year') + str('/') + fvf('run.month', '02') + str('/') + fvf('run.day', '02') + str('/') + fvf('run.hour', '02') + fvf('run.minute', '02') + str('Z/') + s3VarRef + str('.om') + pm('"'))}
+${line(ind(varBodyInd) + '    ' + acc('f') + pm('"') + str(s3UriPrefix) + pfv('domain') + str('/') + fv('run.year') + str('/') + fvf('run.month', '02') + str('/') + fvf('run.day', '02') + str('/') + fvf('run.hour', '02') + fvf('run.minute', '02') + str('Z/') + s3VarRef + str('.om') + pm('"'))}
 ${line(ind(varBodyInd) + br(')'))}
 ${line(ind(varBodyInd) + cmt('# Use blockcache so repeated remote reads do not have to fetch the same bytes again.'))}
 ${line(ind(varBodyInd) + fg('backend ') + kw('=') + fg(' fsspec') + p('.') + fn('open') + br('('))}
 ${line(ind(varBodyInd) + '    ' + acc('f') + pm('"') + str('blockcache::') + fv('s3_uri') + pm('"') + pm(','))}
-${line(ind(varBodyInd) + '    ' + it('mode') + kw('=') + pm('"') + str('rb') + pm('"') + pm(','))}
-${line(ind(varBodyInd) + '    ' + it('s3') + kw('=') + br('{') + pm('"') + str('anon') + pm('"') + p(': ') + num('True') + pm(', ') + pm('"') + str('default_block_size') + pm('"') + p(': ') + num('65536') + br('}') + pm(','))}
+${line(ind(varBodyInd) + '    ' + it('mode') + kw('=') + pm('"') + str('rb') + pm('"') + pm(','))}${s3KwargLine}
 ${line(ind(varBodyInd) + '    ' + it('blockcache') + kw('=') + br('{'))}
 ${line(ind(varBodyInd) + '        ' + pm('"') + str('cache_storage') + pm('"') + p(': ') + pm('"') + str('cache') + pm('"') + pm(','))}
 ${line(ind(varBodyInd) + '        ' + cmt('# Data run files do not change, so checking on every access is unnecessary.'))}
