@@ -817,8 +817,8 @@ TODO:
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
 		<figure>
-			<enhanced:img
-				src="/static/images/models/geostationary-satellites.png"
+			<img
+				src="/images/models/geostationary-satellites.webp"
 				class="rounded-lg"
 				alt="Geostationary satellites for solar radiation"
 			/>

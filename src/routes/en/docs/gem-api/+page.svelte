@@ -914,9 +914,9 @@
 		</figure>
 
 		<figure class="w-full">
-			<enhanced:img
+			<img
 				class="w-full rounded-lg"
-				src="/static/images/models/gem_hrdps_west_original.png"
+				src="/images/models/gem_hrdps_west.webp"
 				alt="HRDPS West Model Area"
 			/>
 			<figcaption class="text-muted-foreground">
