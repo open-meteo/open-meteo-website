@@ -28,6 +28,8 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -1092,31 +1094,21 @@
 			</table>
 		</div>
 
-		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<figure>
-				<img
-					src="/images/models/ncep_hrrr.webp"
-					class="rounded-lg"
-					alt="HRRR U.S.Conus Model Area"
-				/>
-				<figcaption>
+		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+			<ZoomableImage src="/images/models/ncep_hrrr.webp" alt="HRRR U.S. Conus Model Area">
+				{#snippet caption()}
 					HRRR and NAM U.S. Conus Model Area. Source: <a href="https://open-meteo.com/"
 						>Open-Meteo</a
 					>.
-				</figcaption>
-			</figure>
+				{/snippet}
+			</ZoomableImage>
 
-			<figure>
-				<img
-					src="/images/models/ncep_nbm_conus.webp"
-					class="rounded-lg"
-					alt="NBM U.S. Conus Model Area"
-				/>
-				<figcaption>
+			<ZoomableImage src="/images/models/ncep_nbm_conus.webp" alt="NBM U.S. Conus Model Area">
+				{#snippet caption()}
 					NBM U.S. Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
-				</figcaption>
-			</figure>
-		</div>
+				{/snippet}
+			</ZoomableImage>
+		</ZoomableImageGallery>
 	</div>
 </div>
 
