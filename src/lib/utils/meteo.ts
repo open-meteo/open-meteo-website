@@ -167,22 +167,52 @@ export const geoLocationNameToRoute = (name: string) => {
 
 export const membersPerModel = (model: string): number => {
 	switch (model) {
-		case 'icon_seamless':
+		// DWD ICON
+		case 'icon_seamless_eps':
 			return 40;
-		case 'icon_global':
+		case 'icon_global_eps':
 			return 40;
-		case 'icon_eu':
+		case 'icon_eu_eps':
 			return 40;
-		case 'icon_d2':
+		case 'icon_d2_eps':
 			return 20;
-		case 'gfs_seamless':
+
+		// MeteoSwiss ICON
+		case 'meteoswiss_icon_ch1_ensemble':
+			return 11;
+		case 'meteoswiss_icon_ch2_ensemble':
+			return 21;
+
+		// NCEP GEFS
+		case 'ncep_gefs_seamless':
 			return 31;
-		case 'gfs025':
+		case 'ncep_gefs025':
 			return 31;
+		case 'ncep_gefs05':
+			return 31;
+		case 'ncep_aigefs025':
+			return 31;
+
 		case 'ecmwf_ifs025':
+			return 51;
+		case 'ecmwf_ifs025_ensemble':
+			return 51;
+		case 'ecmwf_aifs025_ensemble':
 			return 51;
 		case 'gem_global':
 			return 21;
+		case 'gem_global_ensemble':
+			return 21;
+
+		// BOM
+		case 'bom_access_global_ensemble':
+			return 18;
+
+		// UKMO
+		case 'ukmo_global_ensemble_20km':
+			return 18;
+		case 'ukmo_uk_ensemble_2km':
+			return 3;
 	}
 	return 1;
 };
