@@ -50,7 +50,10 @@
 		{ title: 'Flood', url: '/en/docs/flood-api' }
 	];
 	if (dev) {
-		links.push({ title: 'Single Runs', url: '/en/docs/single-runs-api' });
+		links.push(
+			{ title: 'Single Runs', url: '/en/docs/single-runs-api' },
+			{ title: 'OM Files', url: '/en/docs/om-files' }
+		);
 	}
 
 	interface Path {
