@@ -181,9 +181,10 @@
 				const past_days = cwParams['past_days'] ?? defaultParameters.past_days ?? 0;
 				nDays = Number(forecast_days) + Number(past_days);
 			}
+
 			/// Number or models (including number of ensemble members)
 			const nModels = Number(
-				sdk_type == 'ensemble_api'
+				sdk_type === 'ensemble_api'
 					? (cwParams.models
 							? Array.isArray(cwParams.models)
 								? cwParams.models
