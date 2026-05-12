@@ -439,7 +439,12 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultsPreview {params} {defaultParameters} model_default="geosphere_arome_austria" />
+	<ResultsPreview
+		{params}
+		{defaultParameters}
+		model_default="geosphere_arome_austria"
+		defaultTimeParameters={false}
+	/>
 </div>
 
 <!-- DATA SOURCES -->
@@ -494,8 +499,8 @@
 	</div>
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<figure>
-			<enhanced:img
-				src="/static/images/models/geosphere_austria.png"
+			<img
+				src="/images/models/geosphere_austria.webp"
 				class="rounded-lg"
 				alt="GeoSphere AROME Austria model area"
 			/>

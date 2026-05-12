@@ -642,7 +642,6 @@
 										checked={$params.weekly?.includes(value)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
-											console.log(value);
 											if (value && $params.weekly?.includes(value)) {
 												$params.weekly = $params.weekly.filter((item: string) => {
 													return item !== value;

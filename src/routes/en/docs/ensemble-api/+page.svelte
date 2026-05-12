@@ -129,8 +129,14 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		The initial version of ensemble weather models has been integrated. You can learn more about
-		these models in the <a
+		This API offers access to individual ensemble member forecasts from various weather models. You
+		can retrieve up to three days of historical data. Additionally, we store <a
+			href="/en/docs/ensemble-mean-api"
+			title="Ensemble Mean API"
+			class="text-link underline">ensemble means and spreads</a
+		>
+		with a longer retention period. For more information on ensemble models, see this
+		<a
 			class="text-link underline"
 			href="https://openmeteo.substack.com/p/ensemble-weather-forecast-api"
 			target="_blank">blog article</a

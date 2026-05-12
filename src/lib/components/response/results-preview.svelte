@@ -32,6 +32,7 @@
 		sdk_cache?: number;
 		defaultParameters: Parameters;
 		useStockChart?: boolean;
+		defaultTimeParameters?: boolean;
 	}
 
 	let {
@@ -42,7 +43,8 @@
 		sdk_type = 'weather_api',
 		sdk_cache = 3600,
 		defaultParameters,
-		useStockChart = false
+		useStockChart = false,
+		defaultTimeParameters = true
 	}: Props = $props();
 
 	/// Parsed params that resolved CSV fields
@@ -128,8 +130,14 @@
 			delete jsonParams.bounding_box;
 		}
 
-		const { forecast_days, past_days, ...diffDefaults } = defaultParameters;
-		return objectDifference(jsonParams, diffDefaults as typeof defaultParameters);
+		const compareParameters = { ...defaultParameters };
+		if (!defaultTimeParameters) {
+			delete compareParameters.forecast_days;
+			if (Number(compareParameters.past_days) !== 0) {
+				delete compareParameters.past_days;
+			}
+		}
+		return objectDifference(jsonParams, compareParameters);
 	});
 
 	let server = $derived(

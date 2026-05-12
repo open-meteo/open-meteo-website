@@ -164,7 +164,7 @@
 						setTimeout(() => {
 							document
 								.getElementById('start_year_' + new Date(start_date).getUTCFullYear())
-								?.scrollIntoView({ behavior: 'instant', inline: 'end' });
+								?.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' });
 						}, 200);
 					}
 					monthModeStart = true;
@@ -294,7 +294,7 @@
 						setTimeout(() => {
 							document
 								.getElementById('end_year_' + new Date(end_date).getUTCFullYear())
-								?.scrollIntoView({ behavior: 'instant', inline: 'end' });
+								?.scrollIntoView({ behavior: 'instant', block: 'nearest', inline: 'nearest' });
 						}, 200);
 					}
 					monthModeEnd = true;

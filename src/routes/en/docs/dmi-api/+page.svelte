@@ -629,7 +629,12 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultsPreview {params} {defaultParameters} model_default="dmi_seamless" />
+	<ResultsPreview
+		{params}
+		{defaultParameters}
+		model_default="dmi_seamless"
+		defaultTimeParameters={false}
+	/>
 </div>
 
 <!-- DATA SOURCES -->

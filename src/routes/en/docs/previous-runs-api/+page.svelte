@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { fade, slide } from 'svelte/transition';
+	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -9,28 +9,22 @@
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
-	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
 
-	import {
-		forecastDaysOptions,
-		gridCellSelectionOptions,
-		models,
-		temporalResolutionOptions
-	} from '../options';
+	import { gridCellSelectionOptions, models, temporalResolutionOptions } from '../options';
 	import {
 		defaultParameters,
+		forecastDaysOptions,
 		pastDaysOptions,
 		previousDay,
 		solarVariables,
@@ -59,12 +53,6 @@
 		}
 		return `${variable}_previous_day${previous_day}`;
 	}
-
-	let forecastDays = $derived(
-		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
-	);
-
-	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
 	// Additional variable settings
 	let cellSelection = $derived(
@@ -452,7 +440,13 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultsPreview {params} {defaultParameters} type="previous-runs" useStockChart={true} />
+	<ResultsPreview
+		{params}
+		{defaultParameters}
+		type="previous-runs"
+		useStockChart={true}
+		defaultTimeParameters={false}
+	/>
 </div>
 
 <div class="mt-6 md:mt-12">

@@ -238,7 +238,7 @@ export const additionalDaily = [
 	]
 
 	// available, but duplicate of correct syntax:
-	//{ value: 'weathercode', label: 'XXX' },
+	// { value: 'weathercode', label: 'Weather Code' },
 	// { value: 'cloudcover_max', label: 'Maximum Cloud Cover' },
 	// { value: 'cloudcover_mean', label: 'Mean Cloud Cover' },
 	// { value: 'cloudcover_min', label: 'Minimum Cloud Cover' },
@@ -254,7 +254,7 @@ export const additionalDaily = [
 	// { value: 'vapor_pressure_deficit_max', label: 'Maximum Vapor Pressure Deficit' },
 
 	// soil parameters, not available on all models
-	// 	{ value: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
+	// { value: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
 	// { value: 'soil_moisture_0_to_10cm_mean', label: 'Mean Soil Moisture (0-10 cm)' },
 	// { value: 'soil_moisture_0_to_7cm_mean', label: 'Mean Soil Moisture (0-7 cm)' },
 	// { value: 'soil_moisture_28_to_100cm_mean', label: 'Mean Soil Moisture (28-100 cm)' },

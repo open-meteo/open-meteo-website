@@ -916,16 +916,9 @@
 
 		<ZoomableImage
 			figureClass="w-full"
-			src="/images/models/gem_hrdps_west_original.png"
+			src="/images/models/gem_hrdps_west.webp"
 			alt="HRDPS West Model Area"
 		>
-			{#snippet children()}
-				<enhanced:img
-					class="w-full rounded-lg"
-					src="/static/images/models/gem_hrdps_west_original.png"
-					alt="HRDPS West Model Area"
-				/>
-			{/snippet}
 			{#snippet caption()}
 				HRDPS West Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 			{/snippet}
