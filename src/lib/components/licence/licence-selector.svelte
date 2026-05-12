@@ -28,7 +28,7 @@
 		<div class="border-border flex rounded-md border">
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {licenceSelected ===
+				class="items-center gap-1 rounded-e-none opacity-100! duration-300 {licenceSelected ===
 				'non_commercial'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
@@ -42,7 +42,7 @@
 			</Button>
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-none !opacity-100 duration-300 {licenceSelected ===
+				class="items-center gap-1 rounded-none opacity-100! duration-300 {licenceSelected ===
 				'commercial'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
@@ -56,7 +56,7 @@
 			</Button>
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {licenceSelected ===
+				class="items-center gap-1 rounded-s-none opacity-100! duration-300 {licenceSelected ===
 				'self_hosted'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
@@ -70,7 +70,7 @@
 			</Button>
 		</div>
 	</div>
-	<div class="relative mt-3 md:mt-6">
+	<div class="relative mt-3 md:mt-6 min-h-12">
 		{#if licenceSelected === 'non_commercial'}
 			<div in:fade>
 				<Alert.Root variant="info">

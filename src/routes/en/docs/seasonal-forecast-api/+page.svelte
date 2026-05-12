@@ -194,7 +194,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -209,7 +209,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -642,7 +642,6 @@
 										checked={$params.weekly?.includes(value)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
-											console.log(value);
 											if (value && $params.weekly?.includes(value)) {
 												$params.weekly = $params.weekly.filter((item: string) => {
 													return item !== value;
@@ -739,7 +738,7 @@
 									{:else}
 										<div class="flex w-1/2 gap-2">
 											<div
-												class="group ml-[75px] flex items-center"
+												class="group ml-18.75 flex items-center"
 												title="Wind Gusts (10 m) Anomaly"
 											>
 												<Checkbox
@@ -889,11 +888,11 @@
 			future weather but also the range of possible outcomes and their associated uncertainties.
 		</p>
 		<p>
-			In addition to the 51 individual member forecasts, Open-Meteo also provides ensemble mean and spread
-			values. If an <mark>Ensemble Mean model</mark> is selected in the model selection above, the
-			API returns the ensemble mean instead of individual member forecasts. Ensemble mean and spread
-			values are stored for a longer period of time and can be used for bias correction later on.
-			Forecasts for all 51 individual members are only kept for one month.
+			In addition to the 51 individual member forecasts, Open-Meteo also provides ensemble mean and
+			spread values. If an <mark>Ensemble Mean model</mark> is selected in the model selection above,
+			the API returns the ensemble mean instead of individual member forecasts. Ensemble mean and spread
+			values are stored for a longer period of time and can be used for bias correction later on. Forecasts
+			for all 51 individual members are only kept for one month.
 		</p>
 		<p>
 			Forecasts from EC46 for the next 46 days are updated every day at around 20:30 GMT+0. Seasonal
@@ -906,7 +905,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

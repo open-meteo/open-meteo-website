@@ -340,7 +340,10 @@ export const additionalMonthly = [
 
 export const models = [
 	[
-		{ value: 'ecmwf_seasonal_seamless', label: 'ECMWF Seasonal Seamless (EC46 + SEAS5), All 51 members' },
+		{
+			value: 'ecmwf_seasonal_seamless',
+			label: 'ECMWF Seasonal Seamless (EC46 + SEAS5), All 51 members'
+		},
 		{ value: 'ecmwf_seas5', label: 'ECMWF SEAS5, All 51 members' },
 		{ value: 'ecmwf_ec46', label: 'ECMWF EC46, All 51 members' }
 	],

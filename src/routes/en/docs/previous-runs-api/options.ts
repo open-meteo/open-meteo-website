@@ -11,7 +11,7 @@ export const defaultParameters = {
 
 	time_mode: 'forecast_days',
 	past_days: '7',
-	forecast_days: '7',
+	forecast_days: '1',
 
 	start_date: undefined,
 	end_date: undefined,
@@ -71,6 +71,14 @@ export const windVariables = [
 	{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
 	{ value: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
 	{ value: 'wind_direction_180m', label: 'Wind Direction (180 m)' }
+];
+
+export const forecastDaysOptions = [
+	{ value: '1', label: '1 day (default)' },
+	{ value: '3', label: '3 days' },
+	{ value: '7', label: '7 days' },
+	{ value: '14', label: '14 days' },
+	{ value: '16', label: '16 days' }
 ];
 
 export const pastDaysOptions = [

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -48,7 +49,7 @@
 		solarVariables
 	} from './options';
 
-	let d = new Date();
+	let d = new SvelteDate();
 	d.setDate(d.getDate() - 2);
 	let endDateDefault = d.toISOString().split('T')[0];
 	d.setDate(d.getDate() - 14);
@@ -65,10 +66,10 @@
 
 	let pressureVariablesTab = $state('temperature');
 
-	let timezoneInvalid = $derived($params.timezone == 'UTC' && $params.daily.length > 0);
+	let timezoneInvalid = $derived($params.timezone == 'UTC' && ($params.daily?.length ?? 0) > 0);
 
 	let beginDate = new Date('2016-01-01');
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate());
 
 	// Additional variable settings
@@ -161,7 +162,7 @@
 	<Alert.Description>
 		This API provides access to archived high-resolution weather model data from the <a
 			class="text-link underline"
-			href={'/en/docs'}>Weather Forecast API</a
+			href="/en/docs">Weather Forecast API</a
 		>. The data is continuously archived and updated daily. For more information read the
 		<a
 			class="text-link underline"
@@ -192,7 +193,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2022-01-01';
 						$params.end_date = '2022-12-31';
 					}}>2022</Button
@@ -200,7 +201,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2023-01-01';
 						$params.end_date = '2023-12-31';
 					}}>2023</Button
@@ -208,7 +209,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2024-01-01';
 						$params.end_date = '2024-12-31';
 					}}>2024</Button
@@ -216,7 +217,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2025-01-01';
 						$params.end_date = endDateDefault;
 					}}>2025</Button
@@ -270,7 +271,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -318,7 +323,7 @@
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -333,7 +338,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -353,7 +358,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -368,7 +373,7 @@
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -482,21 +487,21 @@
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
 				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-[227px]">
+					<div class="w-full md:w-56.75">
 						<ToggleGroup.Root
 							type="single"
 							bind:value={pressureVariablesTab}
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
 										0
-											? 'rounded-t-md !rounded-b-none'
+											? 'rounded-t-md rounded-b-none!'
 											: ''} {i === pressureVariables.length - 1
-											? '!rounded-t-none rounded-b-md'
+											? 'rounded-t-none! rounded-b-md'
 											: ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
@@ -504,11 +509,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
@@ -530,7 +535,7 @@
 										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
 											<div>
 												{#each chunk as level, k (k)}
-													<div class="group flex items-center" title={level.label}>
+													<div class="group flex items-center" title={String(level)}>
 														<Checkbox
 															id="{variable.value}_{level}hPa"
 															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -566,7 +571,7 @@
 						{/each}
 					</div>
 				</div>
-				<div class="mt-3 lg:ml-[249px]">
+				<div class="mt-3 lg:ml-62.25">
 					<small class="text-muted-foreground"
 						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
@@ -717,7 +722,7 @@
 							type="single"
 							bind:value={$params.forecast_minutely_15}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastMinutely15?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -732,7 +737,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.past_minutely_15}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastMinutely15?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -800,7 +805,7 @@
 			</div>
 		{/if}
 
-		<Accordion.Root class="border-border mt-3 rounded-lg border md:mt-6">
+		<Accordion.Root type="single" class="border-border mt-3 rounded-lg border md:mt-6">
 			<AccordionItem
 				id="additional-daily-variables"
 				title="Additional Daily Variables"
@@ -907,7 +912,7 @@
 						<td>ICON</td>
 						<td>Global</td>
 						<td>0.1° (~11 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2022-11-24</td>
 					</tr>
@@ -915,7 +920,7 @@
 						<td>ICON-EU</td>
 						<td>Europe</td>
 						<td>0.0625° (~7 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2022-11-24</td>
 					</tr>
@@ -923,7 +928,7 @@
 						<td>ICON-D2</td>
 						<td>Central Europe</td>
 						<td>0.02° (~2 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2022-11-24</td>
 					</tr>
@@ -932,7 +937,7 @@
 						<td>GFS</td>
 						<td>Global</td>
 						<td>0.11° (~13 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2021-03-23</td>
 					</tr>
@@ -940,7 +945,7 @@
 						<td>GFS Pressure Variables</td>
 						<td>Global</td>
 						<td>0.25° (~25 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2021-03-23</td>
 					</tr>
@@ -948,7 +953,7 @@
 						<td>HRRR</td>
 						<td>U.S. Conus</td>
 						<td>3 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every hour</td>
 						<td>2018-01-01</td>
 					</tr>
@@ -956,7 +961,7 @@
 						<td>NAM</td>
 						<td>U.S. Conus</td>
 						<td>3 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2025-09-01</td>
 					</tr>
@@ -964,7 +969,7 @@
 						<td>NBM</td>
 						<td>U.S. Conus</td>
 						<td>3 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every hour</td>
 						<td>2024-10-08</td>
 					</tr>
@@ -976,7 +981,7 @@
 						<td>Every 6 hours</td>
 						<td>2024-02-05</td>
 					</tr>
-										<tr>
+					<tr>
 						<td>AIGFS</td>
 						<td>Global</td>
 						<td>0.25° (~25 km)</td>
@@ -997,7 +1002,7 @@
 						<td>ARPEGE World</td>
 						<td>Global</td>
 						<td>0.25° (~25 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2024-01-02</td>
 					</tr>
@@ -1005,28 +1010,28 @@
 						<td>ARPEGE Europe</td>
 						<td>Europe</td>
 						<td>0.1° (~11 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2022-11-13</td>
 					</tr>
 					<tr>
 						<td>AROME France</td>
-						<td>Global</td>
+						<td>France</td>
 						<td>0.025° (~2.5 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2024-01-02</td>
 					</tr>
 					<tr>
 						<td>AROME France HD</td>
-						<td>Global</td>
+						<td>France</td>
 						<td>0.01° (~1.5 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2022-11-13</td>
 					</tr>
 					<tr>
-						<th scope="row" rowspan="3">ECMWF</th>
+						<th scope="row" rowspan="4">ECMWF</th>
 						<td>IFS 0.4°</td>
 						<td>Global</td>
 						<td>0.4° (~44 km)</td>
@@ -1049,6 +1054,14 @@
 						<td>6-Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2025-02-20</td>
+					</tr>
+					<tr>
+						<td>IFS HRES</td>
+						<td>Global</td>
+						<td>9 km (O1280 grid)</td>
+						<td>Hourly</td>
+						<td>Every 6 hours</td>
+						<td>2017-01-01</td>
 					</tr>
 					<tr>
 						<th scope="row" rowspan="2">UK Met Office</th>
@@ -1080,7 +1093,7 @@
 						<td>MSM</td>
 						<td>Japan</td>
 						<td>0.05° (~5 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2016-01-01</td>
 					</tr>
@@ -1089,7 +1102,7 @@
 						<td>MET Nordic</td>
 						<td>Norway, Denmark, Sweden, Finland</td>
 						<td>1 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every hour</td>
 						<td>2022-11-15</td>
 					</tr>
@@ -1106,7 +1119,7 @@
 						<td>GEM Regional</td>
 						<td>North America, North Pole</td>
 						<td>10 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2022-11-23</td>
 					</tr>
@@ -1114,7 +1127,7 @@
 						<td>HRDPS Continental</td>
 						<td>Canada, Nothern US</td>
 						<td>2.5 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2023-03-03</td>
 					</tr>
@@ -1132,7 +1145,7 @@
 						<td>ACCESS-G</td>
 						<td>Global</td>
 						<td>0.15° (~15 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2024-01-18</td>
 					</tr>
@@ -1141,7 +1154,7 @@
 						<td>ICON 2I</td>
 						<td>Southern Europe</td>
 						<td>2 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 12 hours</td>
 						<td>2025-04-13</td>
 					</tr>
@@ -1150,7 +1163,7 @@
 						<td>HARMONIE AROME DINI</td>
 						<td>Central & Northern Europe</td>
 						<td>2 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2024-07-01</td>
 					</tr>
@@ -1159,7 +1172,7 @@
 						<td>HARMONIE AROME Netherlands</td>
 						<td>Netherlands, Belgium</td>
 						<td>2 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every hour</td>
 						<td>2024-07-01</td>
 					</tr>
@@ -1167,7 +1180,7 @@
 						<td>HARMONIE AROME Europe</td>
 						<td>Central & Northern Europe up to Iceland</td>
 						<td>5.5 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every hour</td>
 						<td>2024-07-01</td>
 					</tr>
@@ -1176,7 +1189,7 @@
 						<td>ICON CH1</td>
 						<td>Central Europe</td>
 						<td>1 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 3 hours</td>
 						<td>2025-07-29</td>
 					</tr>
@@ -1184,7 +1197,7 @@
 						<td>ICON CH2</td>
 						<td>Central Europe</td>
 						<td>2 km</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>2025-07-29</td>
 					</tr>

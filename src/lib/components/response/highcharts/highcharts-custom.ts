@@ -1,6 +1,6 @@
 // sort-imports-ignore
 import Highcharts from 'highcharts/es-modules/Core/Globals.js';
-import Utilities from 'highcharts/es-modules/Core/Utilities.js';
+import * as Utilities from 'highcharts/es-modules/Shared/Utilities.js';
 import Defaults from 'highcharts/es-modules/Core/Defaults.js';
 import SVGElement from 'highcharts/es-modules/Core/Renderer/SVG/SVGElement.js';
 import SVGRenderer from 'highcharts/es-modules/Core/Renderer/SVG/SVGRenderer.js';
@@ -23,7 +23,7 @@ import DataLabel from 'highcharts/es-modules/Core/Series/DataLabel.js';
 import Responsive from 'highcharts/es-modules/Core/Responsive.js';
 import Time from 'highcharts/es-modules/Core/Time.js';
 
-const G: AnyRecord = Highcharts;
+const G: Record<string, unknown> = Highcharts;
 
 // Classes
 G.Axis = Axis;
@@ -49,7 +49,8 @@ G.setOptions = Defaults.setOptions;
 G.time = Defaults.defaultTime;
 
 // Compositions
-ColumnDataLabel.compose(G.Series.types.column);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ColumnDataLabel.compose((G.Series as any).types.column);
 DataLabel.compose(G.Series);
 DateTimeAxis.compose(G.Axis);
 Legend.compose(G.Chart);
@@ -73,7 +74,8 @@ DataGrouping.compose(G.Axis, G.Series, G.Tooltip);
 // Stockchart
 import StockChart from 'highcharts/es-modules/Core/Chart/StockChart.js';
 G.StockChart = G.stockChart = StockChart;
-G.StockChart.compose(G.Chart, G.Axis, G.Series, G.SVGRenderer);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(G.StockChart as any).compose(G.Chart, G.Axis, G.Series, G.SVGRenderer);
 
 // Default Export
 export default G;

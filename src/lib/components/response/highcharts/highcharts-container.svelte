@@ -7,14 +7,23 @@
 
 	import './highcharts.css';
 
-	export let useStockChart = false;
-	export let options: any;
-	export let style = 'height: 400px';
-	let clazz = 'w-full';
-	export { clazz as class };
+	interface Props {
+		useStockChart?: boolean;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		options: Record<string, any>;
+		style?: string;
+		class?: string;
+	}
+
+	let {
+		useStockChart = false,
+		options,
+		style = 'height: 400px',
+		class: clazz = 'w-full'
+	}: Props = $props();
 
 	let node: HTMLElement;
-	let chart: any;
+	let chart: Highcharts.Chart | undefined;
 
 	onMount(async () => {
 		/// Highcharts needs to be loaded in `onMount` to work with prerendered SSG
@@ -48,9 +57,11 @@
 			// const HighchartsStock = await import('highcharts/modules/stock');
 			// HighchartsStock.default(Highcharts);
 			// chart = new Highcharts.StockChart(node, options);
-			chart = new Highcharts.StockChart(node, options);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			chart = new (Highcharts.StockChart as any)(node, options);
 		} else {
-			chart = new Highcharts.Chart(node, options);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			chart = new (Highcharts.Chart as any)(node, options);
 		}
 	});
 

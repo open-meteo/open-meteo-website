@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { altitudeAboveSeaLevelMeters } from '$lib/utils/meteo';
 
-	export let levels: number[];
+	interface Props {
+		levels: number[];
+	}
+
+	let { levels }: Props = $props();
 </script>
 
 <div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
@@ -23,13 +27,13 @@
 		<tbody>
 			<tr>
 				<th>Level (hPa)</th>
-				{#each levels as level}
+				{#each levels as level (level)}
 					<td>{level}</td>
 				{/each}
 			</tr>
 			<tr>
 				<th>Altitude</th>
-				{#each levels as level}
+				{#each levels as level (level)}
 					<td>{altitudeAboveSeaLevelMeters(level)}</td>
 				{/each}
 			</tr>

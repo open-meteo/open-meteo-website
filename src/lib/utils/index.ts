@@ -18,22 +18,25 @@ export const pad = (n: string | number) => {
 	return ('0' + n).slice(-2);
 };
 
-export function debounce(func, timeout = 100) {
-	let timer: NodeJS.Timeout;
-	return (...args) => {
+export function debounce<T extends (...args: Parameters<T>) => void>(
+	func: T,
+	timeout = 100
+): (...args: Parameters<T>) => void {
+	let timer: ReturnType<typeof setTimeout>;
+	return (...args: Parameters<T>) => {
 		clearTimeout(timer);
 		timer = setTimeout(() => {
-			func.apply(this, args);
+			func(...args);
 		}, timeout);
 	};
 }
 
 // Only considers keys of the first object. Ignores nulls and empty strings
-export function objectDifference<T extends Record<string, any>>(a: T, b: T): Partial<T> {
+export function objectDifference<T extends Record<string, unknown>>(a: T, b: T): Partial<T> {
 	const diff: Partial<T> = {};
 	for (const key in a) {
-		if (isNumeric(a[key])) {
-			if (isNumeric(b[key]) && Number(a[key]) === Number(b[key])) {
+		if (isNumeric(a[key] as string | number)) {
+			if (isNumeric(b[key] as string | number) && Number(a[key]) === Number(b[key])) {
 				continue;
 			}
 			diff[key] = a[key];
@@ -46,11 +49,32 @@ export function objectDifference<T extends Record<string, any>>(a: T, b: T): Par
 	return diff;
 }
 
-export const sliceIntoChunks = (arr: Array<T>, chunkSize: number): Array<Array<T>> => {
+export const sliceIntoChunks = <T>(arr: Array<T>, chunkSize: number): Array<Array<T>> => {
 	const res = [];
 	for (let i = 0; i < arr.length; i += chunkSize) {
 		const chunk = arr.slice(i, i + chunkSize);
 		res.push(chunk);
 	}
 	return res;
+};
+
+const DAILY_SUFFIXES = ['max', 'mean', 'min', 'sum', 'hours', 'dominant'];
+
+export const isAvailable = (
+	variable: string,
+	models: string[] | undefined,
+	availableVariables: Record<string, string[]>
+): boolean => {
+	if (!models?.length) return true;
+	return models.some((model) => availableVariables[model]?.includes(variable));
+};
+
+export const isDailyAvailable = (
+	variable: string,
+	models: string[] | undefined,
+	availableVariables: Record<string, string[]>
+): boolean => {
+	const variableSplit = variable.split('_');
+	if (DAILY_SUFFIXES.includes(variableSplit.at(-1)!)) variableSplit.pop();
+	return isAvailable(variableSplit.join('_'), models, availableVariables);
 };

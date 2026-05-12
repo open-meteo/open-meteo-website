@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -51,6 +52,7 @@
 		latitude: [52.52],
 		longitude: [13.41],
 		...defaultParameters,
+		temporal_resolution: 'native',
 		hourly: ['shortwave_radiation']
 	});
 
@@ -95,7 +97,7 @@
 
 	let beginDate = new Date('1983-01-01');
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate());
 </script>
 
@@ -149,7 +151,7 @@ TODO:
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="gap-1 rounded-e-none !opacity-100 duration-300 {$params.time_mode ===
+					class="gap-1 rounded-e-none opacity-100! duration-300 {$params.time_mode ===
 					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
@@ -161,7 +163,7 @@ TODO:
 					}}
 				>
 					<svg
-						class="lucide lucide-clock mr-[2px]"
+						class="lucide lucide-clock mr-0.5"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"
@@ -178,7 +180,7 @@ TODO:
 				</Button>
 				<Button
 					variant="ghost"
-					class="gap-1 rounded-s-none !opacity-100 duration-300  {$params.time_mode ===
+					class="gap-1 rounded-s-none opacity-100! duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -188,7 +190,7 @@ TODO:
 					}}
 				>
 					<svg
-						class="lucide lucide-calendar-cog mr-[2px]"
+						class="lucide lucide-calendar-cog mr-0.5"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"
@@ -420,7 +422,11 @@ TODO:
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -468,7 +474,7 @@ TODO:
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -483,7 +489,7 @@ TODO:
 					</div>
 					<div class="relative">
 						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -503,7 +509,7 @@ TODO:
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -518,7 +524,7 @@ TODO:
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -696,7 +702,7 @@ TODO:
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 		<table
-			class="[&_tr]:border-border mx-6 mt-2 min-w-[1040px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mx-6 mt-2 min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 		>
 			<thead>
 				<tr>
@@ -711,6 +717,21 @@ TODO:
 				</tr>
 			</thead>
 			<tbody>
+				<tr>
+					<th scope="row"
+						><a
+							href="https://www.dwd.de/DE/leistungen/fernerkund_globalstrahlung_sis/fernerkund_globalstrahlung_sis.html"
+							target="_blank">DWD</a
+						></th
+					>
+					<td>EUMETSAT MTG</td>
+					<td>Europe, Africa</td>
+					<td>0.025° (~ 2.5km)</td>
+					<td>10 minutely</td>
+					<td>Every 10 minutes</td>
+					<td>20 Minutes</td>
+					<td>Feb. 2026</td>
+				</tr>
 				<tr>
 					<th rowspan="2" scope="row"
 						><a href="https://lsa-saf.eumetsat.int/en/data/products/radiation/" target="_blank"
@@ -759,7 +780,7 @@ TODO:
 					<td>0.05° (~ 5km)</td>
 					<td>10 minutely</td>
 					<td>Every 10 minutes</td>
-					<td>20 Minutes</td>
+					<td>30 Minutes</td>
 					<td>2015</td>
 				</tr>
 				<tr>
@@ -768,7 +789,7 @@ TODO:
 					<td>0.05° (~ 5km)</td>
 					<td>10 minutely</td>
 					<td>Every 10 minutes</td>
-					<td>2 Hours</td>
+					<td>30 Minutes</td>
 					<td>2025</td>
 				</tr>
 				<tr>
@@ -796,8 +817,8 @@ TODO:
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
 		<figure>
-			<enhanced:img
-				src="/static/images/models/geostationary-satellites.png"
+			<img
+				src="/images/models/geostationary-satellites.webp"
 				class="rounded-lg"
 				alt="Geostationary satellites for solar radiation"
 			/>
@@ -833,6 +854,10 @@ TODO:
 				> to calculate direct radiation from shortwave solar radiation.
 			</li>
 			<li>
+				<strong>Clear-Sky solar shortwave radiation</strong> is only available for DWD satellite shortwave
+				radiation data.
+			</li>
+			<li>
 				<strong>Instantaneous Values Correction</strong>: All satellites provide data as
 				instantaneous values. However, a full Earth scan takes approximately 10–15 minutes. As a
 				result, the top and bottom of each scan have a significant time difference. To ensure
@@ -864,7 +889,7 @@ TODO:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1060px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-265 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -878,28 +903,39 @@ TODO:
 						<th scope="row">shortwave_radiation</th>
 						<td>Preceding hour mean</td>
 						<td
-							>Shortwave solar radiation as average of the preceding hour. This is equal to the
-							total global horizontal irradiation. This is equal the sum of direct and diffuse
-							radiation.
+							>Shortwave solar radiation is the average incoming solar radiation over the preceding
+							hour at the surface. It corresponds to the total global horizontal irradiance (GHI),
+							defined as the sum of direct and diffuse solar radiation. It accounts for atmospheric
+							effects including clouds and aerosols.
 						</td>
 					</tr>
 					<tr>
 						<th scope="row">diffuse_radiation</th>
 						<td>Preceding hour mean</td>
-						<td>Diffuse solar radiation as average of the preceding hour</td>
+						<td
+							>Diffuse solar radiation is the average refracted and scattered component of solar
+							radiation reaching the surface over the preceding hour. It excludes the direct solar
+							beam and results from interactions of sunlight with atmospheric molecules, aerosols,
+							and clouds.</td
+						>
 					</tr>
 					<tr>
 						<th scope="row">direct_radiation</th>
 						<td>Preceding hour mean</td>
-						<td>Direct solar radiation as average of the preceding hour on the horizontal plane.</td
+						<td
+							>Direct solar radiation is the average solar radiation over the preceding hour on a
+							horizontal surface that comes straight from the sun. It excludes any scattered or
+							reflected light and represents the unaltered solar beam reaching the surface.</td
 						>
 					</tr>
 					<tr>
 						<th scope="row">direct_normal_irradiance</th>
 						<td>Preceding hour mean</td>
 						<td
-							>Direct solar radiation as average of the preceding hour on the normal plane
-							(perpendicular to the sun). Often denoted DNI.</td
+							>Direct normal irradiance (DNI) is the average direct solar radiation over the
+							preceding hour measured on a surface perpendicular to the sun’s rays. “Perpendicular”
+							means the surface always faces the sun directly, as if mounted on a solar tracker,
+							capturing the maximum direct solar beam without scattering.</td
 						>
 					</tr>
 					<tr>
@@ -916,6 +952,17 @@ TODO:
 						>
 					</tr>
 					<tr>
+						<th scope="row">shortwave_radiation_clear_sky</th>
+						<td>Preceding hour mean</td>
+						<td
+							>Clear-sky shortwave radiation is the solar radiation reaching the surface in the
+							absence of clouds. Atmospheric effects such as gas absorption, aerosol scattering, and
+							refraction due to air density are included, while cloud particles are excluded. Under
+							perfectly clear conditions, the regular shortwave radiation can be as high as the
+							clear-sky shortwave radiation.</td
+						>
+					</tr>
+					<tr>
 						<th scope="row">terrestrial_radiation</th>
 						<td>Preceding hour mean</td>
 						<td
@@ -924,14 +971,17 @@ TODO:
 							constant of 1367.7 W/m². This differs from clear sky radiation, which accounts for
 							aerosols but not clouds.</td
 						>
-					</tr><tr>
+					</tr>
+					<tr>
 						<th scope="row">*_instant</th>
 						<td>Instant</td>
 						<td
-							>All solar radiation parameters can be converted to instantaneous values by
-							integrating the solar zenith angle. Instantaneous values are useful for comparing data
-							with local measurements. However, for energy calculations or comparisons with
-							numerical weather models, backward-averaged data is recommended.</td
+							>All solar radiation parameters can be expressed as instantaneous values by accounting
+							for the solar zenith angle at a specific moment. Instantaneous values are useful for
+							direct comparison with local measurements. However, for energy calculations or model
+							evaluations, backward-averaged (preceding hour) data is preferred. By default, the
+							Open-Meteo API provides backward-averaged solar radiation to simplify energy
+							calculations.</td
 						>
 					</tr>
 				</tbody>

@@ -22,7 +22,6 @@
 
 	import type { APIKeyPreferences, Parameters } from '$lib/docs';
 	import type { UrlHashStore } from '$lib/stores/url-hash-store';
-	import type { ChartOptions } from 'highcharts';
 
 	interface Props {
 		params: UrlHashStore;
@@ -33,6 +32,7 @@
 		sdk_cache?: number;
 		defaultParameters: Parameters;
 		useStockChart?: boolean;
+		defaultTimeParameters?: boolean;
 	}
 
 	let {
@@ -43,12 +43,14 @@
 		sdk_type = 'weather_api',
 		sdk_cache = 3600,
 		defaultParameters,
-		useStockChart = false
+		useStockChart = false,
+		defaultTimeParameters = true
 	}: Props = $props();
 
 	/// Parsed params that resolved CSV fields
 	let parsedParams = $derived.by(() => {
-		const jsonParams = { ...$params };
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const jsonParams: Record<string, any> = { ...$params };
 		if ('time_mode' in jsonParams) {
 			if (jsonParams.time_mode == 'forecast_days') {
 				delete jsonParams['start_date'];
@@ -128,7 +130,14 @@
 			delete jsonParams.bounding_box;
 		}
 
-		return objectDifference(jsonParams, defaultParameters);
+		const compareParameters = { ...defaultParameters };
+		if (!defaultTimeParameters) {
+			delete compareParameters.forecast_days;
+			if (Number(compareParameters.past_days) !== 0) {
+				delete compareParameters.past_days;
+			}
+		}
+		return objectDifference(jsonParams, compareParameters);
 	});
 
 	let server = $derived(
@@ -168,8 +177,8 @@
 				const end = new Date(cwParams['end_date'] as string).getTime();
 				nDays = (end - start) / 1000 / 86400;
 			} else {
-				const forecast_days = cwParams['forecast_days'] ?? 7;
-				const past_days = cwParams['past_days'] ?? 0;
+				const forecast_days = cwParams['forecast_days'] ?? defaultParameters.forecast_days ?? 7;
+				const past_days = cwParams['past_days'] ?? defaultParameters.past_days ?? 0;
 				nDays = Number(forecast_days) + Number(past_days);
 			}
 			/// Number or models (including number of ensemble members)
@@ -194,29 +203,29 @@
 			/// Number of weather variables for hourly, daily, current or minutely_15
 			const nHourly = cwParams.hourly
 				? Array.isArray(cwParams.hourly)
-					? cwParams.hourly.length
-					: cwParams.hourly.length > 1
+					? (cwParams.hourly as string[]).length
+					: (cwParams.hourly as string).length > 1
 						? 1
 						: 0
 				: 0;
 			const nDaily = cwParams.daily
 				? Array.isArray(cwParams.daily)
-					? cwParams.daily.length
-					: cwParams.daily.length > 1
+					? (cwParams.daily as string[]).length
+					: (cwParams.daily as string).length > 1
 						? 1
 						: 0
 				: 0;
 			const nCurrent = cwParams.current
 				? Array.isArray(cwParams.current)
-					? cwParams.current.length
-					: cwParams.current.length > 1
+					? (cwParams.current as string[]).length
+					: (cwParams.current as string).length > 1
 						? 1
 						: 0
 				: 0;
 			const nMinutely15 = cwParams.minutely_15
 				? Array.isArray(cwParams.minutely_15)
-					? cwParams.minutely_15.length
-					: cwParams.minutely_15.length > 1
+					? (cwParams.minutely_15 as string[]).length
+					: (cwParams.minutely_15 as string).length > 1
 						? 1
 						: 0
 				: 0;
@@ -237,15 +246,22 @@
 	);
 
 	let error = $state('');
-	let results: Promise<ChartOptions[] | null> = $state(new Promise((resolve) => resolve(null)));
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let results: Promise<any[] | null> = $state(new Promise((resolve) => resolve(null)));
 	const reset = () => {
 		error = '';
 		results = new Promise((resolve) => resolve(null));
 	};
 
 	// reset results on variable changes
-	params.subscribe(reset);
-	apiKeyPreferences.subscribe(reset);
+	$effect(() => {
+		void $params;
+		reset();
+	});
+	$effect(() => {
+		void $apiKeyPreferences;
+		reset();
+	});
 
 	const preview = async () => {
 		if (
@@ -360,8 +376,6 @@
 			multipleLocationsOrModels,
 			numberOfLocations,
 			numberOfModels,
-			server,
-			sdk_type,
 			previewUrl
 		)
 	);
@@ -381,7 +395,7 @@
 	<div class="border-border flex rounded-md border">
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {mode === 'chart'
+			class="items-center gap-1 rounded-e-none opacity-100! duration-300 {mode === 'chart'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'chart'}
@@ -394,7 +408,7 @@
 
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'python'
+			class="items-center gap-1 rounded-none opacity-100! duration-300 {mode === 'python'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'python'}
@@ -406,7 +420,7 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'typescript'
+			class="items-center gap-1 rounded-none opacity-100! duration-300 {mode === 'typescript'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'typescript'}
@@ -419,7 +433,7 @@
 		{#if sdk_type != 'ensemble_api'}
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'swift'
+				class="items-center gap-1 rounded-none opacity-100! duration-300 {mode === 'swift'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
 				disabled={mode === 'swift'}
@@ -432,7 +446,7 @@
 		{/if}
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {mode === 'other'
+			class="items-center gap-1 rounded-s-none opacity-100! duration-300 {mode === 'other'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'other'}
@@ -697,7 +711,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -749,7 +763,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;
@@ -813,7 +827,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -864,7 +878,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;
@@ -929,7 +943,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -980,7 +994,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;

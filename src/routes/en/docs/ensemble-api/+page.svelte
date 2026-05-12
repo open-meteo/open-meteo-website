@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fade, slide } from 'svelte/transition';
+	import { SvelteDate } from 'svelte/reactivity';
+	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { sliceIntoChunks } from '$lib/utils';
+	import { isAvailable, isDailyAvailable, sliceIntoChunks } from '$lib/utils';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -13,7 +14,6 @@
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
-	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -21,11 +21,11 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
+	import TimeSelector from '$lib/components/time/time-selector.svelte';
 
 	import {
 		forecastHoursOptions,
@@ -55,11 +55,6 @@
 		models: ['icon_seamless_eps']
 	});
 
-	let forecastDays = $derived(
-		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
-	);
-	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
-
 	// Additional variable settings
 	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
 	let forecastHours = $derived(
@@ -72,15 +67,15 @@
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
 
-	let accordionValues = $state([]);
+	let accordionValues: string[] = $state([]);
 	let pressureVariablesTab = $state('temperature');
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				forecastHours.value ||
-				pastHours.value ||
-				temporalResolution.value ||
-				cellSelection.value) &&
+				forecastHours?.value ||
+				pastHours?.value ||
+				temporalResolution?.value ||
+				cellSelection?.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -104,52 +99,9 @@
 		}
 	});
 
-	function isAvailable(variable: String, models: String[]): Boolean {
-		// no model selected
-		if (models.length == 0) {
-			return true;
-		}
-		for (const model of models) {
-			if (!availableVariables[model]) {
-				continue;
-			}
-			if (availableVariables[model].includes(variable)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	function isDailyAvailable(variable: String, models: String[]): Boolean {
-		// remove last '_part' of variable, that they can be checked with the hourly variables
-		let variableSplit = variable.split('_');
-		if (
-			['max', 'mean', 'min', 'sum', 'hours', 'dominant'].includes(
-				variableSplit[variableSplit.length - 1]
-			)
-		) {
-			variableSplit.pop();
-		}
-		let variableBase = variableSplit.join('_');
-
-		// no model selected
-		if (models.length == 0) {
-			return true;
-		}
-		for (const model of models) {
-			if (!availableVariables[model]) {
-				continue;
-			}
-			if (availableVariables[model].includes(variableBase)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	let beginDate = new Date('2023-04-01');
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() + 35);
 
 	let timezoneInvalid = $derived(
@@ -177,8 +129,14 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		The initial version of ensemble weather models has been integrated. You can learn more about
-		these models in the <a
+		This API offers access to individual ensemble member forecasts from various weather models. You
+		can retrieve up to three days of historical data. Additionally, we store <a
+			href="/en/docs/ensemble-mean-api"
+			title="Ensemble Mean API"
+			class="text-link underline">ensemble means and spreads</a
+		>
+		with a longer retention period. For more information on ensemble models, see this
+		<a
 			class="text-link underline"
 			href="https://openmeteo.substack.com/p/ensemble-weather-forecast-api"
 			target="_blank">blog article</a
@@ -191,157 +149,13 @@
 	<LocationSelection bind:params={$params} />
 
 	<!-- TIME -->
-	<div class="mt-6">
-		<div class="mt-3 flex items-center gap-2">
-			<div class="text-muted-foreground">Time:</div>
-
-			<div class="border-border flex rounded-md border">
-				<Button
-					variant="ghost"
-					class="gap-1 rounded-e-none !opacity-100 duration-300 {$params.time_mode ===
-					'forecast_days'
-						? 'bg-accent cursor-not-allowed'
-						: ''}"
-					disabled={$params.time_mode === 'forecast_days'}
-					onclick={() => {
-						$params.time_mode = 'forecast_days';
-						$params.start_date = '';
-						$params.end_date = '';
-					}}
-				>
-					<svg
-						class="lucide lucide-clock mr-[2px]"
-						xmlns="http://www.w3.org/2000/svg"
-						width="18"
-						height="18"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<circle cx="12" cy="12" r="10" />
-						<polyline points="12 6 12 12 16 14" />
-					</svg>Forecast Length
-				</Button>
-				<Button
-					variant="ghost"
-					class="gap-1 rounded-s-none !opacity-100 duration-300  {$params.time_mode ===
-					'time_interval'
-						? 'bg-accent'
-						: ''}"
-					disabled={$params.time_mode === 'time_interval'}
-					onclick={() => {
-						$params.time_mode = 'time_interval';
-					}}
-				>
-					<svg
-						class="lucide lucide-calendar-cog mr-[2px]"
-						xmlns="http://www.w3.org/2000/svg"
-						width="18"
-						height="18"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<path d="m15.2 16.9-.9-.4" />
-						<path d="m15.2 19.1-.9.4" />
-						<path d="M16 2v4" />
-						<path d="m16.9 15.2-.4-.9" />
-						<path d="m16.9 20.8-.4.9" />
-						<path d="m19.5 14.3-.4.9" />
-						<path d="m19.5 21.7-.4-.9" />
-						<path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" />
-						<path d="m21.7 16.5-.9.4" />
-						<path d="m21.7 19.5-.9-.4" />
-						<path d="M3 10h18" />
-						<path d="M8 2v4" />
-						<circle cx="18" cy="18" r="3" />
-					</svg>Time Interval
-				</Button>
-			</div>
-		</div>
-
-		<div class="mt-3 md:mt-4">
-			{#if $params.time_mode === 'forecast_days'}
-				<div in:fade class="grid gap-3 md:gap-6 lg:grid-cols-2">
-					<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
-						<div class="relative">
-							<Select.Root name="forecast_days" type="single" bind:value={$params.forecast_days}>
-								<Select.Trigger
-									aria-label="Forecast days input"
-									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-									>{forecastDays?.label}</Select.Trigger
-								>
-								<Select.Content preventScroll={false} class="border-border">
-									{#each forecastDaysOptions as { value, label } (value)}
-										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
-									{/each}
-								</Select.Content>
-								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-									>Forecast days</Label
-								>
-							</Select.Root>
-						</div>
-						<div class="relative">
-							<Select.Root name="past_days" type="single" bind:value={$params.past_days}>
-								<Select.Trigger
-									aria-label="Past days input"
-									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
-								>
-								<Select.Content preventScroll={false} class="border-border">
-									{#each pastDaysOptions as { value, label } (value)}
-										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
-									{/each}
-								</Select.Content>
-								<Label
-									class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>
-									Past days</Label
-								>
-							</Select.Root>
-						</div>
-					</div>
-
-					<div>
-						<p>
-							By default, we provide forecasts for 7 days, but you can access forecasts for up to 16
-							days. If you're interested in past weather data, you can use the <mark>Past Days</mark
-							>
-							feature to access archived forecasts.
-						</p>
-					</div>
-				</div>
-			{/if}
-			{#if $params.time_mode === 'time_interval'}
-				<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
-					<div class="mb-3 lg:w-1/2">
-						<DatePicker
-							bind:start_date={$params.start_date}
-							bind:end_date={$params.end_date}
-							{beginDate}
-							{lastDate}
-						/>
-					</div>
-					<div class="mb-3 lg:w-1/2">
-						<p>
-							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
-							of dates more easily. Archived forecasts come from a series of weather model runs over
-							time. You can access forecasts for up to 3 months and continuously archived in the
-							<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>. You can also
-							check out our
-							<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
-							data going all the way back to 1940.
-						</p>
-					</div>
-				</div>
-			{/if}
-		</div>
-	</div>
+	<TimeSelector
+		bind:params={$params}
+		{forecastDaysOptions}
+		{pastDaysOptions}
+		{beginDate}
+		{lastDate}
+	/>
 
 	<!-- ENSEMBLE -->
 	<div class="mt-6 md:mt-12">
@@ -403,7 +217,7 @@
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 								{value}
 								checked={$params.hourly?.includes(value)}
-								disabled={!isAvailable(value, $params.models)}
+								disabled={!isAvailable(value, $params.models, availableVariables)}
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
@@ -450,7 +264,7 @@
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 										{value}
 										checked={$params.hourly?.includes(value)}
-										disabled={!isAvailable(value, $params.models)}
+										disabled={!isAvailable(value, $params.models, availableVariables)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
@@ -483,7 +297,7 @@
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -498,7 +312,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -518,7 +332,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -533,7 +347,7 @@
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -563,7 +377,11 @@
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
 										{value}
 										checked={$params.hourly?.includes(value)}
-										disabled={!isAvailable('shortwave_radiation', $params.models)}
+										disabled={!isAvailable(
+											'shortwave_radiation',
+											$params.models,
+											availableVariables
+										)}
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
@@ -648,17 +466,17 @@
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
 				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-[227px]">
+					<div class="w-full md:w-56.75">
 						<ToggleGroup.Root type="single" bind:value={pressureVariablesTab}>
 							<div class="border-border flex flex-col rounded-lg border">
 								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
 										0
-											? 'rounded-t-md !rounded-b-none'
+											? 'rounded-t-md rounded-b-none!'
 											: ''} {i === pressureVariables.length - 1
-											? '!rounded-t-none rounded-b-md'
+											? 'rounded-t-none! rounded-b-md'
 											: ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
@@ -666,11 +484,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
@@ -699,7 +517,8 @@
 															value="{variable.value}_{level}hPa"
 															disabled={!isAvailable(
 																`${variable.value}_${level}hPa`,
-																$params.models
+																$params.models,
+																availableVariables
 															)}
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
 															aria-labelledby="{variable.value}_{level}hPa"
@@ -732,7 +551,7 @@
 						{/each}
 					</div>
 				</div>
-				<div class="mt-3 lg:ml-[249px]">
+				<div class="mt-3 lg:ml-62.25">
 					<small class="text-muted-foreground"
 						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
@@ -761,7 +580,7 @@
 								{value}
 								checked={$params.daily?.includes(value)}
 								aria-labelledby="{value}_daily_label"
-								disabled={!isDailyAvailable(value, $params.models)}
+								disabled={!isDailyAvailable(value, $params.models, availableVariables)}
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
 										$params.daily = $params.daily.filter((item: string) => {
@@ -842,7 +661,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -1002,7 +821,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1219,7 +1038,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1507,7 +1326,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

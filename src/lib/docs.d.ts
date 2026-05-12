@@ -1,18 +1,19 @@
 export interface Parameters {
-	[index: string];
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	[index: string]: any;
 
-	latitude?: Array<number> | number;
-	longitude?: Array<number> | number;
+	latitude?: number[];
+	longitude?: number[];
 
-	daily?: Array<string> | string;
-	hourly?: Array<string> | string;
-	models?: Array<string> | string;
-	current?: Array<string> | string;
-	six_hourly?: Array<string> | string;
-	minutely_15?: Array<string> | string;
+	daily?: string[];
+	hourly?: string[];
+	models?: string[];
+	current?: string[];
+	six_hourly?: string[];
+	minutely_15?: string[];
 
-	timezone?: string | string[];
-	location_mode?: string | 'location_search' | 'csv_coordinates' | 'bounding_box'; // replace with enum
+	timezone?: string;
+	location_mode?: 'location_search' | 'csv_coordinates' | 'bounding_box' | string;
 	csv_coordinates?: string;
 	bounding_box?: string;
 
@@ -20,8 +21,8 @@ export interface Parameters {
 	past_days?: string;
 	forecast_days?: string;
 
-	end_date?: string | string[];
-	start_date?: string | string[];
+	end_date?: string;
+	start_date?: string;
 	run?: string;
 
 	past_hours?: string;

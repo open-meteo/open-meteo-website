@@ -4,6 +4,7 @@ export const load = (() => {
 	return {
 		heroTitle: 'Historical Forecast API',
 		heroDescription: 'Archived High-Resolution Weather Forecasts',
-		heroImage: '/images/backgrounds/andermatt.webp'
+		heroImage: '/images/backgrounds/andermatt.webp',
+		heroImagePosition: 'center 55%'
 	};
 }) satisfies LayoutLoad;

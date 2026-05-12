@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -37,7 +38,7 @@
 		solarVariables
 	} from './options';
 
-	var d = new Date();
+	var d = new SvelteDate();
 	d.setDate(d.getDate() - 2);
 	let endDateDefault = d.toISOString().split('T')[0];
 	d.setDate(d.getDate() - 14);
@@ -64,12 +65,12 @@
 		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
 
-	let accordionValues = $state([]);
+	let accordionValues: string[] = $state([]);
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
-				temporalResolution.value ||
-				cellSelection.value) &&
+				temporalResolution?.value ||
+				cellSelection?.value) &&
 			!accordionValues.includes('additional-variables')
 		) {
 			accordionValues.push('additional-variables');
@@ -101,7 +102,7 @@
 
 	let beginDate = new Date('1940-01-01');
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() - 1);
 </script>
 
@@ -154,7 +155,9 @@
 		</div>
 		<div class="lg:w-1/2">
 			<p>
-				You can access past weather data dating back to 1940 in 0.1 or 0.25° resolution. Data from 2017 onwards uses newer weather models with 9 km resolution. Select "ERA5" or "ERA5-Land" for consistent data over multiple decades.
+				You can access past weather data dating back to 1940 in 0.1 or 0.25° resolution. Data from
+				2017 onwards uses newer weather models with 9 km resolution. Select "ERA5" or "ERA5-Land"
+				for consistent data over multiple decades.
 			</p>
 			<div class="flex flex-wrap items-center gap-2">
 				Quick:
@@ -271,7 +274,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -323,7 +330,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -338,7 +345,7 @@
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -452,7 +459,7 @@
 				count={countVariables(ensembleSpreadVariables, $params.hourly)}
 			>
 				<div class="mt-2 grid sm:grid-cols-2">
-					{#each ensembleSpreadVariables as group}
+					{#each ensembleSpreadVariables as group, gi (gi)}
 						<div class="col-md-6">
 							{#each group as { value, label } (value)}
 								<div class="group flex items-center" title={label}>
@@ -588,7 +595,7 @@
 			</div>
 		{/if}
 
-		<Accordion.Root class="border-border mt-3 rounded-lg border md:mt-6">
+		<Accordion.Root type="single" class="border-border mt-3 rounded-lg border md:mt-6">
 			<AccordionItem
 				id="additional-daily-variables"
 				title="Additional Daily Variables"
@@ -677,9 +684,9 @@
 		</div>
 		<div>
 			<p>
-				The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs daily at
-				0z, 6z, 12z and 18z, employing the most up-to-date version of IFS. This dataset offers the highest
-				resolution and precision for global historical weather conditions.
+				The ECMWF IFS dataset has been meticulously assembled by Open-Meteo using simulation runs
+				daily at 0z, 6z, 12z and 18z, employing the most up-to-date version of IFS. This dataset
+				offers the highest resolution and precision for global historical weather conditions.
 			</p>
 			<p>
 				However, when studying climate change over decades, it is advisable to exclusively utilise
@@ -687,10 +694,9 @@
 				alterations that could arise from the adoption of different weather model upgrades.
 			</p>
 			<p>
-				You can access data dating back to 1940. If you're looking for
-				weather information from the previous day, our <a
-					href={'/en/docs'}
-					title="Weather Forecast API documentation">Forecast API</a
+				You can access data dating back to 1940. If you're looking for weather information from the
+				previous day, our <a href="/en/docs" title="Weather Forecast API documentation"
+					>Forecast API</a
 				>
 				offers the <mark>&past_days=</mark> feature for your convenience.
 			</p>
@@ -698,7 +704,7 @@
 	</div>
 	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 		<table
-			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 		>
 			<caption class="text-muted-foreground mt-2 table-caption text-left"
 				>You can find the update timings in the <a
@@ -784,7 +790,7 @@
 				<tr>
 					<th scope="row"
 						><a
-							href="https://confluence.ecmwf.int/display/FUG/Section+2.5+Model+Data+Assimilation%2C+4D-Var"
+							href="https://confluence.ecmwf.int/display/FUG/Section+2.6+Model+Data+Assimilation%2C+4D-Var"
 							>ECMWF IFS Assimilation Long-Window</a
 						>
 					</th>
@@ -806,7 +812,7 @@
 	</p>
 	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 		<table
-			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 		>
 			<caption class="text-muted-foreground mt-2 table-caption text-left text-sm">
 				<p class="!mb-0">
@@ -919,7 +925,7 @@
 		<p>All URL parameters are listed below:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>Additional optional URL parameters will be added. For API stability, no required
@@ -1101,7 +1107,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1362,7 +1368,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1466,7 +1472,7 @@
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

@@ -30,7 +30,7 @@ export const countVariables = (
 
 export const countPreviousVariables = (
 	variables: { value: string; label: string }[][],
-	param: string[] | string
+	param: string[] | string | undefined
 ) => {
 	const flattenedVariables = variables.flat().map((v) => v.value);
 
@@ -76,16 +76,21 @@ export const countPressureVariables = (
 export const countHeightVariables = (
 	variables: { value: string; label: string }[],
 	levels: number[],
-	param: string[] | string
+	param: string[] | string | undefined
 ) => {
 	return {
 		total: variables.length * levels.length,
-		active: variables.reduce(
-			(i, variable) =>
-				i +
-				levels.reduce((i, level) => i + (param.includes(`${variable.value}_${level}m`) ? 1 : 0), 0),
-			0
-		)
+		active: param
+			? variables.reduce(
+					(i, variable) =>
+						i +
+						levels.reduce(
+							(i, level) => i + (param.includes(`${variable.value}_${level}m`) ? 1 : 0),
+							0
+						),
+					0
+				)
+			: 0
 	};
 };
 
