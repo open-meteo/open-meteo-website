@@ -119,12 +119,13 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		Read the announcement for the Previous Day API and how you can use to it calculate model
-		accuracy in the <a
-			class="text-link underline"
-			href="https://openmeteo.substack.com/p/weather-forecasts-from-previous-model-runs"
-			>Open-Meteo blog post</a
-		>.
+		Data from past model runs is aligned to fixed lead-time offsets of 1–7 days. Requesting
+		<mark>temperature_2m_previous_day1</mark> returns the value predicted 24 hours before valid
+		time; <mark>_previous_day2</mark> returns 48 hours before, and so on up to day 7. Comparing
+		these offsets against observations or reanalysis makes it straightforward to measure how
+		forecast skill degrades with lead time and to train bias-correction models. Most models are
+		archived from <strong>January 2024</strong>. GFS 2 m temperature extends back to
+		<strong>March 2021</strong>.
 	</Alert.Description>
 </Alert.Root>
 
@@ -455,10 +456,21 @@
 	</a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			We began collecting past model run data in January 2024, with most weather models offering
-			data from this point onward. Some models were added later in 2024 and 2025, providing data
-			from a later start date. For GFS, data has been integrated from April 2021 onward, but only
-			for 2m temperature.
+			Most models are archived from <strong>January 2024</strong>. Some models were added to the
+			archive later in 2024 or 2025 and have correspondingly shorter coverage. Exceptions with
+			longer history:
+		</p>
+		<ul class="mt-2 list-disc pl-6">
+			<li>
+				<strong>GFS 2 m temperature</strong> — available from <strong>March 2021</strong>
+			</li>
+			<li>
+				<strong>JMA GSM and MSM</strong> — available from <strong>2018</strong>
+			</li>
+		</ul>
+		<p class="mt-3">
+			Additional historical coverage can be reconstructed on request, subject to upstream
+			availability from the originating weather service.
 		</p>
 	</div>
 </div>
@@ -470,34 +482,32 @@
 	>
 	<div class="mt-2 md:mt-4">
 		<p>
-			Weather models constantly churn out updates, each predicting the future at different lead
-			times. Think of Day 0 as latest forecast close to measurements, Day 1 as a glimpse 24 hours
-			back, and Day 2 as a 48-hour rewind. Each day further back forecasts longer into the future
-			and, typically, increases volatility. Data jumps become wilder past Day 6 or 7, highlighting
-			the inherent challenge of long-term forecasting.
+			The Previous Runs API exposes forecast data at fixed lead-time offsets rather than as a
+			seamless time-series. <mark>_previous_day0</mark> is the current model run (equivalent to
+			the live Forecast API). <mark>_previous_day1</mark> is the value that was predicted 24 hours
+			before valid time, <mark>_previous_day2</mark> 48 hours before, and so on up to day 7. For
+			local models with shorter forecast horizons (2–5 days), only offsets within that horizon are
+			populated.
 		</p>
 		<p>
-			This data serves multiple purposes, including answering questions such as "what did
-			yesterday's forecast predict for today?" or by comparing past forecasts with real-time
-			observations, we can assess a forecast's accuracy and volatility. When combined with machine
-			learning techniques, models can be trained specifically to enhance forecasts for the next 2 or
-			3 days.
+			This structure is suited to aggregated skill analysis — for example, computing the mean
+			absolute error of all <mark>_previous_day3</mark> forecasts against ERA5 over a calendar
+			year. For workflows that need the <em>complete</em> output of a specific model run
+			(initialisation datetime, all forecast hours, multiple variables), use the
+			<a class="text-link underline" href="/en/docs/single-runs-api">Single Runs API</a> instead,
+			which stores each run independently and is queryable by its UTC initialisation time via the
+			<mark>&run=</mark> parameter.
 		</p>
 		<p>
-			The frequency of model updates varies, ranging from hourly to every six hours. For local
-			models with shorter prediction horizons (2-5 days), we naturally have access to a shorter
-			"time machine" of past predictions (2-5 days).
+			<strong>Models:</strong> The Previous Runs API supports the same models as the
+			<a class="text-link underline" href="/en/docs">Weather Forecast API</a>. See the Forecast
+			API documentation for the full model and variable list.
 		</p>
 		<p>
-			<strong>Weather Models Sources:</strong> The Previous Runs API uses the same models as
-			available in the general weather forecast API. Please refer to the
-			<a href="/en/docs">Forecast API documentation</a> for a list of all weather models and weather variables.
-		</p>
-		<p>
-			<strong>Data Availability:</strong> Data is generally available from January 2024 onwards. Exceptions
-			are GFS temperature on 2 metre, which is available from March 2021 and JMA GSM + MSM models which
-			are available from 2018. More data from previous runs can be reconstructed on request (depending
-			on data availability from official sources).
+			<strong>Update cadence:</strong> Global models update every 6 hours; regional models (e.g.
+			ICON-D2, HRRR, AROME) update every 1–3 hours. The available lead-time window for each model
+			is limited to its forecast horizon, so a model with a 3-day horizon will have at most
+			<mark>_previous_day3</mark> populated.
 		</p>
 	</div>
 </div>

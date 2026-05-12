@@ -170,8 +170,8 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		WORK IN PROGRESS! This API allows access to individual weather model runs. Data is accessed from
-		an archival storage which is significantly slower.
+		Retrieve the full forecast horizon of any individual model run using the <mark>&run=</mark> parameter (e.g. <mark>run=2025-09-01T00:00</mark>). Most models are archived from
+		September 2025. ECMWF IFS HRES at 9 km is available from March 2024.
 	</Alert.Description>
 </Alert.Root>
 
@@ -856,36 +856,30 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			Numerical weather prediction (NWP) models are initialised and executed multiple times per
-			day. Each run ingests the latest observations — from weather stations, radiosondes, aircraft,
-			satellites, and ocean buoys — and produces a complete forecast from the initialisation time
-			out to the model's full forecast horizon, typically 7–16 days. The operational Open-Meteo forecast API
-			stitch together the most recent run of each model into a seamless, continuously updated time
-			series. While this is ideal for end-user applications, it discards the individual run
-			structure that is essential for research, post-processing, and backtesting workflows.
+			NWP models are initialised multiple times per day. Each run ingests the latest observations
+			— radiosondes, weather stations, aircraft, satellites, and ocean buoys — and produces a
+			complete forecast out to the model's full horizon (typically 7–16 days). The operational
+			Open-Meteo Forecast API stitches the most recent run of each model into a seamless,
+			continuously updated time-series. That approach is ideal for end-user applications but
+			discards the individual run structure required for research, post-processing, and backtesting
+			workflows.
 		</p>
 		<p>
-			The Single Runs API preserves this structure. Each model run is stored and retrievable
-			independently, so you can request the exact forecast that was issued at a specific
-			initialisation time. The <mark>&run=</mark> parameter selects the run by its UTC initialisation
-			datetime, e.g. <mark>run=2025-09-01T00:00</mark>.
+			The Single Runs API preserves this structure. Each run is stored and retrievable
+			independently, so you can request the exact forecast issued at a specific initialisation
+			time. The <mark>&run=</mark> parameter identifies the run by its UTC initialisation datetime,
+			e.g. <mark>run=2025-09-01T00:00</mark>.
 		</p>
 		<p>
-			Archival model runs are available from <strong>September 2025</strong> onwards for most
-			models. Extending the archive further into the past is possible on request, but is subject to
-			upstream archive availability — many national weather services do not retain individual-run
-			archives beyond a rolling window.
-		</p>
-		<p>
-			As a notable exception, <strong>ECMWF IFS at native 9 km resolution (HRES)</strong> is
-			available from <strong>March 14th 2024</strong> onwards, sourced from IFS Cycle 49R1
-			hindcasts. ECMWF IFS HRES is widely regarded as the highest-quality global NWP model and
-			serves as the backbone of the
+			Archival runs are available from <strong>September 2025</strong> for most models. <strong>ECMWF IFS HRES at native 9 km resolution</strong> is available from
+			<strong>March 14, 2024</strong> (IFS Cycle 49R1 hindcasts). From May 12, 2026 06 UTC, runs
+			use the updated <strong>IFS Cycle 50R1</strong>. ECMWF IFS HRES is the highest-quality
+			global NWP model and the backbone of the
 			<a class="text-link underline" href="/en/docs/historical-weather-api"
 				>Open-Meteo Historical Weather API</a
-			>. Having access to individual ECMWF runs is particularly valuable for renewable energy
-			forecasting, where the full forecast horizon from a single run is needed to schedule
-			production and trading decisions days in advance.
+			>. Access to individual ECMWF runs is particularly valuable for renewable energy forecasting,
+			where the full forecast horizon from a single run drives production scheduling and trading
+			decisions.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table

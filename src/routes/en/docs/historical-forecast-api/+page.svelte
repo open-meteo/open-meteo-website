@@ -160,15 +160,12 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		This API provides access to archived high-resolution weather model data from the <a
-			class="text-link underline"
-			href="/en/docs">Weather Forecast API</a
-		>. The data is continuously archived and updated daily. For more information read the
-		<a
-			class="text-link underline"
-			href="https://openmeteo.substack.com/p/introducing-the-historical-forecast"
-			title="Introducing the Historical Forecast API">announcement blog article</a
-		>.
+		Historical forecasts archived from the <a class="text-link underline" href="/en/docs"
+			>Weather Forecast API</a
+		> — same models, same parameters, same response format. Coverage starts around 2022. Each run's
+		first few hours are stitched into a continuous hourly timeseries. To access the full forecast
+		horizon of individual runs, use the
+		<a class="text-link underline" href="/en/docs/single-runs-api">Single Runs API</a>.
 	</Alert.Description>
 </Alert.Root>
 
@@ -1215,11 +1212,9 @@
 	>
 	<div class="mt-2 md:mt-4">
 		<p>
-			Open-Meteo provides various datasets for historical weather data: the Historical Weather API
-			and the Historical Forecast API. For novice users expecting a single, definitive source of
-			weather data, this can be confusing. In reality, only a small fraction of the Earth's surface
-			is covered by weather stations with accurate and consistent measurements. To address this gap,
-			numerical weather models are used to approximate past global weather.
+			Open-Meteo offers four distinct historical weather datasets, each suited to different use
+			cases. Only a small fraction of the Earth's surface has reliable, continuous weather station
+			coverage; all four datasets use numerical weather models to fill that gap globally.
 		</p>
 		<ul class="ml-6 list-disc">
 			<li>
@@ -1227,47 +1222,65 @@
 					><a class="text-link underline" href="/en/docs/historical-weather-api"
 						>Historical Weather API:</a
 					></strong
-				> This dataset is based on reanalysis weather models, particularly ERA5. It offers data from 1940
-				onwards with reasonable consistency throughout the time series, making it ideal for analyzing
-				weather trends and climate change. The focus here is on consistency rather than pinpoint accuracy,
-				with a spatial resolution ranging from 9 to 25 kilometres.
+				> ERA5 reanalysis at 0.25° (~25 km) from 1940, ERA5-Land at 0.1° (~9 km) from 1950, and ECMWF
+				IFS analysis at 9 km from 2017. Optimised for long-term consistency rather than day-to-day
+				accuracy — the right choice for climate trend analysis.
 			</li>
 			<li>
 				<strong
 					><a class="text-link underline" href="/en/docs/historical-forecast-api"
 						>Historical Forecast API:</a
 					></strong
-				> This dataset is constructed by continuously assembling weather forecasts, concatenating the
-				first hours of each model update. Initialized with actual measurements, it closely mirrors local
-				measurements but provides global coverage. However, it only includes data from the past 2-5 years
-				and lacks long-term consistency due to evolving weather models and better initialization data
+				> A continuous hourly timeseries built by stitching the first hours of each successive model
+				run. Closely tracks actual conditions because each run is initialised from real measurements.
+				Coverage starts around 2021. Not suitable for long time series due to model version changes
 				over time.
 			</li>
 			<li>
 				<strong
-					><a class="text-link underline" href="/en/docs/previous-runs-api">Previous Runs API</a
+					><a class="text-link underline" href="/en/docs/previous-runs-api">Previous Runs API:</a
 					></strong
-				>: Similar to the Historical Forecast API, this dataset archives high-resolution weather
-				models but includes data with a lead time offset of 1, 2, 3, 4, or more days. This makes it
-				ideal for analyzing forecast performance several days into the future. Due to the vast
-				amount of data, only common weather variables are stored, with data processing beginning in
-				early 2024.
+				> Archives the same high-resolution models as the Historical Forecast API, but provides each
+				variable at a fixed lead-time offset: 1, 2, 3, up to 7 days ahead. Useful for evaluating
+				forecast skill at specific lead times. Data starts from January 2024 (GFS from March 2021,
+				JMA from 2018).
+			</li>
+			<li>
+				<strong
+					><a class="text-link underline" href="/en/docs/single-runs-api">Single Runs API:</a
+					></strong
+				> Retrieves the complete forecast horizon of any individual model run, selected by
+				initialisation time using the <mark>run=</mark> parameter (e.g.
+				<mark>run=2025-09-01T00:00</mark>). Unlike the Historical Forecast API — which stitches
+				runs into a continuous timeseries — the Single Runs API preserves the original run
+				structure. ECMWF IFS HRES at 9 km is archived from March 2024; all other models from
+				September 2025.
 			</li>
 		</ul>
 		<h4 class="my-2 text-lg md:my-4 md:text-xl">Choosing the Right Dataset:</h4>
 		<ul class="ml-6 list-disc">
 			<li>
-				For analyzing weather trends or climate change over decades, use the Historical Weather API
-				with reanalysis data from 1940 onwards.
+				For multi-decade climate analysis, use the <strong>Historical Weather API</strong> (ERA5 from
+				1940).
 			</li>
 			<li>
-				For higher accuracy over the past few years, the Historical Forecast API with
-				high-resolution forecasts is more suitable.
+				For the most accurate representation of past conditions over the last few years, use the
+				<strong>Historical Forecast API</strong>.
 			</li>
 			<li>
-				To optimize weather forecasts using machine learning, it's essential to use data from the
-				same high-resolution weather models, available through both the Historical Forecast API and
-				the Previous Runs API.
+				To assess how forecast accuracy degrades at longer lead times, use the <strong
+					>Previous Runs API</strong
+				>.
+			</li>
+			<li>
+				To retrieve the full output of a specific model run — for example to reproduce a forecast
+				issued on a given date — use the <strong>Single Runs API</strong>.
+			</li>
+			<li>
+				For training machine learning models on consistent NWP output, the <strong
+					>Historical Forecast API</strong
+				> and <strong>Single Runs API</strong> both provide data directly from the operational model
+				runs.
 			</li>
 		</ul>
 	</div>
