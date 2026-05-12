@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -27,7 +28,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 
 	import {
@@ -107,10 +108,10 @@
 		}
 	});
 
-	let beginDate = new Date();
+	let beginDate = new SvelteDate();
 	beginDate.setMonth(beginDate.getMonth() - 3);
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() + 14);
 </script>
 
@@ -152,7 +153,7 @@
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="gap-1 rounded-e-none !opacity-100 duration-300 {$params.time_mode ===
+					class="gap-1 rounded-e-none opacity-100! duration-300 {$params.time_mode ===
 					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
@@ -164,7 +165,7 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-clock mr-[2px]"
+						class="lucide lucide-clock mr-0.5"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"
@@ -181,7 +182,7 @@
 				</Button>
 				<Button
 					variant="ghost"
-					class="gap-1 rounded-s-none !opacity-100 duration-300  {$params.time_mode ===
+					class="gap-1 rounded-s-none opacity-100! duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -191,7 +192,7 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-calendar-cog mr-[2px]"
+						class="lucide lucide-calendar-cog mr-0.5"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"
@@ -319,7 +320,7 @@
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
@@ -342,7 +343,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -361,7 +366,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -390,7 +395,7 @@
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -405,7 +410,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -425,7 +430,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -440,7 +445,7 @@
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -473,7 +478,7 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -495,8 +500,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -554,21 +559,21 @@
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
 				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-[227px]">
+					<div class="w-full md:w-56.75">
 						<ToggleGroup.Root
 							type="single"
 							bind:value={pressureVariablesTab}
 							class="justify-start gap-0"
 						>
 							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i}
+								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
 										0
-											? 'rounded-t-md !rounded-b-none'
+											? 'rounded-t-md rounded-b-none!'
 											: ''} {i === pressureVariables.length - 1
-											? '!rounded-t-none rounded-b-md'
+											? 'rounded-t-none! rounded-b-md'
 											: ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
@@ -576,11 +581,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
@@ -602,7 +607,7 @@
 										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
 											<div>
 												{#each chunk as level, k (k)}
-													<div class="group flex items-center" title={level.label}>
+													<div class="group flex items-center" title={String(level)}>
 														<Checkbox
 															id="{variable.value}_{level}hPa"
 															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -611,7 +616,7 @@
 															aria-labelledby="{variable.value}_{level}hPa"
 															onCheckedChange={() => {
 																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-																	$params.hourly = $params.hourly.filter((item) => {
+																	$params.hourly = $params.hourly.filter((item: string) => {
 																		return item !== `${variable.value}_${level}hPa`;
 																	});
 																} else if ($params.hourly) {
@@ -638,7 +643,7 @@
 						{/each}
 					</div>
 				</div>
-				<div class="mt-3 lg:ml-[249px]">
+				<div class="mt-3 lg:ml-62.25">
 					<small class="text-muted-foreground"
 						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
@@ -664,7 +669,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -686,8 +691,8 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
+						seamless prediction.</small
 					>
 				</div>
 			</AccordionItem>
@@ -705,7 +710,12 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview {params} {defaultParameters} model_default="ecmwf_ifs" />
+	<ResultsPreview
+		{params}
+		{defaultParameters}
+		model_default="ecmwf_ifs"
+		defaultTimeParameters={false}
+	/>
 </div>
 
 <!-- DATA SOURCES -->
@@ -741,20 +751,20 @@
 		</ul>
 		<p>
 			For higher-resolution local forecasts, we recommend the
-			<a class="text-link underline" href={'/en/docs'}>Generic Weather Forecast API</a>, which
+			<a class="text-link underline" href="/en/docs">Generic Weather Forecast API</a>, which
 			integrates models down to 1 km resolution. ECMWF ensemble forecasts are available via the
-			<a class="text-link underline" href={'/en/docs/ensemble-api'}>Ensemble API</a>, ECMWF WAM wave
+			<a class="text-link underline" href="/en/docs/ensemble-api">Ensemble API</a>, ECMWF WAM wave
 			forecasts can be accessed through the
-			<a class="text-link underline" href={'/en/docs/marine-weather-api'}>Marine Forecast API</a>,
-			and HRES IFS data are archived in the
-			<a class="text-link underline" href={'/en/docs/historical-weather-api'}
+			<a class="text-link underline" href="/en/docs/marine-weather-api">Marine Forecast API</a>, and
+			HRES IFS data are archived in the
+			<a class="text-link underline" href="/en/docs/historical-weather-api"
 				>Historical Weather API</a
 			>.
 		</p>
 
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[800px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-200 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -781,7 +791,11 @@
 						>
 						<td>Global</td>
 						<td>9 km (O1280 grid)</td>
-						<td>1-Hourly <small>(3-hourly after 90 hours, 6-hourly after 144 hours)</small></td>
+						<td
+							>1-Hourly, <small class="text-muted-foreground"
+								>3-hourly after 90 hours, 6-hourly after 144 hours</small
+							></td
+						>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
 					</tr>
@@ -793,7 +807,7 @@
 						>
 						<td>Global</td>
 						<td>0.25° (~25 km)</td>
-						<td>3-Hourly <small>(6-hourly after 144 hours)</small></td>
+						<td>3-Hourly, <small class="text-muted-foreground">6-hourly after 144 hours</small></td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
 					</tr>
@@ -828,7 +842,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -922,8 +936,7 @@
 						<td>No</td>
 						<td><mark>0</mark></td>
 						<td
-							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also
-							returned.</td
+							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
 						>
 					</tr>
 					<tr>
@@ -993,7 +1006,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1245,6 +1258,16 @@
 							are set to "nan", a bi-axial tracker is assumed.</td
 						>
 					</tr>
+					<tr>
+						<th scope="row">boundary_layer_height</th>
+						<td>Instant</td>
+						<td>m</td>
+						<td
+							>This parameter is the depth of air next to the Earth's surface which is most affected
+							by the resistance to the transfer of momentum, heat or moisture across the surface.
+							This option is only available for IFS HRES.</td
+						>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -1265,7 +1288,7 @@
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 min-w-[940px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1377,7 +1400,7 @@
 		<h3 class="text-xl md:text-2xl">WMO Weather interpretation codes (WW)</h3>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 min-w-[450px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 min-w-112.5 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

@@ -238,7 +238,7 @@ export const additionalDaily = [
 	]
 
 	// available, but duplicate of correct syntax:
-	//{ value: 'weathercode', label: 'XXX' },
+	// { value: 'weathercode', label: 'Weather Code' },
 	// { value: 'cloudcover_max', label: 'Maximum Cloud Cover' },
 	// { value: 'cloudcover_mean', label: 'Mean Cloud Cover' },
 	// { value: 'cloudcover_min', label: 'Minimum Cloud Cover' },
@@ -254,7 +254,7 @@ export const additionalDaily = [
 	// { value: 'vapor_pressure_deficit_max', label: 'Maximum Vapor Pressure Deficit' },
 
 	// soil parameters, not available on all models
-	// 	{ value: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
+	// { value: 'soil_moisture_0_to_100cm_mean', label: 'Mean Soil Moisture (0-100 cm)' },
 	// { value: 'soil_moisture_0_to_10cm_mean', label: 'Mean Soil Moisture (0-10 cm)' },
 	// { value: 'soil_moisture_0_to_7cm_mean', label: 'Mean Soil Moisture (0-7 cm)' },
 	// { value: 'soil_moisture_28_to_100cm_mean', label: 'Mean Soil Moisture (28-100 cm)' },
@@ -310,7 +310,7 @@ export const solarVariables = [
 	]
 ];
 
-export const models = [
+export const models: { value: string; label: string; caption?: string }[][] = [
 	[
 		{ value: 'best_match', label: 'Best match' },
 		{ value: 'ecmwf_ifs', label: 'ECMWF IFS HRES 9km' },
@@ -325,7 +325,9 @@ export const models = [
 		{ value: 'gfs_hrrr', label: 'NCEP HRRR U.S. Conus' },
 		{ value: 'ncep_nbm_conus', label: 'NCEP NBM U.S. Conus' },
 		{ value: 'ncep_nam_conus', label: 'NCEP NAM U.S. Conus' },
-		{ value: 'gfs_graphcast025', label: 'GFS GraphCast' }
+		{ value: 'gfs_graphcast025', label: 'NCEP GFS GraphCast' },
+		{ value: 'ncep_aigfs025', label: 'NCEP AIGFS 0.25°' },
+		{ value: 'ncep_hgefs025_ensemble_mean', label: 'NCEP HGEFS 0.25° Ensemble Mean' }
 	],
 	[
 		{ value: 'jma_seamless', label: 'JMA Seamless' },
@@ -347,7 +349,8 @@ export const models = [
 		{ value: 'gem_seamless', label: 'GEM Seamless' },
 		{ value: 'gem_global', label: 'GEM Global' },
 		{ value: 'gem_regional', label: 'GEM Regional' },
-		{ value: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' }
+		{ value: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' },
+		{ value: 'gem_hrdps_west', label: 'GEM HRDPS West' }
 	],
 	[
 		{ value: 'meteofrance_seamless', label: 'Météo-France Seamless' },
@@ -363,10 +366,10 @@ export const models = [
 	],
 	[
 		{ value: 'knmi_seamless', label: 'KNMI Seamless (with ECMWF)' },
-		{ value: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie Arome Europe' },
-		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' },
+		{ value: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie AROME Europe' },
+		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie AROME Netherlands' },
 		{ value: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
-		{ value: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie Arome Europe' }
+		{ value: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie AROME Europe' }
 	],
 	[
 		{ value: 'ukmo_seamless', label: 'UK Met Office Seamless' },
@@ -377,6 +380,10 @@ export const models = [
 		{ value: 'meteoswiss_icon_seamless', label: 'MeteoSwiss ICON Seamless' },
 		{ value: 'meteoswiss_icon_ch1', label: 'MeteoSwiss ICON CH1' },
 		{ value: 'meteoswiss_icon_ch2', label: 'MeteoSwiss ICON CH2' }
+	],
+	[
+		{ value: 'geosphere_seamless', label: 'GeoSphere Seamless (with ECMWF)' },
+		{ value: 'geosphere_arome_austria', label: 'GeoSphere AROME Austria' }
 	]
 ];
 

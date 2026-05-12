@@ -6,11 +6,10 @@
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger
-		id="darkmode_toggle"
 		class="border-border hover:bg-accent flex h-10 cursor-pointer items-center justify-center gap-2 rounded-md px-3 md:w-10  md:p-0 [&_svg]:h-6 [&_svg]:w-6"
-		aria-labelledby="darkmode_toggle_label"
+		aria-label="Toggle theme"
 	>
-		<span id="darkmode_toggle_label" class="md:hidden">Toggle theme</span>
+		<span class="md:hidden">Toggle theme</span>
 		<div>
 			<svg
 				class="darkmode-icon-moon lucide lucide-moon"

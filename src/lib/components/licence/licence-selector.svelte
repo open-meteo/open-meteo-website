@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { api_key_preferences } from '$lib/stores/settings';
+	import { apiKeyPreferences } from '$lib/stores/settings';
 
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
@@ -18,7 +18,7 @@
 	let licenceSelected = $state('');
 
 	onMount(() => {
-		licenceSelected = $api_key_preferences.use;
+		licenceSelected = $apiKeyPreferences.use;
 	});
 </script>
 
@@ -28,49 +28,49 @@
 		<div class="border-border flex rounded-md border">
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {licenceSelected ===
+				class="items-center gap-1 rounded-e-none opacity-100! duration-300 {licenceSelected ===
 				'non_commercial'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
 				disabled={licenceSelected === 'non_commercial'}
 				onclick={() => {
 					licenceSelected = 'non_commercial';
-					$api_key_preferences.use = licenceSelected;
+					$apiKeyPreferences.use = licenceSelected;
 				}}
 			>
 				Non-Commercial
 			</Button>
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-none !opacity-100 duration-300 {licenceSelected ===
+				class="items-center gap-1 rounded-none opacity-100! duration-300 {licenceSelected ===
 				'commercial'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
 				disabled={licenceSelected === 'commercial'}
 				onclick={() => {
 					licenceSelected = 'commercial';
-					$api_key_preferences.use = licenceSelected;
+					$apiKeyPreferences.use = licenceSelected;
 				}}
 			>
 				Commercial
 			</Button>
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {licenceSelected ===
+				class="items-center gap-1 rounded-s-none opacity-100! duration-300 {licenceSelected ===
 				'self_hosted'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
 				disabled={licenceSelected === 'self_hosted'}
 				onclick={() => {
 					licenceSelected = 'self_hosted';
-					$api_key_preferences.use = licenceSelected;
+					$apiKeyPreferences.use = licenceSelected;
 				}}
 			>
 				Self-Hosted
 			</Button>
 		</div>
 	</div>
-	<div class="relative mt-3 md:mt-6">
+	<div class="relative mt-3 md:mt-6 min-h-12">
 		{#if licenceSelected === 'non_commercial'}
 			<div in:fade>
 				<Alert.Root variant="info">
@@ -103,7 +103,7 @@
 						name="apikey"
 						type="text"
 						class="h-12 pt-6"
-						bind:value={$api_key_preferences.apikey}
+						bind:value={$apiKeyPreferences.apikey}
 						required
 					/>
 					<Label
@@ -141,7 +141,7 @@
 						name="self_host_server"
 						type="text"
 						class="h-12 pt-6"
-						bind:value={$api_key_preferences.self_host_server}
+						bind:value={$apiKeyPreferences.self_host_server}
 					/>
 					<Label
 						class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"

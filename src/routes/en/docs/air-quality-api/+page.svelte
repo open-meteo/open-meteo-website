@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { fade } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -19,7 +20,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 
 	import {
@@ -93,7 +94,7 @@
 
 	let beginDate = new Date('2013-01-01');
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() + 5);
 </script>
 
@@ -118,7 +119,7 @@
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="gap-1 rounded-e-none !opacity-100 duration-300 {$params.time_mode ===
+					class="gap-1 rounded-e-none opacity-100! duration-300 {$params.time_mode ===
 					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
@@ -130,7 +131,7 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-clock mr-[2px]"
+						class="lucide lucide-clock mr-0.5"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"
@@ -147,7 +148,7 @@
 				</Button>
 				<Button
 					variant="ghost"
-					class="gap-1 rounded-s-none !opacity-100 duration-300  {$params.time_mode ===
+					class="gap-1 rounded-s-none opacity-100! duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -157,7 +158,7 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-calendar-cog mr-[2px]"
+						class="lucide lucide-calendar-cog mr-0.5"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"
@@ -285,7 +286,7 @@
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
@@ -311,7 +312,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="european_air_quality_index"
 				title="European Air Quality Index"
@@ -329,7 +334,7 @@
 									aria-labelledby="{value}_label"
 									onCheckedChange={() => {
 										if ($params.hourly?.includes(value)) {
-											$params.hourly = $params.hourly.filter((item) => {
+											$params.hourly = $params.hourly.filter((item: string) => {
 												return item !== value;
 											});
 										} else if ($params.hourly) {
@@ -463,7 +468,7 @@
 									aria-labelledby="{value}_label"
 									onCheckedChange={() => {
 										if ($params.hourly?.includes(value)) {
-											$params.hourly = $params.hourly.filter((item) => {
+											$params.hourly = $params.hourly.filter((item: string) => {
 												return item !== value;
 											});
 										} else if ($params.hourly) {
@@ -650,7 +655,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -679,7 +684,7 @@
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -694,7 +699,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -714,7 +719,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -729,7 +734,7 @@
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -767,7 +772,7 @@
 								aria-labelledby="{value}_current_label"
 								onCheckedChange={() => {
 									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item) => {
+										$params.current = $params.current.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.current) {
@@ -803,7 +808,7 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview
+	<ResultsPreview
 		{params}
 		{defaultParameters}
 		type="air-quality"
@@ -817,7 +822,7 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			Forecast is based on the 11 kilometre CAMS European air quality forecast and the 40 kilometre
+			Forecast is based on the 11 kilometre CAMS European air quality forecast and the 45 kilometre
 			CAMS global atmospheric composition forecasts. The European and global domain are not coupled
 			and may show different forecasts.
 		</p>
@@ -851,7 +856,7 @@
 						</th>
 						<td>Europe</td>
 						<td>0.1° (~11 km)</td>
-						<td>1-Hourly</td>
+						<td>Hourly</td>
 						<td>October 2023 onwards</td>
 						<td>Every 24 hours, 4 days forecast</td>
 					</tr>
@@ -872,11 +877,11 @@
 						<th scope="row"
 							><a
 								href="https://ads.atmosphere.copernicus.eu/datasets/cams-global-atmospheric-composition-forecasts?tab=overview"
-								>CAMS global atmospheric composition forecasts</a
+								>CAMS Global Atmospheric Composition Forecasts</a
 							>
 						</th>
 						<td>Global</td>
-						<td>0.25° (~25 km)</td>
+						<td>0.4° (~45 km)</td>
 						<td>3-Hourly</td>
 						<td>August 2022 onwards </td>
 						<td>Every 12 hours, 5 days forecast</td>
@@ -914,7 +919,7 @@
 		<p>All URL parameters are listed below:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1001,8 +1006,7 @@
 						<td>No</td>
 						<td><mark>0</mark></td>
 						<td
-							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also
-							returned.</td
+							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
 						>
 					</tr>
 					<tr>
@@ -1100,7 +1104,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1230,7 +1234,7 @@
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

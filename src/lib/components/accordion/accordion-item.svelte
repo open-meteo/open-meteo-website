@@ -6,7 +6,7 @@
 	interface Props {
 		id: string;
 		title: string;
-		count?: any;
+		count?: { active: number; total: number };
 		last?: boolean;
 
 		children?: import('svelte').Snippet;

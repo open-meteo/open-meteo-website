@@ -5,7 +5,7 @@ import path from 'path';
 
 export default defineConfig({
 	component: {
-		setupNodeEvents(on, config) {
+		setupNodeEvents(_, config) {
 			return Object.assign({}, config);
 		},
 		devServer: {

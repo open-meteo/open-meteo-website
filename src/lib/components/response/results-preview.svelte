@@ -2,9 +2,7 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { browser } from '$app/environment';
-
-	import { api_key_preferences } from '$lib/stores/settings';
+	import { apiKeyPreferences } from '$lib/stores/settings';
 
 	import { objectDifference } from '$lib/utils';
 	import { membersPerModel } from '$lib/utils/meteo';
@@ -23,9 +21,10 @@
 	import { typescriptInstallCode } from './installs/typescript-install-code';
 
 	import type { APIKeyPreferences, Parameters } from '$lib/docs';
+	import type { UrlHashStore } from '$lib/stores/url-hash-store';
 
 	interface Props {
-		params: Parameters;
+		params: UrlHashStore;
 		type?: string;
 		action?: string;
 		model_default?: string;
@@ -33,6 +32,7 @@
 		sdk_cache?: number;
 		defaultParameters: Parameters;
 		useStockChart?: boolean;
+		defaultTimeParameters?: boolean;
 	}
 
 	let {
@@ -43,186 +43,198 @@
 		sdk_type = 'weather_api',
 		sdk_cache = 3600,
 		defaultParameters,
-		useStockChart = false
+		useStockChart = false,
+		defaultTimeParameters = true
 	}: Props = $props();
 
 	/// Parsed params that resolved CSV fields
-	let parsedParams = $derived(
-		((p: Parameters, api_key_preferences: APIKeyPreferences) => {
-			const params = { ...p };
-			if ('time_mode' in params) {
-				if (params.time_mode == 'forecast_days') {
-					delete params['start_date'];
-					delete params['end_date'];
-				}
-				if (params.time_mode == 'time_interval') {
-					delete params['forecast_days'];
-					delete params['past_days'];
-				}
-				delete params['csv_time_intervals'];
-				delete params['time_mode'];
+	let parsedParams = $derived.by(() => {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const jsonParams: Record<string, any> = { ...$params };
+		if ('time_mode' in jsonParams) {
+			if (jsonParams.time_mode == 'forecast_days') {
+				delete jsonParams['start_date'];
+				delete jsonParams['end_date'];
 			}
-			if ('location_mode' in params) {
-				if (params.location_mode == 'csv_coordinates' && params['csv_coordinates']) {
-					const lats: number[] = [];
-					const lons: number[] = [];
-					const elevation: number[] = [];
-					const timezone: string[] = [];
-					const start_date: string[] = [];
-					const end_date: string[] = [];
-					const csv: string = params['csv_coordinates'];
-					csv.split(/\r?\n/).forEach((row) => {
-						if (row.length < 4) {
-							return;
-						}
-						let parts = row.split(/[;,\t]/);
-						if (parts.length < 2) {
-							return;
-						}
-						lats.push(parseFloat(parts[0]));
-						lons.push(parseFloat(parts[1]));
-						if (parts.length > 2 && parts[2].length > 0) {
-							elevation.push(parseFloat(parts[2]));
-						}
-						if (parts.length > 3 && parts[3].length > 0) {
-							timezone.push(parts[3]);
-						}
-						if (parts.length > 5 && parts[4].length > 0 && parts[5].length > 0) {
-							start_date.push(parts[4]);
-							end_date.push(parts[5]);
-						}
-					});
-					params['latitude'] = lats;
-					params['longitude'] = lons;
-					if (elevation.length > 0) {
-						params['elevation'] = elevation;
+			if (jsonParams.time_mode == 'time_interval' && !jsonParams.run) {
+				delete jsonParams['forecast_days'];
+				delete jsonParams['past_days'];
+			}
+			delete jsonParams['csv_time_intervals'];
+			delete jsonParams['time_mode'];
+		}
+		if ('location_mode' in jsonParams) {
+			if (jsonParams.location_mode == 'csv_coordinates' && jsonParams['csv_coordinates']) {
+				const lats: number[] = [];
+				const lons: number[] = [];
+				const elevation: number[] = [];
+				const timezone: string[] = [];
+				const start_date: string[] = [];
+				const end_date: string[] = [];
+				const csv: string = jsonParams['csv_coordinates'];
+				csv.split(/\r?\n/).forEach((row) => {
+					if (row.length < 4) {
+						return;
 					}
-					if (timezone.length > 0) {
-						params['timezone'] = timezone;
+					let parts = row.split(/[;,\t]/);
+					if (parts.length < 2) {
+						return;
 					}
-					if (start_date.length > 0) {
-						params['start_date'] = start_date;
-						params['end_date'] = end_date;
-						delete params['forecast_days'];
-						delete params['past_days'];
+					lats.push(parseFloat(parts[0]));
+					lons.push(parseFloat(parts[1]));
+					if (parts.length > 2 && parts[2].length > 0) {
+						elevation.push(parseFloat(parts[2]));
 					}
+					if (parts.length > 3 && parts[3].length > 0) {
+						timezone.push(parts[3]);
+					}
+					if (parts.length > 5 && parts[4].length > 0 && parts[5].length > 0) {
+						start_date.push(parts[4]);
+						end_date.push(parts[5]);
+					}
+				});
+				jsonParams['latitude'] = lats;
+				jsonParams['longitude'] = lons;
+				if (elevation.length > 0) {
+					jsonParams['elevation'] = elevation;
 				}
-				delete params['location_mode'];
-				delete params['csv_coordinates'];
-			}
-			// Cast 1-element arrays to a scalar value
-			for (const key in params) {
-				if (Array.isArray(params[key]) && params[key].length == 1) {
-					params[key] = params[key][0];
+				if (timezone.length > 0) {
+					jsonParams['timezone'] = timezone;
+				}
+				if (start_date.length > 0) {
+					jsonParams['start_date'] = start_date;
+					jsonParams['end_date'] = end_date;
+					delete jsonParams['forecast_days'];
+					delete jsonParams['past_days'];
 				}
 			}
-
-			if (model_default != '' && !('models' in params && params['models'] != '')) {
-				params['models'] = model_default;
+			delete jsonParams['location_mode'];
+			delete jsonParams['csv_coordinates'];
+		}
+		// Cast 1-element arrays to a scalar value
+		for (const key in jsonParams) {
+			if (Array.isArray(jsonParams[key]) && jsonParams[key].length == 1) {
+				jsonParams[key] = jsonParams[key][0];
 			}
+		}
 
-			if (api_key_preferences.use == 'commercial') {
-				params['apikey'] = api_key_preferences.apikey;
+		if (model_default != '' && !('models' in jsonParams && jsonParams['models'] != '')) {
+			jsonParams['models'] = model_default;
+		}
+
+		if ($apiKeyPreferences.use == 'commercial') {
+			jsonParams['apikey'] = $apiKeyPreferences.apikey;
+		}
+
+		if ($params.location_mode !== 'bounding_box' && jsonParams.bounding_box) {
+			delete jsonParams.bounding_box;
+		}
+
+		const compareParameters = { ...defaultParameters };
+		if (!defaultTimeParameters) {
+			delete compareParameters.forecast_days;
+			if (Number(compareParameters.past_days) !== 0) {
+				delete compareParameters.past_days;
 			}
-
-			return objectDifference(params, defaultParameters);
-		})($params, $api_key_preferences)
-	);
+		}
+		return objectDifference(jsonParams, compareParameters);
+	});
 
 	let server = $derived(
-		((api_key_preferences: APIKeyPreferences) => {
+		((apiKeyPreferences: APIKeyPreferences) => {
 			let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
-			switch (api_key_preferences.use) {
+			switch (apiKeyPreferences.use) {
 				case 'commercial':
 					return `https://customer-${serverPrefix}.open-meteo.com/v1/${action}`;
 				case 'self_hosted':
-					return `${api_key_preferences.self_host_server}/v1/${action}`;
+					return `${apiKeyPreferences.self_host_server}/v1/${action}`;
 				default:
 					return `https://${serverPrefix}.open-meteo.com/v1/${action}`;
 			}
-		})($api_key_preferences)
+		})($apiKeyPreferences)
 	);
 
-	let csvUrl = $derived(
-		`${server}?${new URLSearchParams({ ...parsedParams, format: 'csv' })}`.replaceAll('%2C', ',')
-	);
-	let xlsxUrl = $derived(
-		`${server}?${new URLSearchParams({ ...parsedParams, format: 'xlsx' })}`.replaceAll('%2C', ',')
-	);
+	let csvUrl = $derived.by(() => {
+		const urlParams = { ...parsedParams };
+		urlParams.format = 'csv';
+		return `${server}?${new URLSearchParams(urlParams)}`.replaceAll('%2C', ',');
+	});
+	let xlsxUrl = $derived.by(() => {
+		const urlParams = { ...parsedParams };
+		urlParams.format = 'xlsx';
+		return `${server}?${new URLSearchParams(urlParams)}`.replaceAll('%2C', ',');
+	});
 	let previewUrl = $derived(
 		`${server}?${new URLSearchParams(parsedParams)}`.replaceAll('%2C', ',')
 	);
 
 	/// Adjusted call weight
 	let callWeight = $derived(
-		((params) => {
+		((cwParams) => {
 			let nDays = 1;
-			if ('start_date' in params) {
-				const start = new Date(params['start_date']).getTime();
-				const end = new Date(params['end_date']).getTime();
+			if ('start_date' in cwParams) {
+				const start = new Date(cwParams['start_date'] as string).getTime();
+				const end = new Date(cwParams['end_date'] as string).getTime();
 				nDays = (end - start) / 1000 / 86400;
 			} else {
-				const forecast_days = params['forecast_days'] ?? 7;
-				const past_days = params['past_days'] ?? 0;
+				const forecast_days = cwParams['forecast_days'] ?? defaultParameters.forecast_days ?? 7;
+				const past_days = cwParams['past_days'] ?? defaultParameters.past_days ?? 0;
 				nDays = Number(forecast_days) + Number(past_days);
 			}
 			/// Number or models (including number of ensemble members)
-			const nModels =
+			const nModels = Number(
 				sdk_type == 'ensemble_api'
-					? ('models' in params
-							? Array.isArray(params['models'])
-								? params['models']
-								: [params['models']]
+					? (cwParams.models
+							? Array.isArray(cwParams.models)
+								? cwParams.models
+								: [cwParams.models]
 							: []
 						).reduce((previous: number, model: string) => {
 							return previous + (membersPerModel(model) ?? 1);
 						}, 0)
-					: ('models' in params
-							? Array.isArray(params['models'])
-								? params['models']
-								: [params['models']]
+					: (cwParams.models
+							? Array.isArray(cwParams.models)
+								? cwParams.models
+								: [cwParams.models]
 							: []
-						).length;
+						).length
+			);
 
 			/// Number of weather variables for hourly, daily, current or minutely_15
-			const nHourly =
-				'hourly' in params
-					? Array.isArray(params['hourly'])
-						? params['hourly'].length
-						: params['hourly'].length > 1
-							? 1
-							: 0
-					: 0;
-			const nDaily =
-				'daily' in params
-					? Array.isArray(params['daily'])
-						? params['daily'].length
-						: params['daily'].length > 1
-							? 1
-							: 0
-					: 0;
-			const nCurrent =
-				'current' in params
-					? Array.isArray(params['current'])
-						? params['current'].length
-						: params['current'].length > 1
-							? 1
-							: 0
-					: 0;
-			const nMinutely15 =
-				'minutely_15' in params
-					? Array.isArray(params['minutely_15'])
-						? params['minutely_15'].length
-						: params['minutely_15'].length > 1
-							? 1
-							: 0
-					: 0;
+			const nHourly = cwParams.hourly
+				? Array.isArray(cwParams.hourly)
+					? (cwParams.hourly as string[]).length
+					: (cwParams.hourly as string).length > 1
+						? 1
+						: 0
+				: 0;
+			const nDaily = cwParams.daily
+				? Array.isArray(cwParams.daily)
+					? (cwParams.daily as string[]).length
+					: (cwParams.daily as string).length > 1
+						? 1
+						: 0
+				: 0;
+			const nCurrent = cwParams.current
+				? Array.isArray(cwParams.current)
+					? (cwParams.current as string[]).length
+					: (cwParams.current as string).length > 1
+						? 1
+						: 0
+				: 0;
+			const nMinutely15 = cwParams.minutely_15
+				? Array.isArray(cwParams.minutely_15)
+					? (cwParams.minutely_15 as string[]).length
+					: (cwParams.minutely_15 as string).length > 1
+						? 1
+						: 0
+				: 0;
 			const nVariables = nHourly + nDaily + nCurrent + nMinutely15;
 
 			/// Number of locations
 			let nLocations = 1;
-			if (params['latitude'] && Array == params['latitude'].constructor) {
-				nLocations = params['latitude']?.length ?? 1;
+			if (cwParams['latitude'] && Array == cwParams['latitude'].constructor) {
+				nLocations = cwParams['latitude']?.length ?? 1;
 			}
 			/// Calculate adjusted weight
 			const nVariablesModels = nVariables * Math.max(nModels, 1.0);
@@ -233,50 +245,67 @@
 		})(parsedParams)
 	);
 
-	let results: Promise<any> = $state(Promise.resolve(null));
+	let error = $state('');
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let results: Promise<any[] | null> = $state(new Promise((resolve) => resolve(null)));
+	const reset = () => {
+		error = '';
+		results = new Promise((resolve) => resolve(null));
+	};
 
-	function reset() {
-		results = Promise.resolve(null);
-	}
+	// reset results on variable changes
+	$effect(() => {
+		void $params;
+		reset();
+	});
+	$effect(() => {
+		void $apiKeyPreferences;
+		reset();
+	});
 
-	params.subscribe(reset);
-	api_key_preferences.subscribe(reset);
-
-	async function preview() {
+	const preview = async () => {
 		if (
-			('latitude' in parsedParams &&
-				Array.isArray(parsedParams.latitude) &&
-				parsedParams.latitude.length > 5) ||
-			$params.location_mode === 'bounding_box'
+			'latitude' in parsedParams &&
+			Array.isArray(parsedParams.latitude) &&
+			parsedParams.latitude.length > 5
 		) {
 			throw new Error('Can not preview more than 5 locations');
 		}
 
-		// Always set format=json to fetch data
-		const fetchUrl =
-			`${server}?${new URLSearchParams({ ...parsedParams, format: 'json', timeformat: 'unixtime' })}`.replaceAll(
-				'%2C',
-				','
-			);
-		const t0 = performance.now();
-		const result = await fetch(fetchUrl);
-
-		if (!result.ok) {
-			const reason = JSON.parse(await result.text())['reason'];
-			throw new Error(reason);
-		}
-		const json = await result.json();
-		let tEnd = performance.now() - t0;
-		if (Array.isArray(json)) {
-			return json.map((x) => jsonToChart(x, tEnd));
+		if ($params.location_mode !== 'bounding_box') {
+			delete $params.bounding_box;
 		}
 
-		return [jsonToChart(json, tEnd)];
-	}
+		const urlParams = { ...parsedParams };
+		urlParams.format = 'json'; // Always set format=json to fetch data
+		urlParams.timeformat = 'unixtime';
 
-	function reload() {
+		const url = `${server}?${new URLSearchParams(urlParams)}`.replaceAll('%2C', ',');
+
+		try {
+			const t0 = performance.now();
+
+			const result = await fetch(url);
+			const json = await result.json();
+
+			if (!result.ok) {
+				throw new Error(json.reason);
+			}
+			let tEnd = performance.now() - t0;
+			if (Array.isArray(json)) {
+				return json.map((x) => jsonToChart(x, tEnd));
+			} else {
+				return [jsonToChart(json, tEnd)];
+			}
+		} catch (err) {
+			if (err instanceof Error) error = err.message;
+			return null;
+		}
+	};
+
+	const reload = () => {
 		results = preview();
-	}
+	};
 
 	onMount(() => {
 		reload();
@@ -347,8 +376,6 @@
 			multipleLocationsOrModels,
 			numberOfLocations,
 			numberOfModels,
-			server,
-			sdk_type,
 			previewUrl
 		)
 	);
@@ -368,7 +395,7 @@
 	<div class="border-border flex rounded-md border">
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {mode === 'chart'
+			class="items-center gap-1 rounded-e-none opacity-100! duration-300 {mode === 'chart'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'chart'}
@@ -381,7 +408,7 @@
 
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'python'
+			class="items-center gap-1 rounded-none opacity-100! duration-300 {mode === 'python'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'python'}
@@ -393,7 +420,7 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'typescript'
+			class="items-center gap-1 rounded-none opacity-100! duration-300 {mode === 'typescript'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'typescript'}
@@ -406,7 +433,7 @@
 		{#if sdk_type != 'ensemble_api'}
 			<Button
 				variant="ghost"
-				class="items-center gap-1 rounded-none !opacity-100 duration-300 {mode === 'swift'
+				class="items-center gap-1 rounded-none opacity-100! duration-300 {mode === 'swift'
 					? 'bg-accent cursor-not-allowed'
 					: ''}"
 				disabled={mode === 'swift'}
@@ -419,7 +446,7 @@
 		{/if}
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {mode === 'other'
+			class="items-center gap-1 rounded-s-none opacity-100! duration-300 {mode === 'other'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
 			disabled={mode === 'other'}
@@ -440,96 +467,7 @@
 			style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
 			class="relative -mx-6 md:mx-0"
 		>
-			{#await results}
-				<div
-					class="border-border bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg border"
-					in:fade={{ delay: 400, duration: 400 }}
-					out:fade={{ duration: 300 }}
-				>
-					<svg
-						class="lucide lucide-loader-circle animate-spin"
-						xmlns="http://www.w3.org/2000/svg"
-						width="40"
-						height="40"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<path d="M21 12a9 9 0 1 1-6.219-8.56" />
-					</svg>
-					<span class="hidden">Loading...</span>
-				</div>
-			{:then results}
-				{#if results}
-					{#each results.slice(0, 10) as chart, i (i)}
-						<div transition:fade={{ duration: 300 }} class="w-full">
-							<HighchartContainer
-								options={chart}
-								{useStockChart}
-								style={useStockChart ? 'height: 500px' : 'height: 400px'}
-							/>
-						</div>
-					{/each}
-				{:else}
-					<div
-						transition:fade={{ duration: 300 }}
-						style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
-					>
-						<div
-							class="border-border absolute top-0 flex h-full w-full items-center justify-center rounded-lg border px-6"
-						>
-							<Alert.Root class="border-border my-auto w-[unset] md:!pl-8">
-								<Alert.Description>
-									<div class="flex flex-col items-center justify-center gap-2 md:flex-row">
-										<div class="text-muted-foreground flex items-center">
-											<svg
-												class="lucide lucide-info mr-2"
-												xmlns="http://www.w3.org/2000/svg"
-												width="20"
-												height="20"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-											>
-												<circle cx="12" cy="12" r="10" />
-												<path d="M12 16v-4" />
-												<path d="M12 8h.01" />
-											</svg>
-											Parameters have changed.
-										</div>
-
-										<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
-											><svg
-												class="lucide lucide-refresh-cw"
-												xmlns="http://www.w3.org/2000/svg"
-												width="20"
-												height="20"
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												stroke-width="2"
-												stroke-linecap="round"
-												stroke-linejoin="round"
-											>
-												<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
-												<path d="M21 3v5h-5" />
-												<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
-												<path d="M8 16H3v5" />
-											</svg>Reload Chart
-										</Button>
-									</div>
-								</Alert.Description>
-							</Alert.Root>
-						</div>
-					</div>
-				{/if}
-			{:catch error}
+			{#if error}
 				<div
 					transition:fade={{ duration: 300 }}
 					class="border-border bg-accent/25 absolute top-0 z-30 w-full rounded-lg border"
@@ -559,14 +497,18 @@
 											<path d="M12 17h.01" />
 										</svg>
 
-										{error.message}
+										{error}
 									</div>
 
 									<Button
 										variant="outline"
 										type="submit"
 										class="border-red flex !flex-row"
-										onclick={reload}
+										onclick={() => {
+											setTimeout(() => {
+												reload();
+											}, 100);
+										}}
 										><svg
 											class="lucide lucide-refresh-cw"
 											xmlns="http://www.w3.org/2000/svg"
@@ -590,7 +532,120 @@
 						</Alert.Root>
 					</div>
 				</div>
-			{/await}
+			{:else}
+				{#await results}
+					<div
+						class="border-border bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg border"
+						in:fade={{ delay: 400, duration: 400 }}
+						out:fade={{ duration: 300 }}
+					>
+						<svg
+							class="lucide lucide-loader-circle animate-spin"
+							xmlns="http://www.w3.org/2000/svg"
+							width="40"
+							height="40"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path d="M21 12a9 9 0 1 1-6.219-8.56" />
+						</svg>
+						<span class="hidden">Loading...</span>
+					</div>
+				{:then results}
+					{#if results}
+						{#if results.length > 10}
+							<Alert.Root variant="info" class="mt-2 md:mt-4">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-info-icon lucide-info"
+									><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path
+										d="M12 8h.01"
+									/></svg
+								>
+								<Alert.Description>
+									Only first 10/{results.length} locations are shown
+								</Alert.Description>
+							</Alert.Root>
+						{/if}
+						{#each results.slice(0, 10) as chart, i (i)}
+							<div transition:fade={{ duration: 300 }} class="w-full">
+								<HighchartContainer
+									options={chart}
+									{useStockChart}
+									style={useStockChart ? 'height: 500px' : 'height: 400px'}
+								/>
+							</div>
+						{/each}
+					{:else}
+						<div
+							transition:fade={{ duration: 300 }}
+							style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
+						>
+							<div
+								class="border-border absolute top-0 flex h-full w-full items-center justify-center rounded-lg border px-6"
+							>
+								<Alert.Root class="border-border my-auto w-[unset] md:!pl-8">
+									<Alert.Description>
+										<div class="flex flex-col items-center justify-center gap-2 md:flex-row">
+											<div class="text-muted-foreground flex items-center">
+												<svg
+													class="lucide lucide-info mr-2"
+													xmlns="http://www.w3.org/2000/svg"
+													width="20"
+													height="20"
+													viewBox="0 0 24 24"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="2"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+												>
+													<circle cx="12" cy="12" r="10" />
+													<path d="M12 16v-4" />
+													<path d="M12 8h.01" />
+												</svg>
+												Parameters have changed.
+											</div>
+
+											<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
+												><svg
+													class="lucide lucide-refresh-cw"
+													xmlns="http://www.w3.org/2000/svg"
+													width="20"
+													height="20"
+													viewBox="0 0 24 24"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="2"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+												>
+													<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+													<path d="M21 3v5h-5" />
+													<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+													<path d="M8 16H3v5" />
+												</svg>Reload Chart
+											</Button>
+										</div>
+									</Alert.Description>
+								</Alert.Root>
+							</div>
+						</div>
+					{/if}
+				{/await}
+			{/if}
 		</div>
 		<div class="mt-3 flex gap-3">
 			<Button
@@ -656,7 +711,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -708,7 +763,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;
@@ -772,7 +827,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -823,7 +878,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;
@@ -888,7 +943,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -939,7 +994,7 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent);
+									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;

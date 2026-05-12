@@ -6,7 +6,7 @@
 
 	interface Props {
 		params: Parameters;
-		hourly;
+		hourly: { value: string; label: string }[][];
 	}
 
 	let { params = $bindable(), hourly }: Props = $props();
@@ -31,7 +31,7 @@
 							aria-labelledby="{value}_label"
 							onCheckedChange={() => {
 								if (params.hourly?.includes(value)) {
-									params.hourly = params.hourly.filter((item) => {
+									params.hourly = params.hourly.filter((item: string) => {
 										return item !== value;
 									});
 								} else if (params.hourly) {

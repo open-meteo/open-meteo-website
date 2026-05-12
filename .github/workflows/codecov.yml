@@ -8,17 +8,16 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-      - name: Set up Node 24
-        uses: actions/setup-node@v6
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6.4.0
         with:
           node-version: 24
+          cache: 'npm'
       - name: Install dependencies
         run: npm install
       - name: Run tests and collect coverage
         run: npm run coverage
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v6
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -1,38 +1,37 @@
 <script lang="ts">
-	import { createEventDispatcher, onDestroy } from 'svelte';
+	import { onDestroy } from 'svelte';
 
-	import { type GeoLocation, favorites, last_visited } from '$lib/stores/settings';
+	import { type GeoLocation, favorites, lastVisited } from '$lib/stores/settings';
 
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { Input } from '$lib/components/ui/input';
 
-	export let label: string = 'Search Locations...';
+	interface Props {
+		label?: string;
+		onlocation?: (location: GeoLocation) => void;
+	}
+
+	let { label = 'Search Locations...', onlocation }: Props = $props();
 
 	interface ResultSet {
 		results: GeoLocation[] | undefined;
 	}
 
-	const dispatch = createEventDispatcher();
 	let debounceTimeout: ReturnType<typeof setTimeout> | undefined;
-	let searchQuery = '';
+	let searchQuery = $state('');
 
 	onDestroy(() => {
-		clearInterval(debounceTimeout);
+		clearTimeout(debounceTimeout);
 	});
-
-	let scrollY: number | undefined;
 
 	const closeModal = () => {
 		dialogOpen = false;
-		if (scrollY) {
-			window.scrollTo({ top: scrollY, behavior: 'instant' });
-		}
 	};
 
 	const deleteRecent = (location: GeoLocation) => {
-		$last_visited = $last_visited.filter((item) => item.id != location.id);
+		$lastVisited = $lastVisited.filter((item) => item.id != location.id);
 	};
 
 	const deleteFavorite = (location: GeoLocation) => {
@@ -55,77 +54,84 @@
 			$favorites = temp;
 			return;
 		}
-		let temp = $last_visited.filter((item) => item.id != location.id);
+		let temp = $lastVisited.filter((item) => item.id != location.id);
 		temp.unshift(location);
 		if (temp.length > 10) {
 			temp.pop();
 		}
-		$last_visited = temp;
+		$lastVisited = temp;
 	};
 
 	const selectLocation = (location: GeoLocation) => {
 		saveRecent(location);
 		searchQuery = '';
 		closeModal();
-		dispatch('location', location);
+		onlocation?.(location);
 	};
 
-	$: results = (async () => {
+	let results: Promise<ResultSet> = $derived.by(() => {
 		if (debounceTimeout) {
 			clearTimeout(debounceTimeout);
 		}
 		if (searchQuery.length < 2) {
-			return { results: [] };
+			return Promise.resolve({ results: [] });
 		}
-		await new Promise((resolve) => {
-			debounceTimeout = setTimeout(resolve, 300);
+		return new Promise<ResultSet>(async (resolveOuter) => {
+			await new Promise<void>((resolve) => {
+				debounceTimeout = setTimeout(resolve, 300);
+			});
+
+			try {
+				if (searchQuery.toLowerCase() == 'gps') {
+					let position: GeolocationPosition = await new Promise((resolve, reject) =>
+						navigator.geolocation.getCurrentPosition(resolve, reject, {})
+					);
+					const latitude = position.coords.latitude;
+					const longitude = position.coords.longitude;
+					resolveOuter({
+						results: [
+							{
+								id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
+								name: `GPS ${latitude.toFixed(2)}°N ${longitude.toFixed(2)}°E`,
+								latitude: latitude,
+								longitude: longitude,
+								elevation: position.coords.altitude ?? NaN,
+								feature_code: '',
+								country_code: undefined,
+								admin1_id: undefined,
+								admin3_id: undefined,
+								admin4_id: undefined,
+								timezone: '',
+								population: undefined,
+								postcodes: undefined,
+								country_id: undefined,
+								country: undefined,
+								admin1: undefined,
+								admin3: undefined,
+								admin4: undefined
+							}
+						]
+					});
+					return;
+				}
+
+				// Always set format=json to fetch data
+				const url = 'https://geocoding-api.open-meteo.com/v1/search';
+				const fetchUrl = `${url}?${new URLSearchParams({ name: searchQuery })}`;
+				const result = await fetch(fetchUrl);
+
+				if (!result.ok) {
+					throw new Error(await result.text());
+				}
+
+				resolveOuter((await result.json()) as ResultSet);
+			} catch (err) {
+				throw err;
+			}
 		});
+	});
 
-		if (searchQuery.toLowerCase() == 'gps') {
-			let position: GeolocationPosition = await new Promise((resolve, reject) =>
-				navigator.geolocation.getCurrentPosition(resolve, reject, {})
-			);
-			const latitude = position.coords.latitude;
-			const longitude = position.coords.longitude;
-			return {
-				results: [
-					{
-						id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
-						name: `GPS ${latitude.toFixed(2)}°N ${longitude.toFixed(2)}°E`,
-						latitude: latitude,
-						longitude: longitude,
-						elevation: position.coords.altitude ?? NaN,
-						feature_code: '',
-						country_code: undefined,
-						admin1_id: undefined,
-						admin3_id: undefined,
-						admin4_id: undefined,
-						timezone: '',
-						population: undefined,
-						postcodes: undefined,
-						country_id: undefined,
-						country: undefined,
-						admin1: undefined,
-						admin3: undefined,
-						admin4: undefined
-					}
-				]
-			};
-		}
-
-		// Always set format=json to fetch data
-		const url = 'https://geocoding-api.open-meteo.com/v1/search';
-		const fetchUrl = `${url}?${new URLSearchParams({ name: searchQuery })}`;
-		const result = await fetch(fetchUrl);
-
-		if (!result.ok) {
-			throw new Error(await result.text());
-		}
-
-		return (await result.json()) as ResultSet;
-	})();
-
-	let dialogOpen = false;
+	let dialogOpen = $state(false);
 </script>
 
 <Dialog.Root bind:open={dialogOpen}>
@@ -204,7 +210,7 @@
 				{:then results}
 					{#if results.results && results.results.length === 0}
 						{#if searchQuery.length < 2}
-							{#if $last_visited.length === 0 && $favorites.length === 0}
+							{#if $lastVisited.length === 0 && $favorites.length === 0}
 								<Alert.Root class="border-border my-auto mt-4 w-[unset]">
 									<Alert.Description>Start typing to search for locations</Alert.Description>
 								</Alert.Root>
@@ -230,7 +236,7 @@
 															location.country_code || 'united_nations'
 														).toLowerCase()}.svg"
 														title={location.country}
-														alt={location.country_code}
+														alt={location.country ?? location.country_code ?? ''}
 													/>
 													{location.name}
 												</div>
@@ -305,16 +311,16 @@
 									{/each}
 								</div>
 							{/if}
-							{#if $last_visited.length > 0}
+							{#if $lastVisited.length > 0}
 								<h6 class="text-muted-foreground mt-4 mb-4 text-xl">Recent Locations</h6>
-								<div id="location_search_last_visited" class="border-border rounded-lg border">
-									{#each $last_visited as location, i (i)}
+								<div id="location_search_lastVisited" class="border-border rounded-lg border">
+									{#each $lastVisited as location, i (i)}
 										<Button
 											variant="outline"
 											class="location-search-last-visited flex h-[unset] w-full justify-between gap-0 rounded-none py-2 pr-1 pl-3 not-last:border-b md:pr-2 {i ===
 											0
 												? 'rounded-t-md'
-												: ''} {i === $last_visited.length - 1 ? 'rounded-b-md' : ''}"
+												: ''} {i === $lastVisited.length - 1 ? 'rounded-b-md' : ''}"
 											onclick={() => selectLocation(location)}
 										>
 											<div class="pointer-events-none flex flex-col gap-1 truncate">
@@ -326,7 +332,7 @@
 															location.country_code || 'united_nations'
 														).toLowerCase()}.svg"
 														title={location.country}
-														alt={location.country_code}
+														alt={location.country ?? location.country_code ?? ''}
 													/>
 													{location.name}
 												</div>
@@ -459,7 +465,7 @@
 														location.country_code || 'united_nations'
 													).toLowerCase()}.svg"
 													title={location.country}
-													alt={location.country_code}
+													alt={location.country ?? location.country_code ?? ''}
 												/>
 												{location.name}
 											</div>

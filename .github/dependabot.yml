@@ -13,6 +13,8 @@ updates:
         update-types: ['version-update:semver-patch']
     commit-message:
       prefix: 'fix: '
+    cooldown:
+      default-days: 7
     groups:
       openmeteo:
         patterns:
@@ -62,3 +64,5 @@ updates:
       time: '10:00'
     commit-message:
       prefix: 'fix: '
+    cooldown:
+      default-days: 7

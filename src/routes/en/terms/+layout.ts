@@ -6,6 +6,7 @@ export const load = (() => {
 	return {
 		Logo: Rain,
 		heroImage: '/images/backgrounds/features_background.webp',
+		heroImagePosition: 'center 40%',
 		heroHeight: 300,
 		heroTitle: 'Terms & Privacy',
 		heroDescription: null,

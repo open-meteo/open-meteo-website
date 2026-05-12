@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
@@ -18,7 +19,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 
 	import {
@@ -94,19 +95,41 @@
 		}
 	});
 
-	let beginDate = new Date();
+	let beginDate = new SvelteDate();
 	beginDate.setMonth(beginDate.getMonth() - 3);
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() + 14);
 </script>
 
 <svelte:head>
-	<title>UK Met Office API | Open-Meteo.com</title>
+	<title>KMA Weather API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/kma-api" />
 </svelte:head>
 
-<div class="alert alert-warning" role="alert"></div>
+<Alert.Root variant="warning" class="mb-4">
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="24"
+		height="24"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="2"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		class="lucide lucide-triangle-alert"
+	>
+		<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+		<path d="M12 9v4" />
+		<path d="M12 17h.01" />
+	</svg>
+	<Alert.Description
+		>KMA discontinued their UM-based models at the end of March 2026 and switched to the new
+		KIM-based model, which uses a different data distribution system. KMA data updates are currently
+		suspended while Open-Meteo migrates to the new KIM model source.</Alert.Description
+	>
+</Alert.Root>
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<!-- LOCATION -->
@@ -120,7 +143,7 @@
 			<div class="border-border flex rounded-md border">
 				<Button
 					variant="ghost"
-					class="gap-1 rounded-e-none !opacity-100 duration-300 {$params.time_mode ===
+					class="gap-1 rounded-e-none opacity-100! duration-300 {$params.time_mode ===
 					'forecast_days'
 						? 'bg-accent cursor-not-allowed'
 						: ''}"
@@ -132,7 +155,7 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-clock mr-[2px]"
+						class="lucide lucide-clock mr-0.5"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"
@@ -149,7 +172,7 @@
 				</Button>
 				<Button
 					variant="ghost"
-					class="gap-1 rounded-s-none !opacity-100 duration-300  {$params.time_mode ===
+					class="gap-1 rounded-s-none opacity-100! duration-300  {$params.time_mode ===
 					'time_interval'
 						? 'bg-accent'
 						: ''}"
@@ -159,7 +182,7 @@
 					}}
 				>
 					<svg
-						class="lucide lucide-calendar-cog mr-[2px]"
+						class="lucide lucide-calendar-cog mr-0.5"
 						xmlns="http://www.w3.org/2000/svg"
 						width="18"
 						height="18"
@@ -287,7 +310,7 @@
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item) => {
+										$params.hourly = $params.hourly.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.hourly) {
@@ -310,7 +333,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -329,7 +356,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if (value && $params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if (value && $params.hourly) {
@@ -358,7 +385,7 @@
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -373,7 +400,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -393,7 +420,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -408,7 +435,7 @@
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -441,7 +468,7 @@
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
+												$params.hourly = $params.hourly.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.hourly) {
@@ -463,8 +490,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -534,7 +561,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -556,8 +583,8 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
+						seamless prediction.</small
 					>
 				</div>
 			</AccordionItem>
@@ -584,7 +611,7 @@
 								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
+										$params.daily = $params.daily.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.daily) {
@@ -635,7 +662,7 @@
 								aria-labelledby="{value}_current_label"
 								onCheckedChange={() => {
 									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item) => {
+										$params.current = $params.current.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.current) {
@@ -671,7 +698,7 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview {params} {defaultParameters} model_default="kma_seamless" />
+	<ResultsPreview {params} {defaultParameters} model_default="kma_seamless" />
 </div>
 
 <!-- DATA SOURCES -->
@@ -727,7 +754,11 @@
 	</div>
 
 	<figure class="mt-6">
-		<img src="/images/models/kma_ldps.webp" class="rounded-lg" alt="..." />
+		<img
+			src="/images/models/kma_ldps.webp"
+			class="rounded-lg"
+			alt="KMA LDPS model domain area at 1.5 km resolution"
+		/>
 		<figcaption class="text-muted-foreground">
 			KMA LDPS domain area at 1.5 km resolution. Source: <a href="https://open-meteo.com/"
 				>Open-Meteo</a
@@ -744,7 +775,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a
-				href={'/en/docs'}>Weather Forecast API</a
+				href="/en/docs">Weather Forecast API</a
 			>. Only notable remarks are listed below
 		</p>
 		<ul class="ml-6 list-disc">

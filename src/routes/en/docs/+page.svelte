@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
+
+	import { resolve } from '$app/paths';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -26,7 +29,7 @@
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
 	import HourlyVariables from '$lib/components/variables/hourly-variables.svelte';
@@ -136,10 +139,10 @@
 		}
 	});
 
-	let beginDate = new Date();
+	let beginDate = new SvelteDate();
 	beginDate.setMonth(beginDate.getMonth() - 3);
 
-	let lastDate = new Date();
+	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() + 16);
 </script>
 
@@ -170,7 +173,11 @@
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="additional-variables"
 				title="Additional Variables And Options"
@@ -188,14 +195,15 @@
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
-											if (value && $params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
-													return item !== value;
-												});
-											} else if (value && $params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
+											if (Array.isArray($params.hourly))
+												if (value && $params.hourly?.includes(value)) {
+													$params.hourly = $params.hourly.filter((item: string) => {
+														return item !== value;
+													});
+												} else if (value && $params.hourly) {
+													$params.hourly.push(value);
+													$params.hourly = $params.hourly;
+												}
 										}}
 									/>
 									<Label
@@ -218,7 +226,7 @@
 				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -233,7 +241,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastHours?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -253,7 +261,7 @@
 							type="single"
 							bind:value={$params.temporal_resolution}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{temporalResolution?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -268,7 +276,7 @@
 					</div>
 					<div class="relative md:col-span-2">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{cellSelection?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -300,14 +308,15 @@
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_hourly_label"
 										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
+											if (Array.isArray($params.hourly))
+												if ($params.hourly?.includes(value)) {
+													$params.hourly = $params.hourly.filter((item: string) => {
+														return item !== value;
+													});
+												} else if ($params.hourly) {
+													$params.hourly.push(value);
+													$params.hourly = $params.hourly;
+												}
 										}}
 									/>
 									<Label
@@ -323,8 +332,8 @@
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
-					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI
-					please specify Tilt and Azimuth below.
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
 				</small>
 
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
@@ -382,17 +391,17 @@
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
 				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-[227px]">
+					<div class="w-full md:w-56.75">
 						<ToggleGroup.Root type="single" bind:value={pressureVariablesTab}>
 							<div class="border-border flex flex-col rounded-lg border">
 								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
 										0
-											? 'rounded-t-md !rounded-b-none'
+											? 'rounded-t-md rounded-b-none!'
 											: ''} {i === pressureVariables.length - 1
-											? '!rounded-t-none rounded-b-md'
+											? 'rounded-t-none! rounded-b-md'
 											: ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
@@ -400,11 +409,11 @@
 											{variable.label}
 											<span class="text-xs">
 												{levels.filter((level) =>
-													$params.hourly.includes(`${variable.value}_${level}hPa`)
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
 												).length
 													? '(' +
 														levels.filter((level) =>
-															$params.hourly.includes(`${variable.value}_${level}hPa`)
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
 														).length +
 														'/' +
 														levels.length +
@@ -434,14 +443,15 @@
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
 															aria-labelledby="{variable.value}_{level}hPa"
 															onCheckedChange={() => {
-																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-																	$params.hourly = $params.hourly.filter((item) => {
-																		return item !== `${variable.value}_${level}hPa`;
-																	});
-																} else if ($params.hourly) {
-																	$params.hourly.push(`${variable.value}_${level}hPa`);
-																	$params.hourly = $params.hourly;
-																}
+																if (Array.isArray($params.hourly))
+																	if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
+																		$params.hourly = $params.hourly.filter((item: string) => {
+																			return item !== `${variable.value}_${level}hPa`;
+																		});
+																	} else if ($params.hourly) {
+																		$params.hourly.push(`${variable.value}_${level}hPa`);
+																		$params.hourly = $params.hourly;
+																	}
 															}}
 														/>
 														<Label
@@ -462,7 +472,7 @@
 						{/each}
 					</div>
 				</div>
-				<div class="mt-3 lg:ml-[249px]">
+				<div class="mt-3 lg:ml-62.25">
 					<small class="text-muted-foreground"
 						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
@@ -487,14 +497,15 @@
 										checked={$params.models?.includes(value)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
+											if (Array.isArray($params.models))
+												if ($params.models?.includes(value)) {
+													$params.models = $params.models.filter((item: string) => {
+														return item !== value;
+													});
+												} else if ($params.models) {
+													$params.models.push(value);
+													$params.models = $params.models;
+												}
 										}}
 									/>
 									<Label
@@ -510,8 +521,8 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
-						a seamless prediction.</small
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
+						seamless prediction.</small
 					>
 				</div>
 			</AccordionItem>
@@ -540,14 +551,15 @@
 										checked={$params.minutely_15?.includes(value)}
 										aria-labelledby="{value}_minutely_15_label"
 										onCheckedChange={() => {
-											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.minutely_15) {
-												$params.minutely_15.push(value);
-												$params.minutely_15 = $params.minutely_15;
-											}
+											if (Array.isArray($params.minutely_15))
+												if ($params.minutely_15?.includes(value)) {
+													$params.minutely_15 = $params.minutely_15.filter((item: string) => {
+														return item !== value;
+													});
+												} else if ($params.minutely_15) {
+													$params.minutely_15.push(value);
+													$params.minutely_15 = $params.minutely_15;
+												}
 										}}
 									/>
 									<Label
@@ -573,14 +585,15 @@
 										checked={$params.minutely_15?.includes(value)}
 										aria-labelledby="{value}_minutely_15_label"
 										onCheckedChange={() => {
-											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.minutely_15) {
-												$params.minutely_15.push(value);
-												$params.minutely_15 = $params.minutely_15;
-											}
+											if (Array.isArray($params.minutely_15))
+												if ($params.minutely_15?.includes(value)) {
+													$params.minutely_15 = $params.minutely_15.filter((item: string) => {
+														return item !== value;
+													});
+												} else if ($params.minutely_15) {
+													$params.minutely_15.push(value);
+													$params.minutely_15 = $params.minutely_15;
+												}
 										}}
 									/>
 									<Label
@@ -614,7 +627,7 @@
 							type="single"
 							bind:value={$params.forecast_minutely_15}
 						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{forecastMinutely15?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -629,7 +642,7 @@
 					</div>
 					<div class="relative">
 						<Select.Root name="cell_selection" type="single" bind:value={$params.past_minutely_15}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastMinutely15?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
@@ -666,14 +679,15 @@
 								checked={$params.daily?.includes(value)}
 								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
-									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
-											return item !== value;
-										});
-									} else if ($params.daily) {
-										$params.daily.push(value);
-										$params.daily = $params.daily;
-									}
+									if (Array.isArray($params.daily))
+										if ($params.daily?.includes(value)) {
+											$params.daily = $params.daily.filter((item: string) => {
+												return item !== value;
+											});
+										} else if ($params.daily) {
+											$params.daily.push(value);
+											$params.daily = $params.daily;
+										}
 								}}
 							/>
 							<Label
@@ -697,7 +711,7 @@
 			</div>
 		{/if}
 
-		<Accordion.Root class="border-border mt-3 rounded-lg border md:mt-6">
+		<Accordion.Root type="single" class="border-border mt-3 rounded-lg border md:mt-6">
 			<AccordionItem
 				id="additional-daily-variables"
 				title="Additional Daily Variables"
@@ -717,14 +731,15 @@
 										checked={$params.daily?.includes(value)}
 										aria-labelledby="{value}_daily_label"
 										onCheckedChange={() => {
-											if ($params.daily?.includes(value)) {
-												$params.daily = $params.daily.filter((item) => {
-													return item !== value;
-												});
-											} else if ($params.daily) {
-												$params.daily.push(value);
-												$params.daily = $params.daily;
-											}
+											if (Array.isArray($params.daily))
+												if ($params.daily?.includes(value)) {
+													$params.daily = $params.daily.filter((item: string) => {
+														return item !== value;
+													});
+												} else if ($params.daily && Array.isArray($params.daily)) {
+													$params.daily.push(value);
+													$params.daily = $params.daily;
+												}
 										}}
 									/>
 									<Label
@@ -760,14 +775,15 @@
 								checked={$params.current?.includes(value)}
 								aria-labelledby="{value}_current_label"
 								onCheckedChange={() => {
-									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item) => {
-											return item !== value;
-										});
-									} else if ($params.current) {
-										$params.current.push(value);
-										$params.current = $params.current;
-									}
+									if (Array.isArray($params.current))
+										if ($params.current?.includes(value)) {
+											$params.current = $params.current.filter((item: string) => {
+												return item !== value;
+											});
+										} else if ($params.current && Array.isArray($params.current)) {
+											$params.current.push(value);
+											$params.current = $params.current;
+										}
 								}}
 							/>
 							<Label
@@ -797,7 +813,7 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview {params} {defaultParameters} />
+	<ResultsPreview {params} {defaultParameters} />
 </div>
 
 <!-- DATA SOURCES -->
@@ -817,12 +833,12 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
 						class="text-link underline"
-						href="/en/docs/model-updates">model updates documentation</a
+						href={resolve('/en/docs/model-updates', {})}>model updates documentation</a
 					>.</caption
 				>
 				<thead>
@@ -837,7 +853,7 @@
 				</thead>
 				<tbody class="[&_a]:text-link [&_a]:underline [&_a]:underline-offset-3">
 					<tr class="">
-						<th scope="row"><a href="/en/docs/dwd-api">ICON</a></th>
+						<th scope="row"><a href={resolve('/en/docs/dwd-api', {})}>ICON</a></th>
 						<td>Deutscher Wetterdienst (DWD)</td>
 						<td>Germany</td>
 						<td>2 - 11 km</td>
@@ -845,7 +861,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/gfs-api">GFS & HRRR</a></th>
+						<th scope="row"><a href={resolve('/en/docs/gfs-api', {})}>GFS & HRRR</a></th>
 						<td>NOAA</td>
 						<td>United States</td>
 						<td>3 - 25 km</td>
@@ -853,7 +869,8 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/meteofrance-api">ARPEGE & AROME</a></th>
+						<th scope="row"><a href={resolve('/en/docs/meteofrance-api', {})}>ARPEGE & AROME</a></th
+						>
 						<td>Météo-France</td>
 						<td>France</td>
 						<td>1 - 25 km</td>
@@ -861,15 +878,15 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/ecmwf-api">IFS & AIFS</a></th>
+						<th scope="row"><a href={resolve('/en/docs/ecmwf-api', {})}>IFS & AIFS</a></th>
 						<td>ECMWF</td>
 						<td>European Union</td>
-						<td>25 km</td>
+						<td>9 - 25km</td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/ukmo-api">UKMO</a></th>
+						<th scope="row"><a href={resolve('/en/docs/ukmo-api', {})}>UKMO</a></th>
 						<td>UK Met Office</td>
 						<td>United Kingdom</td>
 						<td>2 - 10 km</td>
@@ -877,7 +894,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/kma-api">KMA</a></th>
+						<th scope="row"><a href={resolve('/en/docs/kma-api', {})}>KMA</a></th>
 						<td>KMA Korea</td>
 						<td>Korea</td>
 						<td>1.5 - 13 km</td>
@@ -885,7 +902,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/jma-api">MSM & GSM</a></th>
+						<th scope="row"><a href={resolve('/en/docs/jma-api', {})}>MSM & GSM</a></th>
 						<td>JMA</td>
 						<td>Japan</td>
 						<td>5 - 55 km</td>
@@ -893,7 +910,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/meteoswiss-api">ICON CH</a></th>
+						<th scope="row"><a href={resolve('/en/docs/meteoswiss-api', {})}>ICON CH</a></th>
 						<td>MeteoSwiss</td>
 						<td>Switzerland</td>
 						<td>1 - 2 km</td>
@@ -901,7 +918,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/metno-api">MET Nordic</a></th>
+						<th scope="row"><a href={resolve('/en/docs/metno-api', {})}>MET Nordic</a></th>
 						<td>MET Norway</td>
 						<td>Norway</td>
 						<td>1 km</td>
@@ -909,7 +926,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/gem-api">GEM</a></th>
+						<th scope="row"><a href={resolve('/en/docs/gem-api', {})}>GEM</a></th>
 						<td>Canadian Weather Service</td>
 						<td>Canada</td>
 						<td>2.5 km</td>
@@ -917,7 +934,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/bom-api">ACCESS-G</a></th>
+						<th scope="row"><a href={resolve('/en/docs/bom-api', {})}>ACCESS-G</a></th>
 						<td>Australian Bureau of Meteorology (BOM)</td>
 						<td>Australia</td>
 						<td>15 km</td>
@@ -925,7 +942,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/cma-api">GFS GRAPES</a></th>
+						<th scope="row"><a href={resolve('/en/docs/cma-api', {})}>GFS GRAPES</a></th>
 						<td>China Meteorological Administration (CMA)</td>
 						<td>China</td>
 						<td>15 km</td>
@@ -933,7 +950,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/knmi-api">HARMONIE</a></th>
+						<th scope="row"><a href={resolve('/en/docs/knmi-api', {})}>HARMONIE</a></th>
 						<td>KNMI</td>
 						<td>Netherlands</td>
 						<td>2 km</td>
@@ -941,7 +958,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/dmi-api">HARMONIE</a></th>
+						<th scope="row"><a href={resolve('/en/docs/dmi-api', {})}>HARMONIE</a></th>
 						<td>DMI</td>
 						<td>Denmark</td>
 						<td>2 km</td>
@@ -949,7 +966,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href="/en/docs/italia-meteo-arpae-api">ARPAE</a></th>
+						<th scope="row"><a href={resolve('/en/docs/italia-meteo-arpae-api', {})}>ARPAE</a></th>
 						<td>ItaliaMeteo</td>
 						<td>Italy</td>
 						<td>2 km</td>
@@ -977,7 +994,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1260px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-315 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -998,7 +1015,8 @@
 							>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
 							separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return
 							data for multiple locations the JSON output changes to a list of structures. CSV and
-							XLSX formats add a column <mark>location_id</mark>.</td
+							XLSX formats add a column <mark>location_id</mark>. For North and South America
+							locations use negative longitudes, because they lie west of Greenwich.</td
 						>
 					</tr>
 					<tr>
@@ -1108,8 +1126,7 @@
 						<td>No</td>
 						<td><mark>0</mark></td>
 						<td
-							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also
-							returned.</td
+							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
 						>
 					</tr>
 					<tr>
@@ -1194,7 +1211,7 @@
 							server URL requires the prefix <mark>customer-</mark>. See
 							<a
 								class="text-link underline"
-								href="/en/pricing"
+								href={resolve('/en/pricing', {})}
 								title="Pricing information to use the weather API commercially">pricing</a
 							> for more information.</td
 						>
@@ -1224,7 +1241,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1060px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-265 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1523,7 +1540,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[840px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-210 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1737,7 +1754,7 @@
 
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1817,7 +1834,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -1953,7 +1970,7 @@
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -2004,6 +2021,17 @@
 							>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
 							<mark>CEST</mark>)</td
 						>
+					</tr>
+					<tr>
+						<th scope="row">current</th>
+						<td>Object</td>
+						<td
+							>For every chosen current weather variable, the data is provided as a numeric value.
+							In addition, <mark>time</mark> specifies the moment at which the data is valid. The
+							<mark>interval</mark> represents the duration in seconds used for calculating backward-looking
+							sums or averages. For instance, an interval of 900 seconds (15 minutes) means that aggregated
+							metrics such as precipitation reflect the total from the previous 15 minutes.
+						</td>
 					</tr>
 					<tr>
 						<th scope="row">hourly</th>
@@ -2065,7 +2093,7 @@
 		<h3 class="text-xl md:text-2xl">WMO Weather interpretation codes (WW)</h3>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[450px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-112.5 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

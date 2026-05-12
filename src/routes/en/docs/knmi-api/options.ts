@@ -9,7 +9,7 @@ export const defaultParameters = {
 
 	time_mode: 'forecast_days',
 	past_days: '0',
-	forecast_days: '7',
+	forecast_days: '3',
 
 	end_date: '',
 	start_date: '',
@@ -148,15 +148,15 @@ export const solarVariables = [
 export const models = [
 	[
 		{ value: 'knmi_seamless', label: 'KNMI Seamless (with ECMWF)' },
-		{ value: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie Arome Europe' },
-		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie Arome Netherlands' }
+		{ value: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie AROME Europe' },
+		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie AROME Netherlands' }
 	]
 ];
 
 export const forecastDaysOptions = [
 	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days' },
+	{ value: '3', label: '3 days (default)' },
 	{ value: '5', label: '5 days' },
-	{ value: '7', label: '7 days (default)' },
-	{ value: '10', label: '10 days' }
+	{ value: '10', label: '10 days' },
+	{ value: '15', label: '15 days' }
 ];

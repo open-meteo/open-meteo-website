@@ -2,6 +2,7 @@ export const defaultParameters = {
 	daily: [],
 	hourly: [],
 	models: [],
+	current: [],
 
 	timezone: 'UTC',
 	location_mode: 'location_search',
@@ -28,6 +29,126 @@ export const defaultParameters = {
 	temperature_unit: 'celsius'
 };
 
+export const pressureVariables = [
+	{ value: 'temperature', label: 'Temperature' },
+	{ value: 'relative_humidity', label: 'Relative Humidity' },
+	{ value: 'dew_point', label: 'Dew Point' },
+	{ value: 'cloud_cover', label: 'Cloud Cover' },
+	{ value: 'wind_speed', label: 'Wind Speed' },
+	{ value: 'wind_direction', label: 'Wind Direction' },
+	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
+	{ value: 'geopotential_height', label: 'Geopotential Height' }
+];
+
+export const levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100, 50];
+
+const ecmwf_pressure_levels = [
+	'cloud_cover_1000hPa',
+	'cloud_cover_100hPa',
+	'cloud_cover_150hPa',
+	'cloud_cover_200hPa',
+	'cloud_cover_250hPa',
+	'cloud_cover_300hPa',
+	'cloud_cover_400hPa',
+	'cloud_cover_500hPa',
+	'cloud_cover_50hPa',
+	'cloud_cover_600hPa',
+	'cloud_cover_700hPa',
+	'cloud_cover_850hPa',
+	'cloud_cover_925hPa',
+	'dew_point_1000hPa',
+	'dew_point_100hPa',
+	'dew_point_150hPa',
+	'dew_point_200hPa',
+	'dew_point_250hPa',
+	'dew_point_300hPa',
+	'dew_point_400hPa',
+	'dew_point_500hPa',
+	'dew_point_50hPa',
+	'dew_point_600hPa',
+	'dew_point_700hPa',
+	'dew_point_850hPa',
+	'dew_point_925hPa',
+	'geopotential_height_1000hPa',
+	'geopotential_height_100hPa',
+	'geopotential_height_150hPa',
+	'geopotential_height_200hPa',
+	'geopotential_height_250hPa',
+	'geopotential_height_300hPa',
+	'geopotential_height_400hPa',
+	'geopotential_height_500hPa',
+	'geopotential_height_50hPa',
+	'geopotential_height_600hPa',
+	'geopotential_height_700hPa',
+	'geopotential_height_850hPa',
+	'geopotential_height_925hPa',
+	'relative_humidity_1000hPa',
+	'relative_humidity_100hPa',
+	'relative_humidity_150hPa',
+	'relative_humidity_200hPa',
+	'relative_humidity_250hPa',
+	'relative_humidity_300hPa',
+	'relative_humidity_400hPa',
+	'relative_humidity_500hPa',
+	'relative_humidity_50hPa',
+	'relative_humidity_600hPa',
+	'relative_humidity_700hPa',
+	'relative_humidity_850hPa',
+	'relative_humidity_925hPa',
+	'temperature_1000hPa',
+	'temperature_100hPa',
+	'temperature_150hPa',
+	'temperature_200hPa',
+	'temperature_250hPa',
+	'temperature_300hPa',
+	'temperature_400hPa',
+	'temperature_500hPa',
+	'temperature_50hPa',
+	'temperature_600hPa',
+	'temperature_700hPa',
+	'temperature_850hPa',
+	'temperature_925hPa',
+	'vertical_velocity_1000hPa',
+	'vertical_velocity_100hPa',
+	'vertical_velocity_150hPa',
+	'vertical_velocity_200hPa',
+	'vertical_velocity_250hPa',
+	'vertical_velocity_300hPa',
+	'vertical_velocity_400hPa',
+	'vertical_velocity_500hPa',
+	'vertical_velocity_50hPa',
+	'vertical_velocity_600hPa',
+	'vertical_velocity_700hPa',
+	'vertical_velocity_850hPa',
+	'vertical_velocity_925hPa',
+	'wind_speed_1000hPa',
+	'wind_speed_100hPa',
+	'wind_speed_150hPa',
+	'wind_speed_200hPa',
+	'wind_speed_250hPa',
+	'wind_speed_300hPa',
+	'wind_speed_400hPa',
+	'wind_speed_500hPa',
+	'wind_speed_50hPa',
+	'wind_speed_600hPa',
+	'wind_speed_700hPa',
+	'wind_speed_850hPa',
+	'wind_speed_925hPa',
+	'wind_direction_1000hPa',
+	'wind_direction_100hPa',
+	'wind_direction_150hPa',
+	'wind_direction_200hPa',
+	'wind_direction_250hPa',
+	'wind_direction_300hPa',
+	'wind_direction_400hPa',
+	'wind_direction_500hPa',
+	'wind_direction_50hPa',
+	'wind_direction_600hPa',
+	'wind_direction_700hPa',
+	'wind_direction_850hPa',
+	'wind_direction_925hPa'
+];
+
 export const icon_global_variables = [
 	'weather_code',
 	'temperature_2m',
@@ -38,13 +159,17 @@ export const icon_global_variables = [
 	'apparent_temperature',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'cloud_cover',
 	'et0_fao_evapotranspiration',
 	'vapour_pressure_deficit',
 	'wind_speed_10m',
 	'wind_direction_10m',
 	'rain',
-	'shortwave_radiation'
+	'wet_bulb_temperature_2m',
+	'shortwave_radiation',
+	'sunshine_duration',
+	'is_day'
 ];
 
 export const icon_eu_variables = [
@@ -54,6 +179,7 @@ export const icon_eu_variables = [
 	'pressure_msl',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'cloud_cover',
 	'wind_speed_10m',
 	'wind_direction_10m',
@@ -63,7 +189,10 @@ export const icon_eu_variables = [
 	'temperature_80m',
 	'rain',
 	'cape',
-	'shortwave_radiation'
+	'wet_bulb_temperature_2m',
+	'shortwave_radiation',
+	'sunshine_duration',
+	'is_day'
 ];
 
 export const icon_d2_variables = [
@@ -76,6 +205,7 @@ export const icon_d2_variables = [
 	'apparent_temperature',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'cloud_cover',
 	'et0_fao_evapotranspiration',
 	'vapour_pressure_deficit',
@@ -90,10 +220,13 @@ export const icon_d2_variables = [
 	'rain',
 	'cape',
 	'shortwave_radiation',
+	'sunshine_duration',
+	'wet_bulb_temperature_2m',
 	'temperature_500hPa',
 	'temperature_850hPa',
 	'geopotential_height_500hPa',
-	'geopotential_height_850hPa'
+	'geopotential_height_850hPa',
+	'is_day'
 ];
 
 export const gfs025_variables = [
@@ -111,8 +244,10 @@ export const gfs025_variables = [
 	'wind_direction_10m',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'cape',
 	'cloud_cover',
+	'wet_bulb_temperature_2m',
 	'apparent_temperature',
 	'weather_code',
 	'et0_fao_evapotranspiration',
@@ -120,11 +255,33 @@ export const gfs025_variables = [
 	'cape',
 	'convective_inhibition',
 	'rain',
-	'shortwave_radiation'
+	'shortwave_radiation',
+	'sunshine_duration',
+	'is_day'
+];
+
+export const aigfs025_variables = [
+	...ecmwf_pressure_levels,
+	'temperature_2m',
+	'surface_pressure',
+	'pressure_msl',
+	'wind_speed_10m',
+	'wind_direction_10m',
+	'precipitation',
+	'rain',
+	'snowfall',
+	'snowfall_water_equivalent',
+	'cloud_cover',
+	'cloud_cover_high',
+	'cloud_cover_low',
+	'cloud_cover_mid',
+	'weather_code',
+	'is_day'
 ];
 
 export const gfs05_variables = [
 	...gfs025_variables,
+	...ecmwf_pressure_levels,
 	'snow_depth',
 	'wind_speed_80m',
 	'wind_direction_80m',
@@ -143,6 +300,7 @@ export const gfs05_variables = [
 	'cape',
 	'freezing_level_height',
 	'rain',
+	'wet_bulb_temperature_2m',
 	'surface_temperature',
 	'temperature_80m',
 	'temperature_120m',
@@ -150,47 +308,97 @@ export const gfs05_variables = [
 	'temperature_500hPa',
 	'temperature_850hPa',
 	'geopotential_height_500hPa',
-	'geopotential_height_850hPa'
+	'geopotential_height_850hPa',
+	'is_day'
 ];
 
-export const ecmwf_variables = [
-	'temperature_2m',
-	'precipitation',
-	'rain',
-	'snowfall',
-	'relative_humidity_2m',
+export const ecmwf_ifs025_variables = [
+	...ecmwf_pressure_levels,
+	'cape',
+	'cloud_cover',
+	'cloud_cover_high',
+	'cloud_cover_low',
+	'cloud_cover_mid',
 	'dew_point_2m',
+	'precipitation',
+	'precipitation_probability',
+	'precipitation_type',
+	'pressure_msl',
+	'relative_humidity_2m',
+	'runoff',
+	'shortwave_radiation',
+	'snow_depth',
+	'snow_depth_water_equivalent',
+	'snowfall_water_equivalent',
+	'snowfall',
+	'rain',
+	'soil_moisture_0_to_7cm',
+	'soil_moisture_100_to_255cm',
+	'soil_moisture_28_to_100cm',
+	'soil_moisture_7_to_28cm',
+	'soil_temperature_0_to_7cm',
+	'soil_temperature_100_to_255cm',
+	'soil_temperature_28_to_100cm',
+	'soil_temperature_7_to_28cm',
+	'surface_temperature',
+	'temperature_2m',
+	'temperature_2m_max',
+	'temperature_2m_min',
+	'total_column_integrated_water_vapour',
+	'wet_bulb_temperature_2m',
+	'wind_gusts_10m',
+	'wind_speed_100m',
+	'wind_speed_10m',
+	'wind_direction_100m',
+	'wind_direction_10m',
+	'apparent_temperature',
+	'vapour_pressure_deficit',
+	'weather_code',
+	'sunshine_duration',
+	'surface_pressure',
+	'et0_fao_evapotranspiration',
+	'is_day'
+];
+
+export const ecmwf_aifs025_variables = [
+	...ecmwf_pressure_levels,
+	'cloud_cover',
+	'cloud_cover_high',
+	'cloud_cover_low',
+	'cloud_cover_mid',
+	'dew_point_2m',
+	'precipitation',
+	'precipitation_probability',
+	'pressure_msl',
+	'relative_humidity_2m',
+	'shortwave_radiation',
+	'snowfall_water_equivalent',
+	'snowfall',
+	'rain',
+	'soil_temperature_0_to_7cm',
+	'soil_temperature_7_to_28cm',
+	'surface_temperature',
+	'temperature_2m',
+	'wind_speed_100m',
+	'wind_speed_10m',
+	'wind_direction_100m',
+	'wind_direction_10m',
+	'wet_bulb_temperature_2m',
 	'apparent_temperature',
 	'vapour_pressure_deficit',
 	'weather_code',
 	'surface_pressure',
-	'pressure_msl',
-	'cloud_cover',
-	'cloud_cover_high',
-	'cloud_cover_mid',
-	'cloud_cover_low',
-	'wind_speed_10m',
-	'wind_direction_10m',
-	'wind_speed_100m',
-	'wind_direction_100m',
-	'wind_gusts_10m',
-	'surface_temperature',
-	'rain',
-	'soil_temperature_0_to_10cm',
-	'temperature_500hPa',
-	'temperature_850hPa',
-	'geopotential_height_500hPa',
-	'geopotential_height_850hPa',
+	'sunshine_duration',
 	'et0_fao_evapotranspiration',
-	'shortwave_radiation',
-	'cape'
+	'is_day'
 ];
 
 export const ukmo_variables = [
 	'temperature_2m',
 	'rain',
 	'snowfall',
-	'snow_depth',
+	'snow_depth_water_equivalent',
+	'snowfall_water_equivalent',
 	'precipitation',
 	'et0_fao_evapotranspiration',
 	'relative_humidity_2m',
@@ -207,14 +415,18 @@ export const ukmo_variables = [
 	'surface_temperature',
 	'visibility',
 	'cape',
-	'shortwave_radiation'
+	'wet_bulb_temperature_2m',
+	'shortwave_radiation',
+	'sunshine_duration',
+	'is_day'
 ];
 
 export const ukmo_2km_variables = [
 	...ukmo_variables,
 	'cloud_cover_high',
 	'cloud_cover_mid',
-	'cloud_cover_low'
+	'cloud_cover_low',
+	'is_day'
 ];
 
 export const gem_global_variables = [
@@ -227,6 +439,7 @@ export const gem_global_variables = [
 	'wind_direction_10m',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'cape',
 	'cloud_cover',
 	'apparent_temperature',
@@ -236,11 +449,14 @@ export const gem_global_variables = [
 	'vapour_pressure_deficit',
 	'cape',
 	'rain',
+	'wet_bulb_temperature_2m',
 	'shortwave_radiation',
+	'sunshine_duration',
 	'temperature_500hPa',
 	'temperature_850hPa',
 	'geopotential_height_500hPa',
-	'geopotential_height_850hPa'
+	'geopotential_height_850hPa',
+	'is_day'
 ];
 
 export const bom_access_global_ensemble = [
@@ -254,6 +470,7 @@ export const bom_access_global_ensemble = [
 	'wind_direction_10m',
 	'precipitation',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'cape',
 	'cloud_cover',
 	'apparent_temperature',
@@ -263,6 +480,7 @@ export const bom_access_global_ensemble = [
 	'vapour_pressure_deficit',
 	'visibility',
 	'sunshine_duration',
+	'wet_bulb_temperature_2m',
 	'rain',
 	'shortwave_radiation',
 	'surface_temperature',
@@ -273,10 +491,11 @@ export const bom_access_global_ensemble = [
 	'soil_moisture_0_to_10cm',
 	'soil_moisture_10_to_40cm',
 	'soil_moisture_40_to_100cm',
-	'soil_moisture_100_to_200cm'
+	'soil_moisture_100_to_200cm',
+	'is_day'
 ];
 
-export const meteoswiss = [
+export const meteoswiss_variables = [
 	'temperature_2m',
 	'surface_pressure',
 	'snow_depth',
@@ -286,7 +505,9 @@ export const meteoswiss = [
 	'wind_gusts_10m',
 	'wind_direction_10m',
 	'precipitation',
+	'wet_bulb_temperature_2m',
 	'snowfall',
+	'snowfall_water_equivalent',
 	'convective_inhibition',
 	'cape',
 	'cloud_cover',
@@ -304,25 +525,27 @@ export const meteoswiss = [
 	'cloud_cover_mid',
 	'cloud_cover_low',
 	'freezing_level_height',
-	'snowfall_height'
+	'snowfall_height',
+	'is_day'
 ];
 
-export const availableVariables = {
-	icon_seamless: icon_d2_variables,
-	icon_global: icon_global_variables,
-	icon_eu: icon_eu_variables,
-	icon_d2: icon_d2_variables,
-	gfs_seamless: gfs05_variables,
-	gfs025: gfs025_variables,
-	gfs05: gfs05_variables,
-	ecmwf_ifs025: ecmwf_variables,
-	ecmwf_aifs025: ecmwf_variables,
+export const availableVariables: Record<string, string[]> = {
+	icon_seamless_eps: icon_d2_variables,
+	icon_global_eps: icon_global_variables,
+	icon_eu_eps: icon_eu_variables,
+	icon_d2_eps: icon_d2_variables,
+	ncep_gefs_seamless: gfs05_variables,
+	ncep_gefs025: gfs025_variables,
+	ncep_gefs05: gfs05_variables,
+	ncep_aigefs025: aigfs025_variables,
+	ecmwf_ifs025_ensemble: ecmwf_ifs025_variables,
+	ecmwf_aifs025_ensemble: ecmwf_aifs025_variables,
 	ukmo_global_ensemble_20km: ukmo_variables,
 	ukmo_uk_ensemble_2km: ukmo_2km_variables,
-	gem_global: gem_global_variables,
+	gem_global_ensemble: gem_global_variables,
 	bom_access_global_ensemble: bom_access_global_ensemble,
-	meteoswiss_icon_ch1: meteoswiss,
-	meteoswiss_icon_ch2: meteoswiss
+	meteoswiss_icon_ch1_ensemble: meteoswiss_variables,
+	meteoswiss_icon_ch2_ensemble: meteoswiss_variables
 };
 
 export const hourly = [
@@ -370,7 +593,15 @@ export const hourly = [
 		{ value: 'soil_moisture_0_to_10cm', label: 'Soil Moisture (0-10 cm)' },
 		{ value: 'soil_moisture_10_to_40cm', label: 'Soil Moisture (10-40 cm)' },
 		{ value: 'soil_moisture_40_to_100cm', label: 'Soil Moisture (40-100 cm)' },
-		{ value: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-400 cm)' }
+		{ value: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-400 cm)' },
+		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
+		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
+		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm)' },
+		{ value: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm)' },
+		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
+		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)' },
+		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)' },
+		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)' }
 	]
 ];
 
@@ -428,12 +659,11 @@ export const daily = [
 
 export const additionalVariables = [
 	[
+		{ value: 'is_day', label: 'Is Day or Night' },
 		{ value: 'uv_index', label: 'UV Index' },
 		{ value: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
-		{ value: 'temperature_500hPa', label: 'Temperature (500 hPa)' },
-		{ value: 'temperature_850hPa', label: 'Temperature (850 hPa)' },
-		{ value: 'geopotential_height_500hPa', label: 'Geopotential Height (500 hPa)' },
-		{ value: 'geopotential_height_850hPa', label: 'Geopotential Height (850 hPa)' },
+		{ value: 'temperature_2m_min', label: 'Temperature 3-Hourly Minimum (2 m)' },
+		{ value: 'temperature_2m_max', label: 'Temperature 3-Hourly Maximum (2 m)' },
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
 	],
 	[
@@ -441,7 +671,9 @@ export const additionalVariables = [
 		{ value: 'convective_inhibition', label: 'Convective Inhibition (CIN)' },
 		{ value: 'freezing_level_height', label: 'Freezing Level Height' },
 		{ value: 'snowfall_height', label: 'Snowfall Height' },
-		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
+		{ value: 'snowfall_water_equivalent', label: 'Snowfall (Water Equivalent)' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth (Water Equivalent)' }
 	]
 ];
 
@@ -464,20 +696,21 @@ export const solarVariables = [
 
 export const models = [
 	[
-		{ value: 'icon_seamless', label: 'DWD ICON EPS Seamless' },
-		{ value: 'icon_global', label: 'DWD ICON EPS Global' },
-		{ value: 'icon_eu', label: 'DWD ICON EPS EU' },
-		{ value: 'icon_d2', label: 'DWD ICON EPS D2' }
+		{ value: 'icon_seamless_eps', label: 'DWD ICON EPS Seamless' },
+		{ value: 'icon_global_eps', label: 'DWD ICON EPS Global' },
+		{ value: 'icon_eu_eps', label: 'DWD ICON EPS EU' },
+		{ value: 'icon_d2_eps', label: 'DWD ICON EPS D2' }
 	],
 	[
-		{ value: 'gfs_seamless', label: 'GFS Ensemble Seamless' },
-		{ value: 'gfs025', label: 'GFS Ensemble 0.25' },
-		{ value: 'gfs05', label: 'GFS Ensemble 0.5' }
+		{ value: 'ncep_gefs_seamless', label: 'GFS Ensemble Seamless' },
+		{ value: 'ncep_gefs025', label: 'GFS Ensemble 0.25°' },
+		{ value: 'ncep_gefs05', label: 'GFS Ensemble 0.5°' },
+		{ value: 'ncep_aigefs025', label: 'AIGEFS 0.25°' }
 	],
 	[
-		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25° Ensemble' },
-		{ value: 'ecmwf_aifs025', label: 'ECMWF AIFS 0.25° Ensemble' },
-		{ value: 'gem_global', label: 'GEM Global Ensemble' },
+		{ value: 'ecmwf_ifs025_ensemble', label: 'ECMWF IFS 0.25° Ensemble' },
+		{ value: 'ecmwf_aifs025_ensemble', label: 'ECMWF AIFS 0.25° Ensemble' },
+		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' },
 		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
 	],
 	[
@@ -485,8 +718,8 @@ export const models = [
 		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' }
 	],
 	[
-		{ value: 'meteoswiss_icon_ch1', label: 'MeteoSwiss ICON CH1' },
-		{ value: 'meteoswiss_icon_ch2', label: 'MeteoSwiss ICON CH2' }
+		{ value: 'meteoswiss_icon_ch1_ensemble', label: 'MeteoSwiss ICON CH1' },
+		{ value: 'meteoswiss_icon_ch2_ensemble', label: 'MeteoSwiss ICON CH2' }
 	]
 ];
 
@@ -498,4 +731,11 @@ export const forecastDaysOptions = [
 	{ value: '16', label: '16 days' },
 	{ value: '30', label: '30 days' },
 	{ value: '35', label: '35 days' }
+];
+
+export const pastDaysOptions = [
+	{ value: '0', label: '0 days (default)' },
+	{ value: '1', label: '1 day' },
+	{ value: '2', label: '2 days' },
+	{ value: '3', label: '3 days' }
 ];

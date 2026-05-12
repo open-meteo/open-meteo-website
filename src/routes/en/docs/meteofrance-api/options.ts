@@ -38,7 +38,7 @@ export const minutely_15 = [
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
-		{ value: 'precipitation_probability', label: 'Precipitation Probability' },
+		// { value: 'precipitation_probability', label: 'Precipitation Probability' },
 		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'snowfall', label: 'Snowfall' }
@@ -164,8 +164,8 @@ export const daily = [
 		{ value: 'showers_sum', label: 'Showers Sum' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
 		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
-		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
-		{ value: 'precipitation_probability_max', label: 'Precipitation Probability Max' }
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' }
+		// { value: 'precipitation_probability_max', label: 'Precipitation Probability Max' }
 	],
 	[
 		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },

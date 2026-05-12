@@ -8,15 +8,10 @@ import { debounce, isNumeric } from '$lib/utils';
 
 import type { Parameters } from '$lib/docs';
 
-export interface UrlHashStore {
-	set: Function;
-	subscribe: Function;
-}
+export type UrlHashStore = Writable<Parameters>;
 
-export const urlHashStore = (initialValues: Parameters) => {
+export const urlHashStore = (initialValues: Parameters): UrlHashStore => {
 	const urlHashes: Writable<Parameters> = writable({});
-
-	const { subscribe, set } = urlHashes;
 
 	const defaultValues = JSON.parse(JSON.stringify(initialValues));
 	urlHashes.set(JSON.parse(JSON.stringify(defaultValues)));
@@ -128,8 +123,5 @@ export const urlHashStore = (initialValues: Parameters) => {
 		updateURLParams(values);
 	});
 
-	return {
-		set,
-		subscribe
-	};
+	return urlHashes;
 };

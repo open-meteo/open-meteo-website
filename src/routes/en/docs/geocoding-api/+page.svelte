@@ -2,7 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import { fade } from 'svelte/transition';
 
-	import { api_key_preferences } from '$lib/stores/settings';
+	import { apiKeyPreferences } from '$lib/stores/settings';
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
@@ -27,12 +27,12 @@
 	//const params = { name: 'Berlin', count: '10', language: 'en', format: 'json' };
 	let action = $state('https://geocoding-api.open-meteo.com/v1/search?');
 	$effect(() => {
-		switch ($api_key_preferences.use) {
+		switch ($apiKeyPreferences.use) {
 			case 'commercial':
-				action = `https://customer-geocoding-api.open-meteo.com/v1/search?apikey=${$api_key_preferences.apikey}&`;
+				action = `https://customer-geocoding-api.open-meteo.com/v1/search?apikey=${$apiKeyPreferences.apikey}&`;
 				break;
 			case 'self_hosted':
-				action = `${$api_key_preferences.self_host_server}/v1/search?`;
+				action = `${$apiKeyPreferences.self_host_server}/v1/search?`;
 				break;
 			default:
 				action = 'https://geocoding-api.open-meteo.com/v1/search?';
@@ -49,7 +49,7 @@
 		apiUrl = `${action}${new URLSearchParams(urlParams)}`;
 	});
 
-	let debounceTimeout: number | undefined = undefined;
+	let debounceTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
 
 	onDestroy(() => {
 		clearInterval(debounceTimeout);
@@ -122,7 +122,7 @@
 					>{language?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each languageOptions as lo}
+					{#each languageOptions as lo (lo.value)}
 						<Select.Item class="cursor-pointer" value={lo.value}>{lo.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -138,7 +138,7 @@
 					>{count?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each countOptions as co}
+					{#each countOptions as co (co.value)}
 						<Select.Item class="cursor-pointer" value={co.value}>{co.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -154,7 +154,7 @@
 					>{format?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each formatOptions as fo}
+					{#each formatOptions as fo (fo.value)}
 						<Select.Item class="cursor-pointer" value={fo.value}>{fo.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -170,7 +170,7 @@
 					>{countryCode?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
-					{#each countryCodes as cc}
+					{#each countryCodes as cc (cc.value)}
 						<Select.Item class="cursor-pointer" value={cc.value}>{cc.label}</Select.Item>
 					{/each}
 				</Select.Content>
@@ -238,7 +238,7 @@
 					</thead>
 					<tbody>
 						{#if results.results && results.results.length > 0}
-							{#each results.results as location}
+							{#each results.results as location (location.id)}
 								<tr>
 									<td class="min-w-[40px] p-1"
 										><img
@@ -313,7 +313,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -422,7 +422,7 @@
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

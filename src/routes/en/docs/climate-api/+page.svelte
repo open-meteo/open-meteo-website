@@ -19,7 +19,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ResultPreview from '$lib/components/response/results-preview.svelte';
+	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 
 	import { daily, defaultParameters, models } from './options';
@@ -107,7 +107,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '1950-01-01';
 						$params.end_date = '2050-12-31';
 					}}>1950-2050</Button
@@ -115,7 +115,7 @@
 				<Button
 					variant="outline"
 					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-					onclick={(e) => {
+					onclick={() => {
 						$params.start_date = '2015-01-01';
 						$params.end_date = '2050-12-31';
 					}}>2015-2050</Button
@@ -144,7 +144,7 @@
 								aria-labelledby="{value}_daily_label"
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item) => {
+										$params.daily = $params.daily.filter((item: string) => {
 											return item !== value;
 										});
 									} else if ($params.daily) {
@@ -167,7 +167,11 @@
 
 	<!-- CLIMATE MODELS -->
 	<div class="mt-6">
-		<Accordion.Root class="border-border rounded-lg border" bind:value={accordionValues}>
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
 			<AccordionItem
 				id="models"
 				title="Climate models"
@@ -186,7 +190,7 @@
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item) => {
+												$params.models = $params.models.filter((item: string) => {
 													return item !== value;
 												});
 											} else if ($params.models) {
@@ -232,7 +236,7 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultPreview
+	<ResultsPreview
 		{params}
 		{defaultParameters}
 		type="climate"
@@ -288,7 +292,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -409,7 +413,7 @@
 
 		<div class="-mx-6 overflow-auto overflow-y-hidden md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1040px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>&#x26a0;&#xfe0f; = Only daily <mark>mean</mark> values available. No daily minima or maxima.</caption
@@ -504,13 +508,13 @@
 		<p>
 			The API endpoint <mark>/v1/climate</mark> allows users to retrieve climate weather data from multiple
 			climate models. To use this endpoint, you can specify a geographical coordinate, a time interval,
-			and a list of weather variables that they are interested in. It is recommended to use the full
-			time range of 1950 to 2050.
+			and a list of weather variables that they are interested in. It is recommended to use the full time
+			range of 1950 to 2050.
 		</p>
 		<p>All URL parameters are listed below:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -676,7 +680,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1240px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -819,7 +823,7 @@
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[940px] caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -908,8 +912,8 @@
 			terms of use governing CMIP6 output, including citation requirements and proper acknowledgment.
 			The data producers and data providers make no warranty, either express or implied, including, but
 			not limited to, warranties of merchantability and fitness for a particular purpose. All liabilities
-			arising from the supply of the information (including any liability arising in negligence) are
-			excluded to the fullest extent permitted by law.
+			arising from the supply of the information (including any liability arising in negligence) are excluded
+			to the fullest extent permitted by law.
 		</p>
 
 		<p>

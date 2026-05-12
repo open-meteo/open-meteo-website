@@ -197,9 +197,9 @@
 			<strong>adapt:</strong> remix, transform, and build upon the material.
 		</p>
 		<p>
-			<strong>Attribution:</strong> You must give appropriate credit, provide a link to the licence,
-			and indicate if changes were made. You may do so in any reasonable manner, but not in any way that
-			suggests the licensor endorses you or your use.
+			<strong>Attribution:</strong> You must give appropriate credit, provide a link to the licence, and
+			indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests
+			the licensor endorses you or your use.
 		</p>
 		<p>You must include a link next to any location Open-Meteo data are displayed, for example:</p>
 		<div

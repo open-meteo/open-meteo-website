@@ -20,10 +20,10 @@
 
 	let { params = $bindable() }: Props = $props();
 
-	const locationCallback = (event: CustomEvent<GeoLocation>, index: number) => {
+	const locationCallback = (location: GeoLocation, index: number) => {
 		if (params.latitude && params.longitude) {
-			params.latitude[index] = Number(event.detail.latitude.toFixed(4));
-			params.longitude[index] = Number(event.detail.longitude.toFixed(4));
+			params.latitude[index] = Number(location.latitude.toFixed(4));
+			params.longitude[index] = Number(location.longitude.toFixed(4));
 		}
 		params.latitude = params.latitude;
 		params.longitude = params.longitude;
@@ -108,14 +108,14 @@
 
 	const seamlessModelPresent = $derived.by(() => {
 		if (params.models) {
-			if (params.models.constructor === Array) {
+			if (Array.isArray(params.models)) {
 				for (const model of params.models) {
 					if (model.endsWith('_seamless')) {
 						return true;
 					}
 				}
 			} else if (typeof params.models === 'string') {
-				if (params.models.endsWith('_seamless')) {
+				if ((params.models as string).endsWith('_seamless')) {
 					return true;
 				}
 			}
@@ -134,7 +134,7 @@
 	<div class="border-border flex rounded-md border">
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-e-none !opacity-100 duration-300 {locationMode ===
+			class="items-center gap-1 rounded-e-none opacity-100! duration-300 {locationMode ===
 			'location_search'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
@@ -165,7 +165,7 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-none !opacity-100 duration-300 {locationMode ===
+			class="items-center gap-1 rounded-none opacity-100! duration-300 {locationMode ===
 			'csv_coordinates'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
@@ -197,7 +197,7 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-s-none !opacity-100 duration-300 {locationMode ===
+			class="items-center gap-1 rounded-s-none opacity-100! duration-300 {locationMode ===
 			'bounding_box'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
@@ -272,7 +272,8 @@
 						</div>
 						<div
 							class="relative flex flex-col gap-2 duration-200 {params.longitude[index] < -180 ||
-							params.longitude[index] > 180
+							params.longitude[index] > 180 ||
+							(params.longitude[index] > 33 && params.longitude[index] <= 180)
 								? 'pb-6'
 								: ''}"
 						>
@@ -296,6 +297,16 @@
 									Longitude must be between -180 and 180
 								</div>
 							{/if}
+							{#if params.longitude[index] > 33 && params.longitude[index] <= 180 && params.latitude[index] >= 25}
+								<div class="absolute top-14 left-3 text-sm" transition:slide>
+									Hint: Use negative longitudes for North America
+								</div>
+							{/if}
+							{#if params.longitude[index] > 33 && params.longitude[index] <= 180 && params.latitude[index] < 25}
+								<div class="absolute top-14 left-3 text-sm" transition:slide>
+									Hint: Use negative longitudes for South America
+								</div>
+							{/if}
 						</div>
 						<div class="relative flex items-center">
 							<Select.Root name="timezone" type="single" bind:value={params.timezone}>
@@ -317,7 +328,7 @@
 						<div class="flex gap-3 md:gap-6">
 							<div class="md:w-2/3">
 								<LocationSearch
-									on:location={(event) => locationCallback(event, index)}
+									onlocation={(location) => locationCallback(location, index)}
 									label="Search"
 								/>
 							</div>
@@ -402,7 +413,7 @@
 							<Select.Trigger
 								aria-label="Forecast days input"
 								class="h-12 cursor-pointer rounded-b-none pt-6 [&_svg]:mb-3"
-								>{csvExampleSet.label}</Select.Trigger
+								>{csvExampleSet?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
 								{#each csvExampleOptions as { value, label } (value)}
@@ -553,7 +564,7 @@
 				<p>
 					The bounding box selection method is not recommended for building maps. Several projects
 					are already leveraging Open-Meteo data for building maps; you can find an example <a
-						href="https://github.com/open-meteo/maps">here</a
+						href="https://github.com/open-meteo/mapbox-layer">here</a
 					>.
 				</p>
 			</Alert.Description>
