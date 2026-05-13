@@ -394,7 +394,7 @@
 			<div
 				class="flex flex-col gap-0.5 rounded-lg border px-3 py-2 transition-all duration-300 cursor-pointer select-none
 					{$params.use_aws_endpoint
-					? 'border-primary bg-primary/5 scale-105 shadow-sm'
+					? 'border-primary bg-primary/5 scale-105 shadow-sm ml-2'
 					: 'border-border text-muted-foreground scale-100'}"
 				role="button"
 				tabindex="0"
@@ -409,13 +409,6 @@
 				<span class="text-xs">Last 3 months of forecast data only</span>
 				<code class="text-xs mt-1 opacity-70">https://openmeteo.s3.amazonaws.com</code>
 			</div>
-			<Switch
-				checked={!$params.use_aws_endpoint}
-				class="shrink-0 hidden md:inline-flex"
-				onCheckedChange={(checked) => {
-					$params.use_aws_endpoint = checked;
-				}}
-			/>
 			<div
 				class=" flex flex-col gap-0.5 rounded-lg border px-3 py-2 transition-all duration-300 cursor-pointer select-none
 					{!$params.use_aws_endpoint
