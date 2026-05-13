@@ -33,7 +33,8 @@
 				{ title: 'KNMI Netherlands', url: '/en/docs/knmi-api' },
 				{ title: 'DMI Denmark', url: '/en/docs/dmi-api' },
 				{ title: 'ItaliaMeteo', url: '/en/docs/italia-meteo-arpae-api' },
-				{ title: 'GeoSphere Austria', url: '/en/docs/geosphere-austria-api' }
+				{ title: 'GeoSphere Austria', url: '/en/docs/geosphere-austria-api' },
+				{ title: 'Google WeatherNext', url: '/en/docs/weather-next-api' }
 			]
 		},
 		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
