@@ -78,7 +78,13 @@
 
 	const formatLastModified = (iso?: string): string => {
 		if (!iso) return '';
-		return new Date(iso).toUTCString();
+		const dt = new Date(iso);
+		const y = dt.getUTCFullYear();
+		const mo = String(dt.getUTCMonth() + 1).padStart(2, '0');
+		const d = String(dt.getUTCDate()).padStart(2, '0');
+		const hh = String(dt.getUTCHours()).padStart(2, '0');
+		const mm = String(dt.getUTCMinutes()).padStart(2, '0');
+		return `${y}-${mo}-${d} ${hh}:${mm} UTC`;
 	};
 
 	const listAllKeysWithMeta = async (
@@ -191,14 +197,21 @@
 		error: null
 	});
 
-	const variableTitle = (variable: string): string => {
+	type VariableTooltip = { filename: string; size: string; modified: string };
+
+	const variableTooltip = (variable: string): VariableTooltip | null => {
 		const m = variablesState.meta[variable];
-		if (!m) return variable;
-		const parts = [variable + '.om'];
-		if (m.size != null) parts.push(`Size: ${formatFileSize(m.size)}`);
-		if (m.lastModified) parts.push(`Modified: ${formatLastModified(m.lastModified)}`);
-		return parts.join('\n');
+		if (!m || (m.size == null && !m.lastModified)) return null;
+		return {
+			filename: variable + '.om',
+			size: m.size != null ? formatFileSize(m.size) : '',
+			modified: m.lastModified ? formatLastModified(m.lastModified) : ''
+		};
 	};
+
+	let hoveredTooltip = $state<VariableTooltip | null>(null);
+	let tooltipX = $state(0);
+	let tooltipY = $state(0);
 
 	let _varKey = '';
 	let _treeKey = '';
@@ -890,13 +903,24 @@
 									<div transition:slide={{ duration: 200 }}>
 										{#each variablesState.variables ?? [] as variable (variable)}
 											<button
-												title={variableTitle(variable)}
 												data-variable={variable}
 												class="cursor-pointer flex w-full px-3 py-0.5 {selectedVariables.includes(
 													variable
 												)
 													? 'text-primary bg-primary/10 font-bold'
 													: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
+												onmouseenter={(e) => {
+													hoveredTooltip = variableTooltip(variable);
+													tooltipX = e.clientX;
+													tooltipY = e.clientY;
+												}}
+												onmousemove={(e) => {
+													tooltipX = e.clientX;
+													tooltipY = e.clientY;
+												}}
+												onmouseleave={() => {
+													hoveredTooltip = null;
+												}}
 												onclick={() => {
 													const cur = toStringArray($params.variables);
 													$params.variables = cur.includes(variable)
@@ -1034,4 +1058,19 @@
 			</div>
 		</div>
 	</div>
+
+	{#if hoveredTooltip}
+		<div
+			class="pointer-events-none fixed z-50 rounded-md border border-border bg-popover px-3 py-2 text-xs shadow-md"
+			style="left: {tooltipX + 14}px; top: {tooltipY + 14}px;"
+		>
+			<div class="font-bold font-mono">{hoveredTooltip.filename}</div>
+			{#if hoveredTooltip.size}
+				<div class="text-muted-foreground mt-0.5">Size: {hoveredTooltip.size}</div>
+			{/if}
+			{#if hoveredTooltip.modified}
+				<div class="text-muted-foreground">Modified: {hoveredTooltip.modified}</div>
+			{/if}
+		</div>
+	{/if}
 </div>
