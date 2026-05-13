@@ -66,18 +66,46 @@
 			.filter((p) => p !== prefix);
 	};
 
-	const listAllKeys = async (prefix: string, ep: string): Promise<string[]> => {
-		const keys: string[] = [];
+	type S3ObjectMeta = { size?: number; lastModified?: string };
+
+	const formatFileSize = (bytes?: number): string => {
+		if (bytes == null) return '';
+		if (bytes < 1024) return `${bytes} B`;
+		if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+		if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+		return `${(bytes / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+	};
+
+	const formatLastModified = (iso?: string): string => {
+		if (!iso) return '';
+		return new Date(iso).toUTCString();
+	};
+
+	const listAllKeysWithMeta = async (
+		prefix: string,
+		ep: string
+	): Promise<{ key: string; meta: S3ObjectMeta }[]> => {
+		const objects: { key: string; meta: S3ObjectMeta }[] = [];
 		let token: string | undefined;
 		do {
 			const encoded = prefix.replaceAll('/', '%2F');
 			const tokenParam = token ? `&continuation-token=${encodeURIComponent(token)}` : '';
 			const res = await fetch(`${ep}/?list-type=2&prefix=${encoded}${tokenParam}`);
 			const xml = await res.text();
-			keys.push(...[...xml.matchAll(/<Key>([^<]+)<\/Key>/g)].map((m) => m[1]));
+			for (const match of xml.matchAll(/<Contents>([\s\S]*?)<\/Contents>/g)) {
+				const block = match[1];
+				const key = block.match(/<Key>([^<]+)<\/Key>/)?.[1];
+				const sizeStr = block.match(/<Size>([^<]+)<\/Size>/)?.[1];
+				const lastModified = block.match(/<LastModified>([^<]+)<\/LastModified>/)?.[1];
+				if (key)
+					objects.push({
+						key,
+						meta: { size: sizeStr ? parseInt(sizeStr, 10) : undefined, lastModified }
+					});
+			}
 			token = xml.match(/<NextContinuationToken>([^<]+)<\/NextContinuationToken>/)?.[1];
 		} while (token);
-		return keys;
+		return objects;
 	};
 
 	const loadModels = async (ep: string): Promise<string[]> => {
@@ -150,6 +178,7 @@
 	type VariablesState = {
 		run: string;
 		variables: string[] | null;
+		meta: Record<string, S3ObjectMeta>;
 		loading: boolean;
 		error: string | null;
 	};
@@ -157,9 +186,19 @@
 	let variablesState = $state<VariablesState>({
 		run: '',
 		variables: null,
+		meta: {},
 		loading: false,
 		error: null
 	});
+
+	const variableTitle = (variable: string): string => {
+		const m = variablesState.meta[variable];
+		if (!m) return variable;
+		const parts = [variable + '.om'];
+		if (m.size != null) parts.push(`Size: ${formatFileSize(m.size)}`);
+		if (m.lastModified) parts.push(`Modified: ${formatLastModified(m.lastModified)}`);
+		return parts.join('\n');
+	};
 
 	let _varKey = '';
 	let _treeKey = '';
@@ -341,17 +380,24 @@
 		const key = `${ep}::${domain}::${run}`;
 		if (key === _varKey) return;
 		_varKey = key;
-		variablesState = { run, variables: null, loading: true, error: null };
+		variablesState = { run, variables: null, meta: {}, loading: true, error: null };
 		const runPrefix = `data_run/${domain}/${run}/`;
-		listAllKeys(runPrefix, ep)
-			.then((keys) => {
+		listAllKeysWithMeta(runPrefix, ep)
+			.then((objects) => {
 				if (_varKey !== key) return;
-				const variables = keys
-					.map((k) => k.slice(runPrefix.length))
-					.filter((f) => f && f !== 'meta.json' && !f.includes('/'))
-					.map((f) => (f.endsWith('.om') ? f.slice(0, -3) : f))
-					.sort();
-				variablesState = { run, variables, loading: false, error: null };
+				const entries = objects
+					.map(({ key: k, meta }) => {
+						const filename = k.slice(runPrefix.length);
+						if (!filename || filename === 'meta.json' || filename.includes('/')) return null;
+						const name = filename.endsWith('.om') ? filename.slice(0, -3) : filename;
+						return { name, meta };
+					})
+					.filter((x): x is { name: string; meta: S3ObjectMeta } => x !== null)
+					.sort((a, b) => a.name.localeCompare(b.name));
+				const variables = entries.map((x) => x.name);
+				const meta: Record<string, S3ObjectMeta> = {};
+				for (const { name, meta: m } of entries) meta[name] = m;
+				variablesState = { run, variables, meta, loading: false, error: null };
 				// Remove selected variables that are not available in this run
 				const currentVars = toStringArray($params.variables);
 				const filtered = currentVars.filter((v) => variables.includes(v));
@@ -361,7 +407,7 @@
 			})
 			.catch((e) => {
 				if (_varKey !== key) return;
-				variablesState = { run, variables: null, loading: false, error: String(e) };
+				variablesState = { run, variables: null, meta: {}, loading: false, error: String(e) };
 			});
 	});
 
@@ -844,8 +890,9 @@
 									<div transition:slide={{ duration: 200 }}>
 										{#each variablesState.variables ?? [] as variable (variable)}
 											<button
+												title={variableTitle(variable)}
 												data-variable={variable}
-												class="cursor-pointer w-full px-3 py-0.5 text-left {selectedVariables.includes(
+												class="cursor-pointer flex w-full px-3 py-0.5 {selectedVariables.includes(
 													variable
 												)
 													? 'text-primary bg-primary/10 font-bold'
