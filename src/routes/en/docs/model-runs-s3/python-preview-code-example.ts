@@ -56,21 +56,20 @@ export const pythonPreviewCodeExample = (rawParams: {
 	const multiLoc = lats.length > 1;
 
 	const runStr = rawParams.run != null ? String(rawParams.run) : null;
-	const runValue = runStr ?? '...';
-	const runComment =
+	const runValue =
 		runStr != null
 			? (() => {
 					const ts = parseInt(runStr, 10);
-					if (isNaN(ts)) return '';
+					if (isNaN(ts)) return runStr;
 					const dt = new Date(ts * 1000);
 					const yyyy = dt.getUTCFullYear();
 					const mm = String(dt.getUTCMonth() + 1).padStart(2, '0');
 					const dd = String(dt.getUTCDate()).padStart(2, '0');
 					const hh = String(dt.getUTCHours()).padStart(2, '0');
 					const min = String(dt.getUTCMinutes()).padStart(2, '0');
-					return `# ${yyyy}-${mm}-${dd} ${hh}:${min} UTC`;
+					return `${yyyy}/${mm}/${dd}/${hh}${min}Z`;
 				})()
-			: '';
+			: '...';
 
 	const tz = rawParams.timezone;
 	const timezone = typeof tz === 'string' && tz !== 'UTC' && tz !== 'GMT' && tz !== 'auto';
@@ -157,9 +156,7 @@ export const pythonPreviewCodeExample = (rawParams: {
 
 	return (
 		`<div class=""><pre class="" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)" tabindex="0"><code>` +
-		`${line(kwi('import') + fg(' datetime ') + kwi('as') + fg(' dt'))}
-${empty()}
-${line(kwi('import') + fg(' fsspec'))}
+		`${line(kwi('import') + fg(' fsspec'))}
 ${line(kwi('import') + fg(' pandas ') + kwi('as') + fg(' pd'))}
 ${line(kwi('import') + fg(' xarray ') + kwi('as') + fg(' xr'))}
 ${line(kwi('from') + fg(' omfiles.grids ') + kwi('import') + fg(' OmGrid'))}
@@ -169,12 +166,11 @@ ${line('    ' + pm('"') + str('domain') + pm('"') + p(':  ') + pm('"') + str(dom
 ${line('    ' + pm('"') + str('latitude') + pm('"') + p(': ') + latValue + pm(','))}
 ${line('    ' + pm('"') + str('longitude') + pm('"') + p(': ') + lonValue + pm(','))}
 ${line('    ' + pm('"') + str('variables') + pm('"') + p(': ') + varValue + pm(','))}
-${line('    ' + pm('"') + str('run') + pm('"') + p(': ') + pm('"') + str(runValue) + pm('"') + pm(',') + (runComment ? '  ' + cmt(runComment) : ''))}${timezone ? '\n' + line('    ' + pm('"') + str('timezone') + pm('"') + p(': ') + pm('"') + str(typeof tz === 'string' ? tz : '') + pm('"') + pm(',')) : ''}
+${line('    ' + pm('"') + str('run') + pm('"') + p(': ') + pm('"') + str(runValue) + pm('"') + pm(','))}${timezone ? '\n' + line('    ' + pm('"') + str('timezone') + pm('"') + p(': ') + pm('"') + str(typeof tz === 'string' ? tz : '') + pm('"') + pm(',')) : ''}
 ${line(br('}'))}
 ${empty()}
-${line(fg('run ') + kw('=') + fg(' dt') + p('.') + fg('datetime') + p('.') + fn('fromtimestamp') + br('(') + fn('int') + br('(') + pk('run') + br(')') + ', ' + fg('tz') + '=' + fg('dt') + p('.') + fg('timezone') + p('.') + fg('utc') + br(')'))}
 ${varLoop}${line(ind(varBodyInd) + fg('s3_uri ') + kw('=') + ' ' + br('('))}
-${line(ind(varBodyInd) + '    ' + acc('f') + pm('"') + str(s3UriPrefix) + pfv('domain') + str('/') + fv('run.year') + str('/') + fvf('run.month', '02') + str('/') + fvf('run.day', '02') + str('/') + fvf('run.hour', '02') + fvf('run.minute', '02') + str('Z/') + s3VarRef + str('.om') + pm('"'))}
+${line(ind(varBodyInd) + '    ' + acc('f') + pm('"') + str(s3UriPrefix) + pfv('domain') + str('/') + pfv('run') + str('/') + s3VarRef + str('.om') + pm('"'))}
 ${line(ind(varBodyInd) + br(')'))}
 ${line(ind(varBodyInd) + cmt('# Use blockcache so repeated remote reads do not have to fetch the same bytes again.'))}
 ${line(ind(varBodyInd) + fg('backend ') + kw('=') + fg(' fsspec') + p('.') + fn('open') + br('('))}
