@@ -73,7 +73,7 @@ export const pythonPreviewCodeExample = (rawParams: {
 			: '';
 
 	const tz = rawParams.timezone;
-	const timezone = typeof tz === 'string' && tz !== 'UTC' && tz !== 'GMT';
+	const timezone = typeof tz === 'string' && tz !== 'UTC' && tz !== 'GMT' && tz !== 'auto';
 
 	const useAws = rawParams.use_aws_endpoint !== false && rawParams.use_aws_endpoint !== 'false';
 	const s3UriPrefix = useAws
@@ -204,7 +204,7 @@ ${line(ind(locBodyInd) + cmt('# The data array is indexed as (lat, lon, time), s
 ${line(ind(locBodyInd) + fg('series ') + kw('=') + fg(' data') + br('[') + fg('y') + pm(', ') + fg('x') + pm(', ') + p(':') + br(']'))}
 ${empty()}
 ${line(ind(locBodyInd) + fg('hourly_data ') + kw('=') + ' ' + br('{'))}
-${line(ind(locBodyInd) + '    ' + pm('"') + str('date') + pm('"') + p(': ') + fg('pd') + p('.') + fn('to_datetime') + br('(') + fg('ds') + br('[') + pm('"') + str('time') + pm('"') + br(']') + p('.') + fg('values') + pm(', ') + it('unit') + kw('=') + pm('"') + str('s') + pm('"') + pm(', ') + it('utc') + kw('=') + num('True') + br(')') + pm(','))}
+${line(ind(locBodyInd) + '    ' + pm('"') + str('date') + pm('"') + p(': ') + fg('pd') + p('.') + fn('to_datetime') + br('(') + fg('ds') + br('[') + pm('"') + str('time') + pm('"') + br(']') + p('.') + fg('values') + pm(', ') + it('unit') + kw('=') + pm('"') + str('s') + pm('"') + pm(', ') + it('utc') + kw('=') + num('True') + br(')') + (timezone ? pm('.') + fn('tz_convert') + br('(') + pm('"') + tz + pm('"') + br(')') : '') + pm(','))}
 ${line(ind(locBodyInd) + '    ' + (multiVar ? fg('variable') : pk('variables')) + p(': ') + fg('series') + p('.') + fn('to_pandas') + br('(') + br(')') + p('.') + fg('values') + pm(','))}
 ${line(ind(locBodyInd) + br('}'))}
 ${empty()}
