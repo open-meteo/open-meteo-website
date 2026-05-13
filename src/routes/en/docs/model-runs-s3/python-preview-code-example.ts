@@ -21,13 +21,6 @@ const fv = (v: string) => num('{') + fg(v) + num('}');
 /** f-string interpolation with format spec: {expr:fmt} */
 const fvf = (v: string, fmt: string) => num('{') + fg(v) + pm(':') + str(fmt) + num('}');
 
-/** params dict key in f-string: {params['key']} */
-const pfv = (key: string) =>
-	num('{') + fg('params') + br('[') + pm("'") + str(key) + pm("'") + br(']') + num('}');
-
-/** params dict key as expression: params["key"] */
-const pk = (key: string) => fg('params') + br('[') + pm('"') + str(key) + pm('"') + br(']');
-
 export const pythonPreviewCodeExample = (rawParams: {
 	domain?: unknown;
 	variables?: unknown;
@@ -124,7 +117,7 @@ export const pythonPreviewCodeExample = (rawParams: {
 
 	// Loop headers (include trailing \n so they don't concatenate with the next line() call)
 	const varLoop = multiVar
-		? line(kwi('for') + ' ' + fg('variable') + kwi(' in ') + pk('variables') + p(':')) + '\n'
+		? line(kwi('for') + ' ' + fg('variable') + kwi(' in ') + fg('VARIABLES') + p(':')) + '\n'
 		: '';
 	const locLoop = multiLoc
 		? line(
@@ -137,22 +130,22 @@ export const pythonPreviewCodeExample = (rawParams: {
 					kwi(' in ') +
 					fn('zip') +
 					br('(') +
-					pk('latitude') +
+					fg('LATITUDE') +
 					pm(', ') +
-					pk('longitude') +
+					fg('LONGITUDE') +
 					br(')') +
 					p(':')
 			) + '\n'
 		: '';
 
 	// f-string variable reference in s3_uri
-	const s3VarRef = multiVar ? fv('variable') : pfv('variables');
+	const s3VarRef = multiVar ? fv('variable') : fv('VARIABLES');
 	// coordinate lookup args
-	const latArg = multiLoc ? fg('lat') : pk('latitude');
-	const lonArg = multiLoc ? fg('lon') : pk('longitude');
+	const latArg = multiLoc ? fg('lat') : fg('LATITUDE');
+	const lonArg = multiLoc ? fg('lon') : fg('LONGITUDE');
 	// error f-string lat/lon refs
-	const errLatRef = multiLoc ? fv('lat') : pfv('latitude');
-	const errLonRef = multiLoc ? fv('lon') : pfv('longitude');
+	const errLatRef = multiLoc ? fv('lat') : fv('LATITUDE');
+	const errLonRef = multiLoc ? fv('lon') : fv('LONGITUDE');
 
 	return (
 		`<div class=""><pre class="" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)" tabindex="0"><code>` +
@@ -161,16 +154,14 @@ ${line(kwi('import') + fg(' pandas ') + kwi('as') + fg(' pd'))}
 ${line(kwi('import') + fg(' xarray ') + kwi('as') + fg(' xr'))}
 ${line(kwi('from') + fg(' omfiles.grids ') + kwi('import') + fg(' OmGrid'))}
 ${empty()}
-${line(fg('params ') + kw('=') + ' ' + br('{'))}
-${line('    ' + pm('"') + str('domain') + pm('"') + p(':  ') + pm('"') + str(domain) + pm('"') + pm(','))}
-${line('    ' + pm('"') + str('latitude') + pm('"') + p(': ') + latValue + pm(','))}
-${line('    ' + pm('"') + str('longitude') + pm('"') + p(': ') + lonValue + pm(','))}
-${line('    ' + pm('"') + str('variables') + pm('"') + p(': ') + varValue + pm(','))}
-${line('    ' + pm('"') + str('run') + pm('"') + p(': ') + pm('"') + str(runValue) + pm('"') + pm(','))}${timezone ? '\n' + line('    ' + pm('"') + str('timezone') + pm('"') + p(': ') + pm('"') + str(typeof tz === 'string' ? tz : '') + pm('"') + pm(',')) : ''}
-${line(br('}'))}
+${line(fg('DOMAIN ') + kw('=') + ' ' + pm('"') + str(domain) + pm('"'))}
+${line(fg('LATITUDE ') + kw('=') + ' ' + latValue)}
+${line(fg('LONGITUDE ') + kw('=') + ' ' + lonValue)}
+${line(fg('VARIABLES ') + kw('=') + ' ' + varValue)}
+${line(fg('RUN ') + kw('=') + ' ' + pm('"') + str(runValue) + pm('"'))}${timezone ? '\n' + line(fg('TIMEZONE ') + kw('=') + ' ' + pm('"') + str(typeof tz === 'string' ? tz : '') + pm('"')) : ''}
 ${empty()}
 ${varLoop}${line(ind(varBodyInd) + fg('s3_uri ') + kw('=') + ' ' + br('('))}
-${line(ind(varBodyInd) + '    ' + acc('f') + pm('"') + str(s3UriPrefix) + pfv('domain') + str('/') + pfv('run') + str('/') + s3VarRef + str('.om') + pm('"'))}
+${line(ind(varBodyInd) + '    ' + acc('f') + pm('"') + str(s3UriPrefix) + fv('DOMAIN') + str('/') + fv('RUN') + str('/') + s3VarRef + str('.om') + pm('"'))}
 ${line(ind(varBodyInd) + br(')'))}
 ${line(ind(varBodyInd) + cmt('# Use blockcache so repeated remote reads do not have to fetch the same bytes again.'))}
 ${line(ind(varBodyInd) + fg('backend ') + kw('=') + fg(' fsspec') + p('.') + fn('open') + br('('))}
@@ -200,8 +191,8 @@ ${line(ind(locBodyInd) + cmt('# The data array is indexed as (lat, lon, time), s
 ${line(ind(locBodyInd) + fg('series ') + kw('=') + fg(' data') + br('[') + fg('y') + pm(', ') + fg('x') + pm(', ') + p(':') + br(']'))}
 ${empty()}
 ${line(ind(locBodyInd) + fg('hourly_data ') + kw('=') + ' ' + br('{'))}
-${line(ind(locBodyInd) + '    ' + pm('"') + str('date') + pm('"') + p(': ') + fg('pd') + p('.') + fn('to_datetime') + br('(') + fg('ds') + br('[') + pm('"') + str('time') + pm('"') + br(']') + p('.') + fg('values') + pm(', ') + it('unit') + kw('=') + pm('"') + str('s') + pm('"') + pm(', ') + it('utc') + kw('=') + num('True') + br(')') + (timezone ? pm('.') + fn('tz_convert') + br('(') + pm('"') + tz + pm('"') + br(')') : '') + pm(','))}
-${line(ind(locBodyInd) + '    ' + (multiVar ? fg('variable') : pk('variables')) + p(': ') + fg('series') + p('.') + fn('to_pandas') + br('(') + br(')') + p('.') + fg('values') + pm(','))}
+${line(ind(locBodyInd) + '    ' + pm('"') + str('date') + pm('"') + p(': ') + fg('pd') + p('.') + fn('to_datetime') + br('(') + fg('ds') + br('[') + pm('"') + str('time') + pm('"') + br(']') + p('.') + fg('values') + pm(', ') + it('unit') + kw('=') + pm('"') + str('s') + pm('"') + pm(', ') + it('utc') + kw('=') + num('True') + br(')') + (timezone ? pm('.') + fn('tz_convert') + br('(') + fg('TIMEZONE') + br(')') : '') + pm(','))}
+${line(ind(locBodyInd) + '    ' + (multiVar ? fg('variable') : fg('VARIABLES')) + p(': ') + fg('series') + p('.') + fn('to_pandas') + br('(') + br(')') + p('.') + fg('values') + pm(','))}
 ${line(ind(locBodyInd) + br('}'))}
 ${empty()}
 ${line(ind(locBodyInd) + fg('df ') + kw('=') + fg(' pd') + p('.') + fn('DataFrame') + br('(') + it('data') + kw(' = ') + fg('hourly_data') + br(')'))}
