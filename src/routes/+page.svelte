@@ -269,22 +269,22 @@
 				<p>Four complementary historical datasets — each suited to a different use case:</p>
 				<ul class="mt-1 list-disc pl-5">
 					<li>
-						<strong><a href="/en/docs/historical-weather-api">ERA5 reanalysis</a></strong> — 1940 to present,
+						<strong><a href="/en/docs/historical-weather-api" class="text-link underline">ERA5 reanalysis</a></strong> — 1940 to present,
 						0.1–0.25°, gap-free global grid. For climate baselines and long-range ML training.
 					</li>
 					<li>
 						<strong
-							><a href="/en/docs/historical-forecast-api">Historical Forecast archive</a></strong
+							><a href="/en/docs/historical-forecast-api" class="text-link underline">Historical Forecast archive</a></strong
 						> — from 2021, same format as the live Forecast API. For bias-correction and post-processing
 						pipelines.
 					</li>
 					<li>
-						<strong><a href="/en/docs/previous-runs-api">Previous Runs API</a></strong> — continuous time
+						<strong><a href="/en/docs/previous-runs-api" class="text-link underline">Previous Runs API</a></strong> — continuous time
 						series at a fixed lead-time offset of 1–7 days, from January 2024. For lead-time-stratified
 						skill analysis.
 					</li>
 					<li>
-						<strong><a href="/en/docs/single-runs-api">Single Runs API</a></strong> — archived individual
+						<strong><a href="/en/docs/single-runs-api" class="text-link underline">Single Runs API</a></strong> — archived individual
 						runs by exact init time. ECMWF IFS HRES from March 2024. For ML post-processing without look-ahead
 						bias and operational backtesting.
 					</li>

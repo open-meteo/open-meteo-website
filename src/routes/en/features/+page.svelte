@@ -93,7 +93,7 @@
 				horizon worldwide.
 			</p>
 			<p>
-				All data is interpolated to the requested coordinates and normalised to a consistent hourly
+				All data is optimised to the requested coordinates and normalised to a consistent hourly
 				time step, regardless of the native model resolution or output interval.
 			</p>
 		</div>
@@ -236,7 +236,7 @@
 						class="absolute h-14 w-14 rounded-lg bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					></div>
 					<svg
-						class="lucide lucide-mountain-snow"
+						class="lucide lucide-calendar-range"
 						xmlns="http://www.w3.org/2000/svg"
 						width="34"
 						height="34"
@@ -247,21 +247,27 @@
 						stroke-linecap="round"
 						stroke-linejoin="round"
 					>
-						<path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-						<path d="M4.14 15.08c2.62-1.57 5.24-1.43 7.86.42 2.74 1.94 5.49 2 8.23.19" />
+						<rect width="18" height="18" x="3" y="4" rx="2" />
+						<path d="M16 2v4" />
+						<path d="M3 10h18" />
+						<path d="M8 2v4" />
+						<path d="M17 14h-6" />
+						<path d="M13 18H7" />
 					</svg>
 				</div>
 
-				<h3 class="pl-3 text-2xl">Geocoding and Elevation</h3>
+				<h3 class="pl-3 text-2xl">Seasonal Forecasts</h3>
 			</div>
 			<p>
-				The <a href="/en/docs/geocoding-api">Geocoding API</a> resolves city and place names to
-				WGS84 coordinates in multiple languages, covering millions of locations worldwide.
+				The <a href="/en/docs/seasonal-forecast-api">Seasonal Forecast API</a> provides ECMWF
+				SEAS5 forecasts out to 9 months and sub-seasonal ECMWF EC46 forecasts out to 6 weeks, both
+				at 36 km resolution with 51 ensemble members.
 			</p>
 			<p>
-				The <a href="/en/docs/elevation-api">Elevation API</a> returns terrain elevation for any
-				set of coordinates from a 90 m resolution digital elevation model. Timezone resolution is
-				built into all forecast APIs and returns IANA timezone identifiers automatically.
+				The ensemble spread represents uncertainty at these extended horizons. Data are not
+				bias-corrected and should be interpreted as probabilistic area guidance — whether the coming
+				weeks or months are likely to be warmer, colder, wetter, or drier than the climatological
+				average.
 			</p>
 		</div>
 	</div>
@@ -479,6 +485,31 @@
 				<p>
 					Ensemble river discharge forecasts from the Global Flood Awareness System (GloFAS),
 					providing probabilistic flood guidance for rivers worldwide up to 30 days ahead.
+				</p>
+			</div>
+			<div>
+				<h3 class="text-2xl font-bold">
+					<a href="/en/docs/seasonal-forecast-api">Seasonal Forecast API</a>
+				</h3>
+				<h4 class="mb-3 text-lg font-light text-muted-foreground">ECMWF SEAS5 out to 9 months</h4>
+				<p>
+					ECMWF SEAS5 seasonal forecasts to 9 months and EC46 sub-seasonal forecasts to 6 weeks,
+					both at 36 km resolution with 51 ensemble members. Data are not bias-corrected and should
+					be interpreted as probabilistic area guidance for anomaly direction, not as precise local
+					values.
+				</p>
+			</div>
+			<div>
+				<h3 class="text-2xl font-bold">
+					<a href="/en/docs/satellite-radiation-api">Satellite Radiation API</a>
+				</h3>
+				<h4 class="mb-3 text-lg font-light text-muted-foreground">Observed solar radiation from 1983</h4>
+				<p>
+					Shortwave and direct radiation derived from geostationary satellite imagery rather than
+					NWP models. Sources include EUMETSAT CM SAF SARAH3 (Europe, Africa, South America, from
+					1983), JMA Himawari-9 (Asia, Australia, from 2015), and DWD MTG (Europe, Africa, from
+					February 2026) at 2.5–5 km resolution with 10–30 minute intervals. Suited for solar
+					energy yield analysis and NWP bias assessment.
 				</p>
 			</div>
 			<div>
