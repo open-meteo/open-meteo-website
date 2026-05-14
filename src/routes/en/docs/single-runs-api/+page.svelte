@@ -60,6 +60,7 @@
 		longitude: [13.41],
 		run: d.toISOString().replace(':00.000Z', ''),
 		...defaultParameters,
+		models: ['ecmwf_ifs'],
 		hourly: ['temperature_2m']
 	});
 
@@ -170,8 +171,9 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		Retrieve the full forecast horizon of any individual model run using the <mark>&run=</mark> parameter (e.g. <mark>run=2025-09-01T00:00</mark>). Most models are archived from
-		September 2025. ECMWF IFS HRES at 9 km is available from March 2024.
+		Retrieve the full forecast horizon of any individual model run using the <mark>&run=</mark>
+		parameter (e.g. <mark>&run=2025-09-01T00:00</mark>). Most models are archived from September
+		2025. ECMWF IFS HRES at 9 km is available from March 2024.
 	</Alert.Description>
 </Alert.Root>
 
@@ -855,32 +857,46 @@
 <div class="mt-6 md:mt-12">
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
-		<p>
-			NWP models are initialised multiple times per day. Each run ingests the latest observations
-			— radiosondes, weather stations, aircraft, satellites, and ocean buoys — and produces a
-			complete forecast out to the model's full horizon (typically 7–16 days). The operational
-			Open-Meteo Forecast API stitches the most recent run of each model into a seamless,
-			continuously updated time-series. That approach is ideal for end-user applications but
-			discards the individual run structure required for research, post-processing, and backtesting
-			workflows.
-		</p>
-		<p>
-			The Single Runs API preserves this structure. Each run is stored and retrievable
-			independently, so you can request the exact forecast issued at a specific initialisation
-			time. The <mark>&run=</mark> parameter identifies the run by its UTC initialisation datetime,
-			e.g. <mark>run=2025-09-01T00:00</mark>.
-		</p>
-		<p>
-			Archival runs are available from <strong>September 2025</strong> for most models. <strong>ECMWF IFS HRES at native 9 km resolution</strong> is available from
-			<strong>March 14, 2024</strong> (IFS Cycle 49R1 hindcasts). From May 12, 2026 06 UTC, runs
-			use the updated <strong>IFS Cycle 50R1</strong>. ECMWF IFS HRES is the highest-quality
-			global NWP model and the backbone of the
-			<a class="text-link underline" href="/en/docs/historical-weather-api"
-				>Open-Meteo Historical Weather API</a
-			>. Access to individual ECMWF runs is particularly valuable for renewable energy forecasting,
-			where the full forecast horizon from a single run drives production scheduling and trading
-			decisions.
-		</p>
+		<div class="grid gap-4 md:gap-6 lg:grid-cols-2">
+			<p>
+				Weather models are initialised and computed multiple times per day. Each run ingests the
+				latest observations — radiosondes, weather stations, aircraft, satellites, and ocean buoys —
+				and produces a complete forecast out to the model's full horizon (typically 7–16 days). The
+				operational Open-Meteo Forecast API stitches the most recent run of each model into a
+				seamless, continuously updated time-series. That approach is ideal for end-user applications
+				but discards the individual run structure required for research, post-processing, and
+				backtesting workflows.
+			</p>
+			<p>
+				The Single Runs API preserves this structure. Each run is stored and retrievable
+				independently, so you can request the exact forecast issued at a specific initialisation
+				time. The <mark>&run=</mark> parameter identifies the run by its UTC initialisation
+				datetime, e.g. <mark>&run=2025-09-01T00:00</mark>.
+			</p>
+			<p>
+				The <mark>&run=</mark> parameter specifies the model's <strong>initialisation time</strong>
+				— the UTC reference time at which the observations are taken — not the time at which the
+				forecast output becomes publicly available. After initialisation, the model requires
+				additional computation time before results are distributed: typically 4–6 hours for global
+				models (e.g. ECMWF IFS, GFS) and 1–3 hours for regional models. This means a run
+				initialised at 00 UTC is generally accessible from approximately 04–06 UTC onwards. The
+				exact availability times for each model are listed on the
+				<a class="text-link underline" href="/en/docs/model-updates">model updates page</a>.
+			</p>
+			<p>
+				Archival runs are available from <strong>September 2025</strong> for most models.
+				<strong>ECMWF IFS HRES at native 9 km resolution</strong>
+				is available from
+				<strong>March 14, 2024</strong> (IFS Cycle 49R1 hindcasts). From May 12, 2026 06 UTC, runs
+				use the updated <strong>IFS Cycle 50R1</strong>. ECMWF IFS HRES is the highest-quality
+				global NWP model and the backbone of the
+				<a class="text-link underline" href="/en/docs/historical-weather-api"
+					>Open-Meteo Historical Weather API</a
+				>. Access to individual ECMWF runs is particularly valuable for renewable energy
+				forecasting, where the full forecast horizon from a single run drives production scheduling
+				and trading decisions.
+			</p>
+		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
 				class="[&_tr]:border-border mx-6 mt-4 w-full min-w-[1100px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
@@ -924,44 +940,6 @@
 	</div>
 </div>
 
-<!-- USE CASES -->
-<div class="mt-6 md:mt-12">
-	<a href="#use_cases"
-		><h2 id="use_cases" class="text-2xl md:text-3xl">Why Access Individual Model Runs?</h2></a
-	>
-	<div class="mt-2 md:mt-4 space-y-3">
-		<p>
-			Operational weather forecasts blend the latest model runs into a single seamless time-series,
-			which is ideal for end-user applications. However, for research and advanced modelling
-			purposes it is often essential to work with data from a single, unmodified model run.
-		</p>
-		<p>
-			<strong>Forecast error analysis.</strong> Every model run produces a complete forecast from
-			the initialisation time out to the full forecast horizon — typically 7–16 days. By comparing
-			the forecast issued at run time <mark>T+0</mark> with reality (e.g. observations or reanalysis),
-			you can directly measure how forecast skill degrades as lead time increases. This run-level error
-			data is the foundation for bias-correction and post-processing pipelines.
-		</p>
-		<p>
-			<strong>Machine-learning model training.</strong> Training a statistical or neural-network post-processing
-			model requires labelled examples of (raw NWP forecast, verifying observation) pairs for many past
-			runs. Mixing data from different runs that overlap in valid time would create look-ahead bias; accessing
-			each run independently avoids this problem and produces well-defined training and validation splits.
-		</p>
-		<p>
-			<strong>Operational backtesting and event reconstruction.</strong> Energy traders, grid operators,
-			and logistics companies base decisions on the forecast that was available at a specific moment in
-			time. Reconstructing the decision-relevant forecast — exactly what a model said at 00 UTC on a given
-			date — requires access to that individual run rather than a retrospective seamless merge.
-		</p>
-		<p>
-			<strong>Model intercomparison and verification.</strong> Comparing the real-time forecast skill
-			of multiple NWP models (e.g. ECMWF IFS vs. GFS vs. ICON) on a run-by-run basis makes it possible
-			to identify which model performs best in specific regions, seasons, or weather regimes.
-		</p>
-	</div>
-</div>
-
 <!-- API ENDPOINT -->
 <div class="mt-6 md:mt-12">
 	<a href="#api_endpoint">
@@ -997,9 +975,9 @@
 						<td></td>
 						<td
 							>The initialisation date and time of the model run to retrieve. Must be provided in
-							ISO 8601 format without seconds, e.g. <mark>run=2024-06-01T00:00</mark>. The time must
-							correspond to a valid run cycle for the selected model (e.g. 00, 06, 12, 18 UTC for
-							most global models). Runs that are not available will return an error.</td
+							ISO 8601 format without seconds, e.g. <mark>&run=2024-06-01T00:00</mark>. The time
+							must correspond to a valid run cycle for the selected model (e.g. 00, 06, 12, 18 UTC
+							for most global models). Runs that are not available will return an error.</td
 						>
 					</tr>
 				</tbody>
