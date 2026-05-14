@@ -66,11 +66,15 @@ export const solarVariables = [
 
 export const windVariables = [
 	{ value: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
+	{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 	{ value: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
 	{ value: 'wind_speed_180m', label: 'Wind Speed (180 m)' },
+	{ value: 'wind_speed_200m', label: 'Wind Speed (200 m)' },
 	{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
+	{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 	{ value: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
-	{ value: 'wind_direction_180m', label: 'Wind Direction (180 m)' }
+	{ value: 'wind_direction_180m', label: 'Wind Direction (180 m)' },
+	{ value: 'wind_direction_200m', label: 'Wind Direction (200 m)' }
 ];
 
 export const forecastDaysOptions = [
