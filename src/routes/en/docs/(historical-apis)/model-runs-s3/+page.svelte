@@ -5,6 +5,8 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
+	import { pad } from '$lib/utils';
+
 	import { Button } from '$lib/components/ui/button';
 
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
@@ -20,15 +22,27 @@
 	d.setUTCSeconds(0);
 	d.setUTCMilliseconds(0);
 
-	const pad2 = (n: number) => String(n).padStart(2, '0');
-	const defaultRunPath = `${d.getUTCFullYear()}/${pad2(d.getUTCMonth() + 1)}/${pad2(d.getUTCDate())}/0000Z`;
+	const defaultRun = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}`;
+
+	/** Convert ISO run param (e.g. "2026-05-14T0000") to S3 path segment (e.g. "2026/05/14/0000Z") */
+	const runToS3Path = (run: string): string => {
+		const [date, time] = run.split('T');
+		const [y, m, d] = date.split('-');
+		return `${y}/${m}/${d}/${time}Z`;
+	};
+
+	/** Convert S3 path segment (e.g. "2026/05/14/0000Z") to ISO run param (e.g. "2026-05-14T0000") */
+	const s3PathToRun = (path: string): string => {
+		const [y, m, d, time] = path.split('/');
+		return `${y}-${m}-${d}T${time.replace('Z', '')}`;
+	};
 
 	const params = urlHashStore({
 		...defaultParameters,
 		latitude: [52.52],
 		longitude: [13.41],
 		domain: 'ecmwf_ifs',
-		run: defaultRunPath,
+		run: defaultRun,
 		variables: ['temperature_2m'],
 		use_aws_endpoint: true
 	});
@@ -146,7 +160,7 @@
 
 	let selectedRun = $derived.by<string>(() => {
 		const run = $params.run as string | undefined;
-		if (!run) return defaultRunPath;
+		if (!run) return defaultRun;
 		return run;
 	});
 
@@ -248,8 +262,8 @@
 					.sort((a, b) => b.name.localeCompare(a.name));
 				modelTree = { domain, endpoint: ep, years, loading: false, error: null };
 
-				const target = restoreRun ?? defaultRunPath;
-				const [ry, rm, rd, rrun] = target.split('/');
+				const target = restoreRun ?? defaultRun;
+				const [ry, rm, rd, rrun] = runToS3Path(target).split('/');
 
 				// IMPORTANT: access entries through modelTree.years! (the reactive proxy),
 				// not the local `years` variable (plain object). Svelte 5 only fires signals
@@ -279,7 +293,7 @@
 				if (!runFound) {
 					const firstRun = dayEntry.runs?.[0];
 					if (firstRun) {
-						$params.run = `${ry}/${rm}/${rd}/${firstRun.name}`;
+						$params.run = s3PathToRun(`${ry}/${rm}/${rd}/${firstRun.name}`);
 					}
 				}
 			})
@@ -369,7 +383,7 @@
 		if (key === _varKey) return;
 		_varKey = key;
 		variablesState = { run, variables: null, meta: {}, loading: true, error: null };
-		const runPrefix = `data_run/${domain}/${run}/`;
+		const runPrefix = `data_run/${domain}/${runToS3Path(run)}/`;
 		listAllKeysWithMeta(runPrefix, ep)
 			.then((objects) => {
 				if (_varKey !== key) return;
@@ -796,17 +810,18 @@
 																					</div>
 																				{:else}
 																					{#each day.runs as run (run.name)}
-																						{@const runPath = `${year.name}/${month.name}/${day.day}/${run.name}`}
+																						{@const runString = `${year.name}/${month.name}/${day.day}/${run.name}`}
+																						{@const runIso = s3PathToRun(runString)}
 																						<button
 																							class="cursor-pointer w-full pl-20 pr-3 py-0.5 text-left font-mono text-xs {selectedRun ===
-																							runPath
+																							runIso
 																								? 'text-primary bg-primary/10 font-bold'
 																								: 'text-muted-foreground hover:text-foreground hover:bg-muted'}"
 																							onclick={() => {
-																								$params.run = runPath;
+																								$params.run = runIso;
 																							}}
 																						>
-																							{runPath}
+																							{runString}
 																						</button>
 																					{/each}
 																				{/if}

@@ -49,18 +49,14 @@ export const pythonPreviewCodeExample = (rawParams: {
 	const multiLoc = lats.length > 1;
 
 	const runStr = rawParams.run != null ? String(rawParams.run) : null;
+	// Convert ISO run param (e.g. "2026-05-14T0000") to S3 path segment (e.g. "2026/05/14/0000Z")
 	const runValue =
 		runStr != null
 			? (() => {
-					const ts = parseInt(runStr, 10);
-					if (isNaN(ts)) return runStr;
-					const dt = new Date(ts * 1000);
-					const yyyy = dt.getUTCFullYear();
-					const mm = String(dt.getUTCMonth() + 1).padStart(2, '0');
-					const dd = String(dt.getUTCDate()).padStart(2, '0');
-					const hh = String(dt.getUTCHours()).padStart(2, '0');
-					const min = String(dt.getUTCMinutes()).padStart(2, '0');
-					return `${yyyy}/${mm}/${dd}/${hh}${min}Z`;
+					const [date, time] = runStr.split('T');
+					if (!date || !time) return runStr;
+					const [y, m, d] = date.split('-');
+					return `${y}/${m}/${d}/${time}Z`;
 				})()
 			: '...';
 

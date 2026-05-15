@@ -5,7 +5,7 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { sliceIntoChunks } from '$lib/utils';
+	import { pad, sliceIntoChunks } from '$lib/utils';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -55,10 +55,12 @@
 	d.setUTCSeconds(0);
 	d.setUTCMilliseconds(0);
 
+	const defaultRun = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}T${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}`;
+
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
-		run: d.toISOString().replace(':00.000Z', ''),
+		run: defaultRun,
 		...defaultParameters,
 		models: ['ecmwf_ifs'],
 		hourly: ['temperature_2m']
