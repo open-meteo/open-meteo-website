@@ -28,25 +28,27 @@
 	<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 		<div>
 			<h2 class="mb-3 text-3xl font-light md:mb-5 md:text-5xl">
-				Accurate Weather Forecasts for Any Location
+				Free weather API — forecasts to archives, no sign-up
 			</h2>
-			<p class="text-lg font-light">
-				Open-Meteo partners with national weather services to bring you open data with high
-				resolution, ranging from 1 to 11 kilometres. Our powerful APIs intelligently select the most
-				suitable weather models for your specific location, ensuring accurate and reliable
-				forecasts.
-			</p>
-			<p>
-				With our user-friendly JSON API, accessing weather data has never been easier. Whether
-				you're developing an application or seeking weather information for personal use, our APIs
-				provide seamless integration and deliver the data you need in a simple and accessible
-				format.
-			</p>
-			<p>
-				Experience the precision and convenience of Open-Meteo's Forecast API, providing
-				comprehensive weather information worldwide. Stay informed and make informed decisions with
-				our reliable weather forecasts.
-			</p>
+			<ul class="mt-1 list-disc pl-5 text-base">
+				<li>
+					<strong>30+ weather models</strong> from ECMWF, NOAA, DWD, Météo-France, JMA, KMA, KNMI, DMI,
+					MeteoSwiss, UK Met Office, BOM, CMA, and more — globally, up to 1 km resolution
+				</li>
+				<li>
+					<strong>ERA5 reanalysis</strong> from January 1940, hourly, spatially complete — no missing
+					values
+				</li>
+				<li>
+					<strong>Historical forecast archive</strong> from 2021 — identical format to the live Forecast
+					API, ready for bias-correction pipelines
+				</li>
+				<li>
+					<strong>Archived individual model runs</strong> by init time — for ML post-processing without
+					look-ahead bias; ECMWF IFS HRES available from March 2024
+				</li>
+				<li>Simple JSON API — HTTP GET, no authentication, CC BY 4.0 data licence</li>
+			</ul>
 			<div class="mt-4 flex gap-4">
 				<Button
 					variant="default"
@@ -180,21 +182,18 @@
 						</svg>
 					</div>
 
-					<h3 class="pl-3 text-2xl">High Resolution</h3>
+					<h3 class="pl-3 text-2xl">30+ Weather Models</h3>
 				</div>
 
 				<p>
-					Open-Meteo leverages a powerful combination of global (11 km) and mesoscale (1 km) weather
-					models from esteemed national weather services, providing comprehensive forecasts with
-					remarkable precision. No matter where you are in the world, you can access the most
-					reliable and accurate weather predictions available.
+					Weather models from over 15 national weather services — ECMWF, DWD, NOAA, Météo-France,
+					JMA, KMA, KNMI, DMI, MeteoSwiss, UK Met Office, BOM, CMA, and GeoSphere Austria. The
+					<mark>best_match</mark> option automatically picks the highest-resolution model for any location.
+					Individual models can be selected directly for model comparisons or model-specific pipelines.
 				</p>
 				<p>
-					Our weather data is presented in hourly resolution, allowing you to plan your activities
-					with confidence. The initial days of the forecast benefit from localised weather models,
-					offering highly detailed and accurate information. Subsequently, global weather models
-					provide forecasts for up to 16 days. Through seamless integration, our APIs deliver a
-					straightforward and reliable hourly weather forecast experience.
+					Resolution ranges from 1–2 km (regional mesoscale models) to 9–11 km (global models). All
+					output is normalised to hourly resolution and optimised to the requested coordinates.
 				</p>
 			</div>
 
@@ -225,18 +224,16 @@
 						</svg>
 					</div>
 
-					<h3 class="pl-3 text-2xl">Rapid Updates</h3>
+					<h3 class="pl-3 text-2xl">Frequent Updates</h3>
 				</div>
 				<p>
-					At Open-Meteo, we understand the importance of having the most up-to-date weather
-					information. That's why our local weather models are updated every hour, ensuring that our
-					forecasts reflect the latest changes in conditions, including updates from rain radars.
+					Most global models update every 6 hours. High-resolution regional models such as ICON-D2,
+					HRRR, and AROME update every 1–3 hours. Each update ingests the latest observations from
+					weather stations, radiosondes, aircraft, radar, and satellites.
 				</p>
 				<p>
-					Our weather models rely on a wealth of real-time data, including measurements from various
-					sources such as airplanes, buoys, radar systems, and satellites. By incorporating this
-					diverse and comprehensive data, our numerical weather predictions provide a deeper
-					analysis than traditional weather stations, resulting in more accurate forecasts.
+					15-minutely data is available for Central Europe and North America, interpolated from
+					hourly model output elsewhere.
 				</p>
 			</div>
 
@@ -266,26 +263,42 @@
 						</svg>
 					</div>
 
-					<h3 class="pl-3 text-2xl">80 Years Historical Data</h3>
+					<h3 class="pl-3 text-2xl">Multiple Historical Data Layers</h3>
 				</div>
 
-				<p>
-					Explore the past with our comprehensive <a
-						href="/en/docs/historical-weather-api"
-						title="Historical weather data via API">Historical Weather API</a
-					>. With over 80 years of hourly weather data available at a 10 kilometre resolution, you
-					can dive into the climate of any location. Behind the scenes, this extensive dataset,
-					comprising 50 TB of information, enables you to access temperature records spanning eight
-					decades in an instant.
-				</p>
-				<p>
-					Moreover, our 1 kilometre weather models continuously archive recent data, ensuring that
-					you can seamlessly retrieve the latest forecasts alongside historical information from
-					previous weeks. This functionality opens up possibilities for training machine learning
-					applications and gaining valuable insights from the combination of present and past
-					weather data. Discover the power of our historical weather API and unlock a treasure trove
-					of weather information.
-				</p>
+				<p>Four complementary historical datasets — each suited to a different use case:</p>
+				<ul class="mt-1 list-disc pl-5">
+					<li>
+						<strong
+							><a href="/en/docs/historical-weather-api" class="text-link underline"
+								>ERA5 reanalysis</a
+							></strong
+						> — 1940 to present, 0.1–0.25°, gap-free global grid. For climate baselines and long-range
+						ML training.
+					</li>
+					<li>
+						<strong
+							><a href="/en/docs/historical-forecast-api" class="text-link underline"
+								>Historical Forecast archive</a
+							></strong
+						> — from 2021, same format as the live Forecast API. For bias-correction and post-processing
+						pipelines.
+					</li>
+					<li>
+						<strong
+							><a href="/en/docs/previous-runs-api" class="text-link underline">Previous Runs API</a
+							></strong
+						> — continuous time series at a fixed lead-time offset of 1–7 days, from January 2024. For
+						lead-time-stratified skill analysis.
+					</li>
+					<li>
+						<strong
+							><a href="/en/docs/single-runs-api" class="text-link underline">Single Runs API</a
+							></strong
+						> — archived individual runs by exact init time. ECMWF IFS HRES from March 2024. For ML post-processing
+						without look-ahead bias and operational backtesting.
+					</li>
+				</ul>
 			</div>
 
 			<div>
@@ -302,27 +315,20 @@
 					<h3 class="pl-3 text-2xl">Open-Source</h3>
 				</div>
 				<p>
-					We believe in the power of open-source software. That's why the entire codebase of
-					Open-Meteo is accessible on <a
+					The full server codebase is on <a
 						href="https://github.com/open-meteo/open-meteo"
 						title="Open-Meteo GitHub Repository">GitHub</a
-					>, released under the
+					>
+					under the
 					<a href="https://github.com/open-meteo/open-meteo/blob/main/LICENSE">AGPLv3 licence</a>.
-					This means you can explore, use, modify, and contribute to the code.
+					You can self-host your own instance for unlimited API calls — useful for high-volume ML
+					workloads or air-gapped environments.
 				</p>
 				<p>
-					If you wish to take it a step further, we're here to support you in setting up your own
-					API instances. This allows you to have complete control and enjoy practically unlimited
-					API calls, making it ideal for demanding applications like machine learning or large
-					language models.
-				</p>
-				<p>
-					In addition, our data is licenced under <a
-						href="https://creativecommons.org/licences/by/4.0/"
-						title="CC BY 4.0 Licence Information">Attribution 4.0 International (CC BY 4.0)</a
-					>. This means you are free to share and adapt the data, even for commercial purposes. We
-					believe in fostering an open ecosystem that encourages transparency, collaboration and
-					innovation.
+					All data served by the API is licenced under <a
+						href="https://creativecommons.org/licenses/by/4.0/"
+						title="CC BY 4.0 Licence">CC BY 4.0</a
+					> — free to use and redistribute, including for commercial purposes, with attribution.
 				</p>
 			</div>
 
@@ -356,20 +362,14 @@
 					<h3 class="pl-3 text-2xl">Free API</h3>
 				</div>
 				<p>
-					Open-Meteo offers free access to its APIs for non-commercial use, making it convenient for
-					individuals and developers to explore and integrate weather data into their projects. The
-					best part is that no API key, registration, or credit card is required to enjoy this
-					service.
+					No API key, no sign-up, no credit card. Non-commercial use up to 10,000 daily API calls is
+					free. Attribution is required under the CC BY 4.0 data licence.
 				</p>
-
 				<p>
-					We trust our users to utilise the free API responsibly and kindly request appropriate
-					credit for the data used. While there are no strict access restrictions, we encourage fair
-					usage of the service. If you require commercial usage or anticipate exceeding 10'000 API
-					calls per day, we recommend considering our <a
+					For commercial use or higher call volumes, <a
 						href="/en/pricing"
-						title="Pricing for our paid API subscription">API subscription</a
-					> for enhanced features and support.
+						title="API subscription plans">subscription plans</a
+					> are available with rate-limit increases and priority support.
 				</p>
 			</div>
 
@@ -401,21 +401,18 @@
 						</svg>
 					</div>
 
-					<h3 class="pl-3 text-2xl">Easy to Use</h3>
+					<h3 class="pl-3 text-2xl">Simple JSON API</h3>
 				</div>
 				<p>
-					We've designed our APIs to be incredibly user-friendly. They are based on the widely
-					adopted HTTP protocol and utilise the simplicity of JSON data format. All you need to get
-					started is a basic understanding of geographic coordinates, making HTTP requests, and
-					working with JSON data.
+					All APIs use plain HTTP GET requests with query parameters and return JSON. No SDK or
+					authentication is required for non-commercial use. Parameters are consistent across
+					forecast and historical weather APIs — the same variable names, unit options, and output
+					formats work everywhere.
 				</p>
 				<p>
-					To assist you in seamlessly integrating our APIs into your projects, we provide
-					comprehensive <a href="/en/docs" title="Weather API Technical Documentation"
-						>documentation</a
-					>. It includes detailed explanations of all parameters and their usage. Whether you're
-					using Python, R, Julia, PHP, JavaScript, React, Flutter, Java, or any other programming
-					language, our APIs are designed to work effortlessly with your application.
+					CSV and XLSX output formats are also available. Multiple locations can be queried in a
+					single request by providing comma-separated coordinate lists. Full parameter reference is
+					in the <a href="/en/docs" title="Weather API Technical Documentation">documentation</a>.
 				</p>
 			</div>
 		</div>
@@ -439,17 +436,13 @@
 			<path d="M6.5 5C9 5 11 7 11 9.5V17a2 2 0 0 1-2 2" />
 			<line x1="6" x2="7" y1="10" y2="10" />
 		</svg>
-		<h2 class="mb-4 text-3xl font-bold md:text-5xl" id="contact">Stay up to date!</h2>
+		<h2 class="mb-4 text-3xl font-bold md:text-5xl" id="contact">Stay informed</h2>
 		<div class="text-center">
 			<p class="text-lg font-light">
-				We're constantly evolving and expanding. We're dedicated to providing you with the <a
-					href="/en/features"
-					title="All Features of the Weather API">latest features</a
-				>, weather variables, and data sources. If you want to stay in the loop and be the first to
-				know about our exciting updates, we invite you to subscribe to our
+				New models, variables, and APIs are announced on the
 				<a href="https://openmeteo.substack.com/archive?sort=new" target="_blank">blog</a>
-				or follow us on <a href="https://x.com/open_meteo" target="_blank">X</a>. By doing so,
-				you'll never miss out on the latest developments and enhancements in our services.
+				and <a href="https://x.com/open_meteo" target="_blank">X</a>. Subscribe to get release notes
+				and changelog updates.
 			</p>
 			<div class="mt-4 flex justify-center gap-4">
 				<Button

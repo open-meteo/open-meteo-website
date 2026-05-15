@@ -16,7 +16,7 @@ export const load: LayoutLoad = async (event) => {
 		heroHeight: 600,
 		heroTitle: 'Free Weather API',
 		heroDescription:
-			'Open-Meteo is an open-source weather API and offers free access for non-commercial use. No API key required. Start using it now!',
+			'Free weather forecast and historical weather API — 30+ models, historical weather from 1940, no API key required.',
 		heroPrimaryButtonPath: '/en/features',
 		heroPrimaryButtonText: 'Features',
 		heroSecondaryButtonPath: '/en/docs',

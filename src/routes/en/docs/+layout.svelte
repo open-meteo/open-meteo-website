@@ -16,8 +16,6 @@
 			title: 'Weather Forecast',
 			url: '/en/docs',
 			children: [
-				{ title: 'Historical Forecast', url: '/en/docs/historical-forecast-api' },
-				{ title: 'Previous Model Runs', url: '/en/docs/previous-runs-api' },
 				{ title: 'DWD Germany', url: '/en/docs/dwd-api' },
 				{ title: 'NOAA U.S.', url: '/en/docs/gfs-api' },
 				{ title: 'Météo-France', url: '/en/docs/meteofrance-api' },
@@ -36,7 +34,15 @@
 				{ title: 'GeoSphere Austria', url: '/en/docs/geosphere-austria-api' }
 			]
 		},
-		{ title: 'Historical Weather', url: '/en/docs/historical-weather-api' },
+		{
+			title: 'Historical Weather',
+			url: '/en/docs/historical-weather-api',
+			children: [
+				{ title: 'Historical Forecast', url: '/en/docs/historical-forecast-api' },
+				{ title: 'Single Runs', url: '/en/docs/single-runs-api' },
+				{ title: 'Previous Model Runs', url: '/en/docs/previous-runs-api' }
+			]
+		},
 		{
 			title: 'Ensemble Models',
 			url: '/en/docs/ensemble-api',
@@ -52,11 +58,7 @@
 		{ title: 'Flood', url: '/en/docs/flood-api' }
 	];
 	if (dev) {
-		links.push({ title: 'Single Runs', url: '/en/docs/single-runs-api' });
-		links.push({
-			title: 'Model Runs S3',
-			url: '/en/docs/model-runs-s3'
-		});
+		// links.push();
 	}
 
 	interface Path {
