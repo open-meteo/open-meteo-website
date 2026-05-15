@@ -130,12 +130,13 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		Now, with the addition of the 9-kilometre ECMWF IFS model, the historical weather API provides
-		access to a staggering 90 terabytes of meteorological data! Read the <a
-			class="text-link underline"
-			href="https://open.substack.com/pub/openmeteo/p/processing-90-tb-historical-weather"
-			target="_blank">blog article</a
-		>.
+		Gap-free and consistent historical weather data using weather reanalysis from ERA5 (0.25°, from 1940) and ERA5-Land (0.1°, from 1950) and
+		ECMWF IFS (9 km, from 2017). For data that matches the live Forecast API
+		format exactly, use the <a href="/en/docs/historical-forecast-api" class="text-link underline">Historical Forecast API</a>.
+		To access the full forecast horizon of individual model runs, use the
+		<a href="/en/docs/single-runs-api" class="text-link underline">Single Runs API</a>. To analyse forecast accuracy at fixed
+		lead times of 1–7 days, use the
+		<a href="/en/docs/previous-runs-api" class="text-link underline">Previous Model Runs API</a>.
 	</Alert.Description>
 </Alert.Root>
 

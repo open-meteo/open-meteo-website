@@ -60,6 +60,7 @@
 		longitude: [13.41],
 		run: d.toISOString().replace(':00.000Z', ''),
 		...defaultParameters,
+		models: ['ecmwf_ifs'],
 		hourly: ['temperature_2m']
 	});
 
@@ -152,7 +153,7 @@
 <svelte:head>
 	<title>Single Runs API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/single-runs-api" />
-	<meta name="description" content="" />
+	<meta name="description" content="Retrieve the full forecast horizon of any individual model run by initialisation time. ECMWF IFS 9 km from March 2024, all other models from September 2025." />
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4"
@@ -170,8 +171,9 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		WORK IN PROGRESS! This API allows access to individual weather model runs. Data is accessed from
-		an archival storage which is significantly slower.
+		Retrieve the full forecast horizon of any individual model run using the <mark>&run=</mark>
+		parameter (e.g. <mark>&run=2025-09-01T00:00</mark>). Most models are archived from September
+		2025. ECMWF IFS HRES at 9 km is available from March 2024.
 	</Alert.Description>
 </Alert.Root>
 
@@ -843,10 +845,150 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true}/></div>
 </form>
 
 <!-- RESULTS -->
 <div class="mt-6 md:mt-12">
 	<ResultsPreview {params} {defaultParameters} type="single-runs" useStockChart={true} />
+</div>
+
+<!-- DATA SOURCES -->
+<div class="mt-6 md:mt-12">
+	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
+	<div class="mt-2 md:mt-4">
+		<div class="grid gap-4 md:gap-6 lg:grid-cols-2">
+			<p>
+				Weather models are initialised and computed multiple times per day. Each run ingests the
+				latest observations — radiosondes, weather stations, aircraft, satellites, and ocean buoys —
+				and produces a complete forecast out to the model's full horizon (typically 7–16 days). The
+				operational Open-Meteo Forecast API stitches the most recent run of each model into a
+				seamless, continuously updated time-series. That approach is ideal for end-user applications
+				but discards the individual run structure required for research, post-processing, and
+				backtesting workflows.
+			</p>
+			<p>
+				The Single Runs API preserves this structure. Each run is stored and retrievable
+				independently, so you can request the exact forecast issued at a specific initialisation
+				time. The <mark>&run=</mark> parameter identifies the run by its UTC initialisation
+				datetime, e.g. <mark>&run=2025-09-01T00:00</mark>.
+			</p>
+			<p>
+				The <mark>&run=</mark> parameter specifies the model's <strong>initialisation time</strong>
+				— the UTC reference time at which the observations are taken — not the time at which the forecast
+				output becomes publicly available. After initialisation, the model requires additional computation
+				time before results are distributed: typically 4–6 hours for global models (e.g. ECMWF IFS, GFS)
+				and 1–3 hours for regional models. This means a run initialised at 00 UTC is generally accessible
+				from approximately 04–06 UTC onwards. The exact availability times for each model are listed on
+				the
+				<a class="text-link underline" href="/en/docs/model-updates">model updates page</a>.
+			</p>
+			<p>
+				Archival runs are available from <strong>September 2025</strong> for most models.
+				<strong>ECMWF IFS HRES at native 9 km resolution</strong>
+				is available from
+				<strong>March 14, 2024</strong> (IFS Cycle 49R1 hindcasts). From May 12, 2026 06 UTC, runs
+				use the updated <strong>IFS Cycle 50R1</strong>. ECMWF IFS HRES is the highest-quality
+				global weather model and the backbone of the
+				<a class="text-link underline" href="/en/docs/historical-weather-api"
+					>Open-Meteo Historical Weather API</a
+				>. Access to individual ECMWF runs is particularly valuable for renewable energy
+				forecasting, where the full forecast horizon from a single run drives production scheduling
+				and trading decisions.
+			</p>
+		</div>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 mt-4 w-full min-w-[1100px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Weather Provider</th>
+						<th scope="col">Model</th>
+						<th scope="col">Region</th>
+						<th scope="col">Resolution</th>
+						<th scope="col">Temporal Resolution</th>
+						<th scope="col">Forecast Horizon</th>
+						<th scope="col">Run Frequency</th>
+						<th scope="col">Available From</th>
+					</tr>
+				</thead>
+				<tbody class="[&_a]:text-link [&_a]:underline [&_a]:underline-offset-3">
+					<tr>
+						<th scope="row">ECMWF</th>
+						<td><a href="/en/docs/ecmwf-api">IFS HRES 9 km</a></td>
+						<td>Global</td>
+						<td>9 km (O1280 grid)</td>
+						<td>Hourly</td>
+						<td>10 days</td>
+						<td>4× daily (00, 06, 12, 18 UTC)</td>
+						<td>2024-03-14</td>
+					</tr>
+					<tr>
+						<th scope="row">Others</th>
+						<td>-</td>
+						<td>Global & Regional</td>
+						<td>up to 1 km</td>
+						<td>up to 15 minutely</td>
+						<td>up to 16 days</td>
+						<td>-</td>
+						<td>2025-09-01</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- API ENDPOINT -->
+<div class="mt-6 md:mt-12">
+	<a href="#api_endpoint">
+		<h2 id="api_endpoint" class="text-2xl md:text-3xl">API Endpoint</h2>
+	</a>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The API endpoint <mark>https://single-runs-api.open-meteo.com/v1/forecast</mark> accepts the
+			same parameters as the
+			<a class="text-link underline" href="/en/docs">Weather Forecast API</a>, with one additional
+			required parameter: <mark>run</mark>. All weather variables, units, and output formats
+			available in the Forecast API are supported. Data is served from a dedicated archive storage
+			system, so response times may be higher than the real-time forecast API.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[800px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Required</th>
+						<th scope="col">Default</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">run</th>
+						<td>ISO 8601 datetime</td>
+						<td>Yes</td>
+						<td></td>
+						<td
+							>The initialisation date and time of the model run to retrieve. Must be provided in
+							ISO 8601 format without seconds, e.g. <mark>&run=2024-06-01T00:00</mark>. The time
+							must correspond to a valid run cycle for the selected model (e.g. 00, 06, 12, 18 UTC
+							for most global models). Runs that are not available will return an error.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-3 md:mt-6">
+			All other parameters from the Forecast API — including <mark>latitude</mark>,
+			<mark>longitude</mark>, <mark>hourly</mark>, <mark>daily</mark>, and others — are also
+			accepted unchanged. Please refer to the
+			<a class="text-link underline" href="/en/docs">Weather Forecast API documentation</a> for a complete
+			parameter reference.
+		</p>
+	</div>
 </div>

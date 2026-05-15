@@ -9,7 +9,7 @@ export const load = (() => {
 		heroImagePosition: 'center 40%',
 		heroHeight: 500,
 		heroTitle: 'Features',
-		heroDescription: 'Simple JSON APIs. Global coverage. Up to 1 km resolution. Get started today!',
+		heroDescription: 'Global weather data from forecast to archive — free, no sign-up, one JSON API.',
 		heroPrimaryButtonPath: '#available_apis',
 		heroPrimaryButtonText: 'Available APIs',
 		heroSecondaryButtonPath: '/en/pricing',
