@@ -40,7 +40,8 @@
 			children: [
 				{ title: 'Historical Forecast', url: '/en/docs/historical-forecast-api' },
 				{ title: 'Single Runs', url: '/en/docs/single-runs-api' },
-				{ title: 'Previous Model Runs', url: '/en/docs/previous-runs-api' }
+				{ title: 'Previous Model Runs', url: '/en/docs/previous-runs-api' },
+				{ title: 'Model Runs S3', url: '/en/docs/model-runs-s3' }
 			]
 		},
 		{
