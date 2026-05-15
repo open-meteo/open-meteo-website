@@ -853,7 +853,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true}/></div>
 </form>
 
 <!-- RESULTS -->
