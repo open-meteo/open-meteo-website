@@ -47,14 +47,14 @@
 			</div>
 
 			<p>
-				Open-Meteo integrates numerical weather prediction (NWP) models from over 15 national
-				weather services, including ECMWF, DWD, NOAA, Météo-France, JMA, KMA, KNMI, DMI,
-				MeteoSwiss, UK Met Office, BOM, CMA, and GeoSphere Austria.
+				Open-Meteo integrates numerical weather prediction models from over 15 national weather
+				services, including ECMWF, DWD, NOAA, Météo-France, JMA, KMA, KNMI, DMI, MeteoSwiss, UK Met
+				Office, BOM, CMA, and GeoSphere Austria.
 			</p>
 			<p>
-				The <mark>best_match</mark> option automatically selects the most suitable high-resolution
-				model for any location. Individual models can also be selected directly, enabling
-				model-specific workflows and comparisons.
+				The <mark>best_match</mark> option automatically selects the most suitable high-resolution model
+				for any location. Individual models can also be selected directly, enabling model-specific workflows
+				and comparisons.
 			</p>
 		</div>
 		<div>
@@ -88,9 +88,9 @@
 
 			<p>
 				The API selects the highest-resolution model available for each location. In Central Europe,
-				France, Switzerland, the UK, and North America, high-resolution models at 1–2 km are used for the first
-				few days of the forecast. Global models at 9–11 km cover the remainder of the forecast
-				horizon worldwide.
+				France, Switzerland, the UK, and North America, high-resolution models at 1–2 km are used
+				for the first few days of the forecast. Global models at 9–11 km cover the remainder of the
+				forecast horizon worldwide.
 			</p>
 			<p>
 				All data is optimised to the requested coordinates and normalised to a consistent hourly
@@ -127,13 +127,13 @@
 				<h3 class="pl-3 text-2xl">Frequent Updates</h3>
 			</div>
 			<p>
-				Most global models are updated every 6 hours. High-resolution regional models such as ICON-D2,
-				HRRR, and AROME update every 1–3 hours. Each update ingests the latest observations from
-				weather stations, radiosondes, aircraft, radar, and satellites.
+				Most global models are updated every 6 hours. High-resolution regional models such as
+				ICON-D2, HRRR, and AROME update every 1–3 hours. Each update ingests the latest observations
+				from weather stations, radiosondes, aircraft, radar, and satellites.
 			</p>
 			<p>
-				15-minutely data is available for Central Europe and North America, interpolated from
-				hourly model output elsewhere.
+				15-minutely data is available for Central Europe and North America, interpolated from hourly
+				model output elsewhere.
 			</p>
 		</div>
 		<div>
@@ -173,16 +173,16 @@
 					<strong>Weather reanalysis</strong> back to 1940 — climate analysis and long-range baselines
 				</li>
 				<li>
-					<strong>Historical Forecast archive</strong> from ~2021 — seamless NWP time series matching
-					the live forecast API
+					<strong>Historical Forecast archive</strong> from ~2021 — seamless weather model time series
+					matching the live forecast API
 				</li>
 				<li>
-					<strong>Previous Runs API</strong> — continuous time series at a fixed lead-time offset
-					of 1–7 days, from January 2024
+					<strong>Previous Runs API</strong> — continuous time series at a fixed lead-time offset of 1–7
+					days, from January 2024
 				</li>
 				<li>
-					<strong>Single Runs API</strong> — archived individual runs from September 2025 (ECMWF IFS
-					HRES from March 2024)
+					<strong>Single Runs API</strong> — archived individual runs from September 2025 (ECMWF IFS HRES
+					from March 2024)
 				</li>
 			</ul>
 		</div>
@@ -223,8 +223,8 @@
 			<p>
 				Beyond standard surface variables, the APIs provide: solar radiation (including global
 				tilted irradiance for arbitrary panel orientation), wind at multiple altitudes (10 m to 300
-				m+), pressure levels (1000–10 hPa), soil moisture and temperature at multiple depths,
-				ocean waves, air quality with pollen, and ensemble probabilistic forecasts.
+				m+), pressure levels (1000–10 hPa), soil moisture and temperature at multiple depths, ocean
+				waves, air quality with pollen, and ensemble probabilistic forecasts.
 			</p>
 		</div>
 		<div>
@@ -259,9 +259,9 @@
 				<h3 class="pl-3 text-2xl">Seasonal Forecasts</h3>
 			</div>
 			<p>
-				The <a href="/en/docs/seasonal-forecast-api">Seasonal Forecast API</a> provides ECMWF
-				SEAS5 forecasts out to 9 months and sub-seasonal ECMWF EC46 forecasts out to 6 weeks, both
-				at 36 km resolution with 51 ensemble members.
+				The <a href="/en/docs/seasonal-forecast-api">Seasonal Forecast API</a> provides ECMWF SEAS5 forecasts
+				out to 9 months and sub-seasonal ECMWF EC46 forecasts out to 6 weeks, both at 36 km resolution
+				with 51 ensemble members.
 			</p>
 			<p>
 				The ensemble spread represents uncertainty at these extended horizons. Data are not
@@ -280,9 +280,9 @@
 			</h2>
 		</a>
 		<p class="text-center text-lg font-light">
-			Training weather post-processing models, backtesting energy forecasts, and measuring NWP
-			skill all require different types of historical data. Open-Meteo provides four complementary
-			APIs covering distinct use cases.
+			Training weather post-processing models, backtesting energy forecasts, and measuring weather
+			model skill all require different types of historical data. Open-Meteo provides four
+			complementary APIs covering distinct use cases.
 		</p>
 
 		<div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -311,14 +311,14 @@
 				</h3>
 				<p class="text-muted-foreground mb-3 text-sm">Historical Forecast API</p>
 				<p>
-					The Historical Forecast API archives the initial hours of each NWP model update into a
+					The Historical Forecast API archives the initial hours of each weather model update into a
 					seamless, continuously updated time series — the same data structure as the live Forecast
 					API. This makes it directly comparable to real operational forecasts.
 				</p>
 				<p class="mt-2">
-					This is the right dataset when you need NWP model output that is consistent with the live
-					forecast for training bias-correction and post-processing models: the historical archive
-					and real-time forecast use the same variables, units, and time alignment. Data is
+					This is the right dataset when you need weather model output that is consistent with the
+					live forecast for training bias-correction and post-processing models: the historical
+					archive and real-time forecast use the same variables, units, and time alignment. Data is
 					available for all models supported by the Forecast API.
 				</p>
 			</div>
@@ -349,13 +349,13 @@
 				<p class="text-muted-foreground mb-3 text-sm">Single Runs API</p>
 				<p>
 					The Single Runs API provides access to archived individual model runs, selected by their
-					exact initialisation time via the <mark>run=</mark> parameter. Each run covers the full
-					forecast horizon, typically 7–10 days. ECMWF IFS HRES at native 9 km resolution is
-					available from March 2024 via hindcasts.
+					exact initialisation time via the <mark>run=</mark> parameter. Each run covers the full forecast
+					horizon, typically 7–10 days. ECMWF IFS HRES at native 9 km resolution is available from March
+					2024 via hindcasts.
 				</p>
 				<p class="mt-2">
-					This is the correct dataset for: training NWP post-processing models without look-ahead
-					bias (each training sample is a single run paired with verifying observations);
+					This is the correct dataset for: training weather post-processing models without
+					look-ahead bias (each training sample is a single run paired with verifying observations);
 					reconstructing the exact forecast available at a past decision time for energy trading or
 					grid operation backtests; and run-level model intercomparison across providers.
 				</p>
@@ -371,8 +371,8 @@
 			</h2>
 		</a>
 		<p class="text-center text-lg font-light">
-			All APIs share the same JSON format and parameter conventions. Switching between them
-			requires only a change of hostname or endpoint.
+			All APIs share the same JSON format and parameter conventions. Switching between them requires
+			only a change of hostname or endpoint.
 		</p>
 
 		<div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -394,18 +394,18 @@
 				</h3>
 				<h4 class="mb-3 text-lg font-light text-muted-foreground">ERA5 reanalysis since 1940</h4>
 				<p>
-					ERA5 and ERA5-Land data at hourly resolution from January 1940 to present. Global
-					coverage at 9–25 km with no missing data. Used for climate analysis, anomaly detection,
-					and as ground truth for training machine learning models.
+					ERA5 and ERA5-Land data at hourly resolution from January 1940 to present. Global coverage
+					at 9–25 km with no missing data. Used for climate analysis, anomaly detection, and as
+					ground truth for training machine learning models.
 				</p>
 			</div>
 			<div>
 				<h3 class="text-2xl font-bold">
 					<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>
 				</h3>
-				<h4 class="mb-3 text-lg font-light text-muted-foreground">NWP archive from 2021</h4>
+				<h4 class="mb-3 text-lg font-light text-muted-foreground">Weather archive from 2021</h4>
 				<p>
-					Seamless archive of NWP forecast model output, built by continuously storing the
+					Seamless archive of weather forecast model output, built by continuously storing the
 					initial-hours data from each model update. The format is identical to the live Forecast
 					API, making it the standard dataset for training bias-correction and post-processing
 					pipelines.
@@ -415,7 +415,9 @@
 				<h3 class="text-2xl font-bold">
 					<a href="/en/docs/previous-runs-api">Previous Runs API</a>
 				</h3>
-				<h4 class="mb-3 text-lg font-light text-muted-foreground">Fixed lead-time series from January 2024</h4>
+				<h4 class="mb-3 text-lg font-light text-muted-foreground">
+					Fixed lead-time series from January 2024
+				</h4>
 				<p>
 					Returns a continuous time series where every value was forecast at a fixed lead-time
 					offset of 1–7 days. Available from January 2024. Suited for systematic bias analysis,
@@ -429,9 +431,9 @@
 				<h4 class="mb-3 text-lg font-light text-muted-foreground">Archived runs from Sept 2025</h4>
 				<p>
 					Access any individual archived model run by its initialisation time using the
-					<mark>run=</mark> parameter. ECMWF IFS HRES at 9 km is available from March 2024.
-					Required for bias-free ML training on (forecast, observation) pairs and for backtesting
-					operational decision workflows.
+					<mark>run=</mark> parameter. ECMWF IFS HRES at 9 km is available from March 2024. Required for
+					bias-free ML training on (forecast, observation) pairs and for backtesting operational decision
+					workflows.
 				</p>
 			</div>
 			<div>
@@ -440,8 +442,8 @@
 				</h3>
 				<h4 class="mb-3 text-lg font-light text-muted-foreground">Probabilistic forecasts</h4>
 				<p>
-					Access ensemble forecasts from ECMWF IFS ENS, GFS ENS, ICON EPS, GEM EPS, and others,
-					with up to 51 members and a 35-day horizon. Returns each member individually, enabling
+					Access ensemble forecasts from ECMWF IFS ENS, GFS ENS, ICON EPS, GEM EPS, and others, with
+					up to 51 members and a 35-day horizon. Returns each member individually, enabling
 					probability distributions, percentiles, and spread calculations.
 				</p>
 			</div>
@@ -462,8 +464,8 @@
 				</h3>
 				<h4 class="mb-3 text-lg font-light text-muted-foreground">Ocean wave forecasts</h4>
 				<p>
-					Wave height, period, and direction from global and regional ocean wave models. Covers
-					open ocean and coastal areas, with forecasts updated every 6 hours.
+					Wave height, period, and direction from global and regional ocean wave models. Covers open
+					ocean and coastal areas, with forecasts updated every 6 hours.
 				</p>
 			</div>
 			<div>
@@ -472,9 +474,9 @@
 				</h3>
 				<h4 class="mb-3 text-lg font-light text-muted-foreground">Pollution and pollen</h4>
 				<p>
-					Hourly forecasts for PM2.5, PM10, NO₂, O₃, SO₂, CO, dust, UV index, and pollen
-					(grass, birch, alder) from the Copernicus Atmosphere Monitoring Service (CAMS) with
-					global and European coverage.
+					Hourly forecasts for PM2.5, PM10, NO₂, O₃, SO₂, CO, dust, UV index, and pollen (grass,
+					birch, alder) from the Copernicus Atmosphere Monitoring Service (CAMS) with global and
+					European coverage.
 				</p>
 			</div>
 			<div>
@@ -503,13 +505,15 @@
 				<h3 class="text-2xl font-bold">
 					<a href="/en/docs/satellite-radiation-api">Satellite Radiation API</a>
 				</h3>
-				<h4 class="mb-3 text-lg font-light text-muted-foreground">Observed solar radiation from 1983</h4>
+				<h4 class="mb-3 text-lg font-light text-muted-foreground">
+					Observed solar radiation from 1983
+				</h4>
 				<p>
 					Shortwave and direct radiation derived from geostationary satellite imagery rather than
-					NWP models. Sources include EUMETSAT CM SAF SARAH3 (Europe, Africa, South America, from
-					1983), JMA Himawari-9 (Asia, Australia, from 2015), and DWD MTG (Europe, Africa, from
-					February 2026) at 2.5–5 km resolution with 10–30 minute intervals. Suited for solar
-					energy yield analysis and NWP bias assessment.
+					weather models. Sources include EUMETSAT CM SAF SARAH3 (Europe, Africa, South America,
+					from 1983), JMA Himawari-9 (Asia, Australia, from 2015), and DWD MTG (Europe, Africa, from
+					February 2026) at 2.5–5 km resolution with 10–30 minute intervals. Suited for solar energy
+					yield analysis and forecast bias assessment.
 				</p>
 			</div>
 			<div>
@@ -526,7 +530,9 @@
 				<h3 class="text-2xl font-bold">
 					<a href="/en/docs/elevation-api">Elevation API</a>
 				</h3>
-				<h4 class="mb-3 text-lg font-light text-muted-foreground">Terrain height from coordinates</h4>
+				<h4 class="mb-3 text-lg font-light text-muted-foreground">
+					Terrain height from coordinates
+				</h4>
 				<p>
 					Returns terrain elevation in metres for any set of WGS84 coordinates using a 90 m
 					resolution digital elevation model. Accepts batches of up to 100 coordinate pairs per
@@ -651,10 +657,8 @@
 				APIs follow semantic versioning. Breaking changes are introduced only as new major versions,
 				with the previous version kept available for a transition period. All changes are documented
 				in the
-				<a
-					href="https://github.com/open-meteo/open-meteo"
-					target="_blank"
-					rel="noopener noreferrer">GitHub repository</a
+				<a href="https://github.com/open-meteo/open-meteo" target="_blank" rel="noopener noreferrer"
+					>GitHub repository</a
 				>.
 			</p>
 		</div>
@@ -685,8 +689,11 @@
 				commercial use, see the
 				<a href="/en/pricing" title="API Subscription Plans">subscription plans</a>. Bug reports and
 				feature requests go through the
-				<a href="https://github.com/open-meteo/open-meteo" title="GitHub Repository" target="_blank" rel="noopener noreferrer"
-					>GitHub repository</a
+				<a
+					href="https://github.com/open-meteo/open-meteo"
+					title="GitHub Repository"
+					target="_blank"
+					rel="noopener noreferrer">GitHub repository</a
 				>.
 			</p>
 			<div class="mt-4 flex justify-center gap-4">

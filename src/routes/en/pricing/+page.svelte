@@ -99,9 +99,9 @@
 			</div>
 
 			<p>
-				NWP models from ECMWF, DWD, NOAA, Météo-France, JMA, KMA, KNMI, DMI, MeteoSwiss, UK Met
-				Office, BOM, CMA, GeoSphere Austria, and more. The <mark>best_match</mark> option
-				automatically selects the highest-resolution model for any coordinates.
+				Weather models from ECMWF, DWD, NOAA, Météo-France, JMA, KMA, KNMI, DMI, MeteoSwiss, UK Met
+				Office, BOM, CMA, GeoSphere Austria, and more. The <mark>best_match</mark> option automatically
+				selects the highest-resolution model for any coordinates.
 			</p>
 			<p>
 				Resolution ranges from 1–2 km (regional mesoscale) to 9–11 km (global). All output is
@@ -256,9 +256,9 @@
 				<h3 class="pl-3 text-2xl">Payment Options</h3>
 			</div>
 			<p>
-				Payments via credit card, Apple Pay, Google Pay, SOFORT, or SEPA — processed through
-				Stripe. A PDF invoice is issued on each billing cycle. Subscription details and payment
-				method are managed in the <a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII"
+				Payments via credit card, Apple Pay, Google Pay, SOFORT, or SEPA — processed through Stripe.
+				A PDF invoice is issued on each billing cycle. Subscription details and payment method are
+				managed in the <a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII"
 					>customer portal</a
 				>.
 			</p>
@@ -403,20 +403,19 @@
 			<div>
 				<h4 class="mb-3 text-2xl">How does the subscription process work?</h4>
 				<p>
-					Click a plan above to subscribe via Stripe. After checkout, an API key and PDF invoice
-					are issued immediately. The key grants access to
+					Click a plan above to subscribe via Stripe. After checkout, an API key and PDF invoice are
+					issued immediately. The key grants access to
 					<mark>customer-api.open-meteo.com</mark>. Cancel, upgrade, or update payment details at
-					any time in the <a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII"
-						>customer portal</a
-					>.
+					any time in the
+					<a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII">customer portal</a>.
 				</p>
 			</div>
 
 			<div>
 				<h4 class="mb-3 text-2xl">What happens if I exceed my monthly call volume?</h4>
 				<p>
-					Email alerts are sent at 80%, 90%, and 100% of your monthly budget. A usage dashboard
-					is in development — until it is live, no hard cutoffs are enforced.
+					Email alerts are sent at 80%, 90%, and 100% of your monthly budget. A usage dashboard is
+					in development — until it is live, no hard cutoffs are enforced.
 				</p>
 
 				<Alert.Root variant="warning">
@@ -448,9 +447,9 @@
 				<p>
 					Historical, climate, ensemble, and satellite radiation APIs require the <mark
 						>Professional API Plan</mark
-					> or higher. Upgrade via the <a
-						href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII">customer portal</a
-					>.
+					>
+					or higher. Upgrade via the
+					<a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII">customer portal</a>.
 				</p>
 			</div>
 
@@ -578,9 +577,9 @@
 				behind the API. The server code is open-source under AGPLv3; the weather data is CC BY 4.0.
 			</p>
 			<p>
-				Commercial plans add a dedicated endpoint, an API key, and a 99.9% uptime target. For
-				custom volume requirements or enterprise contracts, contact <a
-					href="mailto:info@open-meteo.com">info@open-meteo.com</a
+				Commercial plans add a dedicated endpoint, an API key, and a 99.9% uptime target. For custom
+				volume requirements or enterprise contracts, contact <a href="mailto:info@open-meteo.com"
+					>info@open-meteo.com</a
 				>.
 			</p>
 			<div class="mt-4 flex justify-center gap-4">

@@ -16,7 +16,7 @@ export const load: LayoutLoad = async (event) => {
 		heroHeight: 600,
 		heroTitle: 'Free Weather API',
 		heroDescription:
-			'Free weather forecast and historical weather API — 30+ NWP models, historical weather from 1940, no API key required.',
+			'Free weather forecast and historical weather API — 30+ models, historical weather from 1940, no API key required.',
 		heroPrimaryButtonPath: '/en/features',
 		heroPrimaryButtonText: 'Features',
 		heroSecondaryButtonPath: '/en/docs',

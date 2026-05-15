@@ -32,8 +32,8 @@
 			</h2>
 			<ul class="mt-1 list-disc pl-5 text-base">
 				<li>
-					<strong>30+ NWP models</strong> from ECMWF, NOAA, DWD, Météo-France, JMA, KMA, KNMI, DMI, MeteoSwiss,
-					UK Met Office, BOM, CMA, and more — globally, up to 1 km resolution
+					<strong>30+ weather models</strong> from ECMWF, NOAA, DWD, Météo-France, JMA, KMA, KNMI, DMI,
+					MeteoSwiss, UK Met Office, BOM, CMA, and more — globally, up to 1 km resolution
 				</li>
 				<li>
 					<strong>ERA5 reanalysis</strong> from January 1940, hourly, spatially complete — no missing
@@ -186,8 +186,8 @@
 				</div>
 
 				<p>
-					NWP models from over 15 national weather services — ECMWF, DWD, NOAA, Météo-France, JMA,
-					KMA, KNMI, DMI, MeteoSwiss, UK Met Office, BOM, CMA, and GeoSphere Austria. The
+					Weather models from over 15 national weather services — ECMWF, DWD, NOAA, Météo-France,
+					JMA, KMA, KNMI, DMI, MeteoSwiss, UK Met Office, BOM, CMA, and GeoSphere Austria. The
 					<mark>best_match</mark> option automatically picks the highest-resolution model for any location.
 					Individual models can be selected directly for model comparisons or model-specific pipelines.
 				</p>
@@ -269,24 +269,34 @@
 				<p>Four complementary historical datasets — each suited to a different use case:</p>
 				<ul class="mt-1 list-disc pl-5">
 					<li>
-						<strong><a href="/en/docs/historical-weather-api" class="text-link underline">ERA5 reanalysis</a></strong> — 1940 to present,
-						0.1–0.25°, gap-free global grid. For climate baselines and long-range ML training.
+						<strong
+							><a href="/en/docs/historical-weather-api" class="text-link underline"
+								>ERA5 reanalysis</a
+							></strong
+						> — 1940 to present, 0.1–0.25°, gap-free global grid. For climate baselines and long-range
+						ML training.
 					</li>
 					<li>
 						<strong
-							><a href="/en/docs/historical-forecast-api" class="text-link underline">Historical Forecast archive</a></strong
+							><a href="/en/docs/historical-forecast-api" class="text-link underline"
+								>Historical Forecast archive</a
+							></strong
 						> — from 2021, same format as the live Forecast API. For bias-correction and post-processing
 						pipelines.
 					</li>
 					<li>
-						<strong><a href="/en/docs/previous-runs-api" class="text-link underline">Previous Runs API</a></strong> — continuous time
-						series at a fixed lead-time offset of 1–7 days, from January 2024. For lead-time-stratified
-						skill analysis.
+						<strong
+							><a href="/en/docs/previous-runs-api" class="text-link underline">Previous Runs API</a
+							></strong
+						> — continuous time series at a fixed lead-time offset of 1–7 days, from January 2024. For
+						lead-time-stratified skill analysis.
 					</li>
 					<li>
-						<strong><a href="/en/docs/single-runs-api" class="text-link underline">Single Runs API</a></strong> — archived individual
-						runs by exact init time. ECMWF IFS HRES from March 2024. For ML post-processing without look-ahead
-						bias and operational backtesting.
+						<strong
+							><a href="/en/docs/single-runs-api" class="text-link underline">Single Runs API</a
+							></strong
+						> — archived individual runs by exact init time. ECMWF IFS HRES from March 2024. For ML post-processing
+						without look-ahead bias and operational backtesting.
 					</li>
 				</ul>
 			</div>

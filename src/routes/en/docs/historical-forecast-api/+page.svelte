@@ -162,7 +162,8 @@
 	<Alert.Description>
 		Historical forecasts archived from the <a class="text-link underline" href="/en/docs"
 			>Weather Forecast API</a
-		> — same models, same parameters, same response format. Coverage starts around 2022. Each run's
+		>
+		— same models, same parameters, same response format. Coverage starts around 2022. Each run's
 		first few hours are stitched into a continuous hourly timeseries. To access the full forecast
 		horizon of individual runs, use the
 		<a class="text-link underline" href="/en/docs/single-runs-api">Single Runs API</a>.
@@ -1223,38 +1224,36 @@
 						>Historical Weather API:</a
 					></strong
 				> ERA5 reanalysis at 0.25° (~25 km) from 1940, ERA5-Land at 0.1° (~9 km) from 1950, and ECMWF
-				IFS analysis at 9 km from 2017. Optimised for long-term consistency rather than day-to-day
-				accuracy — the right choice for climate trend analysis.
+				IFS analysis at 9 km from 2017. Optimised for long-term consistency rather than day-to-day accuracy
+				— the right choice for climate trend analysis.
 			</li>
 			<li>
 				<strong
 					><a class="text-link underline" href="/en/docs/historical-forecast-api"
 						>Historical Forecast API:</a
 					></strong
-				> A continuous hourly timeseries built by stitching the first hours of each successive model
-				run. Closely tracks actual conditions because each run is initialised from real measurements.
-				Coverage starts around 2021. Not suitable for long time series due to model version changes
-				over time.
+				> A continuous hourly timeseries built by stitching the first hours of each successive model run.
+				Closely tracks actual conditions because each run is initialised from real measurements. Coverage
+				starts around 2021. Not suitable for long time series due to model version changes over time.
 			</li>
 			<li>
 				<strong
 					><a class="text-link underline" href="/en/docs/previous-runs-api">Previous Runs API:</a
 					></strong
-				> Archives the same high-resolution models as the Historical Forecast API, but provides each
-				variable at a fixed lead-time offset: 1, 2, 3, up to 7 days ahead. Useful for evaluating
-				forecast skill at specific lead times. Data starts from January 2024 (GFS from March 2021,
-				JMA from 2018).
+				> Archives the same high-resolution models as the Historical Forecast API, but provides each variable
+				at a fixed lead-time offset: 1, 2, 3, up to 7 days ahead. Useful for evaluating forecast skill
+				at specific lead times. Data starts from January 2024 (GFS from March 2021, JMA from 2018).
 			</li>
 			<li>
 				<strong
 					><a class="text-link underline" href="/en/docs/single-runs-api">Single Runs API:</a
 					></strong
-				> Retrieves the complete forecast horizon of any individual model run, selected by
+				>
+				Retrieves the complete forecast horizon of any individual model run, selected by
 				initialisation time using the <mark>run=</mark> parameter (e.g.
-				<mark>run=2025-09-01T00:00</mark>). Unlike the Historical Forecast API — which stitches
-				runs into a continuous timeseries — the Single Runs API preserves the original run
-				structure. ECMWF IFS HRES at 9 km is archived from March 2024; all other models from
-				September 2025.
+				<mark>run=2025-09-01T00:00</mark>). Unlike the Historical Forecast API — which stitches runs
+				into a continuous timeseries — the Single Runs API preserves the original run structure.
+				ECMWF IFS HRES at 9 km is archived from March 2024; all other models from September 2025.
 			</li>
 		</ul>
 		<h4 class="my-2 text-lg md:my-4 md:text-xl">Choosing the Right Dataset:</h4>
@@ -1277,10 +1276,10 @@
 				issued on a given date — use the <strong>Single Runs API</strong>.
 			</li>
 			<li>
-				For training machine learning models on consistent NWP output, the <strong
+				For training machine learning models on consistent weather model output, the <strong
 					>Historical Forecast API</strong
-				> and <strong>Single Runs API</strong> both provide data directly from the operational model
-				runs.
+				>
+				and <strong>Single Runs API</strong> both provide data directly from the operational model runs.
 			</li>
 		</ul>
 	</div>

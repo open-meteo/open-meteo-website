@@ -875,12 +875,12 @@
 			</p>
 			<p>
 				The <mark>&run=</mark> parameter specifies the model's <strong>initialisation time</strong>
-				— the UTC reference time at which the observations are taken — not the time at which the
-				forecast output becomes publicly available. After initialisation, the model requires
-				additional computation time before results are distributed: typically 4–6 hours for global
-				models (e.g. ECMWF IFS, GFS) and 1–3 hours for regional models. This means a run
-				initialised at 00 UTC is generally accessible from approximately 04–06 UTC onwards. The
-				exact availability times for each model are listed on the
+				— the UTC reference time at which the observations are taken — not the time at which the forecast
+				output becomes publicly available. After initialisation, the model requires additional computation
+				time before results are distributed: typically 4–6 hours for global models (e.g. ECMWF IFS, GFS)
+				and 1–3 hours for regional models. This means a run initialised at 00 UTC is generally accessible
+				from approximately 04–06 UTC onwards. The exact availability times for each model are listed on
+				the
 				<a class="text-link underline" href="/en/docs/model-updates">model updates page</a>.
 			</p>
 			<p>
@@ -889,7 +889,7 @@
 				is available from
 				<strong>March 14, 2024</strong> (IFS Cycle 49R1 hindcasts). From May 12, 2026 06 UTC, runs
 				use the updated <strong>IFS Cycle 50R1</strong>. ECMWF IFS HRES is the highest-quality
-				global NWP model and the backbone of the
+				global weather model and the backbone of the
 				<a class="text-link underline" href="/en/docs/historical-weather-api"
 					>Open-Meteo Historical Weather API</a
 				>. Access to individual ECMWF runs is particularly valuable for renewable energy
