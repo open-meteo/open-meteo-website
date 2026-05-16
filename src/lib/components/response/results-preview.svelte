@@ -383,6 +383,7 @@
 
 	let mode = $state('chart');
 
+	let apiUrlCopied = $state(false);
 	let codeInstallCopied = $state(false);
 	let codeExampleCopied = $state(false);
 </script>
@@ -679,14 +680,61 @@
 					of factors like long time intervals, the number of locations, variables, or models involved.
 				</p>
 			{/if}
-			<Input
-				class="mt-2"
-				type="text"
-				id="api_url"
-				readonly
-				aria-label="Copy to clipboard"
-				bind:value={previewUrl}
-			/>
+			<div class="relative group">
+				<Input
+					class="mt-2"
+					type="text"
+					id="api_url"
+					readonly
+					aria-label="Copy to clipboard"
+					bind:value={previewUrl}
+				/>
+				<div
+					class="absolute duration-300 right-0 top-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+				>
+					<Button
+						onclick={() => {
+							const query = document.querySelector('#api_url') as HTMLInputElement | null;
+							if (query) {
+								navigator.clipboard.writeText(query.value ?? '').catch(() => {});
+								apiUrlCopied = true;
+								setTimeout(() => {
+									apiUrlCopied = false;
+								}, 1250);
+							}
+						}}
+						>{#if apiUrlCopied}<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
+							>{:else}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.4"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
+								><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
+									d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+								/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
+									d="m15 10-4 4 4 4"
+								/></svg
+							>{/if}</Button
+					>
+				</div>
+			</div>
 		</div>
 	{/if}
 	<!-- PYTHON -->
@@ -710,7 +758,7 @@
 					>
 						<Button
 							onclick={() => {
-								const query = document.querySelector('.code-install pre');
+								const query = document.querySelector('.code-install pre') as HTMLPreElement | null;
 								if (query) {
 									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeInstallCopied = true;
@@ -762,7 +810,7 @@
 					>
 						<Button
 							onclick={() => {
-								const query = document.querySelector('.code-example pre');
+								const query = document.querySelector('.code-example pre') as HTMLPreElement | null;
 								if (query) {
 									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
 									codeExampleCopied = true;
