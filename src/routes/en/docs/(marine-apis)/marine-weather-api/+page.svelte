@@ -134,12 +134,12 @@
 			<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Marine Variables</h2>
 		</a>
 		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
 			{#each hourly as group, i (i)}
 				<div>
 					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
+						<div class="group flex items-center max-w-full" title={label}>
 							<Checkbox
 								id="{value}_hourly"
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
@@ -197,7 +197,7 @@
 				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
+				<div class="grid grid-cols-1 md:grid-cols-2">
 					{#each additionalVariables as group, i (i)}
 						<div>
 							{#each group as { value, label } (value)}
@@ -309,7 +309,7 @@
 				title="Weather models"
 				count={countVariables(models, $params.models)}
 			>
-				<div class="mt-2 grid sm:grid-cols-2">
+				<div class="mt-2 grid grid-cols-1 sm:grid-cols-2">
 					{#each models as group, i (i)}
 						<div class="mb-3">
 							{#each group as { value, label } (value)}
@@ -446,7 +446,7 @@
 			<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Marine Variables</h2>
 		</a>
 		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
 			{#each daily as group, i (i)}
 				<div>
@@ -498,7 +498,7 @@
 			<h2 id="current_weather" class="text-2xl md:text-3xl">Current Conditions</h2>
 		</a>
 		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
 			{#each hourly as group, i (i)}
 				<div>

@@ -51,8 +51,8 @@
 	d.setUTCMilliseconds(0);
 
 	const params = urlHashStore({
-		latitude: [54.544587],
-		longitude: [10.227487],
+		latitude: [48.591748],
+		longitude: [-8.484653],
 		...defaultParameters,
 		run: d.toISOString().replace(':00.000Z', ''),
 		hourly: ['wave_height']
@@ -97,7 +97,11 @@
 			accordionValues.push('additional-variables');
 		}
 
-		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
+		if (
+			countVariables(models, $params.models).active &&
+			!accordionValues.includes('models') &&
+			!($params?.models?.length === 1 && $params.models[0] === 'meteofrance_wave')
+		) {
 			accordionValues.push('models');
 		}
 
@@ -171,7 +175,7 @@
 			<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Marine Variables</h2>
 		</a>
 		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
 			{#each hourly as group, i (i)}
 				<div>
@@ -483,7 +487,7 @@
 			<h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Marine Variables</h2>
 		</a>
 		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
 			{#each daily as group, i (i)}
 				<div>
@@ -535,7 +539,7 @@
 			<h2 id="current_weather" class="text-2xl md:text-3xl">Current Conditions</h2>
 		</a>
 		<div
-			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
 		>
 			{#each hourly as group, i (i)}
 				<div>
