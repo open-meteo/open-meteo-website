@@ -50,7 +50,11 @@
 		},
 		{ title: 'Seasonal Forecast', url: '/en/docs/seasonal-forecast-api' },
 		{ title: 'Climate Change', url: '/en/docs/climate-api' },
-		{ title: 'Marine Forecast', url: '/en/docs/marine-weather-api' },
+		{
+			title: 'Marine Forecast',
+			url: '/en/docs/marine-weather-api',
+			children: [{ title: 'Single Runs', url: '/en/docs/marine-single-runs-api' }]
+		},
 		{ title: 'Air Quality', url: '/en/docs/air-quality-api' },
 		{ title: 'Satellite Radiation', url: '/en/docs/satellite-radiation-api' },
 		{ title: 'Geocoding', url: '/en/docs/geocoding-api' },

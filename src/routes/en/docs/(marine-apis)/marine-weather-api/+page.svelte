@@ -31,7 +31,7 @@
 		pastHoursOptions,
 		pastMinutely15Options,
 		temporalResolutionOptions
-	} from '../options';
+	} from '../../options';
 	import {
 		additionalVariables,
 		availableVariables,
@@ -48,11 +48,7 @@
 		latitude: [54.544587],
 		longitude: [10.227487],
 		...defaultParameters,
-		hourly: ['wave_height'],
-		// move to options
-		minutely_15: [],
-		past_minutely_15: '',
-		forecast_minutely_15: ''
+		hourly: ['wave_height']
 	});
 
 	let timezoneInvalid = $derived(
