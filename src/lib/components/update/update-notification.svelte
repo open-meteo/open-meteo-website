@@ -3,7 +3,7 @@
 
 	import { updated } from '$app/state';
 
-	import Button from '../ui/button/button.svelte';
+	import { Button } from '$lib/components/ui/button';
 
 	let updateNotificationClicked = $state(false);
 </script>

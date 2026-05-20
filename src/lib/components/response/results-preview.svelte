@@ -8,8 +8,8 @@
 	import { membersPerModel } from '$lib/utils/meteo';
 
 	import * as Alert from '$lib/components/ui/alert';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import Input from '$lib/components/ui/input/input.svelte';
+	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
 
 	import { pythonCodeExample } from './code-examples/python-code-example';
 	import { swiftCodeExample } from './code-examples/swift-code-example';

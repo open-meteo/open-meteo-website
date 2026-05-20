@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { browser, dev } from '$app/environment';
-	import { beforeNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Button } from '$lib/components/ui/button';
 
 	interface Props {
 		children?: import('svelte').Snippet;
@@ -90,18 +90,11 @@
 
 	// Fix for backwards compatibilty with the old url-params store
 	// which used the hash ('#') for cache busting, now replaced with '?'
-	let hashOnLoad = '';
-	beforeNavigate((e) => {
+	onMount(() => {
 		if (browser) {
-			hashOnLoad = window.location.hash;
-			if (hashOnLoad && hashOnLoad.includes('=')) {
-				if (e.to) {
-					e.to.url.search = hashOnLoad.replace('#', '');
-					hashOnLoad = '';
-					setTimeout(() => {
-						window.location.reload();
-					}, 75);
-				}
+			const hash = window.location.hash;
+			if (hash && hash.includes('=')) {
+				window.location.search = hash.replace('#', '');
 			}
 		}
 	});
