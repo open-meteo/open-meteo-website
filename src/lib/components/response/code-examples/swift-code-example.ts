@@ -2,21 +2,7 @@ import { camelCase, titleCase } from '$lib/utils';
 
 import { INT_64_VARIABLES, SECTIONS } from '$lib/constants';
 
-import {
-	acc,
-	cmt,
-	empty,
-	fg,
-	fn,
-	kw,
-	kwspi,
-	line,
-	num,
-	p,
-	pm,
-	str,
-	vr
-} from './highlight-helpers';
+import { acc, cmt, empty, fg, fn, kw, kwspi, line, num, p, pm, str, vr } from './highlight-helpers';
 
 import type { Parameters } from '$lib/docs';
 

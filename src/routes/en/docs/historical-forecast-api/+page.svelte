@@ -163,9 +163,9 @@
 		Historical forecasts archived from the <a class="text-link underline" href="/en/docs"
 			>Weather Forecast API</a
 		>
-		— same models, same parameters, same response format. Coverage starts around 2022. Each run's
-		first few hours are stitched into a continuous hourly timeseries. To access the full forecast
-		horizon of individual runs, use the
+		— same models, same parameters, same response format. Coverage starts around 2022. Each run's first
+		few hours are stitched into a continuous hourly timeseries. To access the full forecast horizon of
+		individual runs, use the
 		<a class="text-link underline" href="/en/docs/single-runs-api">Single Runs API</a>.
 	</Alert.Description>
 </Alert.Root>
@@ -853,7 +853,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true}/></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true} /></div>
 </form>
 
 <!-- RESULTS -->
@@ -1249,8 +1249,8 @@
 					><a class="text-link underline" href="/en/docs/single-runs-api">Single Runs API:</a
 					></strong
 				>
-				Retrieves the complete forecast horizon of any individual model run, selected by
-				initialisation time using the <mark>run=</mark> parameter (e.g.
+				Retrieves the complete forecast horizon of any individual model run, selected by initialisation
+				time using the <mark>run=</mark> parameter (e.g.
 				<mark>run=2025-09-01T00:00</mark>). Unlike the Historical Forecast API — which stitches runs
 				into a continuous timeseries — the Single Runs API preserves the original run structure.
 				ECMWF IFS HRES at 9 km is archived from March 2024; all other models from September 2025.

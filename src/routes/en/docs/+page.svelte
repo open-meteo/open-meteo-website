@@ -641,7 +641,11 @@
 						</Select.Root>
 					</div>
 					<div class="relative">
-						<Select.Root name="past_minutely_15" type="single" bind:value={$params.past_minutely_15}>
+						<Select.Root
+							name="past_minutely_15"
+							type="single"
+							bind:value={$params.past_minutely_15}
+						>
 							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastMinutely15?.label}</Select.Trigger
 							>
@@ -824,17 +828,20 @@
 			<p>
 				Open-Meteo combines weather model output from multiple national weather services into a
 				continuous, seamlessly updated timeseries. Each time a model run is ingested, the forecast
-				data are stitched to the previous run without gaps or discontinuities, so the hourly timeseries
-				always reflects the latest available initialisation. For each location, the highest-resolution
-				applicable model is selected automatically.
+				data are stitched to the previous run without gaps or discontinuities, so the hourly
+				timeseries always reflects the latest available initialisation. For each location, the
+				highest-resolution applicable model is selected automatically.
 			</p>
 			<p>
-				Weather models cover different geographic areas at different resolutions and provide different
-				weather variables. Depending on the model, data have been interpolated to hourly values or not
-				all weather variables are available. Use the <mark>Weather models</mark> dropdown (just below
-				the hourly variables) to select and compare individual models. To access the full archive of
-				past forecast runs as issued — useful for forecast verification or training ML models — see the
-				<a class="text-link underline" href="/en/docs/historical-forecast-api">Historical Forecast API</a>
+				Weather models cover different geographic areas at different resolutions and provide
+				different weather variables. Depending on the model, data have been interpolated to hourly
+				values or not all weather variables are available. Use the <mark>Weather models</mark>
+				dropdown (just below the hourly variables) to select and compare individual models. To access
+				the full archive of past forecast runs as issued — useful for forecast verification or training
+				ML models — see the
+				<a class="text-link underline" href="/en/docs/historical-forecast-api"
+					>Historical Forecast API</a
+				>
 				and the
 				<a class="text-link underline" href="/en/docs/single-runs-api">Single Runs API</a>.
 			</p>
