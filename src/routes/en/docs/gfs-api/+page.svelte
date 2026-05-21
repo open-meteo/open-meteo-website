@@ -1922,9 +1922,9 @@
 						<td>Preceding hour sum</td>
 						<td>mm (inch)</td>
 						<td
-							>Evapotranspration from land surface and plants that weather models assumes for this
+							>Evapotranspiration from land surface and plants that weather models assumes for this
 							location. Available soil water is considered. 1 mm evapotranspiration per hour equals
-							1 liter of water per spare meter.</td
+							1 liter of water per square meter.</td
 						>
 					</tr>
 					<tr>
@@ -2301,7 +2301,7 @@
 						<td>meter</td>
 						<td
 							>Geopotential height at the specified pressure level. This can be used to get the
-							correct altitude in meter above sea level of each pressure level. Be carefull not to
+							correct altitude in meter above sea level of each pressure level. Be careful not to
 							mistake it with altitude above ground.
 						</td>
 					</tr>
@@ -2456,7 +2456,7 @@
 							is selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is
 							used to adapt weather conditions for this elevation. This elevation can also be
 							controlled with the query parameter <mark>elevation</mark>. If
-							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the averge grid-cell
+							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the average grid-cell
 							elevation is used.</td
 						>
 					</tr>

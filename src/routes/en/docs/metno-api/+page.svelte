@@ -1174,7 +1174,7 @@
 							is selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is
 							used to adapt weather conditions for this elevation. This elevation can also be
 							controlled with the query parameter <mark>elevation</mark>. If
-							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the averge grid-cell
+							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the average grid-cell
 							elevation is used.</td
 						>
 					</tr>
