@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { browser, dev } from '$app/environment';
+	import { dev } from '$app/environment';
 	import { page } from '$app/state';
 
 	import { Button } from '$lib/components/ui/button';
@@ -88,14 +88,11 @@
 
 	let mobileNavOpened = $state(false);
 
-	// Fix for backwards compatibilty with the old url-params store
-	// which used the hash ('#') for cache busting, now replaced with '?'
+	// Convert legacy hash-based url-params (cache-busting) to search params
 	onMount(() => {
-		if (browser) {
-			const hash = window.location.hash;
-			if (hash && hash.includes('=')) {
-				window.location.search = hash.replace('#', '');
-			}
+		const hash = window.location.hash;
+		if (hash && hash.includes('=')) {
+			window.location.search = hash.replace('#', '');
 		}
 	});
 </script>
