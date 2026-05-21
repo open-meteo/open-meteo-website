@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { dev } from '$app/environment';
-	import { page } from '$app/state';
+import { dev } from '$app/environment';
+import { page } from '$app/state';
 
-	import { Button } from '$lib/components/ui/button';
+import { Button } from '$lib/components/ui/button';
 
 	interface Props {
 		children?: import('svelte').Snippet;
@@ -87,14 +86,6 @@
 	});
 
 	let mobileNavOpened = $state(false);
-
-	// Convert legacy hash-based url-params (cache-busting) to search params
-	onMount(() => {
-		const hash = window.location.hash;
-		if (hash && hash.includes('=')) {
-			window.location.search = hash.replace('#', '');
-		}
-	});
 </script>
 
 <div class="mb-12 flex flex-col md:mb-24 md:flex-row">
