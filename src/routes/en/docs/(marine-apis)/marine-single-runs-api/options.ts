@@ -1,8 +1,17 @@
+import {
+	ecmwf_wam_variables,
+	gfs_wave_variables,
+	icon_wave_variables,
+	meteofrance_currents_variables,
+	meteofrance_wave_variables
+} from '../marine-weather-api/options';
+
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
-	models: [],
+	models: ['meteofrance_wave'],
 	current: [],
+	minutely_15: [],
 
 	timezone: 'UTC',
 	location_mode: 'location_search',
@@ -10,6 +19,8 @@ export const defaultParameters = {
 	time_mode: 'forecast_days',
 	past_days: '0',
 	forecast_days: '7',
+	past_minutely_15: '',
+	forecast_minutely_15: '',
 
 	end_date: undefined,
 	start_date: undefined,
@@ -98,65 +109,6 @@ export const additionalVariables = [
 	[]
 ];
 
-const meteofrance_wave_variables = [
-	'wave_height',
-	'wave_direction',
-	'wave_period',
-	'wind_wave_height',
-	'wind_wave_direction',
-	'wind_wave_period',
-	'swell_wave_height',
-	'swell_wave_direction',
-	'swell_wave_period',
-	'secondary_swell_wave_height',
-	'secondary_swell_wave_period',
-	'secondary_swell_wave_direction'
-];
-
-const meteofrance_currents_variables = [
-	'ocean_current_velocity',
-	'ocean_current_direction',
-	'sea_level_height_msl',
-	'invert_barometer_height',
-	'sea_surface_temperature'
-];
-
-const icon_wave_variables = [
-	'wave_height',
-	'wave_direction',
-	'wave_period',
-	'wind_wave_height',
-	'wind_wave_direction',
-	'wind_wave_period',
-	'wind_wave_peak_period',
-	'swell_wave_height',
-	'swell_wave_direction',
-	'swell_wave_period',
-	'swell_wave_peak_period'
-];
-
-const ecmwf_wam_variables = ['wave_height', 'wave_direction', 'wave_period', 'wave_peak_period'];
-
-const gfs_wave_variables = [
-	'wave_height',
-	'wave_direction',
-	'wave_period',
-	'wind_wave_height',
-	'wind_wave_direction',
-	'wind_wave_period',
-	'swell_wave_height',
-	'swell_wave_direction',
-	'swell_wave_period',
-	'secondary_swell_wave_height',
-	'secondary_swell_wave_period',
-	'secondary_swell_wave_direction',
-	'tertiary_swell_wave_height',
-	'tertiary_swell_wave_period',
-	'tertiary_swell_wave_direction'
-];
-
-const era5_ocean_variables = ['wave_height', 'wave_direction', 'wave_period', 'wave_peak_period'];
-
 export const availableVariables: Record<string, string[]> = {
 	meteofrance_wave: meteofrance_wave_variables,
 	meteofrance_currents: meteofrance_currents_variables,
@@ -166,7 +118,6 @@ export const availableVariables: Record<string, string[]> = {
 	ecmwf_wam025: ecmwf_wam_variables,
 	ncep_gfswave025: gfs_wave_variables,
 	ncep_gfswave016: gfs_wave_variables,
-	era5_ocean: era5_ocean_variables,
 	best_match: hourly.flat().map((v) => v.value)
 };
 
@@ -180,8 +131,7 @@ export const models = [
 		{ value: 'ecmwf_wam', label: 'ECMWF WAM', caption: '9km, global' },
 		{ value: 'ecmwf_wam025', label: 'ECMWF WAM 0.25', caption: '0.25°, global' },
 		{ value: 'ncep_gfswave025', label: 'GFS Wave 0.25°', caption: '0.25°, global' },
-		{ value: 'ncep_gfswave016', label: 'GFS Wave 0.16°', caption: '0.16°, mid-latitudes' },
-		{ value: 'era5_ocean', label: 'ERA5-Ocean', caption: '0.5°, data from 1940 onwards' }
+		{ value: 'ncep_gfswave016', label: 'GFS Wave 0.16°', caption: '0.16°, mid-latitudes' }
 	]
 ];
 
