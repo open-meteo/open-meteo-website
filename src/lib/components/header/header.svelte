@@ -4,8 +4,8 @@
 	import Github from 'simple-icons/icons/github.svg?raw';
 	import X from 'simple-icons/icons/x.svg?raw';
 
-	import Button from '$lib/components/ui/button/button.svelte';
-	import Toggle from '$lib/components/ui/toggle/toggle.svelte';
+	import { Button } from '$lib/components/ui/button';
+	import { Toggle } from '$lib/components/ui/toggle';
 
 	import Logo from '$lib/assets/icons/sun.svelte';
 

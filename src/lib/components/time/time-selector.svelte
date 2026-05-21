@@ -3,7 +3,7 @@
 
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select/index';
+	import * as Select from '$lib/components/ui/select';
 
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 
