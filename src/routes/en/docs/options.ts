@@ -224,7 +224,6 @@ export const additionalDaily = [
 		{ value: 'visibility_mean', label: 'Mean Visibility' },
 		{ value: 'visibility_min', label: 'Minimum Visibility' },
 		{ value: 'visibility_max', label: 'Maximum Visibility' },
-		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10m)' },
 		{ value: 'wind_gusts_10m_mean', label: 'Mean Wind Gusts (10 m)' },
 		{ value: 'wind_speed_10m_mean', label: 'Mean Wind Speed (10 m)' },
 		{ value: 'wind_gusts_10m_min', label: 'Minimum Wind Gusts (10 m)' },
