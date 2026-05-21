@@ -4,7 +4,6 @@ import { INT_64_VARIABLES, SECTIONS } from '$lib/constants';
 
 import {
 	acc,
-	br,
 	cmt,
 	empty,
 	fg,
