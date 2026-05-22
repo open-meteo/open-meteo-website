@@ -1,0 +1,72 @@
+# Open-Meteo
+
+> Open-Meteo is a free, open-source weather API. No API key required.
+> Data comes from national weather services worldwide (NOAA, DWD, ECMWF, and more).
+> Free for non-commercial use; commercial plans available.
+> All endpoints return JSON. Coordinates use WGS84 decimal degrees.
+
+- API base URL: `https://api.open-meteo.com`
+- Common required params: `latitude` (float), `longitude` (float)
+- Common optional params: `hourly`, `daily`, `current` (variable name arrays); `timezone`, `forecast_days`, `past_days`, `start_date`, `end_date`, `temperature_unit`, `wind_speed_unit`, `precipitation_unit`, `timeformat`, `format`, `cell_selection`
+- OpenAPI spec: https://open-meteo.com/docs/openapi.yml
+- Full context file (all docs): https://open-meteo.com/llms-full.txt
+
+## Core Weather APIs
+
+- [Weather Forecast API](https://open-meteo.com/en/docs): `GET https://api.open-meteo.com/v1/forecast` — Hourly and daily forecasts for 7–16 days worldwide; automatically selects the best-available weather model. Supports 100+ hourly variables and 30+ daily aggregates.
+- [Historical Weather API](https://open-meteo.com/en/docs/historical-weather-api): `GET https://archive-api.open-meteo.com/v1/archive` — ERA5 and ERA5-Land reanalysis data from 1940 to present. Required: `start_date`, `end_date` (yyyy-mm-dd).
+- [Historical Forecast API](https://open-meteo.com/en/docs/historical-forecast-api): `GET https://historical-forecast-api.open-meteo.com/v1/forecast` — Archive of actual NWP model runs; useful for hindcasting and model verification. Requires `start_date`, `end_date`.
+- [Climate API](https://open-meteo.com/en/docs/climate-api): `GET https://climate-api.open-meteo.com/v1/climate` — CMIP6-downscaled daily projections at 10 km resolution, 1950–2050. Requires `start_date`, `end_date`. Param: `models`.
+- [Ensemble API](https://open-meteo.com/en/docs/ensemble-api): `GET https://ensemble-api.open-meteo.com/v1/ensemble` — Probabilistic forecasts from up to 50 ensemble members (ECMWF ENS, GFS ENS, ICON EPS, etc.). Param: `models`.
+- [Ensemble Mean API](https://open-meteo.com/en/docs/ensemble-mean-api): `GET https://ensemble-api.open-meteo.com/v1/ensemble_mean` — Pre-computed mean, standard deviation, and percentiles across ensemble members.
+
+## Specialised APIs
+
+- [Air Quality API](https://open-meteo.com/en/docs/air-quality-api): `GET https://air-quality-api.open-meteo.com/v1/air-quality` — Gases (NO₂, O₃, SO₂, CO), PM2.5/PM10, pollen, UV index, and European/US AQI. Powered by Copernicus CAMS.
+- [Marine Weather API](https://open-meteo.com/en/docs/marine-weather-api): `GET https://marine-api.open-meteo.com/v1/marine` — Ocean wave height, direction, and period from global (ERA5-Ocean, GWAM) and regional wave models.
+- [Flood API](https://open-meteo.com/en/docs/flood-api): `GET https://flood-api.open-meteo.com/v1/flood` — GloFAS ensemble river-discharge forecasts for rivers worldwide. Variable: `river_discharge`.
+- [Seasonal Forecast API](https://open-meteo.com/en/docs/seasonal-forecast-api): `GET https://seasonal-api.open-meteo.com/v1/forecast` — Monthly outlooks up to 9 months ahead from Copernicus C3S multi-model ensemble.
+- [Satellite Radiation API](https://open-meteo.com/en/docs/satellite-radiation-api): `GET https://api.open-meteo.com/v1/radiation` — High-resolution solar radiation (shortwave, direct-normal irradiance) from SARAH-3 satellite data.
+
+## Utility APIs
+
+- [Geocoding API](https://open-meteo.com/en/docs/geocoding-api): `GET https://geocoding-api.open-meteo.com/v1/search` — Resolve city names, postal codes, and administrative regions to coordinates. Param: `name` (string), `count` (int, max 100), `language`.
+- [Elevation API](https://open-meteo.com/en/docs/elevation-api): `GET https://api.open-meteo.com/v1/elevation` — Digital elevation model lookup at 90 m resolution. Returns `elevation` in metres for any `latitude`/`longitude` (accepts comma-separated lists).
+
+## National Weather Model APIs
+
+Direct access to individual NWP model runs. Parameters mirror the Weather Forecast API (`latitude`, `longitude`, `hourly`, `daily`, `current`, `models`, `forecast_days`, etc.).
+
+- [GFS & HRRR API](https://open-meteo.com/en/docs/gfs-api): `GET https://api.open-meteo.com/v1/gfs` — NOAA GFS global (25 km) and HRRR high-resolution US model (3 km).
+- [DWD ICON API](https://open-meteo.com/en/docs/dwd-api): `GET https://api.open-meteo.com/v1/dwd-icon` — DWD ICON global (13 km), ICON-EU (7 km), ICON-D2 (2 km, Germany).
+- [ECMWF Forecast API](https://open-meteo.com/en/docs/ecmwf-api): `GET https://api.open-meteo.com/v1/ecmwf` — ECMWF IFS (9 km) and AIFS (25 km) deterministic runs.
+- [GEM API](https://open-meteo.com/en/docs/gem-api): `GET https://api.open-meteo.com/v1/gem` — ECCC GEM global (25 km) and regional HRDPS (2.5 km, Canada).
+- [BOM ACCESS-G API](https://open-meteo.com/en/docs/bom-api): `GET https://api.open-meteo.com/v1/bom` — Bureau of Meteorology ACCESS-G global model (25 km, Australia).
+- [Météo-France API](https://open-meteo.com/en/docs/meteofrance-api): `GET https://api.open-meteo.com/v1/meteofrance` — ARPEGE global (11 km) and AROME regional (1.3 km, France).
+- [MeteoSwiss ICON API](https://open-meteo.com/en/docs/meteoswiss-api): `GET https://api.open-meteo.com/v1/forecast?models=meteoswiss_icon_seamless` — ICON-CH1-EPS / ICON-CH2-EPS (1–2 km, Switzerland).
+- [MET Norway API](https://open-meteo.com/en/docs/metno-api): `GET https://api.open-meteo.com/v1/metno` — Nordic and Arctic NWP models (MEPS 2.5 km, Nordic/Arctic 8 km).
+- [UK Met Office API](https://open-meteo.com/en/docs/ukmo-api): `GET https://api.open-meteo.com/v1/ukmo` — UKMO global (10 km) and UKV high-resolution model (2 km, UK).
+- [KNMI API](https://open-meteo.com/en/docs/knmi-api): `GET https://api.open-meteo.com/v1/knmi` — Harmonie AROME (5.5 km, Netherlands and North Sea area).
+- [DMI API](https://open-meteo.com/en/docs/dmi-api): `GET https://api.open-meteo.com/v1/dmi` — Harmonie DINI model (2 km, Denmark).
+- [JMA API](https://open-meteo.com/en/docs/jma-api): `GET https://api.open-meteo.com/v1/jma` — JMA GSM global (55 km) and MSM regional model (5 km, Japan).
+- [KMA API](https://open-meteo.com/en/docs/kma-api): `GET https://api.open-meteo.com/v1/kma` — KMA GDAPS-KIM global model (12 km, South Korea).
+- [CMA GFS GRAPES API](https://open-meteo.com/en/docs/cma-api): `GET https://api.open-meteo.com/v1/cma` — CMA GFS GRAPES global model (15 km, China).
+- [GeoSphere Austria API](https://open-meteo.com/en/docs/geosphere-austria-api): `GET https://api.open-meteo.com/v1/geosphere_arome_austria` — AROME-Austria (2.5 km) and INCA analysis (1 km).
+- [ItaliaMeteo ARPAE API](https://open-meteo.com/en/docs/italia-meteo-arpae-api): `GET https://api.open-meteo.com/v1/arpae` — ICON-2i regional model (2.2 km, Italy).
+
+## Advanced / Time-Series APIs
+
+- [Previous Runs API](https://open-meteo.com/en/docs/previous-runs-api): `GET https://previous-runs-api.open-meteo.com/v1/forecast` — Retrieve archived past model runs by past initialisation date; produces a time-series of model analyses.
+- [Single Runs API](https://open-meteo.com/en/docs/single-runs-api): `GET https://single-runs-api.open-meteo.com/v1/forecast` — Full forecast horizon of a single model run identified by `forecast_day` offset from initialisation. Param: `forecast_day` (int).
+
+## Reference
+
+- [OpenAPI Specification](https://open-meteo.com/docs/openapi.yml): Machine-readable OpenAPI 3.0 spec covering all endpoints, parameters, and response schemas.
+- [Model Updates & API Status](https://open-meteo.com/en/docs/model-updates): Real-time status of ingestion pipelines; last-run timestamps per model.
+
+## Optional
+
+- [About Open-Meteo](https://open-meteo.com/en/about): Architecture, data pipeline, and project background.
+- [Pricing](https://open-meteo.com/en/pricing): Free tier limits and commercial subscription plans.
+- [Features](https://open-meteo.com/en/features): Feature overview and model comparison.
+- [Terms of Service](https://open-meteo.com/en/terms): Usage terms; data licensed under CC BY 4.0 (attribution required for commercial use).
