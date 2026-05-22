@@ -123,6 +123,12 @@
 						>Model Updates Overview</a
 					>
 				</li>
+				<li class="mb-1">
+					<a class="text-secondary-foreground" href="/llms.txt">llms.txt</a>
+				</li>
+				<li class="mb-1">
+					<a class="text-secondary-foreground" href="/llms-full.txt">llms-full.txt</a>
+				</li>
 			</ul>
 		</div>
 	</nav>
