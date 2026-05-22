@@ -483,30 +483,29 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			The Previous Runs API exposes forecast data at fixed lead-time offsets rather than as a
-			seamless time-series. <mark>_previous_day0</mark> is the current model run (equivalent to
-			the live Forecast API). <mark>_previous_day1</mark> is the value that was predicted 24 hours
-			before valid time, <mark>_previous_day2</mark> 48 hours before, and so on up to day 7. For
-			local models with shorter forecast horizons (2–5 days), only offsets within that horizon are
-			populated.
+			seamless time-series. <mark>_previous_day0</mark> is the current model run (equivalent to the
+			live Forecast API). <mark>_previous_day1</mark> is the value that was predicted 24 hours
+			before valid time, <mark>_previous_day2</mark> 48 hours before, and so on up to day 7. For local
+			models with shorter forecast horizons (2–5 days), only offsets within that horizon are populated.
 		</p>
 		<p>
 			This structure is suited to aggregated skill analysis — for example, computing the mean
-			absolute error of all <mark>_previous_day3</mark> forecasts against ERA5 over a calendar
-			year. For workflows that need the <em>complete</em> output of a specific model run
-			(initialisation datetime, all forecast hours, multiple variables), use the
+			absolute error of all <mark>_previous_day3</mark> forecasts against ERA5 over a calendar year.
+			For workflows that need the <em>complete</em> output of a specific model run (initialisation
+			datetime, all forecast hours, multiple variables), use the
 			<a class="text-link underline" href="/en/docs/single-runs-api">Single Runs API</a> instead,
 			which stores each run independently and is queryable by its UTC initialisation time via the
 			<mark>&run=</mark> parameter.
 		</p>
 		<p>
 			<strong>Models:</strong> The Previous Runs API supports the same models as the
-			<a class="text-link underline" href="/en/docs">Weather Forecast API</a>. See the Forecast
-			API documentation for the full model and variable list.
+			<a class="text-link underline" href="/en/docs">Weather Forecast API</a>. See the Forecast API
+			documentation for the full model and variable list.
 		</p>
 		<p>
 			<strong>Update cadence:</strong> Global models update every 6 hours; regional models (e.g.
-			ICON-D2, HRRR, AROME) update every 1–3 hours. The available lead-time window for each model
-			is limited to its forecast horizon, so a model with a 3-day horizon will have at most
+			ICON-D2, HRRR, AROME) update every 1–3 hours. The available lead-time window for each model is
+			limited to its forecast horizon, so a model with a 3-day horizon will have at most
 			<mark>_previous_day3</mark> populated.
 		</p>
 	</div>

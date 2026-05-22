@@ -37,13 +37,16 @@ export const urlHashStore = (initialValues: Parameters): UrlHashStore => {
 				let defaultValue = defaultValues[key];
 
 				// params key is array
-			if (defaultValue && Array === defaultValue.constructor) {
-				if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
-					if (page.url.searchParams.has(key) && page.url.searchParams.get(key) !== value.join(',')) {
-						page.url.searchParams.delete(key);
-						changedParams = true;
-					}
-				} else {
+				if (defaultValue && defaultValue.constructor === Array) {
+					if (JSON.stringify(value) === JSON.stringify(defaultValue)) {
+						if (
+							page.url.searchParams.has(key) &&
+							page.url.searchParams.get(key) !== value.join(',')
+						) {
+							page.url.searchParams.delete(key);
+							changedParams = true;
+						}
+					} else {
 						let array = value;
 						// remove empty string when array has more then 1 values
 						if (array.length > 1 && array.includes('')) {
@@ -74,7 +77,7 @@ export const urlHashStore = (initialValues: Parameters): UrlHashStore => {
 				if (page.url.searchParams.has(key) && page.url.searchParams.get(key) === '') {
 					if (
 						defaultValue === undefined ||
-						(defaultValue && Array === defaultValue.constructor && defaultValue.length === 0) ||
+						(defaultValue && defaultValue.constructor === Array && defaultValue.length === 0) ||
 						defaultValue === '0'
 					) {
 						page.url.searchParams.delete(key);
