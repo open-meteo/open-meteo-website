@@ -130,12 +130,14 @@
 		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
 	>
 	<Alert.Description>
-		Gap-free and consistent historical weather data using weather reanalysis from ERA5 (0.25°, from 1940) and ERA5-Land (0.1°, from 1950) and
-		ECMWF IFS (9 km, from 2017). For data that matches the live Forecast API
-		format exactly, use the <a href="/en/docs/historical-forecast-api" class="text-link underline">Historical Forecast API</a>.
-		To access the full forecast horizon of individual model runs, use the
-		<a href="/en/docs/single-runs-api" class="text-link underline">Single Runs API</a>. To analyse forecast accuracy at fixed
-		lead times of 1–7 days, use the
+		Gap-free and consistent historical weather data using weather reanalysis from ERA5 (0.25°, from
+		1940) and ERA5-Land (0.1°, from 1950) and ECMWF IFS (9 km, from 2017). For data that matches the
+		live Forecast API format exactly, use the <a
+			href="/en/docs/historical-forecast-api"
+			class="text-link underline">Historical Forecast API</a
+		>. To access the full forecast horizon of individual model runs, use the
+		<a href="/en/docs/single-runs-api" class="text-link underline">Single Runs API</a>. To analyse
+		forecast accuracy at fixed lead times of 1–7 days, use the
 		<a href="/en/docs/previous-runs-api" class="text-link underline">Previous Model Runs API</a>.
 	</Alert.Description>
 </Alert.Root>
@@ -1500,7 +1502,7 @@
 							is selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is
 							used to adapt weather conditions for this elevation. This elevation can also be
 							controlled with the query parameter <mark>elevation</mark>. If
-							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the averge grid-cell
+							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the average grid-cell
 							elevation is used.</td
 						>
 					</tr>

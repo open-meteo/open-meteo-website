@@ -153,7 +153,10 @@
 <svelte:head>
 	<title>Single Runs API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/single-runs-api" />
-	<meta name="description" content="Retrieve the full forecast horizon of any individual model run by initialisation time. ECMWF IFS 9 km from March 2024, all other models from September 2025." />
+	<meta
+		name="description"
+		content="Retrieve the full forecast horizon of any individual model run by initialisation time. ECMWF IFS 9 km from March 2024, all other models from September 2025."
+	/>
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4"
@@ -845,7 +848,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true}/></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true} /></div>
 </form>
 
 <!-- RESULTS -->
