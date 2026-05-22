@@ -2,7 +2,6 @@
 	import { browser, dev } from '$app/environment';
 	import { beforeNavigate } from '$app/navigation';
 	import { page } from '$app/state';
-	import { onMount } from 'svelte';
 
 	import Button from '$lib/components/ui/button/button.svelte';
 
@@ -92,14 +91,6 @@
 	// Fix for backwards compatibilty with the old url-params store
 	// which used the hash ('#') for cache busting, now replaced with '?'
 	let hashOnLoad = '';
-	onMount(() => {
-		if (browser) {
-			hashOnLoad = window.location.hash;
-			if (hashOnLoad && hashOnLoad.includes('=')) {
-				window.location.href = window.location.pathname + hashOnLoad.replace('#', '?');
-			}
-		}
-	});
 	beforeNavigate((e) => {
 		if (browser) {
 			hashOnLoad = window.location.hash;
