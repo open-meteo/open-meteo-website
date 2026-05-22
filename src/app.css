@@ -189,17 +189,15 @@
 	--color-accent: var(--accent);
 	--color-accent-foreground: var(--accent-foreground);
 	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
 	--color-border: var(--border);
+	--color-border-dark: var(--border-dark);
 	--color-input: var(--input);
 	--color-ring: var(--ring);
 	--color-link: var(--link);
-	--color-border: var(--border);
-	--color-border-dark: var(--border-dark);
 	--color-warning: var(--warning);
 	--color-warning-dark: var(--warning-dark);
 	--color-warning-foreground: var(--warning-foreground);
-	--color-destructive: var(--destructive);
-	--color-destructive-foreground: var(--destructive-foreground);
 	--color-mark-color: var(--mark-color);
 }
 

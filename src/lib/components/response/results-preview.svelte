@@ -234,7 +234,7 @@
 
 			/// Number of locations
 			let nLocations = 1;
-			if (cwParams['latitude'] && Array == cwParams['latitude'].constructor) {
+			if (cwParams['latitude'] && Array.isArray(cwParams['latitude'])) {
 				nLocations = cwParams['latitude']?.length ?? 1;
 			}
 			/// Calculate adjusted weight
