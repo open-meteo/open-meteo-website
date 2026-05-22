@@ -51,6 +51,7 @@ jobs:
           path: ./build-stats.json
 
   compare:
+    if: github.repository_owner == 'open-meteo'
     name: 'Compare base & head bundle sizes'
     runs-on: ubuntu-latest
     needs: [build-base, build-head]
