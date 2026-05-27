@@ -10,7 +10,7 @@
 
 <svelte:head>
 	<title>500 Error | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/about" />
+	<link rel="canonical" href="https://open-meteo.com/" />
 </svelte:head>
 
 <div class="h-[500px]">
