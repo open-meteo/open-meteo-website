@@ -730,7 +730,7 @@ export const forecastDaysOptions = [
 	{ value: '14', label: '14 days' },
 	{ value: '16', label: '16 days' },
 	{ value: '30', label: '30 days' },
-	{ value: '35', label: '35 days' }
+	{ value: '36', label: '36 days' }
 ];
 
 export const pastDaysOptions = [
