@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { fade } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -30,11 +29,6 @@
 		...defaultParameters,
 		daily: ['river_discharge']
 	});
-
-	let forecastDays = $derived(
-		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
-	);
-	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
 	let accordionValues: string[] = $state([]);
 	onMount(() => {
