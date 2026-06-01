@@ -100,7 +100,7 @@ export const urlHashStore = (initialValues: Parameters): UrlHashStore => {
 			if (defaultValue && defaultValue.constructor === Array) {
 				if (JSON.stringify(defaultValue) !== JSON.stringify(value)) {
 					urlHashes.update((urlValues) => {
-						urlValues[key] = value.split(/,|%2C/);
+						urlValues[key] = value.split(/,|%2C/).filter((e: string) => e !== '');
 						return urlValues;
 					});
 				}
