@@ -160,11 +160,6 @@ export function getWeatherCode(code: number | null | string): string {
 	return 'unknown code';
 }
 
-export const geoLocationNameToRoute = (name: string) => {
-	const lowerCase = name.toLowerCase().replaceAll(' ', '-').replaceAll("'", '-');
-	return lowerCase.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-};
-
 export const membersPerModel = (model: string): number => {
 	switch (model) {
 		// DWD ICON
