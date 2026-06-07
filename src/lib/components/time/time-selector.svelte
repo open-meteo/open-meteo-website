@@ -29,6 +29,11 @@
 		forecastDaysOptions?.find((fco) => fco.value == params.forecast_days)
 	);
 	let pastDays = $derived(pastDaysOptions?.find((pdo) => pdo.value == params.past_days));
+
+	let defaultForecastDays = $derived(
+		forecastDaysOptions?.find((o) => o.label.includes('default')) ?? forecastDaysOptions?.[0]
+	);
+	let maxForecastDays = $derived(forecastDaysOptions?.at(-1));
 </script>
 
 <div class="mt-6">
@@ -146,9 +151,14 @@
 
 				<div>
 					<p>
-						By default, we provide forecasts for 7 days, but you can access forecasts for up to 16
-						days. If you're interested in past weather data, you can use the <mark>Past Days</mark>
-						feature to access archived forecasts.
+						By default, we provide forecasts for {defaultForecastDays?.label.replace(
+							/\s*\(.*\)/,
+							''
+						)}, but you can access forecasts for up to {maxForecastDays?.label.replace(
+							/\s*\(.*\)/,
+							''
+						)}. If you're interested in past weather data, you can use the <mark>Past Days</mark> feature
+						to access archived forecasts.
 					</p>
 				</div>
 			</div>
