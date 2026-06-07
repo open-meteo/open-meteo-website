@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 
+	import type { Component } from 'svelte';
+
 	interface Props {
-		Logo: import('svelte').Snippet;
+		Logo: Component;
 		heroImage: string;
 		heroImagePosition?: string;
 		heroTitle: string;
