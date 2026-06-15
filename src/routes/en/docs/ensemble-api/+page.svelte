@@ -802,6 +802,15 @@
 						<td>12 hours</td>
 						<td>Every 6 hours</td>
 					</tr>
+					<tr>
+						<th>Google</th>
+						<td>WeatherNext2</td>
+						<td>Central Europe</td>
+						<td>25 km, 6-hourly</td>
+						<td>64</td>
+						<td>15 days</td>
+						<td>Every 6 hours</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

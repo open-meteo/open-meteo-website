@@ -537,6 +537,7 @@ export const availableVariables = {
 	ncep_gefs_ensemble_mean_seamless: gfs05_variables,
 	ncep_gefs025_ensemble_mean: gfs025_variables,
 	ncep_gefs05_ensemble_mean: gfs05_variables,
+	ncep_aigefs025_ensemble_mean: aigfs025_variables,
 	ncep_hgefs025_ensemble_mean: gfs025_variables,
 	ecmwf_ifs025_ensemble_mean: ecmwf_ifs025_variables,
 	ecmwf_aifs025_ensemble_mean: ecmwf_aifs025_variables,
@@ -706,6 +707,7 @@ export const models = [
 		{ value: 'ncep_gefs_ensemble_mean_seamless', label: 'GFS Ensemble Seamless Mean' },
 		{ value: 'ncep_gefs025_ensemble_mean', label: 'GFS Ensemble 0.25° Mean' },
 		{ value: 'ncep_gefs05_ensemble_mean', label: 'GFS Ensemble 0.5° Mean' },
+		{ value: 'ncep_aigefs025_ensemble_mean', label: 'AIGEFS 0.25° Mean' },
 		{ value: 'ncep_hgefs025_ensemble_mean', label: 'HGEFS 0.25° Mean' }
 	],
 	[
