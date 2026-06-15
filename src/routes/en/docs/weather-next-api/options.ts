@@ -20,7 +20,7 @@ export const defaultParameters = {
 	tilt: '0',
 	azimuth: '0',
 	time_mode: 'forecast_days',
-	models: ['google_weathernext_global_ensemble'],
+	models: ['google_weathernext2_ensemble'],
 	cell_selection: ''
 };
 
@@ -36,9 +36,7 @@ export const hourly = [
 		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
 		{ value: 'cloud_cover_high', label: 'Cloud Cover High' }
 	],
-	[
-		{ value: 'pressure_msl', label: 'Sea Level Pressure' }
-	],
+	[{ value: 'pressure_msl', label: 'Sea Level Pressure' }],
 	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
@@ -52,9 +50,7 @@ export const daily = [
 		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
 		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' }
 	],
-	[
-		{ value: 'precipitation_sum', label: 'Precipitation Sum' }
-	],
+	[{ value: 'precipitation_sum', label: 'Precipitation Sum' }],
 	[
 		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
 		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' }
@@ -66,9 +62,7 @@ export const additionalVariables: { value: string; label: string }[][] = [];
 export const solarVariables: { value: string; label: string }[][] = [];
 
 export const models = [
-	[
-		{ value: 'google_weathernext_global_ensemble', label: 'Google WeatherNext Global Ensemble' }
-	]
+	[{ value: 'google_weathernext_global_ensemble', label: 'Google WeatherNext Global Ensemble' }]
 ];
 
 export const forecastDaysOptions = [
