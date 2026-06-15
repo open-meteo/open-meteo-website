@@ -1190,9 +1190,9 @@
 						<td>Preceding hour sum</td>
 						<td>mm (inch)</td>
 						<td
-							>Evapotranspration from land surface and plants that weather models assumes for this
+							>Evapotranspiration from land surface and plants that weather models assumes for this
 							location. Available soil water is considered. 1 mm evapotranspiration per hour equals
-							1 liter of water per spare meter.</td
+							1 liter of water per square meter.</td
 						>
 					</tr>
 					<tr>

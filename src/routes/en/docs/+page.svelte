@@ -623,7 +623,7 @@
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
 					<div class="relative">
 						<Select.Root
-							name="cell_selection"
+							name="forecast_minutely_15"
 							type="single"
 							bind:value={$params.forecast_minutely_15}
 						>
@@ -641,7 +641,11 @@
 						</Select.Root>
 					</div>
 					<div class="relative">
-						<Select.Root name="cell_selection" type="single" bind:value={$params.past_minutely_15}>
+						<Select.Root
+							name="past_minutely_15"
+							type="single"
+							bind:value={$params.past_minutely_15}
+						>
 							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastMinutely15?.label}</Select.Trigger
 							>
@@ -820,17 +824,28 @@
 <div class="mt-6 w-full md:mt-12">
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
-		<p>
-			Open-Meteo weather forecast APIs use weather models from multiple national weather providers.
-			For each location worldwide, the best models will be combined to provide the best possible
-			forecast.
-		</p>
-		<p>
-			Weather models cover different geographic areas at different resolutions and provide different
-			weather variables. Depending on the model, data have been interpolated to hourly values or not
-			all weather variables are available. With the drop down <mark>Weather models</mark> (just below
-			the hourly variables), you can select and compare individual weather models.
-		</p>
+		<div class="grid gap-4 md:gap-6 lg:grid-cols-2">
+			<p>
+				Open-Meteo combines weather model output from multiple national weather services into a
+				continuous, seamlessly updated timeseries. Each time a model run is ingested, the forecast
+				data are stitched to the previous run without gaps or discontinuities, so the hourly
+				timeseries always reflects the latest available initialisation. For each location, the
+				highest-resolution applicable model is selected automatically.
+			</p>
+			<p>
+				Weather models cover different geographic areas at different resolutions and provide
+				different weather variables. Depending on the model, data have been interpolated to hourly
+				values or not all weather variables are available. Use the <mark>Weather models</mark>
+				dropdown (just below the hourly variables) to select and compare individual models. To access
+				the full archive of past forecast runs as issued — useful for forecast verification or training
+				ML models — see the
+				<a class="text-link underline" href="/en/docs/historical-forecast-api"
+					>Historical Forecast API</a
+				>
+				and the
+				<a class="text-link underline" href="/en/docs/single-runs-api">Single Runs API</a>.
+			</p>
+		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
 				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
@@ -1403,9 +1418,9 @@
 						<td>Preceding hour sum</td>
 						<td>mm (inch)</td>
 						<td
-							>Evapotranspration from land surface and plants that weather models assumes for this
+							>Evapotranspiration from land surface and plants that weather models assumes for this
 							location. Available soil water is considered. 1 mm evapotranspiration per hour equals
-							1 liter of water per spare meter.</td
+							1 liter of water per square meter.</td
 						>
 					</tr>
 					<tr>
@@ -1809,7 +1824,7 @@
 						<td>meter</td>
 						<td
 							>Geopotential height at the specified pressure level. This can be used to get the
-							correct altitude in meter above sea level of each pressure level. Be carefull not to
+							correct altitude in meter above sea level of each pressure level. Be careful not to
 							mistake it with altitude above ground.
 						</td>
 					</tr>
@@ -1997,7 +2012,7 @@
 							is selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is
 							used to adapt weather conditions for this elevation. This elevation can also be
 							controlled with the query parameter <mark>elevation</mark>. If
-							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the averge grid-cell
+							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the average grid-cell
 							elevation is used.</td
 						>
 					</tr>

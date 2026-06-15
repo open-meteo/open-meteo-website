@@ -7,7 +7,7 @@
 
 	import { pad } from '$lib/utils';
 
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
 	import { Switch } from '$lib/components/ui/switch';
 
@@ -135,12 +135,12 @@
 					{
 						name: 'GDPS 0.125°',
 						area: [],
-						meta: fetchMeta('cmc_gem_gdps', 'forecast', apiKeyPreferences)
+						meta: fetchMeta('cmc_gem_gdps_15km', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'RDPS',
 						area: ['ca', 'us'],
-						meta: fetchMeta('cmc_gem_rdps', 'forecast', apiKeyPreferences)
+						meta: fetchMeta('cmc_gem_rdps_10km', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'HRDPS',

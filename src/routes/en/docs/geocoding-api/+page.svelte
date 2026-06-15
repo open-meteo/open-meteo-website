@@ -8,9 +8,9 @@
 	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
 	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';
 
-	import Input from '$lib/components/ui/input/input.svelte';
+	import { Input } from '$lib/components/ui/input';
 	import Label from '$lib/components/ui/label/label.svelte';
-	import * as Select from '$lib/components/ui/select/index';
+	import * as Select from '$lib/components/ui/select';
 
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 

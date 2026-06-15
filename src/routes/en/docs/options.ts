@@ -204,7 +204,7 @@ export const additionalDaily = [
 	],
 	[
 		{ value: 'et0_fao_evapotranspiration_sum', label: 'Reference Evapotranspiration Sum (ET₀)' },
-		{ value: 'growing_degree_days_base_0_limit_50', label: 'Growing Degree Days Base 0 Limit 50 ' },
+		{ value: 'growing_degree_days_base_0_limit_50', label: 'Growing Degree Days Base 0 Limit 50' },
 		{ value: 'leaf_wetness_probability_mean', label: 'Mean Leaf Wetness Probability' },
 		{ value: 'precipitation_probability_mean', label: 'Mean Precipitation Probability' },
 		{ value: 'precipitation_probability_min', label: 'Minimum Precipitation Probability' },
@@ -224,7 +224,6 @@ export const additionalDaily = [
 		{ value: 'visibility_mean', label: 'Mean Visibility' },
 		{ value: 'visibility_min', label: 'Minimum Visibility' },
 		{ value: 'visibility_max', label: 'Maximum Visibility' },
-		{ value: 'winddirection_10m_dominant', label: 'Dominant Wind Direction (10m)' },
 		{ value: 'wind_gusts_10m_mean', label: 'Mean Wind Gusts (10 m)' },
 		{ value: 'wind_speed_10m_mean', label: 'Mean Wind Speed (10 m)' },
 		{ value: 'wind_gusts_10m_min', label: 'Minimum Wind Gusts (10 m)' },
