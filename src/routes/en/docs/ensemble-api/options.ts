@@ -545,7 +545,8 @@ export const availableVariables: Record<string, string[]> = {
 	gem_global_ensemble: gem_global_variables,
 	bom_access_global_ensemble: bom_access_global_ensemble,
 	meteoswiss_icon_ch1_ensemble: meteoswiss_variables,
-	meteoswiss_icon_ch2_ensemble: meteoswiss_variables
+	meteoswiss_icon_ch2_ensemble: meteoswiss_variables,
+	google_weathernext2_ensemble: aigfs025_variables
 };
 
 export const hourly = [
@@ -720,6 +721,9 @@ export const models = [
 	[
 		{ value: 'meteoswiss_icon_ch1_ensemble', label: 'MeteoSwiss ICON CH1' },
 		{ value: 'meteoswiss_icon_ch2_ensemble', label: 'MeteoSwiss ICON CH2' }
+	],
+	[
+		{ value: 'google_weathernext2_ensemble', label: 'Google WeatherNext2 Ensemble' }
 	]
 ];
 

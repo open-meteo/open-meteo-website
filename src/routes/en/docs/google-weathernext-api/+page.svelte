@@ -87,7 +87,7 @@
 
 <svelte:head>
 	<title>Google WeatherNext API | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/weather-next-api" />
+	<link rel="canonical" href="https://open-meteo.com/en/docs/google-weathernext-api'" />
 </svelte:head>
 
 <form method="get" action="https://ensemble-api.open-meteo.com/v1/ensemble">

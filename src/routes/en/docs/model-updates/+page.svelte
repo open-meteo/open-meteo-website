@@ -569,12 +569,12 @@
 			},
 			{
 				provider: 'Google',
-				url: '/en/docs/weather-next-api',
+				url: '/en/docs/google-weathernext-api',
 				models: [
 					{
 						name: 'WeatherNext 2',
 						area: [],
-						meta: fetchMeta('google_weathernext_global_ensemble', 'ensemble', apiKeyPreferences)
+						meta: fetchMeta('google_weathernext2_ensemble', 'ensemble', apiKeyPreferences)
 					}
 				]
 			}

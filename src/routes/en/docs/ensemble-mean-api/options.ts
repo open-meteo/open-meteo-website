@@ -545,7 +545,8 @@ export const availableVariables = {
 	cmc_gem_geps_ensemble_mean: gem_global_variables,
 	bom_access_global_ensemble_mean: bom_access_global_ensemble,
 	meteoswiss_icon_ch1_ensemble_mean: meteoswiss_variables,
-	meteoswiss_icon_ch2_ensemble_mean: meteoswiss_variables
+	meteoswiss_icon_ch2_ensemble_mean: meteoswiss_variables,
+	google_weathernext2_ensemble_mean: aigfs025_variables
 };
 
 export const hourly = [
@@ -720,6 +721,9 @@ export const models = [
 	[
 		{ value: 'meteoswiss_icon_ch1_ensemble_mean', label: 'MeteoSwiss ICON CH1 Mean' },
 		{ value: 'meteoswiss_icon_ch2_ensemble_mean', label: 'MeteoSwiss ICON CH2 Mean' }
+	],
+	[
+		{ value: 'google_weathernext2_ensemble_mean', label: 'Google WeatherNext2 Ensemble Mean' }
 	]
 ];
 
