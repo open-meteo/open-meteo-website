@@ -468,7 +468,3 @@ figcaption {
 .dark .highlight-row:hover {
 	box-shadow: 0px 0px 5px 2px rgb(70, 70, 70, 1);
 }
-
-.highlight-row:hover .highlight-row-label {
-	/* text-decoration: underline; */
-}
