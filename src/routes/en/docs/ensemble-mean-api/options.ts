@@ -279,6 +279,14 @@ export const aigfs025_variables = [
 	'is_day'
 ];
 
+
+export const google_weathernext2_variables = [
+	...aigfs025_variables,
+	'sea_surface_temperature',
+	'wind_speed_100m',
+	'wind_direction_100m'
+];
+
 export const gfs05_variables = [
 	...gfs025_variables,
 	...ecmwf_pressure_levels,
@@ -547,7 +555,7 @@ export const availableVariables = {
 	bom_access_global_ensemble_mean: bom_access_global_ensemble,
 	meteoswiss_icon_ch1_ensemble_mean: meteoswiss_variables,
 	meteoswiss_icon_ch2_ensemble_mean: meteoswiss_variables,
-	google_weathernext2_ensemble_mean: aigfs025_variables
+	google_weathernext2_ensemble_mean: google_weathernext2_variables
 };
 
 export const hourly = [

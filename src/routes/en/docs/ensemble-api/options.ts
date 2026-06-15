@@ -279,6 +279,14 @@ export const aigfs025_variables = [
 	'is_day'
 ];
 
+
+export const google_weathernext2_variables = [
+	...aigfs025_variables,
+	'sea_surface_temperature',
+	'wind_speed_100m',
+	'wind_direction_100m'
+];
+
 export const gfs05_variables = [
 	...gfs025_variables,
 	...ecmwf_pressure_levels,
@@ -546,7 +554,7 @@ export const availableVariables: Record<string, string[]> = {
 	bom_access_global_ensemble: bom_access_global_ensemble,
 	meteoswiss_icon_ch1_ensemble: meteoswiss_variables,
 	meteoswiss_icon_ch2_ensemble: meteoswiss_variables,
-	google_weathernext2_ensemble: aigfs025_variables
+	google_weathernext2_ensemble: google_weathernext2_variables
 };
 
 export const hourly = [
@@ -665,7 +673,8 @@ export const additionalVariables = [
 		{ value: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
 		{ value: 'temperature_2m_min', label: 'Temperature 3-Hourly Minimum (2 m)' },
 		{ value: 'temperature_2m_max', label: 'Temperature 3-Hourly Maximum (2 m)' },
-		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
+		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
+		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' }
 	],
 	[
 		{ value: 'cape', label: 'CAPE' },
