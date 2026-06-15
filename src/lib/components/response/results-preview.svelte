@@ -249,7 +249,14 @@
 	let error = $state('');
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let results: Promise<any[] | null> = $state(new Promise((resolve) => resolve(null)));
+	let currentController: AbortController | null = null;
+	let currentTimeoutId: ReturnType<typeof setTimeout> | null = null;
 	const reset = () => {
+		currentController?.abort();
+		if (currentTimeoutId !== null) {
+			clearTimeout(currentTimeoutId);
+			currentTimeoutId = null;
+		}
 		error = '';
 		results = new Promise((resolve) => resolve(null));
 	};
@@ -284,9 +291,18 @@
 		const url = `${server}?${new URLSearchParams(urlParams)}`.replaceAll('%2C', ',');
 
 		try {
+			currentController?.abort();
+			currentController = new AbortController();
+			currentTimeoutId = setTimeout(() => {
+				error = 'Request timed out after 30 seconds';
+				currentController?.abort();
+			}, 30000);
+
 			const t0 = performance.now();
 
-			const result = await fetch(url);
+			const result = await fetch(url, { signal: currentController.signal });
+			clearTimeout(currentTimeoutId);
+			currentTimeoutId = null;
 			const json = await result.json();
 
 			if (!result.ok) {
@@ -299,7 +315,9 @@
 				return [jsonToChart(json, tEnd)];
 			}
 		} catch (err) {
-			if (err instanceof Error) error = err.message;
+			if (err instanceof Error && err.name !== 'AbortError') {
+				error = err.message;
+			}
 			return null;
 		}
 	};
@@ -696,7 +714,9 @@
 						onclick={() => {
 							const query = document.querySelector('#api_url') as HTMLInputElement | null;
 							if (query) {
-								navigator.clipboard.writeText(query.value ?? '').catch(() => {});
+								navigator.clipboard
+									.writeText(query.value ?? '')
+									.catch((e) => console.error('Clipboard write failed:', e));
 								apiUrlCopied = true;
 								setTimeout(() => {
 									apiUrlCopied = false;
@@ -760,7 +780,9 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre') as HTMLPreElement | null;
 								if (query) {
-									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
+									navigator.clipboard
+										.writeText(query.textContent ?? '')
+										.catch((e) => console.error('Clipboard write failed:', e));
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -812,7 +834,9 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre') as HTMLPreElement | null;
 								if (query) {
-									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
+									navigator.clipboard
+										.writeText(query.textContent ?? '')
+										.catch((e) => console.error('Clipboard write failed:', e));
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;
@@ -876,7 +900,9 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
+									navigator.clipboard
+										.writeText(query.textContent ?? '')
+										.catch((e) => console.error('Clipboard write failed:', e));
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -927,7 +953,9 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
+									navigator.clipboard
+										.writeText(query.textContent ?? '')
+										.catch((e) => console.error('Clipboard write failed:', e));
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;
@@ -992,7 +1020,9 @@
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
+									navigator.clipboard
+										.writeText(query.textContent ?? '')
+										.catch((e) => console.error('Clipboard write failed:', e));
 									codeInstallCopied = true;
 									setTimeout(() => {
 										codeInstallCopied = false;
@@ -1043,7 +1073,9 @@
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
-									navigator.clipboard.writeText(query.textContent ?? '').catch(() => {});
+									navigator.clipboard
+										.writeText(query.textContent ?? '')
+										.catch((e) => console.error('Clipboard write failed:', e));
 									codeExampleCopied = true;
 									setTimeout(() => {
 										codeExampleCopied = false;

@@ -21,9 +21,11 @@
 
 	let debounceTimeout: ReturnType<typeof setTimeout> | undefined;
 	let searchQuery = $state('');
+	let abortController: AbortController | null = null;
 
 	onDestroy(() => {
 		clearTimeout(debounceTimeout);
+		abortController?.abort();
 	});
 
 	const closeModal = () => {
@@ -118,7 +120,9 @@
 				// Always set format=json to fetch data
 				const url = 'https://geocoding-api.open-meteo.com/v1/search';
 				const fetchUrl = `${url}?${new URLSearchParams({ name: searchQuery })}`;
-				const result = await fetch(fetchUrl);
+				abortController?.abort();
+				abortController = new AbortController();
+				const result = await fetch(fetchUrl, { signal: abortController.signal });
 
 				if (!result.ok) {
 					throw new Error(await result.text());
@@ -126,6 +130,10 @@
 
 				resolveOuter((await result.json()) as ResultSet);
 			} catch (err) {
+				if (err instanceof Error && err.name === 'AbortError') {
+					resolveOuter({ results: [] });
+					return;
+				}
 				throw err;
 			}
 		});

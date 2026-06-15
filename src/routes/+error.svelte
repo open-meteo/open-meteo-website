@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { mode } from 'mode-watcher';
 
 	import { page } from '$app/state';

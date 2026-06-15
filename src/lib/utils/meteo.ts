@@ -36,7 +36,8 @@ export const countPreviousVariables = (
 
 	let active = 0;
 	if (param) {
-		for (const p of param) {
+		const params = Array.isArray(param) ? param : [param];
+		for (const p of params) {
 			for (const fV of flattenedVariables) {
 				if (p.startsWith(fV)) {
 					active += 1;
