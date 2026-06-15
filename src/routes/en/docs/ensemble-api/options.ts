@@ -279,7 +279,6 @@ export const aigfs025_variables = [
 	'is_day'
 ];
 
-
 export const google_weathernext2_variables = [
 	...aigfs025_variables,
 	'sea_surface_temperature',
@@ -731,9 +730,7 @@ export const models = [
 		{ value: 'meteoswiss_icon_ch1_ensemble', label: 'MeteoSwiss ICON CH1' },
 		{ value: 'meteoswiss_icon_ch2_ensemble', label: 'MeteoSwiss ICON CH2' }
 	],
-	[
-		{ value: 'google_weathernext2_ensemble', label: 'Google WeatherNext2 Ensemble' }
-	]
+	[{ value: 'google_weathernext2_ensemble', label: 'Google WeatherNext 2 Ensemble' }]
 ];
 
 export const forecastDaysOptions = [

@@ -804,7 +804,7 @@
 					</tr>
 					<tr>
 						<th>Google</th>
-						<td>WeatherNext2</td>
+						<td>WeatherNext 2</td>
 						<td>Global</td>
 						<td>25 km, 6-hourly</td>
 						<td>64</td>
