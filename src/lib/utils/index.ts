@@ -37,7 +37,7 @@ export function objectDifference<T extends Record<string, unknown>>(a: T, b: T):
 			}
 			diff[key] = a[key];
 		} else {
-			if (a[key] !== undefined && a[key] !== null && a[key] !== '' && a[key] !== b[key]) {
+			if (a[key] && a[key] != '' && a[key] !== b[key]) {
 				diff[key] = a[key];
 			}
 		}
