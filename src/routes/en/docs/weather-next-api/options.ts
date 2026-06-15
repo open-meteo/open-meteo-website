@@ -62,7 +62,7 @@ export const additionalVariables: { value: string; label: string }[][] = [];
 export const solarVariables: { value: string; label: string }[][] = [];
 
 export const models = [
-	[{ value: 'google_weathernext_global_ensemble', label: 'Google WeatherNext Global Ensemble' }]
+	[{ value: 'google_weathernext2_ensemble', label: 'Google WeatherNext 2 Ensemble' }]
 ];
 
 export const forecastDaysOptions = [
