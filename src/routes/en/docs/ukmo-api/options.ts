@@ -64,11 +64,12 @@ export const hourly = [
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
 		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
 		{ value: 'rain', label: 'Rain' },
-		{ value: 'showers', label: 'Showers' },
-		{ value: 'snowfall', label: 'Snowfall' },
-		{ value: 'hail', label: 'Hail' }
+		{ value: 'showers', label: 'Showers' }
 	],
 	[
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'hail', label: 'Hail' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent' },
 		{ value: 'weather_code', label: 'Weather code' },
 		{ value: 'visibility', label: 'Visibility' },
 		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
