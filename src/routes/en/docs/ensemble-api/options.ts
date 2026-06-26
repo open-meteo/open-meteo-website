@@ -607,9 +607,12 @@ export const availableVariables: Record<string, string[]> = {
 export const hourly = [
 	[
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
+		{ value: 'temperature_80m', label: 'Temperature (80 m)' },
+		{ value: 'temperature_120m', label: 'Temperature (120 m)' },
+		{ value: 'surface_temperature', label: 'Surface Temperature' },
+		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
 		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'snowfall', label: 'Snowfall' },
@@ -632,16 +635,15 @@ export const hourly = [
 		{ value: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
 		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 		{ value: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
+		{ value: 'wind_speed_200m', label: 'Wind Speed (200 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
 		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
 		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 		{ value: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
-		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-		{ value: 'temperature_80m', label: 'Temperature (80 m)' },
-		{ value: 'temperature_120m', label: 'Temperature (120 m)' }
+		{ value: 'wind_direction_200m', label: 'Wind Direction (200 m)' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 	],
 	[
-		{ value: 'surface_temperature', label: 'Surface Temperature' },
 		{ value: 'soil_temperature_0_to_10cm', label: 'Soil Temperature (0-10 cm)' },
 		{ value: 'soil_temperature_10_to_40cm', label: 'Soil Temperature (10-40 cm)' },
 		{ value: 'soil_temperature_40_to_100cm', label: 'Soil Temperature (40-100 cm)' },
