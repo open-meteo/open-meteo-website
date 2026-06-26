@@ -617,6 +617,26 @@ circle.highcharts-legend-nav-inactive {
 	fill-opacity: 0.05;
 }
 
+.plot-band-day {
+	fill: rgb(255, 255, 194);
+	fill-opacity: 0.5;
+}
+
+.plot-band-moon {
+	fill: rgb(200, 215, 255);
+	fill-opacity: 0.25;
+}
+
+.highcharts-dark .plot-band-day {
+	fill: rgb(153, 153, 86);
+	fill-opacity: 0.25;
+}
+
+.highcharts-dark .plot-band-moon {
+	fill: rgb(30, 50, 100);
+	fill-opacity: 0.35;
+}
+
 .highcharts-plot-line {
 	fill: none;
 	stroke: var(--highcharts-neutral-color-40);

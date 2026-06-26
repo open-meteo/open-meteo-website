@@ -166,6 +166,9 @@ export const daily = [
 	[
 		{ value: 'sunrise', label: 'Sunrise' },
 		{ value: 'sunset', label: 'Sunset' },
+		{ value: 'moonrise', label: 'Moonrise' },
+		{ value: 'moonset', label: 'Moonset' },
+		{ value: 'moon_phase', label: 'Moonphase' },
 		{ value: 'daylight_duration', label: 'Daylight Duration' },
 		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
 		{ value: 'uv_index_max', label: 'UV Index' },
