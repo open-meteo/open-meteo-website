@@ -1,4 +1,4 @@
-import { ecmwf_aifs_europe_variables, ecmwf_ifs_europe_variables } from "../ensemble-api/options";
+import { ecmwf_aifs_europe_variables, ecmwf_ifs_europe_variables } from '../ensemble-api/options';
 
 export const defaultParameters = {
 	daily: [],
@@ -720,7 +720,7 @@ export const models = [
 	[
 		{ value: 'ukmo_global_ensemble_mean_20km', label: 'UK MetOffice Global 20km Mean' },
 		{ value: 'ukmo_uk_ensemble_mean_2km', label: 'UK MetOffice UK 2km Mean' },
-				{ value: 'cmc_gem_geps_ensemble_mean', label: 'GEM Global Ensemble Mean' },
+		{ value: 'cmc_gem_geps_ensemble_mean', label: 'GEM Global Ensemble Mean' },
 		{ value: 'bom_access_global_ensemble_mean', label: 'BOM ACCESS Global Mean' }
 	],
 	[
