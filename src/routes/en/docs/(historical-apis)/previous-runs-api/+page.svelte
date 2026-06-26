@@ -21,7 +21,7 @@
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
 
-	import { gridCellSelectionOptions, models, temporalResolutionOptions } from '../options';
+	import { gridCellSelectionOptions, models, temporalResolutionOptions } from '../../options';
 	import {
 		defaultParameters,
 		forecastDaysOptions,

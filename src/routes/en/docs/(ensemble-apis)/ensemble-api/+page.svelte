@@ -32,7 +32,7 @@
 		gridCellSelectionOptions,
 		pastHoursOptions,
 		temporalResolutionOptions
-	} from '../options';
+	} from '../../options';
 	import {
 		additionalVariables,
 		availableVariables,

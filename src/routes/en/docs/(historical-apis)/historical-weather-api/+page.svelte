@@ -26,7 +26,7 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 
-	import { gridCellSelectionOptions, temporalResolutionOptions } from '../options';
+	import { gridCellSelectionOptions, temporalResolutionOptions } from '../../options';
 	import {
 		additionalDaily,
 		additionalVariables,

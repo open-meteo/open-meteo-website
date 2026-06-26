@@ -36,7 +36,7 @@
 		pastDaysOptions,
 		pastHoursOptions,
 		temporalResolutionOptions
-	} from '../options';
+	} from '../../options';
 	import {
 		additionalVariables,
 		defaultParameters,
