@@ -393,6 +393,60 @@ export const ecmwf_aifs025_variables = [
 	'is_day'
 ];
 
+export const ecmwf_ifs_europe_variables = [
+	'temperature_2m',
+	'cloud_cover',
+	'dew_point_2m',
+	'precipitation',
+	'surface_pressure',
+	'pressure_msl',
+	'shortwave_radiation',
+	'shortwave_radiation_clear_sky',
+	'snow_depth_water_equivalent',
+	'soil_moisture_0_to_7cm',
+	'wind_gusts_10m',
+	'wind_speed_200m',
+	'wind_speed_100m',
+	'wind_speed_10m',
+	'wind_direction_200m',
+	'wind_direction_100m',
+	'wind_direction_10m',
+	'sunshine_duration',
+	'relative_humidity_2m',
+	'et0_fao_evapotranspiration',
+	'wet_bulb_temperature_2m',
+	'apparent_temperature',
+	'vapour_pressure_deficit',
+	'is_day'
+]
+
+export const ecmwf_aifs_europe_variables = [
+	'temperature_2m',
+	'cloud_cover',
+	'cloud_cover_high',
+	'cloud_cover_low',
+	'cloud_cover_mid',
+	'dew_point_2m',
+	'precipitation',
+	'surface_pressure',
+	'pressure_msl',
+	'shortwave_radiation',
+	'snowfall_water_equivalent',
+	'snowfall',
+	'wind_speed_100m',
+	'wind_speed_10m',
+	'wind_direction_100m',
+	'wind_direction_10m',
+	'total_column_water',
+	'sunshine_duration',
+	'relative_humidity_2m',
+	'et0_fao_evapotranspiration',
+	'wet_bulb_temperature_2m',
+	'apparent_temperature',
+	'vapour_pressure_deficit',
+	'is_day'
+]
+
 export const ukmo_variables = [
 	'temperature_2m',
 	'rain',
@@ -540,6 +594,8 @@ export const availableVariables: Record<string, string[]> = {
 	ncep_aigefs025: aigfs025_variables,
 	ecmwf_ifs025_ensemble: ecmwf_ifs025_variables,
 	ecmwf_aifs025_ensemble: ecmwf_aifs025_variables,
+	ecmwf_ifs_europe_ensemble: ecmwf_ifs_europe_variables,
+	ecmwf_aifs_europe_ensemble: ecmwf_aifs_europe_variables,
 	ukmo_global_ensemble_20km: ukmo_variables,
 	ukmo_uk_ensemble_2km: ukmo_2km_variables,
 	gem_global_ensemble: gem_global_variables,
@@ -710,12 +766,14 @@ export const models = [
 	[
 		{ value: 'ecmwf_ifs025_ensemble', label: 'ECMWF IFS 0.25° Ensemble' },
 		{ value: 'ecmwf_aifs025_ensemble', label: 'ECMWF AIFS 0.25° Ensemble' },
-		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' },
-		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
+		{ value: 'ecmwf_ifs_europe_ensemble', label: 'ECMWF IFS Europe (O1280) Ensemble' },
+		{ value: 'ecmwf_aifs_europe_ensemble', label: 'ECMWF AIFS Europe (N320) Ensemble' }
 	],
 	[
 		{ value: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' },
-		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' }
+		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' },
+		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' },
+		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
 	],
 	[
 		{ value: 'meteoswiss_icon_ch1_ensemble', label: 'MeteoSwiss ICON CH1' },
