@@ -566,6 +566,17 @@
 						meta: fetchMeta('ukmo_global_ensemble_20km', 'ensemble', apiKeyPreferences)
 					}
 				]
+			},
+			{
+				provider: 'Google',
+				url: '/en/docs/google-weathernext-api',
+				models: [
+					{
+						name: 'WeatherNext 2',
+						area: [],
+						meta: fetchMeta('google_weathernext2_ensemble', 'ensemble', apiKeyPreferences)
+					}
+				]
 			}
 		];
 
