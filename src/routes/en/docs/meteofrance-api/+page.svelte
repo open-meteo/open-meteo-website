@@ -572,6 +572,14 @@
 						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
 						seamless prediction.</small
 					>
+					{#if $params.models?.includes('meteofrance_arome_france_15min') || $params.models?.includes('meteofrance_arome_france_hd_15min')}
+						<div transition:slide>
+							<small class="text-muted-foreground"
+								>Note: The 15 min models only contain a small number of variables, and forecast
+								length is limited.</small
+							>
+						</div>
+					{/if}
 				</div>
 			</AccordionItem>
 			<AccordionItem
