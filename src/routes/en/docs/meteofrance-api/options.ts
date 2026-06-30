@@ -217,6 +217,10 @@ export const models = [
 		{ value: 'arome_seamless', label: 'AROME Seamless' },
 		{ value: 'arome_france', label: 'AROME France' },
 		{ value: 'arome_france_hd', label: 'AROME France HD' }
+	],
+	[
+		{ value: 'meteofrance_arome_france_15min', label: 'AROME France 15min' },
+		{ value: 'meteofrance_arome_france_hd_15min', label: 'AROME France HD 15min' }
 	]
 ];
 
