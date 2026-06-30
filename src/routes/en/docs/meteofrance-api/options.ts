@@ -209,14 +209,14 @@ export const solarVariables = [
 export const models = [
 	[{ value: 'best_match', label: 'Best match' }],
 	[
-		{ value: 'arpege_seamless', label: 'ARPEGE Seamless' },
-		{ value: 'arpege_world', label: 'ARPEGE World' },
-		{ value: 'arpege_europe', label: 'ARPEGE Europe' }
+		{ value: 'meteofrance_arpege_seamless', label: 'ARPEGE Seamless' },
+		{ value: 'meteofrance_arpege_world', label: 'ARPEGE World' },
+		{ value: 'meteofrance_arpege_europe', label: 'ARPEGE Europe' }
 	],
 	[
-		{ value: 'arome_seamless', label: 'AROME Seamless' },
-		{ value: 'arome_france', label: 'AROME France' },
-		{ value: 'arome_france_hd', label: 'AROME France HD' }
+		{ value: 'meteofrance_arome_seamless', label: 'AROME Seamless' },
+		{ value: 'meteofrance_arome_france', label: 'AROME France' },
+		{ value: 'meteofrance_arome_france_hd', label: 'AROME France HD' }
 	],
 	[
 		{ value: 'meteofrance_arome_france_15min', label: 'AROME France 15min' },
