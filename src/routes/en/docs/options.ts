@@ -339,10 +339,10 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 		{ value: 'kma_gdps', label: 'KMA GDPS' }
 	],
 	[
-		{ value: 'icon_seamless', label: 'DWD ICON Seamless' },
-		{ value: 'icon_global', label: 'DWD ICON Global' },
-		{ value: 'icon_eu', label: 'DWD ICON EU' },
-		{ value: 'icon_d2', label: 'DWD ICON D2' }
+		{ value: 'dwd_icon_seamless', label: 'DWD ICON Seamless' },
+		{ value: 'dwd_icon_global', label: 'DWD ICON Global' },
+		{ value: 'dwd_icon_eu', label: 'DWD ICON EU' },
+		{ value: 'dwd_icon_d2', label: 'DWD ICON D2' }
 	],
 	[
 		{ value: 'gem_seamless', label: 'GEM Seamless' },
