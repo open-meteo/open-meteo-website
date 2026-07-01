@@ -811,7 +811,7 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultsPreview {params} {defaultParameters} model_default="ncep_gfs_seamless" />
+	<ResultsPreview {params} {defaultParameters} model_default="gfs_seamless" />
 </div>
 
 <!-- DATA SOURCES -->
