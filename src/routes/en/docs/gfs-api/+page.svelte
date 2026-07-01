@@ -865,7 +865,7 @@
 						<th scope="row"
 							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank">HRRR Conus</a></th
 						>
-						<td>U.S. Conus</td>
+						<td>CONUS</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td
@@ -876,11 +876,23 @@
 					</tr>
 					<tr>
 						<th scope="row"
+							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank"
+								>HRRR Conus 15 minutely</a
+							></th
+						>
+						<td>CONUS</td>
+						<td>3 km</td>
+						<td>15 Minutely</td>
+						<td>18 hours</td>
+						<td>Every hour</td>
+					</tr>
+					<tr>
+						<th scope="row"
 							><a href="https://vlab.noaa.gov/web/mdl/nbm-documentation" target="_blank"
 								>NBM Conus</a
 							></th
 						>
-						<td>U.S. Conus</td>
+						<td>CONUS</td>
 						<td>2.5 km</td>
 						<td
 							>Hourly, <small class="text-muted-foreground"
@@ -896,7 +908,7 @@
 								>NAM Conus</a
 							></th
 						>
-						<td>U.S. Conus</td>
+						<td>CONUS</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td>60 hours</td>
@@ -944,15 +956,9 @@
 
 		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 			<figure>
-				<img
-					src="/images/models/ncep_hrrr.webp"
-					class="rounded-lg"
-					alt="HRRR U.S.Conus Model Area"
-				/>
+				<img src="/images/models/ncep_hrrr.webp" class="rounded-lg" alt="HRRR Conus Model Area" />
 				<figcaption>
-					HRRR and NAM U.S. Conus Model Area. Source: <a href="https://open-meteo.com/"
-						>Open-Meteo</a
-					>.
+					HRRR and NAM Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 				</figcaption>
 			</figure>
 
@@ -960,10 +966,10 @@
 				<img
 					src="/images/models/ncep_nbm_conus.webp"
 					class="rounded-lg"
-					alt="NBM U.S. Conus Model Area"
+					alt="NBM Conus Model Area"
 				/>
 				<figcaption>
-					NBM U.S. Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+					NBM Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 				</figcaption>
 			</figure>
 		</div>
