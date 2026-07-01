@@ -393,6 +393,60 @@ export const ecmwf_aifs025_variables = [
 	'is_day'
 ];
 
+export const ecmwf_ifs_europe_variables = [
+	'temperature_2m',
+	'cloud_cover',
+	'dew_point_2m',
+	'precipitation',
+	'surface_pressure',
+	'pressure_msl',
+	'shortwave_radiation',
+	'shortwave_radiation_clear_sky',
+	'snow_depth_water_equivalent',
+	'soil_moisture_0_to_7cm',
+	'wind_gusts_10m',
+	'wind_speed_200m',
+	'wind_speed_100m',
+	'wind_speed_10m',
+	'wind_direction_200m',
+	'wind_direction_100m',
+	'wind_direction_10m',
+	'sunshine_duration',
+	'relative_humidity_2m',
+	'et0_fao_evapotranspiration',
+	'wet_bulb_temperature_2m',
+	'apparent_temperature',
+	'vapour_pressure_deficit',
+	'is_day'
+];
+
+export const ecmwf_aifs_europe_variables = [
+	'temperature_2m',
+	'cloud_cover',
+	'cloud_cover_high',
+	'cloud_cover_low',
+	'cloud_cover_mid',
+	'dew_point_2m',
+	'precipitation',
+	'surface_pressure',
+	'pressure_msl',
+	'shortwave_radiation',
+	'snowfall_water_equivalent',
+	'snowfall',
+	'wind_speed_100m',
+	'wind_speed_10m',
+	'wind_direction_100m',
+	'wind_direction_10m',
+	'total_column_water',
+	'sunshine_duration',
+	'relative_humidity_2m',
+	'et0_fao_evapotranspiration',
+	'wet_bulb_temperature_2m',
+	'apparent_temperature',
+	'vapour_pressure_deficit',
+	'is_day'
+];
+
 export const ukmo_variables = [
 	'temperature_2m',
 	'rain',
@@ -540,6 +594,8 @@ export const availableVariables: Record<string, string[]> = {
 	ncep_aigefs025: aigfs025_variables,
 	ecmwf_ifs025_ensemble: ecmwf_ifs025_variables,
 	ecmwf_aifs025_ensemble: ecmwf_aifs025_variables,
+	ecmwf_ifs_europe_ensemble: ecmwf_ifs_europe_variables,
+	ecmwf_aifs_europe_ensemble: ecmwf_aifs_europe_variables,
 	ukmo_global_ensemble_20km: ukmo_variables,
 	ukmo_uk_ensemble_2km: ukmo_2km_variables,
 	gem_global_ensemble: gem_global_variables,
@@ -551,9 +607,12 @@ export const availableVariables: Record<string, string[]> = {
 export const hourly = [
 	[
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
+		{ value: 'temperature_80m', label: 'Temperature (80 m)' },
+		{ value: 'temperature_120m', label: 'Temperature (120 m)' },
+		{ value: 'surface_temperature', label: 'Surface Temperature' },
+		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
 		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'snowfall', label: 'Snowfall' },
@@ -576,16 +635,15 @@ export const hourly = [
 		{ value: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
 		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 		{ value: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
+		{ value: 'wind_speed_200m', label: 'Wind Speed (200 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
 		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
 		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 		{ value: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
-		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-		{ value: 'temperature_80m', label: 'Temperature (80 m)' },
-		{ value: 'temperature_120m', label: 'Temperature (120 m)' }
+		{ value: 'wind_direction_200m', label: 'Wind Direction (200 m)' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 	],
 	[
-		{ value: 'surface_temperature', label: 'Surface Temperature' },
 		{ value: 'soil_temperature_0_to_10cm', label: 'Soil Temperature (0-10 cm)' },
 		{ value: 'soil_temperature_10_to_40cm', label: 'Soil Temperature (10-40 cm)' },
 		{ value: 'soil_temperature_40_to_100cm', label: 'Soil Temperature (40-100 cm)' },
@@ -680,6 +738,10 @@ export const additionalVariables = [
 export const solarVariables = [
 	[
 		{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
+		{
+			value: 'shortwave_radiation_clear_sky',
+			label: 'Shortwave Solar Radiation Clear Sky (Only IFS Europe)'
+		},
 		{ value: 'direct_radiation', label: 'Direct Solar Radiation' },
 		{ value: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
 		{ value: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
@@ -687,6 +749,10 @@ export const solarVariables = [
 	],
 	[
 		{ value: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
+		{
+			value: 'shortwave_radiation_clear_sky_instant',
+			label: 'Shortwave Solar Radiation Clear Sky (Instant, Only IFS Europe)'
+		},
 		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
 		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
 		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
@@ -710,12 +776,14 @@ export const models = [
 	[
 		{ value: 'ecmwf_ifs025_ensemble', label: 'ECMWF IFS 0.25° Ensemble' },
 		{ value: 'ecmwf_aifs025_ensemble', label: 'ECMWF AIFS 0.25° Ensemble' },
-		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' },
-		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
+		{ value: 'ecmwf_ifs_europe_ensemble', label: 'ECMWF IFS Europe (O1280) Ensemble' },
+		{ value: 'ecmwf_aifs_europe_ensemble', label: 'ECMWF AIFS Europe (N320) Ensemble' }
 	],
 	[
 		{ value: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' },
-		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' }
+		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' },
+		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' },
+		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
 	],
 	[
 		{ value: 'meteoswiss_icon_ch1_ensemble', label: 'MeteoSwiss ICON CH1' },
