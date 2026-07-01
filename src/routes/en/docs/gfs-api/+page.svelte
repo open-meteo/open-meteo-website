@@ -24,6 +24,7 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
@@ -956,19 +957,15 @@
 
 		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 			<figure>
-				<img src="/images/models/ncep_hrrr.webp" class="rounded-lg" alt="HRRR Conus Model Area" />
-				<figcaption>
+				<ModelImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR Conus Model Area" />
+				<figcaption class="text-muted-foreground">
 					HRRR and NAM Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 				</figcaption>
 			</figure>
 
 			<figure>
-				<img
-					src="/images/models/ncep_nbm_conus.webp"
-					class="rounded-lg"
-					alt="NBM Conus Model Area"
-				/>
-				<figcaption>
+				<ModelImage src="/images/models/ncep_nbm_conus.webp" alt="NBM Conus Model Area" />
+				<figcaption class="text-muted-foreground">
 					NBM Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 				</figcaption>
 			</figure>

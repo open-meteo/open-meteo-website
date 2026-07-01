@@ -24,6 +24,7 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
@@ -840,24 +841,24 @@
 
 		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 			<figure class="w-full">
-				<img
+				<ModelImage
+					src="/images/models/dwd_icon_eu.webp"
+					alt="DWD ICON EU Regional Model Area"
 					class="w-full rounded-lg"
-					src="/images/models/dwd_icon-d2.webp"
-					alt="ICON D2 Modal Area"
 				/>
 				<figcaption class="text-muted-foreground">
-					ICON D2 Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+					DWD ICON EU Regional Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 				</figcaption>
 			</figure>
 
 			<figure class="w-full">
-				<img
+				<ModelImage
+					src="/images/models/dwd_icon_d2.webp"
+					alt="DWD ICON D2 Modal Area"
 					class="w-full rounded-lg"
-					src="/images/models/dwd_icon-eu.webp"
-					alt="ICON EU Regional Model Area"
 				/>
 				<figcaption class="text-muted-foreground">
-					ICON EU Regional Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+					DWD ICON D2 Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 				</figcaption>
 			</figure>
 		</div>

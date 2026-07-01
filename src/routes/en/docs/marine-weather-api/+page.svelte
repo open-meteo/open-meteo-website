@@ -18,6 +18,7 @@
 	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
@@ -738,6 +739,16 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+			<figure>
+				<ModelImage src="/images/models/dwd_ewam.webp" alt="DWD EWAM model area" />
+				<figcaption class="text-muted-foreground">
+					DWD EWAM local wave model area (Europe). Source: <a href="https://open-meteo.com/"
+						>Open-Meteo</a
+					>.
+				</figcaption>
+			</figure>
 		</div>
 	</div>
 </div>

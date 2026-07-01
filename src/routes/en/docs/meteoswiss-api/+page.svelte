@@ -15,6 +15,7 @@
 	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
@@ -586,10 +587,10 @@
 
 		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 			<figure class="w-full">
-				<img
-					class="w-full rounded-lg"
+				<ModelImage
 					src="/images/models/meteoswiss_icon_ch1.webp"
 					alt="ICON CH1 Modal Area"
+					class="w-full rounded-lg"
 				/>
 				<figcaption class="text-muted-foreground">
 					ICON CH1 & CH2 Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.

@@ -20,6 +20,7 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
@@ -634,10 +635,10 @@
 
 		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 			<figure class="w-full">
-				<img
-					class="w-full rounded-lg"
-					src="/images/models/italiameteo_icon-2i.webp"
+				<ModelImage
+					src="/images/models/italia_meteo_arpae_icon_2i.webp"
 					alt="ICON 2I Modal Area"
+					class="w-full rounded-lg"
 				/>
 				<figcaption class="text-muted-foreground">
 					ICON 2I Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
