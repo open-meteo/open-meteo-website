@@ -258,9 +258,7 @@
 			<p>
 				Payments via credit card, Apple Pay, Google Pay, SOFORT, or SEPA — processed through Stripe.
 				A PDF invoice is issued on each billing cycle. Subscription details and payment method are
-				managed in the <a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII"
-					>customer portal</a
-				>.
+				managed in the <a href="https://dashboard.open-meteo.com/login">customer portal</a>.
 			</p>
 		</div>
 		<div class="feature col">
@@ -292,9 +290,8 @@
 			</div>
 			<p>
 				Fixed monthly price — no per-call overages or surprise charges. Upgrade or downgrade at any
-				time via the <a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII"
-					>customer portal</a
-				>. Cancellation takes effect at the end of the current billing period.
+				time via the <a href="https://dashboard.open-meteo.com/login">customer portal</a>.
+				Cancellation takes effect at the end of the current billing period.
 			</p>
 		</div>
 	</div>
@@ -407,7 +404,7 @@
 					issued immediately. The key grants access to
 					<mark>customer-api.open-meteo.com</mark>. Cancel, upgrade, or update payment details at
 					any time in the
-					<a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII">customer portal</a>.
+					<a href="https://dashboard.open-meteo.com/login">customer portal</a>.
 				</p>
 			</div>
 
@@ -449,7 +446,7 @@
 						>Professional API Plan</mark
 					>
 					or higher. Upgrade via the
-					<a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII">customer portal</a>.
+					<a href="https://dashboard.open-meteo.com/login">customer portal</a>.
 				</p>
 			</div>
 
