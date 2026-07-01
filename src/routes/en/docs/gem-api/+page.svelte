@@ -666,7 +666,7 @@
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultsPreview {params} {defaultParameters} model_default="cmc_gem_seamless" />
+	<ResultsPreview {params} {defaultParameters} model_default="gem_seamless" />
 </div>
 
 <!-- DATA SOURCES -->

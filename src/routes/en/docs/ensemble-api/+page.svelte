@@ -52,7 +52,7 @@
 		longitude: [13.41],
 		...defaultParameters,
 		hourly: ['temperature_2m'],
-		models: ['dwd_icon_seamless_eps']
+		models: ['icon_seamless_eps']
 	});
 
 	// Additional variable settings
