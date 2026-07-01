@@ -160,8 +160,8 @@ const era5_ocean_variables = ['wave_height', 'wave_direction', 'wave_period', 'w
 export const availableVariables: Record<string, string[]> = {
 	meteofrance_wave: meteofrance_wave_variables,
 	meteofrance_currents: meteofrance_currents_variables,
-	ewam: icon_wave_variables,
-	gwam: icon_wave_variables,
+	dwd_ewam: icon_wave_variables,
+	dwd_gwam: icon_wave_variables,
 	ecmwf_wam: ecmwf_wam_variables,
 	ecmwf_wam025: ecmwf_wam_variables,
 	ncep_gfswave025: gfs_wave_variables,
@@ -175,8 +175,8 @@ export const models = [
 	[
 		{ value: 'meteofrance_wave', label: 'MeteoFrance Wave', caption: '0.083°' },
 		{ value: 'meteofrance_currents', label: 'MeteoFrance Ocean Currents', caption: '0.083°' },
-		{ value: 'ewam', label: 'DWD EWAM', caption: '0.05° only Europe' },
-		{ value: 'gwam', label: 'DWD GWAM', caption: '0.25°' },
+		{ value: 'dwd_ewam', label: 'DWD EWAM', caption: '0.05° only Europe' },
+		{ value: 'dwd_gwam', label: 'DWD GWAM', caption: '0.25°' },
 		{ value: 'ecmwf_wam', label: 'ECMWF WAM', caption: '9km, global' },
 		{ value: 'ecmwf_wam025', label: 'ECMWF WAM 0.25', caption: '0.25°, global' },
 		{ value: 'ncep_gfswave025', label: 'GFS Wave 0.25°', caption: '0.25°, global' },
