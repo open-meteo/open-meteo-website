@@ -20,6 +20,7 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
@@ -670,15 +671,26 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<figure>
-			<enhanced:img
-				src="/static/images/models/knmi_harmonie.jpg"
-				class="rounded-lg"
-				alt="KNMI HARMONIE AROME model area over Europe and Netherlands"
+			<ModelImage
+				src="/images/models/knmi_harmonie_arome_europe.webp"
+				alt="KNMI HARMONIE AROME Europe Model Area"
 			/>
 			<figcaption class="text-muted-foreground">
-				KNMI HARMONIE AROME model area Europe (blue/red) and Netherlands nest (green). Source: <a
-					href="https://english.knmidata.nl/latest/newsletters/open-data-newsletter/2024/open-data-march-2024"
-					>KMNI Blog</a
+				KNMI HARMONIE AROME Europe Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=knmi_harmonie_arome_europe#3.1/56.90/-1.61"
+					>Open-Meteo</a
+				>.
+			</figcaption>
+		</figure>
+		<figure>
+			<ModelImage
+				src="/images/models/knmi_harmonie_arome_netherlands.webp"
+				alt="KNMI HARMONIE AROME Netherlands Model Area"
+			/>
+			<figcaption class="text-muted-foreground">
+				KNMI HARMONIE AROME Netherlands Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=knmi_harmonie_arome_netherlands#5.4/52.65/5.66"
+					>Open-Meteo</a
 				>.
 			</figcaption>
 		</figure>

@@ -24,6 +24,7 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
@@ -757,26 +758,33 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-3">
 		<figure>
-			<img src="/images/models/gem_hrdps.webp" class="rounded-lg" alt="HRDPS Model Area" />
+			<ModelImage src="/images/models/cmc_gem_rdps_10km.webp" alt="RDPS Regional Model Area" />
 			<figcaption class="text-muted-foreground">
-				HRDPS Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				RDPS Regional Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=cmc_gem_rdps_10km#2/55.58/-97.07">Open-Meteo</a
+				>.
+			</figcaption>
+		</figure>
+		<figure>
+			<ModelImage src="/images/models/cmc_gem_hrdps.webp" alt="HRDPS Model Area" />
+			<figcaption class="text-muted-foreground">
+				HRDPS Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=cmc_gem_hrdps#2.7/54.25/-96.71">Open-Meteo</a
+				>.
 			</figcaption>
 		</figure>
 
 		<figure class="w-full">
-			<img
-				class="w-full rounded-lg"
-				src="/images/models/gem_hrdps_west.webp"
+			<ModelImage
+				src="/images/models/cmc_gem_hrdps_west.webp"
 				alt="HRDPS West Model Area"
+				class="w-full rounded-lg"
 			/>
 			<figcaption class="text-muted-foreground">
-				HRDPS West Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
-			</figcaption>
-		</figure>
-		<figure>
-			<img src="/images/models/gem_rdps.webp" class="rounded-lg" alt="RDPS Regional Model Area" />
-			<figcaption class="text-muted-foreground">
-				RDPS Regional Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				HRDPS West Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=cmc_gem_hrdps_west#4.3/53.72/-122.08"
+					>Open-Meteo</a
+				>.
 			</figcaption>
 		</figure>
 	</div>

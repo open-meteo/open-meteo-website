@@ -18,6 +18,7 @@
 	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
@@ -559,11 +560,7 @@
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
 		<figure>
-			<enhanced:img
-				src="/static/images/models/metno_nordic.png"
-				class="rounded-lg"
-				alt="MET Nordic model area"
-			/>
+			<ModelImage src="/images/models/metno_nordic_pp.webp" alt="MET Nordic model area" />
 			<figcaption class="text-muted-foreground">
 				MET Nordic model area (marked in red). Source: <a
 					href="https://github.com/metno/NWPdocs/wiki/MEPS-dataset">Met Norway GitHub</a
