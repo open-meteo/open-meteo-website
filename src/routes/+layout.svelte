@@ -78,7 +78,7 @@
 
 <Header {pathname} />
 {#if loading}
-	<Loading />
+	<Loading onclose={() => (loading = false)} />
 {/if}
 <main>
 	<!-- eslint-disable-next-line @typescript-eslint/no-explicit-any -->
