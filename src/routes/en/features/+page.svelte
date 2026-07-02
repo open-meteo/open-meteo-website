@@ -181,7 +181,7 @@
 					days, from January 2024
 				</li>
 				<li>
-					<strong>Single Runs API</strong> — archived individual runs from September 2025 (ECMWF IFS HRES
+					<strong>Single Runs API</strong> — archived individual runs from April 2026 (ECMWF IFS HRES
 					from March 2024)
 				</li>
 			</ul>
@@ -344,7 +344,7 @@
 
 			<div class="border-border rounded-lg border p-6">
 				<h3 class="mb-1 text-2xl font-bold">
-					<a href="/en/docs/single-runs-api">Single Runs Archive — from September 2025</a>
+					<a href="/en/docs/single-runs-api">Single Runs Archive — from April 2026</a>
 				</h3>
 				<p class="text-muted-foreground mb-3 text-sm">Single Runs API</p>
 				<p>
