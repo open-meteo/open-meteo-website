@@ -175,8 +175,8 @@
 	>
 	<Alert.Description>
 		Retrieve the full forecast horizon of any individual model run using the <mark>&run=</mark>
-		parameter (e.g. <mark>&run=2025-09-01T00:00</mark>). Most models are archived from April
-		2026. ECMWF IFS HRES at 9 km is available from March 2024.
+		parameter (e.g. <mark>&run=2025-09-01T00:00</mark>). Most models are archived from April 2026.
+		ECMWF IFS HRES at 9 km is available from March 2024.
 	</Alert.Description>
 </Alert.Root>
 
