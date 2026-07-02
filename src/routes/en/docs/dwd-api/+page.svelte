@@ -847,7 +847,8 @@
 					class="w-full rounded-lg"
 				/>
 				<figcaption class="text-muted-foreground">
-					DWD ICON EU Regional Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+					DWD ICON EU Regional Model Area. Source:
+					<a href="https://maps.open-meteo.com/?domain=dwd_icon_eu#2.8/54.92/19.53">Open-Meteo</a>.
 				</figcaption>
 			</figure>
 
@@ -858,7 +859,8 @@
 					class="w-full rounded-lg"
 				/>
 				<figcaption class="text-muted-foreground">
-					DWD ICON D2 Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+					DWD ICON D2 Model Area. Source:
+					<a href="https://maps.open-meteo.com/?domain=dwd_icon_d2#4.3/51.24/8.21">Open-Meteo</a>.
 				</figcaption>
 			</figure>
 		</div>

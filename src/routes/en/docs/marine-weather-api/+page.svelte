@@ -742,10 +742,10 @@
 		</div>
 		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 			<figure>
-				<ModelImage src="/images/models/dwd_ewam.webp" alt="DWD EWAM model area" />
+				<ModelImage src="/images/models/dwd_ewam.webp" alt="DWD EWAM Model Area" />
 				<figcaption class="text-muted-foreground">
-					DWD EWAM local wave model area (Europe). Source: <a href="https://open-meteo.com/"
-						>Open-Meteo</a
+					DWD EWAM Wave Model Area. Source: <a
+						href="https://maps.open-meteo.com/?domain=dwd_ewam#3.1/51.43/15.80">Open-Meteo</a
 					>.
 				</figcaption>
 			</figure>

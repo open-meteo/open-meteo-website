@@ -959,14 +959,14 @@
 			<figure>
 				<ModelImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR Conus Model Area" />
 				<figcaption class="text-muted-foreground">
-					HRRR and NAM Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+					HRRR and NAM Conus Model Area. Source: <a href="https://maps.open-meteo.com/?domain=ncep_hrrr_conus#3.5/38.59/-97.49">Open-Meteo</a>.
 				</figcaption>
 			</figure>
 
 			<figure>
 				<ModelImage src="/images/models/ncep_nbm_conus.webp" alt="NBM Conus Model Area" />
 				<figcaption class="text-muted-foreground">
-					NBM Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+					NBM Conus Model Area. Source: <a href="https://maps.open-meteo.com/?domain=ncep_nbm_conus#3.2/40.79/-98.69">Open-Meteo</a>.
 				</figcaption>
 			</figure>
 		</div>

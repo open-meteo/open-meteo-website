@@ -944,20 +944,24 @@
 		<figure class="w-full">
 			<ModelImage
 				src="/images/models/meteofrance_arpege_europe.webp"
-				alt="Météo-France ARPEGE model area over Europe"
+				alt="Météo-France ARPEGE Europe Model Area"
 			/>
 			<figcaption class="text-muted-foreground">
-				MeteoFrance ARPEGE Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				Météo-France ARPEGE Europe Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=meteofrance_arpege_europe#2.5/53.26/5.05"
+					>Open-Meteo</a
+				>.
 			</figcaption>
 		</figure>
 
 		<figure class="w-full">
 			<ModelImage
 				src="/images/models/meteofrance_arome_france0025.webp"
-				alt="Météo-France AROME and AROME HD model area"
+				alt="Météo-France AROME France (HD) Model Area"
 			/>
 			<figcaption class="text-muted-foreground">
-				MeteoFrance AROME & AROME HD Model Area. Source: <a href="https://open-meteo.com/"
+				Météo-France AROME France (HD) Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=meteofrance_arome_france0025#4.2/47.21/2.01"
 					>Open-Meteo</a
 				>.
 			</figcaption>

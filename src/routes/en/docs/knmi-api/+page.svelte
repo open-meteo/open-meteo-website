@@ -673,19 +673,23 @@
 		<figure>
 			<ModelImage
 				src="/images/models/knmi_harmonie_arome_europe.webp"
-				alt="KNMI HARMONIE AROME model area over Europe"
+				alt="KNMI HARMONIE AROME Europe Model Area"
 			/>
 			<figcaption class="text-muted-foreground">
-				KNMI HARMONIE AROME Europe Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				KNMI HARMONIE AROME Europe Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=knmi_harmonie_arome_europe#3.1/56.90/-1.61"
+					>Open-Meteo</a
+				>.
 			</figcaption>
 		</figure>
 		<figure>
 			<ModelImage
 				src="/images/models/knmi_harmonie_arome_netherlands.webp"
-				alt="KNMI HARMONIE AROME model area over Netherlands"
+				alt="KNMI HARMONIE AROME Netherlands Model Area"
 			/>
 			<figcaption class="text-muted-foreground">
-				KNMI HARMONIE AROME Netherlands Area. Source: <a href="https://open-meteo.com/"
+				KNMI HARMONIE AROME Netherlands Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=knmi_harmonie_arome_netherlands#5.4/52.65/5.66"
 					>Open-Meteo</a
 				>.
 			</figcaption>

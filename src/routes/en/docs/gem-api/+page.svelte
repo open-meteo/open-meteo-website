@@ -760,13 +760,13 @@
 		<figure>
 			<ModelImage src="/images/models/cmc_gem_rdps_10km.webp" alt="RDPS Regional Model Area" />
 			<figcaption class="text-muted-foreground">
-				RDPS Regional Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				RDPS Regional Model Area. Source: <a href="https://maps.open-meteo.com/?domain=cmc_gem_rdps_10km#2/55.58/-97.07">Open-Meteo</a>.
 			</figcaption>
 		</figure>
 		<figure>
 			<ModelImage src="/images/models/cmc_gem_hrdps.webp" alt="HRDPS Model Area" />
 			<figcaption class="text-muted-foreground">
-				HRDPS Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				HRDPS Model Area. Source: <a href="https://maps.open-meteo.com/?domain=cmc_gem_hrdps#2.7/54.25/-96.71">Open-Meteo</a>.
 			</figcaption>
 		</figure>
 
@@ -777,7 +777,7 @@
 				class="w-full rounded-lg"
 			/>
 			<figcaption class="text-muted-foreground">
-				HRDPS West Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+				HRDPS West Model Area. Source: <a href="https://maps.open-meteo.com/?domain=cmc_gem_hrdps_west#4.3/53.72/-122.08">Open-Meteo</a>.
 			</figcaption>
 		</figure>
 	</div>

@@ -637,11 +637,14 @@
 			<figure class="w-full">
 				<ModelImage
 					src="/images/models/italia_meteo_arpae_icon_2i.webp"
-					alt="ICON 2I Modal Area"
+					alt="Italia Meteo ARPAE ICON 2I Model Area"
 					class="w-full rounded-lg"
 				/>
 				<figcaption class="text-muted-foreground">
-					ICON 2I Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+					Italia Meteo ARPAE ICON 2I Model Area. Source: <a
+						href="https://maps.open-meteo.com/?domain=italia_meteo_arpae_icon_2i#4.5/41.76/12.51"
+						>Open-Meteo</a
+					>.
 				</figcaption>
 			</figure>
 		</div>

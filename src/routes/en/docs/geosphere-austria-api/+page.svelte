@@ -502,12 +502,12 @@
 		<figure>
 			<ModelImage
 				src="/images/models/geosphere_arome_austria.webp"
-				alt="GeoSphere AROME Austria model area"
+				alt="GeoSphere AROME Austria Model Area"
 			/>
 			<figcaption class="text-muted-foreground">
-				GeoSphere AROME Austria model area. Source: <a
-					href="https://maps.open-meteo.com?domain=geosphere_arome_austria"
-					target="_blank">Open-Meteo Maps</a
+				GeoSphere AROME Austria Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=geosphere_arome_austria#5.2/47.60/13.81"
+					target="_blank">Open-Meteo</a
 				>.
 			</figcaption>
 		</figure>
