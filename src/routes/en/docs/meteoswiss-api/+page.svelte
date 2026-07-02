@@ -593,7 +593,10 @@
 					class="w-full rounded-lg"
 				/>
 				<figcaption class="text-muted-foreground">
-					ICON CH1 & CH2 Model Area. Source: <a href="https://maps.open-meteo.com/?domain=meteoswiss_icon_ch1#5.5/46.41/8.44">Open-Meteo</a>.
+					ICON CH1 & CH2 Model Area. Source: <a
+						href="https://maps.open-meteo.com/?domain=meteoswiss_icon_ch1#5.5/46.41/8.44"
+						>Open-Meteo</a
+					>.
 				</figcaption>
 			</figure>
 		</div>
