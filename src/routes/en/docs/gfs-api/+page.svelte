@@ -24,9 +24,10 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -955,26 +956,24 @@
 			</table>
 		</div>
 
-		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<figure>
-				<ModelImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR Conus Model Area" />
-				<figcaption class="text-muted-foreground">
+		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+			<ZoomableImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR Conus Model Area">
+				{#snippet caption()}
 					HRRR and NAM Conus Model Area. Source: <a
 						href="https://maps.open-meteo.com/?domain=ncep_hrrr_conus#3.5/38.59/-97.49"
 						>Open-Meteo</a
 					>.
-				</figcaption>
-			</figure>
+				{/snippet}
+			</ZoomableImage>
 
-			<figure>
-				<ModelImage src="/images/models/ncep_nbm_conus.webp" alt="NBM Conus Model Area" />
-				<figcaption class="text-muted-foreground">
+			<ZoomableImage src="/images/models/ncep_nbm_conus.webp" alt="NBM Conus Model Area">
+				{#snippet caption()}
 					NBM Conus Model Area. Source: <a
 						href="https://maps.open-meteo.com/?domain=ncep_nbm_conus#3.2/40.79/-98.69">Open-Meteo</a
 					>.
-				</figcaption>
-			</figure>
-		</div>
+				{/snippet}
+			</ZoomableImage>
+		</ZoomableImageGallery>
 	</div>
 </div>
 

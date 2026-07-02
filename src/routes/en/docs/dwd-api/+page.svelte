@@ -24,9 +24,10 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -839,31 +840,31 @@
 			</table>
 		</div>
 
-		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<figure class="w-full">
-				<ModelImage
-					src="/images/models/dwd_icon_eu.webp"
-					alt="DWD ICON EU Regional Model Area"
-					class="w-full rounded-lg"
-				/>
-				<figcaption class="text-muted-foreground">
+		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+			<ZoomableImage
+				figureClass="w-full"
+				class="w-full"
+				src="/images/models/dwd_icon_eu.webp"
+				alt="DWD ICON EU Regional Model Area"
+			>
+				{#snippet caption()}
 					DWD ICON EU Regional Model Area. Source:
 					<a href="https://maps.open-meteo.com/?domain=dwd_icon_eu#2.8/54.92/19.53">Open-Meteo</a>.
-				</figcaption>
-			</figure>
+				{/snippet}
+			</ZoomableImage>
 
-			<figure class="w-full">
-				<ModelImage
-					src="/images/models/dwd_icon_d2.webp"
-					alt="DWD ICON D2 Modal Area"
-					class="w-full rounded-lg"
-				/>
-				<figcaption class="text-muted-foreground">
+			<ZoomableImage
+				figureClass="w-full"
+				class="w-full"
+				src="/images/models/dwd_icon_d2.webp"
+				alt="DWD ICON D2 Model Area"
+			>
+				{#snippet caption()}
 					DWD ICON D2 Model Area. Source:
 					<a href="https://maps.open-meteo.com/?domain=dwd_icon_d2#4.3/51.24/8.21">Open-Meteo</a>.
-				</figcaption>
-			</figure>
-		</div>
+				{/snippet}
+			</ZoomableImage>
+		</ZoomableImageGallery>
 	</div>
 </div>
 

@@ -19,6 +19,7 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 
@@ -816,19 +817,16 @@ TODO:
 	</div>
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
-		<figure>
-			<img
-				src="/images/models/geostationary-satellites.webp"
-				class="rounded-lg"
-				alt="Geostationary satellites for solar radiation"
-			/>
-			<figcaption class="text-muted-foreground">
-				Geostationary satellites for solar radiation. Source: <a
-					href="https://www.earthdata.nasa.gov/news/blog/geostationary-active-fire-detection-data-firms"
-					>NASA</a
+		<ZoomableImage
+			src="/images/models/geostationary_satellites.webp"
+			alt="Geostationary satellites for solar radiation"
+		>
+			{#snippet caption()}
+				Geostationary satellites for solar radiation. Source: <a href="https://open-meteo.com/"
+					>Open-Meteo</a
 				>.
-			</figcaption>
-		</figure>
+			{/snippet}
+		</ZoomableImage>
 	</div>
 </div>
 

@@ -24,9 +24,10 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -717,7 +718,7 @@
 					<tr>
 						<th scope="row"
 							><a href="https://weather.gc.ca/grib/grib2_reg_10km_e.html" target="_blank"
-								>GEM Regional</a
+								>GEM RDPS Regional</a
 							></th
 						>
 						<td>North America, North Pole</td>
@@ -729,7 +730,7 @@
 					<tr>
 						<th scope="row"
 							><a href="https://weather.gc.ca/grib/grib2_HRDPS_HR_e.html" target="_blank"
-								>HRDPS Continental</a
+								>GEM HRDPS Continental</a
 							></th
 						>
 						<td>Canada, Nothern US</td>
@@ -742,7 +743,7 @@
 						<th scope="row"
 							><a
 								href="https://eccc-msc.github.io/open-data/msc-data/nwp_hrdps/readme_hrdps-datamart-alpha_en/"
-								target="_blank">HRDPS West (Experimental)</a
+								target="_blank">GEM HRDPS West (Experimental)</a
 							></th
 						>
 						<td>West Canada</td>
@@ -756,38 +757,36 @@
 		</div>
 	</div>
 
-	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-3">
-		<figure>
-			<ModelImage src="/images/models/cmc_gem_rdps_10km.webp" alt="RDPS Regional Model Area" />
-			<figcaption class="text-muted-foreground">
-				RDPS Regional Model Area. Source: <a
+	<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-3">
+		<ZoomableImage src="/images/models/cmc_gem_rdps_10km.webp" alt="GEM RDPS Regional Model Area">
+			{#snippet caption()}
+				GEM RDPS Regional Model Area. Source: <a
 					href="https://maps.open-meteo.com/?domain=cmc_gem_rdps_10km#2/55.58/-97.07">Open-Meteo</a
 				>.
-			</figcaption>
-		</figure>
-		<figure>
-			<ModelImage src="/images/models/cmc_gem_hrdps.webp" alt="HRDPS Model Area" />
-			<figcaption class="text-muted-foreground">
-				HRDPS Model Area. Source: <a
+			{/snippet}
+		</ZoomableImage>
+
+		<ZoomableImage src="/images/models/cmc_gem_hrdps.webp" alt="GEM HRDPS Model Area">
+			{#snippet caption()}
+				GEM HRDPS Model Area. Source: <a
 					href="https://maps.open-meteo.com/?domain=cmc_gem_hrdps#2.7/54.25/-96.71">Open-Meteo</a
 				>.
-			</figcaption>
-		</figure>
+			{/snippet}
+		</ZoomableImage>
 
-		<figure class="w-full">
-			<ModelImage
-				src="/images/models/cmc_gem_hrdps_west.webp"
-				alt="HRDPS West Model Area"
-				class="w-full rounded-lg"
-			/>
-			<figcaption class="text-muted-foreground">
-				HRDPS West Model Area. Source: <a
+		<ZoomableImage
+			figureClass="w-full"
+			src="/images/models/cmc_gem_hrdps_west.webp"
+			alt="GEM HRDPS West Model Area"
+		>
+			{#snippet caption()}
+				GEM HRDPS West Model Area. Source: <a
 					href="https://maps.open-meteo.com/?domain=cmc_gem_hrdps_west#4.3/53.72/-122.08"
 					>Open-Meteo</a
 				>.
-			</figcaption>
-		</figure>
-	</div>
+			{/snippet}
+		</ZoomableImage>
+	</ZoomableImageGallery>
 </div>
 
 <!-- API DOCS -->

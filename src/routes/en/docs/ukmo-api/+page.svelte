@@ -22,9 +22,9 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
@@ -836,15 +836,15 @@
 		</div>
 	</div>
 
-	<figure class="mt-6">
-		<ModelImage
-			src="/images/models/ukmo_uk_deterministic_2km.webp"
-			alt="UKMO UKV 2km model area covering UK and Ireland"
-		/>
-		<figcaption class="text-muted-foreground">
+	<ZoomableImage
+		figureClass="mt-6"
+		src="/images/models/ukmo_uk_deterministic_2km.webp"
+		alt="UKMO UKV 2km model area covering UK and Ireland"
+	>
+		{#snippet caption()}
 			UKMO UKV 2km model covering UK and Ireland. Source: UK Met Office.
-		</figcaption>
-	</figure>
+		{/snippet}
+	</ZoomableImage>
 </div>
 
 <!-- API DOCS -->

@@ -24,9 +24,10 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -940,33 +941,33 @@
 		</div>
 	</div>
 
-	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-		<figure class="w-full">
-			<ModelImage
-				src="/images/models/meteofrance_arpege_europe.webp"
-				alt="Météo-France ARPEGE Europe Model Area"
-			/>
-			<figcaption class="text-muted-foreground">
+	<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+		<ZoomableImage
+			figureClass="w-full"
+			src="/images/models/meteofrance_arpege_europe.webp"
+			alt="Météo-France ARPEGE Europe Model Area"
+		>
+			{#snippet caption()}
 				Météo-France ARPEGE Europe Model Area. Source: <a
 					href="https://maps.open-meteo.com/?domain=meteofrance_arpege_europe#2.5/53.26/5.05"
 					>Open-Meteo</a
 				>.
-			</figcaption>
-		</figure>
+			{/snippet}
+		</ZoomableImage>
 
-		<figure class="w-full">
-			<ModelImage
-				src="/images/models/meteofrance_arome_france0025.webp"
-				alt="Météo-France AROME France (HD) Model Area"
-			/>
-			<figcaption class="text-muted-foreground">
+		<ZoomableImage
+			figureClass="w-full"
+			src="/images/models/meteofrance_arome_france0025.webp"
+			alt="Météo-France AROME France (HD) Model Area"
+		>
+			{#snippet caption()}
 				Météo-France AROME France (HD) Model Area. Source: <a
 					href="https://maps.open-meteo.com/?domain=meteofrance_arome_france0025#4.2/47.21/2.01"
 					>Open-Meteo</a
 				>.
-			</figcaption>
-		</figure>
-	</div>
+			{/snippet}
+		</ZoomableImage>
+	</ZoomableImageGallery>
 </div>
 
 <!-- API DOCS -->
