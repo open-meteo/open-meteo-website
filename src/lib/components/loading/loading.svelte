@@ -24,7 +24,7 @@
 			type="button"
 			onclick={close}
 			aria-label="Cancel loading"
-			class="hover:bg-foreground/10 text-foreground absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full duration-100 focus:outline-none"
+			class="hover:bg-foreground/10 cursor-pointer text-foreground absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full duration-100 focus:outline-none"
 		>
 			<svg
 				aria-hidden="true"

@@ -11,6 +11,8 @@
 
 	import * as Dialog from '$lib/components/ui/dialog';
 
+	import { capNativeWidth } from '$lib/actions/cap-native-width';
+
 	import { getZoomableImageGalleryContext } from './zoomable-image-gallery-context.js';
 
 	import type { Snippet } from 'svelte';
@@ -80,6 +82,7 @@
 			{alt}
 			{width}
 			{height}
+			use:capNativeWidth
 			loading="lazy"
 			decoding="async"
 			class={cn('block max-w-full rounded-lg dark:hidden', className)}
@@ -89,6 +92,7 @@
 			{alt}
 			{width}
 			{height}
+			use:capNativeWidth
 			loading="lazy"
 			decoding="async"
 			class={cn('hidden max-w-full rounded-lg dark:block', className)}
@@ -103,13 +107,13 @@
 {/snippet}
 
 {#if gallery}
-	<figure class={cn('group', figureClass)}>
+	<figure class={cn(figureClass)}>
 		<button
 			type="button"
 			aria-label={`Open full size image: ${alt}`}
 			title={hint}
 			onclick={() => gallery.openImage(imageId)}
-			class="ring-offset-background focus-visible:ring-ring relative block w-full cursor-zoom-in overflow-hidden rounded-lg focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
+			class="group ring-offset-background focus-visible:ring-ring relative block w-full cursor-zoom-in overflow-hidden rounded-lg focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
 		>
 			{@render preview()}
 		</button>
@@ -122,11 +126,11 @@
 	</figure>
 {:else}
 	<Dialog.Root>
-		<figure class={cn('group', figureClass)}>
+		<figure class={cn(figureClass)}>
 			<Dialog.Trigger
 				aria-label={`Open full size image: ${alt}`}
 				title={hint}
-				class="ring-offset-background focus-visible:ring-ring relative block w-full cursor-zoom-in overflow-hidden rounded-lg focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
+				class="group ring-offset-background focus-visible:ring-ring relative block w-full cursor-zoom-in overflow-hidden rounded-lg focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"
 			>
 				{@render preview()}
 			</Dialog.Trigger>
