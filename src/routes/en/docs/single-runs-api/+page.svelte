@@ -155,7 +155,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/single-runs-api" />
 	<meta
 		name="description"
-		content="Retrieve the full forecast horizon of any individual model run by initialisation time. ECMWF IFS 9 km from March 2024, all other models from September 2025."
+		content="Retrieve the full forecast horizon of any individual model run by initialisation time. ECMWF IFS 9 km from March 2024, all other models from April 2026."
 	/>
 </svelte:head>
 
@@ -175,8 +175,8 @@
 	>
 	<Alert.Description>
 		Retrieve the full forecast horizon of any individual model run using the <mark>&run=</mark>
-		parameter (e.g. <mark>&run=2025-09-01T00:00</mark>). Most models are archived from September
-		2025. ECMWF IFS HRES at 9 km is available from March 2024.
+		parameter (e.g. <mark>&run=2025-09-01T00:00</mark>). Most models are archived from April
+		2026. ECMWF IFS HRES at 9 km is available from March 2024.
 	</Alert.Description>
 </Alert.Root>
 
@@ -887,7 +887,7 @@
 				<a class="text-link underline" href="/en/docs/model-updates">model updates page</a>.
 			</p>
 			<p>
-				Archival runs are available from <strong>September 2025</strong> for most models.
+				Archival runs are available from <strong>April 2026</strong> for most models.
 				<strong>ECMWF IFS HRES at native 9 km resolution</strong>
 				is available from
 				<strong>March 14, 2024</strong> (IFS Cycle 49R1 hindcasts). From May 12, 2026 06 UTC, runs

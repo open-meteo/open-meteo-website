@@ -1253,7 +1253,7 @@
 				time using the <mark>run=</mark> parameter (e.g.
 				<mark>run=2025-09-01T00:00</mark>). Unlike the Historical Forecast API — which stitches runs
 				into a continuous timeseries — the Single Runs API preserves the original run structure.
-				ECMWF IFS HRES at 9 km is archived from March 2024; all other models from September 2025.
+				ECMWF IFS HRES at 9 km is archived from March 2024; all other models from April 2026.
 			</li>
 		</ul>
 		<h4 class="my-2 text-lg md:my-4 md:text-xl">Choosing the Right Dataset:</h4>
