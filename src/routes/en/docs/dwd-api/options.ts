@@ -205,10 +205,10 @@ export const solarVariables = [
 
 export const models = [
 	[
-		{ value: 'icon_seamless', label: 'DWD ICON Seamless' },
-		{ value: 'icon_global', label: 'DWD ICON Global' },
-		{ value: 'icon_eu', label: 'DWD ICON EU' },
-		{ value: 'icon_d2', label: 'DWD ICON D2' }
+		{ value: 'dwd_icon_seamless', label: 'DWD ICON Seamless' },
+		{ value: 'dwd_icon_global', label: 'DWD ICON Global' },
+		{ value: 'dwd_icon_eu', label: 'DWD ICON EU' },
+		{ value: 'dwd_icon_d2', label: 'DWD ICON D2' }
 	]
 ];
 

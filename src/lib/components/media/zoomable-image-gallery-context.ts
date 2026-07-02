@@ -3,6 +3,7 @@ import { getContext, setContext } from 'svelte';
 export interface ZoomableGalleryImage {
 	id: string;
 	src: string;
+	darkSrc: string;
 	alt: string;
 	description: string;
 	dialogImageClass?: string;

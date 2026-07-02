@@ -3,12 +3,13 @@
 	import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
 	import XIcon from '@lucide/svelte/icons/x';
 
-	import * as Dialog from '$lib/components/ui/dialog';
 	import { cn } from '$lib/utils/ui.js';
 
+	import * as Dialog from '$lib/components/ui/dialog';
+
 	import {
-		setZoomableImageGalleryContext,
-		type ZoomableGalleryImage
+		type ZoomableGalleryImage,
+		setZoomableImageGalleryContext
 	} from './zoomable-image-gallery-context.js';
 
 	import type { Snippet } from 'svelte';
@@ -111,11 +112,11 @@
 	{@render children?.()}
 </div>
 
-<Dialog.Root bind:open={open}>
+<Dialog.Root bind:open>
 	<Dialog.Content
 		aria-label={activeImage?.alt ?? label}
 		showCloseButton={false}
-		class="w-auto max-w-[96vw] gap-0 border-none bg-transparent p-0 shadow-none sm:max-w-[96vw] xl:max-w-2xl"
+		class="w-auto max-w-[96vw] gap-0 border-none bg-transparent p-0 shadow-none sm:max-w-[96vw]"
 		onkeydown={handleKeydown}
 	>
 		{#if activeImage}
@@ -158,7 +159,6 @@
 					>
 						<ChevronRightIcon class="size-6" />
 					</button>
-
 				{/if}
 
 				<div class="absolute inset-x-3 bottom-3 z-10 flex justify-center">
@@ -176,7 +176,17 @@
 					loading="eager"
 					decoding="async"
 					class={cn(
-						'block max-h-[88vh] w-auto max-w-[96vw] rounded-lg object-contain',
+						'block max-h-[88vh] w-auto max-w-[96vw] rounded-lg object-contain dark:hidden',
+						activeImage.dialogImageClass
+					)}
+				/>
+				<img
+					src={activeImage.darkSrc}
+					alt={activeImage.alt}
+					loading="eager"
+					decoding="async"
+					class={cn(
+						'hidden max-h-[88vh] w-auto max-w-[96vw] rounded-lg object-contain dark:block',
 						activeImage.dialogImageClass
 					)}
 				/>

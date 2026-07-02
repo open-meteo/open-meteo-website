@@ -6,7 +6,6 @@ import {
 	countPressureVariables,
 	countPreviousVariables,
 	countVariables,
-	geoLocationNameToRoute,
 	getWeatherCode,
 	membersPerModel
 } from './meteo';
@@ -80,32 +79,6 @@ describe('getWeatherCode', () => {
 
 	test('handles string code by converting to number', () => {
 		expect(getWeatherCode('45')).toBe('fog');
-	});
-});
-
-describe('geoLocationNameToRoute', () => {
-	test('strips diacritics', () => {
-		expect(geoLocationNameToRoute('são-paolo')).toBe('sao-paolo');
-	});
-
-	test('replaces apostrophes with hyphens', () => {
-		expect(geoLocationNameToRoute("xi'an")).toBe('xi-an');
-	});
-
-	test('replaces spaces with hyphens', () => {
-		expect(geoLocationNameToRoute('new taipei city')).toBe('new-taipei-city');
-	});
-
-	test('lowercases uppercase input', () => {
-		expect(geoLocationNameToRoute('Berlin')).toBe('berlin');
-	});
-
-	test('handles multiple diacritics', () => {
-		expect(geoLocationNameToRoute('Zürich')).toBe('zurich');
-	});
-
-	test('handles already clean input', () => {
-		expect(geoLocationNameToRoute('london')).toBe('london');
 	});
 });
 
@@ -259,28 +232,83 @@ describe('countHeightVariables', () => {
 });
 
 describe('membersPerModel', () => {
-	test('returns 40 for icon_seamless', () => {
-		expect(membersPerModel('icon_seamless')).toBe(40);
+	// DWD ICON
+	test('returns 40 for icon_seamless_eps', () => {
+		expect(membersPerModel('icon_seamless_eps')).toBe(40);
 	});
 
-	test('returns 40 for icon_global', () => {
-		expect(membersPerModel('icon_global')).toBe(40);
+	test('returns 40 for icon_global_eps', () => {
+		expect(membersPerModel('icon_global_eps')).toBe(40);
 	});
 
-	test('returns 20 for icon_d2', () => {
-		expect(membersPerModel('icon_d2')).toBe(20);
+	test('returns 40 for icon_eu_eps', () => {
+		expect(membersPerModel('icon_eu_eps')).toBe(40);
 	});
 
-	test('returns 31 for gfs_seamless', () => {
-		expect(membersPerModel('gfs_seamless')).toBe(31);
+	test('returns 20 for icon_d2_eps', () => {
+		expect(membersPerModel('icon_d2_eps')).toBe(20);
 	});
 
+	// MeteoSwiss ICON
+	test('returns 11 for meteoswiss_icon_ch1_ensemble', () => {
+		expect(membersPerModel('meteoswiss_icon_ch1_ensemble')).toBe(11);
+	});
+
+	test('returns 21 for meteoswiss_icon_ch2_ensemble', () => {
+		expect(membersPerModel('meteoswiss_icon_ch2_ensemble')).toBe(21);
+	});
+
+	// NCEP GEFS
+	test('returns 31 for ncep_gefs_seamless', () => {
+		expect(membersPerModel('ncep_gefs_seamless')).toBe(31);
+	});
+
+	test('returns 31 for ncep_gefs025', () => {
+		expect(membersPerModel('ncep_gefs025')).toBe(31);
+	});
+
+	test('returns 31 for ncep_gefs05', () => {
+		expect(membersPerModel('ncep_gefs05')).toBe(31);
+	});
+
+	test('returns 31 for ncep_aigefs025', () => {
+		expect(membersPerModel('ncep_aigefs025')).toBe(31);
+	});
+
+	// ECMWF
 	test('returns 51 for ecmwf_ifs025', () => {
 		expect(membersPerModel('ecmwf_ifs025')).toBe(51);
 	});
 
+	test('returns 51 for ecmwf_ifs025_ensemble', () => {
+		expect(membersPerModel('ecmwf_ifs025_ensemble')).toBe(51);
+	});
+
+	test('returns 51 for ecmwf_aifs025_ensemble', () => {
+		expect(membersPerModel('ecmwf_aifs025_ensemble')).toBe(51);
+	});
+
+	// GEM
 	test('returns 21 for gem_global', () => {
 		expect(membersPerModel('gem_global')).toBe(21);
+	});
+
+	test('returns 21 for gem_global_ensemble', () => {
+		expect(membersPerModel('gem_global_ensemble')).toBe(21);
+	});
+
+	// BOM
+	test('returns 18 for bom_access_global_ensemble', () => {
+		expect(membersPerModel('bom_access_global_ensemble')).toBe(18);
+	});
+
+	// UKMO
+	test('returns 18 for ukmo_global_ensemble_20km', () => {
+		expect(membersPerModel('ukmo_global_ensemble_20km')).toBe(18);
+	});
+
+	test('returns 3 for ukmo_uk_ensemble_2km', () => {
+		expect(membersPerModel('ukmo_uk_ensemble_2km')).toBe(3);
 	});
 
 	test('returns 1 for unknown model', () => {

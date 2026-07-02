@@ -15,6 +15,7 @@
 	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
@@ -499,15 +500,14 @@
 	</div>
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<figure>
-			<img
-				src="/images/models/geosphere_austria.webp"
-				class="rounded-lg"
-				alt="GeoSphere AROME Austria model area"
+			<ModelImage
+				src="/images/models/geosphere_arome_austria.webp"
+				alt="GeoSphere AROME Austria Model Area"
 			/>
 			<figcaption class="text-muted-foreground">
-				GeoSphere AROME Austria model area. Source: <a
-					href="https://maps.open-meteo.com?domain=geosphere_arome_austria"
-					target="_blank">Open-Meteo Maps</a
+				GeoSphere AROME Austria Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=geosphere_arome_austria#5.2/47.60/13.81"
+					target="_blank">Open-Meteo</a
 				>.
 			</figcaption>
 		</figure>

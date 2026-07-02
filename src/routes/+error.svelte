@@ -1,16 +1,16 @@
-<script>
+<script lang="ts">
 	import { mode } from 'mode-watcher';
 
 	import { page } from '$app/state';
 
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Button } from '$lib/components/ui/button';
 
 	import Logo from '$lib/assets/icons/rain.svelte';
 </script>
 
 <svelte:head>
 	<title>500 Error | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/about" />
+	<link rel="canonical" href="https://open-meteo.com/" />
 </svelte:head>
 
 <div class="h-[500px]">

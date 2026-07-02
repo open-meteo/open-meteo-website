@@ -32,8 +32,8 @@ export const hourly = [
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
 		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
 		{ value: 'rain', label: 'Rain' },
-		{ value: 'snowfall', label: 'Snowfall' }
-		//{ value: 'snow_depth', label: 'Snow Depth' } only snow_depth_water_equivalent
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent' }
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },

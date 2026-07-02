@@ -46,7 +46,11 @@
 	});
 
 	beforeNavigate((e) => {
-		if (fromNotTo(e) && !e?.to?.url?.href.includes('&format=xlsx') && !e?.to?.url?.href.includes('&format=csv')) {
+		if (
+			fromNotTo(e) &&
+			!e?.to?.url?.href.includes('&format=xlsx') &&
+			!e?.to?.url?.href.includes('&format=csv')
+		) {
 			loadingTimeout = setTimeout(() => {
 				loading = true;
 			}, 300);
@@ -74,7 +78,7 @@
 
 <Header {pathname} />
 {#if loading}
-	<Loading />
+	<Loading onclose={() => (loading = false)} />
 {/if}
 <main>
 	<!-- eslint-disable-next-line @typescript-eslint/no-explicit-any -->

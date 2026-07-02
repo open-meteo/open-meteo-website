@@ -68,12 +68,16 @@ export const hourly = [
 	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
+		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
 		{ value: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
 		{ value: 'wind_speed_180m', label: 'Wind Speed (180 m)' },
+		{ value: 'wind_speed_200m', label: 'Wind Speed (200 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
 		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
+		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
 		{ value: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
 		{ value: 'wind_direction_180m', label: 'Wind Direction (180 m)' },
+		{ value: 'wind_direction_200m', label: 'Wind Direction (200 m)' },
 		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
 		{ value: 'temperature_80m', label: 'Temperature (80 m)' },
 		{ value: 'temperature_120m', label: 'Temperature (120 m)' },
@@ -159,7 +163,6 @@ export const daily = [
 export const additionalDaily = [
 	[
 		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
-		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
 		{ value: 'apparent_temperature_mean', label: 'Mean Apparent Temperature (2 m)' },
 		{ value: 'cape_mean', label: 'Mean CAPE' },
 		{ value: 'cape_max', label: 'Maximum CAPE' },

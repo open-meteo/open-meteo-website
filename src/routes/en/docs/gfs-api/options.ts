@@ -232,11 +232,16 @@ export const models = [
 	[
 		{ value: 'gfs_seamless', label: 'GFS Seamless' },
 		{ value: 'gfs_global', label: 'GFS Global 0.11°/0.25°' },
-		{ value: 'gfs_hrrr', label: 'HRRR Conus' },
-		{ value: 'ncep_nbm_conus', label: 'NBM Conus' },
-		{ value: 'ncep_nam_conus', label: 'NAM Conus' },
 		{ value: 'gfs_graphcast025', label: 'GFS GraphCast' },
 		{ value: 'ncep_aigfs025', label: 'AIGFS 0.25°' },
 		{ value: 'ncep_hgefs025_ensemble_mean', label: 'HGEFS 0.25° Ensemble Mean' }
-	]
+	],
+	[
+		{ value: 'ncep_hrrr_conus', label: 'HRRR Conus' },
+		{ value: 'ncep_hrrr_conus_15min', label: 'HRRR Conus 15 min' },
+		{ value: 'ncep_nbm_conus', label: 'NBM Conus' },
+		{ value: 'ncep_nam_conus', label: 'NAM Conus' }
+	],
+	[],
+	[]
 ];

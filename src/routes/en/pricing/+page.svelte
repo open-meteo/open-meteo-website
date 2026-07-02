@@ -95,17 +95,17 @@
 					</svg>
 				</div>
 
-				<h3 class="pl-3 text-2xl">Local And Global Models</h3>
+				<h3 class="pl-3 text-2xl">30+ Weather Models</h3>
 			</div>
 
 			<p>
-				Open-Meteo brings together cutting-edge local (1 km resolution) and global (11 km) weather
-				models sourced from renowned national weather services. This means you have access to the
-				most accurate forecast for any location worldwide.
+				Weather models from ECMWF, DWD, NOAA, Météo-France, JMA, KMA, KNMI, DMI, MeteoSwiss, UK Met
+				Office, BOM, CMA, GeoSphere Austria, and more. The <mark>best_match</mark> option automatically
+				selects the highest-resolution model for any coordinates.
 			</p>
 			<p>
-				National weather services include Deutscher Wetter Dienst (DWD), National Oceanic and
-				Atmospheric Administration (NOAA), Meteofrance and Canadian Meteorological Center (CMC).
+				Resolution ranges from 1–2 km (regional mesoscale) to 9–11 km (global). All output is
+				normalised to hourly resolution.
 			</p>
 		</div>
 
@@ -138,15 +138,13 @@
 				<h3 class="pl-3 text-2xl">Commercial Use Licence</h3>
 			</div>
 			<p>
-				Commercial clients enjoy the advantages of dedicated API servers and personalized support.
-				If you have any inquiries or require assistance, please feel free to reach out to us at <a
-					href="mailto:info@open-meteo.com">info@open-meteo.com</a
-				>.
+				A subscription grants a commercial use licence and an API key for the dedicated customer
+				endpoint at <mark>customer-api.open-meteo.com</mark>. The API syntax is identical to the
+				free tier — only the domain and key parameter differ.
 			</p>
 			<p>
-				During the evaluation, prototyping, and development stages, we encourage you to utilise the
-				free tier. However, for your production system, we will provide you with an API key to
-				ensure that your application reliably receives weather data.
+				Use the free tier for evaluation and prototyping. For custom volume requirements or
+				enterprise contracts, contact <a href="mailto:info@open-meteo.com">info@open-meteo.com</a>.
 			</p>
 		</div>
 		<div>
@@ -176,20 +174,15 @@
 					</svg>
 				</div>
 
-				<h3 class="pl-3 text-2xl">Large API Call Volume</h3>
+				<h3 class="pl-3 text-2xl">High-Volume Usage</h3>
 			</div>
 			<p>
-				The API price includes millions of API calls, and you will not be billed for each individual
-				API call. We suggest updating the weather forecast API every hour to achieve optimal
-				accuracy.
+				Plans are priced on a monthly call budget, not per individual request. Standard: 1M
+				calls/month. Professional: 5M calls/month. Enterprise: 50M+ calls/month.
 			</p>
 			<p>
-				If you anticipate a higher volume of API calls, you have the option to adjust the quantity
-				of the API professional plan, doubling or even tripling the number of monthly API calls.
-			</p>
-			<p>
-				If you anticipate billions or more API calls, we recommend self-hosting the API. Feel free
-				to reach out to us, and we will provide assistance and support for your self-hosting needs!
+				For workloads in the billions, self-hosting the open-source server is the practical path.
+				Contact us for guidance on deployment and infrastructure sizing.
 			</p>
 		</div>
 		<div class="feature col">
@@ -218,16 +211,14 @@
 					</svg>
 				</div>
 
-				<h3 class="pl-3 text-2xl">Excellent Uptime, Low Latency</h3>
+				<h3 class="pl-3 text-2xl">Uptime and Latency</h3>
 			</div>
 			<p>
-				Our API is built with top-tier servers and redundant data centers to ensure exceptional
-				availability, reaching 99.9% uptime. You can monitor the real-time statistics at:
-				<a href="https://status.open-meteo.com/">https://status.open-meteo.com/</a>.
+				Paid plans run on reserved server instances with a 99.9% uptime target. Live status and
+				incident history are at <a href="https://status.open-meteo.com/">status.open-meteo.com</a>.
 			</p>
 			<p>
-				To provide low latency and increased redundancy, our servers are strategically located in
-				Europe and North America. We are also planning to introduce additional servers in Asia soon.
+				Servers are located in Europe and North America for low-latency access across both regions.
 			</p>
 		</div>
 		<div class="feature col">
@@ -262,16 +253,12 @@
 					</svg>
 				</div>
 
-				<h3 class="pl-3 text-2xl">Flexible Payment Options</h3>
+				<h3 class="pl-3 text-2xl">Payment Options</h3>
 			</div>
 			<p>
-				We offer a range of payment methods to suit your preferences. You can make payments using
-				credit cards, Apple Pay, Google Pay, SOFORT, or SEPA. Once you complete the purchase, you
-				will receive a PDF invoice, and you have the freedom to cancel your subscription at any
-				time. All payment transactions and subscriptions are securely processed through Stripe, and
-				you can conveniently manage your subscription details in the <a
-					href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII">customer portal</a
-				>.
+				Payments via credit card, Apple Pay, Google Pay, SOFORT, or SEPA — processed through Stripe.
+				A PDF invoice is issued on each billing cycle. Subscription details and payment method are
+				managed in the <a href="https://dashboard.open-meteo.com/login">customer portal</a>.
 			</p>
 		</div>
 		<div class="feature col">
@@ -299,15 +286,12 @@
 					</svg>
 				</div>
 
-				<h3 class="pl-3 text-2xl">Transparent Pricing, Flexible Cancellation</h3>
+				<h3 class="pl-3 text-2xl">Predictable Pricing</h3>
 			</div>
 			<p>
-				Our API subscription comes with a predictable cost, ensuring that you won't encounter any
-				unexpected overcharges. The subscription price remains fixed throughout your usage. If you
-				require additional API calls, you have the freedom to upgrade your API subscription at any
-				time through the <a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII"
-					>customer portal</a
-				>. We strive to provide you with complete control and flexibility over your subscription.
+				Fixed monthly price — no per-call overages or surprise charges. Upgrade or downgrade at any
+				time via the <a href="https://dashboard.open-meteo.com/login">customer portal</a>.
+				Cancellation takes effect at the end of the current billing period.
 			</p>
 		</div>
 	</div>
@@ -374,7 +358,7 @@
 					<th scope="row"
 						>Satellite Radiation API<br />Climate API<br />Seasonal Forecast API<br />Ensemble
 						Weather API<br />Historical Weather API<br />Historical Forecast API<br />Previous Model
-						Runs API</th
+						Runs API<br />Single Runs API</th
 					>
 					<td>&#x2705;</td>
 					<td>&#x274c;</td>
@@ -416,27 +400,25 @@
 			<div>
 				<h4 class="mb-3 text-2xl">How does the subscription process work?</h4>
 				<p>
-					To subscribe, you can sign up using a credit card by clicking on the subscription button
-					above. Once you complete the subscription, you will immediately receive an API key and a
-					PDF invoice. This API key allows you to access the dedicated API instances for customers.
-					If you ever wish to cancel your subscription, you can do so at any time through the <a
-						href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII">customer portal</a
-					>.
+					Click a plan above to subscribe via Stripe. After checkout, an API key and PDF invoice are
+					issued immediately. The key grants access to
+					<mark>customer-api.open-meteo.com</mark>. Cancel, upgrade, or update payment details at
+					any time in the
+					<a href="https://dashboard.open-meteo.com/login">customer portal</a>.
 				</p>
 			</div>
 
 			<div>
 				<h4 class="mb-3 text-2xl">What happens if I exceed my monthly call volume?</h4>
 				<p>
-					If you approach 80%, 90%, or 100% of your monthly call volume, you will receive email
-					notifications to keep you informed. However, due to the ample number of API calls
-					provided, it is unlikely that you will reach this limit.
+					Email alerts are sent at 80%, 90%, and 100% of your monthly budget. A usage dashboard is
+					in development — until it is live, no hard cutoffs are enforced.
 				</p>
 
 				<Alert.Root variant="warning">
 					<Alert.Description>
-						🚧 👷 Please note that a web portal with API usage statistics is currently under
-						development. Until it is available, you will not face any limitations on your usage.
+						A usage statistics portal is under development. Until it is available, monthly limits
+						are not enforced.
 					</Alert.Description>
 				</Alert.Root>
 			</div>
@@ -444,17 +426,14 @@
 			<div>
 				<h4 class="mb-3 text-2xl">What sets apart the free API from the customer API?</h4>
 				<p>
-					The free API is accessible to everyone for non-commercial purposes and does not come with
-					any service guarantees. On the other hand, the customer API is specifically designed for
-					commercial use, offering dedicated API server instances to ensure sufficient resources and
-					reliable API performance.
+					The free API is for non-commercial use, rate-limited to 10,000 calls/day, and carries no
+					uptime guarantee. The customer API runs on dedicated servers, has no daily rate limit, and
+					includes a commercial use licence.
 				</p>
 				<p>
-					To differentiate between the two, the customer API uses distinct domains such as <mark
-						>customer-api.open-meteo.com</mark
-					>
-					and includes API keys in the URL, denoted as <mark>&apikey=abc123</mark>. Apart from these
-					variations, the syntax of the customer API remains identical to the free API.
+					The customer endpoint is <mark>customer-api.open-meteo.com</mark>; requests include
+					<mark>&apikey=abc123</mark>. All parameters and response formats are otherwise identical
+					to the free API.
 				</p>
 			</div>
 
@@ -463,11 +442,11 @@
 					Using the <mark>Standard API Plan</mark> can I use historical, climate and ensemble data?
 				</h4>
 				<p>
-					Access to historical, climate, and ensemble data is limited to the <mark
+					Historical, climate, ensemble, and satellite radiation APIs require the <mark
 						>Professional API Plan</mark
-					>. If you are interested in utilizing this data, you can easily upgrade your subscription
-					by visiting the
-					<a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII">customer portal</a>
+					>
+					or higher. Upgrade via the
+					<a href="https://dashboard.open-meteo.com/login">customer portal</a>.
 				</p>
 			</div>
 
@@ -591,26 +570,14 @@
 		</h2>
 		<div class="text-center">
 			<p class="text-lg font-light">
-				Subscribe to our open-source API service and be a part of a thriving community that promotes
-				development, innovation, and collaboration. By joining us, you contribute to the ongoing
-				maintenance and enhancement of our service, ensuring its availability for everyone.
+				Subscriptions fund the infrastructure, data ingestion pipelines, and ongoing development
+				behind the API. The server code is open-source under AGPLv3; the weather data is CC BY 4.0.
 			</p>
 			<p>
-				With access to comprehensive open-data weather forecasts, you can fuel your projects,
-				research endeavors, and educational initiatives with accurate and reliable information. Our
-				commitment to an open-source ecosystem allows you to explore, modify, and build upon our
-				API, fostering endless possibilities and empowering your creativity.
-			</p>
-			<p>
-				By subscribing, you directly support the continuous development of our service, enabling us
-				to invest in cutting-edge technologies and expand our data sources. Together, we can push
-				the boundaries of weather prediction, drive advancements in various industries, and make a
-				positive impact on the world.
-			</p>
-			<p>
-				Join us now and embrace the power of open-source. Together, let's create a future where
-				knowledge is freely shared, collaboration thrives, and innovation knows no bounds. Subscribe
-				today and be part of this exciting journey!
+				Commercial plans add a dedicated endpoint, an API key, and a 99.9% uptime target. For custom
+				volume requirements or enterprise contracts, contact <a href="mailto:info@open-meteo.com"
+					>info@open-meteo.com</a
+				>.
 			</p>
 			<div class="mt-4 flex justify-center gap-4">
 				<Button href="#plans" title="Newsletter Sign-Up">API Plans</Button>
