@@ -26,6 +26,8 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -865,7 +867,7 @@
 						<th scope="row"
 							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank">HRRR Conus</a></th
 						>
-						<td>U.S. Conus</td>
+						<td>CONUS</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td
@@ -876,11 +878,23 @@
 					</tr>
 					<tr>
 						<th scope="row"
+							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank"
+								>HRRR Conus 15 minutely</a
+							></th
+						>
+						<td>CONUS</td>
+						<td>3 km</td>
+						<td>15 Minutely</td>
+						<td>18 hours</td>
+						<td>Every hour</td>
+					</tr>
+					<tr>
+						<th scope="row"
 							><a href="https://vlab.noaa.gov/web/mdl/nbm-documentation" target="_blank"
 								>NBM Conus</a
 							></th
 						>
-						<td>U.S. Conus</td>
+						<td>CONUS</td>
 						<td>2.5 km</td>
 						<td
 							>Hourly, <small class="text-muted-foreground"
@@ -896,7 +910,7 @@
 								>NAM Conus</a
 							></th
 						>
-						<td>U.S. Conus</td>
+						<td>CONUS</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td>60 hours</td>
@@ -942,31 +956,24 @@
 			</table>
 		</div>
 
-		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<figure>
-				<img
-					src="/images/models/ncep_hrrr.webp"
-					class="rounded-lg"
-					alt="HRRR U.S.Conus Model Area"
-				/>
-				<figcaption>
-					HRRR and NAM U.S. Conus Model Area. Source: <a href="https://open-meteo.com/"
+		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+			<ZoomableImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR Conus Model Area">
+				{#snippet caption()}
+					HRRR and NAM Conus Model Area. Source: <a
+						href="https://maps.open-meteo.com/?domain=ncep_hrrr_conus#3.5/38.59/-97.49"
 						>Open-Meteo</a
 					>.
-				</figcaption>
-			</figure>
+				{/snippet}
+			</ZoomableImage>
 
-			<figure>
-				<img
-					src="/images/models/ncep_nbm_conus.webp"
-					class="rounded-lg"
-					alt="NBM U.S. Conus Model Area"
-				/>
-				<figcaption>
-					NBM U.S. Conus Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
-				</figcaption>
-			</figure>
-		</div>
+			<ZoomableImage src="/images/models/ncep_nbm_conus.webp" alt="NBM Conus Model Area">
+				{#snippet caption()}
+					NBM Conus Model Area. Source: <a
+						href="https://maps.open-meteo.com/?domain=ncep_nbm_conus#3.2/40.79/-98.69">Open-Meteo</a
+					>.
+				{/snippet}
+			</ZoomableImage>
+		</ZoomableImageGallery>
 	</div>
 </div>
 

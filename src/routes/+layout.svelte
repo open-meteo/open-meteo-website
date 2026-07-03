@@ -69,8 +69,18 @@
 
 	onMount(() => {
 		if (browser) {
-			window.addEventListener('pagehide', () => {
+			// Reset the overlay when leaving the page or when it's restored from the
+			// bfcache. Navigating to an external page (e.g. the maps app) can freeze this
+			// document with a pending `beforeNavigate` timeout still queued; on browser-back
+			// the page is restored and that stale timer would otherwise re-show the loading
+			// overlay with no navigation left to clear it.
+			const resetLoading = () => {
+				if (loadingTimeout) clearTimeout(loadingTimeout);
 				loading = false;
+			};
+			window.addEventListener('pagehide', resetLoading);
+			window.addEventListener('pageshow', (e) => {
+				if (e.persisted) resetLoading();
 			});
 		}
 	});
@@ -78,7 +88,7 @@
 
 <Header {pathname} />
 {#if loading}
-	<Loading />
+	<Loading onclose={() => (loading = false)} />
 {/if}
 <main>
 	<!-- eslint-disable-next-line @typescript-eslint/no-explicit-any -->

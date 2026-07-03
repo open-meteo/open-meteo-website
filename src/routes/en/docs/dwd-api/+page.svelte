@@ -26,6 +26,8 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -838,29 +840,31 @@
 			</table>
 		</div>
 
-		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<figure class="w-full">
-				<img
-					class="w-full rounded-lg"
-					src="/images/models/dwd_icon-d2.webp"
-					alt="ICON D2 Modal Area"
-				/>
-				<figcaption class="text-muted-foreground">
-					ICON D2 Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
-				</figcaption>
-			</figure>
+		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+			<ZoomableImage
+				figureClass="w-full"
+				class="w-full"
+				src="/images/models/dwd_icon_eu.webp"
+				alt="DWD ICON EU Regional Model Area"
+			>
+				{#snippet caption()}
+					DWD ICON EU Regional Model Area. Source:
+					<a href="https://maps.open-meteo.com/?domain=dwd_icon_eu#2.8/54.92/19.53">Open-Meteo</a>.
+				{/snippet}
+			</ZoomableImage>
 
-			<figure class="w-full">
-				<img
-					class="w-full rounded-lg"
-					src="/images/models/dwd_icon-eu.webp"
-					alt="ICON EU Regional Model Area"
-				/>
-				<figcaption class="text-muted-foreground">
-					ICON EU Regional Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
-				</figcaption>
-			</figure>
-		</div>
+			<ZoomableImage
+				figureClass="w-full"
+				class="w-full"
+				src="/images/models/dwd_icon_d2.webp"
+				alt="DWD ICON D2 Model Area"
+			>
+				{#snippet caption()}
+					DWD ICON D2 Model Area. Source:
+					<a href="https://maps.open-meteo.com/?domain=dwd_icon_d2#4.3/51.24/8.21">Open-Meteo</a>.
+				{/snippet}
+			</ZoomableImage>
+		</ZoomableImageGallery>
 	</div>
 </div>
 

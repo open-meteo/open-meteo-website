@@ -26,6 +26,8 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -843,9 +845,13 @@
 				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-225 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
-					>You can find the update timings in the <a
-						class="text-link underline"
-						href="/en/docs/model-updates">model updates documentation</a
+					><small class="text-muted-foreground"
+						>* AROME France HD has the same model area, but at higher resolution with a smaller
+						selection of weather variables.</small
+					><br />
+					You can find the update timings in the
+					<a class="text-link underline" href="/en/docs/model-updates"
+						>model updates documentation</a
 					>.</caption
 				>
 				<thead>
@@ -883,18 +889,6 @@
 						<td>4 days</td>
 						<td>Every 6 hours</td>
 					</tr>
-					<!-- <tr>
-						<th scope="row"
-							><a href="https://www.umr-cnrm.fr/spip.php?article121&lang=en" target="_blank"
-								>ARPEGE Europe Probabilities</a
-							></th
-						>
-						<td>Europe</td>
-						<td>0.1° (~11 km)</td>
-						<td>3-Hourly<small class="text-muted-foreground"></small></td>
-						<td>4 days</td>
-						<td>Every 12 hours</td>
-					</tr> -->
 					<tr>
 						<th scope="row"
 							><a href="https://www.umr-cnrm.fr/spip.php?article120" target="_blank">AROME France</a
@@ -926,56 +920,54 @@
 						>
 						<td>France</td>
 						<td>0.025° (~2.5 km)</td>
-						<td>Hourly</td>
+						<td>15 Minutely</td>
 						<td>6 hours</td>
 						<td>Every hour</td>
 					</tr>
 					<tr>
 						<th scope="row"
-							><a href="https://www.umr-cnrm.fr/spip.php?article120/" target="_blank"
+							><a href="https://www.umr-cnrm.fr/spip.php?article120" target="_blank"
 								>AROME France HD 15 minutely</a
 							> <small class="text-muted-foreground">(*)</small></th
 						>
 						<td>France</td>
 						<td>0.01° (~1.5 km)</td>
-						<td>Hourly</td>
+						<td>15 Minutely</td>
 						<td>6 hours</td>
 						<td>Every hour</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<small class="text-muted-foreground"
-			>* AROME France HD has the same model area, but at higher resolution with a smaller selection
-			of weather variables.</small
-		>
 	</div>
 
-	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-		<figure class="w-full">
-			<img
-				src="/images/models/meteofrance_arome.webp"
-				class="rounded-lg"
-				alt="Météo-France AROME and AROME HD model area"
-			/>
-			<figcaption class="text-muted-foreground">
-				MeteoFrance AROME & AROME HD Model Area. Source: <a href="https://open-meteo.com/"
+	<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+		<ZoomableImage
+			figureClass="w-full"
+			src="/images/models/meteofrance_arpege_europe.webp"
+			alt="Météo-France ARPEGE Europe Model Area"
+		>
+			{#snippet caption()}
+				Météo-France ARPEGE Europe Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=meteofrance_arpege_europe#2.5/53.26/5.05"
 					>Open-Meteo</a
 				>.
-			</figcaption>
-		</figure>
+			{/snippet}
+		</ZoomableImage>
 
-		<figure class="w-full">
-			<img
-				src="/images/models/meteofrance_arpege_europe.webp"
-				class="rounded-lg"
-				alt="Météo-France ARPEGE model area over Europe"
-			/>
-			<figcaption class="text-muted-foreground">
-				MeteoFrance ARPEGE Model Area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
-			</figcaption>
-		</figure>
-	</div>
+		<ZoomableImage
+			figureClass="w-full"
+			src="/images/models/meteofrance_arome_france0025.webp"
+			alt="Météo-France AROME France (HD) Model Area"
+		>
+			{#snippet caption()}
+				Météo-France AROME France (HD) Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=meteofrance_arome_france0025#4.2/47.21/2.01"
+					>Open-Meteo</a
+				>.
+			{/snippet}
+		</ZoomableImage>
+	</ZoomableImageGallery>
 </div>
 
 <!-- API DOCS -->

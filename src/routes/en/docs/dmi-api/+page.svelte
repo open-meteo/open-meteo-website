@@ -15,6 +15,7 @@
 	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
@@ -540,9 +541,8 @@
 	</div>
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<figure>
-			<enhanced:img
-				src="/static/images/models/dmi_harmonie_dini-ig.jpg"
-				class="rounded-lg"
+			<ModelImage
+				src="/images/models/dmi_harmonie_arome_europe.webp"
 				alt="DMI HARMONIE AROME DINI model area"
 			/>
 			<figcaption class="text-muted-foreground">
