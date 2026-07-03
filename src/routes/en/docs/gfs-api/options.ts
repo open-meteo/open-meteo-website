@@ -230,9 +230,9 @@ export const solarVariables = [
 
 export const models = [
 	[
-		{ value: 'gfs_seamless', label: 'GFS Seamless' },
-		{ value: 'gfs_global', label: 'GFS Global 0.11°/0.25°' },
-		{ value: 'gfs_graphcast025', label: 'GFS GraphCast' },
+		{ value: 'ncep_gfs_seamless', label: 'GFS Seamless' },
+		{ value: 'ncep_gfs_global', label: 'GFS Global 0.11°/0.25°' },
+		{ value: 'ncep_gfs_graphcast025', label: 'GFS GraphCast' },
 		{ value: 'ncep_aigfs025', label: 'AIGFS 0.25°' },
 		{ value: 'ncep_hgefs025_ensemble_mean', label: 'HGEFS 0.25° Ensemble Mean' }
 	],
