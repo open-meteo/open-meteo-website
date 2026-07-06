@@ -84,21 +84,6 @@
 </div>
 
 <style>
-	@keyframes fade-in {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
-	@keyframes fade-out {
-		to {
-			opacity: 0;
-		}
-	}
-
 	@media (prefers-reduced-motion: no-preference) {
 		/* The hero persists in the root layout, so a height change between pages
 		   can animate for real. Content below the hero moves along with it. */
@@ -116,20 +101,17 @@
 		}
 
 		/* Both snapshots always cover the animating box, so the image never
-		   stretches or letterboxes while the height changes. */
+		   stretches or letterboxes while the height changes. Only the browser
+		   cross-fade's duration is overridden — replacing the animation outright
+		   would also drop the plus-lighter blending that keeps the pair fully
+		   opaque mid-fade, letting the page background flash through. */
 		::view-transition-old(hero-image),
 		::view-transition-new(hero-image) {
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
-		}
-
-		::view-transition-old(hero-image) {
-			animation: fade-out 500ms ease both;
-		}
-
-		::view-transition-new(hero-image) {
-			animation: fade-in 500ms ease both;
+			animation-duration: 500ms;
+			animation-fill-mode: both;
 		}
 
 		/* Content rides along with the live-tracked group. */
@@ -146,7 +128,8 @@
 			height: auto;
 			inset: 0;
 			margin: auto;
-			animation: fade-out 150ms ease both;
+			animation-duration: 150ms;
+			animation-fill-mode: both;
 		}
 
 		/* The new snapshot renders the live element, but its box is derived from
@@ -157,7 +140,8 @@
 		::view-transition-new(hero-content) {
 			width: 100%;
 			height: 100%;
-			animation: fade-in 150ms ease both;
+			animation-duration: 150ms;
+			animation-fill-mode: both;
 		}
 	}
 </style>
