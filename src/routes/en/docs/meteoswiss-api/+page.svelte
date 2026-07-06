@@ -15,9 +15,9 @@
 	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
@@ -102,7 +102,10 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/meteoswiss-api" />
 </svelte:head>
 
-<form method="get" action="https://api.open-meteo.com/v1/forecast?models=meteoswiss_icon_seamless">
+<form method="get" action="https://api.open-meteo.com/v1/forecast">
+	<!-- Browsers drop the action's query string on GET submit, so the model
+	     needs to be a form field -->
+	<input type="hidden" name="models" value="meteoswiss_icon_seamless" />
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
@@ -586,19 +589,19 @@
 		</div>
 
 		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<figure class="w-full">
-				<ModelImage
-					src="/images/models/meteoswiss_icon_ch1.webp"
-					alt="ICON CH1 Modal Area"
-					class="w-full rounded-lg"
-				/>
-				<figcaption class="text-muted-foreground">
-					ICON CH1 & CH2 Model Area. Source: <a
-						href="https://maps.open-meteo.com/?domain=meteoswiss_icon_ch1#5.5/46.41/8.44"
+			<ZoomableImage
+				figureClass="w-full"
+				class="w-full"
+				src="/images/models/meteoswiss_icon_ch1.webp"
+				alt="ICON CH1 Model Area"
+			>
+				{#snippet caption()}
+					ICON CH1 & CH2 Model Area. Source:
+					<a href="https://maps.open-meteo.com/?domain=meteoswiss_icon_ch1#5.5/46.41/8.44"
 						>Open-Meteo</a
 					>.
-				</figcaption>
-			</figure>
+				{/snippet}
+			</ZoomableImage>
 		</div>
 	</div>
 </div>

@@ -20,9 +20,10 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
@@ -669,32 +670,34 @@
 		</div>
 	</div>
 
-	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-		<figure>
-			<ModelImage
-				src="/images/models/knmi_harmonie_arome_europe.webp"
-				alt="KNMI HARMONIE AROME Europe Model Area"
-			/>
-			<figcaption class="text-muted-foreground">
-				KNMI HARMONIE AROME Europe Model Area. Source: <a
-					href="https://maps.open-meteo.com/?domain=knmi_harmonie_arome_europe#3.1/56.90/-1.61"
+	<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+		<ZoomableImage
+			figureClass="w-full"
+			class="w-full"
+			src="/images/models/knmi_harmonie_arome_europe.webp"
+			alt="KNMI HARMONIE AROME Europe Model Area"
+		>
+			{#snippet caption()}
+				KNMI HARMONIE AROME Europe Model Area. Source:
+				<a href="https://maps.open-meteo.com/?domain=knmi_harmonie_arome_europe#3.1/56.90/-1.61"
 					>Open-Meteo</a
 				>.
-			</figcaption>
-		</figure>
-		<figure>
-			<ModelImage
-				src="/images/models/knmi_harmonie_arome_netherlands.webp"
-				alt="KNMI HARMONIE AROME Netherlands Model Area"
-			/>
-			<figcaption class="text-muted-foreground">
-				KNMI HARMONIE AROME Netherlands Model Area. Source: <a
-					href="https://maps.open-meteo.com/?domain=knmi_harmonie_arome_netherlands#5.4/52.65/5.66"
+			{/snippet}
+		</ZoomableImage>
+		<ZoomableImage
+			figureClass="w-full"
+			class="w-full"
+			src="/images/models/knmi_harmonie_arome_netherlands.webp"
+			alt="KNMI HARMONIE AROME Netherlands Model Area"
+		>
+			{#snippet caption()}
+				KNMI HARMONIE AROME Netherlands Model Area. Source:
+				<a href="https://maps.open-meteo.com/?domain=knmi_harmonie_arome_netherlands#5.4/52.65/5.66"
 					>Open-Meteo</a
 				>.
-			</figcaption>
-		</figure>
-	</div>
+			{/snippet}
+		</ZoomableImage>
+	</ZoomableImageGallery>
 </div>
 
 <!-- API DOCS -->

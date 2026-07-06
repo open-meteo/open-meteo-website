@@ -5,7 +5,7 @@
 
 	import { browser } from '$app/environment';
 
-	import { debounce } from '$lib/utils';
+	import { debounce, todayUTC } from '$lib/utils';
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -20,11 +20,9 @@
 		end_date?: string;
 	}
 
-	const now = new Date();
-
 	let {
 		beginDate = new Date('1940-01-01'),
-		lastDate = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`),
+		lastDate = todayUTC(),
 		start_date = $bindable(),
 		end_date = $bindable()
 	}: Props = $props();
@@ -66,6 +64,8 @@
 			);
 
 			if (inputDiv) observer.observe(inputDiv);
+
+			return () => observer.disconnect();
 		}
 	});
 
@@ -123,7 +123,7 @@
 						if (
 							target &&
 							String(new Date(target.value)) !== 'Invalid Date' &&
-							new Date(target.value).getUTCFullYear() > 1940
+							new Date(target.value).getUTCFullYear() >= 1940
 						) {
 							start_date = new Date(target.value).toISOString().split('T')[0];
 						}
@@ -179,7 +179,7 @@
 						if (
 							target &&
 							String(new Date(target.value)) !== 'Invalid Date' &&
-							new Date(target.value).getUTCFullYear() > 1940
+							new Date(target.value).getUTCFullYear() >= 1940
 						) {
 							end_date = new Date(target.value).toISOString().split('T')[0];
 						}

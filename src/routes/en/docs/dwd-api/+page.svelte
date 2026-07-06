@@ -631,7 +631,7 @@
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
 					<div class="relative">
 						<Select.Root
-							name="cell_selection"
+							name="forecast_minutely_15"
 							type="single"
 							bind:value={$params.forecast_minutely_15}
 						>
@@ -649,7 +649,11 @@
 						</Select.Root>
 					</div>
 					<div class="relative">
-						<Select.Root name="cell_selection" type="single" bind:value={$params.past_minutely_15}>
+						<Select.Root
+							name="past_minutely_15"
+							type="single"
+							bind:value={$params.past_minutely_15}
+						>
 							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastMinutely15?.label}</Select.Trigger
 							>

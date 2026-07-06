@@ -7,15 +7,7 @@ import ts from 'typescript-eslint';
 import svelteConfig from './svelte.config.js';
 
 export default defineConfig([
-	globalIgnores([
-		'node_modules',
-		'dist',
-		'build',
-		'coverage',
-		'.svelte-kit',
-		'.vscode',
-		'.gitignore'
-	]),
+	globalIgnores(['node_modules', 'dist', 'build', 'coverage', '.svelte-kit', '.vscode']),
 	...ts.configs.recommended,
 	...svelte.configs.recommended,
 	prettier,

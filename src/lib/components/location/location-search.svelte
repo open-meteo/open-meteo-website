@@ -69,6 +69,51 @@
 		onlocation?.(location);
 	};
 
+	const search = async (query: string): Promise<ResultSet> => {
+		if (query.toLowerCase() == 'gps') {
+			let position: GeolocationPosition = await new Promise((resolve, reject) =>
+				navigator.geolocation.getCurrentPosition(resolve, reject, {})
+			);
+			const latitude = position.coords.latitude;
+			const longitude = position.coords.longitude;
+			return {
+				results: [
+					{
+						id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
+						name: `GPS ${latitude.toFixed(2)}°N ${longitude.toFixed(2)}°E`,
+						latitude: latitude,
+						longitude: longitude,
+						elevation: position.coords.altitude ?? NaN,
+						feature_code: '',
+						country_code: undefined,
+						admin1_id: undefined,
+						admin3_id: undefined,
+						admin4_id: undefined,
+						timezone: '',
+						population: undefined,
+						postcodes: undefined,
+						country_id: undefined,
+						country: undefined,
+						admin1: undefined,
+						admin3: undefined,
+						admin4: undefined
+					}
+				]
+			};
+		}
+
+		// Always set format=json to fetch data
+		const url = 'https://geocoding-api.open-meteo.com/v1/search';
+		const fetchUrl = `${url}?${new URLSearchParams({ name: query })}`;
+		const result = await fetch(fetchUrl);
+
+		if (!result.ok) {
+			throw new Error(await result.text());
+		}
+
+		return (await result.json()) as ResultSet;
+	};
+
 	let results: Promise<ResultSet> = $derived.by(() => {
 		if (debounceTimeout) {
 			clearTimeout(debounceTimeout);
@@ -76,63 +121,144 @@
 		if (searchQuery.length < 2) {
 			return Promise.resolve({ results: [] });
 		}
-		return new Promise<ResultSet>(async (resolveOuter) => {
-			await new Promise<void>((resolve) => {
-				debounceTimeout = setTimeout(resolve, 300);
-			});
-
-			try {
-				if (searchQuery.toLowerCase() == 'gps') {
-					let position: GeolocationPosition = await new Promise((resolve, reject) =>
-						navigator.geolocation.getCurrentPosition(resolve, reject, {})
-					);
-					const latitude = position.coords.latitude;
-					const longitude = position.coords.longitude;
-					resolveOuter({
-						results: [
-							{
-								id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
-								name: `GPS ${latitude.toFixed(2)}°N ${longitude.toFixed(2)}°E`,
-								latitude: latitude,
-								longitude: longitude,
-								elevation: position.coords.altitude ?? NaN,
-								feature_code: '',
-								country_code: undefined,
-								admin1_id: undefined,
-								admin3_id: undefined,
-								admin4_id: undefined,
-								timezone: '',
-								population: undefined,
-								postcodes: undefined,
-								country_id: undefined,
-								country: undefined,
-								admin1: undefined,
-								admin3: undefined,
-								admin4: undefined
-							}
-						]
-					});
-					return;
-				}
-
-				// Always set format=json to fetch data
-				const url = 'https://geocoding-api.open-meteo.com/v1/search';
-				const fetchUrl = `${url}?${new URLSearchParams({ name: searchQuery })}`;
-				const result = await fetch(fetchUrl);
-
-				if (!result.ok) {
-					throw new Error(await result.text());
-				}
-
-				resolveOuter((await result.json()) as ResultSet);
-			} catch (err) {
-				throw err;
-			}
-		});
+		const query = searchQuery;
+		return new Promise<void>((resolve) => {
+			debounceTimeout = setTimeout(resolve, 300);
+		}).then(() => search(query));
 	});
 
 	let dialogOpen = $state(false);
 </script>
+
+{#snippet locationRow(
+	location: GeoLocation,
+	i: number,
+	count: number,
+	kind: 'favorite' | 'last-visited' | 'result'
+)}
+	<Button
+		variant="outline"
+		class="location-search-{kind} flex h-[unset] w-full justify-between gap-0 rounded-none py-2 pr-1 pl-3 not-last:border-b md:pr-2 {i ===
+		0
+			? 'rounded-t-md'
+			: ''} {i === count - 1 ? 'rounded-b-md' : ''}"
+		onclick={() => selectLocation(location)}
+	>
+		<div class="pointer-events-none flex flex-col gap-1 truncate">
+			<div class="flex items-center gap-2 truncate text-lg">
+				<img
+					height="24"
+					width="24"
+					src="/images/country-flags/{(
+						location.country_code || 'united_nations'
+					).toLowerCase()}.svg"
+					title={location.country}
+					alt={location.country ?? location.country_code ?? ''}
+				/>
+				{location.name}
+			</div>
+
+			<div class="text-muted-foreground truncate text-left text-sm">
+				{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
+				{location.longitude.toFixed(2)}°E{#if location.elevation}{' ' +
+						location.elevation.toFixed(0) +
+						'm asl'}{/if})
+			</div>
+		</div>
+
+		<div class="-mr-1 flex justify-self-end">
+			{#if kind !== 'favorite' && !$favorites.find((fav) => fav.id === location.id)}
+				<Button
+					variant="ghost"
+					class="px-2 duration-200 hover:brightness-[140%] md:px-3"
+					onclick={(e) => {
+						e.stopPropagation();
+						saveFavorite(location);
+					}}
+					title="Save"
+					><svg
+						class="lucide lucide-star"
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path
+							d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
+						/>
+					</svg>
+				</Button>
+			{/if}
+			{#if kind !== 'result'}
+				<Button
+					variant="ghost"
+					class="px-2 duration-200 hover:brightness-[140%] md:px-3"
+					onclick={(e) => {
+						e.stopPropagation();
+						if (kind === 'favorite') {
+							deleteFavorite(location);
+						} else {
+							deleteRecent(location);
+						}
+					}}
+					title="Delete"
+					><svg
+						class="lucide lucide-trash-2"
+						xmlns="http://www.w3.org/2000/svg"
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="M3 6h18" />
+						<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+						<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+						<line x1="10" x2="10" y1="11" y2="17" />
+						<line x1="14" x2="14" y1="11" y2="17" />
+					</svg></Button
+				>
+			{/if}
+			<Button
+				variant="ghost"
+				class="px-2 duration-200 hover:brightness-[140%] md:px-3"
+				href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
+				target="_blank"
+				title="Show on map"
+				onclick={(e) => {
+					e.stopPropagation();
+				}}
+			>
+				<svg
+					class="lucide lucide-map"
+					xmlns="http://www.w3.org/2000/svg"
+					width="20"
+					height="20"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
+					<path
+						d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"
+					/>
+					<path d="M15 5.764v15" />
+					<path d="M9 3.236v15" />
+				</svg>
+			</Button>
+		</div>
+	</Button>
+{/snippet}
 
 <Dialog.Root bind:open={dialogOpen}>
 	<Dialog.Trigger
@@ -218,218 +344,16 @@
 							{#if $favorites.length > 0}
 								<h6 class="text-muted-foreground mt-4 mb-4 text-xl">Favorites</h6>
 								<div id="location_search_favorites" class="border-border rounded-lg border">
-									{#each $favorites as location, i (i)}
-										<Button
-											variant="outline"
-											class="location-search-favorite flex h-[unset] w-full justify-between gap-0 rounded-none py-2 pr-1 pl-3 not-last:border-b md:pr-2 {i ===
-											0
-												? 'rounded-t-md'
-												: ''} {i === $favorites.length - 1 ? 'rounded-b-md' : ''}"
-											onclick={() => selectLocation(location)}
-										>
-											<div class="pointer-events-none flex flex-col gap-1 truncate">
-												<div class="flex items-center gap-2 truncate text-lg">
-													<img
-														height="24"
-														width="24"
-														src="/images/country-flags/{(
-															location.country_code || 'united_nations'
-														).toLowerCase()}.svg"
-														title={location.country}
-														alt={location.country ?? location.country_code ?? ''}
-													/>
-													{location.name}
-												</div>
-
-												<div class="text-muted-foreground truncate text-left text-sm">
-													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
-													{location.longitude.toFixed(2)}°E{#if location.elevation}{' ' +
-															location.elevation.toFixed(0) +
-															'm asl'}{/if})
-												</div>
-											</div>
-
-											<div class="-mr-1 flex justify-self-end">
-												<Button
-													variant="ghost"
-													class="px-2 duration-200 hover:brightness-[140%] md:px-3"
-													onclick={(e) => {
-														e.stopPropagation();
-														deleteFavorite(location);
-													}}
-													title="Delete"
-													><svg
-														class="lucide lucide-trash-2"
-														xmlns="http://www.w3.org/2000/svg"
-														width="20"
-														height="20"
-														viewBox="0 0 24 24"
-														fill="none"
-														stroke="currentColor"
-														stroke-width="1.2"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													>
-														<path d="M3 6h18" />
-														<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-														<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-														<line x1="10" x2="10" y1="11" y2="17" />
-														<line x1="14" x2="14" y1="11" y2="17" />
-													</svg></Button
-												>
-												<Button
-													variant="ghost"
-													class="px-2 duration-200 hover:brightness-[140%] md:px-3"
-													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
-													target="_blank"
-													title="Show on map"
-													onclick={(e) => {
-														e.stopPropagation();
-													}}
-												>
-													<svg
-														class="lucide lucide-map"
-														xmlns="http://www.w3.org/2000/svg"
-														width="20"
-														height="20"
-														viewBox="0 0 24 24"
-														fill="none"
-														stroke="currentColor"
-														stroke-width="1.2"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													>
-														<path
-															d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"
-														/>
-														<path d="M15 5.764v15" />
-														<path d="M9 3.236v15" />
-													</svg>
-												</Button>
-											</div>
-										</Button>
+									{#each $favorites as location, i (location.id)}
+										{@render locationRow(location, i, $favorites.length, 'favorite')}
 									{/each}
 								</div>
 							{/if}
 							{#if $lastVisited.length > 0}
 								<h6 class="text-muted-foreground mt-4 mb-4 text-xl">Recent Locations</h6>
 								<div id="location_search_lastVisited" class="border-border rounded-lg border">
-									{#each $lastVisited as location, i (i)}
-										<Button
-											variant="outline"
-											class="location-search-last-visited flex h-[unset] w-full justify-between gap-0 rounded-none py-2 pr-1 pl-3 not-last:border-b md:pr-2 {i ===
-											0
-												? 'rounded-t-md'
-												: ''} {i === $lastVisited.length - 1 ? 'rounded-b-md' : ''}"
-											onclick={() => selectLocation(location)}
-										>
-											<div class="pointer-events-none flex flex-col gap-1 truncate">
-												<div class="flex items-center gap-2 truncate text-lg">
-													<img
-														height="24"
-														width="24"
-														src="/images/country-flags/{(
-															location.country_code || 'united_nations'
-														).toLowerCase()}.svg"
-														title={location.country}
-														alt={location.country ?? location.country_code ?? ''}
-													/>
-													{location.name}
-												</div>
-
-												<div class="text-muted-foreground truncate text-left text-sm">
-													{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
-														2
-													)}°E{#if location.elevation}{' ' +
-															location.elevation.toFixed(0) +
-															'm asl'}{/if})
-												</div>
-											</div>
-
-											<div class="-mr-1 flex justify-self-end">
-												<Button
-													variant="ghost"
-													class="px-2 duration-200 hover:brightness-[140%] md:px-3"
-													onclick={(e) => {
-														e.stopPropagation();
-														saveFavorite(location);
-													}}
-													title="Save"
-													><svg
-														class="lucide lucide-star"
-														xmlns="http://www.w3.org/2000/svg"
-														width="20"
-														height="20"
-														viewBox="0 0 24 24"
-														fill="none"
-														stroke="currentColor"
-														stroke-width="1.2"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													>
-														<path
-															d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
-														/>
-													</svg>
-												</Button>
-												<Button
-													variant="ghost"
-													class="px-2 duration-200 hover:brightness-[140%] md:px-3"
-													onclick={(e) => {
-														e.stopPropagation();
-														deleteRecent(location);
-													}}
-													title="Delete"
-													><svg
-														class="lucide lucide-trash-2"
-														xmlns="http://www.w3.org/2000/svg"
-														width="20"
-														height="20"
-														viewBox="0 0 24 24"
-														fill="none"
-														stroke="currentColor"
-														stroke-width="1.2"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													>
-														<path d="M3 6h18" />
-														<path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-														<path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-														<line x1="10" x2="10" y1="11" y2="17" />
-														<line x1="14" x2="14" y1="11" y2="17" />
-													</svg></Button
-												>
-												<Button
-													variant="ghost"
-													class="px-2 duration-200 hover:brightness-[140%] md:px-3"
-													href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
-													target="_blank"
-													title="Show on map"
-													onclick={(e) => {
-														e.stopPropagation();
-													}}
-												>
-													<svg
-														class="lucide lucide-map"
-														xmlns="http://www.w3.org/2000/svg"
-														width="20"
-														height="20"
-														viewBox="0 0 24 24"
-														fill="none"
-														stroke="currentColor"
-														stroke-width="1.2"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													>
-														<path
-															d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"
-														/>
-														<path d="M15 5.764v15" />
-														<path d="M9 3.236v15" />
-													</svg>
-												</Button>
-											</div>
-										</Button>
+									{#each $lastVisited as location, i (location.id)}
+										{@render locationRow(location, i, $lastVisited.length, 'last-visited')}
 									{/each}
 								</div>
 							{/if}
@@ -445,98 +369,8 @@
 					{:else}
 						<div class="list-group mt-4">
 							<div id="location_search_results" class="border-border rounded-lg border">
-								{#each results.results || [] as location, i (i)}
-									<Button
-										variant="outline"
-										class="location-search-result flex h-[unset] w-full justify-between gap-0 rounded-none py-2 pr-1 pl-3 not-last:border-b md:pr-2 {i ===
-										0
-											? 'rounded-t-md'
-											: ''} {results.results && i === results.results.length - 1
-											? 'rounded-b-md'
-											: ''}"
-										onclick={() => selectLocation(location)}
-									>
-										<div class="pointer-events-none flex flex-col gap-1 truncate">
-											<div class="flex items-center gap-2 truncate text-lg">
-												<img
-													height="24"
-													width="24"
-													src="/images/country-flags/{(
-														location.country_code || 'united_nations'
-													).toLowerCase()}.svg"
-													title={location.country}
-													alt={location.country ?? location.country_code ?? ''}
-												/>
-												{location.name}
-											</div>
-
-											<div class="text-muted-foreground truncate text-left text-sm">
-												{location.admin1 || ''} ({location.latitude.toFixed(2)}°N {location.longitude.toFixed(
-													2
-												)}°E{#if location.elevation}{' ' +
-														location.elevation.toFixed(0) +
-														'm asl'}{/if})
-											</div>
-										</div>
-										<div class="-mr-1 flex justify-self-end">
-											{#if !$favorites.find((fav) => fav.id === location.id)}
-												<Button
-													variant="ghost"
-													class="px-2 duration-200 hover:brightness-[140%] md:px-3"
-													onclick={(e) => {
-														e.stopPropagation();
-														saveFavorite(location);
-													}}
-													title="Save"
-													><svg
-														class="lucide lucide-star"
-														xmlns="http://www.w3.org/2000/svg"
-														width="20"
-														height="20"
-														viewBox="0 0 24 24"
-														fill="none"
-														stroke="currentColor"
-														stroke-width="1.2"
-														stroke-linecap="round"
-														stroke-linejoin="round"
-													>
-														<path
-															d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
-														/>
-													</svg>
-												</Button>
-											{/if}
-											<Button
-												variant="ghost"
-												class="px-2 duration-200 hover:brightness-[140%] md:px-3"
-												href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
-												target="_blank"
-												title="Show on map"
-												onclick={(e) => {
-													e.stopPropagation();
-												}}
-											>
-												<svg
-													class="lucide lucide-map"
-													xmlns="http://www.w3.org/2000/svg"
-													width="20"
-													height="20"
-													viewBox="0 0 24 24"
-													fill="none"
-													stroke="currentColor"
-													stroke-width="1.2"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-												>
-													<path
-														d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"
-													/>
-													<path d="M15 5.764v15" />
-													<path d="M9 3.236v15" />
-												</svg>
-											</Button>
-										</div>
-									</Button>
+								{#each results.results || [] as location, i (location.id)}
+									{@render locationRow(location, i, results.results?.length ?? 0, 'result')}
 								{/each}
 							</div>
 						</div>

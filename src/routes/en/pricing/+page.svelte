@@ -27,15 +27,13 @@
 		...minutely_15.flat()
 	];
 
-	let callWeight = $state(1.0);
-
-	$effect(() => {
-		/// Calculate adjusted weight
+	/// Calculate adjusted weight
+	let callWeight = $derived.by(() => {
 		const nVariablesModels = Number(variablesInput) * Math.max(Number(modelsInput), 1.0);
 		const timeWeight = Number(timeInput) / 14.0;
 		const variablesWeight = nVariablesModels / 10.0;
 		const variableTimeWeight = Math.max(variablesWeight, timeWeight * variablesWeight);
-		callWeight = Math.max(1.0, variableTimeWeight) * Number(locationsInput);
+		return Math.max(1.0, variableTimeWeight) * Number(locationsInput);
 	});
 </script>
 

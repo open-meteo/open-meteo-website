@@ -128,7 +128,8 @@
 					href="https://www.agenziaitaliameteo.it/en/homepage-en/"
 					title="ItaliaMeteo-ARPAE">ItaliaMeteo-ARPAE</a
 				>
-				(<a href="https://creativecommons.org/licenses/by/4.0/" title="DMI Licence">CC-BY Licence</a
+				(<a href="https://creativecommons.org/licenses/by/4.0/" title="ItaliaMeteo-ARPAE Licence"
+					>CC-BY Licence</a
 				>)
 			</li>
 			<li>
@@ -136,12 +137,13 @@
 					href="https://www.meteoswiss.admin.ch/weather/warning-and-forecasting-systems/icon-forecasting-systems.html"
 					title="MeteoSwiss">MeteoSwiss</a
 				>
-				(<a href="https://creativecommons.org/licenses/by/4.0/" title="DMI Licence">CC-BY Licence</a
+				(<a href="https://creativecommons.org/licenses/by/4.0/" title="MeteoSwiss Licence"
+					>CC-BY Licence</a
 				>)
 			</li>
 			<li>
 				Wave forecasts from <a
-					href="https://www.metoffice.gov.uk/"
+					href="https://marine.copernicus.eu/"
 					title="Copernicus Marine Service">Copernicus Marine Service</a
 				>
 				(<a
@@ -179,7 +181,7 @@
 				Icons from <a href="https://github.com/erikflowers/weather-icons" title="WeatherIcons"
 					>Weather Icons</a
 				>
-				(<a href="https://openfontlicence.org/" title="Weather Icons Licence">SIL OFL 1.1</a>)
+				(<a href="https://openfontlicense.org/" title="Weather Icons Licence">SIL OFL 1.1</a>)
 			</li>
 		</ul>
 	</div>

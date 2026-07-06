@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { browser, dev } from '$app/environment';
+	import { browser } from '$app/environment';
 	import { beforeNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 
@@ -57,9 +57,6 @@
 		{ title: 'Elevation', url: '/en/docs/elevation-api' },
 		{ title: 'Flood', url: '/en/docs/flood-api' }
 	];
-	if (dev) {
-		// links.push();
-	}
 
 	interface Path {
 		title: string;

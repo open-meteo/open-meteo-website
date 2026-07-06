@@ -20,7 +20,7 @@
 		class="border-border [[data-state=open]]:bg-accent flex cursor-pointer px-4 underline-offset-3 [[data-state=open]]:border-b"
 	>
 		<div class="flex">
-			<h2 id="heading-{id} after:content-none">
+			<h2 id="heading-{id}" class="after:content-none">
 				{title}
 			</h2>
 			{#if count.active > 0}

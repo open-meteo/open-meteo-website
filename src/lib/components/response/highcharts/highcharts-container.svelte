@@ -24,6 +24,7 @@
 
 	let node: HTMLElement;
 	let chart: Highcharts.Chart | undefined;
+	let destroyed = false;
 
 	onMount(async () => {
 		/// Highcharts needs to be loaded in `onMount` to work with prerendered SSG
@@ -41,6 +42,11 @@
 			Debugger.compose(Highcharts.Chart);
 		}
 		//HighchartsAccessibility(Highcharts);
+		if (destroyed) {
+			// Component was destroyed while the dynamic import was pending; creating
+			// the chart now would leak it on a detached node
+			return;
+		}
 		options.chart = options.chart || {};
 		options.chart.styledMode = true;
 		options.lang = {
@@ -66,6 +72,7 @@
 	});
 
 	onDestroy(() => {
+		destroyed = true;
 		if (chart) {
 			chart.destroy();
 		}

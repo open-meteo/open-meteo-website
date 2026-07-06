@@ -34,7 +34,7 @@
 	<link rel="preload" fetchpriority="high" as="image" href={heroImage} type="image/webp" />
 </svelte:head>
 
-<div style="height: {heroHeight}px;" class="relative flex items-center">
+<div style="height: {heroHeight}px;" class="hero-container relative flex items-center">
 	<div class="absolute inset-0 -z-10">
 		<div
 			class="h-full w-full"
@@ -100,28 +100,64 @@
 	}
 
 	@media (prefers-reduced-motion: no-preference) {
+		/* The hero persists in the root layout, so a height change between pages
+		   can animate for real. Content below the hero moves along with it. */
+		.hero-container {
+			transition: height 500ms ease;
+		}
+
+		/* animation: none makes the groups track the live element's geometry
+		   every frame, so the snapshots follow the real height transition above
+		   instead of running the browser-generated morph (which would scale the
+		   snapshots and warp the text). */
 		::view-transition-group(hero-image) {
 			animation: none;
+			overflow: clip;
+		}
+
+		/* Both snapshots always cover the animating box, so the image never
+		   stretches or letterboxes while the height changes. */
+		::view-transition-old(hero-image),
+		::view-transition-new(hero-image) {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
 		}
 
 		::view-transition-old(hero-image) {
-			animation: fade-out 600ms ease both;
+			animation: fade-out 500ms ease both;
 		}
 
 		::view-transition-new(hero-image) {
 			animation: fade-in 500ms ease both;
 		}
 
+		/* Content rides along with the live-tracked group. */
 		::view-transition-group(hero-content) {
 			animation: none;
+			overflow: clip;
 		}
 
+		/* The old snapshot is a static capture: keep it at natural size (never
+		   stretched) and centered in the animating box, where the text of both
+		   pages sits, so old and new stay superimposed during the cross-fade. */
 		::view-transition-old(hero-content) {
-			animation: fade-out 0ms ease both;
+			width: 100%;
+			height: auto;
+			inset: 0;
+			margin: auto;
+			animation: fade-out 150ms ease both;
 		}
 
+		/* The new snapshot renders the live element, but its box is derived from
+		   the geometry captured at the start of the transition — while the real
+		   height animates, the live texture gets stretched into that stale box,
+		   warping the text. Sizing it to the group (which tracks the live element
+		   every frame) keeps box and texture identical, so nothing stretches. */
 		::view-transition-new(hero-content) {
-			animation: fade-in 0ms ease both;
+			width: 100%;
+			height: 100%;
+			animation: fade-in 150ms ease both;
 		}
 	}
 </style>
