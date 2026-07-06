@@ -90,9 +90,14 @@
 <style>
 	@media (prefers-reduced-motion: no-preference) {
 		/* The hero persists in the root layout, so a height change between pages
-		   can animate for real. Content below the hero moves along with it. */
-		.hero-container {
-			transition: height 500ms ease;
+		   can animate for real. Content below the hero moves along with it.
+		   Gecko is excluded (the @supports matches everything but Firefox, same
+		   check as the view-transition gate in the root layout): pages swap
+		   instantly there, and a lone height glide after the swap looks laggy. */
+		@supports not (-moz-appearance: none) {
+			.hero-container {
+				transition: height 500ms ease;
+			}
 		}
 
 		/* animation: none makes the groups track the live element's geometry
