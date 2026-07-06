@@ -28,15 +28,23 @@
 	let loading = $state(false);
 	let loadingTimeout: ReturnType<typeof setTimeout> | undefined;
 
+	// Gecko presents the live document while the view-transition update
+	// callback runs (Chromium keeps showing the old frame), so every ms spent
+	// in the callback is visible to Firefox users as a flash of the new page.
+	const geckoLeaksCallbackFrames = browser && CSS.supports('-moz-appearance', 'none');
+
 	// The view transition cross-fades to the live hero element, so the incoming
 	// hero image must be decoded before the new state is captured — otherwise
 	// the page background flashes through until the download finishes. Capped
-	// so a slow connection doesn't freeze the old page for too long.
+	// so a slow connection doesn't freeze the old page for too long. In
+	// Firefox the fetch is only kicked off, not awaited: blocking the callback
+	// would prolong the leaked-frame window instead of hiding the load.
 	const waitForHeroImage = () => {
 		const heroImage = page.data.heroImage;
 		if (!heroImage) return;
 		const img = new Image();
 		img.src = heroImage;
+		if (geckoLeaksCallbackFrames) return;
 		return Promise.race([
 			img.decode().catch(() => {}),
 			new Promise((resolve) => setTimeout(resolve, 1000))

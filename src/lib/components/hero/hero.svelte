@@ -36,10 +36,14 @@
 
 <div style="height: {heroHeight}px;" class="hero-container relative flex items-center">
 	<div class="absolute inset-0 -z-10">
+		<!-- The background-color shows whenever the image is not painted yet
+		     (slow connections, or Firefox briefly presenting the new page before
+		     the view transition is ready), so the hero never flashes white. -->
 		<div
 			class="h-full w-full"
 			style="
 			  view-transition-name: hero-image;
+			  background-color: #54718e;
 			  background-image: url('{heroImage}');
 			  background-size: cover;
 			  background-position: {heroImagePosition};
