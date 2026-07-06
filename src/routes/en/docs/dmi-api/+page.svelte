@@ -15,9 +15,9 @@
 	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
@@ -540,18 +540,18 @@
 		</div>
 	</div>
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-		<figure>
-			<ModelImage
-				src="/images/models/dmi_harmonie_arome_europe.webp"
-				alt="DMI HARMONIE AROME DINI model area"
-			/>
-			<figcaption class="text-muted-foreground">
-				DMI HARMONIE AROME DINI model area (green). Source: <a
+		<ZoomableImage
+			src="/images/models/dmi_harmonie_arome_europe.webp"
+			alt="DMI HARMONIE AROME DINI model area"
+		>
+			{#snippet caption()}
+				DMI HARMONIE AROME DINI model area (green). Source:
+				<a
 					href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG"
 					>DMI</a
 				>.
-			</figcaption>
-		</figure>
+			{/snippet}
+		</ZoomableImage>
 	</div>
 </div>
 

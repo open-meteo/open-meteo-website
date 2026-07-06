@@ -20,9 +20,9 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
@@ -117,7 +117,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/italia-meteo-arpae-api" />
 </svelte:head>
 
-<form method="get" action="https://api.open-meteo.com/v1/foreacast">
+<form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
@@ -634,19 +634,19 @@
 		</div>
 
 		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<figure class="w-full">
-				<ModelImage
-					src="/images/models/italia_meteo_arpae_icon_2i.webp"
-					alt="Italia Meteo ARPAE ICON 2I Model Area"
-					class="w-full rounded-lg"
-				/>
-				<figcaption class="text-muted-foreground">
-					Italia Meteo ARPAE ICON 2I Model Area. Source: <a
-						href="https://maps.open-meteo.com/?domain=italia_meteo_arpae_icon_2i#4.5/41.76/12.51"
+			<ZoomableImage
+				figureClass="w-full"
+				class="w-full"
+				src="/images/models/italia_meteo_arpae_icon_2i.webp"
+				alt="Italia Meteo ARPAE ICON 2I Model Area"
+			>
+				{#snippet caption()}
+					Italia Meteo ARPAE ICON 2I Model Area. Source:
+					<a href="https://maps.open-meteo.com/?domain=italia_meteo_arpae_icon_2i#4.5/41.76/12.51"
 						>Open-Meteo</a
 					>.
-				</figcaption>
-			</figure>
+				{/snippet}
+			</ZoomableImage>
 		</div>
 	</div>
 </div>

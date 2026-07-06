@@ -899,7 +899,7 @@
 			SEAS5 forecast update every month on the 5th.
 		</p>
 		<p>
-			For short-term forecasting consider using the <a href={resolve('/en/docs/ecmwf-api', {})}
+			For short-term forecasting consider using the <a href={resolve('/en/docs/ecmwf-api')}
 				>15-days ECMWF forecast</a
 			>
 		</p>
@@ -971,7 +971,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a
-				href={resolve('/en/docs', {})}>Weather Forecast API</a
+				href={resolve('/en/docs')}>Weather Forecast API</a
 			>. Only notable remarks are listed below
 		</p>
 		<ul class="ml-6 list-disc">

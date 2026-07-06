@@ -2,7 +2,7 @@
 	import { SvelteDate } from 'svelte/reactivity';
 	import { scale } from 'svelte/transition';
 
-	import { pad } from '$lib/utils';
+	import { todayUTC } from '$lib/utils';
 
 	import { Button } from '$lib/components/ui/button';
 
@@ -20,21 +20,12 @@
 		start_date = $bindable(''),
 		end_date = $bindable(''),
 		beginDate = new Date('1940-01-01'),
-		lastDate = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`),
+		lastDate = todayUTC(),
 		selectStartDate = $bindable(true)
 	}: Props = $props();
 
-	let startDate = $state(new Date(start_date));
-	let endDate = $state(new Date(end_date));
-
-	$effect(() => {
-		let newDate = new Date(start_date);
-		startDate = newDate;
-	});
-	$effect(() => {
-		let newDate = new Date(end_date);
-		endDate = newDate;
-	});
+	const startDate = $derived(new Date(start_date));
+	const endDate = $derived(new Date(end_date));
 
 	let yearModeStart = $state(false);
 	let monthModeStart = $state(false);
@@ -211,10 +202,9 @@
 						<Button
 							class={monthList[startDate.getUTCMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={new Date(`${startDate.getUTCFullYear()}-${pad(i + 1)}-30`).getTime() <
+							disabled={new Date(Date.UTC(startDate.getUTCFullYear(), i + 1, 0)).getTime() <
 								beginDate.getTime() ||
-								new Date(`${startDate.getUTCFullYear()}-${pad(i + 1)}-01`).getTime() >
-									lastDate.getTime()}
+								new Date(Date.UTC(startDate.getUTCFullYear(), i, 1)).getTime() > lastDate.getTime()}
 							onclick={() => {
 								monthModeStart = false;
 								selectStartDate = true;
@@ -341,10 +331,9 @@
 						<Button
 							class={monthList[endDate.getUTCMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={new Date(`${endDate.getUTCFullYear()}-${pad(i + 1)}-30`).getTime() <
+							disabled={new Date(Date.UTC(endDate.getUTCFullYear(), i + 1, 0)).getTime() <
 								beginDate.getTime() ||
-								new Date(`${endDate.getUTCFullYear()}-${pad(i + 1)}-01`).getTime() >
-									lastDate.getTime()}
+								new Date(Date.UTC(endDate.getUTCFullYear(), i, 1)).getTime() > lastDate.getTime()}
 							onclick={() => {
 								monthModeEnd = false;
 								selectStartDate = false;

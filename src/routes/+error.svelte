@@ -10,14 +10,13 @@
 
 <svelte:head>
 	<title>500 Error | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/" />
 </svelte:head>
 
 <div class="h-[500px]">
 	<div
 		class="absolute -z-10 h-full w-full duration-300"
 		style="
-		  background-image: url('/images/features_background.webp');
+		  background-image: url('/images/backgrounds/features_background.webp');
           background-size: cover;
           background-position: center;
           height: 500px;

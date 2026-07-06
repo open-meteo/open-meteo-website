@@ -117,7 +117,7 @@
 		</div>
 
 		<div class="relative">
-			<Select.Root name="forecast_days" type="single" bind:value={$params.language}>
+			<Select.Root name="language" type="single" bind:value={$params.language}>
 				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
 					>{language?.label}</Select.Trigger
 				>
@@ -133,7 +133,7 @@
 		</div>
 
 		<div class="relative">
-			<Select.Root name="forecast_days" type="single" bind:value={$params.count}>
+			<Select.Root name="count" type="single" bind:value={$params.count}>
 				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
 					>{count?.label}</Select.Trigger
 				>
@@ -165,7 +165,7 @@
 		</div>
 
 		<div class="relative">
-			<Select.Root name="format" type="single" bind:value={$params.countryCode}>
+			<Select.Root name="countryCode" type="single" bind:value={$params.countryCode}>
 				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
 					>{countryCode?.label}</Select.Trigger
 				>

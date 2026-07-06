@@ -175,7 +175,11 @@
 			if ('start_date' in cwParams) {
 				const start = new Date(cwParams['start_date'] as string).getTime();
 				const end = new Date(cwParams['end_date'] as string).getTime();
-				nDays = (end - start) / 1000 / 86400;
+				// end_date is inclusive, so a same-day range is 1 day
+				nDays = (end - start) / 1000 / 86400 + 1;
+				if (!Number.isFinite(nDays)) {
+					nDays = 1;
+				}
 			} else {
 				const forecast_days = cwParams['forecast_days'] ?? defaultParameters.forecast_days ?? 7;
 				const past_days = cwParams['past_days'] ?? defaultParameters.past_days ?? 0;
@@ -191,7 +195,7 @@
 								: [cwParams.models]
 							: []
 						).reduce((previous: number, model: string) => {
-							return previous + (membersPerModel(model) ?? 1);
+							return previous + membersPerModel(model);
 						}, 0)
 					: (cwParams.models
 							? Array.isArray(cwParams.models)
@@ -202,35 +206,19 @@
 			);
 
 			/// Number of weather variables for hourly, daily, current or minutely_15
-			const nHourly = cwParams.hourly
-				? Array.isArray(cwParams.hourly)
-					? (cwParams.hourly as string[]).length
-					: (cwParams.hourly as string).length > 1
-						? 1
-						: 0
-				: 0;
-			const nDaily = cwParams.daily
-				? Array.isArray(cwParams.daily)
-					? (cwParams.daily as string[]).length
-					: (cwParams.daily as string).length > 1
-						? 1
-						: 0
-				: 0;
-			const nCurrent = cwParams.current
-				? Array.isArray(cwParams.current)
-					? (cwParams.current as string[]).length
-					: (cwParams.current as string).length > 1
-						? 1
-						: 0
-				: 0;
-			const nMinutely15 = cwParams.minutely_15
-				? Array.isArray(cwParams.minutely_15)
-					? (cwParams.minutely_15 as string[]).length
-					: (cwParams.minutely_15 as string).length > 1
-						? 1
-						: 0
-				: 0;
-			const nVariables = nHourly + nDaily + nCurrent + nMinutely15;
+			const countSection = (section: unknown): number =>
+				section
+					? Array.isArray(section)
+						? section.length
+						: (section as string).length > 1
+							? 1
+							: 0
+					: 0;
+			const nVariables =
+				countSection(cwParams.hourly) +
+				countSection(cwParams.daily) +
+				countSection(cwParams.current) +
+				countSection(cwParams.minutely_15);
 
 			/// Number of locations
 			let nLocations = 1;
@@ -270,11 +258,10 @@
 			Array.isArray(parsedParams.latitude) &&
 			parsedParams.latitude.length > 5
 		) {
-			throw new Error('Can not preview more than 5 locations');
-		}
-
-		if ($params.location_mode !== 'bounding_box') {
-			delete $params.bounding_box;
+			// Set the error state instead of throwing: the template has no {:catch},
+			// so a rejected promise would leave the loading spinner up forever
+			error = 'Can not preview more than 5 locations';
+			return null;
 		}
 
 		const urlParams = { ...parsedParams };

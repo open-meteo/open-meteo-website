@@ -21,7 +21,7 @@
 		>
 			<div class="grid gap-1">
 				<div class="[&amp;+div]:text-xs text-sm font-semibold">
-					<bold>Open-Meteo</bold> website has been updated
+					<strong>Open-Meteo</strong> website has been updated
 				</div>
 				<div class="text-sm opacity-90">A newer version of the website is available</div>
 			</div>

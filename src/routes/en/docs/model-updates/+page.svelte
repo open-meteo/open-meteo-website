@@ -792,7 +792,7 @@
 
 <svelte:head>
 	<title>API Production Status | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/status" />
+	<link rel="canonical" href="https://open-meteo.com/en/docs/model-updates" />
 </svelte:head>
 
 <div>
