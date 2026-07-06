@@ -28,23 +28,23 @@
 	let loading = $state(false);
 	let loadingTimeout: ReturnType<typeof setTimeout> | undefined;
 
-	// Gecko presents the live document while the view-transition update
-	// callback runs (Chromium keeps showing the old frame), so every ms spent
-	// in the callback is visible to Firefox users as a flash of the new page.
-	const geckoLeaksCallbackFrames = browser && CSS.supports('-moz-appearance', 'none');
+	// Gecko's view-transition rendering is unreliable for this hero setup: it
+	// presents live document frames while the update callback runs, and its
+	// compositor strobes white frames while animating the hero snapshots
+	// (verified frame by frame in Firefox 151/152). Skip view transitions
+	// there — Firefox still animates the hero height, which is plain CSS on
+	// the live element, and pages simply swap in place.
+	const isGecko = browser && CSS.supports('-moz-appearance', 'none');
 
 	// The view transition cross-fades to the live hero element, so the incoming
 	// hero image must be decoded before the new state is captured — otherwise
 	// the page background flashes through until the download finishes. Capped
-	// so a slow connection doesn't freeze the old page for too long. In
-	// Firefox the fetch is only kicked off, not awaited: blocking the callback
-	// would prolong the leaked-frame window instead of hiding the load.
+	// so a slow connection doesn't freeze the old page for too long.
 	const waitForHeroImage = () => {
 		const heroImage = page.data.heroImage;
 		if (!heroImage) return;
 		const img = new Image();
 		img.src = heroImage;
-		if (geckoLeaksCallbackFrames) return;
 		return Promise.race([
 			img.decode().catch(() => {}),
 			new Promise((resolve) => setTimeout(resolve, 1000))
@@ -57,7 +57,7 @@
 
 		if (browser) {
 			if (fromNotTo(e)) {
-				if (!document.startViewTransition) return;
+				if (!document.startViewTransition || isGecko) return;
 				return new Promise((resolve) => {
 					document.startViewTransition(async () => {
 						resolve();
