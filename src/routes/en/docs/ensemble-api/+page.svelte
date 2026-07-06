@@ -52,7 +52,8 @@
 		longitude: [13.41],
 		...defaultParameters,
 		hourly: ['temperature_2m'],
-		models: ['dwd_icon_seamless_eps']
+		// TODO: revert to 'dwd_icon_seamless_eps' once backend prefix aliases are deployed
+		models: ['icon_seamless_eps']
 	});
 
 	// Additional variable settings
