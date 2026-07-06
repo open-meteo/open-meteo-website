@@ -428,7 +428,7 @@
 				<h3 class="text-2xl font-bold">
 					<a href="/en/docs/single-runs-api">Single Runs API</a>
 				</h3>
-				<h4 class="mb-3 text-lg font-light text-muted-foreground">Archived runs from Sept 2025</h4>
+				<h4 class="mb-3 text-lg font-light text-muted-foreground">Archived runs from April 2026</h4>
 				<p>
 					Access any individual archived model run by its initialisation time using the
 					<mark>run=</mark> parameter. ECMWF IFS HRES at 9 km is available from March 2024. Required for

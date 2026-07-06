@@ -15,9 +15,9 @@
 	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ModelImage from '$lib/components/docs/model-image.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
@@ -499,18 +499,18 @@
 		</div>
 	</div>
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-		<figure>
-			<ModelImage
-				src="/images/models/geosphere_arome_austria.webp"
-				alt="GeoSphere AROME Austria Model Area"
-			/>
-			<figcaption class="text-muted-foreground">
-				GeoSphere AROME Austria Model Area. Source: <a
+		<ZoomableImage
+			src="/images/models/geosphere_arome_austria.webp"
+			alt="GeoSphere AROME Austria Model Area"
+		>
+			{#snippet caption()}
+				GeoSphere AROME Austria Model Area. Source:
+				<a
 					href="https://maps.open-meteo.com/?domain=geosphere_arome_austria#5.2/47.60/13.81"
 					target="_blank">Open-Meteo</a
 				>.
-			</figcaption>
-		</figure>
+			{/snippet}
+		</ZoomableImage>
 	</div>
 </div>
 

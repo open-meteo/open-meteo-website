@@ -2,8 +2,6 @@
 node_modules
 /build
 /coverage
-/cypress/screenshots
-/cypress/videos
 /.svelte-kit
 /package
 /.vscode

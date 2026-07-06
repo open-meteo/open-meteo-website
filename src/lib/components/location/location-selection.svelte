@@ -254,7 +254,7 @@
 								type="number"
 								class="h-12 pt-6"
 								name="latitude"
-								id="latitude"
+								id="latitude-{index}"
 								step="0.000001"
 								min="-90"
 								max="90"
@@ -262,7 +262,7 @@
 							/>
 							<Label
 								class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								for="latitude">Latitude</Label
+								for="latitude-{index}">Latitude</Label
 							>
 							{#if params.latitude[index] < -90 || params.latitude[index] > 90}
 								<div class="absolute top-14 left-3 text-sm duration-300" transition:slide>
@@ -282,7 +282,7 @@
 								type="number"
 								class="h-12 pt-6"
 								name="longitude"
-								id="longitude"
+								id="longitude-{index}"
 								step="0.000001"
 								min="-180"
 								max="180"
@@ -290,7 +290,7 @@
 							/>
 							<Label
 								class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								for="longitude">Longitude</Label
+								for="longitude-{index}">Longitude</Label
 							>
 							{#if params.longitude[index] < -180 || params.longitude[index] > 180}
 								<div class="absolute top-14 left-3 text-sm" transition:slide>

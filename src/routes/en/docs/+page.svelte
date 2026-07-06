@@ -853,7 +853,7 @@
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
 						class="text-link underline"
-						href={resolve('/en/docs/model-updates', {})}>model updates documentation</a
+						href={resolve('/en/docs/model-updates')}>model updates documentation</a
 					>.</caption
 				>
 				<thead>
@@ -868,7 +868,7 @@
 				</thead>
 				<tbody class="[&_a]:text-link [&_a]:underline [&_a]:underline-offset-3">
 					<tr class="">
-						<th scope="row"><a href={resolve('/en/docs/dwd-api', {})}>ICON</a></th>
+						<th scope="row"><a href={resolve('/en/docs/dwd-api')}>ICON</a></th>
 						<td>Deutscher Wetterdienst (DWD)</td>
 						<td>Germany</td>
 						<td>2 - 11 km</td>
@@ -876,7 +876,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/gfs-api', {})}>GFS & HRRR</a></th>
+						<th scope="row"><a href={resolve('/en/docs/gfs-api')}>GFS & HRRR</a></th>
 						<td>NOAA</td>
 						<td>United States</td>
 						<td>3 - 25 km</td>
@@ -884,8 +884,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/meteofrance-api', {})}>ARPEGE & AROME</a></th
-						>
+						<th scope="row"><a href={resolve('/en/docs/meteofrance-api')}>ARPEGE & AROME</a></th>
 						<td>Météo-France</td>
 						<td>France</td>
 						<td>1 - 25 km</td>
@@ -893,7 +892,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/ecmwf-api', {})}>IFS & AIFS</a></th>
+						<th scope="row"><a href={resolve('/en/docs/ecmwf-api')}>IFS & AIFS</a></th>
 						<td>ECMWF</td>
 						<td>European Union</td>
 						<td>9 - 25km</td>
@@ -901,7 +900,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/ukmo-api', {})}>UKMO</a></th>
+						<th scope="row"><a href={resolve('/en/docs/ukmo-api')}>UKMO</a></th>
 						<td>UK Met Office</td>
 						<td>United Kingdom</td>
 						<td>2 - 10 km</td>
@@ -909,7 +908,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/kma-api', {})}>KMA</a></th>
+						<th scope="row"><a href={resolve('/en/docs/kma-api')}>KMA</a></th>
 						<td>KMA Korea</td>
 						<td>Korea</td>
 						<td>1.5 - 13 km</td>
@@ -917,7 +916,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/jma-api', {})}>MSM & GSM</a></th>
+						<th scope="row"><a href={resolve('/en/docs/jma-api')}>MSM & GSM</a></th>
 						<td>JMA</td>
 						<td>Japan</td>
 						<td>5 - 55 km</td>
@@ -925,7 +924,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/meteoswiss-api', {})}>ICON CH</a></th>
+						<th scope="row"><a href={resolve('/en/docs/meteoswiss-api')}>ICON CH</a></th>
 						<td>MeteoSwiss</td>
 						<td>Switzerland</td>
 						<td>1 - 2 km</td>
@@ -933,7 +932,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/metno-api', {})}>MET Nordic</a></th>
+						<th scope="row"><a href={resolve('/en/docs/metno-api')}>MET Nordic</a></th>
 						<td>MET Norway</td>
 						<td>Norway</td>
 						<td>1 km</td>
@@ -941,7 +940,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/gem-api', {})}>GEM</a></th>
+						<th scope="row"><a href={resolve('/en/docs/gem-api')}>GEM</a></th>
 						<td>Canadian Weather Service</td>
 						<td>Canada</td>
 						<td>2.5 km</td>
@@ -949,7 +948,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/bom-api', {})}>ACCESS-G</a></th>
+						<th scope="row"><a href={resolve('/en/docs/bom-api')}>ACCESS-G</a></th>
 						<td>Australian Bureau of Meteorology (BOM)</td>
 						<td>Australia</td>
 						<td>15 km</td>
@@ -957,7 +956,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/cma-api', {})}>GFS GRAPES</a></th>
+						<th scope="row"><a href={resolve('/en/docs/cma-api')}>GFS GRAPES</a></th>
 						<td>China Meteorological Administration (CMA)</td>
 						<td>China</td>
 						<td>15 km</td>
@@ -965,7 +964,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/knmi-api', {})}>HARMONIE</a></th>
+						<th scope="row"><a href={resolve('/en/docs/knmi-api')}>HARMONIE</a></th>
 						<td>KNMI</td>
 						<td>Netherlands</td>
 						<td>2 km</td>
@@ -973,7 +972,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/dmi-api', {})}>HARMONIE</a></th>
+						<th scope="row"><a href={resolve('/en/docs/dmi-api')}>HARMONIE</a></th>
 						<td>DMI</td>
 						<td>Denmark</td>
 						<td>2 km</td>
@@ -981,7 +980,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/italia-meteo-arpae-api', {})}>ARPAE</a></th>
+						<th scope="row"><a href={resolve('/en/docs/italia-meteo-arpae-api')}>ARPAE</a></th>
 						<td>ItaliaMeteo</td>
 						<td>Italy</td>
 						<td>2 km</td>
@@ -1226,7 +1225,7 @@
 							server URL requires the prefix <mark>customer-</mark>. See
 							<a
 								class="text-link underline"
-								href={resolve('/en/pricing', {})}
+								href={resolve('/en/pricing')}
 								title="Pricing information to use the weather API commercially">pricing</a
 							> for more information.</td
 						>

@@ -14,6 +14,12 @@ export const pad = (n: string | number) => {
 	return ('0' + n).slice(-2);
 };
 
+/** Midnight UTC of the current day */
+export const todayUTC = () => {
+	const now = new Date();
+	return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+};
+
 export function debounce<T extends (...args: Parameters<T>) => void>(
 	func: T,
 	timeout = 100

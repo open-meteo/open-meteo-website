@@ -145,7 +145,7 @@
 					/>
 					<Label
 						class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-						for="apikey">Server URL</Label
+						for="self_host_server">Server URL</Label
 					>
 				</div>
 				<div class="md:col-span-2">
