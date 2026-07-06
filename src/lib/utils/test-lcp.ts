@@ -7,8 +7,7 @@ const LCP_SUB_PARTS = [
 
 new PerformanceObserver((list) => {
 	const lcpEntry = list.getEntries().at(-1) as
-		| (PerformanceEntry & { url?: string; element?: Element })
-		| undefined;
+		(PerformanceEntry & { url?: string; element?: Element }) | undefined;
 	const navEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
 	const lcpResEntry = performance
 		.getEntriesByType('resource')
