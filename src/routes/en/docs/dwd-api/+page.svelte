@@ -35,26 +35,26 @@
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
+		current,
+		defaultParameters,
 		forecastHoursOptions,
 		forecastMinutely15Options,
 		gridCellSelectionOptions,
+		levels,
 		pastDaysOptions,
 		pastHoursOptions,
 		pastMinutely15Options,
+		pressureVariables,
+		solarVariables,
 		temporalResolutionOptions
 	} from '../options';
 	import {
 		additionalVariables,
-		current,
 		daily,
-		defaultParameters,
 		forecastDaysOptions,
 		hourly,
-		levels,
 		minutely_15,
-		models,
-		pressureVariables,
-		solarVariables
+		models
 	} from './options';
 
 	const params = urlHashStore({

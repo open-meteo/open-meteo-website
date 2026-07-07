@@ -128,6 +128,7 @@
 	<Dialog.Root>
 		<figure class={cn(figureClass)}>
 			<Dialog.Trigger
+				type="button"
 				aria-label={`Open full size image: ${alt}`}
 				title={hint}
 				class="group ring-offset-background focus-visible:ring-ring relative block w-full cursor-zoom-in overflow-hidden rounded-lg focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2"

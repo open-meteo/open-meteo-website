@@ -29,24 +29,21 @@
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
+		additionalVariables,
+		daily,
+		defaultParameters,
+		hourly,
+		levels,
+		pressureVariables,
+		solarVariables
+	} from '../ensemble-options';
+	import {
 		forecastHoursOptions,
 		gridCellSelectionOptions,
 		pastHoursOptions,
 		temporalResolutionOptions
 	} from '../options';
-	import {
-		additionalVariables,
-		availableVariables,
-		daily,
-		defaultParameters,
-		forecastDaysOptions,
-		hourly,
-		levels,
-		models,
-		pastDaysOptions,
-		pressureVariables,
-		solarVariables
-	} from './options';
+	import { availableVariables, forecastDaysOptions, models, pastDaysOptions } from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],

@@ -24,7 +24,7 @@
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
-	import { gridCellSelectionOptions, pastDaysOptions } from '../options';
+	import { gridCellSelectionOptions, pastDaysOptions, solarVariables } from '../options';
 	import {
 		additionalMonthly,
 		additionalWeekly,
@@ -34,7 +34,6 @@
 		hourly,
 		models,
 		monthly,
-		solarVariables,
 		temporalResolutionOptions,
 		weekly,
 		weeklySpecial

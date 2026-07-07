@@ -1,7 +1,3 @@
-import { current, defaultParameters, levels, pressureVariables, solarVariables } from '../options';
-
-export { defaultParameters, pressureVariables, levels, current, solarVariables };
-
 export const hourly = [
 	[
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },

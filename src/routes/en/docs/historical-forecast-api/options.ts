@@ -1,7 +1,3 @@
-import { daily, levels, minutely_15, pressureVariables, solarVariables } from '../options';
-
-export { pressureVariables, levels, minutely_15, daily, solarVariables };
-
 export const defaultParameters = {
 	daily: [],
 	hourly: [],

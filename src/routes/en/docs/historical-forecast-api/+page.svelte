@@ -30,25 +30,20 @@
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
+		daily,
 		forecastHoursOptions,
 		forecastMinutely15Options,
 		gridCellSelectionOptions,
+		levels,
+		minutely_15,
 		models,
 		pastHoursOptions,
 		pastMinutely15Options,
+		pressureVariables,
+		solarVariables,
 		temporalResolutionOptions
 	} from '../options';
-	import {
-		additionalDaily,
-		additionalVariables,
-		daily,
-		defaultParameters,
-		hourly,
-		levels,
-		minutely_15,
-		pressureVariables,
-		solarVariables
-	} from './options';
+	import { additionalDaily, additionalVariables, defaultParameters, hourly } from './options';
 
 	let d = new SvelteDate();
 	d.setDate(d.getDate() - 2);

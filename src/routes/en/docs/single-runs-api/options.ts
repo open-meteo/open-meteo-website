@@ -1,7 +1,3 @@
-import { daily, minutely_15, solarVariables } from '../options';
-
-export { minutely_15, daily, solarVariables };
-
 export const defaultParameters = {
 	daily: [],
 	hourly: [],

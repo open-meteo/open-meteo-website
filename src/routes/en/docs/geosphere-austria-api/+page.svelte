@@ -27,6 +27,7 @@
 		gridCellSelectionOptions,
 		pastDaysOptions,
 		pastHoursOptions,
+		solarVariables,
 		temporalResolutionOptions
 	} from '../options';
 	import {
@@ -35,8 +36,7 @@
 		defaultParameters,
 		forecastDaysOptions,
 		hourly,
-		models,
-		solarVariables
+		models
 	} from './options';
 
 	const params = urlHashStore({

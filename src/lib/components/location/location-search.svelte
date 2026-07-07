@@ -261,12 +261,11 @@
 {/snippet}
 
 <Dialog.Root bind:open={dialogOpen}>
+	<!-- type="button" is required: the trigger sits inside the parameter GET
+	     form and would otherwise submit it instead of opening the dialog -->
 	<Dialog.Trigger
 		id="location_search"
-		onclick={(e) => {
-			e.preventDefault();
-			dialogOpen = !dialogOpen;
-		}}
+		type="button"
 		class="hover:bg-accent border-border flex h-12 w-full cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
 		><svg
 			class="lucide lucide-search mr-[5px]"

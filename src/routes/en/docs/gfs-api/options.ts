@@ -1,7 +1,3 @@
-import { current, daily, defaultParameters, solarVariables } from '../options';
-
-export { defaultParameters, current, daily, solarVariables };
-
 export const pressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
 	{ value: 'dew_point', label: 'Dewpoint' },

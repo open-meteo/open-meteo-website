@@ -75,11 +75,12 @@
 
 <div>
 	<Popover.Root bind:open={popoverOpen}>
+		<!-- type="button" keeps clicks from submitting the surrounding GET form -->
 		<button
 			bind:this={inputFields}
+			type="button"
 			class="relative flex w-full cursor-pointer flex-col gap-x-6 gap-y-3 md:flex-row"
-			onclick={(e) => {
-				e.preventDefault();
+			onclick={() => {
 				if (!popoverOpen) {
 					popoverOpen = true;
 				}

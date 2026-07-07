@@ -22,6 +22,11 @@
 		isDisabled
 	}: Props = $props();
 
+	// Deliberately the controlled checked/onCheckedChange API instead of
+	// bits-ui's Checkbox.Group: the bound arrays also change externally (URL
+	// hash restore, back navigation), and Checkbox.Group only re-syncs a
+	// checkbox when its own `value` prop changes — deriving `checked` from the
+	// array keeps the UI correct under any external change.
 	const toggle = (value: string) => {
 		if (!values) return;
 		values = values.includes(value) ? values.filter((item) => item !== value) : [...values, value];

@@ -1,46 +1,17 @@
 import {
-	additionalVariables,
 	aigfs025_variables,
 	bom_access_global_ensemble,
-	daily,
-	defaultParameters,
 	ecmwf_aifs025_variables,
 	ecmwf_ifs025_variables,
 	gfs025_variables,
 	gfs05_variables,
-	hourly,
 	icon_d2_variables,
 	icon_eu_variables,
 	icon_global_variables,
-	levels,
 	meteoswiss_variables,
-	pressureVariables,
-	solarVariables,
 	ukmo_2km_variables,
 	ukmo_variables
 } from '../ensemble-options';
-
-export {
-	defaultParameters,
-	pressureVariables,
-	levels,
-	icon_global_variables,
-	icon_eu_variables,
-	icon_d2_variables,
-	gfs025_variables,
-	aigfs025_variables,
-	gfs05_variables,
-	ecmwf_ifs025_variables,
-	ecmwf_aifs025_variables,
-	ukmo_variables,
-	ukmo_2km_variables,
-	bom_access_global_ensemble,
-	meteoswiss_variables,
-	hourly,
-	daily,
-	additionalVariables,
-	solarVariables
-};
 
 export const cmc_gem_global_variables = [
 	'temperature_2m',
