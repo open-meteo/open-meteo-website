@@ -1,3 +1,7 @@
+import { current, solarVariables } from '../options';
+
+export { current, solarVariables };
+
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
@@ -82,32 +86,6 @@ export const hourly = [
 	]
 ];
 
-export const current = [
-	[
-		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
-		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
-		{ value: 'is_day', label: 'Is Day or Night' }
-	],
-	[
-		{ value: 'precipitation', label: 'Precipitation' },
-		{ value: 'rain', label: 'Rain' },
-		{ value: 'showers', label: 'Showers' },
-		{ value: 'snowfall', label: 'Snowfall' }
-	],
-	[
-		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
-		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
-		{ value: 'surface_pressure', label: 'Surface Pressure' }
-	],
-	[
-		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
-	]
-];
-
 export const daily = [
 	[
 		{ value: 'weather_code', label: 'Weather code' },
@@ -146,25 +124,6 @@ export const additionalVariables = [
 	[
 		{ value: 'cape', label: 'CAPE' },
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
-	]
-];
-
-export const solarVariables = [
-	[
-		{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-		{ value: 'direct_radiation', label: 'Direct Solar Radiation' },
-		{ value: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-		{ value: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-		{ value: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-		{ value: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
-	],
-	[
-		{ value: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' },
-		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 	]
 ];
 

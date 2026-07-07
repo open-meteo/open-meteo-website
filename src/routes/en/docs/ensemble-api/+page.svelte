@@ -26,6 +26,7 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		forecastHoursOptions,
@@ -113,6 +114,10 @@
 <svelte:head>
 	<title>Ensemble API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/ensemble-api" />
+	<meta
+		name="description"
+		content="Ensemble weather forecasts from ICON, GFS, ECMWF, GEM and more. Access individual ensemble members for probabilistic forecasting via a free JSON API."
+	/>
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4">
@@ -163,40 +168,12 @@
 		<a href="#ensemble_models">
 			<h2 id="ensemble_models" class="text-2xl md:text-3xl">Ensemble Models</h2>
 		</a>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each models as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_models"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.models?.includes(value)}
-								aria-labelledby="{value}_model_label"
-								onCheckedChange={() => {
-									if ($params.models?.includes(value)) {
-										$params.models = $params.models.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.models) {
-										$params.models.push(value);
-										$params.models = $params.models;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_model_label"
-								for="{value}_models"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={models}
+			bind:values={$params.models}
+			idSuffix="models"
+		/>
 	</div>
 
 	<!-- HOURLY -->
@@ -1182,7 +1159,7 @@
 						<td>Instant</td>
 						<td>kPa</td>
 						<td
-							>Vapor Pressure Deificit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
+							>Vapor Pressure Deficit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
 							transpiration of plants increases. For low VPD (&lt;0.4), transpiration decreases</td
 						>
 					</tr>

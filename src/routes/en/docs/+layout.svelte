@@ -55,7 +55,8 @@
 		{ title: 'Satellite Radiation', url: '/en/docs/satellite-radiation-api' },
 		{ title: 'Geocoding', url: '/en/docs/geocoding-api' },
 		{ title: 'Elevation', url: '/en/docs/elevation-api' },
-		{ title: 'Flood', url: '/en/docs/flood-api' }
+		{ title: 'Flood', url: '/en/docs/flood-api' },
+		{ title: 'Model Updates', url: '/en/docs/model-updates' }
 	];
 
 	interface Path {

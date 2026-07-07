@@ -94,6 +94,10 @@
 <svelte:head>
 	<title>Geocoding API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/geocoding-api" />
+	<meta
+		name="description"
+		content="Search locations by name in any language. Free geocoding API returning coordinates, elevation, timezone and population from the GeoNames database."
+	/>
 </svelte:head>
 
 <form

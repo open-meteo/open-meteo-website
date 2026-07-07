@@ -26,6 +26,7 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		forecastHoursOptions,
@@ -158,6 +159,10 @@
 <svelte:head>
 	<title>Ensemble Mean API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/ensemble-mean-api" />
+	<meta
+		name="description"
+		content="Pre-computed ensemble mean and spread from ICON, GFS, ECMWF and other ensemble models. Free JSON weather API for probabilistic forecasts."
+	/>
 </svelte:head>
 
 <form method="get" action="https://ensemble-api.open-meteo.com/v1/ensemble">
@@ -178,40 +183,12 @@
 		<a href="#ensemble_models">
 			<h2 id="ensemble_models" class="text-2xl md:text-3xl">Ensemble Models</h2>
 		</a>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each models as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_models"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.models?.includes(value)}
-								aria-labelledby="{value}_model_label"
-								onCheckedChange={() => {
-									if ($params.models?.includes(value)) {
-										$params.models = $params.models.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.models) {
-										$params.models.push(value);
-										$params.models = $params.models;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_model_label"
-								for="{value}_models"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={models}
+			bind:values={$params.models}
+			idSuffix="models"
+		/>
 	</div>
 
 	<!-- HOURLY -->

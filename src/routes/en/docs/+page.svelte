@@ -32,7 +32,7 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
-	import HourlyVariables from '$lib/components/variables/hourly-variables.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		additionalDaily,
@@ -169,7 +169,19 @@
 	/>
 
 	<!-- HOURLY -->
-	<HourlyVariables bind:params={$params} {hourly} />
+	<div class="mt-6 md:mt-12">
+		<a href="#hourly_weather_variables"
+			><h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">
+				Hourly Weather Variables
+			</h2></a
+		>
+		<VariableCheckboxGroups
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			groups={hourly}
+			bind:values={$params.hourly}
+			idSuffix="hourly"
+		/>
+	</div>
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">

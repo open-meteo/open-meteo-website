@@ -22,6 +22,7 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import { gridCellSelectionOptions, pastDaysOptions } from '../options';
 	import {
@@ -95,6 +96,10 @@
 <svelte:head>
 	<title>Seasonal Weather Forecast API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/seasonal-forecast-api" />
+	<meta
+		name="description"
+		content="Seasonal weather forecasts up to 9 months ahead from ECMWF SEAS5 and NCEP CFS. Weekly and monthly data via a free JSON weather API."
+	/>
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4"
@@ -229,38 +234,12 @@
 				title="Solar Radiation Variables"
 				count={countVariables(solarVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each solarVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_hourly_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_hourly_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={solarVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
@@ -363,38 +342,12 @@
 				</p>
 			</AccordionItem>
 			<AccordionItem id="models" title="Models" count={countVariables(models, $params.models)}>
-				<div class="mt-2 grid sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2">
-					{#each models as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.models?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_model_label"
-										for="{value}_model"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2"
+					groups={models}
+					bind:values={$params.models}
+					idSuffix="model"
+				/>
 				<p>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses all 51 members from EC46 for
@@ -630,38 +583,12 @@
 				title="Anomaly Probabilities, Extreme Forecast Index (EFI) & Shift of tails (SOT)"
 				count={countVariables(weeklySpecial, $params.weekly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each weeklySpecial as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_weekly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.weekly?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if (value && $params.weekly?.includes(value)) {
-												$params.weekly = $params.weekly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if (value && $params.weekly) {
-												$params.weekly.push(value);
-												$params.weekly = $params.weekly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_label"
-										for="{value}_weekly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={weeklySpecial}
+					bind:values={$params.weekly}
+					idSuffix="weekly"
+				/>
 			</AccordionItem>
 		</Accordion.Root>
 	</div>

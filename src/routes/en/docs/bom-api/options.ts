@@ -1,3 +1,7 @@
+import { solarVariables } from '../options';
+
+export { solarVariables };
+
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
@@ -119,25 +123,6 @@ export const additionalVariables = [
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
 	],
 	[]
-];
-
-export const solarVariables = [
-	[
-		{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-		{ value: 'direct_radiation', label: 'Direct Solar Radiation' },
-		{ value: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-		{ value: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-		{ value: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-		{ value: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
-	],
-	[
-		{ value: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' },
-		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
-	]
 ];
 
 export const forecastDaysOptions = [

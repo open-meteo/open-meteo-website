@@ -793,6 +793,10 @@
 <svelte:head>
 	<title>API Production Status | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/model-updates" />
+	<meta
+		name="description"
+		content="Production status, update times and data availability for all weather models integrated in Open-Meteo weather APIs."
+	/>
 </svelte:head>
 
 <div>
