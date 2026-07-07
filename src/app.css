@@ -458,3 +458,28 @@ figcaption {
 .dark .highlight-row:hover {
 	box-shadow: 0px 0px 5px 2px rgb(70, 70, 70, 1);
 }
+
+/* Global animation kill-switch (footer / mobile-nav toggle). Durations are
+   forced to near-zero rather than `none`, so state-driven animations still
+   land on their end states instantly. */
+html.no-animations *,
+html.no-animations *::before,
+html.no-animations *::after {
+	animation-duration: 0.01ms !important;
+	animation-delay: 0ms !important;
+	animation-iteration-count: 1 !important;
+	transition-duration: 0.01ms !important;
+	transition-delay: 0ms !important;
+}
+
+html.no-animations,
+html.no-animations body {
+	scroll-behavior: auto;
+}
+
+html.no-animations::view-transition-group(*),
+html.no-animations::view-transition-image-pair(*),
+html.no-animations::view-transition-old(*),
+html.no-animations::view-transition-new(*) {
+	animation: none !important;
+}

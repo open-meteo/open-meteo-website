@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fade, slide } from 'svelte/transition';
+	import { fade, slide } from '$lib/utils/transitions';
 
 	import { fadeOutAbsolute } from '$lib/utils/transitions';
 

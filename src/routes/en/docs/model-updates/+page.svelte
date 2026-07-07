@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { fade } from 'svelte/transition';
+	import { fade } from '$lib/utils/transitions';
 
 	import { apiKeyPreferences } from '$lib/stores/settings';
 

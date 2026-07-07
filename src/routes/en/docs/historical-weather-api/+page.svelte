@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { fade, slide } from 'svelte/transition';
+	import { fade, slide } from '$lib/utils/transitions';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 

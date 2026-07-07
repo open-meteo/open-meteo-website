@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { SvelteDate } from 'svelte/reactivity';
-	import { scale } from 'svelte/transition';
+	import { scale } from '$lib/utils/transitions';
 
 	import { todayUTC } from '$lib/utils';
 

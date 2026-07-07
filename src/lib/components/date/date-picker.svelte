@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from 'svelte/transition';
+	import { slide } from '$lib/utils/transitions';
 
 	import { browser } from '$app/environment';
 

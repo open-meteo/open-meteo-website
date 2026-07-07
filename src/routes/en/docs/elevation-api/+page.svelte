@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { slide } from 'svelte/transition';
+	import { slide } from '$lib/utils/transitions';
 
 	import { apiKeyPreferences } from '$lib/stores/settings';
 	import { urlHashStore } from '$lib/stores/url-hash-store';

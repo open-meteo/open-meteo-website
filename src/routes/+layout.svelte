@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 
 	import { ModeWatcher } from 'mode-watcher';
 
 	import { browser } from '$app/environment';
 	import { afterNavigate, beforeNavigate, onNavigate } from '$app/navigation';
 	import { page } from '$app/state';
+
+	import { animationsDisabled } from '$lib/stores/settings';
 
 	import Footer from '$lib/components/footer/footer.svelte';
 	import Header from '$lib/components/header/header.svelte';
@@ -28,13 +31,10 @@
 	let loading = $state(false);
 	let loadingTimeout: ReturnType<typeof setTimeout> | undefined;
 
-	// Gecko's view-transition rendering is unreliable for this hero setup: it
-	// presents live document frames while the update callback runs, and its
-	// compositor strobes white frames while animating the hero snapshots
-	// (verified frame by frame in Firefox 151/152). Skip view transitions
-	// there — Firefox still animates the hero height, which is plain CSS on
-	// the live element, and pages simply swap in place.
-	const isGecko = browser && CSS.supports('-moz-appearance', 'none');
+	// Sync the global animation kill-switch class (footer / mobile-nav toggle)
+	$effect(() => {
+		document.documentElement.classList.toggle('no-animations', $animationsDisabled);
+	});
 
 	// The view transition cross-fades to the live hero element, so the incoming
 	// hero image must be decoded before the new state is captured — otherwise
@@ -57,7 +57,7 @@
 
 		if (browser) {
 			if (fromNotTo(e)) {
-				if (!document.startViewTransition || isGecko) return;
+				if (!document.startViewTransition || get(animationsDisabled)) return;
 				return new Promise((resolve) => {
 					document.startViewTransition(async () => {
 						resolve();

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
+	import { fade } from '$lib/utils/transitions';
 
 	import Github from 'simple-icons/icons/github.svg?raw';
 

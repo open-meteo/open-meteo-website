@@ -1,3 +1,7 @@
+<script lang="ts">
+	import AnimationToggle from '$lib/components/settings/animation-toggle.svelte';
+</script>
+
 <footer class="container pt-5 pb-16">
 	<nav aria-label="Footer" class="flex flex-wrap justify-between gap-5">
 		<div>
@@ -126,6 +130,9 @@
 			</ul>
 		</div>
 	</nav>
+	<div class="flex justify-center pt-6">
+		<AnimationToggle id="animations-toggle-footer" />
+	</div>
 	<div class="pt-3 text-center">
 		<small class="text-muted-foreground"
 			>© 2022-{new Date().getFullYear()} Copyright:

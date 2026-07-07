@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
+	import { fade } from '$lib/utils/transitions';
 
 	import Github from 'simple-icons/icons/github.svg?raw';
 	import X from 'simple-icons/icons/x.svg?raw';
@@ -8,6 +8,8 @@
 	import { Toggle } from '$lib/components/ui/toggle';
 
 	import Logo from '$lib/assets/icons/sun.svelte';
+
+	import AnimationToggle from '$lib/components/settings/animation-toggle.svelte';
 
 	import DarkmodeToggle from './darkmode-toggle/darkmode-toggle.svelte';
 
@@ -115,6 +117,9 @@
 					href="/en/docs"
 					onclick={() => (toggleMenu = false)}>API Docs</Button
 				>
+				<div class="px-3 py-2 md:hidden">
+					<AnimationToggle id="animations-toggle-mobile-nav" />
+				</div>
 				<hr class="border-border mt-2 mb-4 ml-3" />
 			</nav>
 			<div class="flex gap-1 md:ml-auto md:flex-row md:justify-self-end">

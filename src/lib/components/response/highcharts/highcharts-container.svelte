@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
+	import { get } from 'svelte/store';
 
 	import { mode } from 'mode-watcher';
 
 	import { dev } from '$app/environment';
+
+	import { animationsDisabled } from '$lib/stores/settings';
 
 	import './highcharts.css';
 
