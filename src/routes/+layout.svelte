@@ -36,6 +36,13 @@
 		document.documentElement.classList.toggle('no-animations', $animationsDisabled);
 	});
 
+	// Gecko's view-transition compositor strobes white frames while animating
+	// the hero snapshots (verified frame by frame in Firefox 151/152, and the
+	// constant-size image layer did not help). Skip view transitions there —
+	// Firefox still animates the hero height, which is plain CSS on the live
+	// element, and pages simply swap in place.
+	const isGecko = browser && CSS.supports('-moz-appearance', 'none');
+
 	// The view transition cross-fades to the live hero element, so the incoming
 	// hero image must be decoded before the new state is captured — otherwise
 	// the page background flashes through until the download finishes. Capped
@@ -57,7 +64,7 @@
 
 		if (browser) {
 			if (fromNotTo(e)) {
-				if (!document.startViewTransition || get(animationsDisabled)) return;
+				if (!document.startViewTransition || isGecko || get(animationsDisabled)) return;
 				return new Promise((resolve) => {
 					document.startViewTransition(async () => {
 						resolve();

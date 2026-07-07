@@ -39,8 +39,8 @@
 	     hero size); the image layer inside is kept at a constant 600px — the
 	     tallest hero — so its rasterized size never changes while the height
 	     transition runs. Gecko re-rasterizes cover images on every resize frame
-	     and flashes the backdrop while doing so; a constant layer that only
-	     gets clipped avoids that entirely. -->
+	     and can flash the backdrop while doing so; a constant layer that only
+	     gets clipped avoids that. -->
 	<div class="absolute inset-0 -z-10 overflow-hidden" style="view-transition-name: hero-image">
 		<!-- The background-color shows whenever the image is not painted yet
 		     (slow connections), so the hero never flashes white. -->

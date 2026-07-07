@@ -81,8 +81,14 @@
 
 	onDestroy(() => {
 		destroyed = true;
-		if (chart) {
-			chart.destroy();
+		// Defer the teardown: when the surrounding pane is removed with an out
+		// transition, onDestroy fires immediately while the DOM keeps fading —
+		// destroying the chart right away rips the graph out of the still
+		// visible pane and collapses it. Destroying on a detached node is fine.
+		const c = chart;
+		chart = undefined;
+		if (c) {
+			setTimeout(() => c.destroy(), 500);
 		}
 	});
 </script>
