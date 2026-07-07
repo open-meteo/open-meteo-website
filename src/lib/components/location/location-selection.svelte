@@ -2,12 +2,15 @@
 	import { onMount } from 'svelte';
 	import { fade, slide } from 'svelte/transition';
 
+	import { fadeOutAbsolute } from '$lib/utils/transitions';
+
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
 
+	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
 	import { type Parameters } from '$lib/docs';
@@ -231,9 +234,13 @@
 	</div>
 </div>
 
-<div class="mt-3 md:mt-4">
+<AnimateHeight class="mt-3 md:mt-4">
 	{#if params.location_mode == 'location_search'}
-		<div class="flex flex-col" in:fade>
+		<div
+			class="flex flex-col"
+			in:fade={{ duration: 250, delay: 50 }}
+			out:fadeOutAbsolute={{ duration: 200 }}
+		>
 			{#if params.latitude && params.longitude}
 				{#each params.latitude as _, index (index)}
 					<div
@@ -390,7 +397,7 @@
 		</div>
 	{/if}
 	{#if params.location_mode == 'csv_coordinates'}
-		<div in:fade>
+		<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
 			<div class="flex flex-col gap-3 md:flex-row md:gap-6">
 				<div class="md:w-1/2">
 					<textarea
@@ -594,4 +601,4 @@
 			</div>
 		{/if}
 	{/if}
-</div>
+</AnimateHeight>
