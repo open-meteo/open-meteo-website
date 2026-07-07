@@ -118,7 +118,7 @@
 					onclick={() => (toggleMenu = false)}>API Docs</Button
 				>
 				<div class="px-3 py-2 md:hidden">
-					<AnimationToggle id="animations-toggle-mobile-nav" />
+					<AnimationToggle id="animations-toggle-mobile-nav" small />
 				</div>
 				<hr class="border-border mt-2 mb-4 ml-3" />
 			</nav>
