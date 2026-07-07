@@ -317,16 +317,17 @@
 						</div>
 						<div class="relative flex items-center">
 							<Select.Root name="timezone" type="single" bind:value={params.timezone}>
-								<Select.Trigger
-									aria-label="timezone selection"
-									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{timeZone?.label}</Select.Trigger
+								<Select.Trigger id="timezone-{index}" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+									>{timeZone?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
 									{#each timeZoneOptions as { value, label } (value)}
 										<Select.Item {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
-								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								<Label
+									for="timezone-{index}"
+									class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 									>Timezone</Label
 								>
 							</Select.Root>
@@ -416,9 +417,9 @@
 					<pre
 						class="my-2 overflow-auto rounded-lg md:my-4">latitude,longitude,elevation,timezone,start_date,end_date</pre>
 					<div class="relative">
-						<Select.Root name="forecast_days" type="single" bind:value={csvExample}>
+						<Select.Root name="csv_example" type="single" bind:value={csvExample}>
 							<Select.Trigger
-								aria-label="Forecast days input"
+								id="csv_example"
 								class="h-12 cursor-pointer rounded-b-none pt-6 [&_svg]:mb-3"
 								>{csvExampleSet?.label}</Select.Trigger
 							>
@@ -427,7 +428,9 @@
 									<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+							<Label
+								for="csv_example"
+								class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Code examples</Label
 							>
 						</Select.Root>

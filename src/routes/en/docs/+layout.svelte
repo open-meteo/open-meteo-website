@@ -120,7 +120,7 @@
 				variant="outline"
 				class="flex justify-start p-3 md:hidden"
 				aria-expanded={mobileNavOpened}
-				aria-label="Documentation navigation"
+				aria-label="Documentation navigation: {selectedPath.title}"
 				onclick={() => {
 					mobileNavOpened = !mobileNavOpened;
 				}}

@@ -123,7 +123,7 @@
 
 		<div class="relative">
 			<Select.Root name="language" type="single" bind:value={$params.language}>
-				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+				<Select.Trigger id="language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
 					>{language?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
@@ -131,7 +131,9 @@
 						<Select.Item class="cursor-pointer" value={lo.value}>{lo.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="language"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Language</Label
 				>
 			</Select.Root>
@@ -139,7 +141,7 @@
 
 		<div class="relative">
 			<Select.Root name="count" type="single" bind:value={$params.count}>
-				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+				<Select.Trigger id="count" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
 					>{count?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
@@ -147,7 +149,9 @@
 						<Select.Item class="cursor-pointer" value={co.value}>{co.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="count"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Number of Results</Label
 				>
 			</Select.Root>
@@ -155,7 +159,7 @@
 
 		<div class="relative">
 			<Select.Root name="format" type="single" bind:value={$params.format}>
-				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+				<Select.Trigger id="format" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
 					>{format?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
@@ -163,7 +167,9 @@
 						<Select.Item class="cursor-pointer" value={fo.value}>{fo.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="format"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Format</Label
 				>
 			</Select.Root>
@@ -171,7 +177,7 @@
 
 		<div class="relative">
 			<Select.Root name="countryCode" type="single" bind:value={$params.countryCode}>
-				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+				<Select.Trigger id="country_code" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
 					>{countryCode?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
@@ -179,7 +185,9 @@
 						<Select.Item class="cursor-pointer" value={cc.value}>{cc.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="country_code"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Country Code</Label
 				>
 			</Select.Root>
@@ -228,7 +236,7 @@
 				>
 					<thead>
 						<tr>
-							<th></th>
+							<th><span class="sr-only">Country flag</span></th>
 							<th>Name</th>
 							<th>Latitude</th>
 							<th>Longitude</th>
@@ -295,14 +303,7 @@
 			>)</small
 		>
 	</div>
-	<Input
-		class="mt-2"
-		type="text"
-		id="api_url"
-		readonly
-		aria-label="Copy to clipboard"
-		value={apiUrl}
-	/>
+	<Input class="mt-2" type="text" id="api_url" readonly aria-label="API URL" value={apiUrl} />
 	<div class="text-muted-foreground mt-1">You can copy this API URL into your application</div>
 </div>
 
