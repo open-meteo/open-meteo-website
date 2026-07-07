@@ -16,15 +16,15 @@
 		transition:fade
 		role="status"
 		aria-live="polite"
-		class="fixed top-0 z-100 flex w-full justify-center p-4 sm:top-auto sm:right-0 sm:bottom-0 sm:justify-end md:max-w-118.75"
+		class="fixed bottom-0 z-100 flex w-full justify-center p-4 sm:right-0 sm:w-auto sm:justify-end"
 	>
 		<div
-			class="border-border bg-background text-foreground pointer-events-auto relative flex w-full flex-col gap-3 rounded-md border p-4 pr-10 shadow-lg sm:flex-row sm:items-center sm:justify-between sm:gap-4"
+			class="border-border bg-background text-foreground pointer-events-auto relative flex w-full flex-col gap-3 rounded-md border p-4 pr-10 shadow-lg sm:w-auto sm:flex-row sm:items-center sm:gap-4"
 		>
 			<div class="grid gap-1">
-				<div class="text-sm font-semibold">Website updated</div>
-				<div class="text-muted-foreground text-sm">
-					A newer version of <strong>Open-Meteo</strong> is available.
+				<div class="text-sm font-semibold"><strong>Open-Meteo</strong> has been updated</div>
+				<div class="text-muted-foreground text-sm whitespace-nowrap">
+					A newer version is available.
 				</div>
 			</div>
 			<Button
