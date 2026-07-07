@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from 'svelte/transition';
 
 	import { resolve } from '$app/paths';
 
@@ -13,6 +12,7 @@
 		countPressureVariables,
 		countVariables
 	} from '$lib/utils/meteo';
+	import { slide } from '$lib/utils/transitions';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
@@ -32,7 +32,7 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
-	import HourlyVariables from '$lib/components/variables/hourly-variables.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		additionalDaily,
@@ -169,7 +169,19 @@
 	/>
 
 	<!-- HOURLY -->
-	<HourlyVariables bind:params={$params} {hourly} />
+	<div class="mt-6 md:mt-12">
+		<a href="#hourly_weather_variables"
+			><h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">
+				Hourly Weather Variables
+			</h2></a
+		>
+		<VariableCheckboxGroups
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			groups={hourly}
+			bind:values={$params.hourly}
+			idSuffix="hourly"
+		/>
+	</div>
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
@@ -190,7 +202,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_label"
@@ -303,7 +315,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_hourly_label"
@@ -438,7 +450,7 @@
 													<div class="group flex items-center">
 														<Checkbox
 															id="{variable.value}_{level}hPa"
-															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 															value="{variable.value}_{level}hPa"
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
 															aria-labelledby="{variable.value}_{level}hPa"
@@ -492,7 +504,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.models?.includes(value)}
 										aria-labelledby="{value}_label"
@@ -546,7 +558,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										value="{value}_minutely_15"
 										checked={$params.minutely_15?.includes(value)}
 										aria-labelledby="{value}_minutely_15_label"
@@ -580,7 +592,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										value="{value}_minutely_15"
 										checked={$params.minutely_15?.includes(value)}
 										aria-labelledby="{value}_minutely_15_label"
@@ -678,7 +690,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.daily?.includes(value)}
 								aria-labelledby="{value}_daily_label"
@@ -730,7 +742,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_daily"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.daily?.includes(value)}
 										aria-labelledby="{value}_daily_label"
@@ -774,7 +786,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_current"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.current?.includes(value)}
 								aria-labelledby="{value}_current_label"

@@ -108,7 +108,7 @@
 	--card: oklch(13.7% 0.036 258.5);
 	--card-foreground: oklch(98.4% 0.003 247.9);
 
-	--border: oklch(28% 0.037 260);
+	--border: oklch(36% 0.04 260);
 	--border-dark: oklch(68.3% 0 0);
 
 	--secondary: oklch(28% 0.037 260);
@@ -127,7 +127,7 @@
 	--warning-dark: oklch(89.8% 0.136 91);
 	--warning-foreground: oklch(57.9% 0.117 85.9);
 
-	--input: oklch(28% 0.037 260);
+	--input: oklch(36% 0.04 260);
 	--link: oklch(72.9% 0.14 258.1);
 	--ring: oklch(86.9% 0.02 252.8);
 
@@ -457,4 +457,29 @@ figcaption {
 
 .dark .highlight-row:hover {
 	box-shadow: 0px 0px 5px 2px rgb(70, 70, 70, 1);
+}
+
+/* Global animation kill-switch (footer / mobile-nav toggle). Durations are
+   forced to near-zero rather than `none`, so state-driven animations still
+   land on their end states instantly. */
+html.no-animations *,
+html.no-animations *::before,
+html.no-animations *::after {
+	animation-duration: 0.01ms !important;
+	animation-delay: 0ms !important;
+	animation-iteration-count: 1 !important;
+	transition-duration: 0.01ms !important;
+	transition-delay: 0ms !important;
+}
+
+html.no-animations,
+html.no-animations body {
+	scroll-behavior: auto;
+}
+
+html.no-animations::view-transition-group(*),
+html.no-animations::view-transition-image-pair(*),
+html.no-animations::view-transition-old(*),
+html.no-animations::view-transition-new(*) {
+	animation: none !important;
 }

@@ -129,7 +129,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.hourly?.includes(value)}
 								aria-labelledby="{value}_label"
@@ -177,7 +177,7 @@
 							<div class="group flex items-center" title={label}>
 								<Checkbox
 									id="{value}_hourly"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 									{value}
 									checked={$params.hourly?.includes(value)}
 									aria-labelledby="{value}_label"
@@ -222,7 +222,7 @@
 				<div>
 					<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 						<table
-							class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[740px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+							class="[&_tr]:border-border mx-6 mt-2 w-full min-w-185 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 							id="airquality_table"
 						>
 							<caption class="text-muted-foreground mt-2 table-caption text-left"
@@ -311,7 +311,7 @@
 							<div class="group flex items-center" title={label}>
 								<Checkbox
 									id="{value}_hourly"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 									{value}
 									checked={$params.hourly?.includes(value)}
 									aria-labelledby="{value}_label"
@@ -498,7 +498,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_label"
@@ -615,7 +615,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_current"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.current?.includes(value)}
 								aria-labelledby="{value}_current_label"
@@ -677,7 +677,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1140px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-285 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a

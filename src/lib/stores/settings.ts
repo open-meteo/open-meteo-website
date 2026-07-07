@@ -29,3 +29,6 @@ export interface GeoLocation {
 
 export const lastVisited = persisted('last_visited_locations', [] as GeoLocation[]);
 export const favorites = persisted('favorites', [] as GeoLocation[]);
+
+/** Disables all page and component animations (toggle in footer / mobile nav) */
+export const animationsDisabled = persisted('animations_disabled', false);

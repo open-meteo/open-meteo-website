@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { fade } from 'svelte/transition';
 
 	import { apiKeyPreferences } from '$lib/stores/settings';
 
 	import { pad } from '$lib/utils';
+	import { fade } from '$lib/utils/transitions';
 
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
@@ -793,6 +793,10 @@
 <svelte:head>
 	<title>API Production Status | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/model-updates" />
+	<meta
+		name="description"
+		content="Production status, update times and data availability for all weather models integrated in Open-Meteo weather APIs."
+	/>
 </svelte:head>
 
 <div>
@@ -845,13 +849,11 @@
 	<div class="mt-6">
 		<div class="flex items-center gap-2">
 			<Switch id="global_models" name="globalWeatherModels" bind:checked={showGlobalModels} />
-			<Label for="global_models" class="mb-[2px] cursor-pointer text-lg"
-				>Global Weather Models</Label
-			>
+			<Label for="global_models" class="mb-0.5 cursor-pointer text-lg">Global Weather Models</Label>
 		</div>
 		<div class="flex items-center gap-2">
 			<Switch id="european_models" name="europeanModels" bind:checked={showEuropeanModels} />
-			<Label for="european_models" class="mb-[2px]  cursor-pointer text-lg"
+			<Label for="european_models" class="mb-0.5  cursor-pointer text-lg"
 				>Local European Models</Label
 			>
 			<img
@@ -867,7 +869,7 @@
 				name="northAmericanModel"
 				bind:checked={showNorthAmericanModels}
 			/>
-			<Label for="north_american_models" class="mb-[2px] cursor-pointer text-lg"
+			<Label for="north_american_models" class="mb-0.5 cursor-pointer text-lg"
 				>Local North American Models</Label
 			>
 			<img height="26" width="26" src="/images/country-flags/us.svg" alt="us" />
@@ -875,7 +877,7 @@
 		</div>
 		<div class="flex items-center gap-2">
 			<Switch id="asian_models" name="asianModels" bind:checked={showAsianModels} />
-			<Label for="asian_models" class="mb-[2px] cursor-pointer text-lg">Local Asian Models</Label>
+			<Label for="asian_models" class="mb-0.5 cursor-pointer text-lg">Local Asian Models</Label>
 			<img height="26" width="26" src="/images/country-flags/jp.svg" alt="jp" />
 		</div>
 	</div>
@@ -932,7 +934,7 @@
 						<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 							{#if section.providers.some((p: Provider) => p.models.length > 0)}
 								<table
-									class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1140px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+									class="[&_tr]:border-border mx-6 mt-2 w-full min-w-285 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 								>
 									<thead>
 										<tr>

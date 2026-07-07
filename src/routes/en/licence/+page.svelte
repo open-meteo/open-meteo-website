@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
+	import { fade } from '$lib/utils/transitions';
 
 	import Attribution from '$lib/components/code/licence/attribution.svx';
 

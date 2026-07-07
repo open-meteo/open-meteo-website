@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { fade } from 'svelte/transition';
 
 	import { apiKeyPreferences } from '$lib/stores/settings';
 	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import { fade } from '$lib/utils/transitions';
 
 	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
 	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';
@@ -94,6 +95,10 @@
 <svelte:head>
 	<title>Geocoding API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/geocoding-api" />
+	<meta
+		name="description"
+		content="Search locations by name in any language. Free geocoding API returning coordinates, elevation, timezone and population from the GeoNames database."
+	/>
 </svelte:head>
 
 <form
@@ -193,7 +198,7 @@
 		<h2 id="api_response" class="mb-2 text-2xl md:text-3xl">Preview and API URL</h2>
 	</a>
 
-	<div class="relative min-h-[580px]">
+	<div class="relative min-h-145">
 		{#await results}
 			<div
 				class="bg-accent/25 border-border absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg border"
@@ -219,7 +224,7 @@
 		{:then results}
 			<div transition:fade={{ duration: 200 }} class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 				<table
-					class="mx-6 mt-2 w-full min-w-[1140px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+					class="mx-6 mt-2 w-full min-w-285 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 				>
 					<thead>
 						<tr>
@@ -240,7 +245,7 @@
 						{#if results.results && results.results.length > 0}
 							{#each results.results as location (location.id)}
 								<tr>
-									<td class="min-w-[40px] p-1"
+									<td class="min-w-10 p-1"
 										><img
 											height="32"
 											width="32"

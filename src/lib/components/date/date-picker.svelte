@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from 'svelte/transition';
 
 	import { browser } from '$app/environment';
 
 	import { debounce, todayUTC } from '$lib/utils';
+	import { slide } from '$lib/utils/transitions';
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -75,11 +75,12 @@
 
 <div>
 	<Popover.Root bind:open={popoverOpen}>
+		<!-- type="button" keeps clicks from submitting the surrounding GET form -->
 		<button
 			bind:this={inputFields}
+			type="button"
 			class="relative flex w-full cursor-pointer flex-col gap-x-6 gap-y-3 md:flex-row"
-			onclick={(e) => {
-				e.preventDefault();
+			onclick={() => {
 				if (!popoverOpen) {
 					popoverOpen = true;
 				}

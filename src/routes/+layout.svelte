@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 
 	import { ModeWatcher } from 'mode-watcher';
 
 	import { browser } from '$app/environment';
 	import { afterNavigate, beforeNavigate, onNavigate } from '$app/navigation';
 	import { page } from '$app/state';
+
+	import { animationsDisabled } from '$lib/stores/settings';
 
 	import Footer from '$lib/components/footer/footer.svelte';
 	import Header from '$lib/components/header/header.svelte';
@@ -28,12 +31,16 @@
 	let loading = $state(false);
 	let loadingTimeout: ReturnType<typeof setTimeout> | undefined;
 
-	// Gecko's view-transition rendering is unreliable for this hero setup: it
-	// presents live document frames while the update callback runs, and its
-	// compositor strobes white frames while animating the hero snapshots
-	// (verified frame by frame in Firefox 151/152). Skip view transitions
-	// there — Firefox still animates the hero height, which is plain CSS on
-	// the live element, and pages simply swap in place.
+	// Sync the global animation kill-switch class (footer / mobile-nav toggle)
+	$effect(() => {
+		document.documentElement.classList.toggle('no-animations', $animationsDisabled);
+	});
+
+	// Gecko's view-transition compositor strobes white frames while animating
+	// the hero snapshots (verified frame by frame in Firefox 151/152, and the
+	// constant-size image layer did not help). Skip view transitions there —
+	// Firefox still animates the hero height, which is plain CSS on the live
+	// element, and pages simply swap in place.
 	const isGecko = browser && CSS.supports('-moz-appearance', 'none');
 
 	// The view transition cross-fades to the live hero element, so the incoming
@@ -57,7 +64,7 @@
 
 		if (browser) {
 			if (fromNotTo(e)) {
-				if (!document.startViewTransition || isGecko) return;
+				if (!document.startViewTransition || isGecko || get(animationsDisabled)) return;
 				return new Promise((resolve) => {
 					document.startViewTransition(async () => {
 						resolve();

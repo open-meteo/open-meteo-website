@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fade, slide } from 'svelte/transition';
+
+	import { fade, slide } from '$lib/utils/transitions';
+	import { fadeOutAbsolute } from '$lib/utils/transitions';
 
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
@@ -8,6 +10,7 @@
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
 
+	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
 	import { type Parameters } from '$lib/docs';
@@ -145,7 +148,7 @@
 			}}
 		>
 			<svg
-				class="lucide lucide-locate mr-[1px]"
+				class="lucide lucide-locate mr-px"
 				xmlns="http://www.w3.org/2000/svg"
 				width="19"
 				height="19"
@@ -176,7 +179,7 @@
 			}}
 		>
 			<svg
-				class="lucide lucide-list mr-[1px]"
+				class="lucide lucide-list mr-px"
 				xmlns="http://www.w3.org/2000/svg"
 				width="19"
 				height="19"
@@ -218,7 +221,7 @@
 				stroke-width="2"
 				stroke-linecap="round"
 				stroke-linejoin="round"
-				class="lucide lucide-square-dashed-icon lucide-square-dashed mr-[1px]"
+				class="lucide lucide-square-dashed-icon lucide-square-dashed mr-px"
 				><path d="M5 3a2 2 0 0 0-2 2" /><path d="M19 3a2 2 0 0 1 2 2" /><path
 					d="M21 19a2 2 0 0 1-2 2"
 				/><path d="M5 21a2 2 0 0 1-2-2" /><path d="M9 3h1" /><path d="M9 21h1" /><path
@@ -231,9 +234,13 @@
 	</div>
 </div>
 
-<div class="mt-3 md:mt-4">
+<AnimateHeight class="mt-3 md:mt-4">
 	{#if params.location_mode == 'location_search'}
-		<div class="flex flex-col" in:fade>
+		<div
+			class="flex flex-col"
+			in:fade={{ duration: 250, delay: 50 }}
+			out:fadeOutAbsolute={{ duration: 200 }}
+		>
 			{#if params.latitude && params.longitude}
 				{#each params.latitude as _, index (index)}
 					<div
@@ -390,7 +397,7 @@
 		</div>
 	{/if}
 	{#if params.location_mode == 'csv_coordinates'}
-		<div in:fade>
+		<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
 			<div class="flex flex-col gap-3 md:flex-row md:gap-6">
 				<div class="md:w-1/2">
 					<textarea
@@ -594,4 +601,4 @@
 			</div>
 		{/if}
 	{/if}
-</div>
+</AnimateHeight>

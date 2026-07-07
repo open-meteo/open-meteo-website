@@ -170,7 +170,7 @@
 			{#if kind !== 'favorite' && !$favorites.find((fav) => fav.id === location.id)}
 				<Button
 					variant="ghost"
-					class="px-2 duration-200 hover:brightness-[140%] md:px-3"
+					class="px-2 duration-200 hover:brightness-140 md:px-3"
 					onclick={(e) => {
 						e.stopPropagation();
 						saveFavorite(location);
@@ -197,7 +197,7 @@
 			{#if kind !== 'result'}
 				<Button
 					variant="ghost"
-					class="px-2 duration-200 hover:brightness-[140%] md:px-3"
+					class="px-2 duration-200 hover:brightness-140 md:px-3"
 					onclick={(e) => {
 						e.stopPropagation();
 						if (kind === 'favorite') {
@@ -229,7 +229,7 @@
 			{/if}
 			<Button
 				variant="ghost"
-				class="px-2 duration-200 hover:brightness-[140%] md:px-3"
+				class="px-2 duration-200 hover:brightness-140 md:px-3"
 				href="https://www.openstreetmap.org/#map=13/{location.latitude}/{location.longitude}"
 				target="_blank"
 				title="Show on map"
@@ -261,15 +261,14 @@
 {/snippet}
 
 <Dialog.Root bind:open={dialogOpen}>
+	<!-- type="button" is required: the trigger sits inside the parameter GET
+	     form and would otherwise submit it instead of opening the dialog -->
 	<Dialog.Trigger
 		id="location_search"
-		onclick={(e) => {
-			e.preventDefault();
-			dialogOpen = !dialogOpen;
-		}}
+		type="button"
 		class="hover:bg-accent border-border flex h-12 w-full cursor-pointer items-center justify-center rounded-md border px-5 pr-6 duration-200"
 		><svg
-			class="lucide lucide-search mr-[5px]"
+			class="lucide lucide-search mr-1.25"
 			xmlns="http://www.w3.org/2000/svg"
 			width="18"
 			height="18"
@@ -289,7 +288,7 @@
 		<Dialog.Overlay class="bg-black/5" />
 
 		<Dialog.Content
-			class="border-border top-[10%] flex max-h-[calc(100vh-10%)] min-h-[400px] translate-y-0 flex-col overflow-y-auto sm:max-w-[600px]"
+			class="border-border top-[10%] flex max-h-[calc(100vh-10%)] min-h-100 translate-y-0 flex-col overflow-y-auto sm:max-w-150"
 		>
 			<Dialog.Header>
 				<Dialog.Title>Search Locations</Dialog.Title>
@@ -358,12 +357,12 @@
 								</div>
 							{/if}
 						{:else}
-							<Alert.Root class="border-border my-auto !mt-4 w-[unset]">
+							<Alert.Root class="border-border my-auto mt-4! w-[unset]">
 								<Alert.Description>No locations found</Alert.Description>
 							</Alert.Root>
 						{/if}
 					{:else if !results.results}
-						<Alert.Root class="border-border my-auto !mt-4 w-[unset]">
+						<Alert.Root class="border-border my-auto mt-4! w-[unset]">
 							<Alert.Description>No locations found</Alert.Description>
 						</Alert.Root>
 					{:else}

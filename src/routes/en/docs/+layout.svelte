@@ -11,7 +11,12 @@
 
 	let { children }: Props = $props();
 
-	const links = [
+	const links: {
+		title: string;
+		url: string;
+		children?: { title: string; url: string }[];
+		mobileOnly?: boolean;
+	}[] = [
 		{
 			title: 'Weather Forecast',
 			url: '/en/docs',
@@ -55,7 +60,8 @@
 		{ title: 'Satellite Radiation', url: '/en/docs/satellite-radiation-api' },
 		{ title: 'Geocoding', url: '/en/docs/geocoding-api' },
 		{ title: 'Elevation', url: '/en/docs/elevation-api' },
-		{ title: 'Flood', url: '/en/docs/flood-api' }
+		{ title: 'Flood', url: '/en/docs/flood-api' },
+		{ title: 'Model Updates', url: '/en/docs/model-updates', mobileOnly: true }
 	];
 
 	interface Path {
@@ -105,10 +111,10 @@
 </script>
 
 <div class="mb-12 flex flex-col md:mb-24 md:flex-row">
-	<aside class="w-full md:w-1/6 md:max-w-[400px] md:min-w-[230px]">
+	<aside class="w-full md:w-1/6 md:max-w-100 md:min-w-57.5">
 		<nav
 			aria-label="Documentation"
-			class="sticky top-0 mb-3 flex flex-col overflow-hidden p-6 pb-0 md:mb-0 md:max-h-[100vh] md:overflow-auto md:pr-3 md:pb-3"
+			class="sticky top-0 mb-3 flex flex-col overflow-hidden p-3 pt-6 pb-0 md:mb-0 md:max-h-screen md:overflow-auto md:pr-3 md:pb-3"
 		>
 			<Button
 				variant="outline"
@@ -137,64 +143,82 @@
 				<b>{selectedPath.title}</b>
 			</Button>
 
-			<ul
-				class={`list-unstyled duration-500 ${mobileNavOpened ? 'mt-2 max-h-[1400px] pb-3 md:max-h-[unset]' : 'max-h-0 md:max-h-[unset] '}`}
-			>
-				{#each links as link, i (i)}
-					<li
-						class="my-[0.125rem] rounded-md border py-2 pr-2 pl-3 duration-300 {selectedPath.title ===
-						link.title
-							? 'border-border'
-							: 'border-transparent'} {link.children &&
-						(selectedPath.url === link.url || link.children.some((l) => l.url === selectedPath.url))
-							? 'mb-3 pt-4'
-							: ''}"
-					>
-						<a
-							class="flex items-center gap-1"
-							href={link.url}
-							onclick={() => {
-								if (link.url != selectedPath.url) {
-									mobileNavOpened = false;
-								}
-							}}
+			<div class="nav-collapse" class:expanded={mobileNavOpened}>
+				<ul class="list-unstyled min-h-0 overflow-hidden">
+					{#each links as link, i (i)}
+						{@const sectionExpanded =
+							!!link.children &&
+							(selectedPath.url === link.url ||
+								link.children.some((l) => l.url === selectedPath.url))}
+						<li
+							class="my-0.5 rounded-md border py-2 pr-2 pl-3 duration-450 max-md:first:mt-2 max-md:last:mb-3 {link.mobileOnly
+								? 'md:hidden'
+								: ''} {selectedPath.title === link.title
+								? 'border-border'
+								: 'border-transparent'} {sectionExpanded ? 'mb-3 pt-4' : ''}"
 						>
-							{link.title}</a
-						>
-
-						{#if link.children}
-							<ul
-								class={`list-unstyled ml-3 overflow-auto duration-500 ${
-									selectedPath.url === link.url ||
-									link.children.some((l) => l.url === selectedPath.url)
-										? 'mt-2 mb-1 max-h-[700px]'
-										: 'max-h-0'
-								}`}
+							<a
+								class="flex items-center gap-1"
+								href={link.url}
+								onclick={() => {
+									if (link.url != selectedPath.url) {
+										mobileNavOpened = false;
+									}
+								}}
 							>
-								{#each link.children as l, j (j)}
-									<li
-										class="truncate overflow-hidden rounded-md border p-[5px] pl-3 duration-300 {selectedPath.url ===
-										l.url
-											? 'border-border'
-											: 'border-transparent'}"
+								{#if link.children}
+									<svg
+										class="lucide lucide-chevron-down text-muted-foreground shrink-0 transition-transform duration-450 {sectionExpanded
+											? 'rotate-0'
+											: '-rotate-90'}"
+										xmlns="http://www.w3.org/2000/svg"
+										width="16"
+										height="16"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
 									>
-										<a
-											href={l.url}
-											onclick={() => {
-												if (l.url != selectedPath.url) {
-													mobileNavOpened = false;
-												}
-											}}
-										>
-											{l.title}</a
-										>
-									</li>
-								{/each}
-							</ul>
-						{/if}
-					</li>
-				{/each}
-			</ul>
+										<path d="m6 9 6 6 6-6" />
+									</svg>
+								{:else}
+									<!-- keeps titles aligned with caret-less items -->
+									<span class="w-4 shrink-0"></span>
+								{/if}
+								{link.title}</a
+							>
+
+							{#if link.children}
+								<div class="nav-collapse" class:expanded={sectionExpanded}>
+									<ul class="list-unstyled ml-5 min-h-0 overflow-hidden">
+										{#each link.children as l, j (j)}
+											<li
+												class="truncate overflow-hidden rounded-md border p-1.25 pl-3 duration-300 first:mt-2 last:mb-1 {selectedPath.url ===
+												l.url
+													? 'border-border'
+													: 'border-transparent'}"
+											>
+												<a
+													href={l.url}
+													onclick={() => {
+														if (l.url != selectedPath.url) {
+															mobileNavOpened = false;
+														}
+													}}
+												>
+													{l.title}</a
+												>
+											</li>
+										{/each}
+									</ul>
+								</div>
+							{/if}
+						</li>
+					{/each}
+				</ul>
+			</div>
 		</nav>
 	</aside>
 	<div
@@ -203,3 +227,30 @@
 		{@render children?.()}
 	</div>
 </div>
+
+<style>
+	/* Collapse by animating real content height (grid rows 0fr -> 1fr) instead
+	   of a max-height guess, so every section expands at the same speed with no
+	   dead time at the start or end of the animation. */
+	.nav-collapse {
+		display: grid;
+		grid-template-rows: 0fr;
+	}
+
+	.nav-collapse.expanded {
+		grid-template-rows: 1fr;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.nav-collapse {
+			transition: grid-template-rows 450ms ease;
+		}
+	}
+
+	/* the outer list only collapses behind the mobile toggle */
+	@media (min-width: 768px) {
+		nav > .nav-collapse {
+			grid-template-rows: 1fr;
+		}
+	}
+</style>

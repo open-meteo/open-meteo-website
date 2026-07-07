@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
+	import { get } from 'svelte/store';
 
 	import { mode } from 'mode-watcher';
 
 	import { dev } from '$app/environment';
+
+	import { animationsDisabled } from '$lib/stores/settings';
 
 	import './highcharts.css';
 
@@ -49,6 +52,11 @@
 		}
 		options.chart = options.chart || {};
 		options.chart.styledMode = true;
+		if (get(animationsDisabled)) {
+			options.chart.animation = false;
+			options.plotOptions = options.plotOptions || {};
+			options.plotOptions.series = { ...options.plotOptions.series, animation: false };
+		}
 		options.lang = {
 			locale: 'en-GB'
 		};
@@ -73,8 +81,14 @@
 
 	onDestroy(() => {
 		destroyed = true;
-		if (chart) {
-			chart.destroy();
+		// Defer the teardown: when the surrounding pane is removed with an out
+		// transition, onDestroy fires immediately while the DOM keeps fading —
+		// destroying the chart right away rips the graph out of the still
+		// visible pane and collapses it. Destroying on a detached node is fine.
+		const c = chart;
+		chart = undefined;
+		if (c) {
+			setTimeout(() => c.destroy(), 500);
 		}
 	});
 </script>

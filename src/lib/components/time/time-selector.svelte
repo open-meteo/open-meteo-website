@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
+	import { fade } from '$lib/utils/transitions';
+	import { fadeOutAbsolute } from '$lib/utils/transitions';
 
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
 
+	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 
 	import { type Parameters } from '$lib/docs';
@@ -111,9 +113,13 @@
 		</div>
 	</div>
 
-	<div class="mt-3 md:mt-4">
+	<AnimateHeight class="mt-3 md:mt-4">
 		{#if params.time_mode === 'forecast_days'}
-			<div in:fade class="grid gap-3 md:gap-6 lg:grid-cols-2">
+			<div
+				in:fade={{ duration: 250, delay: 50 }}
+				out:fadeOutAbsolute={{ duration: 200 }}
+				class="grid gap-3 md:gap-6 lg:grid-cols-2"
+			>
 				<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_days" type="single" bind:value={params.forecast_days}>
@@ -164,7 +170,11 @@
 			</div>
 		{/if}
 		{#if params.time_mode === 'time_interval'}
-			<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
+			<div
+				in:fade={{ duration: 250, delay: 50 }}
+				out:fadeOutAbsolute={{ duration: 200 }}
+				class="flex flex-col gap-x-6 gap-y-4 lg:flex-row"
+			>
 				<div class="mb-3 lg:w-1/2">
 					<DatePicker
 						{beginDate}
@@ -186,5 +196,5 @@
 				</div>
 			</div>
 		{/if}
-	</div>
+	</AnimateHeight>
 </div>
