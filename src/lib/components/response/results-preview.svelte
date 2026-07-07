@@ -253,6 +253,9 @@
 	});
 
 	const preview = async () => {
+		// clear any previous error, so a successful reload leaves the error state
+		error = '';
+
 		if (
 			'latitude' in parsedParams &&
 			Array.isArray(parsedParams.latitude) &&
@@ -463,12 +466,12 @@
 					style={useStockChart ? 'height: 500px' : 'height: 400px'}
 				>
 					<div class="flex h-full w-full items-center justify-center px-6 dark:brightness-150">
-						<Alert.Root variant="destructive" class="my-auto w-[unset] !pl-8">
+						<Alert.Root variant="destructive" class="my-auto w-[unset] pl-8!">
 							<Alert.Description>
 								<div class="flex items-center justify-center gap-2">
 									<div class="flex items-center">
 										<svg
-											class="lucide lucide-triangle-alert mr-2 min-w-[20px]"
+											class="lucide lucide-triangle-alert mr-2 min-w-5"
 											xmlns="http://www.w3.org/2000/svg"
 											width="20"
 											height="20"
@@ -492,7 +495,7 @@
 									<Button
 										variant="outline"
 										type="submit"
-										class="border-red flex !flex-row"
+										class="border-red flex flex-row!"
 										onclick={() => {
 											setTimeout(() => {
 												reload();
@@ -585,7 +588,7 @@
 							<div
 								class="border-border absolute top-0 flex h-full w-full items-center justify-center rounded-lg border px-6"
 							>
-								<Alert.Root class="border-border my-auto w-[unset] md:!pl-8">
+								<Alert.Root class="border-border my-auto w-[unset] md:pl-8!">
 									<Alert.Description>
 										<div class="flex flex-col items-center justify-center gap-2 md:flex-row">
 											<div class="text-muted-foreground flex items-center">
@@ -608,7 +611,7 @@
 												Parameters have changed.
 											</div>
 
-											<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
+											<Button variant="ghost" type="submit" class="flex flex-row!" onclick={reload}
 												><svg
 													class="lucide lucide-refresh-cw"
 													xmlns="http://www.w3.org/2000/svg"

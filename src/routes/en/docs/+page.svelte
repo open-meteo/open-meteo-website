@@ -202,7 +202,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_label"
@@ -315,7 +315,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_hourly_label"
@@ -450,7 +450,7 @@
 													<div class="group flex items-center">
 														<Checkbox
 															id="{variable.value}_{level}hPa"
-															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 															value="{variable.value}_{level}hPa"
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
 															aria-labelledby="{variable.value}_{level}hPa"
@@ -504,7 +504,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.models?.includes(value)}
 										aria-labelledby="{value}_label"
@@ -558,7 +558,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										value="{value}_minutely_15"
 										checked={$params.minutely_15?.includes(value)}
 										aria-labelledby="{value}_minutely_15_label"
@@ -592,7 +592,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										value="{value}_minutely_15"
 										checked={$params.minutely_15?.includes(value)}
 										aria-labelledby="{value}_minutely_15_label"
@@ -690,7 +690,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.daily?.includes(value)}
 								aria-labelledby="{value}_daily_label"
@@ -742,7 +742,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_daily"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.daily?.includes(value)}
 										aria-labelledby="{value}_daily_label"
@@ -786,7 +786,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_current"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.current?.includes(value)}
 								aria-labelledby="{value}_current_label"

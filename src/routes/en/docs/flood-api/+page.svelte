@@ -77,7 +77,7 @@
 					<div class="group flex items-center" title={label}>
 						<Checkbox
 							id="{value}_daily"
-							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 							{value}
 							checked={$params.daily?.includes(value)}
 							aria-labelledby="{value}_daily_label"
@@ -103,7 +103,7 @@
 			<div class="group flex items-center" title="All 50 Ensemble Members">
 				<Checkbox
 					id="ensemble"
-					class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+					class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 					value="true"
 					bind:checked={$params.ensemble}
 					aria-labelledby="ensemble_label"
@@ -288,7 +288,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1140px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-285 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -417,7 +417,7 @@
 		<p>The parameter <mark>&daily=</mark> accepts the following values:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[540px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-135 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>

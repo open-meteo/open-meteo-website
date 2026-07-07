@@ -154,7 +154,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.hourly?.includes(value)}
 								aria-labelledby="{value}_hourly_label"
@@ -306,7 +306,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{valueSpread}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										value="valueSpread"
 										checked={$params.hourly?.includes(valueSpread)}
 										aria-labelledby="{valueSpread}_hourly_label"
@@ -386,7 +386,7 @@
 										<div class="group flex items-center" title="{label} {ag_label}">
 											<Checkbox
 												id="{value}{ag_value}_daily"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value="{value}min"
 												checked={$params.daily?.includes(`${value}${ag_value}`)}
 												aria-labelledby="{value}{ag_value}daily_label"
@@ -440,7 +440,7 @@
 									<div class="group flex items-center" title="{label} Mean">
 										<Checkbox
 											id="{value}_mean_weekly"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 											value="{value}_mean"
 											checked={$params.weekly?.includes(`${value}_mean`)}
 											aria-labelledby="{value}_mean_weekly_label"
@@ -464,7 +464,7 @@
 									<div class="group flex items-center" title="{label} Anomaly">
 										<Checkbox
 											id="{value}_anomaly_weekly"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 											value="{value}_anomaly"
 											checked={$params.weekly?.includes(`${value}_anomaly`)}
 											aria-labelledby="{value}_anomaly_weekly_label"
@@ -522,7 +522,7 @@
 											<div class="group flex items-center" title="{label} Mean">
 												<Checkbox
 													id="{value}_mean_weekly"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													value="{value}_mean"
 													checked={$params.weekly?.includes(`${value}_mean`)}
 													aria-labelledby="{value}_mean_weekly_label"
@@ -546,7 +546,7 @@
 											<div class="group flex items-center" title="{label} Anomaly">
 												<Checkbox
 													id="{value}_anomaly_weekly"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													value="{value}_anomaly"
 													checked={$params.weekly?.includes(`${value}_anomaly`)}
 													aria-labelledby="{value}_anomaly_weekly_label"
@@ -615,7 +615,7 @@
 										<div class="group flex items-center" title="{label} Mean">
 											<Checkbox
 												id="{value}_mean_monthly"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value="{value}_mean"
 												checked={$params.monthly?.includes(`${value}_mean`)}
 												aria-labelledby="{value}_mean_monthly_label"
@@ -639,7 +639,7 @@
 										<div class="group flex items-center" title="{label} Anomaly">
 											<Checkbox
 												id="{value}_anomaly_monthly"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value="{value}_anomaly"
 												checked={$params.monthly?.includes(`${value}_anomaly`)}
 												aria-labelledby="{value}_anomaly_monthly_label"
@@ -669,7 +669,7 @@
 											>
 												<Checkbox
 													id="wind_gusts_10m_anomaly_monthly"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													value="wind_gusts_10m_anomaly"
 													checked={$params.monthly?.includes('wind_gusts_10m_anomaly')}
 													aria-labelledby="wind_gusts_10m_anomaly_monthly_label"
@@ -726,7 +726,7 @@
 										<div class="group flex items-center" title="{label} Mean">
 											<Checkbox
 												id="{value}_mean_monthly"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value="{value}_mean"
 												checked={$params.monthly?.includes(`${value}_mean`)}
 												aria-labelledby="{value}_mean_monthly_label"
@@ -750,7 +750,7 @@
 										<div class="group flex items-center" title="{label} Anomaly">
 											<Checkbox
 												id="{value}_anomaly_monthly"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value="{value}_anomaly"
 												checked={$params.monthly?.includes(`${value}_anomaly`)}
 												aria-labelledby="{value}_anomaly_monthly_label"

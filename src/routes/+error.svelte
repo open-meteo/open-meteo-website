@@ -12,7 +12,7 @@
 	<title>500 Error | Open-Meteo.com</title>
 </svelte:head>
 
-<div class="h-[500px]">
+<div class="h-125">
 	<div
 		class="absolute -z-10 h-full w-full duration-300"
 		style="

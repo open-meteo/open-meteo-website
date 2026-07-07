@@ -174,7 +174,7 @@
 			name="Disable Bias Correction"
 			bind:checked={$params.disable_bias_correction}
 		/>
-		<Label for="disable_bias_correction" class="mb-[2px] cursor-pointer text-lg"
+		<Label for="disable_bias_correction" class="mb-0.5 cursor-pointer text-lg"
 			>Raw data {$params.disable_bias_correction ? 'enabled' : 'disabled'}. <br />
 		</Label>
 	</div>

@@ -355,7 +355,7 @@
 				count={countHeightVariables(heightVariables, heights, $params.hourly)}
 			>
 				<div class="flex gap-3 md:gap-6">
-					<div class="md:min-w-[150px]">
+					<div class="md:min-w-37.5">
 						<ToggleGroup.Root
 							type="single"
 							bind:value={heightVariablesTab}
@@ -404,7 +404,7 @@
 													<div class="group flex items-center" title={String(level)}>
 														<Checkbox
 															id="{variable.value}_{level}m"
-															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 															value="{variable.value}_{level}m"
 															checked={$params.hourly?.includes(`${variable.value}_${level}m`)}
 															aria-labelledby="{variable.value}_{level}m"
@@ -499,7 +499,7 @@
 													<div class="group flex items-center" title={String(level)}>
 														<Checkbox
 															id="{variable.value}_{level}hPa"
-															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 															value="{variable.value}_{level}hPa"
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
 															aria-labelledby="{variable.value}_{level}hPa"
@@ -636,7 +636,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1025px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-256.25 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a

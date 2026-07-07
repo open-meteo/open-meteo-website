@@ -389,7 +389,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_hourly_label"
@@ -646,7 +646,7 @@
 			</tbody>
 		</table>
 	</div>
-	<p class="mt-3 !mb-0">
+	<p class="mt-3 mb-0!">
 		Different reanalysis models may include different sets of weather variables. For instance, ERA5
 		offers a full range of variables but only at 0.25° resolution, whereas ERA5-Land focuses on
 		surface conditions like temperature, humidity, soil temperature, and soil moisture. CERRA covers
@@ -658,7 +658,7 @@
 			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 		>
 			<caption class="text-muted-foreground mt-2 table-caption text-left text-sm">
-				<p class="!mb-0">
+				<p class="mb-0!">
 					<sup>1</sup> ERA5-Land is driven by atmospheric variables from ERA5 as its "forcing," meaning
 					it relies on the same data as ERA5.
 				</p>
@@ -1437,28 +1437,28 @@
 				<div class="border-border ml-2 flex rounded-lg border">
 					<ToggleGroup.Item
 						value="apa"
-						class="!h-10 cursor-pointer rounded-e-none py-2 opacity-100! lg:min-h-[unset] "
+						class="h-10! cursor-pointer rounded-e-none py-2 opacity-100! lg:min-h-[unset] "
 						disabled={citation === 'apa'}
 					>
 						APA
 					</ToggleGroup.Item>
 					<ToggleGroup.Item
 						value="mla"
-						class="!h-10 cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
+						class="h-10! cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'mla'}
 					>
 						MLA
 					</ToggleGroup.Item>
 					<ToggleGroup.Item
 						value="harvard"
-						class="!h-10 cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
+						class="h-10! cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'harvard'}
 					>
 						Harvard
 					</ToggleGroup.Item>
 					<ToggleGroup.Item
 						value="bibtex"
-						class="!h-10 cursor-pointer rounded-md rounded-s-none opacity-100! duration-300 lg:min-h-[unset] "
+						class="h-10! cursor-pointer rounded-md rounded-s-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'bibtex'}
 					>
 						BibTex

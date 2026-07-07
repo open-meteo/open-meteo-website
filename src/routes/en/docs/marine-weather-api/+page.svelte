@@ -148,7 +148,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								disabled={!isAvailable(value, $params.models, availableVariables)}
 								checked={$params.hourly?.includes(value)}
@@ -387,7 +387,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.daily?.includes(value)}
 								disabled={!isDailyAvailable(value, $params.models, availableVariables)}
@@ -439,7 +439,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_current"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.current?.includes(value)}
 								disabled={!isAvailable(value, $params.models, availableVariables)}

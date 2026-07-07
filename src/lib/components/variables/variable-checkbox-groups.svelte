@@ -40,7 +40,7 @@
 				<div class="group flex items-center" title={label}>
 					<Checkbox
 						id="{value}_{idSuffix}"
-						class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+						class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 						{value}
 						disabled={isDisabled?.(value) ?? false}
 						checked={values?.includes(value)}

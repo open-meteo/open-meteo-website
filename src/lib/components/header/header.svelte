@@ -75,7 +75,7 @@
 	</div>
 	<div
 		class="{toggleMenu
-			? 'max-h-[300px] opacity-100 md:max-h-[unset]'
+			? 'max-h-75 opacity-100 md:max-h-[unset]'
 			: 'max-h-0 opacity-0 md:max-h-[unset] md:opacity-100'} -ml-3 w-full overflow-hidden duration-500"
 	>
 		<div class="flex flex-col pt-4 md:flex-row md:pt-0">

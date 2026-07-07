@@ -17,12 +17,12 @@
 	-->
 	<table
 		class="mx-6 mt-2 caption-bottom md:ml-0 lg:mx-0 {levels.length > 40
-			? 'min-w-[2700px]'
+			? 'min-w-675'
 			: levels.length > 25
-				? 'min-w-[1900px]'
+				? 'min-w-475'
 				: levels.length > 15
-					? 'min-w-[1250px]'
-					: 'min-w-[780px]'} w-full text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+					? 'min-w-312.5'
+					: 'min-w-195'} w-full text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 	>
 		<tbody>
 			<tr>

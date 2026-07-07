@@ -165,7 +165,7 @@
 									><div class="flex items-center justify-center px-2">
 										<Checkbox
 											id="{pd.value}_hourly_previous_day{i}"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 											value={formatVariableName(pd.value, i)}
 											checked={$params.hourly?.includes(formatVariableName(pd.value, i))}
 											aria-labelledby="{pd.value}_hourly_previous_day_label{i}"
@@ -246,7 +246,7 @@
 				count={countPreviousVariables([solarVariables], $params.hourly)}
 			>
 				<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-					<table class="mx-6 mt-2 w-full min-w-[1020px] md:ml-0 lg:mx-0">
+					<table class="mx-6 mt-2 w-full min-w-255 md:ml-0 lg:mx-0">
 						<tbody>
 							{#each solarVariables as sv, j (j)}
 								<tr class="border-border border-b">
@@ -256,7 +256,7 @@
 											><div class="flex items-center justify-center px-2">
 												<Checkbox
 													id="{sv.value}_hourly_previous_day{i}"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													value={formatVariableName(sv.value, i)}
 													checked={$params.hourly?.includes(formatVariableName(sv.value, i))}
 													aria-labelledby="{sv.value}_hourly_previous_day_label{i}"
@@ -346,7 +346,7 @@
 				count={countPreviousVariables([windVariables], $params.hourly)}
 			>
 				<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-					<table class="mx-6 mt-2 w-full min-w-[1020px] md:ml-0 lg:mx-0">
+					<table class="mx-6 mt-2 w-full min-w-255 md:ml-0 lg:mx-0">
 						<tbody>
 							{#each windVariables as wv, j (j)}
 								<tr class="border-border border-b">
@@ -356,7 +356,7 @@
 											><div class="flex items-center justify-center px-2">
 												<Checkbox
 													id="{wv.value}_hourly_previous_day{i}"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													value={formatVariableName(wv.value, i)}
 													checked={$params.hourly?.includes(formatVariableName(wv.value, i))}
 													aria-labelledby="{wv.value}_hourly_previous_day_label{i}"
