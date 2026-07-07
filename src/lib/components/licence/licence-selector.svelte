@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fade } from '$lib/utils/transitions';
 
 	import { apiKeyPreferences } from '$lib/stores/settings';
 
+	import { fade } from '$lib/utils/transitions';
 	import { fadeOutAbsolute } from '$lib/utils/transitions';
 
 	import * as Alert from '$lib/components/ui/alert';

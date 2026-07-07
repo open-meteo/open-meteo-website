@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { fade } from '$lib/utils/transitions';
-
 	import Github from 'simple-icons/icons/github.svg?raw';
+
+	import { fade } from '$lib/utils/transitions';
 
 	import HistoricalWeatherCurlBlock from '$lib/components/code/home/historical-weather-curl.svx';
 	import HistoricalWeatherCodeBlock from '$lib/components/code/home/historical-weather.svx';

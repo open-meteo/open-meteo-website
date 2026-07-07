@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from '$lib/utils/transitions';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -11,6 +10,7 @@
 		countPressureVariables,
 		countVariables
 	} from '$lib/utils/meteo';
+	import { slide } from '$lib/utils/transitions';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';

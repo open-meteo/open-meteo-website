@@ -1,15 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fade } from '$lib/utils/transitions';
 
 	import { apiKeyPreferences } from '$lib/stores/settings';
 
 	import { objectDifference } from '$lib/utils';
 	import { membersPerModel } from '$lib/utils/meteo';
+	import { fade, fadeOutAbsolute } from '$lib/utils/transitions';
 
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
+
+	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
 
 	import { pythonCodeExample } from './code-examples/python-code-example';
 	import { swiftCodeExample } from './code-examples/swift-code-example';
@@ -451,11 +453,12 @@
 	</div>
 </div>
 
-<div class="py-3">
+<AnimateHeight class="py-3">
 	<!-- CHART -->
 	{#if mode == 'chart'}
 		<div
-			in:fade
+			in:fade={{ duration: 250, delay: 160 }}
+			out:fadeOutAbsolute={{ duration: 150 }}
 			style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
 			class="relative -mx-6 md:mx-0"
 		>
@@ -729,7 +732,7 @@
 	{/if}
 	<!-- PYTHON -->
 	{#if mode == 'python'}
-		<div in:fade>
+		<div in:fade={{ duration: 250, delay: 160 }} out:fadeOutAbsolute={{ duration: 150 }}>
 			<div>
 				<p>
 					The sample code automatically applies all the parameters selected above. It includes
@@ -846,7 +849,7 @@
 	{/if}
 	<!-- TYPESCRIPT -->
 	{#if mode == 'typescript'}
-		<div in:fade>
+		<div in:fade={{ duration: 250, delay: 160 }} out:fadeOutAbsolute={{ duration: 150 }}>
 			<div>
 				<p>
 					The preview code applies all parameters above automatically and structures weather data
@@ -961,7 +964,7 @@
 	{/if}
 	<!-- SWIFT -->
 	{#if mode == 'swift'}
-		<div in:fade>
+		<div in:fade={{ duration: 250, delay: 160 }} out:fadeOutAbsolute={{ duration: 150 }}>
 			<div>
 				<p>
 					The preview code applies all parameters above automatically and structures weather data
@@ -1077,7 +1080,7 @@
 	{/if}
 	<!-- OTHER -->
 	{#if mode == 'other'}
-		<div in:fade>
+		<div in:fade={{ duration: 250, delay: 160 }} out:fadeOutAbsolute={{ duration: 150 }}>
 			<div>
 				<p>
 					Support for additional programming languages in our integrations may be available in the
@@ -1093,4 +1096,4 @@
 			</div>
 		</div>
 	{/if}
-</div>
+</AnimateHeight>

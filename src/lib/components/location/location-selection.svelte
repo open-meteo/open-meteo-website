@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fade, slide } from '$lib/utils/transitions';
 
+	import { fade, slide } from '$lib/utils/transitions';
 	import { fadeOutAbsolute } from '$lib/utils/transitions';
 
 	import * as Alert from '$lib/components/ui/alert';

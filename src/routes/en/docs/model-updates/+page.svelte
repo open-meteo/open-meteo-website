@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { fade } from '$lib/utils/transitions';
 
 	import { apiKeyPreferences } from '$lib/stores/settings';
 
 	import { pad } from '$lib/utils';
+	import { fade } from '$lib/utils/transitions';
 
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';

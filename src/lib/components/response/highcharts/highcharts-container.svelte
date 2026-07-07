@@ -52,6 +52,11 @@
 		}
 		options.chart = options.chart || {};
 		options.chart.styledMode = true;
+		if (get(animationsDisabled)) {
+			options.chart.animation = false;
+			options.plotOptions = options.plotOptions || {};
+			options.plotOptions.series = { ...options.plotOptions.series, animation: false };
+		}
 		options.lang = {
 			locale: 'en-GB'
 		};

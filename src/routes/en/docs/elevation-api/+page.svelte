@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { slide } from '$lib/utils/transitions';
 
 	import { apiKeyPreferences } from '$lib/stores/settings';
 	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import { slide } from '$lib/utils/transitions';
 
 	import ElevationError from '$lib/components/code/docs/elevation-error.svx';
 	import ElevationObject from '$lib/components/code/docs/elevation-object.svx';

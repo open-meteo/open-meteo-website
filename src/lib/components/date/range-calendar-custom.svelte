@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { SvelteDate } from 'svelte/reactivity';
-	import { scale } from '$lib/utils/transitions';
 
 	import { todayUTC } from '$lib/utils';
+	import { scale } from '$lib/utils/transitions';
 
 	import { Button } from '$lib/components/ui/button';
 

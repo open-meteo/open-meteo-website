@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { fade } from '$lib/utils/transitions';
 
 	import { apiKeyPreferences } from '$lib/stores/settings';
 	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import { fade } from '$lib/utils/transitions';
 
 	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
 	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';

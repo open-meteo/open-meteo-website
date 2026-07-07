@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { fade } from '$lib/utils/transitions';
-
 	import { updated } from '$app/state';
+
+	import { fade } from '$lib/utils/transitions';
 
 	import { Button } from '$lib/components/ui/button';
 
