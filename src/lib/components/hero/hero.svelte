@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+
 	import { Button } from '$lib/components/ui/button';
 
 	import type { Component } from 'svelte';
@@ -28,13 +30,38 @@
 		heroSecondaryButtonPath,
 		heroSecondaryButtonText
 	}: Props = $props();
+
+	// Gecko skips view transitions (see the root layout), so on navigation the
+	// new page mounts and the height transition starts inside the same long
+	// hydration task — the first frames of the glide are dropped and the hero
+	// visibly jumps before easing (~75px at 600→400). Deferring the height
+	// change with a double rAF lets that task finish first: the glide then
+	// starts on a free main thread and plays in full. Chromium is untouched —
+	// its view transition already holds the old frame until the work is done.
+	const isGecko = browser && CSS.supports('-moz-appearance', 'none');
+
+	let displayHeight = $state(heroHeight);
+
+	$effect(() => {
+		const target = heroHeight;
+		if (!isGecko) {
+			displayHeight = target;
+			return;
+		}
+		let raf = requestAnimationFrame(() => {
+			raf = requestAnimationFrame(() => {
+				displayHeight = target;
+			});
+		});
+		return () => cancelAnimationFrame(raf);
+	});
 </script>
 
 <svelte:head>
 	<link rel="preload" fetchpriority="high" as="image" href={heroImage} type="image/webp" />
 </svelte:head>
 
-<div style="height: {heroHeight}px;" class="hero-container relative flex items-center">
+<div style="height: {displayHeight}px;" class="hero-container relative flex items-center">
 	<div class="absolute inset-0 -z-10">
 		<!-- The background-color shows whenever the image is not painted yet
 		     (slow connections, or Firefox briefly presenting the new page before
