@@ -685,13 +685,14 @@
 						type="text"
 						id="api_url"
 						readonly
-						aria-label="Copy to clipboard"
+						aria-label="API URL"
 						bind:value={previewUrl}
 					/>
 					<div
 						class="absolute duration-300 right-0 top-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('#api_url') as HTMLInputElement | null;
 								if (query) {
@@ -757,6 +758,7 @@
 						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('.code-install pre') as HTMLPreElement | null;
 								if (query) {
@@ -809,6 +811,7 @@
 						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('.code-example pre') as HTMLPreElement | null;
 								if (query) {
@@ -873,6 +876,7 @@
 						class="absolute duration-300 right-2 top-2 lg:right-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
@@ -924,6 +928,7 @@
 						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
@@ -989,6 +994,7 @@
 						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
@@ -1040,6 +1046,7 @@
 						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
