@@ -409,13 +409,13 @@
 										>PM<sub>2.5</sub> <small class="text-muted-foreground">(μg/m³)</small></th
 									>
 									<td>24h</td>
-									<td>0-12</td>
-									<td>12-35.5</td>
-									<td>35.5-55.5</td>
-									<td>55.5-150.5</td>
-									<td>150.5-250.5</td>
-									<td>250.5-350.5</td>
-									<td>350.5-500.5</td>
+									<td>0-9</td>
+									<td>9-35.4</td>
+									<td>35.5-55.4</td>
+									<td>55.5-125.4</td>
+									<td>125.5-250.4</td>
+									<td>225.5-325.4</td>
+									<td>350.5-500</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -433,12 +433,12 @@
 								<tr>
 									<th scope="row">CO <small class="text-muted-foreground">(ppm)</small></th>
 									<td>8h</td>
-									<td>0-4.5</td>
-									<td>4.5-9.5</td>
-									<td>9.5-12.5</td>
-									<td>12.5-15.5</td>
-									<td>15.5-30.5</td>
-									<td>30.5-40.5</td>
+									<td>0-4.4</td>
+									<td>4.5-9.4</td>
+									<td>9.5-12.4</td>
+									<td>12.5-15.4</td>
+									<td>15.5-30.4</td>
+									<td>30.5-40.4</td>
 									<td>40.5-50.5</td>
 								</tr>
 								<tr>
