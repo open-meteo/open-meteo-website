@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { beforeNavigate } from '$app/navigation';
 	import { page } from '$app/state';
 
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -90,24 +88,6 @@
 	});
 
 	let mobileNavOpened = $state(false);
-
-	// Fix for backwards compatibilty with the old url-params store
-	// which used the hash ('#') for cache busting, now replaced with '?'
-	let hashOnLoad = '';
-	beforeNavigate((e) => {
-		if (browser) {
-			hashOnLoad = window.location.hash;
-			if (hashOnLoad && hashOnLoad.includes('=')) {
-				if (e.to) {
-					e.to.url.search = hashOnLoad.replace('#', '');
-					hashOnLoad = '';
-					setTimeout(() => {
-						window.location.reload();
-					}, 75);
-				}
-			}
-		}
-	});
 </script>
 
 <div class="mb-12 flex flex-col md:mb-24 md:flex-row">
