@@ -5,13 +5,15 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { countVariables } from '$lib/utils/meteo';
+	import { sliceIntoChunks } from '$lib/utils';
+	import { countPressureVariables, countVariables } from '$lib/utils/meteo';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
@@ -34,7 +36,9 @@
 		defaultParameters,
 		forecastDaysOptions,
 		hourly,
-		models
+		levels,
+		models,
+		pressureVariables
 	} from './options';
 
 	const params = urlHashStore({
@@ -61,6 +65,7 @@
 	);
 
 	let accordionValues: string[] = $state([]);
+	let pressureVariablesTab = $state('temperature');
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
@@ -76,6 +81,14 @@
 		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
 			accordionValues.push('models');
 		}
+
+		if (
+			$params.hourly &&
+			countPressureVariables(pressureVariables, levels, $params.hourly).active &&
+			!accordionValues.includes('pressure-levels')
+		) {
+			accordionValues.push('pressure-levels');
+		}
 	});
 
 	let beginDate = new SvelteDate();
@@ -88,6 +101,10 @@
 <svelte:head>
 	<title>Google WeatherNext API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/google-weathernext-api" />
+	<meta
+		name="description"
+		content="Google WeatherNext 2 ensemble forecasts with 64 members, pressure-level data and derived cloud cover through the Open-Meteo API."
+	/>
 </svelte:head>
 
 <form method="get" action="https://ensemble-api.open-meteo.com/v1/ensemble">
@@ -236,6 +253,90 @@
 					</div>
 				</div>
 			</AccordionItem>
+			<AccordionItem
+				id="pressure-levels"
+				title="Pressure Level Variables"
+				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
+			>
+				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
+					<div class="w-full md:w-56.75">
+						<ToggleGroup.Root type="single" bind:value={pressureVariablesTab}>
+							<div class="border-border flex flex-col rounded-lg border">
+								{#each pressureVariables as variable, i (i)}
+									<ToggleGroup.Item
+										value={variable.value}
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
+										0
+											? 'rounded-t-md rounded-b-none!'
+											: ''} {i === pressureVariables.length - 1
+											? 'rounded-t-none! rounded-b-md'
+											: ''}"
+										disabled={pressureVariablesTab === variable.value}
+										onclick={() => (pressureVariablesTab = variable.value)}
+										><div class="flex w-full items-center justify-between gap-2 text-left">
+											{variable.label}
+											<span class="text-xs">
+												{levels.filter((level) =>
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
+												).length
+													? '(' +
+														levels.filter((level) =>
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
+														).length +
+														'/' +
+														levels.length +
+														')'
+													: ''}
+											</span>
+										</div></ToggleGroup.Item
+									>
+								{/each}
+							</div>
+						</ToggleGroup.Root>
+					</div>
+					<div class="w-full">
+						{#each pressureVariables as variable, i (i)}
+							{#if pressureVariablesTab === variable.value}
+								<div class="mb-3">{variable.label}</div>
+								<div class="grid grid-cols-1 lg:grid-cols-3">
+									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
+										<div>
+											{#each chunk as level, k (k)}
+												<div class="group flex items-center">
+													<Checkbox
+														id="{variable.value}_{level}hPa"
+														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
+														value="{variable.value}_{level}hPa"
+														checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
+														aria-labelledby="{variable.value}_{level}hPa_label"
+														onCheckedChange={() => {
+															const value = `${variable.value}_${level}hPa`;
+															if ($params.hourly?.includes(value)) {
+																$params.hourly = $params.hourly.filter(
+																	(item: string) => item !== value
+																);
+															} else if ($params.hourly) {
+																$params.hourly.push(value);
+																$params.hourly = $params.hourly;
+															}
+														}}
+													/>
+													<Label
+														id="{variable.value}_{level}hPa_label"
+														for="{variable.value}_{level}hPa"
+														class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
+														>{level} hPa</Label
+													>
+												</div>
+											{/each}
+										</div>
+									{/each}
+								</div>
+							{/if}
+						{/each}
+					</div>
+				</div>
+			</AccordionItem>
 		</Accordion.Root>
 	</div>
 
@@ -315,21 +416,34 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			Google DeepMind WeatherNext 2 is a global ensemble weather forecast model with 64 members on a
-			0.25° grid. It produces 6-hourly forecasts and is updated every 12 hours (00z and 12z runs).
-			With up to 15 days of forecast horizon and 64 ensemble members, WeatherNext is particularly
-			suited for probabilistic forecasting and uncertainty quantification at global scale.
+			<a href="https://developers.google.com/weathernext/guides/models" target="_blank"
+				>Google DeepMind WeatherNext 2</a
+			>
+			is a global AI ensemble weather model with 64 members on a regular 0.25° latitude-longitude grid.
+			The ensemble describes a range of possible weather developments and can be used to estimate forecast
+			uncertainty and the risk of less likely events.
+		</p>
+		<p class="mt-2">
+			The source dataset contains 60 forecast steps at 6-hour intervals. It does not include
+			forecast hour zero: the first value is valid 6 hours after model initialization and the last
+			value is valid at 360 hours, or 15 days. Google produces runs initialized at 00, 06, 12 and 18
+			UTC. At present, Open-Meteo processes the 00 and 12 UTC runs because the 06 and 18 UTC data do
+			not arrive in time for the current update schedule. See Google's
+			<a href="https://developers.google.com/weathernext/guides/dissemination" target="_blank"
+				>dissemination schedule</a
+			>
+			for upstream release times.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
 				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
-				<caption class="text-muted-foreground mt-2 table-caption text-left"
-					>You can find the update timings in the <a
+				<caption class="text-muted-foreground mt-2 table-caption text-left">
+					You can find Open-Meteo's current update timings in the <a
 						class="text-link underline"
 						href="/en/docs/model-updates">model updates documentation</a
-					>.</caption
-				>
+					>.
+				</caption>
 				<thead>
 					<tr>
 						<th scope="col">Weather Model</th>
@@ -342,20 +456,174 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row"
-							><a href="https://developers.google.com/weathernext" target="_blank"
-								>Google WeatherNext 2</a
-							></th
-						>
+						<th scope="row">Google WeatherNext 2</th>
 						<td>Global</td>
-						<td>0.25° (~25 km)</td>
+						<td>0.25°</td>
 						<td>6-hourly</td>
-						<td>15 days (64 members)</td>
+						<td>15 days</td>
 						<td>Every 12 hours</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+	</div>
+</div>
+
+<!-- NATIVE VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#native_model_variables"
+		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			WeatherNext directly predicts the atmospheric fields listed below. Open-Meteo retains these
+			fields or uses them to calculate more convenient API variables. In particular, the source
+			model provides specific humidity and wind components rather than relative humidity, wind speed
+			or wind direction.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Native WeatherNext field</th>
+						<th scope="col">Level</th>
+						<th scope="col">Use in the Open-Meteo API</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">2 m temperature</th>
+						<td>2 m above ground</td>
+						<td><mark>temperature_2m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Sea-surface temperature</th>
+						<td>Surface</td>
+						<td><mark>sea_surface_temperature</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Mean sea-level pressure</th>
+						<td>Mean sea level</td>
+						<td><mark>pressure_msl</mark> and derived surface pressure</td>
+					</tr>
+					<tr>
+						<th scope="row">Total precipitation</th>
+						<td>Surface</td>
+						<td><mark>precipitation</mark>, accumulated over the preceding 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row">U and V wind components</th>
+						<td>10 m and 100 m above ground</td>
+						<td>Wind speed and direction at the corresponding height</td>
+					</tr>
+					<tr>
+						<th scope="row">Temperature</th>
+						<td>13 pressure levels</td>
+						<td>Temperature and humidity-related pressure-level variables</td>
+					</tr>
+					<tr>
+						<th scope="row">Specific humidity</th>
+						<td>13 pressure levels</td>
+						<td>Input for derived relative humidity</td>
+					</tr>
+					<tr>
+						<th scope="row">Geopotential</th>
+						<td>13 pressure levels</td>
+						<td>Geopotential height</td>
+					</tr>
+					<tr>
+						<th scope="row">U and V wind components</th>
+						<td>13 pressure levels</td>
+						<td>Pressure-level wind speed and direction</td>
+					</tr>
+					<tr>
+						<th scope="row">Vertical velocity</th>
+						<td>13 pressure levels</td>
+						<td>Geometric vertical velocity</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-2">
+			The pressure levels are <strong
+				>1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100 and 50 hPa</strong
+			>. See Google's
+			<a href="https://developers.google.com/weathernext/guides/model-specs-vmg" target="_blank"
+				>model specification and data schema</a
+			>
+			for the original dataset layout.
+		</p>
+	</div>
+</div>
+
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			Several convenient API variables are not predicted directly by WeatherNext. Open-Meteo derives
+			them from the native fields for every ensemble member and forecast step.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Derived variable</th>
+						<th scope="col">How it is derived</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Relative humidity</th>
+						<td>
+							Calculated at every pressure level from WeatherNext specific humidity, temperature and
+							pressure. Native specific humidity is not exposed as a selectable API variable.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Low cloud cover</th>
+						<td>Derived from relative humidity at 1000, 925 and 850 hPa.</td>
+					</tr>
+					<tr>
+						<th scope="row">Mid cloud cover</th>
+						<td>Derived from relative humidity at 700, 600, 500 and 400 hPa.</td>
+					</tr>
+					<tr>
+						<th scope="row">High cloud cover</th>
+						<td>Derived from relative humidity at 300, 250, 200, 150, 100 and 50 hPa.</td>
+					</tr>
+					<tr>
+						<th scope="row">Total cloud cover</th>
+						<td>Calculated by combining the derived low, mid and high cloud layers.</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind speed and direction</th>
+						<td>Calculated from the native U and V wind components.</td>
+					</tr>
+					<tr>
+						<th scope="row">Dew point and pressure-level cloud cover</th>
+						<td>Calculated by the API from pressure-level temperature and relative humidity.</td>
+					</tr>
+					<tr>
+						<th scope="row">Rain, snowfall and weather code</th>
+						<td>
+							Estimated from total precipitation, temperature and the derived cloud information.
+							WeatherNext does not predict these fields directly.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Cloud cover is an estimate based on the vertical humidity profile. It is not a native cloud
+			fraction forecast from WeatherNext.
+		</p>
 	</div>
 </div>
 
@@ -366,25 +634,186 @@
 	>
 	<div class="mt-2 md:mt-4">
 		<p>
-			For a detailed list of all available weather variables please refer to the general <a
-				href="/en/docs/ensemble-api">Ensemble API documentation</a
-			>. Only notable remarks are listed below.
+			Use the endpoint <mark>/v1/ensemble</mark> with
+			<mark>models=google_weathernext2_ensemble</mark>. The tables below describe the variables
+			specific to this model. Refer to the general
+			<a href="/en/docs/ensemble-api">Ensemble API documentation</a>
+			for URL parameters, response formats and the naming of individual ensemble members.
 		</p>
-		<ul class="ml-6 list-disc">
-			<li>
-				<strong>Precipitation</strong> is accumulated over 6 hours (<mark
-					>total_precipitation_6hr</mark
-				>
-				in the source data, exposed as <mark>precipitation</mark> in the API).
-			</li>
-			<li>
-				<strong>Wind speed and direction</strong> at 10 m and 100 m are derived from the native U and
-				V wind components provided by WeatherNext.
-			</li>
-			<li>
-				<strong>Cloud cover</strong> (total, low, mid, high) is derived from relative humidity at pressure
-				levels using the Sundqvist et al. (1989) scheme.
-			</li>
-		</ul>
+
+		<a href="#hourly_parameter_definition"
+			><h3 id="hourly_parameter_definition" class="mt-6 text-xl md:text-2xl">
+				Hourly Parameter Definition
+			</h3></a
+		>
+		<p class="mt-2">
+			The API uses the common <mark>&hourly=</mark> parameter name. The table describes the default
+			hourly output. WeatherNext provides native values every 6 hours, which the API interpolates to
+			hourly time steps. Set <mark>temporal_resolution=native</mark> to return only the original 6-hour
+			model intervals. At native resolution, precipitation is the accumulated sum of the preceding 6 hours;
+			for hourly output, this total is distributed over the six corresponding hourly intervals while preserving
+			the sum.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Valid time</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">temperature_2m<br />sea_surface_temperature</th>
+						<td>Indicated hour</td>
+						<td>°C (°F)</td>
+						<td
+							>Air temperature 2 m above ground and water temperature at the sea surface,
+							interpolated from the 6-hourly model values.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">pressure_msl<br />surface_pressure</th>
+						<td>Indicated hour</td>
+						<td>hPa</td>
+						<td
+							>Pressure at mean sea level and estimated pressure at the selected surface elevation,
+							based on interpolated 6-hourly model values.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">precipitation</th>
+						<td>Preceding hour sum</td>
+						<td>mm (inch)</td>
+						<td
+							>Total liquid and frozen precipitation. Each native 6-hour accumulation is distributed
+							over six hourly intervals.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">rain<br />snowfall<br />snowfall_water_equivalent</th>
+						<td>Preceding hour sum</td>
+						<td>mm or cm (inch)</td>
+						<td
+							>Rain and snowfall components derived from the hourly precipitation and temperature
+							values.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row"
+							>cloud_cover<br />cloud_cover_low<br />cloud_cover_mid<br />cloud_cover_high</th
+						>
+						<td>Indicated hour</td>
+						<td>%</td>
+						<td
+							>Cloud cover is derived from relative humidity at the native 6-hour timestamps and
+							then interpolated for hourly output.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">wind_speed_10m<br />wind_speed_100m</th>
+						<td>Indicated hour</td>
+						<td>km/h (m/s, mph, knots)</td>
+						<td>Wind speed derived after interpolating the native U and V components.</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_direction_10m<br />wind_direction_100m</th>
+						<td>Indicated hour</td>
+						<td>°</td>
+						<td>Wind direction derived after interpolating the native U and V components.</td>
+					</tr>
+					<tr>
+						<th scope="row">weather_code<br />is_day</th>
+						<td>Indicated hour</td>
+						<td>WMO code / boolean</td>
+						<td
+							>Weather code is derived from the hourly weather fields. Day-or-night status is
+							calculated directly for every requested timestamp.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<a href="#pressure_level_parameter_definition"
+			><h3 id="pressure_level_parameter_definition" class="mt-6 text-xl md:text-2xl">
+				Pressure-Level Parameter Definition
+			</h3></a
+		>
+		<p class="mt-2">
+			Append a supported pressure level to the variable name, for example
+			<mark>temperature_500hPa</mark> or <mark>relative_humidity_850hPa</mark>. Native
+			pressure-level fields are available at 6-hour intervals and are interpolated for the default
+			hourly output.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+			>
+				<thead>
+					<tr>
+						<th scope="col">Variable pattern</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">temperature_*hPa</th>
+						<td>°C (°F)</td>
+						<td>Air temperature interpolated from native 6-hourly pressure-level values.</td>
+					</tr>
+					<tr>
+						<th scope="row">relative_humidity_*hPa<br />dew_point_*hPa</th>
+						<td>% / °C (°F)</td>
+						<td
+							>Relative humidity is interpolated from the 6-hourly derived values. Dew point is
+							calculated from hourly temperature and relative humidity.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">cloud_cover_*hPa</th>
+						<td>%</td>
+						<td>Estimated for each hour from the interpolated relative humidity.</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_speed_*hPa<br />wind_direction_*hPa</th>
+						<td>km/h (m/s, mph, knots) / °</td>
+						<td>Wind speed and direction derived after interpolating native U and V components.</td>
+					</tr>
+					<tr>
+						<th scope="row">vertical_velocity_*hPa</th>
+						<td>km/h (m/s, mph, knots)</td>
+						<td>Geometric vertical velocity interpolated from 6-hourly values.</td>
+					</tr>
+					<tr>
+						<th scope="row">geopotential_height_*hPa</th>
+						<td>m</td>
+						<td>
+							Height of the selected pressure surface above mean sea level, interpolated from
+							6-hourly values.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<a href="#daily_parameter_definition"
+			><h3 id="daily_parameter_definition" class="mt-6 text-xl md:text-2xl">
+				Daily Parameter Definition
+			</h3></a
+		>
+		<p class="mt-2">
+			Daily values are calculated from the 6-hourly forecast steps within the selected timezone. The
+			available parameters include mean, minimum and maximum 2 m temperature; precipitation, rain
+			and snowfall sums; precipitation hours; mean, minimum and maximum wind speed at 10 m and 100
+			m; dominant wind direction; mean, minimum and maximum cloud cover; and mean, minimum and
+			maximum mean-sea-level and surface pressure. Select a timezone when requesting daily data so
+			that the aggregation matches the intended local calendar day.
+		</p>
 	</div>
 </div>

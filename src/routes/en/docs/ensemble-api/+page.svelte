@@ -687,7 +687,7 @@
 						<th scope="row" rowspan="3">NOAA</th>
 						<td>GFS Ensemble 0.25°</td>
 						<td>Global</td>
-						<td>25 km, 3-hourly</td>
+						<td>0.25° (~25km), 3-hourly</td>
 						<td>31</td>
 						<td>10 days</td>
 						<td>Every 6 hours</td>
@@ -703,7 +703,7 @@
 					<tr>
 						<td>AIGFS 0.25°</td>
 						<td>Global</td>
-						<td>25 km, 6-hourly</td>
+						<td>0.25° (~25km), 6-hourly</td>
 						<td>31</td>
 						<td>16 days</td>
 						<td>Every 6 hours</td>
@@ -712,7 +712,7 @@
 						<th scope="row" rowspan="2">ECMWF</th>
 						<td>IFS 0.25°</td>
 						<td>Global</td>
-						<td>25 km, 3-hourly</td>
+						<td>0.25° (~25km), 3-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
@@ -720,7 +720,7 @@
 					<tr>
 						<td>AIFS 0.25°</td>
 						<td>Global</td>
-						<td>25 km, 6-hourly</td>
+						<td>0.25° (~25km), 6-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
@@ -729,7 +729,7 @@
 						<th scope="row">Canadian Weather Service</th>
 						<td>GEM</td>
 						<td>Global</td>
-						<td>25 km, 3-hourly</td>
+						<td>0.25° (~25km), 3-hourly</td>
 						<td>21</td>
 						<td>16 days (39 days every Mo+Thu)</td>
 						<td>Every 12 hours</td>
@@ -781,10 +781,10 @@
 						<th>Google</th>
 						<td>WeatherNext 2</td>
 						<td>Global</td>
-						<td>25 km, 12-hourly</td>
+						<td>0.25° (~25km), 6-hourly</td>
 						<td>64</td>
 						<td>15 days</td>
-						<td>Every 6 hours</td>
+						<td>Every 12 hours</td>
 					</tr>
 				</tbody>
 			</table>

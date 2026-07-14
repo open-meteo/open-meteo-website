@@ -27,16 +27,20 @@ export const defaultParameters = {
 export const hourly = [
 	[
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
+		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
 		{ value: 'precipitation', label: 'Precipitation (6-hourly)' },
-		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' }
+		{ value: 'rain', label: 'Rain' },
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'snowfall_water_equivalent', label: 'Snowfall (Water Equivalent)' }
 	],
 	[
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
+		{ value: 'surface_pressure', label: 'Surface Pressure' },
 		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
 		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
 		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
 		{ value: 'cloud_cover_high', label: 'Cloud Cover High' }
 	],
-	[{ value: 'pressure_msl', label: 'Sea Level Pressure' }],
 	[
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
@@ -47,17 +51,56 @@ export const hourly = [
 
 export const daily = [
 	[
+		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
 		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' }
+		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
+		{ value: 'cloud_cover_mean', label: 'Mean Cloud Cover' },
+		{ value: 'cloud_cover_min', label: 'Minimum Cloud Cover' },
+		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' }
 	],
-	[{ value: 'precipitation_sum', label: 'Precipitation Sum' }],
 	[
+		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
+		{ value: 'rain_sum', label: 'Rain Sum' },
+		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
+		{ value: 'pressure_msl_mean', label: 'Mean Sea Level Pressure' },
+		{ value: 'pressure_msl_min', label: 'Minimum Sea Level Pressure' },
+		{ value: 'pressure_msl_max', label: 'Maximum Sea Level Pressure' },
+		{ value: 'surface_pressure_mean', label: 'Mean Surface Pressure' },
+		{ value: 'surface_pressure_min', label: 'Minimum Surface Pressure' },
+		{ value: 'surface_pressure_max', label: 'Maximum Surface Pressure' }
+	],
+	[
+		{ value: 'wind_speed_10m_mean', label: 'Mean Wind Speed (10 m)' },
+		{ value: 'wind_speed_10m_min', label: 'Minimum Wind Speed (10 m)' },
 		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' }
+		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
+		{ value: 'wind_speed_100m_mean', label: 'Mean Wind Speed (100 m)' },
+		{ value: 'wind_speed_100m_min', label: 'Minimum Wind Speed (100 m)' },
+		{ value: 'wind_speed_100m_max', label: 'Maximum Wind Speed (100 m)' },
+		{ value: 'wind_direction_100m_dominant', label: 'Dominant Wind Direction (100 m)' }
 	]
 ];
 
-export const additionalVariables: { value: string; label: string }[][] = [];
+export const additionalVariables = [
+	[
+		{ value: 'weather_code', label: 'Weather Code' },
+		{ value: 'is_day', label: 'Is Day or Night' }
+	]
+];
+
+export const pressureVariables = [
+	{ value: 'temperature', label: 'Temperature' },
+	{ value: 'relative_humidity', label: 'Relative Humidity' },
+	{ value: 'dew_point', label: 'Dew Point' },
+	{ value: 'cloud_cover', label: 'Cloud Cover' },
+	{ value: 'wind_speed', label: 'Wind Speed' },
+	{ value: 'wind_direction', label: 'Wind Direction' },
+	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
+	{ value: 'geopotential_height', label: 'Geopotential Height' }
+];
+
+export const levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100, 50];
 
 export const solarVariables: { value: string; label: string }[][] = [];
 
