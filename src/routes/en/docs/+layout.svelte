@@ -34,8 +34,7 @@
 				{ title: 'KNMI Netherlands', url: '/en/docs/knmi-api' },
 				{ title: 'DMI Denmark', url: '/en/docs/dmi-api' },
 				{ title: 'ItaliaMeteo', url: '/en/docs/italia-meteo-arpae-api' },
-				{ title: 'GeoSphere Austria', url: '/en/docs/geosphere-austria-api' },
-				{ title: 'Google WeatherNext', url: '/en/docs/google-weathernext-api' }
+				{ title: 'GeoSphere Austria', url: '/en/docs/geosphere-austria-api' }
 			]
 		},
 		{
@@ -50,7 +49,10 @@
 		{
 			title: 'Ensemble Models',
 			url: '/en/docs/ensemble-api',
-			children: [{ title: 'Ensemble Mean API', url: '/en/docs/ensemble-mean-api' }]
+			children: [
+				{ title: 'Ensemble Mean API', url: '/en/docs/ensemble-mean-api' },
+				{ title: 'Google WeatherNext', url: '/en/docs/google-weathernext-api' }
+			]
 		},
 		{ title: 'Seasonal Forecast', url: '/en/docs/seasonal-forecast-api' },
 		{ title: 'Climate Change', url: '/en/docs/climate-api' },
