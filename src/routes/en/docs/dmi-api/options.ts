@@ -32,8 +32,8 @@ export const hourly = [
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
 		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
 		{ value: 'rain', label: 'Rain' },
-		{ value: 'snowfall', label: 'Snowfall' }
-		//{ value: 'snow_depth', label: 'Snow Depth' } only snow_depth_water_equivalent
+		{ value: 'snowfall', label: 'Snowfall' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent' }
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
@@ -118,25 +118,6 @@ export const additionalVariables = [
 	[
 		{ value: 'cape', label: 'CAPE' },
 		{ value: 'convective_inhibition', label: 'Convective Inhibition' }
-	]
-];
-
-export const solarVariables = [
-	[
-		{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-		{ value: 'direct_radiation', label: 'Direct Solar Radiation' },
-		{ value: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-		{ value: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-		{ value: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-		{ value: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
-	],
-	[
-		{ value: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' },
-		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 	]
 ];
 

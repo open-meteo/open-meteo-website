@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import { countPreviousVariables, countVariables } from '$lib/utils/meteo';
+	import { slide } from '$lib/utils/transitions';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
@@ -20,6 +20,7 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import { gridCellSelectionOptions, models, temporalResolutionOptions } from '../options';
 	import {
@@ -102,6 +103,10 @@
 <svelte:head>
 	<title>Previous Runs API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/previous-runs-api" />
+	<meta
+		name="description"
+		content="Compare weather forecasts from previous model runs with 1-7 days lead time to analyze forecast consistency and uncertainty. Free JSON weather API."
+	/>
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4"
@@ -160,7 +165,7 @@
 									><div class="flex items-center justify-center px-2">
 										<Checkbox
 											id="{pd.value}_hourly_previous_day{i}"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 											value={formatVariableName(pd.value, i)}
 											checked={$params.hourly?.includes(formatVariableName(pd.value, i))}
 											aria-labelledby="{pd.value}_hourly_previous_day_label{i}"
@@ -241,7 +246,7 @@
 				count={countPreviousVariables([solarVariables], $params.hourly)}
 			>
 				<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-					<table class="mx-6 mt-2 w-full min-w-[1020px] md:ml-0 lg:mx-0">
+					<table class="mx-6 mt-2 w-full min-w-255 md:ml-0 lg:mx-0">
 						<tbody>
 							{#each solarVariables as sv, j (j)}
 								<tr class="border-border border-b">
@@ -251,7 +256,7 @@
 											><div class="flex items-center justify-center px-2">
 												<Checkbox
 													id="{sv.value}_hourly_previous_day{i}"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													value={formatVariableName(sv.value, i)}
 													checked={$params.hourly?.includes(formatVariableName(sv.value, i))}
 													aria-labelledby="{sv.value}_hourly_previous_day_label{i}"
@@ -341,7 +346,7 @@
 				count={countPreviousVariables([windVariables], $params.hourly)}
 			>
 				<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-					<table class="mx-6 mt-2 w-full min-w-[1020px] md:ml-0 lg:mx-0">
+					<table class="mx-6 mt-2 w-full min-w-255 md:ml-0 lg:mx-0">
 						<tbody>
 							{#each windVariables as wv, j (j)}
 								<tr class="border-border border-b">
@@ -351,7 +356,7 @@
 											><div class="flex items-center justify-center px-2">
 												<Checkbox
 													id="{wv.value}_hourly_previous_day{i}"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													value={formatVariableName(wv.value, i)}
 													checked={$params.hourly?.includes(formatVariableName(wv.value, i))}
 													aria-labelledby="{wv.value}_hourly_previous_day_label{i}"
@@ -385,38 +390,13 @@
 				title="Weather models"
 				count={countVariables(models, $params.models)}
 			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each models as group, i (i)}
-						<div class="mb-3">
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.models?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_model_label"
-										for="{value}_model"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+					groupClass="mb-3"
+					groups={models}
+					bind:values={$params.models}
+					idSuffix="model"
+				/>
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given

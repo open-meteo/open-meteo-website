@@ -319,12 +319,12 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 		{ value: 'bom_access_global', label: 'BOM ACCESS Global' }
 	],
 	[
-		{ value: 'gfs_seamless', label: 'NCEP GFS Seamless' },
-		{ value: 'gfs_global', label: 'NCEP GFS Global 0.11°/0.25°' },
-		{ value: 'gfs_hrrr', label: 'NCEP HRRR U.S. Conus' },
+		{ value: 'ncep_gfs_seamless', label: 'NCEP GFS Seamless' },
+		{ value: 'ncep_gfs_global', label: 'NCEP GFS Global 0.11°/0.25°' },
+		{ value: 'ncep_hrrr_conus', label: 'NCEP HRRR U.S. Conus' },
 		{ value: 'ncep_nbm_conus', label: 'NCEP NBM U.S. Conus' },
 		{ value: 'ncep_nam_conus', label: 'NCEP NAM U.S. Conus' },
-		{ value: 'gfs_graphcast025', label: 'NCEP GFS GraphCast' },
+		{ value: 'ncep_gfs_graphcast025', label: 'NCEP GFS GraphCast' },
 		{ value: 'ncep_aigfs025', label: 'NCEP AIGFS 0.25°' },
 		{ value: 'ncep_hgefs025_ensemble_mean', label: 'NCEP HGEFS 0.25° Ensemble Mean' }
 	],
@@ -339,17 +339,17 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 		{ value: 'kma_gdps', label: 'KMA GDPS' }
 	],
 	[
-		{ value: 'icon_seamless', label: 'DWD ICON Seamless' },
-		{ value: 'icon_global', label: 'DWD ICON Global' },
-		{ value: 'icon_eu', label: 'DWD ICON EU' },
-		{ value: 'icon_d2', label: 'DWD ICON D2' }
+		{ value: 'dwd_icon_seamless', label: 'DWD ICON Seamless' },
+		{ value: 'dwd_icon_global', label: 'DWD ICON Global' },
+		{ value: 'dwd_icon_eu', label: 'DWD ICON EU' },
+		{ value: 'dwd_icon_d2', label: 'DWD ICON D2' }
 	],
 	[
-		{ value: 'gem_seamless', label: 'GEM Seamless' },
-		{ value: 'gem_global', label: 'GEM Global' },
-		{ value: 'gem_regional', label: 'GEM Regional' },
-		{ value: 'gem_hrdps_continental', label: 'GEM HRDPS Continental' },
-		{ value: 'gem_hrdps_west', label: 'GEM HRDPS West' }
+		{ value: 'cmc_gem_seamless', label: 'GEM Seamless' },
+		{ value: 'cmc_gem_gdps', label: 'GEM Global' },
+		{ value: 'cmc_gem_rdps', label: 'GEM Regional' },
+		{ value: 'cmc_gem_hrdps', label: 'GEM HRDPS Continental' },
+		{ value: 'cmc_gem_hrdps_west', label: 'GEM HRDPS West' }
 	],
 	[
 		{ value: 'meteofrance_seamless', label: 'Météo-France Seamless' },

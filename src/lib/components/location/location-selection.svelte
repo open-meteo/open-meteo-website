@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fade, slide } from 'svelte/transition';
+
+	import { fade, slide } from '$lib/utils/transitions';
+	import { fadeOutAbsolute } from '$lib/utils/transitions';
 
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
@@ -8,6 +10,7 @@
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
 
+	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
 	import LocationSearch from '$lib/components/location/location-search.svelte';
 
 	import { type Parameters } from '$lib/docs';
@@ -145,7 +148,7 @@
 			}}
 		>
 			<svg
-				class="lucide lucide-locate mr-[1px]"
+				class="lucide lucide-locate mr-px"
 				xmlns="http://www.w3.org/2000/svg"
 				width="19"
 				height="19"
@@ -176,7 +179,7 @@
 			}}
 		>
 			<svg
-				class="lucide lucide-list mr-[1px]"
+				class="lucide lucide-list mr-px"
 				xmlns="http://www.w3.org/2000/svg"
 				width="19"
 				height="19"
@@ -218,7 +221,7 @@
 				stroke-width="2"
 				stroke-linecap="round"
 				stroke-linejoin="round"
-				class="lucide lucide-square-dashed-icon lucide-square-dashed mr-[1px]"
+				class="lucide lucide-square-dashed-icon lucide-square-dashed mr-px"
 				><path d="M5 3a2 2 0 0 0-2 2" /><path d="M19 3a2 2 0 0 1 2 2" /><path
 					d="M21 19a2 2 0 0 1-2 2"
 				/><path d="M5 21a2 2 0 0 1-2-2" /><path d="M9 3h1" /><path d="M9 21h1" /><path
@@ -231,9 +234,13 @@
 	</div>
 </div>
 
-<div class="mt-3 md:mt-4">
+<AnimateHeight class="mt-3 md:mt-4">
 	{#if params.location_mode == 'location_search'}
-		<div class="flex flex-col" in:fade>
+		<div
+			class="flex flex-col"
+			in:fade={{ duration: 250, delay: 50 }}
+			out:fadeOutAbsolute={{ duration: 200 }}
+		>
 			{#if params.latitude && params.longitude}
 				{#each params.latitude as _, index (index)}
 					<div
@@ -254,7 +261,7 @@
 								type="number"
 								class="h-12 pt-6"
 								name="latitude"
-								id="latitude"
+								id="latitude-{index}"
 								step="0.000001"
 								min="-90"
 								max="90"
@@ -262,7 +269,7 @@
 							/>
 							<Label
 								class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								for="latitude">Latitude</Label
+								for="latitude-{index}">Latitude</Label
 							>
 							{#if params.latitude[index] < -90 || params.latitude[index] > 90}
 								<div class="absolute top-14 left-3 text-sm duration-300" transition:slide>
@@ -282,7 +289,7 @@
 								type="number"
 								class="h-12 pt-6"
 								name="longitude"
-								id="longitude"
+								id="longitude-{index}"
 								step="0.000001"
 								min="-180"
 								max="180"
@@ -290,7 +297,7 @@
 							/>
 							<Label
 								class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								for="longitude">Longitude</Label
+								for="longitude-{index}">Longitude</Label
 							>
 							{#if params.longitude[index] < -180 || params.longitude[index] > 180}
 								<div class="absolute top-14 left-3 text-sm" transition:slide>
@@ -310,16 +317,17 @@
 						</div>
 						<div class="relative flex items-center">
 							<Select.Root name="timezone" type="single" bind:value={params.timezone}>
-								<Select.Trigger
-									aria-label="timezone selection"
-									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{timeZone?.label}</Select.Trigger
+								<Select.Trigger id="timezone-{index}" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+									>{timeZone?.label}</Select.Trigger
 								>
 								<Select.Content preventScroll={false} class="border-border">
 									{#each timeZoneOptions as { value, label } (value)}
 										<Select.Item {value}>{label}</Select.Item>
 									{/each}
 								</Select.Content>
-								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								<Label
+									for="timezone-{index}"
+									class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 									>Timezone</Label
 								>
 							</Select.Root>
@@ -390,7 +398,7 @@
 		</div>
 	{/if}
 	{#if params.location_mode == 'csv_coordinates'}
-		<div in:fade>
+		<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
 			<div class="flex flex-col gap-3 md:flex-row md:gap-6">
 				<div class="md:w-1/2">
 					<textarea
@@ -409,9 +417,9 @@
 					<pre
 						class="my-2 overflow-auto rounded-lg md:my-4">latitude,longitude,elevation,timezone,start_date,end_date</pre>
 					<div class="relative">
-						<Select.Root name="forecast_days" type="single" bind:value={csvExample}>
+						<Select.Root name="csv_example" type="single" bind:value={csvExample}>
 							<Select.Trigger
-								aria-label="Forecast days input"
+								id="csv_example"
 								class="h-12 cursor-pointer rounded-b-none pt-6 [&_svg]:mb-3"
 								>{csvExampleSet?.label}</Select.Trigger
 							>
@@ -420,7 +428,9 @@
 									<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+							<Label
+								for="csv_example"
+								class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Code examples</Label
 							>
 						</Select.Root>
@@ -594,4 +604,4 @@
 			</div>
 		{/if}
 	{/if}
-</div>
+</AnimateHeight>

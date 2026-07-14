@@ -1,5 +1,4 @@
 import svg from '@poppanator/sveltekit-svg';
-import { enhancedImages } from '@sveltejs/enhanced-img';
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -22,7 +21,6 @@ function replaceChunkNames() {
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
-		enhancedImages(),
 		sveltekit(),
 		svg(),
 		replaceChunkNames(),

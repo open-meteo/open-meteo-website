@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
-
 	import Github from 'simple-icons/icons/github.svg?raw';
+
+	import { fade } from '$lib/utils/transitions';
 
 	import HistoricalWeatherCurlBlock from '$lib/components/code/home/historical-weather-curl.svx';
 	import HistoricalWeatherCodeBlock from '$lib/components/code/home/historical-weather.svx';
@@ -20,7 +20,7 @@
 	<link rel="canonical" href="https://open-meteo.com/" />
 	<meta
 		name="description"
-		content="Open-Source ☀️️️️️️️️️️️️️️️️️️️️️️️️️️️️️ Weather API with free access for non-commercial use. No API Key required ✅. Accurate weather forecasts for any location. Open-Meteo provides high-resolution open data ranging from 1 to 11 kilometres from national weather services. With a user-friendly JSON API, integrating weather data has never been easier. Experience the precision and convenience of Open-Meteo's Forecast API for reliable and comprehensive weather information worldwide."
+		content="Open-Source ☀️ Weather API with free access for non-commercial use. No API Key required ✅. Accurate weather forecasts for any location. Open-Meteo provides high-resolution open data ranging from 1 to 11 kilometres from national weather services. With a user-friendly JSON API, integrating weather data has never been easier. Experience the precision and convenience of Open-Meteo's Forecast API for reliable and comprehensive weather information worldwide."
 	/>
 </svelte:head>
 
@@ -104,12 +104,12 @@
 				</div>
 			</div>
 
-			<div class="pregenerated-code relative min-h-[530px] overflow-auto lg:min-h-[495px]">
+			<div class="pregenerated-code relative min-h-132.5 overflow-auto lg:min-h-123.75">
 				{#if tabSelected === 'weather-api'}
 					<div in:fade class="group w-full">
 						<Button
 							variant="ghost"
-							class="curl mt-2 h-[96px] !bg-transparent p-0 md:mt-4 [&_span]:bg-transparent!"
+							class="curl mt-2 h-24 bg-transparent! p-0 md:mt-4 [&_span]:bg-transparent!"
 							href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
 						>
 							<WeatherApiCurlBlock />
@@ -122,7 +122,7 @@
 					<div in:fade class="group w-full">
 						<Button
 							variant="ghost"
-							class="curl mt-2 h-[96px] !bg-transparent p-0 md:mt-4 [&_span]:bg-transparent!"
+							class="curl mt-2 h-24 bg-transparent! p-0 md:mt-4 [&_span]:bg-transparent!"
 							href="https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&past_days=10&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m"
 						>
 							<Last10DaysCurlBlock />
@@ -135,7 +135,7 @@
 					<div in:fade class="group w-full">
 						<Button
 							variant="ghost"
-							class="curl mt-2 h-[96px] !bg-transparent p-0 md:mt-4 [&_span]:bg-transparent!"
+							class="curl mt-2 h-24 bg-transparent! p-0 md:mt-4 [&_span]:bg-transparent!"
 							href="https://archive-api.open-meteo.com/v1/era5?latitude=52.52&longitude=13.41&start_date=2021-01-01&end_date=2021-12-31&hourly=temperature_2m"
 						>
 							<HistoricalWeatherCurlBlock />

@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from 'svelte/transition';
 
 	import { resolve } from '$app/paths';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import { countVariables } from '$lib/utils/meteo';
+	import { slide } from '$lib/utils/transitions';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
@@ -22,8 +22,9 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
-	import { gridCellSelectionOptions, pastDaysOptions } from '../options';
+	import { gridCellSelectionOptions, pastDaysOptions, solarVariables } from '../options';
 	import {
 		additionalMonthly,
 		additionalWeekly,
@@ -33,7 +34,6 @@
 		hourly,
 		models,
 		monthly,
-		solarVariables,
 		temporalResolutionOptions,
 		weekly,
 		weeklySpecial
@@ -95,6 +95,10 @@
 <svelte:head>
 	<title>Seasonal Weather Forecast API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/seasonal-forecast-api" />
+	<meta
+		name="description"
+		content="Seasonal weather forecasts up to 9 months ahead from ECMWF SEAS5 and NCEP CFS. Weekly and monthly data via a free JSON weather API."
+	/>
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4"
@@ -150,7 +154,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.hourly?.includes(value)}
 								aria-labelledby="{value}_hourly_label"
@@ -229,38 +233,12 @@
 				title="Solar Radiation Variables"
 				count={countVariables(solarVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each solarVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_hourly_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_hourly_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={solarVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
@@ -328,7 +306,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{valueSpread}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										value="valueSpread"
 										checked={$params.hourly?.includes(valueSpread)}
 										aria-labelledby="{valueSpread}_hourly_label"
@@ -363,38 +341,12 @@
 				</p>
 			</AccordionItem>
 			<AccordionItem id="models" title="Models" count={countVariables(models, $params.models)}>
-				<div class="mt-2 grid sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2">
-					{#each models as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.models?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_model_label"
-										for="{value}_model"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2"
+					groups={models}
+					bind:values={$params.models}
+					idSuffix="model"
+				/>
 				<p>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>ECMWF Seasonal Seamless</mark> uses all 51 members from EC46 for
@@ -434,7 +386,7 @@
 										<div class="group flex items-center" title="{label} {ag_label}">
 											<Checkbox
 												id="{value}{ag_value}_daily"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value="{value}min"
 												checked={$params.daily?.includes(`${value}${ag_value}`)}
 												aria-labelledby="{value}{ag_value}daily_label"
@@ -488,7 +440,7 @@
 									<div class="group flex items-center" title="{label} Mean">
 										<Checkbox
 											id="{value}_mean_weekly"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 											value="{value}_mean"
 											checked={$params.weekly?.includes(`${value}_mean`)}
 											aria-labelledby="{value}_mean_weekly_label"
@@ -512,7 +464,7 @@
 									<div class="group flex items-center" title="{label} Anomaly">
 										<Checkbox
 											id="{value}_anomaly_weekly"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 											value="{value}_anomaly"
 											checked={$params.weekly?.includes(`${value}_anomaly`)}
 											aria-labelledby="{value}_anomaly_weekly_label"
@@ -570,7 +522,7 @@
 											<div class="group flex items-center" title="{label} Mean">
 												<Checkbox
 													id="{value}_mean_weekly"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													value="{value}_mean"
 													checked={$params.weekly?.includes(`${value}_mean`)}
 													aria-labelledby="{value}_mean_weekly_label"
@@ -594,7 +546,7 @@
 											<div class="group flex items-center" title="{label} Anomaly">
 												<Checkbox
 													id="{value}_anomaly_weekly"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													value="{value}_anomaly"
 													checked={$params.weekly?.includes(`${value}_anomaly`)}
 													aria-labelledby="{value}_anomaly_weekly_label"
@@ -630,38 +582,12 @@
 				title="Anomaly Probabilities, Extreme Forecast Index (EFI) & Shift of tails (SOT)"
 				count={countVariables(weeklySpecial, $params.weekly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each weeklySpecial as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_weekly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.weekly?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if (value && $params.weekly?.includes(value)) {
-												$params.weekly = $params.weekly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if (value && $params.weekly) {
-												$params.weekly.push(value);
-												$params.weekly = $params.weekly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_label"
-										for="{value}_weekly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={weeklySpecial}
+					bind:values={$params.weekly}
+					idSuffix="weekly"
+				/>
 			</AccordionItem>
 		</Accordion.Root>
 	</div>
@@ -689,7 +615,7 @@
 										<div class="group flex items-center" title="{label} Mean">
 											<Checkbox
 												id="{value}_mean_monthly"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value="{value}_mean"
 												checked={$params.monthly?.includes(`${value}_mean`)}
 												aria-labelledby="{value}_mean_monthly_label"
@@ -713,7 +639,7 @@
 										<div class="group flex items-center" title="{label} Anomaly">
 											<Checkbox
 												id="{value}_anomaly_monthly"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value="{value}_anomaly"
 												checked={$params.monthly?.includes(`${value}_anomaly`)}
 												aria-labelledby="{value}_anomaly_monthly_label"
@@ -743,7 +669,7 @@
 											>
 												<Checkbox
 													id="wind_gusts_10m_anomaly_monthly"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													value="wind_gusts_10m_anomaly"
 													checked={$params.monthly?.includes('wind_gusts_10m_anomaly')}
 													aria-labelledby="wind_gusts_10m_anomaly_monthly_label"
@@ -800,7 +726,7 @@
 										<div class="group flex items-center" title="{label} Mean">
 											<Checkbox
 												id="{value}_mean_monthly"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value="{value}_mean"
 												checked={$params.monthly?.includes(`${value}_mean`)}
 												aria-labelledby="{value}_mean_monthly_label"
@@ -824,7 +750,7 @@
 										<div class="group flex items-center" title="{label} Anomaly">
 											<Checkbox
 												id="{value}_anomaly_monthly"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value="{value}_anomaly"
 												checked={$params.monthly?.includes(`${value}_anomaly`)}
 												aria-labelledby="{value}_anomaly_monthly_label"
@@ -899,7 +825,7 @@
 			SEAS5 forecast update every month on the 5th.
 		</p>
 		<p>
-			For short-term forecasting consider using the <a href={resolve('/en/docs/ecmwf-api', {})}
+			For short-term forecasting consider using the <a href={resolve('/en/docs/ecmwf-api')}
 				>15-days ECMWF forecast</a
 			>
 		</p>
@@ -971,7 +897,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			For a detailed list of all available weather variables please refer to the general <a
-				href={resolve('/en/docs', {})}>Weather Forecast API</a
+				href={resolve('/en/docs')}>Weather Forecast API</a
 			>. Only notable remarks are listed below
 		</p>
 		<ul class="ml-6 list-disc">

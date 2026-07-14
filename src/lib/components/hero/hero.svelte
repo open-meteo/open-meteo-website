@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+
 	import { Button } from '$lib/components/ui/button';
 
 	import type { Component } from 'svelte';
@@ -28,18 +30,47 @@
 		heroSecondaryButtonPath,
 		heroSecondaryButtonText
 	}: Props = $props();
+
+	// Gecko skips view transitions (see the root layout), so on navigation the
+	// new page mounts and the height transition starts inside the same long
+	// hydration task — the first frames of the glide are dropped and the hero
+	// visibly jumps before easing (~75px at 600→400). Deferring the height
+	// change with a double rAF lets that task finish first: the glide then
+	// starts on a free main thread and plays in full. Chromium is untouched —
+	// its view transition already holds the old frame until the work is done.
+	const isGecko = browser && CSS.supports('-moz-appearance', 'none');
+
+	let displayHeight = $state(heroHeight);
+
+	$effect(() => {
+		const target = heroHeight;
+		if (!isGecko) {
+			displayHeight = target;
+			return;
+		}
+		let raf = requestAnimationFrame(() => {
+			raf = requestAnimationFrame(() => {
+				displayHeight = target;
+			});
+		});
+		return () => cancelAnimationFrame(raf);
+	});
 </script>
 
 <svelte:head>
 	<link rel="preload" fetchpriority="high" as="image" href={heroImage} type="image/webp" />
 </svelte:head>
 
-<div style="height: {heroHeight}px;" class="relative flex items-center">
+<div style="height: {displayHeight}px;" class="hero-container relative flex items-center">
 	<div class="absolute inset-0 -z-10">
+		<!-- The background-color shows whenever the image is not painted yet
+		     (slow connections, or Firefox briefly presenting the new page before
+		     the view transition is ready), so the hero never flashes white. -->
 		<div
 			class="h-full w-full"
 			style="
 			  view-transition-name: hero-image;
+			  background-color: #54718e;
 			  background-image: url('{heroImage}');
 			  background-size: cover;
 			  background-position: {heroImagePosition};
@@ -74,7 +105,7 @@
 					>
 					<Button
 						variant="outline"
-						class="bg-transparent text-white hover:bg-white/75 hover:text-black dark:border-white/75 dark:brightness-[92%]"
+						class="bg-transparent text-white hover:bg-white/75 hover:text-black dark:border-white/75 dark:brightness-92"
 						href={heroSecondaryButtonPath}>{heroSecondaryButtonText}</Button
 					>
 				</div>
@@ -84,44 +115,64 @@
 </div>
 
 <style>
-	@keyframes fade-in {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
-	@keyframes fade-out {
-		to {
-			opacity: 0;
-		}
-	}
-
 	@media (prefers-reduced-motion: no-preference) {
+		/* The hero persists in the root layout, so a height change between pages
+		   can animate for real. Content below the hero moves along with it. */
+		.hero-container {
+			transition: height 500ms ease;
+		}
+
+		/* animation: none makes the groups track the live element's geometry
+		   every frame, so the snapshots follow the real height transition above
+		   instead of running the browser-generated morph (which would scale the
+		   snapshots and warp the text). */
 		::view-transition-group(hero-image) {
 			animation: none;
+			overflow: clip;
 		}
 
-		::view-transition-old(hero-image) {
-			animation: fade-out 600ms ease both;
-		}
-
+		/* Both snapshots always cover the animating box, so the image never
+		   stretches or letterboxes while the height changes. Only the browser
+		   cross-fade's duration is overridden — replacing the animation outright
+		   would also drop the plus-lighter blending that keeps the pair fully
+		   opaque mid-fade, letting the page background flash through. */
+		::view-transition-old(hero-image),
 		::view-transition-new(hero-image) {
-			animation: fade-in 500ms ease both;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			animation-duration: 500ms;
+			animation-fill-mode: both;
 		}
 
+		/* Content rides along with the live-tracked group. */
 		::view-transition-group(hero-content) {
 			animation: none;
+			overflow: clip;
 		}
 
+		/* The old snapshot is a static capture: keep it at natural size (never
+		   stretched) and centered in the animating box, where the text of both
+		   pages sits, so old and new stay superimposed during the cross-fade. */
 		::view-transition-old(hero-content) {
-			animation: fade-out 0ms ease both;
+			width: 100%;
+			height: auto;
+			inset: 0;
+			margin: auto;
+			animation-duration: 150ms;
+			animation-fill-mode: both;
 		}
 
+		/* The new snapshot renders the live element, but its box is derived from
+		   the geometry captured at the start of the transition — while the real
+		   height animates, the live texture gets stretched into that stale box,
+		   warping the text. Sizing it to the group (which tracks the live element
+		   every frame) keeps box and texture identical, so nothing stretches. */
 		::view-transition-new(hero-content) {
-			animation: fade-in 0ms ease both;
+			width: 100%;
+			height: 100%;
+			animation-duration: 150ms;
+			animation-fill-mode: both;
 		}
 	}
 </style>

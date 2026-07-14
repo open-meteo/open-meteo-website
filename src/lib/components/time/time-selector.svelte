@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
+	import { fade } from '$lib/utils/transitions';
+	import { fadeOutAbsolute } from '$lib/utils/transitions';
 
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
 
+	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 
 	import { type Parameters } from '$lib/docs';
@@ -111,38 +113,45 @@
 		</div>
 	</div>
 
-	<div class="mt-3 md:mt-4">
+	<AnimateHeight class="mt-3 md:mt-4">
 		{#if params.time_mode === 'forecast_days'}
-			<div in:fade class="grid gap-3 md:gap-6 lg:grid-cols-2">
+			<div
+				in:fade={{ duration: 250, delay: 50 }}
+				out:fadeOutAbsolute={{ duration: 200 }}
+				class="grid gap-3 md:gap-6 lg:grid-cols-2"
+			>
 				<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_days" type="single" bind:value={params.forecast_days}>
-							<Select.Trigger
-								aria-label="Forecast days input"
-								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{forecastDays?.label}</Select.Trigger
+							<Select.Trigger id="forecast_days" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+								>{forecastDays?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
 								{#each forecastDaysOptions as { value, label } (value)}
 									<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+							<Label
+								for="forecast_days"
+								class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Forecast days</Label
 							>
 						</Select.Root>
 					</div>
 					<div class="relative">
 						<Select.Root name="past_days" type="single" bind:value={params.past_days}>
-							<Select.Trigger
-								aria-label="Past days input"
-								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
+							<Select.Trigger id="past_days" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+								>{pastDays?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
 								{#each pastDaysOptions as { value, label } (value)}
 									<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs">
+							<Label
+								for="past_days"
+								class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+							>
 								Past days</Label
 							>
 						</Select.Root>
@@ -164,7 +173,11 @@
 			</div>
 		{/if}
 		{#if params.time_mode === 'time_interval'}
-			<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
+			<div
+				in:fade={{ duration: 250, delay: 50 }}
+				out:fadeOutAbsolute={{ duration: 200 }}
+				class="flex flex-col gap-x-6 gap-y-4 lg:flex-row"
+			>
 				<div class="mb-3 lg:w-1/2">
 					<DatePicker
 						{beginDate}
@@ -186,5 +199,5 @@
 				</div>
 			</div>
 		{/if}
-	</div>
+	</AnimateHeight>
 </div>

@@ -10,19 +10,19 @@
 
 <div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 	<!--
-	min-w-[2700px] 44 levels: GFS,
-	min-w-[1900px] 30 levels: GEM, CMA
-	min-w-[1250px] 19 levels: Weather forecast, DWD,
-	min-w-[780px] 11 levels: JMA,
+	44 levels: GFS,
+	30 levels: GEM, CMA
+	19 levels: Weather forecast, DWD,
+	11 levels: JMA,
 	-->
 	<table
-		class="mx-6 mt-2 caption-bottom md:ml-0 lg:mx-0 min-w-[{levels.length > 40
-			? '2700px'
+		class="mx-6 mt-2 caption-bottom md:ml-0 lg:mx-0 {levels.length > 40
+			? 'min-w-675'
 			: levels.length > 25
-				? '1900px'
+				? 'min-w-475'
 				: levels.length > 15
-					? '1250px'
-					: '780px'}] w-full text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+					? 'min-w-312.5'
+					: 'min-w-195'} w-full text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 	>
 		<tbody>
 			<tr>

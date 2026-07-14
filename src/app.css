@@ -16,18 +16,14 @@
 	--container-xl: 1100px;
 	--container-2xl: 1400px;
 
-	--font-size-xxs: 11px;
-
 	--drop-shadow-logo: 3px 3px 2px oklch(0% 0 0 / 0.7);
-
-	--text-underline-offset-3: 3px;
 }
 
 :root {
 	--background: oklch(100% 0 0);
 	--foreground: oklch(13.7% 0.036 258.5);
 
-	--muted: oklch(100%, 0%, 89.876%);
+	--muted: oklch(96.8% 0.007 247.9);
 	--muted-foreground: oklch(55.5% 0.041 257.4);
 
 	--popover: oklch(100% 0 0);
@@ -112,7 +108,7 @@
 	--card: oklch(13.7% 0.036 258.5);
 	--card-foreground: oklch(98.4% 0.003 247.9);
 
-	--border: oklch(28% 0.037 260);
+	--border: oklch(36% 0.04 260);
 	--border-dark: oklch(68.3% 0 0);
 
 	--secondary: oklch(28% 0.037 260);
@@ -131,7 +127,7 @@
 	--warning-dark: oklch(89.8% 0.136 91);
 	--warning-foreground: oklch(57.9% 0.117 85.9);
 
-	--input: oklch(28% 0.037 260);
+	--input: oklch(36% 0.04 260);
 	--link: oklch(72.9% 0.14 258.1);
 	--ring: oklch(86.9% 0.02 252.8);
 
@@ -189,17 +185,15 @@
 	--color-accent: var(--accent);
 	--color-accent-foreground: var(--accent-foreground);
 	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
 	--color-border: var(--border);
+	--color-border-dark: var(--border-dark);
 	--color-input: var(--input);
 	--color-ring: var(--ring);
 	--color-link: var(--link);
-	--color-border: var(--border);
-	--color-border-dark: var(--border-dark);
 	--color-warning: var(--warning);
 	--color-warning-dark: var(--warning-dark);
 	--color-warning-foreground: var(--warning-foreground);
-	--color-destructive: var(--destructive);
-	--color-destructive-foreground: var(--destructive-foreground);
 	--color-mark-color: var(--mark-color);
 }
 
@@ -229,10 +223,6 @@
 html,
 body {
 	scroll-behavior: smooth;
-}
-
-body {
-	overflow-y: overlay;
 }
 
 h1,
@@ -467,4 +457,29 @@ figcaption {
 
 .dark .highlight-row:hover {
 	box-shadow: 0px 0px 5px 2px rgb(70, 70, 70, 1);
+}
+
+/* Global animation kill-switch (footer / mobile-nav toggle). Durations are
+   forced to near-zero rather than `none`, so state-driven animations still
+   land on their end states instantly. */
+html.no-animations *,
+html.no-animations *::before,
+html.no-animations *::after {
+	animation-duration: 0.01ms !important;
+	animation-delay: 0ms !important;
+	animation-iteration-count: 1 !important;
+	transition-duration: 0.01ms !important;
+	transition-delay: 0ms !important;
+}
+
+html.no-animations,
+html.no-animations body {
+	scroll-behavior: auto;
+}
+
+html.no-animations::view-transition-group(*),
+html.no-animations::view-transition-image-pair(*),
+html.no-animations::view-transition-old(*),
+html.no-animations::view-transition-new(*) {
+	animation: none !important;
 }

@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { fade } from 'svelte/transition';
 
 	import { apiKeyPreferences } from '$lib/stores/settings';
 	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import { fade } from '$lib/utils/transitions';
 
 	import GeocodingError from '$lib/components/code/docs/geocoding-error.svx';
 	import GeocodingObject from '$lib/components/code/docs/geocoding-object.svx';
@@ -94,6 +95,10 @@
 <svelte:head>
 	<title>Geocoding API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/geocoding-api" />
+	<meta
+		name="description"
+		content="Search locations by name in any language. Free geocoding API returning coordinates, elevation, timezone and population from the GeoNames database."
+	/>
 </svelte:head>
 
 <form
@@ -117,8 +122,8 @@
 		</div>
 
 		<div class="relative">
-			<Select.Root name="forecast_days" type="single" bind:value={$params.language}>
-				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+			<Select.Root name="language" type="single" bind:value={$params.language}>
+				<Select.Trigger id="language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
 					>{language?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
@@ -126,15 +131,17 @@
 						<Select.Item class="cursor-pointer" value={lo.value}>{lo.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="language"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Language</Label
 				>
 			</Select.Root>
 		</div>
 
 		<div class="relative">
-			<Select.Root name="forecast_days" type="single" bind:value={$params.count}>
-				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+			<Select.Root name="count" type="single" bind:value={$params.count}>
+				<Select.Trigger id="count" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
 					>{count?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
@@ -142,7 +149,9 @@
 						<Select.Item class="cursor-pointer" value={co.value}>{co.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="count"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Number of Results</Label
 				>
 			</Select.Root>
@@ -150,7 +159,7 @@
 
 		<div class="relative">
 			<Select.Root name="format" type="single" bind:value={$params.format}>
-				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+				<Select.Trigger id="format" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
 					>{format?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
@@ -158,15 +167,17 @@
 						<Select.Item class="cursor-pointer" value={fo.value}>{fo.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="format"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Format</Label
 				>
 			</Select.Root>
 		</div>
 
 		<div class="relative">
-			<Select.Root name="format" type="single" bind:value={$params.countryCode}>
-				<Select.Trigger aria-label="Language" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+			<Select.Root name="countryCode" type="single" bind:value={$params.countryCode}>
+				<Select.Trigger id="country_code" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
 					>{countryCode?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
@@ -174,7 +185,9 @@
 						<Select.Item class="cursor-pointer" value={cc.value}>{cc.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="country_code"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Country Code</Label
 				>
 			</Select.Root>
@@ -193,7 +206,7 @@
 		<h2 id="api_response" class="mb-2 text-2xl md:text-3xl">Preview and API URL</h2>
 	</a>
 
-	<div class="relative min-h-[580px]">
+	<div class="relative min-h-145">
 		{#await results}
 			<div
 				class="bg-accent/25 border-border absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg border"
@@ -219,11 +232,11 @@
 		{:then results}
 			<div transition:fade={{ duration: 200 }} class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 				<table
-					class="mx-6 mt-2 w-full min-w-[1140px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+					class="mx-6 mt-2 w-full min-w-285 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 				>
 					<thead>
 						<tr>
-							<th></th>
+							<th><span class="sr-only">Country flag</span></th>
 							<th>Name</th>
 							<th>Latitude</th>
 							<th>Longitude</th>
@@ -240,7 +253,7 @@
 						{#if results.results && results.results.length > 0}
 							{#each results.results as location (location.id)}
 								<tr>
-									<td class="min-w-[40px] p-1"
+									<td class="min-w-10 p-1"
 										><img
 											height="32"
 											width="32"
@@ -290,14 +303,7 @@
 			>)</small
 		>
 	</div>
-	<Input
-		class="mt-2"
-		type="text"
-		id="api_url"
-		readonly
-		aria-label="Copy to clipboard"
-		value={apiUrl}
-	/>
+	<Input class="mt-2" type="text" id="api_url" readonly aria-label="API URL" value={apiUrl} />
 	<div class="text-muted-foreground mt-1">You can copy this API URL into your application</div>
 </div>
 
