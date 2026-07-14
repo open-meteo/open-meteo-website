@@ -38,6 +38,8 @@
 		provider: string;
 		url: string;
 		models: Model[];
+		/** Month the data feed became unavailable; rows render greyed out with a note. */
+		unavailableSince?: string;
 	};
 
 	type Section = {
@@ -106,17 +108,6 @@
 
 	const getData = (apiKeyPreferences: APIKeyPreferences): Section[] => {
 		let forecastModels = [
-			{
-				provider: 'BOM',
-				url: '/en/docs/bom-api',
-				models: [
-					{
-						name: 'ACCESS-G 0.15°',
-						area: [],
-						meta: fetchMeta('bom_access_global', 'forecast', apiKeyPreferences)
-					}
-				]
-			},
 			{
 				provider: 'CMA',
 				url: '/en/docs/cma-api',
@@ -251,22 +242,6 @@
 				]
 			},
 			{
-				provider: 'KMA Korea',
-				url: '/en/docs/kma-api',
-				models: [
-					{
-						name: 'KMA GDPS 0.13°',
-						area: [],
-						meta: fetchMeta('kma_gdps', 'forecast', apiKeyPreferences)
-					},
-					{
-						name: 'KMA LDPS 1.5km',
-						area: ['kr'],
-						meta: fetchMeta('kma_ldps', 'forecast', apiKeyPreferences)
-					}
-				]
-			},
-			{
 				provider: 'KNMI',
 				url: '/en/docs/knmi-api',
 				models: [
@@ -360,11 +335,6 @@
 						meta: fetchMeta('ncep_gfs025', 'forecast', apiKeyPreferences)
 					},
 					{
-						name: 'GFS GraphCast 0.25°',
-						area: [],
-						meta: fetchMeta('ncep_gfs_graphcast025', 'forecast', apiKeyPreferences)
-					},
-					{
 						name: 'AIGFS 0.25°',
 						area: [],
 						meta: fetchMeta('ncep_aigfs025', 'forecast', apiKeyPreferences)
@@ -455,17 +425,6 @@
 		];
 
 		let ensembleModels = [
-			{
-				provider: 'BOM',
-				url: '/en/docs/bom-api',
-				models: [
-					{
-						name: 'ACCESS-GE 0.4°',
-						area: [],
-						meta: fetchMeta('bom_access_global_ensemble', 'ensemble', apiKeyPreferences)
-					}
-				]
-			},
 			{
 				provider: 'Canadian Weather Service',
 				url: '/en/docs/gem-api',
@@ -740,6 +699,7 @@
 							return {
 								url: p.url,
 								provider: p.provider,
+								unavailableSince: p.unavailableSince,
 								models: p.models.filter((m: Model) => {
 									let isNorthAmerica = m.area.includes('ca') || m.area.includes('us');
 									let isGlobal = m.area.length == 0;
@@ -850,6 +810,7 @@
 		<div class="flex items-center gap-2">
 			<Switch id="global_models" name="globalWeatherModels" bind:checked={showGlobalModels} />
 			<Label for="global_models" class="mb-0.5 cursor-pointer text-lg">Global Weather Models</Label>
+			<div class="-mt-1 w-[26px] h-[26px] text-[23px] flex items-center justify-center">🌍</div>
 		</div>
 		<div class="flex items-center gap-2">
 			<Switch id="european_models" name="europeanModels" bind:checked={showEuropeanModels} />
@@ -934,38 +895,54 @@
 						<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 							{#if section.providers.some((p: Provider) => p.models.length > 0)}
 								<table
-									class="[&_tr]:border-border mx-6 mt-2 w-full min-w-285 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+									class="[&_tr]:border-border mx-6 mt-2 w-full min-w-285 table-fixed caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 								>
 									<thead>
 										<tr>
-											<th scope="col">Provider</th>
-											<th scope="col">Weather Model</th>
-											<th>Area</th>
-											<th scope="col">Last Model Run</th>
-											<th scope="col">Update Available</th>
-											<th scope="col">Temporal Resolution</th>
-											<th scope="col">Update frequency</th>
-											<th scope="col">API</th>
+											<th scope="col" class="w-[13%]">Provider</th>
+											<th scope="col" class="w-[17%]">Weather Model</th>
+											<th class="w-[10%]">Area</th>
+											<th scope="col" class="w-[14%]">Last Model Run</th>
+											<th scope="col" class="w-[13%]">Update Available</th>
+											<th scope="col" class="w-[12%]">Temporal Resolution</th>
+											<th scope="col" class="w-[13%]">Update frequency</th>
+											<th scope="col" class="w-[8%]">API</th>
 										</tr>
 									</thead>
 									<tbody>
 										{#each section.providers as provider, i (i)}
 											{#each provider.models as model, index (index)}
-												<tr>
+												<tr class={provider.unavailableSince ? 'opacity-50' : ''}>
 													{#if index == 0}
-														<td rowspan={provider.models.length}>{provider.provider}</td>
+														<td rowspan={provider.models.length}>
+															{provider.provider}
+															{#if provider.unavailableSince}
+																<div class="text-muted-foreground text-xs">
+																	unavailable since {provider.unavailableSince}
+																</div>
+															{/if}
+														</td>
 													{/if}
 													<td>{model.name}</td>
 													<td>
-														{#each model.area as area, i (i)}
-															<img
-																height="26"
-																width="26"
-																src="/images/country-flags/{area}.svg"
-																alt={area}
-																title={area}
-															/>
-														{/each}
+														<div class="flex flex-row items-start gap-1">
+															{#each model.area as area, i (i)}
+																<img
+																	height="26"
+																	width="26"
+																	src="/images/country-flags/{area}.svg"
+																	alt={area}
+																	title={area}
+																/>
+															{/each}
+															{#if model.area.length === 0}
+																<div
+																	class="w-[26px] h-[26px] text-[23px] flex items-center justify-center"
+																>
+																	🌍
+																</div>
+															{/if}
+														</div>
 													</td>
 													{#await model.meta}
 														<td colspan="5" class="text-center py-2">
@@ -993,7 +970,10 @@
 														<td
 															class="{meta.is_late ? 'bg-amber-200/75' : ''} {meta.is_really_late
 																? 'bg-red-400/75'
-																: ''}">{meta.last_run_availability_time}</td
+																: ''}"
+															>{provider.unavailableSince
+																? ''
+																: meta.last_run_availability_time}</td
 														>
 														<td
 															>{meta.temporal_resolution_seconds > 3599

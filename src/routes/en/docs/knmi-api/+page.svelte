@@ -518,7 +518,27 @@
 								target="_blank">KNMI HARMONIE AROME Netherlands</a
 							></th
 						>
-						<td>Netherlands, Belgium</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/nl.svg"
+										alt="Netherlands"
+										title="Netherlands"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/be.svg"
+										alt="Belgium"
+										title="Belgium"
+									/>
+								</div>
+								Netherlands, Belgium
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>1-hourly</td>
 						<td>2.5 days</td>
@@ -531,7 +551,20 @@
 								target="_blank">KNMI HARMONIE AROME Europe</a
 							></th
 						>
-						<td>Central & Northern Europe up to Iceland</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Central & Northern Europe up to Iceland
+							</div>
+						</td>
 						<td>5.5 km</td>
 						<td>1-hourly</td>
 						<td>2.5 days</td>

@@ -418,7 +418,34 @@
 								>MET Nordic</a
 							></th
 						>
-						<td>Norway, Denmark, Sweden, Finland</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/no.svg"
+										alt="Norway"
+										title="Norway"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/se.svg"
+										alt="Sweden"
+										title="Sweden"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/dk.svg"
+										alt="Denmark"
+										title="Denmark"
+									/>
+								</div>
+								Norway, Denmark, Sweden, Finland
+							</div>
+						</td>
 						<td>1 km</td>
 						<td>Hourly</td>
 						<td>2.5 days</td>

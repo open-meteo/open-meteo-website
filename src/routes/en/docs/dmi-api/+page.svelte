@@ -400,7 +400,20 @@
 								target="_blank">DMI HARMONIE AROME DINI</a
 							></th
 						>
-						<td>Central & Northern Europe up to Iceland (green area below)</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Central & Northern Europe up to Iceland (green area below)
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>Hourly</td>
 						<td>2.5 days</td>

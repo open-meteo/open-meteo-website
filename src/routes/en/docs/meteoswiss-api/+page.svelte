@@ -413,7 +413,20 @@
 				<tbody>
 					<tr>
 						<th scope="row">ICON CH1</th>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>0.01° (~1 km)</td>
 						<td>Hourly</td>
 						<td>33 hours</td>
@@ -421,7 +434,20 @@
 					</tr>
 					<tr>
 						<th scope="row">ICON CH2</th>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>0.02° (~2 km)</td>
 						<td>Hourly</td>
 						<td>120 hours</td>

@@ -412,7 +412,16 @@
 								>ACCESS-G</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.15° (~15 km)</td>
 						<td>Hourly</td>
 						<td>10 days</td>

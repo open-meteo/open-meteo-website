@@ -661,7 +661,34 @@
 					<tr>
 						<th scope="row" rowspan="3">Deutscher Wetterdienst (DWD)</th>
 						<td>ICON-D2-EPS</td>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/de.svg"
+										alt="Germany"
+										title="Germany"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/at.svg"
+										alt="Austria"
+										title="Austria"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>2 km, hourly</td>
 						<td>20</td>
 						<td>2 days</td>
@@ -669,7 +696,20 @@
 					</tr>
 					<tr>
 						<td>ICON-EU-EPS</td>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>13 km, hourly</td>
 						<td>40</td>
 						<td>5 days</td>
@@ -677,7 +717,16 @@
 					</tr>
 					<tr>
 						<td>ICON-EPS</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>26 km, hourly</td>
 						<td>40</td>
 						<td>7.5 days</td>
@@ -686,7 +735,16 @@
 					<tr>
 						<th scope="row" rowspan="3">NOAA</th>
 						<td>GFS Ensemble 0.25°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>25 km, 3-hourly</td>
 						<td>31</td>
 						<td>10 days</td>
@@ -694,7 +752,16 @@
 					</tr>
 					<tr>
 						<td>GFS Ensemble 0.5°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>50 km, 3-hourly</td>
 						<td>31</td>
 						<td>35 days</td>
@@ -702,7 +769,16 @@
 					</tr>
 					<tr>
 						<td>AIGFS 0.25°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>25 km, 6-hourly</td>
 						<td>31</td>
 						<td>16 days</td>
@@ -711,7 +787,16 @@
 					<tr>
 						<th scope="row" rowspan="2">ECMWF</th>
 						<td>IFS 0.25°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>25 km, 3-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
@@ -719,7 +804,16 @@
 					</tr>
 					<tr>
 						<td>AIFS 0.25°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>25 km, 6-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
@@ -728,7 +822,16 @@
 					<tr>
 						<th scope="row">Canadian Weather Service</th>
 						<td>GEM</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>25 km, 3-hourly</td>
 						<td>21</td>
 						<td>16 days (39 days every Mo+Thu)</td>
@@ -737,7 +840,16 @@
 					<tr>
 						<th scope="row">Australian Bureau of Meteorology (BOM)</th>
 						<td>ACCESS-GE</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>40 km, 3-hourly</td>
 						<td>18</td>
 						<td>10 days</td>
@@ -746,7 +858,20 @@
 					<tr>
 						<th scope="row" rowspan="2">UK Met Office</th>
 						<td>MOGREPS-UK</td>
-						<td>UK</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/gb.svg"
+										alt="United Kingdom"
+										title="United Kingdom"
+									/>
+								</div>
+								UK
+							</div>
+						</td>
 						<td>2 km, 1-hourly</td>
 						<td>3</td>
 						<td>5 days</td>
@@ -754,7 +879,16 @@
 					</tr>
 					<tr>
 						<td>MOGREPS-G</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>20 km, 1-hourly</td>
 						<td>18</td>
 						<td>8 days</td>
@@ -763,7 +897,20 @@
 					<tr>
 						<th scope="row" rowspan="2">MeteoSwiss</th>
 						<td>ICON CH1</td>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>1 km, 1-hourly</td>
 						<td>11</td>
 						<td>33 hours</td>
@@ -771,7 +918,20 @@
 					</tr>
 					<tr>
 						<td>ICON CH2</td>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>2 km, 1-hourly</td>
 						<td>21</td>
 						<td>12 hours</td>

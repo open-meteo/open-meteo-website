@@ -198,7 +198,16 @@
 								target="_blank">GloFAS v4 Reanalysis</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.05° (~5 km)</td>
 						<td>Daily</td>
 						<td>1984 - July 2022</td>
@@ -211,7 +220,16 @@
 								target="_blank">GloFAS v4 Forecast</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.05° (~5 km)</td>
 						<td>Daily</td>
 						<td>30 days forecast</td>
@@ -224,7 +242,16 @@
 								target="_blank">GloFAS v4 Seasonal Forecast</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.05° (~5 km)</td>
 						<td>Daily</td>
 						<td>7 months forecast</td>
@@ -237,7 +264,16 @@
 								target="_blank">GloFAS v3 Reanalysis</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Daily</td>
 						<td>1984 - July 2022</td>
@@ -250,7 +286,16 @@
 								target="_blank">GloFAS v3 Forecast</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Daily</td>
 						<td>30 days forecast</td>
@@ -263,7 +308,16 @@
 								target="_blank">GloFAS v3 Seasonal Forecast</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Daily</td>
 						<td>7 months forecast</td>

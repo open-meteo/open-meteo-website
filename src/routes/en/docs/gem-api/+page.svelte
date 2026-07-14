@@ -553,7 +553,16 @@
 								>GEM Global</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.15° (~15 km)</td>
 						<td>3-Hourly</td>
 						<td>10 days</td>
@@ -565,7 +574,27 @@
 								>GEM RDPS Regional</a
 							></th
 						>
-						<td>North America, North Pole</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+								</div>
+								North America, North Pole
+							</div>
+						</td>
 						<td>10 km</td>
 						<td>Hourly</td>
 						<td>3.5 days</td>
@@ -577,7 +606,20 @@
 								>GEM HRDPS Continental</a
 							></th
 						>
-						<td>Canada, Nothern US</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								Canada, Nothern US
+							</div>
+						</td>
 						<td>2.5 km</td>
 						<td>Hourly</td>
 						<td>2 days</td>
@@ -590,7 +632,20 @@
 								target="_blank">GEM HRDPS West (Experimental)</a
 							></th
 						>
-						<td>West Canada</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								West Canada
+							</div>
+						</td>
 						<td>1 km</td>
 						<td>Hourly</td>
 						<td>2 days</td>

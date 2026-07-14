@@ -398,7 +398,20 @@
 								>GeoSphere AROME Austria</a
 							></th
 						>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/at.svg"
+										alt="Austria"
+										title="Austria"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>2.5 km</td>
 						<td>Hourly</td>
 						<td>2.5 days</td>

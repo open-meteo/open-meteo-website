@@ -657,7 +657,16 @@
 				<tbody>
 					<tr>
 						<th scope="row">UKMO Global</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.09° (~10 km)</td>
 						<td
 							>Hourly<small class="text-muted-foreground"
@@ -669,7 +678,27 @@
 					</tr>
 					<tr>
 						<th scope="row">UKMO UKV</th>
-						<td>UK and Ireland</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/gb.svg"
+										alt="United Kingdom"
+										title="United Kingdom"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ie.svg"
+										alt="Ireland"
+										title="Ireland"
+									/>
+								</div>
+								UK and Ireland
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>Hourly</td>
 						<td>2 days</td>

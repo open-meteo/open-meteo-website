@@ -708,7 +708,16 @@
 					<tr>
 						<th scope="row">ECMWF</th>
 						<td><a href="/en/docs/ecmwf-api">IFS HRES 9 km</a></td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>9 km (O1280 grid)</td>
 						<td>Hourly</td>
 						<td>10 days</td>
@@ -718,7 +727,16 @@
 					<tr>
 						<th scope="row">Others</th>
 						<td>-</td>
-						<td>Global & Regional</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global & Regional
+							</div>
+						</td>
 						<td>up to 1 km</td>
 						<td>up to 15 minutely</td>
 						<td>up to 16 days</td>

@@ -620,7 +620,6 @@ paths:
                 - gfs_hrrr
                 - ncep_nbm_conus
                 - ncep_nam_conus
-                - gfs_graphcast025
                 - ncep_aigfs025
                 - ncep_hgefs025_ensemble_mean
                 - jma_seamless

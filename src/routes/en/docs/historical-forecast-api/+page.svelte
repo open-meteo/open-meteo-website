@@ -695,7 +695,16 @@
 					<tr>
 						<th scope="row" rowspan="3">Deutscher Wetterdienst (DWD)</th>
 						<td>ICON</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -703,7 +712,20 @@
 					</tr>
 					<tr>
 						<td>ICON-EU</td>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>0.0625° (~7 km)</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -711,7 +733,34 @@
 					</tr>
 					<tr>
 						<td>ICON-D2</td>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/de.svg"
+										alt="Germany"
+										title="Germany"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/at.svg"
+										alt="Austria"
+										title="Austria"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>0.02° (~2 km)</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -720,7 +769,16 @@
 					<tr>
 						<th scope="row" rowspan="8">NOAA NCEP</th>
 						<td>GFS</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.11° (~13 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -728,7 +786,16 @@
 					</tr>
 					<tr>
 						<td>GFS Pressure Variables</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -736,7 +803,27 @@
 					</tr>
 					<tr>
 						<td>HRRR</td>
-						<td>U.S. Conus</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								U.S. Conus
+							</div>
+						</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td>Every hour</td>
@@ -744,7 +831,27 @@
 					</tr>
 					<tr>
 						<td>NAM</td>
-						<td>U.S. Conus</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								U.S. Conus
+							</div>
+						</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -752,23 +859,44 @@
 					</tr>
 					<tr>
 						<td>NBM</td>
-						<td>U.S. Conus</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								U.S. Conus
+							</div>
+						</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td>Every hour</td>
 						<td>2024-10-08</td>
 					</tr>
 					<tr>
-						<td>GFS GraphCast</td>
-						<td>Global</td>
-						<td>0.25° (~25 km)</td>
-						<td>6-Hourly</td>
-						<td>Every 6 hours</td>
-						<td>2024-02-05</td>
-					</tr>
-					<tr>
 						<td>AIGFS</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>6-Hourly</td>
 						<td>Every 6 hours</td>
@@ -776,7 +904,16 @@
 					</tr>
 					<tr>
 						<td>HGEFS</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>6-Hourly</td>
 						<td>Every 6 hours</td>
@@ -785,7 +922,16 @@
 					<tr>
 						<th scope="row" rowspan="4">Météo-France</th>
 						<td>ARPEGE World</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -793,7 +939,20 @@
 					</tr>
 					<tr>
 						<td>ARPEGE Europe</td>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -801,7 +960,20 @@
 					</tr>
 					<tr>
 						<td>AROME France</td>
-						<td>France</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/fr.svg"
+										alt="France"
+										title="France"
+									/>
+								</div>
+								France
+							</div>
+						</td>
 						<td>0.025° (~2.5 km)</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -809,7 +981,20 @@
 					</tr>
 					<tr>
 						<td>AROME France HD</td>
-						<td>France</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/fr.svg"
+										alt="France"
+										title="France"
+									/>
+								</div>
+								France
+							</div>
+						</td>
 						<td>0.01° (~1.5 km)</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -818,7 +1003,16 @@
 					<tr>
 						<th scope="row" rowspan="4">ECMWF</th>
 						<td>IFS 0.4°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.4° (~44 km)</td>
 						<td>3-Hourly</td>
 						<td>Every 6 hours</td>
@@ -826,7 +1020,16 @@
 					</tr>
 					<tr>
 						<td>IFS 0.25°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>3-Hourly</td>
 						<td>Every 6 hours</td>
@@ -834,7 +1037,16 @@
 					</tr>
 					<tr>
 						<td>AIFS 0.25° Single</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>6-Hourly</td>
 						<td>Every 6 hours</td>
@@ -842,7 +1054,16 @@
 					</tr>
 					<tr>
 						<td>IFS HRES</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>9 km (O1280 grid)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -851,7 +1072,16 @@
 					<tr>
 						<th scope="row" rowspan="2">UK Met Office</th>
 						<td>UKMO Global</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.09° (~10 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -859,7 +1089,27 @@
 					</tr>
 					<tr>
 						<td>UKMO UKV</td>
-						<td>UK and Ireland</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/gb.svg"
+										alt="United Kingdom"
+										title="United Kingdom"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ie.svg"
+										alt="Ireland"
+										title="Ireland"
+									/>
+								</div>
+								UK and Ireland
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>Hourly</td>
 						<td>Every hour</td>
@@ -868,7 +1118,16 @@
 					<tr>
 						<th scope="row" rowspan="2">JMA</th>
 						<td>GSM</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.5° (~55 km)</td>
 						<td>6-Hourly</td>
 						<td>Every 6 hours</td>
@@ -876,7 +1135,20 @@
 					</tr>
 					<tr>
 						<td>MSM</td>
-						<td>Japan</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/jp.svg"
+										alt="Japan"
+										title="Japan"
+									/>
+								</div>
+								Japan
+							</div>
+						</td>
 						<td>0.05° (~5 km)</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -885,7 +1157,34 @@
 					<tr>
 						<th scope="row">MET Norway</th>
 						<td>MET Nordic</td>
-						<td>Norway, Denmark, Sweden, Finland</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/no.svg"
+										alt="Norway"
+										title="Norway"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/se.svg"
+										alt="Sweden"
+										title="Sweden"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/dk.svg"
+										alt="Denmark"
+										title="Denmark"
+									/>
+								</div>
+								Norway, Denmark, Sweden, Finland
+							</div>
+						</td>
 						<td>1 km</td>
 						<td>Hourly</td>
 						<td>Every hour</td>
@@ -894,7 +1193,16 @@
 					<tr>
 						<th scope="row" rowspan="3">Canadian Weather Service</th>
 						<td>GEM Global</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.15° (~15 km)</td>
 						<td>3-Hourly</td>
 						<td>Every 12 hours</td>
@@ -902,7 +1210,27 @@
 					</tr>
 					<tr>
 						<td>GEM Regional</td>
-						<td>North America, North Pole</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+								</div>
+								North America, North Pole
+							</div>
+						</td>
 						<td>10 km</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -910,7 +1238,20 @@
 					</tr>
 					<tr>
 						<td>HRDPS Continental</td>
-						<td>Canada, Nothern US</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								Canada, Nothern US
+							</div>
+						</td>
 						<td>2.5 km</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -919,7 +1260,16 @@
 					<tr>
 						<th scope="row">China Meteorological Administration (CMA)</th>
 						<td>GFS GRAPES</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.125° (~15 km)</td>
 						<td>3-hourly</td>
 						<td>Every 6 hours</td>
@@ -928,7 +1278,16 @@
 					<tr>
 						<th scope="row">Australian Bureau of Meteorology (BOM)</th>
 						<td>ACCESS-G</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.15° (~15 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -937,7 +1296,20 @@
 					<tr>
 						<th scope="row">ItaliaMeteo ItaliaMeteo-ARPAE</th>
 						<td>ICON 2I</td>
-						<td>Southern Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/it.svg"
+										alt="Italy"
+										title="Italy"
+									/>
+								</div>
+								Southern Europe
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>Hourly</td>
 						<td>Every 12 hours</td>
@@ -946,7 +1318,20 @@
 					<tr>
 						<th scope="row">DMI</th>
 						<td>HARMONIE AROME DINI</td>
-						<td>Central & Northern Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Central & Northern Europe
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -955,7 +1340,27 @@
 					<tr>
 						<th scope="row" rowspan="2">KNMI</th>
 						<td>HARMONIE AROME Netherlands</td>
-						<td>Netherlands, Belgium</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/nl.svg"
+										alt="Netherlands"
+										title="Netherlands"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/be.svg"
+										alt="Belgium"
+										title="Belgium"
+									/>
+								</div>
+								Netherlands, Belgium
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>Hourly</td>
 						<td>Every hour</td>
@@ -963,7 +1368,20 @@
 					</tr>
 					<tr>
 						<td>HARMONIE AROME Europe</td>
-						<td>Central & Northern Europe up to Iceland</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Central & Northern Europe up to Iceland
+							</div>
+						</td>
 						<td>5.5 km</td>
 						<td>Hourly</td>
 						<td>Every hour</td>
@@ -972,7 +1390,20 @@
 					<tr>
 						<th scope="row" rowspan="2">MeteoSwiss</th>
 						<td>ICON CH1</td>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>1 km</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -980,7 +1411,20 @@
 					</tr>
 					<tr>
 						<td>ICON CH2</td>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
