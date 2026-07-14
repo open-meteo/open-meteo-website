@@ -457,7 +457,16 @@
 				<tbody>
 					<tr>
 						<th scope="row">Google WeatherNext 2</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25°</td>
 						<td>6-hourly</td>
 						<td>15 days</td>

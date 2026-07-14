@@ -940,7 +940,16 @@
 					<tr>
 						<th>Google</th>
 						<td>WeatherNext 2</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25km), 6-hourly</td>
 						<td>64</td>
 						<td>15 days</td>
