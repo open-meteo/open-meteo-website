@@ -296,7 +296,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true}/></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true} /></div>
 </form>
 
 <!-- RESULT -->
@@ -384,10 +384,6 @@
 			<li>
 				<strong>Cloud cover</strong> (total, low, mid, high) is derived from relative humidity at pressure
 				levels using the Sundqvist et al. (1989) scheme.
-			</li>
-			<li>
-				<strong>Ensemble members</strong> can be retrieved individually via the <mark>member</mark>
-				parameter. The model provides 64 members updated at 00z and 12z.
 			</li>
 		</ul>
 	</div>
