@@ -129,7 +129,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.hourly?.includes(value)}
 								aria-labelledby="{value}_label"
@@ -177,7 +177,7 @@
 							<div class="group flex items-center" title={label}>
 								<Checkbox
 									id="{value}_hourly"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 									{value}
 									checked={$params.hourly?.includes(value)}
 									aria-labelledby="{value}_label"
@@ -222,7 +222,7 @@
 				<div>
 					<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 						<table
-							class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[740px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+							class="[&_tr]:border-border mx-6 mt-2 w-full min-w-185 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 							id="airquality_table"
 						>
 							<caption class="text-muted-foreground mt-2 table-caption text-left"
@@ -311,7 +311,7 @@
 							<div class="group flex items-center" title={label}>
 								<Checkbox
 									id="{value}_hourly"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 									{value}
 									checked={$params.hourly?.includes(value)}
 									aria-labelledby="{value}_label"
@@ -409,13 +409,13 @@
 										>PM<sub>2.5</sub> <small class="text-muted-foreground">(μg/m³)</small></th
 									>
 									<td>24h</td>
-									<td>0-12</td>
-									<td>12-35.5</td>
-									<td>35.5-55.5</td>
-									<td>55.5-150.5</td>
-									<td>150.5-250.5</td>
-									<td>250.5-350.5</td>
-									<td>350.5-500.5</td>
+									<td>0-9</td>
+									<td>9-35.4</td>
+									<td>35.5-55.4</td>
+									<td>55.5-125.4</td>
+									<td>125.5-250.4</td>
+									<td>225.5-325.4</td>
+									<td>350.5-500</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -433,12 +433,12 @@
 								<tr>
 									<th scope="row">CO <small class="text-muted-foreground">(ppm)</small></th>
 									<td>8h</td>
-									<td>0-4.5</td>
-									<td>4.5-9.5</td>
-									<td>9.5-12.5</td>
-									<td>12.5-15.5</td>
-									<td>15.5-30.5</td>
-									<td>30.5-40.5</td>
+									<td>0-4.4</td>
+									<td>4.5-9.4</td>
+									<td>9.5-12.4</td>
+									<td>12.5-15.4</td>
+									<td>15.5-30.4</td>
+									<td>30.5-40.4</td>
 									<td>40.5-50.5</td>
 								</tr>
 								<tr>
@@ -498,7 +498,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_label"
@@ -615,7 +615,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_current"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.current?.includes(value)}
 								aria-labelledby="{value}_current_label"
@@ -677,7 +677,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1140px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-285 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
@@ -703,7 +703,20 @@
 								>CAMS European Air Quality Forecast</a
 							>
 						</th>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Hourly</td>
 						<td>October 2023 onwards</td>
@@ -716,7 +729,20 @@
 								>CAMS European Air Quality Reanalysis
 							</a>
 						</th>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Hourly</td>
 						<td>2013 onwards</td>
@@ -729,7 +755,16 @@
 								>CAMS Global Atmospheric Composition Forecasts</a
 							>
 						</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.4° (~45 km)</td>
 						<td>3-Hourly</td>
 						<td>August 2022 onwards </td>
@@ -742,7 +777,16 @@
 								>CAMS Global Greenhouse Gas Forecast</a
 							>
 						</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>3-Hourly</td>
 						<td>November 2024 onwards</td>

@@ -1,15 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
 
 	import { apiKeyPreferences } from '$lib/stores/settings';
 
 	import { objectDifference } from '$lib/utils';
 	import { membersPerModel } from '$lib/utils/meteo';
+	import { fade, fadeOutAbsolute } from '$lib/utils/transitions';
 
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
+
+	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
 
 	import { pythonCodeExample } from './code-examples/python-code-example';
 	import { swiftCodeExample } from './code-examples/swift-code-example';
@@ -175,7 +177,11 @@
 			if ('start_date' in cwParams) {
 				const start = new Date(cwParams['start_date'] as string).getTime();
 				const end = new Date(cwParams['end_date'] as string).getTime();
-				nDays = (end - start) / 1000 / 86400;
+				// end_date is inclusive, so a same-day range is 1 day
+				nDays = (end - start) / 1000 / 86400 + 1;
+				if (!Number.isFinite(nDays)) {
+					nDays = 1;
+				}
 			} else {
 				const forecast_days = cwParams['forecast_days'] ?? defaultParameters.forecast_days ?? 7;
 				const past_days = cwParams['past_days'] ?? defaultParameters.past_days ?? 0;
@@ -191,7 +197,7 @@
 								: [cwParams.models]
 							: []
 						).reduce((previous: number, model: string) => {
-							return previous + (membersPerModel(model) ?? 1);
+							return previous + membersPerModel(model);
 						}, 0)
 					: (cwParams.models
 							? Array.isArray(cwParams.models)
@@ -202,35 +208,19 @@
 			);
 
 			/// Number of weather variables for hourly, daily, current or minutely_15
-			const nHourly = cwParams.hourly
-				? Array.isArray(cwParams.hourly)
-					? (cwParams.hourly as string[]).length
-					: (cwParams.hourly as string).length > 1
-						? 1
-						: 0
-				: 0;
-			const nDaily = cwParams.daily
-				? Array.isArray(cwParams.daily)
-					? (cwParams.daily as string[]).length
-					: (cwParams.daily as string).length > 1
-						? 1
-						: 0
-				: 0;
-			const nCurrent = cwParams.current
-				? Array.isArray(cwParams.current)
-					? (cwParams.current as string[]).length
-					: (cwParams.current as string).length > 1
-						? 1
-						: 0
-				: 0;
-			const nMinutely15 = cwParams.minutely_15
-				? Array.isArray(cwParams.minutely_15)
-					? (cwParams.minutely_15 as string[]).length
-					: (cwParams.minutely_15 as string).length > 1
-						? 1
-						: 0
-				: 0;
-			const nVariables = nHourly + nDaily + nCurrent + nMinutely15;
+			const countSection = (section: unknown): number =>
+				section
+					? Array.isArray(section)
+						? section.length
+						: (section as string).length > 1
+							? 1
+							: 0
+					: 0;
+			const nVariables =
+				countSection(cwParams.hourly) +
+				countSection(cwParams.daily) +
+				countSection(cwParams.current) +
+				countSection(cwParams.minutely_15);
 
 			/// Number of locations
 			let nLocations = 1;
@@ -265,16 +255,18 @@
 	});
 
 	const preview = async () => {
+		// clear any previous error, so a successful reload leaves the error state
+		error = '';
+
 		if (
 			'latitude' in parsedParams &&
 			Array.isArray(parsedParams.latitude) &&
 			parsedParams.latitude.length > 5
 		) {
-			throw new Error('Can not preview more than 5 locations');
-		}
-
-		if ($params.location_mode !== 'bounding_box') {
-			delete $params.bounding_box;
+			// Set the error state instead of throwing: the template has no {:catch},
+			// so a rejected promise would leave the loading spinner up forever
+			error = 'Can not preview more than 5 locations';
+			return null;
 		}
 
 		const urlParams = { ...parsedParams };
@@ -461,107 +453,257 @@
 	</div>
 </div>
 
-<div class="py-3">
+<AnimateHeight class="py-3">
 	<!-- CHART -->
 	{#if mode == 'chart'}
-		<div
-			in:fade
-			style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
-			class="relative -mx-6 md:mx-0"
-		>
-			{#if error}
-				<div
-					transition:fade={{ duration: 300 }}
-					class="border-border bg-accent/25 absolute top-0 z-30 w-full rounded-lg border"
-					style={useStockChart ? 'height: 500px' : 'height: 400px'}
-				>
-					<div class="flex h-full w-full items-center justify-center px-6 dark:brightness-150">
-						<Alert.Root variant="destructive" class="my-auto w-[unset] !pl-8">
-							<Alert.Description>
-								<div class="flex items-center justify-center gap-2">
-									<div class="flex items-center">
-										<svg
-											class="lucide lucide-triangle-alert mr-2 min-w-[20px]"
-											xmlns="http://www.w3.org/2000/svg"
-											width="20"
-											height="20"
-											viewBox="0 0 24 24"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="2"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										>
-											<path
-												d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-											/>
-											<path d="M12 9v4" />
-											<path d="M12 17h.01" />
-										</svg>
-
-										{error}
-									</div>
-
-									<Button
-										variant="outline"
-										type="submit"
-										class="border-red flex !flex-row"
-										onclick={() => {
-											setTimeout(() => {
-												reload();
-											}, 100);
-										}}
-										><svg
-											class="lucide lucide-refresh-cw"
-											xmlns="http://www.w3.org/2000/svg"
-											width="20"
-											height="20"
-											viewBox="0 0 24 24"
-											fill="none"
-											stroke="currentColor"
-											stroke-width="2"
-											stroke-linecap="round"
-											stroke-linejoin="round"
-										>
-											<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
-											<path d="M21 3v5h-5" />
-											<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
-											<path d="M8 16H3v5" />
-										</svg>Reload Chart
-									</Button>
-								</div>
-							</Alert.Description>
-						</Alert.Root>
-					</div>
-				</div>
-			{:else}
-				{#await results}
+		<!-- the transition must live on a single wrapper around the whole pane:
+		     transitioned siblings would fade independently while untransitioned
+		     ones linger in flow un-faded until the block outro finishes -->
+		<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
+			<div
+				style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
+				class="relative -mx-6 md:mx-0"
+			>
+				{#if error}
 					<div
-						class="border-border bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg border"
-						in:fade={{ delay: 400, duration: 400 }}
-						out:fade={{ duration: 300 }}
+						transition:fade={{ duration: 300 }}
+						class="border-border bg-accent/25 absolute top-0 z-30 w-full rounded-lg border"
+						style={useStockChart ? 'height: 500px' : 'height: 400px'}
 					>
-						<svg
-							class="lucide lucide-loader-circle animate-spin"
-							xmlns="http://www.w3.org/2000/svg"
-							width="40"
-							height="40"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<path d="M21 12a9 9 0 1 1-6.219-8.56" />
-						</svg>
-						<span class="hidden">Loading...</span>
+						<div class="flex h-full w-full items-center justify-center px-6 dark:brightness-150">
+							<Alert.Root variant="destructive" class="my-auto w-[unset] pl-8!">
+								<Alert.Description>
+									<div class="flex items-center justify-center gap-2">
+										<div class="flex items-center">
+											<svg
+												class="lucide lucide-triangle-alert mr-2 min-w-5"
+												xmlns="http://www.w3.org/2000/svg"
+												width="20"
+												height="20"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											>
+												<path
+													d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+												/>
+												<path d="M12 9v4" />
+												<path d="M12 17h.01" />
+											</svg>
+
+											{error}
+										</div>
+
+										<Button
+											variant="outline"
+											type="submit"
+											class="border-red flex flex-row!"
+											onclick={() => {
+												setTimeout(() => {
+													reload();
+												}, 100);
+											}}
+											><svg
+												class="lucide lucide-refresh-cw"
+												xmlns="http://www.w3.org/2000/svg"
+												width="20"
+												height="20"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											>
+												<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+												<path d="M21 3v5h-5" />
+												<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+												<path d="M8 16H3v5" />
+											</svg>Reload Chart
+										</Button>
+									</div>
+								</Alert.Description>
+							</Alert.Root>
+						</div>
 					</div>
-				{:then results}
-					{#if results}
-						{#if results.length > 10}
-							<Alert.Root variant="info" class="mt-2 md:mt-4">
-								<svg
+				{:else}
+					{#await results}
+						<div
+							class="border-border bg-accent/25 absolute top-0 z-30 flex h-full w-full items-center justify-center rounded-lg border"
+							in:fade={{ delay: 400, duration: 400 }}
+							out:fade={{ duration: 300 }}
+						>
+							<svg
+								class="lucide lucide-loader-circle animate-spin"
+								xmlns="http://www.w3.org/2000/svg"
+								width="40"
+								height="40"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<path d="M21 12a9 9 0 1 1-6.219-8.56" />
+							</svg>
+							<span class="hidden">Loading...</span>
+						</div>
+					{:then results}
+						{#if results}
+							{#if results.length > 10}
+								<Alert.Root variant="info" class="mt-2 md:mt-4">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="24"
+										height="24"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										class="lucide lucide-info-icon lucide-info"
+										><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path
+											d="M12 8h.01"
+										/></svg
+									>
+									<Alert.Description>
+										Only first 10/{results.length} locations are shown
+									</Alert.Description>
+								</Alert.Root>
+							{/if}
+							{#each results.slice(0, 10) as chart, i (i)}
+								<div transition:fade={{ duration: 300 }} class="w-full">
+									<HighchartContainer
+										options={chart}
+										{useStockChart}
+										style={useStockChart ? 'height: 500px' : 'height: 400px'}
+									/>
+								</div>
+							{/each}
+						{:else}
+							<div
+								transition:fade={{ duration: 300 }}
+								style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
+							>
+								<div
+									class="border-border absolute top-0 flex h-full w-full items-center justify-center rounded-lg border px-6"
+								>
+									<Alert.Root class="border-border my-auto w-[unset] md:pl-8!">
+										<Alert.Description>
+											<div class="flex flex-col items-center justify-center gap-2 md:flex-row">
+												<div class="text-muted-foreground flex items-center">
+													<svg
+														class="lucide lucide-info mr-2"
+														xmlns="http://www.w3.org/2000/svg"
+														width="20"
+														height="20"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<circle cx="12" cy="12" r="10" />
+														<path d="M12 16v-4" />
+														<path d="M12 8h.01" />
+													</svg>
+													Parameters have changed.
+												</div>
+
+												<Button
+													variant="ghost"
+													type="submit"
+													class="flex flex-row!"
+													onclick={reload}
+													><svg
+														class="lucide lucide-refresh-cw"
+														xmlns="http://www.w3.org/2000/svg"
+														width="20"
+														height="20"
+														viewBox="0 0 24 24"
+														fill="none"
+														stroke="currentColor"
+														stroke-width="2"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													>
+														<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+														<path d="M21 3v5h-5" />
+														<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+														<path d="M8 16H3v5" />
+													</svg>Reload Chart
+												</Button>
+											</div>
+										</Alert.Description>
+									</Alert.Root>
+								</div>
+							</div>
+						{/if}
+					{/await}
+				{/if}
+			</div>
+			<div class="mt-3 flex gap-3">
+				<Button
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					href={xlsxUrl}>Download XLSX</Button
+				>
+				<Button
+					variant="outline"
+					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					href={csvUrl}>Download CSV</Button
+				>
+			</div>
+
+			<div class="mt-3 flex flex-col">
+				<div>
+					API URL
+					<small class="text-muted-foreground"
+						>(<a
+							id="api_url_link"
+							target="_blank"
+							class="text-link underline underline-offset-2"
+							href={previewUrl}>Open in new tab</a
+						> or copy this URL into your application)</small
+					>
+				</div>
+				{#if callWeight > 1}
+					<p class="mt-2">
+						Note: This API call is equivalent to <strong>{callWeight.toFixed(1)}</strong> calls because
+						of factors like long time intervals, the number of locations, variables, or models involved.
+					</p>
+				{/if}
+				<div class="relative group">
+					<Input
+						class="mt-2"
+						type="text"
+						id="api_url"
+						readonly
+						aria-label="API URL"
+						bind:value={previewUrl}
+					/>
+					<div
+						class="absolute duration-300 right-0 top-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
+					>
+						<Button
+							title="Copy to clipboard"
+							onclick={() => {
+								const query = document.querySelector('#api_url') as HTMLInputElement | null;
+								if (query) {
+									navigator.clipboard.writeText(query.value ?? '').catch(() => {});
+									apiUrlCopied = true;
+									setTimeout(() => {
+										apiUrlCopied = false;
+									}, 1250);
+								}
+							}}
+							>{#if apiUrlCopied}<svg
 									xmlns="http://www.w3.org/2000/svg"
 									width="24"
 									height="24"
@@ -571,175 +713,34 @@
 									stroke-width="2"
 									stroke-linecap="round"
 									stroke-linejoin="round"
-									class="lucide lucide-info-icon lucide-info"
-									><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path
-										d="M12 8h.01"
+									class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
+								>{:else}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									width="24"
+									height="24"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="1.4"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
+									><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
+										d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+									/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
+										d="m15 10-4 4 4 4"
 									/></svg
-								>
-								<Alert.Description>
-									Only first 10/{results.length} locations are shown
-								</Alert.Description>
-							</Alert.Root>
-						{/if}
-						{#each results.slice(0, 10) as chart, i (i)}
-							<div transition:fade={{ duration: 300 }} class="w-full">
-								<HighchartContainer
-									options={chart}
-									{useStockChart}
-									style={useStockChart ? 'height: 500px' : 'height: 400px'}
-								/>
-							</div>
-						{/each}
-					{:else}
-						<div
-							transition:fade={{ duration: 300 }}
-							style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
+								>{/if}</Button
 						>
-							<div
-								class="border-border absolute top-0 flex h-full w-full items-center justify-center rounded-lg border px-6"
-							>
-								<Alert.Root class="border-border my-auto w-[unset] md:!pl-8">
-									<Alert.Description>
-										<div class="flex flex-col items-center justify-center gap-2 md:flex-row">
-											<div class="text-muted-foreground flex items-center">
-												<svg
-													class="lucide lucide-info mr-2"
-													xmlns="http://www.w3.org/2000/svg"
-													width="20"
-													height="20"
-													viewBox="0 0 24 24"
-													fill="none"
-													stroke="currentColor"
-													stroke-width="2"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-												>
-													<circle cx="12" cy="12" r="10" />
-													<path d="M12 16v-4" />
-													<path d="M12 8h.01" />
-												</svg>
-												Parameters have changed.
-											</div>
-
-											<Button variant="ghost" type="submit" class="flex !flex-row" onclick={reload}
-												><svg
-													class="lucide lucide-refresh-cw"
-													xmlns="http://www.w3.org/2000/svg"
-													width="20"
-													height="20"
-													viewBox="0 0 24 24"
-													fill="none"
-													stroke="currentColor"
-													stroke-width="2"
-													stroke-linecap="round"
-													stroke-linejoin="round"
-												>
-													<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
-													<path d="M21 3v5h-5" />
-													<path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
-													<path d="M8 16H3v5" />
-												</svg>Reload Chart
-											</Button>
-										</div>
-									</Alert.Description>
-								</Alert.Root>
-							</div>
-						</div>
-					{/if}
-				{/await}
-			{/if}
-		</div>
-		<div class="mt-3 flex gap-3">
-			<Button
-				variant="outline"
-				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-				href={xlsxUrl}>Download XLSX</Button
-			>
-			<Button
-				variant="outline"
-				class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
-				href={csvUrl}>Download CSV</Button
-			>
-		</div>
-
-		<div class="mt-3 flex flex-col">
-			<div>
-				API URL
-				<small class="text-muted-foreground"
-					>(<a
-						id="api_url_link"
-						target="_blank"
-						class="text-link underline underline-offset-2"
-						href={previewUrl}>Open in new tab</a
-					> or copy this URL into your application)</small
-				>
-			</div>
-			{#if callWeight > 1}
-				<p class="mt-2">
-					Note: This API call is equivalent to <strong>{callWeight.toFixed(1)}</strong> calls because
-					of factors like long time intervals, the number of locations, variables, or models involved.
-				</p>
-			{/if}
-			<div class="relative group">
-				<Input
-					class="mt-2"
-					type="text"
-					id="api_url"
-					readonly
-					aria-label="Copy to clipboard"
-					bind:value={previewUrl}
-				/>
-				<div
-					class="absolute duration-300 right-0 top-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
-				>
-					<Button
-						onclick={() => {
-							const query = document.querySelector('#api_url') as HTMLInputElement | null;
-							if (query) {
-								navigator.clipboard.writeText(query.value ?? '').catch(() => {});
-								apiUrlCopied = true;
-								setTimeout(() => {
-									apiUrlCopied = false;
-								}, 1250);
-							}
-						}}
-						>{#if apiUrlCopied}<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
-							>{:else}
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="1.4"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
-								><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
-									d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
-								/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
-									d="m15 10-4 4 4 4"
-								/></svg
-							>{/if}</Button
-					>
+					</div>
 				</div>
 			</div>
 		</div>
 	{/if}
 	<!-- PYTHON -->
 	{#if mode == 'python'}
-		<div in:fade>
+		<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
 			<div>
 				<p>
 					The sample code automatically applies all the parameters selected above. It includes
@@ -757,6 +758,7 @@
 						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('.code-install pre') as HTMLPreElement | null;
 								if (query) {
@@ -809,6 +811,7 @@
 						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('.code-example pre') as HTMLPreElement | null;
 								if (query) {
@@ -856,7 +859,7 @@
 	{/if}
 	<!-- TYPESCRIPT -->
 	{#if mode == 'typescript'}
-		<div in:fade>
+		<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
 			<div>
 				<p>
 					The preview code applies all parameters above automatically and structures weather data
@@ -873,6 +876,7 @@
 						class="absolute duration-300 right-2 top-2 lg:right-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
@@ -924,6 +928,7 @@
 						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
@@ -971,7 +976,7 @@
 	{/if}
 	<!-- SWIFT -->
 	{#if mode == 'swift'}
-		<div in:fade>
+		<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
 			<div>
 				<p>
 					The preview code applies all parameters above automatically and structures weather data
@@ -989,6 +994,7 @@
 						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('.code-install pre');
 								if (query) {
@@ -1040,6 +1046,7 @@
 						class="absolute duration-300 right-2 top-2 lg:right-4 lg:top-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
 					>
 						<Button
+							title="Copy to clipboard"
 							onclick={() => {
 								const query = document.querySelector('.code-example pre');
 								if (query) {
@@ -1087,7 +1094,7 @@
 	{/if}
 	<!-- OTHER -->
 	{#if mode == 'other'}
-		<div in:fade>
+		<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
 			<div>
 				<p>
 					Support for additional programming languages in our integrations may be available in the
@@ -1103,4 +1110,4 @@
 			</div>
 		</div>
 	{/if}
-</div>
+</AnimateHeight>

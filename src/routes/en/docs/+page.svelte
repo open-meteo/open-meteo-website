@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from 'svelte/transition';
 
 	import { resolve } from '$app/paths';
 
@@ -13,6 +12,7 @@
 		countPressureVariables,
 		countVariables
 	} from '$lib/utils/meteo';
+	import { slide } from '$lib/utils/transitions';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
@@ -32,7 +32,7 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
-	import HourlyVariables from '$lib/components/variables/hourly-variables.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		additionalDaily,
@@ -169,7 +169,19 @@
 	/>
 
 	<!-- HOURLY -->
-	<HourlyVariables bind:params={$params} {hourly} />
+	<div class="mt-6 md:mt-12">
+		<a href="#hourly_weather_variables"
+			><h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">
+				Hourly Weather Variables
+			</h2></a
+		>
+		<VariableCheckboxGroups
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			groups={hourly}
+			bind:values={$params.hourly}
+			idSuffix="hourly"
+		/>
+	</div>
 
 	<!-- ADDITIONAL VARIABLES -->
 	<div class="mt-6">
@@ -190,7 +202,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_label"
@@ -303,7 +315,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_hourly_label"
@@ -438,7 +450,7 @@
 													<div class="group flex items-center">
 														<Checkbox
 															id="{variable.value}_{level}hPa"
-															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 															value="{variable.value}_{level}hPa"
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
 															aria-labelledby="{variable.value}_{level}hPa"
@@ -492,7 +504,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.models?.includes(value)}
 										aria-labelledby="{value}_label"
@@ -546,7 +558,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										value="{value}_minutely_15"
 										checked={$params.minutely_15?.includes(value)}
 										aria-labelledby="{value}_minutely_15_label"
@@ -580,7 +592,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										value="{value}_minutely_15"
 										checked={$params.minutely_15?.includes(value)}
 										aria-labelledby="{value}_minutely_15_label"
@@ -678,7 +690,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.daily?.includes(value)}
 								aria-labelledby="{value}_daily_label"
@@ -730,7 +742,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_daily"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.daily?.includes(value)}
 										aria-labelledby="{value}_daily_label"
@@ -774,7 +786,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_current"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.current?.includes(value)}
 								aria-labelledby="{value}_current_label"
@@ -853,12 +865,13 @@
 				<caption class="text-muted-foreground mt-2 table-caption text-left"
 					>You can find the update timings in the <a
 						class="text-link underline"
-						href={resolve('/en/docs/model-updates', {})}>model updates documentation</a
+						href={resolve('/en/docs/model-updates')}>model updates documentation</a
 					>.</caption
 				>
 				<thead>
 					<tr>
 						<th scope="col">Weather Model</th>
+						<th scope="col">Region</th>
 						<th scope="col">National Weather Provider</th>
 						<th scope="col">Origin Country</th>
 						<th scope="col">Resolution</th>
@@ -868,7 +881,24 @@
 				</thead>
 				<tbody class="[&_a]:text-link [&_a]:underline [&_a]:underline-offset-3">
 					<tr class="">
-						<th scope="row"><a href={resolve('/en/docs/dwd-api', {})}>ICON</a></th>
+						<th scope="row"><a href={resolve('/en/docs/dwd-api')}>ICON</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Global & Europe
+							</div>
+						</td>
 						<td>Deutscher Wetterdienst (DWD)</td>
 						<td>Germany</td>
 						<td>2 - 11 km</td>
@@ -876,7 +906,31 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/gfs-api', {})}>GFS & HRRR</a></th>
+						<th scope="row"><a href={resolve('/en/docs/gfs-api')}>GFS & HRRR</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								Global & North America
+							</div>
+						</td>
 						<td>NOAA</td>
 						<td>United States</td>
 						<td>3 - 25 km</td>
@@ -884,8 +938,31 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/meteofrance-api', {})}>ARPEGE & AROME</a></th
-						>
+						<th scope="row"><a href={resolve('/en/docs/meteofrance-api')}>ARPEGE & AROME</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/fr.svg"
+										alt="France"
+										title="France"
+									/>
+								</div>
+								Global, Europe & France
+							</div>
+						</td>
 						<td>Météo-France</td>
 						<td>France</td>
 						<td>1 - 25 km</td>
@@ -893,7 +970,17 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/ecmwf-api', {})}>IFS & AIFS</a></th>
+						<th scope="row"><a href={resolve('/en/docs/ecmwf-api')}>IFS & AIFS</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>ECMWF</td>
 						<td>European Union</td>
 						<td>9 - 25km</td>
@@ -901,7 +988,24 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/ukmo-api', {})}>UKMO</a></th>
+						<th scope="row"><a href={resolve('/en/docs/ukmo-api')}>UKMO</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/gb.svg"
+										alt="United Kingdom"
+										title="United Kingdom"
+									/>
+								</div>
+								Global & UK
+							</div>
+						</td>
 						<td>UK Met Office</td>
 						<td>United Kingdom</td>
 						<td>2 - 10 km</td>
@@ -909,7 +1013,24 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/kma-api', {})}>KMA</a></th>
+						<th scope="row"><a href={resolve('/en/docs/kma-api')}>KMA</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/kr.svg"
+										alt="South Korea"
+										title="South Korea"
+									/>
+								</div>
+								Global & South Korea
+							</div>
+						</td>
 						<td>KMA Korea</td>
 						<td>Korea</td>
 						<td>1.5 - 13 km</td>
@@ -917,7 +1038,24 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/jma-api', {})}>MSM & GSM</a></th>
+						<th scope="row"><a href={resolve('/en/docs/jma-api')}>MSM & GSM</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/jp.svg"
+										alt="Japan"
+										title="Japan"
+									/>
+								</div>
+								Global & Japan
+							</div>
+						</td>
 						<td>JMA</td>
 						<td>Japan</td>
 						<td>5 - 55 km</td>
@@ -925,7 +1063,21 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/meteoswiss-api', {})}>ICON CH</a></th>
+						<th scope="row"><a href={resolve('/en/docs/meteoswiss-api')}>ICON CH</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>MeteoSwiss</td>
 						<td>Switzerland</td>
 						<td>1 - 2 km</td>
@@ -933,7 +1085,35 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/metno-api', {})}>MET Nordic</a></th>
+						<th scope="row"><a href={resolve('/en/docs/metno-api')}>MET Nordic</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/no.svg"
+										alt="Norway"
+										title="Norway"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/se.svg"
+										alt="Sweden"
+										title="Sweden"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/dk.svg"
+										alt="Denmark"
+										title="Denmark"
+									/>
+								</div>
+								Nordic
+							</div>
+						</td>
 						<td>MET Norway</td>
 						<td>Norway</td>
 						<td>1 km</td>
@@ -941,7 +1121,24 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/gem-api', {})}>GEM</a></th>
+						<th scope="row"><a href={resolve('/en/docs/gem-api')}>GEM</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								Global & Canada
+							</div>
+						</td>
 						<td>Canadian Weather Service</td>
 						<td>Canada</td>
 						<td>2.5 km</td>
@@ -949,7 +1146,17 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/bom-api', {})}>ACCESS-G</a></th>
+						<th scope="row"><a href={resolve('/en/docs/bom-api')}>ACCESS-G</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>Australian Bureau of Meteorology (BOM)</td>
 						<td>Australia</td>
 						<td>15 km</td>
@@ -957,7 +1164,17 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/cma-api', {})}>GFS GRAPES</a></th>
+						<th scope="row"><a href={resolve('/en/docs/cma-api')}>GFS GRAPES</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>China Meteorological Administration (CMA)</td>
 						<td>China</td>
 						<td>15 km</td>
@@ -965,7 +1182,28 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/knmi-api', {})}>HARMONIE</a></th>
+						<th scope="row"><a href={resolve('/en/docs/knmi-api')}>HARMONIE</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/nl.svg"
+										alt="Netherlands"
+										title="Netherlands"
+									/>
+								</div>
+								Europe & Netherlands
+							</div>
+						</td>
 						<td>KNMI</td>
 						<td>Netherlands</td>
 						<td>2 km</td>
@@ -973,7 +1211,21 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/dmi-api', {})}>HARMONIE</a></th>
+						<th scope="row"><a href={resolve('/en/docs/dmi-api')}>HARMONIE</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>DMI</td>
 						<td>Denmark</td>
 						<td>2 km</td>
@@ -981,7 +1233,21 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/italia-meteo-arpae-api', {})}>ARPAE</a></th>
+						<th scope="row"><a href={resolve('/en/docs/italia-meteo-arpae-api')}>ARPAE</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/it.svg"
+										alt="Italy"
+										title="Italy"
+									/>
+								</div>
+								Italy
+							</div>
+						</td>
 						<td>ItaliaMeteo</td>
 						<td>Italy</td>
 						<td>2 km</td>
@@ -1226,7 +1492,7 @@
 							server URL requires the prefix <mark>customer-</mark>. See
 							<a
 								class="text-link underline"
-								href={resolve('/en/pricing', {})}
+								href={resolve('/en/pricing')}
 								title="Pricing information to use the weather API commercially">pricing</a
 							> for more information.</td
 						>

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -11,6 +10,7 @@
 		countPressureVariables,
 		countVariables
 	} from '$lib/utils/meteo';
+	import { slide } from '$lib/utils/transitions';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
@@ -27,27 +27,23 @@
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
+		daily,
 		forecastHoursOptions,
 		forecastMinutely15Options,
 		gridCellSelectionOptions,
+		levels,
+		minutely_15,
 		models,
 		pastHoursOptions,
 		pastMinutely15Options,
+		pressureVariables,
+		solarVariables,
 		temporalResolutionOptions
 	} from '../options';
-	import {
-		additionalDaily,
-		additionalVariables,
-		daily,
-		defaultParameters,
-		hourly,
-		levels,
-		minutely_15,
-		pressureVariables,
-		solarVariables
-	} from './options';
+	import { additionalDaily, additionalVariables, defaultParameters, hourly } from './options';
 
 	let d = new SvelteDate();
 	d.setDate(d.getDate() - 2);
@@ -231,40 +227,12 @@
 				Hourly Weather Variables
 			</h2></a
 		>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each hourly as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.hourly?.includes(value)}
-								aria-labelledby="{value}_label"
-								onCheckedChange={() => {
-									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.hourly) {
-										$params.hourly.push(value);
-										$params.hourly = $params.hourly;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_label"
-								for="{value}_hourly"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={hourly}
+			bind:values={$params.hourly}
+			idSuffix="hourly"
+		/>
 	</div>
 
 	<!-- ADDITIONAL VARIABLES -->
@@ -279,38 +247,12 @@
 				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each additionalVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={additionalVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: You can further adjust the forecast time range for hourly weather variables using <mark
@@ -391,38 +333,12 @@
 				title="Solar Radiation Variables"
 				count={countVariables(solarVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each solarVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_hourly_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_hourly_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={solarVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
@@ -536,7 +452,7 @@
 													<div class="group flex items-center" title={String(level)}>
 														<Checkbox
 															id="{variable.value}_{level}hPa"
-															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 															value="{variable.value}_{level}hPa"
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
 															aria-labelledby="{variable.value}_{level}hPa"
@@ -582,38 +498,13 @@
 				title="Weather models"
 				count={countVariables(models, $params.models)}
 			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each models as group, i (i)}
-						<div class="mb-3">
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.models?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_model_label"
-										for="{value}_model"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+					groupClass="mb-3"
+					groups={models}
+					bind:values={$params.models}
+					idSuffix="model"
+				/>
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
@@ -634,71 +525,19 @@
 						countVariables(minutely_15, $params.minutely_15).total
 				}}
 			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each minutely_15 as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value="{value}_minutely_15"
-										checked={$params.minutely_15?.includes(value)}
-										aria-labelledby="{value}_minutely_15_label"
-										onCheckedChange={() => {
-											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.minutely_15) {
-												$params.minutely_15.push(value);
-												$params.minutely_15 = $params.minutely_15;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_minutely_15_label"
-										for="{value}_minutely_15"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+					groups={minutely_15}
+					bind:values={$params.minutely_15}
+					idSuffix="minutely_15"
+				/>
 
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each solarVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_minutely_15"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										value="{value}_minutely_15"
-										checked={$params.minutely_15?.includes(value)}
-										aria-labelledby="{value}_minutely_15_label"
-										onCheckedChange={() => {
-											if ($params.minutely_15?.includes(value)) {
-												$params.minutely_15 = $params.minutely_15.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.minutely_15) {
-												$params.minutely_15.push(value);
-												$params.minutely_15 = $params.minutely_15;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_minutely_15_label"
-										for="{value}_minutely_15"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+					groups={solarVariables}
+					bind:values={$params.minutely_15}
+					idSuffix="minutely_15"
+				/>
 
 				<div>
 					<small class="text-muted-foreground"
@@ -716,7 +555,7 @@
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
 					<div class="relative">
 						<Select.Root
-							name="cell_selection"
+							name="forecast_minutely_15"
 							type="single"
 							bind:value={$params.forecast_minutely_15}
 						>
@@ -734,7 +573,11 @@
 						</Select.Root>
 					</div>
 					<div class="relative">
-						<Select.Root name="cell_selection" type="single" bind:value={$params.past_minutely_15}>
+						<Select.Root
+							name="past_minutely_15"
+							type="single"
+							bind:value={$params.past_minutely_15}
+						>
 							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
 								>{pastMinutely15?.label}</Select.Trigger
 							>
@@ -758,40 +601,12 @@
 		<a href="#daily_weather_variables"
 			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
 		>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each daily as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.daily?.includes(value)}
-								aria-labelledby="{value}_daily_label"
-								onCheckedChange={() => {
-									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.daily) {
-										$params.daily.push(value);
-										$params.daily = $params.daily;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_daily_label"
-								for="{value}_daily"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={daily}
+			bind:values={$params.daily}
+			idSuffix="daily"
+		/>
 		{#if timezoneInvalid}
 			<div transition:slide>
 				<Alert.Root variant="warning" class="mt-2 md:mt-4">
@@ -809,40 +624,12 @@
 				title="Additional Daily Variables"
 				count={countVariables(additionalDaily, $params.daily)}
 			>
-				<div
+				<VariableCheckboxGroups
 					class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-				>
-					{#each additionalDaily as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_daily"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.daily?.includes(value)}
-										aria-labelledby="{value}_daily_label"
-										onCheckedChange={() => {
-											if ($params.daily?.includes(value)) {
-												$params.daily = $params.daily.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.daily) {
-												$params.daily.push(value);
-												$params.daily = $params.daily;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_daily_label"
-										for="{value}_daily"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+					groups={additionalDaily}
+					bind:values={$params.daily}
+					idSuffix="daily"
+				/>
 			</AccordionItem>
 		</Accordion.Root>
 	</div>
@@ -891,7 +678,7 @@
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1280px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-320 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
 			>
 				<thead>
 					<tr>
@@ -908,7 +695,16 @@
 					<tr>
 						<th scope="row" rowspan="3">Deutscher Wetterdienst (DWD)</th>
 						<td>ICON</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -916,7 +712,20 @@
 					</tr>
 					<tr>
 						<td>ICON-EU</td>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>0.0625° (~7 km)</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -924,7 +733,34 @@
 					</tr>
 					<tr>
 						<td>ICON-D2</td>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/de.svg"
+										alt="Germany"
+										title="Germany"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/at.svg"
+										alt="Austria"
+										title="Austria"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>0.02° (~2 km)</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -933,7 +769,16 @@
 					<tr>
 						<th scope="row" rowspan="8">NOAA NCEP</th>
 						<td>GFS</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.11° (~13 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -941,7 +786,16 @@
 					</tr>
 					<tr>
 						<td>GFS Pressure Variables</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -949,7 +803,27 @@
 					</tr>
 					<tr>
 						<td>HRRR</td>
-						<td>U.S. Conus</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								U.S. Conus
+							</div>
+						</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td>Every hour</td>
@@ -957,7 +831,27 @@
 					</tr>
 					<tr>
 						<td>NAM</td>
-						<td>U.S. Conus</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								U.S. Conus
+							</div>
+						</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -965,23 +859,44 @@
 					</tr>
 					<tr>
 						<td>NBM</td>
-						<td>U.S. Conus</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								U.S. Conus
+							</div>
+						</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td>Every hour</td>
 						<td>2024-10-08</td>
 					</tr>
 					<tr>
-						<td>GFS GraphCast</td>
-						<td>Global</td>
-						<td>0.25° (~25 km)</td>
-						<td>6-Hourly</td>
-						<td>Every 6 hours</td>
-						<td>2024-02-05</td>
-					</tr>
-					<tr>
 						<td>AIGFS</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>6-Hourly</td>
 						<td>Every 6 hours</td>
@@ -989,7 +904,16 @@
 					</tr>
 					<tr>
 						<td>HGEFS</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>6-Hourly</td>
 						<td>Every 6 hours</td>
@@ -998,7 +922,16 @@
 					<tr>
 						<th scope="row" rowspan="4">Météo-France</th>
 						<td>ARPEGE World</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -1006,7 +939,20 @@
 					</tr>
 					<tr>
 						<td>ARPEGE Europe</td>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -1014,7 +960,20 @@
 					</tr>
 					<tr>
 						<td>AROME France</td>
-						<td>France</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/fr.svg"
+										alt="France"
+										title="France"
+									/>
+								</div>
+								France
+							</div>
+						</td>
 						<td>0.025° (~2.5 km)</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -1022,7 +981,20 @@
 					</tr>
 					<tr>
 						<td>AROME France HD</td>
-						<td>France</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/fr.svg"
+										alt="France"
+										title="France"
+									/>
+								</div>
+								France
+							</div>
+						</td>
 						<td>0.01° (~1.5 km)</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -1031,7 +1003,16 @@
 					<tr>
 						<th scope="row" rowspan="4">ECMWF</th>
 						<td>IFS 0.4°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.4° (~44 km)</td>
 						<td>3-Hourly</td>
 						<td>Every 6 hours</td>
@@ -1039,7 +1020,16 @@
 					</tr>
 					<tr>
 						<td>IFS 0.25°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>3-Hourly</td>
 						<td>Every 6 hours</td>
@@ -1047,7 +1037,16 @@
 					</tr>
 					<tr>
 						<td>AIFS 0.25° Single</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>6-Hourly</td>
 						<td>Every 6 hours</td>
@@ -1055,7 +1054,16 @@
 					</tr>
 					<tr>
 						<td>IFS HRES</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>9 km (O1280 grid)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -1064,7 +1072,16 @@
 					<tr>
 						<th scope="row" rowspan="2">UK Met Office</th>
 						<td>UKMO Global</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.09° (~10 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -1072,7 +1089,27 @@
 					</tr>
 					<tr>
 						<td>UKMO UKV</td>
-						<td>UK and Ireland</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/gb.svg"
+										alt="United Kingdom"
+										title="United Kingdom"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ie.svg"
+										alt="Ireland"
+										title="Ireland"
+									/>
+								</div>
+								UK and Ireland
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>Hourly</td>
 						<td>Every hour</td>
@@ -1081,7 +1118,16 @@
 					<tr>
 						<th scope="row" rowspan="2">JMA</th>
 						<td>GSM</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.5° (~55 km)</td>
 						<td>6-Hourly</td>
 						<td>Every 6 hours</td>
@@ -1089,7 +1135,20 @@
 					</tr>
 					<tr>
 						<td>MSM</td>
-						<td>Japan</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/jp.svg"
+										alt="Japan"
+										title="Japan"
+									/>
+								</div>
+								Japan
+							</div>
+						</td>
 						<td>0.05° (~5 km)</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -1098,7 +1157,34 @@
 					<tr>
 						<th scope="row">MET Norway</th>
 						<td>MET Nordic</td>
-						<td>Norway, Denmark, Sweden, Finland</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/no.svg"
+										alt="Norway"
+										title="Norway"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/se.svg"
+										alt="Sweden"
+										title="Sweden"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/dk.svg"
+										alt="Denmark"
+										title="Denmark"
+									/>
+								</div>
+								Norway, Denmark, Sweden, Finland
+							</div>
+						</td>
 						<td>1 km</td>
 						<td>Hourly</td>
 						<td>Every hour</td>
@@ -1107,7 +1193,16 @@
 					<tr>
 						<th scope="row" rowspan="3">Canadian Weather Service</th>
 						<td>GEM Global</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.15° (~15 km)</td>
 						<td>3-Hourly</td>
 						<td>Every 12 hours</td>
@@ -1115,7 +1210,27 @@
 					</tr>
 					<tr>
 						<td>GEM Regional</td>
-						<td>North America, North Pole</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+								</div>
+								North America, North Pole
+							</div>
+						</td>
 						<td>10 km</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -1123,7 +1238,20 @@
 					</tr>
 					<tr>
 						<td>HRDPS Continental</td>
-						<td>Canada, Nothern US</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								Canada, Nothern US
+							</div>
+						</td>
 						<td>2.5 km</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -1132,7 +1260,16 @@
 					<tr>
 						<th scope="row">China Meteorological Administration (CMA)</th>
 						<td>GFS GRAPES</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.125° (~15 km)</td>
 						<td>3-hourly</td>
 						<td>Every 6 hours</td>
@@ -1141,7 +1278,16 @@
 					<tr>
 						<th scope="row">Australian Bureau of Meteorology (BOM)</th>
 						<td>ACCESS-G</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.15° (~15 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -1150,7 +1296,20 @@
 					<tr>
 						<th scope="row">ItaliaMeteo ItaliaMeteo-ARPAE</th>
 						<td>ICON 2I</td>
-						<td>Southern Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/it.svg"
+										alt="Italy"
+										title="Italy"
+									/>
+								</div>
+								Southern Europe
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>Hourly</td>
 						<td>Every 12 hours</td>
@@ -1159,7 +1318,20 @@
 					<tr>
 						<th scope="row">DMI</th>
 						<td>HARMONIE AROME DINI</td>
-						<td>Central & Northern Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Central & Northern Europe
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -1168,7 +1340,27 @@
 					<tr>
 						<th scope="row" rowspan="2">KNMI</th>
 						<td>HARMONIE AROME Netherlands</td>
-						<td>Netherlands, Belgium</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/nl.svg"
+										alt="Netherlands"
+										title="Netherlands"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/be.svg"
+										alt="Belgium"
+										title="Belgium"
+									/>
+								</div>
+								Netherlands, Belgium
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>Hourly</td>
 						<td>Every hour</td>
@@ -1176,7 +1368,20 @@
 					</tr>
 					<tr>
 						<td>HARMONIE AROME Europe</td>
-						<td>Central & Northern Europe up to Iceland</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Central & Northern Europe up to Iceland
+							</div>
+						</td>
 						<td>5.5 km</td>
 						<td>Hourly</td>
 						<td>Every hour</td>
@@ -1185,7 +1390,20 @@
 					<tr>
 						<th scope="row" rowspan="2">MeteoSwiss</th>
 						<td>ICON CH1</td>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>1 km</td>
 						<td>Hourly</td>
 						<td>Every 3 hours</td>
@@ -1193,7 +1411,20 @@
 					</tr>
 					<tr>
 						<td>ICON CH2</td>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>2 km</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
@@ -1253,7 +1484,7 @@
 				time using the <mark>run=</mark> parameter (e.g.
 				<mark>run=2025-09-01T00:00</mark>). Unlike the Historical Forecast API — which stitches runs
 				into a continuous timeseries — the Single Runs API preserves the original run structure.
-				ECMWF IFS HRES at 9 km is archived from March 2024; all other models from September 2025.
+				ECMWF IFS HRES at 9 km is archived from March 2024; all other models from 2nd of April 2026.
 			</li>
 		</ul>
 		<h4 class="my-2 text-lg md:my-4 md:text-xl">Choosing the Right Dataset:</h4>

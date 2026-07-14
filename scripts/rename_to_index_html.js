@@ -25,6 +25,10 @@ function walk(directory) {
 		if (parts[0] == 'index' || parts[1] != 'html') {
 			return;
 		}
+		// 404.html must stay at the top level for static hosts to serve it as the error page
+		if (parts[0] == '404') {
+			return;
+		}
 
 		const newDirectory = `${directory}/${parts[0]}`;
 		const newFile = `${newDirectory}/index.html`;

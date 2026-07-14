@@ -84,10 +84,14 @@ const minMaxMean = [
 	{ value: '_mean', label: 'Mean' },
 	{ value: '_max', label: 'Max' }
 ];
+
 const sum = [{ value: '_sum', label: 'Sum' }];
+
 const mean = [{ value: '_mean', label: 'Mean' }];
+
 // const soilMean = [{ value: "_0_to_7cm_mean", label: "0-7 cm" }, { value: "_7_to_28cm_mean", label: "7-28 cm" }, { value: "_28_to_100cm_mean", label: "28-100 cm" }, { value: "_100_to_255cm_mean", label: "100-255 cm" }]
 const aggregationDominant = [{ value: '_dominant', label: 'Dominant' }];
+
 const sunriseSet = [
 	{ value: 'sunrise', label: 'Sunrise' },
 	{ value: 'sunset', label: 'Sunset' }
@@ -196,25 +200,6 @@ export const daily = [
 			label: 'Soil Moisture (100-255 cm)',
 			aggregations: mean
 		}
-	]
-];
-
-export const solarVariables = [
-	[
-		{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-		{ value: 'direct_radiation', label: 'Direct Solar Radiation' },
-		{ value: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-		{ value: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-		{ value: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-		{ value: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
-	],
-	[
-		{ value: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' },
-		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 	]
 ];
 

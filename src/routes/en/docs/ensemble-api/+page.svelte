@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -11,6 +10,7 @@
 		countPressureVariables,
 		countVariables
 	} from '$lib/utils/meteo';
+	import { slide } from '$lib/utils/transitions';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
@@ -26,32 +26,31 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
+	import {
+		additionalVariables,
+		daily,
+		defaultParameters,
+		hourly,
+		levels,
+		pressureVariables,
+		solarVariables
+	} from '../ensemble-options';
 	import {
 		forecastHoursOptions,
 		gridCellSelectionOptions,
 		pastHoursOptions,
 		temporalResolutionOptions
 	} from '../options';
-	import {
-		additionalVariables,
-		availableVariables,
-		daily,
-		defaultParameters,
-		forecastDaysOptions,
-		hourly,
-		levels,
-		models,
-		pastDaysOptions,
-		pressureVariables,
-		solarVariables
-	} from './options';
+	import { availableVariables, forecastDaysOptions, models, pastDaysOptions } from './options';
 
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
 		...defaultParameters,
 		hourly: ['temperature_2m'],
+		// TODO: revert to 'dwd_icon_seamless_eps' once backend prefix aliases are deployed
 		models: ['icon_seamless_eps']
 	});
 
@@ -112,6 +111,10 @@
 <svelte:head>
 	<title>Ensemble API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/ensemble-api" />
+	<meta
+		name="description"
+		content="Ensemble weather forecasts from ICON, GFS, ECMWF, GEM and more. Access individual ensemble members for probabilistic forecasting via a free JSON API."
+	/>
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4">
@@ -162,40 +165,12 @@
 		<a href="#ensemble_models">
 			<h2 id="ensemble_models" class="text-2xl md:text-3xl">Ensemble Models</h2>
 		</a>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each models as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_models"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.models?.includes(value)}
-								aria-labelledby="{value}_model_label"
-								onCheckedChange={() => {
-									if ($params.models?.includes(value)) {
-										$params.models = $params.models.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.models) {
-										$params.models.push(value);
-										$params.models = $params.models;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_model_label"
-								for="{value}_models"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={models}
+			bind:values={$params.models}
+			idSuffix="models"
+		/>
 	</div>
 
 	<!-- HOURLY -->
@@ -214,7 +189,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.hourly?.includes(value)}
 								disabled={!isAvailable(value, $params.models, availableVariables)}
@@ -261,7 +236,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
 										disabled={!isAvailable(value, $params.models, availableVariables)}
@@ -374,7 +349,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
 										disabled={!isAvailable(
@@ -513,7 +488,7 @@
 													<div class="group flex items-center">
 														<Checkbox
 															id="{variable.value}_{level}hPa"
-															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 															value="{variable.value}_{level}hPa"
 															disabled={!isAvailable(
 																`${variable.value}_${level}hPa`,
@@ -576,7 +551,7 @@
 						<div class="group flex items-center" title={label}>
 							<Checkbox
 								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.daily?.includes(value)}
 								aria-labelledby="{value}_daily_label"
@@ -686,7 +661,34 @@
 					<tr>
 						<th scope="row" rowspan="3">Deutscher Wetterdienst (DWD)</th>
 						<td>ICON-D2-EPS</td>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/de.svg"
+										alt="Germany"
+										title="Germany"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/at.svg"
+										alt="Austria"
+										title="Austria"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>2 km, hourly</td>
 						<td>20</td>
 						<td>2 days</td>
@@ -694,7 +696,20 @@
 					</tr>
 					<tr>
 						<td>ICON-EU-EPS</td>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>13 km, hourly</td>
 						<td>40</td>
 						<td>5 days</td>
@@ -702,7 +717,16 @@
 					</tr>
 					<tr>
 						<td>ICON-EPS</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>26 km, hourly</td>
 						<td>40</td>
 						<td>7.5 days</td>
@@ -711,7 +735,16 @@
 					<tr>
 						<th scope="row" rowspan="3">NOAA</th>
 						<td>GFS Ensemble 0.25°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>25 km, 3-hourly</td>
 						<td>31</td>
 						<td>10 days</td>
@@ -719,7 +752,16 @@
 					</tr>
 					<tr>
 						<td>GFS Ensemble 0.5°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>50 km, 3-hourly</td>
 						<td>31</td>
 						<td>35 days</td>
@@ -727,7 +769,16 @@
 					</tr>
 					<tr>
 						<td>AIGFS 0.25°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>25 km, 6-hourly</td>
 						<td>31</td>
 						<td>16 days</td>
@@ -736,7 +787,16 @@
 					<tr>
 						<th scope="row" rowspan="2">ECMWF</th>
 						<td>IFS 0.25°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>25 km, 3-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
@@ -744,7 +804,16 @@
 					</tr>
 					<tr>
 						<td>AIFS 0.25°</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>25 km, 6-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
@@ -753,7 +822,16 @@
 					<tr>
 						<th scope="row">Canadian Weather Service</th>
 						<td>GEM</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>25 km, 3-hourly</td>
 						<td>21</td>
 						<td>16 days (39 days every Mo+Thu)</td>
@@ -762,7 +840,16 @@
 					<tr>
 						<th scope="row">Australian Bureau of Meteorology (BOM)</th>
 						<td>ACCESS-GE</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>40 km, 3-hourly</td>
 						<td>18</td>
 						<td>10 days</td>
@@ -771,7 +858,20 @@
 					<tr>
 						<th scope="row" rowspan="2">UK Met Office</th>
 						<td>MOGREPS-UK</td>
-						<td>UK</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/gb.svg"
+										alt="United Kingdom"
+										title="United Kingdom"
+									/>
+								</div>
+								UK
+							</div>
+						</td>
 						<td>2 km, 1-hourly</td>
 						<td>3</td>
 						<td>5 days</td>
@@ -779,7 +879,16 @@
 					</tr>
 					<tr>
 						<td>MOGREPS-G</td>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>20 km, 1-hourly</td>
 						<td>18</td>
 						<td>8 days</td>
@@ -788,7 +897,20 @@
 					<tr>
 						<th scope="row" rowspan="2">MeteoSwiss</th>
 						<td>ICON CH1</td>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>1 km, 1-hourly</td>
 						<td>11</td>
 						<td>33 hours</td>
@@ -796,7 +918,20 @@
 					</tr>
 					<tr>
 						<td>ICON CH2</td>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>2 km, 1-hourly</td>
 						<td>21</td>
 						<td>12 hours</td>
@@ -1181,7 +1316,7 @@
 						<td>Instant</td>
 						<td>kPa</td>
 						<td
-							>Vapor Pressure Deificit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
+							>Vapor Pressure Deficit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
 							transpiration of plants increases. For low VPD (&lt;0.4), transpiration decreases</td
 						>
 					</tr>

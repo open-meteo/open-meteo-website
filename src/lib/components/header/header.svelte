@@ -1,11 +1,13 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
-
 	import Github from 'simple-icons/icons/github.svg?raw';
 	import X from 'simple-icons/icons/x.svg?raw';
 
+	import { fade } from '$lib/utils/transitions';
+
 	import { Button } from '$lib/components/ui/button';
 	import { Toggle } from '$lib/components/ui/toggle';
+
+	import AnimationToggle from '$lib/components/settings/animation-toggle.svelte';
 
 	import Logo from '$lib/assets/icons/sun.svelte';
 
@@ -75,11 +77,11 @@
 	</div>
 	<div
 		class="{toggleMenu
-			? 'max-h-[300px] opacity-100 md:max-h-[unset]'
+			? 'max-h-75 opacity-100 md:max-h-[unset]'
 			: 'max-h-0 opacity-0 md:max-h-[unset] md:opacity-100'} -ml-3 w-full overflow-hidden duration-500"
 	>
 		<div class="flex flex-col pt-4 md:flex-row md:pt-0">
-			<nav aria-label="Main" class="flex flex-col md:flex-row">
+			<nav aria-label="Main" class="flex flex-col md:flex-row relative">
 				<hr class="border-border my-1 ml-3" />
 				<Button
 					variant="ghost"
@@ -115,6 +117,9 @@
 					href="/en/docs"
 					onclick={() => (toggleMenu = false)}>API Docs</Button
 				>
+				<div class="px-3 py-2 md:hidden absolute -right-0.5 bottom-6.5">
+					<AnimationToggle id="animations-toggle-mobile-nav" small />
+				</div>
 				<hr class="border-border mt-2 mb-4 ml-3" />
 			</nav>
 			<div class="flex gap-1 md:ml-auto md:flex-row md:justify-self-end">

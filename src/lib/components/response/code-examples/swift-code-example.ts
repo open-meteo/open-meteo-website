@@ -14,6 +14,7 @@ export const swiftCodeExample = (
 	previewUrl: string
 ) => {
 	const indent = multipleLocationsOrModels;
+	const presentSections = SECTIONS.filter((section) => params[section]);
 
 	const swiftAttr = (name: string) =>
 		line(kw('let') + fg(` ${name} `) + pm('=') + fg(` response${pm('.')}${name}`), indent);
@@ -159,16 +160,23 @@ ${line(fn('\t\ttime') + pm(':') + ` ${camelCase(section)}${pm('.')}` + fn('getDa
 						: section === 'current'
 							? 'value'
 							: 'values';
+					const comma = ind < sect.length - 1 ? vr(',') : '';
 					c += `
-${line(fn(`\t\t${variable}`) + pm(':') + fn(` ${vr(`${camelCase(section)}`)}${pm('.')}variables`) + pm('(') + fn('at') + pm(':') + num(` ${ind}`) + p(')') + pm('!') + pm('.') + vr(valueAccessor) + vr(','), indent)}`;
+${line(fn(`\t\t${camelCase(variable)}`) + pm(':') + fn(` ${vr(`${camelCase(section)}`)}${pm('.')}variables`) + pm('(') + fn('at') + pm(':') + num(` ${ind}`) + p(')') + pm('!') + pm('.') + vr(valueAccessor) + comma, indent)}`;
 				}
 			} else if (typeof sect === 'string') {
+				const valueAccessor = INT_64_VARIABLES.includes(sect)
+					? 'valuesInt64'
+					: section === 'current'
+						? 'value'
+						: 'values';
 				c += `
-${line(fn(`\t\t${sect}`) + pm(':') + fn(' current.variables') + p('(') + fn('at') + pm(':') + num(' 0') + p(')') + pm('!') + fn('.') + num('value'), indent)}`;
+${line(fn(`\t\t${camelCase(sect)}`) + pm(':') + fn(` ${vr(`${camelCase(section)}`)}${pm('.')}variables`) + pm('(') + fn('at') + pm(':') + num(' 0') + p(')') + pm('!') + pm('.') + vr(valueAccessor), indent)}`;
 			}
 
+			const isLastSection = section === presentSections[presentSections.length - 1];
 			c += `
-${line(pm('\t)') + vr(','), indent)}`;
+${line(pm('\t)') + (isLastSection ? '' : vr(',')), indent)}`;
 		}
 	}
 
@@ -192,11 +200,11 @@ ${line(fn('print') + pm('(') + str(pm('"') + 'Current time: ' + pm('\\(') + fg(`
 				if (sect.constructor === Array) {
 					for (const variable of sect) {
 						c += `
-${line(fn('print') + pm('(') + str(pm('"') + `Current ${variable}: ` + pm('\\(') + fg(`data${pm('.')}current${pm('.')}${variable}`) + pm(')') + pm('"')) + pm(')'), indent)}`;
+${line(fn('print') + pm('(') + str(pm('"') + `Current ${variable}: ` + pm('\\(') + fg(`data${pm('.')}current${pm('.')}${camelCase(variable)}`) + pm(')') + pm('"')) + pm(')'), indent)}`;
 					}
 				} else if (typeof sect === 'string') {
 					c += `
-${line(fn('print') + pm('(') + str(pm('"') + `Current ${sect}: ` + pm('\\(') + fg(`data${pm('.')}current${pm('.')}${sect}`) + pm(')') + pm('"')) + pm(')'), indent)}`;
+${line(fn('print') + pm('(') + str(pm('"') + `Current ${sect}: ` + pm('\\(') + fg(`data${pm('.')}current${pm('.')}${camelCase(sect)}`) + pm(')') + pm('"')) + pm(')'), indent)}`;
 				}
 			} else {
 				c += `
@@ -205,11 +213,11 @@ ${line(fn('\tprint') + p('(') + vr(`dateFormatter${pm('.')}${fn('string')}`) + p
 				if (sect.constructor === Array) {
 					for (const variable of sect) {
 						c += `
-${line(fn('\tprint') + pm('(') + vr(`data${pm('.')}${camelCase(section)}${pm('.')}${variable}`) + pm('[') + vr('i') + pm('])'), indent)}`;
+${line(fn('\tprint') + pm('(') + vr(`data${pm('.')}${camelCase(section)}${pm('.')}${camelCase(variable)}`) + pm('[') + vr('i') + pm('])'), indent)}`;
 					}
 				} else if (typeof sect === 'string') {
 					c += `
-${line(fn('\tprint') + pm('(') + vr(`data${pm('.')}${camelCase(section)}${pm('.')}${sect}`) + pm('[') + vr('i') + pm('])'), indent)}`;
+${line(fn('\tprint') + pm('(') + vr(`data${pm('.')}${camelCase(section)}${pm('.')}${camelCase(sect)}`) + pm('[') + vr('i') + pm('])'), indent)}`;
 				}
 
 				c += `
