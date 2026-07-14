@@ -1,11 +1,11 @@
 import {
-  aigfs025_variables,
-	google_weathernext2_variables,
+	aigfs025_variables,
 	bom_access_global_ensemble,
 	ecmwf_aifs025_variables,
 	ecmwf_ifs025_variables,
 	gfs025_variables,
 	gfs05_variables,
+	google_weathernext2_variables,
 	icon_d2_variables,
 	icon_eu_variables,
 	icon_global_variables,
