@@ -493,8 +493,8 @@
 			</li>
 			<li>
 				AIFS is ECMWF’s artificial intelligence weather model, delivering improved performance
-				compared to GraphCast and other AI-based models. Currently, only 6-hourly time steps are
-				available. More details about AIFS can be found
+				compared to other AI-based models. Currently, only 6-hourly time steps are available. More
+				details about AIFS can be found
 				<a href="https://www.ecmwf.int/en/about/media-centre/aifs-blog">here</a>. As ECMWF expands
 				its data offering, new AIFS products will also be integrated into this API.
 			</li>
@@ -539,7 +539,16 @@
 								>IFS HRES</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>9 km (O1280 grid)</td>
 						<td
 							>1-Hourly, <small class="text-muted-foreground"
@@ -555,7 +564,16 @@
 								>IFS 0.25 Open-Data</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>3-Hourly, <small class="text-muted-foreground">6-hourly after 144 hours</small></td>
 						<td>15 days</td>
@@ -567,7 +585,16 @@
 								>AIFS Single</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~28 km)</td>
 						<td>6-Hourly</td>
 						<td>15 days</td>

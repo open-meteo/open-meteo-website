@@ -649,7 +649,16 @@
 				<tbody>
 					<tr>
 						<th scope="row">ICON Global</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Hourly<small class="text-muted-foreground">, 3-hourly after 78 hours</small></td>
 						<td>7.5 days</td>
@@ -657,7 +666,20 @@
 					</tr>
 					<tr>
 						<th scope="row">ICON Europe</th>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>0.0625° (~7 km)</td>
 						<td>Hourly<small class="text-muted-foreground">, 3-hourly after 78 hours</small></td>
 						<td>5 days</td>
@@ -665,7 +687,34 @@
 					</tr>
 					<tr>
 						<th scope="row">ICON D2</th>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/de.svg"
+										alt="Germany"
+										title="Germany"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ch.svg"
+										alt="Switzerland"
+										title="Switzerland"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/at.svg"
+										alt="Austria"
+										title="Austria"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>0.02° (~2 km)</td>
 						<td>15-Minutely</td>
 						<td>2 days</td>

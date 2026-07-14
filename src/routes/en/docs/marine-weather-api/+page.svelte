@@ -20,6 +20,7 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
 	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -526,7 +527,16 @@
 								>MeteoFrance MFWAM</a
 							>
 						</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td
 							><a
 								href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=0&center=-23.399717243797422%2C42.59188729714914&zoom=10.52284658362573&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9XQVZfMDAxXzAyNy9jbWVtc19tb2RfZ2xvX3dhdl9hbmZjXzAuMDgzZGVnX1BUM0gtaV8yMDIzMTEvVkhNMCIsInpJbmRleCI6MCwiaXNFeHBsb3JpbmciOnRydWUsImxvZ1NjYWxlIjpmYWxzZX1d&basemap=dark"
@@ -546,7 +556,16 @@
 								>MeteoFrance SMOC Currents, Tides</a
 							>
 						</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td
 							><a
 								href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&z=-0.49402499198913574&center=-12.433872193277338%2C42.88370285999325&zoom=11.872305323411199&layers=W3sib3BhY2l0eSI6MSwiaWQiOiJ0ZW1wMSIsImxheWVySWQiOiJHTE9CQUxfQU5BTFlTSVNGT1JFQ0FTVF9QSFlfMDAxXzAyNC9jbWVtc19tb2RfZ2xvX3BoeV9hbmZjX21lcmdlZC11dl9QVDFILWlfMjAyMjExL3VvIiwiekluZGV4IjowLCJpc0V4cGxvcmluZyI6dHJ1ZSwibG9nU2NhbGUiOmZhbHNlfV0%3D&basemap=dark"
@@ -566,7 +585,16 @@
 								>MeteoFrance Sea Surface Temperature</a
 							>
 						</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td
 							><a
 								href="https://data.marine.copernicus.eu/viewer/expert?view=viewer&crs=epsg%3A4326&t=1771934400000&z=-0.49402499198913574&center=-12.433872193277338%2C42.88370285999325&zoom=11.872305323411199&layers=H4sIADIPnGkAAyWOywqDMBRE._Wu_0gflJKdFVsFqVLdSCmXYK4PiEaiBa34703pdpiZc54z6KEi42ptZA98XlZQS_AwUNPtYAVKTGSCX3ILo4sTonN3wiwJkmv08FwnSTH2M2Rsh2x.3OYNNT02WmKpNHbVtLbng9Ao2iJHtmHng6QS4.Tkr2vc2wk7bf8Vy.oEraQROLMOvTd2Spu6LYEP5k3WRJdJLhQBL4TqaXl9AaUlKFe8AAAA&basemap=dark"
@@ -583,7 +611,16 @@
 						<th scope="row"
 							><a href="https://www.ecmwf.int/en/elibrary/79883-wave-model">ECMWF WAM</a>
 						</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td></td>
 						<td>9 km</td>
 						<td>Hourly</td>
@@ -594,7 +631,16 @@
 						<th scope="row"
 							><a href="https://www.ecmwf.int/en/elibrary/79883-wave-model">ECMWF WAM 0.25</a>
 						</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td></td>
 						<td>0.25° (~25 km)</td>
 						<td>3-Hourly</td>
@@ -605,7 +651,16 @@
 						<th scope="row"
 							><a href="https://polar.ncep.noaa.gov/waves/index.php">NCEP GFS Wave</a>
 						</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td></td>
 						<td>0.25° (~25 km)</td>
 						<td>Hourly</td>
@@ -616,7 +671,16 @@
 						<th scope="row"
 							><a href="https://polar.ncep.noaa.gov/waves/index.php">NCEP GFS Wave</a>
 						</th>
-						<td>Latitude 52.5°N - 15°S</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Latitude 52.5°N - 15°S
+							</div>
+						</td>
 						<td></td>
 						<td>0.16° (~16 km)</td>
 						<td>Hourly</td>
@@ -630,7 +694,20 @@
 								>DWD EWAM</a
 							>
 						</th>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td></td>
 						<td>0.05° (~5 km)</td>
 						<td>Hourly</td>
@@ -644,7 +721,16 @@
 								>DWD GWAM</a
 							>
 						</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td></td>
 						<td>0.25° (~25 km)</td>
 						<td>Hourly</td>
@@ -658,7 +744,16 @@
 								>ERA5-Ocean</a
 							>
 						</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td></td>
 						<td>0.5° (~50 km)</td>
 						<td>Hourly</td>
@@ -668,14 +763,24 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 			<ZoomableImage src="/images/models/dwd_ewam.webp" alt="DWD EWAM Model Area">
 				{#snippet caption()}
 					DWD EWAM Wave Model Area. Source:
 					<a href="https://maps.open-meteo.com/?domain=dwd_ewam#3.1/51.43/15.80">Open-Meteo</a>.
 				{/snippet}
 			</ZoomableImage>
-		</div>
+
+			<ZoomableImage src="/images/models/ncep_gfswave016.webp" alt="NCEP GFS Wave Wave 0.16°">
+				{#snippet caption()}
+					NCEP GFS Wave 0.16° Model Area. Source:
+					<a
+						href="https://maps.open-meteo.com/?domain=ncep_gfswave016&variable=wave_height#1.69/8.5/47.1"
+						>Open-Meteo</a
+					>.
+				{/snippet}
+			</ZoomableImage>
+		</ZoomableImageGallery>
 	</div>
 </div>
 

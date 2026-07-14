@@ -641,7 +641,16 @@
 						<th scope="row"
 							><a href="https://www.nco.ncep.noaa.gov/pmb/products/gfs/" target="_blank">GFS</a></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.11° (~13 km)</td>
 						<td>Hourly, <small class="text-muted-foreground">3-hourly after 120 hours</small></td>
 						<td>16 days</td>
@@ -653,7 +662,16 @@
 								>GFS Pressure Variables</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>Hourly, <small class="text-muted-foreground">3-hourly after 120 hours</small></td>
 						<td>16 days</td>
@@ -663,7 +681,27 @@
 						<th scope="row"
 							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank">HRRR Conus</a></th
 						>
-						<td>CONUS</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td
@@ -678,7 +716,27 @@
 								>HRRR Conus 15 minutely</a
 							></th
 						>
-						<td>CONUS</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
 						<td>3 km</td>
 						<td>15 Minutely</td>
 						<td>18 hours</td>
@@ -690,7 +748,27 @@
 								>NBM Conus</a
 							></th
 						>
-						<td>CONUS</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
 						<td>2.5 km</td>
 						<td
 							>Hourly, <small class="text-muted-foreground"
@@ -706,22 +784,30 @@
 								>NAM Conus</a
 							></th
 						>
-						<td>CONUS</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td>60 hours</td>
-						<td>Every 6 hours</td>
-					</tr>
-					<tr>
-						<th scope="row"
-							><a href="https://registry.opendata.aws/noaa-nws-graphcastgfs-pds/" target="_blank"
-								>GFS GraphCast (experimental)</a
-							></th
-						>
-						<td>Global</td>
-						<td>0.25° (~25 km)</td>
-						<td>6-hourly</td>
-						<td>16 days</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
@@ -730,7 +816,16 @@
 								>AIGFS 0.25°</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>6-hourly</td>
 						<td>16 days</td>
@@ -742,7 +837,16 @@
 								>HGEFS 0.25° Ensemble Mean</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>6-hourly</td>
 						<td>10 days</td>
@@ -1018,11 +1122,11 @@
 			calculates precipitation probability for the GFS025 model.
 		</p>
 		<p>
-			In AIGFS, HGEFS, and GFS GraphCast, cloud cover is estimated by Open-Meteo using specific
-			humidity data from different heights in the atmosphere. The method uses the Murphy & Koop
-			(2005) equations to represent clouds made of liquid water, supercooled droplets, or ice. A
-			smooth phased transition between liquid and ice clouds is applied, similar to the approach
-			used in the ECMWF IFS model.
+			In AIGFS, HGEFS, cloud cover is estimated by Open-Meteo using specific humidity data from
+			different heights in the atmosphere. The method uses the Murphy & Koop (2005) equations to
+			represent clouds made of liquid water, supercooled droplets, or ice. A smooth phased
+			transition between liquid and ice clouds is applied, similar to the approach used in the ECMWF
+			IFS model.
 		</p>
 		<div class="relative -mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table
@@ -1035,7 +1139,7 @@
 						<th scope="col">GFS025</th>
 						<th scope="col">HRRR</th>
 						<th scope="col">NBM</th>
-						<th scope="col">GraphCast,<br />AIGFS, HGEFS</th>
+						<th scope="col">AIGFS, HGEFS</th>
 					</tr></thead
 				>
 				<tbody>
