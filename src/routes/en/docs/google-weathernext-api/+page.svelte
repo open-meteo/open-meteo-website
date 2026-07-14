@@ -82,12 +82,12 @@
 	beginDate.setMonth(beginDate.getMonth() - 3);
 
 	let lastDate = new SvelteDate();
-	lastDate.setDate(lastDate.getDate() + 10);
+	lastDate.setDate(lastDate.getDate() + 15);
 </script>
 
 <svelte:head>
 	<title>Google WeatherNext API | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/google-weathernext-api'" />
+	<link rel="canonical" href="https://open-meteo.com/en/docs/google-weathernext-api" />
 </svelte:head>
 
 <form method="get" action="https://ensemble-api.open-meteo.com/v1/ensemble">
@@ -296,7 +296,7 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
+	<div class="mt-3 md:mt-6"><LicenceSelector requires_professional_plan={true}/></div>
 </form>
 
 <!-- RESULT -->

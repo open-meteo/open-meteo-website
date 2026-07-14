@@ -781,7 +781,7 @@
 						<th>Google</th>
 						<td>WeatherNext 2</td>
 						<td>Global</td>
-						<td>25 km, 6-hourly</td>
+						<td>25 km, 12-hourly</td>
 						<td>64</td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
