@@ -851,7 +851,16 @@
 								target="_blank">EC46</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>36 km (O320 grid)</td>
 						<td>6-hourly</td>
 						<td>46 days</td>
@@ -864,7 +873,16 @@
 								target="_blank">SEAS5</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>36 km (O320 grid)</td>
 						<td>6-hourly</td>
 						<td>7 months</td>

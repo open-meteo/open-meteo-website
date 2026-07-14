@@ -492,7 +492,20 @@
 				<tbody>
 					<tr>
 						<th scope="row">ICON 2I</th>
-						<td>Southern Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/it.svg"
+										alt="Italy"
+										title="Italy"
+									/>
+								</div>
+								Southern Europe
+							</div>
+						</td>
 						<td>0.02° (~2 km)</td>
 						<td>Hourly</td>
 						<td>3 days</td>

@@ -667,7 +667,16 @@
 								>ARPEGE World</a
 							></th
 						>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.25° (~25 km)</td>
 						<td>Hourly<small class="text-muted-foreground">, 3-hourly after 2 days</small></td>
 						<td>4 days</td>
@@ -679,7 +688,20 @@
 								>ARPEGE Europe</a
 							></th
 						>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Hourly<small class="text-muted-foreground"></small></td>
 						<td>4 days</td>
@@ -690,7 +712,20 @@
 							><a href="https://www.umr-cnrm.fr/spip.php?article120" target="_blank">AROME France</a
 							></th
 						>
-						<td>France</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/fr.svg"
+										alt="France"
+										title="France"
+									/>
+								</div>
+								France
+							</div>
+						</td>
 						<td>0.025° (~2.5 km)</td>
 						<td>Hourly</td>
 						<td>2 days</td>
@@ -702,7 +737,20 @@
 								>AROME France HD</a
 							> <small class="text-muted-foreground">(*)</small></th
 						>
-						<td>France</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/fr.svg"
+										alt="France"
+										title="France"
+									/>
+								</div>
+								France
+							</div>
+						</td>
 						<td>0.01° (~1.5 km)</td>
 						<td>Hourly</td>
 						<td>2 days</td>
@@ -714,7 +762,20 @@
 								>AROME France 15 minutely</a
 							></th
 						>
-						<td>France</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/fr.svg"
+										alt="France"
+										title="France"
+									/>
+								</div>
+								France
+							</div>
+						</td>
 						<td>0.025° (~2.5 km)</td>
 						<td>15 Minutely</td>
 						<td>6 hours</td>
@@ -726,7 +787,20 @@
 								>AROME France HD 15 minutely</a
 							> <small class="text-muted-foreground">(*)</small></th
 						>
-						<td>France</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/fr.svg"
+										alt="France"
+										title="France"
+									/>
+								</div>
+								France
+							</div>
+						</td>
 						<td>0.01° (~1.5 km)</td>
 						<td>15 Minutely</td>
 						<td>6 hours</td>
