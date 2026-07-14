@@ -764,20 +764,20 @@
 			</table>
 		</div>
 		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<ZoomableImage src="/images/models/dwd_ewam.webp" alt="DWD EWAM Model Area">
-				{#snippet caption()}
-					DWD EWAM Wave Model Area. Source:
-					<a href="https://maps.open-meteo.com/?domain=dwd_ewam#3.1/51.43/15.80">Open-Meteo</a>.
-				{/snippet}
-			</ZoomableImage>
-
 			<ZoomableImage src="/images/models/ncep_gfswave016.webp" alt="NCEP GFS Wave Wave 0.16°">
 				{#snippet caption()}
 					NCEP GFS Wave 0.16° Model Area. Source:
 					<a
-						href="https://maps.open-meteo.com/?domain=ncep_gfswave016&variable=wave_height#1.69/8.5/47.1"
+						href="https://maps.open-meteo.com/?domain=ncep_gfswave016&variable=wave_height#2/13.2/-0.8"
 						>Open-Meteo</a
 					>.
+				{/snippet}
+			</ZoomableImage>
+
+			<ZoomableImage src="/images/models/dwd_ewam.webp" alt="DWD EWAM Model Area">
+				{#snippet caption()}
+					DWD EWAM Wave Model Area. Source:
+					<a href="https://maps.open-meteo.com/?domain=dwd_ewam#3.1/51.43/15.80">Open-Meteo</a>.
 				{/snippet}
 			</ZoomableImage>
 		</ZoomableImageGallery>

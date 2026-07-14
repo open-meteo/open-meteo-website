@@ -109,18 +109,6 @@
 	const getData = (apiKeyPreferences: APIKeyPreferences): Section[] => {
 		let forecastModels = [
 			{
-				provider: 'BOM',
-				url: '/en/docs/bom-api',
-				unavailableSince: 'June 2025',
-				models: [
-					{
-						name: 'ACCESS-G 0.15°',
-						area: [],
-						meta: fetchMeta('bom_access_global', 'forecast', apiKeyPreferences)
-					}
-				]
-			},
-			{
 				provider: 'CMA',
 				url: '/en/docs/cma-api',
 				models: [
@@ -250,23 +238,6 @@
 						name: 'MSM 0.05°',
 						area: ['jp'],
 						meta: fetchMeta('jma_msm', 'forecast', apiKeyPreferences)
-					}
-				]
-			},
-			{
-				provider: 'KMA Korea',
-				url: '/en/docs/kma-api',
-				unavailableSince: 'April 2026',
-				models: [
-					{
-						name: 'KMA GDPS 0.13°',
-						area: [],
-						meta: fetchMeta('kma_gdps', 'forecast', apiKeyPreferences)
-					},
-					{
-						name: 'KMA LDPS 1.5km',
-						area: ['kr'],
-						meta: fetchMeta('kma_ldps', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -454,18 +425,6 @@
 		];
 
 		let ensembleModels = [
-			{
-				provider: 'BOM',
-				url: '/en/docs/bom-api',
-				unavailableSince: 'June 2025',
-				models: [
-					{
-						name: 'ACCESS-GE 0.4°',
-						area: [],
-						meta: fetchMeta('bom_access_global_ensemble', 'ensemble', apiKeyPreferences)
-					}
-				]
-			},
 			{
 				provider: 'Canadian Weather Service',
 				url: '/en/docs/gem-api',
