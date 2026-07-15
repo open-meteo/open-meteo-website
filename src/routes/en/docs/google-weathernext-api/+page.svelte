@@ -492,6 +492,7 @@
 		type="ensemble"
 		action="ensemble"
 		sdk_type="ensemble_api"
+		model_default="google_weathernext2_ensemble"
 	/>
 </div>
 
