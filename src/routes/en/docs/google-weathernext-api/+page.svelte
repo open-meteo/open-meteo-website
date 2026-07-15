@@ -78,10 +78,6 @@
 			accordionValues.push('additional-variables');
 		}
 
-		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
-			accordionValues.push('models');
-		}
-
 		if (
 			$params.hourly &&
 			countPressureVariables(pressureVariables, levels, $params.hourly).active &&
@@ -336,6 +332,19 @@
 						{/each}
 					</div>
 				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="models"
+				title="Weather models"
+				count={countVariables(models, $params.models)}
+			>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+					groupClass="mb-3"
+					groups={models}
+					bind:values={$params.models}
+					idSuffix="model"
+				/>
 			</AccordionItem>
 		</Accordion.Root>
 	</div>

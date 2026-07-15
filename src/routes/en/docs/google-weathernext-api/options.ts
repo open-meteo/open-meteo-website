@@ -105,7 +105,10 @@ export const levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 1
 export const solarVariables: { value: string; label: string }[][] = [];
 
 export const models = [
-	[{ value: 'google_weathernext2_ensemble', label: 'Google WeatherNext 2 Ensemble' }]
+	[
+		{ value: 'google_weathernext2_ensemble', label: 'Google WeatherNext 2 Ensemble' },
+		{ value: 'google_weathernext2_ensemble_mean', label: 'Google WeatherNext 2 Ensemble Mean' }
+	]
 ];
 
 export const forecastDaysOptions = [
