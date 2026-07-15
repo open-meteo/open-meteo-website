@@ -426,13 +426,12 @@
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<ZoomableImage
 			src="/images/models/dmi_harmonie_arome_europe.webp"
-			alt="DMI HARMONIE AROME DINI model area"
+			alt="DMI HARMONIE AROME DINI Model Area"
 		>
 			{#snippet caption()}
-				DMI HARMONIE AROME DINI model area (green). Source:
-				<a
-					href="https://opendatadocs.dmi.govcloud.dk/Data/Forecast_Data_Weather_Model_HARMONIE_DINI_IG"
-					>DMI</a
+				DMI HARMONIE AROME DINI Model Area. Source:
+				<a href="https://maps.open-meteo.com/?domain=dmi_harmonie_arome_europe#3.38/57.06/4.85"
+					>Open-Meteo</a
 				>.
 			{/snippet}
 		</ZoomableImage>
