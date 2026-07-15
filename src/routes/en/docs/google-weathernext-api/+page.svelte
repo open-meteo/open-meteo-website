@@ -34,6 +34,7 @@
 		additionalVariables,
 		daily,
 		defaultParameters,
+		ensembleSpreadVariables,
 		forecastDaysOptions,
 		hourly,
 		levels,
@@ -50,6 +51,11 @@
 
 	let timezoneInvalid = $derived(
 		$params.timezone == 'UTC' && ($params.daily ? $params.daily.length > 0 : false)
+	);
+
+	let spreadWithoutMeanModel = $derived(
+		($params.hourly?.some((v: string) => v.endsWith('_spread')) ?? false) &&
+			!$params.models?.includes('google_weathernext2_ensemble_mean')
 	);
 
 	// Additional variable settings
@@ -84,6 +90,17 @@
 			!accordionValues.includes('pressure-levels')
 		) {
 			accordionValues.push('pressure-levels');
+		}
+
+		if (
+			countVariables(ensembleSpreadVariables, $params.hourly).active &&
+			!accordionValues.includes('ensemble-spread-variables')
+		) {
+			accordionValues.push('ensemble-spread-variables');
+		}
+
+		if (countVariables(models, $params.models).active > 1 && !accordionValues.includes('models')) {
+			accordionValues.push('models');
 		}
 	});
 
@@ -334,6 +351,59 @@
 				</div>
 			</AccordionItem>
 			<AccordionItem
+				id="ensemble-spread-variables"
+				title="Ensemble Spread Variables"
+				count={countVariables(ensembleSpreadVariables, $params.hourly)}
+			>
+				<div class="mt-2 grid sm:grid-cols-2">
+					{#each ensembleSpreadVariables as group, gi (gi)}
+						<div class="col-md-6">
+							{#each group as { value, label } (value)}
+								<div class="group flex items-center" title={label}>
+									<Checkbox
+										id="{value}_hourly"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
+										{value}
+										checked={$params.hourly?.includes(value)}
+										aria-labelledby="{value}_hourly_label"
+										onCheckedChange={() => {
+											if ($params.hourly?.includes(value)) {
+												$params.hourly = $params.hourly.filter((item: string) => {
+													return item !== value;
+												});
+											} else if ($params.hourly) {
+												$params.hourly.push(value);
+												$params.hourly = $params.hourly;
+											}
+										}}
+									/>
+									<Label
+										id="{value}_hourly_label"
+										for="{value}_hourly"
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
+									>
+								</div>
+							{/each}
+						</div>
+					{/each}
+				</div>
+				{#if spreadWithoutMeanModel}
+					<div transition:slide>
+						<Alert.Root variant="warning" class="mt-2 md:mt-4 mb-2">
+							<Alert.Description>
+								Ensemble spread variables are only available from the "Google WeatherNext 2 Ensemble
+								Mean" model. Please also select it in the weather models section below.
+							</Alert.Description>
+						</Alert.Root>
+					</div>
+				{/if}
+				<div>
+					<small class="text-muted-foreground"
+						>Note: Ensemble spread variables are calculated by Open-Meteo.
+					</small>
+				</div>
+			</AccordionItem>
+			<AccordionItem
 				id="models"
 				title="Weather models"
 				count={countVariables(models, $params.models)}
@@ -345,6 +415,11 @@
 					bind:values={$params.models}
 					idSuffix="model"
 				/>
+				<div>
+					<small class="text-muted-foreground"
+						>Note: Mean values are calculated by Open-Meteo.
+					</small>
+				</div>
 			</AccordionItem>
 		</Accordion.Root>
 	</div>

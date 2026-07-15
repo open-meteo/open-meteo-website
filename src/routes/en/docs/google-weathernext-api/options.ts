@@ -100,9 +100,25 @@ export const pressureVariables = [
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
 ];
 
-export const levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100, 50];
+export const ensembleSpreadVariables = [
+	[
+		{ value: 'temperature_2m_spread', label: 'Temperature (2 m)' },
+		{ value: 'precipitation_spread', label: 'Precipitation (rain + snow)' },
+		{ value: 'pressure_msl_spread', label: 'Sea Level Pressure' },
+		{ value: 'cloud_cover_spread', label: 'Cloud Cover Total' },
+		{ value: 'cloud_cover_low_spread', label: 'Cloud Cover Low' },
+		{ value: 'cloud_cover_mid_spread', label: 'Cloud Cover Mid' },
+		{ value: 'cloud_cover_high_spread', label: 'Cloud Cover High' }
+	],
+	[
+		{ value: 'wind_speed_10m_spread', label: 'Wind Speed (10 m)' },
+		{ value: 'wind_speed_100m_spread', label: 'Wind Speed (100 m)' },
+		{ value: 'wind_direction_10m_spread', label: 'Wind Direction (10 m)' },
+		{ value: 'wind_direction_100m_spread', label: 'Wind Direction (100 m)' }
+	]
+];
 
-export const solarVariables: { value: string; label: string }[][] = [];
+export const levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100, 50];
 
 export const models = [
 	[

@@ -167,7 +167,7 @@
 				Quick:
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2000-01-01';
 						$params.end_date = '2009-12-31';
@@ -175,7 +175,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2010-01-01';
 						$params.end_date = '2019-12-31';
@@ -183,7 +183,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2020-01-01';
 						$params.end_date = '2020-12-31';
@@ -191,7 +191,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2021-01-01';
 						$params.end_date = '2021-12-31';
@@ -199,7 +199,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2022-01-01';
 						$params.end_date = '2022-12-31';
@@ -207,7 +207,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2023-01-01';
 						$params.end_date = '2023-12-31';
@@ -215,7 +215,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2024-01-01';
 						$params.end_date = '2024-12-31';
@@ -223,7 +223,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2025-01-01';
 						$params.end_date = endDateDefault;
