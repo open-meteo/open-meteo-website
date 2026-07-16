@@ -1,9 +1,11 @@
 import {
+	aigfs025_variables,
 	bom_access_global_ensemble,
 	ecmwf_aifs025_variables,
 	ecmwf_ifs025_variables,
 	gfs025_variables,
 	gfs05_variables,
+	google_weathernext2_variables,
 	icon_d2_variables,
 	icon_eu_variables,
 	icon_global_variables,
@@ -50,6 +52,7 @@ export const availableVariables = {
 	ncep_gefs_ensemble_mean_seamless: gfs05_variables,
 	ncep_gefs025_ensemble_mean: gfs025_variables,
 	ncep_gefs05_ensemble_mean: gfs05_variables,
+	ncep_aigefs025_ensemble_mean: aigfs025_variables,
 	ncep_hgefs025_ensemble_mean: gfs025_variables,
 	ecmwf_ifs025_ensemble_mean: ecmwf_ifs025_variables,
 	ecmwf_aifs025_ensemble_mean: ecmwf_aifs025_variables,
@@ -58,7 +61,8 @@ export const availableVariables = {
 	cmc_gem_geps_ensemble_mean: gem_global_variables,
 	bom_access_global_ensemble_mean: bom_access_global_ensemble,
 	meteoswiss_icon_ch1_ensemble_mean: meteoswiss_variables,
-	meteoswiss_icon_ch2_ensemble_mean: meteoswiss_variables
+	meteoswiss_icon_ch2_ensemble_mean: meteoswiss_variables,
+	google_weathernext2_ensemble_mean: google_weathernext2_variables
 };
 
 export const models = [
@@ -72,6 +76,7 @@ export const models = [
 		{ value: 'ncep_gefs_ensemble_mean_seamless', label: 'GFS Ensemble Seamless Mean' },
 		{ value: 'ncep_gefs025_ensemble_mean', label: 'GFS Ensemble 0.25° Mean' },
 		{ value: 'ncep_gefs05_ensemble_mean', label: 'GFS Ensemble 0.5° Mean' },
+		{ value: 'ncep_aigefs025_ensemble_mean', label: 'AIGEFS 0.25° Mean' },
 		{ value: 'ncep_hgefs025_ensemble_mean', label: 'HGEFS 0.25° Mean' }
 	],
 	[
@@ -87,7 +92,8 @@ export const models = [
 	[
 		{ value: 'meteoswiss_icon_ch1_ensemble_mean', label: 'MeteoSwiss ICON CH1 Mean' },
 		{ value: 'meteoswiss_icon_ch2_ensemble_mean', label: 'MeteoSwiss ICON CH2 Mean' }
-	]
+	],
+	[{ value: 'google_weathernext2_ensemble_mean', label: 'Google WeatherNext 2 Ensemble Mean' }]
 ];
 
 export const forecastDaysOptions = [

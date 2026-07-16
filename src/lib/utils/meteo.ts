@@ -193,6 +193,10 @@ export const membersPerModel = (model: string): number => {
 		case 'ncep_aigefs025':
 			return 31;
 
+		// Google WeatherNext
+		case 'google_weathernext2_ensemble':
+			return 64;
+
 		case 'ecmwf_ifs025':
 			return 51;
 		case 'ecmwf_ifs025_ensemble':

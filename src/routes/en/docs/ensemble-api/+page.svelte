@@ -745,7 +745,7 @@
 								Global
 							</div>
 						</td>
-						<td>25 km, 3-hourly</td>
+						<td>0.25° (~25km), 3-hourly</td>
 						<td>31</td>
 						<td>10 days</td>
 						<td>Every 6 hours</td>
@@ -779,7 +779,7 @@
 								Global
 							</div>
 						</td>
-						<td>25 km, 6-hourly</td>
+						<td>0.25° (~25km), 6-hourly</td>
 						<td>31</td>
 						<td>16 days</td>
 						<td>Every 6 hours</td>
@@ -797,7 +797,7 @@
 								Global
 							</div>
 						</td>
-						<td>25 km, 3-hourly</td>
+						<td>0.25° (~25km), 3-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
@@ -814,7 +814,7 @@
 								Global
 							</div>
 						</td>
-						<td>25 km, 6-hourly</td>
+						<td>0.25° (~25km), 6-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
@@ -832,7 +832,7 @@
 								Global
 							</div>
 						</td>
-						<td>25 km, 3-hourly</td>
+						<td>0.25° (~25km), 3-hourly</td>
 						<td>21</td>
 						<td>16 days (39 days every Mo+Thu)</td>
 						<td>Every 12 hours</td>
@@ -936,6 +936,24 @@
 						<td>21</td>
 						<td>12 hours</td>
 						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th>Google</th>
+						<td>WeatherNext 2</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
+						<td>0.25° (~25km), 6-hourly</td>
+						<td>64</td>
+						<td>15 days</td>
+						<td>Every 12 hours</td>
 					</tr>
 				</tbody>
 			</table>

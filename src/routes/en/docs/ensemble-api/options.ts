@@ -5,6 +5,7 @@ import {
 	ecmwf_ifs025_variables,
 	gfs025_variables,
 	gfs05_variables,
+	google_weathernext2_variables,
 	icon_d2_variables,
 	icon_eu_variables,
 	icon_global_variables,
@@ -61,7 +62,8 @@ export const availableVariables: Record<string, string[]> = {
 	gem_global_ensemble: cmc_gem_global_variables,
 	bom_access_global_ensemble: bom_access_global_ensemble,
 	meteoswiss_icon_ch1_ensemble: meteoswiss_variables,
-	meteoswiss_icon_ch2_ensemble: meteoswiss_variables
+	meteoswiss_icon_ch2_ensemble: meteoswiss_variables,
+	google_weathernext2_ensemble: google_weathernext2_variables
 };
 
 export const models = [
@@ -92,7 +94,8 @@ export const models = [
 	[
 		{ value: 'meteoswiss_icon_ch1_ensemble', label: 'MeteoSwiss ICON CH1' },
 		{ value: 'meteoswiss_icon_ch2_ensemble', label: 'MeteoSwiss ICON CH2' }
-	]
+	],
+	[{ value: 'google_weathernext2_ensemble', label: 'Google WeatherNext 2 Ensemble' }]
 ];
 
 export const forecastDaysOptions = [

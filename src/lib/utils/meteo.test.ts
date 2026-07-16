@@ -275,6 +275,11 @@ describe('membersPerModel', () => {
 		expect(membersPerModel('ncep_aigefs025')).toBe(31);
 	});
 
+	// Google WeatherNext
+	test('returns 64 for google_weathernext2_ensemble', () => {
+		expect(membersPerModel('google_weathernext2_ensemble')).toBe(64);
+	});
+
 	// ECMWF
 	test('returns 51 for ecmwf_ifs025', () => {
 		expect(membersPerModel('ecmwf_ifs025')).toBe(51);
