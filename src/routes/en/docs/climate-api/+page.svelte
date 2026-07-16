@@ -238,9 +238,7 @@
 			with multiple models and evaluate their performance afterward.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">Climate Model</th>
@@ -359,10 +357,8 @@
 		</p>
 
 		<div class="-mx-6 overflow-auto overflow-y-hidden md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<caption class="text-muted-foreground mt-2 table-caption text-left"
+			<table class="docs-table w-full min-w-250">
+				<caption
 					>&#x26a0;&#xfe0f; = Only daily <mark>mean</mark> values available. No daily minima or maxima.</caption
 				>
 				<thead>
@@ -460,9 +456,7 @@
 		</p>
 		<p>All URL parameters are listed below:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>
@@ -626,9 +620,7 @@
 			separated list:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -769,9 +761,7 @@
 			<ClimateObject />
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>

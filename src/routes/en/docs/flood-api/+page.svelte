@@ -177,9 +177,7 @@
 			website provides additional maps to help understand how rivers are covered in this dataset.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Weather Model</th>
@@ -200,7 +198,7 @@
 						>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -222,7 +220,7 @@
 						>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -244,7 +242,7 @@
 						>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -266,7 +264,7 @@
 						>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -288,7 +286,7 @@
 						>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -310,7 +308,7 @@
 						>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -341,9 +339,7 @@
 			below:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-285 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>
@@ -470,9 +466,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>The parameter <mark>&daily=</mark> accepts the following values:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-135 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-150">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -516,9 +510,7 @@
 			<FloodObject />
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>

@@ -677,9 +677,7 @@
 			the following weather forecast models:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-320 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">National Weather Provider</th>
@@ -697,7 +695,7 @@
 						<td>ICON</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -714,7 +712,7 @@
 						<td>ICON-EU</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -735,7 +733,7 @@
 						<td>ICON-D2</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -771,7 +769,7 @@
 						<td>GFS</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -788,7 +786,7 @@
 						<td>GFS Pressure Variables</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -805,7 +803,7 @@
 						<td>HRRR</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -833,7 +831,7 @@
 						<td>NAM</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -861,7 +859,7 @@
 						<td>NBM</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -889,7 +887,7 @@
 						<td>AIGFS</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -906,7 +904,7 @@
 						<td>HGEFS</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -924,7 +922,7 @@
 						<td>ARPEGE World</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -941,7 +939,7 @@
 						<td>ARPEGE Europe</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -962,7 +960,7 @@
 						<td>AROME France</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -983,7 +981,7 @@
 						<td>AROME France HD</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1005,7 +1003,7 @@
 						<td>IFS 0.4°</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1022,7 +1020,7 @@
 						<td>IFS 0.25°</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1039,7 +1037,7 @@
 						<td>AIFS 0.25° Single</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1056,7 +1054,7 @@
 						<td>IFS HRES</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1074,7 +1072,7 @@
 						<td>UKMO Global</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1091,7 +1089,7 @@
 						<td>UKMO UKV</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1120,7 +1118,7 @@
 						<td>GSM</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1137,7 +1135,7 @@
 						<td>MSM</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1159,7 +1157,7 @@
 						<td>MET Nordic</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1195,7 +1193,7 @@
 						<td>GEM Global</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1212,7 +1210,7 @@
 						<td>GEM Regional</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1240,7 +1238,7 @@
 						<td>HRDPS Continental</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1262,7 +1260,7 @@
 						<td>GFS GRAPES</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1280,7 +1278,7 @@
 						<td>ACCESS-G</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1298,7 +1296,7 @@
 						<td>ICON 2I</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1320,7 +1318,7 @@
 						<td>HARMONIE AROME DINI</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1342,7 +1340,7 @@
 						<td>HARMONIE AROME Netherlands</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1370,7 +1368,7 @@
 						<td>HARMONIE AROME Europe</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1392,7 +1390,7 @@
 						<td>ICON CH1</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1413,7 +1411,7 @@
 						<td>ICON CH2</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"

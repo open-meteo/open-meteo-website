@@ -470,10 +470,8 @@
 	<div class="mt-2 md:mt-4">
 		<p>This API provides access to the ICON-2I model from ItaliaMeteo-ARPAE.</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<caption class="text-muted-foreground mt-2 table-caption text-left"
+			<table class="docs-table w-full min-w-250">
+				<caption
 					>You can find the update timings in the <a
 						class="text-link underline"
 						href="/en/docs/model-updates">model updates documentation</a
@@ -494,7 +492,7 @@
 						<th scope="row">ICON 2I</th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"

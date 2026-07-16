@@ -859,10 +859,8 @@
 			</p>
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<caption class="text-muted-foreground mt-2 table-caption text-left"
+			<table class="docs-table w-full min-w-250">
+				<caption
 					>You can find the update timings in the <a
 						class="text-link underline"
 						href={resolve('/en/docs/model-updates')}>model updates documentation</a
@@ -884,7 +882,7 @@
 						<th scope="row"><a href={resolve('/en/docs/dwd-api')}>ICON</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -909,7 +907,7 @@
 						<th scope="row"><a href={resolve('/en/docs/gfs-api')}>GFS & HRRR</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -941,7 +939,7 @@
 						<th scope="row"><a href={resolve('/en/docs/meteofrance-api')}>ARPEGE & AROME</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -973,7 +971,7 @@
 						<th scope="row"><a href={resolve('/en/docs/ecmwf-api')}>IFS & AIFS</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -991,7 +989,7 @@
 						<th scope="row"><a href={resolve('/en/docs/ukmo-api')}>UKMO</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1016,7 +1014,7 @@
 						<th scope="row"><a href={resolve('/en/docs/kma-api')}>KMA</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1041,7 +1039,7 @@
 						<th scope="row"><a href={resolve('/en/docs/jma-api')}>MSM & GSM</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1066,7 +1064,7 @@
 						<th scope="row"><a href={resolve('/en/docs/meteoswiss-api')}>ICON CH</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1088,7 +1086,7 @@
 						<th scope="row"><a href={resolve('/en/docs/metno-api')}>MET Nordic</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1124,7 +1122,7 @@
 						<th scope="row"><a href={resolve('/en/docs/gem-api')}>GEM</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1149,7 +1147,7 @@
 						<th scope="row"><a href={resolve('/en/docs/bom-api')}>ACCESS-G</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1167,7 +1165,7 @@
 						<th scope="row"><a href={resolve('/en/docs/cma-api')}>GFS GRAPES</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -1185,7 +1183,7 @@
 						<th scope="row"><a href={resolve('/en/docs/knmi-api')}>HARMONIE</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1214,7 +1212,7 @@
 						<th scope="row"><a href={resolve('/en/docs/dmi-api')}>HARMONIE</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1236,7 +1234,7 @@
 						<th scope="row"><a href={resolve('/en/docs/italia-meteo-arpae-api')}>ARPAE</a></th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -1274,9 +1272,7 @@
 			are listed below:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-315 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>
@@ -1521,9 +1517,7 @@
 			from the preceding hour as an average or sum.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-265 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -1820,9 +1814,7 @@
 			data, but will use interpolation.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-210 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-200">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -2034,9 +2026,7 @@
 		</p>
 
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -2114,9 +2104,7 @@
 			> accepts the following values:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -2250,9 +2238,7 @@
 			<WeatherForecastObject />
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>
@@ -2373,9 +2359,7 @@
 	<div class="mt-3 md:mt-6">
 		<h3 class="text-xl md:text-2xl">WMO Weather interpretation codes (WW)</h3>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-112.5 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table min-w-100">
 				<thead>
 					<tr>
 						<th scope="col">Code</th>

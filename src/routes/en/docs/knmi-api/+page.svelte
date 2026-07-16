@@ -497,9 +497,7 @@
 			the <a href="/en/docs/ecmwf-api">ECMWF IFS HRES 9 km model</a> to provide up to 15 days of forecast.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">Weather Model</th>
@@ -520,7 +518,7 @@
 						>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[60px] items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -553,7 +551,7 @@
 						>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[60px] items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
