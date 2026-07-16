@@ -510,9 +510,13 @@
 	<div class="mt-2 md:mt-4">
 		<p>CHMI provides weather forecasts from the ALADIN model.</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
+				<caption
+					>You can find the update timings in the <a
+						class="text-link underline"
+						href="/en/docs/model-updates">model updates documentation</a
+					>.</caption
+				>
 				<thead>
 					<tr>
 						<th scope="col">Weather Model</th>
@@ -526,17 +530,44 @@
 				<tbody>
 					<tr>
 						<th scope="row">CHMI Aladin Central Europe 2km</th>
-						<td>Central Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[32px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
 						<td>2 km</td>
-						<td>1-hourly</td>
+						<td>Hourly</td>
 						<td>3 days</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
 						<th scope="row">CHMI Aladin CZ 1km</th>
-						<td>Czech Republic</td>
+
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[32px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/cz.svg"
+										alt="Germany"
+										title="Germany"
+									/>
+								</div>
+								Czech Republic
+							</div>
+						</td>
 						<td>1 km</td>
-						<td>1-hourly</td>
+						<td>Hourly</td>
 						<td>3 days</td>
 						<td>Every 6 hours</td>
 					</tr>
