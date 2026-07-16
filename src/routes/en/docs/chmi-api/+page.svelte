@@ -17,6 +17,8 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
@@ -523,17 +525,17 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row">CHMI Aladin CZ 1km</th>
-						<td>Czech Republic</td>
-						<td>1 km</td>
+						<th scope="row">CHMI Aladin Central Europe 2km</th>
+						<td>Central Europe</td>
+						<td>2 km</td>
 						<td>1-hourly</td>
 						<td>3 days</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row">CHMI Aladin Central Europe 2km</th>
-						<td>Central Europe</td>
-						<td>2 km</td>
+						<th scope="row">CHMI Aladin CZ 1km</th>
+						<td>Czech Republic</td>
+						<td>1 km</td>
 						<td>1-hourly</td>
 						<td>3 days</td>
 						<td>Every 6 hours</td>
@@ -543,21 +545,35 @@
 		</div>
 	</div>
 
-	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-		<figure>
-			<!-- <enhanced:img
-				src="/static/images/models/knmi_harmonie.jpg"
-				class="rounded-lg"
-				alt="KNMI HARMONIE AROME model area over Europe and Netherlands"
-			/>
-			<figcaption class="text-muted-foreground">
-				KNMI HARMONIE AROME model area Europe (blue/red) and Netherlands nest (green). Source: <a
-					href="https://english.knmidata.nl/latest/newsletters/open-data-newsletter/2024/open-data-march-2024"
-					>KMNI Blog</a
+	<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+		<ZoomableImage
+			figureClass="w-full"
+			class="w-full"
+			src="/images/models/chmi_aladin_central_europe_2km.webp"
+			alt="CHMI Aladin Central Europe Model Area"
+		>
+			{#snippet caption()}
+				CHMI Aladin Central Europe Model Area. Source:
+				<a href="https://maps.open-meteo.com/?domain=chmi_aladin_central_europe_2km#4.5/47.67/15.7"
+					>Open-Meteo</a
 				>.
-			</figcaption> -->
-		</figure>
-	</div>
+			{/snippet}
+		</ZoomableImage>
+
+		<ZoomableImage
+			figureClass="w-full"
+			class="w-full"
+			src="/images/models/chmi_aladin_cz_1km.webp"
+			alt="CHMI Aladin CZ Model Area"
+		>
+			{#snippet caption()}
+				CHMI Aladin CZ Model Area. Source:
+				<a href="https://maps.open-meteo.com/?domain=chmi_aladin_cz_1km#7.05/49.569/15.71"
+					>Open-Meteo</a
+				>.
+			{/snippet}
+		</ZoomableImage>
+	</ZoomableImageGallery>
 </div>
 
 <!-- API DOCS -->
