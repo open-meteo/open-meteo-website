@@ -167,7 +167,7 @@
 				Quick:
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2000-01-01';
 						$params.end_date = '2009-12-31';
@@ -175,7 +175,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2010-01-01';
 						$params.end_date = '2019-12-31';
@@ -183,7 +183,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2020-01-01';
 						$params.end_date = '2020-12-31';
@@ -191,7 +191,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2021-01-01';
 						$params.end_date = '2021-12-31';
@@ -199,7 +199,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2022-01-01';
 						$params.end_date = '2022-12-31';
@@ -207,7 +207,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2023-01-01';
 						$params.end_date = '2023-12-31';
@@ -215,7 +215,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2024-01-01';
 						$params.end_date = '2024-12-31';
@@ -223,7 +223,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2025-01-01';
 						$params.end_date = endDateDefault;
@@ -546,10 +546,8 @@
 		</div>
 	</div>
 	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-		<table
-			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-		>
-			<caption class="text-muted-foreground mt-2 table-caption text-left"
+		<table class="docs-table w-full min-w-250">
+			<caption
 				>You can find the update timings in the <a
 					class="text-link underline"
 					href="/en/docs/model-updates">model updates documentation</a
@@ -575,7 +573,7 @@
 					</th>
 					<td>
 						<div class="flex items-center gap-2">
-							<div class="flex w-[26px] items-center gap-2">
+							<div class="flex w-[26px] shrink-0 items-center gap-2">
 								<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">🌍</div>
 							</div>
 							Global
@@ -595,7 +593,7 @@
 					</th>
 					<td>
 						<div class="flex items-center gap-2">
-							<div class="flex w-[26px] items-center gap-2">
+							<div class="flex w-[26px] shrink-0 items-center gap-2">
 								<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">🌍</div>
 							</div>
 							Global
@@ -614,7 +612,7 @@
 					</th>
 					<td>
 						<div class="flex items-center gap-2">
-							<div class="flex w-[26px] items-center gap-2">
+							<div class="flex w-[26px] shrink-0 items-center gap-2">
 								<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">🌍</div>
 							</div>
 							Global
@@ -634,7 +632,7 @@
 					</th>
 					<td>
 						<div class="flex items-center gap-2">
-							<div class="flex w-[26px] items-center gap-2">
+							<div class="flex w-[26px] shrink-0 items-center gap-2">
 								<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">🌍</div>
 							</div>
 							Global
@@ -654,7 +652,7 @@
 					</th>
 					<td>
 						<div class="flex items-center gap-2">
-							<div class="flex w-[26px] items-center gap-2">
+							<div class="flex w-[26px] shrink-0 items-center gap-2">
 								<img
 									height="26"
 									width="26"
@@ -680,7 +678,7 @@
 					</th>
 					<td>
 						<div class="flex items-center gap-2">
-							<div class="flex w-[26px] items-center gap-2">
+							<div class="flex w-[26px] shrink-0 items-center gap-2">
 								<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">🌍</div>
 							</div>
 							Global
@@ -702,10 +700,8 @@
 		except snow depth, while IFA Assimilation omits precipitation, snowfall, and solar radiation.
 	</p>
 	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-		<table
-			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-		>
-			<caption class="text-muted-foreground mt-2 table-caption text-left text-sm">
+		<table class="docs-table w-full min-w-250">
+			<caption class="text-sm">
 				<p class="mb-0!">
 					<sup>1</sup> ERA5-Land is driven by atmospheric variables from ERA5 as its "forcing," meaning
 					it relies on the same data as ERA5.
@@ -815,10 +811,8 @@
 		</p>
 		<p>All URL parameters are listed below:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<caption class="text-muted-foreground mt-2 table-caption text-left"
+			<table class="docs-table w-full min-w-300">
+				<caption
 					>Additional optional URL parameters will be added. For API stability, no required
 					parameters will be added in the future.</caption
 				>
@@ -997,9 +991,7 @@
 			from the preceding hour as and average or sum.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -1258,9 +1250,7 @@
 			> accepts the following values:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -1362,9 +1352,7 @@
 			<WeatherForecastObject />
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>

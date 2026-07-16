@@ -406,10 +406,8 @@
 			For GDPS Global, values are interpolated from 3-hourly to 1-hourly time-steps.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-256.25 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<caption class="text-muted-foreground mt-2 table-caption text-left"
+			<table class="docs-table w-full min-w-250">
+				<caption
 					>You can find the update timings in the <a
 						class="text-link undeline"
 						href="/en/docs/model-updates">model updates documentation</a
@@ -430,7 +428,7 @@
 						<th scope="row">KMA GDPS</th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -447,7 +445,7 @@
 						<th scope="row">KMA LDPS</th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"

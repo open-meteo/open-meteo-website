@@ -574,9 +574,7 @@ TODO:
 <div class="mt-6 md:mt-12">
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-		<table
-			class="[&_tr]:border-border mx-6 mt-2 min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-		>
+		<table class="docs-table w-full min-w-250">
 			<thead>
 				<tr>
 					<th scope="col">Provider</th>
@@ -599,18 +597,7 @@ TODO:
 					>
 					<td>EUMETSAT MTG</td>
 					<td>
-						<div class="flex items-center gap-2">
-							<div class="flex w-[94px] items-center gap-2">
-								<img
-									height="26"
-									width="26"
-									src="/images/country-flags/european_union.svg"
-									alt="European Union"
-									title="European Union"
-								/>
-							</div>
-							Europe, Africa
-						</div>
+						<div class="flex items-center gap-2">Europe, Africa</div>
 					</td>
 					<td>0.025° (~ 2.5km)</td>
 					<td>10 minutely</td>
@@ -626,18 +613,7 @@ TODO:
 					>
 					<td>MSG</td>
 					<td>
-						<div class="flex items-center gap-2">
-							<div class="flex w-[94px] items-center gap-2">
-								<img
-									height="26"
-									width="26"
-									src="/images/country-flags/european_union.svg"
-									alt="European Union"
-									title="European Union"
-								/>
-							</div>
-							Europe, Africa, South America (only land)
-						</div>
+						<div class="flex items-center gap-2">Europe, Africa, South America (only land)</div>
 					</td>
 					<td>0.05° (~ 5km)</td>
 					<td>15 minutely</td>
@@ -648,25 +624,7 @@ TODO:
 				<tr>
 					<td>IODC</td>
 					<td>
-						<div class="flex items-center gap-2">
-							<div class="flex w-[94px] items-center gap-2">
-								<img
-									height="26"
-									width="26"
-									src="/images/country-flags/european_union.svg"
-									alt="European Union"
-									title="European Union"
-								/>
-								<img
-									height="26"
-									width="26"
-									src="/images/country-flags/in.svg"
-									alt="India"
-									title="India"
-								/>
-							</div>
-							Europe, Africa, India (only land)
-						</div>
+						<div class="flex items-center gap-2">Europe, Africa, India (only land)</div>
 					</td>
 					<td>0.05° (~ 5km)</td>
 					<td>15 minutely</td>
@@ -683,18 +641,7 @@ TODO:
 					>
 					<td>MSG</td>
 					<td>
-						<div class="flex items-center gap-2">
-							<div class="flex w-[94px] items-center gap-2">
-								<img
-									height="26"
-									width="26"
-									src="/images/country-flags/european_union.svg"
-									alt="European Union"
-									title="European Union"
-								/>
-							</div>
-							Europe, Africa, South America
-						</div>
+						<div class="flex items-center gap-2">Europe, Africa, South America</div>
 					</td>
 					<td>0.05° (~ 5km)</td>
 					<td>30 minutely</td>
@@ -709,32 +656,7 @@ TODO:
 					>
 					<td>Himawari-9</td>
 					<td>
-						<div class="flex items-center gap-2">
-							<div class="flex w-[94px] items-center gap-2">
-								<img
-									height="26"
-									width="26"
-									src="/images/country-flags/in.svg"
-									alt="India"
-									title="India"
-								/>
-								<img
-									height="26"
-									width="26"
-									src="/images/country-flags/au.svg"
-									alt="Australia"
-									title="Australia"
-								/>
-								<img
-									height="26"
-									width="26"
-									src="/images/country-flags/nz.svg"
-									alt="New Zealand"
-									title="New Zealand"
-								/>
-							</div>
-							India, Asia, Australia, New Zealand
-						</div>
+						<div class="flex items-center gap-2">India, Asia, Australia, New Zealand</div>
 					</td>
 					<td>0.05° (~ 5km)</td>
 					<td>10 minutely</td>
@@ -745,18 +667,7 @@ TODO:
 				<tr>
 					<td>EUMETSAT MTG</td>
 					<td>
-						<div class="flex items-center gap-2">
-							<div class="flex w-[94px] items-center gap-2">
-								<img
-									height="26"
-									width="26"
-									src="/images/country-flags/european_union.svg"
-									alt="European Union"
-									title="European Union"
-								/>
-							</div>
-							Europe, Africa
-						</div>
+						<div class="flex items-center gap-2">Europe, Africa</div>
 					</td>
 					<td>0.05° (~ 5km)</td>
 					<td>10 minutely</td>
@@ -768,25 +679,7 @@ TODO:
 					<th scope="row" rowspan="2">NASA (not yet available)</th>
 					<td>GOES-East</td>
 					<td>
-						<div class="flex items-center gap-2">
-							<div class="flex w-[94px] items-center gap-2">
-								<img
-									height="26"
-									width="26"
-									src="/images/country-flags/us.svg"
-									alt="United States"
-									title="United States"
-								/>
-								<img
-									height="26"
-									width="26"
-									src="/images/country-flags/br.svg"
-									alt="Brazil"
-									title="Brazil"
-								/>
-							</div>
-							North & South America
-						</div>
+						<div class="flex items-center gap-2">North & South America</div>
 					</td>
 					<td>0.05° (~ 5km)</td>
 					<td>N/A</td>
@@ -797,18 +690,7 @@ TODO:
 				<tr>
 					<td>GOES-West</td>
 					<td>
-						<div class="flex items-center gap-2">
-							<div class="flex w-[94px] items-center gap-2">
-								<img
-									height="26"
-									width="26"
-									src="/images/country-flags/us.svg"
-									alt="United States"
-									title="United States"
-								/>
-							</div>
-							Pacific Ocean & Alaska
-						</div>
+						<div class="flex items-center gap-2">Pacific Ocean & Alaska</div>
 					</td>
 					<td>N/A</td>
 					<td>N/A</td>
@@ -890,9 +772,7 @@ TODO:
 			intervals.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-265 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>

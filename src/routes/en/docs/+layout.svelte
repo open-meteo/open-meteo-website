@@ -50,7 +50,10 @@
 		{
 			title: 'Ensemble Models',
 			url: '/en/docs/ensemble-api',
-			children: [{ title: 'Ensemble Mean API', url: '/en/docs/ensemble-mean-api' }]
+			children: [
+				{ title: 'Ensemble Mean API', url: '/en/docs/ensemble-mean-api' },
+				{ title: 'Google WeatherNext', url: '/en/docs/google-weathernext-api' }
+			]
 		},
 		{ title: 'Seasonal Forecast', url: '/en/docs/seasonal-forecast-api' },
 		{ title: 'Climate Change', url: '/en/docs/climate-api' },

@@ -281,6 +281,13 @@ export const aigfs025_variables = [
 	'is_day'
 ];
 
+export const google_weathernext2_variables = [
+	...aigfs025_variables,
+	'sea_surface_temperature',
+	'wind_speed_100m',
+	'wind_direction_100m'
+];
+
 export const gfs05_variables = [
 	...gfs025_variables,
 	...ecmwf_pressure_levels,

@@ -318,6 +318,35 @@ p:not(:last-child) {
 	@apply mb-3;
 }
 
+/* Data tables on the docs, pricing and terms pages. th and td must share the
+   same horizontal padding so header and body text align per column; the first
+   column stays flush with the surrounding text. Width is left to the caller:
+   most tables add `w-full` plus a `min-w-*` (steps of 50 = 200px) to keep
+   columns readable when they scroll horizontally on small screens. */
+@layer components {
+	.docs-table {
+		@apply mx-6 mt-2 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0;
+	}
+
+	.docs-table tr {
+		@apply border-border border-b;
+	}
+
+	.docs-table th,
+	.docs-table td {
+		@apply px-2 py-2.5;
+	}
+
+	.docs-table th:first-child,
+	.docs-table td:first-child {
+		@apply pl-0;
+	}
+
+	.docs-table caption {
+		@apply text-muted-foreground mt-2 text-left;
+	}
+}
+
 pre {
 	-moz-tab-size: 4;
 	-o-tab-size: 4;

@@ -17,6 +17,7 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
@@ -221,11 +222,8 @@
 				</div>
 				<div>
 					<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-						<table
-							class="[&_tr]:border-border mx-6 mt-2 w-full min-w-185 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-							id="airquality_table"
-						>
-							<caption class="text-muted-foreground mt-2 table-caption text-left"
+						<table class="docs-table w-full min-w-200" id="airquality_table">
+							<caption
 								>You can find the update timings in the <a
 									class="text-link underline"
 									href="/en/docs/model-updates">model updates documentation</a
@@ -361,10 +359,7 @@
 				</div>
 				<div>
 					<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-						<table
-							class="[&_tr]:border-border min-w-[10 54-10040px] mx-6 mt-2 w-full caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-							id="airquality_table_us"
-						>
+						<table class="docs-table w-full min-w-200" id="airquality_table_us">
 							<thead>
 								<tr>
 									<th scope="col">Pollutant</th>
@@ -676,10 +671,8 @@
 			and may show different forecasts.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-285 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<caption class="text-muted-foreground mt-2 table-caption text-left"
+			<table class="docs-table w-full min-w-300">
+				<caption
 					>You can find the update timings in the <a
 						class="text-link underline"
 						href="/en/docs/model-updates">model updates documentation</a
@@ -705,7 +698,7 @@
 						</th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -731,7 +724,7 @@
 						</th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -757,7 +750,7 @@
 						</th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -779,7 +772,7 @@
 						</th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -796,6 +789,16 @@
 			</table>
 		</div>
 	</div>
+	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+		<ZoomableImage src="/images/models/cams_europe.webp" alt="CAMS Europe Model Area">
+			{#snippet caption()}
+				CAMS Europe Model Area. Source:
+				<a href="https://maps.open-meteo.com/?domain=cams_europe&variable=pm2_5#3.38/54.01/11.94"
+					>Open-Meteo</a
+				>.
+			{/snippet}
+		</ZoomableImage>
+	</div>
 </div>
 
 <!-- API DOCS -->
@@ -811,9 +814,7 @@
 		</p>
 		<p>All URL parameters are listed below:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>
@@ -996,9 +997,7 @@
 			from the preceding hour as an average or sum.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -1126,9 +1125,7 @@
 			<AirQualityObject />
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>
