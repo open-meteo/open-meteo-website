@@ -16,13 +16,13 @@
 	11 levels: JMA,
 	-->
 	<table
-		class="mx-6 mt-2 caption-bottom md:ml-0 lg:mx-0 {levels.length > 40
-			? 'min-w-675'
+		class="docs-table w-full {levels.length > 40
+			? 'min-w-700'
 			: levels.length > 25
-				? 'min-w-475'
+				? 'min-w-500'
 				: levels.length > 15
-					? 'min-w-312.5'
-					: 'min-w-195'} w-full text-left [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
+					? 'min-w-300'
+					: 'min-w-200'}"
 	>
 		<tbody>
 			<tr>

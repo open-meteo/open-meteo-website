@@ -689,9 +689,7 @@
 			</p>
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-4 w-full min-w-275 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">Weather Provider</th>
@@ -710,7 +708,7 @@
 						<td><a href="/en/docs/ecmwf-api">IFS HRES 9 km</a></td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -729,7 +727,7 @@
 						<td>-</td>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
 									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
 										🌍
 									</div>
@@ -764,9 +762,7 @@
 			system, so response times may be higher than the real-time forecast API.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-200 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-200">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>
