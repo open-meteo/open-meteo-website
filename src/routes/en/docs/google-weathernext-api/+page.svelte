@@ -610,7 +610,7 @@
 					<tr>
 						<th scope="row">U and V wind components</th>
 						<td>10 m and 100 m above ground</td>
-						<td>Wind speed and direction at the corresponding height</td>
+						<td>Wind speed and direction at 10 and 100 m height above ground</td>
 					</tr>
 					<tr>
 						<th scope="row">Temperature</th>
@@ -641,9 +641,8 @@
 			</table>
 		</div>
 		<p class="mt-2">
-			The pressure levels are <strong
-				>1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100 and 50 hPa</strong
-			>. See Google's
+			The pressure levels are 1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100 and 50
+			hPa. See Google's
 			<a href="https://developers.google.com/weathernext/guides/model-specs-vmg" target="_blank"
 				>model specification and data schema</a
 			>
@@ -668,8 +667,8 @@
 			>
 				<thead>
 					<tr>
-						<th scope="col">Derived variable</th>
-						<th scope="col">How it is derived</th>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
 					</tr>
 				</thead>
 				<tbody>
