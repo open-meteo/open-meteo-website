@@ -117,9 +117,13 @@
 <svelte:head>
 	<title>CHMI Aladin Weather Model API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/chmi-api" />
+	<meta
+		name="description"
+		content="Weather forecasts from the Czech CHMI ALADIN model at up to 1 km resolution for the Czech Republic and Central Europe. Free weather API for non-commercial use, no key required."
+	/>
 </svelte:head>
 
-<form method="get" action="https://api.open-meteo.com/v1/chmi">
+<form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<LocationSelection bind:params={$params} />
 
 	<!-- TIME -->
@@ -499,7 +503,7 @@
 	<ResultsPreview
 		{params}
 		{defaultParameters}
-		model_default="chmi_aladin_cz_1km"
+		model_default="chmi_aladin_seamless"
 		defaultTimeParameters={false}
 	/>
 </div>
@@ -508,7 +512,17 @@
 <div class="mt-6 md:mt-12">
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
-		<p>CHMI provides weather forecasts from the ALADIN model.</p>
+		<p>
+			The Czech Hydrometeorological Institute (CHMI) runs the ALADIN limited-area weather model and
+			publishes forecasts as <a
+				class="text-link underline"
+				href="https://opendata.chmi.cz/meteorology/weather/nwp_aladin/"
+				target="_blank">open data</a
+			>. Both domains provide hourly forecasts for 3 days and are updated every 6 hours. The Central
+			Europe domain additionally includes atmospheric data on 17 pressure levels. The
+			<mark>CHMI Aladin Seamless</mark> model automatically uses the 1 km Czech Republic domain where
+			available and falls back to the Central Europe domain otherwise.
+		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table class="docs-table w-full min-w-250">
 				<caption
@@ -544,7 +558,7 @@
 								Central Europe
 							</div>
 						</td>
-						<td>2 km</td>
+						<td>2.3 km</td>
 						<td>Hourly</td>
 						<td>3 days</td>
 						<td>Every 6 hours</td>
@@ -559,8 +573,8 @@
 										height="26"
 										width="26"
 										src="/images/country-flags/cz.svg"
-										alt="Germany"
-										title="Germany"
+										alt="Czech Republic"
+										title="Czech Republic"
 									/>
 								</div>
 								Czech Republic
@@ -607,6 +621,103 @@
 	</ZoomableImageGallery>
 </div>
 
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			ALADIN natively provides temperature, humidity, wind, pressure, cloud cover, precipitation,
+			radiation, CAPE, visibility and sunshine duration. Several convenient API variables are not
+			predicted directly by the model. Open-Meteo derives them from the native fields for every
+			forecast step.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Weather code</th>
+						<td>
+							Computed from cloud cover, precipitation, snowfall, wind gusts, CAPE and visibility.
+							ALADIN does not publish a usable WMO weather symbol.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall</th>
+						<td>
+							Converted from the native snowfall water equivalent, assuming 1 mm of water equals 0.7
+							cm of snow.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Apparent temperature</th>
+						<td>
+							Combines 2 m temperature, relative humidity, wind speed and shortwave radiation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Diffuse solar radiation</th>
+						<td>
+							Difference between the native shortwave (global) and native direct solar radiation. No
+							radiation separation model is required.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Direct normal irradiance DNI and global tilted irradiance GTI</th>
+						<td>
+							Calculated from direct and diffuse radiation using solar geometry and, for GTI, the
+							selected panel tilt and azimuth.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Reference evapotranspiration ET₀</th>
+						<td>
+							FAO-56 Penman-Monteith equation using temperature, humidity, wind speed and solar
+							radiation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Vapour pressure deficit and wet bulb temperature</th>
+						<td>Calculated from 2 m temperature, relative humidity and dew point.</td>
+					</tr>
+					<tr>
+						<th scope="row">Terrestrial radiation and day-or-night flag</th>
+						<td>Astronomical calculations for every grid cell and timestamp.</td>
+					</tr>
+					<tr>
+						<th scope="row">Pressure-level wind speed and direction</th>
+						<td>
+							Calculated from the native U and V wind components (Central Europe domain only).
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Pressure-level dew point and cloud cover</th>
+						<td>
+							Calculated from pressure-level temperature and relative humidity (Central Europe
+							domain only).
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Unlike most regional weather models, ALADIN natively provides direct solar radiation and
+			sunshine duration, so these are not estimated by Open-Meteo.
+		</p>
+	</div>
+</div>
+
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
 	<a href="#api_documentation"
@@ -619,28 +730,21 @@
 			>. Only notable remarks are listed below
 		</p>
 		<ul class="ml-6 list-disc">
-			<!-- <li>
-				<strong>Solar Radiation:</strong> KNMI supplies only global solar radiation data and does
-				not offer direct or diffuse solar radiation. Open-Meteo applies the separation model from
-				<a
-					href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
-					>Razo, Müller Witwer</a
-				> to calculate direct radiation from shortwave solar radiation.
+			<li>
+				<strong>Pressure Level Data:</strong> Forecasts on pressure levels are only available for
+				the Central Europe 2km domain on 17 levels (1000, 950, 925, 850, 800, 700, 600, 500, 450,
+				400, 350, 300, 275, 250, 200, 150 and 100 hPa), e.g. <mark>temperature_850hPa</mark> or
+				<mark>wind_speed_500hPa</mark>.
 			</li>
 			<li>
-				<strong>Wind Direction Correction:</strong> Wind direction has been calculated from U/V wind
-				component vectors. Special care has been taken to correct for the
-				<mark>Rotated Lat Long</mark> projection. Without this correction, wind directions have an error
-				of up to 15°.
+				<strong>Snow Depth:</strong> ALADIN provides the snow cover as water equivalent (<mark
+					>snow_depth_water_equivalent</mark
+				>). A snow depth in metres is not available.
 			</li>
 			<li>
-				<strong>Wind on 50, 100, 200, 300m:</strong> Wind forecasts for higher altitudes are only available
-				for the Netherlands area.
+				<strong>Forecast Length:</strong> Forecasts cover 3 days. Selecting more forecast days will return
+				empty values for the additional days.
 			</li>
-			<li>
-				<strong>Pressure Level Data:</strong> Forecasts on pressure level are only available for the European
-				model.
-			</li> -->
 		</ul>
 	</div>
 </div>

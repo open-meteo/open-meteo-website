@@ -98,7 +98,10 @@ export const additionalVariables = [
 		{ value: 'is_day', label: 'Is Day or Night' },
 		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
 	],
-	[{ value: 'sunshine_duration', label: 'Sunshine Duration' }]
+	[
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
+		{ value: 'snowfall_water_equivalent', label: 'Snowfall Water Equivalent' }
+	]
 ];
 
 export const solarVariables = [
@@ -122,7 +125,7 @@ export const solarVariables = [
 
 export const models = [
 	[
-		// { value: 'chmi_seamless', label: 'CHMI Seamless (with ECMWF)' },
+		{ value: 'chmi_aladin_seamless', label: 'CHMI Aladin Seamless' },
 		{ value: 'chmi_aladin_central_europe_2km', label: 'CHMI Aladin Central Europe 2km' },
 		{ value: 'chmi_aladin_cz_1km', label: 'CHMI Aladin CZ 1km' }
 	]
