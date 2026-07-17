@@ -682,7 +682,9 @@
 						</td>
 					</tr>
 					<tr>
-						<th scope="row">Apparent temperature, ET₀, vapour pressure deficit and wet bulb temperature</th>
+						<th scope="row"
+							>Apparent temperature, ET₀, vapour pressure deficit and wet bulb temperature</th
+						>
 						<td>
 							Standard formulas combining 2 m temperature, humidity, wind speed and solar radiation.
 							ET₀ follows the FAO-56 Penman-Monteith equation.

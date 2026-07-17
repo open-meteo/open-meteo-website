@@ -802,7 +802,10 @@
 					</tr>
 					<tr>
 						<th scope="row">Dew point</th>
-						<td>Calculated from native temperature and relative humidity at 2 m and on pressure levels.</td>
+						<td
+							>Calculated from native temperature and relative humidity at 2 m and on pressure
+							levels.</td
+						>
 					</tr>
 					<tr>
 						<th scope="row">Surface pressure</th>
@@ -815,7 +818,9 @@
 						</td>
 					</tr>
 					<tr>
-						<th scope="row">Apparent temperature, ET₀, vapour pressure deficit and wet bulb temperature</th>
+						<th scope="row"
+							>Apparent temperature, ET₀, vapour pressure deficit and wet bulb temperature</th
+						>
 						<td>
 							Standard formulas combining 2 m temperature, humidity, wind speed and solar radiation.
 							ET₀ follows the FAO-56 Penman-Monteith equation. Evapotranspiration is converted from

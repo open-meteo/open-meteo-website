@@ -725,10 +725,10 @@
 	>
 	<div class="mt-2 md:mt-4">
 		<p>
-			UKMO publishes unusually complete fields: wind is provided directly as speed and direction
-			(no U/V components), relative humidity and direct solar radiation are native, and the UKV
-			model adds rain, snowfall and hail as separate fields. The remaining API variables are
-			derived by Open-Meteo.
+			UKMO publishes unusually complete fields: wind is provided directly as speed and direction (no
+			U/V components), relative humidity and direct solar radiation are native, and the UKV model
+			adds rain, snowfall and hail as separate fields. The remaining API variables are derived by
+			Open-Meteo.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table class="docs-table w-full min-w-300">
