@@ -24,11 +24,13 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ApiModeSelector from '$lib/components/api-mode/api-mode-selector.svelte';
+	import ApiModeTimeSelector from '$lib/components/api-mode/api-mode-time-selector.svelte';
+	import { apiModeFormAction } from '$lib/components/api-mode/utils';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
-	import TimeSelector from '$lib/components/time/time-selector.svelte';
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
@@ -53,6 +55,8 @@
 		latitude: [52.52],
 		longitude: [13.41],
 		...defaultParameters,
+		api_mode: 'forecast',
+		run: '',
 		hourly: ['temperature_2m']
 	});
 
@@ -119,33 +123,40 @@
 	/>
 </svelte:head>
 
-<Alert.Root variant="info" class="mb-4">
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		width="24"
-		height="24"
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		stroke-width="2"
-		stroke-linecap="round"
-		stroke-linejoin="round"
-		class="lucide lucide-info-icon lucide-info"
-		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
-	>
-	<Alert.Description>
-		ECMWF transitioned to open-data on 1st October 2025, and Open-Meteo is pleased to provide access
-		to the IFS forecasts at the full native 9 km resolution without any additional delay under
-		open-data CC-BY 4.0 licence!
-	</Alert.Description>
-</Alert.Root>
+<ApiModeSelector bind:params={$params}>
+	{#snippet forecastAlert()}
+		<Alert.Root variant="info" class="mb-4">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				class="lucide lucide-info-icon lucide-info"
+				><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
+			>
+			<Alert.Description>
+				ECMWF transitioned to open-data on 1st October 2025, and Open-Meteo is pleased to provide
+				access to the IFS forecasts at the full native 9 km resolution without any additional delay
+				under open-data CC-BY 4.0 licence!
+			</Alert.Description>
+		</Alert.Root>
+	{/snippet}
+</ApiModeSelector>
 
-<form method="get" action="https://api.open-meteo.com/v1/ecmwf">
+<form
+	method="get"
+	action={apiModeFormAction($params.api_mode, 'https://api.open-meteo.com/v1/ecmwf')}
+>
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
 	<!-- TIME -->
-	<TimeSelector
+	<ApiModeTimeSelector
 		bind:params={$params}
 		{beginDate}
 		{lastDate}
@@ -455,7 +466,9 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
+	<div class="mt-3 md:mt-6">
+		<LicenceSelector requires_professional_plan={$params.api_mode !== 'forecast'} />
+	</div>
 </form>
 
 <!-- RESULT -->

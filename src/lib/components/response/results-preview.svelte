@@ -53,6 +53,17 @@
 	let parsedParams = $derived.by(() => {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const jsonParams: Record<string, any> = { ...$params };
+		if ('api_mode' in jsonParams) {
+			if (jsonParams.api_mode == 'single_run') {
+				delete jsonParams['past_days'];
+			} else {
+				delete jsonParams['run'];
+			}
+			if (jsonParams.api_mode != 'forecast') {
+				delete jsonParams['current'];
+			}
+			delete jsonParams['api_mode'];
+		}
 		if ('time_mode' in jsonParams) {
 			if (jsonParams.time_mode == 'forecast_days') {
 				delete jsonParams['start_date'];
@@ -142,9 +153,23 @@
 		return objectDifference(jsonParams, compareParameters);
 	});
 
+	/// The api_mode switch on provider pages overrides the page-level type
+	let resolvedType = $derived(
+		$params.api_mode === 'historical_forecast'
+			? 'historical-forecast'
+			: $params.api_mode === 'single_run'
+				? 'single-runs'
+				: type
+	);
+
+	/// Long archived time series are easier to browse in a stock chart
+	let stockChart = $derived(
+		useStockChart || ($params.api_mode !== undefined && $params.api_mode !== 'forecast')
+	);
+
 	let server = $derived(
 		((apiKeyPreferences: APIKeyPreferences) => {
-			let serverPrefix = type == 'forecast' ? 'api' : `${type}-api`;
+			let serverPrefix = resolvedType == 'forecast' ? 'api' : `${resolvedType}-api`;
 			switch (apiKeyPreferences.use) {
 				case 'commercial':
 					return `https://customer-${serverPrefix}.open-meteo.com/v1/${action}`;
@@ -461,14 +486,14 @@
 		     ones linger in flow un-faded until the block outro finishes -->
 		<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
 			<div
-				style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
+				style={stockChart ? 'min-height: 500px' : 'min-height: 400px'}
 				class="relative -mx-6 md:mx-0"
 			>
 				{#if error}
 					<div
 						transition:fade={{ duration: 300 }}
 						class="border-border bg-accent/25 absolute top-0 z-30 w-full rounded-lg border"
-						style={useStockChart ? 'height: 500px' : 'height: 400px'}
+						style={stockChart ? 'height: 500px' : 'height: 400px'}
 					>
 						<div class="flex h-full w-full items-center justify-center px-6 dark:brightness-150">
 							<Alert.Root variant="destructive" class="my-auto w-[unset] pl-8!">
@@ -580,15 +605,15 @@
 								<div transition:fade={{ duration: 300 }} class="w-full">
 									<HighchartContainer
 										options={chart}
-										{useStockChart}
-										style={useStockChart ? 'height: 500px' : 'height: 400px'}
+										useStockChart={stockChart}
+										style={stockChart ? 'height: 500px' : 'height: 400px'}
 									/>
 								</div>
 							{/each}
 						{:else}
 							<div
 								transition:fade={{ duration: 300 }}
-								style={useStockChart ? 'min-height: 500px' : 'min-height: 400px'}
+								style={stockChart ? 'min-height: 500px' : 'min-height: 400px'}
 							>
 								<div
 									class="border-border absolute top-0 flex h-full w-full items-center justify-center rounded-lg border px-6"
