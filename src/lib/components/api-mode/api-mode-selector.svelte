@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { SvelteDate } from 'svelte/reactivity';
+
 	import { fade, fadeOutAbsolute } from '$lib/utils/transitions';
 
 	import * as Alert from '$lib/components/ui/alert';
@@ -24,13 +26,13 @@
 	];
 
 	const isoDate = (daysAgo: number): string => {
-		const d = new Date();
+		const d = new SvelteDate();
 		d.setDate(d.getDate() - daysAgo);
 		return d.toISOString().split('T')[0];
 	};
 
 	const defaultRun = (): string => {
-		const d = new Date();
+		const d = new SvelteDate();
 		d.setUTCDate(d.getUTCDate() - 1);
 		d.setUTCHours(0, 0, 0, 0);
 		return d.toISOString().replace(':00.000Z', '');
