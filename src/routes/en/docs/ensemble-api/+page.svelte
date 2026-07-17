@@ -693,7 +693,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<td>ICON-EU-EPS</td>
+						<td class="pl-2">ICON-EU-EPS</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -714,7 +714,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<td>ICON-EPS</td>
+						<td class="pl-2">ICON-EPS</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -749,7 +749,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<td>GFS Ensemble 0.5°</td>
+						<td class="pl-2">GFS Ensemble 0.5°</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -766,7 +766,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<td>AIGFS 0.25°</td>
+						<td class="pl-2">AIGFS 0.25°</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -801,7 +801,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<td>AIFS 0.25°</td>
+						<td class="pl-2">AIFS 0.25°</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -876,7 +876,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<td>MOGREPS-G</td>
+						<td class="pl-2">MOGREPS-G</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -915,7 +915,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<td>ICON CH2</td>
+						<td class="pl-2">ICON CH2</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">

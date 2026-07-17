@@ -838,6 +838,92 @@
 	</ZoomableImageGallery>
 </div>
 
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			AROME and ARPEGE natively provide temperature, humidity, wind components, cloud cover,
+			precipitation, global solar radiation, wind gusts and CAPE. Several convenient API variables
+			are not direct model output — Open-Meteo derives them from the native fields for every
+			forecast step.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Weather code</th>
+						<td>
+							Computed from cloud cover, precipitation, snowfall, CAPE and wind gusts. Météo-France
+							does not publish a WMO weather symbol.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind speed and direction</th>
+						<td>
+							Calculated from the native U and V wind components at 10 m to 200 m height and on all
+							pressure levels.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Direct and diffuse solar radiation</th>
+						<td>
+							Only global horizontal irradiance GHI is native. Diffuse radiation is separated using
+							the Razo, Müller Witwer model; direct radiation is the remainder. DNI, GTI and instant
+							values follow from solar geometry.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall and rain</th>
+						<td>
+							Snowfall converts the native snowfall water equivalent with 0.7 cm per mm. Rain is
+							total precipitation minus the snowfall water equivalent.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Dew point, vapour pressure deficit and wet bulb temperature</th>
+						<td>Calculated from native 2 m temperature and relative humidity.</td>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Apparent temperature and reference evapotranspiration ET₀</th>
+						<td>
+							Combine temperature, humidity, wind speed and solar radiation. ET₀ follows the FAO-56
+							Penman-Monteith equation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Sunshine duration</th>
+						<td>
+							Seconds per hour with derived direct normal irradiance above the WMO threshold of 120
+							W/m².
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Pressure-level cloud cover and dew point</th>
+						<td>Estimated from pressure-level relative humidity and temperature.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Sunrise, sunset, daylight duration and the day-or-night flag are astronomical calculations.
+			Daily values are aggregated from hourly data.
+		</p>
+	</div>
+</div>
+
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
 	<a href="#api_documentation"

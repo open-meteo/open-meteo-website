@@ -604,6 +604,106 @@
 	</div>
 </div>
 
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			ECMWF publishes temperature, pressure, wind components, precipitation, snowfall water
+			equivalent, cloud cover, global solar radiation and CAPE natively. Several convenient API
+			variables are not direct model output — Open-Meteo derives them from the native fields for
+			every forecast step.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Relative humidity and dew point</th>
+						<td>
+							ECMWF publishes 2 m dew point rather than relative humidity. Relative humidity is
+							calculated from temperature and dew point. On AIFS pressure levels, relative humidity
+							is derived from native specific humidity.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Weather code</th>
+						<td>
+							Computed from cloud cover, precipitation, snowfall and CAPE. The IFS HRES 9 km model
+							additionally uses showers, convective inhibition and boundary layer height.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind speed and direction</th>
+						<td>
+							Calculated from the native U and V wind components at 10 m, 100 m and on all pressure
+							levels.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall and rain</th>
+						<td>
+							Snowfall converts the native snowfall water equivalent with 0.7 cm per mm. Rain is
+							total precipitation minus snowfall water equivalent and showers.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Direct and diffuse solar radiation</th>
+						<td>
+							IFS 0.25° and AIFS provide only global radiation: diffuse is separated using the Razo,
+							Müller Witwer model. IFS HRES 9 km provides direct radiation natively; diffuse is the
+							difference to global radiation. DNI, GTI and instant values follow from solar
+							geometry.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Pressure-level cloud cover</th>
+						<td>
+							Estimated from pressure-level relative humidity following Sundqvist et al. (1989).
+							Low, mid and high cloud layers use native model fields where available.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Vertical velocity</th>
+						<td>
+							ECMWF publishes vertical velocity as omega in Pa/s. It is converted to geometric
+							velocity in m/s using the temperature at each pressure level.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Apparent temperature, ET₀, vapour pressure deficit and wet bulb temperature</th>
+						<td>
+							Standard formulas combining 2 m temperature, humidity, wind speed and solar radiation.
+							ET₀ follows the FAO-56 Penman-Monteith equation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Sunshine duration</th>
+						<td>
+							Seconds per hour with direct normal irradiance above the WMO threshold of 120 W/m².
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Sunrise, sunset, daylight duration and the day-or-night flag are astronomical calculations.
+			Daily values are aggregated from hourly data.
+		</p>
+	</div>
+</div>
+
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
 	<a href="#api_documentation"

@@ -718,6 +718,93 @@
 	</ZoomableImage>
 </div>
 
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			UKMO publishes unusually complete fields: wind is provided directly as speed and direction
+			(no U/V components), relative humidity and direct solar radiation are native, and the UKV
+			model adds rain, snowfall and hail as separate fields. The remaining API variables are
+			derived by Open-Meteo.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Weather code</th>
+						<td>
+							Computed from cloud cover, precipitation, snowfall, wind gusts, CAPE, convective
+							inhibition and visibility. UKMO's own significant-weather symbol is not used.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall and rain</th>
+						<td>
+							On UKV, snowfall water equivalent and rain are native. On the Global 10 km model,
+							precipitation is counted as snow below 0°C and rain is the remainder. Snowfall uses
+							0.7 cm per mm of water.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Solar radiation averaging</th>
+						<td>
+							UKMO publishes instantaneous radiation fluxes. Open-Meteo converts them to hourly
+							backwards-averaged values during download. Diffuse radiation is the difference of
+							global and native direct radiation; DNI, GTI and instant values follow from solar
+							geometry.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Dew point, vapour pressure deficit and wet bulb temperature</th>
+						<td>Calculated from native 2 m temperature and relative humidity.</td>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Sunshine duration</th>
+						<td>
+							Seconds per hour with direct normal irradiance above the WMO threshold of 120 W/m².
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Apparent temperature and reference evapotranspiration ET₀</th>
+						<td>
+							Combine temperature, humidity, wind speed and solar radiation. ET₀ follows the FAO-56
+							Penman-Monteith equation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Pressure-level cloud cover</th>
+						<td>Estimated from native pressure-level relative humidity.</td>
+					</tr>
+					<tr>
+						<th scope="row">Freezing level height (UKV)</th>
+						<td>
+							Native field converted from height above ground to height above sea level using the
+							model orography.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Sunrise, sunset, daylight duration and the day-or-night flag are astronomical calculations.
+			Daily values are aggregated from hourly data.
+		</p>
+	</div>
+</div>
+
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
 	<a href="#api_documentation"
