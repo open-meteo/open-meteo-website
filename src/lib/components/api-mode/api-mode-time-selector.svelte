@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { SvelteDate } from 'svelte/reactivity';
+
 	import { fade, fadeOutAbsolute } from '$lib/utils/transitions';
 
 	import { Button } from '$lib/components/ui/button';
@@ -33,7 +35,7 @@
 	const historicalLastDate = new Date();
 
 	const historicalEndDefault = (() => {
-		const d = new Date();
+		const d = new SvelteDate();
 		d.setDate(d.getDate() - 2);
 		return d.toISOString().split('T')[0];
 	})();
