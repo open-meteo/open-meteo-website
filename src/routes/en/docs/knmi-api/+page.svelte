@@ -139,7 +139,7 @@
 	/>
 </svelte:head>
 
-<form method="get" action="https://api.open-meteo.com/v1/knmi">
+<form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 

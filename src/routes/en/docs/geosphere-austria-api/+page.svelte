@@ -105,7 +105,7 @@
 	/>
 </svelte:head>
 
-<form method="get" action="https://api.open-meteo.com/v1/geosphere_arome_austria">
+<form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
@@ -353,7 +353,7 @@
 	<ResultsPreview
 		{params}
 		{defaultParameters}
-		model_default="geosphere_arome_austria"
+		model_default="geosphere_seamless"
 		defaultTimeParameters={false}
 	/>
 </div>
