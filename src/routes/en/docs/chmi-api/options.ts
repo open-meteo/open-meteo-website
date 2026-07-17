@@ -42,23 +42,23 @@ export const hourly = [
 		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent' }
 	],
 	[
-		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
-		{ value: 'surface_pressure', label: 'Surface Pressure' },
 		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
 		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
 		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
 		{ value: 'cloud_cover_high', label: 'Cloud Cover High' },
-		{ value: 'visibility', label: 'Visibility' },
-		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
+		{ value: 'visibility', label: 'Visibility' }
 	],
 	[
+		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
+		{ value: 'surface_pressure', label: 'Surface Pressure' },
 		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
 		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' }
 	],
 	[
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
+		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' },
 		{ value: 'surface_temperature', label: 'Surface Temperature' },
 		{ value: 'cape', label: 'CAPE' }
 	]
