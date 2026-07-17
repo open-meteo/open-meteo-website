@@ -718,6 +718,88 @@
 	</ZoomableImage>
 </div>
 
+<!-- NATIVE VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#native_model_variables"
+		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The UK Met Office directly predicts the fields listed below. Open-Meteo retains these fields
+			or uses them to calculate more convenient API variables. Unusually, UKMO provides wind as
+			speed and direction, and relative humidity and direct radiation natively.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Native UKMO field</th>
+						<th scope="col">Level</th>
+						<th scope="col">Use in the Open-Meteo API</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Temperature</th>
+						<td>2 m, height levels (UKV), pressure levels</td>
+						<td><mark>temperature_2m</mark> and upper-level temperature</td>
+					</tr>
+					<tr>
+						<th scope="row">Relative humidity</th>
+						<td>2 m, pressure levels</td>
+						<td>Relative humidity, dew point and pressure-level cloud cover</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind speed and direction</th>
+						<td>10 m, height levels (UKV), pressure levels</td>
+						<td><mark>wind_speed_10m</mark>, <mark>wind_direction_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Wind gusts</th>
+						<td>10 m</td>
+						<td><mark>wind_gusts_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Mean sea-level pressure</th>
+						<td>Mean sea level</td>
+						<td><mark>pressure_msl</mark> and derived surface pressure</td>
+					</tr>
+					<tr>
+						<th scope="row">Precipitation, rain, snowfall, hail (UKV)</th>
+						<td>Surface</td>
+						<td><mark>precipitation</mark>, <mark>rain</mark>, snowfall, <mark>hail</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Shortwave and direct solar radiation</th>
+						<td>Surface</td>
+						<td>Global, direct, diffuse radiation, DNI and GTI</td>
+					</tr>
+					<tr>
+						<th scope="row">Cloud cover total, low, mid, high and fog fraction</th>
+						<td>Surface</td>
+						<td><mark>cloud_cover</mark>, layers and <mark>cloud_cover_2m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">CAPE, convective inhibition, visibility, UV index (UKV)</th>
+						<td>Surface</td>
+						<td>Corresponding API variables and weather-code inputs</td>
+					</tr>
+					<tr>
+						<th scope="row">Geopotential and vertical velocity</th>
+						<td>Pressure levels</td>
+						<td><mark>geopotential_height</mark>, <mark>vertical_velocity</mark></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-2">
+			Height-level variables, hail, freezing level and UV index are only available in the UKV 2 km
+			model. Convective inhibition and pressure-level vertical velocity are only in the Global 10 km
+			model.
+		</p>
+	</div>
+</div>
+
 <!-- DERIVED VARIABLES -->
 <div class="mt-6 md:mt-12">
 	<a href="#derived_variables"

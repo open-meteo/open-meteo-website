@@ -838,6 +838,87 @@
 	</ZoomableImageGallery>
 </div>
 
+<!-- NATIVE VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#native_model_variables"
+		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			AROME and ARPEGE directly predict the fields listed below. Open-Meteo retains these fields or
+			uses them to calculate more convenient API variables. The models provide wind as U and V
+			components and only global solar radiation.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Native Météo-France field</th>
+						<th scope="col">Level</th>
+						<th scope="col">Use in the Open-Meteo API</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Temperature</th>
+						<td>2 m, 20/50/100/150/200 m, pressure levels</td>
+						<td><mark>temperature_2m</mark> and upper-level temperature</td>
+					</tr>
+					<tr>
+						<th scope="row">Relative humidity</th>
+						<td>2 m, pressure levels</td>
+						<td>Relative humidity, dew point and pressure-level cloud cover</td>
+					</tr>
+					<tr>
+						<th scope="row">U and V wind components</th>
+						<td>10 m to 200 m, pressure levels</td>
+						<td>Wind speed and direction</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind gusts</th>
+						<td>10 m</td>
+						<td><mark>wind_gusts_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Mean sea-level pressure</th>
+						<td>Mean sea level</td>
+						<td><mark>pressure_msl</mark> and derived surface pressure</td>
+					</tr>
+					<tr>
+						<th scope="row">Total precipitation and snowfall water equivalent</th>
+						<td>Surface</td>
+						<td><mark>precipitation</mark>, <mark>rain</mark>, snowfall</td>
+					</tr>
+					<tr>
+						<th scope="row">Global solar radiation</th>
+						<td>Surface</td>
+						<td>Global, direct, diffuse radiation, DNI and GTI</td>
+					</tr>
+					<tr>
+						<th scope="row">Cloud cover total, low, mid and high</th>
+						<td>Surface</td>
+						<td><mark>cloud_cover</mark> and the individual layers</td>
+					</tr>
+					<tr>
+						<th scope="row">CAPE</th>
+						<td>Surface</td>
+						<td><mark>cape</mark> and weather-code inputs</td>
+					</tr>
+					<tr>
+						<th scope="row">Geopotential and vertical velocity</th>
+						<td>Pressure levels</td>
+						<td><mark>geopotential_height</mark>, <mark>vertical_velocity</mark></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-2">
+			The AROME France HD model and the 15-minutely models carry only a reduced set of native fields
+			and have no pressure levels.
+		</p>
+	</div>
+</div>
+
 <!-- DERIVED VARIABLES -->
 <div class="mt-6 md:mt-12">
 	<a href="#derived_variables"

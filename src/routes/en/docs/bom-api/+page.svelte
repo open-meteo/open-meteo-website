@@ -431,6 +431,166 @@
 	</div>
 </div>
 
+<!-- NATIVE VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#native_model_variables"
+		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			ACCESS-G directly predicts the fields listed below. Open-Meteo retains these fields or uses
+			them to calculate more convenient API variables. ACCESS-G provides both global and direct
+			solar radiation and native convective rain.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Native ACCESS-G field</th>
+						<th scope="col">Level</th>
+						<th scope="col">Use in the Open-Meteo API</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Temperature</th>
+						<td>2 m, surface</td>
+						<td><mark>temperature_2m</mark>, <mark>surface_temperature</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Relative humidity</th>
+						<td>2 m</td>
+						<td>Relative humidity and dew point</td>
+					</tr>
+					<tr>
+						<th scope="row">U and V wind components</th>
+						<td>10 m, model levels near 40/80/120 m</td>
+						<td>Wind speed and direction</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind gusts</th>
+						<td>10 m</td>
+						<td><mark>wind_gusts_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Mean sea-level pressure</th>
+						<td>Mean sea level</td>
+						<td><mark>pressure_msl</mark> and derived surface pressure</td>
+					</tr>
+					<tr>
+						<th scope="row">Precipitation, convective rain and snow</th>
+						<td>Surface</td>
+						<td><mark>precipitation</mark>, <mark>showers</mark>, snowfall</td>
+					</tr>
+					<tr>
+						<th scope="row">Global and direct solar radiation</th>
+						<td>Surface</td>
+						<td>Global, direct, diffuse radiation, DNI and GTI</td>
+					</tr>
+					<tr>
+						<th scope="row">Cloud cover total, low, mid and high</th>
+						<td>Surface</td>
+						<td><mark>cloud_cover</mark> and the individual layers</td>
+					</tr>
+					<tr>
+						<th scope="row">Visibility and thunderstorm field</th>
+						<td>Surface</td>
+						<td><mark>visibility</mark> and weather-code inputs</td>
+					</tr>
+					<tr>
+						<th scope="row">Soil temperature and moisture</th>
+						<td>4 layers</td>
+						<td>Soil temperature and moisture variables</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-2">
+			Precipitation probability is calculated from the ACCESS-GE ensemble. BOM does not provide a
+			native CAPE field.
+		</p>
+	</div>
+</div>
+
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			ACCESS-G publishes relative humidity, cloud cover layers, both global and direct solar
+			radiation, showers, wind gusts and visibility natively. Open-Meteo derives the remaining API
+			variables from these native fields.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Weather code</th>
+						<td>
+							Computed from cloud cover, precipitation, convective rain, snowfall, wind gusts, a
+							native thunderstorm field and visibility.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind speed and direction</th>
+						<td>
+							Calculated from the native U and V wind components at 10 m and from model levels near
+							40 m, 80 m and 120 m.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Precipitation probability</th>
+						<td>
+							Share of the ACCESS-GE ensemble members with more than 0.1 mm/h of precipitation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall and rain</th>
+						<td>
+							Snowfall converts the native snowfall water equivalent with 0.7 cm per mm. Rain is
+							total precipitation minus snowfall water equivalent and showers.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Diffuse radiation</th>
+						<td>
+							Global minus native direct radiation. DNI, GTI and instant values follow from solar
+							geometry. No radiation separation model is required.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Dew point, vapour pressure deficit and wet bulb temperature</th>
+						<td>Calculated from native 2 m temperature and relative humidity.</td>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Apparent temperature, ET₀ and sunshine duration</th>
+						<td>
+							Combine temperature, humidity, wind speed and solar radiation. ET₀ follows the FAO-56
+							Penman-Monteith equation; sunshine duration counts time with DNI above 120 W/m².
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Sunrise, sunset, daylight duration and the day-or-night flag are astronomical calculations.
+			Daily values are aggregated from hourly data.
+		</p>
+	</div>
+</div>
+
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
 	<a href="#api_documentation"

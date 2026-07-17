@@ -604,6 +604,93 @@
 	</div>
 </div>
 
+<!-- NATIVE VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#native_model_variables"
+		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			IFS and AIFS directly predict the fields listed below. Open-Meteo retains these fields or uses
+			them to calculate more convenient API variables. In particular, ECMWF provides 2 m dew point
+			rather than relative humidity, and wind as U and V components.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Native ECMWF field</th>
+						<th scope="col">Level</th>
+						<th scope="col">Use in the Open-Meteo API</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Temperature</th>
+						<td>2 m, pressure levels</td>
+						<td><mark>temperature_2m</mark> and pressure-level temperature</td>
+					</tr>
+					<tr>
+						<th scope="row">Dew point (2 m), specific humidity (AIFS levels)</th>
+						<td>2 m, pressure levels</td>
+						<td>Relative humidity and dew point</td>
+					</tr>
+					<tr>
+						<th scope="row">U and V wind components</th>
+						<td>10 m, 100 m, pressure levels</td>
+						<td>Wind speed and direction</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind gusts</th>
+						<td>10 m</td>
+						<td><mark>wind_gusts_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Mean sea-level pressure</th>
+						<td>Mean sea level</td>
+						<td><mark>pressure_msl</mark> and derived surface pressure</td>
+					</tr>
+					<tr>
+						<th scope="row">Total precipitation and snowfall water equivalent</th>
+						<td>Surface</td>
+						<td><mark>precipitation</mark>, <mark>rain</mark>, snowfall</td>
+					</tr>
+					<tr>
+						<th scope="row">Global solar radiation</th>
+						<td>Surface</td>
+						<td>Global, direct, diffuse radiation, DNI and GTI</td>
+					</tr>
+					<tr>
+						<th scope="row">Total cloud cover</th>
+						<td>Surface</td>
+						<td><mark>cloud_cover</mark>; layers from native fields or humidity</td>
+					</tr>
+					<tr>
+						<th scope="row">CAPE</th>
+						<td>Surface</td>
+						<td><mark>cape</mark> and weather-code inputs</td>
+					</tr>
+					<tr>
+						<th scope="row">Geopotential and vertical velocity (omega)</th>
+						<td>Pressure levels</td>
+						<td><mark>geopotential_height</mark>, <mark>vertical_velocity</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Soil temperature and moisture</th>
+						<td>4 layers</td>
+						<td>Soil temperature and moisture variables</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-2">
+			The IFS HRES 9 km model additionally provides native dew point, direct radiation, visibility,
+			showers and boundary layer height, but no pressure-level fields. Pressure-level data is
+			available only from the 0.25° open-data models.
+		</p>
+	</div>
+</div>
+
 <!-- DERIVED VARIABLES -->
 <div class="mt-6 md:mt-12">
 	<a href="#derived_variables"

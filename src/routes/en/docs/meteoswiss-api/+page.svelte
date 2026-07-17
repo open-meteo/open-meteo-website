@@ -473,6 +473,171 @@
 	</div>
 </div>
 
+<!-- NATIVE VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#native_model_variables"
+		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			ICON-CH directly predicts the fields listed below. Open-Meteo retains these fields or uses
+			them to calculate more convenient API variables. In particular, ICON-CH provides both direct
+			and diffuse solar radiation and a native sunshine duration.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Native ICON-CH field</th>
+						<th scope="col">Level</th>
+						<th scope="col">Use in the Open-Meteo API</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Temperature</th>
+						<td>2 m, surface</td>
+						<td><mark>temperature_2m</mark>, <mark>surface_temperature</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Dew point</th>
+						<td>2 m</td>
+						<td>Relative humidity and dew point</td>
+					</tr>
+					<tr>
+						<th scope="row">U and V wind components</th>
+						<td>10 m</td>
+						<td>Wind speed and direction</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind gusts</th>
+						<td>10 m</td>
+						<td><mark>wind_gusts_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Mean sea-level pressure</th>
+						<td>Mean sea level</td>
+						<td><mark>pressure_msl</mark> and derived surface pressure</td>
+					</tr>
+					<tr>
+						<th scope="row">Total precipitation</th>
+						<td>Surface</td>
+						<td><mark>precipitation</mark>, <mark>rain</mark>, snowfall</td>
+					</tr>
+					<tr>
+						<th scope="row">Direct and diffuse solar radiation</th>
+						<td>Surface</td>
+						<td>Global, direct, diffuse radiation, DNI and GTI</td>
+					</tr>
+					<tr>
+						<th scope="row">Cloud cover total, low, mid and high</th>
+						<td>Surface</td>
+						<td><mark>cloud_cover</mark> and the individual layers</td>
+					</tr>
+					<tr>
+						<th scope="row">Sunshine duration</th>
+						<td>Surface</td>
+						<td><mark>sunshine_duration</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">CAPE, convective inhibition, cloud base, freezing level, snow depth</th>
+						<td>Surface</td>
+						<td>Corresponding API variables and weather-code inputs</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-2">
+			Precipitation probability is calculated from the matching ICON-CH1 or ICON-CH2 ensemble.
+			Pressure-level and height-level data is not yet integrated.
+		</p>
+	</div>
+</div>
+
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			ICON-CH publishes cloud cover, both direct and diffuse solar radiation and sunshine duration
+			natively. Several convenient API variables are not direct model output — Open-Meteo derives
+			them from the native fields for every forecast step.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Weather code</th>
+						<td>
+							Computed from cloud cover, precipitation, snowfall, wind gusts, CAPE and convective
+							inhibition. MeteoSwiss does not publish a WMO weather symbol.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall and rain</th>
+						<td>
+							Precipitation counts as snow where the native snow line is below the location
+							elevation, converted with 0.7 cm per mm. Rain is total precipitation minus the
+							snowfall water equivalent.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind speed and direction</th>
+						<td>Calculated from the native U and V wind components at 10 m.</td>
+					</tr>
+					<tr>
+						<th scope="row">Precipitation probability</th>
+						<td>
+							Share of the ICON-CH1 or ICON-CH2 ensemble members with more than 0.1 mm/h of
+							precipitation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Dew point</th>
+						<td>
+							Calculated from 2 m temperature and relative humidity. MeteoSwiss publishes dew point,
+							from which relative humidity is stored, then dew point is recomputed on request.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Diffuse radiation, DNI and GTI</th>
+						<td>
+							Diffuse radiation is global minus native direct radiation. Direct normal irradiance,
+							global tilted irradiance and instant values follow from solar geometry. No radiation
+							separation model is required.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>Apparent temperature, ET₀, vapour pressure deficit and wet bulb temperature</th
+						>
+						<td>
+							Standard formulas combining 2 m temperature, humidity, wind speed and solar radiation.
+							ET₀ follows the FAO-56 Penman-Monteith equation.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Sunrise, sunset, daylight duration and the day-or-night flag are astronomical calculations.
+			Daily values are aggregated from hourly data.
+		</p>
+	</div>
+</div>
+
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
 	<a href="#api_documentation"
