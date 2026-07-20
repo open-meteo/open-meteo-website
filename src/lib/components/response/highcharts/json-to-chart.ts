@@ -15,7 +15,13 @@ export function jsonToChart(data: any, downloadTime: number) {
 			return;
 		}
 		Object.entries(data[section] || []).forEach(function (k) {
-			if (k[0] == 'time' || k[0] == 'sunrise' || k[0] == 'sunset') {
+			if (
+				k[0] == 'time' ||
+				k[0] == 'sunrise' ||
+				k[0] == 'sunset' ||
+				k[0] == 'moonrise' ||
+				k[0] == 'moonset'
+			) {
 				return;
 			}
 			if (k[0] == 'weather_code') {
@@ -83,17 +89,34 @@ export function jsonToChart(data: any, downloadTime: number) {
 		});
 	});
 
-	let plotBands: AxisPlotBandsOptions[] = [];
+	const plotBands: AxisPlotBandsOptions[] = [];
 	if ('daily' in data && 'sunrise' in data.daily && 'sunset' in data.daily) {
 		const rise = data.daily.sunrise;
 		const set = data.daily.sunset;
-		plotBands = rise.map(function (r: number, i: number) {
-			return {
-				color: 'rgb(255, 255, 194)',
-				from: (r + data.utc_offset_seconds) * 1000,
-				to: (set[i] + data.utc_offset_seconds) * 1000
-			};
-		});
+		plotBands.push(
+			...rise.map(function (r: number, i: number) {
+				return {
+					className: 'plot-band-day',
+					zIndex: 1,
+					from: (r + data.utc_offset_seconds) * 1000,
+					to: (set[i] + data.utc_offset_seconds) * 1000
+				};
+			})
+		);
+	}
+
+	if ('daily' in data && 'moonrise' in data.daily && 'moonset' in data.daily) {
+		const rise = data.daily.moonrise;
+		const set = data.daily.moonset;
+		plotBands.push(
+			...rise.map(function (r: number, i: number) {
+				return {
+					className: 'plot-band-moon',
+					from: (r + data.utc_offset_seconds) * 1000,
+					to: (set[i] + data.utc_offset_seconds) * 1000
+				};
+			})
+		);
 	}
 
 	const weatherIconPoints: { x: number; icon: string }[] = [];
