@@ -10,13 +10,14 @@
 		countPressureVariables,
 		countVariables
 	} from '$lib/utils/meteo';
-	import { slide } from '$lib/utils/transitions';
+	import { fade, fadeOutAbsolute, slide } from '$lib/utils/transitions';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
+	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -24,9 +25,10 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
 	import ApiModeSelector from '$lib/components/api-mode/api-mode-selector.svelte';
 	import ApiModeTimeSelector from '$lib/components/api-mode/api-mode-time-selector.svelte';
-	import { apiModeFormAction } from '$lib/components/api-mode/utils';
+	import { apiModeFormAction, historicalDateRange } from '$lib/components/api-mode/utils';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
@@ -112,6 +114,16 @@
 
 	let lastDate = new SvelteDate();
 	lastDate.setDate(lastDate.getDate() + 14);
+
+	// Same defaults as switching modes via the API mode selector
+	const switchToHistoricalForecast = () => {
+		$params.api_mode = 'historical_forecast';
+		$params.time_mode = 'time_interval';
+		$params.run = '';
+		const { start_date, end_date } = historicalDateRange($params.start_date, $params.end_date);
+		$params.start_date = start_date;
+		$params.end_date = end_date;
+	};
 </script>
 
 <svelte:head>
@@ -151,19 +163,87 @@
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
-	<!-- API MODE -->
-	<div class="mt-6">
-		<ApiModeSelector bind:params={$params} />
+	<!-- API MODE & TIME -->
+	<div class="mt-6 grid items-start gap-x-6 gap-y-4 lg:grid-cols-2">
+		<div>
+			<ApiModeSelector bind:params={$params} />
+			<ApiModeTimeSelector
+				bind:params={$params}
+				{beginDate}
+				{lastDate}
+				{pastDaysOptions}
+				{forecastDaysOptions}
+			/>
+		</div>
+		<AnimateHeight>
+			{#if $params.api_mode === 'historical_forecast'}
+				<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
+					<p>
+						<strong
+							><mark>Historical Forecast</mark> returns archived forecasts from this weather forecast
+							API.</strong
+						>
+						Same models, same parameters and the same response format. Coverage starts around 2022, depending
+						on the model. Each run's first few hours are stitched into a continuous hourly timeseries.
+						Full details are available in the
+						<a class="text-link underline" href="/en/docs/historical-forecast-api"
+							>Historical Forecast API documentation</a
+						>.
+					</p>
+				</div>
+			{:else if $params.api_mode === 'single_run'}
+				<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
+					<p>
+						<strong
+							><mark>Single Run</mark> retrieves the full forecast horizon of any individual model run.</strong
+						>
+						Select a run with the <mark>&run=</mark> parameter using the UTC initialisation time
+						(e.g. <mark>&run=2026-07-16T00:00</mark>). Runs are typically available 1 to 6 hours
+						after initialisation, see the
+						<a href="/en/docs/model-updates">model updates documentation</a> for exact timings. Most
+						models are archived from 2nd of April 2026, ECMWF IFS HRES at 9 km from March 2024. Full
+						details are available in the
+						<a class="text-link underline" href="/en/docs/single-runs-api"
+							>Single Runs API documentation</a
+						>.
+					</p>
+				</div>
+			{:else if $params.time_mode === 'time_interval'}
+				<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
+					<p>
+						<strong
+							><mark>Forecast</mark> provides the latest, continuously updated weather forecast.</strong
+						>
+						The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range of
+						dates more easily. In <mark>Forecast</mark> mode, the last 3 months are available.
+					</p>
+					<div class="mt-3 flex flex-wrap items-center gap-2">
+						For older archived forecasts, switch to
+						<Button variant="outline" onclick={switchToHistoricalForecast}>
+							Historical Forecast
+						</Button>
+						mode.
+					</div>
+					<p class="mt-3">
+						You can also check out our
+						<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
+						data going all the way back to 1940.
+					</p>
+				</div>
+			{:else}
+				<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
+					<p>
+						<strong
+							><mark>Forecast</mark> provides the latest, continuously updated weather forecast.</strong
+						>
+						By default, we provide forecasts for 10 days, but you can access forecasts for up to 15 days.
+						If you're interested in past weather data, you can use the
+						<mark>Past Days</mark> feature to access archived forecasts.
+					</p>
+				</div>
+			{/if}
+		</AnimateHeight>
 	</div>
-
-	<!-- TIME -->
-	<ApiModeTimeSelector
-		bind:params={$params}
-		{beginDate}
-		{lastDate}
-		{pastDaysOptions}
-		{forecastDaysOptions}
-	/>
 
 	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">

@@ -5,6 +5,8 @@
 
 	import { type Parameters } from '$lib/docs';
 
+	import { historicalDateRange } from './utils';
+
 	interface Props {
 		params: Parameters;
 	}
@@ -16,12 +18,6 @@
 		{ value: 'historical_forecast', label: 'Historical Forecast' },
 		{ value: 'single_run', label: 'Single Run' }
 	];
-
-	const isoDate = (daysAgo: number): string => {
-		const d = new SvelteDate();
-		d.setDate(d.getDate() - daysAgo);
-		return d.toISOString().split('T')[0];
-	};
 
 	const defaultRun = (): string => {
 		const d = new SvelteDate();
@@ -40,12 +36,9 @@
 		} else if (mode === 'historical_forecast') {
 			params.time_mode = 'time_interval';
 			params.run = '';
-			if (!params.start_date) {
-				params.start_date = isoDate(16);
-			}
-			if (!params.end_date) {
-				params.end_date = isoDate(2);
-			}
+			const { start_date, end_date } = historicalDateRange(params.start_date, params.end_date);
+			params.start_date = start_date;
+			params.end_date = end_date;
 		} else if (mode === 'single_run') {
 			params.time_mode = 'time_interval';
 			params.start_date = '';
@@ -57,7 +50,7 @@
 	};
 </script>
 
-<div class="flex overflow-x-auto items-center gap-2 md:mx-0 md:px-0">
+<div class="flex items-center gap-2 overflow-x-auto">
 	<div class="text-muted-foreground w-22 shrink-0">API Mode:</div>
 
 	<div class="border-border flex rounded-md border">
