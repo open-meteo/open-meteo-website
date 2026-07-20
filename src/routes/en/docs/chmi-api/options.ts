@@ -123,6 +123,21 @@ export const solarVariables = [
 	]
 ];
 
+export const pressureVariables = [
+	{ value: 'temperature', label: 'Temperature' },
+	{ value: 'relative_humidity', label: 'Relative Humidity' },
+	{ value: 'dew_point', label: 'Dewpoint' },
+	{ value: 'cloud_cover', label: 'Cloud Cover' },
+	{ value: 'wind_speed', label: 'Wind Speed' },
+	{ value: 'wind_direction', label: 'Wind Direction' },
+	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
+	{ value: 'geopotential_height', label: 'Geopotential Height' }
+];
+
+export const levels = [
+	1000, 950, 925, 850, 800, 700, 600, 500, 450, 400, 350, 300, 275, 250, 200, 150, 100
+];
+
 export const models = [
 	[
 		{ value: 'chmi_aladin_seamless', label: 'CHMI Aladin Seamless' },

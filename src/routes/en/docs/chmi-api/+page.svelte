@@ -5,13 +5,20 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { countVariables } from '$lib/utils/meteo';
+	import { sliceIntoChunks } from '$lib/utils';
+	import {
+		altitudeAboveSeaLevelMeters,
+		countPressureVariables,
+		countVariables
+	} from '$lib/utils/meteo';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
+	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
@@ -38,7 +45,9 @@
 		defaultParameters,
 		forecastDaysOptions,
 		hourly,
+		levels,
 		models,
+		pressureVariables,
 		solarVariables
 	} from './options';
 
@@ -71,6 +80,8 @@
 		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
 	);
 
+	let pressureVariablesTab = $state('temperature');
+
 	let accordionValues: string[] = $state([]);
 	onMount(() => {
 		if (
@@ -91,6 +102,14 @@
 			!accordionValues.includes('solar-variables')
 		) {
 			accordionValues.push('solar-variables');
+		}
+
+		if (
+			$params.hourly &&
+			countPressureVariables(pressureVariables, levels, $params.hourly).active &&
+			!accordionValues.includes('pressure-levels')
+		) {
+			accordionValues.push('pressure-levels');
 		}
 
 		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
@@ -308,6 +327,100 @@
 							</div>
 						{/if}
 					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="pressure-levels"
+				title="Pressure Level Variables"
+				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
+			>
+				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
+					<div class="w-full md:w-56.75">
+						<ToggleGroup.Root type="single" bind:value={pressureVariablesTab}>
+							<div class="border-border flex flex-col rounded-lg border">
+								{#each pressureVariables as variable, i (i)}
+									<ToggleGroup.Item
+										value={variable.value}
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
+										0
+											? 'rounded-t-md rounded-b-none!'
+											: ''} {i === pressureVariables.length - 1
+											? 'rounded-t-none! rounded-b-md'
+											: ''}"
+										disabled={pressureVariablesTab === variable.value}
+										onclick={() => (pressureVariablesTab = variable.value)}
+										><div class="flex w-full items-center justify-between gap-2 text-left">
+											{variable.label}
+											<span class="text-xs">
+												{levels.filter((level) =>
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
+												).length
+													? '(' +
+														levels.filter((level) =>
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
+														).length +
+														'/' +
+														levels.length +
+														')'
+													: ''}
+											</span>
+										</div></ToggleGroup.Item
+									>
+								{/each}
+							</div>
+						</ToggleGroup.Root>
+					</div>
+					<div class="w-full">
+						{#each pressureVariables as variable, i (i)}
+							{#if pressureVariablesTab === variable.value}
+								<div class="mb-3">{variable.label}</div>
+								<div class="grid grid-cols-1 lg:grid-cols-3">
+									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
+										<div>
+											{#each chunk as level, k (k)}
+												<div class="group flex items-center">
+													<Checkbox
+														id="{variable.value}_{level}hPa"
+														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
+														value="{variable.value}_{level}hPa"
+														checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
+														aria-labelledby="{variable.value}_{level}hPa_label"
+														onCheckedChange={() => {
+															const value = `${variable.value}_${level}hPa`;
+															if ($params.hourly?.includes(value)) {
+																$params.hourly = $params.hourly.filter(
+																	(item: string) => item !== value
+																);
+															} else if ($params.hourly) {
+																$params.hourly.push(value);
+																$params.hourly = $params.hourly;
+															}
+														}}
+													/>
+													<Label
+														id="{variable.value}_{level}hPa_label"
+														for="{variable.value}_{level}hPa"
+														class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
+														>{level} hPa
+														<small class="text-muted-foreground"
+															>({altitudeAboveSeaLevelMeters(level)})</small
+														></Label
+													>
+												</div>
+											{/each}
+										</div>
+									{/each}
+								</div>
+							{/if}
+						{/each}
+					</div>
+				</div>
+				<div class="mt-3 lg:ml-62.25">
+					<small class="text-muted-foreground"
+						>Note: Pressure level data is only available from the Central Europe 2 km domain.
+						Altitudes are approximate and in meters <strong> above sea level</strong> (not above
+						ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea level.</small
+					>
 				</div>
 			</AccordionItem>
 			<AccordionItem
