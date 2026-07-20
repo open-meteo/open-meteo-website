@@ -165,12 +165,16 @@ export const membersPerModel = (model: string): number => {
 	switch (model) {
 		// DWD ICON
 		case 'icon_seamless_eps':
+		case 'dwd_icon_seamless_eps':
 			return 40;
 		case 'icon_global_eps':
+		case 'dwd_icon_global_eps':
 			return 40;
 		case 'icon_eu_eps':
+		case 'dwd_icon_eu_eps':
 			return 40;
 		case 'icon_d2_eps':
+		case 'dwd_icon_d2_eps':
 			return 20;
 
 		// MeteoSwiss ICON
@@ -189,6 +193,10 @@ export const membersPerModel = (model: string): number => {
 		case 'ncep_aigefs025':
 			return 31;
 
+		// Google WeatherNext
+		case 'google_weathernext2_ensemble':
+			return 64;
+
 		case 'ecmwf_ifs025':
 			return 51;
 		case 'ecmwf_ifs025_ensemble':
@@ -196,8 +204,10 @@ export const membersPerModel = (model: string): number => {
 		case 'ecmwf_aifs025_ensemble':
 			return 51;
 		case 'gem_global':
+		case 'cmc_gem_gdps':
 			return 21;
 		case 'gem_global_ensemble':
+		case 'cmc_gem_geps':
 			return 21;
 
 		// BOM

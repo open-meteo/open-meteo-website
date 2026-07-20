@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import { countVariables } from '$lib/utils/meteo';
+	import { fade, slide } from '$lib/utils/transitions';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
@@ -25,6 +25,7 @@
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import { gridCellSelectionOptions, temporalResolutionOptions } from '../options';
 	import {
@@ -166,7 +167,7 @@
 				Quick:
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2000-01-01';
 						$params.end_date = '2009-12-31';
@@ -174,7 +175,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2010-01-01';
 						$params.end_date = '2019-12-31';
@@ -182,7 +183,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2020-01-01';
 						$params.end_date = '2020-12-31';
@@ -190,7 +191,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2021-01-01';
 						$params.end_date = '2021-12-31';
@@ -198,7 +199,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2022-01-01';
 						$params.end_date = '2022-12-31';
@@ -206,7 +207,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2023-01-01';
 						$params.end_date = '2023-12-31';
@@ -214,7 +215,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2024-01-01';
 						$params.end_date = '2024-12-31';
@@ -222,7 +223,7 @@
 				>
 				<Button
 					variant="outline"
-					class="border-primary text-primary hover:bg-primary hover:!text-white dark:text-[#3888ff]"
+					class="border-primary text-primary hover:bg-primary hover:text-white! dark:text-[#3888ff]"
 					onclick={() => {
 						$params.start_date = '2025-01-01';
 						$params.end_date = endDateDefault;
@@ -239,40 +240,12 @@
 				Hourly Weather Variables
 			</h2></a
 		>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each hourly as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.hourly?.includes(value)}
-								aria-labelledby="{value}_label"
-								onCheckedChange={() => {
-									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.hourly) {
-										$params.hourly.push(value);
-										$params.hourly = $params.hourly;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_label"
-								for="{value}_hourly"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={hourly}
+			bind:values={$params.hourly}
+			idSuffix="hourly"
+		/>
 	</div>
 
 	<!-- ADDITIONAL VARIABLES -->
@@ -287,38 +260,12 @@
 				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each additionalVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={additionalVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: You can further adjust the forecast time range for hourly weather variables using <mark
@@ -368,38 +315,12 @@
 				title="Solar Radiation Variables"
 				count={countVariables(solarVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each solarVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_hourly_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_hourly_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={solarVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
@@ -468,7 +389,7 @@
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
 										aria-labelledby="{value}_hourly_label"
@@ -505,38 +426,13 @@
 				title="Reanalysis models"
 				count={countVariables(models, $params.models)}
 			>
-				<div class="mt-2 grid sm:grid-cols-2">
-					{#each models as group, i (i)}
-						<div class="mb-3">
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.models?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_model_label"
-										for="{value}_model"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-2"
+					groupClass="mb-3"
+					groups={models}
+					bind:values={$params.models}
+					idSuffix="model"
+				/>
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> combines IFS HRES, ERA5 and ERA5-Land
@@ -553,40 +449,12 @@
 		<a href="#daily_weather_variables"
 			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
 		>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each daily as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.daily?.includes(value)}
-								aria-labelledby="{value}_daily_label"
-								onCheckedChange={() => {
-									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.daily) {
-										$params.daily.push(value);
-										$params.daily = $params.daily;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_daily_label"
-								for="{value}_daily"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={daily}
+			bind:values={$params.daily}
+			idSuffix="daily"
+		/>
 		{#if timezoneInvalid}
 			<div transition:slide>
 				<Alert.Root variant="warning" class="mt-2 md:mt-4">
@@ -604,40 +472,12 @@
 				title="Additional Daily Variables"
 				count={countVariables(additionalDaily, $params.daily)}
 			>
-				<div
+				<VariableCheckboxGroups
 					class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-				>
-					{#each additionalDaily as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_daily"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.daily?.includes(value)}
-										aria-labelledby="{value}_daily_label"
-										onCheckedChange={() => {
-											if ($params.daily?.includes(value)) {
-												$params.daily = $params.daily.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.daily) {
-												$params.daily.push(value);
-												$params.daily = $params.daily;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_daily_label"
-										for="{value}_daily"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+					groups={additionalDaily}
+					bind:values={$params.daily}
+					idSuffix="daily"
+				/>
 			</AccordionItem>
 		</Accordion.Root>
 	</div>
@@ -706,10 +546,8 @@
 		</div>
 	</div>
 	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-		<table
-			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-		>
-			<caption class="text-muted-foreground mt-2 table-caption text-left"
+		<table class="docs-table w-full min-w-250">
+			<caption
 				>You can find the update timings in the <a
 					class="text-link underline"
 					href="/en/docs/model-updates">model updates documentation</a
@@ -733,7 +571,14 @@
 							>ECMWF IFS</a
 						>
 					</th>
-					<td>Global</td>
+					<td>
+						<div class="flex items-center gap-2">
+							<div class="flex w-[26px] shrink-0 items-center gap-2">
+								<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">🌍</div>
+							</div>
+							Global
+						</div>
+					</td>
 					<td>9 km</td>
 					<td>Hourly</td>
 					<td>2017 to present</td>
@@ -746,7 +591,14 @@
 							>ERA5</a
 						>
 					</th>
-					<td>Global</td>
+					<td>
+						<div class="flex items-center gap-2">
+							<div class="flex w-[26px] shrink-0 items-center gap-2">
+								<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">🌍</div>
+							</div>
+							Global
+						</div>
+					</td>
 					<td>0.25° (~25 km)</td>
 					<td>Hourly</td>
 					<td>1940 to present</td>
@@ -758,7 +610,14 @@
 							>ERA5-Land</a
 						>
 					</th>
-					<td>Global</td>
+					<td>
+						<div class="flex items-center gap-2">
+							<div class="flex w-[26px] shrink-0 items-center gap-2">
+								<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">🌍</div>
+							</div>
+							Global
+						</div>
+					</td>
 					<td>0.1° (~11 km)</td>
 					<td>Hourly</td>
 					<td>1950 to present</td>
@@ -771,7 +630,14 @@
 							>ERA5-Ensemble</a
 						>
 					</th>
-					<td>Global</td>
+					<td>
+						<div class="flex items-center gap-2">
+							<div class="flex w-[26px] shrink-0 items-center gap-2">
+								<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">🌍</div>
+							</div>
+							Global
+						</div>
+					</td>
 					<td>0.5° (~55 km)</td>
 					<td>3-Hourly</td>
 					<td>1940 to present</td>
@@ -784,7 +650,20 @@
 							>CERRA</a
 						>
 					</th>
-					<td>Europe</td>
+					<td>
+						<div class="flex items-center gap-2">
+							<div class="flex w-[26px] shrink-0 items-center gap-2">
+								<img
+									height="26"
+									width="26"
+									src="/images/country-flags/european_union.svg"
+									alt="European Union"
+									title="European Union"
+								/>
+							</div>
+							Europe
+						</div>
+					</td>
 					<td>5 km</td>
 					<td>Hourly</td>
 					<td>1985 to June 2021</td>
@@ -797,7 +676,14 @@
 							>ECMWF IFS Assimilation Long-Window</a
 						>
 					</th>
-					<td>Global</td>
+					<td>
+						<div class="flex items-center gap-2">
+							<div class="flex w-[26px] shrink-0 items-center gap-2">
+								<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">🌍</div>
+							</div>
+							Global
+						</div>
+					</td>
 					<td>9 km</td>
 					<td>6-Hourly</td>
 					<td>2024 to present</td>
@@ -806,7 +692,7 @@
 			</tbody>
 		</table>
 	</div>
-	<p class="mt-3 !mb-0">
+	<p class="mt-3 mb-0!">
 		Different reanalysis models may include different sets of weather variables. For instance, ERA5
 		offers a full range of variables but only at 0.25° resolution, whereas ERA5-Land focuses on
 		surface conditions like temperature, humidity, soil temperature, and soil moisture. CERRA covers
@@ -814,11 +700,9 @@
 		except snow depth, while IFA Assimilation omits precipitation, snowfall, and solar radiation.
 	</p>
 	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-		<table
-			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-		>
-			<caption class="text-muted-foreground mt-2 table-caption text-left text-sm">
-				<p class="!mb-0">
+		<table class="docs-table w-full min-w-250">
+			<caption class="text-sm">
+				<p class="mb-0!">
 					<sup>1</sup> ERA5-Land is driven by atmospheric variables from ERA5 as its "forcing," meaning
 					it relies on the same data as ERA5.
 				</p>
@@ -927,10 +811,8 @@
 		</p>
 		<p>All URL parameters are listed below:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<caption class="text-muted-foreground mt-2 table-caption text-left"
+			<table class="docs-table w-full min-w-300">
+				<caption
 					>Additional optional URL parameters will be added. For API stability, no required
 					parameters will be added in the future.</caption
 				>
@@ -1109,9 +991,7 @@
 			from the preceding hour as and average or sum.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -1325,7 +1205,7 @@
 						<td>Instant</td>
 						<td>kPa</td>
 						<td
-							>Vapor Pressure Deificit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
+							>Vapor Pressure Deficit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
 							transpiration of plants increases. For low VPD (&lt;0.4), transpiration decreases</td
 						>
 					</tr>
@@ -1370,9 +1250,7 @@
 			> accepts the following values:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -1474,9 +1352,7 @@
 			<WeatherForecastObject />
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>
@@ -1597,28 +1473,28 @@
 				<div class="border-border ml-2 flex rounded-lg border">
 					<ToggleGroup.Item
 						value="apa"
-						class="!h-10 cursor-pointer rounded-e-none py-2 opacity-100! lg:min-h-[unset] "
+						class="h-10! cursor-pointer rounded-e-none py-2 opacity-100! lg:min-h-[unset] "
 						disabled={citation === 'apa'}
 					>
 						APA
 					</ToggleGroup.Item>
 					<ToggleGroup.Item
 						value="mla"
-						class="!h-10 cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
+						class="h-10! cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'mla'}
 					>
 						MLA
 					</ToggleGroup.Item>
 					<ToggleGroup.Item
 						value="harvard"
-						class="!h-10 cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
+						class="h-10! cursor-pointer rounded-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'harvard'}
 					>
 						Harvard
 					</ToggleGroup.Item>
 					<ToggleGroup.Item
 						value="bibtex"
-						class="!h-10 cursor-pointer rounded-md rounded-s-none opacity-100! duration-300 lg:min-h-[unset] "
+						class="h-10! cursor-pointer rounded-md rounded-s-none opacity-100! duration-300 lg:min-h-[unset] "
 						disabled={citation === 'bibtex'}
 					>
 						BibTex

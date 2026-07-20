@@ -24,7 +24,11 @@ export function jsonToChart(data: any, downloadTime: number) {
 				return;
 			}
 			const hourly_starttime = (data[section].time[0] + data.utc_offset_seconds) * 1000;
-			const pointInterval = (data[section].time[1] - data[section].time[0]) * 1000;
+			// Single-point responses have no second timestamp; fall back to one hour
+			const pointInterval =
+				data[section].time.length > 1
+					? (data[section].time[1] - data[section].time[0]) * 1000
+					: 3600 * 1000;
 			const unit = data[`${section}_units`][k[0]];
 			let axisId = null;
 			for (let i = 0; i < yAxis.length; i++) {
