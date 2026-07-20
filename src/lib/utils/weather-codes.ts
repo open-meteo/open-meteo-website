@@ -80,10 +80,15 @@ const weatherCodes: Record<number, string> = {
 	99: 'tornado'
 };
 
+// These icons only exist without a day/night variant
+const dayNightAgnostic = new Set(['strong-wind', 'dust', 'snowflake-cold', 'tornado']);
+
 export const getWeatherIconName = (code: number, daytime: boolean): string => {
-	const prefix = daytime ? 'day' : 'night';
 	const name = weatherCodes[code as keyof typeof weatherCodes] ?? 'clear';
-	return `wi-${prefix}-${name}`;
+	if (dayNightAgnostic.has(name)) {
+		return `wi-${name}`;
+	}
+	return `wi-${daytime ? 'day' : 'night'}-${name}`;
 };
 
 export default weatherCodes;

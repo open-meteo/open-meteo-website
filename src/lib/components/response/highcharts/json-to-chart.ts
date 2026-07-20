@@ -24,9 +24,6 @@ export function jsonToChart(data: any, downloadTime: number) {
 			) {
 				return;
 			}
-			if (k[0] == 'weather_code') {
-				return;
-			}
 			const hourly_starttime = (data[section].time[0] + data.utc_offset_seconds) * 1000;
 			// Single-point responses have no second timestamp; fall back to one hour
 			const pointInterval =
@@ -35,14 +32,21 @@ export function jsonToChart(data: any, downloadTime: number) {
 					: 3600 * 1000;
 			const unit = data[`${section}_units`][k[0]];
 			let axisId = null;
-			for (let i = 0; i < yAxis.length; i++) {
-				if (yAxis[i].title?.text == unit) {
-					axisId = i;
-				}
-			}
-			if (axisId == null) {
-				yAxis.push({ title: { text: unit } });
+			if (k[0] == 'weather_code') {
+				// Icons replace this series; it becomes an invisible "ghost" on a
+				// hidden axis so the condition still shows up in the shared tooltip
+				yAxis.push({ visible: false, title: { text: unit } });
 				axisId = yAxis.length - 1;
+			} else {
+				for (let i = 0; i < yAxis.length; i++) {
+					if (yAxis[i].title?.text == unit) {
+						axisId = i;
+					}
+				}
+				if (axisId == null) {
+					yAxis.push({ title: { text: unit } });
+					axisId = yAxis.length - 1;
+				}
 			}
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const ser: any = {
@@ -68,7 +72,9 @@ export function jsonToChart(data: any, downloadTime: number) {
 				}
 			};
 
-			if (k[0] == 'weather_code') {
+			// Per-model series like weather_code_gfs_seamless stay as numeric lines,
+			// but show the condition name in the tooltip
+			if (k[0].startsWith('weather_code')) {
 				ser.tooltip.pointFormatter = function () {
 					const condition = getWeatherCode(this.y);
 					return (
@@ -83,6 +89,16 @@ export function jsonToChart(data: any, downloadTime: number) {
 						' wmo)<br/>'
 					);
 				};
+			}
+
+			if (k[0] == 'weather_code') {
+				// Styled mode ignores lineWidth; the line is hidden via CSS
+				ser.className = 'weather-code-ghost';
+				ser.marker = { enabled: false };
+				ser.states = { hover: { enabled: false } };
+				ser.showInLegend = false;
+				// Averaging wmo codes is meaningless; grouping keeps the first value
+				ser.dataGrouping.approximation = 'open';
 			}
 
 			series.push(ser);
@@ -124,8 +140,7 @@ export function jsonToChart(data: any, downloadTime: number) {
 		const codes: number[] = data.hourly.weather_code;
 		const times: number[] = data.hourly.time;
 		const interval = times.length > 1 ? times[1] - times[0] : 3600;
-		// Show at most one icon every 6 hours to avoid crowding
-		const sampleEvery = Math.max(1, Math.round((1 * 3600) / interval));
+		const sampleEvery = Math.max(1, Math.round(3600 / interval));
 		const rises: number[] = data.daily?.sunrise ?? [];
 		const sets: number[] = data.daily?.sunset ?? [];
 		for (let i = 0; i < codes.length; i += sampleEvery) {
@@ -137,7 +152,23 @@ export function jsonToChart(data: any, downloadTime: number) {
 				icon: getWeatherIconName(codes[i], daytime)
 			});
 		}
+	} else if ('daily' in data && 'weather_code' in data.daily) {
+		const codes: number[] = data.daily.weather_code;
+		const times: number[] = data.daily.time;
+		for (let i = 0; i < codes.length; i++) {
+			// Center the icon on the day
+			weatherIconPoints.push({
+				x: (times[i] + 43200 + data.utc_offset_seconds) * 1000,
+				icon: getWeatherIconName(codes[i], true)
+			});
+		}
 	}
+
+	// Ghost weather_code series are only reachable through a shared tooltip; on
+	// busy charts the tooltip is not shared and they would hijack hover instead
+	const visibleSeries = series.filter((s) => s.name !== 'weather_code');
+	const sharedTooltip = visibleSeries.length <= 5;
+	const chartSeries = sharedTooltip ? series : visibleSeries;
 
 	const latitude = data.latitude.toFixed(2);
 	const longitude = data.longitude.toFixed(2);
@@ -181,6 +212,10 @@ export function jsonToChart(data: any, downloadTime: number) {
 								chart._weatherIconEls = [];
 								const iconSize = 26;
 								const xAxis = chart.xAxis[0];
+								// Extremes are undefined when all series are hidden via the legend
+								if (typeof xAxis.min !== 'number' || typeof xAxis.max !== 'number') {
+									return;
+								}
 								const minSpacing = iconSize - 4;
 								let lastPx = -Infinity;
 								for (const pt of weatherIconPoints) {
@@ -198,6 +233,7 @@ export function jsonToChart(data: any, downloadTime: number) {
 												iconSize
 											)
 											.attr({ zIndex: 5 })
+											.addClass('weather-icon')
 											.add()
 									);
 								}
@@ -235,7 +271,7 @@ export function jsonToChart(data: any, downloadTime: number) {
 			}
 		},
 
-		series: series,
+		series: chartSeries,
 
 		responsive: {
 			rules: [
@@ -254,7 +290,7 @@ export function jsonToChart(data: any, downloadTime: number) {
 			]
 		},
 		tooltip: {
-			shared: series.length <= 5,
+			shared: sharedTooltip,
 			animation: false
 		}
 	};

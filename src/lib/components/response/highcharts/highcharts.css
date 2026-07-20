@@ -619,7 +619,7 @@ circle.highcharts-legend-nav-inactive {
 
 .plot-band-day {
 	fill: rgb(255, 255, 194);
-	fill-opacity: 0.5;
+	fill-opacity: 0.35;
 }
 
 .plot-band-moon {
@@ -635,6 +635,15 @@ circle.highcharts-legend-nav-inactive {
 .highcharts-dark .plot-band-moon {
 	fill: rgb(30, 50, 100);
 	fill-opacity: 0.35;
+}
+
+/* Invisible weather_code series that only feeds the shared tooltip */
+.highcharts-series.weather-code-ghost .highcharts-graph {
+	stroke-width: 0;
+}
+
+.highcharts-dark .weather-icon {
+	filter: invert(1);
 }
 
 .highcharts-plot-line {
