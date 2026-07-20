@@ -1,4 +1,5 @@
 import { getWeatherCode } from '$lib/utils/meteo';
+import { getWeatherIconName } from '$lib/utils/weather-codes';
 
 import { SECTIONS } from '$lib/constants';
 
@@ -7,6 +8,16 @@ import type { AxisPlotBandsOptions, SeriesOptionsType, YAxisOptions } from 'high
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function jsonToChart(data: any, downloadTime: number) {
 	const yAxis: YAxisOptions[] = [];
+
+	// A single wind direction series is drawn as a row of arrows pointing where
+	// the wind blows; with multiple heights or models one row would be ambiguous
+	const windSection = ['hourly', 'daily'].find(
+		(s) => s in data && Object.keys(data[s]).some((key) => key.startsWith('wind_direction'))
+	);
+	const windDirectionKeys = windSection
+		? Object.keys(data[windSection]).filter((key) => key.startsWith('wind_direction'))
+		: [];
+	const windArrowKey = windDirectionKeys.length === 1 ? windDirectionKeys[0] : null;
 
 	const series: SeriesOptionsType[] = [];
 	SECTIONS.forEach(function (section) {
@@ -31,14 +42,22 @@ export function jsonToChart(data: any, downloadTime: number) {
 					: 3600 * 1000;
 			const unit = data[`${section}_units`][k[0]];
 			let axisId = null;
-			for (let i = 0; i < yAxis.length; i++) {
-				if (yAxis[i].title?.text == unit) {
-					axisId = i;
-				}
-			}
-			if (axisId == null) {
-				yAxis.push({ title: { text: unit } });
+			const isGhost = k[0] == 'weather_code' || (k[0] == windArrowKey && section == windSection);
+			if (isGhost) {
+				// Icons replace this series; it becomes an invisible "ghost" on a
+				// hidden axis so the value still shows up in the shared tooltip
+				yAxis.push({ visible: false, title: { text: unit } });
 				axisId = yAxis.length - 1;
+			} else {
+				for (let i = 0; i < yAxis.length; i++) {
+					if (yAxis[i].title?.text == unit) {
+						axisId = i;
+					}
+				}
+				if (axisId == null) {
+					yAxis.push({ title: { text: unit } });
+					axisId = yAxis.length - 1;
+				}
 			}
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const ser: any = {
@@ -64,7 +83,9 @@ export function jsonToChart(data: any, downloadTime: number) {
 				}
 			};
 
-			if (k[0] == 'weather_code') {
+			// Per-model series like weather_code_gfs_seamless stay as numeric lines,
+			// but show the condition name in the tooltip
+			if (k[0].startsWith('weather_code')) {
 				ser.tooltip.pointFormatter = function () {
 					const condition = getWeatherCode(this.y);
 					return (
@@ -79,6 +100,17 @@ export function jsonToChart(data: any, downloadTime: number) {
 						' wmo)<br/>'
 					);
 				};
+			}
+
+			if (isGhost) {
+				// Styled mode ignores lineWidth; the line is hidden via CSS
+				ser.className = 'ghost-series';
+				ser.marker = { enabled: false };
+				ser.states = { hover: { enabled: false } };
+				ser.showInLegend = false;
+				// Averaging wmo codes or circular degrees is meaningless; grouping
+				// keeps the first value instead
+				ser.dataGrouping.approximation = 'open';
 			}
 
 			series.push(ser);
@@ -115,6 +147,67 @@ export function jsonToChart(data: any, downloadTime: number) {
 		);
 	}
 
+	const weatherIconPoints: { x: number; icon: string }[] = [];
+	if ('hourly' in data && 'weather_code' in data.hourly) {
+		const codes: number[] = data.hourly.weather_code;
+		const times: number[] = data.hourly.time;
+		const interval = times.length > 1 ? times[1] - times[0] : 3600;
+		const sampleEvery = Math.max(1, Math.round(3600 / interval));
+		const rises: number[] = data.daily?.sunrise ?? [];
+		const sets: number[] = data.daily?.sunset ?? [];
+		for (let i = 0; i < codes.length; i += sampleEvery) {
+			const t = times[i];
+			const daytime =
+				rises.length === 0 || rises.some((r: number, d: number) => t >= r && t <= sets[d]);
+			weatherIconPoints.push({
+				x: (t + data.utc_offset_seconds) * 1000,
+				icon: getWeatherIconName(codes[i], daytime)
+			});
+		}
+	} else if ('daily' in data && 'weather_code' in data.daily) {
+		const codes: number[] = data.daily.weather_code;
+		const times: number[] = data.daily.time;
+		for (let i = 0; i < codes.length; i++) {
+			// Center the icon on the day
+			weatherIconPoints.push({
+				x: (times[i] + 43200 + data.utc_offset_seconds) * 1000,
+				icon: getWeatherIconName(codes[i], true)
+			});
+		}
+	}
+
+	const windArrowPoints: { x: number; icon: string; rotation: number }[] = [];
+	if (windSection && windArrowKey) {
+		const dirs: number[] = data[windSection][windArrowKey];
+		const times: number[] = data[windSection].time;
+		const interval = times.length > 1 ? times[1] - times[0] : 3600;
+		const sampleEvery = Math.max(1, Math.round(3600 / interval));
+		// Center daily values on the day
+		const midday = windSection === 'daily' ? 43200 : 0;
+		for (let i = 0; i < dirs.length; i += sampleEvery) {
+			if (dirs[i] == null) continue;
+			windArrowPoints.push({
+				x: (times[i] + midday + data.utc_offset_seconds) * 1000,
+				icon: 'wi-direction-up',
+				rotation: (dirs[i] + 180) % 360
+			});
+		}
+	}
+
+	const iconRows: { size: number; points: { x: number; icon: string; rotation?: number }[] }[] = [];
+	if (weatherIconPoints.length > 0) {
+		iconRows.push({ size: 26, points: weatherIconPoints });
+	}
+	if (windArrowPoints.length > 0) {
+		iconRows.push({ size: 22, points: windArrowPoints });
+	}
+
+	// Ghost series are only reachable through a shared tooltip; on busy charts
+	// the tooltip is not shared and they would hijack hover instead
+	const visibleSeries = series.filter((s) => s.name !== 'weather_code' && s.name !== windArrowKey);
+	const sharedTooltip = visibleSeries.length <= 5;
+	const chartSeries = sharedTooltip ? series : visibleSeries;
+
 	const latitude = data.latitude.toFixed(2);
 	const longitude = data.longitude.toFixed(2);
 	let title = `${latitude}°N ${longitude}°E`;
@@ -144,7 +237,61 @@ export function jsonToChart(data: any, downloadTime: number) {
 				mouseWheel: {
 					enabled: false
 				}
-			}
+			},
+			...(iconRows.length > 0
+				? {
+						events: {
+							render: function () {
+								// eslint-disable-next-line @typescript-eslint/no-explicit-any
+								const chart = this as any;
+								if (chart._weatherIconEls) {
+									for (const el of chart._weatherIconEls) el.destroy();
+								}
+								chart._weatherIconEls = [];
+								const xAxis = chart.xAxis[0];
+								// Extremes are undefined when all series are hidden via the legend
+								if (typeof xAxis.min !== 'number' || typeof xAxis.max !== 'number') {
+									return;
+								}
+								let rowY = chart.plotTop + 4;
+								for (const row of iconRows) {
+									const iconSize = row.size;
+									const minSpacing = iconSize - 4;
+									let lastPx = -Infinity;
+									for (const pt of row.points) {
+										if (pt.x < xAxis.min || pt.x > xAxis.max) continue;
+										const px = xAxis.toPixels(pt.x, false);
+										if (px - lastPx < minSpacing) continue;
+										lastPx = px;
+										chart._weatherIconEls.push(
+											chart.renderer
+												.image(
+													`/images/weather-icons/${pt.icon}.svg`,
+													px - iconSize / 2,
+													rowY,
+													iconSize,
+													iconSize
+												)
+												.attr({
+													zIndex: 5,
+													...(pt.rotation !== undefined
+														? {
+																rotation: pt.rotation,
+																rotationOriginX: px,
+																rotationOriginY: rowY + iconSize / 2
+															}
+														: {})
+												})
+												.addClass('weather-icon')
+												.add()
+										);
+									}
+									rowY += iconSize + 2;
+								}
+							}
+						}
+					}
+				: {})
 		},
 
 		yAxis: yAxis,
@@ -175,7 +322,7 @@ export function jsonToChart(data: any, downloadTime: number) {
 			}
 		},
 
-		series: series,
+		series: chartSeries,
 
 		responsive: {
 			rules: [
@@ -194,7 +341,7 @@ export function jsonToChart(data: any, downloadTime: number) {
 			]
 		},
 		tooltip: {
-			shared: series.length <= 5,
+			shared: sharedTooltip,
 			animation: false
 		}
 	};
