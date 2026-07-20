@@ -123,30 +123,26 @@
 	/>
 </svelte:head>
 
-<ApiModeSelector bind:params={$params}>
-	{#snippet forecastAlert()}
-		<Alert.Root variant="info" class="mb-4">
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				width="24"
-				height="24"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				class="lucide lucide-info-icon lucide-info"
-				><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
-			>
-			<Alert.Description>
-				ECMWF transitioned to open-data on 1st October 2025, and Open-Meteo is pleased to provide
-				access to the IFS forecasts at the full native 9 km resolution without any additional delay
-				under open-data CC-BY 4.0 licence!
-			</Alert.Description>
-		</Alert.Root>
-	{/snippet}
-</ApiModeSelector>
+<Alert.Root variant="info" class="mb-4">
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="24"
+		height="24"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="2"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		class="lucide lucide-info-icon lucide-info"
+		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
+	>
+	<Alert.Description>
+		ECMWF transitioned to open-data on 1st October 2025, and Open-Meteo is pleased to provide access
+		to the IFS forecasts at the full native 9 km resolution without any additional delay under
+		open-data CC-BY 4.0 licence!
+	</Alert.Description>
+</Alert.Root>
 
 <form
 	method="get"
@@ -154,6 +150,11 @@
 >
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
+
+	<!-- API MODE -->
+	<div class="mt-6">
+		<ApiModeSelector bind:params={$params} />
+	</div>
 
 	<!-- TIME -->
 	<ApiModeTimeSelector
