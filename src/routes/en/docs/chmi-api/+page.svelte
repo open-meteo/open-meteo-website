@@ -387,8 +387,10 @@
 				target="_blank">open data</a
 			>. Both domains provide hourly forecasts for 3 days and are updated every 6 hours. The Central
 			Europe domain additionally includes atmospheric data on 17 pressure levels. The
-			<mark>CHMI Aladin Seamless</mark> model automatically uses the 1 km Czech Republic domain where
-			available and falls back to the Central Europe domain otherwise.
+			<mark>CHMI Aladin Seamless</mark> model automatically uses the 1 km Czech Republic domain
+			where available and falls back to the Central Europe domain otherwise. After 3 days,
+			Open-Meteo combines forecasts with the
+			<a href="/en/docs/ecmwf-api">ECMWF IFS HRES 9 km model</a> to provide up to 15 days of forecast.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table class="docs-table w-full min-w-250">
