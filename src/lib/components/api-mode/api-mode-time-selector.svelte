@@ -68,7 +68,7 @@
 	const runLabel = (run: string): string => `${run.slice(5, 10)} ${run.slice(11, 13)}z`;
 </script>
 
-<div class="mt-3 -mr-6 flex items-center gap-2 overflow-auto md:mr-0">
+<div class="mt-3 -mr-6 flex min-h-10.5 items-center gap-2 overflow-auto md:mr-0">
 	<div class="text-muted-foreground w-22 shrink-0">Time:</div>
 
 	<div class="relative">

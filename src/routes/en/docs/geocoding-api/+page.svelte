@@ -301,7 +301,7 @@
 			>)</small
 		>
 	</div>
-	<Input class="mt-2" type="text" id="api_url" readonly aria-label="API URL" value={apiUrl} />
+	<Input class="mt-2 h-12" type="text" id="api_url" readonly aria-label="API URL" value={apiUrl} />
 	<div class="text-muted-foreground mt-1">You can copy this API URL into your application</div>
 </div>
 

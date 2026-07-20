@@ -24,6 +24,10 @@
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ApiModeDescription from '$lib/components/api-mode/api-mode-description.svelte';
+	import ApiModeSelector from '$lib/components/api-mode/api-mode-selector.svelte';
+	import ApiModeTimeSelector from '$lib/components/api-mode/api-mode-time-selector.svelte';
+	import { apiModeFormAction } from '$lib/components/api-mode/utils';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
@@ -31,7 +35,6 @@
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
-	import TimeSelector from '$lib/components/time/time-selector.svelte';
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
@@ -61,6 +64,8 @@
 		latitude: [52.52],
 		longitude: [13.41],
 		...defaultParameters,
+		api_mode: 'forecast',
+		run: '',
 		hourly: ['temperature_2m']
 	});
 
@@ -170,18 +175,27 @@
 	</Alert.Description>
 </Alert.Root>
 
-<form method="get" action="https://api.open-meteo.com/v1/dwd-icon">
+<form
+	method="get"
+	action={apiModeFormAction($params.api_mode, 'https://api.open-meteo.com/v1/dwd-icon')}
+>
 	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
-	<!-- TIME -->
-	<TimeSelector
-		bind:params={$params}
-		{forecastDaysOptions}
-		{pastDaysOptions}
-		{beginDate}
-		{lastDate}
-	/>
+	<!-- API MODE & TIME -->
+	<div class="mt-6 grid items-start gap-x-6 gap-y-4 lg:grid-cols-2">
+		<div>
+			<ApiModeSelector bind:params={$params} />
+			<ApiModeTimeSelector
+				bind:params={$params}
+				{beginDate}
+				{lastDate}
+				{pastDaysOptions}
+				{forecastDaysOptions}
+			/>
+		</div>
+		<ApiModeDescription bind:params={$params} {forecastDaysOptions} />
+	</div>
 
 	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">
@@ -605,12 +619,19 @@
 	</div>
 
 	<!-- LICENSE -->
-	<div class="mt-3 md:mt-6"><LicenceSelector /></div>
+	<div class="mt-3 md:mt-6">
+		<LicenceSelector requires_professional_plan={$params.api_mode !== 'forecast'} />
+	</div>
 </form>
 
 <!-- RESULT -->
 <div class="mt-6 md:mt-12">
-	<ResultsPreview {params} {defaultParameters} model_default="dwd_icon_seamless" />
+	<ResultsPreview
+		{params}
+		{defaultParameters}
+		model_default="dwd_icon_seamless"
+		defaultTimeParameters={false}
+	/>
 </div>
 
 <!-- DATA SOURCES -->

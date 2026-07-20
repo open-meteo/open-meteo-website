@@ -9,15 +9,21 @@
 
 	interface Props {
 		params: Parameters;
+		modes?: string[];
 	}
 
-	let { params = $bindable() }: Props = $props();
+	let {
+		params = $bindable(),
+		modes: availableModes = ['forecast', 'historical_forecast', 'single_run']
+	}: Props = $props();
 
-	const modes = [
+	const allModes = [
 		{ value: 'forecast', label: 'Forecast' },
 		{ value: 'historical_forecast', label: 'Historical Forecast' },
 		{ value: 'single_run', label: 'Single Run' }
 	];
+
+	let modes = $derived(allModes.filter((m) => availableModes.includes(m.value)));
 
 	const defaultRun = (): string => {
 		const d = new SvelteDate();

@@ -178,7 +178,7 @@
 				</svg>
 			</Button>
 		</div>
-		<div class="flex max-h-75 min-h-45 min-w-85 justify-center overflow-y-auto">
+		<div class="flex h-70 w-85 items-start justify-center overflow-y-auto">
 			{#if yearModeStart}
 				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-cols-4">
 					{#each yearList as year (year)}
@@ -216,7 +216,7 @@
 					{/each}
 				</div>
 			{:else}
-				<div class="min-h-70">
+				<div>
 					<div
 						id="start_date_days"
 						in:scale={{ start: 0.8, duration: 300 }}
@@ -307,7 +307,7 @@
 				</svg>
 			</Button>
 		</div>
-		<div class="flex max-h-75 min-h-45 min-w-85 justify-center overflow-y-auto">
+		<div class="flex h-70 w-85 items-start justify-center overflow-y-auto">
 			{#if yearModeEnd}
 				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-cols-4">
 					{#each yearList as year (year)}
@@ -345,7 +345,7 @@
 					{/each}
 				</div>
 			{:else}
-				<div class="min-h-45">
+				<div>
 					<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
 						{#each endDates as date (date.getTime())}
 							<Button

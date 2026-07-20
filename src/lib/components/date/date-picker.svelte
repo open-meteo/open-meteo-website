@@ -88,13 +88,13 @@
 		>
 			<div
 				bind:this={inputDiv}
-				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen &&
+				class="border-border ring-offset-background relative flex h-12 w-full rounded-md border px-3 pt-6 {popoverOpen &&
 				selectStartDate
 					? 'ring-ring ring-2 ring-offset-2'
 					: ''}"
 			>
 				<svg
-					class="lucide lucide-calendar mt-px mr-1"
+					class="lucide lucide-calendar mr-1 -mt-2 self-center"
 					xmlns="http://www.w3.org/2000/svg"
 					width="16"
 					height="16"
@@ -113,7 +113,7 @@
 
 				<Input
 					id="start_date_input"
-					class="m-0 -mt-2 h-[unset] border-none p-0 ring-0! ring-offset-0!"
+					class="m-0 h-[unset] -mt-2 border-none p-0 ring-0! ring-offset-0!"
 					type="text"
 					value={start_date}
 					onfocus={() => {
@@ -138,19 +138,19 @@
 			{#if (start_date && new Date(start_date).getTime() < beginDate.getTime() - 24 * 60 * 60 * 1000) || (start_date && new Date(start_date).getTime() > lastDate.getTime() + 24 * 60 * 60 * 1000)}
 				<div
 					transition:slide
-					class="-my-1 flex text-sm text-red-800 md:absolute md:top-15 md:left-3"
+					class="-my-1 flex text-sm text-red-800 md:absolute md:top-14 md:left-3"
 				>
 					Start date invalid
 				</div>
 			{/if}
 			<div
-				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen &&
+				class="border-border ring-offset-background relative flex h-12 w-full rounded-md border px-3 pt-6 {popoverOpen &&
 				!selectStartDate
 					? 'ring-ring ring-2 ring-offset-2'
 					: ''}"
 			>
 				<svg
-					class="lucide lucide-calendar mt-px mr-1"
+					class="lucide lucide-calendar mr-1 -mt-2 self-center"
 					xmlns="http://www.w3.org/2000/svg"
 					width="16"
 					height="16"
@@ -169,7 +169,7 @@
 
 				<Input
 					id="end_date_input"
-					class="m-0 -mt-2 h-[unset] border-none p-0 ring-0! ring-offset-0!"
+					class="m-0 h-[unset] -mt-2 border-none p-0 ring-0! ring-offset-0!"
 					type="text"
 					value={end_date}
 					onfocus={() => {
@@ -194,14 +194,14 @@
 			{#if (end_date && new Date(end_date).getTime() < beginDate.getTime()) || (end_date && new Date(end_date).getTime() > lastDate.getTime() + 24 * 60 * 60 * 1000)}
 				<div
 					transition:slide
-					class="-my-1 flex text-sm text-red-800 md:absolute md:top-15 md:left-[calc(50%+1.5rem)]"
+					class="-my-1 flex text-sm text-red-800 md:absolute md:top-14 md:left-[calc(50%+1.5rem)]"
 				>
 					End date invalid
 				</div>
 			{:else if end_date && start_date && new Date(end_date).getTime() < new Date(start_date).getTime()}
 				<div
 					transition:slide
-					class="-my-1 flex text-sm text-red-800 md:absolute md:top-15 md:left-[calc(50%+1.5rem)]"
+					class="-my-1 flex text-sm text-red-800 md:absolute md:top-14 md:left-[calc(50%+1.5rem)]"
 				>
 					End date before Start date
 				</div>
