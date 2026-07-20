@@ -622,7 +622,7 @@ TODO:
 					<td>2025</td>
 				</tr>
 				<tr>
-					<td>IODC</td>
+					<td class="pl-2">IODC</td>
 					<td>
 						<div class="flex items-center gap-2">Europe, Africa, India (only land)</div>
 					</td>
@@ -665,7 +665,7 @@ TODO:
 					<td>2015</td>
 				</tr>
 				<tr>
-					<td>EUMETSAT MTG</td>
+					<td class="pl-2">EUMETSAT MTG</td>
 					<td>
 						<div class="flex items-center gap-2">Europe, Africa</div>
 					</td>
@@ -688,7 +688,7 @@ TODO:
 					<td>N/A</td>
 				</tr>
 				<tr>
-					<td>GOES-West</td>
+					<td class="pl-2">GOES-West</td>
 					<td>
 						<div class="flex items-center gap-2">Pacific Ocean & Alaska</div>
 					</td>
