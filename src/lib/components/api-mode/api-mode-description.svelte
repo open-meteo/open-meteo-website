@@ -64,22 +64,35 @@
 				Select a run with the <mark>&run=</mark> parameter using the UTC initialisation time (e.g.
 				<mark>&run=2026-07-16T00:00</mark>). Runs are typically available 1 to 6 hours after
 				initialisation, see the
-				<a href="/en/docs/model-updates">model updates documentation</a> for exact timings.
+				<a href="#data_sources">Data Sources</a> or the
+				<a href="/en/docs/model-updates">model updates documentation</a>
+				for exact timings.
 				{singleRunArchiveNote} Full details are available in the
 				<a class="text-link underline" href="/en/docs/single-runs-api"
 					>Single Runs API documentation</a
 				>.
 			</p>
 		</div>
-	{:else if params.time_mode === 'time_interval'}
+	{:else}
 		<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
-			<p>
-				<strong
-					><mark>Forecast</mark> provides the latest, continuously updated weather forecast.</strong
-				>
-				The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range of
-				dates more easily. In <mark>Forecast</mark> mode, the last 3 months are available.
-			</p>
+			{#if params.time_mode === 'time_interval'}
+				<p>
+					<strong
+						><mark>Forecast</mark> provides the latest, continuously updated weather forecast.</strong
+					>
+					The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range of
+					dates more easily. In <mark>Forecast</mark> mode, the last 3 months are available.
+				</p>
+			{:else}
+				<p>
+					<strong
+						><mark>Forecast</mark> provides the latest, continuously updated weather forecast.</strong
+					>
+					By default, we provide forecasts for {plainLabel(defaultForecastDays?.label)}, but you can
+					access forecasts for up to {plainLabel(maxForecastDays?.label)}. Use
+					<mark>Past Days</mark> to include recently archived forecasts.
+				</p>
+			{/if}
 			<div class="mt-3 flex flex-wrap items-center gap-2">
 				For older archived forecasts, switch to
 				<Button variant="outline" onclick={switchToHistoricalForecast}>Historical Forecast</Button>
@@ -89,17 +102,6 @@
 				You can also check out our
 				<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides data
 				going all the way back to 1940.
-			</p>
-		</div>
-	{:else}
-		<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
-			<p>
-				<strong
-					><mark>Forecast</mark> provides the latest, continuously updated weather forecast.</strong
-				>
-				By default, we provide forecasts for {plainLabel(defaultForecastDays?.label)}, but you can
-				access forecasts for up to {plainLabel(maxForecastDays?.label)}. If you're interested in
-				past weather data, you can use the <mark>Past Days</mark> feature to access archived forecasts.
 			</p>
 		</div>
 	{/if}

@@ -167,16 +167,21 @@
 		useStockChart || ($params.api_mode !== undefined && $params.api_mode !== 'forecast')
 	);
 
+	/// The historical forecast and single runs servers only serve /v1/forecast
+	let resolvedAction = $derived(
+		$params.api_mode !== undefined && $params.api_mode !== 'forecast' ? 'forecast' : action
+	);
+
 	let server = $derived(
 		((apiKeyPreferences: APIKeyPreferences) => {
 			let serverPrefix = resolvedType == 'forecast' ? 'api' : `${resolvedType}-api`;
 			switch (apiKeyPreferences.use) {
 				case 'commercial':
-					return `https://customer-${serverPrefix}.open-meteo.com/v1/${action}`;
+					return `https://customer-${serverPrefix}.open-meteo.com/v1/${resolvedAction}`;
 				case 'self_hosted':
-					return `${apiKeyPreferences.self_host_server}/v1/${action}`;
+					return `${apiKeyPreferences.self_host_server}/v1/${resolvedAction}`;
 				default:
-					return `https://${serverPrefix}.open-meteo.com/v1/${action}`;
+					return `https://${serverPrefix}.open-meteo.com/v1/${resolvedAction}`;
 			}
 		})($apiKeyPreferences)
 	);
