@@ -11,6 +11,8 @@
 		class?: string;
 		groupClass?: string;
 		isDisabled?: (value: string) => boolean;
+		/** Render labels as HTML for static labels containing markup like `PM<sub>10</sub>` */
+		htmlLabels?: boolean;
 	}
 
 	let {
@@ -19,7 +21,8 @@
 		idSuffix,
 		class: className,
 		groupClass,
-		isDisabled
+		isDisabled,
+		htmlLabels = false
 	}: Props = $props();
 
 	// Deliberately the controlled checked/onCheckedChange API instead of
@@ -50,7 +53,8 @@
 					<Label
 						id="{value}_{idSuffix}_label"
 						for="{value}_{idSuffix}"
-						class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
+						class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
+						>{#if htmlLabels}{@html label}{:else}{label}{/if}</Label
 					>
 				</div>
 			{/each}

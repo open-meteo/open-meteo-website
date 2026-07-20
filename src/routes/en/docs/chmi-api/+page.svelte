@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
+	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
+	import { sliceIntoChunks } from '$lib/utils';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
 		countVariables
 	} from '$lib/utils/meteo';
-	import { slide } from '$lib/utils/transitions';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
@@ -36,7 +37,6 @@
 		pastDaysOptions,
 		pastHoursOptions,
 		pastMinutely15Options,
-		solarVariables,
 		temporalResolutionOptions
 	} from '../options';
 	import {
@@ -47,12 +47,13 @@
 		hourly,
 		levels,
 		models,
-		pressureVariables
+		pressureVariables,
+		solarVariables
 	} from './options';
 
 	const params = urlHashStore({
-		latitude: [52.52],
-		longitude: [13.41],
+		latitude: [50.088],
+		longitude: [14.4208],
 		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
@@ -78,6 +79,7 @@
 	let pastMinutely15 = $derived(
 		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
 	);
+
 	let pressureVariablesTab = $state('temperature');
 
 	let accordionValues: string[] = $state([]);
@@ -103,10 +105,11 @@
 		}
 
 		if (
+			$params.hourly &&
 			countPressureVariables(pressureVariables, levels, $params.hourly).active &&
-			!accordionValues.includes('pressure-variables')
+			!accordionValues.includes('pressure-levels')
 		) {
-			accordionValues.push('pressure-variables');
+			accordionValues.push('pressure-levels');
 		}
 
 		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
@@ -131,16 +134,15 @@
 </script>
 
 <svelte:head>
-	<title>KNMI Weather Model API | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/knmi-api" />
+	<title>CHMI Aladin Weather Model API | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/docs/chmi-api" />
 	<meta
 		name="description"
-		content="Weather forecasts from KNMI HARMONIE AROME at 2 km resolution for the Netherlands, Belgium and surrounding Europe. Free API for non-commercial use."
+		content="Weather forecasts from the Czech CHMI ALADIN model at up to 1 km resolution for the Czech Republic and Central Europe. Free weather API for non-commercial use, no key required."
 	/>
 </svelte:head>
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
-	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
 	<!-- TIME -->
@@ -334,11 +336,7 @@
 			>
 				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
 					<div class="w-full md:w-56.75">
-						<ToggleGroup.Root
-							type="single"
-							bind:value={pressureVariablesTab}
-							class="justify-start gap-0"
-						>
+						<ToggleGroup.Root type="single" bind:value={pressureVariablesTab}>
 							<div class="border-border flex flex-col rounded-lg border">
 								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
@@ -366,8 +364,8 @@
 														')'
 													: ''}
 											</span>
-										</div>
-									</ToggleGroup.Item>
+										</div></ToggleGroup.Item
+									>
 								{/each}
 							</div>
 						</ToggleGroup.Root>
@@ -376,34 +374,40 @@
 						{#each pressureVariables as variable, i (i)}
 							{#if pressureVariablesTab === variable.value}
 								<div class="mb-3">{variable.label}</div>
-								<div class="grid grid-cols-1">
-									{#each levels as level (level)}
-										<div class="group flex items-center" title={String(level)}>
-											<Checkbox
-												id="{variable.value}_{level}hPa"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
-												value="{variable.value}_{level}hPa"
-												checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
-												aria-labelledby="{variable.value}_{level}hPa"
-												onCheckedChange={() => {
-													if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
-														$params.hourly = $params.hourly.filter((item: string) => {
-															return item !== `${variable.value}_${level}hPa`;
-														});
-													} else {
-														$params.hourly?.push(`${variable.value}_${level}hPa`);
-														$params.hourly = $params.hourly;
-													}
-												}}
-											/>
-											<Label
-												for="{variable.value}_{level}hPa"
-												class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
-												>{level} hPa
-												<small class="text-muted-foreground"
-													>({altitudeAboveSeaLevelMeters(level)})</small
-												></Label
-											>
+								<div class="grid grid-cols-1 lg:grid-cols-3">
+									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
+										<div>
+											{#each chunk as level, k (k)}
+												<div class="group flex items-center">
+													<Checkbox
+														id="{variable.value}_{level}hPa"
+														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
+														value="{variable.value}_{level}hPa"
+														checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
+														aria-labelledby="{variable.value}_{level}hPa_label"
+														onCheckedChange={() => {
+															const value = `${variable.value}_${level}hPa`;
+															if ($params.hourly?.includes(value)) {
+																$params.hourly = $params.hourly.filter(
+																	(item: string) => item !== value
+																);
+															} else if ($params.hourly) {
+																$params.hourly.push(value);
+																$params.hourly = $params.hourly;
+															}
+														}}
+													/>
+													<Label
+														id="{variable.value}_{level}hPa_label"
+														for="{variable.value}_{level}hPa"
+														class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
+														>{level} hPa
+														<small class="text-muted-foreground"
+															>({altitudeAboveSeaLevelMeters(level)})</small
+														></Label
+													>
+												</div>
+											{/each}
 										</div>
 									{/each}
 								</div>
@@ -413,9 +417,9 @@
 				</div>
 				<div class="mt-3 lg:ml-62.25">
 					<small class="text-muted-foreground"
-						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
-						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
-						level.</small
+						>Note: Pressure level data is only available from the Central Europe 2 km domain.
+						Altitudes are approximate and in meters <strong> above sea level</strong> (not above
+						ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea level.</small
 					>
 				</div>
 			</AccordionItem>
@@ -479,7 +483,7 @@
 	<ResultsPreview
 		{params}
 		{defaultParameters}
-		model_default="knmi_seamless"
+		model_default="chmi_aladin_seamless"
 		defaultTimeParameters={false}
 	/>
 </div>
@@ -489,15 +493,26 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			KNMI provides weather forecasts from the HARMONIE AROME model with ECMWF IFS initialization.
-			This is a collaboration of multiple European national weather services under the name "United
-			Weather Centres-West" (UWC-West). Two model configuration one for Europe (5.5 km resolution)
-			and an inset for the Netherlands (2 km resolution) are available. All data is updated hourly
-			and provides forecast for up to 2.5 days. After 2.5 days, Open-Meteo combines forecasts with
-			the <a href="/en/docs/ecmwf-api">ECMWF IFS HRES 9 km model</a> to provide up to 15 days of forecast.
+			The Czech Hydrometeorological Institute (CHMI) runs the ALADIN limited-area weather model and
+			publishes forecasts as <a
+				class="text-link underline"
+				href="https://opendata.chmi.cz/meteorology/weather/nwp_aladin/"
+				target="_blank">open data</a
+			>. Both domains provide hourly forecasts for 3 days and are updated every 6 hours. The Central
+			Europe domain additionally includes atmospheric data on 17 pressure levels. The
+			<mark>CHMI Aladin Seamless</mark> model automatically uses the 1 km Czech Republic domain
+			where available and falls back to the Central Europe domain otherwise. After 3 days,
+			Open-Meteo combines forecasts with the
+			<a href="/en/docs/ecmwf-api">ECMWF IFS HRES 9 km model</a> to provide up to 15 days of forecast.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-300">
+			<table class="docs-table w-full min-w-250">
+				<caption
+					>You can find the update timings in the <a
+						class="text-link underline"
+						href="/en/docs/model-updates">model updates documentation</a
+					>.</caption
+				>
 				<thead>
 					<tr>
 						<th scope="col">Weather Model</th>
@@ -510,48 +525,10 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row"
-							><a
-								href="https://dataplatform.knmi.nl/dataset/harmonie-arome-cy43-p1-1-0"
-								target="_blank">KNMI HARMONIE AROME Netherlands</a
-							></th
-						>
+						<th scope="row">CHMI Aladin Central Europe 2km</th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[60px] shrink-0 items-center gap-2">
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/nl.svg"
-										alt="Netherlands"
-										title="Netherlands"
-									/>
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/be.svg"
-										alt="Belgium"
-										title="Belgium"
-									/>
-								</div>
-								Netherlands, Belgium
-							</div>
-						</td>
-						<td>2 km</td>
-						<td>1-hourly</td>
-						<td>2.5 days</td>
-						<td>Every hour</td>
-					</tr>
-					<tr>
-						<th scope="row"
-							><a
-								href="https://dataplatform.knmi.nl/dataset/harmonie-arome-cy43-p3-1-0"
-								target="_blank">KNMI HARMONIE AROME Europe</a
-							></th
-						>
-						<td>
-							<div class="flex items-center gap-2">
-								<div class="flex w-[60px] shrink-0 items-center gap-2">
+								<div class="flex w-[32px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
@@ -560,13 +537,35 @@
 										title="European Union"
 									/>
 								</div>
-								Central & Northern Europe up to Iceland
+								Central Europe
 							</div>
 						</td>
-						<td>5.5 km</td>
-						<td>1-hourly</td>
-						<td>2.5 days</td>
-						<td>Every hour</td>
+						<td>2.3 km</td>
+						<td>Hourly</td>
+						<td>3 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row">CHMI Aladin CZ 1km</th>
+
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[32px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/cz.svg"
+										alt="Czech Republic"
+										title="Czech Republic"
+									/>
+								</div>
+								Czech Republic
+							</div>
+						</td>
+						<td>1 km</td>
+						<td>Hourly</td>
+						<td>3 days</td>
+						<td>Every 6 hours</td>
 					</tr>
 				</tbody>
 			</table>
@@ -577,30 +576,128 @@
 		<ZoomableImage
 			figureClass="w-full"
 			class="w-full"
-			src="/images/models/knmi_harmonie_arome_europe.webp"
-			alt="KNMI HARMONIE AROME Europe Model Area"
+			src="/images/models/chmi_aladin_central_europe_2km.webp"
+			alt="CHMI Aladin Central Europe Model Area"
 		>
 			{#snippet caption()}
-				KNMI HARMONIE AROME Europe Model Area. Source:
-				<a href="https://maps.open-meteo.com/?domain=knmi_harmonie_arome_europe#3.1/56.90/-1.61"
+				CHMI Aladin Central Europe Model Area. Source:
+				<a href="https://maps.open-meteo.com/?domain=chmi_aladin_central_europe_2km#4.5/47.67/15.7"
 					>Open-Meteo</a
 				>.
 			{/snippet}
 		</ZoomableImage>
+
 		<ZoomableImage
 			figureClass="w-full"
 			class="w-full"
-			src="/images/models/knmi_harmonie_arome_netherlands.webp"
-			alt="KNMI HARMONIE AROME Netherlands Model Area"
+			src="/images/models/chmi_aladin_cz_1km.webp"
+			alt="CHMI Aladin CZ Model Area"
 		>
 			{#snippet caption()}
-				KNMI HARMONIE AROME Netherlands Model Area. Source:
-				<a href="https://maps.open-meteo.com/?domain=knmi_harmonie_arome_netherlands#5.4/52.65/5.66"
+				CHMI Aladin CZ Model Area. Source:
+				<a href="https://maps.open-meteo.com/?domain=chmi_aladin_cz_1km#7.05/49.569/15.71"
 					>Open-Meteo</a
 				>.
 			{/snippet}
 		</ZoomableImage>
 	</ZoomableImageGallery>
+</div>
+
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			ALADIN natively provides temperature, humidity, wind, pressure, cloud cover, precipitation,
+			radiation, CAPE, visibility and sunshine duration. Several convenient API variables are not
+			predicted directly by the model. Open-Meteo derives them from the native fields for every
+			forecast step.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Weather code</th>
+						<td>
+							Computed from cloud cover, precipitation, snowfall, wind gusts, CAPE and visibility.
+							ALADIN does not publish a usable WMO weather symbol.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall</th>
+						<td>
+							Converted from the native snowfall water equivalent, assuming 1 mm of water equals 0.7
+							cm of snow.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Apparent temperature</th>
+						<td>
+							Combines 2 m temperature, relative humidity, wind speed and shortwave radiation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Diffuse solar radiation</th>
+						<td>
+							Difference between the native shortwave (global) and native direct solar radiation. No
+							radiation separation model is required.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Direct normal irradiance DNI and global tilted irradiance GTI</th>
+						<td>
+							Calculated from direct and diffuse radiation using solar geometry and, for GTI, the
+							selected panel tilt and azimuth.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Reference evapotranspiration ET₀</th>
+						<td>
+							FAO-56 Penman-Monteith equation using temperature, humidity, wind speed and solar
+							radiation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Vapour pressure deficit and wet bulb temperature</th>
+						<td>Calculated from 2 m temperature, relative humidity and dew point.</td>
+					</tr>
+					<tr>
+						<th scope="row">Terrestrial radiation and day-or-night flag</th>
+						<td>Astronomical calculations for every grid cell and timestamp.</td>
+					</tr>
+					<tr>
+						<th scope="row">Pressure-level wind speed and direction</th>
+						<td>
+							Calculated from the native U and V wind components (Central Europe domain only).
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Pressure-level dew point and cloud cover</th>
+						<td>
+							Calculated from pressure-level temperature and relative humidity (Central Europe
+							domain only).
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Unlike most regional weather models, ALADIN natively provides direct solar radiation and
+			sunshine duration, so these are not estimated by Open-Meteo.
+		</p>
+	</div>
 </div>
 
 <!-- API DOCS -->
@@ -616,26 +713,19 @@
 		</p>
 		<ul class="ml-6 list-disc">
 			<li>
-				<strong>Solar Radiation:</strong> KNMI supplies only global solar radiation data and does
-				not offer direct or diffuse solar radiation. Open-Meteo applies the separation model from
-				<a
-					href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
-					>Razo, Müller Witwer</a
-				> to calculate direct radiation from shortwave solar radiation.
+				<strong>Pressure Level Data:</strong> Forecasts on pressure levels are only available for
+				the Central Europe 2km domain on 17 levels (1000, 950, 925, 850, 800, 700, 600, 500, 450,
+				400, 350, 300, 275, 250, 200, 150 and 100 hPa), e.g. <mark>temperature_850hPa</mark> or
+				<mark>wind_speed_500hPa</mark>.
 			</li>
 			<li>
-				<strong>Wind Direction Correction:</strong> Wind direction has been calculated from U/V wind
-				component vectors. Special care has been taken to correct for the
-				<mark>Rotated Lat Long</mark> projection. Without this correction, wind directions have an error
-				of up to 15°.
+				<strong>Snow Depth:</strong> ALADIN provides the snow cover as water equivalent (<mark
+					>snow_depth_water_equivalent</mark
+				>). A snow depth in metres is not available.
 			</li>
 			<li>
-				<strong>Wind on 50, 100, 200, 300m:</strong> Wind forecasts for higher altitudes are only available
-				for the Netherlands area.
-			</li>
-			<li>
-				<strong>Pressure Level Data:</strong> Forecasts on pressure level are only available for the European
-				model.
+				<strong>Forecast Length:</strong> Forecasts cover 3 days. Selecting more forecast days will return
+				empty values for the additional days.
 			</li>
 		</ul>
 	</div>

@@ -382,6 +382,11 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 	[
 		{ value: 'geosphere_seamless', label: 'GeoSphere Seamless (with ECMWF)' },
 		{ value: 'geosphere_arome_austria', label: 'GeoSphere AROME Austria' }
+	],
+	[
+		{ value: 'chmi_aladin_seamless', label: 'CHMI Aladin Seamless' },
+		{ value: 'chmi_aladin_central_europe_2km', label: 'CHMI Aladin Central Europe 2km' },
+		{ value: 'chmi_aladin_cz_1km', label: 'CHMI Aladin CZ 1km' }
 	]
 ];
 

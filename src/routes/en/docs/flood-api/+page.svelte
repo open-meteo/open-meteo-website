@@ -72,34 +72,12 @@
 			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Flood Variables</h2></a
 		>
 		<div class="mt-2">
-			{#each daily as group, i (i)}
-				{#each group as { value, label } (value)}
-					<div class="group flex items-center" title={label}>
-						<Checkbox
-							id="{value}_daily"
-							class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
-							{value}
-							checked={$params.daily?.includes(value)}
-							aria-labelledby="{value}_daily_label"
-							onCheckedChange={() => {
-								if ($params.daily?.includes(value)) {
-									$params.daily = $params.daily.filter((item: string) => {
-										return item !== value;
-									});
-								} else if ($params.daily) {
-									$params.daily.push(value);
-									$params.daily = $params.daily;
-								}
-							}}
-						/>
-						<Label
-							id="{value}_daily_label"
-							for="{value}_daily"
-							class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
-						>
-					</div>
-				{/each}
-			{/each}
+			<VariableCheckboxGroups
+				groups={daily}
+				bind:values={$params.daily}
+				idSuffix="daily"
+				htmlLabels
+			/>
 			<div class="group flex items-center" title="All 50 Ensemble Members">
 				<Checkbox
 					id="ensemble"

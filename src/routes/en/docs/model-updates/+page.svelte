@@ -146,6 +146,33 @@
 				]
 			},
 			{
+				provider: 'CHMI',
+				url: '/en/docs/chmi-api',
+				models: [
+					{
+						name: 'CHMI Aladin Central Europe 2km',
+						area: ['european_union'],
+						meta: fetchMeta('chmi_aladin_central_europe_2km', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'CHMI Aladin CZ 1km',
+						area: ['cz'],
+						meta: fetchMeta('chmi_aladin_cz_1km', 'forecast', apiKeyPreferences)
+					}
+				]
+			},
+			{
+				provider: 'CMA',
+				url: '/en/docs/cma-api',
+				models: [
+					{
+						name: 'GFS Grapes 0.125°',
+						area: [],
+						meta: fetchMeta('cma_grapes_global', 'forecast', apiKeyPreferences)
+					}
+				]
+			},
+			{
 				provider: 'DMI',
 				url: '/en/docs/dmi-api',
 				models: [

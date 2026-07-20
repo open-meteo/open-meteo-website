@@ -10,7 +10,6 @@
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 
 	import * as Accordion from '$lib/components/ui/accordion';
-	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
 
@@ -21,6 +20,7 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		forecastHoursOptions,
@@ -121,40 +121,13 @@
 				Hourly Air Quality Variables
 			</h2>
 		</a>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each hourly as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
-								{value}
-								checked={$params.hourly?.includes(value)}
-								aria-labelledby="{value}_label"
-								onCheckedChange={() => {
-									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.hourly) {
-										$params.hourly.push(value);
-										$params.hourly = $params.hourly;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_label"
-								for="{value}_hourly"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={hourly}
+			bind:values={$params.hourly}
+			idSuffix="hourly"
+			htmlLabels
+		/>
 		<small class="text-muted-foreground"
 			>* Only available in Europe during pollen season with 4 days forecast</small
 		>
@@ -172,36 +145,12 @@
 				title="European Air Quality Index"
 				count={countVariables(aqi_european, $params.hourly)}
 			>
-				{#each aqi_european as group, i (i)}
-					<div>
-						{#each group as { value, label } (value)}
-							<div class="group flex items-center" title={label}>
-								<Checkbox
-									id="{value}_hourly"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
-									{value}
-									checked={$params.hourly?.includes(value)}
-									aria-labelledby="{value}_label"
-									onCheckedChange={() => {
-										if ($params.hourly?.includes(value)) {
-											$params.hourly = $params.hourly.filter((item: string) => {
-												return item !== value;
-											});
-										} else if ($params.hourly) {
-											$params.hourly.push(value);
-											$params.hourly = $params.hourly;
-										}
-									}}
-								/>
-								<Label
-									id="{value}_label"
-									for="{value}_hourly"
-									class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
-								>
-							</div>
-						{/each}
-					</div>
-				{/each}
+				<VariableCheckboxGroups
+					groups={aqi_european}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+					htmlLabels
+				/>
 				<div>
 					<p>
 						<small class="text-muted-foreground"
@@ -303,36 +252,12 @@
 				title="United States Air Quality Index "
 				count={countVariables(aqi_united_states, $params.hourly)}
 			>
-				{#each aqi_united_states as group, i (i)}
-					<div>
-						{#each group as { value, label } (value)}
-							<div class="group flex items-center" title={label}>
-								<Checkbox
-									id="{value}_hourly"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
-									{value}
-									checked={$params.hourly?.includes(value)}
-									aria-labelledby="{value}_label"
-									onCheckedChange={() => {
-										if ($params.hourly?.includes(value)) {
-											$params.hourly = $params.hourly.filter((item: string) => {
-												return item !== value;
-											});
-										} else if ($params.hourly) {
-											$params.hourly.push(value);
-											$params.hourly = $params.hourly;
-										}
-									}}
-								/>
-								<Label
-									id="{value}_label"
-									for="{value}_hourly"
-									class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
-								>
-							</div>
-						{/each}
-					</div>
-				{/each}
+				<VariableCheckboxGroups
+					groups={aqi_united_states}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+					htmlLabels
+				/>
 				<div>
 					<p>
 						<small class="text-muted-foreground"
@@ -486,38 +411,13 @@
 				last={true}
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each additionalVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={additionalVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+					htmlLabels
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: You can further adjust the forecast time range for hourly weather variables using <mark
@@ -601,40 +501,13 @@
 		<a href="#current_weather">
 			<h2 id="current_weather" class="text-2xl md:text-3xl">Current Conditions</h2>
 		</a>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each current as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_current"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
-								{value}
-								checked={$params.current?.includes(value)}
-								aria-labelledby="{value}_current_label"
-								onCheckedChange={() => {
-									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.current) {
-										$params.current.push(value);
-										$params.current = $params.current;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_current_label"
-								for="{value}_current"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={current}
+			bind:values={$params.current}
+			idSuffix="current"
+			htmlLabels
+		/>
 		<div class="text-muted-foreground mt-1 text-sm">
 			Note: Current conditions are based on 15-minutely weather model data. Every weather variable
 			available in hourly data, is available as current condition as well.
