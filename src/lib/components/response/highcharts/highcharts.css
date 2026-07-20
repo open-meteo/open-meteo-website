@@ -637,8 +637,9 @@ circle.highcharts-legend-nav-inactive {
 	fill-opacity: 0.35;
 }
 
-/* Invisible weather_code series that only feeds the shared tooltip */
-.highcharts-series.weather-code-ghost .highcharts-graph {
+/* Invisible series (weather code, wind direction) that are replaced by an icon
+   row and only feed the shared tooltip */
+.highcharts-series.ghost-series .highcharts-graph {
 	stroke-width: 0;
 }
 
