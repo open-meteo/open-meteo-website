@@ -910,7 +910,7 @@
 										<tr>
 											<th scope="col" class="w-[13%]">Provider</th>
 											<th scope="col" class="w-[17%]">Weather Model</th>
-											<th scope="col" class="w-[10%]">Area</th>
+											<th class="w-[10%]">Area</th>
 											<th scope="col" class="w-[14%]">Last Model Run</th>
 											<th scope="col" class="w-[13%]">Update Available</th>
 											<th scope="col" class="w-[12%]">Temporal Resolution</th>
@@ -932,9 +932,7 @@
 															{/if}
 														</td>
 													{/if}
-													<!-- Rows without the rowspan provider cell start with this td: keep the
-													     padding that .docs-table td:first-child would otherwise remove -->
-													<td class="pl-2">{model.name}</td>
+													<td>{model.name}</td>
 													<td>
 														<div class="flex flex-row items-start gap-1">
 															{#each model.area as area, i (i)}
