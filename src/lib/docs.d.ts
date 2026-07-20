@@ -17,6 +17,7 @@ export interface Parameters {
 	csv_coordinates?: string;
 	bounding_box?: string;
 
+	api_mode?: string;
 	time_mode?: string;
 	past_days?: string;
 	forecast_days?: string;
