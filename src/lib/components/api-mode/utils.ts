@@ -23,7 +23,7 @@ export const historicalDateRange = (
 ): { start_date: string; end_date: string } => {
 	const minStart = '2016-01-01';
 	const maxEnd = isoDate(2);
-	let end_date = end && end < maxEnd ? end : maxEnd;
+	const end_date = end && end < maxEnd ? end : maxEnd;
 	let start_date = start ? start : isoDate(16);
 	if (start_date < minStart) {
 		start_date = minStart;
