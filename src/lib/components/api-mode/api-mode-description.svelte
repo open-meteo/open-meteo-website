@@ -100,8 +100,7 @@
 			</div>
 			<p class="mt-3">
 				You can also check out our
-				<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides data
-				going all the way back to 1940.
+				<a href="/en/docs/historical-weather-api">Historical Weather API</a> with data going back to 1940.
 			</p>
 		</div>
 	{/if}

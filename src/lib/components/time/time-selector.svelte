@@ -178,7 +178,7 @@
 				out:fadeOutAbsolute={{ duration: 200 }}
 				class="flex flex-col gap-x-6 gap-y-4 lg:flex-row"
 			>
-				<div class="mb-3 lg:w-1/2">
+				<div class="lg:w-1/2">
 					<DatePicker
 						{beginDate}
 						{lastDate}
@@ -186,15 +186,12 @@
 						bind:end_date={params.end_date}
 					/>
 				</div>
-				<div class="mb-3 lg:w-1/2">
+				<div class="lg:w-1/2">
 					<p>
 						The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range of
-						dates more easily. Archived forecasts come from a series of weather model runs over
-						time. You can access forecasts for up to 3 months and continuously archived in the
-						<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>. You can also
-						check out our
-						<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
-						data going all the way back to 1940.
+						dates. The last 3 months are available here. Older forecasts are in the
+						<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>, and the
+						<a href="/en/docs/historical-weather-api">Historical Weather API</a> goes back to 1940.
 					</p>
 				</div>
 			</div>

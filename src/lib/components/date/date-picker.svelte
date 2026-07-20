@@ -207,7 +207,8 @@
 				</div>
 			{/if}
 		</button>
-		<Popover.Trigger class="h-0 w-0"></Popover.Trigger>
+		<!-- block keeps the zero-sized trigger from adding an empty text line below the fields -->
+		<Popover.Trigger class="block h-0 w-0"></Popover.Trigger>
 		<Popover.Content
 			onCloseAutoFocus={(e) => {
 				e.preventDefault();
