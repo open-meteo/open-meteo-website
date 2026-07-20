@@ -57,8 +57,8 @@
 	};
 </script>
 
-<div class="-mx-6 flex overflow-x-auto items-center gap-2 px-6 md:mx-0 md:px-0">
-	<div class="text-muted-foreground">API Mode:</div>
+<div class="flex overflow-x-auto items-center gap-2 md:mx-0 md:px-0">
+	<div class="text-muted-foreground w-22 shrink-0">API Mode:</div>
 
 	<div class="border-border flex rounded-md border">
 		{#each modes as { value, label }, i (value)}

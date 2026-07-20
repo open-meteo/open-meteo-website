@@ -40,7 +40,7 @@
 
 <div class="mt-6">
 	<div class="mt-3 -mr-6 flex items-center gap-2 overflow-auto md:mr-0">
-		<div class="text-muted-foreground">Time:</div>
+		<div class="text-muted-foreground w-22 shrink-0">Time:</div>
 
 		<div class="border-border flex rounded-md border">
 			<Button
