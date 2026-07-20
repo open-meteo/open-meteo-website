@@ -148,7 +148,7 @@
 			>
 			<Button
 				variant="ghost"
-				class="px-6 py-4"
+				class="w-40 px-0 py-4"
 				onclick={() => {
 					if (monthModeStart) {
 						yearModeStart = true;
@@ -159,8 +159,13 @@
 						}, 200);
 					}
 					monthModeStart = true;
-				}}>{startDate.getUTCFullYear()} - {monthList[startDate.getUTCMonth()]}</Button
+				}}
 			>
+				<!-- fixed-width parts keep the label from moving when the month name changes -->
+				<span class="w-11 text-right tabular-nums">{startDate.getUTCFullYear()}</span>
+				<span>-</span>
+				<span class="w-24 text-left">{monthList[startDate.getUTCMonth()]}</span>
+			</Button>
 			<Button variant="outline" class="mr-6 px-3 md:mr-0" onclick={increaseStart}
 				><svg
 					class="lucide lucide-chevron-right"
@@ -217,10 +222,11 @@
 				</div>
 			{:else}
 				<div>
+					<!-- fixed width keeps the 1fr columns from resizing with font metrics (e.g. bold today) -->
 					<div
 						id="start_date_days"
 						in:scale={{ start: 0.8, duration: 300 }}
-						class="grid grid-cols-5"
+						class="grid w-70 grid-cols-5"
 					>
 						{#each startDates as date (date.getTime())}
 							<Button
@@ -277,7 +283,7 @@
 			>
 			<Button
 				variant="ghost"
-				class="px-6 py-4"
+				class="w-40 px-0 py-4"
 				onclick={() => {
 					if (monthModeEnd) {
 						yearModeEnd = true;
@@ -288,8 +294,12 @@
 						}, 200);
 					}
 					monthModeEnd = true;
-				}}>{endDate.getUTCFullYear()} - {monthList[endDate.getUTCMonth()]}</Button
+				}}
 			>
+				<span class="w-11 text-right tabular-nums">{endDate.getUTCFullYear()}</span>
+				<span>-</span>
+				<span class="w-24 text-left">{monthList[endDate.getUTCMonth()]}</span>
+			</Button>
 			<Button variant="outline" class="px-3 md:mr-8" onclick={increaseEnd}
 				><svg
 					class="lucide lucide-chevron-right"
@@ -346,7 +356,7 @@
 				</div>
 			{:else}
 				<div>
-					<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
+					<div in:scale={{ start: 0.8, duration: 300 }} class="grid w-70 grid-cols-5">
 						{#each endDates as date (date.getTime())}
 							<Button
 								class="duration-200 rounded-lg border-2 border-transparent hover:border-foreground/50
