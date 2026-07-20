@@ -9,7 +9,6 @@ import {
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
-	models: ['meteofrance_wave'],
 	current: [],
 	minutely_15: [],
 

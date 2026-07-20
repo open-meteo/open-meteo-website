@@ -98,7 +98,7 @@ export const additionalVariables = [
 	[]
 ];
 
-const meteofrance_wave_variables = [
+export const meteofrance_wave_variables = [
 	'wave_height',
 	'wave_direction',
 	'wave_period',
@@ -113,7 +113,7 @@ const meteofrance_wave_variables = [
 	'secondary_swell_wave_direction'
 ];
 
-const meteofrance_currents_variables = [
+export const meteofrance_currents_variables = [
 	'ocean_current_velocity',
 	'ocean_current_direction',
 	'sea_level_height_msl',
@@ -121,7 +121,7 @@ const meteofrance_currents_variables = [
 	'sea_surface_temperature'
 ];
 
-const icon_wave_variables = [
+export const icon_wave_variables = [
 	'wave_height',
 	'wave_direction',
 	'wave_period',
@@ -135,9 +135,14 @@ const icon_wave_variables = [
 	'swell_wave_peak_period'
 ];
 
-const ecmwf_wam_variables = ['wave_height', 'wave_direction', 'wave_period', 'wave_peak_period'];
+export const ecmwf_wam_variables = [
+	'wave_height',
+	'wave_direction',
+	'wave_period',
+	'wave_peak_period'
+];
 
-const gfs_wave_variables = [
+export const gfs_wave_variables = [
 	'wave_height',
 	'wave_direction',
 	'wave_period',
@@ -155,7 +160,12 @@ const gfs_wave_variables = [
 	'tertiary_swell_wave_direction'
 ];
 
-const era5_ocean_variables = ['wave_height', 'wave_direction', 'wave_period', 'wave_peak_period'];
+export const era5_ocean_variables = [
+	'wave_height',
+	'wave_direction',
+	'wave_period',
+	'wave_peak_period'
+];
 
 export const availableVariables: Record<string, string[]> = {
 	meteofrance_wave: meteofrance_wave_variables,
