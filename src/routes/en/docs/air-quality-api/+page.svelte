@@ -164,8 +164,8 @@
 							>Pollutant thresholds in μg/m³ from the <a
 								href="https://www.eea.europa.eu/themes/air/air-quality-index"
 								>European Environment Agency (EAA)</a
-							> are given on the right. Particulate Matter (PM) is using a 24 hour roling average, while
-							gases use hourly values.</small
+							> are given on the right. Particulate Matter (PM) uses a rolling average over the preceding
+							24 hours, while gases use hourly values.</small
 						>
 					</p>
 				</div>
@@ -277,8 +277,11 @@
 							<a
 								href="https://www.breeze-technologies.de/blog/air-pollution-how-to-convert-between-mgm3-µgm3-ppm-ppb/"
 								>here</a
-							>. Particulate Matter (PM) is using a 24 hour roling average, ozone and carbon
-							monoxide use 8 hour averages, other gases use hourly values.</small
+							>. Particulate Matter (PM) uses a rolling average over the preceding 24 hours, carbon
+							monoxide over the preceding 8 hours. Ozone is calculated from both hourly values and
+							an 8 hour rolling average, sulphur dioxide from both hourly values and a 24 hour
+							rolling average, using whichever yields the higher index. Nitrogen dioxide uses hourly
+							values.</small
 						>
 					</p>
 				</div>
