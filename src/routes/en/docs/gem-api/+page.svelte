@@ -686,6 +686,178 @@
 	</ZoomableImageGallery>
 </div>
 
+<!-- NATIVE VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#native_model_variables"
+		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			GEM directly predicts the fields listed below. Open-Meteo retains these fields or uses them to
+			calculate more convenient API variables. GEM provides wind as speed and direction at several
+			heights and only global solar radiation.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Native GEM field</th>
+						<th scope="col">Level</th>
+						<th scope="col">Use in the Open-Meteo API</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Temperature</th>
+						<td>2 m, 40/80/120 m, pressure levels</td>
+						<td><mark>temperature_2m</mark> and upper-level temperature</td>
+					</tr>
+					<tr>
+						<th scope="row">Relative humidity</th>
+						<td>2 m, pressure levels</td>
+						<td>Relative humidity, dew point and cloud cover</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind speed and direction</th>
+						<td>10 m, 40/80/120 m, pressure levels</td>
+						<td><mark>wind_speed_10m</mark> and upper-level wind</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind gusts</th>
+						<td>10 m</td>
+						<td><mark>wind_gusts_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Mean sea-level pressure</th>
+						<td>Mean sea level</td>
+						<td><mark>pressure_msl</mark> and derived surface pressure</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>Precipitation, convective precipitation and snowfall water equivalent</th
+						>
+						<td>Surface</td>
+						<td><mark>precipitation</mark>, <mark>showers</mark>, snowfall</td>
+					</tr>
+					<tr>
+						<th scope="row">Global solar radiation</th>
+						<td>Surface</td>
+						<td>Global, direct, diffuse radiation, DNI and GTI</td>
+					</tr>
+					<tr>
+						<th scope="row">Total cloud cover</th>
+						<td>Surface</td>
+						<td><mark>cloud_cover</mark>; layers estimated from humidity</td>
+					</tr>
+					<tr>
+						<th scope="row">CAPE and snow depth</th>
+						<td>Surface</td>
+						<td><mark>cape</mark>, <mark>snow_depth</mark> and weather-code inputs</td>
+					</tr>
+					<tr>
+						<th scope="row">Geopotential and vertical velocity</th>
+						<td>Pressure levels</td>
+						<td><mark>geopotential_height</mark>, <mark>vertical_velocity</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Soil temperature and moisture</th>
+						<td>0–10 cm</td>
+						<td>Soil temperature and moisture variables</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-2">
+			GEM only provides total cloud cover natively; the low, mid and high layers are estimated from
+			pressure-level humidity. Precipitation probability is calculated from the GEPS ensemble.
+		</p>
+	</div>
+</div>
+
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			GEM provides temperature, relative humidity, wind speed and direction at several heights,
+			total cloud cover, showers, snowfall water equivalent and global solar radiation natively.
+			Open-Meteo derives the remaining API variables from these native fields.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Low, mid and high cloud cover</th>
+						<td>
+							GEM only provides total cloud cover natively. The layers are estimated from
+							pressure-level relative humidity following Sundqvist et al. (1989), so they may differ
+							from the native total.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Weather code</th>
+						<td>
+							Computed from cloud cover, precipitation, showers, snowfall, CAPE and wind gusts.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Direct and diffuse solar radiation</th>
+						<td>
+							Only global horizontal irradiance GHI is native. Diffuse radiation is separated using
+							the Razo, Müller Witwer model; direct radiation is the remainder. DNI, GTI and instant
+							values follow from solar geometry.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall and rain</th>
+						<td>
+							Snowfall converts the native snowfall water equivalent with 0.7 cm per mm. Rain is
+							total precipitation minus snowfall water equivalent and showers.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Dew point, vapour pressure deficit and wet bulb temperature</th>
+						<td
+							>Calculated from native temperature and relative humidity at 2 m and on pressure
+							levels.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Precipitation probability</th>
+						<td>
+							Share of the 21 GEPS ensemble members with more than 0.1 mm/h of precipitation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Apparent temperature, ET₀ and sunshine duration</th>
+						<td>
+							Combine temperature, humidity, wind speed and solar radiation. ET₀ follows the FAO-56
+							Penman-Monteith equation; sunshine duration counts time with DNI above 120 W/m².
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Wind speed and direction at 10 m, 40 m, 80 m and 120 m are native model fields and are not
+			derived. Sunrise, sunset, daylight duration and the day-or-night flag are astronomical
+			calculations. Daily values are aggregated from hourly data.
+		</p>
+	</div>
+</div>
+
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
 	<a href="#api_documentation"

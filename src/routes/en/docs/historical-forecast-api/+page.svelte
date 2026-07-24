@@ -709,7 +709,7 @@
 						<td>2022-11-24</td>
 					</tr>
 					<tr>
-						<td>ICON-EU</td>
+						<td class="pl-2">ICON-EU</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -730,7 +730,7 @@
 						<td>2022-11-24</td>
 					</tr>
 					<tr>
-						<td>ICON-D2</td>
+						<td class="pl-2">ICON-D2</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -783,7 +783,7 @@
 						<td>2021-03-23</td>
 					</tr>
 					<tr>
-						<td>GFS Pressure Variables</td>
+						<td class="pl-2">GFS Pressure Variables</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -800,7 +800,7 @@
 						<td>2021-03-23</td>
 					</tr>
 					<tr>
-						<td>HRRR</td>
+						<td class="pl-2">HRRR</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -828,7 +828,7 @@
 						<td>2018-01-01</td>
 					</tr>
 					<tr>
-						<td>NAM</td>
+						<td class="pl-2">NAM</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -856,7 +856,7 @@
 						<td>2025-09-01</td>
 					</tr>
 					<tr>
-						<td>NBM</td>
+						<td class="pl-2">NBM</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -884,7 +884,7 @@
 						<td>2024-10-08</td>
 					</tr>
 					<tr>
-						<td>AIGFS</td>
+						<td class="pl-2">AIGFS</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -901,7 +901,7 @@
 						<td>2026-01-07</td>
 					</tr>
 					<tr>
-						<td>HGEFS</td>
+						<td class="pl-2">HGEFS</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -936,7 +936,7 @@
 						<td>2024-01-02</td>
 					</tr>
 					<tr>
-						<td>ARPEGE Europe</td>
+						<td class="pl-2">ARPEGE Europe</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -957,7 +957,7 @@
 						<td>2022-11-13</td>
 					</tr>
 					<tr>
-						<td>AROME France</td>
+						<td class="pl-2">AROME France</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -978,7 +978,7 @@
 						<td>2024-01-02</td>
 					</tr>
 					<tr>
-						<td>AROME France HD</td>
+						<td class="pl-2">AROME France HD</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1017,7 +1017,7 @@
 						<td>2022-11-07</td>
 					</tr>
 					<tr>
-						<td>IFS 0.25°</td>
+						<td class="pl-2">IFS 0.25°</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1034,7 +1034,7 @@
 						<td>2024-02-03</td>
 					</tr>
 					<tr>
-						<td>AIFS 0.25° Single</td>
+						<td class="pl-2">AIFS 0.25° Single</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1051,7 +1051,7 @@
 						<td>2025-02-20</td>
 					</tr>
 					<tr>
-						<td>IFS HRES</td>
+						<td class="pl-2">IFS HRES</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1086,7 +1086,7 @@
 						<td>2022-03-01</td>
 					</tr>
 					<tr>
-						<td>UKMO UKV</td>
+						<td class="pl-2">UKMO UKV</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1132,7 +1132,7 @@
 						<td>2016-01-01</td>
 					</tr>
 					<tr>
-						<td>MSM</td>
+						<td class="pl-2">MSM</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1207,7 +1207,7 @@
 						<td>2022-11-23</td>
 					</tr>
 					<tr>
-						<td>GEM Regional</td>
+						<td class="pl-2">GEM Regional</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1235,7 +1235,7 @@
 						<td>2022-11-23</td>
 					</tr>
 					<tr>
-						<td>HRDPS Continental</td>
+						<td class="pl-2">HRDPS Continental</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1365,7 +1365,7 @@
 						<td>2024-07-01</td>
 					</tr>
 					<tr>
-						<td>HARMONIE AROME Europe</td>
+						<td class="pl-2">HARMONIE AROME Europe</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1408,7 +1408,7 @@
 						<td>2025-07-29</td>
 					</tr>
 					<tr>
-						<td>ICON CH2</td>
+						<td class="pl-2">ICON CH2</td>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">

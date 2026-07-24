@@ -464,6 +464,153 @@
 	</div>
 </div>
 
+<!-- NATIVE VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#native_model_variables"
+		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			MET Nordic is a post-processed 1 km dataset with a small set of native fields. Open-Meteo
+			retains these fields or uses them to calculate more convenient API variables. Wind is provided
+			directly as speed and direction and only global solar radiation is available.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Native MET Nordic field</th>
+						<th scope="col">Level</th>
+						<th scope="col">Use in the Open-Meteo API</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Temperature</th>
+						<td>2 m</td>
+						<td><mark>temperature_2m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Relative humidity</th>
+						<td>2 m</td>
+						<td>Relative humidity and dew point</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind speed and direction</th>
+						<td>10 m</td>
+						<td><mark>wind_speed_10m</mark>, <mark>wind_direction_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Wind gusts</th>
+						<td>10 m</td>
+						<td><mark>wind_gusts_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Mean sea-level pressure</th>
+						<td>Mean sea level</td>
+						<td><mark>pressure_msl</mark> and derived surface pressure</td>
+					</tr>
+					<tr>
+						<th scope="row">Total precipitation</th>
+						<td>Surface</td>
+						<td><mark>precipitation</mark>, <mark>rain</mark>, snowfall</td>
+					</tr>
+					<tr>
+						<th scope="row">Global solar radiation</th>
+						<td>Surface</td>
+						<td>Global, direct, diffuse radiation, DNI and GTI</td>
+					</tr>
+					<tr>
+						<th scope="row">Total cloud cover</th>
+						<td>Surface</td>
+						<td><mark>cloud_cover</mark></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-2">
+			MET Nordic provides only total cloud cover — no cloud layers — and no CAPE, so weather codes
+			cannot include thunderstorms.
+		</p>
+	</div>
+</div>
+
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			MET Nordic is a post-processed dataset with a small set of native fields: temperature,
+			relative humidity, total cloud cover, mean sea-level pressure, wind speed and direction, wind
+			gusts, global solar radiation and precipitation. Everything else in the API is derived from
+			these fields.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Snowfall and rain</th>
+						<td>
+							MET Nordic has no native snow field: precipitation counts as snow below 0°C, converted
+							with 0.7 cm per mm. Rain is the remainder.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Weather code</th>
+						<td>
+							Computed from cloud cover, precipitation, snowfall and wind gusts. Without CAPE or
+							visibility, thunderstorm and fog codes are not produced.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Direct and diffuse solar radiation</th>
+						<td>
+							Only global horizontal irradiance GHI is native. Diffuse radiation is separated using
+							the Razo, Müller Witwer model; direct radiation is the remainder. DNI, GTI and instant
+							values follow from solar geometry.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Dew point, vapour pressure deficit and wet bulb temperature</th>
+						<td>Calculated from native 2 m temperature and relative humidity.</td>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Sunshine duration</th>
+						<td>
+							Seconds per hour with derived direct normal irradiance above the WMO threshold of 120
+							W/m².
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Apparent temperature and reference evapotranspiration ET₀</th>
+						<td>
+							Combine temperature, humidity, wind speed and solar radiation. ET₀ follows the FAO-56
+							Penman-Monteith equation.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Wind speed and direction are native model fields and are not derived. Sunrise, sunset,
+			daylight duration and the day-or-night flag are astronomical calculations. Daily values are
+			aggregated from hourly data.
+		</p>
+	</div>
+</div>
+
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
 	<a href="#api_documentation"
