@@ -84,9 +84,9 @@ export const models = [
 	],
 	[
 		{ value: 'ecmwf_ifs025_ensemble_mean', label: 'ECMWF IFS 0.25° Ensemble Mean' },
+		{ value: 'ecmwf_ifs_europe_ensemble', label: 'ECMWF IFS 9 km (O1280) Europe Ensemble Mean' },
 		{ value: 'ecmwf_aifs025_ensemble_mean', label: 'ECMWF AIFS 0.25° Ensemble Mean' },
-		{ value: 'ecmwf_ifs_europe_ensemble', label: 'ECMWF IFS Europe (O1280) Ensemble Mean' },
-		{ value: 'ecmwf_aifs_europe_ensemble', label: 'ECMWF AIFS Europe (N320) Ensemble Mean' }
+		{ value: 'ecmwf_aifs_europe_ensemble', label: 'ECMWF AIFS 31 km (N320) Europe Ensemble Mean' }
 	],
 	[
 		{ value: 'ukmo_global_ensemble_mean_20km', label: 'UK MetOffice Global 20km Mean' },

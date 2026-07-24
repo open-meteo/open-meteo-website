@@ -826,7 +826,18 @@
 					</tr>
 					<tr>
 						<td>IFS Europe (native O1280)</td>
-						<td>Europe</td>
+						<td><div class="flex items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div></td>
 						<td>9-km, 1-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
@@ -834,7 +845,18 @@
 					</tr>
 					<tr>
 						<td>AIFS Europe (native N320)</td>
-						<td>Europe</td>
+						<td><div class="flex items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div></td>
 						<td>31 km, 6-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
