@@ -826,7 +826,8 @@
 					</tr>
 					<tr>
 						<td>IFS Europe (native O1280)</td>
-						<td><div class="flex items-center gap-2">
+						<td
+							><div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
@@ -837,15 +838,21 @@
 									/>
 								</div>
 								Europe
-							</div></td>
-						<td>9-km, 1-hourly</td>
+							</div></td
+						>
+						<td
+							>9-km, 1-hourly, <small class="text-muted-foreground"
+								>3-hourly after 90 hours, 6-hourly after 144 hours</small
+							></td
+						>
 						<td>51</td>
 						<td>15 days</td>
 						<td>Only 0z and 6z run</td>
 					</tr>
 					<tr>
 						<td>AIFS Europe (native N320)</td>
-						<td><div class="flex items-center gap-2">
+						<td
+							><div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
 									<img
 										height="26"
@@ -856,7 +863,8 @@
 									/>
 								</div>
 								Europe
-							</div></td>
+							</div></td
+						>
 						<td>31 km, 6-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
