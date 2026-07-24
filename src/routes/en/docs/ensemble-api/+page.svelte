@@ -634,6 +634,13 @@
 			The appropriate ensemble model to use would depend on the forecast horizon and region of
 			interest.
 		</p>
+		<p>
+			Native, full-resolution ECMWF IFS (O1280 grid) and AIFS (N320 grid) ensemble models are
+			available for Europe, preserving original model output and offering 1-hourly timesteps for
+			IFS. Retrieved via ECMWF pre-scheduled delivery, this data arrives significantly earlier than
+			the standard 0.25° open-data distribution, though IFS ensembles are limited to 0z and 6z runs
+			with a smaller set of variables.
+		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table class="docs-table w-full min-w-300">
 				<caption
@@ -783,7 +790,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row" rowspan="2">ECMWF</th>
+						<th scope="row" rowspan="4">ECMWF</th>
 						<td>IFS 0.25°</td>
 						<td>
 							<div class="flex items-center gap-2">
@@ -813,6 +820,52 @@
 							</div>
 						</td>
 						<td>0.25° (~25km), 6-hourly</td>
+						<td>51</td>
+						<td>15 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<td>IFS Europe (native O1280)</td>
+						<td
+							><div class="flex items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div></td
+						>
+						<td
+							>9-km, 1-hourly, <small class="text-muted-foreground"
+								>3-hourly after 90 hours, 6-hourly after 144 hours</small
+							></td
+						>
+						<td>51</td>
+						<td>15 days</td>
+						<td>Only 0z and 6z run</td>
+					</tr>
+					<tr>
+						<td>AIFS Europe (native N320)</td>
+						<td
+							><div class="flex items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div></td
+						>
+						<td>31 km, 6-hourly</td>
 						<td>51</td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>

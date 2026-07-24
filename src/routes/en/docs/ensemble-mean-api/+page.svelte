@@ -46,13 +46,18 @@
 	} from '../options';
 	import { availableVariables, forecastDaysOptions, models, noSpreadVariables } from './options';
 
+	const defaultModels = ['dwd_icon_eps_ensemble_mean_seamless'];
+
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
 		...defaultParameters,
 		hourly: ['temperature_2m', 'temperature_2m_spread'],
-		models: ['dwd_icon_eps_ensemble_mean_seamless']
+		models: defaultModels
 	});
+
+	let mounted = $state(false);
+	let availabilityModels = $derived(mounted ? $params.models?.slice() : defaultModels);
 
 	// Additional variable settings
 	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
@@ -69,6 +74,8 @@
 	let accordionValues: string[] = $state([]);
 	let pressureVariablesTab = $state('temperature');
 	onMount(() => {
+		mounted = true;
+
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
 				forecastHours?.value ||
@@ -212,7 +219,7 @@
 											id="{value}_hourly"
 											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 											{value}
-											disabled={!isAvailable(value, $params.models)}
+											disabled={!isAvailable(value, availabilityModels)}
 											checked={$params.hourly?.includes(value)}
 											aria-labelledby="{value}_hourly_mean_label"
 											onCheckedChange={() => {
@@ -238,7 +245,7 @@
 												id="{value}_hourly_spread"
 												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value={value + '_spread'}
-												disabled={!isAvailable(value, $params.models)}
+												disabled={!isAvailable(value, availabilityModels)}
 												checked={$params.hourly?.includes(value + '_spread')}
 												aria-labelledby="{value}_hourly_spread_label"
 												onCheckedChange={() => {
@@ -298,7 +305,7 @@
 													id="{value}_hourly"
 													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													{value}
-													disabled={!isAvailable(value, $params.models)}
+													disabled={!isAvailable(value, availabilityModels)}
 													checked={$params.hourly?.includes(value)}
 													aria-labelledby="{value}_hourly_mean_label"
 													onCheckedChange={() => {
@@ -324,7 +331,7 @@
 														id="{value}_hourly_spread"
 														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 														value={value + '_spread'}
-														disabled={!isAvailable(value, $params.models)}
+														disabled={!isAvailable(value, availabilityModels)}
 														checked={$params.hourly?.includes(value + '_spread')}
 														aria-labelledby="{value}_hourly_spread_label"
 														onCheckedChange={() => {
@@ -450,7 +457,7 @@
 													id="{value}_hourly"
 													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													{value}
-													disabled={!isAvailable('shortwave_radiation', $params.models)}
+													disabled={!isAvailable('shortwave_radiation', availabilityModels)}
 													checked={$params.hourly?.includes(value)}
 													aria-labelledby="{value}_hourly_mean_label"
 													onCheckedChange={() => {
@@ -476,7 +483,7 @@
 														id="{value}_hourly_spread"
 														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 														value={value + '_spread'}
-														disabled={!isAvailable('shortwave_radiation', $params.models)}
+														disabled={!isAvailable('shortwave_radiation', availabilityModels)}
 														checked={$params.hourly?.includes(value + '_spread')}
 														aria-labelledby="{value}_hourly_spread_label"
 														onCheckedChange={() => {
@@ -631,7 +638,7 @@
 																		value={variable.value + '_' + level + 'hPa'}
 																		disabled={!isAvailable(
 																			`${variable.value}_${level}hPa`,
-																			$params.models
+																			availabilityModels
 																		)}
 																		checked={$params.hourly?.includes(
 																			`${variable.value}_${level}hPa`
@@ -668,7 +675,7 @@
 																			value={variable.value + '_' + level + 'hPa_spread'}
 																			disabled={!isAvailable(
 																				`${variable.value}_${level}hPa`,
-																				$params.models
+																				availabilityModels
 																			)}
 																			checked={$params.hourly?.includes(
 																				`${variable.value}_${level}hPa_spread`
@@ -745,7 +752,7 @@
 											id="{value}_daily_mean"
 											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 											{value}
-											disabled={!isDailyAvailable(value, $params.models)}
+											disabled={!isDailyAvailable(value, availabilityModels)}
 											checked={$params.daily?.includes(value)}
 											aria-labelledby="{value}_daily_mean_label"
 											onCheckedChange={() => {
@@ -772,7 +779,7 @@
 												id="{value}_daily_spread"
 												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value={value + '_spread'}
-												disabled={!isDailyAvailable(value, $params.models)}
+												disabled={!isDailyAvailable(value, availabilityModels)}
 												checked={$params.daily?.includes(value + '_spread')}
 												aria-labelledby="{value}_daily_spread_label"
 												onCheckedChange={() => {

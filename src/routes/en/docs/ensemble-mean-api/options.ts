@@ -1,3 +1,4 @@
+import { ecmwf_aifs_europe_variables, ecmwf_ifs_europe_variables } from '../ensemble-api/options';
 import {
 	aigfs025_variables,
 	bom_access_global_ensemble,
@@ -56,6 +57,8 @@ export const availableVariables = {
 	ncep_hgefs025_ensemble_mean: gfs025_variables,
 	ecmwf_ifs025_ensemble_mean: ecmwf_ifs025_variables,
 	ecmwf_aifs025_ensemble_mean: ecmwf_aifs025_variables,
+	ecmwf_ifs_europe_ensemble: ecmwf_ifs_europe_variables,
+	ecmwf_aifs_europe_ensemble: ecmwf_aifs_europe_variables,
 	ukmo_global_ensemble_mean_20km: ukmo_variables,
 	ukmo_uk_ensemble_mean_2km: ukmo_2km_variables,
 	cmc_gem_geps_ensemble_mean: gem_global_variables,
@@ -81,13 +84,14 @@ export const models = [
 	],
 	[
 		{ value: 'ecmwf_ifs025_ensemble_mean', label: 'ECMWF IFS 0.25° Ensemble Mean' },
+		{ value: 'ecmwf_ifs_europe_ensemble', label: 'ECMWF IFS 9 km (O1280) Europe Ensemble Mean' },
 		{ value: 'ecmwf_aifs025_ensemble_mean', label: 'ECMWF AIFS 0.25° Ensemble Mean' },
-		{ value: 'cmc_gem_geps_ensemble_mean', label: 'GEM Global Ensemble Mean' },
-		{ value: 'bom_access_global_ensemble_mean', label: 'BOM ACCESS Global Mean' }
+		{ value: 'ecmwf_aifs_europe_ensemble', label: 'ECMWF AIFS 31 km (N320) Europe Ensemble Mean' }
 	],
 	[
 		{ value: 'ukmo_global_ensemble_mean_20km', label: 'UK MetOffice Global 20km Mean' },
-		{ value: 'ukmo_uk_ensemble_mean_2km', label: 'UK MetOffice UK 2km Mean' }
+		{ value: 'ukmo_uk_ensemble_mean_2km', label: 'UK MetOffice UK 2km Mean' },
+		{ value: 'cmc_gem_geps_ensemble_mean', label: 'GEM Global Ensemble Mean' }
 	],
 	[
 		{ value: 'meteoswiss_icon_ch1_ensemble_mean', label: 'MeteoSwiss ICON CH1 Mean' },
