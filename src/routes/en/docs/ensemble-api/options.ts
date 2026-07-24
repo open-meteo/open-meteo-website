@@ -146,8 +146,7 @@ export const models = [
 		{ value: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' },
 		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' },
 		// TODO: revert to 'cmc_gem_geps' once backend prefix aliases are deployed
-		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' },
-		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
+		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' }
 	],
 	[
 		{ value: 'meteoswiss_icon_ch1_ensemble', label: 'MeteoSwiss ICON CH1' },

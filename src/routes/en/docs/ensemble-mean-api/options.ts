@@ -91,8 +91,7 @@ export const models = [
 	[
 		{ value: 'ukmo_global_ensemble_mean_20km', label: 'UK MetOffice Global 20km Mean' },
 		{ value: 'ukmo_uk_ensemble_mean_2km', label: 'UK MetOffice UK 2km Mean' },
-		{ value: 'cmc_gem_geps_ensemble_mean', label: 'GEM Global Ensemble Mean' },
-		{ value: 'bom_access_global_ensemble_mean', label: 'BOM ACCESS Global Mean' }
+		{ value: 'cmc_gem_geps_ensemble_mean', label: 'GEM Global Ensemble Mean' }
 	],
 	[
 		{ value: 'meteoswiss_icon_ch1_ensemble_mean', label: 'MeteoSwiss ICON CH1 Mean' },
