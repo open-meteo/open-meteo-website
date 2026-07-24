@@ -204,9 +204,9 @@ export const membersPerModel = (model: string): number => {
 		case 'ecmwf_aifs025_ensemble':
 			return 51;
 		case 'ecmwf_ifs_europe_ensemble':
-			return 51
+			return 51;
 		case 'ecmwf_aifs_europe_ensemble':
-			return 51
+			return 51;
 		case 'gem_global':
 		case 'cmc_gem_gdps':
 			return 21;

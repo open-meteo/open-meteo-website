@@ -1,3 +1,4 @@
+import { ecmwf_aifs_europe_variables, ecmwf_ifs_europe_variables } from '../ensemble-api/options';
 import {
 	aigfs025_variables,
 	bom_access_global_ensemble,
@@ -13,7 +14,6 @@ import {
 	ukmo_2km_variables,
 	ukmo_variables
 } from '../ensemble-options';
-import { ecmwf_aifs_europe_variables, ecmwf_ifs_europe_variables } from '../ensemble-api/options';
 
 export const gem_global_variables = [
 	'temperature_2m',
