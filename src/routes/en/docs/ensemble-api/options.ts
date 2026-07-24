@@ -1,9 +1,20 @@
-export const defaultParameters = {
-	daily: [],
-	hourly: [],
-	models: [],
-	current: [],
+import {
+	aigfs025_variables,
+	bom_access_global_ensemble,
+	ecmwf_aifs025_variables,
+	ecmwf_ifs025_variables,
+	gfs025_variables,
+	gfs05_variables,
+	google_weathernext2_variables,
+	icon_d2_variables,
+	icon_eu_variables,
+	icon_global_variables,
+	meteoswiss_variables,
+	ukmo_2km_variables,
+	ukmo_variables
+} from '../ensemble-options';
 
+<<<<<<< HEAD
 	timezone: 'UTC',
 	location_mode: 'location_search',
 	csv_coordinates: undefined,
@@ -484,6 +495,9 @@ export const ukmo_2km_variables = [
 ];
 
 export const gem_global_variables = [
+=======
+export const cmc_gem_global_variables = [
+>>>>>>> origin/main
 	'temperature_2m',
 	'surface_pressure',
 	'snow_depth',
@@ -513,77 +527,8 @@ export const gem_global_variables = [
 	'is_day'
 ];
 
-export const bom_access_global_ensemble = [
-	'temperature_2m',
-	'surface_pressure',
-	'snow_depth',
-	'relative_humidity_2m',
-	'dew_point_2m',
-	'wind_speed_10m',
-	'wind_gusts_10m',
-	'wind_direction_10m',
-	'precipitation',
-	'snowfall',
-	'snowfall_water_equivalent',
-	'cape',
-	'cloud_cover',
-	'apparent_temperature',
-	'weather_code',
-	'pressure_msl',
-	'et0_fao_evapotranspiration',
-	'vapour_pressure_deficit',
-	'visibility',
-	'sunshine_duration',
-	'wet_bulb_temperature_2m',
-	'rain',
-	'shortwave_radiation',
-	'surface_temperature',
-	'soil_temperature_0_to_10cm',
-	'soil_temperature_10_to_40cm',
-	'soil_temperature_40_to_100cm',
-	'soil_temperature_100_to_200cm',
-	'soil_moisture_0_to_10cm',
-	'soil_moisture_10_to_40cm',
-	'soil_moisture_40_to_100cm',
-	'soil_moisture_100_to_200cm',
-	'is_day'
-];
-
-export const meteoswiss_variables = [
-	'temperature_2m',
-	'surface_pressure',
-	'snow_depth',
-	'relative_humidity_2m',
-	'dew_point_2m',
-	'wind_speed_10m',
-	'wind_gusts_10m',
-	'wind_direction_10m',
-	'precipitation',
-	'wet_bulb_temperature_2m',
-	'snowfall',
-	'snowfall_water_equivalent',
-	'convective_inhibition',
-	'cape',
-	'cloud_cover',
-	'apparent_temperature',
-	'weather_code',
-	'pressure_msl',
-	'et0_fao_evapotranspiration',
-	'vapour_pressure_deficit',
-	'sunshine_duration',
-	'rain',
-	'shortwave_radiation',
-	'surface_temperature',
-	'cloud_base',
-	'cloud_cover_high',
-	'cloud_cover_mid',
-	'cloud_cover_low',
-	'freezing_level_height',
-	'snowfall_height',
-	'is_day'
-];
-
 export const availableVariables: Record<string, string[]> = {
+	// TODO: revert to dwd_icon_*_eps keys once backend prefix aliases are deployed
 	icon_seamless_eps: icon_d2_variables,
 	icon_global_eps: icon_global_variables,
 	icon_eu_eps: icon_eu_variables,
@@ -598,12 +543,15 @@ export const availableVariables: Record<string, string[]> = {
 	ecmwf_aifs_europe_ensemble: ecmwf_aifs_europe_variables,
 	ukmo_global_ensemble_20km: ukmo_variables,
 	ukmo_uk_ensemble_2km: ukmo_2km_variables,
-	gem_global_ensemble: gem_global_variables,
+	// TODO: revert to cmc_gem_geps key once backend prefix aliases are deployed
+	gem_global_ensemble: cmc_gem_global_variables,
 	bom_access_global_ensemble: bom_access_global_ensemble,
 	meteoswiss_icon_ch1_ensemble: meteoswiss_variables,
-	meteoswiss_icon_ch2_ensemble: meteoswiss_variables
+	meteoswiss_icon_ch2_ensemble: meteoswiss_variables,
+	google_weathernext2_ensemble: google_weathernext2_variables
 };
 
+<<<<<<< HEAD
 export const hourly = [
 	[
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
@@ -760,8 +708,11 @@ export const solarVariables = [
 	]
 ];
 
+=======
+>>>>>>> origin/main
 export const models = [
 	[
+		// TODO: revert to dwd_icon_*_eps values once backend prefix aliases are deployed
 		{ value: 'icon_seamless_eps', label: 'DWD ICON EPS Seamless' },
 		{ value: 'icon_global_eps', label: 'DWD ICON EPS Global' },
 		{ value: 'icon_eu_eps', label: 'DWD ICON EPS EU' },
@@ -776,8 +727,14 @@ export const models = [
 	[
 		{ value: 'ecmwf_ifs025_ensemble', label: 'ECMWF IFS 0.25° Ensemble' },
 		{ value: 'ecmwf_aifs025_ensemble', label: 'ECMWF AIFS 0.25° Ensemble' },
+<<<<<<< HEAD
 		{ value: 'ecmwf_ifs_europe_ensemble', label: 'ECMWF IFS Europe (O1280) Ensemble' },
 		{ value: 'ecmwf_aifs_europe_ensemble', label: 'ECMWF AIFS Europe (N320) Ensemble' }
+=======
+		// TODO: revert to 'cmc_gem_geps' once backend prefix aliases are deployed
+		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' },
+		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
+>>>>>>> origin/main
 	],
 	[
 		{ value: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' },
@@ -788,7 +745,8 @@ export const models = [
 	[
 		{ value: 'meteoswiss_icon_ch1_ensemble', label: 'MeteoSwiss ICON CH1' },
 		{ value: 'meteoswiss_icon_ch2_ensemble', label: 'MeteoSwiss ICON CH2' }
-	]
+	],
+	[{ value: 'google_weathernext2_ensemble', label: 'Google WeatherNext 2 Ensemble' }]
 ];
 
 export const forecastDaysOptions = [

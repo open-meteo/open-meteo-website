@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -11,6 +10,7 @@
 		countPressureVariables,
 		countVariables
 	} from '$lib/utils/meteo';
+	import { slide } from '$lib/utils/transitions';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
@@ -26,29 +26,31 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
+		current,
 		forecastHoursOptions,
 		gridCellSelectionOptions,
 		pastDaysOptions,
 		pastHoursOptions,
+		solarVariables,
 		temporalResolutionOptions
 	} from '../options';
 	import {
 		additionalVariables,
-		current,
 		daily,
 		defaultParameters,
 		forecastDaysOptions,
 		hourly,
 		levels,
 		models,
-		pressureVariables,
-		solarVariables
+		pressureVariables
 	} from './options';
 
 	const params = urlHashStore({
@@ -119,6 +121,10 @@
 <svelte:head>
 	<title>JMA API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/jma-api" />
+	<meta
+		name="description"
+		content="Weather forecasts from the Japan Meteorological Agency MSM and GSM models for Japan and parts of Asia. Free weather API, no API key required."
+	/>
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4"
@@ -163,40 +169,12 @@
 				Hourly Weather Variables
 			</h2></a
 		>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each hourly as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.hourly?.includes(value)}
-								aria-labelledby="{value}_label"
-								onCheckedChange={() => {
-									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.hourly) {
-										$params.hourly.push(value);
-										$params.hourly = $params.hourly;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_label"
-								for="{value}_hourly"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={hourly}
+			bind:values={$params.hourly}
+			idSuffix="hourly"
+		/>
 	</div>
 
 	<!-- ADDITIONAL VARIABLES -->
@@ -211,38 +189,12 @@
 				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each additionalVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if (value && $params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if (value && $params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={additionalVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: You can further adjust the forecast time range for hourly weather variables using <mark
@@ -323,38 +275,12 @@
 				title="Solar Radiation Variables"
 				count={countVariables(solarVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each solarVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_hourly_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_hourly_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={solarVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
@@ -468,7 +394,7 @@
 													<div class="group flex items-center" title={String(level)}>
 														<Checkbox
 															id="{variable.value}_{level}hPa"
-															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 															value="{variable.value}_{level}hPa"
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
 															aria-labelledby="{variable.value}_{level}hPa"
@@ -514,38 +440,13 @@
 				title="Weather models"
 				count={countVariables(models, $params.models)}
 			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each models as group, i (i)}
-						<div class="mb-3">
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.models?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_model_label"
-										for="{value}_model"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+					groupClass="mb-3"
+					groups={models}
+					bind:values={$params.models}
+					idSuffix="model"
+				/>
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
@@ -562,40 +463,12 @@
 		<a href="#daily_weather_variables"
 			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
 		>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each daily as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.daily?.includes(value)}
-								aria-labelledby="{value}_daily_label"
-								onCheckedChange={() => {
-									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.daily) {
-										$params.daily.push(value);
-										$params.daily = $params.daily;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_daily_label"
-								for="{value}_daily"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={daily}
+			bind:values={$params.daily}
+			idSuffix="daily"
+		/>
 		{#if timezoneInvalid}
 			<div transition:slide>
 				<Alert.Root variant="warning" class="mt-2 md:mt-4">
@@ -613,40 +486,12 @@
 		<a href="#current_weather"
 			><h2 id="current_weather" class="text-2xl md:text-3xl">Current Weather</h2></a
 		>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each current as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_current"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.current?.includes(value)}
-								aria-labelledby="{value}_current_label"
-								onCheckedChange={() => {
-									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.current) {
-										$params.current.push(value);
-										$params.current = $params.current;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_current_label"
-								for="{value}_current"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={current}
+			bind:values={$params.current}
+			idSuffix="current"
+		/>
 		<div class="text-muted-foreground mt-1">
 			Note: Current conditions are based on 15-minutely weather model data. Every weather variable
 			available in hourly data, is available as current condition as well.
@@ -680,10 +525,8 @@
 			>. For GSM, values are interpolated from 6-hourly to 1-hourly values.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-210 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<caption class="text-muted-foreground mt-2 table-caption text-left"
+			<table class="docs-table w-full min-w-200">
+				<caption
 					>You can find the update timings in the <a
 						class="text-link underline"
 						href="/en/docs/model-updates">model updates documentation</a
@@ -702,7 +545,16 @@
 				<tbody>
 					<tr>
 						<th scope="row">GSM</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.5° (~55 km)</td>
 						<td>6-Hourly</td>
 						<td>11 days</td>
@@ -710,7 +562,20 @@
 					</tr>
 					<tr>
 						<th scope="row">MSM</th>
-						<td>Japan, Korea</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/jp.svg"
+										alt="Japan"
+										title="Japan"
+									/>
+								</div>
+								Japan, Korea
+							</div>
+						</td>
 						<td>0.05° (~5 km)</td>
 						<td>Hourly</td>
 						<td>4 days</td>
@@ -718,7 +583,20 @@
 					</tr>
 					<tr>
 						<th scope="row">MSM Pressure Level</th>
-						<td>Japan, Korea</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/jp.svg"
+										alt="Japan"
+										title="Japan"
+									/>
+								</div>
+								Japan, Korea
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>3-Hourly</td>
 						<td>4 days</td>
@@ -732,16 +610,13 @@
 	</div>
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
-		<figure>
-			<img
-				src="/images/models/jma_msm.webp"
-				class="rounded-lg"
-				alt="JMA MSM model area over Japan"
-			/>
-			<figcaption class="text-muted-foreground">
-				JMA MSM model area. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
-			</figcaption>
-		</figure>
+		<ZoomableImage src="/images/models/jma_msm.webp" alt="JMA MSM Model Area over Japan">
+			{#snippet caption()}
+				JMA MSM Model Area. Source: <a
+					href="https://maps.open-meteo.com/?domain=jma_msm#3.9/36.03/135.03">Open-Meteo</a
+				>.
+			{/snippet}
+		</ZoomableImage>
 	</div>
 </div>
 
@@ -757,10 +632,8 @@
 			contains 168 hours. All URL parameters are listed below:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<caption class="text-muted-foreground mt-2 table-caption text-left"
+			<table class="docs-table w-full min-w-300">
+				<caption
 					>You can find the update timings in the <a
 						class="text-link underline"
 						href="/en/docs/model-updates">model updates documentation</a
@@ -987,9 +860,7 @@
 			from the preceding hour as an average or sum.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -1136,7 +1007,7 @@
 						<td>Instant</td>
 						<td>kPa</td>
 						<td
-							>Vapor Pressure Deificit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
+							>Vapor Pressure Deficit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
 							transpiration of plants increases. For low VPD (&lt;0.4), transpiration decreases</td
 						>
 					</tr>
@@ -1204,9 +1075,7 @@
 			All pressure levels have valid times of the indicated hour (instant).
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -1283,9 +1152,7 @@
 			> accepts the following values:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -1377,9 +1244,7 @@
 			<WeatherForecastObject />
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>

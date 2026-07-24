@@ -1,18 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import { countVariables } from '$lib/utils/meteo';
+	import { slide } from '$lib/utils/transitions';
 
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
-	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
@@ -20,25 +19,27 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
+		current,
 		forecastHoursOptions,
 		gridCellSelectionOptions,
 		pastDaysOptions,
 		pastHoursOptions,
+		solarVariables,
 		temporalResolutionOptions
 	} from '../options';
 	import {
 		additionalVariables,
-		current,
 		defaultParameters,
 		forecastDaysOptions,
 		hourly,
-		models,
-		solarVariables
+		models
 	} from './options';
 
 	const params = urlHashStore({
@@ -97,6 +98,10 @@
 <svelte:head>
 	<title>MET Norway API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/metno-api" />
+	<meta
+		name="description"
+		content="MET Norway Nordic weather forecasts at 1 km resolution with hourly updates for Scandinavia. Free weather API for non-commercial use, no key required."
+	/>
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4"
@@ -142,40 +147,12 @@
 				Hourly Weather Variables
 			</h2></a
 		>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each hourly as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.hourly?.includes(value)}
-								aria-labelledby="{value}_label"
-								onCheckedChange={() => {
-									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.hourly) {
-										$params.hourly.push(value);
-										$params.hourly = $params.hourly;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_label"
-								for="{value}_hourly"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={hourly}
+			bind:values={$params.hourly}
+			idSuffix="hourly"
+		/>
 	</div>
 
 	<!-- ADDITIONAL VARIABLES -->
@@ -190,38 +167,12 @@
 				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each additionalVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if (value && $params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if (value && $params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={additionalVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: You can further adjust the forecast time range for hourly weather variables using <mark
@@ -302,38 +253,12 @@
 				title="Solar Radiation Variables"
 				count={countVariables(solarVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each solarVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_hourly_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_hourly_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={solarVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: Solar radiation is averaged over the past hour. Use
@@ -395,38 +320,13 @@
 				title="Weather models"
 				count={countVariables(models, $params.models)}
 			>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each models as group, i (i)}
-						<div class="mb-3">
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.models?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_model_label"
-										for="{value}_model"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+					groupClass="mb-3"
+					groups={models}
+					bind:values={$params.models}
+					idSuffix="model"
+				/>
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
@@ -443,40 +343,12 @@
 		<a href="#current_weather"
 			><h2 id="current_weather" class="text-2xl md:text-3xl">Current Weather</h2></a
 		>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each current as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_current"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.current?.includes(value)}
-								aria-labelledby="{value}_current_label"
-								onCheckedChange={() => {
-									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.current) {
-										$params.current.push(value);
-										$params.current = $params.current;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_current_label"
-								for="{value}_current"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={current}
+			bind:values={$params.current}
+			idSuffix="current"
+		/>
 		<div class="text-muted-foreground mt-1">
 			Note: Current conditions are based on 15-minutely weather model data. Every weather variable
 			available in hourly data, is available as current condition as well.
@@ -520,10 +392,8 @@
 			days of forecast.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-200 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<caption class="text-muted-foreground mt-2 table-caption text-left"
+			<table class="docs-table w-full min-w-200">
+				<caption
 					>You can find the update timings in the <a
 						class="text-link underline"
 						href="/en/docs/model-updates">model updates documentation</a
@@ -546,7 +416,34 @@
 								>MET Nordic</a
 							></th
 						>
-						<td>Norway, Denmark, Sweden, Finland</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/no.svg"
+										alt="Norway"
+										title="Norway"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/se.svg"
+										alt="Sweden"
+										title="Sweden"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/dk.svg"
+										alt="Denmark"
+										title="Denmark"
+									/>
+								</div>
+								Norway, Denmark, Sweden, Finland
+							</div>
+						</td>
 						<td>1 km</td>
 						<td>Hourly</td>
 						<td>2.5 days</td>
@@ -558,18 +455,12 @@
 	</div>
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
-		<figure>
-			<enhanced:img
-				src="/static/images/models/metno_nordic.png"
-				class="rounded-lg"
-				alt="MET Nordic model area"
-			/>
-			<figcaption class="text-muted-foreground">
-				MET Nordic model area (marked in red). Source: <a
-					href="https://github.com/metno/NWPdocs/wiki/MEPS-dataset">Met Norway GitHub</a
-				>.
-			</figcaption>
-		</figure>
+		<ZoomableImage src="/images/models/metno_nordic_pp.webp" alt="MET Nordic model area">
+			{#snippet caption()}
+				MET Nordic model area (marked in red). Source:
+				<a href="https://github.com/metno/NWPdocs/wiki/MEPS-dataset">Met Norway GitHub</a>.
+			{/snippet}
+		</ZoomableImage>
 	</div>
 </div>
 
@@ -585,9 +476,7 @@
 			Data is only available in the Scandinavian region. All URL parameters are listed below:
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>
@@ -800,9 +689,7 @@
 			from the preceding hour as and average or sum.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-310 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -939,7 +826,7 @@
 						<td>Instant</td>
 						<td>kPa</td>
 						<td
-							>Vapor Pressure Deificit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
+							>Vapor Pressure Deficit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
 							transpiration of plants increases. For low VPD (&lt;0.4), transpiration decreases</td
 						>
 					</tr>
@@ -996,9 +883,7 @@
 			<WeatherForecastObject />
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>

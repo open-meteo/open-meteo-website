@@ -45,16 +45,17 @@
 	{#if visible.includes('temperature')}
 		<div class="relative">
 			<Select.Root name="temperature_unit" type="single" bind:value={params.temperature_unit}>
-				<Select.Trigger
-					aria-label="Temperature setting"
-					class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{temperatureUnit?.label}</Select.Trigger
+				<Select.Trigger id="temperature_unit" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>{temperatureUnit?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
 					{#each temperatureOptions as to, i (i)}
 						<Select.Item value={to.value}>{to.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="temperature_unit"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Temperature Unit</Label
 				>
 			</Select.Root>
@@ -64,16 +65,17 @@
 	{#if visible.includes('length')}
 		<div class="relative">
 			<Select.Root name="precipitation_unit" type="single" bind:value={params.length_unit}>
-				<Select.Trigger
-					aria-label="Length unit setting"
-					class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{lengthUnit?.label}</Select.Trigger
+				<Select.Trigger id="length_unit" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>{lengthUnit?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
 					{#each lengthOptions as lo, i (i)}
 						<Select.Item value={lo.value}>{lo.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="length_unit"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Length Unit</Label
 				>
 			</Select.Root>
@@ -83,16 +85,18 @@
 	{#if visible.includes('wind_speed') || visible.includes('velocity')}
 		<div class="relative">
 			<Select.Root name="wind_speed_unit" type="single" bind:value={params.wind_speed_unit}>
-				<Select.Trigger
-					aria-label="Wind speed setting"
-					class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{windSpeedUnit?.label}</Select.Trigger
+				<Select.Trigger id="wind_speed_unit" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>{windSpeedUnit?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
 					{#each windSpeedOptions as wso, i (i)}
 						<Select.Item value={wso.value}>{wso.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs">
+				<Label
+					for="wind_speed_unit"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				>
 					{#if visible.includes('wind_speed')}Wind Speed Unit{:else}Velocity Unit{/if}</Label
 				>
 			</Select.Root>
@@ -102,16 +106,17 @@
 	{#if visible.includes('precipitation')}
 		<div class="relative">
 			<Select.Root name="precipitation_unit" type="single" bind:value={params.precipitation_unit}>
-				<Select.Trigger
-					aria-label="Precipitation setting"
-					class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{precipitationUnit?.label}</Select.Trigger
+				<Select.Trigger id="precipitation_unit" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+					>{precipitationUnit?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
 					{#each precipitationOptions as po, i (i)}
 						<Select.Item value={po.value}>{po.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="precipitation_unit"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Precipitation Unit</Label
 				>
 			</Select.Root>
@@ -121,9 +126,7 @@
 	{#if visible.includes('domains')}
 		<div class="relative">
 			<Select.Root name="domains" type="single" bind:value={params.domains}>
-				<Select.Trigger
-					aria-label="Domains setting"
-					class="h-12 w-full cursor-pointer truncate pt-6 [&_svg]:mb-3"
+				<Select.Trigger id="domains" class="h-12 w-full cursor-pointer truncate pt-6 [&_svg]:mb-3"
 					>{domain?.label}</Select.Trigger
 				>
 				<Select.Content preventScroll={false} class="border-border">
@@ -131,7 +134,9 @@
 						<Select.Item value={doo.value}>{doo.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="domains"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Domain</Label
 				>
 			</Select.Root>
@@ -142,7 +147,7 @@
 		<div class="relative">
 			<Select.Root name="timeformat" type="single" bind:value={params.timeformat}>
 				<Select.Trigger
-					aria-label="Time format setting"
+					id="timeformat"
 					class="h-12 w-full cursor-pointer truncate pt-6 [&_svg]:mb-3"
 					>{timeFormat?.label}</Select.Trigger
 				>
@@ -151,7 +156,9 @@
 						<Select.Item value={tfo.value}>{tfo.label}</Select.Item>
 					{/each}
 				</Select.Content>
-				<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+				<Label
+					for="timeformat"
+					class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 					>Timeformat</Label
 				>
 			</Select.Root>

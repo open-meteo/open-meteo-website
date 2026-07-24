@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -11,6 +10,7 @@
 		countPressureVariables,
 		countVariables
 	} from '$lib/utils/meteo';
+	import { slide } from '$lib/utils/transitions';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
@@ -26,27 +26,25 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
+	import {
+		additionalVariables,
+		daily,
+		defaultParameters,
+		hourly,
+		levels,
+		pressureVariables,
+		solarVariables
+	} from '../ensemble-options';
 	import {
 		forecastHoursOptions,
 		gridCellSelectionOptions,
+		pastDaysOptions,
 		pastHoursOptions,
 		temporalResolutionOptions
 	} from '../options';
-	import {
-		additionalVariables,
-		availableVariables,
-		daily,
-		defaultParameters,
-		forecastDaysOptions,
-		hourly,
-		levels,
-		models,
-		noSpreadVariables,
-		pastDaysOptions,
-		pressureVariables,
-		solarVariables
-	} from './options';
+	import { availableVariables, forecastDaysOptions, models, noSpreadVariables } from './options';
 
 	const defaultModels = ['dwd_icon_eps_ensemble_mean_seamless'];
 
@@ -165,6 +163,10 @@
 <svelte:head>
 	<title>Ensemble Mean API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/ensemble-mean-api" />
+	<meta
+		name="description"
+		content="Pre-computed ensemble mean and spread from ICON, GFS, ECMWF and other ensemble models. Free JSON weather API for probabilistic forecasts."
+	/>
 </svelte:head>
 
 <form method="get" action="https://ensemble-api.open-meteo.com/v1/ensemble">
@@ -185,40 +187,12 @@
 		<a href="#ensemble_models">
 			<h2 id="ensemble_models" class="text-2xl md:text-3xl">Ensemble Models</h2>
 		</a>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each models as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_models"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.models?.includes(value)}
-								aria-labelledby="{value}_model_label"
-								onCheckedChange={() => {
-									if ($params.models?.includes(value)) {
-										$params.models = $params.models.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.models) {
-										$params.models.push(value);
-										$params.models = $params.models;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_model_label"
-								for="{value}_models"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={models}
+			bind:values={$params.models}
+			idSuffix="models"
+		/>
 	</div>
 
 	<!-- HOURLY -->
@@ -243,7 +217,7 @@
 									<div class="group flex items-center" title="{label} Mean">
 										<Checkbox
 											id="{value}_hourly"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 											{value}
 											disabled={!isAvailable(value, availabilityModels)}
 											checked={$params.hourly?.includes(value)}
@@ -269,7 +243,7 @@
 										<div class="group flex items-center" title="{label} Spread">
 											<Checkbox
 												id="{value}_hourly_spread"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value={value + '_spread'}
 												disabled={!isAvailable(value, availabilityModels)}
 												checked={$params.hourly?.includes(value + '_spread')}
@@ -329,7 +303,7 @@
 											<div class="group flex items-center" title="{label} Mean">
 												<Checkbox
 													id="{value}_hourly"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													{value}
 													disabled={!isAvailable(value, availabilityModels)}
 													checked={$params.hourly?.includes(value)}
@@ -355,7 +329,7 @@
 												<div class="group flex items-center" title="{label} Spread">
 													<Checkbox
 														id="{value}_hourly_spread"
-														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 														value={value + '_spread'}
 														disabled={!isAvailable(value, availabilityModels)}
 														checked={$params.hourly?.includes(value + '_spread')}
@@ -481,7 +455,7 @@
 											<div class="group flex items-center" title="{label} Mean">
 												<Checkbox
 													id="{value}_hourly"
-													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													{value}
 													disabled={!isAvailable('shortwave_radiation', availabilityModels)}
 													checked={$params.hourly?.includes(value)}
@@ -507,7 +481,7 @@
 												<div class="group flex items-center" title="{label} Spread">
 													<Checkbox
 														id="{value}_hourly_spread"
-														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 														value={value + '_spread'}
 														disabled={!isAvailable('shortwave_radiation', availabilityModels)}
 														checked={$params.hourly?.includes(value + '_spread')}
@@ -600,17 +574,17 @@
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
 				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-[227px]">
+					<div class="w-full md:w-56.75">
 						<ToggleGroup.Root type="single" bind:value={pressureVariablesTab}>
 							<div class="border-border flex flex-col rounded-lg border">
 								{#each pressureVariables as variable, i (i)}
 									<ToggleGroup.Item
 										value={variable.value}
-										class="min-h-12 w-[225px] cursor-pointer rounded-none py-1.5 !opacity-100 lg:min-h-[unset] {i ===
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
 										0
-											? 'rounded-t-md !rounded-b-none'
+											? 'rounded-t-md rounded-b-none!'
 											: ''} {i === pressureVariables.length - 1
-											? '!rounded-t-none rounded-b-md'
+											? 'rounded-t-none! rounded-b-md'
 											: ''}"
 										disabled={pressureVariablesTab === variable.value}
 										onclick={() => (pressureVariablesTab = variable.value)}
@@ -660,7 +634,7 @@
 																>
 																	<Checkbox
 																		id="{variable.value}_{level}hPa_mean"
-																		class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+																		class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 																		value={variable.value + '_' + level + 'hPa'}
 																		disabled={!isAvailable(
 																			`${variable.value}_${level}hPa`,
@@ -697,7 +671,7 @@
 																	>
 																		<Checkbox
 																			id="{variable.value}_{level}hPa_spread"
-																			class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+																			class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 																			value={variable.value + '_' + level + 'hPa_spread'}
 																			disabled={!isAvailable(
 																				`${variable.value}_${level}hPa`,
@@ -745,7 +719,7 @@
 						{/each}
 					</div>
 				</div>
-				<div class="mt-3 lg:ml-[249px]">
+				<div class="mt-3 lg:ml-62.25">
 					<small class="text-muted-foreground"
 						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
 						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
@@ -776,7 +750,7 @@
 									<div class="group flex items-center" title="{label} Mean">
 										<Checkbox
 											id="{value}_daily_mean"
-											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 											{value}
 											disabled={!isDailyAvailable(value, availabilityModels)}
 											checked={$params.daily?.includes(value)}
@@ -803,7 +777,7 @@
 										<div class="group flex items-center" title="{label} Spread">
 											<Checkbox
 												id="{value}_daily_spread"
-												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
+												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value={value + '_spread'}
 												disabled={!isDailyAvailable(value, availabilityModels)}
 												checked={$params.daily?.includes(value + '_spread')}

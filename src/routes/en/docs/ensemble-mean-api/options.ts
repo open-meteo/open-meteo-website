@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { ecmwf_aifs_europe_variables, ecmwf_ifs_europe_variables } from '../ensemble-api/options';
 
 export const defaultParameters = {
@@ -430,6 +431,23 @@ export const ukmo_2km_variables = [
 	'cloud_cover_low',
 	'is_day'
 ];
+=======
+import {
+	aigfs025_variables,
+	bom_access_global_ensemble,
+	ecmwf_aifs025_variables,
+	ecmwf_ifs025_variables,
+	gfs025_variables,
+	gfs05_variables,
+	google_weathernext2_variables,
+	icon_d2_variables,
+	icon_eu_variables,
+	icon_global_variables,
+	meteoswiss_variables,
+	ukmo_2km_variables,
+	ukmo_variables
+} from '../ensemble-options';
+>>>>>>> origin/main
 
 export const gem_global_variables = [
 	'temperature_2m',
@@ -461,76 +479,6 @@ export const gem_global_variables = [
 	'is_day'
 ];
 
-export const bom_access_global_ensemble = [
-	'temperature_2m',
-	'surface_pressure',
-	'snow_depth',
-	'relative_humidity_2m',
-	'dew_point_2m',
-	'wind_speed_10m',
-	'wind_gusts_10m',
-	'wind_direction_10m',
-	'precipitation',
-	'snowfall',
-	'snowfall_water_equivalent',
-	'cape',
-	'cloud_cover',
-	'apparent_temperature',
-	'weather_code',
-	'pressure_msl',
-	'et0_fao_evapotranspiration',
-	'vapour_pressure_deficit',
-	'visibility',
-	'sunshine_duration',
-	'wet_bulb_temperature_2m',
-	'rain',
-	'shortwave_radiation',
-	'surface_temperature',
-	'soil_temperature_0_to_10cm',
-	'soil_temperature_10_to_40cm',
-	'soil_temperature_40_to_100cm',
-	'soil_temperature_100_to_200cm',
-	'soil_moisture_0_to_10cm',
-	'soil_moisture_10_to_40cm',
-	'soil_moisture_40_to_100cm',
-	'soil_moisture_100_to_200cm',
-	'is_day'
-];
-
-export const meteoswiss_variables = [
-	'temperature_2m',
-	'surface_pressure',
-	'snow_depth',
-	'relative_humidity_2m',
-	'dew_point_2m',
-	'wind_speed_10m',
-	'wind_gusts_10m',
-	'wind_direction_10m',
-	'precipitation',
-	'wet_bulb_temperature_2m',
-	'snowfall',
-	'snowfall_water_equivalent',
-	'convective_inhibition',
-	'cape',
-	'cloud_cover',
-	'apparent_temperature',
-	'weather_code',
-	'pressure_msl',
-	'et0_fao_evapotranspiration',
-	'vapour_pressure_deficit',
-	'sunshine_duration',
-	'rain',
-	'shortwave_radiation',
-	'surface_temperature',
-	'cloud_base',
-	'cloud_cover_high',
-	'cloud_cover_mid',
-	'cloud_cover_low',
-	'freezing_level_height',
-	'snowfall_height',
-	'is_day'
-];
-
 export const availableVariables = {
 	dwd_icon_eps_ensemble_mean_seamless: icon_d2_variables,
 	dwd_icon_eps_ensemble_mean: icon_global_variables,
@@ -539,6 +487,7 @@ export const availableVariables = {
 	ncep_gefs_ensemble_mean_seamless: gfs05_variables,
 	ncep_gefs025_ensemble_mean: gfs025_variables,
 	ncep_gefs05_ensemble_mean: gfs05_variables,
+	ncep_aigefs025_ensemble_mean: aigfs025_variables,
 	ncep_hgefs025_ensemble_mean: gfs025_variables,
 	ecmwf_ifs025_ensemble_mean: ecmwf_ifs025_variables,
 	ecmwf_aifs025_ensemble_mean: ecmwf_aifs025_variables,
@@ -549,154 +498,9 @@ export const availableVariables = {
 	cmc_gem_geps_ensemble_mean: gem_global_variables,
 	bom_access_global_ensemble_mean: bom_access_global_ensemble,
 	meteoswiss_icon_ch1_ensemble_mean: meteoswiss_variables,
-	meteoswiss_icon_ch2_ensemble_mean: meteoswiss_variables
+	meteoswiss_icon_ch2_ensemble_mean: meteoswiss_variables,
+	google_weathernext2_ensemble_mean: google_weathernext2_variables
 };
-
-export const hourly = [
-	[
-		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
-		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
-		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
-		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
-		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
-		{ value: 'rain', label: 'Rain' },
-		{ value: 'snowfall', label: 'Snowfall' },
-		{ value: 'snow_depth', label: 'Snow Depth' }
-	],
-	[
-		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'pressure_msl', label: 'Sea Level Pressure' },
-		{ value: 'surface_pressure', label: 'Surface Pressure' },
-		{ value: 'cloud_cover', label: 'Cloud Cover Total' },
-		{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
-		{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
-		{ value: 'cloud_cover_high', label: 'Cloud Cover High' },
-		{ value: 'visibility', label: 'Visibility' },
-		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' }
-	],
-	[
-		{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
-		{ value: 'wind_speed_80m', label: 'Wind Speed (80 m)' },
-		{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
-		{ value: 'wind_speed_120m', label: 'Wind Speed (120 m)' },
-		{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)' },
-		{ value: 'wind_direction_80m', label: 'Wind Direction (80 m)' },
-		{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)' },
-		{ value: 'wind_direction_120m', label: 'Wind Direction (120 m)' },
-		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m)' },
-		{ value: 'temperature_80m', label: 'Temperature (80 m)' },
-		{ value: 'temperature_120m', label: 'Temperature (120 m)' }
-	],
-	[
-		{ value: 'surface_temperature', label: 'Surface Temperature' },
-		{ value: 'soil_temperature_0_to_10cm', label: 'Soil Temperature (0-10 cm)' },
-		{ value: 'soil_temperature_10_to_40cm', label: 'Soil Temperature (10-40 cm)' },
-		{ value: 'soil_temperature_40_to_100cm', label: 'Soil Temperature (40-100 cm)' },
-		{ value: 'soil_temperature_100_to_200cm', label: 'Soil Temperature (100-200 cm)' },
-		{ value: 'soil_moisture_0_to_10cm', label: 'Soil Moisture (0-10 cm)' },
-		{ value: 'soil_moisture_10_to_40cm', label: 'Soil Moisture (10-40 cm)' },
-		{ value: 'soil_moisture_40_to_100cm', label: 'Soil Moisture (40-100 cm)' },
-		{ value: 'soil_moisture_100_to_200cm', label: 'Soil Moisture (100-400 cm)' },
-		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
-		{ value: 'soil_temperature_7_to_28cm', label: 'Soil Temperature (7-28 cm)' },
-		{ value: 'soil_temperature_28_to_100cm', label: 'Soil Temperature (28-100 cm)' },
-		{ value: 'soil_temperature_100_to_255cm', label: 'Soil Temperature (100-255 cm)' },
-		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
-		{ value: 'soil_moisture_7_to_28cm', label: 'Soil Moisture (7-28 cm)' },
-		{ value: 'soil_moisture_28_to_100cm', label: 'Soil Moisture (28-100 cm)' },
-		{ value: 'soil_moisture_100_to_255cm', label: 'Soil Moisture (100-255 cm)' }
-	]
-];
-
-export const daily = [
-	[
-		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
-		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-		{ value: 'apparent_temperature_mean', label: 'Mean Apparent Temperature' },
-		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature' },
-		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature' },
-		{ value: 'wind_speed_10m_mean', label: 'Mean Wind Speed (10 m)' },
-		{ value: 'wind_speed_10m_min', label: 'Minimum Wind Speed (10 m)' },
-		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' }
-	],
-	[
-		{ value: 'wind_gusts_10m_mean', label: 'Mean Wind Gusts (10 m)' },
-		{ value: 'wind_gusts_10m_min', label: 'Minimum Wind Gusts (10 m)' },
-		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
-		{ value: 'wind_speed_100m_mean', label: 'Mean Wind Speed (100 m)' },
-		{ value: 'wind_speed_100m_min', label: 'Minimum Wind Speed (100 m)' },
-		{ value: 'wind_speed_100m_max', label: 'Maximum Wind Speed (100 m)' },
-		{ value: 'wind_direction_100m_dominant', label: 'Dominant Wind Direction (100m)' },
-		{ value: 'cloud_cover_mean', label: 'Mean Cloud Cover' },
-		{ value: 'cloud_cover_min', label: 'Minimum Cloud Cover' },
-		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' }
-	],
-	[
-		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
-		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
-		{ value: 'rain_sum', label: 'Rain Sum' },
-		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ value: 'pressure_msl_mean', label: 'Mean Sea Level Pressure' },
-		{ value: 'pressure_msl_min', label: 'Minimum Sea Level Pressure' },
-		{ value: 'pressure_msl_max', label: 'Maximum Sea Level Pressure' },
-		{ value: 'surface_pressure_mean', label: 'Mean Surface Pressure' },
-		{ value: 'surface_pressure_min', label: 'Minimum Surface Pressure' },
-		{ value: 'surface_pressure_max', label: 'Maximum Surface Pressure' }
-	],
-	[
-		{ value: 'relative_humidity_2m_mean', label: 'Mean Relative Humidity (2 m)' },
-		{ value: 'relative_humidity_2m_min', label: 'Minimum Relative Humidity (2 m)' },
-		{ value: 'relative_humidity_2m_max', label: 'Maximum Relative Humidity (2 m)' },
-		{ value: 'cape_mean', label: 'Mean CAPE' },
-		{ value: 'cape_min', label: 'Minimum CAPE' },
-		{ value: 'cape_max', label: 'Maximum CAPE' },
-		{ value: 'dew_point_2m_mean', label: 'Mean Dewpoint (2 m)' },
-		{ value: 'dew_point_2m_min', label: 'Minimum Dewpoint (2 m)' },
-		{ value: 'dew_point_2m_max', label: 'Maximum Dewpoint (2 m)' },
-		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' },
-		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' }
-	]
-];
-
-export const additionalVariables = [
-	[
-		{ value: 'is_day', label: 'Is Day or Night' },
-		{ value: 'uv_index', label: 'UV Index' },
-		{ value: 'uv_index_clear_sky', label: 'UV Index Clear Sky' },
-		{ value: 'temperature_2m_min', label: 'Temperature 3-Hourly Minimum (2 m)' },
-		{ value: 'temperature_2m_max', label: 'Temperature 3-Hourly Maximum (2 m)' },
-		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' }
-	],
-	[
-		{ value: 'cape', label: 'CAPE' },
-		{ value: 'convective_inhibition', label: 'Convective Inhibition (CIN)' },
-		{ value: 'freezing_level_height', label: 'Freezing Level Height' },
-		{ value: 'snowfall_height', label: 'Snowfall Height' },
-		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
-		{ value: 'snowfall_water_equivalent', label: 'Snowfall (Water Equivalent)' },
-		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth (Water Equivalent)' }
-	]
-];
-
-export const solarVariables = [
-	[
-		{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-		{ value: 'direct_radiation', label: 'Direct Solar Radiation' },
-		{ value: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-		{ value: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-		{ value: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' }
-	],
-	[
-		{ value: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' }
-	]
-];
 
 export const models = [
 	[
@@ -709,6 +513,7 @@ export const models = [
 		{ value: 'ncep_gefs_ensemble_mean_seamless', label: 'GFS Ensemble Seamless Mean' },
 		{ value: 'ncep_gefs025_ensemble_mean', label: 'GFS Ensemble 0.25° Mean' },
 		{ value: 'ncep_gefs05_ensemble_mean', label: 'GFS Ensemble 0.5° Mean' },
+		{ value: 'ncep_aigefs025_ensemble_mean', label: 'AIGEFS 0.25° Mean' },
 		{ value: 'ncep_hgefs025_ensemble_mean', label: 'HGEFS 0.25° Mean' }
 	],
 	[
@@ -726,7 +531,8 @@ export const models = [
 	[
 		{ value: 'meteoswiss_icon_ch1_ensemble_mean', label: 'MeteoSwiss ICON CH1 Mean' },
 		{ value: 'meteoswiss_icon_ch2_ensemble_mean', label: 'MeteoSwiss ICON CH2 Mean' }
-	]
+	],
+	[{ value: 'google_weathernext2_ensemble_mean', label: 'Google WeatherNext 2 Ensemble Mean' }]
 ];
 
 export const forecastDaysOptions = [
@@ -737,19 +543,6 @@ export const forecastDaysOptions = [
 	{ value: '16', label: '16 days' },
 	{ value: '30', label: '30 days' },
 	{ value: '35', label: '35 days' }
-];
-
-export const pastDaysOptions = [
-	{ value: '0', label: '0 days (default)' },
-	{ value: '1', label: '1 day' },
-	{ value: '2', label: '2 days' },
-	{ value: '3', label: '3 days' },
-	{ value: '5', label: '5 days' },
-	{ value: '7', label: '1 week' },
-	{ value: '14', label: '2 weeks' },
-	{ value: '31', label: '1 month' },
-	{ value: '61', label: '2 months' },
-	{ value: '92', label: '3 months' }
 ];
 
 export const noSpreadVariables = ['is_day', 'weather_code'];

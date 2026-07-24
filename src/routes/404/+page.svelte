@@ -1,4 +1,3 @@
 <svelte:head>
 	<title>404 Error | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/" />
 </svelte:head>

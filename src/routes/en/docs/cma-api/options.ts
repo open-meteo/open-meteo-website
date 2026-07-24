@@ -34,6 +34,7 @@ export const pressureVariables = [
 	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
 ];
+
 export const levels = [
 	10, 20, 30, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300, 350, 400, 450, 500, 550, 600,
 	650, 700, 750, 800, 850, 900, 925, 950, 975, 1000
@@ -141,24 +142,5 @@ export const additionalVariables = [
 		{ value: 'cape', label: 'CAPE' },
 		{ value: 'lifted_index', label: 'Lifted Index' },
 		{ value: 'convective_inhibition', label: 'Convective Inhibition' }
-	]
-];
-
-export const solarVariables = [
-	[
-		{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-		{ value: 'direct_radiation', label: 'Direct Solar Radiation' },
-		{ value: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-		{ value: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-		{ value: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-		{ value: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
-	],
-	[
-		{ value: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' },
-		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
 	]
 ];
