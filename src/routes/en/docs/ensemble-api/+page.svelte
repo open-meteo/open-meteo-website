@@ -45,23 +45,14 @@
 	} from '../options';
 	import { availableVariables, forecastDaysOptions, models, pastDaysOptions } from './options';
 
-	const defaultModels = ['icon_seamless_eps'];
-
 	const params = urlHashStore({
 		latitude: [52.52],
 		longitude: [13.41],
 		...defaultParameters,
 		hourly: ['temperature_2m'],
-<<<<<<< HEAD
-		models: defaultModels
-=======
 		// TODO: revert to 'dwd_icon_seamless_eps' once backend prefix aliases are deployed
 		models: ['icon_seamless_eps']
->>>>>>> origin/main
 	});
-
-	let mounted = $state(false);
-	let availabilityModels = $derived(mounted ? $params.models?.slice() : defaultModels);
 
 	// Additional variable settings
 	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
@@ -78,8 +69,6 @@
 	let accordionValues: string[] = $state([]);
 	let pressureVariablesTab = $state('temperature');
 	onMount(() => {
-		mounted = true;
-
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
 				forecastHours?.value ||
@@ -203,7 +192,7 @@
 								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 								{value}
 								checked={$params.hourly?.includes(value)}
-								disabled={!isAvailable(value, availabilityModels, availableVariables)}
+								disabled={!isAvailable(value, $params.models, availableVariables)}
 								aria-labelledby="{value}_label"
 								onCheckedChange={() => {
 									if ($params.hourly?.includes(value)) {
@@ -250,7 +239,7 @@
 										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 										{value}
 										checked={$params.hourly?.includes(value)}
-										disabled={!isAvailable(value, availabilityModels, availableVariables)}
+										disabled={!isAvailable(value, $params.models, availableVariables)}
 										aria-labelledby="{value}_label"
 										onCheckedChange={() => {
 											if ($params.hourly?.includes(value)) {
@@ -365,7 +354,7 @@
 										checked={$params.hourly?.includes(value)}
 										disabled={!isAvailable(
 											'shortwave_radiation',
-											availabilityModels,
+											$params.models,
 											availableVariables
 										)}
 										aria-labelledby="{value}_hourly_label"
@@ -503,7 +492,7 @@
 															value="{variable.value}_{level}hPa"
 															disabled={!isAvailable(
 																`${variable.value}_${level}hPa`,
-																availabilityModels,
+																$params.models,
 																availableVariables
 															)}
 															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
@@ -566,7 +555,7 @@
 								{value}
 								checked={$params.daily?.includes(value)}
 								aria-labelledby="{value}_daily_label"
-								disabled={!isDailyAvailable(value, availabilityModels, availableVariables)}
+								disabled={!isDailyAvailable(value, $params.models, availableVariables)}
 								onCheckedChange={() => {
 									if ($params.daily?.includes(value)) {
 										$params.daily = $params.daily.filter((item: string) => {
