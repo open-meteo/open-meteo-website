@@ -332,19 +332,23 @@
 						<td>String</td>
 						<td>Yes</td>
 						<td></td>
-						<td
-							>String to search for. An empty string or only 1 character will return an empty
-							result. 2 characters will only match exact matching locations. 3 and more characters
-							will perform fuzzy matching. The search string can be a location name or a postal
-							code.</td
-						>
+						<td>
+							<p>
+								Location name or postal code. Append a country or first-level administrative area
+								after a comma to narrow the results.
+							</p>
+							<a href="#location-search">See matching rules and examples below.</a>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row">count</th>
 						<td>Integer</td>
 						<td>No</td>
 						<td><mark>10</mark></td>
-						<td>The number of search results to return. Up to 100 results can be retrieved.</td>
+						<td
+							>The number of search results to return. Up to 100 results can be retrieved. Country
+							and administrative-area filters are applied before the result limit.</td
+						>
 					</tr>
 					<tr>
 						<th scope="row">format</th>
@@ -356,7 +360,7 @@
 							supported for more efficient encoding and transfer. The .proto file to decode the
 							protobuf message is available in the
 							<a
-								href="https://github.com/open-meteo/geocoding-api/blob/main/Sources/App/api.proto"
+								href="https://github.com/open-meteo/geocoding-api/blob/main/Sources/App/ProtoResources/api.proto"
 								target="_blank">geocoding GitHub repository</a
 							>.</td
 						>
@@ -393,11 +397,79 @@
 							><mark>ISO-3166-1 alpha2</mark>
 							<a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" target="_blank"
 								>country code</a
-							>, which the results will be filtered for.</td
+							>, which the results will be filtered for. Use this parameter for unambiguous
+							country-code filtering. It can be combined with a first-level administrative-area
+							qualifier in <mark>name</mark>.</td
 						></tr
 					>
 				</tbody>
 			</table>
+		</div>
+		<div
+			id="location-search"
+			class="border-border bg-accent/15 mt-4 scroll-mt-4 rounded-lg border p-4 md:p-5"
+		>
+			<div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+				<h3 class="text-lg font-semibold">Location search</h3>
+				<mark class="w-fit font-mono text-sm">&lt;location&gt;[, &lt;country or admin1&gt;]</mark>
+			</div>
+
+			<div class="mt-4 grid gap-3 md:grid-cols-2">
+				<div class="border-border bg-background/50 rounded-md border p-3">
+					<div class="font-medium">Location</div>
+					<p class="text-muted-foreground mt-1 text-sm">
+						Two characters match an exact name. Three or more use normalized prefix matching.
+						Matching is case-insensitive and diacritic-insensitive, but the characters must match
+						the beginning of an indexed name. Empty and single-character searches return no results.
+					</p>
+				</div>
+
+				<div class="border-border bg-background/50 rounded-md border p-3">
+					<div class="font-medium">Country or admin1</div>
+					<p class="text-muted-foreground mt-1 text-sm">
+						The qualifier must match exactly; partial and prefix matching are not supported. Country
+						names, 2-letter ISO country codes, admin1 names and admin1 abbreviations are accepted.
+					</p>
+				</div>
+			</div>
+
+			<div class="mt-4">
+				<div class="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+					Examples
+				</div>
+				<div class="mt-2 flex flex-wrap gap-2">
+					<mark>Paris, France</mark>
+					<mark>Los Angeles, California</mark>
+					<mark>Los Angeles, CA</mark>
+				</div>
+				<p class="text-muted-foreground mt-2 text-sm">
+					For example, <mark>Los Angeles, Calif</mark> does not match
+					<mark>Los Angeles, California</mark>.
+				</p>
+			</div>
+
+			<div class="border-border mt-4 grid gap-2 border-t pt-4 text-sm md:grid-cols-3">
+				<p>
+					<span class="font-medium">Language:</span>
+					<span class="text-muted-foreground"
+						>Localized qualifiers follow <mark>language</mark>; English and language-neutral aliases
+						are also accepted.</span
+					>
+				</p>
+				<p>
+					<span class="font-medium">Ambiguous codes:</span>
+					<span class="text-muted-foreground"
+						>Admin1 abbreviations take precedence. Use <mark>countryCode</mark> for unambiguous country
+						filtering.</span
+					>
+				</p>
+				<p>
+					<span class="font-medium">Multiple commas:</span>
+					<span class="text-muted-foreground"
+						>Only the text between the first and second comma is used as the qualifier.</span
+					>
+				</p>
+			</div>
 		</div>
 	</div>
 	<p class="text-muted-foreground mt-2">
