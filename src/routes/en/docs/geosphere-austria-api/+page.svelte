@@ -435,6 +435,163 @@
 	</div>
 </div>
 
+<!-- NATIVE VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#native_model_variables"
+		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			AROME directly predicts the fields listed below. Open-Meteo retains these fields or uses them
+			to calculate more convenient API variables. AROME provides native relative humidity, a native
+			sunshine duration, hourly minimum and maximum temperature and its own weather symbol.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Native AROME field</th>
+						<th scope="col">Level</th>
+						<th scope="col">Use in the Open-Meteo API</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Temperature, hourly minimum and maximum</th>
+						<td>2 m, surface</td>
+						<td><mark>temperature_2m</mark>, <mark>surface_temperature</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Relative humidity</th>
+						<td>2 m</td>
+						<td>Relative humidity and dew point</td>
+					</tr>
+					<tr>
+						<th scope="row">U and V wind components, gust components</th>
+						<td>10 m</td>
+						<td>Wind speed, direction and <mark>wind_gusts_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Surface</td>
+						<td><mark>pressure_msl</mark> and <mark>surface_pressure</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Total precipitation, rain and snowfall water equivalent</th>
+						<td>Surface</td>
+						<td><mark>precipitation</mark>, <mark>rain</mark>, snowfall</td>
+					</tr>
+					<tr>
+						<th scope="row">Global solar radiation</th>
+						<td>Surface</td>
+						<td>Global, direct, diffuse radiation, DNI and GTI</td>
+					</tr>
+					<tr>
+						<th scope="row">Cloud cover total, low, mid and high</th>
+						<td>Surface</td>
+						<td><mark>cloud_cover</mark> and the individual layers</td>
+					</tr>
+					<tr>
+						<th scope="row">Sunshine duration</th>
+						<td>Surface</td>
+						<td><mark>sunshine_duration</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Weather symbol</th>
+						<td>Surface</td>
+						<td><mark>weather_code</mark> (converted to WMO codes)</td>
+					</tr>
+					<tr>
+						<th scope="row">CAPE, convective inhibition, snow depth, snowfall height</th>
+						<td>Surface</td>
+						<td>Corresponding API variables</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-2">
+			AROME provides no pressure-level data. Beyond 2.5 days the seamless model continues with ECMWF
+			IFS.
+		</p>
+	</div>
+</div>
+
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			AROME publishes native relative humidity, cloud cover layers, sunshine duration, hourly
+			minimum and maximum temperature and its own weather symbol. Open-Meteo derives the remaining
+			API variables from these native fields.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Weather code</th>
+						<td>GeoSphere's own weather symbol converted to the WMO weather code scheme.</td>
+					</tr>
+					<tr>
+						<th scope="row">Direct and diffuse solar radiation</th>
+						<td>
+							Only global horizontal irradiance GHI is native. Diffuse radiation is separated using
+							the Razo, Müller Witwer model; direct radiation is the remainder. DNI, GTI and instant
+							values follow from solar geometry.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind speed and direction</th>
+						<td>Calculated from the native U and V wind components at 10 m.</td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall</th>
+						<td>Native snowfall water equivalent converted with 0.7 cm per mm.</td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall height</th>
+						<td>
+							Native snowfall height converted from metres above ground to metres above sea level,
+							for consistency with other models.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Mean sea-level and surface pressure</th>
+						<td>
+							Mean sea-level pressure is reduced from the native surface pressure; surface pressure
+							is then re-derived for the requested elevation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Dew point, vapour pressure deficit and wet bulb temperature</th>
+						<td>Calculated from native 2 m temperature and relative humidity.</td>
+					</tr>
+					<tr>
+						<th scope="row">Apparent temperature and reference evapotranspiration ET₀</th>
+						<td>
+							Combine temperature, humidity, wind speed and solar radiation. ET₀ follows the FAO-56
+							Penman-Monteith equation.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Sunshine duration is a native field and is not derived. Sunrise, sunset, daylight duration and
+			the day-or-night flag are astronomical calculations. Daily values are aggregated from hourly
+			data.
+		</p>
+	</div>
+</div>
+
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
 	<a href="#api_documentation"

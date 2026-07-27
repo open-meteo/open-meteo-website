@@ -531,6 +531,182 @@
 	</div>
 </div>
 
+<!-- NATIVE VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#native_model_variables"
+		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			ICON-2I directly predicts the fields listed below. Open-Meteo retains these fields or uses
+			them to calculate more convenient API variables. ICON-2I provides native weather codes, direct
+			solar radiation and dew point rather than relative humidity.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Native ICON-2I field</th>
+						<th scope="col">Level</th>
+						<th scope="col">Use in the Open-Meteo API</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Temperature and dew point</th>
+						<td>2 m, pressure levels</td>
+						<td><mark>temperature_2m</mark>, relative humidity and dew point</td>
+					</tr>
+					<tr>
+						<th scope="row">U and V wind components</th>
+						<td>10 m, pressure levels</td>
+						<td>Wind speed and direction</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind gusts</th>
+						<td>10 m</td>
+						<td><mark>wind_gusts_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Mean sea-level pressure</th>
+						<td>Mean sea level</td>
+						<td><mark>pressure_msl</mark> and derived surface pressure</td>
+					</tr>
+					<tr>
+						<th scope="row">Total, grid-scale and convective rain and snow</th>
+						<td>Surface</td>
+						<td><mark>precipitation</mark>, <mark>rain</mark>, <mark>showers</mark>, snowfall</td>
+					</tr>
+					<tr>
+						<th scope="row">Direct solar radiation</th>
+						<td>Surface</td>
+						<td>Global, direct, diffuse radiation, DNI and GTI</td>
+					</tr>
+					<tr>
+						<th scope="row">Cloud cover total, low, mid and high</th>
+						<td>Surface</td>
+						<td><mark>cloud_cover</mark> and the individual layers</td>
+					</tr>
+					<tr>
+						<th scope="row">Weather code (WW)</th>
+						<td>Surface</td>
+						<td><mark>weather_code</mark> (with temperature-based corrections)</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>CAPE, convective inhibition, lightning potential, freezing level, snow depth</th
+						>
+						<td>Surface</td>
+						<td>Corresponding API variables and weather-code inputs</td>
+					</tr>
+					<tr>
+						<th scope="row">Geopotential, vertical velocity and relative humidity</th>
+						<td>Pressure levels</td>
+						<td>
+							<mark>geopotential_height</mark>, <mark>vertical_velocity</mark>, pressure-level cloud
+							cover
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Soil temperature and moisture</th>
+						<td>Multiple depths</td>
+						<td>Soil temperature and moisture variables</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-2">Visibility is not available for this model.</p>
+	</div>
+</div>
+
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			ICON-2I publishes native weather codes, direct solar radiation, wind gusts, cloud cover
+			layers, CAPE, convective inhibition and lightning potential. Open-Meteo derives the remaining
+			API variables from these native fields.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Wind speed and direction</th>
+						<td>
+							Calculated from the native U and V wind components at 10 m and on all pressure levels.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Relative humidity and dew point</th>
+						<td>
+							ICON-2I publishes dew point; relative humidity is computed from temperature and dew
+							point, and dew point is then recomputed on request.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Weather code corrections</th>
+						<td>
+							The native ICON WW code is adjusted so precipitation codes without precipitation fall
+							back to cloud cover, and snow and rain codes swap based on temperature and snow line.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Rain, showers and snowfall</th>
+						<td>
+							Split from the native grid-scale and convective rain and snow fields. Snowfall
+							converts the water equivalent with 0.7 cm per mm.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Diffuse radiation</th>
+						<td>
+							Global minus native direct radiation. DNI, GTI and instant values follow from solar
+							geometry. No radiation separation model is required.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Vertical velocity</th>
+						<td>
+							Native omega in Pa/s converted to geometric velocity in m/s using the temperature at
+							each pressure level.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Pressure-level cloud cover</th>
+						<td>Estimated from native pressure-level relative humidity.</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>Apparent temperature, ET₀, sunshine duration and wet bulb temperature</th
+						>
+						<td>
+							Combine temperature, humidity, wind speed and solar radiation. ET₀ follows the FAO-56
+							Penman-Monteith equation; sunshine duration counts time with DNI above 120 W/m².
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Sunrise, sunset, daylight duration and the day-or-night flag are astronomical calculations.
+			Daily values are aggregated from hourly data.
+		</p>
+	</div>
+</div>
+
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
 	<a href="#api_documentation"

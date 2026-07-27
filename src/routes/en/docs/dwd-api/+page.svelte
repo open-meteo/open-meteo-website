@@ -750,6 +750,205 @@
 	</div>
 </div>
 
+<!-- NATIVE VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#native_model_variables"
+		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			ICON directly predicts the fields listed below. Open-Meteo retains these fields or uses them
+			to calculate more convenient API variables. In particular, ICON provides wind as U and V
+			components and both direct and diffuse solar radiation.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Native ICON field</th>
+						<th scope="col">Level</th>
+						<th scope="col">Use in the Open-Meteo API</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Temperature</th>
+						<td>2 m, 80/120/180 m, pressure levels</td>
+						<td><mark>temperature_2m</mark> and upper-level temperature</td>
+					</tr>
+					<tr>
+						<th scope="row">Relative humidity</th>
+						<td>2 m, pressure levels</td>
+						<td>Relative humidity, dew point and pressure-level cloud cover</td>
+					</tr>
+					<tr>
+						<th scope="row">U and V wind components</th>
+						<td>10 m, 80/120/180 m, pressure levels</td>
+						<td>Wind speed and direction</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind gusts</th>
+						<td>10 m</td>
+						<td><mark>wind_gusts_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Mean sea-level pressure</th>
+						<td>Mean sea level</td>
+						<td><mark>pressure_msl</mark> and derived surface pressure</td>
+					</tr>
+					<tr>
+						<th scope="row">Total, large-scale and convective precipitation</th>
+						<td>Surface</td>
+						<td><mark>precipitation</mark>, <mark>rain</mark>, <mark>showers</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall water equivalent</th>
+						<td>Surface</td>
+						<td>Snowfall and snowfall water equivalent</td>
+					</tr>
+					<tr>
+						<th scope="row">Direct and diffuse solar radiation</th>
+						<td>Surface</td>
+						<td>Global, direct, diffuse radiation, DNI and GTI</td>
+					</tr>
+					<tr>
+						<th scope="row">Cloud cover total, low, mid and high</th>
+						<td>Surface</td>
+						<td><mark>cloud_cover</mark> and the individual layers</td>
+					</tr>
+					<tr>
+						<th scope="row">Weather code (WW)</th>
+						<td>Surface</td>
+						<td><mark>weather_code</mark> (with temperature-based corrections)</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>CAPE, visibility, freezing level, snow depth, snowfall height, lightning potential</th
+						>
+						<td>Surface</td>
+						<td>Corresponding API variables and weather-code inputs</td>
+					</tr>
+					<tr>
+						<th scope="row">Geopotential and vertical velocity</th>
+						<td>Pressure levels</td>
+						<td><mark>geopotential_height</mark>, <mark>vertical_velocity</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Soil temperature and moisture</th>
+						<td>Multiple depths</td>
+						<td>Soil temperature and moisture variables</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-2">
+			Native fields differ slightly per model: visibility and snowfall height are not available in
+			ICON Global, and lightning potential and updraft are only in ICON D2.
+		</p>
+	</div>
+</div>
+
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			ICON publishes an unusually rich set of post-processed fields: weather codes, wind gusts, all
+			cloud cover layers and both direct and diffuse solar radiation are native model output. The
+			remaining API variables are derived by Open-Meteo from these native fields.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Wind speed and direction</th>
+						<td>
+							Calculated from the native U and V wind components at 10 m, 80 m, 120 m, 180 m and on
+							all pressure levels.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Shortwave radiation GHI</th>
+						<td>
+							Sum of the native direct and diffuse solar radiation. Direct normal irradiance DNI,
+							global tilted irradiance GTI and instant values follow from solar geometry.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall</th>
+						<td>
+							Native snowfall water equivalent (large-scale + convective) converted with 0.7 cm per
+							mm. During download, snow is reassigned to rain if the 2 m temperature exceeds 1.5°C
+							or the snowfall level is more than 50 m above the grid cell.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Weather code corrections</th>
+						<td>
+							The native ICON WW code is adjusted: precipitation codes without actual precipitation
+							fall back to cloud cover codes, and snow and rain codes are swapped based on
+							temperature and snowfall level.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Dew point</th>
+						<td
+							>Calculated from native temperature and relative humidity at 2 m and on pressure
+							levels.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Sunshine duration</th>
+						<td>
+							Seconds per hour with direct normal irradiance above the WMO threshold of 120 W/m².
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>Apparent temperature, ET₀, vapour pressure deficit and wet bulb temperature</th
+						>
+						<td>
+							Standard formulas combining 2 m temperature, humidity, wind speed and solar radiation.
+							ET₀ follows the FAO-56 Penman-Monteith equation. Evapotranspiration is converted from
+							the native latent heat flux.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Pressure-level cloud cover</th>
+						<td>
+							Estimated from pressure-level relative humidity. Levels missing in a model (e.g. 800,
+							900 and 925 hPa in ICON D2) are interpolated from neighbouring levels.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Precipitation probability</th>
+						<td>
+							Share of ICON-EPS and ICON-EU-EPS ensemble members with more than 0.1 mm/h of
+							precipitation.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Sunrise, sunset, daylight duration and the day-or-night flag are astronomical calculations.
+			Daily values are aggregated from hourly data.
+		</p>
+	</div>
+</div>
+
 <!-- API DOCS -->
 <div class="mt-6 md:mt-12">
 	<a href="#api_documentation"
