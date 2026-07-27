@@ -1,21 +1,29 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
+	import { slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { countVariables } from '$lib/utils/meteo';
-	import { slide } from '$lib/utils/transitions';
+	import { sliceIntoChunks } from '$lib/utils';
+	import {
+		altitudeAboveSeaLevelMeters,
+		countPressureVariables,
+		countVariables
+	} from '$lib/utils/meteo';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
+	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
 	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -24,10 +32,11 @@
 
 	import {
 		forecastHoursOptions,
+		forecastMinutely15Options,
 		gridCellSelectionOptions,
 		pastDaysOptions,
 		pastHoursOptions,
-		solarVariables,
+		pastMinutely15Options,
 		temporalResolutionOptions
 	} from '../options';
 	import {
@@ -36,12 +45,15 @@
 		defaultParameters,
 		forecastDaysOptions,
 		hourly,
-		models
+		levels,
+		models,
+		pressureVariables,
+		solarVariables
 	} from './options';
 
 	const params = urlHashStore({
-		latitude: [48.2],
-		longitude: [16.37],
+		latitude: [50.088],
+		longitude: [14.4208],
 		...defaultParameters,
 		hourly: ['temperature_2m']
 	});
@@ -61,6 +73,14 @@
 	let temporalResolution = $derived(
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
 	);
+	let forecastMinutely15 = $derived(
+		forecastMinutely15Options.find((fmo) => String(fmo.value) == $params.forecast_minutely_15)
+	);
+	let pastMinutely15 = $derived(
+		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
+	);
+
+	let pressureVariablesTab = $state('temperature');
 
 	let accordionValues: string[] = $state([]);
 	onMount(() => {
@@ -84,8 +104,25 @@
 			accordionValues.push('solar-variables');
 		}
 
+		if (
+			$params.hourly &&
+			countPressureVariables(pressureVariables, levels, $params.hourly).active &&
+			!accordionValues.includes('pressure-levels')
+		) {
+			accordionValues.push('pressure-levels');
+		}
+
 		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
 			accordionValues.push('models');
+		}
+
+		if (
+			(countVariables(solarVariables, $params.minutely_15).active ||
+				(pastMinutely15 ? pastMinutely15.value : false) ||
+				(forecastMinutely15 ? forecastMinutely15.value : false)) &&
+			!accordionValues.includes('minutely_15')
+		) {
+			accordionValues.push('minutely_15');
 		}
 	});
 
@@ -97,26 +134,26 @@
 </script>
 
 <svelte:head>
-	<title>GeoSphere Austria API | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/docs/geosphere-austria-api" />
+	<title>CHMI Aladin Weather Model API | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/docs/chmi-api" />
 	<meta
 		name="description"
-		content="Weather forecasts from the GeoSphere Austria AROME model at 1 km resolution for the Alps region. Free weather API for non-commercial use, no key required."
+		content="Weather forecasts from the Czech CHMI ALADIN model at up to 1 km resolution for the Czech Republic and Central Europe. Free weather API for non-commercial use, no key required."
 	/>
 </svelte:head>
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
-	<!-- LOCATION -->
 	<LocationSelection bind:params={$params} />
 
 	<!-- TIME -->
 	<TimeSelector
 		bind:params={$params}
-		{forecastDaysOptions}
-		{pastDaysOptions}
 		{beginDate}
 		{lastDate}
+		{pastDaysOptions}
+		{forecastDaysOptions}
 	/>
+
 	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">
 		<a href="#hourly_weather_variables"
@@ -292,7 +329,100 @@
 					</div>
 				</div>
 			</AccordionItem>
-
+			<AccordionItem
+				id="pressure-levels"
+				title="Pressure Level Variables"
+				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
+			>
+				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
+					<div class="w-full md:w-56.75">
+						<ToggleGroup.Root type="single" bind:value={pressureVariablesTab}>
+							<div class="border-border flex flex-col rounded-lg border">
+								{#each pressureVariables as variable, i (i)}
+									<ToggleGroup.Item
+										value={variable.value}
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
+										0
+											? 'rounded-t-md rounded-b-none!'
+											: ''} {i === pressureVariables.length - 1
+											? 'rounded-t-none! rounded-b-md'
+											: ''}"
+										disabled={pressureVariablesTab === variable.value}
+										onclick={() => (pressureVariablesTab = variable.value)}
+										><div class="flex w-full items-center justify-between gap-2 text-left">
+											{variable.label}
+											<span class="text-xs">
+												{levels.filter((level) =>
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
+												).length
+													? '(' +
+														levels.filter((level) =>
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
+														).length +
+														'/' +
+														levels.length +
+														')'
+													: ''}
+											</span>
+										</div></ToggleGroup.Item
+									>
+								{/each}
+							</div>
+						</ToggleGroup.Root>
+					</div>
+					<div class="w-full">
+						{#each pressureVariables as variable, i (i)}
+							{#if pressureVariablesTab === variable.value}
+								<div class="mb-3">{variable.label}</div>
+								<div class="grid grid-cols-1 lg:grid-cols-3">
+									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
+										<div>
+											{#each chunk as level, k (k)}
+												<div class="group flex items-center">
+													<Checkbox
+														id="{variable.value}_{level}hPa"
+														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
+														value="{variable.value}_{level}hPa"
+														checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
+														aria-labelledby="{variable.value}_{level}hPa_label"
+														onCheckedChange={() => {
+															const value = `${variable.value}_${level}hPa`;
+															if ($params.hourly?.includes(value)) {
+																$params.hourly = $params.hourly.filter(
+																	(item: string) => item !== value
+																);
+															} else if ($params.hourly) {
+																$params.hourly.push(value);
+																$params.hourly = $params.hourly;
+															}
+														}}
+													/>
+													<Label
+														id="{variable.value}_{level}hPa_label"
+														for="{variable.value}_{level}hPa"
+														class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
+														>{level} hPa
+														<small class="text-muted-foreground"
+															>({altitudeAboveSeaLevelMeters(level)})</small
+														></Label
+													>
+												</div>
+											{/each}
+										</div>
+									{/each}
+								</div>
+							{/if}
+						{/each}
+					</div>
+				</div>
+				<div class="mt-3 lg:ml-62.25">
+					<small class="text-muted-foreground"
+						>Note: Pressure level data is only available from the Central Europe 2 km domain.
+						Altitudes are approximate and in meters <strong> above sea level</strong> (not above
+						ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea level.</small
+					>
+				</div>
+			</AccordionItem>
 			<AccordionItem
 				id="models"
 				title="Weather models"
@@ -353,7 +483,7 @@
 	<ResultsPreview
 		{params}
 		{defaultParameters}
-		model_default="geosphere_seamless"
+		model_default="chmi_aladin_seamless"
 		defaultTimeParameters={false}
 	/>
 </div>
@@ -363,16 +493,20 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			The high-resolution weather forecast model AROME (Application of Research to Operations at
-			Mesoscale) provides meteorological forecasts for the wider Alpine region on a 2.5-kilometre
-			grid. It is updated every 3 hours and provides forecasts for 60 hours. The AROME model code is
-			being further developed in collaboration with the partner meteorological services of the
-			ACCORD consortium. After 2.5 days, Open-Meteo combines forecasts with the <a
-				href="/en/docs/ecmwf-api">ECMWF IFS HRES 9 km model</a
-			> to provide up to 15 days of forecast.
+			The Czech Hydrometeorological Institute (CHMI) runs the ALADIN limited-area weather model and
+			publishes forecasts as <a
+				class="text-link underline"
+				href="https://opendata.chmi.cz/meteorology/weather/nwp_aladin/"
+				target="_blank">open data</a
+			>. Both domains provide hourly forecasts for 3 days and are updated every 6 hours. The Central
+			Europe domain additionally includes atmospheric data on 17 pressure levels. The
+			<mark>CHMI Aladin Seamless</mark> model automatically uses the 1 km Czech Republic domain
+			where available and falls back to the Central Europe domain otherwise. After 3 days,
+			Open-Meteo combines forecasts with the
+			<a href="/en/docs/ecmwf-api">ECMWF IFS HRES 9 km model</a> to provide up to 15 days of forecast.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-300">
+			<table class="docs-table w-full min-w-250">
 				<caption
 					>You can find the update timings in the <a
 						class="text-link underline"
@@ -391,129 +525,82 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th scope="row"
-							><a href="https://data.hub.geosphere.at/dataset/nwp-v1-1h-2500m" target="_blank"
-								>GeoSphere AROME Austria</a
-							></th
-						>
+						<th scope="row">CHMI Aladin Central Europe 2km</th>
 						<td>
 							<div class="flex items-center gap-2">
-								<div class="flex w-[26px] shrink-0 items-center gap-2">
+								<div class="flex w-[32px] shrink-0 items-center gap-2">
 									<img
 										height="26"
 										width="26"
-										src="/images/country-flags/at.svg"
-										alt="Austria"
-										title="Austria"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
 									/>
 								</div>
 								Central Europe
 							</div>
 						</td>
-						<td>2.5 km</td>
+						<td>2.3 km</td>
 						<td>Hourly</td>
-						<td>2.5 days</td>
-						<td>Every 3 hours</td>
+						<td>3 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row">CHMI Aladin CZ 1km</th>
+
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[32px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/cz.svg"
+										alt="Czech Republic"
+										title="Czech Republic"
+									/>
+								</div>
+								Czech Republic
+							</div>
+						</td>
+						<td>1 km</td>
+						<td>Hourly</td>
+						<td>3 days</td>
+						<td>Every 6 hours</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+
+	<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<ZoomableImage
-			src="/images/models/geosphere_arome_austria.webp"
-			alt="GeoSphere AROME Austria Model Area"
+			figureClass="w-full"
+			class="w-full"
+			src="/images/models/chmi_aladin_central_europe_2km.webp"
+			alt="CHMI Aladin Central Europe Model Area"
 		>
 			{#snippet caption()}
-				GeoSphere AROME Austria Model Area. Source:
-				<a
-					href="https://maps.open-meteo.com/?domain=geosphere_arome_austria#5.2/47.60/13.81"
-					target="_blank">Open-Meteo</a
+				CHMI Aladin Central Europe Model Area. Source:
+				<a href="https://maps.open-meteo.com/?domain=chmi_aladin_central_europe_2km#4.5/47.67/15.7"
+					>Open-Meteo</a
 				>.
 			{/snippet}
 		</ZoomableImage>
-	</div>
-</div>
 
-<!-- NATIVE VARIABLES -->
-<div class="mt-6 md:mt-12">
-	<a href="#native_model_variables"
-		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
-	>
-	<div class="mt-2 md:mt-4">
-		<p>
-			AROME directly predicts the fields listed below. Open-Meteo retains these fields or uses them
-			to calculate more convenient API variables. AROME provides native relative humidity, a native
-			sunshine duration, hourly minimum and maximum temperature and its own weather symbol.
-		</p>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-300">
-				<thead>
-					<tr>
-						<th scope="col">Native AROME field</th>
-						<th scope="col">Level</th>
-						<th scope="col">Use in the Open-Meteo API</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">Temperature, hourly minimum and maximum</th>
-						<td>2 m, surface</td>
-						<td><mark>temperature_2m</mark>, <mark>surface_temperature</mark></td>
-					</tr>
-					<tr>
-						<th scope="row">Relative humidity</th>
-						<td>2 m</td>
-						<td>Relative humidity and dew point</td>
-					</tr>
-					<tr>
-						<th scope="row">U and V wind components, gust components</th>
-						<td>10 m</td>
-						<td>Wind speed, direction and <mark>wind_gusts_10m</mark></td>
-					</tr>
-					<tr>
-						<th scope="row">Surface pressure</th>
-						<td>Surface</td>
-						<td><mark>pressure_msl</mark> and <mark>surface_pressure</mark></td>
-					</tr>
-					<tr>
-						<th scope="row">Total precipitation, rain and snowfall water equivalent</th>
-						<td>Surface</td>
-						<td><mark>precipitation</mark>, <mark>rain</mark>, snowfall</td>
-					</tr>
-					<tr>
-						<th scope="row">Global solar radiation</th>
-						<td>Surface</td>
-						<td>Global, direct, diffuse radiation, DNI and GTI</td>
-					</tr>
-					<tr>
-						<th scope="row">Cloud cover total, low, mid and high</th>
-						<td>Surface</td>
-						<td><mark>cloud_cover</mark> and the individual layers</td>
-					</tr>
-					<tr>
-						<th scope="row">Sunshine duration</th>
-						<td>Surface</td>
-						<td><mark>sunshine_duration</mark></td>
-					</tr>
-					<tr>
-						<th scope="row">Weather symbol</th>
-						<td>Surface</td>
-						<td><mark>weather_code</mark> (converted to WMO codes)</td>
-					</tr>
-					<tr>
-						<th scope="row">CAPE, convective inhibition, snow depth, snowfall height</th>
-						<td>Surface</td>
-						<td>Corresponding API variables</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<p class="mt-2">
-			AROME provides no pressure-level data. Beyond 2.5 days the seamless model continues with ECMWF
-			IFS.
-		</p>
-	</div>
+		<ZoomableImage
+			figureClass="w-full"
+			class="w-full"
+			src="/images/models/chmi_aladin_cz_1km.webp"
+			alt="CHMI Aladin CZ Model Area"
+		>
+			{#snippet caption()}
+				CHMI Aladin CZ Model Area. Source:
+				<a href="https://maps.open-meteo.com/?domain=chmi_aladin_cz_1km#7.05/49.569/15.71"
+					>Open-Meteo</a
+				>.
+			{/snippet}
+		</ZoomableImage>
+	</ZoomableImageGallery>
 </div>
 
 <!-- DERIVED VARIABLES -->
@@ -523,9 +610,10 @@
 	>
 	<div class="mt-2 md:mt-4">
 		<p>
-			AROME publishes native relative humidity, cloud cover layers, sunshine duration, hourly
-			minimum and maximum temperature and its own weather symbol. Open-Meteo derives the remaining
-			API variables from these native fields.
+			ALADIN natively provides temperature, humidity, wind, pressure, cloud cover, precipitation,
+			radiation, CAPE, visibility and sunshine duration. Several convenient API variables are not
+			predicted directly by the model. Open-Meteo derives them from the native fields for every
+			forecast step.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table class="docs-table w-full min-w-300">
@@ -538,56 +626,76 @@
 				<tbody>
 					<tr>
 						<th scope="row">Weather code</th>
-						<td>GeoSphere's own weather symbol converted to the WMO weather code scheme.</td>
-					</tr>
-					<tr>
-						<th scope="row">Direct and diffuse solar radiation</th>
 						<td>
-							Only global horizontal irradiance GHI is native. Diffuse radiation is separated using
-							the Razo, Müller Witwer model; direct radiation is the remainder. DNI, GTI and instant
-							values follow from solar geometry.
+							Computed from cloud cover, precipitation, snowfall, wind gusts, CAPE and visibility.
+							ALADIN does not publish a usable WMO weather symbol.
 						</td>
-					</tr>
-					<tr>
-						<th scope="row">Wind speed and direction</th>
-						<td>Calculated from the native U and V wind components at 10 m.</td>
 					</tr>
 					<tr>
 						<th scope="row">Snowfall</th>
-						<td>Native snowfall water equivalent converted with 0.7 cm per mm.</td>
-					</tr>
-					<tr>
-						<th scope="row">Snowfall height</th>
 						<td>
-							Native snowfall height converted from metres above ground to metres above sea level,
-							for consistency with other models.
+							Converted from the native snowfall water equivalent, assuming 1 mm of water equals 0.7
+							cm of snow.
 						</td>
 					</tr>
 					<tr>
-						<th scope="row">Mean sea-level and surface pressure</th>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Apparent temperature</th>
 						<td>
-							Mean sea-level pressure is reduced from the native surface pressure; surface pressure
-							is then re-derived for the requested elevation.
+							Combines 2 m temperature, relative humidity, wind speed and shortwave radiation.
 						</td>
 					</tr>
 					<tr>
-						<th scope="row">Dew point, vapour pressure deficit and wet bulb temperature</th>
-						<td>Calculated from native 2 m temperature and relative humidity.</td>
+						<th scope="row">Diffuse solar radiation</th>
+						<td>
+							Difference between the native shortwave (global) and native direct solar radiation. No
+							radiation separation model is required.
+						</td>
 					</tr>
 					<tr>
-						<th scope="row">Apparent temperature and reference evapotranspiration ET₀</th>
+						<th scope="row">Direct normal irradiance DNI and global tilted irradiance GTI</th>
 						<td>
-							Combine temperature, humidity, wind speed and solar radiation. ET₀ follows the FAO-56
-							Penman-Monteith equation.
+							Calculated from direct and diffuse radiation using solar geometry and, for GTI, the
+							selected panel tilt and azimuth.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Reference evapotranspiration ET₀</th>
+						<td>
+							FAO-56 Penman-Monteith equation using temperature, humidity, wind speed and solar
+							radiation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Vapour pressure deficit and wet bulb temperature</th>
+						<td>Calculated from 2 m temperature, relative humidity and dew point.</td>
+					</tr>
+					<tr>
+						<th scope="row">Terrestrial radiation and day-or-night flag</th>
+						<td>Astronomical calculations for every grid cell and timestamp.</td>
+					</tr>
+					<tr>
+						<th scope="row">Pressure-level wind speed and direction</th>
+						<td>
+							Calculated from the native U and V wind components (Central Europe domain only).
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Pressure-level dew point and cloud cover</th>
+						<td>
+							Calculated from pressure-level temperature and relative humidity (Central Europe
+							domain only).
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		<p class="text-muted-foreground mt-2">
-			Sunshine duration is a native field and is not derived. Sunrise, sunset, daylight duration and
-			the day-or-night flag are astronomical calculations. Daily values are aggregated from hourly
-			data.
+			Unlike most regional weather models, ALADIN natively provides direct solar radiation and
+			sunshine duration, so these are not estimated by Open-Meteo.
 		</p>
 	</div>
 </div>
@@ -605,25 +713,19 @@
 		</p>
 		<ul class="ml-6 list-disc">
 			<li>
-				<strong>Weather codes</strong> are used from the GeoSphere von converted to WMO weather codes.
+				<strong>Pressure Level Data:</strong> Forecasts on pressure levels are only available for
+				the Central Europe 2km domain on 17 levels (1000, 950, 925, 850, 800, 700, 600, 500, 450,
+				400, 350, 300, 275, 250, 200, 150 and 100 hPa), e.g. <mark>temperature_850hPa</mark> or
+				<mark>wind_speed_500hPa</mark>.
 			</li>
 			<li>
-				<strong>Solar Radiation:</strong> GeoSphere supplies only global solar radiation data and
-				does not offer direct or diffuse solar radiation. Open-Meteo applies the separation model
-				from
-				<a
-					href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
-					>Razo, Müller Witwer</a
-				> to calculate direct radiation from shortwave solar radiation.
+				<strong>Snow Depth:</strong> ALADIN provides the snow cover as water equivalent (<mark
+					>snow_depth_water_equivalent</mark
+				>). A snow depth in metres is not available.
 			</li>
 			<li>
-				<strong>Snowfall</strong> is given as amount of water equivalent. Open-Meteo assumes a constant
-				conversion factor of 1 mm snow water = 7 snowfall.
-			</li>
-			<li>
-				<strong>Snowfall height</strong> has been converted to metre above sea level. GeoSphere provides
-				snowfall height in metre above ground. For consistency with other weather models, it has been
-				converted to metre above sea level.
+				<strong>Forecast Length:</strong> Forecasts cover 3 days. Selecting more forecast days will return
+				empty values for the additional days.
 			</li>
 		</ul>
 	</div>
