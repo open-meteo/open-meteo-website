@@ -14,6 +14,60 @@ import {
 	ukmo_variables
 } from '../ensemble-options';
 
+export const ecmwf_ifs_europe_variables = [
+	'temperature_2m',
+	'cloud_cover',
+	'dew_point_2m',
+	'precipitation',
+	'surface_pressure',
+	'pressure_msl',
+	'shortwave_radiation',
+	'shortwave_radiation_clear_sky',
+	'snow_depth_water_equivalent',
+	'soil_moisture_0_to_7cm',
+	'wind_gusts_10m',
+	'wind_speed_200m',
+	'wind_speed_100m',
+	'wind_speed_10m',
+	'wind_direction_200m',
+	'wind_direction_100m',
+	'wind_direction_10m',
+	'sunshine_duration',
+	'relative_humidity_2m',
+	'et0_fao_evapotranspiration',
+	'wet_bulb_temperature_2m',
+	'apparent_temperature',
+	'vapour_pressure_deficit',
+	'is_day'
+];
+
+export const ecmwf_aifs_europe_variables = [
+	'temperature_2m',
+	'cloud_cover',
+	'cloud_cover_high',
+	'cloud_cover_low',
+	'cloud_cover_mid',
+	'dew_point_2m',
+	'precipitation',
+	'surface_pressure',
+	'pressure_msl',
+	'shortwave_radiation',
+	'snowfall_water_equivalent',
+	'snowfall',
+	'wind_speed_100m',
+	'wind_speed_10m',
+	'wind_direction_100m',
+	'wind_direction_10m',
+	'total_column_water',
+	'sunshine_duration',
+	'relative_humidity_2m',
+	'et0_fao_evapotranspiration',
+	'wet_bulb_temperature_2m',
+	'apparent_temperature',
+	'vapour_pressure_deficit',
+	'is_day'
+];
+
 export const cmc_gem_global_variables = [
 	'temperature_2m',
 	'surface_pressure',
@@ -56,6 +110,8 @@ export const availableVariables: Record<string, string[]> = {
 	ncep_aigefs025: aigfs025_variables,
 	ecmwf_ifs025_ensemble: ecmwf_ifs025_variables,
 	ecmwf_aifs025_ensemble: ecmwf_aifs025_variables,
+	ecmwf_ifs_europe_ensemble: ecmwf_ifs_europe_variables,
+	ecmwf_aifs_europe_ensemble: ecmwf_aifs_europe_variables,
 	ukmo_global_ensemble_20km: ukmo_variables,
 	ukmo_uk_ensemble_2km: ukmo_2km_variables,
 	// TODO: revert to cmc_gem_geps key once backend prefix aliases are deployed
@@ -82,14 +138,15 @@ export const models = [
 	],
 	[
 		{ value: 'ecmwf_ifs025_ensemble', label: 'ECMWF IFS 0.25° Ensemble' },
+		{ value: 'ecmwf_ifs_europe_ensemble', label: 'ECMWF IFS 9 km (O1280) Europe Ensemble' },
 		{ value: 'ecmwf_aifs025_ensemble', label: 'ECMWF AIFS 0.25° Ensemble' },
-		// TODO: revert to 'cmc_gem_geps' once backend prefix aliases are deployed
-		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' },
-		{ value: 'bom_access_global_ensemble', label: 'BOM ACCESS Global' }
+		{ value: 'ecmwf_aifs_europe_ensemble', label: 'ECMWF AIFS 31 km (N320) Europe Ensemble' }
 	],
 	[
 		{ value: 'ukmo_global_ensemble_20km', label: 'UK MetOffice Global 20km' },
-		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' }
+		{ value: 'ukmo_uk_ensemble_2km', label: 'UK MetOffice UK 2km' },
+		// TODO: revert to 'cmc_gem_geps' once backend prefix aliases are deployed
+		{ value: 'gem_global_ensemble', label: 'GEM Global Ensemble' }
 	],
 	[
 		{ value: 'meteoswiss_icon_ch1_ensemble', label: 'MeteoSwiss ICON CH1' },

@@ -849,8 +849,8 @@
 				different weather variables. Depending on the model, data have been interpolated to hourly
 				values or not all weather variables are available. Use the <mark>Weather models</mark>
 				dropdown (just below the hourly variables) to select and compare individual models. To access
-				the full archive of past forecast runs as issued — useful for forecast verification or training
-				ML models — see the
+				the full archive of past forecast runs as issued, useful for forecast verification or training
+				ML models, see the
 				<a class="text-link underline" href="/en/docs/historical-forecast-api"
 					>Historical Forecast API</a
 				>
@@ -1251,6 +1251,57 @@
 						<td>2 km</td>
 						<td>3 days</td>
 						<td>Every 12 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"><a href={resolve('/en/docs/geosphere-austria-api')}>AROME</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/at.svg"
+										alt="Austria"
+										title="Austria"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
+						<td>GeoSphere Austria</td>
+						<td>Austria</td>
+						<td>2.5 km</td>
+						<td>2.5 days</td>
+						<td>Every 3 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"><a href={resolve('/en/docs/chmi-api')}>ALADIN</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/cz.svg"
+										alt="Czech Republic"
+										title="Czech Republic"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
+						<td>CHMI</td>
+						<td>Czech Republic</td>
+						<td>1 - 2.3 km</td>
+						<td>3 days</td>
+						<td>Every 6 hours</td>
 					</tr>
 				</tbody>
 			</table>

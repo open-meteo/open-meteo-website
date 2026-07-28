@@ -34,7 +34,8 @@
 				{ title: 'KNMI Netherlands', url: '/en/docs/knmi-api' },
 				{ title: 'DMI Denmark', url: '/en/docs/dmi-api' },
 				{ title: 'ItaliaMeteo', url: '/en/docs/italia-meteo-arpae-api' },
-				{ title: 'GeoSphere Austria', url: '/en/docs/geosphere-austria-api' }
+				{ title: 'GeoSphere Austria', url: '/en/docs/geosphere-austria-api' },
+				{ title: 'CHMI Aladin', url: '/en/docs/chmi-api' }
 			]
 		},
 		{
