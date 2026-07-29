@@ -28,7 +28,7 @@
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 	import WmoCodesTable from '$lib/components/variables/wmo-codes-table.svelte';
 
-	import { gridCellSelectionOptions, temporalResolutionOptions } from '../../options';
+	import { gridCellSelectionOptions, temporalResolutionOptions } from '../options';
 	import {
 		additionalDaily,
 		additionalVariables,

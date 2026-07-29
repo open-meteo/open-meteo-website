@@ -44,7 +44,7 @@
 		pastHoursOptions,
 		solarVariables,
 		temporalResolutionOptions
-	} from '../../options';
+	} from '../options';
 	import {
 		additionalVariables,
 		daily,

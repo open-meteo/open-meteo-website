@@ -22,7 +22,7 @@
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
-	import { gridCellSelectionOptions, models, temporalResolutionOptions } from '../../options';
+	import { gridCellSelectionOptions, models, temporalResolutionOptions } from '../options';
 	import {
 		defaultParameters,
 		forecastDaysOptions,

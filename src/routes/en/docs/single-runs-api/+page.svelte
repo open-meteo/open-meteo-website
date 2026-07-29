@@ -39,7 +39,7 @@
 		pastMinutely15Options,
 		solarVariables,
 		temporalResolutionOptions
-	} from '../../options';
+	} from '../options';
 	import {
 		additionalDaily,
 		additionalVariables,
