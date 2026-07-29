@@ -18,9 +18,6 @@ import {
 /** f-string interpolation: {expr} */
 const fv = (v: string) => num('{') + fg(v) + num('}');
 
-/** f-string interpolation with format spec: {expr:fmt} */
-const fvf = (v: string, fmt: string) => num('{') + fg(v) + pm(':') + str(fmt) + num('}');
-
 export const pythonPreviewCodeExample = (rawParams: {
 	domain?: unknown;
 	variables?: unknown;
