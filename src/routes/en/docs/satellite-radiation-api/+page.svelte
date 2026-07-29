@@ -1,16 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { fade, slide } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import { countVariables } from '$lib/utils/meteo';
+	import { fade, slide } from '$lib/utils/transitions';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
@@ -19,8 +18,10 @@
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		forecastHoursOptions,
@@ -117,6 +118,10 @@ TODO:
 <svelte:head>
 	<title>Satellite Radiation API 🛰️☀️ | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/satellite-radiation-api" />
+	<meta
+		name="description"
+		content="Real-time solar radiation from geostationary satellites: shortwave, direct and diffuse irradiance and GTI. Free API for solar energy applications."
+	/>
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4"
@@ -330,40 +335,12 @@ TODO:
 		<a href="#hourly_weather_variables">
 			<h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">Hourly Radiation Variables</h2>
 		</a>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each hourly as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.hourly?.includes(value)}
-								aria-labelledby="{value}_label"
-								onCheckedChange={() => {
-									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.hourly) {
-										$params.hourly.push(value);
-										$params.hourly = $params.hourly;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_label"
-								for="{value}_hourly"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={hourly}
+			bind:values={$params.hourly}
+			idSuffix="hourly"
+		/>
 		<small class="text-muted-foreground"
 			>Note: Solar radiation is averaged over the past hour. Use
 			<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
@@ -432,38 +409,12 @@ TODO:
 				title="Additional Variables And Options"
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each additionalVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if (value && $params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if (value && $params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={additionalVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: You can further adjust the forecast time range for hourly weather variables using <mark
@@ -544,74 +495,24 @@ TODO:
 				title="Satellite Data Sources"
 				count={countVariables(models.concat(weatherModels), $params.models)}
 			>
-				<div class="mt-2">
-					{#each models as group, i (i)}
-						<div class="mb-12">
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.models?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_model_label"
-										for="{value}_model"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="mt-2"
+					groupClass="mb-12"
+					groups={models}
+					bind:values={$params.models}
+					idSuffix="model"
+				/>
 				<p>
 					You can also compare solar radiation directly with weather models by selecting a model
 					below
 				</p>
-				<div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-					{#each weatherModels as group, i (i)}
-						<div class="mb-3">
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_model"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.models?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.models?.includes(value)) {
-												$params.models = $params.models.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.models) {
-												$params.models.push(value);
-												$params.models = $params.models;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_model_label"
-										for="{value}_model"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+					groupClass="mb-3"
+					groups={weatherModels}
+					bind:values={$params.models}
+					idSuffix="model"
+				/>
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
@@ -630,40 +531,12 @@ TODO:
 				Daily Radiation Variables
 			</h2></a
 		>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each daily as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_daily"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.daily?.includes(value)}
-								aria-labelledby="{value}_daily_label"
-								onCheckedChange={() => {
-									if ($params.daily?.includes(value)) {
-										$params.daily = $params.daily.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.daily) {
-										$params.daily.push(value);
-										$params.daily = $params.daily;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_daily_label"
-								for="{value}_daily"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={daily}
+			bind:values={$params.daily}
+			idSuffix="daily"
+		/>
 		{#if timezoneInvalid}
 			<div transition:slide>
 				<Alert.Root variant="warning" class="mt-2 md:mt-4">
@@ -701,9 +574,7 @@ TODO:
 <div class="mt-6 md:mt-12">
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-		<table
-			class="[&_tr]:border-border mx-6 mt-2 min-w-260 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-		>
+		<table class="docs-table w-full min-w-250">
 			<thead>
 				<tr>
 					<th scope="col">Provider</th>
@@ -725,7 +596,9 @@ TODO:
 						></th
 					>
 					<td>EUMETSAT MTG</td>
-					<td>Europe, Africa</td>
+					<td>
+						<div class="flex items-center gap-2">Europe, Africa</div>
+					</td>
 					<td>0.025° (~ 2.5km)</td>
 					<td>10 minutely</td>
 					<td>Every 10 minutes</td>
@@ -739,7 +612,9 @@ TODO:
 						></th
 					>
 					<td>MSG</td>
-					<td>Europe, Africa, South America (only land)</td>
+					<td>
+						<div class="flex items-center gap-2">Europe, Africa, South America (only land)</div>
+					</td>
 					<td>0.05° (~ 5km)</td>
 					<td>15 minutely</td>
 					<td>Every Hour</td>
@@ -747,8 +622,10 @@ TODO:
 					<td>2025</td>
 				</tr>
 				<tr>
-					<td>IODC</td>
-					<td>Europe, Africa, India (only land)</td>
+					<td class="pl-2">IODC</td>
+					<td>
+						<div class="flex items-center gap-2">Europe, Africa, India (only land)</div>
+					</td>
 					<td>0.05° (~ 5km)</td>
 					<td>15 minutely</td>
 					<td>Every Hour</td>
@@ -763,7 +640,9 @@ TODO:
 						></th
 					>
 					<td>MSG</td>
-					<td>Europe, Africa, South America</td>
+					<td>
+						<div class="flex items-center gap-2">Europe, Africa, South America</div>
+					</td>
 					<td>0.05° (~ 5km)</td>
 					<td>30 minutely</td>
 					<td>Every Hour</td>
@@ -776,7 +655,9 @@ TODO:
 						></th
 					>
 					<td>Himawari-9</td>
-					<td>India, Asia, Australia, New Zealand</td>
+					<td>
+						<div class="flex items-center gap-2">India, Asia, Australia, New Zealand</div>
+					</td>
 					<td>0.05° (~ 5km)</td>
 					<td>10 minutely</td>
 					<td>Every 10 minutes</td>
@@ -784,8 +665,10 @@ TODO:
 					<td>2015</td>
 				</tr>
 				<tr>
-					<td>EUMETSAT MTG</td>
-					<td>Europe, Africa</td>
+					<td class="pl-2">EUMETSAT MTG</td>
+					<td>
+						<div class="flex items-center gap-2">Europe, Africa</div>
+					</td>
 					<td>0.05° (~ 5km)</td>
 					<td>10 minutely</td>
 					<td>Every 10 minutes</td>
@@ -795,7 +678,9 @@ TODO:
 				<tr>
 					<th scope="row" rowspan="2">NASA (not yet available)</th>
 					<td>GOES-East</td>
-					<td>North & South America</td>
+					<td>
+						<div class="flex items-center gap-2">North & South America</div>
+					</td>
 					<td>0.05° (~ 5km)</td>
 					<td>N/A</td>
 					<td>N/A</td>
@@ -803,8 +688,10 @@ TODO:
 					<td>N/A</td>
 				</tr>
 				<tr>
-					<td>GOES-West</td>
-					<td>Pacific Ocean & Alaska</td>
+					<td class="pl-2">GOES-West</td>
+					<td>
+						<div class="flex items-center gap-2">Pacific Ocean & Alaska</div>
+					</td>
 					<td>N/A</td>
 					<td>N/A</td>
 					<td>N/A</td>
@@ -816,19 +703,16 @@ TODO:
 	</div>
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
-		<figure>
-			<img
-				src="/images/models/geostationary-satellites.webp"
-				class="rounded-lg"
-				alt="Geostationary satellites for solar radiation"
-			/>
-			<figcaption class="text-muted-foreground">
-				Geostationary satellites for solar radiation. Source: <a
-					href="https://www.earthdata.nasa.gov/news/blog/geostationary-active-fire-detection-data-firms"
-					>NASA</a
+		<ZoomableImage
+			src="/images/models/geostationary_satellites.webp"
+			alt="Geostationary satellites for solar radiation"
+		>
+			{#snippet caption()}
+				Geostationary satellites for solar radiation. Source: <a href="https://open-meteo.com/"
+					>Open-Meteo</a
 				>.
-			</figcaption>
-		</figure>
+			{/snippet}
+		</ZoomableImage>
 	</div>
 </div>
 
@@ -888,9 +772,7 @@ TODO:
 			intervals.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-265 caption-bottom text-left md:mt-4 md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>

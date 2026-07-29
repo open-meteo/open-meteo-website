@@ -1,0 +1,2510 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { SvelteDate } from 'svelte/reactivity';
+
+	import { urlHashStore } from '$lib/stores/url-hash-store';
+
+	import { sliceIntoChunks } from '$lib/utils';
+	import {
+		altitudeAboveSeaLevelMeters,
+		countPressureVariables,
+		countVariables
+	} from '$lib/utils/meteo';
+	import { slide } from '$lib/utils/transitions';
+
+	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
+	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
+
+	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Alert from '$lib/components/ui/alert';
+	import { Checkbox } from '$lib/components/ui/checkbox';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import * as Select from '$lib/components/ui/select';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+
+	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
+	import ApiModeDescription from '$lib/components/api-mode/api-mode-description.svelte';
+	import ApiModeSelector from '$lib/components/api-mode/api-mode-selector.svelte';
+	import ApiModeTimeSelector from '$lib/components/api-mode/api-mode-time-selector.svelte';
+	import { apiModeFormAction } from '$lib/components/api-mode/utils';
+	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
+	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
+	import ResultsPreview from '$lib/components/response/results-preview.svelte';
+	import Settings from '$lib/components/settings/settings.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
+	import WmoCodesTable from '$lib/components/variables/wmo-codes-table.svelte';
+
+	import {
+		current,
+		daily,
+		defaultParameters,
+		forecastDaysOptions,
+		forecastHoursOptions,
+		forecastMinutely15Options,
+		gridCellSelectionOptions,
+		pastDaysOptions,
+		pastHoursOptions,
+		pastMinutely15Options,
+		solarVariables,
+		temporalResolutionOptions
+	} from '../../options';
+	import {
+		additionalVariables,
+		hourly,
+		levels,
+		minutely_15,
+		models,
+		pressureVariables
+	} from './options';
+
+	const params = urlHashStore({
+		latitude: [52.52],
+		longitude: [13.41],
+		...defaultParameters,
+		api_mode: 'forecast',
+		run: '',
+		hourly: ['temperature_2m']
+	});
+
+	let timezoneInvalid = $derived(
+		$params.timezone == 'UTC' && ($params.daily ? $params.daily.length > 0 : false)
+	);
+
+	// Additional variable settings
+	let forecastHours = $derived(
+		forecastHoursOptions.find((fho) => String(fho.value) == $params.forecast_hours)
+	);
+	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
+	let temporalResolution = $derived(
+		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
+	);
+	let cellSelection = $derived(
+		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
+	);
+	let forecastMinutely15 = $derived(
+		forecastMinutely15Options.find((fmo) => String(fmo.value) == $params.forecast_minutely_15)
+	);
+	let pastMinutely15 = $derived(
+		pastMinutely15Options.find((pmo) => String(pmo.value) == $params.past_minutely_15)
+	);
+	let pressureVariablesTab = $state('temperature');
+
+	let accordionValues: string[] = $state([]);
+	onMount(() => {
+		if (
+			(countVariables(additionalVariables, $params.hourly).active ||
+				forecastHours?.value ||
+				pastHours?.value ||
+				temporalResolution?.value ||
+				cellSelection?.value) &&
+			!accordionValues.includes('additional-variables')
+		) {
+			accordionValues.push('additional-variables');
+		}
+
+		if (
+			(countVariables(solarVariables, $params.hourly).active ||
+				Number($params.tilt) > 0 ||
+				Number($params.azimuth) > 0) &&
+			!accordionValues.includes('solar-variables')
+		) {
+			accordionValues.push('solar-variables');
+		}
+
+		if (
+			countPressureVariables(pressureVariables, levels, $params.hourly).active &&
+			!accordionValues.includes('pressure-variables')
+		) {
+			accordionValues.push('pressure-variables');
+		}
+
+		if (countVariables(models, $params.models).active && !accordionValues.includes('models')) {
+			accordionValues.push('models');
+		}
+
+		if (
+			(countVariables(solarVariables, $params.minutely_15).active ||
+				forecastMinutely15?.value ||
+				pastMinutely15?.value) &&
+			!accordionValues.includes('minutely_15')
+		) {
+			accordionValues.push('minutely_15');
+		}
+	});
+
+	let beginDate = new SvelteDate();
+	beginDate.setMonth(beginDate.getMonth() - 3);
+
+	let lastDate = new SvelteDate();
+	lastDate.setDate(lastDate.getDate() + 14);
+</script>
+
+<svelte:head>
+	<title>GFS & HRRR API | Open-Meteo.com</title>
+	<link rel="canonical" href="https://open-meteo.com/en/docs/gfs-api" />
+	<meta
+		name="description"
+		content="NOAA GFS and HRRR weather forecasts: global with 3 km HRRR rapid updates for North America. Free weather API, 16-day forecasts, no API key required."
+	/>
+</svelte:head>
+
+<Alert.Root variant="info" class="mb-4"
+	><svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="24"
+		height="24"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="2"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		class="lucide lucide-info-icon lucide-info"
+		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
+	>
+	<Alert.Description>
+		By combining the reliable NOAA GFS weather model with the rapid updating HRRR weather model,
+		this API provides unrivaled forecasts for the US region. For a global forecast, the <a
+			class="text-link underline"
+			href="/en/docs">Weather Forecast API</a
+		> selects the most suitable weather models automatically to ensure optimal accuracy.
+	</Alert.Description>
+</Alert.Root>
+
+<form
+	method="get"
+	action={apiModeFormAction($params.api_mode, 'https://api.open-meteo.com/v1/forecast')}
+>
+	<!-- LOCATION -->
+	<LocationSelection bind:params={$params} />
+
+	<!-- API MODE & TIME -->
+	<div class="mt-6 grid items-start gap-x-6 gap-y-4 lg:grid-cols-2">
+		<div>
+			<ApiModeSelector bind:params={$params} />
+			<ApiModeTimeSelector
+				bind:params={$params}
+				{beginDate}
+				{lastDate}
+				{pastDaysOptions}
+				{forecastDaysOptions}
+			/>
+		</div>
+		<ApiModeDescription bind:params={$params} {forecastDaysOptions} />
+	</div>
+
+	<!-- HOURLY -->
+	<div class="mt-6 md:mt-12">
+		<a href="#hourly_weather_variables"
+			><h2 id="hourly_weather_variables" class="text-2xl md:text-3xl">
+				Hourly Weather Variables
+			</h2></a
+		>
+		<VariableCheckboxGroups
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			groups={hourly}
+			bind:values={$params.hourly}
+			idSuffix="hourly"
+		/>
+	</div>
+
+	<!-- ADDITIONAL VARIABLES -->
+	<div class="mt-6">
+		<Accordion.Root
+			type="multiple"
+			class="border-border rounded-lg border"
+			bind:value={accordionValues}
+		>
+			<AccordionItem
+				id="additional-variables"
+				title="Additional Variables And Options"
+				count={countVariables(additionalVariables, $params.hourly)}
+			>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={additionalVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
+
+				<small class="text-muted-foreground mt-1">
+					Note: You can further adjust the forecast time range for hourly weather variables using <mark
+						>&forecast_hours=</mark
+					>
+					and <mark>&past_hours=</mark> as shown below.
+				</small>
+				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
+					<div class="relative">
+						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
+								>{forecastHours?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each forecastHoursOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								>Forecast Hours</Label
+							>
+						</Select.Root>
+					</div>
+					<div class="relative">
+						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
+								>{pastHours?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each pastHoursOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								>Past Hours</Label
+							>
+						</Select.Root>
+					</div>
+
+					<div class="relative md:col-span-2">
+						<Select.Root
+							name="temporal_resolution"
+							type="single"
+							bind:value={$params.temporal_resolution}
+						>
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
+								>{temporalResolution?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each temporalResolutionOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								>Temporal Resolution For Hourly Data</Label
+							>
+						</Select.Root>
+					</div>
+					<div class="relative md:col-span-2">
+						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
+								>{cellSelection?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each gridCellSelectionOptions as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								>Grid Cell Selection</Label
+							>
+						</Select.Root>
+					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="solar-variables"
+				title="Solar Radiation Variables"
+				count={countVariables(solarVariables, $params.hourly)}
+			>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={solarVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+				/>
+
+				<small class="text-muted-foreground mt-1">
+					Note: Solar radiation is averaged over the past hour. Use
+					<mark>instant</mark> for radiation at the indicated time. For global tilted irradiance GTI please
+					specify Tilt and Azimuth below.
+				</small>
+
+				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
+					<div class="relative">
+						<Input
+							id="tilt"
+							type="number"
+							class="h-12 cursor-pointer pt-6 {Number($params.tilt) < 0 || Number($params.tilt) > 90
+								? 'text-red'
+								: ''}"
+							name="tilt"
+							step="1"
+							min="0"
+							max="90"
+							bind:value={$params.tilt}
+						/>
+						<Label
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+							for="tilt">Panel Tilt (0° horizontal)</Label
+						>
+						{#if Number($params.tilt) < 0 || Number($params.tilt) > 90}
+							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
+						{/if}
+					</div>
+
+					<div class="relative">
+						<Input
+							type="number"
+							class="h-12 cursor-pointer pt-6 {Number($params.azimuth) < -180 ||
+							Number($params.azimuth) > 180
+								? 'text-red'
+								: ''}"
+							name="azimuth"
+							id="azimuth"
+							step="1"
+							min="-180"
+							max="180"
+							bind:value={$params.azimuth}
+						/>
+						<Label
+							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
+						>
+						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
+							<div class="invalid-tooltip" transition:slide>
+								Azimuth must be between -180° (north) and 180° (north)
+							</div>
+						{/if}
+					</div>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="pressure-levels"
+				title="Pressure Level Variables"
+				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
+			>
+				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
+					<div class="w-full md:w-56.75">
+						<ToggleGroup.Root
+							type="single"
+							bind:value={pressureVariablesTab}
+							class="justify-start gap-0"
+						>
+							<div class="border-border flex flex-col rounded-lg border">
+								{#each pressureVariables as variable, i (i)}
+									<ToggleGroup.Item
+										value={variable.value}
+										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
+										0
+											? 'rounded-t-md rounded-b-none!'
+											: ''} {i === pressureVariables.length - 1
+											? 'rounded-t-none! rounded-b-md'
+											: ''}"
+										disabled={pressureVariablesTab === variable.value}
+										onclick={() => (pressureVariablesTab = variable.value)}
+										><div class="flex w-full items-center justify-between gap-2 text-left">
+											{variable.label}
+											<span class="text-xs">
+												{levels.filter((level) =>
+													$params.hourly?.includes(`${variable.value}_${level}hPa`)
+												).length
+													? '(' +
+														levels.filter((level) =>
+															$params.hourly?.includes(`${variable.value}_${level}hPa`)
+														).length +
+														'/' +
+														levels.length +
+														')'
+													: ''}
+											</span>
+										</div>
+									</ToggleGroup.Item>
+								{/each}
+							</div>
+						</ToggleGroup.Root>
+					</div>
+					<div class="w-full">
+						{#each pressureVariables as variable, i (i)}
+							{#if pressureVariablesTab === variable.value}
+								<div class="mb-3">{variable.label}</div>
+								<div>
+									<div class="grid grid-cols-1 lg:grid-cols-3">
+										{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
+											<div>
+												{#each chunk as level, k (k)}
+													<div class="group flex items-center" title={String(level)}>
+														<Checkbox
+															id="{variable.value}_{level}hPa"
+															class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
+															value="{variable.value}_{level}hPa"
+															checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
+															aria-labelledby="{variable.value}_{level}hPa"
+															onCheckedChange={() => {
+																if ($params.hourly?.includes(`${variable.value}_${level}hPa`)) {
+																	$params.hourly = $params.hourly.filter((item: string) => {
+																		return item !== `${variable.value}_${level}hPa`;
+																	});
+																} else if ($params.hourly) {
+																	$params.hourly.push(`${variable.value}_${level}hPa`);
+																	$params.hourly = $params.hourly;
+																}
+															}}
+														/>
+														<Label
+															for="{variable.value}_{level}hPa"
+															class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
+															>{level} hPa
+															<small class="text-muted-foreground"
+																>({altitudeAboveSeaLevelMeters(level)})</small
+															></Label
+														>
+													</div>
+												{/each}
+											</div>
+										{/each}
+									</div>
+								</div>
+							{/if}
+						{/each}
+					</div>
+				</div>
+				<div class="mt-3 lg:ml-62.25">
+					<small class="text-muted-foreground"
+						>Note: Altitudes are approximate and in meters <strong> above sea level</strong>
+						(not above ground). Use <mark>geopotential_height</mark> to get precise altitudes above sea
+						level.</small
+					>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="models"
+				title="Weather models"
+				count={countVariables(models, $params.models)}
+			>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+					groupClass="mb-3"
+					groups={models}
+					bind:values={$params.models}
+					idSuffix="model"
+				/>
+				<div>
+					<small class="text-muted-foreground"
+						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
+						seamless prediction.</small
+					>
+				</div>
+			</AccordionItem>
+			<AccordionItem
+				id="minutely_15"
+				title="15-Minutely Weather Variables"
+				count={{
+					total:
+						countVariables(solarVariables, $params.minutely_15).total +
+						countVariables(minutely_15, $params.minutely_15).total,
+					active:
+						countVariables(solarVariables, $params.minutely_15).active +
+						countVariables(minutely_15, $params.minutely_15).active
+				}}
+			>
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+					groups={minutely_15}
+					bind:values={$params.minutely_15}
+					idSuffix="minutely_15"
+				/>
+
+				<VariableCheckboxGroups
+					class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+					groups={solarVariables}
+					bind:values={$params.minutely_15}
+					idSuffix="minutely_15"
+				/>
+
+				<div>
+					<small class="text-muted-foreground"
+						>Note: Only available in Central Europe and North America. Other regions use
+						interpolated hourly data. Solar radiation is averaged over the 15 minutes. Use
+						<mark>instant</mark> for radiation at the indicated time.</small
+					>
+				</div>
+				<div>
+					<small class="text-muted-foreground"
+						>Note: You can further adjust the forecast time range for 15-minutely weather variables
+						using <mark>&forecast_minutely_15=</mark> and <mark>&past_minutely_15=</mark> as shown below.
+					</small>
+				</div>
+				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
+					<div class="relative">
+						<Select.Root
+							name="forecast_minutely_15"
+							type="single"
+							bind:value={$params.forecast_minutely_15}
+						>
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
+								>{forecastMinutely15?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each forecastMinutely15Options as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								>Forecast Minutely 15</Label
+							>
+						</Select.Root>
+					</div>
+					<div class="relative">
+						<Select.Root
+							name="past_minutely_15"
+							type="single"
+							bind:value={$params.past_minutely_15}
+						>
+							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
+								>{pastMinutely15?.label}</Select.Trigger
+							>
+							<Select.Content preventScroll={false} class="border-border">
+								{#each pastMinutely15Options as { value, label } (value)}
+									<Select.Item {value}>{label}</Select.Item>
+								{/each}
+							</Select.Content>
+							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+								>Past Minutely 15</Label
+							>
+						</Select.Root>
+					</div>
+				</div>
+			</AccordionItem>
+		</Accordion.Root>
+	</div>
+
+	<!-- DAILY -->
+	<div class="mt-6 md:mt-12">
+		<a href="#daily_weather_variables"
+			><h2 id="daily_weather_variables" class="text-2xl md:text-3xl">Daily Weather Variables</h2></a
+		>
+		<VariableCheckboxGroups
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			groups={daily}
+			bind:values={$params.daily}
+			idSuffix="daily"
+		/>
+		{#if timezoneInvalid}
+			<div transition:slide>
+				<Alert.Root variant="warning" class="mt-2 md:mt-4">
+					<Alert.Description>
+						It is recommended to select a timezone for daily data. Per default the API will use
+						GMT+0.
+					</Alert.Description>
+				</Alert.Root>
+			</div>
+		{/if}
+	</div>
+
+	<!-- CURRENT -->
+	<div class="mt-6 md:mt-12">
+		<a href="#current_weather"
+			><h2 id="current_weather" class="text-2xl md:text-3xl">Current Weather</h2></a
+		>
+		<VariableCheckboxGroups
+			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+			groups={current}
+			bind:values={$params.current}
+			idSuffix="current"
+		/>
+		<div class="text-muted-foreground mt-1">
+			Note: Current conditions are based on 15-minutely weather model data. Every weather variable
+			available in hourly data, is available as current condition as well.
+		</div>
+	</div>
+
+	<!-- SETTINGS -->
+	<div class="mt-6 md:mt-12">
+		<Settings bind:params={$params} />
+	</div>
+
+	<!-- LICENSE -->
+	<div class="mt-3 md:mt-6">
+		<LicenceSelector requires_professional_plan={$params.api_mode !== 'forecast'} />
+	</div>
+</form>
+
+<!-- RESULT -->
+<div class="mt-6 md:mt-12">
+	<ResultsPreview
+		{params}
+		{defaultParameters}
+		model_default="ncep_gfs_seamless"
+		defaultTimeParameters={false}
+	/>
+</div>
+
+<!-- DATA SOURCES -->
+<div class="mt-6 md:mt-12">
+	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
+	<div class="mt-2 md:mt-4">
+		<p>
+			This API uses global NOAA GFS weather forecast and combines them with high-resolution HRRR
+			forecasts. HRRR is a rapid-refresh model and updates every hour. High-resolution data are only
+			available for the United States. For other locations, only GFS is used. For GFS, values are
+			interpolated from 3-hourly to 1-hourly after 120 hours.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Weather Model</th>
+						<th scope="col">Region</th>
+						<th scope="col">Spatial Resolution</th>
+						<th scope="col">Temporal Resolution</th>
+						<th scope="col">Forecast Length</th>
+						<th scope="col">Update frequency</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/gfs/" target="_blank">GFS</a></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
+						<td>0.11° (~13 km)</td>
+						<td>Hourly, <small class="text-muted-foreground">3-hourly after 120 hours</small></td>
+						<td>16 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/gfs/" target="_blank"
+								>GFS Pressure Variables</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
+						<td>0.25° (~25 km)</td>
+						<td>Hourly, <small class="text-muted-foreground">3-hourly after 120 hours</small></td>
+						<td>16 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank">HRRR Conus</a></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km</td>
+						<td>Hourly</td>
+						<td
+							>18 hours, <small class="text-muted-foreground">(48 hours for 0, 6, 12, 18Z)</small
+							></td
+						>
+						<td>Every hour</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank"
+								>HRRR Conus 15 minutely</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km</td>
+						<td>15 Minutely</td>
+						<td>18 hours</td>
+						<td>Every hour</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://vlab.noaa.gov/web/mdl/nbm-documentation" target="_blank"
+								>NBM Conus</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>2.5 km</td>
+						<td
+							>Hourly, <small class="text-muted-foreground"
+								>3-Hourly after 36 hours, 6-Hourly after 8 days</small
+							></td
+						>
+						<td>11 days</td>
+						<td>Every hour</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/nam/" target="_blank"
+								>NAM Conus</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km</td>
+						<td>Hourly</td>
+						<td>60 hours</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/aigfs/" target="_blank"
+								>AIGFS 0.25°</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
+						<td>0.25° (~25 km)</td>
+						<td>6-hourly</td>
+						<td>16 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/hgefs/" target="_blank"
+								>HGEFS 0.25° Ensemble Mean</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
+						<td>0.25° (~25 km)</td>
+						<td>6-hourly</td>
+						<td>10 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+			<ZoomableImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR Conus Model Area">
+				{#snippet caption()}
+					HRRR and NAM Conus Model Area. Source: <a
+						href="https://maps.open-meteo.com/?domain=ncep_hrrr_conus#3.5/38.59/-97.49"
+						>Open-Meteo</a
+					>.
+				{/snippet}
+			</ZoomableImage>
+
+			<ZoomableImage src="/images/models/ncep_nbm_conus.webp" alt="NBM Conus Model Area">
+				{#snippet caption()}
+					NBM Conus Model Area. Source: <a
+						href="https://maps.open-meteo.com/?domain=ncep_nbm_conus#3.2/40.79/-98.69">Open-Meteo</a
+					>.
+				{/snippet}
+			</ZoomableImage>
+		</ZoomableImageGallery>
+	</div>
+</div>
+
+<!-- NATIVE VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#native_model_variables"
+		><h2 id="native_model_variables" class="text-2xl md:text-3xl">Native Model Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			GFS and HRRR directly predict the fields listed below. Open-Meteo retains these fields or uses
+			them to calculate more convenient API variables. GFS provides wind as U and V components and
+			both global and diffuse solar radiation.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Native GFS/HRRR field</th>
+						<th scope="col">Level</th>
+						<th scope="col">Use in the Open-Meteo API</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Temperature</th>
+						<td>2 m, 80/100 m, pressure levels</td>
+						<td><mark>temperature_2m</mark> and upper-level temperature</td>
+					</tr>
+					<tr>
+						<th scope="row">Relative humidity</th>
+						<td>2 m, pressure levels</td>
+						<td>Relative humidity, dew point and cloud cover</td>
+					</tr>
+					<tr>
+						<th scope="row">U and V wind components</th>
+						<td>10 m, 80/100 m, pressure levels</td>
+						<td>Wind speed and direction</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind gusts</th>
+						<td>10 m</td>
+						<td><mark>wind_gusts_10m</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">Mean sea-level pressure</th>
+						<td>Mean sea level</td>
+						<td><mark>pressure_msl</mark> and derived surface pressure</td>
+					</tr>
+					<tr>
+						<th scope="row">Precipitation and convective precipitation</th>
+						<td>Surface</td>
+						<td><mark>precipitation</mark>, <mark>showers</mark> (GFS only)</td>
+					</tr>
+					<tr>
+						<th scope="row">Shortwave and diffuse radiation</th>
+						<td>Surface</td>
+						<td>Global, direct, diffuse radiation, DNI and GTI</td>
+					</tr>
+					<tr>
+						<th scope="row">UV-B flux</th>
+						<td>Surface</td>
+						<td><mark>uv_index</mark> (GFS only)</td>
+					</tr>
+					<tr>
+						<th scope="row">Cloud cover total, low, mid and high</th>
+						<td>Surface, pressure levels (GFS)</td>
+						<td><mark>cloud_cover</mark> and the individual layers</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>CAPE, lifted index, CIN, visibility, freezing level, categorical freezing rain</th
+						>
+						<td>Surface</td>
+						<td>Corresponding API variables and weather-code inputs</td>
+					</tr>
+					<tr>
+						<th scope="row">Soil temperature and moisture</th>
+						<td>4 layers</td>
+						<td>Soil temperature and moisture variables</td>
+					</tr>
+					<tr>
+						<th scope="row">Geopotential and vertical velocity</th>
+						<td>Pressure levels</td>
+						<td><mark>geopotential_height</mark>, <mark>vertical_velocity</mark></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="mt-2">
+			The NBM statistical blend additionally provides native snowfall, snowfall height and
+			precipitation-type probabilities. The AIGFS and HGEFS machine-learning models predict only
+			temperature, pressure, wind, precipitation and pressure-level fields including specific
+			humidity.
+		</p>
+	</div>
+</div>
+
+<!-- DERIVED VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#derived_variables"
+		><h2 id="derived_variables" class="text-2xl md:text-3xl">Derived Variables</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			GFS and HRRR publish a rich native set including relative humidity, wind gusts, cloud cover
+			layers and both shortwave and diffuse solar radiation. Several convenient API variables are
+			derived by Open-Meteo from these native fields. Availability differs between the sub-models
+			(GFS, HRRR, NAM, NBM, AIGFS).
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Derived Variable</th>
+						<th scope="col">How it is derived?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Weather code</th>
+						<td>
+							Computed from cloud cover, precipitation, snowfall, showers, CAPE, wind gusts,
+							visibility, lifted index, convective inhibition and categorical freezing rain. AIGFS
+							and HGEFS only have cloud and precipitation inputs, so no thunderstorm or fog codes.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Wind speed and direction</th>
+						<td>
+							Calculated from the native U and V wind components at 10 m, 80 m and 100 m and on all
+							pressure levels. 120 m wind is scaled from 100 m with a power law.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Snowfall and rain</th>
+						<td>
+							Snowfall water equivalent is the frozen fraction of precipitation; snowfall converts
+							it with 0.7 cm per mm. Rain is total precipitation minus snowfall water equivalent and
+							showers. Showers are a native field only in GFS.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Direct and diffuse solar radiation</th>
+						<td>
+							GFS and HRRR provide global and diffuse radiation natively, so direct radiation is the
+							difference. NAM, the ensemble models and NBM separate diffuse from global radiation
+							with the Razo, Müller Witwer model. DNI, GTI and instant values follow from solar
+							geometry.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Dew point</th>
+						<td
+							>Calculated from native temperature and relative humidity at 2 m and on pressure
+							levels.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">Surface pressure</th>
+						<td>Calculated from mean sea-level pressure, 2 m temperature and terrain elevation.</td>
+					</tr>
+					<tr>
+						<th scope="row">Cloud cover (AIGFS and HGEFS)</th>
+						<td>
+							The machine-learning models predict specific humidity; relative humidity and the cloud
+							cover layers are estimated from it following Sundqvist et al. (1989).
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Pressure-level cloud cover (HRRR)</th>
+						<td>
+							HRRR has no native pressure-level cloud cover; it is estimated from pressure-level
+							relative humidity. GFS provides it natively.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Precipitation probability</th>
+						<td>
+							Share of the 31 GEFS ensemble members with more than 0.1 mm/h. NBM contributes its
+							native probability product.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>Apparent temperature, ET₀, vapour pressure deficit and wet bulb temperature</th
+						>
+						<td>
+							Standard formulas combining 2 m temperature, humidity, wind speed and solar radiation.
+							ET₀ follows the FAO-56 Penman-Monteith equation.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">Sunshine duration and UV index</th>
+						<td>
+							Sunshine duration counts seconds with direct normal irradiance above 120 W/m². The UV
+							index is converted from the native UV-B flux (GFS only).
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted-foreground mt-2">
+			Sunrise, sunset, daylight duration and the day-or-night flag are astronomical calculations.
+			Daily values are aggregated from hourly data.
+		</p>
+	</div>
+</div>
+
+<!-- API DOCS -->
+<div class="mt-6 md:mt-12">
+	<a href="#api_documentation"
+		><h2 id="api_documentation" class="text-2xl md:text-3xl">API Documentation</h2></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The API endpoint <mark>/v1/gfs</mark> accepts a geographical coordinate, a list of weather
+			variables and responds with a JSON hourly weather forecast for 7 days. Time always starts at
+			0:00 today and contains 168 hours. If
+			<mark>&forecast_days=16</mark> is set, up to 16 days of forecast can be returned. All URL parameters
+			are listed below:
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<caption
+					>You can find the update timings in the <a
+						class="text-link underline"
+						href="/en/docs/model-updates">model updates documentation</a
+					>. Additional optional URL parameters will be added. For API stability, no required
+					parameters will be added in the future!.</caption
+				>
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Required</th>
+						<th scope="col">Default</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">latitude, longitude</th>
+						<td>Floating point</td>
+						<td>Yes</td>
+						<td></td>
+						<td
+							>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
+							separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return
+							data for multiple locations the JSON output changes to a list of structures. CSV and
+							XLSX formats add a column <mark>location_id</mark>.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">elevation</th>
+						<td>Floating point</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>The elevation used for statistical downscaling. Per default, a <a
+								href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
+								title="Elevation based grid-cell selection explained"
+								>90 meter digital elevation model is used</a
+							>. You can manually set the elevation to correctly match mountain peaks. If
+							<mark>&elevation=nan</mark> is specified, downscaling will be disabled and the API uses
+							the average grid-cell height.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">hourly</th>
+						<td>String array</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>A list of weather variables which should be returned. Values can be comma separated,
+							or multiple
+							<mark>&hourly=</mark> parameter in the URL can be used.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">daily</th>
+						<td>String array</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>A list of daily weather variable aggregations which should be returned. Values can be
+							comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used. If
+							daily weather variables are specified, parameter <mark>timezone</mark> is required.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">current</th>
+						<td>String array</td>
+						<td>No</td>
+						<td></td>
+						<td>A list of weather variables to get current conditions.</td>
+					</tr>
+					<tr>
+						<th scope="row">temperature_unit</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>celsius</mark></td>
+						<td
+							>If <mark>fahrenheit</mark> is set, all temperature values are converted to Fahrenheit.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">wind_speed_unit</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>kmh</mark></td>
+						<td
+							>Other wind speed speed units: <mark>ms</mark>, <mark>mph</mark> and
+							<mark>kn</mark></td
+						>
+					</tr>
+					<tr>
+						<th scope="row">precipitation_unit</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>mm</mark></td>
+						<td>Other precipitation amount units: <mark>inch</mark></td>
+					</tr>
+					<tr>
+						<th scope="row">timeformat</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>iso8601</mark></td>
+						<td
+							>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX
+							epoch time in seconds. Please note that all timestamp are in GMT+0! For daily values
+							with unix timestamps, please apply
+							<mark>utc_offset_seconds</mark> again to get the correct date.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">timezone</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>GMT</mark></td>
+						<td
+							>If <mark>timezone</mark> is set, all timestamps are returned as local-time and data
+							is returned starting at 00:00 local-time. Any time zone name from the
+							<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank"
+								>time zone database</a
+							>
+							is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
+							resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
+							can be specified.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">past_days</th>
+						<td>Integer</td>
+						<td>No</td>
+						<td><mark>0</mark></td>
+						<td>If <mark>past_days</mark> is set, past weather data can be returned.</td>
+					</tr>
+					<tr>
+						<th scope="row">forecast_days</th>
+						<td>Integer (0-16)</td>
+						<td>No</td>
+						<td><mark>7</mark></td>
+						<td>Per default, only 7 days are returned. Up to 16 days of forecast are possible.</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>forecast_hours<br />forecast_minutely_15<br />past_hours<br />past_minutely_15</th
+						>
+						<td>Integer (&gt;0)</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>Similar to forecast_days, the number of timesteps of hourly and 15-minutely data can
+							controlled. Instead of using the current day as a reference, the current hour or the
+							current 15-minute time-step is used.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">start_date<br />end_date</th>
+						<td>String (yyyy-mm-dd)</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>The time interval to get weather data. A day must be specified as an ISO8601 date
+							(e.g.
+							<mark>2022-06-30</mark>).
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">start_hour<br />end_hour<br />start_minutely_15<br />end_minutely_15</th
+						>
+						<td>String (yyyy-mm-ddThh:mm)</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>The time interval to get weather data for hourly or 15 minutely data. Time must be
+							specified as an ISO8601 date (e.g.
+							<mark>2022-06-30T12:00</mark>).
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">cell_selection</th>
+						<td>String</td>
+						<td>No</td>
+						<td><mark>land</mark></td>
+						<td
+							>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
+							suitable grid-cell on land with
+							<a
+								href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
+								title="Elevation based grid-cell selection explained"
+								>similar elevation to the requested coordinates using a 90-meter digital elevation
+								model</a
+							>.
+							<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
+							grid-cell.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">apikey</th>
+						<td>String</td>
+						<td>No</td>
+						<td></td>
+						<td
+							>Only required to commercial use to access reserved API resources for customers. The
+							server URL requires the prefix <mark>customer-</mark>. See
+							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
+								>pricing</a
+							> for more information.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- API DOCS - VARIABLE AVAILABILITY -->
+<div class="mt-6 md:mt-12">
+	<a href="#variable_availability">
+		<h3 id="variable_availability" class="text-xl md:text-2xl">Variable Per Model Availability</h3>
+	</a>
+	<div class="mt-2 md:mt-4">
+		<p>
+			Various weather variables and levels may be available for each NOAA NCEP model. Certain
+			variables for the high-resolution GFS013 model are unavailable, so the standard GFS025 model
+			is used instead. The local area models HRRR and NBM differentiate between rain and shower
+			precipitation types. Probability data is directly available only for NBM, while Open-Meteo
+			calculates precipitation probability for the GFS025 model.
+		</p>
+		<p>
+			In AIGFS, HGEFS, cloud cover is estimated by Open-Meteo using specific humidity data from
+			different heights in the atmosphere. The method uses the Murphy & Koop (2005) equations to
+			represent clouds made of liquid water, supercooled droplets, or ice. A smooth phased
+			transition between liquid and ice clouds is applied, similar to the approach used in the ECMWF
+			IFS model.
+		</p>
+		<div class="relative -mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-150">
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">GFS016</th>
+						<th scope="col">GFS025</th>
+						<th scope="col">HRRR</th>
+						<th scope="col">NBM</th>
+						<th scope="col">AIGFS, HGEFS</th>
+					</tr></thead
+				>
+				<tbody>
+					<tr>
+						<td>boundary_layer_height</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>cape</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>categorical_freezing_rain</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>cloud_cover</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td>x</td>
+					</tr>
+					<tr>
+						<td>cloud_cover low/mid/high</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+					</tr>
+					<tr>
+						<td>convective_inhibition</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>direct/diffuse radiation</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>freezing_level_height</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<td>latent_heat_flux</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>lifted_index</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>mass_density_8m</td>
+						<td></td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>precipitation</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td>x</td>
+					</tr>
+
+					<tr>
+						<td>pressure_msl</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+					</tr>
+
+					<tr>
+						<td>relative_humidity_2m</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>sensible_heat_flux</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>shortwave_radiation</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>showers</td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>snow_depth</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>snow_fall</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<td>surface_temperature</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>temperature_2m</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td>x</td>
+					</tr>
+
+					<tr>
+						<td>total_column_integrated_water_vapour</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>uv_index</td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>visibility</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>wind 1000hPa</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+					</tr>
+					<tr>
+						<td>wind 10m</td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>wind 80m</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>wind_gusts_10m/</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<th colspan="6" scope="rowgroup">Pressure Variables on hPa Levels</th>
+					</tr>
+					<tr>
+						<td>geopotential_height</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+					</tr>
+					<tr>
+						<td>relative_humidity</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+					</tr>
+					<tr>
+						<td>vertical_velocity</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+					</tr>
+					<tr>
+						<td>temperature</td>
+						<td></td>
+						<td>x</td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+					</tr>
+					<tr>
+						<td>cloud_cover</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>wind</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+					</tr>
+					<tr>
+						<th colspan="6" scope="rowgroup">Soil Variables</th>
+					</tr>
+					<tr>
+						<td>soil_moisture</td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>soil_temperature</td>
+						<td>x</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<th colspan="6" scope="rowgroup">Probabilities</th>
+					</tr>
+					<tr>
+						<td>freezing_rain_probability</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>ice_pellets_probability</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>precipitation_probability</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>rain_probability</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>snowfall_probability</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>thunderstorm_probability</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>x</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- API DOCS - HOURLY -->
+<div class="mt-6 md:mt-12">
+	<a href="#hourly_parameter_definition"
+		><h3 id="hourly_parameter_definition" class="text-xl md:text-2xl">
+			Hourly Parameter Definition
+		</h3></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The parameter <mark>&hourly=</mark> accepts the following values. Most weather variables are given
+			as an instantaneous value for the indicated hour. Some variables like precipitation are calculated
+			from the preceding hour as an average or sum.
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Valid time</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">temperature_2m</th>
+						<td>Instant</td>
+						<td>°C (°F)</td>
+						<td>Air temperature at 2 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row">relative_humidity_2m</th>
+						<td>Instant</td>
+						<td>%</td>
+						<td>Relative humidity at 2 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row">dew_point_2m</th>
+						<td>Instant</td>
+						<td>°C (°F)</td>
+						<td>Dew point temperature at 2 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row">apparent_temperature</th>
+						<td>Instant</td>
+						<td>°C (°F)</td>
+						<td
+							>Apparent temperature is the perceived feels-like temperature combining wind chill
+							factor, relative humidity and solar radiation</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">pressure_msl<br />surface_pressure</th>
+						<td>Instant</td>
+						<td>hPa</td>
+						<td
+							>Atmospheric air pressure reduced to mean sea level (msl) or pressure at surface.
+							Typically pressure on mean sea level is used in meteorology. Surface pressure gets
+							lower with increasing elevation.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">cloud_cover</th>
+						<td>Instant</td>
+						<td>%</td>
+						<td>Total cloud cover as an area fraction</td>
+					</tr>
+					<tr>
+						<th scope="row">cloud_cover_low</th>
+						<td>Instant</td>
+						<td>%</td>
+						<td>Low level clouds and fog up to 3 km altitude</td>
+					</tr>
+					<tr>
+						<th scope="row">cloud_cover_mid</th>
+						<td>Instant</td>
+						<td>%</td>
+						<td>Mid level clouds from 3 to 8 km altitude</td>
+					</tr>
+					<tr>
+						<th scope="row">cloud_cover_high</th>
+						<td>Instant</td>
+						<td>%</td>
+						<td>High level clouds from 8 km altitude</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_speed_10m<br />wind_speed_80m</th>
+						<td>Instant</td>
+						<td>km/h (mph, m/s, knots)</td>
+						<td
+							>Wind speed at 10 or 80 meters above ground. Wind speed on 10 meters is the standard
+							level.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">wind_direction_10m<br />wind_direction_80m</th>
+						<td>Instant</td>
+						<td>°</td>
+						<td>Wind direction at 10 or 80 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_gusts_10m</th>
+						<td>Preceding hour max</td>
+						<td>km/h (mph, m/s, knots)</td>
+						<td>Gusts at 10 meters above ground as a maximum of the preceding hour</td>
+					</tr>
+					<tr>
+						<th scope="row">shortwave_radiation</th>
+						<td>Preceding hour mean</td>
+						<td>W/m²</td>
+						<td
+							>Shortwave solar radiation as average of the preceding hour. This is equal to the
+							total global horizontal irradiation
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">direct_radiation<br />direct_normal_irradiance</th>
+						<td>Preceding hour mean</td>
+						<td>W/m²</td>
+						<td
+							>Direct solar radiation as average of the preceding hour on the horizontal plane and
+							the normal plane (perpendicular to the sun). HRRR offers direct radiation directly. In
+							GFS it is approximated based on <a
+								href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
+								target="_blank">Razo, Müller Witwer</a
+							></td
+						>
+					</tr>
+					<tr>
+						<th scope="row">diffuse_radiation</th>
+						<td>Preceding hour mean</td>
+						<td>W/m²</td>
+						<td
+							>Diffuse solar radiation as average of the preceding hour. HRRR offers diffuse
+							radiation directly. In GFS it is approximated based on <a
+								href="https://www.ise.fraunhofer.de/content/dam/ise/de/documents/publications/conference-paper/36-eupvsec-2019/Guzman_5CV31.pdf"
+								target="_blank">Razo, Müller Witwer</a
+							></td
+						>
+					</tr>
+					<tr>
+						<th scope="row">global_tilted_irradiance</th>
+						<td>Preceding hour mean</td>
+						<td>W/m²</td>
+						<td
+							>Total radiation received on a tilted pane as average of the preceding hour. The
+							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
+							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
+							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
+							is set to "nan", the calculation assumes a vertical tracker (east-west). If tilt is
+							set to "nan", it is assumed that the panel has a horizontal tracker (up-down). If both
+							are set to "nan", a bi-axial tracker is assumed.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">sunshine_duration</th>
+						<td>Preceding hour sum</td>
+						<td>Seconds</td>
+						<td
+							>Number of seconds of sunshine of the preceding hour per hour calculated by direct
+							normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">vapour_pressure_deficit</th>
+						<td>Instant</td>
+						<td>kPa</td>
+						<td
+							>Vapor Pressure Deficit (VPD) in kilopascal (kPa). For high VPD (&gt;1.6), water
+							transpiration of plants increases. For low VPD (&lt;0.4), transpiration decreases</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">evapotranspiration</th>
+						<td>Preceding hour sum</td>
+						<td>mm (inch)</td>
+						<td
+							>Evapotranspiration from land surface and plants that weather models assumes for this
+							location. Available soil water is considered. 1 mm evapotranspiration per hour equals
+							1 liter of water per square meter.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">et0_fao_evapotranspiration</th>
+						<td>Preceding hour sum</td>
+						<td>mm (inch)</td>
+						<td
+							>ET₀ Reference Evapotranspiration of a well watered grass field. Based on <a
+								href="https://www.fao.org/3/x0490e/x0490e04.htm"
+								target="_blank">FAO-56 Penman-Monteith equations</a
+							> ET₀ is calculated from temperature, wind speed, humidity and solar radiation. Unlimited
+							soil water is assumed. ET₀ is commonly used to estimate the required irrigation for plants.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">weather_code</th>
+						<td>Instant</td>
+						<td>WMO code</td>
+						<td
+							>Weather condition as a numeric code. Follow WMO weather interpretation codes. See
+							table below for details. Weather code is calculated from cloud cover analysis,
+							precipitation, snowfall, cape, lifted index and gusts.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">precipitation</th>
+						<td>Preceding hour sum</td>
+						<td>mm (inch)</td>
+						<td>Total precipitation (rain, showers, snow) sum of the preceding hour</td>
+					</tr>
+					<tr>
+						<th scope="row">snowfall</th>
+						<td>Preceding hour sum</td>
+						<td>cm (inch)</td>
+						<td
+							>Snowfall amount of the preceding hour in centimeters. For the water equivalent in
+							millimeter, divide by 7. E.g. 7 cm snow = 10 mm precipitation water equivalent</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">precipitation_probability</th>
+						<td>Preceding hour probability</td>
+						<td>%</td>
+						<td
+							>Probability of precipitation with more than 0.1 mm of the preceding hour. Probability
+							is based on ensemble weather models with 0.25° (~27 km) resolution. 30 different
+							simulations are computed to better represent future weather conditions.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">snow_depth</th>
+						<td>Instant</td>
+						<td>meters</td>
+						<td>Snow depth on the ground</td>
+					</tr>
+					<tr>
+						<th scope="row">freezing_level_height</th>
+						<td>Instant</td>
+						<td>meters</td>
+						<td>Altitude above sea level of the 0°C level</td>
+					</tr>
+					<tr>
+						<th scope="row">visibility</th>
+						<td>Instant</td>
+						<td>meters</td>
+						<td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
+					</tr>
+					<tr>
+						<th scope="row">cape</th>
+						<td>Instant</td>
+						<td>J/kg</td>
+						<td
+							>Convective available potential energy. See <a
+								href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
+								target="_blank">Wikipedia</a
+							>.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">lifted_index</th>
+						<td>Instant</td>
+						<td>dimensionless</td>
+						<td
+							>Atmospheric stability. See <a
+								href="https://en.wikipedia.org/wiki/Lifted_index"
+								target="_blank">Wikipedia</a
+							>.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">
+							soil_temperature_0_to_10cm<br />soil_temperature_10_to_40cm<br
+							/>soil_temperature_40_to_100cm<br />soil_temperature_100_to_200cm
+						</th>
+						<td>Instant</td>
+						<td>°C (°F)</td>
+						<td
+							>Temperature in the soil as an average on 0-10, 10-40, 40-100 and 100-200 cm depths.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">
+							soil_moisture_0_to_10cm<br />soil_moisture_10_to_40cm<br
+							/>soil_moisture_40_to_100cm<br />soil_moisture_100_to_200cm
+						</th>
+						<td>Instant</td>
+						<td>m³/m³</td>
+						<td
+							>Average soil water content as volumetric mixing ratio at 0-10, 10-40, 40-100 and
+							100-200 cm depths.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- API DOCS - 15 MIN -->
+<div class="mt-6 md:mt-12">
+	<a href="#15_minutely_parameter_definition"
+		><h3 id="15_minutely_parameter_definition" class="text-xl md:text-2xl">
+			15-Minutely Parameter Definition
+		</h3></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
+			on the HRRR model which is only available in North America. If 15-minutely data is requested for
+			locations outside North America, data is interpolated from 1-hourly to 15-minutely.
+		</p>
+		<p>
+			15-minutely data can be requested for other weather variables that are available for hourly
+			data, but will use interpolation.
+		</p>
+
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-300">
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Valid time</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">temperature_2m</th>
+						<td>Instant</td>
+						<td>°C (°F)</td>
+						<td>Air temperature at 2 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row">relative_humidity_2m</th>
+						<td>Instant</td>
+						<td>%</td>
+						<td>Relative humidity at 2 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row">dew_point_2m</th>
+						<td>Instant</td>
+						<td>°C (°F)</td>
+						<td>Dew point temperature at 2 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row">apparent_temperature</th>
+						<td>Instant</td>
+						<td>°C (°F)</td>
+						<td
+							>Apparent temperature is the perceived feels-like temperature combining wind chill
+							factor, relative humidity and solar radiation</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">wind_speed_10m<br />wind_speed_80m</th>
+						<td>Instant</td>
+						<td>km/h (mph, m/s, knots)</td>
+						<td
+							>Wind speed at 10 or 80 meters above ground. Wind speed on 10 meters is the standard
+							level.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_direction_10m<br />wind_direction_80m</th>
+						<td>Instant</td>
+						<td>°</td>
+						<td>Wind direction at 10 or 80 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_gusts_10m</th>
+						<td>Preceding 15 minutes max</td>
+						<td>km/h (mph, m/s, knots)</td>
+						<td>Gusts at 10 meters above ground as a maximum of the preceding 15 minutes</td>
+					</tr>
+					<tr>
+						<th scope="row">shortwave_radiation</th>
+						<td>Preceding 15 minutes mean</td>
+						<td>W/m²</td>
+						<td
+							>Shortwave solar radiation as average of the preceding 15 minutes. This is equal to
+							the total global horizontal irradiation
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">direct_radiation<br />direct_normal_irradiance</th>
+						<td>Preceding 15 minutes mean</td>
+						<td>W/m²</td>
+						<td
+							>Direct solar radiation as average of the preceding 15 minutes on the horizontal plane
+							and the normal plane (perpendicular to the sun)</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">diffuse_radiation</th>
+						<td>Preceding 15 minutes mean</td>
+						<td>W/m²</td>
+						<td>Diffuse solar radiation as average of the preceding 15 minutes</td>
+					</tr>
+					<tr>
+						<th scope="row">global_tilted_irradiance</th>
+						<td>Preceding 15 minutes mean</td>
+						<td>W/m²</td>
+						<td
+							>Total radiation received on a tilted pane as average of the preceding 15 minutes. The
+							calculation is assuming a fixed albedo of 20% and in isotropic sky. Please specify
+							tilt and azimuth parameter. Tilt ranges from 0° to 90° and is typically around 45°.
+							Azimuth should be close to 0° (0° south, -90° east, 90° west, ±180 north). If azimuth
+							is set to "nan", the calculation assumes a vertical tracker (east-west). If tilt is
+							set to "nan", it is assumed that the panel has a horizontal tracker (up-down). If both
+							are set to "nan", a bi-axial tracker is assumed.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">sunshine_duration</th>
+						<td>Preceding 15 minutes sum</td>
+						<td>Seconds</td>
+						<td
+							>Number of seconds of sunshine of the preceding 15-minutes per hour calculated by
+							direct normalized irradiance exceeding 120 W/m², following the WMO definition.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">precipitation</th>
+						<td>Preceding 15 minutes sum</td>
+						<td>mm (inch)</td>
+						<td>Total precipitation (rain, showers, snow) sum of the preceding 15 minutes</td>
+					</tr>
+					<tr>
+						<th scope="row">snowfall</th>
+						<td>Preceding 15 minutes sum</td>
+						<td>cm (inch)</td>
+						<td
+							>Snowfall amount of the preceding 15 minutes in centimeters. For the water equivalent
+							in millimeter, divide by 7. E.g. 7 cm snow = 10 mm precipitation water equivalent</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">rain</th>
+						<td>Preceding 15 minutes sum</td>
+						<td>mm (inch)</td>
+						<td>Rain from large scale weather systems of the preceding 15 minutes in millimeter</td>
+					</tr>
+					<tr>
+						<th scope="row">cape</th>
+						<td>Instant</td>
+						<td>J/kg</td>
+						<td
+							>Convective available potential energy. See <a
+								href="https://en.wikipedia.org/wiki/Convective_available_potential_energy"
+								target="_blank">Wikipedia</a
+							>.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">visibility</th>
+						<td>Instant</td>
+						<td>meters</td>
+						<td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
+					</tr>
+					<tr>
+						<th scope="row">weather_code</th>
+						<td>Instant</td>
+						<td>WMO code</td>
+						<td
+							>Weather condition as a numeric code. Follow WMO weather interpretation codes. See
+							table below for details.</td
+						>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- API DOCS - PRESSURE -->
+<div class="mt-6 md:mt-12">
+	<a href="#pressure_level_variables"
+		><h3 id="pressure_level_variables" class="text-xl md:text-2xl">Pressure Level Variables</h3></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			Pressure level variables do not have fixed altitudes. Altitude varies with atmospheric
+			pressure. 1000 hPa is roughly between 60 and 160 meters above sea level. Estimated altitudes
+			are given below. Altitudes are in meters above sea level (not above ground). For precise
+			altitudes, <mark>geopotential_height</mark> can be used.
+		</p>
+
+		<PressureLevelsHelpTable {levels} />
+		<p class="text-muted-foreground">
+			All pressure levels have valid times of the indicated hour (instant).
+		</p>
+
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-250">
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">weather_code</th>
+						<td>WMO code</td>
+						<td>The most severe weather condition on a given day</td>
+					</tr>
+					<tr>
+						<th scope="row">temperature_1000hPa<br />temperature_975hPa, ...</th>
+						<td>°C (°F)</td>
+						<td
+							>Air temperature at the specified pressure level. Air temperatures decrease linearly
+							with pressure.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">relative_humidity_1000hPa<br />relative_humidity_975hPa, ...</th>
+						<td>%</td>
+						<td>Relative humidity at the specified pressure level.</td>
+					</tr>
+					<tr>
+						<th scope="row">dew_point_1000hPa<br />dew_point_975hPa, ...</th>
+						<td>°C (°F)</td>
+						<td>Dew point temperature at the specified pressure level.</td>
+					</tr>
+					<tr>
+						<th scope="row">cloud_cover_1000hPa<br />cloud_cover_975hPa, ...</th>
+						<td>%</td>
+						<td
+							>Cloud cover at the specified pressure level. GFS is including parameterised cloud
+							cover directly. HRRR cloud cover is approximated based on relative humidity using <a
+								href="https://www.ecmwf.int/sites/default/files/elibrary/2005/16958-parametrization-cloud-cover.pdf"
+								target="_blank">Sundqvist et al. (1989)</a
+							>. It may not match perfectly with low, mid and high cloud cover variables.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">wind_speed_1000hPa<br />wind_speed_975hPa, ...</th>
+						<td>km/h (mph, m/s, knots)</td>
+						<td>Wind speed at the specified pressure level.</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_direction_1000hPa<br />wind_direction_975hPa, ...</th>
+						<td>°</td>
+						<td>Wind direction at the specified pressure level.</td>
+					</tr>
+					<tr>
+						<th scope="row">geopotential_height_1000hPa<br />geopotential_height_975hPa, ...</th>
+						<td>meter</td>
+						<td
+							>Geopotential height at the specified pressure level. This can be used to get the
+							correct altitude in meter above sea level of each pressure level. Be careful not to
+							mistake it with altitude above ground.
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- API DOCS - DAILY -->
+<div class="mt-6 md:mt-12">
+	<a href="#daily_parameter_definition"
+		><h3 id="daily_parameter_definition" class="text-xl md:text-2xl">
+			Daily Parameter Definition
+		</h3></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p>
+			Aggregations are a simple 24 hour aggregation from hourly values. The parameter <mark
+				>&daily=</mark
+			> accepts the following values:
+		</p>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-250">
+				<thead>
+					<tr>
+						<th scope="col">Variable</th>
+						<th scope="col">Unit</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">temperature_2m_max<br />temperature_2m_min</th>
+						<td>°C (°F)</td>
+						<td>Maximum and minimum daily air temperature at 2 meters above ground</td>
+					</tr>
+					<tr>
+						<th scope="row">apparent_temperature_max<br />apparent_temperature_min</th>
+						<td>°C (°F)</td>
+						<td>Maximum and minimum daily apparent temperature</td>
+					</tr>
+					<tr>
+						<th scope="row">precipitation_sum</th>
+						<td>mm</td>
+						<td>Sum of daily precipitation (including rain, showers and snowfall)</td>
+					</tr>
+					<tr>
+						<th scope="row">snowfall_sum</th>
+						<td>cm</td>
+						<td>Sum of daily snowfall</td>
+					</tr>
+					<tr>
+						<th scope="row">precipitation_hours</th>
+						<td>hours</td>
+						<td>The number of hours with rain</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							>precipitation_probability_max<br />precipitation_probability_min<br
+							/>precipitation_probability_mean</th
+						>
+						<td>%</td>
+						<td>Probability of precipitation</td>
+					</tr>
+
+					<tr>
+						<th scope="row">sunrise<br />sunset</th>
+						<td>iso8601</td>
+						<td>Sun rise and set times</td>
+					</tr>
+					<tr>
+						<th scope="row">sunshine_duration</th>
+						<td>seconds</td>
+						<td
+							>The number of seconds of sunshine per day is determined by calculating direct
+							normalized irradiance exceeding 120 W/m², following the WMO definition. Sunshine
+							duration will consistently be less than daylight duration due to dawn and dusk.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">daylight_duration</th>
+						<td>seconds</td>
+						<td>Number of seconds of daylight per day</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_speed_10m_max<br />wind_gusts_10m_max</th>
+						<td>km/h (mph, m/s, knots)</td>
+						<td>Maximum wind speed and gusts on a day</td>
+					</tr>
+					<tr>
+						<th scope="row">wind_direction_10m_dominant</th>
+						<td>°</td>
+						<td>Dominant wind direction</td>
+					</tr>
+					<tr>
+						<th scope="row">shortwave_radiation_sum</th>
+						<td>MJ/m²</td>
+						<td>The sum of solar radiation on a given day in Megajoules</td>
+					</tr>
+					<tr>
+						<th scope="row">et0_fao_evapotranspiration</th>
+						<td>mm</td>
+						<td>Daily sum of ET₀ Reference Evapotranspiration of a well watered grass field</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- API DOCS - JSON -->
+<div class="mt-6 md:mt-12">
+	<a href="#json_return_object"
+		><h3 id="json_return_object" class="text-xl md:text-2xl">JSON Return Object</h3></a
+	>
+	<div class="mt-2 md:mt-4">
+		<p class="">On success a JSON object will be returned.</p>
+		<div
+			class="pregenerated-code code-numbered -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+		>
+			<WeatherForecastObject />
+		</div>
+		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<table class="docs-table w-full min-w-250">
+				<thead>
+					<tr>
+						<th scope="col">Parameter</th>
+						<th scope="col">Format</th>
+						<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">latitude, longitude</th>
+						<td>Floating point</td>
+						<td
+							>WGS84 of the center of the weather grid-cell which was used to generate this
+							forecast. This coordinate might be a few kilometres away from the requested
+							coordinate.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">elevation</th>
+						<td>Floating point</td>
+						<td
+							>The elevation from a 90 meter digital elevation model. This effects which grid-cell
+							is selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is
+							used to adapt weather conditions for this elevation. This elevation can also be
+							controlled with the query parameter <mark>elevation</mark>. If
+							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the average grid-cell
+							elevation is used.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">generationtime_ms</th>
+						<td>Floating point</td>
+						<td
+							>Generation time of the weather forecast in milliseconds. This is mainly used for
+							performance monitoring and improvements.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">utc_offset_seconds</th>
+						<td>Integer</td>
+						<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
+					</tr>
+					<tr>
+						<th scope="row">timezone<br />timezone_abbreviation</th>
+						<td>String</td>
+						<td
+							>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
+							<mark>CEST</mark>)</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">hourly</th>
+						<td>Object</td>
+						<td
+							>For each selected weather variable, data will be returned as a floating point array.
+							Additionally a
+							<mark>time</mark> array will be returned with ISO8601 timestamps.
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">hourly_units</th>
+						<td>Object</td>
+						<td>For each selected weather variable, the unit will be listed here.</td>
+					</tr>
+					<tr>
+						<th scope="row">daily</th>
+						<td>Object</td>
+						<td
+							>For each selected daily weather variable, data will be returned as a floating point
+							array. Additionally a <mark>time</mark> array will be returned with ISO8601 timestamps.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">daily_units</th>
+						<td>Object</td>
+						<td>For each selected daily weather variable, the unit will be listed here.</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<!-- API DOCS - ERRORS -->
+<div class="mt-6 md:mt-12">
+	<a href="#errors"><h3 id="errors" class="text-xl md:text-2xl">Errors</h3></a>
+	<div class="mt-2 md:mt-4">
+		<p>
+			In case an error occurs, for example a URL parameter is not correctly specified, a JSON error
+			object is returned with a HTTP 400 status code.
+		</p>
+		<div
+			class="pregenerated-code -mx-6 mt-2 overflow-auto rounded-lg bg-[#FAFAFA] md:mt-4 md:ml-0 lg:mx-0 dark:bg-[#212121]"
+		>
+			<WeatherForecastError />
+		</div>
+	</div>
+</div>
+
+<!-- WEATHER VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#weather_variable_documentation"
+		><h2 id="weather_variable_documentation" class="text-2xl md:text-3xl">
+			Weather variable documentation
+		</h2></a
+	>
+	<WmoCodesTable />
+</div>

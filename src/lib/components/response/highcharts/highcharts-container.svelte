@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
+	import { get } from 'svelte/store';
 
 	import { mode } from 'mode-watcher';
 
 	import { dev } from '$app/environment';
+
+	import { animationsDisabled } from '$lib/stores/settings';
 
 	import './highcharts.css';
 
@@ -24,6 +27,7 @@
 
 	let node: HTMLElement;
 	let chart: Highcharts.Chart | undefined;
+	let destroyed = false;
 
 	onMount(async () => {
 		/// Highcharts needs to be loaded in `onMount` to work with prerendered SSG
@@ -41,8 +45,18 @@
 			Debugger.compose(Highcharts.Chart);
 		}
 		//HighchartsAccessibility(Highcharts);
+		if (destroyed) {
+			// Component was destroyed while the dynamic import was pending; creating
+			// the chart now would leak it on a detached node
+			return;
+		}
 		options.chart = options.chart || {};
 		options.chart.styledMode = true;
+		if (get(animationsDisabled)) {
+			options.chart.animation = false;
+			options.plotOptions = options.plotOptions || {};
+			options.plotOptions.series = { ...options.plotOptions.series, animation: false };
+		}
 		options.lang = {
 			locale: 'en-GB'
 		};
@@ -66,8 +80,15 @@
 	});
 
 	onDestroy(() => {
-		if (chart) {
-			chart.destroy();
+		destroyed = true;
+		// Defer the teardown: when the surrounding pane is removed with an out
+		// transition, onDestroy fires immediately while the DOM keeps fading —
+		// destroying the chart right away rips the graph out of the still
+		// visible pane and collapses it. Destroying on a detached node is fine.
+		const c = chart;
+		chart = undefined;
+		if (c) {
+			setTimeout(() => c.destroy(), 500);
 		}
 	});
 </script>

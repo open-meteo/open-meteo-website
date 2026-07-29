@@ -1,13 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { fade } from 'svelte/transition';
 
 	import { apiKeyPreferences } from '$lib/stores/settings';
+
+	import { fade } from '$lib/utils/transitions';
+	import { fadeOutAbsolute } from '$lib/utils/transitions';
 
 	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
+
+	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
 
 	interface Props {
 		requires_professional_plan?: boolean;
@@ -70,9 +74,9 @@
 			</Button>
 		</div>
 	</div>
-	<div class="relative mt-3 md:mt-6 min-h-12">
+	<AnimateHeight class="relative mt-3 min-h-12 md:mt-6">
 		{#if licenceSelected === 'non_commercial'}
-			<div in:fade>
+			<div in:fade={{ duration: 250, delay: 50 }} out:fadeOutAbsolute={{ duration: 200 }}>
 				<Alert.Root variant="info">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +100,11 @@
 				</Alert.Root>
 			</div>
 		{:else if licenceSelected === 'commercial'}
-			<div in:fade class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6">
+			<div
+				in:fade={{ duration: 250, delay: 50 }}
+				out:fadeOutAbsolute={{ duration: 200 }}
+				class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6"
+			>
 				<div class="relative flex">
 					<Input
 						id="apikey"
@@ -134,7 +142,11 @@
 				</div>
 			</div>
 		{:else if licenceSelected === 'self_hosted'}
-			<div in:fade class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6">
+			<div
+				in:fade={{ duration: 250, delay: 50 }}
+				out:fadeOutAbsolute={{ duration: 200 }}
+				class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-6"
+			>
 				<div class="relative flex">
 					<Input
 						id="self_host_server"
@@ -145,7 +157,7 @@
 					/>
 					<Label
 						class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-						for="apikey">Server URL</Label
+						for="self_host_server">Server URL</Label
 					>
 				</div>
 				<div class="md:col-span-2">
@@ -174,5 +186,5 @@
 				</div>
 			</div>
 		{/if}
-	</div>
+	</AnimateHeight>
 </div>

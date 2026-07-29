@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { slide } from 'svelte/transition';
 
 	import { browser } from '$app/environment';
 
-	import { debounce } from '$lib/utils';
+	import { debounce, todayUTC } from '$lib/utils';
+	import { slide } from '$lib/utils/transitions';
 
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
@@ -20,11 +20,9 @@
 		end_date?: string;
 	}
 
-	const now = new Date();
-
 	let {
 		beginDate = new Date('1940-01-01'),
-		lastDate = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`),
+		lastDate = todayUTC(),
 		start_date = $bindable(),
 		end_date = $bindable()
 	}: Props = $props();
@@ -66,6 +64,8 @@
 			);
 
 			if (inputDiv) observer.observe(inputDiv);
+
+			return () => observer.disconnect();
 		}
 	});
 
@@ -75,11 +75,12 @@
 
 <div>
 	<Popover.Root bind:open={popoverOpen}>
+		<!-- type="button" keeps clicks from submitting the surrounding GET form -->
 		<button
 			bind:this={inputFields}
+			type="button"
 			class="relative flex w-full cursor-pointer flex-col gap-x-6 gap-y-3 md:flex-row"
-			onclick={(e) => {
-				e.preventDefault();
+			onclick={() => {
 				if (!popoverOpen) {
 					popoverOpen = true;
 				}
@@ -87,13 +88,13 @@
 		>
 			<div
 				bind:this={inputDiv}
-				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen &&
+				class="border-border ring-offset-background relative flex h-12 w-full rounded-md border px-3 pt-6 {popoverOpen &&
 				selectStartDate
 					? 'ring-ring ring-2 ring-offset-2'
 					: ''}"
 			>
 				<svg
-					class="lucide lucide-calendar mt-px mr-1"
+					class="lucide lucide-calendar mr-1 -mt-2 self-center"
 					xmlns="http://www.w3.org/2000/svg"
 					width="16"
 					height="16"
@@ -112,7 +113,7 @@
 
 				<Input
 					id="start_date_input"
-					class="m-0 -mt-2 h-[unset] border-none p-0 ring-0! ring-offset-0!"
+					class="m-0 h-[unset] -mt-2 border-none p-0 ring-0! ring-offset-0!"
 					type="text"
 					value={start_date}
 					onfocus={() => {
@@ -123,7 +124,7 @@
 						if (
 							target &&
 							String(new Date(target.value)) !== 'Invalid Date' &&
-							new Date(target.value).getUTCFullYear() > 1940
+							new Date(target.value).getUTCFullYear() >= 1940
 						) {
 							start_date = new Date(target.value).toISOString().split('T')[0];
 						}
@@ -137,19 +138,19 @@
 			{#if (start_date && new Date(start_date).getTime() < beginDate.getTime() - 24 * 60 * 60 * 1000) || (start_date && new Date(start_date).getTime() > lastDate.getTime() + 24 * 60 * 60 * 1000)}
 				<div
 					transition:slide
-					class="-my-1 flex text-sm text-red-800 md:absolute md:top-15 md:left-3"
+					class="-my-1 flex text-sm text-red-800 md:absolute md:top-14 md:left-3"
 				>
 					Start date invalid
 				</div>
 			{/if}
 			<div
-				class="border-border ring-offset-background relative flex h-13 w-full rounded-md border px-3 pt-6 {popoverOpen &&
+				class="border-border ring-offset-background relative flex h-12 w-full rounded-md border px-3 pt-6 {popoverOpen &&
 				!selectStartDate
 					? 'ring-ring ring-2 ring-offset-2'
 					: ''}"
 			>
 				<svg
-					class="lucide lucide-calendar mt-px mr-1"
+					class="lucide lucide-calendar mr-1 -mt-2 self-center"
 					xmlns="http://www.w3.org/2000/svg"
 					width="16"
 					height="16"
@@ -168,7 +169,7 @@
 
 				<Input
 					id="end_date_input"
-					class="m-0 -mt-2 h-[unset] border-none p-0 ring-0! ring-offset-0!"
+					class="m-0 h-[unset] -mt-2 border-none p-0 ring-0! ring-offset-0!"
 					type="text"
 					value={end_date}
 					onfocus={() => {
@@ -179,7 +180,7 @@
 						if (
 							target &&
 							String(new Date(target.value)) !== 'Invalid Date' &&
-							new Date(target.value).getUTCFullYear() > 1940
+							new Date(target.value).getUTCFullYear() >= 1940
 						) {
 							end_date = new Date(target.value).toISOString().split('T')[0];
 						}
@@ -193,20 +194,21 @@
 			{#if (end_date && new Date(end_date).getTime() < beginDate.getTime()) || (end_date && new Date(end_date).getTime() > lastDate.getTime() + 24 * 60 * 60 * 1000)}
 				<div
 					transition:slide
-					class="-my-1 flex text-sm text-red-800 md:absolute md:top-15 md:left-[calc(50%+1.5rem)]"
+					class="-my-1 flex text-sm text-red-800 md:absolute md:top-14 md:left-[calc(50%+1.5rem)]"
 				>
 					End date invalid
 				</div>
 			{:else if end_date && start_date && new Date(end_date).getTime() < new Date(start_date).getTime()}
 				<div
 					transition:slide
-					class="-my-1 flex text-sm text-red-800 md:absolute md:top-15 md:left-[calc(50%+1.5rem)]"
+					class="-my-1 flex text-sm text-red-800 md:absolute md:top-14 md:left-[calc(50%+1.5rem)]"
 				>
 					End date before Start date
 				</div>
 			{/if}
 		</button>
-		<Popover.Trigger class="h-0 w-0"></Popover.Trigger>
+		<!-- block keeps the zero-sized trigger from adding an empty text line below the fields -->
+		<Popover.Trigger class="block h-0 w-0"></Popover.Trigger>
 		<Popover.Content
 			onCloseAutoFocus={(e) => {
 				e.preventDefault();

@@ -1,6 +1,6 @@
 import type { LayoutLoad } from './$types';
 
-export const load: LayoutLoad = async () => {
+export const load = (() => {
 	return {
 		heroTitle: 'Satellite Radiation API',
 		heroDescription: 'Real-time Solar Irradiance From Multiple Satellites',
@@ -11,4 +11,4 @@ export const load: LayoutLoad = async () => {
 		heroSecondaryButtonPath: null,
 		heroSecondaryButtonText: null
 	};
-};
+}) satisfies LayoutLoad;

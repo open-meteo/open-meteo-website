@@ -11,5 +11,15 @@
 		"strict": true,
 		"moduleResolution": "bundler"
 	},
-	"include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte", "cypress/**/*.ts"]
+	"include": [
+		".svelte-kit/ambient.d.ts",
+		".svelte-kit/env.d.ts",
+		".svelte-kit/non-ambient.d.ts",
+		".svelte-kit/types/**/$types.d.ts",
+		"vite.config.ts",
+		"eslint.config.ts",
+		"src/**/*.ts",
+		"src/**/*.js",
+		"src/**/*.svelte"
+	]
 }

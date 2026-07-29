@@ -3,10 +3,6 @@ export const titleCase = (s: string) =>
 
 export const camelCase = (s: string) => s.replace(/[-_]+(.)/g, (_, c) => c.toUpperCase());
 
-export const capitalizeFirstLetter = (str: string) => {
-	return String(str).charAt(0).toUpperCase() + String(str).slice(1);
-};
-
 export const isNumeric = (num: string | number) =>
 	(typeof num === 'number' || (typeof num === 'string' && num.trim() !== '')) &&
 	!isNaN(num as number);
@@ -16,6 +12,12 @@ export const pad = (n: string | number) => {
 		return '';
 	}
 	return ('0' + n).slice(-2);
+};
+
+/** Midnight UTC of the current day */
+export const todayUTC = () => {
+	const now = new Date();
+	return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
 };
 
 export function debounce<T extends (...args: Parameters<T>) => void>(

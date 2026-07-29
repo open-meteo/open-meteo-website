@@ -166,7 +166,7 @@ ${line(fg(`${section} `) + kw('=') + fg(' response') + pm('.') + fn(titleCase(se
 			if (sdk_type === 'ensemble_api' && section !== 'monthly' && section !== 'weekly') {
 				// Ensemble: get variables list via map/lambda
 				c += `
-${line(fg(`${section}_variables `) + kw('=') + num(' list') + pm('(') + fn('map') + pm('(') + acc('lambda') + par(' i') + p(`${section}.`) + fn('Variables') + pm(`(${fg('i')}), `) + fn('range') + pm('(') + num('0') + p(`, ${section}.`) + fn('VariablesLength') + pm('())))'), indent)}`;
+${line(fg(`${section}_variables `) + kw('=') + num(' list') + pm('(') + fn('map') + pm('(') + acc('lambda') + par(' i') + p(`: ${section}.`) + fn('Variables') + pm(`(${fg('i')}), `) + fn('range') + pm('(') + num('0') + p(`, ${section}.`) + fn('VariablesLength') + pm('())))'), indent)}`;
 
 				if (sect.constructor === Array) {
 					for (const variable of sect) {
@@ -175,7 +175,7 @@ ${line(fg(`${section}_${variable} `) + kw('=') + fn(' filter') + pm('(') + acc('
 					}
 				} else if (typeof sect === 'string') {
 					c += `
-${line(fg(`${section}_${sect} `) + kw('=') + fn(' filter') + pm('(') + acc('lambda') + par(' x') + p(': x.') + fn('Variable') + pm('() ') + kw('==') + p(' Variable.temperature ') + kwi('and') + p(' x.') + fn('Altitude') + pm('() ') + kw('==') + num(' 2') + p(`, ${section}_variables)`), indent)}\t`;
+${line(fg(`${section}_${sect} `) + kw('=') + fn(' filter') + pm('(') + acc('lambda') + par(' x') + p(': ') + buildFilterCondition(sect) + p(`, ${section}_variables)`), indent)}`;
 				}
 			} else {
 				if (sect.constructor === Array) {

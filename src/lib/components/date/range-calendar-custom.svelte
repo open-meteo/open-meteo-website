@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { SvelteDate } from 'svelte/reactivity';
-	import { scale } from 'svelte/transition';
 
-	import { pad } from '$lib/utils';
+	import { todayUTC } from '$lib/utils';
+	import { scale } from '$lib/utils/transitions';
 
 	import { Button } from '$lib/components/ui/button';
 
@@ -20,21 +20,12 @@
 		start_date = $bindable(''),
 		end_date = $bindable(''),
 		beginDate = new Date('1940-01-01'),
-		lastDate = new Date(`${now.getUTCFullYear()}-${now.getUTCMonth() + 1}-${now.getUTCDate()}`),
+		lastDate = todayUTC(),
 		selectStartDate = $bindable(true)
 	}: Props = $props();
 
-	let startDate = $state(new Date(start_date));
-	let endDate = $state(new Date(end_date));
-
-	$effect(() => {
-		let newDate = new Date(start_date);
-		startDate = newDate;
-	});
-	$effect(() => {
-		let newDate = new Date(end_date);
-		endDate = newDate;
-	});
+	const startDate = $derived(new Date(start_date));
+	const endDate = $derived(new Date(end_date));
 
 	let yearModeStart = $state(false);
 	let monthModeStart = $state(false);
@@ -157,7 +148,7 @@
 			>
 			<Button
 				variant="ghost"
-				class="px-6 py-4"
+				class="w-40 px-0 py-4"
 				onclick={() => {
 					if (monthModeStart) {
 						yearModeStart = true;
@@ -168,8 +159,13 @@
 						}, 200);
 					}
 					monthModeStart = true;
-				}}>{startDate.getUTCFullYear()} - {monthList[startDate.getUTCMonth()]}</Button
+				}}
 			>
+				<!-- fixed-width parts keep the label from moving when the month name changes -->
+				<span class="w-11 text-right tabular-nums">{startDate.getUTCFullYear()}</span>
+				<span>-</span>
+				<span class="w-24 text-left">{monthList[startDate.getUTCMonth()]}</span>
+			</Button>
 			<Button variant="outline" class="mr-6 px-3 md:mr-0" onclick={increaseStart}
 				><svg
 					class="lucide lucide-chevron-right"
@@ -187,7 +183,7 @@
 				</svg>
 			</Button>
 		</div>
-		<div class="flex max-h-75 min-h-45 min-w-85 justify-center overflow-y-auto">
+		<div class="flex h-70 w-85 items-start justify-center overflow-y-auto">
 			{#if yearModeStart}
 				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-cols-4">
 					{#each yearList as year (year)}
@@ -211,10 +207,9 @@
 						<Button
 							class={monthList[startDate.getUTCMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={new Date(`${startDate.getUTCFullYear()}-${pad(i + 1)}-30`).getTime() <
+							disabled={new Date(Date.UTC(startDate.getUTCFullYear(), i + 1, 0)).getTime() <
 								beginDate.getTime() ||
-								new Date(`${startDate.getUTCFullYear()}-${pad(i + 1)}-01`).getTime() >
-									lastDate.getTime()}
+								new Date(Date.UTC(startDate.getUTCFullYear(), i, 1)).getTime() > lastDate.getTime()}
 							onclick={() => {
 								monthModeStart = false;
 								selectStartDate = true;
@@ -226,11 +221,12 @@
 					{/each}
 				</div>
 			{:else}
-				<div class="min-h-70">
+				<div>
+					<!-- fixed width keeps the 1fr columns from resizing with font metrics (e.g. bold today) -->
 					<div
 						id="start_date_days"
 						in:scale={{ start: 0.8, duration: 300 }}
-						class="grid grid-cols-5"
+						class="grid w-70 grid-cols-5"
 					>
 						{#each startDates as date (date.getTime())}
 							<Button
@@ -287,7 +283,7 @@
 			>
 			<Button
 				variant="ghost"
-				class="px-6 py-4"
+				class="w-40 px-0 py-4"
 				onclick={() => {
 					if (monthModeEnd) {
 						yearModeEnd = true;
@@ -298,8 +294,12 @@
 						}, 200);
 					}
 					monthModeEnd = true;
-				}}>{endDate.getUTCFullYear()} - {monthList[endDate.getUTCMonth()]}</Button
+				}}
 			>
+				<span class="w-11 text-right tabular-nums">{endDate.getUTCFullYear()}</span>
+				<span>-</span>
+				<span class="w-24 text-left">{monthList[endDate.getUTCMonth()]}</span>
+			</Button>
 			<Button variant="outline" class="px-3 md:mr-8" onclick={increaseEnd}
 				><svg
 					class="lucide lucide-chevron-right"
@@ -317,7 +317,7 @@
 				</svg>
 			</Button>
 		</div>
-		<div class="flex max-h-75 min-h-45 min-w-85 justify-center overflow-y-auto">
+		<div class="flex h-70 w-85 items-start justify-center overflow-y-auto">
 			{#if yearModeEnd}
 				<div in:scale={{ start: 0.8, duration: 200 }} class="grid grid-cols-4">
 					{#each yearList as year (year)}
@@ -341,10 +341,9 @@
 						<Button
 							class={monthList[endDate.getUTCMonth()] === month ? 'bg-accent/75' : ''}
 							variant="ghost"
-							disabled={new Date(`${endDate.getUTCFullYear()}-${pad(i + 1)}-30`).getTime() <
+							disabled={new Date(Date.UTC(endDate.getUTCFullYear(), i + 1, 0)).getTime() <
 								beginDate.getTime() ||
-								new Date(`${endDate.getUTCFullYear()}-${pad(i + 1)}-01`).getTime() >
-									lastDate.getTime()}
+								new Date(Date.UTC(endDate.getUTCFullYear(), i, 1)).getTime() > lastDate.getTime()}
 							onclick={() => {
 								monthModeEnd = false;
 								selectStartDate = false;
@@ -356,8 +355,8 @@
 					{/each}
 				</div>
 			{:else}
-				<div class="min-h-45">
-					<div in:scale={{ start: 0.8, duration: 300 }} class="grid grid-cols-5">
+				<div>
+					<div in:scale={{ start: 0.8, duration: 300 }} class="grid w-70 grid-cols-5">
 						{#each endDates as date (date.getTime())}
 							<Button
 								class="duration-200 rounded-lg border-2 border-transparent hover:border-foreground/50

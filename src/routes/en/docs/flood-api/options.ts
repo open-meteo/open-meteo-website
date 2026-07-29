@@ -49,5 +49,6 @@ export const forecastDaysOptions = [
 	{ value: '14', label: '2 weeks' },
 	{ value: '31', label: '1 month' },
 	{ value: '92', label: '3 months (default)' },
-	{ value: '183', label: '6 months' }
+	{ value: '183', label: '6 months' },
+	{ value: '366', label: '12 months' }
 ];

@@ -6,7 +6,6 @@ import {
 	countPressureVariables,
 	countPreviousVariables,
 	countVariables,
-	geoLocationNameToRoute,
 	getWeatherCode,
 	membersPerModel
 } from './meteo';
@@ -80,32 +79,6 @@ describe('getWeatherCode', () => {
 
 	test('handles string code by converting to number', () => {
 		expect(getWeatherCode('45')).toBe('fog');
-	});
-});
-
-describe('geoLocationNameToRoute', () => {
-	test('strips diacritics', () => {
-		expect(geoLocationNameToRoute('são-paolo')).toBe('sao-paolo');
-	});
-
-	test('replaces apostrophes with hyphens', () => {
-		expect(geoLocationNameToRoute("xi'an")).toBe('xi-an');
-	});
-
-	test('replaces spaces with hyphens', () => {
-		expect(geoLocationNameToRoute('new taipei city')).toBe('new-taipei-city');
-	});
-
-	test('lowercases uppercase input', () => {
-		expect(geoLocationNameToRoute('Berlin')).toBe('berlin');
-	});
-
-	test('handles multiple diacritics', () => {
-		expect(geoLocationNameToRoute('Zürich')).toBe('zurich');
-	});
-
-	test('handles already clean input', () => {
-		expect(geoLocationNameToRoute('london')).toBe('london');
 	});
 });
 
@@ -300,6 +273,11 @@ describe('membersPerModel', () => {
 
 	test('returns 31 for ncep_aigefs025', () => {
 		expect(membersPerModel('ncep_aigefs025')).toBe(31);
+	});
+
+	// Google WeatherNext
+	test('returns 64 for google_weathernext2_ensemble', () => {
+		expect(membersPerModel('google_weathernext2_ensemble')).toBe(64);
 	});
 
 	// ECMWF

@@ -1,4 +1,3 @@
-//export const ssr = true;
 import Sun from '$lib/assets/icons/sun.svelte';
 
 import type { LayoutLoad } from './$types';

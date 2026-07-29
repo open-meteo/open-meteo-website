@@ -1,23 +1,22 @@
-<script>
+<script lang="ts">
 	import { mode } from 'mode-watcher';
 
 	import { page } from '$app/state';
 
-	import Button from '$lib/components/ui/button/button.svelte';
+	import { Button } from '$lib/components/ui/button';
 
 	import Logo from '$lib/assets/icons/rain.svelte';
 </script>
 
 <svelte:head>
 	<title>500 Error | Open-Meteo.com</title>
-	<link rel="canonical" href="https://open-meteo.com/en/about" />
 </svelte:head>
 
-<div class="h-[500px]">
+<div class="h-125">
 	<div
 		class="absolute -z-10 h-full w-full duration-300"
 		style="
-		  background-image: url('/images/features_background.webp');
+		  background-image: url('/images/backgrounds/features_background.webp');
           background-size: cover;
           background-position: center;
           height: 500px;

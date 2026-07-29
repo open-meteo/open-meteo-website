@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
-	import { fade } from 'svelte/transition';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
@@ -11,17 +10,17 @@
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 
 	import * as Accordion from '$lib/components/ui/accordion';
-	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Label } from '$lib/components/ui/label';
 	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
+	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		forecastHoursOptions,
@@ -46,11 +45,6 @@
 		...defaultParameters,
 		hourly: ['pm10', 'pm2_5']
 	});
-
-	let forecastDays = $derived(
-		forecastDaysOptions.find((fco) => fco.value == $params.forecast_days)
-	);
-	let pastDays = $derived(pastDaysOptions.find((pdo) => pdo.value == $params.past_days));
 
 	// Additional variable settings
 	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
@@ -112,157 +106,13 @@
 	<LocationSelection bind:params={$params} />
 
 	<!-- TIME -->
-	<div class="mt-6">
-		<div class="mt-3 flex items-center gap-2">
-			<div class="text-muted-foreground">Time:</div>
-
-			<div class="border-border flex rounded-md border">
-				<Button
-					variant="ghost"
-					class="gap-1 rounded-e-none opacity-100! duration-300 {$params.time_mode ===
-					'forecast_days'
-						? 'bg-accent cursor-not-allowed'
-						: ''}"
-					disabled={$params.time_mode === 'forecast_days'}
-					onclick={() => {
-						$params.time_mode = 'forecast_days';
-						$params.start_date = '';
-						$params.end_date = '';
-					}}
-				>
-					<svg
-						class="lucide lucide-clock mr-0.5"
-						xmlns="http://www.w3.org/2000/svg"
-						width="18"
-						height="18"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<circle cx="12" cy="12" r="10" />
-						<polyline points="12 6 12 12 16 14" />
-					</svg>Forecast Length
-				</Button>
-				<Button
-					variant="ghost"
-					class="gap-1 rounded-s-none opacity-100! duration-300  {$params.time_mode ===
-					'time_interval'
-						? 'bg-accent'
-						: ''}"
-					disabled={$params.time_mode === 'time_interval'}
-					onclick={() => {
-						$params.time_mode = 'time_interval';
-					}}
-				>
-					<svg
-						class="lucide lucide-calendar-cog mr-0.5"
-						xmlns="http://www.w3.org/2000/svg"
-						width="18"
-						height="18"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-					>
-						<path d="m15.2 16.9-.9-.4" />
-						<path d="m15.2 19.1-.9.4" />
-						<path d="M16 2v4" />
-						<path d="m16.9 15.2-.4-.9" />
-						<path d="m16.9 20.8-.4.9" />
-						<path d="m19.5 14.3-.4.9" />
-						<path d="m19.5 21.7-.4-.9" />
-						<path d="M21 10.5V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6" />
-						<path d="m21.7 16.5-.9.4" />
-						<path d="m21.7 19.5-.9-.4" />
-						<path d="M3 10h18" />
-						<path d="M8 2v4" />
-						<circle cx="18" cy="18" r="3" />
-					</svg>Time Interval
-				</Button>
-			</div>
-		</div>
-
-		<div class="mt-3 md:mt-4">
-			{#if $params.time_mode === 'forecast_days'}
-				<div in:fade class="grid gap-3 md:gap-6 lg:grid-cols-2">
-					<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
-						<div class="relative">
-							<Select.Root name="forecast_days" type="single" bind:value={$params.forecast_days}>
-								<Select.Trigger
-									aria-label="Forecast days input"
-									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
-									>{forecastDays?.label}</Select.Trigger
-								>
-								<Select.Content preventScroll={false} class="border-border">
-									{#each forecastDaysOptions as { value, label } (value)}
-										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
-									{/each}
-								</Select.Content>
-								<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-									>Forecast days</Label
-								>
-							</Select.Root>
-						</div>
-						<div class="relative">
-							<Select.Root name="past_days" type="single" bind:value={$params.past_days}>
-								<Select.Trigger
-									aria-label="Past days input"
-									class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
-								>
-								<Select.Content preventScroll={false} class="border-border">
-									{#each pastDaysOptions as { value, label } (value)}
-										<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
-									{/each}
-								</Select.Content>
-								<Label
-									class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>
-									Past days</Label
-								>
-							</Select.Root>
-						</div>
-					</div>
-
-					<div>
-						<p>
-							By default, we provide forecasts for 7 days, but you can access forecasts for up to 16
-							days. If you're interested in past weather data, you can use the <mark>Past Days</mark
-							>
-							feature to access archived forecasts.
-						</p>
-					</div>
-				</div>
-			{/if}
-			{#if $params.time_mode === 'time_interval'}
-				<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
-					<div class="mb-3 lg:w-1/2">
-						<DatePicker
-							bind:start_date={$params.start_date}
-							bind:end_date={$params.end_date}
-							{beginDate}
-							{lastDate}
-						/>
-					</div>
-					<div class="mb-3 lg:w-1/2">
-						<p>
-							The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range
-							of dates more easily. Archived forecasts come from a series of weather model runs over
-							time. You can access forecasts for up to 3 months and continuously archived in the
-							<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>. You can also
-							check out our
-							<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
-							data going all the way back to 1940.
-						</p>
-					</div>
-				</div>
-			{/if}
-		</div>
-	</div>
+	<TimeSelector
+		bind:params={$params}
+		{beginDate}
+		{lastDate}
+		{pastDaysOptions}
+		{forecastDaysOptions}
+	/>
 
 	<!-- HOURLY -->
 	<div class="mt-6 md:mt-12">
@@ -271,40 +121,13 @@
 				Hourly Air Quality Variables
 			</h2>
 		</a>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each hourly as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_hourly"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.hourly?.includes(value)}
-								aria-labelledby="{value}_label"
-								onCheckedChange={() => {
-									if ($params.hourly?.includes(value)) {
-										$params.hourly = $params.hourly.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.hourly) {
-										$params.hourly.push(value);
-										$params.hourly = $params.hourly;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_label"
-								for="{value}_hourly"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={hourly}
+			bind:values={$params.hourly}
+			idSuffix="hourly"
+			htmlLabels
+		/>
 		<small class="text-muted-foreground"
 			>* Only available in Europe during pollen season with 4 days forecast</small
 		>
@@ -322,36 +145,12 @@
 				title="European Air Quality Index"
 				count={countVariables(aqi_european, $params.hourly)}
 			>
-				{#each aqi_european as group, i (i)}
-					<div>
-						{#each group as { value, label } (value)}
-							<div class="group flex items-center" title={label}>
-								<Checkbox
-									id="{value}_hourly"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									{value}
-									checked={$params.hourly?.includes(value)}
-									aria-labelledby="{value}_label"
-									onCheckedChange={() => {
-										if ($params.hourly?.includes(value)) {
-											$params.hourly = $params.hourly.filter((item: string) => {
-												return item !== value;
-											});
-										} else if ($params.hourly) {
-											$params.hourly.push(value);
-											$params.hourly = $params.hourly;
-										}
-									}}
-								/>
-								<Label
-									id="{value}_label"
-									for="{value}_hourly"
-									class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
-								>
-							</div>
-						{/each}
-					</div>
-				{/each}
+				<VariableCheckboxGroups
+					groups={aqi_european}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+					htmlLabels
+				/>
 				<div>
 					<p>
 						<small class="text-muted-foreground"
@@ -365,18 +164,15 @@
 							>Pollutant thresholds in μg/m³ from the <a
 								href="https://www.eea.europa.eu/themes/air/air-quality-index"
 								>European Environment Agency (EAA)</a
-							> are given on the right. Particulate Matter (PM) is using a 24 hour roling average, while
-							gases use hourly values.</small
+							> are given on the right. Particulate Matter (PM) uses a rolling average over the preceding
+							24 hours, while gases use hourly values.</small
 						>
 					</p>
 				</div>
 				<div>
 					<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-						<table
-							class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[740px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-							id="airquality_table"
-						>
-							<caption class="text-muted-foreground mt-2 table-caption text-left"
+						<table class="docs-table w-full min-w-200" id="airquality_table">
+							<caption
 								>You can find the update timings in the <a
 									class="text-link underline"
 									href="/en/docs/model-updates">model updates documentation</a
@@ -456,36 +252,12 @@
 				title="United States Air Quality Index "
 				count={countVariables(aqi_united_states, $params.hourly)}
 			>
-				{#each aqi_united_states as group, i (i)}
-					<div>
-						{#each group as { value, label } (value)}
-							<div class="group flex items-center" title={label}>
-								<Checkbox
-									id="{value}_hourly"
-									class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-									{value}
-									checked={$params.hourly?.includes(value)}
-									aria-labelledby="{value}_label"
-									onCheckedChange={() => {
-										if ($params.hourly?.includes(value)) {
-											$params.hourly = $params.hourly.filter((item: string) => {
-												return item !== value;
-											});
-										} else if ($params.hourly) {
-											$params.hourly.push(value);
-											$params.hourly = $params.hourly;
-										}
-									}}
-								/>
-								<Label
-									id="{value}_label"
-									for="{value}_hourly"
-									class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
-								>
-							</div>
-						{/each}
-					</div>
-				{/each}
+				<VariableCheckboxGroups
+					groups={aqi_united_states}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+					htmlLabels
+				/>
 				<div>
 					<p>
 						<small class="text-muted-foreground"
@@ -505,17 +277,17 @@
 							<a
 								href="https://www.breeze-technologies.de/blog/air-pollution-how-to-convert-between-mgm3-µgm3-ppm-ppb/"
 								>here</a
-							>. Particulate Matter (PM) is using a 24 hour roling average, ozone and carbon
-							monoxide use 8 hour averages, other gases use hourly values.</small
+							>. Particulate Matter (PM) uses a rolling average over the preceding 24 hours, carbon
+							monoxide over the preceding 8 hours. Ozone is calculated from both hourly values and
+							an 8 hour rolling average, sulphur dioxide from both hourly values and a 24 hour
+							rolling average, using whichever yields the higher index. Nitrogen dioxide uses hourly
+							values.</small
 						>
 					</p>
 				</div>
 				<div>
 					<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-						<table
-							class="[&_tr]:border-border min-w-[10 54-10040px] mx-6 mt-2 w-full caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-							id="airquality_table_us"
-						>
+						<table class="docs-table w-full min-w-200" id="airquality_table_us">
 							<thead>
 								<tr>
 									<th scope="col">Pollutant</th>
@@ -560,13 +332,13 @@
 										>PM<sub>2.5</sub> <small class="text-muted-foreground">(μg/m³)</small></th
 									>
 									<td>24h</td>
-									<td>0-12</td>
-									<td>12-35.5</td>
-									<td>35.5-55.5</td>
-									<td>55.5-150.5</td>
-									<td>150.5-250.5</td>
-									<td>250.5-350.5</td>
-									<td>350.5-500.5</td>
+									<td>0-9</td>
+									<td>9-35.4</td>
+									<td>35.5-55.4</td>
+									<td>55.5-125.4</td>
+									<td>125.5-250.4</td>
+									<td>225.5-325.4</td>
+									<td>350.5-500</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -584,12 +356,12 @@
 								<tr>
 									<th scope="row">CO <small class="text-muted-foreground">(ppm)</small></th>
 									<td>8h</td>
-									<td>0-4.5</td>
-									<td>4.5-9.5</td>
-									<td>9.5-12.5</td>
-									<td>12.5-15.5</td>
-									<td>15.5-30.5</td>
-									<td>30.5-40.5</td>
+									<td>0-4.4</td>
+									<td>4.5-9.4</td>
+									<td>9.5-12.4</td>
+									<td>12.5-15.4</td>
+									<td>15.5-30.4</td>
+									<td>30.5-40.4</td>
 									<td>40.5-50.5</td>
 								</tr>
 								<tr>
@@ -642,38 +414,13 @@
 				last={true}
 				count={countVariables(additionalVariables, $params.hourly)}
 			>
-				<div class="grid md:grid-cols-2">
-					{#each additionalVariables as group, i (i)}
-						<div>
-							{#each group as { value, label } (value)}
-								<div class="group flex items-center" title={label}>
-									<Checkbox
-										id="{value}_hourly"
-										class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-										{value}
-										checked={$params.hourly?.includes(value)}
-										aria-labelledby="{value}_label"
-										onCheckedChange={() => {
-											if ($params.hourly?.includes(value)) {
-												$params.hourly = $params.hourly.filter((item: string) => {
-													return item !== value;
-												});
-											} else if ($params.hourly) {
-												$params.hourly.push(value);
-												$params.hourly = $params.hourly;
-											}
-										}}
-									/>
-									<Label
-										id="{value}_label"
-										for="{value}_hourly"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
-									>
-								</div>
-							{/each}
-						</div>
-					{/each}
-				</div>
+				<VariableCheckboxGroups
+					class="grid md:grid-cols-2"
+					groups={additionalVariables}
+					bind:values={$params.hourly}
+					idSuffix="hourly"
+					htmlLabels
+				/>
 
 				<small class="text-muted-foreground mt-1">
 					Note: You can further adjust the forecast time range for hourly weather variables using <mark
@@ -757,40 +504,13 @@
 		<a href="#current_weather">
 			<h2 id="current_weather" class="text-2xl md:text-3xl">Current Conditions</h2>
 		</a>
-		<div
+		<VariableCheckboxGroups
 			class="mt-2 grid grid-flow-row gap-x-2 gap-y-2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
-		>
-			{#each current as group, i (i)}
-				<div>
-					{#each group as { value, label } (value)}
-						<div class="group flex items-center" title={label}>
-							<Checkbox
-								id="{value}_current"
-								class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-[currentColor]"
-								{value}
-								checked={$params.current?.includes(value)}
-								aria-labelledby="{value}_current_label"
-								onCheckedChange={() => {
-									if ($params.current?.includes(value)) {
-										$params.current = $params.current.filter((item: string) => {
-											return item !== value;
-										});
-									} else if ($params.current) {
-										$params.current.push(value);
-										$params.current = $params.current;
-									}
-								}}
-							/>
-							<Label
-								id="{value}_current_label"
-								for="{value}_current"
-								class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{@html label}</Label
-							>
-						</div>
-					{/each}
-				</div>
-			{/each}
-		</div>
+			groups={current}
+			bind:values={$params.current}
+			idSuffix="current"
+			htmlLabels
+		/>
 		<div class="text-muted-foreground mt-1 text-sm">
 			Note: Current conditions are based on 15-minutely weather model data. Every weather variable
 			available in hourly data, is available as current condition as well.
@@ -827,10 +547,8 @@
 			and may show different forecasts.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-[1140px] caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
-				<caption class="text-muted-foreground mt-2 table-caption text-left"
+			<table class="docs-table w-full min-w-300">
+				<caption
 					>You can find the update timings in the <a
 						class="text-link underline"
 						href="/en/docs/model-updates">model updates documentation</a
@@ -854,7 +572,20 @@
 								>CAMS European Air Quality Forecast</a
 							>
 						</th>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Hourly</td>
 						<td>October 2023 onwards</td>
@@ -867,7 +598,20 @@
 								>CAMS European Air Quality Reanalysis
 							</a>
 						</th>
-						<td>Europe</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Hourly</td>
 						<td>2013 onwards</td>
@@ -880,7 +624,16 @@
 								>CAMS Global Atmospheric Composition Forecasts</a
 							>
 						</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.4° (~45 km)</td>
 						<td>3-Hourly</td>
 						<td>August 2022 onwards </td>
@@ -893,7 +646,16 @@
 								>CAMS Global Greenhouse Gas Forecast</a
 							>
 						</th>
-						<td>Global</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
 						<td>0.1° (~11 km)</td>
 						<td>3-Hourly</td>
 						<td>November 2024 onwards</td>
@@ -902,6 +664,16 @@
 				</tbody>
 			</table>
 		</div>
+	</div>
+	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+		<ZoomableImage src="/images/models/cams_europe.webp" alt="CAMS Europe Model Area">
+			{#snippet caption()}
+				CAMS Europe Model Area. Source:
+				<a href="https://maps.open-meteo.com/?domain=cams_europe&variable=pm2_5#3.38/54.01/11.94"
+					>Open-Meteo</a
+				>.
+			{/snippet}
+		</ZoomableImage>
 	</div>
 </div>
 
@@ -918,9 +690,7 @@
 		</p>
 		<p>All URL parameters are listed below:</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>
@@ -1103,9 +873,7 @@
 			from the preceding hour as an average or sum.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Variable</th>
@@ -1233,9 +1001,7 @@
 			<AirQualityObject />
 		</div>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table
-				class="[&_tr]:border-border mx-6 mt-2 w-full min-w-235 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-			>
+			<table class="docs-table w-full min-w-250">
 				<thead>
 					<tr>
 						<th scope="col">Parameter</th>

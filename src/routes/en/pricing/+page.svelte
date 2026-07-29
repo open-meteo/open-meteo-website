@@ -27,15 +27,13 @@
 		...minutely_15.flat()
 	];
 
-	let callWeight = $state(1.0);
-
-	$effect(() => {
-		/// Calculate adjusted weight
+	/// Calculate adjusted weight
+	let callWeight = $derived.by(() => {
 		const nVariablesModels = Number(variablesInput) * Math.max(Number(modelsInput), 1.0);
 		const timeWeight = Number(timeInput) / 14.0;
 		const variablesWeight = nVariablesModels / 10.0;
 		const variableTimeWeight = Math.max(variablesWeight, timeWeight * variablesWeight);
-		callWeight = Math.max(1.0, variableTimeWeight) * Number(locationsInput);
+		return Math.max(1.0, variableTimeWeight) * Number(locationsInput);
 	});
 </script>
 
@@ -258,9 +256,7 @@
 			<p>
 				Payments via credit card, Apple Pay, Google Pay, SOFORT, or SEPA — processed through Stripe.
 				A PDF invoice is issued on each billing cycle. Subscription details and payment method are
-				managed in the <a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII"
-					>customer portal</a
-				>.
+				managed in the <a href="https://dashboard.open-meteo.com/login">customer portal</a>.
 			</p>
 		</div>
 		<div class="feature col">
@@ -292,17 +288,14 @@
 			</div>
 			<p>
 				Fixed monthly price — no per-call overages or surprise charges. Upgrade or downgrade at any
-				time via the <a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII"
-					>customer portal</a
-				>. Cancellation takes effect at the end of the current billing period.
+				time via the <a href="https://dashboard.open-meteo.com/login">customer portal</a>.
+				Cancellation takes effect at the end of the current billing period.
 			</p>
 		</div>
 	</div>
 
 	<div class="mt-12 -mx-6 overflow-auto overflow-y-hidden md:ml-0 lg:mx-0">
-		<table
-			class="[&_tr]:border-border mx-6 mt-2 w-full min-w-260 caption-bottom text-left md:ml-0 lg:mx-0 [&_td]:px-1 [&_td]:py-2 [&_th]:py-2 [&_th]:pr-2 [&_tr]:border-b"
-		>
+		<table class="docs-table w-full min-w-250">
 			<thead>
 				<tr>
 					<th scope="col" style="width: 20%"> </th>
@@ -407,7 +400,7 @@
 					issued immediately. The key grants access to
 					<mark>customer-api.open-meteo.com</mark>. Cancel, upgrade, or update payment details at
 					any time in the
-					<a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII">customer portal</a>.
+					<a href="https://dashboard.open-meteo.com/login">customer portal</a>.
 				</p>
 			</div>
 
@@ -449,7 +442,7 @@
 						>Professional API Plan</mark
 					>
 					or higher. Upgrade via the
-					<a href="https://billing.stripe.com/p/login/00gbIQ79OcpM9eEbII">customer portal</a>.
+					<a href="https://dashboard.open-meteo.com/login">customer portal</a>.
 				</p>
 			</div>
 

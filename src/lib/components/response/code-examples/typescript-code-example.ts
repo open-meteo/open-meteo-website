@@ -99,7 +99,7 @@ export const typescriptCodeExample = (
 		}
 		if (groups.depth_from) {
 			conditions.push(
-				vr('v') + fn(`${pm('?.')}depth`) + fg('() ') + pm('===') + num(` ${groups.depth}`)
+				vr('v') + fn(`${pm('?.')}depth`) + fg('() ') + pm('===') + num(` ${groups.depth_from}`)
 			);
 			conditions.push(
 				vr('v') + fn(`${pm('?.')}depthTo`) + fg('() ') + pm('===') + num(` ${groups.depth_to}`)
@@ -232,7 +232,7 @@ ${line(kw('const') + vr(` ${camelCase(section)}`) + pm(' =') + vr(' response') +
 				c += `
 ${tab}<span class="line">${kw('const')}${vr(` ${camelCase(section)}Variables`)}${pm(' =')}${fg(` ${fn('Array')}${pm('.')}from(`)}
 ${tab}\t${pm('{')} ${strk('length')}${pm(':')} ${vr(camelCase(section))}${fn(`${pm('.')}variablesLength`)}${fg('() }, ')}
-${tab}\t${fn(`${fg(`${pm('(')}_ `)}${pm(',')}${fgi(` i${pm(')')} `)}${pm('=&gt;')}`)}${vr(` ${camelCase(section)}`)}${fn(`${pm('.')}variables`)}${fg(`(${fgi('i')})`)}}${p(',')}
+${tab}\t${fn(`${fg(`${pm('(')}_ `)}${pm(',')}${fgi(` i${pm(')')} `)}${pm('=&gt;')}`)}${vr(` ${camelCase(section)}`)}${fn(`${pm('.')}variables`)}${fg(`(${fgi('i')})`)}${p(',')}
 ${line(fg(');'), indent)}`;
 
 				if (sect.constructor === Array) {

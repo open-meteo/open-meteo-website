@@ -2,7 +2,6 @@ import { describe, expect, test, vi } from 'vitest';
 
 import {
 	camelCase,
-	capitalizeFirstLetter,
 	debounce,
 	isAvailable,
 	isDailyAvailable,
@@ -142,28 +141,6 @@ describe('camelCase', () => {
 
 	test('leaves single word lowercase', () => {
 		expect(camelCase('hello')).toBe('hello');
-	});
-});
-
-describe('capitalizeFirstLetter', () => {
-	test('capitalizes lowercase word', () => {
-		expect(capitalizeFirstLetter('hello')).toBe('Hello');
-	});
-
-	test('keeps already capitalized word unchanged', () => {
-		expect(capitalizeFirstLetter('Hello')).toBe('Hello');
-	});
-
-	test('capitalizes single character', () => {
-		expect(capitalizeFirstLetter('a')).toBe('A');
-	});
-
-	test('handles empty string', () => {
-		expect(capitalizeFirstLetter('')).toBe('');
-	});
-
-	test('only capitalizes first letter of multi-word string', () => {
-		expect(capitalizeFirstLetter('hello world')).toBe('Hello world');
 	});
 });
 

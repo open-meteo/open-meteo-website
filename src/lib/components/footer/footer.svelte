@@ -1,3 +1,7 @@
+<script lang="ts">
+	import AnimationToggle from '$lib/components/settings/animation-toggle.svelte';
+</script>
+
 <footer class="container pt-5 pb-16">
 	<nav aria-label="Footer" class="flex flex-wrap justify-between gap-5">
 		<div>
@@ -124,6 +128,9 @@
 					>
 				</li>
 			</ul>
+			<div class="mt-4">
+				<AnimationToggle id="animations-toggle-footer" small />
+			</div>
 		</div>
 	</nav>
 	<div class="pt-3 text-center">

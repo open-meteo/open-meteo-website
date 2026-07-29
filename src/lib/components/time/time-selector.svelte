@@ -1,10 +1,12 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
+	import { fade } from '$lib/utils/transitions';
+	import { fadeOutAbsolute } from '$lib/utils/transitions';
 
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select/index';
+	import * as Select from '$lib/components/ui/select';
 
+	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
 	import DatePicker from '$lib/components/date/date-picker.svelte';
 
 	import { type Parameters } from '$lib/docs';
@@ -29,11 +31,16 @@
 		forecastDaysOptions?.find((fco) => fco.value == params.forecast_days)
 	);
 	let pastDays = $derived(pastDaysOptions?.find((pdo) => pdo.value == params.past_days));
+
+	let defaultForecastDays = $derived(
+		forecastDaysOptions?.find((o) => o.label.includes('default')) ?? forecastDaysOptions?.[0]
+	);
+	let maxForecastDays = $derived(forecastDaysOptions?.at(-1));
 </script>
 
 <div class="mt-6">
 	<div class="mt-3 -mr-6 flex items-center gap-2 overflow-auto md:mr-0">
-		<div class="text-muted-foreground">Time:</div>
+		<div class="text-muted-foreground w-22 shrink-0">Time:</div>
 
 		<div class="border-border flex rounded-md border">
 			<Button
@@ -106,38 +113,45 @@
 		</div>
 	</div>
 
-	<div class="mt-3 md:mt-4">
+	<AnimateHeight class="mt-3 md:mt-4">
 		{#if params.time_mode === 'forecast_days'}
-			<div in:fade class="grid gap-3 md:gap-6 lg:grid-cols-2">
+			<div
+				in:fade={{ duration: 250, delay: 50 }}
+				out:fadeOutAbsolute={{ duration: 200 }}
+				class="grid gap-3 md:gap-6 lg:grid-cols-2"
+			>
 				<div class="grid gap-3 sm:grid-cols-2 md:gap-6">
 					<div class="relative">
 						<Select.Root name="forecast_days" type="single" bind:value={params.forecast_days}>
-							<Select.Trigger
-								aria-label="Forecast days input"
-								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{forecastDays?.label}</Select.Trigger
+							<Select.Trigger id="forecast_days" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+								>{forecastDays?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
 								{#each forecastDaysOptions as { value, label } (value)}
 									<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+							<Label
+								for="forecast_days"
+								class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
 								>Forecast days</Label
 							>
 						</Select.Root>
 					</div>
 					<div class="relative">
 						<Select.Root name="past_days" type="single" bind:value={params.past_days}>
-							<Select.Trigger
-								aria-label="Past days input"
-								class="h-12 cursor-pointer pt-6 [&_svg]:mb-3">{pastDays?.label}</Select.Trigger
+							<Select.Trigger id="past_days" class="h-12 cursor-pointer pt-6 [&_svg]:mb-3"
+								>{pastDays?.label}</Select.Trigger
 							>
 							<Select.Content preventScroll={false} class="border-border">
 								{#each pastDaysOptions as { value, label } (value)}
 									<Select.Item class="cursor-pointer" {value}>{label}</Select.Item>
 								{/each}
 							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs">
+							<Label
+								for="past_days"
+								class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
+							>
 								Past days</Label
 							>
 						</Select.Root>
@@ -146,16 +160,25 @@
 
 				<div>
 					<p>
-						By default, we provide forecasts for 7 days, but you can access forecasts for up to 16
-						days. If you're interested in past weather data, you can use the <mark>Past Days</mark>
-						feature to access archived forecasts.
+						By default, we provide forecasts for {defaultForecastDays?.label.replace(
+							/\s*\(.*\)/,
+							''
+						)}, but you can access forecasts for up to {maxForecastDays?.label.replace(
+							/\s*\(.*\)/,
+							''
+						)}. If you're interested in past weather data, you can use the <mark>Past Days</mark> feature
+						to access archived forecasts.
 					</p>
 				</div>
 			</div>
 		{/if}
 		{#if params.time_mode === 'time_interval'}
-			<div in:fade class="flex flex-col gap-x-6 gap-y-4 lg:flex-row">
-				<div class="mb-3 lg:w-1/2">
+			<div
+				in:fade={{ duration: 250, delay: 50 }}
+				out:fadeOutAbsolute={{ duration: 200 }}
+				class="flex flex-col gap-x-6 gap-y-4 lg:flex-row"
+			>
+				<div class="lg:w-1/2">
 					<DatePicker
 						{beginDate}
 						{lastDate}
@@ -163,18 +186,15 @@
 						bind:end_date={params.end_date}
 					/>
 				</div>
-				<div class="mb-3 lg:w-1/2">
+				<div class="lg:w-1/2">
 					<p>
 						The <mark>Start Date</mark> and <mark>End Date</mark> options help you choose a range of
-						dates more easily. Archived forecasts come from a series of weather model runs over
-						time. You can access forecasts for up to 3 months and continuously archived in the
-						<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>. You can also
-						check out our
-						<a href="/en/docs/historical-weather-api">Historical Weather API</a>, which provides
-						data going all the way back to 1940.
+						dates. The last 3 months are available here. Older forecasts are in the
+						<a href="/en/docs/historical-forecast-api">Historical Forecast API</a>, and the
+						<a href="/en/docs/historical-weather-api">Historical Weather API</a> goes back to 1940.
 					</p>
 				</div>
 			</div>
 		{/if}
-	</div>
+	</AnimateHeight>
 </div>
