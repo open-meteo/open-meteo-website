@@ -265,7 +265,7 @@
 		>
 	</div>
 	<Input
-		class="mt-2"
+		class="mt-2 h-12"
 		type="text"
 		id="api_url"
 		readonly
