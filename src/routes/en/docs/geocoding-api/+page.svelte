@@ -405,69 +405,44 @@
 				</tbody>
 			</table>
 		</div>
-		<div
-			id="location-search"
-			class="border-border bg-accent/15 mt-4 scroll-mt-4 rounded-lg border p-4 md:p-5"
-		>
-			<div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-				<h3 class="text-lg font-semibold">Location search</h3>
-				<mark class="w-fit font-mono text-sm">&lt;location&gt;[, &lt;country or admin1&gt;]</mark>
-			</div>
-
-			<div class="mt-4 grid gap-3 md:grid-cols-2">
-				<div class="border-border bg-background/50 rounded-md border p-3">
-					<div class="font-medium">Location</div>
-					<p class="text-muted-foreground mt-1 text-sm">
-						Two characters match an exact name. Three or more use normalized prefix matching.
-						Matching is case-insensitive and diacritic-insensitive, but the characters must match
-						the beginning of an indexed name. Empty and single-character searches return no results.
-					</p>
-				</div>
-
-				<div class="border-border bg-background/50 rounded-md border p-3">
-					<div class="font-medium">Country or admin1</div>
-					<p class="text-muted-foreground mt-1 text-sm">
-						The qualifier must match exactly; partial and prefix matching are not supported. Country
-						names, 2-letter ISO country codes, admin1 names and admin1 abbreviations are accepted.
-					</p>
-				</div>
-			</div>
-
-			<div class="mt-4">
-				<div class="text-muted-foreground text-xs font-medium tracking-wide uppercase">
-					Examples
-				</div>
-				<div class="mt-2 flex flex-wrap gap-2">
-					<mark>Paris, France</mark>
-					<mark>Los Angeles, California</mark>
-					<mark>Los Angeles, CA</mark>
-				</div>
-				<p class="text-muted-foreground mt-2 text-sm">
-					For example, <mark>Los Angeles, Calif</mark> does not match
-					<mark>Los Angeles, California</mark>.
-				</p>
-			</div>
-
-			<div class="border-border mt-4 grid gap-2 border-t pt-4 text-sm md:grid-cols-3">
+		<div class="mt-6 md:mt-12">
+			<a href="#location-search"
+				><h3 id="location-search" class="scroll-mt-4 text-xl md:text-2xl">Location Search</h3></a
+			>
+			<div class="mt-2 md:mt-4">
 				<p>
-					<span class="font-medium">Language:</span>
-					<span class="text-muted-foreground"
-						>Localized qualifiers follow <mark>language</mark>; English and language-neutral aliases
-						are also accepted.</span
-					>
+					The <mark>name</mark> parameter accepts a location optionally followed by a comma and a
+					country or first-level administrative area, in the form
+					<mark>&lt;location&gt;[, &lt;country or admin1&gt;]</mark>. For example,
+					<mark>Paris, France</mark>, <mark>Los Angeles, California</mark> or
+					<mark>Los Angeles, CA</mark>. The following matching rules apply:
 				</p>
-				<p>
-					<span class="font-medium">Ambiguous codes:</span>
-					<span class="text-muted-foreground"
-						>Admin1 abbreviations take precedence. Use <mark>countryCode</mark> for unambiguous country
-						filtering.</span
-					>
-				</p>
-				<p>
-					<span class="font-medium">Multiple commas:</span>
-					<span class="text-muted-foreground"
-						>Only the text between the first and second comma is used as the qualifier.</span
-					>
+				<div class="mt-3 grid gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
+					<div class="border-border rounded-lg border p-4 md:p-6">
+						<h4 class="font-semibold">Location</h4>
+						<p class="mt-2">
+							Two characters match an exact name. Three or more use normalized prefix matching.
+							Matching is case-insensitive and diacritic-insensitive, but the characters must match
+							the beginning of an indexed name. Empty and single-character searches return no
+							results.
+						</p>
+					</div>
+					<div class="border-border rounded-lg border p-4 md:p-6">
+						<h4 class="font-semibold">Country or admin1</h4>
+						<p class="mt-2">
+							The qualifier must match exactly; partial and prefix matching are not supported. For
+							example, <mark>Los Angeles, Calif</mark> does not match
+							<mark>Los Angeles, California</mark>. Country names, 2-letter ISO country codes,
+							admin1 names and admin1 abbreviations are accepted. Localized qualifiers follow the
+							<mark>language</mark> parameter; English and language-neutral aliases are also accepted.
+						</p>
+					</div>
+				</div>
+				<p class="text-muted-foreground mt-2">
+					Note: If an abbreviation is both an admin1 abbreviation and a country code, the admin1
+					abbreviation takes precedence. Use <mark>countryCode</mark> for unambiguous country filtering.
+					If the search term contains multiple commas, only the text between the first and second comma
+					is used as the qualifier.
 				</p>
 			</div>
 		</div>
