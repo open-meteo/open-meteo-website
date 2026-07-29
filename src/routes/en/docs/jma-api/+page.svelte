@@ -35,6 +35,7 @@
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
+	import WmoCodesTable from '$lib/components/variables/wmo-codes-table.svelte';
 
 	import {
 		current,
@@ -1516,4 +1517,14 @@
 			<WeatherForecastError />
 		</div>
 	</div>
+</div>
+
+<!-- WEATHER VARIABLES -->
+<div class="mt-6 md:mt-12">
+	<a href="#weather_variable_documentation"
+		><h2 id="weather_variable_documentation" class="text-2xl md:text-3xl">
+			Weather variable documentation
+		</h2></a
+	>
+	<WmoCodesTable />
 </div>
