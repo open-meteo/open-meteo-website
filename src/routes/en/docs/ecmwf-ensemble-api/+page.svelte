@@ -449,8 +449,9 @@
 			Both ensembles are initialized every 6 hours at 00, 06, 12 and 18 UTC and Open-Meteo processes
 			all four runs. ECMWF publishes the data with a delay of roughly 7 to 8 hours after
 			initialization. Open-Meteo additionally calculates ensemble mean and spread models from all 51
-			members while downloading. A regional 9 km IFS ensemble for Europe is also available in the
-			general <a href="/en/docs/ensemble-api">Ensemble API documentation</a>.
+			members while downloading. Regional cutouts for Europe preserve the native model resolution: a
+			9 km IFS ensemble on the O1280 grid and a 31 km AIFS ensemble on the N320 grid. The Europe
+			models provide a reduced set of surface variables and no pressure-level data.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table class="docs-table w-full min-w-300">
@@ -504,6 +505,52 @@
 							</div>
 						</td>
 						<td>0.25° (~28 km)</td>
+						<td>6-hourly</td>
+						<td>15 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row">ECMWF IFS 9 km (O1280) Europe Ensemble</th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
+						<td>9 km (native O1280)</td>
+						<td
+							>1-hourly, <small class="text-muted-foreground"
+								>3-hourly after 90 hours, 6-hourly after 144 hours</small
+							></td
+						>
+						<td>15 days <small class="text-muted-foreground">(6 days for the 06 UTC run)</small></td>
+						<td>Only 00 and 06 UTC runs</td>
+					</tr>
+					<tr>
+						<th scope="row">ECMWF AIFS 31 km (N320) Europe Ensemble</th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/european_union.svg"
+										alt="European Union"
+										title="European Union"
+									/>
+								</div>
+								Europe
+							</div>
+						</td>
+						<td>31 km (native N320)</td>
 						<td>6-hourly</td>
 						<td>15 days</td>
 						<td>Every 6 hours</td>
