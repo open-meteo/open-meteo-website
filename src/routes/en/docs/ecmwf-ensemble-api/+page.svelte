@@ -531,7 +531,8 @@
 								>3-hourly after 90 hours, 6-hourly after 144 hours</small
 							></td
 						>
-						<td>15 days <small class="text-muted-foreground">(6 days for the 06 UTC run)</small></td>
+						<td>15 days <small class="text-muted-foreground">(6 days for the 06 UTC run)</small></td
+						>
 						<td>Only 00 and 06 UTC runs</td>
 					</tr>
 					<tr>
@@ -802,9 +803,10 @@
 		<p>
 			Use the endpoint <mark>/v1/ensemble</mark> with
 			<mark>models=ecmwf_ifs025_ensemble</mark> or <mark>models=ecmwf_aifs025_ensemble</mark>. The
-			ensemble mean models are available as <mark>ecmwf_ifs025_ensemble_mean</mark> and
-			<mark>ecmwf_aifs025_ensemble_mean</mark>. The tables below describe the variables specific to
-			these models. Refer to the general
+			high-resolution Europe cutouts are available as <mark>ecmwf_ifs_europe_ensemble</mark> and
+			<mark>ecmwf_aifs_europe_ensemble</mark>. Every model has an ensemble mean counterpart with the
+			suffix <mark>_mean</mark>, for example <mark>ecmwf_ifs025_ensemble_mean</mark>. The tables
+			below describe the variables specific to these models. Refer to the general
 			<a href="/en/docs/ensemble-api">Ensemble API documentation</a>
 			for URL parameters, response formats and the naming of individual ensemble members.
 		</p>
