@@ -1,6 +1,7 @@
 export const defaultParameters = {
-	hourly: [],
 	daily: [],
+	hourly: [],
+	models: [],
 	location_mode: 'location_search',
 	csv_coordinates: '',
 	temperature_unit: 'celsius',
