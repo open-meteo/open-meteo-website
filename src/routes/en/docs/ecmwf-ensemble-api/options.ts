@@ -149,11 +149,15 @@ export const levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 1
 export const models = [
 	[
 		{ value: 'ecmwf_ifs025_ensemble', label: 'ECMWF IFS 0.25° Ensemble' },
-		{ value: 'ecmwf_ifs025_ensemble_mean', label: 'ECMWF IFS Ensemble Mean' }
+		{ value: 'ecmwf_ifs025_ensemble_mean', label: 'ECMWF IFS Ensemble Mean' },
+		{ value: 'ecmwf_ifs_europe_ensemble', label: 'ECMWF IFS 9 km (O1280) Europe Ensemble' },
+		{ value: 'ecmwf_ifs_europe_ensemble_mean', label: 'ECMWF IFS Europe Ensemble Mean' }
 	],
 	[
 		{ value: 'ecmwf_aifs025_ensemble', label: 'ECMWF AIFS 0.25° Ensemble' },
-		{ value: 'ecmwf_aifs025_ensemble_mean', label: 'ECMWF AIFS Ensemble Mean' }
+		{ value: 'ecmwf_aifs025_ensemble_mean', label: 'ECMWF AIFS Ensemble Mean' },
+		{ value: 'ecmwf_aifs_europe_ensemble', label: 'ECMWF AIFS 31 km (N320) Europe Ensemble' },
+		{ value: 'ecmwf_aifs_europe_ensemble_mean', label: 'ECMWF AIFS Europe Ensemble Mean' }
 	]
 ];
 
