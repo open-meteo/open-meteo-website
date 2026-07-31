@@ -332,19 +332,23 @@
 						<td>String</td>
 						<td>Yes</td>
 						<td></td>
-						<td
-							>String to search for. An empty string or only 1 character will return an empty
-							result. 2 characters will only match exact matching locations. 3 and more characters
-							will perform fuzzy matching. The search string can be a location name or a postal
-							code.</td
-						>
+						<td>
+							<p>
+								Location name or postal code. Append a country or first-level administrative area
+								after a comma to narrow the results.
+							</p>
+							<a href="#location-search">See matching rules and examples below.</a>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row">count</th>
 						<td>Integer</td>
 						<td>No</td>
 						<td><mark>10</mark></td>
-						<td>The number of search results to return. Up to 100 results can be retrieved.</td>
+						<td
+							>The number of search results to return. Up to 100 results can be retrieved. Country
+							and administrative-area filters are applied before the result limit.</td
+						>
 					</tr>
 					<tr>
 						<th scope="row">format</th>
@@ -356,7 +360,7 @@
 							supported for more efficient encoding and transfer. The .proto file to decode the
 							protobuf message is available in the
 							<a
-								href="https://github.com/open-meteo/geocoding-api/blob/main/Sources/App/api.proto"
+								href="https://github.com/open-meteo/geocoding-api/blob/main/Sources/App/ProtoResources/api.proto"
 								target="_blank">geocoding GitHub repository</a
 							>.</td
 						>
@@ -393,11 +397,54 @@
 							><mark>ISO-3166-1 alpha2</mark>
 							<a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" target="_blank"
 								>country code</a
-							>, which the results will be filtered for.</td
+							>, which the results will be filtered for. Use this parameter for unambiguous
+							country-code filtering. It can be combined with a first-level administrative-area
+							qualifier in <mark>name</mark>.</td
 						></tr
 					>
 				</tbody>
 			</table>
+		</div>
+		<div class="mt-6 md:mt-12">
+			<a href="#location-search"
+				><h3 id="location-search" class="scroll-mt-4 text-xl md:text-2xl">Location Search</h3></a
+			>
+			<div class="mt-2 md:mt-4">
+				<p>
+					The <mark>name</mark> parameter accepts a location optionally followed by a comma and a
+					country or first-level administrative area, in the form
+					<mark>&lt;location&gt;[, &lt;country or admin1&gt;]</mark>. For example,
+					<mark>Paris, France</mark>, <mark>Los Angeles, California</mark> or
+					<mark>Los Angeles, CA</mark>. The following matching rules apply:
+				</p>
+				<div class="mt-3 grid gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
+					<div class="border-border rounded-lg border p-4 md:p-6">
+						<h4 class="font-semibold">Location</h4>
+						<p class="mt-2">
+							Two characters match an exact name. Three or more use normalized prefix matching.
+							Matching is case-insensitive and diacritic-insensitive, but the characters must match
+							the beginning of an indexed name. Empty and single-character searches return no
+							results.
+						</p>
+					</div>
+					<div class="border-border rounded-lg border p-4 md:p-6">
+						<h4 class="font-semibold">Country or admin1</h4>
+						<p class="mt-2">
+							The qualifier must match exactly; partial and prefix matching are not supported. For
+							example, <mark>Los Angeles, Calif</mark> does not match
+							<mark>Los Angeles, California</mark>. Country names, 2-letter ISO country codes,
+							admin1 names and admin1 abbreviations are accepted. Localized qualifiers follow the
+							<mark>language</mark> parameter; English and language-neutral aliases are also accepted.
+						</p>
+					</div>
+				</div>
+				<p class="text-muted-foreground mt-2">
+					Note: If an abbreviation is both an admin1 abbreviation and a country code, the admin1
+					abbreviation takes precedence. Use <mark>countryCode</mark> for unambiguous country filtering.
+					If the search term contains multiple commas, only the text between the first and second comma
+					is used as the qualifier.
+				</p>
+			</div>
 		</div>
 	</div>
 	<p class="text-muted-foreground mt-2">
