@@ -1,3 +1,5 @@
+import { dayOptions } from '../options';
+
 export { pressureVariablesWithDewpoint as pressureVariables } from '../options';
 
 export const defaultParameters = {
@@ -171,8 +173,4 @@ export const models = [
 	]
 ];
 
-export const forecastDaysOptions = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days' },
-	{ value: '4', label: '4 days (default)' }
-];
+export const forecastDaysOptions = dayOptions([1, 3, 4], 4);

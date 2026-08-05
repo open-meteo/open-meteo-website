@@ -1,3 +1,5 @@
+import { dayOptions } from '../options';
+
 export { pressureVariablesWithVerticalVelocity as pressureVariables } from '../options';
 
 export const defaultParameters = {
@@ -126,11 +128,4 @@ export const additionalVariables = [
 	]
 ];
 
-export const forecastDaysOptions = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days' },
-	{ value: '5', label: '5 days' },
-	{ value: '7', label: '7 days' },
-	{ value: '10', label: '10 days (default)' },
-	{ value: '15', label: '15 days' }
-];
+export const forecastDaysOptions = dayOptions([1, 3, 5, 7, 10, 15], 10);

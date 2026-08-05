@@ -1,3 +1,5 @@
+import { dayOptions } from '../options';
+
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
@@ -77,13 +79,7 @@ export const windVariables = [
 	{ value: 'wind_direction_200m', label: 'Wind Direction (200 m)' }
 ];
 
-export const forecastDaysOptions = [
-	{ value: '1', label: '1 day (default)' },
-	{ value: '3', label: '3 days' },
-	{ value: '7', label: '7 days' },
-	{ value: '14', label: '14 days' },
-	{ value: '16', label: '16 days' }
-];
+export const forecastDaysOptions = dayOptions([1, 3, 7, 14, 16], 1);
 
 export const pastDaysOptions = [
 	{ value: '0', label: '0 days' },

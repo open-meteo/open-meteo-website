@@ -32,46 +32,26 @@ export const defaultParameters = {
 	precipitation_unit: 'mm'
 };
 
-export const pressureVariables = [
+const allPressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
+	{ value: 'dew_point', label: 'Dewpoint' },
 	{ value: 'relative_humidity', label: 'Relative Humidity' },
 	{ value: 'cloud_cover', label: 'Cloud Cover' },
 	{ value: 'wind_speed', label: 'Wind Speed' },
 	{ value: 'wind_direction', label: 'Wind Direction' },
+	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
 ];
+const pressureVariablesExcept = (...excluded: string[]) =>
+	allPressureVariables.filter((variable) => !excluded.includes(variable.value));
 
+export const pressureVariables = pressureVariablesExcept('dew_point', 'vertical_velocity');
 // Shared by: gfs-api, cma-api, jma-api
-export const pressureVariablesWithDewpointAndVerticalVelocity = [
-	{ value: 'temperature', label: 'Temperature' },
-	{ value: 'dew_point', label: 'Dewpoint' },
-	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud Cover' },
-	{ value: 'wind_speed', label: 'Wind Speed' },
-	{ value: 'wind_direction', label: 'Wind Direction' },
-	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
-	{ value: 'geopotential_height', label: 'Geopotential Height' }
-];
+export const pressureVariablesWithDewpointAndVerticalVelocity = allPressureVariables;
 // Shared by: gem-api, knmi-api, meteofrance-api
-export const pressureVariablesWithDewpoint = [
-	{ value: 'temperature', label: 'Temperature' },
-	{ value: 'dew_point', label: 'Dewpoint' },
-	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud Cover' },
-	{ value: 'wind_speed', label: 'Wind Speed' },
-	{ value: 'wind_direction', label: 'Wind Direction' },
-	{ value: 'geopotential_height', label: 'Geopotential Height' }
-];
+export const pressureVariablesWithDewpoint = pressureVariablesExcept('vertical_velocity');
 // Shared by: ecmwf-api, italia-meteo-arpae-api, ukmo-api
-export const pressureVariablesWithVerticalVelocity = [
-	{ value: 'temperature', label: 'Temperature' },
-	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud Cover' },
-	{ value: 'wind_speed', label: 'Wind Speed' },
-	{ value: 'wind_direction', label: 'Wind Direction' },
-	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
-	{ value: 'geopotential_height', label: 'Geopotential Height' }
-];
+export const pressureVariablesWithVerticalVelocity = pressureVariablesExcept('dew_point');
 export const levels = [
 	30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000
 ].reverse();
@@ -487,46 +467,23 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 	]
 ];
 
-export const forecastDaysOptions = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days' },
-	{ value: '7', label: '7 days (default)' },
-	{ value: '14', label: '14 days' },
-	{ value: '16', label: '16 days' }
-];
+/** Build `{ value, label }` day options, marking `defaultDay` with "(default)" */
+export const dayOptions = (days: number[], defaultDay?: number) =>
+	days.map((day) => ({
+		value: String(day),
+		label: `${day} day${day === 1 ? '' : 's'}${day === defaultDay ? ' (default)' : ''}`
+	}));
+
+export const forecastDaysOptions = dayOptions([1, 3, 7, 14, 16], 7);
 
 // Shared by: italia-meteo-arpae-api, meteoswiss-api
-export const forecastDaysOptionsMax8Default3 = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days (default)' },
-	{ value: '5', label: '5 days' },
-	{ value: '7', label: '7 days' },
-	{ value: '8', label: '8 days' }
-];
+export const forecastDaysOptionsMax8Default3 = dayOptions([1, 3, 5, 7, 8], 3);
 // Shared by: chmi-api, dmi-api, knmi-api, metno-api
-export const forecastDaysOptionsMax15Default3 = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days (default)' },
-	{ value: '5', label: '5 days' },
-	{ value: '10', label: '10 days' },
-	{ value: '15', label: '15 days' }
-];
+export const forecastDaysOptionsMax15Default3 = dayOptions([1, 3, 5, 10, 15], 3);
 // Shared by: bom-api, gem-api
-export const forecastDaysOptionsMax10 = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days' },
-	{ value: '5', label: '5 days' },
-	{ value: '7', label: '7 days (default)' },
-	{ value: '10', label: '10 days' }
-];
+export const forecastDaysOptionsMax10 = dayOptions([1, 3, 5, 7, 10], 7);
 // Shared by: dwd-api, kma-api, ukmo-api
-export const forecastDaysOptionsMax8 = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days' },
-	{ value: '5', label: '5 days' },
-	{ value: '7', label: '7 days (default)' },
-	{ value: '8', label: '8 days' }
-];
+export const forecastDaysOptionsMax8 = dayOptions([1, 3, 5, 7, 8], 7);
 export const pastDaysOptions = [
 	{ value: '0', label: '0 days (default)' },
 	{ value: '1', label: '1 day' },
@@ -549,13 +506,7 @@ export const forecastHoursOptions = [
 	{ value: '24', label: '24 hours' }
 ];
 
-export const pastHoursOptions = [
-	{ value: '', label: '- (default)' },
-	{ value: '1', label: '1 hour' },
-	{ value: '6', label: '6 hours' },
-	{ value: '12', label: '12 hours' },
-	{ value: '24', label: '24 hours' }
-];
+export const pastHoursOptions = forecastHoursOptions;
 
 export const temporalResolutionOptions = [
 	{ value: '', label: '1 Hourly' },
@@ -578,10 +529,4 @@ export const forecastMinutely15Options = [
 	{ value: `${24 * 4}`, label: '24 hours' }
 ];
 
-export const pastMinutely15Options = [
-	{ value: '', label: '- (default)' },
-	{ value: `${1 * 4}`, label: '1 hour' },
-	{ value: `${6 * 4}`, label: '6 hours' },
-	{ value: `${12 * 4}`, label: '12 hours' },
-	{ value: `${24 * 4}`, label: '24 hours' }
-];
+export const pastMinutely15Options = forecastMinutely15Options;
