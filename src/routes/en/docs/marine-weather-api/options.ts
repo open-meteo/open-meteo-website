@@ -1,3 +1,5 @@
+import { dayOptions } from '../options';
+
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
@@ -187,16 +189,7 @@ export const models = [
 	]
 ];
 
-export const forecastDaysOptions = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days' },
-	{ value: '5', label: '5 days' },
-	{ value: '7', label: '7 days (default)' },
-	{ value: '8', label: '8 days' },
-	{ value: '10', label: '10 days' },
-	{ value: '14', label: '14 days' },
-	{ value: '16', label: '16 days' }
-];
+export const forecastDaysOptions = dayOptions([1, 3, 5, 7, 8, 10, 14, 16], 7);
 
 export const gridCellSelectionOptions = [
 	{ value: '', label: 'Prefer Sea' },

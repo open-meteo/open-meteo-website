@@ -2,26 +2,27 @@
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
 
+	import InfoIcon from '@lucide/svelte/icons/info';
+
 	import { resolve } from '$app/paths';
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
 	import { countVariables } from '$lib/utils/meteo';
-	import { slide } from '$lib/utils/transitions';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import TiltAzimuthInputs from '$lib/components/variables/tilt-azimuth-inputs.svelte';
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import { gridCellSelectionOptions, pastDaysOptions, solarVariables } from '../options';
@@ -52,9 +53,6 @@
 
 	let temporalResolution = $derived(
 		temporalResolutionOptions.find((tro) => String(tro.value) == $params.temporal_resolution)
-	);
-	let cellSelection = $derived(
-		gridCellSelectionOptions.find((gcso) => String(gcso.value) == $params.cell_selection)
 	);
 
 	onMount(() => {
@@ -102,19 +100,7 @@
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4"
-	><svg
-		xmlns="http://www.w3.org/2000/svg"
-		width="24"
-		height="24"
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		stroke-width="2"
-		stroke-linecap="round"
-		stroke-linejoin="round"
-		class="lucide lucide-info-icon lucide-info"
-		><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg
-	>
+	><InfoIcon />
 	<Alert.Description
 		><p>
 			This API provides seasonal ECMWF SEAS5 and sub-seasonal ECMWF EC46 forecasts at a 36 km
@@ -191,42 +177,11 @@
 			bind:value={accordionValues}
 		>
 			<AccordionItem id="additional-variables" title="Additional Options">
-				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
-					<div class="relative">
-						<Select.Root
-							name="temporal_resolution"
-							type="single"
-							bind:value={$params.temporal_resolution}
-						>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{temporalResolution?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each temporalResolutionOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Temporal Resolution For Hourly Data</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative">
-						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{cellSelection?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each gridCellSelectionOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Grid Cell Selection</Label
-							>
-						</Select.Root>
-					</div>
-				</div>
+				<AdditionalOptionsSelects
+					bind:params={$params}
+					{temporalResolutionOptions}
+					{gridCellSelectionOptions}
+				/>
 			</AccordionItem>
 			<AccordionItem
 				id="solar-variables"
@@ -246,54 +201,7 @@
 					specify Tilt and Azimuth below.
 				</small>
 
-				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
-					<div class="relative">
-						<Input
-							id="tilt"
-							type="number"
-							class="h-12 cursor-pointer pt-6 {Number($params.tilt) < 0 || Number($params.tilt) > 90
-								? 'text-red'
-								: ''}"
-							name="tilt"
-							step="1"
-							min="0"
-							max="90"
-							bind:value={$params.tilt}
-						/>
-						<Label
-							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-							for="tilt">Panel Tilt (0° horizontal)</Label
-						>
-						{#if Number($params.tilt) < 0 || Number($params.tilt) > 90}
-							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
-						{/if}
-					</div>
-
-					<div class="relative">
-						<Input
-							type="number"
-							class="h-12 cursor-pointer pt-6 {Number($params.azimuth) < -180 ||
-							Number($params.azimuth) > 180
-								? 'text-red'
-								: ''}"
-							name="azimuth"
-							id="azimuth"
-							step="1"
-							min="-180"
-							max="180"
-							bind:value={$params.azimuth}
-						/>
-						<Label
-							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
-						>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
-							<div class="invalid-tooltip" transition:slide>
-								Azimuth must be between -180° (north) and 180° (north)
-							</div>
-						{/if}
-					</div>
-				</div>
+				<TiltAzimuthInputs bind:params={$params} />
 			</AccordionItem>
 			<AccordionItem id="spread-variables" title="Ensemble Spread Variables">
 				<div

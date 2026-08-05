@@ -15,17 +15,17 @@
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
 	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
 	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
+	import TiltAzimuthInputs from '$lib/components/variables/tilt-azimuth-inputs.svelte';
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
@@ -367,73 +367,13 @@
 					>
 					and <mark>&past_hours=</mark> as shown below.
 				</small>
-				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
-					<div class="relative">
-						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{forecastHours?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each forecastHoursOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Forecast Hours</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative">
-						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{pastHours?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each pastHoursOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Past Hours</Label
-							>
-						</Select.Root>
-					</div>
-
-					<div class="relative md:col-span-2">
-						<Select.Root
-							name="temporal_resolution"
-							type="single"
-							bind:value={$params.temporal_resolution}
-						>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{temporalResolution?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each temporalResolutionOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Temporal Resolution For Hourly Data</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative md:col-span-2">
-						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-[placeholder]:text-foreground h-12 cursor-pointer pt-6"
-								>{cellSelection?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each gridCellSelectionOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Grid Cell Selection</Label
-							>
-						</Select.Root>
-					</div>
-				</div>
+				<AdditionalOptionsSelects
+					bind:params={$params}
+					{forecastHoursOptions}
+					{pastHoursOptions}
+					{temporalResolutionOptions}
+					{gridCellSelectionOptions}
+				/>
 			</AccordionItem>
 			<AccordionItem
 				id="solar-variables"
@@ -519,54 +459,7 @@
 					specify Tilt and Azimuth below.
 				</small>
 
-				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
-					<div class="relative">
-						<Input
-							id="tilt"
-							type="number"
-							class="h-12 cursor-pointer pt-6 {Number($params.tilt) < 0 || Number($params.tilt) > 90
-								? 'text-red'
-								: ''}"
-							name="tilt"
-							step="1"
-							min="0"
-							max="90"
-							bind:value={$params.tilt}
-						/>
-						<Label
-							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-							for="tilt">Panel Tilt (0° horizontal)</Label
-						>
-						{#if Number($params.tilt) < 0 || Number($params.tilt) > 90}
-							<div class="invalid-tooltip" transition:slide>Tilt must be between 0° and 90°</div>
-						{/if}
-					</div>
-
-					<div class="relative">
-						<Input
-							type="number"
-							class="h-12 cursor-pointer pt-6 {Number($params.azimuth) < -180 ||
-							Number($params.azimuth) > 180
-								? 'text-red'
-								: ''}"
-							name="azimuth"
-							id="azimuth"
-							step="1"
-							min="-180"
-							max="180"
-							bind:value={$params.azimuth}
-						/>
-						<Label
-							class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-							for="azimuth">Panel Azimuth (0° S, -90° E, 90° W, ±180° N)</Label
-						>
-						{#if Number($params.azimuth) < -180 || Number($params.azimuth) > 180}
-							<div class="invalid-tooltip" transition:slide>
-								Azimuth must be between -180° (north) and 180° (north)
-							</div>
-						{/if}
-					</div>
-				</div>
+				<TiltAzimuthInputs bind:params={$params} />
 			</AccordionItem>
 			<AccordionItem
 				id="pressure-levels"

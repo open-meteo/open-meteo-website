@@ -14,6 +14,7 @@ import {
 	ukmo_2km_variables,
 	ukmo_variables
 } from '../ensemble-options';
+import { dayOptions } from '../options';
 
 export const gem_global_variables = [
 	'temperature_2m',
@@ -100,14 +101,6 @@ export const models = [
 	[{ value: 'google_weathernext2_ensemble_mean', label: 'Google WeatherNext 2 Ensemble Mean' }]
 ];
 
-export const forecastDaysOptions = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days' },
-	{ value: '7', label: '7 days (default)' },
-	{ value: '14', label: '14 days' },
-	{ value: '16', label: '16 days' },
-	{ value: '30', label: '30 days' },
-	{ value: '35', label: '35 days' }
-];
+export const forecastDaysOptions = dayOptions([1, 3, 7, 14, 16, 30, 35], 7);
 
 export const noSpreadVariables = ['is_day', 'weather_code'];

@@ -1,13 +1,4 @@
-export const pressureVariables = [
-	{ value: 'temperature', label: 'Temperature' },
-	{ value: 'dew_point', label: 'Dewpoint' },
-	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud Cover' },
-	{ value: 'wind_speed', label: 'Wind Speed' },
-	{ value: 'wind_direction', label: 'Wind Direction' },
-	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
-	{ value: 'geopotential_height', label: 'Geopotential Height' }
-];
+export { pressureVariablesWithDewpointAndVerticalVelocity as pressureVariables } from '../options';
 
 export const levels = [
 	10, 15, 20, 30, 40, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425,

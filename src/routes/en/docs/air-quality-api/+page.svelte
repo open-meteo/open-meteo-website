@@ -10,14 +10,13 @@
 	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
 
 	import * as Accordion from '$lib/components/ui/accordion';
-	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
 	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import TimeSelector from '$lib/components/time/time-selector.svelte';
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
@@ -428,73 +427,13 @@
 					>
 					and <mark>&past_hours=</mark> as shown below.
 				</small>
-				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
-					<div class="relative">
-						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{forecastHours?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each forecastHoursOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Forecast Hours</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative">
-						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{pastHours?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each pastHoursOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Past Hours</Label
-							>
-						</Select.Root>
-					</div>
-
-					<div class="relative md:col-span-2">
-						<Select.Root
-							name="temporal_resolution"
-							type="single"
-							bind:value={$params.temporal_resolution}
-						>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{temporalResolution?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each temporalResolutionOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Temporal Resolution For Hourly Data</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative md:col-span-2">
-						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{cellSelection?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each gridCellSelectionOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Grid Cell Selection</Label
-							>
-						</Select.Root>
-					</div>
-				</div>
+				<AdditionalOptionsSelects
+					bind:params={$params}
+					{forecastHoursOptions}
+					{pastHoursOptions}
+					{temporalResolutionOptions}
+					{gridCellSelectionOptions}
+				/>
 			</AccordionItem>
 		</Accordion.Root>
 	</div>

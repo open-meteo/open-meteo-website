@@ -15,7 +15,6 @@
 	import * as Alert from '$lib/components/ui/alert';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ApiModeDescription from '$lib/components/api-mode/api-mode-description.svelte';
@@ -27,6 +26,8 @@
 	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
 	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
+	import LabeledSelect from '$lib/components/select/labeled-select.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
@@ -231,73 +232,13 @@
 					>
 					and <mark>&past_hours=</mark> as shown below.
 				</small>
-				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
-					<div class="relative">
-						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{forecastHours?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each forecastHoursOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Forecast Hours</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative">
-						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{pastHours?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each pastHoursOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Past Hours</Label
-							>
-						</Select.Root>
-					</div>
-
-					<div class="relative md:col-span-2">
-						<Select.Root
-							name="temporal_resolution"
-							type="single"
-							bind:value={$params.temporal_resolution}
-						>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{temporalResolution?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each temporalResolutionOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Temporal Resolution For Hourly Data</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative md:col-span-2">
-						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{cellSelection?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each gridCellSelectionOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Grid Cell Selection</Label
-							>
-						</Select.Root>
-					</div>
-				</div>
+				<AdditionalOptionsSelects
+					bind:params={$params}
+					{forecastHoursOptions}
+					{pastHoursOptions}
+					{temporalResolutionOptions}
+					{gridCellSelectionOptions}
+				/>
 			</AccordionItem>
 			<AccordionItem
 				id="models"
@@ -345,44 +286,18 @@
 					</small>
 				</div>
 				<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:grid-cols-2 md:gap-6">
-					<div class="relative">
-						<Select.Root
-							name="forecast_minutely_15"
-							type="single"
-							bind:value={$params.forecast_minutely_15}
-						>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{forecastMinutely15?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each forecastMinutely15Options as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Forecast Minutely 15</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative">
-						<Select.Root
-							name="past_minutely_15"
-							type="single"
-							bind:value={$params.past_minutely_15}
-						>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{pastMinutely15?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each pastMinutely15Options as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Past Minutely 15</Label
-							>
-						</Select.Root>
-					</div>
+					<LabeledSelect
+						name="forecast_minutely_15"
+						label="Forecast Minutely 15"
+						options={forecastMinutely15Options}
+						bind:value={$params.forecast_minutely_15}
+					/>
+					<LabeledSelect
+						name="past_minutely_15"
+						label="Past Minutely 15"
+						options={pastMinutely15Options}
+						bind:value={$params.past_minutely_15}
+					/>
 				</div>
 			</AccordionItem>
 		</Accordion.Root>

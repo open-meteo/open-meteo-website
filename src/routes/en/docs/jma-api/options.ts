@@ -1,3 +1,7 @@
+import { dayOptions } from '../options';
+
+export { pressureVariablesWithDewpointAndVerticalVelocity as pressureVariables } from '../options';
+
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
@@ -28,17 +32,6 @@ export const defaultParameters = {
 	cell_selection: undefined,
 	temporal_resolution: undefined
 };
-
-export const pressureVariables = [
-	{ value: 'temperature', label: 'Temperature' },
-	{ value: 'dew_point', label: 'Dewpoint' },
-	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud Cover' },
-	{ value: 'wind_speed', label: 'Wind Speed' },
-	{ value: 'wind_direction', label: 'Wind Direction' },
-	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
-	{ value: 'geopotential_height', label: 'Geopotential Height' }
-];
 
 export const levels = [
 	1000, 975, 950, 925, 900, 850, 800, 700, 600, 500, 400, 300, 250, 200, 150, 100
@@ -118,10 +111,4 @@ export const models = [
 	]
 ];
 
-export const forecastDaysOptions = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days' },
-	{ value: '5', label: '5 days' },
-	{ value: '7', label: '7 days (default)' },
-	{ value: '1', label: '11 days' }
-];
+export const forecastDaysOptions = dayOptions([1, 3, 5, 7, 11], 7);

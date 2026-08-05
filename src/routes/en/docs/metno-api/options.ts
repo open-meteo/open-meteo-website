@@ -1,3 +1,5 @@
+export { forecastDaysOptionsMax15Default3 as forecastDaysOptions } from '../options';
+
 export const defaultParameters = {
 	hourly: [],
 	models: [],
@@ -68,12 +70,4 @@ export const models = [
 		{ value: 'metno_seamless', label: 'MET Norway Nordic Seamless (with ECMWF)' },
 		{ value: 'metno_nordic', label: 'MET Norway Nordic' }
 	]
-];
-
-export const forecastDaysOptions = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days (default)' },
-	{ value: '5', label: '5 days' },
-	{ value: '10', label: '10 days' },
-	{ value: '15', label: '15 days' }
 ];
