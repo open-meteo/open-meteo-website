@@ -1,3 +1,7 @@
+export { forecastDaysOptionsMax8Default3 as forecastDaysOptions } from '../options';
+
+export { dailyBasic as daily } from '../options';
+
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
@@ -62,37 +66,6 @@ export const hourly = [
 	]
 ];
 
-export const daily = [
-	[
-		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
-		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' }
-	],
-	[
-		{ value: 'sunrise', label: 'Sunrise' },
-		{ value: 'sunset', label: 'Sunset' },
-		{ value: 'daylight_duration', label: 'Daylight Duration' },
-		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
-	],
-	[
-		{ value: 'rain_sum', label: 'Rain Sum' },
-		{ value: 'showers_sum', label: 'Showers Sum' },
-		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
-		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
-		{ value: 'precipitation_probability_max', label: 'Precipitation Probability Max' }
-	],
-	[
-		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
-		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
-		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
-		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
-	]
-];
-
 export const additionalVariables = [
 	[
 		{ value: 'is_day', label: 'Is Day or Night' },
@@ -114,12 +87,4 @@ export const models = [
 		{ value: 'meteoswiss_icon_ch1', label: 'MeteoSwiss ICON CH1' },
 		{ value: 'meteoswiss_icon_ch2', label: 'MeteoSwiss ICON CH2' }
 	]
-];
-
-export const forecastDaysOptions = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days (default)' },
-	{ value: '5', label: '5 days' },
-	{ value: '7', label: '7 days' },
-	{ value: '8', label: '8 days' }
 ];

@@ -41,6 +41,37 @@ export const pressureVariables = [
 	{ value: 'geopotential_height', label: 'Geopotential Height' }
 ];
 
+// Shared by: gfs-api, cma-api, jma-api
+export const pressureVariablesWithDewpointAndVerticalVelocity = [
+	{ value: 'temperature', label: 'Temperature' },
+	{ value: 'dew_point', label: 'Dewpoint' },
+	{ value: 'relative_humidity', label: 'Relative Humidity' },
+	{ value: 'cloud_cover', label: 'Cloud Cover' },
+	{ value: 'wind_speed', label: 'Wind Speed' },
+	{ value: 'wind_direction', label: 'Wind Direction' },
+	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
+	{ value: 'geopotential_height', label: 'Geopotential Height' }
+];
+// Shared by: gem-api, knmi-api, meteofrance-api
+export const pressureVariablesWithDewpoint = [
+	{ value: 'temperature', label: 'Temperature' },
+	{ value: 'dew_point', label: 'Dewpoint' },
+	{ value: 'relative_humidity', label: 'Relative Humidity' },
+	{ value: 'cloud_cover', label: 'Cloud Cover' },
+	{ value: 'wind_speed', label: 'Wind Speed' },
+	{ value: 'wind_direction', label: 'Wind Direction' },
+	{ value: 'geopotential_height', label: 'Geopotential Height' }
+];
+// Shared by: ecmwf-api, italia-meteo-arpae-api, ukmo-api
+export const pressureVariablesWithVerticalVelocity = [
+	{ value: 'temperature', label: 'Temperature' },
+	{ value: 'relative_humidity', label: 'Relative Humidity' },
+	{ value: 'cloud_cover', label: 'Cloud Cover' },
+	{ value: 'wind_speed', label: 'Wind Speed' },
+	{ value: 'wind_direction', label: 'Wind Direction' },
+	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
+	{ value: 'geopotential_height', label: 'Geopotential Height' }
+];
 export const levels = [
 	30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000
 ].reverse();
@@ -191,6 +222,69 @@ export const daily = [
 	]
 ];
 
+// Shared by: bom-api, cma-api, dmi-api, knmi-api
+export const dailyWithUvIndex = [
+	[
+		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
+		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
+		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
+		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' }
+	],
+	[
+		{ value: 'sunrise', label: 'Sunrise' },
+		{ value: 'sunset', label: 'Sunset' },
+		{ value: 'daylight_duration', label: 'Daylight Duration' },
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
+		{ value: 'uv_index_max', label: 'UV Index' },
+		{ value: 'uv_index_clear_sky_max', label: 'UV Index Clear Sky' }
+	],
+	[
+		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
+		{ value: 'rain_sum', label: 'Rain Sum' },
+		{ value: 'showers_sum', label: 'Showers Sum' },
+		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' }
+	],
+	[
+		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
+		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
+		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
+		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
+	]
+];
+// Shared by: dwd-api, italia-meteo-arpae-api, kma-api, meteoswiss-api, ukmo-api
+export const dailyBasic = [
+	[
+		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
+		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
+		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
+		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' }
+	],
+	[
+		{ value: 'sunrise', label: 'Sunrise' },
+		{ value: 'sunset', label: 'Sunset' },
+		{ value: 'daylight_duration', label: 'Daylight Duration' },
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
+	],
+	[
+		{ value: 'rain_sum', label: 'Rain Sum' },
+		{ value: 'showers_sum', label: 'Showers Sum' },
+		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
+		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
+		{ value: 'precipitation_probability_max', label: 'Precipitation Probability Max' }
+	],
+	[
+		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
+		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
+		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
+		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
+	]
+];
 export const additionalDaily = [
 	[
 		{ value: 'temperature_2m_mean', label: 'Mean Temperature (2 m)' },
@@ -401,6 +495,38 @@ export const forecastDaysOptions = [
 	{ value: '16', label: '16 days' }
 ];
 
+// Shared by: italia-meteo-arpae-api, meteoswiss-api
+export const forecastDaysOptionsMax8Default3 = [
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days (default)' },
+	{ value: '5', label: '5 days' },
+	{ value: '7', label: '7 days' },
+	{ value: '8', label: '8 days' }
+];
+// Shared by: chmi-api, dmi-api, knmi-api, metno-api
+export const forecastDaysOptionsMax15Default3 = [
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days (default)' },
+	{ value: '5', label: '5 days' },
+	{ value: '10', label: '10 days' },
+	{ value: '15', label: '15 days' }
+];
+// Shared by: bom-api, gem-api
+export const forecastDaysOptionsMax10 = [
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days' },
+	{ value: '5', label: '5 days' },
+	{ value: '7', label: '7 days (default)' },
+	{ value: '10', label: '10 days' }
+];
+// Shared by: dwd-api, kma-api, ukmo-api
+export const forecastDaysOptionsMax8 = [
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days' },
+	{ value: '5', label: '5 days' },
+	{ value: '7', label: '7 days (default)' },
+	{ value: '8', label: '8 days' }
+];
 export const pastDaysOptions = [
 	{ value: '0', label: '0 days (default)' },
 	{ value: '1', label: '1 day' },

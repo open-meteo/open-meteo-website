@@ -5,15 +5,10 @@
 
 	import { urlHashStore } from '$lib/stores/url-hash-store';
 
-	import { sliceIntoChunks } from '$lib/utils';
 	import { countPressureVariables, countVariables } from '$lib/utils/meteo';
 
 	import * as Accordion from '$lib/components/ui/accordion';
 	import * as Alert from '$lib/components/ui/alert';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import ApiModeDescription from '$lib/components/api-mode/api-mode-description.svelte';
@@ -22,7 +17,9 @@
 	import { apiModeFormAction } from '$lib/components/api-mode/utils';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import PressureVariablesSelector from '$lib/components/pressure/pressure-variables-selector.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
 	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
 
@@ -76,7 +73,6 @@
 	);
 
 	let accordionValues: string[] = $state([]);
-	let pressureVariablesTab = $state('temperature');
 	onMount(() => {
 		if (
 			(countVariables(additionalVariables, $params.hourly).active ||
@@ -187,157 +183,25 @@
 					>
 					and <mark>&past_hours=</mark> as shown below.
 				</small>
-				<div class=" mt-2 grid grid-cols-1 gap-3 md:mt-4 md:grid-cols-4 md:gap-6">
-					<div class="relative">
-						<Select.Root name="forecast_hours" type="single" bind:value={$params.forecast_hours}>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{forecastHours?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each forecastHoursOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Forecast Hours</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative">
-						<Select.Root name="past_hours" type="single" bind:value={$params.past_hours}>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{pastHours?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each pastHoursOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Past Hours</Label
-							>
-						</Select.Root>
-					</div>
-
-					<div class="relative md:col-span-2">
-						<Select.Root
-							name="temporal_resolution"
-							type="single"
-							bind:value={$params.temporal_resolution}
-						>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{temporalResolution?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each temporalResolutionOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Temporal Resolution For Hourly Data</Label
-							>
-						</Select.Root>
-					</div>
-					<div class="relative md:col-span-2">
-						<Select.Root name="cell_selection" type="single" bind:value={$params.cell_selection}>
-							<Select.Trigger class="data-placeholder:text-foreground h-12 cursor-pointer pt-6"
-								>{cellSelection?.label}</Select.Trigger
-							>
-							<Select.Content preventScroll={false} class="border-border">
-								{#each gridCellSelectionOptions as { value, label } (value)}
-									<Select.Item {value}>{label}</Select.Item>
-								{/each}
-							</Select.Content>
-							<Label class="text-muted-foreground absolute top-[0.35rem] left-2 z-10 px-1 text-xs"
-								>Grid Cell Selection</Label
-							>
-						</Select.Root>
-					</div>
-				</div>
+				<AdditionalOptionsSelects
+					bind:params={$params}
+					{forecastHoursOptions}
+					{pastHoursOptions}
+					{temporalResolutionOptions}
+					{gridCellSelectionOptions}
+				/>
 			</AccordionItem>
 			<AccordionItem
 				id="pressure-levels"
 				title="Pressure Level Variables"
 				count={countPressureVariables(pressureVariables, levels, $params.hourly)}
 			>
-				<div class="flex flex-col gap-3 md:flex-row md:gap-6">
-					<div class="w-full md:w-56.75">
-						<ToggleGroup.Root type="single" bind:value={pressureVariablesTab}>
-							<div class="border-border flex flex-col rounded-lg border">
-								{#each pressureVariables as variable, i (i)}
-									<ToggleGroup.Item
-										value={variable.value}
-										class="min-h-12 w-56.25 cursor-pointer rounded-none py-1.5 opacity-100! lg:min-h-[unset] {i ===
-										0
-											? 'rounded-t-md rounded-b-none!'
-											: ''} {i === pressureVariables.length - 1
-											? 'rounded-t-none! rounded-b-md'
-											: ''}"
-										disabled={pressureVariablesTab === variable.value}
-										onclick={() => (pressureVariablesTab = variable.value)}
-										><div class="flex w-full items-center justify-between gap-2 text-left">
-											{variable.label}
-											<span class="text-xs">
-												{levels.filter((level) =>
-													$params.hourly?.includes(`${variable.value}_${level}hPa`)
-												).length
-													? '(' +
-														levels.filter((level) =>
-															$params.hourly?.includes(`${variable.value}_${level}hPa`)
-														).length +
-														'/' +
-														levels.length +
-														')'
-													: ''}
-											</span>
-										</div></ToggleGroup.Item
-									>
-								{/each}
-							</div>
-						</ToggleGroup.Root>
-					</div>
-					<div class="w-full">
-						{#each pressureVariables as variable, i (i)}
-							{#if pressureVariablesTab === variable.value}
-								<div class="mb-3">{variable.label}</div>
-								<div class="grid grid-cols-1 lg:grid-cols-3">
-									{#each sliceIntoChunks(levels, levels.length / 3 + 1) as chunk, j (j)}
-										<div>
-											{#each chunk as level, k (k)}
-												<div class="group flex items-center">
-													<Checkbox
-														id="{variable.value}_{level}hPa"
-														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
-														value="{variable.value}_{level}hPa"
-														checked={$params.hourly?.includes(`${variable.value}_${level}hPa`)}
-														aria-labelledby="{variable.value}_{level}hPa_label"
-														onCheckedChange={() => {
-															const value = `${variable.value}_${level}hPa`;
-															if ($params.hourly?.includes(value)) {
-																$params.hourly = $params.hourly.filter(
-																	(item: string) => item !== value
-																);
-															} else if ($params.hourly) {
-																$params.hourly.push(value);
-																$params.hourly = $params.hourly;
-															}
-														}}
-													/>
-													<Label
-														id="{variable.value}_{level}hPa_label"
-														for="{variable.value}_{level}hPa"
-														class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
-														>{level} hPa</Label
-													>
-												</div>
-											{/each}
-										</div>
-									{/each}
-								</div>
-							{/if}
-						{/each}
-					</div>
-				</div>
+				<PressureVariablesSelector
+					{pressureVariables}
+					{levels}
+					bind:values={$params.hourly}
+					note={false}
+				/>
 			</AccordionItem>
 			<AccordionItem
 				id="ensemble-spread-variables"

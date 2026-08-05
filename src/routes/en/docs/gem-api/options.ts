@@ -1,3 +1,7 @@
+export { forecastDaysOptionsMax10 as forecastDaysOptions } from '../options';
+
+export { pressureVariablesWithDewpoint as pressureVariables } from '../options';
+
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
@@ -24,16 +28,6 @@ export const defaultParameters = {
 	time_mode: 'forecast_days',
 	cell_selection: ''
 };
-
-export const pressureVariables = [
-	{ value: 'temperature', label: 'Temperature' },
-	{ value: 'dew_point', label: 'Dewpoint' },
-	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud Cover' },
-	{ value: 'wind_speed', label: 'Wind Speed' },
-	{ value: 'wind_direction', label: 'Wind Direction' },
-	{ value: 'geopotential_height', label: 'Geopotential Height' }
-];
 
 export const levels = [
 	1015, 1000, 985, 970, 950, 925, 900, 875, 850, 800, 750, 700, 650, 600, 550, 500, 450, 400, 350,
@@ -131,12 +125,4 @@ export const models = [
 		{ value: 'cmc_gem_hrdps', label: 'GEM HRDPS Continental' },
 		{ value: 'cmc_gem_hrdps_west', label: 'GEM HRDPS West' }
 	]
-];
-
-export const forecastDaysOptions = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days' },
-	{ value: '5', label: '5 days' },
-	{ value: '7', label: '7 days (default)' },
-	{ value: '10', label: '10 days' }
 ];

@@ -1,3 +1,9 @@
+export { forecastDaysOptionsMax8Default3 as forecastDaysOptions } from '../options';
+
+export { pressureVariablesWithVerticalVelocity as pressureVariables } from '../options';
+
+export { dailyBasic as daily } from '../options';
+
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
@@ -29,16 +35,6 @@ export const defaultParameters = {
 	temperature_unit: 'celsius',
 	precipitation_unit: 'mm'
 };
-
-export const pressureVariables = [
-	{ value: 'temperature', label: 'Temperature' },
-	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud Cover' },
-	{ value: 'wind_speed', label: 'Wind Speed' },
-	{ value: 'wind_direction', label: 'Wind Direction' },
-	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
-	{ value: 'geopotential_height', label: 'Geopotential Height' }
-];
 
 export const levels = [250, 500, 700, 850, 925, 1000].reverse();
 
@@ -91,37 +87,6 @@ export const hourly = [
 	]
 ];
 
-export const daily = [
-	[
-		{ value: 'weather_code', label: 'Weather code' },
-		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m)' },
-		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
-		{ value: 'apparent_temperature_max', label: 'Maximum Apparent Temperature (2 m)' },
-		{ value: 'apparent_temperature_min', label: 'Minimum Apparent Temperature (2 m)' }
-	],
-	[
-		{ value: 'sunrise', label: 'Sunrise' },
-		{ value: 'sunset', label: 'Sunset' },
-		{ value: 'daylight_duration', label: 'Daylight Duration' },
-		{ value: 'sunshine_duration', label: 'Sunshine Duration' }
-	],
-	[
-		{ value: 'rain_sum', label: 'Rain Sum' },
-		{ value: 'showers_sum', label: 'Showers Sum' },
-		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
-		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
-		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
-		{ value: 'precipitation_probability_max', label: 'Precipitation Probability Max' }
-	],
-	[
-		{ value: 'wind_speed_10m_max', label: 'Maximum Wind Speed (10 m)' },
-		{ value: 'wind_gusts_10m_max', label: 'Maximum Wind Gusts (10 m)' },
-		{ value: 'wind_direction_10m_dominant', label: 'Dominant Wind Direction (10 m)' },
-		{ value: 'shortwave_radiation_sum', label: 'Shortwave Radiation Sum' },
-		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
-	]
-];
-
 export const additionalVariables = [
 	[
 		{ value: 'is_day', label: 'Is Day or Night' },
@@ -139,12 +104,4 @@ export const additionalVariables = [
 
 export const models = [
 	[{ value: 'italia_meteo_arpae_icon_2i', label: 'ItaliaMeteo ARPAE ICON-2i' }]
-];
-
-export const forecastDaysOptions = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days (default)' },
-	{ value: '5', label: '5 days' },
-	{ value: '7', label: '7 days' },
-	{ value: '8', label: '8 days' }
 ];

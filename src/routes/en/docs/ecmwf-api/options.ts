@@ -1,3 +1,5 @@
+export { pressureVariablesWithVerticalVelocity as pressureVariables } from '../options';
+
 export const defaultParameters = {
 	hourly: [],
 	models: [],
@@ -26,16 +28,6 @@ export const defaultParameters = {
 	cell_selection: undefined,
 	temporal_resolution: undefined
 };
-
-export const pressureVariables = [
-	{ value: 'temperature', label: 'Temperature' },
-	{ value: 'relative_humidity', label: 'Relative Humidity' },
-	{ value: 'cloud_cover', label: 'Cloud Cover' },
-	{ value: 'wind_speed', label: 'Wind Speed' },
-	{ value: 'wind_direction', label: 'Wind Direction' },
-	{ value: 'vertical_velocity', label: 'Vertical Velocity' },
-	{ value: 'geopotential_height', label: 'Geopotential Height' }
-];
 
 export const levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 100, 50];
 

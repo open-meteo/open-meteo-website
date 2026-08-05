@@ -1,3 +1,7 @@
+export { solarVariables } from '../options';
+
+export { forecastDaysOptionsMax15Default3 as forecastDaysOptions } from '../options';
+
 export const defaultParameters = {
 	daily: [],
 	hourly: [],
@@ -104,25 +108,6 @@ export const additionalVariables = [
 	]
 ];
 
-export const solarVariables = [
-	[
-		{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
-		{ value: 'direct_radiation', label: 'Direct Solar Radiation' },
-		{ value: 'diffuse_radiation', label: 'Diffuse Solar Radiation DHI' },
-		{ value: 'direct_normal_irradiance', label: 'Direct Normal Irradiance DNI' },
-		{ value: 'global_tilted_irradiance', label: 'Global Tilted Radiation GTI' },
-		{ value: 'terrestrial_radiation', label: 'Terrestrial Solar Radiation' }
-	],
-	[
-		{ value: 'shortwave_radiation_instant', label: 'Shortwave Solar Radiation GHI (Instant)' },
-		{ value: 'direct_radiation_instant', label: 'Direct Solar Radiation (Instant)' },
-		{ value: 'diffuse_radiation_instant', label: 'Diffuse Solar Radiation DHI (Instant)' },
-		{ value: 'direct_normal_irradiance_instant', label: 'Direct Normal Irradiance DNI (Instant)' },
-		{ value: 'global_tilted_irradiance_instant', label: 'Global Tilted Radiation GTI (Instant)' },
-		{ value: 'terrestrial_radiation_instant', label: 'Terrestrial Solar Radiation (Instant)' }
-	]
-];
-
 export const pressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
 	{ value: 'relative_humidity', label: 'Relative Humidity' },
@@ -144,12 +129,4 @@ export const models = [
 		{ value: 'chmi_aladin_central_europe_2km', label: 'CHMI Aladin Central Europe 2km' },
 		{ value: 'chmi_aladin_cz_1km', label: 'CHMI Aladin CZ 1km' }
 	]
-];
-
-export const forecastDaysOptions = [
-	{ value: '1', label: '1 day' },
-	{ value: '3', label: '3 days (default)' },
-	{ value: '5', label: '5 days' },
-	{ value: '10', label: '10 days' },
-	{ value: '15', label: '15 days' }
 ];
