@@ -11,7 +11,9 @@
 	"description": "This package contains the Open-Meteo website",
 	"scripts": {
 		"dev": "svelte-kit sync && vite dev --host",
+		"prebuild": "node scripts/assets.mjs pull",
 		"build": "svelte-kit sync && vite build -l info",
+		"prebuild-weather": "node scripts/assets.mjs pull",
 		"build-weather": "BUILD_WEATHER_PAGES=true svelte-kit sync && BUILD_WEATHER_PAGES=true vite build -l info",
 		"staging": "NODE_ENV=development vite build --mode development",
 		"preview": "vite preview --host",
