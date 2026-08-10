@@ -17,6 +17,8 @@
 		"preview": "vite preview --host",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"assets:pull": "node scripts/assets.mjs pull",
+		"assets:push": "node scripts/assets.mjs push",
 		"lint": "prettier --check . && eslint .",
 		"test": "vitest",
 		"coverage": "vitest run --coverage",

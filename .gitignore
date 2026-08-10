@@ -13,3 +13,10 @@ vite.config.ts.timestamp-*
 yarn.lock
 build-stats.html
 build-stats.json
+
+# Large static assets live in R2, not git — fetch with `npm run assets:pull`
+# (see scripts/assets.config.json)
+/static/images/models
+/static/images/backgrounds
+/static/images/country-flags
+/static/images/weather-icons
