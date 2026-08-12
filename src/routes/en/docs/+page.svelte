@@ -88,7 +88,13 @@
 	let pressureVariablesTab = $state('temperature');
 
 	let accordionValues: string[] = $state([]);
+	let bestMatchAccordion = $state('');
 	onMount(() => {
+		if (window.location.hash.split(/[#&]/).includes('best_match')) {
+			bestMatchAccordion = 'best_match';
+			document.getElementById('best_match')?.scrollIntoView();
+		}
+
 		if (
 			$params.hourly &&
 			(countVariables(additionalVariables, $params.hourly).active ||
@@ -1308,6 +1314,260 @@
 			</table>
 		</div>
 	</div>
+</div>
+
+<!-- BEST MATCH -->
+<div id="best_match" class="mt-3 scroll-mt-6 md:mt-6">
+	<Accordion.Root
+		type="single"
+		class="border-border rounded-lg border"
+		bind:value={bestMatchAccordion}
+	>
+		<AccordionItem id="best_match" title="Best Match Model Selection" anchor="#best_match">
+			<p>
+				The default model selection <mark>best_match</mark> automatically combines the most suitable weather
+				models for the requested coordinates. Every forecast is built on a global backbone of DWD ICON,
+				NOAA GFS and ECMWF IFS. Depending on the location, high-resolution regional models are added on
+				top. Regions are evaluated from top to bottom and the first match determines the model combination:
+			</p>
+			<div class="overflow-auto">
+				<table class="docs-table my-3 w-full min-w-150">
+					<thead>
+						<tr>
+							<th scope="col">Region</th>
+							<th scope="col">Regional Models</th>
+							<th scope="col">15-Minutely Data</th>
+						</tr>
+					</thead>
+					<tbody class="[&_a]:text-link [&_a]:underline [&_a]:underline-offset-3">
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/nl.svg"
+											alt="Netherlands"
+											title="Netherlands"
+										/>
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/be.svg"
+											alt="Belgium"
+											title="Belgium"
+										/>
+									</div>
+									Netherlands & Belgium
+								</div>
+							</th>
+							<td
+								><a href={resolve('/en/docs/knmi-api')}>KNMI HARMONIE</a>,
+								<a href={resolve('/en/docs/dwd-api')}>ICON EU & ICON D2</a></td
+							>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/no.svg"
+											alt="Norway"
+											title="Norway"
+										/>
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/se.svg"
+											alt="Sweden"
+											title="Sweden"
+										/>
+									</div>
+									Scandinavia
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/metno-api')}>MET Nordic</a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/gb.svg"
+											alt="United Kingdom"
+											title="United Kingdom"
+										/>
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/ie.svg"
+											alt="Ireland"
+											title="Ireland"
+										/>
+									</div>
+									United Kingdom & Ireland
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/ukmo-api')}>UKMO UK 2 km & Global 10 km</a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/de.svg"
+											alt="Germany"
+											title="Germany"
+										/>
+									</div>
+									Central Europe
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/dwd-api')}>ICON EU & ICON D2</a></td>
+							<td>✓</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/fr.svg"
+											alt="France"
+											title="France"
+										/>
+									</div>
+									France & Western Europe
+								</div>
+							</th>
+							<td
+								><a href={resolve('/en/docs/meteofrance-api')}>AROME France HD (1.5 km) & ARPEGE</a
+								></td
+							>
+							<td>✓</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/dk.svg"
+											alt="Denmark"
+											title="Denmark"
+										/>
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/is.svg"
+											alt="Iceland"
+											title="Iceland"
+										/>
+									</div>
+									Northern Europe & Iceland
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/dmi-api')}>DMI HARMONIE</a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/us.svg"
+											alt="United States"
+											title="United States"
+										/>
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/ca.svg"
+											alt="Canada"
+											title="Canada"
+										/>
+									</div>
+									North America
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/gfs-api')}>NOAA HRRR</a></td>
+							<td>✓</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/jp.svg"
+											alt="Japan"
+											title="Japan"
+										/>
+									</div>
+									Japan
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/jma-api')}>JMA MSM</a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/european_union.svg"
+											alt="European Union"
+											title="European Union"
+										/>
+									</div>
+									Remaining Europe
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/dwd-api')}>ICON EU</a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<div class="flex h-6.5 w-6.5 items-center justify-center text-[23px]">🌍</div>
+									</div>
+									Everywhere else
+								</div>
+							</th>
+							<td>Global models only</td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<p>
+				For each weather variable and forecast hour, the highest-resolution model takes precedence.
+				Where it does not provide data — because its forecast length is exceeded, a variable is not
+				available or the location lies outside its coverage — the next coarser model fills the gap
+				with a smooth transition. Precipitation probability is always derived from ensemble models
+				such as the GFS, ICON and ECMWF IFS ensembles. To override this selection, pick individual
+				models in the <mark>Weather models</mark> section above.
+			</p>
+		</AccordionItem>
+	</Accordion.Root>
 </div>
 
 <!-- API DOCS -->
