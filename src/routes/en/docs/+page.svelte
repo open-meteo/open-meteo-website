@@ -28,6 +28,8 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -89,11 +91,17 @@
 
 	let accordionValues: string[] = $state([]);
 	let bestMatchAccordion = $state('');
+	// Open (and scroll to) the best match section whenever the URL points at it — on
+	// load and on every later hash change, so following a #best_match link from
+	// elsewhere on this page expands the collapsible instead of only jumping to it.
+	const openBestMatchFromHash = (scroll: boolean) => {
+		if (!window.location.hash.split(/[#&]/).includes('best_match')) return;
+		bestMatchAccordion = 'best_match';
+		if (scroll) document.getElementById('best_match')?.scrollIntoView();
+	};
 	onMount(() => {
-		if (window.location.hash.split(/[#&]/).includes('best_match')) {
-			bestMatchAccordion = 'best_match';
-			document.getElementById('best_match')?.scrollIntoView();
-		}
+		openBestMatchFromHash(true);
+		window.addEventListener('hashchange', () => openBestMatchFromHash(false));
 
 		if (
 			$params.hourly &&
@@ -1566,6 +1574,33 @@
 				such as the GFS, ICON and ECMWF IFS ensembles. To override this selection, pick individual
 				models in the <mark>Weather models</mark> section above.
 			</p>
+
+			<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+				<ZoomableImage
+					figureClass="w-full"
+					class="w-full"
+					src="/images/models/best_match_regions_europe.webp"
+					alt="Best match regions in Europe"
+				>
+					{#snippet caption()}
+						Best match regions over Europe, each drawn after the higher-priority regions above it
+						have been taken out. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+					{/snippet}
+				</ZoomableImage>
+
+				<ZoomableImage
+					figureClass="w-full"
+					class="w-full"
+					src="/images/models/best_match_regions_world.webp"
+					alt="Best match regions worldwide"
+				>
+					{#snippet caption()}
+						The same regions worldwide, including North America and Japan. Everywhere outside them
+						uses the global models only. Source:
+						<a href="https://open-meteo.com/">Open-Meteo</a>.
+					{/snippet}
+				</ZoomableImage>
+			</ZoomableImageGallery>
 		</AccordionItem>
 	</Accordion.Root>
 </div>
