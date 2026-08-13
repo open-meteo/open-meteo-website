@@ -83,7 +83,6 @@ export const cmc_gem_global_variables = [
 	'cape',
 	'cloud_cover',
 	'apparent_temperature',
-	'weather_code',
 	'pressure_msl',
 	'et0_fao_evapotranspiration',
 	'vapour_pressure_deficit',
