@@ -153,18 +153,10 @@
 				<div>
 					<p>
 						<small class="text-muted-foreground"
-							>Note: The European Air Quality Index (AQI) ranges from 0-20 (good), 20-40 (fair),
-							40-60 (moderate), 60-80 (poor), 80-100 (very poor) and exceeds 100 for extremely poor
-							conditions.</small
-						>
-					</p>
-					<p>
-						<small class="text-muted-foreground"
-							>Pollutant thresholds in μg/m³ from the <a
-								href="https://airindex.eea.europa.eu/AQI/index.html"
+							>Pollutant thresholds from the <a href="https://airindex.eea.europa.eu/AQI/index.html"
 								>European Environment Agency (EEA)</a
-							> are given on the right, using the bands revised in 2024. Hourly concentrations are used
-							for all five pollutants.</small
+							> are given below, using the bands revised in 2024. Hourly concentrations are used for all
+							five pollutants.</small
 						>
 					</p>
 				</div>
@@ -172,16 +164,14 @@
 					<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 						<table class="docs-table w-full min-w-200" id="airquality_table">
 							<caption
-								>You can find the update timings in the <a
-									class="text-link underline"
-									href="/en/docs/model-updates">model updates documentation</a
-								>.</caption
+								>Index values are interpolated between the thresholds of each band. The overall
+								European AQI is the highest of the five pollutant indices and can exceed 100.</caption
 							>
 							<thead>
 								<tr>
-									<th scope="col">Pollutant <small class="text-muted-foreground">(μg/m³)</small></th
+									<th scope="col"
+										>Pollutant <small class="text-muted-foreground">(hourly)</small></th
 									>
-									<th scope="col">Timespan</th>
 									<th scope="col">Good</th>
 									<th scope="col">Fair</th>
 									<th scope="col">Moderate</th>
@@ -189,11 +179,21 @@
 									<th scope="col">Very poor</th>
 									<th scope="col">Extremely poor</th>
 								</tr>
+								<tr>
+									<th scope="col">AQI</th>
+									<th scope="col">0-20</th>
+									<th scope="col">20-40</th>
+									<th scope="col">40-60</th>
+									<th scope="col">60-80</th>
+									<th scope="col">80-100</th>
+									<th scope="col">&gt;100</th>
+								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<th scope="row">PM<sub>2.5</sub></th>
-									<td>1h</td>
+									<th scope="row"
+										>PM<sub>2.5</sub> <small class="text-muted-foreground">(μg/m³)</small></th
+									>
 									<td>0-5</td>
 									<td>5-15</td>
 									<td>15-50</td>
@@ -202,8 +202,9 @@
 									<td>&gt;140</td>
 								</tr>
 								<tr>
-									<th scope="row">PM<sub>10</sub></th>
-									<td>1h</td>
+									<th scope="row"
+										>PM<sub>10</sub> <small class="text-muted-foreground">(μg/m³)</small></th
+									>
 									<td>0-15</td>
 									<td>15-45</td>
 									<td>45-120</td>
@@ -212,8 +213,9 @@
 									<td>&gt;270</td>
 								</tr>
 								<tr>
-									<th scope="row">NO<sub>2</sub></th>
-									<td>1h</td>
+									<th scope="row"
+										>NO<sub>2</sub> <small class="text-muted-foreground">(μg/m³)</small></th
+									>
 									<td>0-10</td>
 									<td>10-25</td>
 									<td>25-60</td>
@@ -222,8 +224,9 @@
 									<td>&gt;150</td>
 								</tr>
 								<tr>
-									<th scope="row">O<sub>3</sub></th>
-									<td>1h</td>
+									<th scope="row"
+										>O<sub>3</sub> <small class="text-muted-foreground">(μg/m³)</small></th
+									>
 									<td>0-60</td>
 									<td>60-100</td>
 									<td>100-120</td>
@@ -232,8 +235,9 @@
 									<td>&gt;180</td>
 								</tr>
 								<tr>
-									<th scope="row">SO<sub>2</sub></th>
-									<td>1h</td>
+									<th scope="row"
+										>SO<sub>2</sub> <small class="text-muted-foreground">(μg/m³)</small></th
+									>
 									<td>0-20</td>
 									<td>20-40</td>
 									<td>40-125</td>
@@ -260,13 +264,6 @@
 				<div>
 					<p>
 						<small class="text-muted-foreground"
-							>Note: The United States Air Quality Index (AQI) ranges from 0-50 (good), 51-100
-							(moderate), 101-150 (unhealthy for sensitive groups), 151-200 (unhealthy), 201-300
-							(very unhealthy) and 301-500 (hazardous).</small
-						>
-					</p>
-					<p>
-						<small class="text-muted-foreground"
 							>Pollutant thresholds from the <a
 								href="https://en.wikipedia.org/wiki/Air_quality_index#United_States"
 								>United States Environmental Protection Agency (EPA)</a
@@ -287,6 +284,10 @@
 				<div>
 					<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 						<table class="docs-table w-full min-w-200" id="airquality_table_us">
+							<caption
+								>Index values are interpolated between the thresholds of each band. The overall
+								United States AQI is the highest of the six pollutant indices and can exceed 500.</caption
+							>
 							<thead>
 								<tr>
 									<th scope="col">Pollutant</th>
@@ -297,6 +298,16 @@
 									<th scope="col">Unhealthy</th>
 									<th scope="col">Very Unhealthy</th>
 									<th scope="col" colspan="2">Hazardous</th>
+								</tr>
+								<tr>
+									<th scope="col" colspan="2">AQI</th>
+									<th scope="col">0-50</th>
+									<th scope="col">51-100</th>
+									<th scope="col">101-150</th>
+									<th scope="col">151-200</th>
+									<th scope="col">201-300</th>
+									<th scope="col">301-400</th>
+									<th scope="col">401-500</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -1042,61 +1053,106 @@
 </div>
 
 <style>
-	#airquality_table tbody td:nth-child(3) {
+	/* Both tables list six classifications, so size the columns to put the colour
+	   blocks in the same place. The two US "Hazardous" ranges share the width of a
+	   single classification, and the US pollutant and timespan columns together
+	   match the width of the European pollutant column. */
+	#airquality_table thead tr:first-child th:first-child {
+		width: 16%;
+	}
+
+	#airquality_table thead tr:first-child th:not(:first-child) {
+		width: 14%;
+	}
+
+	#airquality_table_us thead tr:first-child th:nth-child(1) {
+		width: 11%;
+	}
+
+	#airquality_table_us thead tr:first-child th:nth-child(2) {
+		width: 5%;
+	}
+
+	#airquality_table_us thead tr:first-child th:nth-child(n + 3) {
+		width: 14%;
+	}
+
+	#airquality_table_us tbody td:nth-child(8),
+	#airquality_table_us tbody td:nth-child(9) {
+		width: 7%;
+	}
+
+	/* The AQI row is the last header row. Its cells line up with the body cells
+	   one column to the left in the US table, where the "AQI" label spans both the
+	   pollutant and timespan columns. */
+	#airquality_table thead tr:last-child th:nth-child(2),
+	#airquality_table tbody td:nth-child(2) {
 		background-color: rgba(80, 240, 230, 1);
 		color: #333;
 	}
 
-	#airquality_table tbody td:nth-child(4) {
+	#airquality_table thead tr:last-child th:nth-child(3),
+	#airquality_table tbody td:nth-child(3) {
 		background-color: rgba(80, 204, 170, 1);
 		color: white;
 	}
 
-	#airquality_table tbody td:nth-child(5) {
+	#airquality_table thead tr:last-child th:nth-child(4),
+	#airquality_table tbody td:nth-child(4) {
 		background-color: rgba(240, 230, 65, 1);
 		color: #333;
 	}
 
-	#airquality_table tbody td:nth-child(6) {
+	#airquality_table thead tr:last-child th:nth-child(5),
+	#airquality_table tbody td:nth-child(5) {
 		background-color: rgba(255, 80, 80, 1);
 		color: white;
 	}
 
-	#airquality_table tbody td:nth-child(7) {
+	#airquality_table thead tr:last-child th:nth-child(6),
+	#airquality_table tbody td:nth-child(6) {
 		background-color: rgba(150, 0, 50, 1);
 		color: white;
 	}
 
-	#airquality_table tbody td:nth-child(8) {
+	#airquality_table thead tr:last-child th:nth-child(7),
+	#airquality_table tbody td:nth-child(7) {
 		background-color: rgba(125, 33, 129, 1);
 		color: white;
 	}
 
+	#airquality_table_us thead tr:last-child th:nth-child(2),
 	#airquality_table_us tbody td:nth-child(3) {
 		background-color: rgba(80, 204, 170, 1);
 		color: white;
 	}
 
+	#airquality_table_us thead tr:last-child th:nth-child(3),
 	#airquality_table_us tbody td:nth-child(4) {
 		background-color: rgba(240, 230, 65, 1);
 		color: #333;
 	}
 
+	#airquality_table_us thead tr:last-child th:nth-child(4),
 	#airquality_table_us tbody td:nth-child(5) {
 		background-color: rgb(240, 167, 65);
 		color: #333;
 	}
 
+	#airquality_table_us thead tr:last-child th:nth-child(5),
 	#airquality_table_us tbody td:nth-child(6) {
 		background-color: rgba(255, 80, 80, 1);
 		color: white;
 	}
 
+	#airquality_table_us thead tr:last-child th:nth-child(6),
 	#airquality_table_us tbody td:nth-child(7) {
 		background-color: rgba(150, 0, 50, 1);
 		color: white;
 	}
 
+	#airquality_table_us thead tr:last-child th:nth-child(7),
+	#airquality_table_us thead tr:last-child th:nth-child(8),
 	#airquality_table_us tbody td:nth-child(8),
 	#airquality_table_us tbody td:nth-child(9) {
 		background-color: rgba(125, 33, 129, 1);
