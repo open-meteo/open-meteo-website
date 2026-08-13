@@ -58,11 +58,11 @@ export const daily = [
 		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
 		{ value: 'cloud_cover_mean', label: 'Mean Cloud Cover' },
 		{ value: 'cloud_cover_min', label: 'Minimum Cloud Cover' },
-		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' }
+		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' },
+		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' }
 	],
 	[
-		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
-		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
 		{ value: 'pressure_msl_mean', label: 'Mean Sea Level Pressure' },
@@ -84,12 +84,7 @@ export const daily = [
 	]
 ];
 
-export const additionalVariables = [
-	[
-		{ value: 'weather_code', label: 'Weather Code' },
-		{ value: 'is_day', label: 'Is Day or Night' }
-	]
-];
+export const additionalVariables = [[{ value: 'is_day', label: 'Is Day or Night' }]];
 
 export const pressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
