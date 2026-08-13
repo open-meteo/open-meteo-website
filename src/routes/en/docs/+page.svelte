@@ -1339,7 +1339,9 @@
 				top. Regions are evaluated from top to bottom and the first match determines the model combination:
 			</p>
 			<div class="overflow-auto">
-				<table class="docs-table my-3 w-full min-w-150">
+				<!-- Only three narrow columns: on xl the table shrinks to its content instead of
+				stretching the full width, which left the region names stranded from their models. -->
+				<table class="docs-table my-3 w-full min-w-150 xl:w-auto">
 					<thead>
 						<tr>
 							<th scope="col">Region</th>
