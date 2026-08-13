@@ -161,10 +161,10 @@
 					<p>
 						<small class="text-muted-foreground"
 							>Pollutant thresholds in μg/m³ from the <a
-								href="https://www.eea.europa.eu/themes/air/air-quality-index"
-								>European Environment Agency (EAA)</a
-							> are given on the right. Particulate Matter (PM) uses a rolling average over the preceding
-							24 hours, while gases use hourly values.</small
+								href="https://airindex.eea.europa.eu/AQI/index.html"
+								>European Environment Agency (EEA)</a
+							> are given on the right, using the bands revised in 2024. Hourly concentrations are used
+							for all five pollutants.</small
 						>
 					</p>
 				</div>
@@ -193,53 +193,53 @@
 							<tbody>
 								<tr>
 									<th scope="row">PM<sub>2.5</sub></th>
-									<td>24h</td>
-									<td>0-10</td>
-									<td>10-20</td>
-									<td>20-25</td>
-									<td>25-50</td>
-									<td>50-75</td>
-									<td>75-800</td>
+									<td>1h</td>
+									<td>0-5</td>
+									<td>5-15</td>
+									<td>15-50</td>
+									<td>50-90</td>
+									<td>90-140</td>
+									<td>&gt;140</td>
 								</tr>
 								<tr>
 									<th scope="row">PM<sub>10</sub></th>
-									<td>24h</td>
-									<td>0-20</td>
-									<td>20-40</td>
-									<td>40-50</td>
-									<td>50-100</td>
-									<td>100-150</td>
-									<td>150-1200</td>
+									<td>1h</td>
+									<td>0-15</td>
+									<td>15-45</td>
+									<td>45-120</td>
+									<td>120-195</td>
+									<td>195-270</td>
+									<td>&gt;270</td>
 								</tr>
 								<tr>
 									<th scope="row">NO<sub>2</sub></th>
 									<td>1h</td>
-									<td>0-40</td>
-									<td>40-90</td>
-									<td>90-120</td>
-									<td>120-230</td>
-									<td>230-340</td>
-									<td>340-1000</td>
+									<td>0-10</td>
+									<td>10-25</td>
+									<td>25-60</td>
+									<td>60-100</td>
+									<td>100-150</td>
+									<td>&gt;150</td>
 								</tr>
 								<tr>
 									<th scope="row">O<sub>3</sub></th>
 									<td>1h</td>
-									<td>0-50</td>
-									<td>50-100</td>
-									<td>100-130</td>
-									<td>130-240</td>
-									<td>240-380</td>
-									<td>380-800</td>
+									<td>0-60</td>
+									<td>60-100</td>
+									<td>100-120</td>
+									<td>120-160</td>
+									<td>160-180</td>
+									<td>&gt;180</td>
 								</tr>
 								<tr>
 									<th scope="row">SO<sub>2</sub></th>
 									<td>1h</td>
-									<td>0-100</td>
-									<td>100-200</td>
-									<td>200-350</td>
-									<td>350-500</td>
-									<td>500-750</td>
-									<td>750-1250</td>
+									<td>0-20</td>
+									<td>20-40</td>
+									<td>40-125</td>
+									<td>125-190</td>
+									<td>190-275</td>
+									<td>&gt;275</td>
 								</tr>
 							</tbody>
 						</table>
@@ -335,9 +335,9 @@
 									<td>9-35.4</td>
 									<td>35.5-55.4</td>
 									<td>55.5-125.4</td>
-									<td>125.5-250.4</td>
+									<td>125.5-225.4</td>
 									<td>225.5-325.4</td>
-									<td>350.5-500</td>
+									<td>325.5-500.4</td>
 								</tr>
 								<tr>
 									<th scope="row"
