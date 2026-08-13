@@ -6,7 +6,7 @@ import { SECTIONS } from '$lib/constants';
 import type { AxisPlotBandsOptions, SeriesOptionsType, YAxisOptions } from 'highcharts';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function jsonToChart(data: any, downloadTime: number) {
+export function jsonToChart(data: any, downloadTime: number, type: string = 'forecast') {
 	const yAxis: YAxisOptions[] = [];
 
 	// A single wind direction series is drawn as a row of arrows pointing where
@@ -19,6 +19,11 @@ export function jsonToChart(data: any, downloadTime: number) {
 		: [];
 	const windArrowKey = windDirectionKeys.length === 1 ? windDirectionKeys[0] : null;
 
+	// Ensemble weather codes are per member or an average over them; a single icon
+	// row would misrepresent both, so plot the codes as values instead
+	const isEnsemble = type === 'ensemble';
+
+	const ghostKeys = new Set<string>();
 	const series: SeriesOptionsType[] = [];
 	SECTIONS.forEach(function (section) {
 		if (!(section in data) || section === 'current') {
@@ -42,8 +47,10 @@ export function jsonToChart(data: any, downloadTime: number) {
 					: 3600 * 1000;
 			const unit = data[`${section}_units`][k[0]];
 			let axisId = null;
-			const isGhost = k[0] == 'weather_code' || (k[0] == windArrowKey && section == windSection);
+			const isGhost =
+				(k[0] == 'weather_code' && !isEnsemble) || (k[0] == windArrowKey && section == windSection);
 			if (isGhost) {
+				ghostKeys.add(k[0]);
 				// Icons replace this series; it becomes an invisible "ghost" on a
 				// hidden axis so the value still shows up in the shared tooltip
 				yAxis.push({ visible: false, title: { text: unit } });
@@ -86,6 +93,8 @@ export function jsonToChart(data: any, downloadTime: number) {
 			// Per-model series like weather_code_gfs_seamless stay as numeric lines,
 			// but show the condition name in the tooltip
 			if (k[0].startsWith('weather_code')) {
+				// Averaging wmo codes is meaningless; grouping keeps the first value
+				ser.dataGrouping.approximation = 'open';
 				ser.tooltip.pointFormatter = function () {
 					const condition = getWeatherCode(this.y);
 					return (
@@ -108,8 +117,8 @@ export function jsonToChart(data: any, downloadTime: number) {
 				ser.marker = { enabled: false };
 				ser.states = { hover: { enabled: false } };
 				ser.showInLegend = false;
-				// Averaging wmo codes or circular degrees is meaningless; grouping
-				// keeps the first value instead
+				// Averaging circular degrees is meaningless; grouping keeps the
+				// first value instead
 				ser.dataGrouping.approximation = 'open';
 			}
 
@@ -148,7 +157,7 @@ export function jsonToChart(data: any, downloadTime: number) {
 	}
 
 	const weatherIconPoints: { x: number; icon: string }[] = [];
-	if ('hourly' in data && 'weather_code' in data.hourly) {
+	if (!isEnsemble && 'hourly' in data && 'weather_code' in data.hourly) {
 		const codes: number[] = data.hourly.weather_code;
 		const times: number[] = data.hourly.time;
 		const interval = times.length > 1 ? times[1] - times[0] : 3600;
@@ -164,7 +173,7 @@ export function jsonToChart(data: any, downloadTime: number) {
 				icon: getWeatherIconName(codes[i], daytime)
 			});
 		}
-	} else if ('daily' in data && 'weather_code' in data.daily) {
+	} else if (!isEnsemble && 'daily' in data && 'weather_code' in data.daily) {
 		const codes: number[] = data.daily.weather_code;
 		const times: number[] = data.daily.time;
 		for (let i = 0; i < codes.length; i++) {
@@ -204,7 +213,7 @@ export function jsonToChart(data: any, downloadTime: number) {
 
 	// Ghost series are only reachable through a shared tooltip; on busy charts
 	// the tooltip is not shared and they would hijack hover instead
-	const visibleSeries = series.filter((s) => s.name !== 'weather_code' && s.name !== windArrowKey);
+	const visibleSeries = series.filter((s) => !ghostKeys.has(s.name as string));
 	const sharedTooltip = visibleSeries.length <= 5;
 	const chartSeries = sharedTooltip ? series : visibleSeries;
 
