@@ -316,9 +316,9 @@
 			}
 			let tEnd = performance.now() - t0;
 			if (Array.isArray(json)) {
-				return json.map((x) => jsonToChart(x, tEnd));
+				return json.map((x) => jsonToChart(x, tEnd, resolvedType));
 			} else {
-				return [jsonToChart(json, tEnd)];
+				return [jsonToChart(json, tEnd, resolvedType)];
 			}
 		} catch (err) {
 			if (err instanceof Error) error = err.message;

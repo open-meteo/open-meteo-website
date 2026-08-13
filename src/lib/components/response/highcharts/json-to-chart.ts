@@ -6,7 +6,7 @@ import { SECTIONS } from '$lib/constants';
 import type { AxisPlotBandsOptions, SeriesOptionsType, YAxisOptions } from 'highcharts';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function jsonToChart(data: any, downloadTime: number) {
+export function jsonToChart(data: any, downloadTime: number, type: string = 'forecast') {
 	const yAxis: YAxisOptions[] = [];
 
 	// A single wind direction series is drawn as a row of arrows pointing where
@@ -19,11 +19,9 @@ export function jsonToChart(data: any, downloadTime: number) {
 		: [];
 	const windArrowKey = windDirectionKeys.length === 1 ? windDirectionKeys[0] : null;
 
-	// Ensemble responses carry one weather code per member; icons drawn from the
-	// control run alone would hide the spread, so plot the codes as values instead
-	const isEnsemble = SECTIONS.some(
-		(s) => s in data && Object.keys(data[s] || {}).some((key) => /_member\d+$/.test(key))
-	);
+	// Ensemble weather codes are per member or an average over them; a single icon
+	// row would misrepresent both, so plot the codes as values instead
+	const isEnsemble = type === 'ensemble';
 
 	const ghostKeys = new Set<string>();
 	const series: SeriesOptionsType[] = [];
