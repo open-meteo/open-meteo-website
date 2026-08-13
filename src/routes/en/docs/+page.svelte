@@ -1351,6 +1351,10 @@
 						<tr>
 							<th scope="row">
 								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#1fc4b5] dark:bg-[#00998c]"
+										aria-hidden="true"
+									></span>
 									<div class="flex w-15 shrink-0 items-center gap-2">
 										<img
 											height="26"
@@ -1379,6 +1383,10 @@
 						<tr>
 							<th scope="row">
 								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#d3964c] dark:bg-[#be7904]"
+										aria-hidden="true"
+									></span>
 									<div class="flex w-15 shrink-0 items-center gap-2">
 										<img
 											height="26"
@@ -1404,6 +1412,10 @@
 						<tr>
 							<th scope="row">
 								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#951057] dark:bg-[#9a3b65]"
+										aria-hidden="true"
+									></span>
 									<div class="flex w-15 shrink-0 items-center gap-2">
 										<img
 											height="26"
@@ -1429,6 +1441,10 @@
 						<tr>
 							<th scope="row">
 								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#2f7eb6] dark:bg-[#06669e]"
+										aria-hidden="true"
+									></span>
 									<div class="flex w-15 shrink-0 items-center gap-2">
 										<img
 											height="26"
@@ -1447,6 +1463,10 @@
 						<tr>
 							<th scope="row">
 								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#5f7127] dark:bg-[#586a13]"
+										aria-hidden="true"
+									></span>
 									<div class="flex w-15 shrink-0 items-center gap-2">
 										<img
 											height="26"
@@ -1468,6 +1488,10 @@
 						<tr>
 							<th scope="row">
 								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#9a58f5] dark:bg-[#7d14dd]"
+										aria-hidden="true"
+									></span>
 									<div class="flex w-15 shrink-0 items-center gap-2">
 										<img
 											height="26"
@@ -1493,6 +1517,10 @@
 						<tr>
 							<th scope="row">
 								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#d192fb] dark:bg-[#c153ff]"
+										aria-hidden="true"
+									></span>
 									<div class="flex w-15 shrink-0 items-center gap-2">
 										<img
 											height="26"
@@ -1518,6 +1546,10 @@
 						<tr>
 							<th scope="row">
 								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#512cc7] dark:bg-[#8988cc]"
+										aria-hidden="true"
+									></span>
 									<div class="flex w-15 shrink-0 items-center gap-2">
 										<img
 											height="26"
@@ -1536,6 +1568,10 @@
 						<tr>
 							<th scope="row">
 								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#b06372] dark:bg-[#f24c79]"
+										aria-hidden="true"
+									></span>
 									<div class="flex w-15 shrink-0 items-center gap-2">
 										<img
 											height="26"
@@ -1554,6 +1590,10 @@
 						<tr>
 							<th scope="row">
 								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full border-muted-foreground/50 border-2"
+										aria-hidden="true"
+									></span>
 									<div class="flex w-15 shrink-0 items-center gap-2">
 										<div class="flex h-6.5 w-6.5 items-center justify-center text-[23px]">🌍</div>
 									</div>

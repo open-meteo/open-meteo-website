@@ -25,7 +25,7 @@
 
 <Accordion.Item class="accordion-item border-border {last ? 'border-none' : ''}" value={id}>
 	<Accordion.Trigger
-		class="group border-border data-[state=open]:bg-accent flex cursor-pointer px-4 underline-offset-3 data-[state=open]:border-b"
+		class="group border-border data-[state=open]:bg-accent flex cursor-pointer px-4 underline-offset-3 data-[state=open]:border-b xl:px-6 xl:py-5"
 	>
 		<div class="flex">
 			<h2 id="heading-{id}" class="after:content-none">
@@ -58,7 +58,7 @@
 			{/if}
 		</div>
 	</Accordion.Trigger>
-	<Accordion.Content class="p-4">
+	<Accordion.Content class="p-4 xl:p-6">
 		{@render children?.()}
 	</Accordion.Content>
 </Accordion.Item>
