@@ -596,7 +596,7 @@
 				<thead>
 					<tr>
 						<th scope="col">Derived Variable</th>
-						<th scope="col">How it is derived?</th>
+						<th scope="col">How is it derived?</th>
 					</tr>
 				</thead>
 				<tbody>
