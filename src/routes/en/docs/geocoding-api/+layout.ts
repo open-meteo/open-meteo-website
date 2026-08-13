@@ -5,6 +5,6 @@ export const load = (() => {
 		heroTitle: 'Geocoding API',
 		heroDescription: 'Search locations globally in any language',
 		heroImage: '/images/backgrounds/beach_sunset.webp',
-		heroImagePosition: 'center 70%'
+		heroImagePosition: 'center 40%'
 	};
 }) satisfies LayoutLoad;
