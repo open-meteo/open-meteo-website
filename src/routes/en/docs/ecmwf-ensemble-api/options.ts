@@ -1,8 +1,7 @@
-import { dayOptions } from '../options';
-
 export const defaultParameters = {
-	hourly: [],
 	daily: [],
+	hourly: [],
+	models: [],
 	location_mode: 'location_search',
 	csv_coordinates: '',
 	temperature_unit: 'celsius',
@@ -28,8 +27,10 @@ export const defaultParameters = {
 export const hourly = [
 	[
 		{ value: 'temperature_2m', label: 'Temperature (2 m)' },
-		{ value: 'sea_surface_temperature', label: 'Sea Surface Temperature' },
-		{ value: 'precipitation', label: 'Precipitation (6-hourly)' },
+		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
+		{ value: 'dew_point_2m', label: 'Dew Point (2 m)' },
+		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
+		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'snowfall', label: 'Snowfall' },
 		{ value: 'snowfall_water_equivalent', label: 'Snowfall (Water Equivalent)' }
@@ -57,11 +58,11 @@ export const daily = [
 		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m)' },
 		{ value: 'cloud_cover_mean', label: 'Mean Cloud Cover' },
 		{ value: 'cloud_cover_min', label: 'Minimum Cloud Cover' },
-		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' },
-		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
-		{ value: 'precipitation_hours', label: 'Precipitation Hours' }
+		{ value: 'cloud_cover_max', label: 'Maximum Cloud Cover' }
 	],
 	[
+		{ value: 'precipitation_sum', label: 'Precipitation Sum' },
+		{ value: 'precipitation_hours', label: 'Precipitation Hours' },
 		{ value: 'rain_sum', label: 'Rain Sum' },
 		{ value: 'snowfall_sum', label: 'Snowfall Sum' },
 		{ value: 'pressure_msl_mean', label: 'Mean Sea Level Pressure' },
@@ -83,7 +84,34 @@ export const daily = [
 	]
 ];
 
-export const additionalVariables = [[{ value: 'is_day', label: 'Is Day or Night' }]];
+export const additionalVariables = [
+	[
+		{ value: 'weather_code', label: 'Weather Code' },
+		{ value: 'is_day', label: 'Is Day or Night' },
+		{ value: 'surface_temperature', label: 'Surface Temperature' },
+		{ value: 'soil_temperature_0_to_7cm', label: 'Soil Temperature (0-7 cm)' },
+		{ value: 'soil_moisture_0_to_7cm', label: 'Soil Moisture (0-7 cm)' },
+		{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
+		{ value: 'sunshine_duration', label: 'Sunshine Duration' },
+		{ value: 'wet_bulb_temperature_2m', label: 'Wet Bulb Temperature (2 m)' },
+		{ value: 'vapour_pressure_deficit', label: 'Vapour Pressure Deficit' },
+		{ value: 'et0_fao_evapotranspiration', label: 'Reference Evapotranspiration (ET₀)' }
+	],
+	[
+		{ value: 'cape', label: 'CAPE (IFS only)' },
+		{ value: 'wind_gusts_10m', label: 'Wind Gusts (10 m) (IFS only)' },
+		{ value: 'temperature_2m_max', label: 'Maximum Temperature (2 m) (IFS only)' },
+		{ value: 'temperature_2m_min', label: 'Minimum Temperature (2 m) (IFS only)' },
+		{ value: 'snow_depth', label: 'Snow Depth (IFS only)' },
+		{ value: 'snow_depth_water_equivalent', label: 'Snow Depth Water Equivalent (IFS only)' },
+		{ value: 'precipitation_type', label: 'Precipitation Type (IFS only)' },
+		{ value: 'runoff', label: 'Surface Water Runoff (IFS only)' },
+		{
+			value: 'total_column_integrated_water_vapour',
+			label: 'Total Column Integrated Water Vapour (IFS only)'
+		}
+	]
+];
 
 export const pressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
@@ -110,7 +138,10 @@ export const ensembleSpreadVariables = [
 		{ value: 'wind_speed_10m_spread', label: 'Wind Speed (10 m)' },
 		{ value: 'wind_speed_100m_spread', label: 'Wind Speed (100 m)' },
 		{ value: 'wind_direction_10m_spread', label: 'Wind Direction (10 m)' },
-		{ value: 'wind_direction_100m_spread', label: 'Wind Direction (100 m)' }
+		{ value: 'wind_direction_100m_spread', label: 'Wind Direction (100 m)' },
+		{ value: 'shortwave_radiation_spread', label: 'Shortwave Solar Radiation GHI' },
+		{ value: 'cape_spread', label: 'CAPE (IFS only)' },
+		{ value: 'wind_gusts_10m_spread', label: 'Wind Gusts (10 m) (IFS only)' }
 	]
 ];
 
@@ -118,9 +149,23 @@ export const levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250, 200, 150, 1
 
 export const models = [
 	[
-		{ value: 'google_weathernext2_ensemble', label: 'Google WeatherNext 2 Ensemble' },
-		{ value: 'google_weathernext2_ensemble_mean', label: 'Google WeatherNext 2 Ensemble Mean' }
+		{ value: 'ecmwf_ifs025_ensemble', label: 'ECMWF IFS 0.25° Ensemble' },
+		{ value: 'ecmwf_ifs025_ensemble_mean', label: 'ECMWF IFS Ensemble Mean' },
+		{ value: 'ecmwf_ifs_europe_ensemble', label: 'ECMWF IFS 9 km (O1280) Europe Ensemble' },
+		{ value: 'ecmwf_ifs_europe_ensemble_mean', label: 'ECMWF IFS Europe Ensemble Mean' }
+	],
+	[
+		{ value: 'ecmwf_aifs025_ensemble', label: 'ECMWF AIFS 0.25° Ensemble' },
+		{ value: 'ecmwf_aifs025_ensemble_mean', label: 'ECMWF AIFS Ensemble Mean' },
+		{ value: 'ecmwf_aifs_europe_ensemble', label: 'ECMWF AIFS 31 km (N320) Europe Ensemble' },
+		{ value: 'ecmwf_aifs_europe_ensemble_mean', label: 'ECMWF AIFS Europe Ensemble Mean' }
 	]
 ];
 
-export const forecastDaysOptions = dayOptions([1, 3, 7, 10, 15], 7);
+export const forecastDaysOptions = [
+	{ value: '1', label: '1 day' },
+	{ value: '3', label: '3 days' },
+	{ value: '7', label: '7 days (default)' },
+	{ value: '10', label: '10 days' },
+	{ value: '15', label: '15 days' }
+];

@@ -197,6 +197,7 @@ export const membersPerModel = (model: string): number => {
 		case 'google_weathernext2_ensemble':
 			return 64;
 
+		// ECMWF
 		case 'ecmwf_ifs025':
 			return 51;
 		case 'ecmwf_ifs025_ensemble':
