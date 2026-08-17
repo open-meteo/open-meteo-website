@@ -32,6 +32,13 @@ const singleVariableParams: Parameters = {
 
 const SERVER = 'https://ensemble-api.open-meteo.com/v1/ensemble';
 
+// Days without a moonrise or moonset return Int64.max instead of a timestamp
+const int64Params: Parameters = {
+	latitude: [52.52],
+	longitude: [13.41],
+	daily: ['sunrise', 'moonrise', 'temperature_2m_max']
+} as unknown as Parameters;
+
 describe('typescript ensemble example', () => {
 	const code = plainText(
 		typescriptCodeExample(ensembleParams, false, 1, 0, SERVER, 'ensemble_api')
@@ -48,6 +55,92 @@ describe('typescript ensemble example', () => {
 		expect(code).toContain('v?.depthTo() === 10');
 		expect(code).not.toContain('soil_moisture_0_to ');
 		expect(code).not.toContain('undefined');
+	});
+});
+
+describe('typescript int64 example', () => {
+	const code = plainText(typescriptCodeExample(int64Params, false, 1, 0, SERVER, 'weather_api'));
+
+	it('guards the missing sentinel for moonrise only', () => {
+		expect(code).toContain('const missingInt64 = 9223372036854775807n;');
+		expect(code).toContain('return value === missingInt64 ? null : new Date(');
+		expect(code).toContain(
+			'(_ , i) => new Date((Number(sunrise.valuesInt64(i)) + utcOffsetSeconds) * 1000)'
+		);
+	});
+
+	it('declares int64 variables for single string sections', () => {
+		const single = plainText(
+			typescriptCodeExample(
+				{ latitude: [52.52], longitude: [13.41], daily: 'moonrise' } as unknown as Parameters,
+				false,
+				1,
+				0,
+				SERVER,
+				'weather_api'
+			)
+		);
+		expect(single).toContain('const moonrise = daily.variables(0)!;');
+	});
+});
+
+describe('python int64 example', () => {
+	const code = plainText(pythonCodeExample(int64Params, false, 1, 0, SERVER, 'weather_api', 3600));
+
+	it('masks the missing sentinel for moonrise only', () => {
+		expect(code).toContain('missing_int64 = 9223372036854775807');
+		expect(code).toContain(
+			'daily_moonrise = pd.Series(daily_moonrise).mask(daily_moonrise == missing_int64)'
+		);
+		expect(code).not.toContain('daily_sunrise = pd.Series(');
+	});
+
+	it('converts Int64 timestamps to datetimes', () => {
+		expect(code).toContain(
+			'daily_data["sunrise"] = pd.to_datetime(daily_sunrise, unit = "s", utc = True)'
+		);
+		expect(code).toContain(
+			'daily_data["moonrise"] = pd.to_datetime(daily_moonrise, unit = "s", utc = True)'
+		);
+		expect(code).toContain('daily_data["temperature_2m_max"] = daily_temperature_2m_max');
+	});
+
+	it("localizes datetimes with '.dt' only for masked series", () => {
+		const localized = plainText(
+			pythonCodeExample(
+				{ ...int64Params, timezone: 'Europe/Berlin' } as unknown as Parameters,
+				false,
+				1,
+				0,
+				SERVER,
+				'weather_api',
+				3600
+			)
+		);
+		expect(localized).toContain(
+			'pd.to_datetime(daily_sunrise, unit = "s", utc = True).tz_convert(response.Timezone().decode())'
+		);
+		expect(localized).toContain(
+			'pd.to_datetime(daily_moonrise, unit = "s", utc = True).dt.tz_convert(response.Timezone().decode())'
+		);
+	});
+});
+
+describe('swift int64 example', () => {
+	const code = plainText(swiftCodeExample(int64Params, false, 1, 0, SERVER));
+
+	it('maps Int64 timestamps to dates, optional where values can be missing', () => {
+		expect(code).toContain('let sunrise: [Date]');
+		expect(code).toContain('let moonrise: [Date?]');
+		expect(code).toContain(
+			'sunrise: daily.variables(at: 0)!.valuesInt64.map {\n\t\t\tDate(timeIntervalSince1970: TimeInterval($0 + Int64(utcOffsetSeconds)))'
+		);
+		expect(code).toContain('$0 == Int64.max ? nil : Date(timeIntervalSince1970:');
+	});
+
+	it('prints dates through the date formatter', () => {
+		expect(code).toContain('print(dateFormatter.string(from: data.daily.sunrise[i]))');
+		expect(code).toContain('print(data.daily.moonrise[i].map { dateFormatter.string(from: $0) }');
 	});
 });
 

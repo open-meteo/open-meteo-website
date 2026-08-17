@@ -1,6 +1,12 @@
 import { camelCase, isNumeric, titleCase } from '$lib/utils';
 
-import { INT_64_VARIABLES, SECTIONS, VARIABLE_REGEX } from '$lib/constants';
+import {
+	INT_64_VARIABLES,
+	MISSING_INT_64,
+	NULLABLE_INT_64_VARIABLES,
+	SECTIONS,
+	VARIABLE_REGEX
+} from '$lib/constants';
 
 import {
 	br,
@@ -118,6 +124,27 @@ export const typescriptCodeExample = (
 		return conditions.join(` ${pm('&amp;&amp;')} `);
 	};
 
+	/** Map Int64 values to dates, guarding the missing-value sentinel where a variable can be null */
+	const int64Mapping = (variable: string): string => {
+		const values = `${vr(variable)}${fn(`${pm('.')}valuesInt64`)}`;
+		const head = `
+${line(cmt('\t\t// Map Int64 values to according structure'), indent)}
+${line(strk(`\t\t${variable}`) + pm(':') + fg(' [') + pm('...') + fn('Array') + fg('(') + vr(variable) + fn(`${pm('.')}valuesInt64Length`) + fg('())]') + fn(`${pm('.')}map`) + fg('('), indent)}`;
+
+		if (!NULLABLE_INT_64_VARIABLES.includes(variable)) {
+			return `${head}
+${line(`\t\t\t${pm('(')}_ ${pm(',')}${fgi(` i${pm(')')} `)}${kw('=&gt;')}${kwsp(' new')}${fn(' Date')}${fg('((')}${fn('Number')}${fg('(')}${values}${fg('(i)) ')}${pm('+')}${fg(' utcOffsetSeconds) ')}${pm('*')}${num(' 1000')}${fg(')')}`, indent)}
+${line(fg('\t\t)') + pm(','), indent)}`;
+		}
+
+		return `${head}
+${line(`\t\t\t${pm('(')}_ ${pm(',')}${fgi(` i${pm(')')} `)}${kw('=&gt;')}${fg(' {')}`, indent)}
+${line(kw('\t\t\t\tconst') + vr(' value') + pm(' =') + fg(' ') + values + fg('(') + fgi('i') + fg(')') + pm('!;'), indent)}
+${line(kwspi('\t\t\t\treturn') + vr(' value') + pm(' ===') + vr(' missingInt64') + pm(' ?') + kw(' null') + pm(' :') + kwsp(' new') + fn(' Date') + fg('((') + fn('Number') + fg('(') + vr('value') + fg(') ') + pm('+') + fg(' utcOffsetSeconds) ') + pm('*') + num(' 1000') + fg(')') + pm(';'), indent)}
+${line(fg('\t\t\t}'), indent)}
+${line(fg('\t\t)') + pm(','), indent)}`;
+	};
+
 	// --- Opening: import fetchWeatherApi ---
 	let c =
 		`<div class=""><pre class="javascript" style="background-color:var(--code-preview-background);color:var(--code-preview-foreground)"><code>` +
@@ -216,6 +243,7 @@ ${empty(indent)}`;
 
 	// --- Section variables (hourly, daily, etc.) ---
 	let int64Found = false;
+	let nullableInt64Found = false;
 	for (const section of SECTIONS) {
 		const sect = params[section];
 		if (sect) {
@@ -254,11 +282,13 @@ ${empty(indent)}`;
 			}
 		}
 
-		if (sect && sect.constructor === Array) {
-			for (const variable of sect) {
-				if (INT_64_VARIABLES.includes(variable)) {
-					int64Found = true;
-				}
+		const sectVariables = sect && sect.constructor === Array ? sect : sect ? [sect] : [];
+		for (const variable of sectVariables) {
+			if (INT_64_VARIABLES.includes(variable)) {
+				int64Found = true;
+			}
+			if (NULLABLE_INT_64_VARIABLES.includes(variable)) {
+				nullableInt64Found = true;
 			}
 		}
 	}
@@ -273,14 +303,19 @@ ${empty(indent)}`;
 ${line(cmt('// Define Int64 variables so they can be processed accordingly'), indent)}`;
 		for (const section of SECTIONS) {
 			const sect = params[section];
-			if (sect && sect.constructor === Array) {
-				for (const [ind, variable] of sect.entries()) {
-					if (INT_64_VARIABLES.includes(variable)) {
-						c += `
+			const sectVariables = sect && sect.constructor === Array ? sect : sect ? [sect] : [];
+			for (const [ind, variable] of sectVariables.entries()) {
+				if (INT_64_VARIABLES.includes(variable)) {
+					c += `
 ${line(kw('const') + vr(` ${variable}`) + pm(' =') + vr(` ${camelCase(section)}`) + fn(`${pm('.')}variables`) + fg('(') + num(`${ind}`) + fg(')') + pm('!') + fg(pm(';')), indent)}`;
-					}
 				}
 			}
+		}
+		if (nullableInt64Found) {
+			c += `
+${empty(indent)}
+${line(cmt('// Days without a moonrise or moonset return this value instead of a timestamp'), indent)}
+${line(kw('const') + vr(' missingInt64') + pm(' =') + num(` ${MISSING_INT_64}n`) + fg(pm(';')), indent)}`;
 		}
 		c += `
 ${empty(indent)}`;
@@ -328,11 +363,7 @@ ${line(fg('\t\t)') + pm(','), indent)}`;
 				if (sect.constructor === Array) {
 					for (const [ind, variable] of sect.entries()) {
 						if (INT_64_VARIABLES.includes(variable)) {
-							c += `
-${line(cmt('\t\t// Map Int64 values to according structure'), indent)}
-${line(strk(`\t\t${variable}`) + pm(':') + fg(' [') + pm('...') + fn('Array') + fg('(') + vr(variable) + fn(`${pm('.')}valuesInt64Length`) + fg('())]') + fn(`${pm('.')}map`) + fg('('), indent)}
-${line(`\t\t\t${pm('(')}_ ${pm(',')}${fgi(` i${pm(')')} `)}${kw('=&gt;')}${kwsp(' new')}${fn(' Date')}${fg('((')}${fn('Number')}${fg('(')}${vr(variable)}${fn(`${pm('.')}valuesInt64`)}${fg('(i)) ')}${pm('+')}${fg(' utcOffsetSeconds) ')}${pm('*')}${num(' 1000')}${fg(')')}`, indent)}
-${line(fg('\t\t)') + pm(','), indent)}`;
+							c += int64Mapping(variable);
 						} else {
 							c += `
 ${line(strk(`\t\t${variable}`) + pm(':') + vr(` ${camelCase(section)}`) + fn(`${pm('.')}variables`) + fg('(') + num(`${ind}`) + fg(')') + pm('!') + fn(`${pm('.')}${section === 'current' ? 'value' : 'valuesArray'}`) + fg('()') + p(','), indent)}`;
@@ -340,11 +371,7 @@ ${line(strk(`\t\t${variable}`) + pm(':') + vr(` ${camelCase(section)}`) + fn(`${
 					}
 				} else if (typeof sect === 'string') {
 					if (INT_64_VARIABLES.includes(sect)) {
-						c += `
-${line(cmt('\t\t// Map Int64 values to according structure'), indent)}
-${line(strk(`\t\t${sect}`) + kw(':') + fg(' [') + kw('...') + fn('Array') + fg('(') + vr(sect) + fn(`${pm('.')}valuesInt64Length`) + fg('())]') + fn(`${pm('.')}map`) + fg('('), indent)}
-${line(`\t\t\t${pm('(')}_ ${pm(',')}${fgi(` i${pm(')')} `)}${kw('=&gt;')}${kwsp(' new')}${fn(' Date')}${fg('((')}${fn('Number')}${fg('(')}${vr(sect)}${fn(`${pm('.')}valuesInt64`)}${fg('(i)) ')}${pm('+')}${fg(' utcOffsetSeconds) ')}${pm('*')}${num(' 1000')}${fg(')')}`, indent)}
-${line(fg(`\t\t${pm(')')}`) + pm(','), indent)}`;
+						c += int64Mapping(sect);
 					} else {
 						c += `
 ${line(strk(`\t\t${sect}`) + pm(':') + vr(` ${camelCase(section)}`) + pm('.') + fn('variables') + fg('(') + num('0') + fg(')') + pm('!') + fn(`${pm('.')}${section === 'current' ? 'value' : 'valuesArray'}`) + fg('()') + p(','), indent)}`;
