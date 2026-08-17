@@ -86,21 +86,11 @@ export const pythonCodeExample = (
 		return conditions.join(` ${kwi('and')} `);
 	};
 
-	/** Assign a variable to the section data dict, turning missing Int64 values into 'NaT' */
-	const dataAssignment = (section: string, variable: string): string => {
-		const name = `${section}_${variable}`;
-		const key =
-			fg(`${section}_data`) + pm('[') + pm('"') + str(`${variable}"`) + pm(']') + kw(' =');
-
-		if (!NULLABLE_INT_64_VARIABLES.includes(variable)) {
-			return `
-${line(key + fg(` ${name}`), indent)}`;
-		}
-
+	/** Convert Int64 timestamps to datetimes, in local time if a timezone was requested */
+	const toDatetime = (name: string, accessor: string) => {
 		const tzConvert = timezone
 			? pm('.') +
-				fg('dt') +
-				pm('.') +
+				accessor +
 				fn('tz_convert') +
 				br('(') +
 				p('response.') +
@@ -111,9 +101,47 @@ ${line(key + fg(` ${name}`), indent)}`;
 				br('()') +
 				br(')')
 			: '';
-		return `
+		return (
+			fg(' pd') +
+			pm('.') +
+			fn('to_datetime') +
+			br('(') +
+			fg(name) +
+			pm(', ') +
+			fgi('unit ') +
+			kw('=') +
+			pm(' "') +
+			str('s') +
+			pm('"') +
+			pm(', ') +
+			fgi('utc ') +
+			kw('=') +
+			num(' True') +
+			br(')') +
+			tzConvert
+		);
+	};
+
+	/** Assign a variable to the section data dict, turning missing Int64 values into 'NaT' */
+	const dataAssignment = (section: string, variable: string): string => {
+		const name = `${section}_${variable}`;
+		const key =
+			fg(`${section}_data`) + pm('[') + pm('"') + str(`${variable}"`) + pm(']') + kw(' =');
+
+		if (NULLABLE_INT_64_VARIABLES.includes(variable)) {
+			// Masking the sentinel first yields a Series, hence the '.dt' accessor
+			return `
 ${line(fg(`${name} `) + kw('=') + fg(' pd') + pm('.') + fn('Series') + br('(') + fg(name) + br(')') + pm('.') + fn('mask') + br('(') + fg(name) + kw(' ==') + fg(' missing_int64') + br(')'), indent)}
-${line(key + fg(' pd') + pm('.') + fn('to_datetime') + br('(') + fg(name) + pm(', ') + fgi('unit ') + kw('=') + pm(' "') + str('s') + pm('"') + pm(', ') + fgi('utc ') + kw('=') + num(' True') + br(')') + tzConvert, indent)}`;
+${line(key + toDatetime(name, fg('dt') + pm('.')), indent)}`;
+		}
+
+		if (INT_64_VARIABLES.includes(variable)) {
+			return `
+${line(key + toDatetime(name, ''), indent)}`;
+		}
+
+		return `
+${line(key + fg(` ${name}`), indent)}`;
 	};
 
 	// --- Opening: imports ---

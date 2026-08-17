@@ -92,20 +92,54 @@ describe('python int64 example', () => {
 		expect(code).toContain(
 			'daily_moonrise = pd.Series(daily_moonrise).mask(daily_moonrise == missing_int64)'
 		);
+		expect(code).not.toContain('daily_sunrise = pd.Series(');
+	});
+
+	it('converts Int64 timestamps to datetimes', () => {
+		expect(code).toContain(
+			'daily_data["sunrise"] = pd.to_datetime(daily_sunrise, unit = "s", utc = True)'
+		);
 		expect(code).toContain(
 			'daily_data["moonrise"] = pd.to_datetime(daily_moonrise, unit = "s", utc = True)'
 		);
-		expect(code).toContain('daily_data["sunrise"] = daily_sunrise');
+		expect(code).toContain('daily_data["temperature_2m_max"] = daily_temperature_2m_max');
+	});
+
+	it("localizes datetimes with '.dt' only for masked series", () => {
+		const localized = plainText(
+			pythonCodeExample(
+				{ ...int64Params, timezone: 'Europe/Berlin' } as unknown as Parameters,
+				false,
+				1,
+				0,
+				SERVER,
+				'weather_api',
+				3600
+			)
+		);
+		expect(localized).toContain(
+			'pd.to_datetime(daily_sunrise, unit = "s", utc = True).tz_convert(response.Timezone().decode())'
+		);
+		expect(localized).toContain(
+			'pd.to_datetime(daily_moonrise, unit = "s", utc = True).dt.tz_convert(response.Timezone().decode())'
+		);
 	});
 });
 
 describe('swift int64 example', () => {
 	const code = plainText(swiftCodeExample(int64Params, false, 1, 0, SERVER));
 
-	it('maps missing moonrise values to optional dates', () => {
+	it('maps Int64 timestamps to dates, optional where values can be missing', () => {
+		expect(code).toContain('let sunrise: [Date]');
 		expect(code).toContain('let moonrise: [Date?]');
-		expect(code).toContain('let sunrise: [Int64]');
+		expect(code).toContain(
+			'sunrise: daily.variables(at: 0)!.valuesInt64.map {\n\t\t\tDate(timeIntervalSince1970: TimeInterval($0 + Int64(utcOffsetSeconds)))'
+		);
 		expect(code).toContain('$0 == Int64.max ? nil : Date(timeIntervalSince1970:');
+	});
+
+	it('prints dates through the date formatter', () => {
+		expect(code).toContain('print(dateFormatter.string(from: data.daily.sunrise[i]))');
 		expect(code).toContain('print(data.daily.moonrise[i].map { dateFormatter.string(from: $0) }');
 	});
 });

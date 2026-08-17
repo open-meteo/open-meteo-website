@@ -19,10 +19,11 @@ export const swiftCodeExample = (
 	const swiftAttr = (name: string) =>
 		line(kw('let') + fg(` ${name} `) + pm('=') + fg(` response${pm('.')}${name}`), indent);
 
-	/** Variables that can be missing are mapped to optional dates instead of raw Int64 timestamps */
-	const swiftType = (variable: string) => {
-		if (NULLABLE_INT_64_VARIABLES.includes(variable)) return 'Date?';
-		return INT_64_VARIABLES.includes(variable) ? 'Int64' : 'Float';
+	/** Int64 timestamps become dates, optional ones for variables that can be missing */
+	const swiftType = (section: string, variable: string) => {
+		if (!INT_64_VARIABLES.includes(variable)) return 'Float';
+		if (section === 'current') return 'Int64';
+		return NULLABLE_INT_64_VARIABLES.includes(variable) ? 'Date?' : 'Date';
 	};
 
 	/** Assign a variable from the flatbuffer, guarding the missing-value sentinel where needed */
@@ -44,10 +45,34 @@ export const swiftCodeExample = (
 			pm('!') +
 			pm('.');
 
-		if (NULLABLE_INT_64_VARIABLES.includes(variable)) {
+		if (INT_64_VARIABLES.includes(variable) && section !== 'current') {
+			const date =
+				fn('Date') +
+				pm('(') +
+				fn('timeIntervalSince1970') +
+				pm(':') +
+				fn(' TimeInterval') +
+				pm('(') +
+				fg('$0 ') +
+				pm('+') +
+				num(' Int64') +
+				pm('(') +
+				vr('utcOffsetSeconds') +
+				pm(')))');
+			const mapped = NULLABLE_INT_64_VARIABLES.includes(variable)
+				? fg('\t\t\t$0 ') +
+					pm('==') +
+					num(' Int64') +
+					pm('.') +
+					fg('max') +
+					kw(' ?') +
+					kw(' nil') +
+					kw(' : ') +
+					date
+				: fg('\t\t\t') + date;
 			return `
 ${line(accessor + vr('valuesInt64') + pm('.') + fn('map') + fg(' {'), indent)}
-${line(fg('\t\t\t$0 ') + pm('==') + num(' Int64') + pm('.') + fg('max') + kw(' ?') + kw(' nil') + kw(' :') + fn(' Date') + pm('(') + fn('timeIntervalSince1970') + pm(':') + fn(' TimeInterval') + pm('(') + fg('$0 ') + pm('+') + num(' Int64') + pm('(') + vr('utcOffsetSeconds') + pm(')))'), indent)}
+${line(mapped, indent)}
 ${line(fg('\t\t}') + comma, indent)}`;
 		}
 
@@ -107,7 +132,7 @@ ${line(kw('\t\tlet') + fg(` time${pm(':')} ${arrayOpen}Date${arrayClose}`))}`;
 ${line(cmt("\t\t/// 'nil' on days without a moonrise or moonset"))}`;
 				}
 				c += `
-${line(kw('\t\tlet') + fg(` ${camelCase(variable)}${pm(':')} `) + num(`${arrayOpen}${swiftType(variable)}${arrayClose}`))}`;
+${line(kw('\t\tlet') + fg(` ${camelCase(variable)}${pm(':')} `) + num(`${arrayOpen}${swiftType(section, variable)}${arrayClose}`))}`;
 			}
 			c += `
 ${line(fg('\t}'))}`;
@@ -247,6 +272,9 @@ ${line(fn('\tprint') + p('(') + vr(`dateFormatter${pm('.')}${fn('string')}`) + p
 					if (NULLABLE_INT_64_VARIABLES.includes(variable)) {
 						c += `
 ${line(fn('\tprint') + pm('(') + value + pm('.') + fn('map') + fg(' { ') + vr('dateFormatter') + pm('.') + fn('string') + pm('(') + fn('from') + pm(':') + fg(' $0') + pm(') }') + kw(' ??') + str(pm(' "') + 'n/a' + pm('"')) + pm(')'), indent)}`;
+					} else if (INT_64_VARIABLES.includes(variable)) {
+						c += `
+${line(fn('\tprint') + p('(') + vr(`dateFormatter${pm('.')}${fn('string')}`) + pm('(') + fn('from') + pm(':') + fg(' ') + value + pm('))'), indent)}`;
 					} else {
 						c += `
 ${line(fn('\tprint') + pm('(') + value + pm(')'), indent)}`;
