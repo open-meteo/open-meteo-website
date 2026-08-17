@@ -1,4 +1,4 @@
-export const INT_64_VARIABLES = ['sunrise', 'sunset'];
+export const INT_64_VARIABLES = ['sunrise', 'sunset', 'moonrise', 'moonset'];
 
 export const SECTIONS = [
 	'current',
