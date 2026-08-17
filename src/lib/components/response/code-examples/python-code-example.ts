@@ -1,6 +1,12 @@
 import { isNumeric, titleCase } from '$lib/utils';
 
-import { INT_64_VARIABLES, SECTIONS, VARIABLE_REGEX } from '$lib/constants';
+import {
+	INT_64_VARIABLES,
+	MISSING_INT_64,
+	NULLABLE_INT_64_VARIABLES,
+	SECTIONS,
+	VARIABLE_REGEX
+} from '$lib/constants';
 
 import {
 	acc,
@@ -39,6 +45,13 @@ export const pythonCodeExample = (
 	const indent = multipleLocationsOrModels;
 	const timezone = params.timezone && params.timezone !== 'GMT';
 
+	const nullableInt64Found = SECTIONS.some((section) => {
+		const sect = params[section];
+		if (!sect) return false;
+		const variables = sect.constructor === Array ? sect : typeof sect === 'string' ? [sect] : [];
+		return variables.some((variable: string) => NULLABLE_INT_64_VARIABLES.includes(variable));
+	});
+
 	/** Build ensemble filter condition for a Python variable using VARIABLE_REGEX */
 	const buildFilterCondition = (variable: string): string => {
 		const matches = VARIABLE_REGEX.exec(variable);
@@ -71,6 +84,36 @@ export const pythonCodeExample = (
 			);
 		}
 		return conditions.join(` ${kwi('and')} `);
+	};
+
+	/** Assign a variable to the section data dict, turning missing Int64 values into 'NaT' */
+	const dataAssignment = (section: string, variable: string): string => {
+		const name = `${section}_${variable}`;
+		const key =
+			fg(`${section}_data`) + pm('[') + pm('"') + str(`${variable}"`) + pm(']') + kw(' =');
+
+		if (!NULLABLE_INT_64_VARIABLES.includes(variable)) {
+			return `
+${line(key + fg(` ${name}`), indent)}`;
+		}
+
+		const tzConvert = timezone
+			? pm('.') +
+				fg('dt') +
+				pm('.') +
+				fn('tz_convert') +
+				br('(') +
+				p('response.') +
+				fn('Timezone') +
+				br('()') +
+				pm('.') +
+				fn('decode') +
+				br('()') +
+				br(')')
+			: '';
+		return `
+${line(fg(`${name} `) + kw('=') + fg(' pd') + pm('.') + fn('Series') + br('(') + fg(name) + br(')') + pm('.') + fn('mask') + br('(') + fg(name) + kw(' ==') + fg(' missing_int64') + br(')'), indent)}
+${line(key + fg(' pd') + pm('.') + fn('to_datetime') + br('(') + fg(name) + pm(', ') + fgi('unit ') + kw('=') + pm(' "') + str('s') + pm('"') + pm(', ') + fgi('utc ') + kw('=') + num(' True') + br(')') + tzConvert, indent)}`;
 	};
 
 	// --- Opening: imports ---
@@ -127,6 +170,13 @@ ${line(str(`\t${pm('"')}${key}${pm('"')}`) + pm(':') + num(` ${param}`) + pm(','
 ${line(pm('}'))}
 ${line(fg('responses ') + kw('=') + fg(' openmeteo') + pm('.') + fn('weather_api') + br('(') + fn('url') + ', ' + fg(it('params'))) + kw(' = ') + p('params' + br(')'))}
 ${empty()}`;
+
+	if (nullableInt64Found) {
+		c += `
+${line(cmt('# Days without a moonrise or moonset return this value instead of a timestamp'))}
+${line(fg('missing_int64 ') + kw('=') + num(` ${MISSING_INT_64}`))}
+${empty()}`;
+	}
 
 	// --- Multiple locations/models loop ---
 	if (multipleLocationsOrModels) {
@@ -287,12 +337,10 @@ ${line(fg(`\t${section}_data`) + p('[') + acc('f') + str(`"${sect}_member` + num
 				} else {
 					if (sect.constructor === Array) {
 						for (const variable of sect) {
-							c += `
-${line(fg(`${section}_data`) + pm('[') + pm('"') + str(`${variable}"`) + pm(']') + kw(' =') + fg(` ${section}_${variable}`), indent)}`;
+							c += dataAssignment(section, variable);
 						}
 					} else {
-						c += `
-${line(fg(`${section}_data`) + pm('[') + pm('"') + str(`${sect}"`) + pm(']') + kw(' =') + fg(` ${section}_${sect}`), indent)}`;
+						c += dataAssignment(section, sect);
 					}
 				}
 			}

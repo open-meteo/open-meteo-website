@@ -1,6 +1,6 @@
 import { camelCase, titleCase } from '$lib/utils';
 
-import { INT_64_VARIABLES, SECTIONS } from '$lib/constants';
+import { INT_64_VARIABLES, NULLABLE_INT_64_VARIABLES, SECTIONS } from '$lib/constants';
 
 import { acc, cmt, empty, fg, fn, kw, kwspi, line, num, p, pm, str, vr } from './highlight-helpers';
 
@@ -18,6 +18,47 @@ export const swiftCodeExample = (
 
 	const swiftAttr = (name: string) =>
 		line(kw('let') + fg(` ${name} `) + pm('=') + fg(` response${pm('.')}${name}`), indent);
+
+	/** Variables that can be missing are mapped to optional dates instead of raw Int64 timestamps */
+	const swiftType = (variable: string) => {
+		if (NULLABLE_INT_64_VARIABLES.includes(variable)) return 'Date?';
+		return INT_64_VARIABLES.includes(variable) ? 'Int64' : 'Float';
+	};
+
+	/** Assign a variable from the flatbuffer, guarding the missing-value sentinel where needed */
+	const variableAssignment = (
+		section: string,
+		variable: string,
+		ind: number,
+		comma: string
+	): string => {
+		const accessor =
+			fn(`\t\t${camelCase(variable)}`) +
+			pm(':') +
+			fn(` ${vr(`${camelCase(section)}`)}${pm('.')}variables`) +
+			pm('(') +
+			fn('at') +
+			pm(':') +
+			num(` ${ind}`) +
+			p(')') +
+			pm('!') +
+			pm('.');
+
+		if (NULLABLE_INT_64_VARIABLES.includes(variable)) {
+			return `
+${line(accessor + vr('valuesInt64') + pm('.') + fn('map') + fg(' {'), indent)}
+${line(fg('\t\t\t$0 ') + pm('==') + num(' Int64') + pm('.') + fg('max') + kw(' ?') + kw(' nil') + kw(' :') + fn(' Date') + pm('(') + fn('timeIntervalSince1970') + pm(':') + fn(' TimeInterval') + pm('(') + fg('$0 ') + pm('+') + num(' Int64') + pm('(') + vr('utcOffsetSeconds') + pm(')))'), indent)}
+${line(fg('\t\t}') + comma, indent)}`;
+		}
+
+		const valueAccessor = INT_64_VARIABLES.includes(variable)
+			? 'valuesInt64'
+			: section === 'current'
+				? 'value'
+				: 'values';
+		return `
+${line(accessor + vr(valueAccessor) + comma, indent)}`;
+	};
 
 	// --- Opening: import + URL + fetch ---
 	let c =
@@ -58,16 +99,15 @@ ${empty()}`;
 			c += `
 ${line(acc('\tstruct') + num(` ${titleCase(section)}`) + fg(' {'))}
 ${line(kw('\t\tlet') + fg(` time${pm(':')} ${arrayOpen}Date${arrayClose}`))}`;
-			if (sect.constructor === Array) {
-				for (const variable of sect) {
-					const typeName = INT_64_VARIABLES.includes(variable) ? 'Int64' : 'Float';
+			const sectVariables =
+				sect.constructor === Array ? sect : typeof sect === 'string' ? [sect] : [];
+			for (const variable of sectVariables) {
+				if (NULLABLE_INT_64_VARIABLES.includes(variable)) {
 					c += `
-${line(kw('\t\tlet') + fg(` ${camelCase(variable)}${pm(':')} `) + num(`${arrayOpen}${typeName}${arrayClose}`))}`;
+${line(cmt("\t\t/// 'nil' on days without a moonrise or moonset"))}`;
 				}
-			} else if (typeof sect === 'string') {
-				const typeName = INT_64_VARIABLES.includes(sect) ? 'Int64' : 'Float';
 				c += `
-${line(kw('\t\tlet') + fg(` ${camelCase(sect)}${pm(':')} `) + num(`${arrayOpen}${typeName}${arrayClose}`))}`;
+${line(kw('\t\tlet') + fg(` ${camelCase(variable)}${pm(':')} `) + num(`${arrayOpen}${swiftType(variable)}${arrayClose}`))}`;
 			}
 			c += `
 ${line(fg('\t}'))}`;
@@ -153,25 +193,11 @@ ${line(fn('\t\ttime') + pm(':') + ` ${camelCase(section)}${pm('.')}` + fn('getDa
 			c += vr(',');
 
 			// Variable assignments
-			if (sect.constructor === Array) {
-				for (const [ind, variable] of sect.entries()) {
-					const valueAccessor = INT_64_VARIABLES.includes(variable)
-						? 'valuesInt64'
-						: section === 'current'
-							? 'value'
-							: 'values';
-					const comma = ind < sect.length - 1 ? vr(',') : '';
-					c += `
-${line(fn(`\t\t${camelCase(variable)}`) + pm(':') + fn(` ${vr(`${camelCase(section)}`)}${pm('.')}variables`) + pm('(') + fn('at') + pm(':') + num(` ${ind}`) + p(')') + pm('!') + pm('.') + vr(valueAccessor) + comma, indent)}`;
-				}
-			} else if (typeof sect === 'string') {
-				const valueAccessor = INT_64_VARIABLES.includes(sect)
-					? 'valuesInt64'
-					: section === 'current'
-						? 'value'
-						: 'values';
-				c += `
-${line(fn(`\t\t${camelCase(sect)}`) + pm(':') + fn(` ${vr(`${camelCase(section)}`)}${pm('.')}variables`) + pm('(') + fn('at') + pm(':') + num(' 0') + p(')') + pm('!') + pm('.') + vr(valueAccessor), indent)}`;
+			const sectVariables =
+				sect.constructor === Array ? sect : typeof sect === 'string' ? [sect] : [];
+			for (const [ind, variable] of sectVariables.entries()) {
+				const comma = ind < sectVariables.length - 1 ? vr(',') : '';
+				c += variableAssignment(section, variable, ind, comma);
 			}
 
 			const isLastSection = section === presentSections[presentSections.length - 1];
@@ -210,14 +236,21 @@ ${line(fn('print') + pm('(') + str(pm('"') + `Current ${sect}: ` + pm('\\(') + f
 				c += `
 ${line(kwspi('for') + pm(' (') + vr('i, date') + pm(')') + kwspi(' in') + fg(` data${pm('.')}${camelCase(section)}${pm('.')}time${pm('.')}`) + fn('enumerated') + pm('()') + pm(' {'), indent)}
 ${line(fn('\tprint') + p('(') + vr(`dateFormatter${pm('.')}${fn('string')}`) + pm('(') + fn('from') + pm(':') + vr(' date') + pm('))'), indent)}`;
-				if (sect.constructor === Array) {
-					for (const variable of sect) {
+				const sectVariables =
+					sect.constructor === Array ? sect : typeof sect === 'string' ? [sect] : [];
+				for (const variable of sectVariables) {
+					const value =
+						vr(`data${pm('.')}${camelCase(section)}${pm('.')}${camelCase(variable)}`) +
+						pm('[') +
+						vr('i') +
+						pm(']');
+					if (NULLABLE_INT_64_VARIABLES.includes(variable)) {
 						c += `
-${line(fn('\tprint') + pm('(') + vr(`data${pm('.')}${camelCase(section)}${pm('.')}${camelCase(variable)}`) + pm('[') + vr('i') + pm('])'), indent)}`;
+${line(fn('\tprint') + pm('(') + value + pm('.') + fn('map') + fg(' { ') + vr('dateFormatter') + pm('.') + fn('string') + pm('(') + fn('from') + pm(':') + fg(' $0') + pm(') }') + kw(' ??') + str(pm(' "') + 'n/a' + pm('"')) + pm(')'), indent)}`;
+					} else {
+						c += `
+${line(fn('\tprint') + pm('(') + value + pm(')'), indent)}`;
 					}
-				} else if (typeof sect === 'string') {
-					c += `
-${line(fn('\tprint') + pm('(') + vr(`data${pm('.')}${camelCase(section)}${pm('.')}${camelCase(sect)}`) + pm('[') + vr('i') + pm('])'), indent)}`;
 				}
 
 				c += `

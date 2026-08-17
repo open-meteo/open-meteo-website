@@ -1,5 +1,10 @@
 export const INT_64_VARIABLES = ['sunrise', 'sunset', 'moonrise', 'moonset'];
 
+// Days without a moonrise or moonset return Int64.max instead of a timestamp
+export const NULLABLE_INT_64_VARIABLES = ['moonrise', 'moonset'];
+
+export const MISSING_INT_64 = '9223372036854775807';
+
 export const SECTIONS = [
 	'current',
 	'minutely_15',
