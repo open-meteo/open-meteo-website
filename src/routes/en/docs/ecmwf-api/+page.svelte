@@ -123,7 +123,10 @@
 	<Alert.Description>
 		ECMWF transitioned to open-data on 1st October 2025, and Open-Meteo is pleased to provide access
 		to the IFS forecasts at the full native 9 km resolution without any additional delay under
-		open-data CC-BY 4.0 licence!
+		open-data CC-BY 4.0 licence! IFS HRES is the default global model in the <a
+			class="text-link underline"
+			href="/en/docs">generic weather forecast API</a
+		> if no higher resolution weather models are available.
 	</Alert.Description>
 </Alert.Root>
 

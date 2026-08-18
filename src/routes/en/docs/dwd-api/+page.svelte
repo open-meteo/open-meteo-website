@@ -152,10 +152,10 @@
 	<Alert.Description>
 		This API offers access to the renowned ICON weather models from the German Weather service DWD,
 		delivering 15-minutely data for short-term forecasts in central Europe and 11 km resolution
-		global forecasts. The ICON model is a preferred choice in <a
+		global forecasts. ICON D2 and ICON EU are used in the <a
 			class="text-link underline"
 			href="/en/docs">generic weather forecast API</a
-		> if no other high resolution weather models are available.
+		> to provide high-resolution forecasts for central Europe.
 	</Alert.Description>
 </Alert.Root>
 
