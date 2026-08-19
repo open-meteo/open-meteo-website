@@ -64,10 +64,9 @@
 	<h4 class="mt-3 text-lg md:mt-6 md:text-xl">Weather code descriptions as JSON</h4>
 	<p class="mt-2">
 		The API only returns numeric weather codes. To display descriptions, map the codes on the
-		client. The mapping below can be copied directly, including translations in German, Spanish,
-		French and Italian.
+		client. The mapping below can be copied directly.
 	</p>
-	<div class="mt-2 [&_pre]:max-h-96 [&_pre]:overflow-auto">
+	<div class="mt-2">
 		<WmoCodesJson />
 	</div>
 </div>
