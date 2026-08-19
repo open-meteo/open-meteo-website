@@ -775,9 +775,10 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, precipitation, snowfall, showers, CAPE, wind gusts,
-							visibility, lifted index, convective inhibition and categorical freezing rain. AIGFS
-							and HGEFS only have cloud and precipitation inputs, so no thunderstorm or fog codes.
+							Computed from cloud cover, temperature, precipitation, snowfall, showers, CAPE, wind
+							gusts, visibility, lifted index, convective inhibition and categorical freezing rain.
+							AIGFS and HGEFS only have cloud, temperature and precipitation inputs, so no
+							thunderstorm or fog codes.
 						</td>
 					</tr>
 					<tr>

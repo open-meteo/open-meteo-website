@@ -456,8 +456,8 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, precipitation, snowfall, wind gusts, CAPE, convective
-							inhibition and visibility, so thunderstorm codes are possible.
+							Computed from cloud cover, temperature, precipitation, snowfall, wind gusts, CAPE,
+							convective inhibition and visibility, so thunderstorm codes are possible.
 						</td>
 					</tr>
 					<tr>
