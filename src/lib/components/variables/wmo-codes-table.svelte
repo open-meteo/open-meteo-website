@@ -1,6 +1,20 @@
 <script lang="ts">
 	import WmoCodesJson from '$lib/components/code/docs/wmo-codes-json.svx';
 
+	import { Button } from '$lib/components/ui/button';
+
+	let jsonContainer: HTMLDivElement | undefined = $state();
+	let jsonCopied = $state(false);
+
+	const copyJson = () => {
+		const pre = jsonContainer?.querySelector('pre');
+		navigator.clipboard.writeText(pre?.textContent ?? '').catch(() => {});
+		jsonCopied = true;
+		setTimeout(() => {
+			jsonCopied = false;
+		}, 1250);
+	};
+
 	// The exact code subset the API emits: the WeatherCode enum in
 	// open-meteo/Sources/App/Helper/WeatherCode.swift (a WMO 4677 subset).
 	const weatherCodes: { code: number; description: string }[] = [
@@ -66,7 +80,42 @@
 		The API only returns numeric weather codes. To display descriptions, map the codes on the
 		client. The mapping below can be copied directly.
 	</p>
-	<div class="mt-2">
+	<div bind:this={jsonContainer} class="group relative mt-2">
 		<WmoCodesJson />
+		<div
+			class="pointer-events-none absolute top-2 right-2 opacity-0 duration-300 group-hover:pointer-events-auto group-hover:opacity-100"
+		>
+			<Button title="Copy to clipboard" onclick={copyJson}
+				>{#if jsonCopied}<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5" /></svg
+					>{:else}
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="24"
+						height="24"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.4"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-clipboard-copy-icon lucide-clipboard-copy"
+						><rect width="8" height="4" x="8" y="2" rx="1" ry="1" /><path
+							d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"
+						/><path d="M16 4h2a2 2 0 0 1 2 2v4" /><path d="M21 14H11" /><path
+							d="m15 10-4 4 4 4"
+						/></svg
+					>{/if}</Button
+			>
+		</div>
 	</div>
 </div>
