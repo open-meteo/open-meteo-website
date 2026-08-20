@@ -499,8 +499,8 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, temperature, rain, snowfall, wind gusts, visibility and,
-							for the global GDPS model, CAPE and showers.
+							Computed from cloud cover, rain, snowfall, wind gusts, visibility and, for the global
+							GDPS model, CAPE and showers.
 						</td>
 					</tr>
 					<tr>

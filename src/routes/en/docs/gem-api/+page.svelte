@@ -611,8 +611,7 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, temperature, precipitation, showers, snowfall, CAPE and
-							wind gusts.
+							Computed from cloud cover, precipitation, showers, snowfall, CAPE and wind gusts.
 						</td>
 					</tr>
 					<tr>

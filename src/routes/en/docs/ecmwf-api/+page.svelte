@@ -530,8 +530,8 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, temperature, precipitation, snowfall and CAPE. The IFS HRES
-							9 km model additionally uses showers, convective inhibition and boundary layer height.
+							Computed from cloud cover, precipitation, snowfall and CAPE. The IFS HRES 9 km model
+							additionally uses showers, convective inhibition and boundary layer height.
 						</td>
 					</tr>
 					<tr>
