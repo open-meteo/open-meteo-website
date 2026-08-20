@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { untrack } from 'svelte';
 
 	import { fade, slide } from '$lib/utils/transitions';
 	import { fadeOutAbsolute } from '$lib/utils/transitions';
@@ -78,24 +78,24 @@
 	let boundingBoxNorth = $state(90);
 	let boundingBoxEast = $state(180);
 
-	onMount(() => {
-		if (params.bounding_box) {
-			boundingBoxSouth = Number(params.bounding_box.split(',')[0]);
-			boundingBoxWest = Number(params.bounding_box.split(',')[1]);
-			boundingBoxNorth = Number(params.bounding_box.split(',')[2]);
-			boundingBoxEast = Number(params.bounding_box.split(',')[3]);
+	const boundingBox = () =>
+		`${boundingBoxSouth},${boundingBoxWest},${boundingBoxNorth},${boundingBoxEast}`;
+
+	// takes over changes made outside of the fields, like a pasted API URL
+	$effect(() => {
+		if (!params.bounding_box || params.bounding_box === untrack(boundingBox)) {
+			return;
 		}
+		const [south, west, north, east] = params.bounding_box.split(',');
+		boundingBoxSouth = Number(south);
+		boundingBoxWest = Number(west);
+		boundingBoxNorth = Number(north);
+		boundingBoxEast = Number(east);
 	});
 
 	const setBoundingBox = () => {
-		params.bounding_box = `${boundingBoxSouth},${boundingBoxWest},${boundingBoxNorth},${boundingBoxEast}`;
+		params.bounding_box = boundingBox();
 	};
-
-	let locationMode: Parameters['location_mode'] = $state('location_search');
-
-	onMount(() => {
-		locationMode = params.location_mode;
-	});
 
 	let csvExample = $state('lat_lon');
 
@@ -137,14 +137,13 @@
 	<div class="border-border flex rounded-md border">
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-e-none opacity-100! duration-300 {locationMode ===
+			class="items-center gap-1 rounded-e-none opacity-100! duration-300 {params.location_mode ===
 			'location_search'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
-			disabled={locationMode === 'location_search'}
+			disabled={params.location_mode === 'location_search'}
 			onclick={() => {
-				locationMode = 'location_search';
-				params.location_mode = locationMode;
+				params.location_mode = 'location_search';
 			}}
 		>
 			<svg
@@ -168,14 +167,13 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-none opacity-100! duration-300 {locationMode ===
+			class="items-center gap-1 rounded-none opacity-100! duration-300 {params.location_mode ===
 			'csv_coordinates'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
-			disabled={locationMode === 'csv_coordinates'}
+			disabled={params.location_mode === 'csv_coordinates'}
 			onclick={() => {
-				locationMode = 'csv_coordinates';
-				params.location_mode = locationMode;
+				params.location_mode = 'csv_coordinates';
 			}}
 		>
 			<svg
@@ -200,14 +198,13 @@
 		</Button>
 		<Button
 			variant="ghost"
-			class="items-center gap-1 rounded-s-none opacity-100! duration-300 {locationMode ===
+			class="items-center gap-1 rounded-s-none opacity-100! duration-300 {params.location_mode ===
 			'bounding_box'
 				? 'bg-accent cursor-not-allowed'
 				: ''}"
-			disabled={locationMode === 'bounding_box'}
+			disabled={params.location_mode === 'bounding_box'}
 			onclick={() => {
-				locationMode = 'bounding_box';
-				params.location_mode = locationMode;
+				params.location_mode = 'bounding_box';
 				setBoundingBox();
 			}}
 		>
