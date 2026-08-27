@@ -1,0 +1,9 @@
+{
+	"baseUrl": "https://static-assets.open-meteo.com",
+	"assets": [
+		{ "prefix": "shared/country-flags", "dir": "static/images/country-flags", "readonly": true },
+		{ "prefix": "shared/weather-icons", "dir": "static/images/weather-icons", "readonly": true },
+		{ "prefix": "website/models", "dir": "static/images/models" },
+		{ "prefix": "website/backgrounds", "dir": "static/images/backgrounds" }
+	]
+}

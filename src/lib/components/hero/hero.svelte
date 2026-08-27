@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 
+	import { responsiveBackground } from '$lib/utils/backgrounds';
+
 	import { Button } from '$lib/components/ui/button';
 
 	import type { Component } from 'svelte';
@@ -40,6 +42,10 @@
 	// its view transition already holds the old frame until the work is done.
 	const isGecko = browser && CSS.supports('-moz-appearance', 'none');
 
+	// The hero spans the full viewport width, so the browser picks the ladder
+	// step from `sizes="100vw"` and the device pixel ratio.
+	const image = $derived(responsiveBackground(heroImage));
+
 	let displayHeight = $state(heroHeight);
 
 	$effect(() => {
@@ -58,7 +64,18 @@
 </script>
 
 <svelte:head>
-	<link rel="preload" fetchpriority="high" as="image" href={heroImage} type="image/webp" />
+	<!-- Preloading has to repeat srcset and sizes verbatim, otherwise the
+	     preloader picks a different candidate than the <img> below and the hero
+	     is downloaded twice. -->
+	<link
+		rel="preload"
+		fetchpriority="high"
+		as="image"
+		href={image.src}
+		imagesrcset={image.srcset}
+		imagesizes={image.srcset ? '100vw' : undefined}
+		type="image/webp"
+	/>
 </svelte:head>
 
 <div style="height: {displayHeight}px;" class="hero-container relative flex items-center">
@@ -71,11 +88,23 @@
 			style="
 			  view-transition-name: hero-image;
 			  background-color: #54718e;
-			  background-image: url('{heroImage}');
-			  background-size: cover;
-			  background-position: {heroImagePosition};
 			"
-		></div>
+		>
+			<!-- object-fit: cover reproduces what background-size: cover did, and
+			     object-position takes the same syntax as background-position. -->
+			<img
+				src={image.src}
+				srcset={image.srcset}
+				sizes={image.srcset ? '100vw' : undefined}
+				width={image.width}
+				height={image.height}
+				alt=""
+				fetchpriority="high"
+				decoding="async"
+				class="h-full w-full object-cover"
+				style="object-position: {heroImagePosition};"
+			/>
+		</div>
 	</div>
 	<div
 		style="view-transition-name: hero-content"

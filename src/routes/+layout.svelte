@@ -10,6 +10,8 @@
 
 	import { animationsDisabled } from '$lib/stores/settings';
 
+	import { responsiveBackground } from '$lib/utils/backgrounds';
+
 	import Footer from '$lib/components/footer/footer.svelte';
 	import Header from '$lib/components/header/header.svelte';
 	import Hero from '$lib/components/hero/hero.svelte';
@@ -50,8 +52,15 @@
 	const waitForHeroImage = () => {
 		const heroImage = page.data.heroImage;
 		if (!heroImage) return;
+		// Same srcset and sizes as the hero itself, so this resolves the very
+		// candidate the hero will paint instead of pulling a second file.
+		const image = responsiveBackground(heroImage);
 		const img = new Image();
-		img.src = heroImage;
+		if (image.srcset) {
+			img.sizes = '100vw';
+			img.srcset = image.srcset;
+		}
+		img.src = image.src;
 		return Promise.race([
 			img.decode().catch(() => {}),
 			new Promise((resolve) => setTimeout(resolve, 1000))
