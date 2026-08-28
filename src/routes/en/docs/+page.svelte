@@ -28,6 +28,8 @@
 	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '$lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '$lib/components/response/results-preview.svelte';
 	import Settings from '$lib/components/settings/settings.svelte';
@@ -88,7 +90,19 @@
 	let pressureVariablesTab = $state('temperature');
 
 	let accordionValues: string[] = $state([]);
+	let bestMatchAccordion = $state('');
+	// Open (and scroll to) the best match section whenever the URL points at it — on
+	// load and on every later hash change, so following a #best_match link from
+	// elsewhere on this page expands the collapsible instead of only jumping to it.
+	const openBestMatchFromHash = (scroll: boolean) => {
+		if (!window.location.hash.split(/[#&]/).includes('best_match')) return;
+		bestMatchAccordion = 'best_match';
+		if (scroll) document.getElementById('best_match')?.scrollIntoView();
+	};
 	onMount(() => {
+		openBestMatchFromHash(true);
+		window.addEventListener('hashchange', () => openBestMatchFromHash(false));
+
 		if (
 			$params.hourly &&
 			(countVariables(additionalVariables, $params.hourly).active ||
@@ -1308,6 +1322,329 @@
 			</table>
 		</div>
 	</div>
+</div>
+
+<!-- BEST MATCH -->
+<div id="best_match" class="mt-3 scroll-mt-6 md:mt-6">
+	<Accordion.Root
+		type="single"
+		class="border-border rounded-lg border"
+		bind:value={bestMatchAccordion}
+	>
+		<AccordionItem id="best_match" title="Best Match Model Selection" anchor="#best_match">
+			<p>
+				The default model selection <mark>best_match</mark> automatically combines the most suitable weather
+				models for the requested coordinates. Every forecast is built on a global backbone of DWD ICON,
+				NOAA GFS and ECMWF IFS. Depending on the location, high-resolution regional models are added on
+				top. Regions are evaluated from top to bottom and the first match determines the model combination:
+			</p>
+			<div class="overflow-auto">
+				<!-- Only three narrow columns: on xl the table shrinks to its content instead of
+				stretching the full width, which left the region names stranded from their models. -->
+				<table class="docs-table my-3 w-full min-w-150 xl:w-auto">
+					<thead>
+						<tr>
+							<th scope="col">Region</th>
+							<th scope="col">Regional Models</th>
+							<th scope="col">15-Minutely Data</th>
+						</tr>
+					</thead>
+					<tbody class="[&_a]:text-link [&_a]:underline [&_a]:underline-offset-3">
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#1fc4b5] dark:bg-[#00998c]"
+										aria-hidden="true"
+									></span>
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/nl.svg"
+											alt="Netherlands"
+											title="Netherlands"
+										/>
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/be.svg"
+											alt="Belgium"
+											title="Belgium"
+										/>
+									</div>
+									Netherlands & Belgium
+								</div>
+							</th>
+							<td
+								><a href={resolve('/en/docs/knmi-api')}>KNMI HARMONIE</a>,
+								<a href={resolve('/en/docs/dwd-api')}>ICON EU & ICON D2</a></td
+							>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#d3964c] dark:bg-[#be7904]"
+										aria-hidden="true"
+									></span>
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/no.svg"
+											alt="Norway"
+											title="Norway"
+										/>
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/se.svg"
+											alt="Sweden"
+											title="Sweden"
+										/>
+									</div>
+									Scandinavia
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/metno-api')}>MET Nordic</a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#951057] dark:bg-[#9a3b65]"
+										aria-hidden="true"
+									></span>
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/gb.svg"
+											alt="United Kingdom"
+											title="United Kingdom"
+										/>
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/ie.svg"
+											alt="Ireland"
+											title="Ireland"
+										/>
+									</div>
+									United Kingdom & Ireland
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/ukmo-api')}>UKMO UK 2 km & Global 10 km</a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#2f7eb6] dark:bg-[#06669e]"
+										aria-hidden="true"
+									></span>
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/de.svg"
+											alt="Germany"
+											title="Germany"
+										/>
+									</div>
+									Central Europe
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/dwd-api')}>ICON EU & ICON D2</a></td>
+							<td>✓</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#5f7127] dark:bg-[#586a13]"
+										aria-hidden="true"
+									></span>
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/fr.svg"
+											alt="France"
+											title="France"
+										/>
+									</div>
+									France & Western Europe
+								</div>
+							</th>
+							<td
+								><a href={resolve('/en/docs/meteofrance-api')}>AROME France HD (1.5 km) & ARPEGE</a
+								></td
+							>
+							<td>✓</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#9a58f5] dark:bg-[#7d14dd]"
+										aria-hidden="true"
+									></span>
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/dk.svg"
+											alt="Denmark"
+											title="Denmark"
+										/>
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/is.svg"
+											alt="Iceland"
+											title="Iceland"
+										/>
+									</div>
+									Northern Europe & Iceland
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/dmi-api')}>DMI HARMONIE</a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#d192fb] dark:bg-[#c153ff]"
+										aria-hidden="true"
+									></span>
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/us.svg"
+											alt="United States"
+											title="United States"
+										/>
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/ca.svg"
+											alt="Canada"
+											title="Canada"
+										/>
+									</div>
+									North America
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/gfs-api')}>NOAA HRRR</a></td>
+							<td>✓</td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#512cc7] dark:bg-[#8988cc]"
+										aria-hidden="true"
+									></span>
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/jp.svg"
+											alt="Japan"
+											title="Japan"
+										/>
+									</div>
+									Japan
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/jma-api')}>JMA MSM</a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full bg-[#b06372] dark:bg-[#f24c79]"
+										aria-hidden="true"
+									></span>
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<img
+											height="26"
+											width="26"
+											src="/images/country-flags/european_union.svg"
+											alt="European Union"
+											title="European Union"
+										/>
+									</div>
+									Remaining Europe
+								</div>
+							</th>
+							<td><a href={resolve('/en/docs/dwd-api')}>ICON EU</a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<th scope="row">
+								<div class="flex items-center gap-2">
+									<span
+										class="size-3 shrink-0 rounded-full border-muted-foreground/50 border-2"
+										aria-hidden="true"
+									></span>
+									<div class="flex w-15 shrink-0 items-center gap-2">
+										<div class="flex h-6.5 w-6.5 items-center justify-center text-[23px]">🌍</div>
+									</div>
+									Everywhere else
+								</div>
+							</th>
+							<td>Global models only</td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<p>
+				For each weather variable and forecast hour, the highest-resolution model takes precedence.
+				Where it does not provide data — because its forecast length is exceeded, a variable is not
+				available or the location lies outside its coverage — the next coarser model fills the gap
+				with a smooth transition. Precipitation probability is always derived from ensemble models
+				such as the GFS, ICON and ECMWF IFS ensembles. To override this selection, pick individual
+				models in the <mark>Weather models</mark> section above.
+			</p>
+
+			<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
+				<ZoomableImage
+					figureClass="w-full"
+					class="w-full"
+					src="/images/models/best_match_regions_europe.webp"
+					alt="Best match regions in Europe"
+				>
+					{#snippet caption()}
+						Best match regions over Europe, each drawn after the higher-priority regions above it
+						have been taken out. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
+					{/snippet}
+				</ZoomableImage>
+
+				<ZoomableImage
+					figureClass="w-full"
+					class="w-full"
+					src="/images/models/best_match_regions_world.webp"
+					alt="Best match regions worldwide"
+				>
+					{#snippet caption()}
+						The same regions worldwide, including North America and Japan. Everywhere outside them
+						uses the global models only. Source:
+						<a href="https://open-meteo.com/">Open-Meteo</a>.
+					{/snippet}
+				</ZoomableImage>
+			</ZoomableImageGallery>
+		</AccordionItem>
+	</Accordion.Root>
 </div>
 
 <!-- API DOCS -->
