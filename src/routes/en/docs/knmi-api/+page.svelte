@@ -539,8 +539,8 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, precipitation, snowfall, wind gusts and visibility. KNMI
-							provides no CAPE, so thunderstorm codes are not produced.
+							Computed from cloud cover, temperature, precipitation, snowfall, wind gusts and
+							visibility. KNMI provides no CAPE, so thunderstorm codes are not produced.
 						</td>
 					</tr>
 					<tr>
