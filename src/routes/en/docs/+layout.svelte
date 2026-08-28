@@ -52,6 +52,7 @@
 			url: '/en/docs/ensemble-api',
 			children: [
 				{ title: 'Ensemble Mean API', url: '/en/docs/ensemble-mean-api' },
+				{ title: 'ECMWF Ensemble API', url: '/en/docs/ecmwf-ensemble-api' },
 				{ title: 'Google WeatherNext', url: '/en/docs/google-weathernext-api' }
 			]
 		},
