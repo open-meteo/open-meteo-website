@@ -297,7 +297,7 @@
 									<th scope="col">Unhealthy for<br />Sensitive Groups</th>
 									<th scope="col">Unhealthy</th>
 									<th scope="col">Very Unhealthy</th>
-									<th scope="col" colspan="2">Hazardous</th>
+									<th scope="col">Hazardous</th>
 								</tr>
 								<tr>
 									<th scope="col" colspan="2">AQI</th>
@@ -306,8 +306,7 @@
 									<th scope="col">101-150</th>
 									<th scope="col">151-200</th>
 									<th scope="col">201-300</th>
-									<th scope="col">301-400</th>
-									<th scope="col">401-500</th>
+									<th scope="col">301-500</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -322,7 +321,6 @@
 									<td>85-105</td>
 									<td>105-200</td>
 									<td>-</td>
-									<td>-</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -334,8 +332,7 @@
 									<td>125-165</td>
 									<td>165-205</td>
 									<td>205-405</td>
-									<td>405-505</td>
-									<td>505-605</td>
+									<td>405-605</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -348,7 +345,6 @@
 									<td>55.5-125.4</td>
 									<td>125.5-225.4</td>
 									<td>225.5-325.4</td>
-									<td>325.5-500.4</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -360,8 +356,7 @@
 									<td>155-255</td>
 									<td>255-355</td>
 									<td>355-425</td>
-									<td>425-505</td>
-									<td>505-605</td>
+									<td>425-605</td>
 								</tr>
 								<tr>
 									<th scope="row">CO <small class="text-muted-foreground">(ppm)</small></th>
@@ -371,8 +366,7 @@
 									<td>9.5-12.4</td>
 									<td>12.5-15.4</td>
 									<td>15.5-30.4</td>
-									<td>30.5-40.4</td>
-									<td>40.5-50.5</td>
+									<td>30.5-50.5</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -383,7 +377,6 @@
 									<td>35-75</td>
 									<td>75-185</td>
 									<td>185-305</td>
-									<td>-</td>
 									<td>-</td>
 									<td>-</td>
 								</tr>
@@ -397,8 +390,7 @@
 									<td>-</td>
 									<td>-</td>
 									<td>305-605</td>
-									<td>605-805</td>
-									<td>805-1005</td>
+									<td>605-1005</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -410,8 +402,7 @@
 									<td>100-360</td>
 									<td>360-650</td>
 									<td>650-1250</td>
-									<td>1250-1650</td>
-									<td>1650-2050</td>
+									<td>1250-2050</td>
 								</tr>
 							</tbody>
 						</table>
