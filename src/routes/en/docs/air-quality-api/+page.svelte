@@ -302,11 +302,11 @@
 								<tr>
 									<th scope="col" colspan="2">AQI</th>
 									<th scope="col">0-50</th>
-									<th scope="col">51-100</th>
-									<th scope="col">101-150</th>
-									<th scope="col">151-200</th>
-									<th scope="col">201-300</th>
-									<th scope="col">301-500</th>
+									<th scope="col">50-100</th>
+									<th scope="col">100-150</th>
+									<th scope="col">150-200</th>
+									<th scope="col">200-300</th>
+									<th scope="col">300-500</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -340,11 +340,11 @@
 									>
 									<td>24h</td>
 									<td>0-9</td>
-									<td>9-35.4</td>
-									<td>35.5-55.4</td>
-									<td>55.5-125.4</td>
-									<td>125.5-225.4</td>
-									<td>225.5-325.4</td>
+									<td>9-35.5</td>
+									<td>35.5-55.5</td>
+									<td>55.5-125.5</td>
+									<td>125.5-225.5</td>
+									<td>225.5-325.5</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -361,11 +361,11 @@
 								<tr>
 									<th scope="row">CO <small class="text-muted-foreground">(ppm)</small></th>
 									<td>8h</td>
-									<td>0-4.4</td>
-									<td>4.5-9.4</td>
-									<td>9.5-12.4</td>
-									<td>12.5-15.4</td>
-									<td>15.5-30.4</td>
+									<td>0-4.5</td>
+									<td>4.5-9.5</td>
+									<td>9.5-12.5</td>
+									<td>12.5-15.5</td>
+									<td>15.5-30.5</td>
 									<td>30.5-50.5</td>
 								</tr>
 								<tr>
@@ -919,8 +919,8 @@
 						<td
 							>United States Air Quality Index (AQI) calculated for different particulate matter and
 							gases individually. The consolidated <mark>us_aqi</mark> returns the maximum of all individual
-							indices. Ranges from 0-50 (good), 51-100 (moderate), 101-150 (unhealthy for sensitive groups),
-							151-200 (unhealthy), 201-300 (very unhealthy) and 301-500 (hazardous).</td
+							indices. Ranges from 0-50 (good), 50-100 (moderate), 100-150 (unhealthy for sensitive groups),
+							150-200 (unhealthy), 200-300 (very unhealthy) and 300-500 (hazardous).</td
 						>
 					</tr>
 				</tbody>
