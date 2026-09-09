@@ -1045,8 +1045,7 @@
 
 <style>
 	/* Both tables list six classifications, so size the columns to put the colour
-	   blocks in the same place. The two US "Hazardous" ranges share the width of a
-	   single classification, and the US pollutant and timespan columns together
+	   blocks in the same place. The US pollutant and timespan columns together
 	   match the width of the European pollutant column. */
 	#airquality_table thead tr:first-child th:first-child {
 		width: 16%;
@@ -1066,11 +1065,6 @@
 
 	#airquality_table_us thead tr:first-child th:nth-child(n + 3) {
 		width: 14%;
-	}
-
-	#airquality_table_us tbody td:nth-child(8),
-	#airquality_table_us tbody td:nth-child(9) {
-		width: 7%;
 	}
 
 	/* The AQI row is the last header row. Its cells line up with the body cells
@@ -1143,9 +1137,7 @@
 	}
 
 	#airquality_table_us thead tr:last-child th:nth-child(7),
-	#airquality_table_us thead tr:last-child th:nth-child(8),
-	#airquality_table_us tbody td:nth-child(8),
-	#airquality_table_us tbody td:nth-child(9) {
+	#airquality_table_us tbody td:nth-child(8) {
 		background-color: rgba(125, 33, 129, 1);
 		color: white;
 	}
