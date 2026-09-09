@@ -9,8 +9,8 @@ updates:
     allow:
       - dependency-type: direct
     ignore:
-      - dependency-name: '*'
-        update-types: ['version-update:semver-patch']
+      - dependency-name: 'typescript'
+        versions: ['>=7.0.0']
     commit-message:
       prefix: 'fix: '
     cooldown:
