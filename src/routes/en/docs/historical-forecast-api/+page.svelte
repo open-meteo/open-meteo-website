@@ -523,7 +523,7 @@
 						<td>2022-11-24</td>
 					</tr>
 					<tr>
-						<th scope="row" rowspan="8">NOAA NCEP</th>
+						<th scope="row" rowspan="7">NOAA NCEP</th>
 						<td>GFS</td>
 						<td>
 							<div class="flex items-center gap-2">
