@@ -632,6 +632,7 @@ paths:
                 - icon_global
                 - icon_eu
                 - icon_d2
+                - dwd_icon_d2_native
                 - gem_seamless
                 - gem_global
                 - gem_regional

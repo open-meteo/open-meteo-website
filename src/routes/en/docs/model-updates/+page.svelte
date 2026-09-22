@@ -203,6 +203,11 @@
 						meta: fetchMeta('dwd_icon_d2', 'forecast', apiKeyPreferences)
 					},
 					{
+						name: 'ICON-D2 Native',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_native', 'forecast', apiKeyPreferences)
+					},
+					{
 						name: 'ICON-D2 15min',
 						area: ['de', 'ch', 'at'],
 						meta: fetchMeta('dwd_icon_d2_15min', 'forecast', apiKeyPreferences)
