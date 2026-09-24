@@ -632,8 +632,11 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, precipitation, snowfall, wind gusts, CAPE, convective
-							inhibition and visibility. UKMO's own significant-weather symbol is not used.
+							Computed from cloud cover, temperature, precipitation, snowfall, wind gusts, CAPE,
+							convective inhibition and visibility. On UKV, the native hail forecast additionally
+							enables the hail thunderstorm codes 96 and 99, which are otherwise reserved for models
+							with native weather codes such as DWD ICON. UKMO's own significant-weather symbol is
+							not used.
 						</td>
 					</tr>
 					<tr>

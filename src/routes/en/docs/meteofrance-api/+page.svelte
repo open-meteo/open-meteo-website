@@ -719,8 +719,8 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, precipitation, snowfall, CAPE and wind gusts. Météo-France
-							does not publish a WMO weather symbol.
+							Computed from cloud cover, temperature, precipitation, snowfall, CAPE and wind gusts.
+							Météo-France does not publish a WMO weather symbol.
 						</td>
 					</tr>
 					<tr>
