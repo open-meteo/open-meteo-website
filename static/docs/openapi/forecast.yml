@@ -630,6 +630,7 @@ paths:
                 - kma_gdps
                 - icon_seamless
                 - icon_global
+                - dwd_icon_global_native
                 - icon_eu
                 - icon_d2
                 - dwd_icon_d2_native

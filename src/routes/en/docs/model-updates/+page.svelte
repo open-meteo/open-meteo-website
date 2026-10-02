@@ -193,6 +193,11 @@
 						meta: fetchMeta('dwd_icon', 'forecast', apiKeyPreferences)
 					},
 					{
+						name: 'ICON Global Native',
+						area: [],
+						meta: fetchMeta('dwd_icon_global_native', 'forecast', apiKeyPreferences)
+					},
+					{
 						name: 'ICON-EU',
 						area: ['european_union'],
 						meta: fetchMeta('dwd_icon_eu', 'forecast', apiKeyPreferences)
