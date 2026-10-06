@@ -485,8 +485,8 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, precipitation, snowfall, wind gusts, CAPE and convective
-							inhibition. MeteoSwiss does not publish a WMO weather symbol.
+							Computed from cloud cover, temperature, precipitation, snowfall, wind gusts, CAPE and
+							convective inhibition. MeteoSwiss does not publish a WMO weather symbol.
 						</td>
 					</tr>
 					<tr>

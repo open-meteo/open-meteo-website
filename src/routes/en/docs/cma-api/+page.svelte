@@ -471,8 +471,8 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, precipitation, showers, snowfall, wind gusts, CAPE, lifted
-							index, convective inhibition and visibility.
+							Computed from cloud cover, temperature, precipitation, showers, snowfall, wind gusts,
+							CAPE, lifted index, convective inhibition and visibility.
 						</td>
 					</tr>
 					<tr>

@@ -464,8 +464,8 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, precipitation, snowfall and wind gusts. Without CAPE or
-							visibility, thunderstorm and fog codes are not produced.
+							Computed from cloud cover, temperature, precipitation, snowfall and wind gusts.
+							Without CAPE or visibility, thunderstorm and fog codes are not produced.
 						</td>
 					</tr>
 					<tr>

@@ -526,8 +526,9 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, precipitation and snowfall. JMA provides little information
-							about atmospheric stability, so thunderstorm and fog codes are not produced.
+							Computed from cloud cover, temperature, precipitation and snowfall. JMA provides
+							little information about atmospheric stability, so thunderstorm and fog codes are not
+							produced.
 						</td>
 					</tr>
 					<tr>

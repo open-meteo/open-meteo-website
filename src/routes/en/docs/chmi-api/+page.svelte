@@ -424,8 +424,8 @@
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, precipitation, snowfall, wind gusts, CAPE and visibility.
-							ALADIN does not publish a usable WMO weather symbol.
+							Computed from cloud cover, temperature, precipitation, snowfall, wind gusts, CAPE and
+							visibility. ALADIN does not publish a usable WMO weather symbol.
 						</td>
 					</tr>
 					<tr>
