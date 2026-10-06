@@ -408,11 +408,11 @@
 			Central Europe.
 		</p>
 		<p class="mb-4">
-			DWD is migrating deterministic ICON models to its v1 feed by 30 November 2026. ICON-EU
-			Native uses the expanded domain introduced on 6 October 2026. After 30 November,
-			<mark>dwd_icon_eu</mark> and <mark>dwd_icon_d2</mark> will use their native-grid
-			counterparts. The future of ICON Global ingestion on a regular latitude/longitude grid is
-			still undecided. Visibility is unavailable in the v1 feed. See the
+			DWD is migrating deterministic ICON models to its v1 feed by 30 November 2026. ICON-EU Native
+			uses the expanded domain introduced on 6 October 2026. After 30 November,
+			<mark>dwd_icon_eu</mark> and <mark>dwd_icon_d2</mark> will use their native-grid counterparts.
+			The future of ICON Global ingestion on a regular latitude/longitude grid is still undecided.
+			Visibility will no longer be available after the migration to the v1 feed. See the
 			<a
 				href="https://www.dwd.de/DE/leistungen/opendata/neuigkeiten/opendata_september2026_1.html"
 				target="_blank">DWD feed announcement</a
@@ -620,7 +620,7 @@
 					</tr>
 					<tr>
 						<th scope="row"
-							>CAPE, freezing level, snow depth, snowfall height, lightning potential</th
+							>CAPE, visibility, freezing level, snow depth, snowfall height, lightning potential</th
 						>
 						<td>Surface</td>
 						<td>Corresponding API variables and weather-code inputs</td>
@@ -639,9 +639,9 @@
 			</table>
 		</div>
 		<p class="mt-2">
-			Native fields differ slightly per model: snowfall height is not available in ICON Global, and
-			lightning potential and updraft are only in ICON D2. Visibility is unavailable in DWD's v1
-			feed.
+			Native fields differ slightly per model: visibility and snowfall height are not available in
+			ICON Global, and lightning potential and updraft are only in ICON D2. Visibility will no
+			longer be available after the migration to DWD's v1 feed.
 		</p>
 	</div>
 </div>
@@ -1282,6 +1282,15 @@
 								target="_blank">Wikipedia</a
 							>.</td
 						>
+					</tr>
+					<tr>
+						<th scope="row">visibility</th>
+						<td>Instant</td>
+						<td>meters</td>
+						<td>
+							Viewing distance in meters. Influenced by low clouds, humidity and aerosols.
+							Visibility will no longer be available after the migration to DWD's v1 feed.
+						</td>
 					</tr>
 				</tbody>
 			</table>
