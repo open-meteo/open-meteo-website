@@ -169,15 +169,15 @@ export const membersPerModel = (model: string): number => {
 			return 40;
 		case 'icon_global_eps':
 		case 'dwd_icon_global_eps':
-		case 'dwd_icon_global_native_eps':
+		case 'dwd_icon_global_eps_native':
 			return 40;
 		case 'icon_eu_eps':
 		case 'dwd_icon_eu_eps':
-		case 'dwd_icon_eu_native_eps':
+		case 'dwd_icon_eu_eps_native':
 			return 40;
 		case 'icon_d2_eps':
 		case 'dwd_icon_d2_eps':
-		case 'dwd_icon_d2_native_eps':
+		case 'dwd_icon_d2_eps_native':
 			return 20;
 
 		// MeteoSwiss ICON

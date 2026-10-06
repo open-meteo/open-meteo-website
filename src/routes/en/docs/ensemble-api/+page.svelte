@@ -429,8 +429,8 @@
 			ICON ensembles use DWD's native-grid v1 feeds. From 6 October 2026, ICON-EU-EPS and ICON
 			Global EPS change resolution and their old remapped domains are no longer ingested. Existing
 			model names remain compatibility aliases for the native domains. Native models can be selected
-			explicitly as <mark>dwd_icon_global_native_eps</mark>,
-			<mark>dwd_icon_eu_native_eps</mark> and <mark>dwd_icon_d2_native_eps</mark>. ICON Global EPS
+			explicitly as <mark>dwd_icon_global_eps_native</mark>,
+			<mark>dwd_icon_eu_eps_native</mark> and <mark>dwd_icon_d2_eps_native</mark>. ICON Global EPS
 			supports only 00 and 12 UTC runs; 06 and 18 UTC runs are unsupported.
 		</p>
 		<p>

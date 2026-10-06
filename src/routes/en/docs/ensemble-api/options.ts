@@ -103,9 +103,9 @@ export const availableVariables: Record<string, string[]> = {
 	dwd_icon_global_eps: icon_global_variables,
 	dwd_icon_eu_eps: icon_eu_variables,
 	dwd_icon_d2_eps: icon_d2_variables,
-	dwd_icon_global_native_eps: icon_global_variables,
-	dwd_icon_eu_native_eps: icon_eu_variables,
-	dwd_icon_d2_native_eps: icon_d2_variables,
+	dwd_icon_global_eps_native: icon_global_variables,
+	dwd_icon_eu_eps_native: icon_eu_variables,
+	dwd_icon_d2_eps_native: icon_d2_variables,
 	ncep_gefs_seamless: gfs05_variables,
 	ncep_gefs025: gfs025_variables,
 	ncep_gefs05: gfs05_variables,
@@ -128,11 +128,11 @@ export const models = [
 	[
 		{ value: 'dwd_icon_seamless_eps', label: 'DWD ICON EPS Seamless' },
 		{ value: 'dwd_icon_global_eps', label: 'DWD ICON EPS Global' },
-		{ value: 'dwd_icon_global_native_eps', label: 'DWD ICON EPS Global Native' },
+		{ value: 'dwd_icon_global_eps_native', label: 'DWD ICON EPS Global Native' },
 		{ value: 'dwd_icon_eu_eps', label: 'DWD ICON EPS EU' },
-		{ value: 'dwd_icon_eu_native_eps', label: 'DWD ICON EPS EU Native' },
+		{ value: 'dwd_icon_eu_eps_native', label: 'DWD ICON EPS EU Native' },
 		{ value: 'dwd_icon_d2_eps', label: 'DWD ICON EPS D2' },
-		{ value: 'dwd_icon_d2_native_eps', label: 'DWD ICON EPS D2 Native' }
+		{ value: 'dwd_icon_d2_eps_native', label: 'DWD ICON EPS D2 Native' }
 	],
 	[
 		{ value: 'ncep_gefs_seamless', label: 'GFS Ensemble Seamless' },

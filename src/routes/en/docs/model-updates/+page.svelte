@@ -490,7 +490,7 @@
 					{
 						name: 'ICON-EPS Native',
 						area: [],
-						meta: fetchMeta('dwd_icon_global_native_eps', 'ensemble', apiKeyPreferences)
+						meta: fetchMeta('dwd_icon_global_eps_native', 'ensemble', apiKeyPreferences)
 					},
 					{
 						name: 'ICON-EU-EPS',
@@ -500,7 +500,7 @@
 					{
 						name: 'ICON-EU-EPS Native',
 						area: ['european_union'],
-						meta: fetchMeta('dwd_icon_eu_native_eps', 'ensemble', apiKeyPreferences)
+						meta: fetchMeta('dwd_icon_eu_eps_native', 'ensemble', apiKeyPreferences)
 					},
 					{
 						name: 'ICON-D2-EPS',
@@ -510,7 +510,7 @@
 					{
 						name: 'ICON-D2-EPS Native',
 						area: ['de', 'ch', 'at'],
-						meta: fetchMeta('dwd_icon_d2_native_eps', 'ensemble', apiKeyPreferences)
+						meta: fetchMeta('dwd_icon_d2_eps_native', 'ensemble', apiKeyPreferences)
 					}
 				]
 			},
