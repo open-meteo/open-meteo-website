@@ -203,6 +203,11 @@
 						meta: fetchMeta('dwd_icon_eu', 'forecast', apiKeyPreferences)
 					},
 					{
+						name: 'ICON-EU Native',
+						area: ['european_union'],
+						meta: fetchMeta('dwd_icon_eu_native', 'forecast', apiKeyPreferences)
+					},
+					{
 						name: 'ICON-D2',
 						area: ['de', 'ch', 'at'],
 						meta: fetchMeta('dwd_icon_d2', 'forecast', apiKeyPreferences)
@@ -483,14 +488,29 @@
 						meta: fetchMeta('dwd_icon_eps', 'ensemble', apiKeyPreferences)
 					},
 					{
+						name: 'ICON-EPS Native',
+						area: [],
+						meta: fetchMeta('dwd_icon_global_native_eps', 'ensemble', apiKeyPreferences)
+					},
+					{
 						name: 'ICON-EU-EPS',
 						area: ['european_union'],
 						meta: fetchMeta('dwd_icon_eu_eps', 'ensemble', apiKeyPreferences)
 					},
 					{
+						name: 'ICON-EU-EPS Native',
+						area: ['european_union'],
+						meta: fetchMeta('dwd_icon_eu_native_eps', 'ensemble', apiKeyPreferences)
+					},
+					{
 						name: 'ICON-D2-EPS',
 						area: ['de', 'ch', 'at'],
 						meta: fetchMeta('dwd_icon_d2_eps', 'ensemble', apiKeyPreferences)
+					},
+					{
+						name: 'ICON-D2-EPS Native',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_native_eps', 'ensemble', apiKeyPreferences)
 					}
 				]
 			},

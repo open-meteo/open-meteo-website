@@ -628,11 +628,12 @@ paths:
                 - kma_seamless
                 - kma_ldps
                 - kma_gdps
-                - icon_seamless
-                - icon_global
+                - dwd_icon_seamless
+                - dwd_icon_global
                 - dwd_icon_global_native
-                - icon_eu
-                - icon_d2
+                - dwd_icon_eu
+                - dwd_icon_eu_native
+                - dwd_icon_d2
                 - dwd_icon_d2_native
                 - gem_seamless
                 - gem_global

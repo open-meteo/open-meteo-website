@@ -419,6 +419,7 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 		{ value: 'dwd_icon_global', label: 'DWD ICON Global' },
 		{ value: 'dwd_icon_global_native', label: 'DWD ICON Global Native' },
 		{ value: 'dwd_icon_eu', label: 'DWD ICON EU' },
+		{ value: 'dwd_icon_eu_native', label: 'DWD ICON EU Native' },
 		{ value: 'dwd_icon_d2', label: 'DWD ICON D2' },
 		{ value: 'dwd_icon_d2_native', label: 'DWD ICON D2 Native' }
 	],

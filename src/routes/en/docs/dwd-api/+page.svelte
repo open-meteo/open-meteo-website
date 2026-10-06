@@ -408,6 +408,22 @@
 			Central Europe.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
+			<p class="mb-4">
+				DWD is migrating deterministic ICON models to its v1 feed by 30 November 2026. ICON-EU
+				Native uses the expanded domain introduced on 6 October 2026. After 30 November,
+				<mark>dwd_icon_eu</mark> and <mark>dwd_icon_d2</mark> will use their native-grid
+				counterparts. The future of ICON Global ingestion on a regular latitude/longitude grid is
+				still undecided. Visibility is unavailable in the v1 feed. See the
+				<a
+					href="https://www.dwd.de/DE/leistungen/opendata/neuigkeiten/opendata_september2026_1.html"
+					target="_blank">DWD feed announcement</a
+				>
+				and the
+				<a
+					href="https://www.dwd.de/DE/leistungen/opendata/neuigkeiten/opendata_juli2026_2.html"
+					target="_blank">domain announcement</a
+				>.
+			</p>
 			<table class="docs-table w-full min-w-250">
 				<caption
 					>You can find the update timings in the <a
@@ -604,7 +620,7 @@
 					</tr>
 					<tr>
 						<th scope="row"
-							>CAPE, visibility, freezing level, snow depth, snowfall height, lightning potential</th
+							>CAPE, freezing level, snow depth, snowfall height, lightning potential</th
 						>
 						<td>Surface</td>
 						<td>Corresponding API variables and weather-code inputs</td>
@@ -623,8 +639,9 @@
 			</table>
 		</div>
 		<p class="mt-2">
-			Native fields differ slightly per model: visibility and snowfall height are not available in
-			ICON Global, and lightning potential and updraft are only in ICON D2.
+			Native fields differ slightly per model: snowfall height is not available in ICON Global, and
+			lightning potential and updraft are only in ICON D2. Visibility is unavailable in DWD's v1
+			feed.
 		</p>
 	</div>
 </div>
@@ -1265,12 +1282,6 @@
 								target="_blank">Wikipedia</a
 							>.</td
 						>
-					</tr>
-					<tr>
-						<th scope="row">visibility</th>
-						<td>Instant</td>
-						<td>meters</td>
-						<td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
 					</tr>
 				</tbody>
 			</table>
