@@ -27,12 +27,12 @@
 		"coverage": "vitest run --coverage",
 		"format": "prettier --write .",
 		"rename_index_files": "node scripts/rename_to_index_html.js",
-		"update-components": "npx shadcn-svelte@latest add -y -o accordion alert button calendar checkbox dialog dropdown-menu input label popover range-calendar select separator sonner toggle toggle-group",
+		"update-components": "node scripts/update-shadcn.mjs",
 		"build:preview": "npm run build && npm run preview"
 	},
 	"devDependencies": {
 		"@internationalized/date": "^3.12.4",
-		"@lucide/svelte": "^1.48.0",
+		"@lucide/svelte": "^1.52.0",
 		"@poppanator/sveltekit-svg": "^7.0.1",
 		"@sveltejs/adapter-static": "^4.0.0",
 		"@sveltejs/kit": "^3.0.0",
@@ -57,6 +57,7 @@
 		"prettier-plugin-svelte": "^3.5.2",
 		"prettier-plugin-tailwindcss": "^0.8.1",
 		"rollup-plugin-visualizer": "^7.1.1",
+		"shadcn-svelte": "^1.7.0",
 		"shiki": "^4.4.3",
 		"simple-icons": "^16.33.0",
 		"svelte": "^5.57.1",

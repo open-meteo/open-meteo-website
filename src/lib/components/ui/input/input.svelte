@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { cn } from '#lib/utils/ui.js';
+	import { type WithElementRef, cn } from '#lib/utils/ui.js';
 
-	import type { WithElementRef } from 'bits-ui';
 	import type { HTMLInputAttributes, HTMLInputTypeAttribute } from 'svelte/elements';
 
 	type InputType = Exclude<HTMLInputTypeAttribute, 'file'>;
@@ -17,6 +16,7 @@
 		type,
 		files = $bindable(),
 		class: className,
+		'data-slot': dataSlot = 'input',
 		...restProps
 	}: Props = $props();
 </script>
@@ -24,8 +24,9 @@
 {#if type === 'file'}
 	<input
 		bind:this={ref}
+		data-slot={dataSlot}
 		class={cn(
-			'border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring file: file: flex h-10 w-full rounded-md border px-3 py-2 text-base file:border-0  file:bg-transparent  focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+			'dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 disabled:bg-input/50 dark:disabled:bg-input/80 h-8 rounded-lg border bg-transparent px-2.5 py-1 text-base transition-colors file:h-6 focus-visible:ring-3 aria-invalid:ring-3 w-full min-w-0 outline-none file:inline-flex file:border-0 file:bg-transparent file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
 			className
 		)}
 		type="file"
@@ -36,8 +37,9 @@
 {:else}
 	<input
 		bind:this={ref}
+		data-slot={dataSlot}
 		class={cn(
-			'border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring file: file: flex h-10 w-full rounded-md border px-3 py-2 text-base file:border-0  file:bg-transparent  focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+			'dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 disabled:bg-input/50 dark:disabled:bg-input/80 h-8 rounded-lg border bg-transparent px-2.5 py-1 text-base transition-colors file:h-6 focus-visible:ring-3 aria-invalid:ring-3 w-full min-w-0 outline-none file:inline-flex file:border-0 file:bg-transparent file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
 			className
 		)}
 		{type}

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Check from '@lucide/svelte/icons/check';
-	import Minus from '@lucide/svelte/icons/minus';
-	import { DropdownMenu as DropdownMenuPrimitive, type WithoutChildrenOrChild } from 'bits-ui';
+	import CheckIcon from '@lucide/svelte/icons/check';
+	import MinusIcon from '@lucide/svelte/icons/minus';
+	import { DropdownMenu as DropdownMenuPrimitive } from 'bits-ui';
 
-	import { cn } from '#lib/utils/ui.js';
+	import { type WithoutChildrenOrChild, cn } from '#lib/utils/ui.js';
 
 	import type { Snippet } from 'svelte';
 
@@ -13,6 +13,7 @@
 		indeterminate = $bindable(false),
 		class: className,
 		children: childrenProp,
+		closeOnSelect = false,
 		...restProps
 	}: WithoutChildrenOrChild<DropdownMenuPrimitive.CheckboxItemProps> & {
 		children?: Snippet;
@@ -21,20 +22,25 @@
 
 <DropdownMenuPrimitive.CheckboxItem
 	bind:ref
+	{closeOnSelect}
 	bind:checked
 	bind:indeterminate
+	data-slot="dropdown-menu-checkbox-item"
 	class={cn(
-		'data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground relative flex cursor-default items-center rounded-sm py-1.5 pr-2 pl-8   outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+		"focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground gap-1.5 rounded-md py-1 pr-8 pl-1.5 data-inset:pl-7 [&_svg:not([class*='size-'])]:size-4 relative flex cursor-default items-center outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
 		className
 	)}
 	{...restProps}
 >
 	{#snippet children({ checked, indeterminate })}
-		<span class="absolute left-2 flex size-3.5 items-center justify-center">
+		<span
+			class="absolute right-2 flex items-center justify-center pointer-events-none"
+			data-slot="dropdown-menu-checkbox-item-indicator"
+		>
 			{#if indeterminate}
-				<Minus class="size-4" />
-			{:else}
-				<Check class={cn('size-4', !checked && 'text-transparent')} />
+				<MinusIcon />
+			{:else if checked}
+				<CheckIcon />
 			{/if}
 		</span>
 		{@render childrenProp?.()}
