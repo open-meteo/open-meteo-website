@@ -1,4 +1,4 @@
-import { BACKGROUND_VARIANTS } from '$lib/assets/background-variants';
+import { BACKGROUND_VARIANTS } from '#lib/assets/background-variants.js';
 
 /** The `src` a browser without srcset support (or with an unparsed set) falls
  *  back to. Big enough to look right on a laptop, small enough not to hurt. */

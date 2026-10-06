@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { fade, fadeOutAbsolute } from '$lib/utils/transitions';
+	import { fade, fadeOutAbsolute } from '#lib/utils/transitions.js';
 
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.js';
 
-	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
+	import AnimateHeight from '#lib/components/animate-height/animate-height.svelte';
 
-	import { type Parameters } from '$lib/docs';
+	import { type Parameters } from '#lib/docs.js';
 
 	import { historicalDateRange } from './utils';
 

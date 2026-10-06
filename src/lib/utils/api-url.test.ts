@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest';
 
 import { parseApiUrl, serverType } from './api-url';
 
-import type { Parameters } from '$lib/docs';
+import type { Parameters } from '#lib/docs.js';
 
 const defaults: Parameters = {
 	daily: [],

@@ -4,31 +4,31 @@
 
 	import InfoIcon from '@lucide/svelte/icons/info';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { countVariables } from '$lib/utils/meteo';
-	import { fade, slide } from '$lib/utils/transitions';
+	import { countVariables } from '#lib/utils/meteo.js';
+	import { fade, slide } from '#lib/utils/transitions.js';
 
-	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
-	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
+	import WeatherForecastError from '#lib/components/code/docs/weather-forecast-error.svx';
+	import WeatherForecastObject from '#lib/components/code/docs/weather-forecast-object.svx';
 
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as Alert from '$lib/components/ui/alert';
-	import { Button } from '$lib/components/ui/button';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Label } from '$lib/components/ui/label';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Checkbox } from '#lib/components/ui/checkbox/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import * as ToggleGroup from '#lib/components/ui/toggle-group/index.js';
 
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ResultsPreview from '$lib/components/response/results-preview.svelte';
-	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import TiltAzimuthInputs from '$lib/components/variables/tilt-azimuth-inputs.svelte';
-	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
-	import WmoCodesTable from '$lib/components/variables/wmo-codes-table.svelte';
+	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import DatePicker from '#lib/components/date/date-picker.svelte';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ResultsPreview from '#lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
+	import Settings from '#lib/components/settings/settings.svelte';
+	import TiltAzimuthInputs from '#lib/components/variables/tilt-azimuth-inputs.svelte';
+	import VariableCheckboxGroups from '#lib/components/variables/variable-checkbox-groups.svelte';
+	import WmoCodesTable from '#lib/components/variables/wmo-codes-table.svelte';
 
 	import { gridCellSelectionOptions, temporalResolutionOptions } from '../options';
 	import {

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import LabeledSelect from '$lib/components/select/labeled-select.svelte';
+	import LabeledSelect from '#lib/components/select/labeled-select.svelte';
 
-	import { type Parameters } from '$lib/docs';
+	import { type Parameters } from '#lib/docs.js';
 
 	type Options = { value: string; label: string }[];
 

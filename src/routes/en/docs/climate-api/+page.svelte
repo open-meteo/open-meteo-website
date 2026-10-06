@@ -3,26 +3,26 @@
 
 	import InfoIcon from '@lucide/svelte/icons/info';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { countVariables } from '$lib/utils/meteo';
+	import { countVariables } from '#lib/utils/meteo.js';
 
-	import ClimateError from '$lib/components/code/docs/climate-error.svx';
-	import ClimateObject from '$lib/components/code/docs/climate-object.svx';
+	import ClimateError from '#lib/components/code/docs/climate-error.svx';
+	import ClimateObject from '#lib/components/code/docs/climate-object.svx';
 
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as Alert from '$lib/components/ui/alert';
-	import { Button } from '$lib/components/ui/button';
-	import { Label } from '$lib/components/ui/label';
-	import { Switch } from '$lib/components/ui/switch';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import { Switch } from '#lib/components/ui/switch/index.js';
 
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ResultsPreview from '$lib/components/response/results-preview.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
+	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import DatePicker from '#lib/components/date/date-picker.svelte';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ResultsPreview from '#lib/components/response/results-preview.svelte';
+	import Settings from '#lib/components/settings/settings.svelte';
+	import VariableCheckboxGroups from '#lib/components/variables/variable-checkbox-groups.svelte';
 
 	import { daily, defaultParameters, models } from './options';
 

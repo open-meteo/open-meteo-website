@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 
-	import Button from '$lib/components/ui/button/button.svelte';
+	import Button from '#lib/components/ui/button/button.svelte';
 
 	interface Props {
 		children?: import('svelte').Snippet;

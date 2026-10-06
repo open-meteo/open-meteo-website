@@ -1,4 +1,4 @@
-import Sun from '$lib/assets/icons/sun.svelte';
+import Sun from '#lib/assets/icons/sun.svelte';
 
 import type { LayoutLoad } from './$types';
 

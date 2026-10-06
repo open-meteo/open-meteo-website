@@ -3,25 +3,25 @@
 	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { countPressureVariables, countVariables } from '$lib/utils/meteo';
+	import { countPressureVariables, countVariables } from '#lib/utils/meteo.js';
 
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as Alert from '$lib/components/ui/alert';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
+	import * as Alert from '#lib/components/ui/alert/index.js';
 
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ApiModeDescription from '$lib/components/api-mode/api-mode-description.svelte';
-	import ApiModeSelector from '$lib/components/api-mode/api-mode-selector.svelte';
-	import ApiModeTimeSelector from '$lib/components/api-mode/api-mode-time-selector.svelte';
-	import { apiModeFormAction } from '$lib/components/api-mode/utils';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureVariablesSelector from '$lib/components/pressure/pressure-variables-selector.svelte';
-	import ResultsPreview from '$lib/components/response/results-preview.svelte';
-	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
+	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import ApiModeDescription from '#lib/components/api-mode/api-mode-description.svelte';
+	import ApiModeSelector from '#lib/components/api-mode/api-mode-selector.svelte';
+	import ApiModeTimeSelector from '#lib/components/api-mode/api-mode-time-selector.svelte';
+	import { apiModeFormAction } from '#lib/components/api-mode/utils.js';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import PressureVariablesSelector from '#lib/components/pressure/pressure-variables-selector.svelte';
+	import ResultsPreview from '#lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
+	import Settings from '#lib/components/settings/settings.svelte';
+	import VariableCheckboxGroups from '#lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		forecastHoursOptions,

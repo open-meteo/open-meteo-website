@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { fade } from '$lib/utils/transitions';
+	import { fade } from '#lib/utils/transitions.js';
 
-	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
 
 	interface Props {
 		id: string;

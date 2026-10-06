@@ -40,7 +40,7 @@
 </script>
 
 <script lang="ts">
-	import { cn } from '$lib/utils/ui.js';
+	import { cn } from '#lib/utils/ui.js';
 
 	let {
 		class: className,

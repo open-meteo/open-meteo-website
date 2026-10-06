@@ -4,27 +4,27 @@
 
 	import InfoIcon from '@lucide/svelte/icons/info';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { countPressureVariables, countVariables } from '$lib/utils/meteo';
-	import { slide } from '$lib/utils/transitions';
+	import { countPressureVariables, countVariables } from '#lib/utils/meteo.js';
+	import { slide } from '#lib/utils/transitions.js';
 
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as Alert from '$lib/components/ui/alert';
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Input } from '#lib/components/ui/input/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import * as Select from '#lib/components/ui/select/index.js';
 
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureVariablesSelector from '$lib/components/pressure/pressure-variables-selector.svelte';
-	import ResultsPreview from '$lib/components/response/results-preview.svelte';
-	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
-	import LabeledSelect from '$lib/components/select/labeled-select.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import TiltAzimuthInputs from '$lib/components/variables/tilt-azimuth-inputs.svelte';
-	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
+	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import PressureVariablesSelector from '#lib/components/pressure/pressure-variables-selector.svelte';
+	import ResultsPreview from '#lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
+	import LabeledSelect from '#lib/components/select/labeled-select.svelte';
+	import Settings from '#lib/components/settings/settings.svelte';
+	import TiltAzimuthInputs from '#lib/components/variables/tilt-azimuth-inputs.svelte';
+	import VariableCheckboxGroups from '#lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		daily,

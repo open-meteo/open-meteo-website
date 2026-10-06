@@ -4,9 +4,9 @@
 
 	import { updated } from '$app/state';
 
-	import { fade } from '$lib/utils/transitions';
+	import { fade } from '#lib/utils/transitions.js';
 
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.js';
 
 	let updateNotificationClicked = $state(false);
 </script>

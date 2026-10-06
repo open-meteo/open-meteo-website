@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { fade } from '$lib/utils/transitions';
+	import { fade } from '#lib/utils/transitions.js';
 
-	import Attribution from '$lib/components/code/licence/attribution.svx';
+	import Attribution from '#lib/components/code/licence/attribution.svx';
 
-	import * as ToggleGroup from '$lib/components/ui/toggle-group/index.js';
+	import * as ToggleGroup from '#lib/components/ui/toggle-group/index.js';
 
 	let citation = $state('apa');
 </script>

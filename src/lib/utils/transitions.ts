@@ -1,7 +1,7 @@
 import { get } from 'svelte/store';
 import { fade as svelteFade, scale as svelteScale, slide as svelteSlide } from 'svelte/transition';
 
-import { animationsDisabled } from '$lib/stores/settings';
+import { animationsDisabled } from '#lib/stores/settings.js';
 
 import type { FadeParams, ScaleParams, SlideParams, TransitionConfig } from 'svelte/transition';
 

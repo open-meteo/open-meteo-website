@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
+	import { browser } from '$app/env';
 
-	import { responsiveBackground } from '$lib/utils/backgrounds';
+	import { responsiveBackground } from '#lib/utils/backgrounds.js';
 
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.js';
 
 	import type { Component } from 'svelte';
 
@@ -116,6 +116,7 @@
 		>
 			{heroTitle}
 		</h1>
+
 		<div class="flex flex-col items-center justify-center gap-6 md:w-1/2">
 			{#if heroDescription}
 				<p

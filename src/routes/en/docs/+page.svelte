@@ -4,36 +4,36 @@
 
 	import { resolve } from '$app/paths';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { sliceIntoChunks } from '$lib/utils';
+	import { sliceIntoChunks } from '#lib/utils/index.js';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
 		countVariables
-	} from '$lib/utils/meteo';
-	import { slide } from '$lib/utils/transitions';
+	} from '#lib/utils/meteo.js';
+	import { slide } from '#lib/utils/transitions.js';
 
-	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
-	import WeatherForecastObject from '$lib/components/code/docs/weather-forecast-object.svx';
+	import WeatherForecastError from '#lib/components/code/docs/weather-forecast-error.svx';
+	import WeatherForecastObject from '#lib/components/code/docs/weather-forecast-object.svx';
 
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as Alert from '$lib/components/ui/alert';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Checkbox } from '#lib/components/ui/checkbox/index.js';
+	import { Input } from '#lib/components/ui/input/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import * as Select from '#lib/components/ui/select/index.js';
+	import * as ToggleGroup from '#lib/components/ui/toggle-group/index.js';
 
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureLevelsHelpTable from '$lib/components/pressure/pressure-levels-help-table.svelte';
-	import ResultsPreview from '$lib/components/response/results-preview.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import TimeSelector from '$lib/components/time/time-selector.svelte';
-	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
-	import WmoCodesTable from '$lib/components/variables/wmo-codes-table.svelte';
+	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import PressureLevelsHelpTable from '#lib/components/pressure/pressure-levels-help-table.svelte';
+	import ResultsPreview from '#lib/components/response/results-preview.svelte';
+	import Settings from '#lib/components/settings/settings.svelte';
+	import TimeSelector from '#lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '#lib/components/variables/variable-checkbox-groups.svelte';
+	import WmoCodesTable from '#lib/components/variables/wmo-codes-table.svelte';
 
 	import {
 		additionalDaily,
@@ -864,7 +864,7 @@
 				<caption
 					>You can find the update timings in the <a
 						class="text-link underline"
-						href={resolve('/en/docs/model-updates')}>model updates documentation</a
+						href={resolve('en/docs/model-updates')}>model updates documentation</a
 					>.</caption
 				>
 				<thead>
@@ -880,7 +880,7 @@
 				</thead>
 				<tbody class="[&_a]:text-link [&_a]:underline [&_a]:underline-offset-3">
 					<tr class="">
-						<th scope="row"><a href={resolve('/en/docs/dwd-api')}>ICON</a></th>
+						<th scope="row"><a href={resolve('en/docs/dwd-api')}>ICON</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -905,7 +905,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/gfs-api')}>GFS & HRRR</a></th>
+						<th scope="row"><a href={resolve('en/docs/gfs-api')}>GFS & HRRR</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -937,7 +937,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/meteofrance-api')}>ARPEGE & AROME</a></th>
+						<th scope="row"><a href={resolve('en/docs/meteofrance-api')}>ARPEGE & AROME</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -969,7 +969,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/ecmwf-api')}>IFS & AIFS</a></th>
+						<th scope="row"><a href={resolve('en/docs/ecmwf-api')}>IFS & AIFS</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -987,7 +987,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/ukmo-api')}>UKMO</a></th>
+						<th scope="row"><a href={resolve('en/docs/ukmo-api')}>UKMO</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1012,7 +1012,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/kma-api')}>KMA</a></th>
+						<th scope="row"><a href={resolve('en/docs/kma-api')}>KMA</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1037,7 +1037,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/jma-api')}>MSM & GSM</a></th>
+						<th scope="row"><a href={resolve('en/docs/jma-api')}>MSM & GSM</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1062,7 +1062,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/meteoswiss-api')}>ICON CH</a></th>
+						<th scope="row"><a href={resolve('en/docs/meteoswiss-api')}>ICON CH</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1084,7 +1084,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/metno-api')}>MET Nordic</a></th>
+						<th scope="row"><a href={resolve('en/docs/metno-api')}>MET Nordic</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1120,7 +1120,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/gem-api')}>GEM</a></th>
+						<th scope="row"><a href={resolve('en/docs/gem-api')}>GEM</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1145,7 +1145,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/bom-api')}>ACCESS-G</a></th>
+						<th scope="row"><a href={resolve('en/docs/bom-api')}>ACCESS-G</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1163,7 +1163,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/cma-api')}>GFS GRAPES</a></th>
+						<th scope="row"><a href={resolve('en/docs/cma-api')}>GFS GRAPES</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1181,7 +1181,7 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/knmi-api')}>HARMONIE</a></th>
+						<th scope="row"><a href={resolve('en/docs/knmi-api')}>HARMONIE</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1210,7 +1210,7 @@
 						<td>Every hour</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/dmi-api')}>HARMONIE</a></th>
+						<th scope="row"><a href={resolve('en/docs/dmi-api')}>HARMONIE</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1232,7 +1232,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/italia-meteo-arpae-api')}>ARPAE</a></th>
+						<th scope="row"><a href={resolve('en/docs/italia-meteo-arpae-api')}>ARPAE</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1254,7 +1254,7 @@
 						<td>Every 12 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/geosphere-austria-api')}>AROME</a></th>
+						<th scope="row"><a href={resolve('en/docs/geosphere-austria-api')}>AROME</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1276,7 +1276,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('/en/docs/chmi-api')}>ALADIN</a></th>
+						<th scope="row"><a href={resolve('en/docs/chmi-api')}>ALADIN</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1540,7 +1540,7 @@
 							server URL requires the prefix <mark>customer-</mark>. See
 							<a
 								class="text-link underline"
-								href={resolve('/en/pricing')}
+								href={resolve('en/pricing')}
 								title="Pricing information to use the weather API commercially">pricing</a
 							> for more information.</td
 						>

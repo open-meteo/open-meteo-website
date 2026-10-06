@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fade } from '$lib/utils/transitions';
+	import { fade } from '#lib/utils/transitions.js';
 
 	let { onclose }: { onclose?: () => void } = $props();
 

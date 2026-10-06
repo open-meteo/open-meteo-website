@@ -4,28 +4,28 @@
 
 	import InfoIcon from '@lucide/svelte/icons/info';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { isAvailable, isDailyAvailable } from '$lib/utils';
-	import { countPressureVariables, countVariables } from '$lib/utils/meteo';
-	import { slide } from '$lib/utils/transitions';
+	import { isAvailable, isDailyAvailable } from '#lib/utils/index.js';
+	import { countPressureVariables, countVariables } from '#lib/utils/meteo.js';
+	import { slide } from '#lib/utils/transitions.js';
 
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as Alert from '$lib/components/ui/alert';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Label } from '$lib/components/ui/label';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Checkbox } from '#lib/components/ui/checkbox/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
 
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import PressureVariablesSelector from '$lib/components/pressure/pressure-variables-selector.svelte';
-	import ResultsPreview from '$lib/components/response/results-preview.svelte';
-	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import TimeSelector from '$lib/components/time/time-selector.svelte';
-	import TiltAzimuthInputs from '$lib/components/variables/tilt-azimuth-inputs.svelte';
-	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
-	import WmoCodesTable from '$lib/components/variables/wmo-codes-table.svelte';
+	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import PressureVariablesSelector from '#lib/components/pressure/pressure-variables-selector.svelte';
+	import ResultsPreview from '#lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
+	import Settings from '#lib/components/settings/settings.svelte';
+	import TimeSelector from '#lib/components/time/time-selector.svelte';
+	import TiltAzimuthInputs from '#lib/components/variables/tilt-azimuth-inputs.svelte';
+	import VariableCheckboxGroups from '#lib/components/variables/variable-checkbox-groups.svelte';
+	import WmoCodesTable from '#lib/components/variables/wmo-codes-table.svelte';
 
 	import {
 		additionalVariables,

@@ -7,11 +7,11 @@
 
 	import XIcon from '@lucide/svelte/icons/x';
 
-	import { cn } from '$lib/utils/ui.js';
+	import { cn } from '#lib/utils/ui.js';
 
-	import * as Dialog from '$lib/components/ui/dialog';
+	import * as Dialog from '#lib/components/ui/dialog/index.js';
 
-	import { capNativeWidth } from '$lib/actions/cap-native-width';
+	import { capNativeWidth } from '#lib/actions/cap-native-width.js';
 
 	import { getZoomableImageGalleryContext } from './zoomable-image-gallery-context.js';
 

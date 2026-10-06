@@ -2,24 +2,24 @@
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { countVariables } from '$lib/utils/meteo';
+	import { countVariables } from '#lib/utils/meteo.js';
 
-	import AirQualityObject from '$lib/components/code/docs/air-quality-object.svx';
-	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
+	import AirQualityObject from '#lib/components/code/docs/air-quality-object.svx';
+	import WeatherForecastError from '#lib/components/code/docs/weather-forecast-error.svx';
 
-	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
 
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
-	import ResultsPreview from '$lib/components/response/results-preview.svelte';
-	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import TimeSelector from '$lib/components/time/time-selector.svelte';
-	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
+	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
+	import ResultsPreview from '#lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
+	import Settings from '#lib/components/settings/settings.svelte';
+	import TimeSelector from '#lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '#lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		forecastHoursOptions,
