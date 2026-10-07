@@ -6,6 +6,15 @@
  * link can be deactivated and replaced in the dashboard. Prices below are
  * copied from the dashboard and have to follow when they change there.
  */
+import {
+	STRIPE_LINK_PROFESSIONAL_10M_MONTH,
+	STRIPE_LINK_PROFESSIONAL_10M_YEAR,
+	STRIPE_LINK_PROFESSIONAL_MONTH,
+	STRIPE_LINK_PROFESSIONAL_YEAR,
+	STRIPE_LINK_STANDARD_MONTH,
+	STRIPE_LINK_STANDARD_YEAR
+} from '$app/env/public';
+
 export type Interval = 'month' | 'year';
 
 /** A volume pricing tier: every unit costs `unitAmount` when the quantity is at most `upTo`. */
@@ -28,11 +37,14 @@ export interface Plan {
 	contact?: string;
 }
 
-/** One Payment Link per price, created in the Stripe dashboard. */
+/** One Payment Link per price, created in the Stripe dashboard and set in the build environment (see `src/env.ts`). */
 const links = {
-	standard: { month: '', year: '' },
-	professional: { month: '', year: '' },
-	professional10m: { month: '', year: '' }
+	standard: { month: STRIPE_LINK_STANDARD_MONTH, year: STRIPE_LINK_STANDARD_YEAR },
+	professional: { month: STRIPE_LINK_PROFESSIONAL_MONTH, year: STRIPE_LINK_PROFESSIONAL_YEAR },
+	professional10m: {
+		month: STRIPE_LINK_PROFESSIONAL_10M_MONTH,
+		year: STRIPE_LINK_PROFESSIONAL_10M_YEAR
+	}
 };
 
 export const plans: Plan[] = [
@@ -112,9 +124,10 @@ export const plans: Plan[] = [
 	}
 ];
 
-/** The total in CHF for `quantity` units of a plan per interval, with volume pricing for tiered plans. */
-export const planTotal = (price: number | Tier[], quantity: number): number => {
-	if (typeof price === 'number') return price * quantity;
-	const tier = price.find((t) => t.upTo === null || quantity <= t.upTo) ?? price[price.length - 1];
-	return tier.unitAmount * quantity;
+/** The quantity range of a tier, as the pricing table shows it: "Up to 1", "5-6", "20+". */
+export const tierLabel = (tiers: Tier[], index: number): string => {
+	const from = index === 0 ? 1 : (tiers[index - 1].upTo ?? 0) + 1;
+	const upTo = tiers[index].upTo;
+	if (upTo === null) return `${from}+`;
+	return index === 0 ? `Up to ${upTo}` : `${from}-${upTo}`;
 };

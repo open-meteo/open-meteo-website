@@ -46,7 +46,7 @@
 </svelte:head>
 
 <div class="container mt-4 mb-12">
-	<div id="plans" class="mt-8">
+	<div id="plans" class="mt-8 mb-12 lg:mb-24">
 		<PricingPlans />
 	</div>
 
