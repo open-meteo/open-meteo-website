@@ -18,7 +18,7 @@
 	bind:ref
 	data-slot="checkbox"
 	class={cn(
-		'border-primary dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive peer flex size-4.5 shrink-0 items-center justify-center rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50',
+		'border-primary dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive peer relative flex size-4.5 shrink-0 items-center justify-center rounded-[4px] border shadow-xs transition-shadow outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50',
 		className
 	)}
 	bind:checked
@@ -26,11 +26,14 @@
 	{...restProps}
 >
 	{#snippet children({ checked, indeterminate })}
-		<div data-slot="checkbox-indicator" class="text-current transition-none">
+		<div
+			data-slot="checkbox-indicator"
+			class="[&>svg]:size-3.5 grid place-content-center text-current transition-none"
+		>
 			{#if checked}
-				<CheckIcon class="size-3.5" />
+				<CheckIcon />
 			{:else if indeterminate}
-				<MinusIcon class="size-3.5" />
+				<MinusIcon />
 			{/if}
 		</div>
 	{/snippet}

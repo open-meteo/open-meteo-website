@@ -26,6 +26,7 @@
 	data-size={ctx.size || size}
 	data-spacing={ctx.spacing}
 	class={cn(
+		'shrink-0 focus:z-10 focus-visible:z-10',
 		toggleVariants({
 			variant: ctx.variant || variant,
 			size: ctx.size || size

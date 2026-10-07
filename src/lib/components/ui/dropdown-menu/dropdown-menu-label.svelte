@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { type WithElementRef } from 'bits-ui';
-
-	import { cn } from '#lib/utils/ui.js';
+	import { type WithElementRef, cn } from '#lib/utils/ui.js';
 
 	import type { HTMLAttributes } from 'svelte/elements';
 
@@ -18,7 +16,9 @@
 
 <div
 	bind:this={ref}
-	class={cn('px-2 py-1.5   font-semibold', inset && 'pl-8', className)}
+	data-slot="dropdown-menu-label"
+	data-inset={inset}
+	class={cn('px-2 py-1.5 font-semibold data-inset:pl-8', className)}
 	{...restProps}
 >
 	{@render children?.()}

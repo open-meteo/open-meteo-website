@@ -13,6 +13,6 @@
 <AccordionPrimitive.Item
 	bind:ref
 	data-slot="accordion-item"
-	class={cn('border-b last:border-b-0 first-of-type:[&_button]:rounded-t-md', className)}
+	class={cn('not-last:border-b first-of-type:[&_button]:rounded-t-md', className)}
 	{...restProps}
 />
