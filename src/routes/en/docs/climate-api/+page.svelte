@@ -18,6 +18,8 @@
 
 	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
 	import DatePicker from '#lib/components/date/date-picker.svelte';
+	import ApiParameterTable from '#lib/components/docs/api-parameter-table.svelte';
+	import { apiParameters } from '#lib/components/docs/api-parameters.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
@@ -445,150 +447,56 @@
 			range of 1950 to 2050.
 		</p>
 		<p>All URL parameters are listed below:</p>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-300">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Required</th>
-						<th scope="col">Default</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">latitude<br />longitude</th>
-						<td>Floating point</td>
-						<td>Yes</td>
-						<td></td>
-						<td
-							>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
-							separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return
-							data for multiple locations the JSON output changes to a list of structures. CSV and
-							XLSX formats add a column <mark>location_id</mark>.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">start_date<br />end_date</th>
-						<td>String (yyyy-mm-dd)</td>
-						<td>Yes</td>
-						<td></td>
-						<td
-							>The time interval to get weather data. A day must be specified as an ISO8601 date
-							(e.g.
-							<mark>2022-12-31</mark>). Data is available from <mark>1950-01-01</mark> until
-							<mark>2050-01-01</mark>.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">models</th>
-						<td>String array</td>
-						<td>Yes</td>
-						<td></td>
-						<td
-							>A list of climate models separated by comma. 7 climate models are available <mark
-								>CMCC_CM2_VHR4</mark
-							>,
-							<mark>FGOALS_f3_H</mark>, <mark>HiRAM_SIT_HR</mark> <mark>MRI_AGCM3_2_S</mark>,
-							<mark>EC_Earth3P_HR</mark>, <mark>MPI_ESM1_2_XR</mark>, and <mark>NICAM16_8S</mark> are
-							supported.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">daily</th>
-						<td>String array</td>
-						<td>Yes</td>
-						<td></td>
-						<td
-							>A list of daily weather variable aggregations which should be returned. Values can be
-							comma separated, or multiple <mark>&daily=</mark> parameter in the URL can be used.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">temperature_unit</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>celsius</mark></td>
-						<td
-							>If <mark>fahrenheit</mark> is set, all temperature values are converted to Fahrenheit.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">wind_speed_unit</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>kmh</mark></td>
-						<td
-							>Other wind speed speed units: <mark>ms</mark>, <mark>mph</mark> and
-							<mark>kn</mark></td
-						>
-					</tr>
-					<tr>
-						<th scope="row">precipitation_unit</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>mm</mark></td>
-						<td>Other precipitation amount units: <mark>inch</mark></td>
-					</tr>
-					<tr>
-						<th scope="row">timeformat</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>iso8601</mark></td>
-						<td
-							>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX
-							epoch time in seconds. Please note that all time is then in GMT+0! For daily values
-							with unix timestamp, please apply
-							<mark>utc_offset_seconds</mark> again to get the correct date.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">disable_bias_correction</th>
-						<td>Bool</td>
-						<td>No</td>
-						<td><mark>false</mark></td>
-						<td
-							>Setting <mark>disable_bias_correction</mark> to <mark>true</mark> disables statistical
-							downscaling and bias correction onto ERA5-Land. By default, all data is corrected using
-							linear bias correction, and coefficients have been calculated for each month over a 50-year
-							time series. The climate change signal is not affected by linear bias correction.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">cell_selection</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>land</mark></td>
-						<td
-							>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
-							suitable grid-cell on land with
-							<a
-								href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
-								title="Elevation based grid-cell selection explained"
-								>similar elevation to the requested coordinates using a 90-meter digital elevation
-								model</a
-							>.
-							<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
-							grid-cell.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">apikey</th>
-						<td>String</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>Only required to commercial use to access reserved API resources for customers. The
-							server URL requires the prefix <mark>customer-</mark>. See
-							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
-								>pricing</a
-							> for more information.</td
-						>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		{#snippet startDateDescription()}
+			The time interval to get weather data. A day must be specified as an ISO8601 date (e.g. <mark
+				>2022-12-31</mark
+			>). Data is available from <mark>1950-01-01</mark> until <mark>2050-01-01</mark>.
+		{/snippet}
+
+		{#snippet modelsDescription()}
+			A list of climate models separated by comma. 7 climate models are available <mark
+				>CMCC_CM2_VHR4</mark
+			>, <mark>FGOALS_f3_H</mark>, <mark>HiRAM_SIT_HR</mark> <mark>MRI_AGCM3_2_S</mark>,
+			<mark>EC_Earth3P_HR</mark>, <mark>MPI_ESM1_2_XR</mark>, and <mark>NICAM16_8S</mark> are supported.
+		{/snippet}
+
+		{#snippet dailyDescription()}
+			A list of daily weather variable aggregations which should be returned. Values can be comma
+			separated, or multiple <mark>&daily=</mark> parameter in the URL can be used.
+		{/snippet}
+
+		{#snippet disableBiasCorrectionDescription()}
+			Setting <mark>disable_bias_correction</mark> to <mark>true</mark> disables statistical downscaling
+			and bias correction onto ERA5-Land. By default, all data is corrected using linear bias correction,
+			and coefficients have been calculated for each month over a 50-year time series. The climate change
+			signal is not affected by linear bias correction.
+		{/snippet}
+		<ApiParameterTable
+			parameters={[
+				{ ...apiParameters.coordinates, name: ['latitude', 'longitude'] },
+				{ ...apiParameters.start_date, required: true, description: startDateDescription },
+				{
+					...apiParameters.models,
+					required: true,
+					defaultValue: '',
+					description: modelsDescription
+				},
+				{ ...apiParameters.daily, required: true, description: dailyDescription },
+				apiParameters.temperature_unit,
+				apiParameters.wind_speed_unit,
+				apiParameters.precipitation_unit,
+				apiParameters.timeformat,
+				{
+					name: 'disable_bias_correction',
+					format: 'Bool',
+					required: false,
+					defaultValue: 'false',
+					description: disableBiasCorrectionDescription
+				},
+				apiParameters.cell_selection,
+				apiParameters.apikey
+			]}
+		/>
 	</div>
 	<p class="text-muted-foreground mt-2">
 		Additional optional URL parameters may be added. For API stability, no required parameters will

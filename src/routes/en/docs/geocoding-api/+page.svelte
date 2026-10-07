@@ -13,6 +13,8 @@
 	import Label from '#lib/components/ui/label/label.svelte';
 	import * as Select from '#lib/components/ui/select/index.js';
 
+	import ApiParameterTable from '#lib/components/docs/api-parameter-table.svelte';
+	import { apiParameters } from '#lib/components/docs/api-parameters.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 
 	import { countOptions, countryCodes, formatOptions, languageOptions } from './options';
@@ -315,96 +317,71 @@
 			The API endpoint <mark>https://geocoding-api.open-meteo.com/v1/search</mark> accepts a search term
 			and returns a list of matching locations. URL parameters are listed below:
 		</p>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-250">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Required</th>
-						<th scope="col">Default</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">name</th>
-						<td>String</td>
-						<td>Yes</td>
-						<td></td>
-						<td>
-							<p>
-								Location name or postal code. Append a country or first-level administrative area
-								after a comma to narrow the results.
-							</p>
-							<a href="#location-search">See matching rules and examples below.</a>
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">count</th>
-						<td>Integer</td>
-						<td>No</td>
-						<td><mark>10</mark></td>
-						<td
-							>The number of search results to return. Up to 100 results can be retrieved. Country
-							and administrative-area filters are applied before the result limit.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">format</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>json</mark></td>
-						<td
-							>By default, results are returned as JSON. Alternatively, <mark>protobuf</mark> is
-							supported for more efficient encoding and transfer. The .proto file to decode the
-							protobuf message is available in the
-							<a
-								href="https://github.com/open-meteo/geocoding-api/blob/main/Sources/App/ProtoResources/api.proto"
-								target="_blank">geocoding GitHub repository</a
-							>.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">language</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>en</mark></td>
-						<td
-							>Return translated results, if available, otherwise return english or the native
-							location name. Lower-cased.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">apikey</th>
-						<td>String</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>Only required to commercial use to access reserved API resources for customers. The
-							server URL requires the prefix <mark>customer-</mark>. See
-							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
-								>pricing</a
-							> for more information.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">countryCode</th>
-						<td>String</td>
-						<td>No</td>
-						<td></td>
-						<td
-							><mark>ISO-3166-1 alpha2</mark>
-							<a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" target="_blank"
-								>country code</a
-							>, which the results will be filtered for. Use this parameter for unambiguous
-							country-code filtering. It can be combined with a first-level administrative-area
-							qualifier in <mark>name</mark>.</td
-						></tr
-					>
-				</tbody>
-			</table>
-		</div>
+		{#snippet nameDescription()}
+			<p>
+				Location name or postal code. Append a country or first-level administrative area after a
+				comma to narrow the results.
+			</p>
+			<a href="#location-search">See matching rules and examples below.</a>
+		{/snippet}
+
+		{#snippet formatDescription()}
+			By default, results are returned as JSON. Alternatively, <mark>protobuf</mark> is supported
+			for more efficient encoding and transfer. The .proto file to decode the protobuf message is
+			available in the
+			<a
+				href="https://github.com/open-meteo/geocoding-api/blob/main/Sources/App/ProtoResources/api.proto"
+				target="_blank">geocoding GitHub repository</a
+			>.
+		{/snippet}
+		{#snippet countryCodeDescription()}
+			<mark>ISO-3166-1 alpha2</mark>
+			<a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" target="_blank">country code</a>,
+			which the results will be filtered for. Use this parameter for unambiguous country-code
+			filtering. It can be combined with a first-level administrative-area qualifier in
+			<mark>name</mark>.
+		{/snippet}
+		<ApiParameterTable
+			minWidth="min-w-250"
+			parameters={[
+				{
+					name: 'name',
+					format: 'String',
+					required: true,
+					defaultValue: '',
+					description: nameDescription
+				},
+				{
+					name: 'count',
+					format: 'Integer',
+					required: false,
+					defaultValue: '10',
+					description:
+						'The number of search results to return. Up to 100 results can be retrieved. Country and administrative-area filters are applied before the result limit.'
+				},
+				{
+					name: 'format',
+					format: 'String',
+					required: false,
+					defaultValue: 'json',
+					description: formatDescription
+				},
+				{
+					name: 'language',
+					format: 'String',
+					required: false,
+					defaultValue: 'en',
+					description:
+						'Return translated results, if available, otherwise return english or the native location name. Lower-cased.'
+				},
+				apiParameters.apikey,
+				{
+					name: 'countryCode',
+					format: 'String',
+					description: countryCodeDescription
+				}
+			]}
+		/>
 		<div class="mt-6 md:mt-12">
 			<a href="#location-search"
 				><h3 id="location-search" class="scroll-mt-4 text-xl md:text-2xl">Location Search</h3></a
