@@ -49,8 +49,7 @@
 		longitude: [13.41],
 		...defaultParameters,
 		hourly: ['temperature_2m'],
-		// TODO: revert to 'dwd_icon_seamless_eps' once backend prefix aliases are deployed
-		models: ['icon_seamless_eps']
+		models: ['dwd_icon_seamless_eps']
 	});
 
 	// Additional variable settings
@@ -426,6 +425,14 @@
 			The appropriate ensemble model to use would depend on the forecast horizon and region of
 			interest.
 		</p>
+		<p class="mt-2">
+			ICON ensembles use DWD's native-grid v1 feeds. From 6 October 2026, ICON-EU-EPS and ICON
+			Global EPS change resolution and their old remapped domains are no longer ingested. Existing
+			model names remain compatibility aliases for the native domains. Native models can be selected
+			explicitly as <mark>dwd_icon_global_eps_native</mark>,
+			<mark>dwd_icon_eu_eps_native</mark> and <mark>dwd_icon_d2_eps_native</mark>. ICON Global EPS
+			supports only 00 and 12 UTC runs; 06 and 18 UTC runs are unsupported.
+		</p>
 		<p>
 			Native, full-resolution ECMWF IFS (O1280 grid) and AIFS (N320 grid) ensemble models are
 			available for Europe, preserving original model output and offering 1-hourly timesteps for
@@ -507,7 +514,7 @@
 								Europe
 							</div>
 						</td>
-						<td>13 km, hourly</td>
+						<td>~6.5 km, hourly</td>
 						<td>40</td>
 						<td>5 days</td>
 						<td>Every 6 hours</td>
@@ -524,7 +531,7 @@
 								Global
 							</div>
 						</td>
-						<td>26 km, hourly</td>
+						<td>~13 km, hourly</td>
 						<td>40</td>
 						<td>7.5 days</td>
 						<td>Every 12 hours</td>

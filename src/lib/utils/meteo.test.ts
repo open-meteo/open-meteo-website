@@ -232,6 +232,18 @@ describe('countHeightVariables', () => {
 });
 
 describe('membersPerModel', () => {
+	test.each([
+		['dwd_icon_seamless_eps', 40],
+		['dwd_icon_global_eps', 40],
+		['dwd_icon_eu_eps', 40],
+		['dwd_icon_d2_eps', 20],
+		['dwd_icon_global_eps_native', 40],
+		['dwd_icon_eu_eps_native', 40],
+		['dwd_icon_d2_eps_native', 20]
+	])('returns the ensemble member count for %s', (model, members) => {
+		expect(membersPerModel(model as string)).toBe(members);
+	});
+
 	// DWD ICON
 	test('returns 40 for icon_seamless_eps', () => {
 		expect(membersPerModel('icon_seamless_eps')).toBe(40);

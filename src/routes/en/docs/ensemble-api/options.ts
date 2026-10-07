@@ -99,11 +99,13 @@ export const cmc_gem_global_variables = [
 ];
 
 export const availableVariables: Record<string, string[]> = {
-	// TODO: revert to dwd_icon_*_eps keys once backend prefix aliases are deployed
-	icon_seamless_eps: icon_d2_variables,
-	icon_global_eps: icon_global_variables,
-	icon_eu_eps: icon_eu_variables,
-	icon_d2_eps: icon_d2_variables,
+	dwd_icon_seamless_eps: icon_d2_variables,
+	dwd_icon_global_eps: icon_global_variables,
+	dwd_icon_eu_eps: icon_eu_variables,
+	dwd_icon_d2_eps: icon_d2_variables,
+	dwd_icon_global_eps_native: icon_global_variables,
+	dwd_icon_eu_eps_native: icon_eu_variables,
+	dwd_icon_d2_eps_native: icon_d2_variables,
 	ncep_gefs_seamless: gfs05_variables,
 	ncep_gefs025: gfs025_variables,
 	ncep_gefs05: gfs05_variables,
@@ -124,11 +126,13 @@ export const availableVariables: Record<string, string[]> = {
 
 export const models = [
 	[
-		// TODO: revert to dwd_icon_*_eps values once backend prefix aliases are deployed
-		{ value: 'icon_seamless_eps', label: 'DWD ICON EPS Seamless' },
-		{ value: 'icon_global_eps', label: 'DWD ICON EPS Global' },
-		{ value: 'icon_eu_eps', label: 'DWD ICON EPS EU' },
-		{ value: 'icon_d2_eps', label: 'DWD ICON EPS D2' }
+		{ value: 'dwd_icon_seamless_eps', label: 'DWD ICON EPS Seamless' },
+		{ value: 'dwd_icon_global_eps', label: 'DWD ICON EPS Global' },
+		{ value: 'dwd_icon_global_eps_native', label: 'DWD ICON EPS Global Native' },
+		{ value: 'dwd_icon_eu_eps', label: 'DWD ICON EPS EU' },
+		{ value: 'dwd_icon_eu_eps_native', label: 'DWD ICON EPS EU Native' },
+		{ value: 'dwd_icon_d2_eps', label: 'DWD ICON EPS D2' },
+		{ value: 'dwd_icon_d2_eps_native', label: 'DWD ICON EPS D2 Native' }
 	],
 	[
 		{ value: 'ncep_gefs_seamless', label: 'GFS Ensemble Seamless' },
