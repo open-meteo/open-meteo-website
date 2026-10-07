@@ -85,8 +85,13 @@
 							{/each}
 						</Select.Content>
 					</Select.Root>
-					<p class="text-muted-foreground mt-4 text-sm">
-						{isRange(plan) ? 'Starting at' : ''}&nbsp;
+					<!-- Both notes keep their space and only fade, so changing the option never shifts the card -->
+					<p
+						class="text-muted-foreground mt-4 text-sm transition-opacity duration-300 {isRange(plan)
+							? 'opacity-100'
+							: 'opacity-0'}"
+					>
+						Starting at
 					</p>
 					<p>
 						<span class="text-4xl font-bold">{chf(selected(plan)?.price[interval] ?? 0)}</span>
@@ -108,8 +113,16 @@
 				{:else}
 					<Button class="w-full" disabled>Subscribe</Button>
 				{/if}
-				{#if quantityHint(plan)}
-					<p class="text-muted-foreground mt-2 text-xs">{quantityHint(plan)}</p>
+				{#if plan.options}
+					<p
+						class="text-muted-foreground mt-2 min-h-8 text-xs transition-opacity duration-300 {quantityHint(
+							plan
+						)
+							? 'opacity-100'
+							: 'opacity-0'}"
+					>
+						{quantityHint(plan) ?? ''}
+					</p>
 				{/if}
 			</div>
 
