@@ -20,6 +20,8 @@
 	import DatePicker from '#lib/components/date/date-picker.svelte';
 	import ApiParameterTable from '#lib/components/docs/api-parameter-table.svelte';
 	import { apiParameters } from '#lib/components/docs/api-parameters.svelte';
+	import ApiResponseParameterTable from '#lib/components/docs/api-response-parameter-table.svelte';
+	import { apiResponseParameters } from '#lib/components/docs/api-response-parameters.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
@@ -658,62 +660,16 @@
 		>
 			<ClimateObject />
 		</div>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-250">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">latitude, longitude</th>
-						<td>Floating point</td>
-						<td
-							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometres away from the requested
-							coordinate.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">generationtime_ms</th>
-						<td>Floating point</td>
-						<td
-							>Generation time of the weather forecast in milliseconds. This is mainly used for
-							performance monitoring and improvements.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">utc_offset_seconds</th>
-						<td>Integer</td>
-						<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
-					</tr>
-					<tr>
-						<th scope="row">timezone<br />timezone_abbreviation</th>
-						<td>String</td>
-						<td
-							>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
-							<mark>CEST</mark>)</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">daily</th>
-						<td>Object</td>
-						<td
-							>For each selected daily weather variable, data will be returned as a floating point
-							array. Additionally a <mark>time</mark> array will be returned with ISO8601 timestamps.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">daily_units</th>
-						<td>Object</td>
-						<td>For each selected daily weather variable, the unit will be listed here.</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<ApiResponseParameterTable
+			parameters={[
+				apiResponseParameters.coordinates,
+				apiResponseParameters.generationtime_ms,
+				apiResponseParameters.utc_offset_seconds,
+				apiResponseParameters.timezone,
+				apiResponseParameters.daily,
+				apiResponseParameters.daily_units
+			]}
+		/>
 	</div>
 </div>
 

@@ -31,6 +31,8 @@
 		apiParameters,
 		recentPastDaysDescription
 	} from '#lib/components/docs/api-parameters.svelte';
+	import ApiResponseParameterTable from '#lib/components/docs/api-response-parameter-table.svelte';
+	import { apiResponseParameters } from '#lib/components/docs/api-response-parameters.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
 	import PressureLevelsHelpTable from '#lib/components/pressure/pressure-levels-help-table.svelte';
@@ -2102,99 +2104,20 @@
 		>
 			<WeatherForecastObject />
 		</div>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-250">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">latitude, longitude</th>
-						<td>Floating point</td>
-						<td
-							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometres away from the requested
-							coordinate.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">elevation</th>
-						<td>Floating point</td>
-						<td
-							>The elevation from a 90 meter digital elevation model. This effects which grid-cell
-							is selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is
-							used to adapt weather conditions for this elevation. This elevation can also be
-							controlled with the query parameter <mark>elevation</mark>. If
-							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the average grid-cell
-							elevation is used.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">generationtime_ms</th>
-						<td>Floating point</td>
-						<td
-							>Generation time of the weather forecast in milliseconds. This is mainly used for
-							performance monitoring and improvements.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">utc_offset_seconds</th>
-						<td>Integer</td>
-						<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
-					</tr>
-					<tr>
-						<th scope="row">timezone<br />timezone_abbreviation</th>
-						<td>String</td>
-						<td
-							>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
-							<mark>CEST</mark>)</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">current</th>
-						<td>Object</td>
-						<td
-							>For every chosen current weather variable, the data is provided as a numeric value.
-							In addition, <mark>time</mark> specifies the moment at which the data is valid. The
-							<mark>interval</mark> represents the duration in seconds used for calculating backward-looking
-							sums or averages. For instance, an interval of 900 seconds (15 minutes) means that aggregated
-							metrics such as precipitation reflect the total from the previous 15 minutes.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">hourly</th>
-						<td>Object</td>
-						<td
-							>For each selected weather variable, data will be returned as a floating point array.
-							Additionally a
-							<mark>time</mark> array will be returned with ISO8601 timestamps.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">hourly_units</th>
-						<td>Object</td>
-						<td>For each selected weather variable, the unit will be listed here.</td>
-					</tr>
-					<tr>
-						<th scope="row">daily</th>
-						<td>Object</td>
-						<td
-							>For each selected daily weather variable, data will be returned as a floating point
-							array. Additionally a <mark>time</mark> array will be returned with ISO8601 timestamps.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">daily_units</th>
-						<td>Object</td>
-						<td>For each selected daily weather variable, the unit will be listed here.</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<ApiResponseParameterTable
+			parameters={[
+				apiResponseParameters.coordinates,
+				apiResponseParameters.elevation,
+				apiResponseParameters.generationtime_ms,
+				apiResponseParameters.utc_offset_seconds,
+				apiResponseParameters.timezone,
+				apiResponseParameters.current,
+				apiResponseParameters.hourly,
+				apiResponseParameters.hourly_units,
+				apiResponseParameters.daily,
+				apiResponseParameters.daily_units
+			]}
+		/>
 	</div>
 </div>
 

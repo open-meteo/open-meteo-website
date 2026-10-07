@@ -15,6 +15,8 @@
 
 	import ApiParameterTable from '#lib/components/docs/api-parameter-table.svelte';
 	import { apiParameters } from '#lib/components/docs/api-parameters.svelte';
+	import ApiResponseParameterTable from '#lib/components/docs/api-response-parameter-table.svelte';
+	import { apiResponseParameters } from '#lib/components/docs/api-response-parameters.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 
 	import { countOptions, countryCodes, formatOptions, languageOptions } from './options';
@@ -446,107 +448,79 @@
 		>
 			<GeocodingObject />
 		</div>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-250">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">id</th>
-						<td>Integer</td>
-						<td>Unique ID for this location</td>
-					</tr>
-					<tr>
-						<th scope="row">name</th>
-						<td>String</td>
-						<td
-							>Location name. Localized following the <mark>&language=</mark> parameter, if possible</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">latitude, longitude</th>
-						<td>Floating point</td>
-						<td>Geographical WGS84 coordinates of this location</td>
-					</tr>
-					<tr>
-						<th scope="row">elevation</th>
-						<td>Floating point</td>
-						<td>Elevation above mean sea level of this location</td>
-					</tr>
-					<tr>
-						<th scope="row">timezone</th>
-						<td>String</td>
-						<td
-							>Time zone using <a
-								href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
-								target="_blank">time zone database</a
-							> definitions</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">feature_code</th>
-						<td>String</td>
-						<td
-							>Type of this location. Following the <a
-								href="https://www.geonames.org/export/codes.html"
-								target="_new">GeoNames feature_code definition</a
-							></td
-						>
-					</tr>
-					<tr>
-						<th scope="row">country_code</th>
-						<td>String</td>
-						<td
-							>2-Character <mark>ISO-3166-1 alpha2</mark>
-							<a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" target="_blank"
-								>country code</a
-							>. E.g. <mark>DE</mark> for Germany</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">country</th>
-						<td>String</td>
-						<td
-							>Country name. Localized following the <mark>&language=</mark> parameter, if possible</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">country_id</th>
-						<td>Integer</td>
-						<td>Unique ID for this country</td>
-					</tr>
-					<tr>
-						<th scope="row">population</th>
-						<td>Integer</td>
-						<td>Number of inhabitants</td>
-					</tr>
-					<tr>
-						<th scope="row">postcodes</th>
-						<td>String array</td>
-						<td>List of postcodes for this location</td>
-					</tr>
-					<tr>
-						<th scope="row">admin1, admin2, admin3, admin4</th>
-						<td>String</td>
-						<td
-							>Name of hierarchical administrative areas this location resides in. Admin1 is the
-							first administrative level. Admin2 the second administrative level. Localized
-							following the <mark>&language=</mark> parameter, if possible</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">admin1_id, admin2_id, admin3_id, admin4_id</th>
-						<td>Integer</td>
-						<td>Unique IDs for the administrative areas</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		{#snippet nameResponseDescription()}
+			Location name. Localized following the <mark>&language=</mark> parameter, if possible
+		{/snippet}
+
+		{#snippet timezoneResponseDescription()}
+			Time zone using <a
+				href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
+				target="_blank">time zone database</a
+			> definitions
+		{/snippet}
+
+		{#snippet featureCodeResponseDescription()}
+			Type of this location. Following the <a
+				href="https://www.geonames.org/export/codes.html"
+				target="_new">GeoNames feature_code definition</a
+			>
+		{/snippet}
+
+		{#snippet countryCodeResponseDescription()}
+			2-Character <mark>ISO-3166-1 alpha2</mark>
+			<a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2" target="_blank">country code</a>.
+			E.g. <mark>DE</mark> for Germany
+		{/snippet}
+
+		{#snippet countryResponseDescription()}
+			Country name. Localized following the <mark>&language=</mark> parameter, if possible
+		{/snippet}
+
+		{#snippet administrativeAreasResponseDescription()}
+			Name of hierarchical administrative areas this location resides in. Admin1 is the first
+			administrative level. Admin2 the second administrative level. Localized following the <mark
+				>&language=</mark
+			> parameter, if possible
+		{/snippet}
+		<ApiResponseParameterTable
+			parameters={[
+				{ name: 'id', format: 'Integer', description: 'Unique ID for this location' },
+				{ name: 'name', format: 'String', description: nameResponseDescription },
+				{
+					...apiResponseParameters.coordinates,
+					description: 'Geographical WGS84 coordinates of this location'
+				},
+				{
+					...apiResponseParameters.elevation,
+					description: 'Elevation above mean sea level of this location'
+				},
+				{
+					...apiResponseParameters.timezone,
+					name: 'timezone',
+					description: timezoneResponseDescription
+				},
+				{ name: 'feature_code', format: 'String', description: featureCodeResponseDescription },
+				{ name: 'country_code', format: 'String', description: countryCodeResponseDescription },
+				{ name: 'country', format: 'String', description: countryResponseDescription },
+				{ name: 'country_id', format: 'Integer', description: 'Unique ID for this country' },
+				{ name: 'population', format: 'Integer', description: 'Number of inhabitants' },
+				{
+					name: 'postcodes',
+					format: 'String array',
+					description: 'List of postcodes for this location'
+				},
+				{
+					name: 'admin1, admin2, admin3, admin4',
+					format: 'String',
+					description: administrativeAreasResponseDescription
+				},
+				{
+					name: 'admin1_id, admin2_id, admin3_id, admin4_id',
+					format: 'Integer',
+					description: 'Unique IDs for the administrative areas'
+				}
+			]}
+		/>
 		<div class="text-muted-foreground mt-2">
 			*Note: All IDs can be can be resolved via the API endpoint
 			<a
