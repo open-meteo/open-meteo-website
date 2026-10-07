@@ -3,25 +3,25 @@
 	import { SvelteDate } from 'svelte/reactivity';
 	import { slide } from 'svelte/transition';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { countPressureVariables, countVariables } from '$lib/utils/meteo';
+	import { countPressureVariables, countVariables } from '#lib/utils/meteo.js';
 
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as Alert from '$lib/components/ui/alert';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
+	import * as Alert from '#lib/components/ui/alert/index.js';
 
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
-	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
-	import PressureVariablesSelector from '$lib/components/pressure/pressure-variables-selector.svelte';
-	import ResultsPreview from '$lib/components/response/results-preview.svelte';
-	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import TimeSelector from '$lib/components/time/time-selector.svelte';
-	import TiltAzimuthInputs from '$lib/components/variables/tilt-azimuth-inputs.svelte';
-	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
+	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '#lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
+	import PressureVariablesSelector from '#lib/components/pressure/pressure-variables-selector.svelte';
+	import ResultsPreview from '#lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
+	import Settings from '#lib/components/settings/settings.svelte';
+	import TimeSelector from '#lib/components/time/time-selector.svelte';
+	import TiltAzimuthInputs from '#lib/components/variables/tilt-azimuth-inputs.svelte';
+	import VariableCheckboxGroups from '#lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		forecastHoursOptions,

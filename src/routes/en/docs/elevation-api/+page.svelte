@@ -3,23 +3,23 @@
 
 	import InfoIcon from '@lucide/svelte/icons/info';
 
-	import { apiKeyPreferences } from '$lib/stores/settings';
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { apiKeyPreferences } from '#lib/stores/settings.js';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { slide } from '$lib/utils/transitions';
+	import { slide } from '#lib/utils/transitions.js';
 
-	import ElevationError from '$lib/components/code/docs/elevation-error.svx';
-	import ElevationObject from '$lib/components/code/docs/elevation-object.svx';
+	import ElevationError from '#lib/components/code/docs/elevation-error.svx';
+	import ElevationObject from '#lib/components/code/docs/elevation-object.svx';
 
-	import * as Alert from '$lib/components/ui/alert';
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Input } from '#lib/components/ui/input/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
 
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSearch from '$lib/components/location/location-search.svelte';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSearch from '#lib/components/location/location-search.svelte';
 
-	import type { GeoLocation } from '$lib/stores/settings';
+	import type { GeoLocation } from '#lib/stores/settings.js';
 
 	const params = urlHashStore({
 		latitude: [52.52],

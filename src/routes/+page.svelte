@@ -1,16 +1,16 @@
 <script lang="ts">
 	import Github from 'simple-icons/icons/github.svg?raw';
 
-	import { fade } from '$lib/utils/transitions';
+	import { fade } from '#lib/utils/transitions.js';
 
-	import HistoricalWeatherCurlBlock from '$lib/components/code/home/historical-weather-curl.svx';
-	import HistoricalWeatherCodeBlock from '$lib/components/code/home/historical-weather.svx';
-	import Last10DaysCurlBlock from '$lib/components/code/home/last-10-days-curl.svx';
-	import Last10DaysCodeBlock from '$lib/components/code/home/last-10-days.svx';
-	import WeatherApiCurlBlock from '$lib/components/code/home/weather-api-curl.svx';
-	import WeatherApiCodeBlock from '$lib/components/code/home/weather-api.svx';
+	import HistoricalWeatherCurlBlock from '#lib/components/code/home/historical-weather-curl.svx';
+	import HistoricalWeatherCodeBlock from '#lib/components/code/home/historical-weather.svx';
+	import Last10DaysCurlBlock from '#lib/components/code/home/last-10-days-curl.svx';
+	import Last10DaysCodeBlock from '#lib/components/code/home/last-10-days.svx';
+	import WeatherApiCurlBlock from '#lib/components/code/home/weather-api-curl.svx';
+	import WeatherApiCodeBlock from '#lib/components/code/home/weather-api.svx';
 
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.js';
 
 	let tabSelected = $state('weather-api');
 </script>

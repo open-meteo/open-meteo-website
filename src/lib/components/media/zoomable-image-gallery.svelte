@@ -3,9 +3,9 @@
 	import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
 	import XIcon from '@lucide/svelte/icons/x';
 
-	import { cn } from '$lib/utils/ui.js';
+	import { cn } from '#lib/utils/ui.js';
 
-	import * as Dialog from '$lib/components/ui/dialog';
+	import * as Dialog from '#lib/components/ui/dialog/index.js';
 
 	import {
 		type ZoomableGalleryImage,

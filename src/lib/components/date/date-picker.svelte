@@ -2,14 +2,14 @@
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
 
-	import { browser } from '$app/environment';
+	import { browser } from '$app/env';
 
-	import { debounce, todayUTC } from '$lib/utils';
-	import { slide } from '$lib/utils/transitions';
+	import { debounce, todayUTC } from '#lib/utils/index.js';
+	import { slide } from '#lib/utils/transitions.js';
 
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import * as Popover from '$lib/components/ui/popover/index.js';
+	import { Input } from '#lib/components/ui/input/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import * as Popover from '#lib/components/ui/popover/index.js';
 
 	import RangeCalendar from './range-calendar-custom.svelte';
 

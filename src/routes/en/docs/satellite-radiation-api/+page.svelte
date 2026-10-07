@@ -4,27 +4,27 @@
 
 	import InfoIcon from '@lucide/svelte/icons/info';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { countVariables } from '$lib/utils/meteo';
-	import { fade, slide } from '$lib/utils/transitions';
+	import { countVariables } from '#lib/utils/meteo.js';
+	import { fade, slide } from '#lib/utils/transitions.js';
 
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as Alert from '$lib/components/ui/alert';
-	import { Button } from '$lib/components/ui/button';
-	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import * as Select from '#lib/components/ui/select/index.js';
 
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
-	import ResultsPreview from '$lib/components/response/results-preview.svelte';
-	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import TiltAzimuthInputs from '$lib/components/variables/tilt-azimuth-inputs.svelte';
-	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
+	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import DatePicker from '#lib/components/date/date-picker.svelte';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
+	import ResultsPreview from '#lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
+	import Settings from '#lib/components/settings/settings.svelte';
+	import TiltAzimuthInputs from '#lib/components/variables/tilt-azimuth-inputs.svelte';
+	import VariableCheckboxGroups from '#lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		forecastHoursOptions,

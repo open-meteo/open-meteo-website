@@ -1,4 +1,4 @@
-import type { Parameters } from '$lib/docs';
+import type { Parameters } from '#lib/docs.js';
 
 /// Parameters that come from the API key settings or the preview itself, not from the form
 const IGNORED_PARAMETERS = ['apikey', 'format'];

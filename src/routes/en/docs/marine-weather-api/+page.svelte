@@ -2,34 +2,34 @@
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { isAvailable, isDailyAvailable } from '$lib/utils';
-	import { countVariables } from '$lib/utils/meteo';
-	import { slide } from '$lib/utils/transitions';
+	import { isAvailable, isDailyAvailable } from '#lib/utils/index.js';
+	import { countVariables } from '#lib/utils/meteo.js';
+	import { slide } from '#lib/utils/transitions.js';
 
-	import MarineObject from '$lib/components/code/docs/marine-object.svx';
-	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
+	import MarineObject from '#lib/components/code/docs/marine-object.svx';
+	import WeatherForecastError from '#lib/components/code/docs/weather-forecast-error.svx';
 
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as Alert from '$lib/components/ui/alert';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Label } from '$lib/components/ui/label';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Checkbox } from '#lib/components/ui/checkbox/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
 
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ApiModeDescription from '$lib/components/api-mode/api-mode-description.svelte';
-	import ApiModeSelector from '$lib/components/api-mode/api-mode-selector.svelte';
-	import ApiModeTimeSelector from '$lib/components/api-mode/api-mode-time-selector.svelte';
-	import { apiModeFormAction } from '$lib/components/api-mode/utils';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ZoomableImageGallery from '$lib/components/media/zoomable-image-gallery.svelte';
-	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
-	import ResultsPreview from '$lib/components/response/results-preview.svelte';
-	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
-	import LabeledSelect from '$lib/components/select/labeled-select.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
+	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import ApiModeDescription from '#lib/components/api-mode/api-mode-description.svelte';
+	import ApiModeSelector from '#lib/components/api-mode/api-mode-selector.svelte';
+	import ApiModeTimeSelector from '#lib/components/api-mode/api-mode-time-selector.svelte';
+	import { apiModeFormAction } from '#lib/components/api-mode/utils.js';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ZoomableImageGallery from '#lib/components/media/zoomable-image-gallery.svelte';
+	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
+	import ResultsPreview from '#lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
+	import LabeledSelect from '#lib/components/select/labeled-select.svelte';
+	import Settings from '#lib/components/settings/settings.svelte';
+	import VariableCheckboxGroups from '#lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		forecastHoursOptions,

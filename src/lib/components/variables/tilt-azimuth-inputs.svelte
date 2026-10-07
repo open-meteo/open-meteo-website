@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { slide } from '$lib/utils/transitions';
+	import { slide } from '#lib/utils/transitions.js';
 
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
+	import { Input } from '#lib/components/ui/input/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
 
-	import { type Parameters } from '$lib/docs';
+	import { type Parameters } from '#lib/docs.js';
 
 	interface Props {
 		params: Parameters;

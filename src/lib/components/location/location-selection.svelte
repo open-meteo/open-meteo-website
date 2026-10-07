@@ -1,21 +1,21 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
 
-	import { fade, slide } from '$lib/utils/transitions';
-	import { fadeOutAbsolute } from '$lib/utils/transitions';
+	import { fade, slide } from '#lib/utils/transitions.js';
+	import { fadeOutAbsolute } from '#lib/utils/transitions.js';
 
-	import * as Alert from '$lib/components/ui/alert';
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Input } from '#lib/components/ui/input/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import * as Select from '#lib/components/ui/select/index.js';
 
-	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
-	import LocationSearch from '$lib/components/location/location-search.svelte';
+	import AnimateHeight from '#lib/components/animate-height/animate-height.svelte';
+	import LocationSearch from '#lib/components/location/location-search.svelte';
 
-	import { type Parameters } from '$lib/docs';
+	import { type Parameters } from '#lib/docs.js';
 
-	import type { GeoLocation } from '$lib/stores/settings';
+	import type { GeoLocation } from '#lib/stores/settings.js';
 
 	interface Props {
 		params: Parameters;

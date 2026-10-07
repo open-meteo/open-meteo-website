@@ -1,12 +1,12 @@
 import { type Writable, get, writable } from 'svelte/store';
 
-import { browser } from '$app/environment';
-import { afterNavigate, replaceState } from '$app/navigation';
+import { browser } from '$app/env';
+import { afterNavigate, goto } from '$app/navigation';
 import { page } from '$app/state';
 
-import { debounce, isNumeric } from '$lib/utils';
+import { debounce, isNumeric } from '#lib/utils/index.js';
 
-import type { Parameters } from '$lib/docs';
+import type { Parameters } from '#lib/docs.js';
 
 export type UrlHashStore = Writable<Parameters>;
 
@@ -102,14 +102,14 @@ export const urlHashStore = (initialValues: Parameters): UrlHashStore => {
 
 	// the search string the store currently reflects, to tell our own URL
 	// updates apart from external ones (back/forward, links)
-	// NOTE: always read window.location, not page.url — shallow replaceState
-	// updates the former but leaves the latter stale
+	// NOTE: always read window.location, not page.url: our own shallow goto
+	// updates the former first, and page.url may lag behind it
 	let syncedSearch = canonical(initialSearch);
 	let routerReady = false;
 
 	const writeURL = debounce(() => {
 		if (!routerReady) {
-			// still hydrating — replaceState would throw, try again shortly
+			// still hydrating: the router cannot navigate yet, try again shortly
 			writeURL();
 			return;
 		}
@@ -118,11 +118,17 @@ export const urlHashStore = (initialValues: Parameters): UrlHashStore => {
 		if (legacyHash || search !== canonical(window.location.search)) {
 			const hash = legacyHash ? '' : window.location.hash;
 			legacyHash = false;
-			replaceState(`${window.location.pathname}${search ? '?' + search : ''}${hash}`, page.state);
+			goto(`${window.location.pathname}${search ? '?' + search : ''}${hash}`, {
+				shallow: true,
+				replace: true,
+				state: page.state
+			});
 		}
 	});
 
 	afterNavigate((navigation) => {
+		if (navigation.shallow) return;
+
 		routerReady = true;
 		if (navigation.type === 'enter') {
 			// initial values already come from the URL; only legacy hash params

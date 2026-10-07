@@ -4,9 +4,9 @@
 
 	import { mode } from 'mode-watcher';
 
-	import { dev } from '$app/environment';
+	import { dev } from '$app/env';
 
-	import { animationsDisabled } from '$lib/stores/settings';
+	import { animationsDisabled } from '#lib/stores/settings.js';
 
 	import './highcharts.css';
 

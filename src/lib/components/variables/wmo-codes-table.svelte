@@ -1,7 +1,7 @@
 <script lang="ts">
-	import WmoCodesJson from '$lib/components/code/docs/wmo-codes-json.svx';
+	import WmoCodesJson from '#lib/components/code/docs/wmo-codes-json.svx';
 
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.js';
 
 	let jsonContainer: HTMLDivElement | undefined = $state();
 	let jsonCopied = $state(false);

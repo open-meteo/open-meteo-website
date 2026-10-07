@@ -1,4 +1,4 @@
-import { camelCase, isNumeric, titleCase } from '$lib/utils';
+import { camelCase, isNumeric, titleCase } from '#lib/utils/index.js';
 
 import {
 	INT_64_VARIABLES,
@@ -6,7 +6,7 @@ import {
 	NULLABLE_INT_64_VARIABLES,
 	SECTIONS,
 	VARIABLE_REGEX
-} from '$lib/constants';
+} from '#lib/constants.js';
 
 import {
 	br,
@@ -32,7 +32,7 @@ import {
 	vr
 } from './highlight-helpers';
 
-import type { Parameters } from '$lib/docs';
+import type { Parameters } from '#lib/docs.js';
 
 export const typescriptCodeExample = (
 	params: Parameters,
