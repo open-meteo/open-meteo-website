@@ -18,21 +18,32 @@ import {
 export type Interval = 'month' | 'year';
 
 /** A volume pricing tier: every unit costs `unitAmount` when the quantity is at most `upTo`. */
-export interface Tier {
+interface Tier {
 	upTo: number | null;
 	unitAmount: number;
+}
+
+/** One entry of a plan's volume dropdown. */
+export interface PlanOption {
+	/** The API calls of the option, e.g. "50-60 million calls". */
+	label: string;
+	/** CHF per interval for the lowest quantity of the option. */
+	price: Record<Interval, number>;
+	/** Units of 10 million calls the option covers; absent for the flat 5 million price. */
+	units?: { from: number; upTo: number | null };
+	link: Record<Interval, string>;
 }
 
 export interface Plan {
 	name: string;
 	description: string;
 	features: string[];
-	/** CHF per interval for one unit; tiered plans price the unit by quantity. */
-	price?: Record<Interval, number | Tier[]>;
-	/** Stripe Payment Link per interval; an empty link disables the button. */
+	/** CHF per interval of a plan with one price. */
+	price?: Record<Interval, number>;
+	/** Stripe Payment Link per interval of a plan with one price; an empty link disables the button. */
 	link?: Record<Interval, string>;
-	/** Plans sold per 10 million calls: the highest quantity the link allows. */
-	maxQuantity?: number;
+	/** The volumes of a plan sold in several sizes, chosen in a dropdown. */
+	options?: PlanOption[];
 	/** Plans without self-service checkout link here instead. */
 	contact?: string;
 }
@@ -46,6 +57,54 @@ const links = {
 		year: STRIPE_LINK_PROFESSIONAL_10M_YEAR
 	}
 };
+
+/** Price per unit of 10 million calls, falling with the quantity (volume pricing). */
+const tiers10m: Record<Interval, Tier[]> = {
+	month: [
+		{ upTo: 1, unitAmount: 160 },
+		{ upTo: 2, unitAmount: 130 },
+		{ upTo: 3, unitAmount: 115 },
+		{ upTo: 4, unitAmount: 105 },
+		{ upTo: 6, unitAmount: 100 },
+		{ upTo: 9, unitAmount: 95 },
+		{ upTo: 19, unitAmount: 90 },
+		{ upTo: null, unitAmount: 85 }
+	],
+	year: [
+		{ upTo: 1, unitAmount: 1760 },
+		{ upTo: 2, unitAmount: 1430 },
+		{ upTo: 3, unitAmount: 1265 },
+		{ upTo: 4, unitAmount: 1155 },
+		{ upTo: 6, unitAmount: 1100 },
+		{ upTo: 9, unitAmount: 1045 },
+		{ upTo: 19, unitAmount: 990 },
+		{ upTo: null, unitAmount: 935 }
+	]
+};
+
+/**
+ * The dropdown of the professional plan: the flat 5 million price first, then
+ * one option per volume tier, priced for the lowest quantity of the tier as
+ * the Stripe pricing table previews it.
+ */
+const professionalOptions: PlanOption[] = [
+	{ label: '5 million calls', price: { month: 99, year: 1099 }, link: links.professional },
+	...tiers10m.month.map((tier, i): PlanOption => {
+		const from = i === 0 ? 1 : (tiers10m.month[i - 1].upTo ?? 0) + 1;
+		const label =
+			tier.upTo === null
+				? `${from * 10}+ million calls`
+				: tier.upTo === from
+					? `${from * 10} million calls`
+					: `${from * 10}-${tier.upTo * 10} million calls`;
+		return {
+			label,
+			price: { month: from * tier.unitAmount, year: from * tiers10m.year[i].unitAmount },
+			units: { from, upTo: tier.upTo },
+			link: links.professional10m
+		};
+	})
+];
 
 export const plans: Plan[] = [
 	{
@@ -62,11 +121,11 @@ export const plans: Plan[] = [
 	},
 	{
 		name: 'API Professional',
-		description: 'Up to 5 million API calls monthly, access to historical and climate data',
-		price: { month: 99, year: 1099 },
-		link: links.professional,
+		description:
+			'From 5 million API calls monthly, access to historical and climate data. Larger volumes come in steps of 10 million calls.',
+		options: professionalOptions,
 		features: [
-			'5 million API calls monthly',
+			'5 million API calls monthly or more',
 			'Commercial use license',
 			'Forecast API',
 			'Air Quality, Marine, Flood, Elevation, Geocoding API',
@@ -78,36 +137,6 @@ export const plans: Plan[] = [
 			'Seasonal Forecast API',
 			'Single Runs API'
 		]
-	},
-	{
-		name: 'API Professional (10 million calls)',
-		description:
-			'For large amounts of API calls. Price per 10 million calls. E.g. quantity 3 = 30 million calls.',
-		price: {
-			month: [
-				{ upTo: 1, unitAmount: 160 },
-				{ upTo: 2, unitAmount: 130 },
-				{ upTo: 3, unitAmount: 115 },
-				{ upTo: 4, unitAmount: 105 },
-				{ upTo: 6, unitAmount: 100 },
-				{ upTo: 9, unitAmount: 95 },
-				{ upTo: 19, unitAmount: 90 },
-				{ upTo: null, unitAmount: 85 }
-			],
-			year: [
-				{ upTo: 1, unitAmount: 1760 },
-				{ upTo: 2, unitAmount: 1430 },
-				{ upTo: 3, unitAmount: 1265 },
-				{ upTo: 4, unitAmount: 1155 },
-				{ upTo: 6, unitAmount: 1100 },
-				{ upTo: 9, unitAmount: 1045 },
-				{ upTo: 19, unitAmount: 990 },
-				{ upTo: null, unitAmount: 935 }
-			]
-		},
-		link: links.professional10m,
-		maxQuantity: 99,
-		features: []
 	},
 	{
 		name: 'API Enterprise (50 million API calls)',
@@ -123,11 +152,3 @@ export const plans: Plan[] = [
 		]
 	}
 ];
-
-/** The quantity range of a tier, as the pricing table shows it: "Up to 1", "5-6", "20+". */
-export const tierLabel = (tiers: Tier[], index: number): string => {
-	const from = index === 0 ? 1 : (tiers[index - 1].upTo ?? 0) + 1;
-	const upTo = tiers[index].upTo;
-	if (upTo === null) return `${from}+`;
-	return index === 0 ? `Up to ${upTo}` : `${from}-${upTo}`;
-};
