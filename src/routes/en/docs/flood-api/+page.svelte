@@ -327,7 +327,7 @@
 
 		{#snippet timeformatDescription()}
 			If format <mark>unixtime</mark> is selected, all time values are returned in UNIX epoch time in
-			seconds. Please note that all timestamps are in GMT+0!
+			seconds. All timestamps are in GMT+0.
 		{/snippet}
 
 		{#snippet pastDaysDescription()}

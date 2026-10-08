@@ -199,20 +199,24 @@
 
 {#snippet timeformatDescription()}
 	If format <mark>unixtime</mark> is selected, all time values are returned in UNIX epoch time in
-	seconds. Please note that all timestamps are in GMT+0! For daily values with unix timestamps,
-	please apply <mark>utc_offset_seconds</mark> again to get the correct date.
+	seconds. All timestamps are in GMT+0. For daily values with UNIX timestamps, apply
+	<mark>utc_offset_seconds</mark> again to get the correct date.
 {/snippet}
 
 {#snippet timezoneDescription()}
-	If <mark>timezone</mark> is set, all timestamps are returned as local-time and data is returned
-	starting at 00:00 local-time. Any time zone name from the
+	The API applies the UTC offset in effect for the requested <mark>timezone</mark> when the request
+	is made to the entire response, including historical and future dates. The offset is returned as
+	<mark>utc_offset_seconds</mark>. ISO 8601 timestamps and daily boundaries use this fixed offset;
+	daylight saving time transitions within the requested range are not applied. For local clock times
+	that follow DST rules, use <mark>timeformat=unixtime</mark> or <mark>timezone=GMT</mark> and
+	convert timestamps in your application. Any name from the
 	<a
 		class="text-link underline"
 		href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
 		target="_blank">time zone database</a
 	>
-	is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically resolved
-	to the local time zone. For multiple coordinates, a comma separated list of timezones can be specified.
+	is supported. <mark>auto</mark> resolves the time zone from the coordinates. For multiple coordinates,
+	a comma separated list of time zones can be specified.
 {/snippet}
 
 {#snippet pastDaysDescription()}

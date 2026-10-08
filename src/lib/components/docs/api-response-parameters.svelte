@@ -55,7 +55,8 @@
 {/snippet}
 
 {#snippet utcOffsetSecondsResponseDescription()}
-	Applied timezone offset from the <mark>&timezone=</mark> parameter.
+	UTC offset in seconds for the requested <mark>timezone</mark>, resolved when the request is made
+	and kept fixed for the entire response, including across daylight saving time transitions.
 {/snippet}
 
 {#snippet timezoneResponseDescription()}
