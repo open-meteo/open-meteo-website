@@ -55,12 +55,13 @@
 {/snippet}
 
 {#snippet utcOffsetSecondsResponseDescription()}
-	UTC offset in seconds for the requested <mark>timezone</mark>, resolved when the request is made
-	and kept fixed for the entire response, including across daylight saving time transitions.
+	UTC offset for the requested <mark>timezone</mark>, in seconds, resolved at request time and fixed
+	throughout the response, including across daylight saving time transitions.
 {/snippet}
 
 {#snippet timezoneResponseDescription()}
-	Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g. <mark>CEST</mark>)
+	Resolved time zone identifier (e.g. <mark>Europe/Berlin</mark>) and its abbreviation at request
+	time (e.g. <mark>CEST</mark>).
 {/snippet}
 
 {#snippet currentResponseDescription()}
