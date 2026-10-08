@@ -190,7 +190,7 @@
 {/snippet}
 
 {#snippet windSpeedUnitDescription()}
-	Other wind speed speed units: <mark>ms</mark>, <mark>mph</mark> and <mark>kn</mark>
+	Other wind speed units: <mark>ms</mark>, <mark>mph</mark> and <mark>kn</mark>
 {/snippet}
 
 {#snippet precipitationUnitDescription()}
