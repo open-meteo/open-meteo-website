@@ -325,9 +325,14 @@
 			multiple <mark>&daily=</mark> parameter in the URL can be used.
 		{/snippet}
 
-		{#snippet timeformatDescription()}
-			If format <mark>unixtime</mark> is selected, all time values are returned in UNIX epoch time in
-			seconds. All timestamps are in GMT+0.
+		{#snippet timezoneDescription()}
+			{@render apiParameters.timezone.description()}
+			<p class="mt-2">
+				Flood discharge data has a fixed daily resolution. Changing <mark>timezone</mark> shifts
+				date boundaries and labels but does not recalculate discharge for the local day. Positive
+				UTC offsets can select the previous UTC day's value. Use <mark>timezone=GMT</mark> to preserve
+				the original model dates.
+			</p>
 		{/snippet}
 
 		{#snippet pastDaysDescription()}
@@ -347,7 +352,8 @@
 			parameters={[
 				apiParameters.coordinates,
 				{ ...apiParameters.daily, description: dailyDescription },
-				{ ...apiParameters.timeformat, description: timeformatDescription },
+				apiParameters.timeformat,
+				{ ...apiParameters.timezone, description: timezoneDescription },
 				{ ...apiParameters.past_days, description: pastDaysDescription },
 				{
 					...apiParameters.forecast_days,
@@ -432,6 +438,8 @@
 			parameters={[
 				apiResponseParameters.coordinates,
 				apiResponseParameters.generationtime_ms,
+				apiResponseParameters.utc_offset_seconds,
+				apiResponseParameters.timezone,
 				apiResponseParameters.daily,
 				apiResponseParameters.daily_units
 			]}
