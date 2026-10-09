@@ -97,7 +97,10 @@ async function pull(filters) {
 		});
 
 		await mapConcurrent(missing, async (f) => {
-			const res = await fetch(`${url}/${f.path}`);
+			// Objects are cached at the edge for a day under their URL, so a push that
+			// reuses a name would be served stale until then; keyed by content, a
+			// changed file is always a fresh fetch.
+			const res = await fetch(`${url}/${f.path}?${f.sha256.slice(0, 16)}`);
 			if (!res.ok) throw new Error(`${asset.prefix}/${f.path}: HTTP ${res.status}`);
 			const data = Buffer.from(await res.arrayBuffer());
 			const digest = createHash('sha256').update(data).digest('hex');

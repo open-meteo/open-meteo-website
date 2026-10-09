@@ -187,7 +187,9 @@
 			showCloseButton={false}
 			class="w-auto max-w-[96vw] gap-0 border-none bg-transparent p-0 shadow-none sm:max-w-[96vw]"
 		>
-			<div class="relative">
+			<!-- the zoomed image is viewed through this frame, so it never spills over
+			     the chrome sitting on the frame's corners -->
+			<div class="relative overflow-hidden rounded-lg">
 				<Dialog.Close
 					class="focus-visible:ring-ring absolute top-3 right-3 z-10 inline-flex cursor-pointer items-center justify-center rounded-full bg-black/70 p-2 text-white transition hover:bg-black/85 focus-visible:outline-hidden focus-visible:ring-2"
 					aria-label="Close image viewer"

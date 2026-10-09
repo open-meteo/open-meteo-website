@@ -128,7 +128,9 @@
 		{#if activeImage}
 			<Dialog.Title class="sr-only">{activeImage.alt}</Dialog.Title>
 
-			<div class="relative">
+			<!-- the zoomed image is viewed through this frame, so it never spills over
+			     the chrome sitting on the frame's corners -->
+			<div class="relative overflow-hidden rounded-lg">
 				{#if images.length > 1}
 					<div
 						aria-hidden="true"
