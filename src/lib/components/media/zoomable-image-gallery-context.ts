@@ -4,6 +4,11 @@ export interface ZoomableGalleryImage {
 	id: string;
 	src: string;
 	darkSrc: string;
+	/** Source sets of the two variants, when the image comes in several sizes. */
+	srcset?: string;
+	darkSrcset?: string;
+	/** `sizes` for the enlarged view, when the image comes in several sizes. */
+	dialogSizes?: string;
 	alt: string;
 	description: string;
 	dialogImageClass?: string;

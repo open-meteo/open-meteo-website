@@ -19,7 +19,7 @@
 	import DatePicker from '#lib/components/date/date-picker.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
-	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
+	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
 	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
 	import Settings from '#lib/components/settings/settings.svelte';
@@ -587,7 +587,10 @@ TODO:
 	</div>
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
-		<ZoomableImage
+		<ModelAreaImage
+			baseWidth={1240}
+			baseHeight={820}
+			sizes="100vw"
 			src="/images/models/geostationary_satellites.webp"
 			alt="Geostationary satellites for solar radiation"
 		>
@@ -596,7 +599,7 @@ TODO:
 					>Open-Meteo</a
 				>.
 			{/snippet}
-		</ZoomableImage>
+		</ModelAreaImage>
 	</div>
 </div>
 

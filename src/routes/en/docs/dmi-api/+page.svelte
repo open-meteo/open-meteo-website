@@ -17,7 +17,7 @@
 	import { apiModeFormAction } from '#lib/components/api-mode/utils.js';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
-	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
+	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
 	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
 	import Settings from '#lib/components/settings/settings.svelte';
@@ -330,7 +330,7 @@
 		</div>
 	</div>
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-		<ZoomableImage
+		<ModelAreaImage
 			src="/images/models/dmi_harmonie_arome_europe.webp"
 			alt="DMI HARMONIE AROME DINI Model Area"
 		>
@@ -340,7 +340,7 @@
 					>Open-Meteo</a
 				>.
 			{/snippet}
-		</ZoomableImage>
+		</ModelAreaImage>
 	</div>
 </div>
 

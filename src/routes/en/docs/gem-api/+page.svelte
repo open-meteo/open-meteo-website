@@ -26,8 +26,8 @@
 	import { apiResponseParameters } from '#lib/components/docs/api-response-parameters.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
 	import ZoomableImageGallery from '#lib/components/media/zoomable-image-gallery.svelte';
-	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '#lib/components/pressure/pressure-levels-help-table.svelte';
 	import PressureVariablesSelector from '#lib/components/pressure/pressure-variables-selector.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
@@ -465,23 +465,32 @@
 	</div>
 
 	<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-3">
-		<ZoomableImage src="/images/models/cmc_gem_rdps_10km.webp" alt="GEM RDPS Regional Model Area">
+		<ModelAreaImage
+			sizes="(min-width: 1024px) 33vw, 100vw"
+			src="/images/models/cmc_gem_rdps_10km.webp"
+			alt="GEM RDPS Regional Model Area"
+		>
 			{#snippet caption()}
 				GEM RDPS Regional Model Area. Source: <a
 					href="https://maps.open-meteo.com/?domain=cmc_gem_rdps_10km#2/55.58/-97.07">Open-Meteo</a
 				>.
 			{/snippet}
-		</ZoomableImage>
+		</ModelAreaImage>
 
-		<ZoomableImage src="/images/models/cmc_gem_hrdps.webp" alt="GEM HRDPS Model Area">
+		<ModelAreaImage
+			sizes="(min-width: 1024px) 33vw, 100vw"
+			src="/images/models/cmc_gem_hrdps.webp"
+			alt="GEM HRDPS Model Area"
+		>
 			{#snippet caption()}
 				GEM HRDPS Model Area. Source: <a
 					href="https://maps.open-meteo.com/?domain=cmc_gem_hrdps#2.7/54.25/-96.71">Open-Meteo</a
 				>.
 			{/snippet}
-		</ZoomableImage>
+		</ModelAreaImage>
 
-		<ZoomableImage
+		<ModelAreaImage
+			sizes="(min-width: 1024px) 33vw, 100vw"
 			figureClass="w-full"
 			src="/images/models/cmc_gem_hrdps_west.webp"
 			alt="GEM HRDPS West Model Area"
@@ -492,7 +501,7 @@
 					>Open-Meteo</a
 				>.
 			{/snippet}
-		</ZoomableImage>
+		</ModelAreaImage>
 	</ZoomableImageGallery>
 </div>
 

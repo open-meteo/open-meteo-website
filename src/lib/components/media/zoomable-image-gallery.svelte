@@ -7,6 +7,8 @@
 
 	import * as Dialog from '#lib/components/ui/dialog/index.js';
 
+	import { pinchZoom, zoomedSizes } from '#lib/actions/pinch-zoom.js';
+
 	import {
 		type ZoomableGalleryImage,
 		setZoomableImageGalleryContext
@@ -26,6 +28,9 @@
 	} = $props();
 
 	let images = $state<ZoomableGalleryImage[]>([]);
+	// Pinch-zoom level of the enlarged view, in half steps so `sizes` (and with it
+	// the srcset candidate) only changes once the zoom has moved noticeably.
+	let zoomScale = $state(1);
 	let activeImageId = $state<string | null>(null);
 	let open = $state(false);
 
@@ -37,6 +42,7 @@
 			images = [...images, image];
 		} else if (
 			existingImage?.src !== image.src ||
+			existingImage.srcset !== image.srcset ||
 			existingImage.alt !== image.alt ||
 			existingImage.description !== image.description ||
 			existingImage.dialogImageClass !== image.dialogImageClass
@@ -122,7 +128,9 @@
 		{#if activeImage}
 			<Dialog.Title class="sr-only">{activeImage.alt}</Dialog.Title>
 
-			<div class="relative">
+			<!-- the zoomed image is viewed through this frame, so it never spills over
+			     the chrome sitting on the frame's corners -->
+			<div class="relative overflow-hidden rounded-lg">
 				{#if images.length > 1}
 					<div
 						aria-hidden="true"
@@ -170,26 +178,39 @@
 					</span>
 				</div>
 
-				<img
-					src={activeImage.src}
-					alt={activeImage.alt}
-					loading="eager"
-					decoding="async"
-					class={cn(
-						'block max-h-[88vh] w-auto max-w-[96vw] rounded-lg object-contain dark:hidden',
-						activeImage.dialogImageClass
-					)}
-				/>
-				<img
-					src={activeImage.darkSrc}
-					alt={activeImage.alt}
-					loading="eager"
-					decoding="async"
-					class={cn(
-						'hidden max-h-[88vh] w-auto max-w-[96vw] rounded-lg object-contain dark:block',
-						activeImage.dialogImageClass
-					)}
-				/>
+				<div
+					use:pinchZoom={{
+						key: activeImage.id,
+						onchange: (scale) => (zoomScale = Math.ceil(scale * 2) / 2)
+					}}
+				>
+					<img
+						src={activeImage.src}
+						srcset={activeImage.srcset}
+						sizes={zoomedSizes(activeImage.dialogSizes, zoomScale)}
+						alt={activeImage.alt}
+						loading="eager"
+						decoding="async"
+						draggable="false"
+						class={cn(
+							'block max-h-[88vh] w-auto max-w-[96vw] rounded-lg object-contain dark:hidden',
+							activeImage.dialogImageClass
+						)}
+					/>
+					<img
+						src={activeImage.darkSrc}
+						srcset={activeImage.darkSrcset}
+						sizes={zoomedSizes(activeImage.dialogSizes, zoomScale)}
+						alt={activeImage.alt}
+						loading="eager"
+						decoding="async"
+						draggable="false"
+						class={cn(
+							'hidden max-h-[88vh] w-auto max-w-[96vw] rounded-lg object-contain dark:block',
+							activeImage.dialogImageClass
+						)}
+					/>
+				</div>
 			</div>
 		{/if}
 	</Dialog.Content>

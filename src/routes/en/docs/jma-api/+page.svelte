@@ -26,7 +26,7 @@
 	import { apiResponseParameters } from '#lib/components/docs/api-response-parameters.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
-	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
+	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
 	import PressureLevelsHelpTable from '#lib/components/pressure/pressure-levels-help-table.svelte';
 	import PressureVariablesSelector from '#lib/components/pressure/pressure-variables-selector.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
@@ -425,13 +425,17 @@
 	</div>
 
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6">
-		<ZoomableImage src="/images/models/jma_msm.webp" alt="JMA MSM Model Area over Japan">
+		<ModelAreaImage
+			sizes="100vw"
+			src="/images/models/jma_msm.webp"
+			alt="JMA MSM Model Area over Japan"
+		>
 			{#snippet caption()}
 				JMA MSM Model Area. Source: <a
 					href="https://maps.open-meteo.com/?domain=jma_msm#3.9/36.03/135.03">Open-Meteo</a
 				>.
 			{/snippet}
-		</ZoomableImage>
+		</ModelAreaImage>
 	</div>
 </div>
 
