@@ -14,7 +14,7 @@
 	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
-	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
+	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
 	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
 	import Settings from '#lib/components/settings/settings.svelte';
@@ -607,14 +607,14 @@
 		</div>
 	</div>
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-		<ZoomableImage src="/images/models/cams_europe.webp" alt="CAMS Europe Model Area">
+		<ModelAreaImage src="/images/models/cams_europe.webp" alt="CAMS Europe Model Area">
 			{#snippet caption()}
 				CAMS Europe Model Area. Source:
 				<a href="https://maps.open-meteo.com/?domain=cams_europe&variable=pm2_5#3.38/54.01/11.94"
 					>Open-Meteo</a
 				>.
 			{/snippet}
-		</ZoomableImage>
+		</ModelAreaImage>
 	</div>
 </div>
 

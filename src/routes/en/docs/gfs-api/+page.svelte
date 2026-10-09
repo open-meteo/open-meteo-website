@@ -22,8 +22,8 @@
 	import { apiModeFormAction } from '#lib/components/api-mode/utils.js';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
 	import ZoomableImageGallery from '#lib/components/media/zoomable-image-gallery.svelte';
-	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '#lib/components/pressure/pressure-levels-help-table.svelte';
 	import PressureVariablesSelector from '#lib/components/pressure/pressure-variables-selector.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
@@ -636,22 +636,22 @@
 		</div>
 
 		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<ZoomableImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR Conus Model Area">
+			<ModelAreaImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR Conus Model Area">
 				{#snippet caption()}
 					HRRR and NAM Conus Model Area. Source: <a
 						href="https://maps.open-meteo.com/?domain=ncep_hrrr_conus#3.5/38.59/-97.49"
 						>Open-Meteo</a
 					>.
 				{/snippet}
-			</ZoomableImage>
+			</ModelAreaImage>
 
-			<ZoomableImage src="/images/models/ncep_nbm_conus.webp" alt="NBM Conus Model Area">
+			<ModelAreaImage src="/images/models/ncep_nbm_conus.webp" alt="NBM Conus Model Area">
 				{#snippet caption()}
 					NBM Conus Model Area. Source: <a
 						href="https://maps.open-meteo.com/?domain=ncep_nbm_conus#3.2/40.79/-98.69">Open-Meteo</a
 					>.
 				{/snippet}
-			</ZoomableImage>
+			</ModelAreaImage>
 		</ZoomableImageGallery>
 	</div>
 </div>

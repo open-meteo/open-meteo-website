@@ -27,7 +27,7 @@
 	import { apiModeFormAction } from '#lib/components/api-mode/utils.js';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
-	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
+	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
 	import PressureVariablesSelector from '#lib/components/pressure/pressure-variables-selector.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
 	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
@@ -519,15 +519,16 @@
 		</div>
 	</div>
 
-	<ZoomableImage
+	<ModelAreaImage
 		figureClass="mt-6"
+		sizes="100vw"
 		src="/images/models/ukmo_uk_deterministic_2km.webp"
 		alt="UKMO UKV 2km model area covering UK and Ireland"
 	>
 		{#snippet caption()}
 			UKMO UKV 2km model covering UK and Ireland. Source: UK Met Office.
 		{/snippet}
-	</ZoomableImage>
+	</ModelAreaImage>
 </div>
 
 <!-- NATIVE VARIABLES -->

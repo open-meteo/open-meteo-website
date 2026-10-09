@@ -23,8 +23,8 @@
 	import { apiModeFormAction } from '#lib/components/api-mode/utils.js';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
 	import ZoomableImageGallery from '#lib/components/media/zoomable-image-gallery.svelte';
-	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
 	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
 	import LabeledSelect from '#lib/components/select/labeled-select.svelte';
@@ -695,7 +695,7 @@
 			</table>
 		</div>
 		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<ZoomableImage src="/images/models/ncep_gfswave016.webp" alt="NCEP GFS Wave Wave 0.16°">
+			<ModelAreaImage src="/images/models/ncep_gfswave016.webp" alt="NCEP GFS Wave Wave 0.16°">
 				{#snippet caption()}
 					NCEP GFS Wave 0.16° Model Area. Source:
 					<a
@@ -703,14 +703,14 @@
 						>Open-Meteo</a
 					>.
 				{/snippet}
-			</ZoomableImage>
+			</ModelAreaImage>
 
-			<ZoomableImage src="/images/models/dwd_ewam.webp" alt="DWD EWAM Model Area">
+			<ModelAreaImage src="/images/models/dwd_ewam.webp" alt="DWD EWAM Model Area">
 				{#snippet caption()}
 					DWD EWAM Wave Model Area. Source:
 					<a href="https://maps.open-meteo.com/?domain=dwd_ewam#3.1/51.43/15.80">Open-Meteo</a>.
 				{/snippet}
-			</ZoomableImage>
+			</ModelAreaImage>
 		</ZoomableImageGallery>
 	</div>
 </div>

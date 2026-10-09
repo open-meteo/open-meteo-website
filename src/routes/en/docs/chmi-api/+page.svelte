@@ -13,8 +13,8 @@
 	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
 	import ZoomableImageGallery from '#lib/components/media/zoomable-image-gallery.svelte';
-	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
 	import PressureVariablesSelector from '#lib/components/pressure/pressure-variables-selector.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
 	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
@@ -370,7 +370,7 @@
 	</div>
 
 	<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-		<ZoomableImage
+		<ModelAreaImage
 			figureClass="w-full"
 			class="w-full"
 			src="/images/models/chmi_aladin_central_europe_2km.webp"
@@ -382,9 +382,9 @@
 					>Open-Meteo</a
 				>.
 			{/snippet}
-		</ZoomableImage>
+		</ModelAreaImage>
 
-		<ZoomableImage
+		<ModelAreaImage
 			figureClass="w-full"
 			class="w-full"
 			src="/images/models/chmi_aladin_cz_1km.webp"
@@ -396,7 +396,7 @@
 					>Open-Meteo</a
 				>.
 			{/snippet}
-		</ZoomableImage>
+		</ModelAreaImage>
 	</ZoomableImageGallery>
 </div>
 
