@@ -128,9 +128,12 @@
 		{#if activeImage}
 			<Dialog.Title class="sr-only">{activeImage.alt}</Dialog.Title>
 
-			<!-- the zoomed image is viewed through this frame, so it never spills over
-			     the chrome sitting on the frame's corners -->
-			<div class="relative overflow-hidden rounded-lg">
+			<!-- The zoomed image is viewed through this frame, so it never spills over
+			     the chrome sitting on the frame's corners. `overflow-clip`, not hidden:
+			     a scroll container would get a zero minimum width as a grid item and let
+			     the dialog (a fixed box at left 50%, so shrink-to-fit only sees 50vw)
+			     collapse to half the screen instead of sizing to the image. -->
+			<div class="relative overflow-clip rounded-lg">
 				{#if images.length > 1}
 					<div
 						aria-hidden="true"
