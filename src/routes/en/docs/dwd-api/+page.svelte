@@ -174,7 +174,7 @@
 	<LocationSelection bind:params={$params} />
 
 	<!-- API MODE & TIME -->
-	<div class="mt-6 grid items-start gap-x-6 gap-y-4 lg:grid-cols-2">
+	<div class="mt-6 grid grid-cols-1 items-start gap-x-6 gap-y-4 lg:grid-cols-2">
 		<div>
 			<ApiModeSelector bind:params={$params} />
 			<ApiModeTimeSelector

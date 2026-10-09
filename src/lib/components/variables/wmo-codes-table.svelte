@@ -81,7 +81,13 @@
 		client. The mapping below can be copied directly.
 	</p>
 	<div bind:this={jsonContainer} class="group relative mt-2">
-		<WmoCodesJson />
+		<!-- same scrolling code frame as the other pregenerated blocks: the JSON lines
+		     are wider than a phone, and a bare <pre> would widen the whole page -->
+		<div
+			class="pregenerated-code -mx-6 overflow-auto rounded-lg bg-[#FAFAFA] md:ml-0 lg:mx-0 dark:bg-[#212121]"
+		>
+			<WmoCodesJson />
+		</div>
 		<div
 			class="pointer-events-none absolute top-2 right-2 opacity-0 duration-300 group-hover:pointer-events-auto group-hover:opacity-100"
 		>
