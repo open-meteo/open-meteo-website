@@ -190,7 +190,7 @@
 {/snippet}
 
 {#snippet windSpeedUnitDescription()}
-	Other wind speed speed units: <mark>ms</mark>, <mark>mph</mark> and <mark>kn</mark>
+	Other wind speed units: <mark>ms</mark>, <mark>mph</mark> and <mark>kn</mark>
 {/snippet}
 
 {#snippet precipitationUnitDescription()}
@@ -198,21 +198,26 @@
 {/snippet}
 
 {#snippet timeformatDescription()}
-	If format <mark>unixtime</mark> is selected, all time values are returned in UNIX epoch time in
-	seconds. Please note that all timestamps are in GMT+0! For daily values with unix timestamps,
-	please apply <mark>utc_offset_seconds</mark> again to get the correct date.
+	By default, timestamps use ISO 8601 format with a fixed offset, <mark>utc_offset_seconds</mark>,
+	resolved at request time (see <mark>timezone</mark>). With <mark>unixtime</mark>, timestamps are
+	seconds since 1970-01-01 00:00 UTC. To reproduce the API's dates and times, format them using
+	<mark>utc_offset_seconds</mark>.
 {/snippet}
 
 {#snippet timezoneDescription()}
-	If <mark>timezone</mark> is set, all timestamps are returned as local-time and data is returned
-	starting at 00:00 local-time. Any time zone name from the
+	The requested <mark>timezone</mark>'s UTC offset at request time is returned as
+	<mark>utc_offset_seconds</mark>
+	and used for ISO 8601 timestamps and daily boundaries throughout the response. Daylight saving time
+	(DST) changes within the requested range are ignored. For DST-aware local times, request
+	<mark>timeformat=unixtime</mark>
+	and convert using the returned <mark>timezone</mark> in your application. Any name from the
 	<a
 		class="text-link underline"
 		href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
 		target="_blank">time zone database</a
 	>
-	is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically resolved
-	to the local time zone. For multiple coordinates, a comma separated list of timezones can be specified.
+	is supported. <mark>auto</mark> resolves the time zone from the coordinates. For multiple coordinates,
+	a comma separated list of time zones can be specified.
 {/snippet}
 
 {#snippet pastDaysDescription()}
