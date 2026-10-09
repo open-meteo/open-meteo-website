@@ -16,6 +16,8 @@
 	import { Input } from '#lib/components/ui/input/index.js';
 	import { Label } from '#lib/components/ui/label/index.js';
 
+	import ApiParameterTable from '#lib/components/docs/api-parameter-table.svelte';
+	import { apiParameters } from '#lib/components/docs/api-parameters.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSearch from '#lib/components/location/location-search.svelte';
 
@@ -282,50 +284,27 @@
 			> with 90 meters resolution. The GLO-90 dataset is available worldwide with a free licence.
 		</p>
 		<p>All URL parameters are listed below:</p>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-300">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Required</th>
-						<th scope="col">Default</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">latitude<br />longitude</th>
-						<td>Floating point array</td>
-						<td>Yes</td>
-						<td></td>
-						<td>
-							Geographical WGS84 coordinates of the location. Multiple coordinates can be comma <mark
-								>,</mark
-							>
-							separated. Up to 100 coordinates can be requested at once. Example for
-							<a
-								href="https://api.open-meteo.com/v1/elevation?latitude=52.52,48.85&longitude=13.41,2.35"
-								target="_blank">multiple coordinates</a
-							>.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">apikey</th>
-						<td>String</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>Only required to commercial use to access reserved API resources for customers. The
-							server URL requires the prefix <mark>customer-</mark>. See
-							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
-								>pricing</a
-							> for more information.</td
-						>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		{#snippet coordinatesDescription()}
+			Geographical WGS84 coordinates of the location. Multiple coordinates can be comma <mark
+				>,</mark
+			>
+			separated. Up to 100 coordinates can be requested at once. Example for
+			<a
+				href="https://api.open-meteo.com/v1/elevation?latitude=52.52,48.85&longitude=13.41,2.35"
+				target="_blank">multiple coordinates</a
+			>.
+		{/snippet}
+		<ApiParameterTable
+			parameters={[
+				{
+					...apiParameters.coordinates,
+					name: ['latitude', 'longitude'],
+					format: 'Floating point array',
+					description: coordinatesDescription
+				},
+				apiParameters.apikey
+			]}
+		/>
 	</div>
 	<p class="text-muted-foreground mt-2">
 		Additional optional URL parameters will be added. For API stability, no required parameters will

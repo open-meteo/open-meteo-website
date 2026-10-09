@@ -12,6 +12,13 @@
 	import * as Accordion from '#lib/components/ui/accordion/index.js';
 
 	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import ApiParameterTable from '#lib/components/docs/api-parameter-table.svelte';
+	import {
+		apiParameters,
+		recentPastDaysDescription
+	} from '#lib/components/docs/api-parameters.svelte';
+	import ApiResponseParameterTable from '#lib/components/docs/api-response-parameter-table.svelte';
+	import { apiResponseParameters } from '#lib/components/docs/api-response-parameters.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
 	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
@@ -630,169 +637,44 @@
 			0:00 today.
 		</p>
 		<p>All URL parameters are listed below:</p>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-250">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Required</th>
-						<th scope="col">Default</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">latitude, longitude</th>
-						<td>Floating point</td>
-						<td>Yes</td>
-						<td></td>
-						<td
-							>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
-							separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return
-							data for multiple locations the JSON output changes to a list of structures. CSV and
-							XLSX formats add a column <mark>location_id</mark>.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">hourly</th>
-						<td>String array</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>A list of weather variables which should be returned. Values can be comma separated,
-							or multiple
-							<mark>&hourly=</mark> parameter in the URL can be used.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">current</th>
-						<td>String array</td>
-						<td>No</td>
-						<td></td>
-						<td>A list of variables to get current conditions.</td>
-					</tr>
-					<tr>
-						<th scope="row">domains</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>auto</mark></td>
-						<td
-							>Automatically combine both domains <mark>auto</mark> or specifically select the
-							European
-							<mark>cams_europe</mark> or global domain <mark>cams_global</mark>.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">timeformat</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>iso8601</mark></td>
-						<td
-							>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX
-							epoch time in seconds. Please note that all timestamp are in GMT+0! For daily values
-							with unix timestamps, please apply
-							<mark>utc_offset_seconds</mark> again to get the correct date.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">timezone</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>GMT</mark></td>
-						<td
-							>If <mark>timezone</mark> is set, all timestamps are returned as local-time and data
-							is returned starting at 00:00 local-time. Any time zone name from the
-							<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank"
-								>time zone database</a
-							>
-							is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
-							resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
-							can be specified.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">past_days</th>
-						<td>Integer (0-92)</td>
-						<td>No</td>
-						<td><mark>0</mark></td>
-						<td
-							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">forecast_days</th>
-						<td>Integer (0-7)</td>
-						<td>No</td>
-						<td><mark>5</mark></td>
-						<td>Per default, 5 days are returned. Up to 7 days of forecast are possible.</td>
-					</tr>
-					<tr>
-						<th scope="row">forecast_hours<br />past_hours</th>
-						<td>Integer (&gt;0)</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>Similar to forecast_days, the number of timesteps of hourly data can controlled.
-							Instead of using the current day as a reference, the current hour is used.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">start_date<br />end_date</th>
-						<td>String (yyyy-mm-dd)</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>The time interval to get weather data. A day must be specified as an ISO8601 date
-							(e.g.
-							<mark>2022-06-30</mark>).
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">start_hour<br />end_hour</th>
-						<td>String (yyyy-mm-ddThh:mm)</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>The time interval to get weather data for hourly data. Time must be specified as an
-							ISO8601 date (e.g.
-							<mark>2022-06-30T12:00</mark>).
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">cell_selection</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>nearest</mark></td>
-						<td
-							>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
-							suitable grid-cell on land with
-							<a
-								href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
-								title="Elevation based grid-cell selection explained"
-								>similar elevation to the requested coordinates using a 90-meter digital elevation
-								model</a
-							>.
-							<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
-							grid-cell.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">apikey</th>
-						<td>String</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>Only required to commercial use to access reserved API resources for customers. The
-							server URL requires the prefix <mark>customer-</mark>. See
-							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
-								>pricing</a
-							> for more information.</td
-						>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		{#snippet domainsDescription()}
+			Automatically combine both domains <mark>auto</mark> or specifically select the European
+			<mark>cams_europe</mark>
+			or global domain <mark>cams_global</mark>.
+		{/snippet}
+		<ApiParameterTable
+			minWidth="min-w-250"
+			parameters={[
+				apiParameters.coordinates,
+				apiParameters.hourly,
+				{ ...apiParameters.current, description: 'A list of variables to get current conditions.' },
+				{
+					name: 'domains',
+					format: 'String',
+					required: false,
+					defaultValue: 'auto',
+					description: domainsDescription
+				},
+				apiParameters.timeformat,
+				apiParameters.timezone,
+				{
+					...apiParameters.past_days,
+					format: 'Integer (0-92)',
+					description: recentPastDaysDescription
+				},
+				{
+					...apiParameters.forecast_days,
+					format: 'Integer (0-7)',
+					defaultValue: '5',
+					description: 'Per default, 5 days are returned. Up to 7 days of forecast are possible.'
+				},
+				apiParameters.forecast_hours,
+				apiParameters.start_date,
+				apiParameters.start_hour,
+				{ ...apiParameters.cell_selection, defaultValue: 'nearest' },
+				apiParameters.apikey
+			]}
+		/>
 		<p class="text-muted-foreground mt-2">
 			Additional optional URL parameters will be added. For API stability, no required parameters
 			will be added in the future!
@@ -941,63 +823,16 @@
 		>
 			<AirQualityObject />
 		</div>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-250">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">latitude, longitude</th>
-						<td>Floating point</td>
-						<td
-							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometres away from the requested
-							coordinate.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">generationtime_ms</th>
-						<td>Floating point</td>
-						<td
-							>Generation time of the weather forecast in milliseconds. This is mainly used for
-							performance monitoring and improvements.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">utc_offset_seconds</th>
-						<td>Integer</td>
-						<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
-					</tr>
-					<tr>
-						<th scope="row">timezone<br />timezone_abbreviation</th>
-						<td>String</td>
-						<td
-							>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
-							<mark>CEST</mark>)</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">hourly</th>
-						<td>Object</td>
-						<td
-							>For each selected weather variable, data will be returned as a floating point array.
-							Additionally a
-							<mark>time</mark> array will be returned with ISO8601 timestamps.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">hourly_units</th>
-						<td>Object</td>
-						<td>For each selected weather variable, the unit will be listed here.</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<ApiResponseParameterTable
+			parameters={[
+				apiResponseParameters.coordinates,
+				apiResponseParameters.generationtime_ms,
+				apiResponseParameters.utc_offset_seconds,
+				apiResponseParameters.timezone,
+				apiResponseParameters.hourly,
+				apiResponseParameters.hourly_units
+			]}
+		/>
 	</div>
 </div>
 

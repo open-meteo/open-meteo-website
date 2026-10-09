@@ -19,6 +19,13 @@
 	import ApiModeSelector from '#lib/components/api-mode/api-mode-selector.svelte';
 	import ApiModeTimeSelector from '#lib/components/api-mode/api-mode-time-selector.svelte';
 	import { apiModeFormAction } from '#lib/components/api-mode/utils.js';
+	import ApiParameterTable from '#lib/components/docs/api-parameter-table.svelte';
+	import {
+		apiParameters,
+		recentPastDaysDescription
+	} from '#lib/components/docs/api-parameters.svelte';
+	import ApiResponseParameterTable from '#lib/components/docs/api-response-parameter-table.svelte';
+	import { apiResponseParameters } from '#lib/components/docs/api-response-parameters.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
 	import PressureVariablesSelector from '#lib/components/pressure/pressure-variables-selector.svelte';
@@ -611,148 +618,25 @@
 			and responds with a JSON hourly weather forecast for 10 days. Time always starts at 0:00 today.
 			All URL parameters are listed below:
 		</p>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-300">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Required</th>
-						<th scope="col">Default</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">latitude, longitude</th>
-						<td>Floating point</td>
-						<td>Yes</td>
-						<td></td>
-						<td
-							>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
-							separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return
-							data for multiple locations the JSON output changes to a list of structures. CSV and
-							XLSX formats add a column <mark>location_id</mark>.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">elevation</th>
-						<td>Floating point</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>The elevation used for statistical downscaling. Per default, a <a
-								href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
-								title="Elevation based grid-cell selection explained"
-								>90 meter digital elevation model is used</a
-							>. You can manually set the elevation to correctly match mountain peaks. If
-							<mark>&elevation=nan</mark> is specified, downscaling will be disabled and the API uses
-							the average grid-cell height. For multiple locations, elevation can also be comma separated.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">hourly</th>
-						<td>String array</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>A list of weather variables which should be returned. Values can be comma separated,
-							or multiple
-							<mark>&hourly=</mark> parameter in the URL can be used.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">temperature_unit</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>celsius</mark></td>
-						<td
-							>If <mark>fahrenheit</mark> is set, all temperature values are converted to Fahrenheit.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">wind_speed_unit</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>kmh</mark></td>
-						<td
-							>Other wind speed speed units: <mark>ms</mark>, <mark>mph</mark> and
-							<mark>kn</mark></td
-						>
-					</tr>
-					<tr>
-						<th scope="row">precipitation_unit</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>mm</mark></td>
-						<td>Other precipitation amount units: <mark>inch</mark></td>
-					</tr>
-					<tr>
-						<th scope="row">timeformat</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>iso8601</mark></td>
-						<td
-							>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX
-							epoch time in seconds. Please note that all time is then in GMT+0! For daily values
-							with unix timestamp, please apply
-							<mark>utc_offset_seconds</mark> again to get the correct date.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">past_days</th>
-						<td>Integer (0-92)</td>
-						<td>No</td>
-						<td><mark>0</mark></td>
-						<td
-							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">start_date<br />end_date</th>
-						<td>String (yyyy-mm-dd)</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>The time interval to get weather data. A day must be specified as an ISO8601 date
-							(e.g.
-							<mark>2022-06-30</mark>).
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">cell_selection</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>land</mark></td>
-						<td
-							>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
-							suitable grid-cell on land with
-							<a
-								href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
-								title="Elevation based grid-cell selection explained"
-								>similar elevation to the requested coordinates using a 90-meter digital elevation
-								model</a
-							>.
-							<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
-							grid-cell.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">apikey</th>
-						<td>String</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>Only required to commercial use to access reserved API resources for customers. The
-							server URL requires the prefix <mark>customer-</mark>. See
-							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
-								>pricing</a
-							> for more information.</td
-						>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<ApiParameterTable
+			parameters={[
+				apiParameters.coordinates,
+				apiParameters.elevation,
+				apiParameters.hourly,
+				apiParameters.temperature_unit,
+				apiParameters.wind_speed_unit,
+				apiParameters.precipitation_unit,
+				apiParameters.timeformat,
+				{
+					...apiParameters.past_days,
+					format: 'Integer (0-92)',
+					description: recentPastDaysDescription
+				},
+				apiParameters.start_date,
+				apiParameters.cell_selection,
+				apiParameters.apikey
+			]}
+		/>
 	</div>
 	<p class="text-muted-foreground mt-2">
 		Additional optional URL parameters will be added. For API stability, no required parameters will
@@ -1053,88 +937,19 @@
 		>
 			<WeatherForecastObject />
 		</div>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-250">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">latitude, longitude</th>
-						<td>Floating point</td>
-						<td
-							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometres away from the requested
-							coordinate.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">elevation</th>
-						<td>Floating point</td>
-						<td
-							>The elevation from a 90 meter digital elevation model. This effects which grid-cell
-							is selected (see parameter <mark>cell_selection</mark>). Statistical downscaling is
-							used to adapt weather conditions for this elevation. This elevation can also be
-							controlled with the query parameter <mark>elevation</mark>. If
-							<mark>&elevation=nan</mark> is specified, all downscaling is disabled and the average grid-cell
-							elevation is used.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">generationtime_ms</th>
-						<td>Floating point</td>
-						<td
-							>Generation time of the weather forecast in milliseconds. This is mainly used for
-							performance monitoring and improvements.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">utc_offset_seconds</th>
-						<td>Integer</td>
-						<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
-					</tr>
-					<tr>
-						<th scope="row">timezone<br />timezone_abbreviation</th>
-						<td>String</td>
-						<td
-							>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
-							<mark>CEST</mark>)</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">hourly</th>
-						<td>Object</td>
-						<td
-							>For each selected weather variable, data will be returned as a floating point array.
-							Additionally a
-							<mark>time</mark> array will be returned with ISO8601 timestamps.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">hourly_units</th>
-						<td>Object</td>
-						<td>For each selected weather variable, the unit will be listed here.</td>
-					</tr>
-					<tr>
-						<th scope="row">daily</th>
-						<td>Object</td>
-						<td
-							>For each selected daily weather variable, data will be returned as a floating point
-							array. Additionally a <mark>time</mark> array will be returned with ISO8601 timestamps.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">daily_units</th>
-						<td>Object</td>
-						<td>For each selected daily weather variable, the unit will be listed here.</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<ApiResponseParameterTable
+			parameters={[
+				apiResponseParameters.coordinates,
+				apiResponseParameters.elevation,
+				apiResponseParameters.generationtime_ms,
+				apiResponseParameters.utc_offset_seconds,
+				apiResponseParameters.timezone,
+				apiResponseParameters.hourly,
+				apiResponseParameters.hourly_units,
+				apiResponseParameters.daily,
+				apiResponseParameters.daily_units
+			]}
+		/>
 	</div>
 </div>
 

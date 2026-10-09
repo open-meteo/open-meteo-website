@@ -14,6 +14,10 @@
 	import { Label } from '#lib/components/ui/label/index.js';
 
 	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import ApiParameterTable from '#lib/components/docs/api-parameter-table.svelte';
+	import { apiParameters } from '#lib/components/docs/api-parameters.svelte';
+	import ApiResponseParameterTable from '#lib/components/docs/api-response-parameter-table.svelte';
+	import { apiResponseParameters } from '#lib/components/docs/api-response-parameters.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
@@ -316,117 +320,54 @@
 			data from the largest river in a 5 km area for the given coordinates. All URL parameters are listed
 			below:
 		</p>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-300">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Required</th>
-						<th scope="col">Default</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">latitude, longitude</th>
-						<td>Floating point</td>
-						<td>Yes</td>
-						<td></td>
-						<td
-							>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
-							separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return
-							data for multiple locations the JSON output changes to a list of structures. CSV and
-							XLSX formats add a column <mark>location_id</mark>.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">daily</th>
-						<td>String array</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>A list of weather variables which should be returned. Values can be comma separated,
-							or multiple
-							<mark>&daily=</mark> parameter in the URL can be used.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">timeformat</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>iso8601</mark></td>
-						<td
-							>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX epoch
-							time in seconds. Please note that all time is then in GMT+0!
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">past_days</th>
-						<td>Integer</td>
-						<td>No</td>
-						<td><mark>0</mark></td>
-						<td>If <mark>past_days</mark> is set, past data can be returned.</td>
-					</tr>
-					<tr>
-						<th scope="row">forecast_days</th>
-						<td>Integer (0-210)</td>
-						<td>No</td>
-						<td><mark>92</mark></td>
-						<td>Per default, only 92 days are returned. Up to 210 days of forecast are possible.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">start_date<br />end_date</th>
-						<td>String (yyyy-mm-dd)</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>The time interval to get data. A day must be specified as an ISO8601 date (e.g.
-							<mark>2022-06-30</mark>). Data are available from 1984-01-01 until 7 month forecast.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">ensemble</th>
-						<td>Boolean</td>
-						<td>No</td>
-						<td></td>
-						<td>If <mark>True</mark> all forecast ensemble members will be returned</td>
-					</tr>
-					<tr>
-						<th scope="row">cell_selection</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>nearest</mark></td>
-						<td
-							>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
-							suitable grid-cell on land with
-							<a
-								href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
-								title="Elevation based grid-cell selection explained"
-								>similar elevation to the requested coordinates using a 90-meter digital elevation
-								model</a
-							>.
-							<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
-							grid-cell.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">apikey</th>
-						<td>String</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>Only required to commercial use to access reserved API resources for customers. The
-							server URL requires the prefix <mark>customer-</mark>. See
-							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
-								>pricing</a
-							> for more information.</td
-						>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		{#snippet dailyDescription()}
+			A list of weather variables which should be returned. Values can be comma separated, or
+			multiple <mark>&daily=</mark> parameter in the URL can be used.
+		{/snippet}
+
+		{#snippet timeformatDescription()}
+			If format <mark>unixtime</mark> is selected, all time values are returned in UNIX epoch time in
+			seconds. Please note that all timestamps are in GMT+0!
+		{/snippet}
+
+		{#snippet pastDaysDescription()}
+			If <mark>past_days</mark> is set, past data can be returned.
+		{/snippet}
+
+		{#snippet startDateDescription()}
+			The time interval to get data. A day must be specified as an ISO8601 date (e.g. <mark
+				>2022-06-30</mark
+			>). Data are available from 1984-01-01 until 7 month forecast.
+		{/snippet}
+
+		{#snippet ensembleDescription()}
+			If <mark>True</mark> all forecast ensemble members will be returned
+		{/snippet}
+		<ApiParameterTable
+			parameters={[
+				apiParameters.coordinates,
+				{ ...apiParameters.daily, description: dailyDescription },
+				{ ...apiParameters.timeformat, description: timeformatDescription },
+				{ ...apiParameters.past_days, description: pastDaysDescription },
+				{
+					...apiParameters.forecast_days,
+					format: 'Integer (0-210)',
+					defaultValue: '92',
+					description:
+						'Per default, only 92 days are returned. Up to 210 days of forecast are possible.'
+				},
+				{ ...apiParameters.start_date, description: startDateDescription },
+				{
+					name: 'ensemble',
+					format: 'Boolean',
+					required: false,
+					defaultValue: '',
+					description: ensembleDescription
+				},
+				{ ...apiParameters.cell_selection, defaultValue: 'nearest' },
+				apiParameters.apikey
+			]}
+		/>
 	</div>
 	<p class="text-muted-foreground mt-2">
 		Additional optional URL parameters will be added. For API stability, no required parameters will
@@ -487,50 +428,14 @@
 		>
 			<FloodObject />
 		</div>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-250">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">latitude, longitude</th>
-						<td>Floating point</td>
-						<td
-							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometres away from the requested
-							coordinate.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">generationtime_ms</th>
-						<td>Floating point</td>
-						<td
-							>Generation time of the weather forecast in milliseconds. This is mainly used for
-							performance monitoring and improvements.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">daily</th>
-						<td>Object</td>
-						<td
-							>For each selected weather variable, data will be returned as a floating point array.
-							Additionally a
-							<mark>time</mark> array will be returned with ISO8601 timestamps.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">daily_units</th>
-						<td>Object</td>
-						<td>For each selected weather variable, the unit will be listed here.</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<ApiResponseParameterTable
+			parameters={[
+				apiResponseParameters.coordinates,
+				apiResponseParameters.generationtime_ms,
+				apiResponseParameters.daily,
+				apiResponseParameters.daily_units
+			]}
+		/>
 	</div>
 </div>
 
