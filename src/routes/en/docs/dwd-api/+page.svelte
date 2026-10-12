@@ -415,19 +415,12 @@
 			Central Europe.
 		</p>
 		<p class="mb-4">
-			DWD is migrating deterministic ICON models to its v1 feed by 30 November 2026. ICON-EU Native
-			uses the expanded domain introduced on 6 October 2026. After 30 November,
-			<mark>dwd_icon_eu</mark> and <mark>dwd_icon_d2</mark> will use their native-grid counterparts.
-			The future of ICON Global ingestion on a regular latitude/longitude grid is still undecided.
-			Visibility will no longer be available after the migration to the v1 feed. See the
+			After 30 November 2026, <mark>dwd_icon_global</mark>, <mark>dwd_icon_eu</mark> and
+			<mark>dwd_icon_d2</mark> will use native grids. Visibility will no longer be available
+			following DWD's feed migration. See the
 			<a
 				href="https://www.dwd.de/DE/leistungen/opendata/neuigkeiten/opendata_september2026_1.html"
 				target="_blank">DWD feed announcement</a
-			>
-			and the
-			<a
-				href="https://www.dwd.de/DE/leistungen/opendata/neuigkeiten/opendata_juli2026_2.html"
-				target="_blank">domain announcement</a
 			>.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
