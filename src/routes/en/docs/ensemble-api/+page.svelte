@@ -51,8 +51,7 @@
 		longitude: [13.41],
 		...defaultParameters,
 		hourly: ['temperature_2m'],
-		// TODO: revert to 'dwd_icon_seamless_eps' once backend prefix aliases are deployed
-		models: ['icon_seamless_eps']
+		models: ['dwd_icon_seamless_eps']
 	});
 
 	// Additional variable settings
@@ -428,6 +427,10 @@
 			The appropriate ensemble model to use would depend on the forecast horizon and region of
 			interest.
 		</p>
+		<p class="mt-2">
+			Since 6 October 2026, ICON ensembles use native grids with no changes required to existing
+			model names.
+		</p>
 		<p>
 			Native, full-resolution ECMWF IFS (O1280 grid) and AIFS (N320 grid) ensemble models are
 			available for Europe, preserving original model output and offering 1-hourly timesteps for
@@ -509,7 +512,7 @@
 								Europe
 							</div>
 						</td>
-						<td>13 km, hourly</td>
+						<td>~6.5 km, hourly</td>
 						<td>40</td>
 						<td>5 days</td>
 						<td>Every 6 hours</td>
@@ -526,7 +529,7 @@
 								Global
 							</div>
 						</td>
-						<td>26 km, hourly</td>
+						<td>~13 km, hourly</td>
 						<td>40</td>
 						<td>7.5 days</td>
 						<td>Every 12 hours</td>

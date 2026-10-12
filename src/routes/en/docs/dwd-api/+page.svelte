@@ -414,6 +414,15 @@
 			hours. 15-minutely data is only available for a small number of weather variables and only in
 			Central Europe.
 		</p>
+		<p class="mb-4">
+			After 30 November 2026, <mark>dwd_icon_global</mark>, <mark>dwd_icon_eu</mark> and
+			<mark>dwd_icon_d2</mark> will use native grids. Visibility will no longer be available
+			following DWD's feed migration. See the
+			<a
+				href="https://www.dwd.de/DE/leistungen/opendata/neuigkeiten/opendata_september2026_1.html"
+				target="_blank">DWD feed announcement</a
+			>.
+		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table class="docs-table w-full min-w-250">
 				<caption
@@ -1100,7 +1109,10 @@
 						<th scope="row">visibility</th>
 						<td>Instant</td>
 						<td>meters</td>
-						<td>Viewing distance in meters. Influenced by low clouds, humidity and aerosols.</td>
+						<td>
+							Viewing distance in meters. Influenced by low clouds, humidity and aerosols.
+							Visibility is only available until November 2026.
+						</td>
 					</tr>
 				</tbody>
 			</table>
