@@ -483,29 +483,14 @@
 				url: '/en/docs/dwd-api',
 				models: [
 					{
-						name: 'ICON-EPS',
-						area: [],
-						meta: fetchMeta('dwd_icon_eps', 'ensemble', apiKeyPreferences)
-					},
-					{
 						name: 'ICON-EPS Native',
 						area: [],
 						meta: fetchMeta('dwd_icon_global_eps_native', 'ensemble', apiKeyPreferences)
 					},
 					{
-						name: 'ICON-EU-EPS',
-						area: ['european_union'],
-						meta: fetchMeta('dwd_icon_eu_eps', 'ensemble', apiKeyPreferences)
-					},
-					{
 						name: 'ICON-EU-EPS Native',
 						area: ['european_union'],
 						meta: fetchMeta('dwd_icon_eu_eps_native', 'ensemble', apiKeyPreferences)
-					},
-					{
-						name: 'ICON-D2-EPS',
-						area: ['de', 'ch', 'at'],
-						meta: fetchMeta('dwd_icon_d2_eps', 'ensemble', apiKeyPreferences)
 					},
 					{
 						name: 'ICON-D2-EPS Native',
