@@ -2,7 +2,7 @@
 	import ChevronRight from '@lucide/svelte/icons/chevron-right';
 	import { DropdownMenu as DropdownMenuPrimitive } from 'bits-ui';
 
-	import { cn } from '$lib/utils/ui.js';
+	import { cn } from '#lib/utils/ui.js';
 
 	let {
 		ref = $bindable(null),

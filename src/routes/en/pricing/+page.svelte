@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { mode } from 'mode-watcher';
 
-	import * as Alert from '$lib/components/ui/alert';
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Input } from '#lib/components/ui/input/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import * as Select from '#lib/components/ui/select/index.js';
 
-	import Sun from '$lib/assets/icons/sun.svelte';
+	import Sun from '#lib/assets/icons/sun.svelte';
 
 	import { additionalDaily, daily, hourly, minutely_15, models } from '../docs/options';
 	import { timeSelectionOptions } from './options';

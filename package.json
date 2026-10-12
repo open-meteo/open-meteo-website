@@ -34,8 +34,9 @@
 		"@internationalized/date": "^3.12.4",
 		"@lucide/svelte": "^1.48.0",
 		"@poppanator/sveltekit-svg": "^7.0.1",
-		"@sveltejs/adapter-static": "^3.0.8",
-		"@sveltejs/kit": "^2.70.3",
+		"@sveltejs/adapter-static": "^4.0.0",
+		"@sveltejs/kit": "^3.0.0",
+		"@sveltejs/load-config": "^0.2.2",
 		"@sveltejs/vite-plugin-svelte": "^7.3.1",
 		"@tailwindcss/vite": "^4.3.3",
 		"@trivago/prettier-plugin-sort-imports": "^6.0.2",
@@ -69,5 +70,9 @@
 		"typescript-eslint": "^8.70.1",
 		"vite": "^8.3.1",
 		"vitest": "^5.0.0"
+	},
+	"imports": {
+		"#lib": "./src/lib/index.js",
+		"#lib/*": "./src/lib/*"
 	}
 }

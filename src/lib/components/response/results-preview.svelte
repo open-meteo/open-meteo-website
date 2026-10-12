@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { apiKeyPreferences } from '$lib/stores/settings';
+	import { apiKeyPreferences } from '#lib/stores/settings.js';
 
-	import { objectDifference } from '$lib/utils';
-	import { parseApiUrl } from '$lib/utils/api-url';
-	import { membersPerModel } from '$lib/utils/meteo';
-	import { fade, fadeOutAbsolute, slide } from '$lib/utils/transitions';
+	import { parseApiUrl } from '#lib/utils/api-url.js';
+	import { objectDifference } from '#lib/utils/index.js';
+	import { membersPerModel } from '#lib/utils/meteo.js';
+	import { fade, fadeOutAbsolute, slide } from '#lib/utils/transitions.js';
 
-	import * as Alert from '$lib/components/ui/alert';
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Input } from '#lib/components/ui/input/index.js';
 
-	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
+	import AnimateHeight from '#lib/components/animate-height/animate-height.svelte';
 
 	import { pythonCodeExample } from './code-examples/python-code-example';
 	import { swiftCodeExample } from './code-examples/swift-code-example';
@@ -23,8 +23,8 @@
 	import { swiftInstallCode } from './installs/swift-install-code';
 	import { typescriptInstallCode } from './installs/typescript-install-code';
 
-	import type { APIKeyPreferences, Parameters } from '$lib/docs';
-	import type { UrlHashStore } from '$lib/stores/url-hash-store';
+	import type { APIKeyPreferences, Parameters } from '#lib/docs.js';
+	import type { UrlHashStore } from '#lib/stores/url-hash-store.js';
 
 	interface Props {
 		params: UrlHashStore;

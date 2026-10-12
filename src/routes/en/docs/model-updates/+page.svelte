@@ -2,18 +2,18 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
 
-	import { apiKeyPreferences } from '$lib/stores/settings';
+	import { apiKeyPreferences } from '#lib/stores/settings.js';
 
-	import { pad } from '$lib/utils';
-	import { fade } from '$lib/utils/transitions';
+	import { pad } from '#lib/utils/index.js';
+	import { fade } from '#lib/utils/transitions.js';
 
-	import { Button } from '$lib/components/ui/button';
-	import { Label } from '$lib/components/ui/label';
-	import { Switch } from '$lib/components/ui/switch';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import { Switch } from '#lib/components/ui/switch/index.js';
 
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 
-	import type { APIKeyPreferences } from '$lib/docs';
+	import type { APIKeyPreferences } from '#lib/docs.js';
 
 	type ModelMetadata = {
 		url: string;

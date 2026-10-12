@@ -1,7 +1,7 @@
-import { getWeatherCode } from '$lib/utils/meteo';
-import { getWeatherIconName } from '$lib/utils/weather-codes';
+import { getWeatherCode } from '#lib/utils/meteo.js';
+import { getWeatherIconName } from '#lib/utils/weather-codes.js';
 
-import { SECTIONS } from '$lib/constants';
+import { SECTIONS } from '#lib/constants.js';
 
 import type { AxisPlotBandsOptions, SeriesOptionsType, YAxisOptions } from 'highcharts';
 

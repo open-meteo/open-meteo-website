@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AnimationToggle from '$lib/components/settings/animation-toggle.svelte';
+	import AnimationToggle from '#lib/components/settings/animation-toggle.svelte';
 </script>
 
 <footer class="container pt-5 pb-16">

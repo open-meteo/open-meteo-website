@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { fade } from '$lib/utils/transitions';
-	import { fadeOutAbsolute } from '$lib/utils/transitions';
+	import { fade } from '#lib/utils/transitions.js';
+	import { fadeOutAbsolute } from '#lib/utils/transitions.js';
 
-	import { Button } from '$lib/components/ui/button';
-	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import * as Select from '#lib/components/ui/select/index.js';
 
-	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
-	import DatePicker from '$lib/components/date/date-picker.svelte';
+	import AnimateHeight from '#lib/components/animate-height/animate-height.svelte';
+	import DatePicker from '#lib/components/date/date-picker.svelte';
 
-	import { type Parameters } from '$lib/docs';
+	import { type Parameters } from '#lib/docs.js';
 
 	interface Props {
 		params: Parameters;

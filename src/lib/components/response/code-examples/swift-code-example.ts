@@ -1,10 +1,10 @@
-import { camelCase, titleCase } from '$lib/utils';
+import { camelCase, titleCase } from '#lib/utils/index.js';
 
-import { INT_64_VARIABLES, NULLABLE_INT_64_VARIABLES, SECTIONS } from '$lib/constants';
+import { INT_64_VARIABLES, NULLABLE_INT_64_VARIABLES, SECTIONS } from '#lib/constants.js';
 
 import { acc, cmt, empty, fg, fn, kw, kwspi, line, num, p, pm, str, vr } from './highlight-helpers';
 
-import type { Parameters } from '$lib/docs';
+import type { Parameters } from '#lib/docs.js';
 
 export const swiftCodeExample = (
 	params: Parameters,

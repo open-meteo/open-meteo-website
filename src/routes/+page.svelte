@@ -1,16 +1,16 @@
 <script lang="ts">
 	import Github from 'simple-icons/icons/github.svg?raw';
 
-	import { fade } from '$lib/utils/transitions';
+	import { fade } from '#lib/utils/transitions.js';
 
-	import HistoricalWeatherCurlBlock from '$lib/components/code/home/historical-weather-curl.svx';
-	import HistoricalWeatherCodeBlock from '$lib/components/code/home/historical-weather.svx';
-	import Last10DaysCurlBlock from '$lib/components/code/home/last-10-days-curl.svx';
-	import Last10DaysCodeBlock from '$lib/components/code/home/last-10-days.svx';
-	import WeatherApiCurlBlock from '$lib/components/code/home/weather-api-curl.svx';
-	import WeatherApiCodeBlock from '$lib/components/code/home/weather-api.svx';
+	import HistoricalWeatherCurlBlock from '#lib/components/code/home/historical-weather-curl.svx';
+	import HistoricalWeatherCodeBlock from '#lib/components/code/home/historical-weather.svx';
+	import Last10DaysCurlBlock from '#lib/components/code/home/last-10-days-curl.svx';
+	import Last10DaysCodeBlock from '#lib/components/code/home/last-10-days.svx';
+	import WeatherApiCurlBlock from '#lib/components/code/home/weather-api-curl.svx';
+	import WeatherApiCodeBlock from '#lib/components/code/home/weather-api.svx';
 
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.js';
 
 	let tabSelected = $state('weather-api');
 </script>
@@ -444,7 +444,7 @@
 				and <a href="https://x.com/open_meteo" target="_blank">X</a>. Subscribe to get release notes
 				and changelog updates.
 			</p>
-			<div class="mt-4 flex justify-center gap-4">
+			<div class="mt-4 flex flex-wrap justify-center gap-4">
 				<Button
 					class="bg-primary bg-linear-to-t from-transparent to-[rgba(255,255,255,0.2)] dark:bg-linear-to-b dark:to-[rgba(0,0,0,0.2)]"
 					href="https://openmeteo.substack.com/subscribe?utm_source=landingpage&simple=true&next=https%3A%2F%2Fopenmeteo.substack.com%2F"

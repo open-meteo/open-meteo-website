@@ -3,9 +3,9 @@
 
 	import { page } from '$app/state';
 
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.js';
 
-	import Logo from '$lib/assets/icons/rain.svelte';
+	import Logo from '#lib/assets/icons/rain.svelte';
 </script>
 
 <svelte:head>

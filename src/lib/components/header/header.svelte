@@ -2,14 +2,14 @@
 	import Github from 'simple-icons/icons/github.svg?raw';
 	import X from 'simple-icons/icons/x.svg?raw';
 
-	import { fade } from '$lib/utils/transitions';
+	import { fade } from '#lib/utils/transitions.js';
 
-	import { Button } from '$lib/components/ui/button';
-	import { Toggle } from '$lib/components/ui/toggle';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Toggle } from '#lib/components/ui/toggle/index.js';
 
-	import AnimationToggle from '$lib/components/settings/animation-toggle.svelte';
+	import AnimationToggle from '#lib/components/settings/animation-toggle.svelte';
 
-	import Logo from '$lib/assets/icons/sun.svelte';
+	import Logo from '#lib/assets/icons/sun.svelte';
 
 	import DarkmodeToggle from './darkmode-toggle/darkmode-toggle.svelte';
 

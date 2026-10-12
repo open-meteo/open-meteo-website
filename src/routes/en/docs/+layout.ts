@@ -1,4 +1,4 @@
-import Cog from '$lib/assets/icons/cog.svelte';
+import Cog from '#lib/assets/icons/cog.svelte';
 
 import type { LayoutLoad } from './$types';
 

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { sliceIntoChunks } from '$lib/utils';
-	import { altitudeAboveSeaLevelMeters } from '$lib/utils/meteo';
+	import { sliceIntoChunks } from '#lib/utils/index.js';
+	import { altitudeAboveSeaLevelMeters } from '#lib/utils/meteo.js';
 
-	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Label } from '$lib/components/ui/label';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
+	import { Checkbox } from '#lib/components/ui/checkbox/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import * as ToggleGroup from '#lib/components/ui/toggle-group/index.js';
 
 	interface Props {
 		pressureVariables: { value: string; label: string }[];

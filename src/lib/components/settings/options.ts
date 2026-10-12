@@ -1,4 +1,4 @@
-import { pad } from '$lib/utils';
+import { pad } from '#lib/utils/index.js';
 
 // Settings
 export const temperatureOptions = [

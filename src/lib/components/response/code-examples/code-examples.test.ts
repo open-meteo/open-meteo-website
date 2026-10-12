@@ -4,7 +4,7 @@ import { pythonCodeExample } from './python-code-example';
 import { swiftCodeExample } from './swift-code-example';
 import { typescriptCodeExample } from './typescript-code-example';
 
-import type { Parameters } from '$lib/docs';
+import type { Parameters } from '#lib/docs.js';
 
 /** Strip highlighting markup so the generated program can be inspected as plain text */
 const plainText = (html: string): string =>
