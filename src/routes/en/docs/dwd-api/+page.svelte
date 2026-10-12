@@ -640,8 +640,7 @@
 		</div>
 		<p class="mt-2">
 			Native fields differ slightly per model: visibility and snowfall height are not available in
-			ICON Global, and lightning potential and updraft are only in ICON D2. Visibility will no
-			longer be available after the migration to DWD's v1 feed.
+			ICON Global, and lightning potential and updraft are only in ICON D2.
 		</p>
 	</div>
 </div>
@@ -1112,7 +1111,7 @@
 						<td>meters</td>
 						<td>
 							Viewing distance in meters. Influenced by low clouds, humidity and aerosols.
-							Visibility will no longer be available after the migration to DWD's v1 feed.
+							Visibility is only available until November 2026.
 						</td>
 					</tr>
 				</tbody>
