@@ -2,7 +2,7 @@
 	import { type VariantProps, tv } from 'tailwind-variants';
 
 	export const alertVariants = tv({
-		base: 'relative flex items-start gap-y-0.5 rounded-lg border px-4 py-2.75 has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-2 [&>svg]:min-w-4.75 [&>svg]:max-w-4.75  [&>svg]:text-current',
+		base: 'relative flex items-start gap-y-0.5 group/alert rounded-lg border px-4 py-2.75 has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-2 [&>svg]:min-w-4.75 [&>svg]:max-w-4.75  [&>svg]:text-current',
 		variants: {
 			variant: {
 				default: 'bg-card border-border text-card-foreground',
@@ -40,9 +40,9 @@
 <div
 	bind:this={ref}
 	data-slot="alert"
+	role="alert"
 	class={cn(alertVariants({ variant }), className)}
 	{...restProps}
-	role="alert"
 >
 	{@render children?.()}
 </div>

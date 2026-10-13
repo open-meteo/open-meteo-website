@@ -12,3 +12,5 @@ package-lock.json
 
 # Miscellaneous
 /static/
+# unmodified shadcn-svelte CLI output, the merge base for update-components
+shadcn-upstream
