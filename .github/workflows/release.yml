@@ -34,8 +34,12 @@ jobs:
       - run: npm run build
       #- run: npm run rename_index_files
       - name: Install semantic-release
+        # Both majors pinned together: the notes generator of semantic-release 25
+        # renders the conventionalcommits preset up to major 9 only. semantic-release
+        # 26 depends on preset 10 itself, so the preset leaves this line when the
+        # pin moves to 26.
         run: |
-          npm install --no-save semantic-release conventional-changelog-conventionalcommits
+          npm install --no-save semantic-release@25 conventional-changelog-conventionalcommits@9
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
