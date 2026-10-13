@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
 
+	import { boundingBoxAround, estimateGridCells } from '#lib/utils/bounding-box.js';
 	import { fade, slide } from '#lib/utils/transitions.js';
 	import { fadeOutAbsolute } from '#lib/utils/transitions.js';
 
@@ -96,6 +97,44 @@
 	const setBoundingBox = () => {
 		params.bounding_box = boundingBox();
 	};
+
+	const selectedModels = (): string[] => {
+		const models = params.models ?? params.domains;
+		if (Array.isArray(models)) {
+			return models;
+		}
+		return typeof models === 'string' && models ? [models] : [];
+	};
+
+	// a small sample around the coordinate rather than the whole world: two
+	// grid cells of the coarsest selected model in each direction. Coordinates
+	// restored from the page URL are strings, hence the conversion.
+	const centreBoundingBox = () => {
+		const box = boundingBoxAround(
+			Number(params.latitude?.[0]),
+			Number(params.longitude?.[0]),
+			selectedModels()
+		);
+		if (!box) {
+			return;
+		}
+		boundingBoxSouth = box.south;
+		boundingBoxWest = box.west;
+		boundingBoxNorth = box.north;
+		boundingBoxEast = box.east;
+	};
+
+	const gridCells = $derived(
+		estimateGridCells(
+			{
+				south: boundingBoxSouth,
+				west: boundingBoxWest,
+				north: boundingBoxNorth,
+				east: boundingBoxEast
+			},
+			selectedModels()
+		)
+	);
 
 	let csvExample = $state('lat_lon');
 
@@ -205,6 +244,7 @@
 			disabled={params.location_mode === 'bounding_box'}
 			onclick={() => {
 				params.location_mode = 'bounding_box';
+				centreBoundingBox();
 				setBoundingBox();
 			}}
 		>
@@ -539,6 +579,13 @@
 						>
 					</div>
 				</div>
+				{#if gridCells.length}
+					<p class="text-muted-foreground text-center text-sm" transition:slide>
+						≈ {gridCells
+							.map((cells) => `${cells.columns} × ${cells.rows} ${cells.label} grid cells`)
+							.join(', ')}
+					</p>
+				{/if}
 			</div>
 			<div class="md:w-1/2">
 				<p>
