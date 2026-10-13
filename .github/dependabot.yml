@@ -9,60 +9,23 @@ updates:
     allow:
       - dependency-type: direct
     ignore:
-      - dependency-name: '*'
-        update-types: ['version-update:semver-patch']
+      - dependency-name: 'typescript'
+        versions: ['>=7.0.0']
     commit-message:
-      prefix: 'fix: '
+      prefix: 'chore(deps): '
     cooldown:
       default-days: 7
     groups:
       openmeteo:
         patterns:
           - '*'
-        # svelte:
-        #   patterns:
-        #     - 'vite'
-        #     - 'svelte'
-        #     - 'vite-*'
-        #     - 'rollup*'
-        #     - 'svelte-*'
-        #     - '@sveltejs/*'
-        #     - 'mdsvex'
-        #     - 'mode-watcher'
-        #     - 'sveltekit-superforms'
-        # eslint:
-        #   patterns:
-        #     - 'eslint'
-        #     - 'prettier'
-        #     - 'typescript'
-        #     - 'eslint-*'
-        #     - 'prettier-*'
-        #     - '@typescript-eslint/*'
-        #     - '@eslint/compat'
-        # shiki:
-        #   patterns:
-        #     - 'shiki'
-        #     - 'prismjs'
-        #     - 'prism-themes'
-        #     - '@shikijs*'
-        # shadcn:
-        #   patterns:
-        #     - 'zod'
-        #     - 'simple-icons'
-        #     - '@lucide/svelte'
-        #     - 'lucide-svelte'
-        #     - 'lucide-static'
-        # tailwind:
-        #   patterns:
-        #     - 'tailwindcss'
-        #     - 'tailwind-*'
-        #     - '@tailwindcss*'
+
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
       interval: weekly
       time: '10:00'
     commit-message:
-      prefix: 'fix: '
+      prefix: 'chore(deps): '
     cooldown:
       default-days: 7

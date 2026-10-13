@@ -2,7 +2,7 @@
 	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
 	import { Accordion as AccordionPrimitive } from 'bits-ui';
 
-	import { type WithoutChild, cn } from '$lib/utils/ui.js';
+	import { type WithoutChild, cn } from '#lib/utils/ui.js';
 
 	let {
 		ref = $bindable(null),
@@ -27,6 +27,7 @@
 	>
 		{@render children?.()}
 		<ChevronDownIcon
+			data-slot="accordion-trigger-icon"
 			class="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200"
 		/>
 	</AccordionPrimitive.Trigger>

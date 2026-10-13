@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { altitudeAboveSeaLevelMeters } from '$lib/utils/meteo';
+	import { altitudeAboveSeaLevelMeters } from '#lib/utils/meteo.js';
 
 	interface Props {
 		levels: number[];

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import SparklesIcon from '@lucide/svelte/icons/sparkles';
 
-	import { animationsDisabled } from '$lib/stores/settings';
+	import { animationsDisabled } from '#lib/stores/settings.js';
 
-	import { Label } from '$lib/components/ui/label';
-	import { Switch } from '$lib/components/ui/switch';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import { Switch } from '#lib/components/ui/switch/index.js';
 
 	interface Props {
 		id?: string;

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { SvelteDate } from 'svelte/reactivity';
 
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.js';
 
-	import { type Parameters } from '$lib/docs';
+	import { type Parameters } from '#lib/docs.js';
 
 	import { historicalDateRange } from './utils';
 

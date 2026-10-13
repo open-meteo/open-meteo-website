@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Label as LabelPrimitive } from 'bits-ui';
 
-	import { cn } from '$lib/utils/ui.js';
+	import { cn } from '#lib/utils/ui.js';
 
 	let {
 		ref = $bindable(null),
@@ -12,6 +12,10 @@
 
 <LabelPrimitive.Root
 	bind:ref
-	class={cn('truncate peer-disabled:cursor-not-allowed peer-disabled:opacity-70', className)}
+	data-slot="label"
+	class={cn(
+		'truncate peer-disabled:cursor-not-allowed peer-disabled:opacity-70 group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50',
+		className
+	)}
 	{...restProps}
 />

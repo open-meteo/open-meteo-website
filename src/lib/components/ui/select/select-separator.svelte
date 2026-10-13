@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { cn } from '$lib/utils/ui.js';
+	import { cn } from '#lib/utils/ui.js';
 
-	import { Separator } from '$lib/components/ui/separator/index.js';
+	import { Separator } from '#lib/components/ui/separator/index.js';
 
 	import type { Separator as SeparatorPrimitive } from 'bits-ui';
 
@@ -15,6 +15,6 @@
 <Separator
 	bind:ref
 	data-slot="select-separator"
-	class={cn('bg-border pointer-events-none -mx-1 my-1 h-px', className)}
+	class={cn('bg-border -mx-1 my-1 h-px pointer-events-none', className)}
 	{...restProps}
 />

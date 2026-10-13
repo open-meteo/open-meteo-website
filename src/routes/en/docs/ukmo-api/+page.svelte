@@ -4,32 +4,36 @@
 
 	import InfoIcon from '@lucide/svelte/icons/info';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { sliceIntoChunks } from '$lib/utils';
-	import { countHeightVariables, countPressureVariables, countVariables } from '$lib/utils/meteo';
-	import { slide } from '$lib/utils/transitions';
+	import { sliceIntoChunks } from '#lib/utils/index.js';
+	import {
+		countHeightVariables,
+		countPressureVariables,
+		countVariables
+	} from '#lib/utils/meteo.js';
+	import { slide } from '#lib/utils/transitions.js';
 
-	import * as Accordion from '$lib/components/ui/accordion';
-	import * as Alert from '$lib/components/ui/alert';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Label } from '$lib/components/ui/label';
-	import * as ToggleGroup from '$lib/components/ui/toggle-group';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Checkbox } from '#lib/components/ui/checkbox/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import * as ToggleGroup from '#lib/components/ui/toggle-group/index.js';
 
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import ApiModeDescription from '$lib/components/api-mode/api-mode-description.svelte';
-	import ApiModeSelector from '$lib/components/api-mode/api-mode-selector.svelte';
-	import ApiModeTimeSelector from '$lib/components/api-mode/api-mode-time-selector.svelte';
-	import { apiModeFormAction } from '$lib/components/api-mode/utils';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
-	import PressureVariablesSelector from '$lib/components/pressure/pressure-variables-selector.svelte';
-	import ResultsPreview from '$lib/components/response/results-preview.svelte';
-	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import TiltAzimuthInputs from '$lib/components/variables/tilt-azimuth-inputs.svelte';
-	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
+	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import ApiModeDescription from '#lib/components/api-mode/api-mode-description.svelte';
+	import ApiModeSelector from '#lib/components/api-mode/api-mode-selector.svelte';
+	import ApiModeTimeSelector from '#lib/components/api-mode/api-mode-time-selector.svelte';
+	import { apiModeFormAction } from '#lib/components/api-mode/utils.js';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
+	import PressureVariablesSelector from '#lib/components/pressure/pressure-variables-selector.svelte';
+	import ResultsPreview from '#lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
+	import Settings from '#lib/components/settings/settings.svelte';
+	import TiltAzimuthInputs from '#lib/components/variables/tilt-azimuth-inputs.svelte';
+	import VariableCheckboxGroups from '#lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		current,
@@ -159,7 +163,7 @@
 	<LocationSelection bind:params={$params} />
 
 	<!-- API MODE & TIME -->
-	<div class="mt-6 grid items-start gap-x-6 gap-y-4 lg:grid-cols-2">
+	<div class="mt-6 grid grid-cols-1 items-start gap-x-6 gap-y-4 lg:grid-cols-2">
 		<div>
 			<ApiModeSelector bind:params={$params} />
 			<ApiModeTimeSelector
@@ -515,15 +519,16 @@
 		</div>
 	</div>
 
-	<ZoomableImage
+	<ModelAreaImage
 		figureClass="mt-6"
+		sizes="100vw"
 		src="/images/models/ukmo_uk_deterministic_2km.webp"
 		alt="UKMO UKV 2km model area covering UK and Ireland"
 	>
 		{#snippet caption()}
 			UKMO UKV 2km model covering UK and Ireland. Source: UK Met Office.
 		{/snippet}
-	</ZoomableImage>
+	</ModelAreaImage>
 </div>
 
 <!-- NATIVE VARIABLES -->
@@ -625,15 +630,18 @@
 				<thead>
 					<tr>
 						<th scope="col">Derived Variable</th>
-						<th scope="col">How it is derived?</th>
+						<th scope="col">How is it derived?</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<th scope="row">Weather code</th>
 						<td>
-							Computed from cloud cover, precipitation, snowfall, wind gusts, CAPE, convective
-							inhibition and visibility. UKMO's own significant-weather symbol is not used.
+							Computed from cloud cover, temperature, precipitation, snowfall, wind gusts, CAPE,
+							convective inhibition and visibility. On UKV, the native hail forecast additionally
+							enables the hail thunderstorm codes 96 and 99, which are otherwise reserved for models
+							with native weather codes such as DWD ICON. UKMO's own significant-weather symbol is
+							not used.
 						</td>
 					</tr>
 					<tr>

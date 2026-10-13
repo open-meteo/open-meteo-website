@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { ToggleGroup as ToggleGroupPrimitive } from 'bits-ui';
 
-	import { cn } from '$lib/utils/ui.js';
+	import { cn } from '#lib/utils/ui.js';
 
-	import { type ToggleVariants, toggleVariants } from '$lib/components/ui/toggle/index.js';
+	import { type ToggleVariants, toggleVariants } from '#lib/components/ui/toggle/index.js';
 
 	import { getToggleGroupCtx } from './toggle-group.svelte';
 
@@ -26,6 +26,7 @@
 	data-size={ctx.size || size}
 	data-spacing={ctx.spacing}
 	class={cn(
+		'shrink-0 focus:z-10 focus-visible:z-10',
 		toggleVariants({
 			variant: ctx.variant || variant,
 			size: ctx.size || size

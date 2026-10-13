@@ -17,6 +17,8 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+      - name: Pull static assets
+        run: npm run assets:pull
       - name: Lint
         run: npm run lint
       - name: Checks

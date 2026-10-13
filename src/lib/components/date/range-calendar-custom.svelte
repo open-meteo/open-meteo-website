@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { SvelteDate } from 'svelte/reactivity';
 
-	import { todayUTC } from '$lib/utils';
-	import { scale } from '$lib/utils/transitions';
+	import { todayUTC } from '#lib/utils/index.js';
+	import { scale } from '#lib/utils/transitions.js';
 
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.js';
 
 	interface Props {
 		start_date?: string;

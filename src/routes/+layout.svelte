@@ -4,21 +4,28 @@
 
 	import { ModeWatcher } from 'mode-watcher';
 
-	import { browser } from '$app/environment';
-	import { afterNavigate, beforeNavigate, onNavigate } from '$app/navigation';
+	import { browser } from '$app/env';
+	import {
+		type AfterNavigate,
+		type BeforeNavigate,
+		type OnNavigate,
+		afterNavigate,
+		beforeNavigate,
+		onNavigate
+	} from '$app/navigation';
 	import { page } from '$app/state';
 
-	import { animationsDisabled } from '$lib/stores/settings';
+	import { animationsDisabled } from '#lib/stores/settings.js';
 
-	import Footer from '$lib/components/footer/footer.svelte';
-	import Header from '$lib/components/header/header.svelte';
-	import Hero from '$lib/components/hero/hero.svelte';
-	import Loading from '$lib/components/loading/loading.svelte';
-	import UpdateNotification from '$lib/components/update/update-notification.svelte';
+	import { responsiveBackground } from '#lib/utils/backgrounds.js';
+
+	import Footer from '#lib/components/footer/footer.svelte';
+	import Header from '#lib/components/header/header.svelte';
+	import Hero from '#lib/components/hero/hero.svelte';
+	import Loading from '#lib/components/loading/loading.svelte';
+	import UpdateNotification from '#lib/components/update/update-notification.svelte';
 
 	import '../app.css';
-
-	import type { AfterNavigate, BeforeNavigate, OnNavigate } from '@sveltejs/kit';
 
 	let { children, data } = $props();
 
@@ -50,8 +57,15 @@
 	const waitForHeroImage = () => {
 		const heroImage = page.data.heroImage;
 		if (!heroImage) return;
+		// Same srcset and sizes as the hero itself, so this resolves the very
+		// candidate the hero will paint instead of pulling a second file.
+		const image = responsiveBackground(heroImage);
 		const img = new Image();
-		img.src = heroImage;
+		if (image.srcset) {
+			img.sizes = '100vw';
+			img.srcset = image.srcset;
+		}
+		img.src = image.src;
 		return Promise.race([
 			img.decode().catch(() => {}),
 			new Promise((resolve) => setTimeout(resolve, 1000))
@@ -59,6 +73,7 @@
 	};
 
 	onNavigate(async (e) => {
+		if (e.shallow) return;
 		if (loadingTimeout) clearTimeout(loadingTimeout);
 		loading = false;
 
@@ -78,6 +93,8 @@
 	});
 
 	beforeNavigate((e) => {
+		if (e.shallow) return;
+
 		if (
 			fromNotTo(e) &&
 			!e?.to?.url?.href.includes('&format=xlsx') &&
@@ -90,6 +107,8 @@
 	});
 
 	afterNavigate((e) => {
+		if (e.shallow) return;
+
 		if (browser) {
 			if (fromNotTo(e) && !window.location.hash && e.type !== 'popstate') {
 				setTimeout(() => {

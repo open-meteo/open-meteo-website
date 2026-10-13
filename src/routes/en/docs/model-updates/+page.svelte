@@ -2,18 +2,18 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
 
-	import { apiKeyPreferences } from '$lib/stores/settings';
+	import { apiKeyPreferences } from '#lib/stores/settings.js';
 
-	import { pad } from '$lib/utils';
-	import { fade } from '$lib/utils/transitions';
+	import { pad } from '#lib/utils/index.js';
+	import { fade } from '#lib/utils/transitions.js';
 
-	import { Button } from '$lib/components/ui/button';
-	import { Label } from '$lib/components/ui/label';
-	import { Switch } from '$lib/components/ui/switch';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import { Switch } from '#lib/components/ui/switch/index.js';
 
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 
-	import type { APIKeyPreferences } from '$lib/docs';
+	import type { APIKeyPreferences } from '#lib/docs.js';
 
 	type ModelMetadata = {
 		url: string;
@@ -193,14 +193,29 @@
 						meta: fetchMeta('dwd_icon', 'forecast', apiKeyPreferences)
 					},
 					{
+						name: 'ICON Global Native',
+						area: [],
+						meta: fetchMeta('dwd_icon_global_native', 'forecast', apiKeyPreferences)
+					},
+					{
 						name: 'ICON-EU',
 						area: ['european_union'],
 						meta: fetchMeta('dwd_icon_eu', 'forecast', apiKeyPreferences)
 					},
 					{
+						name: 'ICON-EU Native',
+						area: ['european_union'],
+						meta: fetchMeta('dwd_icon_eu_native', 'forecast', apiKeyPreferences)
+					},
+					{
 						name: 'ICON-D2',
 						area: ['de', 'ch', 'at'],
 						meta: fetchMeta('dwd_icon_d2', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON-D2 Native',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_native', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'ICON-D2 15min',
@@ -468,19 +483,19 @@
 				url: '/en/docs/dwd-api',
 				models: [
 					{
-						name: 'ICON-EPS',
+						name: 'ICON-EPS Native',
 						area: [],
-						meta: fetchMeta('dwd_icon_eps', 'ensemble', apiKeyPreferences)
+						meta: fetchMeta('dwd_icon_global_eps_native', 'ensemble', apiKeyPreferences)
 					},
 					{
-						name: 'ICON-EU-EPS',
+						name: 'ICON-EU-EPS Native',
 						area: ['european_union'],
-						meta: fetchMeta('dwd_icon_eu_eps', 'ensemble', apiKeyPreferences)
+						meta: fetchMeta('dwd_icon_eu_eps_native', 'ensemble', apiKeyPreferences)
 					},
 					{
-						name: 'ICON-D2-EPS',
+						name: 'ICON-D2-EPS Native',
 						area: ['de', 'ch', 'at'],
-						meta: fetchMeta('dwd_icon_d2_eps', 'ensemble', apiKeyPreferences)
+						meta: fetchMeta('dwd_icon_d2_eps_native', 'ensemble', apiKeyPreferences)
 					}
 				]
 			},

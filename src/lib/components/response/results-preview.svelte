@@ -1,17 +1,18 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { apiKeyPreferences } from '$lib/stores/settings';
+	import { apiKeyPreferences } from '#lib/stores/settings.js';
 
-	import { objectDifference } from '$lib/utils';
-	import { membersPerModel } from '$lib/utils/meteo';
-	import { fade, fadeOutAbsolute } from '$lib/utils/transitions';
+	import { parseApiUrl } from '#lib/utils/api-url.js';
+	import { objectDifference } from '#lib/utils/index.js';
+	import { membersPerModel } from '#lib/utils/meteo.js';
+	import { fade, fadeOutAbsolute, slide } from '#lib/utils/transitions.js';
 
-	import * as Alert from '$lib/components/ui/alert';
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Input } from '#lib/components/ui/input/index.js';
 
-	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
+	import AnimateHeight from '#lib/components/animate-height/animate-height.svelte';
 
 	import { pythonCodeExample } from './code-examples/python-code-example';
 	import { swiftCodeExample } from './code-examples/swift-code-example';
@@ -22,8 +23,8 @@
 	import { swiftInstallCode } from './installs/swift-install-code';
 	import { typescriptInstallCode } from './installs/typescript-install-code';
 
-	import type { APIKeyPreferences, Parameters } from '$lib/docs';
-	import type { UrlHashStore } from '$lib/stores/url-hash-store';
+	import type { APIKeyPreferences, Parameters } from '#lib/docs.js';
+	import type { UrlHashStore } from '#lib/stores/url-hash-store.js';
 
 	interface Props {
 		params: UrlHashStore;
@@ -200,6 +201,33 @@
 		`${server}?${new URLSearchParams(parsedParams)}`.replaceAll('%2C', ',')
 	);
 
+	/// While the URL field is edited it shows the typed text, otherwise the generated URL
+	let urlInput: string | null = $state(null);
+	let urlError = $state('');
+
+	/// Pasting an API URL restores the settings it was built from
+	const applyUrl = (value: string) => {
+		if (value.trim() === previewUrl) {
+			urlInput = null;
+			urlError = '';
+			return;
+		}
+		const { params: parsed, error } = parseApiUrl(value, {
+			current: $params,
+			defaults: defaultParameters,
+			type,
+			action,
+			model_default
+		});
+		if (!parsed) {
+			urlError = error ?? '';
+			return;
+		}
+		urlError = '';
+		urlInput = null;
+		params.set(parsed);
+	};
+
 	/// Adjusted call weight
 	let callWeight = $derived(
 		((cwParams) => {
@@ -278,6 +306,9 @@
 	$effect(() => {
 		void $params;
 		reset();
+		// settings changed, show the generated URL again instead of edited text
+		urlInput = null;
+		urlError = '';
 	});
 	$effect(() => {
 		void $apiKeyPreferences;
@@ -316,9 +347,9 @@
 			}
 			let tEnd = performance.now() - t0;
 			if (Array.isArray(json)) {
-				return json.map((x) => jsonToChart(x, tEnd));
+				return json.map((x) => jsonToChart(x, tEnd, resolvedType));
 			} else {
-				return [jsonToChart(json, tEnd)];
+				return [jsonToChart(json, tEnd, resolvedType)];
 			}
 		} catch (err) {
 			if (err instanceof Error) error = err.message;
@@ -700,7 +731,7 @@
 							target="_blank"
 							class="text-link underline underline-offset-2"
 							href={previewUrl}>Open in new tab</a
-						> or copy this URL into your application)</small
+						>, copy this URL into your application, or paste an API URL to restore its settings)</small
 					>
 				</div>
 				{#if callWeight > 1}
@@ -714,9 +745,20 @@
 						class="mt-2 h-12"
 						type="text"
 						id="api_url"
-						readonly
 						aria-label="API URL"
-						bind:value={previewUrl}
+						autocomplete="off"
+						spellcheck="false"
+						value={urlInput ?? previewUrl}
+						oninput={(event) => {
+							urlInput = event.currentTarget.value;
+							urlError = '';
+						}}
+						onpaste={(event) => {
+							// apply once the pasted text has landed in the field
+							const input = event.currentTarget;
+							setTimeout(() => applyUrl(input.value));
+						}}
+						onchange={(event) => applyUrl(event.currentTarget.value)}
 					/>
 					<div
 						class="absolute duration-300 right-0 top-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto"
@@ -765,6 +807,9 @@
 						>
 					</div>
 				</div>
+				{#if urlError}
+					<div transition:slide class="mt-2 flex text-sm text-red-800">{urlError}</div>
+				{/if}
 			</div>
 		</div>
 	{/if}

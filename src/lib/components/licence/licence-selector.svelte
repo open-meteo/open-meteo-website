@@ -1,17 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	import { apiKeyPreferences } from '$lib/stores/settings';
+	import { apiKeyPreferences } from '#lib/stores/settings.js';
 
-	import { fade } from '$lib/utils/transitions';
-	import { fadeOutAbsolute } from '$lib/utils/transitions';
+	import { fade } from '#lib/utils/transitions.js';
+	import { fadeOutAbsolute } from '#lib/utils/transitions.js';
 
-	import * as Alert from '$lib/components/ui/alert';
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Input } from '#lib/components/ui/input/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
 
-	import AnimateHeight from '$lib/components/animate-height/animate-height.svelte';
+	import AnimateHeight from '#lib/components/animate-height/animate-height.svelte';
 
 	interface Props {
 		requires_professional_plan?: boolean;

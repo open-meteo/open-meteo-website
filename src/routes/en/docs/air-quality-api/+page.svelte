@@ -2,24 +2,31 @@
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
 
-	import { urlHashStore } from '$lib/stores/url-hash-store';
+	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { countVariables } from '$lib/utils/meteo';
+	import { countVariables } from '#lib/utils/meteo.js';
 
-	import AirQualityObject from '$lib/components/code/docs/air-quality-object.svx';
-	import WeatherForecastError from '$lib/components/code/docs/weather-forecast-error.svx';
+	import AirQualityObject from '#lib/components/code/docs/air-quality-object.svx';
+	import WeatherForecastError from '#lib/components/code/docs/weather-forecast-error.svx';
 
-	import * as Accordion from '$lib/components/ui/accordion';
+	import * as Accordion from '#lib/components/ui/accordion/index.js';
 
-	import AccordionItem from '$lib/components/accordion/accordion-item.svelte';
-	import LicenceSelector from '$lib/components/licence/licence-selector.svelte';
-	import LocationSelection from '$lib/components/location/location-selection.svelte';
-	import ZoomableImage from '$lib/components/media/zoomable-image.svelte';
-	import ResultsPreview from '$lib/components/response/results-preview.svelte';
-	import AdditionalOptionsSelects from '$lib/components/select/additional-options-selects.svelte';
-	import Settings from '$lib/components/settings/settings.svelte';
-	import TimeSelector from '$lib/components/time/time-selector.svelte';
-	import VariableCheckboxGroups from '$lib/components/variables/variable-checkbox-groups.svelte';
+	import AccordionItem from '#lib/components/accordion/accordion-item.svelte';
+	import ApiParameterTable from '#lib/components/docs/api-parameter-table.svelte';
+	import {
+		apiParameters,
+		recentPastDaysDescription
+	} from '#lib/components/docs/api-parameters.svelte';
+	import ApiResponseParameterTable from '#lib/components/docs/api-response-parameter-table.svelte';
+	import { apiResponseParameters } from '#lib/components/docs/api-response-parameters.svelte';
+	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
+	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
+	import ResultsPreview from '#lib/components/response/results-preview.svelte';
+	import AdditionalOptionsSelects from '#lib/components/select/additional-options-selects.svelte';
+	import Settings from '#lib/components/settings/settings.svelte';
+	import TimeSelector from '#lib/components/time/time-selector.svelte';
+	import VariableCheckboxGroups from '#lib/components/variables/variable-checkbox-groups.svelte';
 
 	import {
 		forecastHoursOptions,
@@ -153,18 +160,10 @@
 				<div>
 					<p>
 						<small class="text-muted-foreground"
-							>Note: The European Air Quality Index (AQI) ranges from 0-20 (good), 20-40 (fair),
-							40-60 (moderate), 60-80 (poor), 80-100 (very poor) and exceeds 100 for extremely poor
-							conditions.</small
-						>
-					</p>
-					<p>
-						<small class="text-muted-foreground"
-							>Pollutant thresholds in μg/m³ from the <a
-								href="https://www.eea.europa.eu/themes/air/air-quality-index"
-								>European Environment Agency (EAA)</a
-							> are given on the right. Particulate Matter (PM) uses a rolling average over the preceding
-							24 hours, while gases use hourly values.</small
+							>Pollutant thresholds from the <a href="https://airindex.eea.europa.eu/AQI/index.html"
+								>European Environment Agency (EEA)</a
+							> are given below, using the bands revised in 2024. Hourly concentrations are used for all
+							five pollutants.</small
 						>
 					</p>
 				</div>
@@ -172,16 +171,14 @@
 					<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 						<table class="docs-table w-full min-w-200" id="airquality_table">
 							<caption
-								>You can find the update timings in the <a
-									class="text-link underline"
-									href="/en/docs/model-updates">model updates documentation</a
-								>.</caption
+								>Index values are interpolated between the thresholds of each band. The overall
+								European AQI is the highest of the five pollutant indices and can exceed 100.</caption
 							>
 							<thead>
 								<tr>
-									<th scope="col">Pollutant <small class="text-muted-foreground">(μg/m³)</small></th
+									<th scope="col"
+										>Pollutant <small class="text-muted-foreground">(hourly)</small></th
 									>
-									<th scope="col">Timespan</th>
 									<th scope="col">Good</th>
 									<th scope="col">Fair</th>
 									<th scope="col">Moderate</th>
@@ -189,57 +186,71 @@
 									<th scope="col">Very poor</th>
 									<th scope="col">Extremely poor</th>
 								</tr>
+								<tr>
+									<th scope="col">AQI</th>
+									<th scope="col">0-20</th>
+									<th scope="col">20-40</th>
+									<th scope="col">40-60</th>
+									<th scope="col">60-80</th>
+									<th scope="col">80-100</th>
+									<th scope="col">&gt;100</th>
+								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<th scope="row">PM<sub>2.5</sub></th>
-									<td>24h</td>
-									<td>0-10</td>
-									<td>10-20</td>
-									<td>20-25</td>
-									<td>25-50</td>
-									<td>50-75</td>
-									<td>75-800</td>
+									<th scope="row"
+										>PM<sub>2.5</sub> <small class="text-muted-foreground">(μg/m³)</small></th
+									>
+									<td>0-5</td>
+									<td>5-15</td>
+									<td>15-50</td>
+									<td>50-90</td>
+									<td>90-140</td>
+									<td>&gt;140</td>
 								</tr>
 								<tr>
-									<th scope="row">PM<sub>10</sub></th>
-									<td>24h</td>
+									<th scope="row"
+										>PM<sub>10</sub> <small class="text-muted-foreground">(μg/m³)</small></th
+									>
+									<td>0-15</td>
+									<td>15-45</td>
+									<td>45-120</td>
+									<td>120-195</td>
+									<td>195-270</td>
+									<td>&gt;270</td>
+								</tr>
+								<tr>
+									<th scope="row"
+										>NO<sub>2</sub> <small class="text-muted-foreground">(μg/m³)</small></th
+									>
+									<td>0-10</td>
+									<td>10-25</td>
+									<td>25-60</td>
+									<td>60-100</td>
+									<td>100-150</td>
+									<td>&gt;150</td>
+								</tr>
+								<tr>
+									<th scope="row"
+										>O<sub>3</sub> <small class="text-muted-foreground">(μg/m³)</small></th
+									>
+									<td>0-60</td>
+									<td>60-100</td>
+									<td>100-120</td>
+									<td>120-160</td>
+									<td>160-180</td>
+									<td>&gt;180</td>
+								</tr>
+								<tr>
+									<th scope="row"
+										>SO<sub>2</sub> <small class="text-muted-foreground">(μg/m³)</small></th
+									>
 									<td>0-20</td>
 									<td>20-40</td>
-									<td>40-50</td>
-									<td>50-100</td>
-									<td>100-150</td>
-									<td>150-1200</td>
-								</tr>
-								<tr>
-									<th scope="row">NO<sub>2</sub></th>
-									<td>1h</td>
-									<td>0-40</td>
-									<td>40-90</td>
-									<td>90-120</td>
-									<td>120-230</td>
-									<td>230-340</td>
-									<td>340-1000</td>
-								</tr>
-								<tr>
-									<th scope="row">O<sub>3</sub></th>
-									<td>1h</td>
-									<td>0-50</td>
-									<td>50-100</td>
-									<td>100-130</td>
-									<td>130-240</td>
-									<td>240-380</td>
-									<td>380-800</td>
-								</tr>
-								<tr>
-									<th scope="row">SO<sub>2</sub></th>
-									<td>1h</td>
-									<td>0-100</td>
-									<td>100-200</td>
-									<td>200-350</td>
-									<td>350-500</td>
-									<td>500-750</td>
-									<td>750-1250</td>
+									<td>40-125</td>
+									<td>125-190</td>
+									<td>190-275</td>
+									<td>&gt;275</td>
 								</tr>
 							</tbody>
 						</table>
@@ -258,13 +269,6 @@
 					htmlLabels
 				/>
 				<div>
-					<p>
-						<small class="text-muted-foreground"
-							>Note: The United States Air Quality Index (AQI) ranges from 0-50 (good), 51-100
-							(moderate), 101-150 (unhealthy for sensitive groups), 151-200 (unhealthy), 201-300
-							(very unhealthy) and 301-500 (hazardous).</small
-						>
-					</p>
 					<p>
 						<small class="text-muted-foreground"
 							>Pollutant thresholds from the <a
@@ -287,6 +291,10 @@
 				<div>
 					<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 						<table class="docs-table w-full min-w-200" id="airquality_table_us">
+							<caption
+								>Index values are interpolated between the thresholds of each band. The overall
+								United States AQI is the highest of the six pollutant indices and can exceed 500.</caption
+							>
 							<thead>
 								<tr>
 									<th scope="col">Pollutant</th>
@@ -296,7 +304,16 @@
 									<th scope="col">Unhealthy for<br />Sensitive Groups</th>
 									<th scope="col">Unhealthy</th>
 									<th scope="col">Very Unhealthy</th>
-									<th scope="col" colspan="2">Hazardous</th>
+									<th scope="col">Hazardous</th>
+								</tr>
+								<tr>
+									<th scope="col" colspan="2">AQI</th>
+									<th scope="col">0-50</th>
+									<th scope="col">50-100</th>
+									<th scope="col">100-150</th>
+									<th scope="col">150-200</th>
+									<th scope="col">200-300</th>
+									<th scope="col">300-500</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -311,7 +328,6 @@
 									<td>85-105</td>
 									<td>105-200</td>
 									<td>-</td>
-									<td>-</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -323,8 +339,7 @@
 									<td>125-165</td>
 									<td>165-205</td>
 									<td>205-405</td>
-									<td>405-505</td>
-									<td>505-605</td>
+									<td>405-605</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -332,12 +347,11 @@
 									>
 									<td>24h</td>
 									<td>0-9</td>
-									<td>9-35.4</td>
-									<td>35.5-55.4</td>
-									<td>55.5-125.4</td>
-									<td>125.5-250.4</td>
-									<td>225.5-325.4</td>
-									<td>350.5-500</td>
+									<td>9-35.5</td>
+									<td>35.5-55.5</td>
+									<td>55.5-125.5</td>
+									<td>125.5-225.5</td>
+									<td>225.5-325.5</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -349,19 +363,17 @@
 									<td>155-255</td>
 									<td>255-355</td>
 									<td>355-425</td>
-									<td>425-505</td>
-									<td>505-605</td>
+									<td>425-605</td>
 								</tr>
 								<tr>
 									<th scope="row">CO <small class="text-muted-foreground">(ppm)</small></th>
 									<td>8h</td>
-									<td>0-4.4</td>
-									<td>4.5-9.4</td>
-									<td>9.5-12.4</td>
-									<td>12.5-15.4</td>
-									<td>15.5-30.4</td>
-									<td>30.5-40.4</td>
-									<td>40.5-50.5</td>
+									<td>0-4.5</td>
+									<td>4.5-9.5</td>
+									<td>9.5-12.5</td>
+									<td>12.5-15.5</td>
+									<td>15.5-30.5</td>
+									<td>30.5-50.5</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -372,7 +384,6 @@
 									<td>35-75</td>
 									<td>75-185</td>
 									<td>185-305</td>
-									<td>-</td>
 									<td>-</td>
 									<td>-</td>
 								</tr>
@@ -386,8 +397,7 @@
 									<td>-</td>
 									<td>-</td>
 									<td>305-605</td>
-									<td>605-805</td>
-									<td>805-1005</td>
+									<td>605-1005</td>
 								</tr>
 								<tr>
 									<th scope="row"
@@ -399,8 +409,7 @@
 									<td>100-360</td>
 									<td>360-650</td>
 									<td>650-1250</td>
-									<td>1250-1650</td>
-									<td>1650-2050</td>
+									<td>1250-2050</td>
 								</tr>
 							</tbody>
 						</table>
@@ -605,14 +614,14 @@
 		</div>
 	</div>
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-		<ZoomableImage src="/images/models/cams_europe.webp" alt="CAMS Europe Model Area">
+		<ModelAreaImage src="/images/models/cams_europe.webp" alt="CAMS Europe Model Area">
 			{#snippet caption()}
 				CAMS Europe Model Area. Source:
 				<a href="https://maps.open-meteo.com/?domain=cams_europe&variable=pm2_5#3.38/54.01/11.94"
 					>Open-Meteo</a
 				>.
 			{/snippet}
-		</ZoomableImage>
+		</ModelAreaImage>
 	</div>
 </div>
 
@@ -628,169 +637,44 @@
 			0:00 today.
 		</p>
 		<p>All URL parameters are listed below:</p>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-250">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Required</th>
-						<th scope="col">Default</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">latitude, longitude</th>
-						<td>Floating point</td>
-						<td>Yes</td>
-						<td></td>
-						<td
-							>Geographical WGS84 coordinates of the location. Multiple coordinates can be comma
-							separated. E.g. <mark>&latitude=52.52,48.85&longitude=13.41,2.35</mark>. To return
-							data for multiple locations the JSON output changes to a list of structures. CSV and
-							XLSX formats add a column <mark>location_id</mark>.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">hourly</th>
-						<td>String array</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>A list of weather variables which should be returned. Values can be comma separated,
-							or multiple
-							<mark>&hourly=</mark> parameter in the URL can be used.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">current</th>
-						<td>String array</td>
-						<td>No</td>
-						<td></td>
-						<td>A list of variables to get current conditions.</td>
-					</tr>
-					<tr>
-						<th scope="row">domains</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>auto</mark></td>
-						<td
-							>Automatically combine both domains <mark>auto</mark> or specifically select the
-							European
-							<mark>cams_europe</mark> or global domain <mark>cams_global</mark>.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">timeformat</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>iso8601</mark></td>
-						<td
-							>If format <mark>unixtime</mark> is selected, all time values are returned in UNIX
-							epoch time in seconds. Please note that all timestamp are in GMT+0! For daily values
-							with unix timestamps, please apply
-							<mark>utc_offset_seconds</mark> again to get the correct date.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">timezone</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>GMT</mark></td>
-						<td
-							>If <mark>timezone</mark> is set, all timestamps are returned as local-time and data
-							is returned starting at 00:00 local-time. Any time zone name from the
-							<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" target="_blank"
-								>time zone database</a
-							>
-							is supported. If <mark>auto</mark> is set as a time zone, the coordinates will be automatically
-							resolved to the local time zone. For multiple coordinates, a comma separated list of timezones
-							can be specified.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">past_days</th>
-						<td>Integer (0-92)</td>
-						<td>No</td>
-						<td><mark>0</mark></td>
-						<td
-							>If <mark>past_days</mark> is set, yesterday or the day before yesterday data are also returned.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">forecast_days</th>
-						<td>Integer (0-7)</td>
-						<td>No</td>
-						<td><mark>5</mark></td>
-						<td>Per default, 5 days are returned. Up to 7 days of forecast are possible.</td>
-					</tr>
-					<tr>
-						<th scope="row">forecast_hours<br />past_hours</th>
-						<td>Integer (&gt;0)</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>Similar to forecast_days, the number of timesteps of hourly data can controlled.
-							Instead of using the current day as a reference, the current hour is used.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">start_date<br />end_date</th>
-						<td>String (yyyy-mm-dd)</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>The time interval to get weather data. A day must be specified as an ISO8601 date
-							(e.g.
-							<mark>2022-06-30</mark>).
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">start_hour<br />end_hour</th>
-						<td>String (yyyy-mm-ddThh:mm)</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>The time interval to get weather data for hourly data. Time must be specified as an
-							ISO8601 date (e.g.
-							<mark>2022-06-30T12:00</mark>).
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">cell_selection</th>
-						<td>String</td>
-						<td>No</td>
-						<td><mark>nearest</mark></td>
-						<td
-							>Set a preference how grid-cells are selected. The default <mark>land</mark> finds a
-							suitable grid-cell on land with
-							<a
-								href="https://openmeteo.substack.com/p/improving-weather-forecasts-with"
-								title="Elevation based grid-cell selection explained"
-								>similar elevation to the requested coordinates using a 90-meter digital elevation
-								model</a
-							>.
-							<mark>sea</mark> prefers grid-cells on sea. <mark>nearest</mark> selects the nearest possible
-							grid-cell.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">apikey</th>
-						<td>String</td>
-						<td>No</td>
-						<td></td>
-						<td
-							>Only required to commercial use to access reserved API resources for customers. The
-							server URL requires the prefix <mark>customer-</mark>. See
-							<a href="/en/pricing" title="Pricing information to use the weather API commercially"
-								>pricing</a
-							> for more information.</td
-						>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		{#snippet domainsDescription()}
+			Automatically combine both domains <mark>auto</mark> or specifically select the European
+			<mark>cams_europe</mark>
+			or global domain <mark>cams_global</mark>.
+		{/snippet}
+		<ApiParameterTable
+			minWidth="min-w-250"
+			parameters={[
+				apiParameters.coordinates,
+				apiParameters.hourly,
+				{ ...apiParameters.current, description: 'A list of variables to get current conditions.' },
+				{
+					name: 'domains',
+					format: 'String',
+					required: false,
+					defaultValue: 'auto',
+					description: domainsDescription
+				},
+				apiParameters.timeformat,
+				apiParameters.timezone,
+				{
+					...apiParameters.past_days,
+					format: 'Integer (0-92)',
+					description: recentPastDaysDescription
+				},
+				{
+					...apiParameters.forecast_days,
+					format: 'Integer (0-7)',
+					defaultValue: '5',
+					description: 'Per default, 5 days are returned. Up to 7 days of forecast are possible.'
+				},
+				apiParameters.forecast_hours,
+				apiParameters.start_date,
+				apiParameters.start_hour,
+				{ ...apiParameters.cell_selection, defaultValue: 'nearest' },
+				apiParameters.apikey
+			]}
+		/>
 		<p class="text-muted-foreground mt-2">
 			Additional optional URL parameters will be added. For API stability, no required parameters
 			will be added in the future!
@@ -917,8 +801,8 @@
 						<td
 							>United States Air Quality Index (AQI) calculated for different particulate matter and
 							gases individually. The consolidated <mark>us_aqi</mark> returns the maximum of all individual
-							indices. Ranges from 0-50 (good), 51-100 (moderate), 101-150 (unhealthy for sensitive groups),
-							151-200 (unhealthy), 201-300 (very unhealthy) and 301-500 (hazardous).</td
+							indices. Ranges from 0-50 (good), 50-100 (moderate), 100-150 (unhealthy for sensitive groups),
+							150-200 (unhealthy), 200-300 (very unhealthy) and 300-500 (hazardous).</td
 						>
 					</tr>
 				</tbody>
@@ -939,63 +823,16 @@
 		>
 			<AirQualityObject />
 		</div>
-		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
-			<table class="docs-table w-full min-w-250">
-				<thead>
-					<tr>
-						<th scope="col">Parameter</th>
-						<th scope="col">Format</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">latitude, longitude</th>
-						<td>Floating point</td>
-						<td
-							>WGS84 of the center of the weather grid-cell which was used to generate this
-							forecast. This coordinate might be a few kilometres away from the requested
-							coordinate.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">generationtime_ms</th>
-						<td>Floating point</td>
-						<td
-							>Generation time of the weather forecast in milliseconds. This is mainly used for
-							performance monitoring and improvements.</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">utc_offset_seconds</th>
-						<td>Integer</td>
-						<td>Applied timezone offset from the <mark>&timezone=</mark> parameter.</td>
-					</tr>
-					<tr>
-						<th scope="row">timezone<br />timezone_abbreviation</th>
-						<td>String</td>
-						<td
-							>Timezone identifier (e.g. <mark>Europe/Berlin</mark>) and abbreviation (e.g.
-							<mark>CEST</mark>)</td
-						>
-					</tr>
-					<tr>
-						<th scope="row">hourly</th>
-						<td>Object</td>
-						<td
-							>For each selected weather variable, data will be returned as a floating point array.
-							Additionally a
-							<mark>time</mark> array will be returned with ISO8601 timestamps.
-						</td>
-					</tr>
-					<tr>
-						<th scope="row">hourly_units</th>
-						<td>Object</td>
-						<td>For each selected weather variable, the unit will be listed here.</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<ApiResponseParameterTable
+			parameters={[
+				apiResponseParameters.coordinates,
+				apiResponseParameters.generationtime_ms,
+				apiResponseParameters.utc_offset_seconds,
+				apiResponseParameters.timezone,
+				apiResponseParameters.hourly,
+				apiResponseParameters.hourly_units
+			]}
+		/>
 	</div>
 </div>
 
@@ -1042,63 +879,100 @@
 </div>
 
 <style>
-	#airquality_table tbody td:nth-child(3) {
+	/* Both tables list six classifications, so size the columns to put the colour
+	   blocks in the same place. The US pollutant and timespan columns together
+	   match the width of the European pollutant column. */
+	#airquality_table thead tr:first-child th:first-child {
+		width: 16%;
+	}
+
+	#airquality_table thead tr:first-child th:not(:first-child) {
+		width: 14%;
+	}
+
+	#airquality_table_us thead tr:first-child th:nth-child(1) {
+		width: 11%;
+	}
+
+	#airquality_table_us thead tr:first-child th:nth-child(2) {
+		width: 5%;
+	}
+
+	#airquality_table_us thead tr:first-child th:nth-child(n + 3) {
+		width: 14%;
+	}
+
+	/* The AQI row is the last header row. Its cells line up with the body cells
+	   one column to the left in the US table, where the "AQI" label spans both the
+	   pollutant and timespan columns. */
+	#airquality_table thead tr:last-child th:nth-child(2),
+	#airquality_table tbody td:nth-child(2) {
 		background-color: rgba(80, 240, 230, 1);
 		color: #333;
 	}
 
-	#airquality_table tbody td:nth-child(4) {
+	#airquality_table thead tr:last-child th:nth-child(3),
+	#airquality_table tbody td:nth-child(3) {
 		background-color: rgba(80, 204, 170, 1);
 		color: white;
 	}
 
-	#airquality_table tbody td:nth-child(5) {
+	#airquality_table thead tr:last-child th:nth-child(4),
+	#airquality_table tbody td:nth-child(4) {
 		background-color: rgba(240, 230, 65, 1);
 		color: #333;
 	}
 
-	#airquality_table tbody td:nth-child(6) {
+	#airquality_table thead tr:last-child th:nth-child(5),
+	#airquality_table tbody td:nth-child(5) {
 		background-color: rgba(255, 80, 80, 1);
 		color: white;
 	}
 
-	#airquality_table tbody td:nth-child(7) {
+	#airquality_table thead tr:last-child th:nth-child(6),
+	#airquality_table tbody td:nth-child(6) {
 		background-color: rgba(150, 0, 50, 1);
 		color: white;
 	}
 
-	#airquality_table tbody td:nth-child(8) {
+	#airquality_table thead tr:last-child th:nth-child(7),
+	#airquality_table tbody td:nth-child(7) {
 		background-color: rgba(125, 33, 129, 1);
 		color: white;
 	}
 
+	#airquality_table_us thead tr:last-child th:nth-child(2),
 	#airquality_table_us tbody td:nth-child(3) {
 		background-color: rgba(80, 204, 170, 1);
 		color: white;
 	}
 
+	#airquality_table_us thead tr:last-child th:nth-child(3),
 	#airquality_table_us tbody td:nth-child(4) {
 		background-color: rgba(240, 230, 65, 1);
 		color: #333;
 	}
 
+	#airquality_table_us thead tr:last-child th:nth-child(4),
 	#airquality_table_us tbody td:nth-child(5) {
 		background-color: rgb(240, 167, 65);
 		color: #333;
 	}
 
+	#airquality_table_us thead tr:last-child th:nth-child(5),
 	#airquality_table_us tbody td:nth-child(6) {
 		background-color: rgba(255, 80, 80, 1);
 		color: white;
 	}
 
+	#airquality_table_us thead tr:last-child th:nth-child(6),
 	#airquality_table_us tbody td:nth-child(7) {
 		background-color: rgba(150, 0, 50, 1);
 		color: white;
 	}
 
-	#airquality_table_us tbody td:nth-child(8),
-	#airquality_table_us tbody td:nth-child(9) {
+	#airquality_table_us thead tr:last-child th:nth-child(7),
+	#airquality_table_us tbody td:nth-child(8) {
 		background-color: rgba(125, 33, 129, 1);
 		color: white;
 	}
