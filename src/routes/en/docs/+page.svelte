@@ -35,8 +35,8 @@
 	import { apiResponseParameters } from '#lib/components/docs/api-response-parameters.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
+	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
 	import ZoomableImageGallery from '#lib/components/media/zoomable-image-gallery.svelte';
-	import ZoomableImage from '#lib/components/media/zoomable-image.svelte';
 	import PressureLevelsHelpTable from '#lib/components/pressure/pressure-levels-help-table.svelte';
 	import ResultsPreview from '#lib/components/response/results-preview.svelte';
 	import Settings from '#lib/components/settings/settings.svelte';
@@ -1625,30 +1625,34 @@
 			</p>
 
 			<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-				<ZoomableImage
+				<ModelAreaImage
 					figureClass="w-full"
 					class="w-full"
 					src="/images/models/best_match_regions_europe.webp"
 					alt="Best match regions in Europe"
+					baseWidth={1240}
+					baseHeight={1160}
 				>
 					{#snippet caption()}
 						Best match regions over Europe, each drawn after the higher-priority regions above it
 						have been taken out. Source: <a href="https://open-meteo.com/">Open-Meteo</a>.
 					{/snippet}
-				</ZoomableImage>
+				</ModelAreaImage>
 
-				<ZoomableImage
+				<ModelAreaImage
 					figureClass="w-full"
 					class="w-full"
 					src="/images/models/best_match_regions_world.webp"
 					alt="Best match regions worldwide"
+					baseWidth={1240}
+					baseHeight={860}
 				>
 					{#snippet caption()}
 						The same regions worldwide, including North America and Japan. Everywhere outside them
 						uses the global models only. Source:
 						<a href="https://open-meteo.com/">Open-Meteo</a>.
 					{/snippet}
-				</ZoomableImage>
+				</ModelAreaImage>
 			</ZoomableImageGallery>
 		</AccordionItem>
 	</Accordion.Root>
