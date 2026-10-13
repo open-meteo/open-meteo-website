@@ -579,13 +579,6 @@
 						>
 					</div>
 				</div>
-				{#if gridCells.length}
-					<p class="text-muted-foreground text-center text-sm" transition:slide>
-						≈ {gridCells
-							.map((cells) => `${cells.columns} × ${cells.rows} ${cells.label} grid cells`)
-							.join(', ')}
-					</p>
-				{/if}
 			</div>
 			<div class="md:w-1/2">
 				<p>
@@ -597,6 +590,17 @@
 				</p>
 				<pre class="my-2 overflow-auto rounded-lg">&bounding_box=47,-85,47.5,-84.5</pre>
 				<p>using (latitude1, longitude1, latitude2, longitude2) or (south, west, north, east).</p>
+				<div class="text-muted-foreground mt-3 text-sm">
+					<p>Grid cells per model:</p>
+					<!-- room for five lines, so selecting models does not move the content below -->
+					<ul class="min-h-25 list-disc pl-5">
+						{#each gridCells as cells (cells.model)}
+							<li>{cells.label}: ≈ {cells.columns} × {cells.rows}</li>
+						{:else}
+							<li class="list-none">Select weather models to preview them.</li>
+						{/each}
+					</ul>
+				</div>
 			</div>
 		</div>
 		<Alert.Root variant="info" class="mt-2 md:mt-4">

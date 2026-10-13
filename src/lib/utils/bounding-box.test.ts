@@ -65,8 +65,8 @@ describe('estimateGridCells', () => {
 	test('counts the cells of each model with a known grid', () => {
 		const box = { south: 52.4, west: 13.3, north: 52.65, east: 13.55 };
 		expect(estimateGridCells(box, ['dwd_icon_global', 'dwd_icon_eu', 'best_match'])).toEqual([
-			{ label: 'DWD ICON', columns: 2, rows: 2 },
-			{ label: 'DWD ICON EU', columns: 4, rows: 4 }
+			{ model: 'dwd_icon_global', label: 'DWD ICON', columns: 2, rows: 2 },
+			{ model: 'dwd_icon_eu', label: 'DWD ICON EU', columns: 4, rows: 4 }
 		]);
 	});
 

@@ -8,6 +8,7 @@ export interface BoundingBox {
 }
 
 export interface GridCells {
+	model: string;
 	label: string;
 	columns: number;
 	rows: number;
@@ -128,6 +129,7 @@ export const estimateGridCells = (box: BoundingBox, models: string[]): GridCells
 		const spacing = spacingDegrees(grid, latitude);
 		return [
 			{
+				model,
 				label: grid.label,
 				columns: Math.max(Math.round((box.east - box.west) / spacing.lon), 0),
 				rows: Math.max(Math.round((box.north - box.south) / spacing.lat), 0)
