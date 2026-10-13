@@ -1,0 +1,152 @@
+#!/usr/bin/env node
+/**
+ * Generate src/lib/assets/world-land.ts, the coastlines behind the best match
+ * region map, from Natural Earth's 1:110m land polygons.
+ *
+ * The region map is plain SVG without a map library, so it carries its own
+ * basemap: land rings in lon/lat that the component projects. The source is
+ * the `world-atlas` npm package (Natural Earth data, public domain) as
+ * TopoJSON, decoded here (quantized, delta-encoded arcs), cut at the
+ * antimeridian (the merged land rings cross it, which a flat map would draw as
+ * a line across the world) and simplified with Douglas-Peucker to the given
+ * tolerance in degrees. 1:110m is coarse already; the simplification only
+ * trims points a docs-page map cannot show.
+ *
+ * Usage: node scripts/world-land.mjs [--tolerance=0.25]
+ */
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const SOURCE = 'https://unpkg.com/world-atlas@2.0.2/land-110m.json';
+const OUT = path.resolve(
+	path.dirname(fileURLToPath(import.meta.url)),
+	'../src/lib/assets/world-land.ts'
+);
+const tolerance = Number(
+	process.argv.find((arg) => arg.startsWith('--tolerance='))?.split('=')[1] ?? 0.25
+);
+
+const response = await fetch(SOURCE);
+if (!response.ok) throw new Error(`${SOURCE}: ${response.status} ${response.statusText}`);
+const topology = await response.json();
+
+/** Absolute coordinates of one arc, reversed for negative (one's complement) indices. */
+const decodeArc = (index) => {
+	const arc = topology.arcs[index < 0 ? ~index : index];
+	const { scale, translate } = topology.transform;
+	let x = 0;
+	let y = 0;
+	const points = arc.map(([dx, dy]) => {
+		x += dx;
+		y += dy;
+		return [x * scale[0] + translate[0], y * scale[1] + translate[1]];
+	});
+	return index < 0 ? points.reverse() : points;
+};
+
+/** Ring from consecutive arcs; each arc repeats the previous arc's last point. */
+const decodeRing = (arcs) =>
+	arcs.flatMap((index, i) => {
+		const points = decodeArc(index);
+		return i === 0 ? points : points.slice(1);
+	});
+
+const distanceToSegment = ([x, y], [x1, y1], [x2, y2]) => {
+	const dx = x2 - x1;
+	const dy = y2 - y1;
+	const length = dx * dx + dy * dy;
+	const t = length ? Math.max(0, Math.min(1, ((x - x1) * dx + (y - y1) * dy) / length)) : 0;
+	return Math.hypot(x - (x1 + t * dx), y - (y1 + t * dy));
+};
+
+/** Douglas-Peucker on an open polyline. */
+const simplify = (points) => {
+	if (points.length < 3) return points;
+	let worst = 0;
+	let index = 0;
+	for (let i = 1; i < points.length - 1; i++) {
+		const distance = distanceToSegment(points[i], points[0], points[points.length - 1]);
+		if (distance > worst) {
+			worst = distance;
+			index = i;
+		}
+	}
+	if (worst <= tolerance) return [points[0], points[points.length - 1]];
+	return [...simplify(points.slice(0, index + 1)).slice(0, -1), ...simplify(points.slice(index))];
+};
+
+/** Longitudes made continuous across the antimeridian, so a ring can run past ±180. */
+const unwrap = (ring) => {
+	let offset = 0;
+	return ring.map(([lon, lat], i) => {
+		if (i > 0) {
+			const previous = ring[i - 1][0];
+			if (lon - previous > 180) offset -= 360;
+			else if (lon - previous < -180) offset += 360;
+		}
+		return [lon + offset, lat];
+	});
+};
+
+/** Sutherland-Hodgman clip of a ring against one side of a meridian. */
+const clipSide = (ring, keep, edge) => {
+	const out = [];
+	for (let i = 0; i < ring.length; i++) {
+		const current = ring[i];
+		const previous = ring[(i + ring.length - 1) % ring.length];
+		const crossing = () => {
+			const t = (edge - previous[0]) / (current[0] - previous[0]);
+			return [edge, previous[1] + t * (current[1] - previous[1])];
+		};
+		if (keep(current)) {
+			if (!keep(previous)) out.push(crossing());
+			out.push(current);
+		} else if (keep(previous)) {
+			out.push(crossing());
+		}
+	}
+	return out;
+};
+const clipLon = (ring, min, max) =>
+	clipSide(
+		clipSide(ring, (p) => p[0] >= min, min),
+		(p) => p[0] <= max,
+		max
+	);
+
+/** The parts of a ring on each side of the antimeridian, back in -180..180. */
+const cutAtAntimeridian = (ring) => {
+	const continuous = unwrap(ring);
+	const shift = (by) => continuous.map(([lon, lat]) => [lon + by, lat]);
+	return [shift(0), shift(-360), shift(360)]
+		.map((part) => clipLon(part, -180, 180))
+		.filter((part) => part.length >= 4);
+};
+
+const round = (value) => Math.round(value * 100) / 100;
+
+const rings = topology.objects.land.geometries
+	.flatMap((geometry) => (geometry.type === 'Polygon' ? [geometry.arcs] : geometry.arcs))
+	.flatMap((polygon) => polygon)
+	.flatMap((arcs) => cutAtAntimeridian(decodeRing(arcs)))
+	.map((ring) => {
+		// a closed ring is simplified as an open line that keeps its shared end point
+		const closed =
+			ring[0][0] === ring[ring.length - 1][0] && ring[0][1] === ring[ring.length - 1][1];
+		const open = simplify(closed ? ring : [...ring, ring[0]]);
+		return open.map(([lon, lat]) => [round(lon), round(lat)]);
+	})
+	.filter((ring) => ring.length >= 4);
+
+fs.writeFileSync(
+	OUT,
+	`// Generated by scripts/world-land.mjs from world-atlas 2.0.2 (Natural Earth 1:110m land) - do not edit by hand.
+//
+// Closed land outlines as [longitude, latitude] rings, simplified to ${tolerance}°, for
+// the best match region map.
+export const WORLD_LAND: [number, number][][] = ${JSON.stringify(rings)};
+`
+);
+const points = rings.reduce((sum, ring) => sum + ring.length, 0);
+console.log(`wrote ${rings.length} rings, ${points} points, ${fs.statSync(OUT).size} bytes`);

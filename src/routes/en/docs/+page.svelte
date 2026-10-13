@@ -33,6 +33,7 @@
 	} from '#lib/components/docs/api-parameters.svelte';
 	import ApiResponseParameterTable from '#lib/components/docs/api-response-parameter-table.svelte';
 	import { apiResponseParameters } from '#lib/components/docs/api-response-parameters.svelte';
+	import BestMatchRegionMap from '#lib/components/docs/best-match-region-map.svelte';
 	import LicenceSelector from '#lib/components/licence/licence-selector.svelte';
 	import LocationSelection from '#lib/components/location/location-selection.svelte';
 	import ModelAreaImage from '#lib/components/media/model-area-image.svelte';
@@ -1623,6 +1624,8 @@
 				such as the GFS, ICON and ECMWF IFS ensembles. To override this selection, pick individual
 				models in the <mark>Weather models</mark> section above.
 			</p>
+
+			<BestMatchRegionMap />
 
 			<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 				<ModelAreaImage
