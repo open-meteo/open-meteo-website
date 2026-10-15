@@ -586,6 +586,47 @@
 						>
 					</div>
 				</div>
+				<!-- Under the inputs, where the column is shorter than the explanation
+				     beside it from md up, so a permanently open grid row reserves the
+				     alert's room for free and it slides in without moving anything else.
+				     Stacked on phones that room would be a hole, so there the row
+				     collapses to zero and unfolds with the alert. -->
+				<div
+					class="grid overflow-hidden transition-[grid-template-rows] duration-300 md:mt-3 md:grid-rows-[1fr] {bestMatchSelected
+						? 'grid-rows-[1fr]'
+						: 'grid-rows-[0fr]'}"
+				>
+					<!-- the grid item: an alert's padding and border would keep a zero row open -->
+					<div class="min-h-0">
+						<Alert.Root
+							variant="warning"
+							class="transition-[translate,opacity,visibility] duration-300 {bestMatchSelected
+								? ''
+								: 'invisible -translate-y-full opacity-0'}"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="lucide lucide-triangle-alert-icon lucide-triangle-alert"
+								><path
+									d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+								/><path d="M12 9v4" /><path d="M12 17h.01" /></svg
+							>
+							<!-- the shared title clamps to one line, which would cut this sentence on phones -->
+							<Alert.Title class="line-clamp-none">
+								Bounding box location selection mode does not work with Best match, which the API
+								also uses when no weather model is selected
+							</Alert.Title>
+						</Alert.Root>
+					</div>
+				</div>
 			</div>
 			<div class="md:w-1/2">
 				<p>
@@ -658,36 +699,5 @@
 				</Alert.Root>
 			</div>
 		{/if}
-		<!-- Always in the flow so its room stays reserved: the alert slides into
-		     the gap instead of pushing the sections below down and up again. -->
-		<div class="mt-2 overflow-hidden md:mt-4">
-			<Alert.Root
-				variant="warning"
-				class="transition-[translate,opacity,visibility] duration-300 {bestMatchSelected
-					? ''
-					: 'invisible -translate-y-full opacity-0'}"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="lucide lucide-triangle-alert-icon lucide-triangle-alert"
-					><path
-						d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-					/><path d="M12 9v4" /><path d="M12 17h.01" /></svg
-				>
-				<!-- the shared title clamps to one line, which would cut this sentence on phones -->
-				<Alert.Title class="line-clamp-none">
-					Bounding box location selection mode does not work with Best match, which the API also
-					uses when no weather model is selected
-				</Alert.Title>
-			</Alert.Root>
-		</div>
 	{/if}
 </AnimateHeight>
