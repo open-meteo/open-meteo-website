@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { mode } from 'mode-watcher';
-
 	import * as Alert from '#lib/components/ui/alert/index.js';
 	import { Button } from '#lib/components/ui/button/index.js';
 	import { Input } from '#lib/components/ui/input/index.js';
@@ -11,6 +9,7 @@
 
 	import { additionalDaily, daily, hourly, minutely_15, models } from '../docs/options';
 	import { timeSelectionOptions } from './options';
+	import PricingPlans from './pricing-plans.svelte';
 
 	let timeInput = $state('14');
 	let variablesInput = $state(10);
@@ -47,19 +46,8 @@
 </svelte:head>
 
 <div class="container mt-4 mb-12">
-	<div id="plans" class="-mx-6 min-h-176.75 lg:mx-0">
-		<script async src="https://js.stripe.com/v3/pricing-table.js"></script>
-		{#if mode.current === 'dark'}
-			<stripe-pricing-table
-				pricing-table-id="prctbl_1NL5gcLNZMSyEuRUSx6dv3vF"
-				publishable-key="pk_live_51MJeWDLNZMSyEuRU9z4cAidPizoNKshAoYEoTCcD6f94ShOpnqwpShwYfgpPMfISmiXFLNWWM8u769epiIwaMeV900ZFxKd8rR"
-			></stripe-pricing-table>
-		{:else}
-			<stripe-pricing-table
-				pricing-table-id="prctbl_1MJg0iLNZMSyEuRUvpoeTHOb"
-				publishable-key="pk_live_51MJeWDLNZMSyEuRU9z4cAidPizoNKshAoYEoTCcD6f94ShOpnqwpShwYfgpPMfISmiXFLNWWM8u769epiIwaMeV900ZFxKd8rR"
-			></stripe-pricing-table>
-		{/if}
+	<div id="plans" class="mt-8 mb-12 lg:mb-24">
+		<PricingPlans />
 	</div>
 
 	<div class="mt-4 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
