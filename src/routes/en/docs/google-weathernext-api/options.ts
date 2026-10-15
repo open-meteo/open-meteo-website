@@ -22,7 +22,6 @@ export const defaultParameters = {
 	tilt: '0',
 	azimuth: '0',
 	time_mode: 'forecast_days',
-	models: ['google_weathernext2_ensemble'],
 	cell_selection: ''
 };
 
