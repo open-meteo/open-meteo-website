@@ -20,6 +20,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"backgrounds": "node scripts/backgrounds.mjs",
+		"domain-grids": "node --disable-warning=ExperimentalWarning scripts/domain-grids.mjs",
 		"assets:pull": "node scripts/assets.mjs pull",
 		"assets:push": "node scripts/assets.mjs push",
 		"lint": "prettier --check . && eslint .",
