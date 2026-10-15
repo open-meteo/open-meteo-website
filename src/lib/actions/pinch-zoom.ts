@@ -1,7 +1,9 @@
 /**
- * Svelte action for pinch-to-zoom on the enlarged image view: a two-finger pinch
- * scales around the fingers' midpoint, one finger (or the mouse) pans while
- * zoomed in, and a double tap or double click toggles between fit and a close-up.
+ * Svelte action for zooming the enlarged image view: a two-finger pinch scales
+ * around the fingers' midpoint, the scroll wheel (or a trackpad pinch, which
+ * browsers report as ctrl+wheel) zooms about the pointer, one finger (or the
+ * mouse) pans while zoomed in, and a double tap or double click toggles between
+ * fit and a close-up.
  * The element gets `touch-action: none` so the browser hands every touch to the
  * action instead of scrolling or page-zooming the dialog.
  *
@@ -19,6 +21,10 @@ export interface PinchZoomOptions {
 }
 
 const DOUBLE_TAP_SCALE = 2.5;
+// Scale change per mouse wheel notch, which Chrome reports as 100 px; trackpads
+// send far smaller deltas per event and so zoom smoothly through the same curve.
+const WHEEL_NOTCH_PX = 100;
+const WHEEL_NOTCH_FACTOR = 1.3;
 
 export function pinchZoom(node: HTMLElement, options: PinchZoomOptions = {}) {
 	let { maxScale = 4, onchange, key } = options;
@@ -149,11 +155,30 @@ export function pinchZoom(node: HTMLElement, options: PinchZoomOptions = {}) {
 		else zoom(DOUBLE_TAP_SCALE, { scale, tx, ty }, { x: event.clientX, y: event.clientY });
 	};
 
+	// Wheel travel in pixels. The line and page delta modes only come from older
+	// browsers, where a mouse wheel notch is three lines.
+	const wheelPixels = (event: WheelEvent) => {
+		if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) return (event.deltaY * WHEEL_NOTCH_PX) / 3;
+		if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) return event.deltaY * WHEEL_NOTCH_PX * 3;
+		return event.deltaY;
+	};
+
+	const onWheel = (event: WheelEvent) => {
+		// Consumed even at the scale limits, so a trackpad pinch never zooms the page.
+		event.preventDefault();
+		zoom(
+			scale * WHEEL_NOTCH_FACTOR ** (-wheelPixels(event) / WHEEL_NOTCH_PX),
+			{ scale, tx, ty },
+			{ x: event.clientX, y: event.clientY }
+		);
+	};
+
 	node.addEventListener('pointerdown', onPointerDown);
 	node.addEventListener('pointermove', onPointerMove);
 	node.addEventListener('pointerup', onPointerUp);
 	node.addEventListener('pointercancel', onPointerUp);
 	node.addEventListener('dblclick', onDoubleClick);
+	node.addEventListener('wheel', onWheel, { passive: false });
 
 	return {
 		update(next: PinchZoomOptions = {}) {
@@ -172,6 +197,7 @@ export function pinchZoom(node: HTMLElement, options: PinchZoomOptions = {}) {
 			node.removeEventListener('pointerup', onPointerUp);
 			node.removeEventListener('pointercancel', onPointerUp);
 			node.removeEventListener('dblclick', onDoubleClick);
+			node.removeEventListener('wheel', onWheel);
 		}
 	};
 }
