@@ -1,6 +1,6 @@
 export { forecastDaysOptionsMax15Default3 as forecastDaysOptions } from '../options';
 
-export { pressureVariablesWithDewpoint as pressureVariables } from '../options';
+export { pressureVariables } from '../options';
 
 export { dailyWithUvIndex as daily } from '../options';
 

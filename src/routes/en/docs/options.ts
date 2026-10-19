@@ -45,13 +45,11 @@ const allPressureVariables = [
 const pressureVariablesExcept = (...excluded: string[]) =>
 	allPressureVariables.filter((variable) => !excluded.includes(variable.value));
 
-export const pressureVariables = pressureVariablesExcept('dew_point', 'vertical_velocity');
-// Shared by: gfs-api, cma-api, jma-api
-export const pressureVariablesWithDewpointAndVerticalVelocity = allPressureVariables;
-// Shared by: gem-api, knmi-api, meteofrance-api
-export const pressureVariablesWithDewpoint = pressureVariablesExcept('vertical_velocity');
-// Shared by: ecmwf-api, italia-meteo-arpae-api, ukmo-api
-export const pressureVariablesWithVerticalVelocity = pressureVariablesExcept('dew_point');
+// Dew point is derived from temperature and relative humidity, which every
+// model with pressure levels provides, so it is part of each list
+export const pressureVariables = pressureVariablesExcept('vertical_velocity');
+// Shared by: gfs-api, cma-api, jma-api, ecmwf-api, italia-meteo-arpae-api, ukmo-api
+export const pressureVariablesWithVerticalVelocity = allPressureVariables;
 export const levels = [
 	30, 50, 70, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 850, 900, 925, 950, 975, 1000
 ].reverse();

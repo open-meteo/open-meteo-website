@@ -850,6 +850,12 @@
 						>
 					</tr>
 					<tr>
+						<th scope="row">dew_point_1000hPa, ...</th>
+						<td>Instant</td>
+						<td>°C (°F)</td>
+						<td>Dew point temperature at atmospheric pressure levels.</td>
+					</tr>
+					<tr>
 						<th scope="row">cloud_cover_1000hPa, ...</th>
 						<td>Instant</td>
 						<td>%</td>

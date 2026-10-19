@@ -1,4 +1,4 @@
-export { pressureVariablesWithDewpointAndVerticalVelocity as pressureVariables } from '../options';
+export { pressureVariablesWithVerticalVelocity as pressureVariables } from '../options';
 
 export const levels = [
 	10, 15, 20, 30, 40, 50, 70, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425,
