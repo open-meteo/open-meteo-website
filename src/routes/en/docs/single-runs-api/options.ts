@@ -30,6 +30,7 @@ export const defaultParameters = {
 
 export const pressureVariables = [
 	{ value: 'temperature', label: 'Temperature' },
+	{ value: 'dew_point', label: 'Dewpoint' },
 	{ value: 'relative_humidity', label: 'Relative Humidity' },
 	{ value: 'cloud_cover', label: 'Cloud cover' },
 	{ value: 'wind_speed', label: 'Wind Speed' },

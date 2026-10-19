@@ -1,4 +1,4 @@
-export { pressureVariablesWithDewpointAndVerticalVelocity as pressureVariables } from '../options';
+export { pressureVariablesWithVerticalVelocity as pressureVariables } from '../options';
 
 export { dailyWithUvIndex as daily } from '../options';
 
