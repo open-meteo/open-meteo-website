@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
 
+	import { boundingBoxAround, estimateGridCells } from '#lib/utils/bounding-box.js';
 	import { fade, slide } from '#lib/utils/transitions.js';
 	import { fadeOutAbsolute } from '#lib/utils/transitions.js';
 
@@ -97,6 +98,44 @@
 		params.bounding_box = boundingBox();
 	};
 
+	const selectedModels = (): string[] => {
+		const models = params.models ?? params.domains;
+		if (Array.isArray(models)) {
+			return models;
+		}
+		return typeof models === 'string' && models ? [models] : [];
+	};
+
+	// a small sample around the coordinate rather than the whole world: two
+	// grid cells of the coarsest selected model in each direction. Coordinates
+	// restored from the page URL are strings, hence the conversion.
+	const centreBoundingBox = () => {
+		const box = boundingBoxAround(
+			Number(params.latitude?.[0]),
+			Number(params.longitude?.[0]),
+			selectedModels()
+		);
+		if (!box) {
+			return;
+		}
+		boundingBoxSouth = box.south;
+		boundingBoxWest = box.west;
+		boundingBoxNorth = box.north;
+		boundingBoxEast = box.east;
+	};
+
+	const gridCells = $derived(
+		estimateGridCells(
+			{
+				south: boundingBoxSouth,
+				west: boundingBoxWest,
+				north: boundingBoxNorth,
+				east: boundingBoxEast
+			},
+			selectedModels()
+		)
+	);
+
 	let csvExample = $state('lat_lon');
 
 	const csvExampleOptions = [
@@ -125,6 +164,13 @@
 		} else {
 			return false;
 		}
+	});
+
+	// Every API falls back to its best match when no model is given, so an empty
+	// selection fails like an explicit one ("Bounding box calls not supported").
+	const bestMatchSelected = $derived.by(() => {
+		const models = selectedModels();
+		return models.length === 0 || models.includes('best_match');
 	});
 </script>
 
@@ -205,6 +251,7 @@
 			disabled={params.location_mode === 'bounding_box'}
 			onclick={() => {
 				params.location_mode = 'bounding_box';
+				centreBoundingBox();
 				setBoundingBox();
 			}}
 		>
@@ -539,6 +586,47 @@
 						>
 					</div>
 				</div>
+				<!-- Under the inputs, where the column is shorter than the explanation
+				     beside it from md up, so a permanently open grid row reserves the
+				     alert's room for free and it slides in without moving anything else.
+				     Stacked on phones that room would be a hole, so there the row
+				     collapses to zero and unfolds with the alert. -->
+				<div
+					class="grid overflow-hidden transition-[grid-template-rows] duration-300 md:mt-3 md:grid-rows-[1fr] {bestMatchSelected
+						? 'grid-rows-[1fr]'
+						: 'grid-rows-[0fr]'}"
+				>
+					<!-- the grid item: an alert's padding and border would keep a zero row open -->
+					<div class="min-h-0">
+						<Alert.Root
+							variant="warning"
+							class="transition-[translate,opacity,visibility] duration-300 {bestMatchSelected
+								? ''
+								: 'invisible -translate-y-full opacity-0'}"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width="24"
+								height="24"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="lucide lucide-triangle-alert-icon lucide-triangle-alert"
+								><path
+									d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+								/><path d="M12 9v4" /><path d="M12 17h.01" /></svg
+							>
+							<!-- the shared title clamps to one line, which would cut this sentence on phones -->
+							<Alert.Title class="line-clamp-none">
+								Bounding box location selection mode does not work with Best match, which the API
+								also uses when no weather model is selected
+							</Alert.Title>
+						</Alert.Root>
+					</div>
+				</div>
 			</div>
 			<div class="md:w-1/2">
 				<p>
@@ -550,6 +638,17 @@
 				</p>
 				<pre class="my-2 overflow-auto rounded-lg">&bounding_box=47,-85,47.5,-84.5</pre>
 				<p>using (latitude1, longitude1, latitude2, longitude2) or (south, west, north, east).</p>
+				<div class="text-muted-foreground mt-3 text-sm">
+					<p>Grid cells per model:</p>
+					<!-- room for five lines, so selecting models does not move the content below -->
+					<ul class="min-h-25 list-disc pl-5">
+						{#each gridCells as cells (cells.model)}
+							<li>{cells.label}: ≈ {cells.columns} × {cells.rows}</li>
+						{:else}
+							<li class="list-none">Select weather models to preview them.</li>
+						{/each}
+					</ul>
+				</div>
 			</div>
 		</div>
 		<Alert.Root variant="info" class="mt-2 md:mt-4">

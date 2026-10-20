@@ -10,7 +10,15 @@ const loaded = await loadConfig('./', { traverse: false });
 const svelteConfig = loaded && 'config' in loaded ? loaded.config : undefined;
 
 export default defineConfig([
-	globalIgnores(['node_modules', 'dist', 'build', 'coverage', '.svelte-kit', '.vscode']),
+	globalIgnores([
+		'node_modules',
+		'dist',
+		'build',
+		'coverage',
+		'.svelte-kit',
+		'shadcn-upstream',
+		'.vscode'
+	]),
 	...ts.configs.recommended,
 	...svelte.configs.recommended,
 	prettier,

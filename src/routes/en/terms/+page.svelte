@@ -43,6 +43,11 @@
 						We reserve the right to block applications and IP addresses that misuse our service
 						without prior notice.
 					</li>
+					<li>
+						Rate limits are applied by IP addresses and application. If you are using providers like
+						Vercel, Netlify, Render, or Google Sheets you might be rate-limited earlier then
+						expected. Consider using Cloudflare Workers, as we apply limits per Cloudflare user.
+					</li>
 				</ul>
 				<p>
 					Non-commercial use is defined as
@@ -53,18 +58,18 @@
 				</p>
 				<ul class="ml-6 list-disc">
 					<li>
-						Using our service for private or non-profit websites or apps that do not have
-						subscriptions or advertising.
+						Private or non-profit websites or apps that do not have subscriptions or advertising.
 					</li>
-					<li>Utilizing our service for personal home automation purposes.</li>
-					<li>Using our service for public research conducted at public institutions.</li>
-					<li>Incorporating our service into educational content.</li>
+					<li>Personal home automation purposes.</li>
+					<li>Public research conducted at public institutions.</li>
+					<li>Use in educational content.</li>
+					<li>Voluntary donations, including contributions through a tip jar, are permitted.</li>
 				</ul>
 				<p>On the other hand, the following examples are considered commercial use:</p>
 				<ul class="ml-6 list-disc">
-					<li>Operating websites or apps that have subscriptions or display advertisements.</li>
-					<li>Integrating our service into commercial products or promotional activities.</li>
-					<li>Conducting undisclosed research at commercial entities.</li>
+					<li>Websites or apps that have subscriptions or display advertisements.</li>
+					<li>Commercial products or promotional activities.</li>
+					<li>Undisclosed research at commercial entities.</li>
 				</ul>
 				<p>
 					If you plan to use our service for commercial purposes or require additional API calls, we
@@ -238,6 +243,11 @@
 		By using our service, you consent to the terms of our privacy policy and agree that we may
 		collect non-personal information as outlined below. If you have any questions or concerns about
 		our privacy policy, please contact us.
+	</p>
+	<p>
+		We comply with the General Data Protection Regulation (GDPR) where it applies. OpenMeteo GmbH
+		acts as an independent data controller for the personal data processed for the purposes
+		described in this privacy notice.
 	</p>
 	<div class="my-3 grid gap-6 md:my-6 md:grid-cols-2 md:gap-12">
 		<div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ChevronRight from '@lucide/svelte/icons/chevron-right';
+	import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
 	import { DropdownMenu as DropdownMenuPrimitive } from 'bits-ui';
 
 	import { cn } from '#lib/utils/ui.js';
@@ -17,13 +17,14 @@
 
 <DropdownMenuPrimitive.SubTrigger
 	bind:ref
+	data-slot="dropdown-menu-sub-trigger"
+	data-inset={inset}
 	class={cn(
-		'data-[highlighted]:bg-accent data-[state=open]:bg-accent flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5   outline-none select-none [&_svg]:pointer-events-none   [&_svg]:shrink-0',
-		inset && 'pl-8',
+		'data-[highlighted]:bg-accent data-[state=open]:bg-accent flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 outline-none select-none data-inset:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0',
 		className
 	)}
 	{...restProps}
 >
 	{@render children?.()}
-	<ChevronRight class="ml-auto" />
+	<ChevronRightIcon class="cn-rtl-flip ml-auto" />
 </DropdownMenuPrimitive.SubTrigger>
