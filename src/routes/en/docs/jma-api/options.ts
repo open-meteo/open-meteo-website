@@ -1,6 +1,6 @@
 import { dayOptions } from '../options';
 
-export { pressureVariablesWithDewpointAndVerticalVelocity as pressureVariables } from '../options';
+export { pressureVariablesWithVerticalVelocity as pressureVariables } from '../options';
 
 export const defaultParameters = {
 	daily: [],

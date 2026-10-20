@@ -1,6 +1,6 @@
 export { forecastDaysOptionsMax10 as forecastDaysOptions } from '../options';
 
-export { pressureVariablesWithDewpoint as pressureVariables } from '../options';
+export { pressureVariables } from '../options';
 
 export const defaultParameters = {
 	daily: [],
