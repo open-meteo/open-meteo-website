@@ -198,6 +198,16 @@
 						meta: fetchMeta('dwd_icon_global_native', 'forecast', apiKeyPreferences)
 					},
 					{
+						name: 'AICON Global Native',
+						area: [],
+						meta: fetchMeta('dwd_aicon_global_native', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON Global Native Model Level',
+						area: [],
+						meta: fetchMeta('dwd_icon_global_native_model_level', 'forecast', apiKeyPreferences)
+					},
+					{
 						name: 'ICON-EU',
 						area: ['european_union'],
 						meta: fetchMeta('dwd_icon_eu', 'forecast', apiKeyPreferences)
@@ -206,6 +216,11 @@
 						name: 'ICON-EU Native',
 						area: ['european_union'],
 						meta: fetchMeta('dwd_icon_eu_native', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON-EU Native Model Level',
+						area: ['european_union'],
+						meta: fetchMeta('dwd_icon_eu_native_model_level', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'ICON-D2',
@@ -218,9 +233,34 @@
 						meta: fetchMeta('dwd_icon_d2_native', 'forecast', apiKeyPreferences)
 					},
 					{
+						name: 'ICON-D2 Native 15min',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_native_15min', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON-D2 Native Model Level',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_native_model_level', 'forecast', apiKeyPreferences)
+					},
+					{
 						name: 'ICON-D2 15min',
 						area: ['de', 'ch', 'at'],
 						meta: fetchMeta('dwd_icon_d2_15min', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON-D2 RUC Native',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_ruc_native', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON-D2 RUC Native 15min',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_ruc_native_15min', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON-D2 RUC Native Model Level',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_ruc_native_model_level', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
