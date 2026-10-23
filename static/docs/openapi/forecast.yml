@@ -631,10 +631,12 @@ paths:
                 - dwd_icon_seamless
                 - dwd_icon_global
                 - dwd_icon_global_native
+                - dwd_aicon_global_native
                 - dwd_icon_eu
                 - dwd_icon_eu_native
                 - dwd_icon_d2
                 - dwd_icon_d2_native
+                - dwd_icon_d2_ruc_native
                 - gem_seamless
                 - gem_global
                 - gem_regional
