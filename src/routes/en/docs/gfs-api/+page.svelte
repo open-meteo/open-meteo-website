@@ -66,8 +66,8 @@
 	} from './options';
 
 	const params = urlHashStore({
-		latitude: [52.52],
-		longitude: [13.41],
+		latitude: [40.714],
+		longitude: [-74.006],
 		...defaultParameters,
 		api_mode: 'forecast',
 		run: '',
@@ -748,17 +748,9 @@
 			</table>
 		</div>
 
-		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<ModelAreaImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR CONUS Model Area">
-				{#snippet caption()}
-					HRRR, NAM and RRFS CONUS Model Area. Source: <a
-						href="https://maps.open-meteo.com/?domain=ncep_hrrr_conus#3.5/38.59/-97.49"
-						>Open-Meteo</a
-					>.
-				{/snippet}
-			</ModelAreaImage>
-
+		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-3">
 			<ModelAreaImage
+				sizes="(min-width: 1024px) 33vw, 100vw"
 				src="/images/models/ncep_rrfs_north_america.webp"
 				alt="RRFS North America Model Area"
 			>
@@ -770,7 +762,24 @@
 				{/snippet}
 			</ModelAreaImage>
 
-			<ModelAreaImage src="/images/models/ncep_nbm_conus.webp" alt="NBM CONUS Model Area">
+			<ModelAreaImage
+				sizes="(min-width: 1024px) 33vw, 100vw"
+				src="/images/models/ncep_hrrr_conus.webp"
+				alt="HRRR CONUS Model Area"
+			>
+				{#snippet caption()}
+					HRRR, NAM and RRFS CONUS Model Area. Source: <a
+						href="https://maps.open-meteo.com/?domain=ncep_hrrr_conus#3.5/38.59/-97.49"
+						>Open-Meteo</a
+					>.
+				{/snippet}
+			</ModelAreaImage>
+
+			<ModelAreaImage
+				sizes="(min-width: 1024px) 33vw, 100vw"
+				src="/images/models/ncep_nbm_conus.webp"
+				alt="NBM CONUS Model Area"
+			>
 				{#snippet caption()}
 					NBM CONUS Model Area. Source: <a
 						href="https://maps.open-meteo.com/?domain=ncep_nbm_conus#3.2/40.79/-98.69">Open-Meteo</a
