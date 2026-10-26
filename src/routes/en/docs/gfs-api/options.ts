@@ -120,6 +120,10 @@ export const models = [
 		{ value: 'ncep_nbm_conus', label: 'NBM Conus' },
 		{ value: 'ncep_nam_conus', label: 'NAM Conus' }
 	],
-	[],
+	[
+		{ value: 'ncep_rrfs_north_america', label: 'RRFS North America' },
+		{ value: 'ncep_rrfs_conus', label: 'RRFS CONUS' },
+		{ value: 'ncep_rrfs_conus_15min', label: 'RRFS CONUS 15 min' }
+	],
 	[]
 ];
