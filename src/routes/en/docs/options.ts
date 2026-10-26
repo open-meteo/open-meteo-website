@@ -396,9 +396,9 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 	[
 		{ value: 'ncep_gfs_seamless', label: 'NCEP GFS Seamless' },
 		{ value: 'ncep_gfs_global', label: 'NCEP GFS Global 0.11°/0.25°' },
-		{ value: 'ncep_hrrr_conus', label: 'NCEP HRRR U.S. Conus' },
-		{ value: 'ncep_nbm_conus', label: 'NCEP NBM U.S. Conus' },
-		{ value: 'ncep_nam_conus', label: 'NCEP NAM U.S. Conus' },
+		{ value: 'ncep_hrrr_conus', label: 'NCEP HRRR U.S. CONUS' },
+		{ value: 'ncep_nbm_conus', label: 'NCEP NBM U.S. CONUS' },
+		{ value: 'ncep_nam_conus', label: 'NCEP NAM U.S. CONUS' },
 		{ value: 'ncep_aigfs025', label: 'NCEP AIGFS 0.25°' },
 		{ value: 'ncep_hgefs025_ensemble_mean', label: 'NCEP HGEFS 0.25° Ensemble Mean' }
 	],

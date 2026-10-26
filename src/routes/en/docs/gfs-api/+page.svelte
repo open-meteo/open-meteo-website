@@ -475,7 +475,7 @@
 					</tr>
 					<tr>
 						<th scope="row"
-							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank">HRRR Conus</a></th
+							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank">HRRR CONUS</a></th
 						>
 						<td>
 							<div class="flex items-center gap-2">
@@ -509,7 +509,7 @@
 					<tr>
 						<th scope="row"
 							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank"
-								>HRRR Conus 15 minutely</a
+								>HRRR CONUS 15 minutely</a
 							></th
 						>
 						<td>
@@ -541,7 +541,7 @@
 					<tr>
 						<th scope="row"
 							><a href="https://vlab.noaa.gov/web/mdl/nbm-documentation" target="_blank"
-								>NBM Conus</a
+								>NBM CONUS</a
 							></th
 						>
 						<td>
@@ -577,7 +577,7 @@
 					<tr>
 						<th scope="row"
 							><a href="https://www.nco.ncep.noaa.gov/pmb/products/nam/" target="_blank"
-								>NAM Conus</a
+								>NAM CONUS</a
 							></th
 						>
 						<td>
@@ -749,9 +749,9 @@
 		</div>
 
 		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<ModelAreaImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR Conus Model Area">
+			<ModelAreaImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR CONUS Model Area">
 				{#snippet caption()}
-					HRRR, NAM and RRFS Conus Model Area. Source: <a
+					HRRR, NAM and RRFS CONUS Model Area. Source: <a
 						href="https://maps.open-meteo.com/?domain=ncep_hrrr_conus#3.5/38.59/-97.49"
 						>Open-Meteo</a
 					>.
@@ -770,9 +770,9 @@
 				{/snippet}
 			</ModelAreaImage>
 
-			<ModelAreaImage src="/images/models/ncep_nbm_conus.webp" alt="NBM Conus Model Area">
+			<ModelAreaImage src="/images/models/ncep_nbm_conus.webp" alt="NBM CONUS Model Area">
 				{#snippet caption()}
-					NBM Conus Model Area. Source: <a
+					NBM CONUS Model Area. Source: <a
 						href="https://maps.open-meteo.com/?domain=ncep_nbm_conus#3.2/40.79/-98.69">Open-Meteo</a
 					>.
 				{/snippet}
