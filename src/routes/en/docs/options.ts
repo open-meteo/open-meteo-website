@@ -391,7 +391,8 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 		{ value: 'ecmwf_ifs025', label: 'ECMWF IFS 0.25°' },
 		{ value: 'ecmwf_aifs025_single', label: 'ECMWF AIFS 0.25° Single' },
 		{ value: 'cma_grapes_global', label: 'CMA GRAPES Global' },
-		{ value: 'bom_access_global', label: 'BOM ACCESS Global' }
+		// BOM open-data delivery stopped after the 2025-06-26 18Z run
+		{ value: 'bom_access_global', label: 'BOM ACCESS Global (until Jun 2025)' }
 	],
 	[
 		{ value: 'ncep_gfs_seamless', label: 'NCEP GFS Seamless' },
