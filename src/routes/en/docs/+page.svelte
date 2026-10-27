@@ -1861,6 +1861,46 @@
 						>
 					</tr>
 					<tr>
+						<th scope="row">terrestrial_radiation</th>
+						<td>Preceding hour mean</td>
+						<td>W/m²</td>
+						<td
+							>The solar radiation at the top of the atmosphere, unaffected by clouds or aerosols.
+							It is purely calculated using the solar position factor multiplied by the solar
+							constant of 1367.7 W/m². This differs from clear sky radiation, which accounts for
+							aerosols but not clouds.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">*_instant</th>
+						<td>Instant</td>
+						<td>W/m²</td>
+						<td
+							>All solar radiation parameters can be expressed as instantaneous values by accounting
+							for the solar zenith angle at a specific moment. Instantaneous values are useful for
+							direct comparison with local measurements. However, for energy calculations or model
+							evaluations, backward-averaged (preceding hour) data is preferred. By default, the
+							Open-Meteo API provides backward-averaged solar radiation to simplify energy
+							calculations.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">uv_index<br />uv_index_clear_sky</th>
+						<td>Preceding hour mean</td>
+						<td>Index</td>
+						<td
+							>UV index starting from 0 as average of the preceding hour. <mark
+								>uv_index_clear_sky</mark
+							>
+							assumes cloud free conditions. See the
+							<a
+								class="text-link underline"
+								href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index"
+								>WHO UV index guidelines</a
+							> for more information.</td
+						>
+					</tr>
+					<tr>
 						<th scope="row">vapour_pressure_deficit</th>
 						<td>Instant</td>
 						<td>kPa</td>
@@ -2419,12 +2459,12 @@
 						<td>Index</td>
 						<td
 							>Daily maximum in UV Index starting from 0. <mark>uv_index_clear_sky_max</mark>
-							assumes cloud free conditions. Please follow the
+							assumes cloud free conditions. See the
 							<a
 								class="text-link underline"
 								href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index"
-								>official WMO guidelines</a
-							> for ultraviolet index.</td
+								>WHO UV index guidelines</a
+							> for more information.</td
 						>
 					</tr>
 				</tbody>

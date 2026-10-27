@@ -343,7 +343,8 @@
 				</tr>
 				<tr>
 					<th scope="row"
-						>Air Quality API<br />Elevation API<br />Flood API<br />Geocoding API<br />Marine API</th
+						>Weather Forecast APIs<br />Air Quality API<br />Elevation API<br />Flood API<br
+						/>Geocoding API<br />Marine API</th
 					>
 					<td>&#x2705;</td>
 					<td>&#x2705;</td>

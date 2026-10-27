@@ -38,6 +38,7 @@ export const hourly = [
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'precipitation_probability', label: 'Precipitation Probability' },
 		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'snowfall', label: 'Snowfall' },
