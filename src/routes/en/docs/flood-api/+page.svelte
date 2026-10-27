@@ -166,6 +166,7 @@
 						<th scope="col">Region</th>
 						<th scope="col">Spatial Resolution</th>
 						<th scope="col">Temporal Resolution</th>
+						<th scope="col">Forecast Length</th>
 						<th scope="col">Data Length</th>
 						<th scope="col">Update frequency</th>
 					</tr>
@@ -190,6 +191,7 @@
 						</td>
 						<td>0.05° (~5 km)</td>
 						<td>Daily</td>
+						<td>-</td>
 						<td>1984 - July 2022</td>
 						<td>-</td>
 					</tr>
@@ -212,7 +214,8 @@
 						</td>
 						<td>0.05° (~5 km)</td>
 						<td>Daily</td>
-						<td>30 days forecast</td>
+						<td>30 days</td>
+						<td>-</td>
 						<td>Daily</td>
 					</tr>
 					<tr>
@@ -234,7 +237,8 @@
 						</td>
 						<td>0.05° (~5 km)</td>
 						<td>Daily</td>
-						<td>7 months forecast</td>
+						<td>7 months</td>
+						<td>-</td>
 						<td>Monthly</td>
 					</tr>
 					<tr>
@@ -256,10 +260,11 @@
 						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Daily</td>
+						<td>-</td>
 						<td>1984 - July 2022</td>
 						<td>-</td>
 					</tr>
-					<tr>
+					<tr class="opacity-50">
 						<th scope="row"
 							><a
 								href="https://ewds.climate.copernicus.eu/datasets/cems-glofas-forecast?tab=overview"
@@ -278,10 +283,14 @@
 						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Daily</td>
-						<td>30 days forecast</td>
-						<td>Daily</td>
+						<td>30 days</td>
+						<td>-</td>
+						<td>
+							Daily
+							<div class="text-muted-foreground text-xs">data until 2023-09-01</div>
+						</td>
 					</tr>
-					<tr>
+					<tr class="opacity-50">
 						<th scope="row"
 							><a
 								href="https://ewds.climate.copernicus.eu/datasets/cems-glofas-seasonal?tab=overview"
@@ -300,8 +309,12 @@
 						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Daily</td>
-						<td>7 months forecast</td>
-						<td>Monthly</td>
+						<td>7 months</td>
+						<td>-</td>
+						<td>
+							Monthly
+							<div class="text-muted-foreground text-xs">data until 2023-09-01</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>

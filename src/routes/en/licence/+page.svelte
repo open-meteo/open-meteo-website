@@ -27,7 +27,7 @@
 					href="https://www.dwd.de"
 					title="Deutscher Wetterdienst">Deutscher Wetterdienst DWD</a
 				>
-				(<a href="https://www.ecmwf.int/en/forecasts/datasets/open-data" title="ECMWF Licence"
+				(<a href="https://www.dwd.de/EN/service/copyright/copyright_node.html" title="DWD Licence"
 					>CC-BY Licence</a
 				>)
 			</li>

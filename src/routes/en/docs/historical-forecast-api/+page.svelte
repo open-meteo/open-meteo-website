@@ -1049,7 +1049,7 @@
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
 						<td>
-							2024-01-18
+							2024-01-01
 							<div class="text-muted-foreground text-xs">no updates since 2025-06-26</div>
 						</td>
 					</tr>
