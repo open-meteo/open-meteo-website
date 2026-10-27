@@ -1892,12 +1892,12 @@
 							>UV index starting from 0 as average of the preceding hour. <mark
 								>uv_index_clear_sky</mark
 							>
-							assumes cloud free conditions. Please follow the
+							assumes cloud free conditions. See the
 							<a
 								class="text-link underline"
 								href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index"
-								>official WHO guidelines</a
-							> for ultraviolet index.</td
+								>WHO UV index guidelines</a
+							> for more information.</td
 						>
 					</tr>
 					<tr>
@@ -2459,12 +2459,12 @@
 						<td>Index</td>
 						<td
 							>Daily maximum in UV Index starting from 0. <mark>uv_index_clear_sky_max</mark>
-							assumes cloud free conditions. Please follow the
+							assumes cloud free conditions. See the
 							<a
 								class="text-link underline"
 								href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index"
-								>official WMO guidelines</a
-							> for ultraviolet index.</td
+								>WHO UV index guidelines</a
+							> for more information.</td
 						>
 					</tr>
 				</tbody>
