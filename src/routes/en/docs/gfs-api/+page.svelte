@@ -3,6 +3,7 @@
 	import { SvelteDate } from 'svelte/reactivity';
 
 	import InfoIcon from '@lucide/svelte/icons/info';
+	import TriangleAlertIcon from '@lucide/svelte/icons/triangle-alert';
 
 	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
@@ -65,8 +66,8 @@
 	} from './options';
 
 	const params = urlHashStore({
-		latitude: [52.52],
-		longitude: [13.41],
+		latitude: [40.714],
+		longitude: [-74.006],
 		...defaultParameters,
 		api_mode: 'forecast',
 		run: '',
@@ -162,6 +163,15 @@
 			class="text-link underline"
 			href="/en/docs">Weather Forecast API</a
 		> selects the most suitable weather models automatically to ensure optimal accuracy.
+	</Alert.Description>
+</Alert.Root>
+
+<Alert.Root variant="warning" class="mb-4"
+	><TriangleAlertIcon />
+	<Alert.Description>
+		The HRRR and NAM weather models will be discontinued at the end of November 2026. Their
+		successor, the Rapid Refresh Forecast System (RRFS), is already available in this API. Please
+		migrate to the RRFS models. NBM is not affected and remains available.
 	</Alert.Description>
 </Alert.Root>
 
@@ -465,7 +475,7 @@
 					</tr>
 					<tr>
 						<th scope="row"
-							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank">HRRR Conus</a></th
+							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank">HRRR CONUS</a></th
 						>
 						<td>
 							<div class="flex items-center gap-2">
@@ -499,7 +509,7 @@
 					<tr>
 						<th scope="row"
 							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank"
-								>HRRR Conus 15 minutely</a
+								>HRRR CONUS 15 minutely</a
 							></th
 						>
 						<td>
@@ -531,7 +541,7 @@
 					<tr>
 						<th scope="row"
 							><a href="https://vlab.noaa.gov/web/mdl/nbm-documentation" target="_blank"
-								>NBM Conus</a
+								>NBM CONUS</a
 							></th
 						>
 						<td>
@@ -567,7 +577,7 @@
 					<tr>
 						<th scope="row"
 							><a href="https://www.nco.ncep.noaa.gov/pmb/products/nam/" target="_blank"
-								>NAM Conus</a
+								>NAM CONUS</a
 							></th
 						>
 						<td>
@@ -595,6 +605,102 @@
 						<td>Hourly</td>
 						<td>60 hours</td>
 						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/rrfs/" target="_blank"
+								>RRFS North America</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								North America
+							</div>
+						</td>
+						<td>0.11° (~13 km)</td>
+						<td>Hourly</td>
+						<td>84 hours</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/rrfs/" target="_blank"
+								>RRFS CONUS</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km</td>
+						<td>Hourly</td>
+						<td>84 hours</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/rrfs/" target="_blank"
+								>RRFS CONUS 15 minutely</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km</td>
+						<td>15 Minutely</td>
+						<td>18 hours</td>
+						<td>Every hour</td>
 					</tr>
 					<tr>
 						<th scope="row"
@@ -642,19 +748,40 @@
 			</table>
 		</div>
 
-		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<ModelAreaImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR Conus Model Area">
+		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-3">
+			<ModelAreaImage
+				sizes="(min-width: 1024px) 33vw, 100vw"
+				src="/images/models/ncep_rrfs_north_america.webp"
+				alt="RRFS North America Model Area"
+			>
 				{#snippet caption()}
-					HRRR and NAM Conus Model Area. Source: <a
+					RRFS North America Model Area. Source: <a
+						href="https://maps.open-meteo.com/?domain=ncep_rrfs_north_america#2.5/50/-100"
+						>Open-Meteo</a
+					>.
+				{/snippet}
+			</ModelAreaImage>
+
+			<ModelAreaImage
+				sizes="(min-width: 1024px) 33vw, 100vw"
+				src="/images/models/ncep_hrrr_conus.webp"
+				alt="HRRR CONUS Model Area"
+			>
+				{#snippet caption()}
+					HRRR, NAM and RRFS CONUS Model Area. Source: <a
 						href="https://maps.open-meteo.com/?domain=ncep_hrrr_conus#3.5/38.59/-97.49"
 						>Open-Meteo</a
 					>.
 				{/snippet}
 			</ModelAreaImage>
 
-			<ModelAreaImage src="/images/models/ncep_nbm_conus.webp" alt="NBM Conus Model Area">
+			<ModelAreaImage
+				sizes="(min-width: 1024px) 33vw, 100vw"
+				src="/images/models/ncep_nbm_conus.webp"
+				alt="NBM CONUS Model Area"
+			>
 				{#snippet caption()}
-					NBM Conus Model Area. Source: <a
+					NBM CONUS Model Area. Source: <a
 						href="https://maps.open-meteo.com/?domain=ncep_nbm_conus#3.2/40.79/-98.69">Open-Meteo</a
 					>.
 				{/snippet}

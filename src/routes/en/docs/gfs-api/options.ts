@@ -115,11 +115,15 @@ export const models = [
 		{ value: 'ncep_hgefs025_ensemble_mean', label: 'HGEFS 0.25° Ensemble Mean' }
 	],
 	[
-		{ value: 'ncep_hrrr_conus', label: 'HRRR Conus' },
-		{ value: 'ncep_hrrr_conus_15min', label: 'HRRR Conus 15 min' },
-		{ value: 'ncep_nbm_conus', label: 'NBM Conus' },
-		{ value: 'ncep_nam_conus', label: 'NAM Conus' }
+		{ value: 'ncep_hrrr_conus', label: 'HRRR CONUS' },
+		{ value: 'ncep_hrrr_conus_15min', label: 'HRRR CONUS 15 min' },
+		{ value: 'ncep_nbm_conus', label: 'NBM CONUS' },
+		{ value: 'ncep_nam_conus', label: 'NAM CONUS' }
 	],
-	[],
+	[
+		{ value: 'ncep_rrfs_north_america', label: 'RRFS North America' },
+		{ value: 'ncep_rrfs_conus', label: 'RRFS CONUS' },
+		{ value: 'ncep_rrfs_conus_15min', label: 'RRFS CONUS 15 min' }
+	],
 	[]
 ];

@@ -427,22 +427,22 @@
 						meta: fetchMeta('ncep_hgefs025_ensemble_mean', 'forecast', apiKeyPreferences)
 					},
 					{
-						name: 'NBM Conus',
+						name: 'NBM CONUS',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_nbm_conus', 'forecast', apiKeyPreferences)
 					},
 					{
-						name: 'HRRR Conus',
+						name: 'HRRR CONUS',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_hrrr_conus', 'forecast', apiKeyPreferences)
 					},
 					{
-						name: 'HRRR Conus 15min',
+						name: 'HRRR CONUS 15min',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_hrrr_conus_15min', 'forecast', apiKeyPreferences)
 					},
 					{
-						name: 'NAM Conus',
+						name: 'NAM CONUS',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_nam_conus', 'forecast', apiKeyPreferences)
 					}

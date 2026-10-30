@@ -535,7 +535,7 @@
 						<td>Every 12 hours</td>
 					</tr>
 					<tr>
-						<th scope="row" rowspan="3">NOAA</th>
+						<th scope="row" rowspan="4">NOAA</th>
 						<td>GFS Ensemble 0.25°</td>
 						<td>
 							<div class="flex items-center gap-2">
@@ -584,6 +584,34 @@
 						<td>0.25° (~25km), 6-hourly</td>
 						<td>31</td>
 						<td>16 days</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<td class="pl-2">RRFS CONUS</td>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km, hourly</td>
+						<td>5</td>
+						<td>2.5 days</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>

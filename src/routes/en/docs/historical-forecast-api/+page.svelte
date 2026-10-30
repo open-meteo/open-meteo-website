@@ -578,7 +578,7 @@
 										title="Canada"
 									/>
 								</div>
-								U.S. Conus
+								U.S. CONUS
 							</div>
 						</td>
 						<td>3 km</td>
@@ -606,7 +606,7 @@
 										title="Canada"
 									/>
 								</div>
-								U.S. Conus
+								U.S. CONUS
 							</div>
 						</td>
 						<td>3 km</td>
@@ -634,7 +634,7 @@
 										title="Canada"
 									/>
 								</div>
-								U.S. Conus
+								U.S. CONUS
 							</div>
 						</td>
 						<td>3 km</td>
