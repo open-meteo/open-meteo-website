@@ -1275,7 +1275,7 @@
 						<td>Every 12 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('en/docs/geosphere-austria-api')}>AROME</a></th>
+						<th scope="row"><a href={resolve('en/docs/geosphere-austria-api')}>C-LAEF</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1292,7 +1292,7 @@
 						</td>
 						<td>GeoSphere Austria</td>
 						<td>Austria</td>
-						<td>2.5 km</td>
+						<td>1 km</td>
 						<td>2.5 days</td>
 						<td>Every 3 hours</td>
 					</tr>

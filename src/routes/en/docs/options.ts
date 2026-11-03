@@ -462,8 +462,11 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 	],
 	[
 		{ value: 'geosphere_seamless', label: 'GeoSphere Seamless (with ECMWF)' },
-		{ value: 'geosphere_arome_austria', label: 'GeoSphere AROME Austria' },
-		{ value: 'geosphere_claef_austria', label: 'GeoSphere C-LAEF Austria' }
+		{ value: 'geosphere_claef_austria', label: 'GeoSphere C-LAEF Austria' },
+		{
+			value: 'geosphere_arome_austria',
+			label: 'GeoSphere AROME Austria (Discontinued 2026-11-04)'
+		}
 	],
 	[
 		{ value: 'chmi_aladin_seamless', label: 'CHMI Aladin Seamless' },

@@ -290,7 +290,7 @@
 				url: '/en/docs/geosphere-austria-api',
 				models: [
 					{
-						name: 'GeoSphere AROME Austria',
+						name: 'GeoSphere AROME Austria (Discontinued 2026-11-04)',
 						area: ['at'],
 						meta: fetchMeta('geosphere_arome_austria', 'forecast', apiKeyPreferences)
 					},
