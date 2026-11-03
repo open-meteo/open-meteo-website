@@ -293,6 +293,11 @@
 						name: 'GeoSphere AROME Austria',
 						area: ['at'],
 						meta: fetchMeta('geosphere_arome_austria', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'GeoSphere C-LAEF Austria',
+						area: ['at'],
+						meta: fetchMeta('geosphere_claef_austria', 'forecast', apiKeyPreferences)
 					}
 				]
 			},

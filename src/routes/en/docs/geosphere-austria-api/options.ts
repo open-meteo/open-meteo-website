@@ -101,7 +101,8 @@ export const additionalVariables = [
 export const models = [
 	[
 		{ value: 'geosphere_seamless', label: 'GeoSphere Seamless (with ECMWF)' },
-		{ value: 'geosphere_arome_austria', label: 'GeoSphere AROME Austria' }
+		{ value: 'geosphere_arome_austria', label: 'GeoSphere AROME Austria' },
+		{ value: 'geosphere_claef_austria', label: 'GeoSphere C-LAEF Austria' }
 	]
 ];
 
