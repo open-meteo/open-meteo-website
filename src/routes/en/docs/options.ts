@@ -392,14 +392,14 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 		{ value: 'ecmwf_aifs025_single', label: 'ECMWF AIFS 0.25° Single' },
 		{ value: 'cma_grapes_global', label: 'CMA GRAPES Global' },
 		// BOM open-data delivery stopped after the 2025-06-26 18Z run
-		{ value: 'bom_access_global', label: 'BOM ACCESS Global (until Jun 2025)' }
+		{ value: 'bom_access_global', label: 'BOM ACCESS Global (Discontinued 2025-06-26)' }
 	],
 	[
 		{ value: 'ncep_gfs_seamless', label: 'NCEP GFS Seamless' },
 		{ value: 'ncep_gfs_global', label: 'NCEP GFS Global 0.11°/0.25°' },
 		{ value: 'ncep_rrfs_north_america', label: 'NCEP RRFS North America' },
 		{ value: 'ncep_rrfs_conus', label: 'NCEP RRFS U.S. CONUS' },
-		{ value: 'ncep_hrrr_conus', label: 'NCEP HRRR U.S. CONUS' },
+		{ value: 'ncep_hrrr_conus', label: 'NCEP HRRR U.S. CONUS (Discontinued 2026-11-30)' },
 		{ value: 'ncep_nbm_conus', label: 'NCEP NBM U.S. CONUS' },
 		{ value: 'ncep_nam_conus', label: 'NCEP NAM U.S. CONUS (Discontinued 2026-11-01)' },
 		{ value: 'ncep_aigfs025', label: 'NCEP AIGFS 0.25°' },
@@ -411,18 +411,18 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 		{ value: 'jma_gsm', label: 'JMA GSM' }
 	],
 	[
-		{ value: 'kma_seamless', label: 'KMA Seamless' },
-		{ value: 'kma_ldps', label: 'KMA LDPS' },
-		{ value: 'kma_gdps', label: 'KMA GDPS' }
+		{ value: 'kma_seamless', label: 'KMA Seamless (Discontinued 2026-03-31)' },
+		{ value: 'kma_ldps', label: 'KMA LDPS (Discontinued 2026-03-31)' },
+		{ value: 'kma_gdps', label: 'KMA GDPS (Discontinued 2026-03-31)' }
 	],
 	[
 		{ value: 'dwd_icon_seamless', label: 'DWD ICON Seamless' },
-		{ value: 'dwd_icon_global', label: 'DWD ICON Global' },
+		{ value: 'dwd_icon_global', label: 'DWD ICON Global (Discontinued 2026-11-30)' },
 		{ value: 'dwd_icon_global_native', label: 'DWD ICON Global Native' },
 		{ value: 'dwd_aicon_global_native', label: 'DWD AICON Global Native' },
-		{ value: 'dwd_icon_eu', label: 'DWD ICON EU' },
+		{ value: 'dwd_icon_eu', label: 'DWD ICON EU (Discontinued 2026-11-30)' },
 		{ value: 'dwd_icon_eu_native', label: 'DWD ICON EU Native' },
-		{ value: 'dwd_icon_d2', label: 'DWD ICON D2' },
+		{ value: 'dwd_icon_d2', label: 'DWD ICON D2 (Discontinued 2026-11-30)' },
 		{ value: 'dwd_icon_d2_native', label: 'DWD ICON D2 Native' },
 		{ value: 'dwd_icon_d2_ruc_native', label: 'DWD ICON D2 RUC Native' }
 	],
@@ -448,7 +448,9 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 	[
 		{ value: 'knmi_seamless', label: 'KNMI Seamless (with ECMWF)' },
 		{ value: 'knmi_harmonie_arome_europe', label: 'KNMI Harmonie AROME Europe' },
-		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie AROME Netherlands' },
+		{ value: 'knmi_harmonie_arome_netherlands', label: 'KNMI Harmonie AROME Netherlands' }
+	],
+	[
 		{ value: 'dmi_seamless', label: 'DMI Seamless (with ECMWF)' },
 		{ value: 'dmi_harmonie_arome_europe', label: 'DMI Harmonie AROME Europe' }
 	],

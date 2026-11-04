@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { splitDiscontinued } from '#lib/utils/model-label.js';
+
 	import { Checkbox } from '#lib/components/ui/checkbox/index.js';
 	import { Label } from '#lib/components/ui/label/index.js';
 
@@ -40,6 +42,7 @@
 	{#each groups as group, i (i)}
 		<div class={groupClass}>
 			{#each group as { value, label } (value)}
+				{@const { name, note } = splitDiscontinued(label)}
 				<div class="group flex items-center" title={label}>
 					<Checkbox
 						id="{value}_{idSuffix}"
@@ -54,7 +57,9 @@
 						id="{value}_{idSuffix}_label"
 						for="{value}_{idSuffix}"
 						class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
-						>{#if htmlLabels}{@html label}{:else}{label}{/if}</Label
+						>{#if htmlLabels}{@html label}{:else}{name}{#if note}<span
+									class="text-muted-foreground ml-1">{note}</span
+								>{/if}{/if}</Label
 					>
 				</div>
 			{/each}
