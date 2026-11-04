@@ -989,16 +989,44 @@
 		><h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2></a
 	>
 	<div class="mt-3 md:mt-6">
-		<h2 id="citation">Citation & Acknowledgement</h2>
+		<p>The Marine API combines data from the following providers:</p>
+		<ul class="[&_a]:text-link ml-6 list-disc [&_a]:underline [&_li]:py-1">
+			<li>
+				MeteoFrance MFWAM waves, SMOC currents and tides, and sea surface temperature: generated
+				using E.U. Copernicus Marine Service Information (<a
+					href="https://doi.org/10.48670/moi-00017"
+					target="_blank">https://doi.org/10.48670/moi-00017</a
+				>,
+				<a href="https://doi.org/10.48670/moi-00016" target="_blank"
+					>https://doi.org/10.48670/moi-00016</a
+				>)
+			</li>
+			<li>
+				ECMWF WAM wave forecasts from the <a href="https://www.ecmwf.int" target="_blank"
+					>European Centre for Medium-Range Weather Forecasts ECMWF</a
+				>
+			</li>
+			<li>
+				GFS Wave forecasts from <a href="https://www.weather.gov/ncep/" target="_blank">NOAA NCEP</a
+				>
+			</li>
+			<li>
+				EWAM and GWAM wave forecasts from the <a
+					href="https://www.dwd.de/EN/service/copyright/copyright_node.html"
+					target="_blank">German Weather Service DWD</a
+				>
+			</li>
+			<li>
+				ERA5-Ocean wave reanalysis: generated using Copernicus Climate Change Service information (<a
+					href="https://doi.org/10.24381/cds.adbb2d47"
+					target="_blank">https://doi.org/10.24381/cds.adbb2d47</a
+				>)
+			</li>
+		</ul>
 		<p>
-			Generated using ICON Wave forecast from the <a
-				href="https://www.dwd.de/EN/service/copyright/copyright_node.html"
-				target="_blank">German Weather Service DWD</a
-			>.
-		</p>
-		<p>
-			All users of Open-Meteo data must provide a clear attribution to DWD as well as a reference to
-			Open-Meteo.
+			All users of Open-Meteo data must provide a clear attribution to the providers of the models
+			they use as well as a reference to Open-Meteo. The licences of all sources are listed on the
+			<a class="text-link underline" href="/en/licence">licence page</a>.
 		</p>
 	</div>
 </div>

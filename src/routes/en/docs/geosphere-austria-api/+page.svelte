@@ -105,7 +105,7 @@
 	<link rel="canonical" href="https://open-meteo.com/en/docs/geosphere-austria-api" />
 	<meta
 		name="description"
-		content="Weather forecasts from the GeoSphere Austria AROME model at 1 km resolution for the Alps region. Free weather API for non-commercial use, no key required."
+		content="Weather forecasts from the GeoSphere Austria C-LAEF model at 1 km resolution for the Alps region. Free weather API for non-commercial use, no key required."
 	/>
 </svelte:head>
 
@@ -271,13 +271,30 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			The high-resolution weather forecast model AROME (Application of Research to Operations at
-			Mesoscale) provides meteorological forecasts for the wider Alpine region on a 2.5-kilometre
-			grid. It is updated every 3 hours and provides forecasts for 60 hours. The AROME model code is
-			being further developed in collaboration with the partner meteorological services of the
-			ACCORD consortium. After 2.5 days, Open-Meteo combines forecasts with the <a
+			The high-resolution weather forecast model C-LAEF AlpeAdria provides meteorological forecasts
+			for the wider Alpine region on a 1-kilometre grid. Open-Meteo uses its deterministic control
+			run. It is updated every 3 hours and provides forecasts for 60 hours. C-LAEF replaces AROME
+			with a slightly extended model area. After 2.5 days, Open-Meteo combines forecasts with the <a
 				href="/en/docs/ecmwf-api">ECMWF IFS HRES 9 km model</a
-			> to provide up to 15 days of forecast.
+			> to provide up to 15 days of forecast. The seamless model prioritises C-LAEF.
+		</p>
+		<Alert.Root variant="info" class="mt-2 md:mt-4">
+			<Alert.Description>
+				GeoSphere AROME Austria was discontinued on 2026-11-04. The
+				<mark>geosphere_arome_austria</mark> model remains available for historical data access for
+				now and may be removed in the future. Use <mark>geosphere_claef_austria</mark> or
+				<mark>geosphere_seamless</mark> for current forecasts. See the
+				<a href="https://github.com/open-meteo/open-meteo/pull/2258" target="_blank"
+					>model transition details</a
+				>.
+			</Alert.Description>
+		</Alert.Root>
+		<p class="mt-2">
+			Explore the extended
+			<a
+				href="https://maps.open-meteo.com/?domain=geosphere_claef_austria#5.2/47.60/13.81"
+				target="_blank">C-LAEF Austria model area</a
+			>.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table class="docs-table w-full min-w-300">
@@ -300,6 +317,32 @@
 				<tbody>
 					<tr>
 						<th scope="row"
+							><a href="https://data.hub.geosphere.at/dataset/nwp-v2-1h-1km" target="_blank"
+								>GeoSphere C-LAEF Austria</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[26px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/at.svg"
+										alt="Austria"
+										title="Austria"
+									/>
+								</div>
+								Central Europe
+							</div>
+						</td>
+						<td>1 km</td>
+						<td>Hourly</td>
+						<td>2.5 days</td>
+						<td>Every 3 hours</td>
+					</tr>
+
+					<tr class="opacity-50">
+						<th scope="row"
 							><a href="https://data.hub.geosphere.at/dataset/nwp-v1-1h-2500m" target="_blank"
 								>GeoSphere AROME Austria</a
 							></th
@@ -321,7 +364,10 @@
 						<td>2.5 km</td>
 						<td>Hourly</td>
 						<td>2.5 days</td>
-						<td>Every 3 hours</td>
+						<td>
+							Every 3 hours
+							<div class="text-muted-foreground text-xs">discontinued 2026-11-04</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -329,13 +375,13 @@
 	</div>
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<ModelAreaImage
-			src="/images/models/geosphere_arome_austria.webp"
-			alt="GeoSphere AROME Austria Model Area"
+			src="/images/models/geosphere_claef_austria.webp"
+			alt="GeoSphere C-LAEF Austria Model Area"
 		>
 			{#snippet caption()}
-				GeoSphere AROME Austria Model Area. Source:
+				GeoSphere C-LAEF Austria Model Area. Source:
 				<a
-					href="https://maps.open-meteo.com/?domain=geosphere_arome_austria#5.2/47.60/13.81"
+					href="https://maps.open-meteo.com/?domain=geosphere_claef_austria#5.2/47.60/13.81"
 					target="_blank">Open-Meteo</a
 				>.
 			{/snippet}
@@ -350,15 +396,15 @@
 	>
 	<div class="mt-2 md:mt-4">
 		<p>
-			AROME directly predicts the fields listed below. Open-Meteo retains these fields or uses them
-			to calculate more convenient API variables. AROME provides native relative humidity, a native
+			C-LAEF directly predicts the fields listed below. Open-Meteo retains these fields or uses them
+			to calculate more convenient API variables. C-LAEF provides native relative humidity, a native
 			sunshine duration, hourly minimum and maximum temperature and its own weather symbol.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table class="docs-table w-full min-w-300">
 				<thead>
 					<tr>
-						<th scope="col">Native AROME field</th>
+						<th scope="col">Native C-LAEF field</th>
 						<th scope="col">Level</th>
 						<th scope="col">Use in the Open-Meteo API</th>
 					</tr>
@@ -380,8 +426,8 @@
 						<td>Wind speed, direction and <mark>wind_gusts_10m</mark></td>
 					</tr>
 					<tr>
-						<th scope="row">Surface pressure</th>
-						<td>Surface</td>
+						<th scope="row">Mean sea-level pressure</th>
+						<td>Mean sea level</td>
 						<td><mark>pressure_msl</mark> and <mark>surface_pressure</mark></td>
 					</tr>
 					<tr>
@@ -417,10 +463,7 @@
 				</tbody>
 			</table>
 		</div>
-		<p class="mt-2">
-			AROME provides no pressure-level data. Beyond 2.5 days the seamless model continues with ECMWF
-			IFS.
-		</p>
+		<p class="mt-2">Beyond 2.5 days the seamless model continues with ECMWF IFS.</p>
 	</div>
 </div>
 
@@ -431,7 +474,7 @@
 	>
 	<div class="mt-2 md:mt-4">
 		<p>
-			AROME publishes native relative humidity, cloud cover layers, sunshine duration, hourly
+			C-LAEF publishes native relative humidity, cloud cover layers, sunshine duration, hourly
 			minimum and maximum temperature and its own weather symbol. Open-Meteo derives the remaining
 			API variables from these native fields.
 		</p>
@@ -466,16 +509,13 @@
 					</tr>
 					<tr>
 						<th scope="row">Snowfall height</th>
-						<td>
-							Native snowfall height converted from metres above ground to metres above sea level,
-							for consistency with other models.
-						</td>
+						<td> Snowfall height is reported in metres above sea level. </td>
 					</tr>
 					<tr>
 						<th scope="row">Mean sea-level and surface pressure</th>
 						<td>
-							Mean sea-level pressure is reduced from the native surface pressure; surface pressure
-							is then re-derived for the requested elevation.
+							Mean sea-level pressure is provided by C-LAEF; surface pressure is derived for the
+							requested elevation.
 						</td>
 					</tr>
 					<tr>
@@ -529,9 +569,7 @@
 				conversion factor of 1 mm snow water = 7 snowfall.
 			</li>
 			<li>
-				<strong>Snowfall height</strong> has been converted to metre above sea level. GeoSphere provides
-				snowfall height in metre above ground. For consistency with other weather models, it has been
-				converted to metre above sea level.
+				<strong>Snowfall height</strong> is reported in metres above sea level.
 			</li>
 		</ul>
 	</div>

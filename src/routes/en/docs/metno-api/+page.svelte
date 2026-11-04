@@ -598,6 +598,15 @@
 						<td>Total precipitation (rain, showers, snow) sum of the preceding hour</td>
 					</tr>
 					<tr>
+						<th scope="row">precipitation_probability</th>
+						<td>Preceding hour probability</td>
+						<td>%</td>
+						<td
+							>Probability of precipitation with more than 0.1 mm of the preceding hour, derived
+							from the members of the ECMWF IFS ensemble at 0.25° (~25 km) resolution.</td
+						>
+					</tr>
+					<tr>
 						<th scope="row">pressure_msl<br />surface_pressure</th>
 						<td>Instant</td>
 						<td>hPa</td>

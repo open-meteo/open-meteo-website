@@ -38,6 +38,7 @@ export const hourly = [
 	],
 	[
 		{ value: 'weather_code', label: 'Weather code' },
+		{ value: 'precipitation_probability', label: 'Precipitation Probability' },
 		{ value: 'precipitation', label: 'Precipitation (rain + snow)' },
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'snowfall', label: 'Snowfall' },
@@ -100,7 +101,11 @@ export const additionalVariables = [
 export const models = [
 	[
 		{ value: 'geosphere_seamless', label: 'GeoSphere Seamless (with ECMWF)' },
-		{ value: 'geosphere_arome_austria', label: 'GeoSphere AROME Austria' }
+		{ value: 'geosphere_claef_austria', label: 'GeoSphere C-LAEF Austria' },
+		{
+			value: 'geosphere_arome_austria',
+			label: 'GeoSphere AROME Austria (Discontinued 2026-11-04)'
+		}
 	]
 ];
 
