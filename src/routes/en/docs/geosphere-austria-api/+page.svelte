@@ -386,18 +386,6 @@
 				>.
 			{/snippet}
 		</ModelAreaImage>
-		<ModelAreaImage
-			src="/images/models/geosphere_arome_austria.webp"
-			alt="GeoSphere AROME Austria Model Area"
-		>
-			{#snippet caption()}
-				GeoSphere AROME Austria Model Area (discontinued 2026-11-04). Source:
-				<a
-					href="https://maps.open-meteo.com/?domain=geosphere_arome_austria#5.2/47.60/13.81"
-					target="_blank">Open-Meteo</a
-				>.
-			{/snippet}
-		</ModelAreaImage>
 	</div>
 </div>
 
