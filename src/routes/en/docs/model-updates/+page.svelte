@@ -290,11 +290,6 @@
 				url: '/en/docs/geosphere-austria-api',
 				models: [
 					{
-						name: 'GeoSphere AROME Austria (Discontinued 2026-11-04)',
-						area: ['at'],
-						meta: fetchMeta('geosphere_arome_austria', 'forecast', apiKeyPreferences)
-					},
-					{
 						name: 'GeoSphere C-LAEF Austria',
 						area: ['at'],
 						meta: fetchMeta('geosphere_claef_austria', 'forecast', apiKeyPreferences)
@@ -432,24 +427,34 @@
 						meta: fetchMeta('ncep_hgefs025_ensemble_mean', 'forecast', apiKeyPreferences)
 					},
 					{
-						name: 'NBM Conus',
+						name: 'NBM CONUS',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_nbm_conus', 'forecast', apiKeyPreferences)
 					},
 					{
-						name: 'HRRR Conus',
+						name: 'RRFS North America',
+						area: ['us', 'ca'],
+						meta: fetchMeta('ncep_rrfs_north_america', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'RRFS CONUS',
+						area: ['us', 'ca'],
+						meta: fetchMeta('ncep_rrfs_conus', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'RRFS CONUS 15min',
+						area: ['us', 'ca'],
+						meta: fetchMeta('ncep_rrfs_conus_15min', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'HRRR CONUS',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_hrrr_conus', 'forecast', apiKeyPreferences)
 					},
 					{
-						name: 'HRRR Conus 15min',
+						name: 'HRRR CONUS 15min',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_hrrr_conus_15min', 'forecast', apiKeyPreferences)
-					},
-					{
-						name: 'NAM Conus',
-						area: ['us', 'ca'],
-						meta: fetchMeta('ncep_nam_conus', 'forecast', apiKeyPreferences)
 					}
 				]
 			},

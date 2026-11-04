@@ -227,9 +227,9 @@
 					<h3 class="pl-3 text-2xl">Frequent Updates</h3>
 				</div>
 				<p>
-					Most global models update every 6 hours. High-resolution regional models such as ICON-D2,
-					HRRR, and AROME update every 1–3 hours. Each update ingests the latest observations from
-					weather stations, radiosondes, aircraft, radar, and satellites.
+					Most global models update every 6 hours. High-resolution regional models such as ICON-D2
+					and AROME update every 1–3 hours. Each update ingests the latest observations from weather
+					stations, radiosondes, aircraft, radar, and satellites.
 				</p>
 				<p>
 					15-minutely data is available for Central Europe and North America, interpolated from
