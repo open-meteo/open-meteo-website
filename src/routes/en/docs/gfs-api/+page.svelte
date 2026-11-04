@@ -475,71 +475,6 @@
 					</tr>
 					<tr>
 						<th scope="row"
-							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank">HRRR CONUS</a></th
-						>
-						<td>
-							<div class="flex items-center gap-2">
-								<div class="flex w-[60px] shrink-0 items-center gap-2">
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/us.svg"
-										alt="United States"
-										title="United States"
-									/>
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/ca.svg"
-										alt="Canada"
-										title="Canada"
-									/>
-								</div>
-								CONUS
-							</div>
-						</td>
-						<td>3 km</td>
-						<td>Hourly</td>
-						<td
-							>18 hours, <small class="text-muted-foreground">(48 hours for 0, 6, 12, 18Z)</small
-							></td
-						>
-						<td>Every hour</td>
-					</tr>
-					<tr>
-						<th scope="row"
-							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank"
-								>HRRR CONUS 15 minutely</a
-							></th
-						>
-						<td>
-							<div class="flex items-center gap-2">
-								<div class="flex w-[60px] shrink-0 items-center gap-2">
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/us.svg"
-										alt="United States"
-										title="United States"
-									/>
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/ca.svg"
-										alt="Canada"
-										title="Canada"
-									/>
-								</div>
-								CONUS
-							</div>
-						</td>
-						<td>3 km</td>
-						<td>15 Minutely</td>
-						<td>18 hours</td>
-						<td>Every hour</td>
-					</tr>
-					<tr>
-						<th scope="row"
 							><a href="https://vlab.noaa.gov/web/mdl/nbm-documentation" target="_blank"
 								>NBM CONUS</a
 							></th
@@ -573,38 +508,6 @@
 						>
 						<td>11 days</td>
 						<td>Every hour</td>
-					</tr>
-					<tr>
-						<th scope="row"
-							><a href="https://www.nco.ncep.noaa.gov/pmb/products/nam/" target="_blank"
-								>NAM CONUS</a
-							></th
-						>
-						<td>
-							<div class="flex items-center gap-2">
-								<div class="flex w-[60px] shrink-0 items-center gap-2">
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/us.svg"
-										alt="United States"
-										title="United States"
-									/>
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/ca.svg"
-										alt="Canada"
-										title="Canada"
-									/>
-								</div>
-								CONUS
-							</div>
-						</td>
-						<td>3 km</td>
-						<td>Hourly</td>
-						<td>60 hours</td>
-						<td>Every 6 hours</td>
 					</tr>
 					<tr>
 						<th scope="row"
@@ -743,6 +646,112 @@
 						<td>6-hourly</td>
 						<td>10 days</td>
 						<td>Every 6 hours</td>
+					</tr>
+					<tr class="opacity-50">
+						<th scope="row"
+							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank">HRRR CONUS</a></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km</td>
+						<td>Hourly</td>
+						<td
+							>18 hours, <small class="text-muted-foreground">(48 hours for 0, 6, 12, 18Z)</small
+							></td
+						>
+						<td>
+							Every hour
+							<div class="text-muted-foreground text-xs">discontinued end of November 2026</div>
+						</td>
+					</tr>
+					<tr class="opacity-50">
+						<th scope="row"
+							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank"
+								>HRRR CONUS 15 minutely</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km</td>
+						<td>15 Minutely</td>
+						<td>18 hours</td>
+						<td>
+							Every hour
+							<div class="text-muted-foreground text-xs">discontinued end of November 2026</div>
+						</td>
+					</tr>
+					<tr class="opacity-50">
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/nam/" target="_blank"
+								>NAM CONUS</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km</td>
+						<td>Hourly</td>
+						<td>60 hours</td>
+						<td>
+							Every 6 hours
+							<div class="text-muted-foreground text-xs">discontinued end of November 2026</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>
