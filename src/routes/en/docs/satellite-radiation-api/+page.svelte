@@ -2,8 +2,6 @@
 	import { onMount } from 'svelte';
 	import { SvelteDate } from 'svelte/reactivity';
 
-	import InfoIcon from '@lucide/svelte/icons/info';
-
 	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
 	import { countVariables } from '#lib/utils/meteo.js';
@@ -114,7 +112,6 @@ TODO:
 - proper solar variables documentation
 - better time switch for hourly/10 and 15min
 - better model selection
-- add GEOS data
 - add image with satellite area cover
 */ ''}
 
@@ -126,14 +123,6 @@ TODO:
 		content="Real-time solar radiation from geostationary satellites: shortwave, direct and diffuse irradiance and GTI. Free API for solar energy applications."
 	/>
 </svelte:head>
-
-<Alert.Root variant="info" class="mb-4"
-	><InfoIcon />
-	<Alert.Description>
-		Solar radiation data from NASA GOES satellites has not been integrated yet, so data is currently
-		unavailable for North America.
-	</Alert.Description>
-</Alert.Root>
 
 <form method="get" action="https://api.open-meteo.com/v1/forecast">
 	<!-- LOCATION -->
@@ -560,27 +549,16 @@ TODO:
 					<td>2025</td>
 				</tr>
 				<tr>
-					<th scope="row" rowspan="2">NASA (not yet available)</th>
-					<td>GOES-East</td>
+					<th scope="row">NOAA</th>
+					<td>GOES-19 (GOES-East)</td>
 					<td>
 						<div class="flex items-center gap-2">North & South America</div>
 					</td>
-					<td>0.05° (~ 5km)</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-				</tr>
-				<tr>
-					<td class="pl-2">GOES-West</td>
-					<td>
-						<div class="flex items-center gap-2">Pacific Ocean & Alaska</div>
-					</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
-					<td>N/A</td>
+					<td>2 km (native satellite grid)</td>
+					<td>10 minutely</td>
+					<td>Every 10 minutes</td>
+					<td>10 Minutes</td>
+					<td>April 7th 2025</td>
 				</tr>
 			</tbody>
 		</table>
