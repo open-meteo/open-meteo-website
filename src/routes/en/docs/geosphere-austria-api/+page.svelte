@@ -278,15 +278,17 @@
 				href="/en/docs/ecmwf-api">ECMWF IFS HRES 9 km model</a
 			> to provide up to 15 days of forecast. The seamless model prioritises C-LAEF.
 		</p>
-		<p class="mt-2">
-			<strong>GeoSphere AROME Austria: Discontinued 2026-11-04.</strong> The
-			<mark>geosphere_arome_austria</mark> model remains available for historical data access for
-			now and may be removed in the future. Use <mark>geosphere_claef_austria</mark> or
-			<mark>geosphere_seamless</mark> for current forecasts. See the
-			<a href="https://github.com/open-meteo/open-meteo/pull/2258" target="_blank"
-				>model transition details</a
-			>.
-		</p>
+		<Alert.Root variant="info" class="mt-2 md:mt-4">
+			<Alert.Description>
+				GeoSphere AROME Austria was discontinued on 2026-11-04. The
+				<mark>geosphere_arome_austria</mark> model remains available for historical data access for
+				now and may be removed in the future. Use <mark>geosphere_claef_austria</mark> or
+				<mark>geosphere_seamless</mark> for current forecasts. See the
+				<a href="https://github.com/open-meteo/open-meteo/pull/2258" target="_blank"
+					>model transition details</a
+				>.
+			</Alert.Description>
+		</Alert.Root>
 		<p class="mt-2">
 			Explore the extended
 			<a
@@ -339,10 +341,10 @@
 						<td>Every 3 hours</td>
 					</tr>
 
-					<tr>
+					<tr class="opacity-50">
 						<th scope="row"
 							><a href="https://data.hub.geosphere.at/dataset/nwp-v1-1h-2500m" target="_blank"
-								>GeoSphere AROME Austria (Discontinued 2026-11-04)</a
+								>GeoSphere AROME Austria</a
 							></th
 						>
 						<td>
@@ -362,7 +364,10 @@
 						<td>2.5 km</td>
 						<td>Hourly</td>
 						<td>2.5 days</td>
-						<td>Discontinued 2026-11-04</td>
+						<td>
+							Every 3 hours
+							<div class="text-muted-foreground text-xs">discontinued 2026-11-04</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -386,7 +391,7 @@
 			alt="GeoSphere AROME Austria Model Area"
 		>
 			{#snippet caption()}
-				Historical GeoSphere AROME Austria Model Area (Discontinued 2026-11-04). Source:
+				GeoSphere AROME Austria Model Area (discontinued 2026-11-04). Source:
 				<a
 					href="https://maps.open-meteo.com/?domain=geosphere_arome_austria#5.2/47.60/13.81"
 					target="_blank">Open-Meteo</a
