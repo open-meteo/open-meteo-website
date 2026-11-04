@@ -586,7 +586,7 @@
 						<td>Every hour</td>
 						<td>2018-01-01</td>
 					</tr>
-					<tr>
+					<tr class="opacity-50">
 						<td class="pl-2">NAM</td>
 						<td>
 							<div class="flex items-center gap-2">
@@ -612,7 +612,10 @@
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
-						<td>2025-09-01</td>
+						<td>
+							2025-09-01
+							<div class="text-muted-foreground text-xs">no updates since 2026-11-01</div>
+						</td>
 					</tr>
 					<tr>
 						<td class="pl-2">NBM</td>

@@ -169,9 +169,9 @@
 <Alert.Root variant="warning" class="mb-4"
 	><TriangleAlertIcon />
 	<Alert.Description>
-		The HRRR and NAM weather models will be discontinued at the end of November 2026. Their
-		successor, the Rapid Refresh Forecast System (RRFS), is already available in this API. Please
-		migrate to the RRFS models. NBM is not affected and remains available.
+		NOAA retired the NAM weather model on 2026-11-01 and HRRR will be discontinued at the end of
+		November 2026. Their successor, the Rapid Refresh Forecast System (RRFS), is already available
+		in this API. Please migrate to the RRFS models. NBM is not affected and remains available.
 	</Alert.Description>
 </Alert.Root>
 
@@ -750,7 +750,7 @@
 						<td>60 hours</td>
 						<td>
 							Every 6 hours
-							<div class="text-muted-foreground text-xs">discontinued end of November 2026</div>
+							<div class="text-muted-foreground text-xs">no updates since 2026-11-01</div>
 						</td>
 					</tr>
 				</tbody>
@@ -1748,7 +1748,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
-			on the HRRR model which is only available in North America. If 15-minutely data is requested for
+			on the RRFS model which is only available in North America. If 15-minutely data is requested for
 			locations outside North America, data is interpolated from 1-hourly to 15-minutely.
 		</p>
 		<p>

@@ -118,7 +118,7 @@ export const models = [
 		{ value: 'ncep_hrrr_conus', label: 'HRRR CONUS' },
 		{ value: 'ncep_hrrr_conus_15min', label: 'HRRR CONUS 15 min' },
 		{ value: 'ncep_nbm_conus', label: 'NBM CONUS' },
-		{ value: 'ncep_nam_conus', label: 'NAM CONUS' }
+		{ value: 'ncep_nam_conus', label: 'NAM CONUS (Discontinued 2026-11-01)' }
 	],
 	[
 		{ value: 'ncep_rrfs_north_america', label: 'RRFS North America' },
