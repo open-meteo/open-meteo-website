@@ -37,8 +37,8 @@ export const models = [
 		{ value: 'consolidated_v4', label: 'GloFAS v4 Consolidated' }
 	],
 	[
-		{ value: 'seamless_v3', label: 'GloFAS v3 Seamless' },
-		{ value: 'forecast_v3', label: 'GloFAS v3 Forecast' },
+		{ value: 'seamless_v3', label: 'GloFAS v3 Seamless (until Sep 2023)' },
+		{ value: 'forecast_v3', label: 'GloFAS v3 Forecast (until Sep 2023)' },
 		{ value: 'consolidated_v3', label: 'GloFAS v3 Consolidated' }
 	]
 ];

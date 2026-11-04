@@ -1166,24 +1166,6 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('en/docs/bom-api')}>ACCESS-G</a></th>
-						<td>
-							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] shrink-0 items-center gap-2">
-									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
-										🌍
-									</div>
-								</div>
-								Global
-							</div>
-						</td>
-						<td>Australian Bureau of Meteorology (BOM)</td>
-						<td>Australia</td>
-						<td>15 km</td>
-						<td>10 days</td>
-						<td>Every 6 hours</td>
-					</tr>
-					<tr>
 						<th scope="row"><a href={resolve('en/docs/cma-api')}>GFS GRAPES</a></th>
 						<td>
 							<div class="flex items-center gap-2">
@@ -1324,6 +1306,27 @@
 						<td>1 - 2.3 km</td>
 						<td>3 days</td>
 						<td>Every 6 hours</td>
+					</tr>
+					<tr class="opacity-50">
+						<th scope="row"><a href={resolve('en/docs/bom-api')}>ACCESS-G</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
+						<td>Australian Bureau of Meteorology (BOM)</td>
+						<td>Australia</td>
+						<td>15 km</td>
+						<td>10 days</td>
+						<td>
+							Every 6 hours
+							<div class="text-muted-foreground text-xs">no updates since 2025-06-26</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>
