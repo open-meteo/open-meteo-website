@@ -392,7 +392,7 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 		{ value: 'ecmwf_aifs025_single', label: 'ECMWF AIFS 0.25° Single' },
 		{ value: 'cma_grapes_global', label: 'CMA GRAPES Global' },
 		// BOM open-data delivery stopped after the 2025-06-26 18Z run
-		{ value: 'bom_access_global', label: 'BOM ACCESS Global (until Jun 2025)' }
+		{ value: 'bom_access_global', label: 'BOM ACCESS Global (Discontinued 2025-06-26)' }
 	],
 	[
 		{ value: 'ncep_gfs_seamless', label: 'NCEP GFS Seamless' },
@@ -411,9 +411,9 @@ export const models: { value: string; label: string; caption?: string }[][] = [
 		{ value: 'jma_gsm', label: 'JMA GSM' }
 	],
 	[
-		{ value: 'kma_seamless', label: 'KMA Seamless' },
-		{ value: 'kma_ldps', label: 'KMA LDPS' },
-		{ value: 'kma_gdps', label: 'KMA GDPS' }
+		{ value: 'kma_seamless', label: 'KMA Seamless (Discontinued 2026-03-31)' },
+		{ value: 'kma_ldps', label: 'KMA LDPS (Discontinued 2026-03-31)' },
+		{ value: 'kma_gdps', label: 'KMA GDPS (Discontinued 2026-03-31)' }
 	],
 	[
 		{ value: 'dwd_icon_seamless', label: 'DWD ICON Seamless' },

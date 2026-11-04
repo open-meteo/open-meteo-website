@@ -80,8 +80,8 @@ export const additionalVariables = [
 
 export const models = [
 	[
-		{ value: 'kma_seamless', label: 'KMA Seamless' },
-		{ value: 'kma_gdps', label: 'KMA GDPS 12km' },
-		{ value: 'kma_ldps', label: 'KMA LDPS 1.5km' }
+		{ value: 'kma_seamless', label: 'KMA Seamless (Discontinued 2026-03-31)' },
+		{ value: 'kma_gdps', label: 'KMA GDPS 12km (Discontinued 2026-03-31)' },
+		{ value: 'kma_ldps', label: 'KMA LDPS 1.5km (Discontinued 2026-03-31)' }
 	]
 ];
