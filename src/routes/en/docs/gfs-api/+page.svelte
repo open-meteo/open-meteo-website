@@ -147,19 +147,19 @@
 </script>
 
 <svelte:head>
-	<title>GFS & HRRR API | Open-Meteo.com</title>
+	<title>GFS & RRFS API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/gfs-api" />
 	<meta
 		name="description"
-		content="NOAA GFS and HRRR weather forecasts: global with 3 km HRRR rapid updates for North America. Free weather API, 16-day forecasts, no API key required."
+		content="NOAA GFS and RRFS weather forecasts: global with 3 km RRFS forecasts for North America. Free weather API, 16-day forecasts, no API key required."
 	/>
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4"
 	><InfoIcon />
 	<Alert.Description>
-		By combining the reliable NOAA GFS weather model with the rapid updating HRRR weather model,
-		this API provides unrivaled forecasts for the US region. For a global forecast, the <a
+		By combining the reliable NOAA GFS weather model with the high-resolution RRFS weather model,
+		this API provides unrivaled forecasts for North America. For a global forecast, the <a
 			class="text-link underline"
 			href="/en/docs">Weather Forecast API</a
 		> selects the most suitable weather models automatically to ensure optimal accuracy.
@@ -169,9 +169,9 @@
 <Alert.Root variant="warning" class="mb-4"
 	><TriangleAlertIcon />
 	<Alert.Description>
-		NOAA retired the NAM weather model on 2026-11-01 and HRRR will be discontinued at the end of
-		November 2026. Their successor, the Rapid Refresh Forecast System (RRFS), is already available
-		in this API. Please migrate to the RRFS models. NBM is not affected and remains available.
+		The HRRR and NAM weather models will be discontinued at the end of November 2026. Their
+		successor, the Rapid Refresh Forecast System (RRFS), is already available in this API. Please
+		migrate to the RRFS models. NBM is not affected and remains available.
 	</Alert.Description>
 </Alert.Root>
 
@@ -415,10 +415,11 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			This API uses global NOAA GFS weather forecast and combines them with high-resolution HRRR
-			forecasts. HRRR is a rapid-refresh model and updates every hour. High-resolution data are only
-			available for the United States. For other locations, only GFS is used. For GFS, values are
-			interpolated from 3-hourly to 1-hourly after 120 hours.
+			This API uses global NOAA GFS weather forecast and combines them with high-resolution RRFS
+			forecasts. RRFS, the Rapid Refresh Forecast System, updates every 6 hours and provides
+			15-minutely data for CONUS with hourly updates. High-resolution data are only available for
+			North America. For other locations, only GFS is used. For GFS, values are interpolated from
+			3-hourly to 1-hourly after 120 hours.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table class="docs-table w-full min-w-300">
@@ -750,7 +751,9 @@
 						<td>60 hours</td>
 						<td>
 							Every 6 hours
-							<div class="text-muted-foreground text-xs">no updates since 2026-11-01</div>
+							<div class="text-muted-foreground text-xs">
+								discontinued beginning of November 2026
+							</div>
 						</td>
 					</tr>
 				</tbody>
@@ -1078,6 +1081,7 @@
 						<th scope="col">GFS016</th>
 						<th scope="col">GFS025</th>
 						<th scope="col">HRRR</th>
+						<th scope="col">RRFS</th>
 						<th scope="col">NBM</th>
 						<th scope="col">AIGFS, HGEFS</th>
 					</tr></thead
@@ -1088,6 +1092,7 @@
 						<td>x</td>
 						<td></td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 						<td></td>
 					</tr>
@@ -1097,11 +1102,13 @@
 						<td>x</td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>categorical_freezing_rain</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1114,11 +1121,13 @@
 						<td>x</td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 					</tr>
 					<tr>
 						<td>cloud_cover low/mid/high</td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 						<td>x</td>
@@ -1126,6 +1135,7 @@
 					<tr>
 						<td>convective_inhibition</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1136,12 +1146,14 @@
 						<td>x</td>
 						<td></td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>freezing_level_height</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1153,12 +1165,14 @@
 						<td>x</td>
 						<td></td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>lifted_index</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1171,6 +1185,7 @@
 						<td>x</td>
 						<td></td>
 						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td>precipitation</td>
@@ -1179,11 +1194,13 @@
 						<td>x</td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 					</tr>
 
 					<tr>
 						<td>pressure_msl</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1196,12 +1213,14 @@
 						<td></td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>sensible_heat_flux</td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 						<td></td>
@@ -1210,6 +1229,7 @@
 						<td>shortwave_radiation</td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1221,11 +1241,13 @@
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td>snow_depth</td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 						<td></td>
@@ -1236,6 +1258,7 @@
 						<td></td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 					</tr>
 
@@ -1243,6 +1266,7 @@
 						<td>surface_temperature</td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 						<td></td>
@@ -1254,12 +1278,14 @@
 						<td>x</td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 					</tr>
 
 					<tr>
 						<td>total_column_integrated_water_vapour</td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 						<td></td>
@@ -1271,10 +1297,12 @@
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td>visibility</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td>x</td>
@@ -1283,6 +1311,7 @@
 					<tr>
 						<td>wind 1000hPa</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1294,6 +1323,7 @@
 						<td></td>
 						<td></td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
@@ -1302,11 +1332,13 @@
 						<td>x</td>
 						<td></td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>wind_gusts_10m/</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1320,12 +1352,14 @@
 						<td></td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 						<td>x</td>
 					</tr>
 					<tr>
 						<td>relative_humidity</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1336,12 +1370,14 @@
 						<td></td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 						<td>x</td>
 					</tr>
 					<tr>
 						<td>temperature</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1354,12 +1390,14 @@
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td>wind</td>
 						<td></td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 					</tr>
@@ -1371,6 +1409,7 @@
 						<td>x</td>
 						<td></td>
 						<td></td>
+						<td>x</td>
 						<td></td>
 						<td></td>
 					</tr>
@@ -1379,6 +1418,7 @@
 						<td>x</td>
 						<td></td>
 						<td></td>
+						<td>x</td>
 						<td></td>
 						<td></td>
 					</tr>
@@ -1391,11 +1431,13 @@
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
 						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>ice_pellets_probability</td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -1407,11 +1449,13 @@
 						<td></td>
 						<td>x</td>
 						<td></td>
+						<td></td>
 						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>rain_probability</td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -1423,11 +1467,13 @@
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
 						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>thunderstorm_probability</td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>

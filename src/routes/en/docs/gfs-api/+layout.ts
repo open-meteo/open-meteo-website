@@ -2,8 +2,8 @@ import type { LayoutLoad } from './$types';
 
 export const load = (() => {
 	return {
-		heroTitle: 'GFS & HRRR Forecast API',
-		heroDescription: 'Global GFS model combined with hourly HRRR updates at 3-km resolution',
+		heroTitle: 'GFS & RRFS Forecast API',
+		heroDescription: 'Global GFS model combined with 3-km RRFS forecasts for North America',
 		heroImage: '/images/backgrounds/sunset.webp'
 	};
 }) satisfies LayoutLoad;

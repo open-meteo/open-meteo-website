@@ -39,7 +39,7 @@
 					<a class="text-secondary-foreground" href="/en/docs/ecmwf-api">ECMWF API</a>
 				</li>
 				<li class="mb-1">
-					<a class="text-secondary-foreground" href="/en/docs/gfs-api">GFS & HRRR Forecast API</a>
+					<a class="text-secondary-foreground" href="/en/docs/gfs-api">GFS & RRFS Forecast API</a>
 				</li>
 				<li class="mb-1">
 					<a class="text-secondary-foreground" href="/en/docs/meteofrance-api">Météo-France API</a>
