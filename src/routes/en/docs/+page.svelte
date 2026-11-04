@@ -926,7 +926,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('en/docs/gfs-api')}>GFS & HRRR</a></th>
+						<th scope="row"><a href={resolve('en/docs/gfs-api')}>GFS & RRFS</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1549,7 +1549,7 @@
 									North America
 								</div>
 							</th>
-							<td><a href={resolve('/en/docs/gfs-api')}>NOAA HRRR</a></td>
+							<td><a href={resolve('/en/docs/gfs-api')}>NOAA RRFS</a></td>
 							<td>✓</td>
 						</tr>
 						<tr>
@@ -2054,7 +2054,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
-			on NOAA HRRR model for North America and DWD ICON-D2 and Météo-France AROME model for Central Europe.
+			on NOAA RRFS model for North America and DWD ICON-D2 and Météo-France AROME model for Central Europe.
 			If 15-minutely data is requested for other regions data is interpolated from 1-hourly to 15-minutely.
 		</p>
 		<p>
@@ -2068,7 +2068,7 @@
 						<th scope="col">Variable</th>
 						<th scope="col">Valid time</th>
 						<th scope="col">Unit</th>
-						<th scope="col">HRRR</th>
+						<th scope="col">RRFS</th>
 						<th scope="col">ICON-D2</th>
 						<th scope="col">AROME</th>
 					</tr>
@@ -2182,7 +2182,7 @@
 						<th scope="row">showers</th>
 						<td>Preceding 15 minutes sum</td>
 						<td>mm (inch)</td>
-						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 					</tr>
@@ -2206,7 +2206,7 @@
 						<th scope="row">cape</th>
 						<td>Instant</td>
 						<td>J/kg</td>
-						<td>x</td>
+						<td></td>
 						<td>x</td>
 						<td>x</td>
 					</tr>
@@ -2246,7 +2246,7 @@
 						<th scope="row">weather_code</th>
 						<td>Instant</td>
 						<td>WMO code</td>
-						<td>x</td>
+						<td></td>
 						<td>x</td>
 						<td></td>
 					</tr>

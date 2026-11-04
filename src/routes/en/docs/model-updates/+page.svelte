@@ -437,6 +437,21 @@
 						meta: fetchMeta('ncep_nbm_conus', 'forecast', apiKeyPreferences)
 					},
 					{
+						name: 'RRFS North America',
+						area: ['us', 'ca'],
+						meta: fetchMeta('ncep_rrfs_north_america', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'RRFS CONUS',
+						area: ['us', 'ca'],
+						meta: fetchMeta('ncep_rrfs_conus', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'RRFS CONUS 15min',
+						area: ['us', 'ca'],
+						meta: fetchMeta('ncep_rrfs_conus_15min', 'forecast', apiKeyPreferences)
+					},
+					{
 						name: 'HRRR CONUS',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_hrrr_conus', 'forecast', apiKeyPreferences)
