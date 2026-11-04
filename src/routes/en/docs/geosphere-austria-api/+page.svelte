@@ -370,6 +370,18 @@
 	</div>
 	<div class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
 		<ModelAreaImage
+			src="/images/models/geosphere_claef_austria.webp"
+			alt="GeoSphere C-LAEF Austria Model Area"
+		>
+			{#snippet caption()}
+				GeoSphere C-LAEF Austria Model Area. Source:
+				<a
+					href="https://maps.open-meteo.com/?domain=geosphere_claef_austria#5.2/47.60/13.81"
+					target="_blank">Open-Meteo</a
+				>.
+			{/snippet}
+		</ModelAreaImage>
+		<ModelAreaImage
 			src="/images/models/geosphere_arome_austria.webp"
 			alt="GeoSphere AROME Austria Model Area"
 		>
