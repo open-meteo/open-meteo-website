@@ -460,7 +460,7 @@
 						<th scope="col">Region</th>
 						<th scope="col">Resolution</th>
 						<th scope="col">Temporal Resolution</th>
-						<th scope="col">Forecast Horizon</th>
+						<th scope="col">Forecast Length</th>
 						<th scope="col">Run Frequency</th>
 						<th scope="col">Available From</th>
 					</tr>
@@ -481,7 +481,7 @@
 						</td>
 						<td>9 km (O1280 grid)</td>
 						<td>Hourly</td>
-						<td>10 days</td>
+						<td>15 days</td>
 						<td>4× daily (00, 06, 12, 18 UTC)</td>
 						<td>2024-03-14</td>
 					</tr>

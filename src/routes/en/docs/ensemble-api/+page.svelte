@@ -685,7 +685,7 @@
 						<td>16 days (39 days every Mo+Thu)</td>
 						<td>Every 12 hours</td>
 					</tr>
-					<tr>
+					<tr class="opacity-50">
 						<th scope="row">Australian Bureau of Meteorology (BOM)</th>
 						<td>ACCESS-GE</td>
 						<td>
@@ -701,7 +701,10 @@
 						<td>40 km, 3-hourly</td>
 						<td>18</td>
 						<td>10 days</td>
-						<td>Every 6 hours</td>
+						<td>
+							Every 6 hours
+							<div class="text-muted-foreground text-xs">no updates since 2025-06-26</div>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row" rowspan="2">UK Met Office</th>
