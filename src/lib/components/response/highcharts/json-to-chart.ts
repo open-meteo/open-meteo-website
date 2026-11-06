@@ -217,9 +217,9 @@ export function jsonToChart(data: any, downloadTime: number, type: string = 'for
 	const sharedTooltip = visibleSeries.length <= 5;
 	const chartSeries = sharedTooltip ? series : visibleSeries;
 
-	const latitude = data.latitude.toFixed(2);
-	const longitude = data.longitude.toFixed(2);
-	let title = `${latitude}°N ${longitude}°E`;
+	const latitude = Math.abs(data.latitude).toFixed(2);
+	const longitude = Math.abs(data.longitude).toFixed(2);
+	let title = `${latitude}°${data.latitude < 0 ? 'S' : 'N'} ${longitude}°${data.longitude < 0 ? 'W' : 'E'}`;
 
 	if ('elevation' in data) {
 		const elevation = data.elevation.toFixed(0);

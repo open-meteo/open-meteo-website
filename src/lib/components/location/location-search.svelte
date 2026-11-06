@@ -80,7 +80,7 @@
 				results: [
 					{
 						id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
-						name: `GPS ${latitude.toFixed(2)}°N ${longitude.toFixed(2)}°E`,
+						name: `GPS ${Math.abs(latitude).toFixed(2)}°${latitude < 0 ? 'S' : 'N'} ${Math.abs(longitude).toFixed(2)}°${longitude < 0 ? 'W' : 'E'}`,
 						latitude: latitude,
 						longitude: longitude,
 						elevation: position.coords.altitude ?? NaN,
