@@ -225,7 +225,7 @@ ${empty(indent)}`;
 	// --- Console.log location info ---
 	c += `
 ${line(vr('console') + fn(`${pm('.')}log`) + fg('('), indent)}
-${line(`\t${str(`${tick}${nlEsc}Coordinates: ${exprO}${fg('Math.abs(latitude)')}${exprC}°${exprO}${fg("latitude < 0 ? 'S' : 'N'")}${exprC} ${exprO}${fg('Math.abs(longitude)')}${exprC}°${exprO}${fg("longitude < 0 ? 'W' : 'E'")}${exprC}${tick}`)}${pm(',')}`, indent)}
+${line(`\t${str(`${tick}${nlEsc}Coordinates: ${exprO}${fg('Math.abs(latitude)')}${exprC}°${exprO}${fg("latitude &lt; 0 ? 'S' : 'N'")}${exprC} ${exprO}${fg('Math.abs(longitude)')}${exprC}°${exprO}${fg("longitude &lt; 0 ? 'W' : 'E'")}${exprC}${tick}`)}${pm(',')}`, indent)}
 ${line(`\t${str(`${tick}${nlEsc}Elevation: ${exprO}${fg('elevation')}${exprC}m asl${tick}`)}${pm(',')}`, indent)}`;
 	if (params.timezone) {
 		c += `
