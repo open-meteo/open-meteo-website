@@ -159,10 +159,12 @@
 			</div>
 
 			<div class="text-muted-foreground truncate text-left text-sm">
-				{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
-				{location.longitude.toFixed(2)}°E{#if location.elevation}{' ' +
-						location.elevation.toFixed(0) +
-						'm asl'}{/if})
+				{location.admin1 || ''} ({Math.abs(location.latitude).toFixed(2)}°{location.latitude < 0
+					? 'S'
+					: 'N'}
+				{Math.abs(location.longitude).toFixed(2)}°{location.longitude < 0
+					? 'W'
+					: 'E'}{#if location.elevation}{' ' + location.elevation.toFixed(0) + 'm asl'}{/if})
 			</div>
 		</div>
 
