@@ -219,7 +219,7 @@ ${line(fg('response ') + kw('=') + fg(' responses') + pm('[') + num('0') + pm(']
 
 	// --- Location attributes (print statements) ---
 	c += `
-${line(fn('print') + br('(') + acc('f') + pm('"') + str(`${indent ? '\\n' : ''}Coordinates: ` + num('{') + p('response.') + fn('Latitude') + br('()') + num('}') + '°N ' + num('{') + p('response.') + fn('Longitude') + br('()') + num('}') + '°E') + pm('"') + br(')'), indent)}
+${line(fn('print') + br('(') + acc('f') + pm('"') + str(`${indent ? '\\n' : ''}Coordinates: ` + num('{') + fg('abs(response.Latitude())') + num('}') + '°' + num('{') + fg("'S' if response.Latitude() &lt; 0 else 'N'") + num('}') + ' ' + num('{') + fg('abs(response.Longitude())') + num('}') + '°' + num('{') + fg("'W' if response.Longitude() &lt; 0 else 'E'") + num('}')) + pm('"') + br(')'), indent)}
 ${line(fn('print') + br('(') + acc('f') + pm('"') + str('Elevation: ' + num('{') + p('response.') + fn('Elevation') + br('()') + num('}') + ' m asl') + pm('"') + br(')'), indent)}`;
 	if (params.timezone) {
 		c += `

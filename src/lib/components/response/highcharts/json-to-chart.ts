@@ -1,3 +1,4 @@
+import { formatCoordinates } from '#lib/utils/coordinates.js';
 import { getWeatherCode } from '#lib/utils/meteo.js';
 import { getWeatherIconName } from '#lib/utils/weather-codes.js';
 
@@ -217,9 +218,7 @@ export function jsonToChart(data: any, downloadTime: number, type: string = 'for
 	const sharedTooltip = visibleSeries.length <= 5;
 	const chartSeries = sharedTooltip ? series : visibleSeries;
 
-	const latitude = data.latitude.toFixed(2);
-	const longitude = data.longitude.toFixed(2);
-	let title = `${latitude}°N ${longitude}°E`;
+	let title = formatCoordinates(data.latitude, data.longitude);
 
 	if ('elevation' in data) {
 		const elevation = data.elevation.toFixed(0);
