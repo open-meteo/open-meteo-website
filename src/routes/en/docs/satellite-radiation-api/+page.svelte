@@ -557,7 +557,7 @@ TODO:
 					<td>2 km (native satellite grid)</td>
 					<td>10 minutely</td>
 					<td>Every 10 minutes</td>
-					<td>10 Minutes</td>
+					<td>20 Minutes</td>
 					<td>April 7th 2025</td>
 				</tr>
 			</tbody>

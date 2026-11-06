@@ -76,7 +76,7 @@ export const models = [
 		{ value: 'satellite_radiation_seamless', label: 'Automatic Selection' },
 		{
 			value: 'noaa_goes19',
-			label: 'NOAA GOES-19 (North & South America, 10-minutely, since April 2025, 10 minutes delay)'
+			label: 'NOAA GOES-19 (North & South America, 10-minutely, since April 2025, 20 minutes delay)'
 		},
 		{
 			value: 'dwd_sis_europe_africa_v4',
