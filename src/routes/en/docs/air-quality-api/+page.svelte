@@ -508,6 +508,7 @@
 						<th scope="col">Region</th>
 						<th scope="col">Spatial Resolution</th>
 						<th scope="col">Temporal Resolution</th>
+						<th scope="col">Forecast Length</th>
 						<th scope="col">Data Availability</th>
 						<th scope="col">Update frequency</th>
 					</tr>
@@ -536,8 +537,9 @@
 						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Hourly</td>
+						<td>4 days</td>
 						<td>October 2023 onwards</td>
-						<td>Every 24 hours, 4 days forecast</td>
+						<td>Every 24 hours</td>
 					</tr>
 					<tr>
 						<th scope="row"
@@ -562,6 +564,7 @@
 						</td>
 						<td>0.1° (~11 km)</td>
 						<td>Hourly</td>
+						<td>-</td>
 						<td>2013 onwards</td>
 						<td>-</td>
 					</tr>
@@ -584,8 +587,9 @@
 						</td>
 						<td>0.4° (~45 km)</td>
 						<td>3-Hourly</td>
+						<td>5 days</td>
 						<td>August 2022 onwards </td>
-						<td>Every 12 hours, 5 days forecast</td>
+						<td>Every 12 hours</td>
 					</tr>
 					<tr>
 						<th scope="row"
@@ -606,8 +610,9 @@
 						</td>
 						<td>0.1° (~11 km)</td>
 						<td>3-Hourly</td>
+						<td>5 days</td>
 						<td>November 2024 onwards</td>
-						<td>Every 24 hours, 5 days forecast</td>
+						<td>Every 24 hours</td>
 					</tr>
 				</tbody>
 			</table>

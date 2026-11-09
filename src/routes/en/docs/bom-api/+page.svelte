@@ -133,9 +133,12 @@
 		/><path d="M12 17h.01" /></svg
 	>
 	<Alert.Description>
-		BOM is currently upgrading its key platforms and services. During this process, open-data
-		delivery has been temporarily suspended. We look forward to BOM resuming open-data access soon
-		so that high-resolution forecasts are once again available to Australian citizens.
+		BOM suspended its open-data delivery while upgrading its key platforms and services. The last
+		ACCESS-G run available is from 2025-06-26, so this API currently returns no forecasts. Past data
+		remains available in the <a class="text-link underline" href="/en/docs/historical-forecast-api"
+			>Historical Forecast API</a
+		>. We look forward to BOM resuming open-data access so that high-resolution forecasts are once
+		again available to Australian citizens.
 	</Alert.Description>
 </Alert.Root>
 

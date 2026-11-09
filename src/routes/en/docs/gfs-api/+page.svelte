@@ -3,6 +3,7 @@
 	import { SvelteDate } from 'svelte/reactivity';
 
 	import InfoIcon from '@lucide/svelte/icons/info';
+	import TriangleAlertIcon from '@lucide/svelte/icons/triangle-alert';
 
 	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
@@ -65,8 +66,8 @@
 	} from './options';
 
 	const params = urlHashStore({
-		latitude: [52.52],
-		longitude: [13.41],
+		latitude: [40.714],
+		longitude: [-74.006],
 		...defaultParameters,
 		api_mode: 'forecast',
 		run: '',
@@ -146,22 +147,31 @@
 </script>
 
 <svelte:head>
-	<title>GFS & HRRR API | Open-Meteo.com</title>
+	<title>GFS & RRFS API | Open-Meteo.com</title>
 	<link rel="canonical" href="https://open-meteo.com/en/docs/gfs-api" />
 	<meta
 		name="description"
-		content="NOAA GFS and HRRR weather forecasts: global with 3 km HRRR rapid updates for North America. Free weather API, 16-day forecasts, no API key required."
+		content="NOAA GFS and RRFS weather forecasts: global with 3 km RRFS forecasts for North America. Free weather API, 16-day forecasts, no API key required."
 	/>
 </svelte:head>
 
 <Alert.Root variant="info" class="mb-4"
 	><InfoIcon />
 	<Alert.Description>
-		By combining the reliable NOAA GFS weather model with the rapid updating HRRR weather model,
-		this API provides unrivaled forecasts for the US region. For a global forecast, the <a
+		By combining the reliable NOAA GFS weather model with the high-resolution RRFS weather model,
+		this API provides unrivaled forecasts for North America. For a global forecast, the <a
 			class="text-link underline"
 			href="/en/docs">Weather Forecast API</a
 		> selects the most suitable weather models automatically to ensure optimal accuracy.
+	</Alert.Description>
+</Alert.Root>
+
+<Alert.Root variant="warning" class="mb-4"
+	><TriangleAlertIcon />
+	<Alert.Description>
+		The HRRR and NAM weather models will be discontinued at the end of November 2026. Their
+		successor, the Rapid Refresh Forecast System (RRFS), is already available in this API. Please
+		migrate to the RRFS models. NBM is not affected and remains available.
 	</Alert.Description>
 </Alert.Root>
 
@@ -405,10 +415,11 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Data Sources</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			This API uses global NOAA GFS weather forecast and combines them with high-resolution HRRR
-			forecasts. HRRR is a rapid-refresh model and updates every hour. High-resolution data are only
-			available for the United States. For other locations, only GFS is used. For GFS, values are
-			interpolated from 3-hourly to 1-hourly after 120 hours.
+			This API uses global NOAA GFS weather forecast and combines them with high-resolution RRFS
+			forecasts. RRFS, the Rapid Refresh Forecast System, updates every 6 hours and provides
+			15-minutely data for CONUS with hourly updates. High-resolution data are only available for
+			North America. For other locations, only GFS is used. For GFS, values are interpolated from
+			3-hourly to 1-hourly after 120 hours.
 		</p>
 		<div class="-mx-6 overflow-auto md:ml-0 lg:mx-0">
 			<table class="docs-table w-full min-w-300">
@@ -465,73 +476,8 @@
 					</tr>
 					<tr>
 						<th scope="row"
-							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank">HRRR Conus</a></th
-						>
-						<td>
-							<div class="flex items-center gap-2">
-								<div class="flex w-[60px] shrink-0 items-center gap-2">
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/us.svg"
-										alt="United States"
-										title="United States"
-									/>
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/ca.svg"
-										alt="Canada"
-										title="Canada"
-									/>
-								</div>
-								CONUS
-							</div>
-						</td>
-						<td>3 km</td>
-						<td>Hourly</td>
-						<td
-							>18 hours, <small class="text-muted-foreground">(48 hours for 0, 6, 12, 18Z)</small
-							></td
-						>
-						<td>Every hour</td>
-					</tr>
-					<tr>
-						<th scope="row"
-							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank"
-								>HRRR Conus 15 minutely</a
-							></th
-						>
-						<td>
-							<div class="flex items-center gap-2">
-								<div class="flex w-[60px] shrink-0 items-center gap-2">
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/us.svg"
-										alt="United States"
-										title="United States"
-									/>
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/ca.svg"
-										alt="Canada"
-										title="Canada"
-									/>
-								</div>
-								CONUS
-							</div>
-						</td>
-						<td>3 km</td>
-						<td>15 Minutely</td>
-						<td>18 hours</td>
-						<td>Every hour</td>
-					</tr>
-					<tr>
-						<th scope="row"
 							><a href="https://vlab.noaa.gov/web/mdl/nbm-documentation" target="_blank"
-								>NBM Conus</a
+								>NBM CONUS</a
 							></th
 						>
 						<td>
@@ -566,8 +512,40 @@
 					</tr>
 					<tr>
 						<th scope="row"
-							><a href="https://www.nco.ncep.noaa.gov/pmb/products/nam/" target="_blank"
-								>NAM Conus</a
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/rrfs/" target="_blank"
+								>RRFS North America</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								North America
+							</div>
+						</td>
+						<td>0.11° (~13 km)</td>
+						<td>Hourly</td>
+						<td>84 hours</td>
+						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/rrfs/" target="_blank"
+								>RRFS CONUS</a
 							></th
 						>
 						<td>
@@ -593,8 +571,40 @@
 						</td>
 						<td>3 km</td>
 						<td>Hourly</td>
-						<td>60 hours</td>
+						<td>84 hours</td>
 						<td>Every 6 hours</td>
+					</tr>
+					<tr>
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/rrfs/" target="_blank"
+								>RRFS CONUS 15 minutely</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km</td>
+						<td>15 Minutely</td>
+						<td>18 hours</td>
+						<td>Every hour</td>
 					</tr>
 					<tr>
 						<th scope="row"
@@ -638,23 +648,152 @@
 						<td>10 days</td>
 						<td>Every 6 hours</td>
 					</tr>
+					<tr class="opacity-50">
+						<th scope="row"
+							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank">HRRR CONUS</a></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km</td>
+						<td>Hourly</td>
+						<td
+							>18 hours, <small class="text-muted-foreground">(48 hours for 0, 6, 12, 18Z)</small
+							></td
+						>
+						<td>
+							Every hour
+							<div class="text-muted-foreground text-xs">discontinued end of November 2026</div>
+						</td>
+					</tr>
+					<tr class="opacity-50">
+						<th scope="row"
+							><a href="https://rapidrefresh.noaa.gov/hrrr/" target="_blank"
+								>HRRR CONUS 15 minutely</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km</td>
+						<td>15 Minutely</td>
+						<td>18 hours</td>
+						<td>
+							Every hour
+							<div class="text-muted-foreground text-xs">discontinued end of November 2026</div>
+						</td>
+					</tr>
+					<tr class="opacity-50">
+						<th scope="row"
+							><a href="https://www.nco.ncep.noaa.gov/pmb/products/nam/" target="_blank"
+								>NAM CONUS</a
+							></th
+						>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[60px] shrink-0 items-center gap-2">
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/us.svg"
+										alt="United States"
+										title="United States"
+									/>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/ca.svg"
+										alt="Canada"
+										title="Canada"
+									/>
+								</div>
+								CONUS
+							</div>
+						</td>
+						<td>3 km</td>
+						<td>Hourly</td>
+						<td>60 hours</td>
+						<td>
+							Every 6 hours
+							<div class="text-muted-foreground text-xs">
+								discontinued beginning of November 2026
+							</div>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
 
-		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-2">
-			<ModelAreaImage src="/images/models/ncep_hrrr_conus.webp" alt="HRRR Conus Model Area">
+		<ZoomableImageGallery class="mt-3 grid grid-cols-1 gap-3 md:mt-6 md:gap-6 lg:grid-cols-3">
+			<ModelAreaImage
+				sizes="(min-width: 1024px) 33vw, 100vw"
+				src="/images/models/ncep_rrfs_north_america.webp"
+				alt="RRFS North America Model Area"
+			>
 				{#snippet caption()}
-					HRRR and NAM Conus Model Area. Source: <a
+					RRFS North America Model Area. Source: <a
+						href="https://maps.open-meteo.com/?domain=ncep_rrfs_north_america#2.5/50/-100"
+						>Open-Meteo</a
+					>.
+				{/snippet}
+			</ModelAreaImage>
+
+			<ModelAreaImage
+				sizes="(min-width: 1024px) 33vw, 100vw"
+				src="/images/models/ncep_hrrr_conus.webp"
+				alt="HRRR CONUS Model Area"
+			>
+				{#snippet caption()}
+					HRRR, NAM and RRFS CONUS Model Area. Source: <a
 						href="https://maps.open-meteo.com/?domain=ncep_hrrr_conus#3.5/38.59/-97.49"
 						>Open-Meteo</a
 					>.
 				{/snippet}
 			</ModelAreaImage>
 
-			<ModelAreaImage src="/images/models/ncep_nbm_conus.webp" alt="NBM Conus Model Area">
+			<ModelAreaImage
+				sizes="(min-width: 1024px) 33vw, 100vw"
+				src="/images/models/ncep_nbm_conus.webp"
+				alt="NBM CONUS Model Area"
+			>
 				{#snippet caption()}
-					NBM Conus Model Area. Source: <a
+					NBM CONUS Model Area. Source: <a
 						href="https://maps.open-meteo.com/?domain=ncep_nbm_conus#3.2/40.79/-98.69">Open-Meteo</a
 					>.
 				{/snippet}
@@ -942,6 +1081,7 @@
 						<th scope="col">GFS016</th>
 						<th scope="col">GFS025</th>
 						<th scope="col">HRRR</th>
+						<th scope="col">RRFS</th>
 						<th scope="col">NBM</th>
 						<th scope="col">AIGFS, HGEFS</th>
 					</tr></thead
@@ -952,6 +1092,7 @@
 						<td>x</td>
 						<td></td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 						<td></td>
 					</tr>
@@ -961,11 +1102,13 @@
 						<td>x</td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>categorical_freezing_rain</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -978,11 +1121,13 @@
 						<td>x</td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 					</tr>
 					<tr>
 						<td>cloud_cover low/mid/high</td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 						<td>x</td>
@@ -990,6 +1135,7 @@
 					<tr>
 						<td>convective_inhibition</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1000,12 +1146,14 @@
 						<td>x</td>
 						<td></td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>freezing_level_height</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1017,12 +1165,14 @@
 						<td>x</td>
 						<td></td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>lifted_index</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1035,6 +1185,7 @@
 						<td>x</td>
 						<td></td>
 						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td>precipitation</td>
@@ -1043,11 +1194,13 @@
 						<td>x</td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 					</tr>
 
 					<tr>
 						<td>pressure_msl</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1060,12 +1213,14 @@
 						<td></td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>sensible_heat_flux</td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 						<td></td>
@@ -1074,6 +1229,7 @@
 						<td>shortwave_radiation</td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1085,11 +1241,13 @@
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td>snow_depth</td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 						<td></td>
@@ -1100,6 +1258,7 @@
 						<td></td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 					</tr>
 
@@ -1107,6 +1266,7 @@
 						<td>surface_temperature</td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 						<td></td>
@@ -1118,12 +1278,14 @@
 						<td>x</td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 					</tr>
 
 					<tr>
 						<td>total_column_integrated_water_vapour</td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 						<td></td>
@@ -1135,10 +1297,12 @@
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td>visibility</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td>x</td>
@@ -1147,6 +1311,7 @@
 					<tr>
 						<td>wind 1000hPa</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1158,6 +1323,7 @@
 						<td></td>
 						<td></td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
@@ -1166,11 +1332,13 @@
 						<td>x</td>
 						<td></td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>wind_gusts_10m/</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1184,12 +1352,14 @@
 						<td></td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 						<td>x</td>
 					</tr>
 					<tr>
 						<td>relative_humidity</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1200,12 +1370,14 @@
 						<td></td>
 						<td>x</td>
 						<td>x</td>
+						<td>x</td>
 						<td></td>
 						<td>x</td>
 					</tr>
 					<tr>
 						<td>temperature</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td>x</td>
 						<td></td>
@@ -1218,12 +1390,14 @@
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td>wind</td>
 						<td></td>
 						<td>x</td>
 						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 					</tr>
@@ -1235,6 +1409,7 @@
 						<td>x</td>
 						<td></td>
 						<td></td>
+						<td>x</td>
 						<td></td>
 						<td></td>
 					</tr>
@@ -1243,6 +1418,7 @@
 						<td>x</td>
 						<td></td>
 						<td></td>
+						<td>x</td>
 						<td></td>
 						<td></td>
 					</tr>
@@ -1255,11 +1431,13 @@
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
 						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>ice_pellets_probability</td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -1271,11 +1449,13 @@
 						<td></td>
 						<td>x</td>
 						<td></td>
+						<td></td>
 						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>rain_probability</td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -1287,11 +1467,13 @@
 						<td></td>
 						<td></td>
 						<td></td>
+						<td></td>
 						<td>x</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>thunderstorm_probability</td>
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -1612,7 +1794,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
-			on the HRRR model which is only available in North America. If 15-minutely data is requested for
+			on the RRFS model which is only available in North America. If 15-minutely data is requested for
 			locations outside North America, data is interpolated from 1-hourly to 15-minutely.
 		</p>
 		<p>

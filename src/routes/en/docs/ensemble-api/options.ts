@@ -98,6 +98,62 @@ export const cmc_gem_global_variables = [
 	'is_day'
 ];
 
+// RRFS stores temperature, humidity, geopotential height and wind on these levels;
+// dew point and cloud cover are derived from them. No vertical velocity.
+const ncep_rrfs_ensemble_pressure_levels = [1000, 925, 850, 700, 600, 500, 400, 300, 250].flatMap(
+	(level) => [
+		`temperature_${level}hPa`,
+		`relative_humidity_${level}hPa`,
+		`dew_point_${level}hPa`,
+		`cloud_cover_${level}hPa`,
+		`wind_speed_${level}hPa`,
+		`wind_direction_${level}hPa`,
+		`geopotential_height_${level}hPa`
+	]
+);
+
+export const ncep_rrfs_conus_ensemble_variables = [
+	...ncep_rrfs_ensemble_pressure_levels,
+	'temperature_2m',
+	'relative_humidity_2m',
+	'dew_point_2m',
+	'apparent_temperature',
+	'wet_bulb_temperature_2m',
+	'precipitation',
+	'precipitation_probability',
+	'rain',
+	'snowfall',
+	'snowfall_water_equivalent',
+	'categorical_freezing_rain',
+	'weather_code',
+	'pressure_msl',
+	'surface_pressure',
+	'cloud_cover',
+	'cloud_cover_low',
+	'cloud_cover_mid',
+	'cloud_cover_high',
+	'visibility',
+	'aerosol_optical_depth',
+	'radar_reflectivity',
+	'cape',
+	'convective_inhibition',
+	'total_column_integrated_water_vapour',
+	'et0_fao_evapotranspiration',
+	'vapour_pressure_deficit',
+	'wind_speed_10m',
+	'wind_direction_10m',
+	'wind_speed_80m',
+	'wind_direction_80m',
+	'wind_speed_160m',
+	'wind_direction_160m',
+	'wind_speed_320m',
+	'wind_direction_320m',
+	'wind_gusts_10m',
+	'shortwave_radiation',
+	'sunshine_duration',
+	'is_day'
+];
+
 export const availableVariables: Record<string, string[]> = {
 	dwd_icon_seamless_eps: icon_d2_variables,
 	dwd_icon_global_eps: icon_global_variables,
@@ -110,6 +166,7 @@ export const availableVariables: Record<string, string[]> = {
 	ncep_gefs025: gfs025_variables,
 	ncep_gefs05: gfs05_variables,
 	ncep_aigefs025: aigfs025_variables,
+	ncep_rrfs_conus_ensemble: ncep_rrfs_conus_ensemble_variables,
 	ecmwf_ifs025_ensemble: ecmwf_ifs025_variables,
 	ecmwf_aifs025_ensemble: ecmwf_aifs025_variables,
 	ecmwf_ifs_europe_ensemble: ecmwf_ifs_europe_variables,
@@ -138,7 +195,8 @@ export const models = [
 		{ value: 'ncep_gefs_seamless', label: 'GFS Ensemble Seamless' },
 		{ value: 'ncep_gefs025', label: 'GFS Ensemble 0.25°' },
 		{ value: 'ncep_gefs05', label: 'GFS Ensemble 0.5°' },
-		{ value: 'ncep_aigefs025', label: 'AIGEFS 0.25°' }
+		{ value: 'ncep_aigefs025', label: 'AIGEFS 0.25°' },
+		{ value: 'ncep_rrfs_conus_ensemble', label: 'RRFS CONUS' }
 	],
 	[
 		{ value: 'ecmwf_ifs025_ensemble', label: 'ECMWF IFS 0.25° Ensemble' },
