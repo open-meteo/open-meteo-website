@@ -1020,6 +1020,15 @@
 						<td>Total precipitation (rain, showers, snow) sum of the preceding hour</td>
 					</tr>
 					<tr>
+						<th scope="row">precipitation_probability</th>
+						<td>Preceding hour probability</td>
+						<td>%</td>
+						<td
+							>Probability of precipitation with more than 0.1 mm of the preceding hour, derived
+							from the members of the matching ICON ensemble (ICON-EPS, ICON-EU-EPS or ICON-D2-EPS).</td
+						>
+					</tr>
+					<tr>
 						<th scope="row">snowfall</th>
 						<td>Preceding hour sum</td>
 						<td>cm (inch)</td>

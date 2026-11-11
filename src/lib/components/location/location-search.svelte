@@ -3,6 +3,8 @@
 
 	import { type GeoLocation, favorites, lastVisited } from '#lib/stores/settings.js';
 
+	import { formatCoordinates } from '#lib/utils/coordinates.js';
+
 	import * as Alert from '#lib/components/ui/alert/index.js';
 	import { Button } from '#lib/components/ui/button/index.js';
 	import * as Dialog from '#lib/components/ui/dialog/index.js';
@@ -80,7 +82,7 @@
 				results: [
 					{
 						id: 100000000 + Math.floor(latitude * 100 + longitude + 1000),
-						name: `GPS ${latitude.toFixed(2)}°N ${longitude.toFixed(2)}°E`,
+						name: `GPS ${formatCoordinates(latitude, longitude)}`,
 						latitude: latitude,
 						longitude: longitude,
 						elevation: position.coords.altitude ?? NaN,
@@ -159,10 +161,10 @@
 			</div>
 
 			<div class="text-muted-foreground truncate text-left text-sm">
-				{location.admin1 || ''} ({location.latitude.toFixed(2)}°N
-				{location.longitude.toFixed(2)}°E{#if location.elevation}{' ' +
-						location.elevation.toFixed(0) +
-						'm asl'}{/if})
+				{location.admin1 || ''} ({formatCoordinates(
+					location.latitude,
+					location.longitude
+				)}{#if location.elevation}{' ' + location.elevation.toFixed(0) + 'm asl'}{/if})
 			</div>
 		</div>
 

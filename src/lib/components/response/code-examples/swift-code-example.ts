@@ -171,7 +171,7 @@ ${empty(indent)}`;
 
 	// --- Print location info ---
 	c += `
-${line(fn('print') + pm('(') + str(pm('"') + fg('\\n') + 'Coordinates: ' + pm('\\(') + fg('latitude') + pm(')') + '°N ' + pm('\\(') + fg('longitude') + pm(')') + '°E' + pm('"')) + pm(')'), indent)}
+${line(fn('print') + pm('(') + str(pm('"') + fg('\\n') + 'Coordinates: ' + pm('\\(') + fg('abs(latitude)') + pm(')') + '°' + pm('\\(') + fg('latitude &lt; 0 ? "S" : "N"') + pm(')') + ' ' + pm('\\(') + fg('abs(longitude)') + pm(')') + '°' + pm('\\(') + fg('longitude &lt; 0 ? "W" : "E"') + pm(')') + pm('"')) + pm(')'), indent)}
 ${line(fn('print') + pm('(') + str(pm('"') + 'Elevation: ' + pm('\\(') + fg('elevation') + pm(')') + 'm asl' + pm('"')) + pm(')'), indent)}`;
 	if (params.timezone) {
 		c += `

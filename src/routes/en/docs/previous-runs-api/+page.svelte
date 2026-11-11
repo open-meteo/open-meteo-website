@@ -395,7 +395,7 @@
 		</p>
 		<p>
 			<strong>Update cadence:</strong> Global models update every 6 hours; regional models (e.g.
-			ICON-D2, HRRR, AROME) update every 1–3 hours. The available lead-time window for each model is
+			ICON-D2, AROME) update every 1–3 hours. The available lead-time window for each model is
 			limited to its forecast horizon, so a model with a 3-day horizon will have at most
 			<mark>_previous_day3</mark> populated.
 		</p>

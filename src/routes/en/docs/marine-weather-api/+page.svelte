@@ -453,6 +453,7 @@
 						<th scope="col"></th>
 						<th scope="col">Spatial Resolution</th>
 						<th scope="col">Temporal Resolution</th>
+						<th scope="col">Forecast Length</th>
 						<th scope="col">Data Availability</th>
 						<th scope="col">Update frequency</th>
 					</tr>
@@ -484,7 +485,8 @@
 						>
 						<td>0.08° (~8 km)</td>
 						<td>3-Hourly</td>
-						<td>October 2021 with 10 day forecast</td>
+						<td>10 days</td>
+						<td>October 2021</td>
 						<td>Every 12 hours</td>
 					</tr>
 					<tr>
@@ -513,7 +515,8 @@
 						>
 						<td>0.08° (~8 km)</td>
 						<td>Hourly</td>
-						<td>January 2022 with 10 day forecast</td>
+						<td>10 days</td>
+						<td>January 2022</td>
 						<td>Every 24 hours</td>
 					</tr>
 					<tr>
@@ -542,7 +545,8 @@
 						>
 						<td>0.08° (~8 km)</td>
 						<td>6-Hourly</td>
-						<td>January 2022 with 10 day forecast</td>
+						<td>10 days</td>
+						<td>January 2022</td>
 						<td>Every 24 hours</td>
 					</tr>
 					<tr>
@@ -562,7 +566,8 @@
 						<td></td>
 						<td>9 km</td>
 						<td>Hourly</td>
-						<td>November 2025 with 15 day forecast</td>
+						<td>15 days</td>
+						<td>November 2025</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
@@ -582,7 +587,8 @@
 						<td></td>
 						<td>0.25° (~25 km)</td>
 						<td>3-Hourly</td>
-						<td>March 2024 with 15 day forecast</td>
+						<td>15 days</td>
+						<td>March 2024</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
@@ -602,7 +608,8 @@
 						<td></td>
 						<td>0.25° (~25 km)</td>
 						<td>Hourly</td>
-						<td>June 2024 with 16 day forecast</td>
+						<td>16 days</td>
+						<td>June 2024</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
@@ -622,7 +629,8 @@
 						<td></td>
 						<td>0.16° (~16 km)</td>
 						<td>Hourly</td>
-						<td>October 2024 with 16 day forecast</td>
+						<td>16 days</td>
+						<td>October 2024</td>
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
@@ -649,7 +657,8 @@
 						<td></td>
 						<td>0.05° (~5 km)</td>
 						<td>Hourly</td>
-						<td>August 2022 with 8 day forecast</td>
+						<td>78 hours</td>
+						<td>August 2022</td>
 						<td>Every 12 hours</td>
 					</tr>
 					<tr>
@@ -672,7 +681,8 @@
 						<td></td>
 						<td>0.25° (~25 km)</td>
 						<td>Hourly</td>
-						<td>August 2022 with 4 day forecast</td>
+						<td>174 hours</td>
+						<td>August 2022</td>
 						<td>Every 12 hours</td>
 					</tr>
 					<tr>
@@ -695,6 +705,7 @@
 						<td></td>
 						<td>0.5° (~50 km)</td>
 						<td>Hourly</td>
+						<td>-</td>
 						<td>1940 to present</td>
 						<td>Daily with 5 days delay</td>
 					</tr>
@@ -989,16 +1000,44 @@
 		><h2 id="citation" class="text-2xl md:text-3xl">Citation & Acknowledgement</h2></a
 	>
 	<div class="mt-3 md:mt-6">
-		<h2 id="citation">Citation & Acknowledgement</h2>
+		<p>The Marine API combines data from the following providers:</p>
+		<ul class="[&_a]:text-link ml-6 list-disc [&_a]:underline [&_li]:py-1">
+			<li>
+				MeteoFrance MFWAM waves, SMOC currents and tides, and sea surface temperature: generated
+				using E.U. Copernicus Marine Service Information (<a
+					href="https://doi.org/10.48670/moi-00017"
+					target="_blank">https://doi.org/10.48670/moi-00017</a
+				>,
+				<a href="https://doi.org/10.48670/moi-00016" target="_blank"
+					>https://doi.org/10.48670/moi-00016</a
+				>)
+			</li>
+			<li>
+				ECMWF WAM wave forecasts from the <a href="https://www.ecmwf.int" target="_blank"
+					>European Centre for Medium-Range Weather Forecasts ECMWF</a
+				>
+			</li>
+			<li>
+				GFS Wave forecasts from <a href="https://www.weather.gov/ncep/" target="_blank">NOAA NCEP</a
+				>
+			</li>
+			<li>
+				EWAM and GWAM wave forecasts from the <a
+					href="https://www.dwd.de/EN/service/copyright/copyright_node.html"
+					target="_blank">German Weather Service DWD</a
+				>
+			</li>
+			<li>
+				ERA5-Ocean wave reanalysis: generated using Copernicus Climate Change Service information (<a
+					href="https://doi.org/10.24381/cds.adbb2d47"
+					target="_blank">https://doi.org/10.24381/cds.adbb2d47</a
+				>)
+			</li>
+		</ul>
 		<p>
-			Generated using ICON Wave forecast from the <a
-				href="https://www.dwd.de/EN/service/copyright/copyright_node.html"
-				target="_blank">German Weather Service DWD</a
-			>.
-		</p>
-		<p>
-			All users of Open-Meteo data must provide a clear attribution to DWD as well as a reference to
-			Open-Meteo.
+			All users of Open-Meteo data must provide a clear attribution to the providers of the models
+			they use as well as a reference to Open-Meteo. The licences of all sources are listed on the
+			<a class="text-link underline" href="/en/licence">licence page</a>.
 		</p>
 	</div>
 </div>

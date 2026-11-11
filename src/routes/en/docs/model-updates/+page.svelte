@@ -198,6 +198,16 @@
 						meta: fetchMeta('dwd_icon_global_native', 'forecast', apiKeyPreferences)
 					},
 					{
+						name: 'AICON Global Native',
+						area: [],
+						meta: fetchMeta('dwd_aicon_global_native', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON Global Native Model Level',
+						area: [],
+						meta: fetchMeta('dwd_icon_global_native_model_level', 'forecast', apiKeyPreferences)
+					},
+					{
 						name: 'ICON-EU',
 						area: ['european_union'],
 						meta: fetchMeta('dwd_icon_eu', 'forecast', apiKeyPreferences)
@@ -206,6 +216,11 @@
 						name: 'ICON-EU Native',
 						area: ['european_union'],
 						meta: fetchMeta('dwd_icon_eu_native', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON-EU Native Model Level',
+						area: ['european_union'],
+						meta: fetchMeta('dwd_icon_eu_native_model_level', 'forecast', apiKeyPreferences)
 					},
 					{
 						name: 'ICON-D2',
@@ -218,9 +233,34 @@
 						meta: fetchMeta('dwd_icon_d2_native', 'forecast', apiKeyPreferences)
 					},
 					{
+						name: 'ICON-D2 Native 15min',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_native_15min', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON-D2 Native Model Level',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_native_model_level', 'forecast', apiKeyPreferences)
+					},
+					{
 						name: 'ICON-D2 15min',
 						area: ['de', 'ch', 'at'],
 						meta: fetchMeta('dwd_icon_d2_15min', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON-D2 RUC Native',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_ruc_native', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON-D2 RUC Native 15min',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_ruc_native_15min', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'ICON-D2 RUC Native Model Level',
+						area: ['de', 'ch', 'at'],
+						meta: fetchMeta('dwd_icon_d2_ruc_native_model_level', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -250,9 +290,9 @@
 				url: '/en/docs/geosphere-austria-api',
 				models: [
 					{
-						name: 'GeoSphere AROME Austria',
+						name: 'GeoSphere C-LAEF Austria',
 						area: ['at'],
-						meta: fetchMeta('geosphere_arome_austria', 'forecast', apiKeyPreferences)
+						meta: fetchMeta('geosphere_claef_austria', 'forecast', apiKeyPreferences)
 					}
 				]
 			},
@@ -387,24 +427,34 @@
 						meta: fetchMeta('ncep_hgefs025_ensemble_mean', 'forecast', apiKeyPreferences)
 					},
 					{
-						name: 'NBM Conus',
+						name: 'NBM CONUS',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_nbm_conus', 'forecast', apiKeyPreferences)
 					},
 					{
-						name: 'HRRR Conus',
+						name: 'RRFS North America',
+						area: ['us', 'ca'],
+						meta: fetchMeta('ncep_rrfs_north_america', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'RRFS CONUS',
+						area: ['us', 'ca'],
+						meta: fetchMeta('ncep_rrfs_conus', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'RRFS CONUS 15min',
+						area: ['us', 'ca'],
+						meta: fetchMeta('ncep_rrfs_conus_15min', 'forecast', apiKeyPreferences)
+					},
+					{
+						name: 'HRRR CONUS',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_hrrr_conus', 'forecast', apiKeyPreferences)
 					},
 					{
-						name: 'HRRR Conus 15min',
+						name: 'HRRR CONUS 15min',
 						area: ['us', 'ca'],
 						meta: fetchMeta('ncep_hrrr_conus_15min', 'forecast', apiKeyPreferences)
-					},
-					{
-						name: 'NAM Conus',
-						area: ['us', 'ca'],
-						meta: fetchMeta('ncep_nam_conus', 'forecast', apiKeyPreferences)
 					}
 				]
 			},

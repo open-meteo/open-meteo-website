@@ -12,6 +12,7 @@
 		countPressureVariables,
 		countVariables
 	} from '#lib/utils/meteo.js';
+	import { splitDiscontinued } from '#lib/utils/model-label.js';
 	import { slide } from '#lib/utils/transitions.js';
 
 	import WeatherForecastError from '#lib/components/code/docs/weather-forecast-error.svx';
@@ -523,6 +524,7 @@
 					{#each models as group, i (i)}
 						<div class="mb-3">
 							{#each group as { value, label } (value)}
+								{@const { name, note } = splitDiscontinued(label)}
 								<div class="group flex items-center" title={label}>
 									<Checkbox
 										id="{value}_model"
@@ -545,7 +547,9 @@
 									<Label
 										id="{value}_model_label"
 										for="{value}_model"
-										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]">{label}</Label
+										class="cursor-pointer truncate py-[0.1rem] pl-[0.42rem]"
+										>{name}{#if note}<span class="text-muted-foreground ml-1">{note}</span
+											>{/if}</Label
 									>
 								</div>
 							{/each}
@@ -926,7 +930,7 @@
 						<td>Every 3 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('en/docs/gfs-api')}>GFS & HRRR</a></th>
+						<th scope="row"><a href={resolve('en/docs/gfs-api')}>GFS & RRFS</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1031,31 +1035,6 @@
 						<td>2 - 10 km</td>
 						<td>7 days</td>
 						<td>Every hour</td>
-					</tr>
-					<tr>
-						<th scope="row"><a href={resolve('en/docs/kma-api')}>KMA</a></th>
-						<td>
-							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] shrink-0 items-center gap-2">
-									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
-										🌍
-									</div>
-									<img
-										height="26"
-										width="26"
-										src="/images/country-flags/kr.svg"
-										alt="South Korea"
-										title="South Korea"
-									/>
-								</div>
-								Global & South Korea
-							</div>
-						</td>
-						<td>KMA Korea</td>
-						<td>Korea</td>
-						<td>1.5 - 13 km</td>
-						<td>12 days</td>
-						<td>Every 6 hours</td>
 					</tr>
 					<tr>
 						<th scope="row"><a href={resolve('en/docs/jma-api')}>MSM & GSM</a></th>
@@ -1166,24 +1145,6 @@
 						<td>Every 6 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('en/docs/bom-api')}>ACCESS-G</a></th>
-						<td>
-							<div class="flex items-center gap-2">
-								<div class="flex w-[94px] shrink-0 items-center gap-2">
-									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
-										🌍
-									</div>
-								</div>
-								Global
-							</div>
-						</td>
-						<td>Australian Bureau of Meteorology (BOM)</td>
-						<td>Australia</td>
-						<td>15 km</td>
-						<td>10 days</td>
-						<td>Every 6 hours</td>
-					</tr>
-					<tr>
 						<th scope="row"><a href={resolve('en/docs/cma-api')}>GFS GRAPES</a></th>
 						<td>
 							<div class="flex items-center gap-2">
@@ -1275,7 +1236,7 @@
 						<td>Every 12 hours</td>
 					</tr>
 					<tr>
-						<th scope="row"><a href={resolve('en/docs/geosphere-austria-api')}>AROME</a></th>
+						<th scope="row"><a href={resolve('en/docs/geosphere-austria-api')}>C-LAEF</a></th>
 						<td>
 							<div class="flex items-center gap-2">
 								<div class="flex w-[94px] shrink-0 items-center gap-2">
@@ -1292,7 +1253,7 @@
 						</td>
 						<td>GeoSphere Austria</td>
 						<td>Austria</td>
-						<td>2.5 km</td>
+						<td>1 km</td>
 						<td>2.5 days</td>
 						<td>Every 3 hours</td>
 					</tr>
@@ -1324,6 +1285,55 @@
 						<td>1 - 2.3 km</td>
 						<td>3 days</td>
 						<td>Every 6 hours</td>
+					</tr>
+					<tr class="opacity-50">
+						<th scope="row"><a href={resolve('en/docs/bom-api')}>ACCESS-G</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+								</div>
+								Global
+							</div>
+						</td>
+						<td>Australian Bureau of Meteorology (BOM)</td>
+						<td>Australia</td>
+						<td>15 km</td>
+						<td>10 days</td>
+						<td>
+							Every 6 hours
+							<div class="text-muted-foreground text-xs">no updates since 2025-06-26</div>
+						</td>
+					</tr>
+					<tr class="opacity-50">
+						<th scope="row"><a href={resolve('en/docs/kma-api')}>KMA</a></th>
+						<td>
+							<div class="flex items-center gap-2">
+								<div class="flex w-[94px] shrink-0 items-center gap-2">
+									<div class="flex h-[26px] w-[26px] items-center justify-center text-[23px]">
+										🌍
+									</div>
+									<img
+										height="26"
+										width="26"
+										src="/images/country-flags/kr.svg"
+										alt="South Korea"
+										title="South Korea"
+									/>
+								</div>
+								Global & South Korea
+							</div>
+						</td>
+						<td>KMA Korea</td>
+						<td>Korea</td>
+						<td>1.5 - 13 km</td>
+						<td>12 days</td>
+						<td>
+							Every 6 hours
+							<div class="text-muted-foreground text-xs">no updates since 2026-03-31</div>
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -1549,7 +1559,7 @@
 									North America
 								</div>
 							</th>
-							<td><a href={resolve('/en/docs/gfs-api')}>NOAA HRRR</a></td>
+							<td><a href={resolve('/en/docs/gfs-api')}>NOAA RRFS</a></td>
 							<td>✓</td>
 						</tr>
 						<tr>
@@ -1861,6 +1871,46 @@
 						>
 					</tr>
 					<tr>
+						<th scope="row">terrestrial_radiation</th>
+						<td>Preceding hour mean</td>
+						<td>W/m²</td>
+						<td
+							>The solar radiation at the top of the atmosphere, unaffected by clouds or aerosols.
+							It is purely calculated using the solar position factor multiplied by the solar
+							constant of 1367.7 W/m². This differs from clear sky radiation, which accounts for
+							aerosols but not clouds.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">*_instant</th>
+						<td>Instant</td>
+						<td>W/m²</td>
+						<td
+							>All solar radiation parameters can be expressed as instantaneous values by accounting
+							for the solar zenith angle at a specific moment. Instantaneous values are useful for
+							direct comparison with local measurements. However, for energy calculations or model
+							evaluations, backward-averaged (preceding hour) data is preferred. By default, the
+							Open-Meteo API provides backward-averaged solar radiation to simplify energy
+							calculations.</td
+						>
+					</tr>
+					<tr>
+						<th scope="row">uv_index<br />uv_index_clear_sky</th>
+						<td>Preceding hour mean</td>
+						<td>Index</td>
+						<td
+							>UV index starting from 0 as average of the preceding hour. <mark
+								>uv_index_clear_sky</mark
+							>
+							assumes cloud free conditions. See the
+							<a
+								class="text-link underline"
+								href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index"
+								>WHO UV index guidelines</a
+							> for more information.</td
+						>
+					</tr>
+					<tr>
 						<th scope="row">vapour_pressure_deficit</th>
 						<td>Instant</td>
 						<td>kPa</td>
@@ -2014,7 +2064,7 @@
 	<div class="mt-2 md:mt-4">
 		<p>
 			The parameter <mark>&minutely_15=</mark> can be used to get 15-minutely data. This data is based
-			on NOAA HRRR model for North America and DWD ICON-D2 and Météo-France AROME model for Central Europe.
+			on NOAA RRFS model for North America and DWD ICON-D2 and Météo-France AROME model for Central Europe.
 			If 15-minutely data is requested for other regions data is interpolated from 1-hourly to 15-minutely.
 		</p>
 		<p>
@@ -2028,7 +2078,7 @@
 						<th scope="col">Variable</th>
 						<th scope="col">Valid time</th>
 						<th scope="col">Unit</th>
-						<th scope="col">HRRR</th>
+						<th scope="col">RRFS</th>
 						<th scope="col">ICON-D2</th>
 						<th scope="col">AROME</th>
 					</tr>
@@ -2142,7 +2192,7 @@
 						<th scope="row">showers</th>
 						<td>Preceding 15 minutes sum</td>
 						<td>mm (inch)</td>
-						<td></td>
+						<td>x</td>
 						<td>x</td>
 						<td></td>
 					</tr>
@@ -2166,7 +2216,7 @@
 						<th scope="row">cape</th>
 						<td>Instant</td>
 						<td>J/kg</td>
-						<td>x</td>
+						<td></td>
 						<td>x</td>
 						<td>x</td>
 					</tr>
@@ -2206,7 +2256,7 @@
 						<th scope="row">weather_code</th>
 						<td>Instant</td>
 						<td>WMO code</td>
-						<td>x</td>
+						<td></td>
 						<td>x</td>
 						<td></td>
 					</tr>
@@ -2419,12 +2469,12 @@
 						<td>Index</td>
 						<td
 							>Daily maximum in UV Index starting from 0. <mark>uv_index_clear_sky_max</mark>
-							assumes cloud free conditions. Please follow the
+							assumes cloud free conditions. See the
 							<a
 								class="text-link underline"
 								href="https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index"
-								>official WMO guidelines</a
-							> for ultraviolet index.</td
+								>WHO UV index guidelines</a
+							> for more information.</td
 						>
 					</tr>
 				</tbody>

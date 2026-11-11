@@ -292,8 +292,9 @@
 				<div>
 					<small class="text-muted-foreground"
 						>Note: The default <mark>Best Match</mark> provides the best forecast for any given
-						location worldwide. <mark>Seamless</mark> combines all models from a given provider into a
-						seamless prediction.</small
+						location worldwide. <mark>Seamless</mark> combines all models from a given provider into
+						a seamless prediction. The period each model covers is listed under
+						<a class="text-link underline" href="#data_sources">Data Sources</a>.</small
 					>
 				</div>
 			</AccordionItem>
@@ -577,7 +578,7 @@
 										title="Canada"
 									/>
 								</div>
-								U.S. Conus
+								U.S. CONUS
 							</div>
 						</td>
 						<td>3 km</td>
@@ -585,7 +586,7 @@
 						<td>Every hour</td>
 						<td>2018-01-01</td>
 					</tr>
-					<tr>
+					<tr class="opacity-50">
 						<td class="pl-2">NAM</td>
 						<td>
 							<div class="flex items-center gap-2">
@@ -605,13 +606,16 @@
 										title="Canada"
 									/>
 								</div>
-								U.S. Conus
+								U.S. CONUS
 							</div>
 						</td>
 						<td>3 km</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
-						<td>2025-09-01</td>
+						<td>
+							2025-09-01
+							<div class="text-muted-foreground text-xs">no updates since 2026-11-01</div>
+						</td>
 					</tr>
 					<tr>
 						<td class="pl-2">NBM</td>
@@ -633,7 +637,7 @@
 										title="Canada"
 									/>
 								</div>
-								U.S. Conus
+								U.S. CONUS
 							</div>
 						</td>
 						<td>3 km</td>
@@ -1031,7 +1035,7 @@
 						<td>Every 6 hours</td>
 						<td>2023-12-31</td>
 					</tr>
-					<tr>
+					<tr class="opacity-50">
 						<th scope="row">Australian Bureau of Meteorology (BOM)</th>
 						<td>ACCESS-G</td>
 						<td>
@@ -1047,7 +1051,10 @@
 						<td>0.15° (~15 km)</td>
 						<td>Hourly</td>
 						<td>Every 6 hours</td>
-						<td>2024-01-18</td>
+						<td>
+							2024-01-01
+							<div class="text-muted-foreground text-xs">no updates since 2025-06-26</div>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row">ItaliaMeteo ItaliaMeteo-ARPAE</th>

@@ -8,6 +8,7 @@ export const hourly = [
 		{ value: 'relative_humidity_2m', label: 'Relative Humidity (2 m)' },
 		{ value: 'dew_point_2m', label: 'Dewpoint (2 m)' },
 		{ value: 'apparent_temperature', label: 'Apparent Temperature' },
+		{ value: 'precipitation_probability', label: 'Precipitation Probability' },
 		{ value: 'precipitation', label: 'Precipitation (rain + showers + snow)' },
 		{ value: 'rain', label: 'Rain' },
 		{ value: 'showers', label: 'Showers' },
@@ -90,11 +91,13 @@ export const additionalVariables = [
 export const models = [
 	[
 		{ value: 'dwd_icon_seamless', label: 'DWD ICON Seamless' },
-		{ value: 'dwd_icon_global', label: 'DWD ICON Global' },
+		{ value: 'dwd_icon_global', label: 'DWD ICON Global (Discontinued 2026-11-30)' },
 		{ value: 'dwd_icon_global_native', label: 'DWD ICON Global Native' },
-		{ value: 'dwd_icon_eu', label: 'DWD ICON EU' },
+		{ value: 'dwd_aicon_global_native', label: 'DWD AICON Global Native' },
+		{ value: 'dwd_icon_eu', label: 'DWD ICON EU (Discontinued 2026-11-30)' },
 		{ value: 'dwd_icon_eu_native', label: 'DWD ICON EU Native' },
-		{ value: 'dwd_icon_d2', label: 'DWD ICON D2' },
-		{ value: 'dwd_icon_d2_native', label: 'DWD ICON D2 Native' }
+		{ value: 'dwd_icon_d2', label: 'DWD ICON D2 (Discontinued 2026-11-30)' },
+		{ value: 'dwd_icon_d2_native', label: 'DWD ICON D2 Native' },
+		{ value: 'dwd_icon_d2_ruc_native', label: 'DWD ICON D2 RUC Native' }
 	]
 ];
