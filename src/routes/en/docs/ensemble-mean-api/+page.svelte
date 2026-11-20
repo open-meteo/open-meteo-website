@@ -4,7 +4,7 @@
 
 	import { urlHashStore } from '#lib/stores/url-hash-store.js';
 
-	import { sliceIntoChunks } from '#lib/utils/index.js';
+	import { isAvailable, isDailyAvailable, sliceIntoChunks } from '#lib/utils/index.js';
 	import {
 		altitudeAboveSeaLevelMeters,
 		countPressureVariables,
@@ -32,7 +32,6 @@
 		additionalVariables,
 		daily,
 		defaultParameters,
-		hourly,
 		levels,
 		pressureVariables,
 		solarVariables
@@ -44,7 +43,14 @@
 		pastHoursOptions,
 		temporalResolutionOptions
 	} from '../options';
-	import { availableVariables, forecastDaysOptions, models, noSpreadVariables } from './options';
+	import {
+		availableMeans,
+		availableSpreads,
+		forecastDaysOptions,
+		hourlyGroupsForModels,
+		models,
+		noSpreadVariables
+	} from './options';
 
 	const defaultModels = ['dwd_icon_eps_ensemble_mean_seamless'];
 
@@ -58,6 +64,7 @@
 
 	let mounted = $state(false);
 	let availabilityModels = $derived(mounted ? $params.models?.slice() : defaultModels);
+	let hourlyGroups = $derived(hourlyGroupsForModels(availabilityModels, $params.hourly));
 
 	// Additional variable settings
 	let pastHours = $derived(pastHoursOptions.find((pho) => String(pho.value) == $params.past_hours));
@@ -105,49 +112,12 @@
 		}
 	});
 
-	const availableVariablesMap = availableVariables as Record<string, string[]>;
-
-	function isAvailable(variable: string, models: string[] | undefined): boolean {
-		// no model selected
-		if (!models || models.length == 0) {
-			return true;
-		}
-		for (const model of models) {
-			if (!availableVariablesMap[model]) {
-				continue;
-			}
-			if (availableVariablesMap[model].includes(variable)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	function isDailyAvailable(variable: string, models: string[] | undefined): boolean {
-		// remove last '_part' of variable, that they can be checked with the hourly variables
-		let variableSplit = variable.split('_');
-		if (
-			['max', 'mean', 'min', 'sum', 'hours', 'dominant'].includes(
-				variableSplit[variableSplit.length - 1]
-			)
-		) {
-			variableSplit.pop();
-		}
-		let variableBase = variableSplit.join('_');
-
-		// no model selected
-		if (!models || models.length == 0) {
-			return true;
-		}
-		for (const model of models) {
-			if (!availableVariablesMap[model]) {
-				continue;
-			}
-			if (availableVariablesMap[model].includes(variableBase)) {
-				return true;
-			}
-		}
-		return false;
+	function hourlyDisabled(variable: string, spread = false) {
+		const key = spread ? variable + '_spread' : variable;
+		return (
+			!$params.hourly?.includes(key) &&
+			!isAvailable(variable, availabilityModels, spread ? availableSpreads : availableMeans)
+		);
 	}
 
 	let beginDate = new Date('2023-04-01');
@@ -205,7 +175,7 @@
 		<div
 			class="mt-2 grid grid-flow-row gap-x-4 gap-y-4 md:gap-x-8 md:gap-y-8 lg:grid-cols-1 xl:grid-cols-2"
 		>
-			{#each hourly as group, i (i)}
+			{#each hourlyGroups as group, i (i)}
 				<div>
 					{#each group as { value, label } (value)}
 						<div class="flex w-full">
@@ -219,7 +189,7 @@
 											id="{value}_hourly"
 											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 											{value}
-											disabled={!isAvailable(value, availabilityModels)}
+											disabled={hourlyDisabled(value)}
 											checked={$params.hourly?.includes(value)}
 											aria-labelledby="{value}_hourly_mean_label"
 											onCheckedChange={() => {
@@ -245,7 +215,7 @@
 												id="{value}_hourly_spread"
 												class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 												value={value + '_spread'}
-												disabled={!isAvailable(value, availabilityModels)}
+												disabled={hourlyDisabled(value, true)}
 												checked={$params.hourly?.includes(value + '_spread')}
 												aria-labelledby="{value}_hourly_spread_label"
 												onCheckedChange={() => {
@@ -305,7 +275,7 @@
 													id="{value}_hourly"
 													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													{value}
-													disabled={!isAvailable(value, availabilityModels)}
+													disabled={hourlyDisabled(value)}
 													checked={$params.hourly?.includes(value)}
 													aria-labelledby="{value}_hourly_mean_label"
 													onCheckedChange={() => {
@@ -331,7 +301,7 @@
 														id="{value}_hourly_spread"
 														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 														value={value + '_spread'}
-														disabled={!isAvailable(value, availabilityModels)}
+														disabled={hourlyDisabled(value, true)}
 														checked={$params.hourly?.includes(value + '_spread')}
 														aria-labelledby="{value}_hourly_spread_label"
 														onCheckedChange={() => {
@@ -397,7 +367,7 @@
 													id="{value}_hourly"
 													class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 													{value}
-													disabled={!isAvailable('shortwave_radiation', availabilityModels)}
+													disabled={hourlyDisabled(value)}
 													checked={$params.hourly?.includes(value)}
 													aria-labelledby="{value}_hourly_mean_label"
 													onCheckedChange={() => {
@@ -423,7 +393,7 @@
 														id="{value}_hourly_spread"
 														class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 														value={value + '_spread'}
-														disabled={!isAvailable('shortwave_radiation', availabilityModels)}
+														disabled={hourlyDisabled(value, true)}
 														checked={$params.hourly?.includes(value + '_spread')}
 														aria-labelledby="{value}_hourly_spread_label"
 														onCheckedChange={() => {
@@ -529,10 +499,7 @@
 																		id="{variable.value}_{level}hPa_mean"
 																		class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 																		value={variable.value + '_' + level + 'hPa'}
-																		disabled={!isAvailable(
-																			`${variable.value}_${level}hPa`,
-																			availabilityModels
-																		)}
+																		disabled={hourlyDisabled(`${variable.value}_${level}hPa`)}
 																		checked={$params.hourly?.includes(
 																			`${variable.value}_${level}hPa`
 																		)}
@@ -566,9 +533,9 @@
 																			id="{variable.value}_{level}hPa_spread"
 																			class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 																			value={variable.value + '_' + level + 'hPa_spread'}
-																			disabled={!isAvailable(
+																			disabled={hourlyDisabled(
 																				`${variable.value}_${level}hPa`,
-																				availabilityModels
+																				true
 																			)}
 																			checked={$params.hourly?.includes(
 																				`${variable.value}_${level}hPa_spread`
@@ -645,7 +612,8 @@
 											id="{value}_daily_mean"
 											class="bg-muted/50 border-border-dark cursor-pointer duration-100 group-hover:border-current"
 											{value}
-											disabled={!isDailyAvailable(value, availabilityModels)}
+											disabled={!$params.daily?.includes(value) &&
+												!isDailyAvailable(value, availabilityModels, availableMeans)}
 											checked={$params.daily?.includes(value)}
 											aria-labelledby="{value}_daily_mean_label"
 											onCheckedChange={() => {
@@ -738,16 +706,23 @@
 	<a href="#data_sources"><h2 id="data_sources" class="text-2xl md:text-3xl">Documentation</h2></a>
 	<div class="mt-2 md:mt-4">
 		<p>
-			The Ensemble Mean API offers access to mean and spread (standard deviation) directly
-			calculated from ensemble models using individual members. These ensemble means are stored for
-			an extended period, with most available since March 2026. Individual ensemble members,
-			however, are only stored for up to three days.
+			The Ensemble Mean API provides the ensemble mean and spread. Most models calculate spread as
+			the standard deviation of the individual member forecasts. WeatherNext 3 estimates it from the
+			10th and 90th percentiles using <mark>(P90 − P10) / 2.5631</mark>. These ensemble means are
+			stored for an extended period, with most available since March 2026. Individual ensemble
+			members, however, are only stored for up to three days.
 		</p>
 		<p>
-			The Ensemble Mean API uses the same data sources as the regular Ensemble API. Please refer to
-			the <a href="/en/docs/ensemble-api" title="Ensemble API" class="text-link underline"
-				>Ensemble API</a
-			> for a detailed list of ensemble models.
+			Please refer to the <a
+				href="/en/docs/ensemble-api"
+				title="Ensemble API"
+				class="text-link underline">Ensemble API</a
+			>
+			for a detailed list of models with individual member forecasts. See the
+			<a href="/en/docs/google-weathernext3-api" class="text-link underline"
+				>Google WeatherNext 3 API</a
+			>
+			for the available WeatherNext 3 percentiles.
 		</p>
 	</div>
 </div>

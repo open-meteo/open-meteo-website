@@ -7,13 +7,20 @@ import {
 	gfs025_variables,
 	gfs05_variables,
 	google_weathernext2_variables,
+	hourly,
 	icon_d2_variables,
 	icon_eu_variables,
 	icon_global_variables,
 	meteoswiss_variables,
+	solarVariables,
 	ukmo_2km_variables,
 	ukmo_variables
 } from '../ensemble-options';
+import {
+	fields,
+	spreadVariables,
+	model as weatherNext3Model
+} from '../google-weathernext3-api/options';
 import { dayOptions } from '../options';
 
 export const gem_global_variables = [
@@ -45,7 +52,7 @@ export const gem_global_variables = [
 	'is_day'
 ];
 
-export const availableVariables = {
+const modelVariables: Record<string, string[]> = {
 	dwd_icon_eps_ensemble_mean_seamless: icon_d2_variables,
 	dwd_icon_eps_ensemble_mean: icon_global_variables,
 	dwd_icon_eu_eps_ensemble_mean: icon_eu_variables,
@@ -65,8 +72,47 @@ export const availableVariables = {
 	bom_access_global_ensemble_mean: bom_access_global_ensemble,
 	meteoswiss_icon_ch1_ensemble_mean: meteoswiss_variables,
 	meteoswiss_icon_ch2_ensemble_mean: meteoswiss_variables,
-	google_weathernext2_ensemble_mean: google_weathernext2_variables
+	google_weathernext2_ensemble_mean: google_weathernext2_variables,
+	[weatherNext3Model.value]: [
+		...fields.map(({ value }) => value),
+		'apparent_temperature',
+		'diffuse_radiation',
+		'et0_fao_evapotranspiration',
+		'is_day',
+		'relative_humidity_2m',
+		'sunshine_duration',
+		'vapour_pressure_deficit',
+		'wet_bulb_temperature_2m',
+		'wind_direction_10m',
+		'wind_direction_100m'
+	]
 };
+
+const solarFields = solarVariables.flat().map(({ value }) => value);
+
+// Models with shortwave radiation also offer the derived solar variables in this selector.
+export const availableMeans = Object.fromEntries(
+	Object.entries(modelVariables).map(([model, variables]) => [
+		model,
+		variables.includes('shortwave_radiation')
+			? [...new Set([...variables, ...solarFields])]
+			: variables
+	])
+);
+
+export const availableSpreads = { ...availableMeans, [weatherNext3Model.value]: spreadVariables };
+
+const sharedFields = new Set([...hourly, ...solarVariables].flat().map(({ value }) => value));
+const extraFields = fields.filter(({ value }) => !sharedFields.has(value));
+
+export function hourlyGroupsForModels(models: string[] = [], selected: string[] = []) {
+	const visible = models.includes(weatherNext3Model.value)
+		? extraFields
+		: extraFields.filter(
+				({ value }) => selected.includes(value) || selected.includes(value + '_spread')
+			);
+	return visible.length ? [...hourly, visible] : hourly;
+}
 
 export const models = [
 	[
@@ -97,7 +143,10 @@ export const models = [
 		{ value: 'meteoswiss_icon_ch1_ensemble_mean', label: 'MeteoSwiss ICON CH1 Mean' },
 		{ value: 'meteoswiss_icon_ch2_ensemble_mean', label: 'MeteoSwiss ICON CH2 Mean' }
 	],
-	[{ value: 'google_weathernext2_ensemble_mean', label: 'Google WeatherNext 2 Ensemble Mean' }]
+	[
+		{ value: 'google_weathernext2_ensemble_mean', label: 'Google WeatherNext 2 Ensemble Mean' },
+		weatherNext3Model
+	]
 ];
 
 export const forecastDaysOptions = dayOptions([1, 3, 7, 14, 16, 30, 35], 7);
