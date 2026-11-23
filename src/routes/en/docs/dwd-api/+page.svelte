@@ -415,8 +415,10 @@
 			Central Europe.
 		</p>
 		<p class="mb-4">
-			After 30 November 2026, <mark>dwd_icon_global</mark>, <mark>dwd_icon_eu</mark> and
-			<mark>dwd_icon_d2</mark> will use native grids. Visibility will no longer be available
+			On 30 November 2026, the regular latitude-longitude grids for <mark>dwd_icon_global</mark>,
+			<mark>dwd_icon_eu</mark> and <mark>dwd_icon_d2</mark> will be replaced with the native ICON
+			grids. For backwards compatibility, API calls using existing URLs will automatically return
+			ICON native grid data. No action is required by users. Visibility will no longer be available
 			following DWD's feed migration. See the
 			<a
 				href="https://www.dwd.de/DE/leistungen/opendata/neuigkeiten/opendata_september2026_1.html"
