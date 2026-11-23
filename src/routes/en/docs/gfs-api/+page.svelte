@@ -169,9 +169,10 @@
 <Alert.Root variant="warning" class="mb-4"
 	><TriangleAlertIcon />
 	<Alert.Description>
-		The HRRR and NAM weather models will be discontinued at the end of November 2026. Their
-		successor, the Rapid Refresh Forecast System (RRFS), is already available in this API. Please
-		migrate to the RRFS models. NBM is not affected and remains available.
+		The HRRR weather model will be discontinued in the future with the release of RRFSv2. The NAM
+		weather model will be discontinued at the end of November 2026. The Rapid Refresh Forecast
+		System (RRFS) is already available in this API. Please migrate to the RRFS models. NBM is not
+		affected and remains available.
 	</Alert.Description>
 </Alert.Root>
 
@@ -681,7 +682,9 @@
 						>
 						<td>
 							Every hour
-							<div class="text-muted-foreground text-xs">discontinued end of November 2026</div>
+							<div class="text-muted-foreground text-xs">
+								will be discontinued with the future release of RRFSv2
+							</div>
 						</td>
 					</tr>
 					<tr class="opacity-50">
@@ -716,7 +719,9 @@
 						<td>18 hours</td>
 						<td>
 							Every hour
-							<div class="text-muted-foreground text-xs">discontinued end of November 2026</div>
+							<div class="text-muted-foreground text-xs">
+								will be discontinued with the future release of RRFSv2
+							</div>
 						</td>
 					</tr>
 					<tr class="opacity-50">
