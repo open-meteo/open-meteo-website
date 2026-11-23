@@ -56,8 +56,8 @@
 		</a>
 		<p class="text-muted-foreground mt-2 text-sm">
 			Select temperature P10 and P90 to see the central 80% of ensemble temperatures at each
-			forecast hour. Wind speed offers all five percentiles. Eastward and northward wind offer mean
-			and spread.
+			forecast hour. At 10 m and 100 m, wind speed offers the mean, spread and all five percentiles.
+			Wind direction is calculated from the mean eastward and northward wind components.
 		</p>
 		<table aria-labelledby="hourly_weather_variables" class="mt-2 block w-full lg:table">
 			<thead class="hidden lg:table-header-group">

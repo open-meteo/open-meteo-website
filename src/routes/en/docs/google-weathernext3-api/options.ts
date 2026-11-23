@@ -17,30 +17,28 @@ export const fields = [
 	{ value: 'cloud_cover_low', label: 'Cloud Cover Low' },
 	{ value: 'cloud_cover_mid', label: 'Cloud Cover Mid' },
 	{ value: 'cloud_cover_high', label: 'Cloud Cover High' },
-	{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)' },
+	{ value: 'wind_speed_10m', label: 'Wind Speed (10 m)', spread: true },
+	{ value: 'wind_direction_10m', label: 'Wind Direction (10 m)', percentiles: false },
 	{
 		value: 'wind_u_component_10m',
 		label: 'Eastward Wind (10 m)',
-		spread: true,
 		percentiles: false
 	},
 	{
 		value: 'wind_v_component_10m',
 		label: 'Northward Wind (10 m)',
-		spread: true,
 		percentiles: false
 	},
-	{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)' },
+	{ value: 'wind_speed_100m', label: 'Wind Speed (100 m)', spread: true },
+	{ value: 'wind_direction_100m', label: 'Wind Direction (100 m)', percentiles: false },
 	{
 		value: 'wind_u_component_100m',
 		label: 'Eastward Wind (100 m)',
-		spread: true,
 		percentiles: false
 	},
 	{
 		value: 'wind_v_component_100m',
 		label: 'Northward Wind (100 m)',
-		spread: true,
 		percentiles: false
 	},
 	{ value: 'shortwave_radiation', label: 'Shortwave Solar Radiation GHI' },
@@ -52,7 +50,6 @@ export const spreadVariables = fields.filter(({ spread }) => spread).map(({ valu
 const percentiles = [10, 25, 50, 75, 90];
 export const statisticLabels = ['Mean', 'Spread', ...percentiles.map((level) => `P${level}`)];
 
-// Wind component percentiles are stored but cannot be requested through the surface variable parser.
 export const hourly = fields.map((field) => ({
 	...field,
 	statistics: [

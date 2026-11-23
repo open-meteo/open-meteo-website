@@ -82,9 +82,7 @@ const modelVariables: Record<string, string[]> = {
 		'relative_humidity_2m',
 		'sunshine_duration',
 		'vapour_pressure_deficit',
-		'wet_bulb_temperature_2m',
-		'wind_direction_10m',
-		'wind_direction_100m'
+		'wet_bulb_temperature_2m'
 	]
 };
 
