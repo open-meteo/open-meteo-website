@@ -22,5 +22,6 @@ export const BACKGROUND_VARIANTS: Record<string, BackgroundVariants> = {
 	'rhine.webp': { width: 3840, height: 1148, widths: [640, 960, 1280, 1920, 2560, 3840] },
 	'wallis_dawn.webp': { width: 2560, height: 1280, widths: [640, 960, 1280, 1920, 2560] },
 	'wallis_sunrise.webp': { width: 3840, height: 1920, widths: [640, 960, 1280, 1920, 2560, 3840] },
+	'weathernext3.webp': { width: 3840, height: 2592, widths: [640, 960, 1280, 1920, 2560, 3840] },
 	'zeedijk.webp': { width: 3840, height: 2013, widths: [640, 960, 1280, 1920, 2560, 3840] }
 };

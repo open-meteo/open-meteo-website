@@ -628,6 +628,17 @@
 						meta: fetchMeta('google_weathernext2_ensemble', 'ensemble', apiKeyPreferences)
 					}
 				]
+			},
+			{
+				provider: 'Google',
+				url: '/en/docs/google-weathernext3-api',
+				models: [
+					{
+						name: 'WeatherNext 3 Ensemble Mean',
+						area: [],
+						meta: fetchMeta('google_weathernext3_ensemble_mean', 'ensemble', apiKeyPreferences)
+					}
+				]
 			}
 		];
 
