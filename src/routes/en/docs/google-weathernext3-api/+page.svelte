@@ -73,11 +73,7 @@
 					<tr class="border-border flex flex-wrap gap-x-3 gap-y-1 py-2 lg:table-row lg:border-b">
 						<th scope="row" class="w-full text-left font-normal lg:w-auto lg:py-2">{label}</th>
 						{#each statistics as variable, i (statisticLabels[i])}
-							<td
-								class={variable
-									? 'lg:text-center'
-									: 'text-muted-foreground hidden text-center lg:table-cell'}
-							>
+							<td class={variable ? 'lg:text-center' : 'text-muted-foreground lg:text-center'}>
 								{#if variable}
 									<div class="inline-flex items-center gap-1.5 align-middle">
 										<Checkbox
@@ -98,7 +94,11 @@
 										>
 									</div>
 								{:else}
-									<span aria-hidden="true">—</span><span class="sr-only">Unavailable</span>
+									<div class="inline-flex items-center gap-1.5 align-middle">
+										<span class="inline-block w-4.5 text-center" aria-hidden="true">—</span>
+										<span class="sr-only">Unavailable</span>
+										<span class="text-sm lg:hidden">{statisticLabels[i]}</span>
+									</div>
 								{/if}
 							</td>
 						{/each}
