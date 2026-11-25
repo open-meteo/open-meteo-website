@@ -106,6 +106,12 @@
 				{/each}
 			</tbody>
 		</table>
+		<p class="text-muted-foreground mt-2 text-sm">
+			A dash means the statistic is unavailable for that variable.
+			<a href="#ensemble_statistics" class="text-link underline"
+				>Why are some statistics unavailable?</a
+			>
+		</p>
 	</div>
 
 	<div class="mt-6 md:mt-12">
@@ -143,8 +149,26 @@
 			P10 to P90 spans the central 80% of the ensemble distribution.
 		</p>
 		<p>
-			For variables with a Spread option, append <mark>_spread</mark> to request a
-			Gaussian-equivalent standard deviation estimated as <mark>(P90 − P10) / 2.5631</mark>.
+			Percentiles are available at model timestamps on the hour. Instantaneous variables such as
+			temperature can also be sampled at coarser intervals, such as every three hours. Precipitation
+			and solar radiation percentiles require hourly output. Computing their percentiles over longer
+			intervals requires the individual ensemble members.
+		</p>
+		<h3 id="ensemble_statistics" class="mt-6 text-xl">Why are some statistics unavailable?</h3>
+		<p>
+			The API uses ensemble summaries. A mean and five percentiles do not uniquely determine the
+			standard deviation across ensemble members. For temperature, dewpoint, sea level pressure and
+			wind speed, the API offers <mark>_spread</mark> as a Gaussian-equivalent estimate using
+			<mark>(P90 − P10) / 2.5631</mark>. This estimate can miss rare extremes. For example, if 95%
+			of members forecast dry weather and 5% forecast heavy rain, P10 and P90 are both zero even
+			though the rainfall amounts vary. For precipitation, the API therefore exposes the percentiles
+			and omits the spread estimate.
+		</p>
+		<p>
+			For eastward and northward wind, Open-Meteo stores only the mean of each component. Those two
+			means give the direction of the mean wind vector. Many different sets of member winds can
+			produce the same mean vector, so the component and direction percentiles and spreads cannot be
+			recovered from those means.
 		</p>
 	</div>
 </div>
